@@ -6,11 +6,19 @@ Zaruba is technology agnostic artefact generator. Zaruba take care about file de
 
 # Concept
 
+Zaruba's main purpose is to help you generate, test, and probably deploy things faster.
+
+Let's say you do a bit modification in your repository. Zaruba will automatically tell you whether your modification pass the unit-test or not. Then, it will copy the repository to dependant-services. Finally, it will do some service-test and integration test. Whenever everything is okay, it will generate docker images and deploy them to your kubernetes-development-cluster.
+
+Using Zaruba, you can get that level of automation.
+
+In order to achieve the purpose, zaruba needs `template` and `dependency tree`.
+
 ## Template
 
-Artefact template. Basically bunch of text files. A `template` might contains `zaruba.template.yaml`. Zaruba will exclude this file whenever it needs to copy the template into `target`.
+Template is basically bunch of text files. A `template` might contains `zaruba.template.yaml`. Zaruba will exclude this config file whenever it needs to copy the template into `target`.
 
-Config's content might contains:
+Template config's file might contains:
 
 * `Substitute`
     - List of files (in regex format) containing keywords (i.e: `{{keyword}}`). Zaruba will replace those keywords based on the values in envvar.
@@ -21,11 +29,13 @@ Config's content might contains:
 
 ## Project
 
-Project is zaruba's workspace. Zaruba will watch every changes you made in a project
+Project is zaruba's workspace. Zaruba will watch every changes you made in a project and perform several actions. You can provide the action by editing `dependency tree`.
 
 ## Dependency Tree
 
-You can have `zaruba.dependency.yaml` containing a map. The key of the map is file's regex pattern, while it values are list of commands.
+In anywhere of your project, you can have `zaruba.dependency.yaml` containing a map. The key of the map is file's regex pattern, while it values are list of commands.
+
+The dependency trees will be cascaded.
 
 Below is a simple local-deployment-example:
 
