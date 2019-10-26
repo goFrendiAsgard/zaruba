@@ -1,27 +1,42 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
-	"gopkg.in/src-d/go-git.v4"
+	"github.com/fsnotify/fsnotify"
 )
 
 func main() {
-	r, err := git.PlainOpen("./")
+	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		fmt.Printf("[ERROR] %#v", err)
+		log.Fatal(err)
 	}
-	w, err := r.Worktree()
+	defer watcher.Close()
+
+	done := make(chan bool)
+	go func() {
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				log.Println("event:", event)
+				if event.Op&fsnotify.Write == fsnotify.Write {
+					log.Println("modified file:", event.Name)
+				}
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Println("error:", err)
+			}
+		}
+	}()
+
+	err = watcher.Add(".")
 	if err != nil {
-		fmt.Printf("[ERROR] %#v", err)
+		log.Fatal(err)
 	}
-	s, err := w.Status()
-	if err != nil {
-		fmt.Printf("[ERROR] %#v", err)
-	}
-	for k, v := range s {
-		fmt.Printf("%s, %#v\n", k, v)
-		fmt.Println(s.IsClean())
-		fmt.Println(s.IsUntracked(k))
-	}
+	<-done
 }
