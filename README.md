@@ -31,11 +31,11 @@ Template config's file might contains:
 
 Project is zaruba's workspace. Zaruba will watch every changes you made in a project and perform several actions. You can provide the action by editing `dependency tree`.
 
+A project might contains `zaruba.ignore` containing list of directory that should be ignored by `zaruba`.
+
 ## Dependency Tree
 
-In anywhere of your project, you can have `zaruba.dependency.yaml` containing a map. The key of the map is file's regex pattern, while it values are list of commands.
-
-The dependency trees will be cascaded.
+Add root path of your project, you can have `zaruba.dependency.yaml` containing a map. The key of the map is file's regex pattern, while it values are list of commands.
 
 Below is a simple local-deployment-example:
 
@@ -58,6 +58,8 @@ Everytime `repos/ml-classifier` edited, you want  both `services/ner` and `servi
 
 Finally, you want to run test and create docker image whenever those services updated.
 
+You can also make custome `zaruba.<mode>.dependency.yaml`.
+
 # Command
 
 ## Create
@@ -71,7 +73,7 @@ Zaruba will copy a `template` into `target`. Depends on template's configuration
 ## Watch
 
 ```
-zaruba watch [project]
+zaruba watch [mode] <project>
 ```
 
 Zaruba will watch over your project. Detect any changes in your files, and perform necessary actions to maintain consistency.
