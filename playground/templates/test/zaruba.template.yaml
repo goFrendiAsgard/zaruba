@@ -1,0 +1,4 @@
+templateFiles:
+  - email/email.txt
+hooks:
+  - 'echo "hello world" > hello.txt'

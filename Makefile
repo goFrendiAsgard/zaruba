@@ -1,4 +1,6 @@
 build:
 	go build
 test:
-	mkdir -p playground
+	rm -Rf playground/projects/test-create
+	go test -race ./... -v -coverprofile=profile.out -count=1 -covermode=atomic
+	go tool cover -html=profile.out

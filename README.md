@@ -34,7 +34,7 @@ A project might contains `zaruba.ignore` containing list of directory that shoul
 
 ## Dependency Tree (Hook File)
 
-At root path of your project, you can have `zaruba.hook.yaml` containing a map.
+At root path of your project, you can have `zaruba.hook.yaml` containing an object with `files` property. The value of the `files` is a map.
 
 The keys of the map are file/directory name, while it's values are objects containing two keys:
 
@@ -44,20 +44,21 @@ The keys of the map are file/directory name, while it's values are objects conta
 Below is a simple local-deployment-example:
 
 ```yaml
-repos/ml-classifier:
-    hooks:
-        - python -m pytest repos/ml-classifier
-    links:
-        - services/ner/repo/model
-        - services/sentiment-analysis/repo/model
-services/ner:
-    hooks:
-        - python -m pytest services/ner
-        - docker build -t gofrendi/ner-service services/ner
-services/sentiment-analysis/:
-    hooks:
-        - python -m pytest services/sentiment-analysis
-        - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
+files:
+    repos/ml-classifier:
+        hooks:
+            - python -m pytest repos/ml-classifier
+        links:
+            - services/ner/repo/model
+            - services/sentiment-analysis/repo/model
+    services/ner:
+        hooks:
+            - python -m pytest services/ner
+            - docker build -t gofrendi/ner-service services/ner
+    services/sentiment-analysis/:
+        hooks:
+            - python -m pytest services/sentiment-analysis
+            - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
 ```
 
 You have two services `services/ner` and `services/sentiment-analysis`. These services need machine-learning model from `repos/ml-classifier`.

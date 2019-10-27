@@ -1,0 +1,4 @@
+from: {{sender}}
+to: {{receiver}}
+Hello,
+This is an email from {{ sender }} to {{ receiver }}.
