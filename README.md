@@ -35,21 +35,30 @@ A project might contains `zaruba.ignore` containing list of directory that shoul
 
 ## Dependency Tree
 
-Add root path of your project, you can have `zaruba.dependency.yaml` containing a map. The key of the map is file's regex pattern, while it values are list of commands.
+Add root path of your project, you can have `zaruba.hook.yaml` containing a map.
+
+The keys of the map are file/directory name, while it's values are objects containing two keys:
+
+* `hook`: list of actions
+* `link`: list of files/directory that should has the same content as our file/directory
 
 Below is a simple local-deployment-example:
 
 ```yaml
-repos/ml-classifier/.*:
-    - [python, "-m", "pytest", "repos/ml-classifier"]
-    - [cp, "repos/ml-classifier", "services/ner/repo/model"]
-    - [cp, "respos/ml-classifier", "services/sentiment-analysis/repo/model"]
-services/ner/.*:
-    - [python, "-m", "pytest", "services/ner"]
-    - [docker, build, "-t", "gofrendi/ner-service", "services/ner/"]
-services/sentiment-analysis/.*:
-    - [python, "-m", "pytest", "services/sentiment-analysis"]
-    - [docker, build, "-t", "gofrendi/sentiment-analysis-service", "services/sentiment-analysis-service/"]
+repos/ml-classifier:
+    hook:
+        - python -m pytest repos/ml-classifier
+    link:
+        - services/ner/repo/model
+        - services/sentiment-analysis/repo/model
+services/ner:
+    hook:
+        - python -m pytest services/ner
+        - docker build -t gofrendi/ner-service services/ner
+services/sentiment-analysis/:
+    hook:
+        - python -m pytest services/sentiment-analysis
+        - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
 ```
 
 You have two services `services/ner` and `services/sentiment-analysis`. These services need machine-learning model from `repos/ml-classifier`.
@@ -57,8 +66,6 @@ You have two services `services/ner` and `services/sentiment-analysis`. These se
 Everytime `repos/ml-classifier` edited, you want  both `services/ner` and `services/sentiment-analysis` are updated as well.
 
 Finally, you want to run test and create docker image whenever those services updated.
-
-You can also make custome `zaruba.<mode>.dependency.yaml`.
 
 # Command
 
@@ -73,7 +80,7 @@ Zaruba will copy a `template` into `target`. Depends on template's configuration
 ## Watch
 
 ```
-zaruba watch [mode] <project>
+zaruba watch [project]
 ```
 
 Zaruba will watch over your project. Detect any changes in your files, and perform necessary actions to maintain consistency.
