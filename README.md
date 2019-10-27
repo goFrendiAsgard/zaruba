@@ -20,12 +20,11 @@ Template is basically bunch of text files. A `template` might contains `zaruba.t
 
 Template config's file might contains:
 
-* `Substitute`
+* `templateFiles`
     - List of files (in regex format) containing keywords (i.e: `{{keyword}}`). Zaruba will replace those keywords based on the values in envvar.
     - Default to: `[]`
-* `Ignore`
-    - List of files (in regex format) that should not be watched by `zaruba`. For example, zaruba should not watch over `.git` directory
-    - Default to: `["\.git"]`
+* `hooks`
+    - List of action should be done post-project-creation
 
 ## Project
 
@@ -33,30 +32,30 @@ Project is zaruba's workspace. Zaruba will watch every changes you made in a pro
 
 A project might contains `zaruba.ignore` containing list of directory that should be ignored by `zaruba`.
 
-## Dependency Tree
+## Dependency Tree (Hook File)
 
-Add root path of your project, you can have `zaruba.hook.yaml` containing a map.
+At root path of your project, you can have `zaruba.hook.yaml` containing a map.
 
 The keys of the map are file/directory name, while it's values are objects containing two keys:
 
-* `hook`: list of actions
-* `link`: list of files/directory that should has the same content as our file/directory
+* `hooks`: list of actions before copy/delete files in `links`.
+* `links`: list of files/directory that should has the same content as our file/directory
 
 Below is a simple local-deployment-example:
 
 ```yaml
 repos/ml-classifier:
-    hook:
+    hooks:
         - python -m pytest repos/ml-classifier
-    link:
+    links:
         - services/ner/repo/model
         - services/sentiment-analysis/repo/model
 services/ner:
-    hook:
+    hooks:
         - python -m pytest services/ner
         - docker build -t gofrendi/ner-service services/ner
 services/sentiment-analysis/:
-    hook:
+    hooks:
         - python -m pytest services/sentiment-analysis
         - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
 ```
@@ -94,6 +93,6 @@ For example, if you change a file in a repository, any services depend on the re
 * `ZARUBA_TEMPLATE_DIR`
     - Zaruba's template directory
     - Default to `<zaruba-parent-dir>/templates`
-* `ZARUBA_GITIGNORE_SEPARATOR`
-    - Separator for user's gitignore items and zaruba's generated gitignore items. 
-    - Default to `# zaruba's:`
+* `ZARUBA_SHELL`
+    - Shell to perform commands
+    - Default to `/bin/bash`
