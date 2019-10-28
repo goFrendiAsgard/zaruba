@@ -7,10 +7,14 @@ import (
 	"path"
 )
 
-// TemplateConfig is template congifuration
-type TemplateConfig struct {
-	TemplateFiles string `yaml:"templateFiles"`
-	HookList      string `yaml:"hooks"`
+// TemplateConfig is template configuration
+type TemplateConfig map[string]ModeConfig
+
+// ModeConfig is mode configuration
+type ModeConfig struct {
+	Copy   map[string]string `yaml:"copy"`
+	Modify map[string]string `yaml:"modify"`
+	Hook   []string          `yaml:"hook"`
 }
 
 // Load from yaml

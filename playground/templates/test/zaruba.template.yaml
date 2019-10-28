@@ -1,4 +1,11 @@
-templateFiles:
-  - email/email.txt
-hooks:
-  - 'echo "hello world" > hello.txt'
+base:
+  copy:
+    readme.txt: readme.txt
+    zaruba.ignore: zaruba.ignore
+  modify:
+    email/email.txt: email/email.txt
+  hook:
+    - 'echo "hello world" > hello.txt'
+special:
+  copy:
+    special.txt: special/special.txt

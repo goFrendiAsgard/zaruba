@@ -16,15 +16,27 @@ In order to achieve the purpose, zaruba needs `template` and `dependency tree`.
 
 ## Template
 
-Template is basically bunch of text files. A `template` might contains `zaruba.template.yaml`. Zaruba will exclude this config file whenever it needs to copy the template into `target`.
+Template is basically bunch of text files. A `template` might contains `zaruba.template.yaml`.
 
-Template config's file might contains:
+Below is an example of template config
 
-* `templateFiles`
-    - List of files (in regex format) containing keywords (i.e: `{{keyword}}`). Zaruba will replace those keywords based on the values in envvar.
-    - Default to: `[]`
-* `hooks`
-    - List of action should be done post-project-creation
+```yaml
+# base mode
+# invoked by performing `zaruba create <template> <target>
+base:
+  copy:
+    readme.txt: readme.txt
+    zaruba.ignore: zaruba.ignore
+  modify:
+    email/email.txt: email/email.txt
+  hook:
+    - 'echo "hello world" > hello.txt'
+# special mode
+# invoked by performing `zaruba create <template>:special <target>
+special:
+  copy:
+    special.txt: special/special.txt
+```
 
 ## Project
 
@@ -46,17 +58,17 @@ Below is a simple local-deployment-example:
 ```yaml
 files:
     repos/ml-classifier:
-        hooks:
+        hook:
             - python -m pytest repos/ml-classifier
-        links:
+        link:
             - services/ner/repo/model
             - services/sentiment-analysis/repo/model
     services/ner:
-        hooks:
+        hook:
             - python -m pytest services/ner
             - docker build -t gofrendi/ner-service services/ner
     services/sentiment-analysis/:
-        hooks:
+        hook:
             - python -m pytest services/sentiment-analysis
             - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
 ```
