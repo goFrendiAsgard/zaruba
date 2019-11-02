@@ -1,6 +1,6 @@
 build:
 	go build
-	build.sh
+	./build.sh
 test:
 	rm -Rf playground/projects/test-create
 	go test -race ./... -v -coverprofile=profile.out -count=1 -covermode=atomic

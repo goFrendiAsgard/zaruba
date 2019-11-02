@@ -1,11 +1,23 @@
+# base mode, invoked by performing `zaruba create <template> <target>` or `zaruba create <template> <target> interactively`
 base:
+  # list of actions to be performed before `copy` and `copy-and-substitute`
+  pre-triggers: []
+  # every file in this list will be copy-pasted from `template` to `target` without any modification.
   copy:
     readme.txt: readme.txt
     zaruba.ignore: zaruba.ignore
-  modify:
+  # pairs of key-value that will be use for substitution in `copy-and-substitute` action. You can override the values by using environment variable, or on runtime by adding `interactively` as the last argument of the invoked command.
+  substitutions:
+    sender: default-sender@gmail.com
+    receiver: default-receiver@gmail.com
+  # every file in this list will be copy-pasted from `template` to `target`. However, it will also perform substitution as needed.
+  copy-and-substitute:
     email/email.txt: email/email.txt
-  hook:
+  # list of actions to be performed after `copy` and `copy-and-substitute`
+  post-triggers:
     - 'echo "hello world" > hello.txt'
+    - git init
+# special mode, inherited from base, invoked by performing or `zaruba create <template>:special <target>` or `zaruba create <template>:special <target> interactively`
 special:
   copy:
     special.txt: special/special.txt

@@ -23,7 +23,7 @@ var createCmd = &cobra.Command{
 		template := args[0]
 		target := args[1]
 		interactively := false
-		for _, arg := args[2:] {
+		for _, arg := range args[2:] {
 			if arg == "interactively" || arg == "interactive" {
 				interactively = true
 			}
