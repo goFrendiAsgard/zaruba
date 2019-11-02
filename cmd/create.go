@@ -1,10 +1,11 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/creator"
-	"log"
 )
 
 func init() {
@@ -21,7 +22,13 @@ var createCmd = &cobra.Command{
 		}
 		template := args[0]
 		target := args[1]
-		if err := creator.Create(template, target); err != nil {
+		interactively := false
+		for _, arg := args[2:] {
+			if arg == "interactively" || arg == "interactive" {
+				interactively = true
+			}
+		}
+		if err := creator.Create(template, target, interactively); err != nil {
 			log.Fatal(err)
 		}
 	},

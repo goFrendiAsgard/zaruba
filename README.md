@@ -18,21 +18,29 @@ In order to achieve the purpose, zaruba needs `template` and `dependency tree`.
 
 Template is basically bunch of text files. A `template` might contains `zaruba.template.yaml`.
 
-Below is an example of template config
+Below is an example of valid template config:
 
 ```yaml
-# base mode
-# invoked by performing `zaruba create <template> <target>
+# base mode, invoked by performing `zaruba create <template> <target>` or `zaruba create <template> <target> interactively`
 base:
+  # list of actions to be performed before `copy` and `copy-and-substitute`
+  pre-triggers: []
+  # every file in this list will be copy-pasted from `template` to `target` without any modification.
   copy:
     readme.txt: readme.txt
     zaruba.ignore: zaruba.ignore
-  modify:
+  # pairs of key-value that will be use for substitution in `copy-and-substitute` action. You can override the values by using environment variable, or on runtime by adding `interactively` as the last argument of the invoked command.
+  substitutions:
+    sender: default-sender@gmail.com
+    receiver: default-receiver@gmail.com
+  # every file in this list will be copy-pasted from `template` to `target`. However, it will also perform substitution as needed.
+  copy-and-substitute:
     email/email.txt: email/email.txt
-  hook:
+  # list of actions to be performed after `copy` and `copy-and-substitute`
+  post-triggers:
     - 'echo "hello world" > hello.txt'
-# special mode
-# invoked by performing `zaruba create <template>:special <target>
+    - git init
+# special mode, inherited from base, invoked by performing or `zaruba create <template>:special <target>` or `zaruba create <template>:special <target> interactively`
 special:
   copy:
     special.txt: special/special.txt
@@ -46,31 +54,26 @@ A project might contains `zaruba.ignore` containing list of directory that shoul
 
 ## Dependency Tree (Hook File)
 
-At root path of your project, you can have `zaruba.hook.yaml` containing an object with `files` property. The value of the `files` is a map.
+At root path of your project, you can have `zaruba.hook.yaml`.
 
-The keys of the map are file/directory name, while it's values are objects containing two keys:
-
-* `hooks`: list of actions before copy/delete files in `links`.
-* `links`: list of files/directory that should has the same content as our file/directory
-
-Below is a simple local-deployment-example:
+Below is an example of valid hook-file:
 
 ```yaml
-files:
-    repos/ml-classifier:
-        hook:
-            - python -m pytest repos/ml-classifier
-        link:
-            - services/ner/repo/model
-            - services/sentiment-analysis/repo/model
-    services/ner:
-        hook:
-            - python -m pytest services/ner
-            - docker build -t gofrendi/ner-service services/ner
-    services/sentiment-analysis/:
-        hook:
-            - python -m pytest services/sentiment-analysis
-            - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
+repos/ml-classifier:
+    pre-triggers:
+        - python -m pytest repos/ml-classifier
+    copy-to:
+        - services/ner/repo/model
+        - services/sentiment-analysis/repo/model
+    post-triggers: []
+services/ner:
+    post-triggers:
+        - python -m pytest services/ner
+        - docker build -t gofrendi/ner-service services/ner
+services/sentiment-analysis/:
+    post-triggers:
+        - python -m pytest services/sentiment-analysis
+        - docker build -t gofrendi/sentiment-analysis-service services/sentiment-analysis
 ```
 
 You have two services `services/ner` and `services/sentiment-analysis`. These services need machine-learning model from `repos/ml-classifier`.
