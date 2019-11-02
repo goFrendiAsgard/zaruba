@@ -7,6 +7,7 @@ import (
 	"path"
 	"strings"
 
+	"github.com/otiai10/copy"
 	"github.com/state-alchemists/zaruba/config"
 )
 
@@ -19,26 +20,67 @@ func Create(template string, targetPath string, isInteractive bool) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("%#v", modeConfig)
-	log.Println(shell)
-	log.Println("Creating target")
+	environ := os.Environ()
+	substitutions := getRealSubstitutions(modeConfig.Substitutions, isInteractive)
+	log.Printf("Create target: %s", targetPath)
 	if err = os.MkdirAll(targetPath, os.ModePerm); err != nil { // create target
 		return err
 	}
-	log.Println("Running pre-triggers")
-	if err = runMultipleCommands(shell, targetPath, modeConfig.PreTriggers); err != nil { // run pre-triggers
+	log.Println("Run pre-triggers")
+	if err = runMultipleCommands(shell, targetPath, environ, modeConfig.PreTriggers); err != nil { // run pre-triggers
 		return err
 	}
-	log.Println("Running post-triggers")
-	if err = runMultipleCommands(shell, targetPath, modeConfig.PostTriggers); err != nil { // run post-triggers
+	log.Println("Copy")
+	if err = copyToTarget(templatePath, targetPath, modeConfig.Copy); err != nil { // copy
+		return err
+	}
+	log.Println("Copy and substitute")
+	if err = copyToTargetAndSubstitute(templatePath, targetPath, substitutions, modeConfig.CopyAndSubstitute); err != nil { // copy
+		return err
+	}
+	log.Println("Run post-triggers")
+	if err = runMultipleCommands(shell, targetPath, environ, modeConfig.PostTriggers); err != nil { // run post-triggers
 		return err
 	}
 	return err
 }
 
-func runMultipleCommands(shell []string, dir string, commands []string) error {
+func getRealSubstitutions(rawSubstitutions map[string]string, isInteractive bool) map[string]string {
+	substitutions := make(map[string]string)
+	for key, val := range rawSubstitutions {
+		if os.Getenv(key) != "" {
+			val = os.Getenv(key)
+		}
+		substitutions[key] = val
+	}
+	return substitutions
+}
+
+func copyToTargetAndSubstitute(templatePath string, targetPath string, substitutions map[string]string, fileMap map[string]string) error {
+	for src, dst := range fileMap {
+		src := path.Join(templatePath, src)
+		dst := path.Join(targetPath, dst)
+		if err := copy.Copy(src, dst); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func copyToTarget(templatePath string, targetPath string, fileMap map[string]string) error {
+	for src, dst := range fileMap {
+		src := path.Join(templatePath, src)
+		dst := path.Join(targetPath, dst)
+		if err := copy.Copy(src, dst); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func runMultipleCommands(shell []string, dir string, environ []string, commands []string) error {
 	for _, command := range commands {
-		err := runSingleCommand(shell, dir, command)
+		err := runSingleCommand(shell, dir, environ, command)
 		if err != nil {
 			return err
 		}
@@ -46,11 +88,12 @@ func runMultipleCommands(shell []string, dir string, commands []string) error {
 	return nil
 }
 
-func runSingleCommand(shell []string, dir string, command string) error {
+func runSingleCommand(shell []string, dir string, environ []string, command string) error {
 	commandList := append(shell, command)
 	cmd := exec.Command(commandList[0], commandList[1:]...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.Env = environ
 	cmd.Dir = dir
 	err := cmd.Run()
 	if err != nil {

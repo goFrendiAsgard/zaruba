@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 	"testing"
 )
 
@@ -24,7 +25,7 @@ func TestCreateSpecial(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if readmeContent != expectedReadmeContent {
+	if strings.Trim(readmeContent, "\n") != strings.Trim(expectedReadmeContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedReadmeContent, readmeContent)
 	}
 
@@ -33,8 +34,7 @@ func TestCreateSpecial(t *testing.T) {
 	emailContent, err := readGeneratedFile(target, "email/email.txt")
 	if err != nil {
 		t.Error(err)
-	}
-	if emailContent != expectedEmailContent {
+	} else if strings.Trim(emailContent, "\n") != strings.Trim(expectedEmailContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedEmailContent, emailContent)
 	}
 
@@ -44,17 +44,17 @@ func TestCreateSpecial(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if helloContent != expectedHelloContent {
+	if strings.Trim(helloContent, "\n") != strings.Trim(expectedHelloContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedHelloContent, helloContent)
 	}
 
 	// inspect special.txt
 	expectedSpecialContent := "this is special"
-	specialContent, err := readGeneratedFile(target, "special.txt")
+	specialContent, err := readGeneratedFile(target, path.Join("special", "special.txt"))
 	if err != nil {
 		t.Error(err)
 	}
-	if specialContent != expectedSpecialContent {
+	if strings.Trim(specialContent, "\n") != strings.Trim(expectedSpecialContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedSpecialContent, specialContent)
 	}
 }

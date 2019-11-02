@@ -111,4 +111,7 @@ For example, if you change a file in a repository, any services depend on the re
     - Default to `<zaruba-parent-dir>/templates`
 * `ZARUBA_SHELL`
     - Shell to perform commands
-    - Default to `/bin/bash`
+    - Default to `/bin/sh`
+* `ZARUBA_SHELL_ARGS`
+    - Shell arguments of `ZARUBA_SHELL`
+    - Default to `-c`
