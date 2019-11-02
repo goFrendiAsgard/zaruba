@@ -22,7 +22,7 @@ func TestCreateSpecial(t *testing.T) {
 	expectedReadmeContent := "# Test\nThis is a {{ test }}"
 	readmeContent, err := readGeneratedFile(target, "readme.txt")
 	if err != nil {
-		t.Errorf("%#v", err)
+		t.Error(err)
 	}
 	if readmeContent != expectedReadmeContent {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedReadmeContent, readmeContent)
@@ -32,7 +32,7 @@ func TestCreateSpecial(t *testing.T) {
 	expectedEmailContent := "from: sender@gmail.com\nto: receiver@gmail.com\nHello,\nThis is an email from sender@gmail.com to receiver@gmail.com"
 	emailContent, err := readGeneratedFile(target, "email/email.txt")
 	if err != nil {
-		t.Errorf("%#v", err)
+		t.Error(err)
 	}
 	if emailContent != expectedEmailContent {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedEmailContent, emailContent)
@@ -42,7 +42,7 @@ func TestCreateSpecial(t *testing.T) {
 	expectedHelloContent := "hello world"
 	helloContent, err := readGeneratedFile(target, "hello.txt")
 	if err != nil {
-		t.Errorf("%#v", err)
+		t.Error(err)
 	}
 	if helloContent != expectedHelloContent {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedHelloContent, helloContent)
@@ -52,7 +52,7 @@ func TestCreateSpecial(t *testing.T) {
 	expectedSpecialContent := "this is special"
 	specialContent, err := readGeneratedFile(target, "special.txt")
 	if err != nil {
-		t.Errorf("%#v", err)
+		t.Error(err)
 	}
 	if specialContent != expectedSpecialContent {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedSpecialContent, specialContent)
