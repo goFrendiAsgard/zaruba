@@ -62,7 +62,7 @@ Below is an example of valid hook-file:
 repos/ml-classifier:
     pre-triggers:
         - python -m pytest repos/ml-classifier
-    link:
+    links:
         - services/ner/repo/model
         - services/sentiment-analysis/repo/model
     post-triggers: []

@@ -2,11 +2,19 @@ package watcher
 
 import (
 	"github.com/fsnotify/fsnotify"
+	"io/ioutil"
 	"log"
+	"path"
+	"path/filepath"
 )
 
 // Watch over the project to maintain peace and order
 func Watch(project string, stop chan bool) error {
+	project, err := filepath.Abs(project)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
 	// define watcher
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
@@ -16,11 +24,10 @@ func Watch(project string, stop chan bool) error {
 	defer watcher.Close()
 	// add listener
 	log.Println("Zaruba watch for changes")
-	go maintain(watcher)
+	go maintain(watcher, project)
 	// add files to watch
 	log.Println("Zaruba add path")
-	err = watcher.Add(".")
-	err = watcher.Add("cmd")
+	err = addDirToWatcher(watcher, project)
 	if err != nil {
 		log.Println(err)
 	}
@@ -29,7 +36,42 @@ func Watch(project string, stop chan bool) error {
 	return err
 }
 
-func maintain(watcher *fsnotify.Watcher) {
+func addDirToWatcher(watcher *fsnotify.Watcher, dirPath string) error {
+	allDirPaths, err := getAllDirPaths(dirPath)
+	if err != nil {
+		return err
+	}
+	for _, dirPath := range allDirPaths {
+		err = watcher.Add(dirPath)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func getAllDirPaths(dirPath string) (allDirPaths []string, err error) {
+	allDirPaths = []string{}
+	allDirPaths = append(allDirPaths, dirPath)
+	subdirs, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		return
+	}
+	for _, subdir := range subdirs {
+		if !subdir.IsDir() {
+			continue
+		}
+		subdirPath := path.Join(dirPath, subdir.Name())
+		subdirPaths, err := getAllDirPaths(subdirPath)
+		if err != nil {
+			return allDirPaths, err
+		}
+		allDirPaths = append(allDirPaths, subdirPaths...)
+	}
+	return
+}
+
+func maintain(watcher *fsnotify.Watcher, project string) {
 	for {
 		select {
 		case event, ok := <-watcher.Events:
