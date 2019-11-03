@@ -1,0 +1,8 @@
+.:
+    pre-triggers:
+        - echo "pre" > pre.txt
+    link:
+        - ../../services/sentiment/classifiers
+        - ../../services/image/classifiers
+    post-triggers:
+        - echo "post" > post.txt

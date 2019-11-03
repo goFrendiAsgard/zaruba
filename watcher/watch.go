@@ -6,15 +6,14 @@ import (
 )
 
 // Watch over the project to maintain peace and order
-func Watch(project string) error {
+func Watch(project string, stop chan bool) error {
 	// define watcher
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return err
 	}
 	defer watcher.Close()
-	done := make(chan bool)
 	// add listener
 	log.Println("Zaruba watch for changes")
 	go maintain(watcher)
@@ -23,10 +22,10 @@ func Watch(project string) error {
 	err = watcher.Add(".")
 	err = watcher.Add("cmd")
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
-	// wait forever
-	<-done
+	// wait until stopped
+	<-stop
 	return err
 }
 

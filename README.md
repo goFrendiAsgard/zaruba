@@ -62,7 +62,7 @@ Below is an example of valid hook-file:
 repos/ml-classifier:
     pre-triggers:
         - python -m pytest repos/ml-classifier
-    copy-to:
+    link:
         - services/ner/repo/model
         - services/sentiment-analysis/repo/model
     post-triggers: []
@@ -90,7 +90,7 @@ Finally, you want to run test and create docker image whenever those services up
 zaruba create <template> <target>
 ```
 
-Zaruba will copy a `template` into `target`. Depends on template's configuration, every `{{.keyword}}` will be replaced by corresponding envvar, default value, or usesr input.
+Zaruba should make `target` based on `template`
 
 ## Watch
 

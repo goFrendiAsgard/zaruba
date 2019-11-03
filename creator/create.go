@@ -29,23 +29,23 @@ func Create(template string, targetPath string, isInteractive bool) error {
 		return err
 	}
 	environ := os.Environ()
-	log.Printf("Create target: %s", targetPath)
+	log.Printf("Zaruba create target: %s", targetPath)
 	if err = os.MkdirAll(targetPath, os.ModePerm); err != nil { // create target
 		return err
 	}
-	log.Println("Run pre-triggers")
+	log.Println("Zaruba run pre-triggers")
 	if err = runMultipleCommands(shell, targetPath, environ, modeConfig.PreTriggers); err != nil { // run pre-triggers
 		return err
 	}
-	log.Println("Copy")
+	log.Println("Zaruba perform copy")
 	if err = copyToTarget(templatePath, targetPath, modeConfig.Copy); err != nil { // copy
 		return err
 	}
-	log.Println("Copy and substitute")
+	log.Println("Zaruba perform copy and substitute")
 	if err = copyToTargetAndSubstitute(templatePath, targetPath, substitutions, modeConfig.CopyAndSubstitute); err != nil { // copy
 		return err
 	}
-	log.Println("Run post-triggers")
+	log.Println("Zaruba run post-triggers")
 	if err = runMultipleCommands(shell, targetPath, environ, modeConfig.PostTriggers); err != nil { // run post-triggers
 		return err
 	}

@@ -21,7 +21,7 @@ var watchCmd = &cobra.Command{
 			project = args[0]
 		}
 		// watch and throw error if necessary
-		if err := watcher.Watch(project); err != nil {
+		if err := watcher.Watch(project, make(chan bool)); err != nil {
 			log.Fatal(err)
 		}
 	},

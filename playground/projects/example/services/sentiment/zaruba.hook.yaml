@@ -1,0 +1,3 @@
+.:
+    post-triggers:
+        - python main.py > post.txt

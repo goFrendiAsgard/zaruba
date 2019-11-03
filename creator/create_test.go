@@ -12,7 +12,7 @@ func TestCreateSpecial(t *testing.T) {
 	os.Setenv("ZARUBA_TEMPLATE_DIR", "../playground/templates")
 	os.Setenv("sender", "sender@gmail.com")
 	os.Setenv("receiver", "receiver@gmail.com")
-	target := "../playground/projects/test-create"
+	target := path.Join("..", "playground", "projects", "test-create")
 	err := Create("test:special", target, false)
 	if err != nil {
 		t.Errorf("%#v", err)
@@ -24,8 +24,7 @@ func TestCreateSpecial(t *testing.T) {
 	readmeContent, err := readGeneratedFile(target, "readme.txt")
 	if err != nil {
 		t.Error(err)
-	}
-	if strings.Trim(readmeContent, "\n") != strings.Trim(expectedReadmeContent, "\n") {
+	} else if strings.Trim(readmeContent, "\n") != strings.Trim(expectedReadmeContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedReadmeContent, readmeContent)
 	}
 
@@ -43,8 +42,7 @@ func TestCreateSpecial(t *testing.T) {
 	helloContent, err := readGeneratedFile(target, "hello.txt")
 	if err != nil {
 		t.Error(err)
-	}
-	if strings.Trim(helloContent, "\n") != strings.Trim(expectedHelloContent, "\n") {
+	} else if strings.Trim(helloContent, "\n") != strings.Trim(expectedHelloContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedHelloContent, helloContent)
 	}
 
@@ -53,8 +51,7 @@ func TestCreateSpecial(t *testing.T) {
 	specialContent, err := readGeneratedFile(target, path.Join("special", "special.txt"))
 	if err != nil {
 		t.Error(err)
-	}
-	if strings.Trim(specialContent, "\n") != strings.Trim(expectedSpecialContent, "\n") {
+	} else if strings.Trim(specialContent, "\n") != strings.Trim(expectedSpecialContent, "\n") {
 		t.Errorf("Expected:\n%s\nActual:\n%s", expectedSpecialContent, specialContent)
 	}
 }
