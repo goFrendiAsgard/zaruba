@@ -20,7 +20,7 @@ func TestCreateSpecial(t *testing.T) {
 	}
 
 	// inspect readme.txt
-	expectedReadmeContent := "# Test\nThis is a {{ test }}"
+	expectedReadmeContent := "# Test\nThis is a {{ .test }}"
 	readmeContent, err := readGeneratedFile(target, "readme.txt")
 	if err != nil {
 		t.Error(err)
