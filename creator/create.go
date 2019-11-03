@@ -1,10 +1,14 @@
 package creator
 
 import (
+	"bufio"
+	"fmt"
+	"html/template"
 	"log"
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/otiai10/copy"
@@ -20,8 +24,11 @@ func Create(template string, targetPath string, isInteractive bool) error {
 	if err != nil {
 		return err
 	}
+	substitutions, err := getRealSubstitutions(modeConfig.Substitutions, isInteractive)
+	if err != nil {
+		return err
+	}
 	environ := os.Environ()
-	substitutions := getRealSubstitutions(modeConfig.Substitutions, isInteractive)
 	log.Printf("Create target: %s", targetPath)
 	if err = os.MkdirAll(targetPath, os.ModePerm); err != nil { // create target
 		return err
@@ -45,22 +52,56 @@ func Create(template string, targetPath string, isInteractive bool) error {
 	return err
 }
 
-func getRealSubstitutions(rawSubstitutions map[string]string, isInteractive bool) map[string]string {
-	substitutions := make(map[string]string)
+func getRealSubstitutions(rawSubstitutions map[string]string, isInteractive bool) (substitutions map[string]string, err error) {
+	substitutions = make(map[string]string)
 	for key, val := range rawSubstitutions {
 		if os.Getenv(key) != "" {
 			val = os.Getenv(key)
 		}
+		if isInteractive {
+			answer, err := getUserInput(fmt.Sprintf("Please set the value of `%s` (Default: `%s`)", key, val))
+			if err != nil {
+				return substitutions, err
+			}
+			if strings.Trim(answer, "\r\n") != "" {
+				val = answer
+			}
+		}
 		substitutions[key] = val
 	}
-	return substitutions
+	return
+}
+
+func getUserInput(text string) (answer string, err error) {
+	reader := bufio.NewReader(os.Stdin)
+	log.Println(text)
+	answer, err = reader.ReadString('\n')
+	return
 }
 
 func copyToTargetAndSubstitute(templatePath string, targetPath string, substitutions map[string]string, fileMap map[string]string) error {
 	for src, dst := range fileMap {
 		src := path.Join(templatePath, src)
 		dst := path.Join(targetPath, dst)
-		if err := copy.Copy(src, dst); err != nil {
+		if err := os.MkdirAll(filepath.Dir(dst), os.ModePerm); err != nil {
+			return err
+		}
+		// load template from src
+		t := template.New(path.Base(src))
+		t, err := t.ParseFiles(src)
+		if err != nil {
+			return err
+		}
+		// open dst file
+		dstFile, err := os.Create(dst)
+		if err != nil {
+			return err
+		}
+		defer dstFile.Close()
+		// write to dst file
+		log.Println(substitutions)
+		err = t.Execute(dstFile, substitutions)
+		if err != nil {
 			return err
 		}
 	}

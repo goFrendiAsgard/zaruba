@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path"
+	"path/filepath"
 )
 
 // GetTemplateDir retrieve template dir from environment variable
@@ -14,5 +15,9 @@ func GetTemplateDir() string {
 			templateDir = path.Join(path.Base(executable), "templates")
 		}
 	}
-	return templateDir
+	absTemplateDir, err := filepath.Abs(templateDir)
+	if err != nil {
+		return templateDir
+	}
+	return absTemplateDir
 }

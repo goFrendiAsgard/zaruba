@@ -30,7 +30,7 @@ func TestCreateSpecial(t *testing.T) {
 	}
 
 	// inspect email/email.txt
-	expectedEmailContent := "from: sender@gmail.com\nto: receiver@gmail.com\nHello,\nThis is an email from sender@gmail.com to receiver@gmail.com"
+	expectedEmailContent := "from: sender@gmail.com\nto: receiver@gmail.com\nHello,\nThis is an email from sender@gmail.com to receiver@gmail.com."
 	emailContent, err := readGeneratedFile(target, "email/email.txt")
 	if err != nil {
 		t.Error(err)
