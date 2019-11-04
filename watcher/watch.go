@@ -1,11 +1,17 @@
 package watcher
 
 import (
-	"github.com/fsnotify/fsnotify"
 	"io/ioutil"
 	"log"
+	"os"
 	"path"
 	"path/filepath"
+	"strings"
+
+	"github.com/fsnotify/fsnotify"
+	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/command"
+	"github.com/state-alchemists/zaruba/config"
 )
 
 // Watch over the project to maintain peace and order
@@ -41,7 +47,8 @@ func Watch(project string, stop chan bool) error {
 	log.Println("hookConfig", hookConfig)
 	// add listener
 	log.Println("Zaruba watch for changes")
-	go maintain(watcher, project)
+	shell := config.GetShell()
+	go maintain(watcher, shell, project, &hookConfig)
 	// wait until stopped
 	<-stop
 	return err
@@ -59,6 +66,7 @@ func createHookConfig(allDirPaths []string) (hookConfig HookConfig, err error) {
 				hookConfig[key] = SingleHookConfig{}
 			}
 			singleConfig := hookConfig[key]
+			singleConfig.Dir = val.Dir
 			for _, preTrigger := range val.PreTriggers {
 				singleConfig.PreTriggers = append(singleConfig.PreTriggers, preTrigger)
 			}
@@ -105,21 +113,36 @@ func getAllDirPaths(dirPath string) (allDirPaths []string, err error) {
 	return
 }
 
-func maintain(watcher *fsnotify.Watcher, project string, hookConfig *HookConfig) {
+func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookConfig *HookConfig) {
 	for {
 		select {
 		case event, ok := <-watcher.Events:
 			if !ok {
 				return
 			}
-			log.Println("event:", event)
-			// detect remove
-			if event.Op&fsnotify.Remove == fsnotify.Remove {
-				log.Println("removed file:", event.Name)
-			}
-			// detect write
-			if event.Op&fsnotify.Write == fsnotify.Write {
-				log.Println("modified file:", event.Name)
+			currentPath := event.Name
+			log.Println("Zaruba detect event: ", event)
+			// look for matching singleHookConfig
+			for watchedPath, singleHookConfig := range *hookConfig {
+				if strings.HasPrefix(currentPath, watchedPath) {
+					// run pre-triggers
+					if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PreTriggers); err != nil {
+						log.Println(err)
+						return
+					}
+					// process links
+					for _, link := range singleHookConfig.Links {
+						if err := copy.Copy(watchedPath, link); err != nil {
+							log.Println(err)
+							return
+						}
+					}
+					// run post-triggers
+					if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PostTriggers); err != nil {
+						log.Println(err)
+						return
+					}
+				}
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {

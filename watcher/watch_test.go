@@ -2,6 +2,7 @@ package watcher
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"strings"
@@ -14,9 +15,11 @@ func TestWatch(t *testing.T) {
 	stop := make(chan bool)
 	// start watcher and wait for a while
 	go Watch(project, stop)
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
 	// trigger changes
+	log.Println("Trigger changes")
 	os.MkdirAll(path.Join(project, "repos", "classifiers", "trigger"), os.ModePerm)
+	time.Sleep(1 * time.Second)
 
 	// inspect repos/classifiers/pre.txt
 	expectedPreContent := "pre"

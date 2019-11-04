@@ -1,7 +1,7 @@
 import numpy as np
 from classifiers.classifier import getNewClassifier
 
-labels: ["happy", "sad"]
+labels = ["happy", "sad"]
 X = np.random.rand(50, 32, 32)  # random `face` images
 Y = np.random.rand(50, 2)  # random labels, 0: happy, 1: sad
 

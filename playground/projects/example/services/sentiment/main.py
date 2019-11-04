@@ -1,9 +1,9 @@
 import numpy as np
 from classifiers.classifier import getNewClassifier
 
-labels: ["happy", "sad"]
+labels = ["good", "bad"]
 X = np.random.rand(50, 5, 300)  # random word embedding
-Y = np.random.rand(50, 2)  # random labels, 0: happy, 1: sad
+Y = np.random.rand(50, 2)  # random labels, 0: good, 1: bad
 
 X_train = X[:30]
 Y_train = Y[:30]

@@ -1,6 +1,6 @@
 class Base():
 
-    def __init__(self, *kwargs, **kwargs):
+    def __init__(self, *args, **kwargs):
         pass
 
     def predict(self, X):
@@ -16,7 +16,8 @@ class Base():
 
 class Dummy():
 
-    def __init__(self, *kwargs, **kwargs):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
         pass
 
     def predict(self, X):
