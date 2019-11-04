@@ -6,28 +6,54 @@ import (
 
 	"github.com/state-alchemists/zaruba/config"
 	"gopkg.in/yaml.v2"
+	"path/filepath"
 )
 
-// HookMap is project hook configuration map
-type HookMap map[string]HookConfig
+// HookConfig is project hook configuration map
+type HookConfig map[string]SingleHookConfig
 
-// HookConfig is single configuration for each file hook
-type HookConfig struct {
+// SingleHookConfig is single configuration for each file hook
+type SingleHookConfig struct {
 	PostTriggers []string `yaml:"post-triggers"`
 	PreTriggers  []string `yaml:"pre-triggers"`
 	Links        []string `yaml:"links"`
+	Dir          string
 }
 
-/*
-// NewHookMap load new TemplateConfig from a template
-func NewHookMap(templatePath string) (HookConfig, error) {
-	tc := make(HookMap)
-	configFile := path.Join(templatePath, config.HookFile)
+// NewHookConfig load new TemplateConfig from a template
+func NewHookConfig(currentPath string) (HookConfig, error) {
+	hookConfig := make(HookConfig)
+	absoluteCurrentPath, err := filepath.Abs(currentPath)
+	if err != nil {
+		return hookConfig, err
+	}
+	configFile := path.Join(currentPath, config.HookFile)
 	data, err := ioutil.ReadFile(configFile)
 	if err != nil {
-		return tc, err
+		return hookConfig, err
 	}
-	err = yaml.Unmarshal([]byte(data), &tc)
-	return tc, err
+	rawHookConfig := make(HookConfig)
+	err = yaml.Unmarshal([]byte(data), &rawHookConfig)
+	for key, rawSingleHookConfig := range rawHookConfig {
+		links := []string{}
+		for _, link := range rawSingleHookConfig.Links {
+			link, err = filepath.Abs(path.Join(absoluteCurrentPath, link))
+			if err != nil {
+				return hookConfig, err
+			}
+			links = append(links, link)
+		}
+		singleHookConfig := SingleHookConfig{
+			PreTriggers:  rawSingleHookConfig.PreTriggers,
+			PostTriggers: rawSingleHookConfig.PostTriggers,
+			Dir:          absoluteCurrentPath,
+			Links:        links,
+		}
+		absoluteKey, err := filepath.Abs(path.Join(absoluteCurrentPath, key))
+		if err != nil {
+			return hookConfig, err
+		}
+		hookConfig[absoluteKey] = singleHookConfig
+	}
+	return hookConfig, err
 }
-*/

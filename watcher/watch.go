@@ -22,27 +22,61 @@ func Watch(project string, stop chan bool) error {
 		return err
 	}
 	defer watcher.Close()
-	// add listener
-	log.Println("Zaruba watch for changes")
-	go maintain(watcher, project)
-	// add files to watch
-	log.Println("Zaruba add path")
-	err = addDirToWatcher(watcher, project)
+	allDirPaths, err := getAllDirPaths(project)
 	if err != nil {
 		log.Println(err)
 	}
+	// add files to watch
+	log.Println("Zaruba add paths to watcher")
+	err = addDirToWatcher(watcher, allDirPaths)
+	if err != nil {
+		log.Println(err)
+	}
+	// create hookConfig
+	log.Println("Zaruba load configs")
+	hookConfig, err := createHookConfig(allDirPaths)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println("hookConfig", hookConfig)
+	// add listener
+	log.Println("Zaruba watch for changes")
+	go maintain(watcher, project)
 	// wait until stopped
 	<-stop
 	return err
 }
 
-func addDirToWatcher(watcher *fsnotify.Watcher, dirPath string) error {
-	allDirPaths, err := getAllDirPaths(dirPath)
-	if err != nil {
-		return err
-	}
+func createHookConfig(allDirPaths []string) (hookConfig HookConfig, err error) {
+	hookConfig = make(HookConfig)
 	for _, dirPath := range allDirPaths {
-		err = watcher.Add(dirPath)
+		currentHookConfig, err := NewHookConfig(dirPath)
+		if err != nil {
+			continue
+		}
+		for key, val := range currentHookConfig {
+			if _, ok := hookConfig[key]; !ok {
+				hookConfig[key] = SingleHookConfig{}
+			}
+			singleConfig := hookConfig[key]
+			for _, preTrigger := range val.PreTriggers {
+				singleConfig.PreTriggers = append(singleConfig.PreTriggers, preTrigger)
+			}
+			for _, postTrigger := range val.PostTriggers {
+				singleConfig.PostTriggers = append(singleConfig.PostTriggers, postTrigger)
+			}
+			for _, link := range val.Links {
+				singleConfig.Links = append(singleConfig.Links, link)
+			}
+			hookConfig[key] = singleConfig
+		}
+	}
+	return
+}
+
+func addDirToWatcher(watcher *fsnotify.Watcher, allDirPaths []string) error {
+	for _, dirPath := range allDirPaths {
+		err := watcher.Add(dirPath)
 		if err != nil {
 			return err
 		}
@@ -71,7 +105,7 @@ func getAllDirPaths(dirPath string) (allDirPaths []string, err error) {
 	return
 }
 
-func maintain(watcher *fsnotify.Watcher, project string) {
+func maintain(watcher *fsnotify.Watcher, project string, hookConfig *HookConfig) {
 	for {
 		select {
 		case event, ok := <-watcher.Events:
