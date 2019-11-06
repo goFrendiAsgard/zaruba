@@ -2,7 +2,6 @@ package watcher
 
 import (
 	"io/ioutil"
-	"log"
 	"path"
 
 	"github.com/state-alchemists/zaruba/config"
@@ -50,7 +49,6 @@ func NewHookConfig(currentPath string) (HookConfig, error) {
 			Dir:          absoluteCurrentPath,
 			Links:        links,
 		}
-		log.Printf("%#v", singleHookConfig)
 		absoluteKey, err := filepath.Abs(path.Join(absoluteCurrentPath, key))
 		if err != nil {
 			return hookConfig, err

@@ -44,7 +44,6 @@ func Watch(project string, stop chan bool) error {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println("hookConfig", hookConfig)
 	// add listener
 	log.Println("Zaruba watch for changes")
 	shell := config.GetShell()
@@ -125,23 +124,7 @@ func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookCon
 			// look for matching singleHookConfig
 			for watchedPath, singleHookConfig := range *hookConfig {
 				if strings.HasPrefix(currentPath, watchedPath) {
-					// run pre-triggers
-					if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PreTriggers); err != nil {
-						log.Println(err)
-						return
-					}
-					// process links
-					for _, link := range singleHookConfig.Links {
-						if err := copy.Copy(watchedPath, link); err != nil {
-							log.Println(err)
-							return
-						}
-					}
-					// run post-triggers
-					if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PostTriggers); err != nil {
-						log.Println(err)
-						return
-					}
+					runSingleHookConfig(shell, watchedPath, singleHookConfig)
 				}
 			}
 		case err, ok := <-watcher.Errors:
@@ -150,5 +133,25 @@ func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookCon
 			}
 			log.Println("error:", err)
 		}
+	}
+}
+
+func runSingleHookConfig(shell []string, hookConfigKey string, singleHookConfig SingleHookConfig) {
+	// run pre-triggers
+	if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PreTriggers); err != nil {
+		log.Println(err)
+		return
+	}
+	// process links
+	for _, link := range singleHookConfig.Links {
+		if err := copy.Copy(hookConfigKey, link); err != nil {
+			log.Println(err)
+			return
+		}
+	}
+	// run post-triggers
+	if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PostTriggers); err != nil {
+		log.Println(err)
+		return
 	}
 }

@@ -99,7 +99,6 @@ func copyToTargetAndSubstitute(templatePath string, targetPath string, substitut
 		}
 		defer dstFile.Close()
 		// write to dst file
-		log.Println(substitutions)
 		err = t.Execute(dstFile, substitutions)
 		if err != nil {
 			return err
