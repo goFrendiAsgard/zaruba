@@ -12,6 +12,13 @@ import (
 // HookConfig is project hook configuration map
 type HookConfig map[string]SingleHookConfig
 
+// GetSortedKeys sort keys based on dependency tree
+func (hc HookConfig) GetSortedKeys() []string {
+	sortedKeys := []string{}
+	// TODO implement this
+	return sortedKeys
+}
+
 // SingleHookConfig is single configuration for each file hook
 type SingleHookConfig struct {
 	PostTriggers []string `yaml:"post-triggers"`
