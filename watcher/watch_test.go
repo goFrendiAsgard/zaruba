@@ -13,7 +13,7 @@ import (
 func TestGetSortedKeys(t *testing.T) {
 	hc := HookConfig{
 		"/a/b/a": SingleHookConfig{
-			Links: []string{"/a/b/c/a"},
+			Links: []string{"/a/b/c/a", "/a/b/b/a"},
 		},
 		"/a/b/d": SingleHookConfig{
 			Links: []string{"/a/b/e"},
@@ -43,7 +43,7 @@ func TestWatch(t *testing.T) {
 	// trigger changes
 	log.Println("Trigger changes")
 	os.MkdirAll(path.Join(project, "repos", "classifiers", "trigger"), os.ModePerm)
-	time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 
 	// inspect repos/classifiers/pre.txt
 	expectedPreContent := "pre"

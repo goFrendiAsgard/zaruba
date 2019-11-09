@@ -2,7 +2,6 @@ package watcher
 
 import (
 	"io/ioutil"
-	"log"
 	"path"
 	"sort"
 	"strings"
@@ -15,9 +14,41 @@ import (
 // HookConfig is project hook configuration map
 type HookConfig map[string]SingleHookConfig
 
-func (hc HookConfig) getAllLinksByKey(key string) []string {
+func (hc HookConfig) getAllLinksByKey(key string, maxDepth int) []string {
 	links := hc[key].Links
-	// TODO: get all sub links
+	if maxDepth == 0 {
+		return links
+	}
+	visited := make(map[string]bool)
+	for _, link := range links {
+		visited[link] = true
+	}
+	// browse for all other keys
+	for otherKey := range hc {
+		// skip current key
+		if otherKey == key {
+			continue
+		}
+		for _, link := range links {
+			// if otherKey is part of current links, fetch it
+			if strings.HasPrefix(link, otherKey) {
+				// add otherKey
+				if _, ok := visited[otherKey]; !ok {
+					links = append(links, otherKey)
+					visited[otherKey] = true
+				}
+				// add subLinks
+				subLinks := hc.getAllLinksByKey(otherKey, maxDepth-1)
+				for _, subLink := range subLinks {
+					// if subLink is not visited, add it to links
+					if _, ok := visited[subLink]; !ok {
+						links = append(links, subLink)
+						visited[subLink] = true
+					}
+				}
+			}
+		}
+	}
 	return links
 }
 
@@ -29,10 +60,7 @@ func (hc HookConfig) GetSortedKeys() []string {
 	}
 	sort.SliceStable(keys, func(i int, j int) bool {
 		firstKey, secondKey := keys[i], keys[j]
-		firstLinks := hc.getAllLinksByKey(firstKey)
-		if len(firstLinks) == 0 {
-			return true
-		}
+		firstLinks := hc.getAllLinksByKey(firstKey, 100)
 		for _, link := range firstLinks {
 			// if links of i contain j, then i should preceed j
 			if strings.HasPrefix(secondKey, link) {
