@@ -3,14 +3,11 @@ package watcher
 import (
 	"io/ioutil"
 	"log"
-	"os"
 	"path"
 	"path/filepath"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/otiai10/copy"
-	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
 )
 
@@ -122,9 +119,9 @@ func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookCon
 			currentPath := event.Name
 			log.Println("Zaruba detect event: ", event)
 			// look for matching singleHookConfig
-			for watchedPath, singleHookConfig := range *hookConfig {
+			for watchedPath := range *hookConfig {
 				if strings.HasPrefix(currentPath, watchedPath) {
-					runSingleHookConfig(shell, watchedPath, singleHookConfig)
+					hookConfig.RunAction(shell, watchedPath)
 				}
 			}
 		case err, ok := <-watcher.Errors:
@@ -133,25 +130,5 @@ func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookCon
 			}
 			log.Println("error:", err)
 		}
-	}
-}
-
-func runSingleHookConfig(shell []string, hookConfigKey string, singleHookConfig SingleHookConfig) {
-	// run pre-triggers
-	if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PreTriggers); err != nil {
-		log.Println(err)
-		return
-	}
-	// process links
-	for _, link := range singleHookConfig.Links {
-		if err := copy.Copy(hookConfigKey, link); err != nil {
-			log.Println(err)
-			return
-		}
-	}
-	// run post-triggers
-	if err := command.RunMultiple(shell, singleHookConfig.Dir, os.Environ(), singleHookConfig.PostTriggers); err != nil {
-		log.Println(err)
-		return
 	}
 }

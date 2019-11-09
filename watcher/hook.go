@@ -2,10 +2,14 @@ package watcher
 
 import (
 	"io/ioutil"
+	"log"
+	"os"
 	"path"
 	"sort"
 	"strings"
 
+	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
 	"gopkg.in/yaml.v2"
 	"path/filepath"
@@ -58,9 +62,15 @@ func (hc HookConfig) GetSortedKeys() []string {
 	for key := range hc {
 		keys = append(keys, key)
 	}
+	linksMemo := make(map[string][]string)
 	sort.SliceStable(keys, func(i int, j int) bool {
 		firstKey, secondKey := keys[i], keys[j]
-		firstLinks := hc.getAllLinksByKey(firstKey, 100)
+		// get firstLinks
+		if _, ok := linksMemo[firstKey]; !ok {
+			linksMemo[firstKey] = hc.getAllLinksByKey(firstKey, 100)
+		}
+		firstLinks := linksMemo[firstKey]
+		// do comparison
 		for _, link := range firstLinks {
 			// if links of i contain j, then i should preceed j
 			if strings.HasPrefix(secondKey, link) {
@@ -70,6 +80,29 @@ func (hc HookConfig) GetSortedKeys() []string {
 		return false
 	})
 	return keys
+}
+
+// RunAction run a single hook
+func (hc HookConfig) RunAction(shell []string, key string) {
+	environ := os.Environ()
+	singleHookConfig := hc[key]
+	// run pre-triggers
+	if err := command.RunMultiple(shell, singleHookConfig.Dir, environ, singleHookConfig.PreTriggers); err != nil {
+		log.Println(err)
+		return
+	}
+	// process links
+	for _, link := range singleHookConfig.Links {
+		if err := copy.Copy(key, link); err != nil {
+			log.Println(err)
+			return
+		}
+	}
+	// run post-triggers
+	if err := command.RunMultiple(shell, singleHookConfig.Dir, environ, singleHookConfig.PostTriggers); err != nil {
+		log.Println(err)
+		return
+	}
 }
 
 // SingleHookConfig is single configuration for each file hook
@@ -96,12 +129,16 @@ func NewHookConfig(currentPath string) (HookConfig, error) {
 	err = yaml.Unmarshal([]byte(data), &rawHookConfig)
 	for key, rawSingleHookConfig := range rawHookConfig {
 		links := []string{}
+		visited := make(map[string]bool)
 		for _, link := range rawSingleHookConfig.Links {
 			link, err = filepath.Abs(path.Join(absoluteCurrentPath, link))
 			if err != nil {
 				return hookConfig, err
 			}
-			links = append(links, link)
+			if _, ok := visited[link]; !ok {
+				links = append(links, link)
+				visited[link] = true
+			}
 		}
 		singleHookConfig := SingleHookConfig{
 			PreTriggers:  rawSingleHookConfig.PreTriggers,
