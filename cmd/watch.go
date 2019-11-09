@@ -13,7 +13,7 @@ func init() {
 var watchCmd = &cobra.Command{
 	Use:   "watch [project]",
 	Short: "Watch a project",
-	Long:  `Zaruba will watch over your project`,
+	Long:  `Zaruba will watch over and organize your project`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get project
 		project := "."

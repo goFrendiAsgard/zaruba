@@ -1,4 +1,4 @@
-package initiator
+package organizer
 
 import (
 	"log"
@@ -10,7 +10,7 @@ import (
 )
 
 // Init everything once
-func Init(project string) (err error) {
+func Organize(project string) (err error) {
 	allDirPaths, err := dir.GetAllDirPaths(project)
 	if err != nil {
 		return
