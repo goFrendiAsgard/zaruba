@@ -1,6 +1,8 @@
 zaruba
 zaruba-*-*
-playground/projects/test-create
-playground/projects/test-watch
+playground/projects/test-create-base
+playground/projects/test-create-special
 playground/projects/test-organize
+playground/projects/test-watch
+playground/projects/test-hook
 profile.out
