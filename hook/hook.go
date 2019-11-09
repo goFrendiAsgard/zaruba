@@ -1,9 +1,7 @@
-package watcher
+package hook
 
 import (
 	"io/ioutil"
-	"log"
-	"os"
 	"path"
 	"sort"
 	"strings"
@@ -15,10 +13,18 @@ import (
 	"path/filepath"
 )
 
-// HookConfig is project hook configuration map
-type HookConfig map[string]SingleHookConfig
+// SingleConfig is single configuration for each file hook
+type SingleConfig struct {
+	PostTriggers []string `yaml:"post-triggers"`
+	PreTriggers  []string `yaml:"pre-triggers"`
+	Links        []string `yaml:"links"`
+	Dir          string
+}
 
-func (hc HookConfig) getAllLinksByKey(key string, maxDepth int) []string {
+// Config is project hook configuration map
+type Config map[string]SingleConfig
+
+func (hc Config) getAllLinksByKey(key string, maxDepth int) []string {
 	links := hc[key].Links
 	if maxDepth == 0 {
 		return links
@@ -57,7 +63,7 @@ func (hc HookConfig) getAllLinksByKey(key string, maxDepth int) []string {
 }
 
 // GetSortedKeys sort keys based on dependency tree
-func (hc HookConfig) GetSortedKeys() []string {
+func (hc Config) GetSortedKeys() []string {
 	keys := []string{}
 	for key := range hc {
 		keys = append(keys, key)
@@ -83,49 +89,36 @@ func (hc HookConfig) GetSortedKeys() []string {
 }
 
 // RunAction run a single hook
-func (hc HookConfig) RunAction(shell []string, key string) {
-	environ := os.Environ()
+func (hc Config) RunAction(shell []string, environ []string, key string) (err error) {
 	singleHookConfig := hc[key]
 	// run pre-triggers
-	if err := command.RunMultiple(shell, singleHookConfig.Dir, environ, singleHookConfig.PreTriggers); err != nil {
-		log.Println(err)
+	if err = command.RunMultiple(shell, singleHookConfig.Dir, environ, singleHookConfig.PreTriggers); err != nil {
 		return
 	}
 	// process links
 	for _, link := range singleHookConfig.Links {
-		if err := copy.Copy(key, link); err != nil {
-			log.Println(err)
+		if err = copy.Copy(key, link); err != nil {
 			return
 		}
 	}
 	// run post-triggers
-	if err := command.RunMultiple(shell, singleHookConfig.Dir, environ, singleHookConfig.PostTriggers); err != nil {
-		log.Println(err)
-		return
-	}
+	err = command.RunMultiple(shell, singleHookConfig.Dir, environ, singleHookConfig.PostTriggers)
+	return
 }
 
-// SingleHookConfig is single configuration for each file hook
-type SingleHookConfig struct {
-	PostTriggers []string `yaml:"post-triggers"`
-	PreTriggers  []string `yaml:"pre-triggers"`
-	Links        []string `yaml:"links"`
-	Dir          string
-}
-
-// NewHookConfig load new TemplateConfig from a template
-func NewHookConfig(currentPath string) (HookConfig, error) {
-	hookConfig := make(HookConfig)
+// NewConfig load new TemplateConfig from a template
+func NewConfig(currentPath string) (Config, error) {
+	hc := make(Config)
 	absoluteCurrentPath, err := filepath.Abs(currentPath)
 	if err != nil {
-		return hookConfig, err
+		return hc, err
 	}
 	configFile := path.Join(currentPath, config.HookFile)
 	data, err := ioutil.ReadFile(configFile)
 	if err != nil {
-		return hookConfig, err
+		return hc, err
 	}
-	rawHookConfig := make(HookConfig)
+	rawHookConfig := make(Config)
 	err = yaml.Unmarshal([]byte(data), &rawHookConfig)
 	for key, rawSingleHookConfig := range rawHookConfig {
 		links := []string{}
@@ -133,14 +126,14 @@ func NewHookConfig(currentPath string) (HookConfig, error) {
 		for _, link := range rawSingleHookConfig.Links {
 			link, err = filepath.Abs(path.Join(absoluteCurrentPath, link))
 			if err != nil {
-				return hookConfig, err
+				return hc, err
 			}
 			if _, ok := visited[link]; !ok {
 				links = append(links, link)
 				visited[link] = true
 			}
 		}
-		singleHookConfig := SingleHookConfig{
+		singleHookConfig := SingleConfig{
 			PreTriggers:  rawSingleHookConfig.PreTriggers,
 			PostTriggers: rawSingleHookConfig.PostTriggers,
 			Dir:          absoluteCurrentPath,
@@ -148,9 +141,38 @@ func NewHookConfig(currentPath string) (HookConfig, error) {
 		}
 		absoluteKey, err := filepath.Abs(path.Join(absoluteCurrentPath, key))
 		if err != nil {
-			return hookConfig, err
+			return hc, err
 		}
-		hookConfig[absoluteKey] = singleHookConfig
+		hc[absoluteKey] = singleHookConfig
 	}
-	return hookConfig, err
+	return hc, err
+}
+
+// NewCascadedConfig create cascaded config
+func NewCascadedConfig(allDirPaths []string) (hc Config, err error) {
+	hc = make(Config)
+	for _, dirPath := range allDirPaths {
+		currentHookConfig, err := NewConfig(dirPath)
+		if err != nil {
+			continue
+		}
+		for key, val := range currentHookConfig {
+			if _, ok := hc[key]; !ok {
+				hc[key] = SingleConfig{}
+			}
+			singleConfig := hc[key]
+			singleConfig.Dir = val.Dir
+			for _, preTrigger := range val.PreTriggers {
+				singleConfig.PreTriggers = append(singleConfig.PreTriggers, preTrigger)
+			}
+			for _, postTrigger := range val.PostTriggers {
+				singleConfig.PostTriggers = append(singleConfig.PostTriggers, postTrigger)
+			}
+			for _, link := range val.Links {
+				singleConfig.Links = append(singleConfig.Links, link)
+			}
+			hc[key] = singleConfig
+		}
+	}
+	return
 }

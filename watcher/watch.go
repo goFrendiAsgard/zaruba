@@ -1,14 +1,15 @@
 package watcher
 
 import (
-	"io/ioutil"
 	"log"
-	"path"
+	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/dir"
+	"github.com/state-alchemists/zaruba/hook"
 )
 
 // Watch over the project to maintain peace and order
@@ -25,7 +26,7 @@ func Watch(project string, stop chan bool) error {
 		return err
 	}
 	defer watcher.Close()
-	allDirPaths, err := getAllDirPaths(project)
+	allDirPaths, err := dir.GetAllDirPaths(project)
 	if err != nil {
 		log.Println(err)
 	}
@@ -37,45 +38,18 @@ func Watch(project string, stop chan bool) error {
 	}
 	// create hookConfig
 	log.Println("Zaruba load configs")
-	hookConfig, err := createHookConfig(allDirPaths)
+	hc, err := hook.NewCascadedConfig(allDirPaths)
 	if err != nil {
 		log.Println(err)
 	}
 	// add listener
 	log.Println("Zaruba watch for changes")
 	shell := config.GetShell()
-	go maintain(watcher, shell, project, &hookConfig)
+	environ := os.Environ()
+	go maintain(watcher, shell, environ, project, &hc)
 	// wait until stopped
 	<-stop
 	return err
-}
-
-func createHookConfig(allDirPaths []string) (hookConfig HookConfig, err error) {
-	hookConfig = make(HookConfig)
-	for _, dirPath := range allDirPaths {
-		currentHookConfig, err := NewHookConfig(dirPath)
-		if err != nil {
-			continue
-		}
-		for key, val := range currentHookConfig {
-			if _, ok := hookConfig[key]; !ok {
-				hookConfig[key] = SingleHookConfig{}
-			}
-			singleConfig := hookConfig[key]
-			singleConfig.Dir = val.Dir
-			for _, preTrigger := range val.PreTriggers {
-				singleConfig.PreTriggers = append(singleConfig.PreTriggers, preTrigger)
-			}
-			for _, postTrigger := range val.PostTriggers {
-				singleConfig.PostTriggers = append(singleConfig.PostTriggers, postTrigger)
-			}
-			for _, link := range val.Links {
-				singleConfig.Links = append(singleConfig.Links, link)
-			}
-			hookConfig[key] = singleConfig
-		}
-	}
-	return
 }
 
 func addDirToWatcher(watcher *fsnotify.Watcher, allDirPaths []string) error {
@@ -88,28 +62,7 @@ func addDirToWatcher(watcher *fsnotify.Watcher, allDirPaths []string) error {
 	return nil
 }
 
-func getAllDirPaths(dirPath string) (allDirPaths []string, err error) {
-	allDirPaths = []string{}
-	allDirPaths = append(allDirPaths, dirPath)
-	subdirs, err := ioutil.ReadDir(dirPath)
-	if err != nil {
-		return
-	}
-	for _, subdir := range subdirs {
-		if !subdir.IsDir() {
-			continue
-		}
-		subdirPath := path.Join(dirPath, subdir.Name())
-		subdirPaths, err := getAllDirPaths(subdirPath)
-		if err != nil {
-			return allDirPaths, err
-		}
-		allDirPaths = append(allDirPaths, subdirPaths...)
-	}
-	return
-}
-
-func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookConfig *HookConfig) {
+func maintain(watcher *fsnotify.Watcher, shell []string, environ []string, project string, hc *hook.Config) {
 	for {
 		select {
 		case event, ok := <-watcher.Events:
@@ -119,9 +72,12 @@ func maintain(watcher *fsnotify.Watcher, shell []string, project string, hookCon
 			currentPath := event.Name
 			log.Println("Zaruba detect event: ", event)
 			// look for matching singleHookConfig
-			for watchedPath := range *hookConfig {
+			for watchedPath := range *hc {
 				if strings.HasPrefix(currentPath, watchedPath) {
-					hookConfig.RunAction(shell, watchedPath)
+					err := hc.RunAction(shell, environ, watchedPath)
+					if err != nil {
+						log.Println(err)
+					}
 				}
 			}
 		case err, ok := <-watcher.Errors:

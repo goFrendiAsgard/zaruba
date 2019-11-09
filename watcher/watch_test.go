@@ -10,30 +10,6 @@ import (
 	"time"
 )
 
-func TestGetSortedKeys(t *testing.T) {
-	hc := HookConfig{
-		"/a/b/a": SingleHookConfig{
-			Links: []string{"/a/b/c/a", "/a/b/b/a"},
-		},
-		"/a/b/d": SingleHookConfig{
-			Links: []string{"/a/b/e"},
-		},
-		"/a/b/e": SingleHookConfig{},
-		"/a/b/c": SingleHookConfig{
-			Links: []string{"/a/b/d"},
-		},
-		"/a/b/b": SingleHookConfig{
-			Links: []string{"/a/b/c/b"},
-		},
-	}
-	sortedKeys := hc.GetSortedKeys()
-	mergedSortedKeys := strings.Join(sortedKeys, ", ")
-	expectedMergedSortedKeys := "/a/b/a, /a/b/b, /a/b/c, /a/b/d, /a/b/e"
-	if mergedSortedKeys != expectedMergedSortedKeys {
-		t.Errorf("Expected:\n%s\nActual:\n%s", expectedMergedSortedKeys, mergedSortedKeys)
-	}
-}
-
 func TestWatch(t *testing.T) {
 	project := path.Join("..", "playground", "projects", "test-watch")
 	stop := make(chan bool)
