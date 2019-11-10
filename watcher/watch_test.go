@@ -2,7 +2,6 @@ package watcher
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -15,50 +14,89 @@ func TestWatch(t *testing.T) {
 	stop := make(chan bool)
 	// start watcher and wait for a while
 	go Watch(project, stop)
+
 	time.Sleep(1 * time.Second)
-	// trigger changes
-	log.Println("Trigger changes")
-	os.MkdirAll(path.Join(project, "repos", "classifiers", "trigger"), os.ModePerm)
+	err := writeFile(path.Join(project, "repos", "classifiers", "readme.txt"), "v 1.0.0") // trigger changes
+	if err != nil {
+		t.Error(err)
+	}
+	time.Sleep(1 * time.Second)
+	err = writeFile(path.Join(project, "repos", "classifiers", "dataset", "data.csv"), "a,b,c,d") // not trigger changes
+	if err != nil {
+		t.Error(err)
+	}
+	time.Sleep(1 * time.Second)
+	err = writeFile(path.Join(project, "repos", "classifiers", "readme.txt"), "v 2.0.0") // trigger changes
+	if err != nil {
+		t.Error(err)
+	}
+	time.Sleep(1 * time.Second)
+	err = writeFile(path.Join(project, "repos", "classifiers", "readme.txt"), "v 3.0.0") // trigger changes
+	if err != nil {
+		t.Error(err)
+	}
 	time.Sleep(1 * time.Second)
 
-	// inspect repos/classifiers/pre.txt
-	expectedPreContent := "pre"
-	preContent, err := readGeneratedFile(project, path.Join("repos", "classifiers", "pre.txt"))
+	// repos/classifiers
+	// - repos/classifiers/readme.txt
+	expectedReadmeContent := "v 3.0.0"
+	readmeContent, err := readFile(path.Join(project, "repos", "classifiers", "readme.txt"))
 	if err != nil {
 		t.Error(err)
-	} else if strings.Trim(expectedPreContent, "\n") != strings.Trim(preContent, "\n") {
-		t.Errorf("Expected:\n%s\nActual:\n%s", expectedPreContent, preContent)
+	} else if strings.Trim(expectedReadmeContent, "\n") != strings.Trim(readmeContent, "\n") {
+		t.Errorf("Expected:\n%s\nActual:\n%s", expectedReadmeContent, readmeContent)
 	}
-
-	// inspect repos/classifiers/post.txt
-	expectedPostContent := "post"
-	postContent, err := readGeneratedFile(project, path.Join("repos", "classifiers", "post.txt"))
+	// - repos/classifiers/changelog.txt
+	expectedChangelogContent := "v 1.0.0v 2.0.0v 3.0.0"
+	changelogContent, err := readFile(path.Join(project, "repos", "classifiers", "changelog.txt"))
 	if err != nil {
 		t.Error(err)
-	} else if strings.Trim(expectedPostContent, "\n") != strings.Trim(postContent, "\n") {
-		t.Errorf("Expected:\n%s\nActual:\n%s", expectedPostContent, postContent)
+	} else if strings.Trim(expectedChangelogContent, "\n") != strings.Trim(changelogContent, "\n") {
+		t.Errorf("Expected:\n%s\nActual:\n%s", expectedChangelogContent, changelogContent)
 	}
 
-	// inspect services/sentiment/classifiers/classifier.py
-	_, err = readGeneratedFile(project, path.Join("services", "sentiment", "classifiers", "classifier.py"))
+	// services/classifiers/sentiment
+	// - services/sentiment/classifiers/readme.txt
+	expectedReadmeContent = "v 3.0.0"
+	readmeContent, err = readFile(path.Join(project, "services", "sentiment", "classifiers", "readme.txt"))
+	if err != nil {
+		t.Error(err)
+	} else if strings.Trim(expectedReadmeContent, "\n") != strings.Trim(readmeContent, "\n") {
+		t.Errorf("Expected:\n%s\nActual:\n%s", expectedReadmeContent, readmeContent)
+	}
+	// - services/sentiment/classifiers/changelog.txt
+	expectedChangelogContent = "v 1.0.0v 2.0.0v 3.0.0"
+	changelogContent, err = readFile(path.Join(project, "services", "sentiment", "classifiers", "changelog.txt"))
+	if err != nil {
+		t.Error(err)
+	} else if strings.Trim(expectedChangelogContent, "\n") != strings.Trim(changelogContent, "\n") {
+		t.Errorf("Expected:\n%s\nActual:\n%s", expectedChangelogContent, changelogContent)
+	}
+	// - services/sentiment/classifiers/output.txt
+	_, err = readFile(path.Join(project, "services", "sentiment", "output.txt"))
 	if err != nil {
 		t.Error(err)
 	}
 
-	// inspect services/sentiment/post.txt
-	_, err = readGeneratedFile(project, path.Join("services", "sentiment", "post.txt"))
+	// services/classifiers/image
+	// - services/image/classifiers/readme.txt
+	expectedReadmeContent = "v 3.0.0"
+	readmeContent, err = readFile(path.Join(project, "services", "image", "classifiers", "readme.txt"))
 	if err != nil {
 		t.Error(err)
+	} else if strings.Trim(expectedReadmeContent, "\n") != strings.Trim(readmeContent, "\n") {
+		t.Errorf("Expected:\n%s\nActual:\n%s", expectedReadmeContent, readmeContent)
 	}
-
-	// inspect services/image/classifiers/classifier.py
-	_, err = readGeneratedFile(project, path.Join("services", "image", "classifiers", "classifier.py"))
+	// - services/image/classifiers/changelog.txt
+	expectedChangelogContent = "v 1.0.0v 2.0.0v 3.0.0"
+	changelogContent, err = readFile(path.Join(project, "services", "image", "classifiers", "changelog.txt"))
 	if err != nil {
 		t.Error(err)
+	} else if strings.Trim(expectedChangelogContent, "\n") != strings.Trim(changelogContent, "\n") {
+		t.Errorf("Expected:\n%s\nActual:\n%s", expectedChangelogContent, changelogContent)
 	}
-
-	// inspect services/image/post.txt
-	_, err = readGeneratedFile(project, path.Join("services", "image", "post.txt"))
+	// - services/image/classifiers/output.txt
+	_, err = readFile(path.Join(project, "services", "image", "output.txt"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -66,7 +104,20 @@ func TestWatch(t *testing.T) {
 	stop <- true
 }
 
-func readGeneratedFile(project, filepath string) (string, error) {
-	data, err := ioutil.ReadFile(path.Join(project, filepath))
+func readFile(filepath string) (string, error) {
+	data, err := ioutil.ReadFile(filepath)
 	return string(data), err
+}
+
+func writeFile(filepath string, content string) error {
+	f, err := os.Create(filepath)
+	if err != nil {
+		return err
+	}
+	_, err = f.WriteString(content)
+	if err != nil {
+		return err
+	}
+	err = f.Close()
+	return err
 }

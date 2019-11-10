@@ -6,7 +6,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/otiai10/copy"
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
 	"gopkg.in/yaml.v2"
@@ -97,7 +96,7 @@ func (hc Config) RunAction(shell []string, environ []string, key string) (err er
 	}
 	// process links
 	for _, link := range singleHookConfig.Links {
-		if err = copy.Copy(key, link); err != nil {
+		if err = Copy(key, link, []string{config.IgnoreFile, config.HookFile}); err != nil {
 			return
 		}
 	}
@@ -114,12 +113,12 @@ func NewConfig(currentPath string) (Config, error) {
 		return hc, err
 	}
 	configFile := path.Join(currentPath, config.HookFile)
-	data, err := ioutil.ReadFile(configFile)
+	configFileContent, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return hc, err
 	}
 	rawHookConfig := make(Config)
-	err = yaml.Unmarshal([]byte(data), &rawHookConfig)
+	err = yaml.Unmarshal([]byte(configFileContent), &rawHookConfig)
 	for key, rawSingleHookConfig := range rawHookConfig {
 		links := []string{}
 		visited := make(map[string]bool)
