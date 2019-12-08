@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/link"
 )
 
 func init() {
@@ -25,5 +26,6 @@ var linkCmd = &cobra.Command{
 		destination := args[2]
 		// invoke action
 		log.Printf("[INFO] Invoking link. project-dir: %s, source: %s, destination: %s", projectDir, source, destination)
+		link.Create(projectDir, source, destination)
 	},
 }

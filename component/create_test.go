@@ -17,14 +17,14 @@ func TestCreateComponent(t *testing.T) {
 	}
 
 	// Create component should succeed
-	err = Create("templateForComponentTest", "../test-playground/project")
+	err = Create("templateForComponentTest", "../test-playground/testCreateComponent")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 	}
 
 	// After create component, component should be exists
-	if _, err := os.Stat("../test-playground/project/.git"); os.IsNotExist(err) {
-		t.Errorf("[ERROR] ../test-playground/project/.git is not exist: %s", err)
+	if _, err := os.Stat("../test-playground/testCreateComponent/.git"); os.IsNotExist(err) {
+		t.Errorf("[ERROR] ../test-playground/testCreateComponent/.git is not exist: %s", err)
 	}
 
 }

@@ -109,12 +109,12 @@ func main() {
     source, _ := filepath.Abs(os.Args[2])
     destination, _ := filepath.Abs(os.Args[3])
 	depFileName := filepath.Join(projectDir, "zaruba.dependency.json")
-    dep := map[string][]string
+    dep := map[string][]string{}
 
     // create `depFileName` if it is not exists
     if _, err := os.Stat(depFileName); os.IsNotExist(err) {
         os.Create(depFileName)
-        ioutil.WriteFile(depFileName, []byte{"{}"}, 0644)
+        ioutil.WriteFile(depFileName, []byte("{}"), 0644)
     }
 
     // open `depFile`
@@ -212,7 +212,7 @@ func main() {
     // initiate variables, assuming all parameters are valid
     projectDir, _ := filepath.Abs(os.Args[1])
 	depFileName := filepath.Join(projectDir, "zaruba.dependency.json")
-    dep := map[string][]string
+    dep := map[string][]string{}
 
     // read `dep` from `defFileName`, assuming it is a valid json file
     b, err := ioutil.ReadFile(depFileName)
