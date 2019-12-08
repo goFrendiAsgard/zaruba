@@ -1,6 +1,0 @@
-.:
-    pre-triggers:
-        - cat readme.txt >> changelog.txt
-    links:
-        - ../../services/sentiment/classifiers
-        - ../../services/image/classifiers

@@ -1,3 +1,0 @@
-.:
-    post-triggers:
-        - python main.py > output.txt
