@@ -5,8 +5,8 @@ import (
 	"path"
 )
 
-// GetAllDirPaths fetch sub directories recursively
-func GetAllDirPaths(dirPath string) (allDirPaths []string, err error) {
+// GetAllDirs fetch sub directories recursively
+func GetAllDirs(dirPath string) (allDirPaths []string, err error) {
 	allDirPaths = []string{}
 	allDirPaths = append(allDirPaths, dirPath)
 	subdirs, err := ioutil.ReadDir(dirPath)
@@ -18,7 +18,7 @@ func GetAllDirPaths(dirPath string) (allDirPaths []string, err error) {
 			continue
 		}
 		subdirPath := path.Join(dirPath, subdir.Name())
-		subdirPaths, err := GetAllDirPaths(subdirPath)
+		subdirPaths, err := GetAllDirs(subdirPath)
 		if err != nil {
 			return allDirPaths, err
 		}

@@ -33,6 +33,5 @@ var createComponentCmd = &cobra.Command{
 		if err := component.Create(template, projectDir, args...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
-
 	},
 }

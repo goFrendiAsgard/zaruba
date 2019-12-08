@@ -3,8 +3,7 @@ build:
 	./build.sh
 test:
 	# tear down
-	rm -Rf templates/project
-	rm -Rf templates/templateForComponentTest
+	rm -Rf templates/testInstallTemplate
 	rm -Rf "test-playground"
 	# prepare
 	set PATH=${PATH};$(pwd)

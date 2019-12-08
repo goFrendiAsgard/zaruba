@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/action"
 )
 
 func init() {
@@ -20,10 +21,13 @@ var doCmd = &cobra.Command{
 			log.Fatal("[ERROR] action")
 		}
 		// get `action`, `arguments` and `projectDir`
-		action := args[0]
+		actionString := args[0]
 		arguments := args[1:]
 		projectDir := "."
 		// invoke action
-		log.Printf("[INFO] Invoking %s. project-dir: %s, other arguments: %#v", action, projectDir, arguments)
+		log.Printf("[INFO] Invoking %s. project-dir: %s, other arguments: %#v", actionString, projectDir, arguments)
+		if err := action.Do(projectDir, actionString, args...); err != nil {
+			log.Fatal("[ERROR] ", err)
+		}
 	},
 }
