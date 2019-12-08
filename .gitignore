@@ -1,3 +1,4 @@
+# build
 zaruba
 zaruba-darwin-386
 zaruba-darwin-amd64
@@ -6,6 +7,9 @@ zaruba-linux-amd64
 zaruba-windows-386
 zaruba-windows-amd64
 
-test-playground
-profile.out
+# testing
 templates/testInstallTemplate/
+test-playground/
+
+#coverage
+profile.out

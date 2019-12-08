@@ -10,24 +10,24 @@ import (
 func TestCreateLink(t *testing.T) {
 	var err error
 
-	a, _ := filepath.Abs("../test-playground/test-link/a")
-	b, _ := filepath.Abs("../test-playground/test-link/b")
-	c, _ := filepath.Abs("../test-playground/test-link/c")
-	d, _ := filepath.Abs("../test-playground/test-link/d")
+	a, _ := filepath.Abs("../test-playground/testLink/a")
+	b, _ := filepath.Abs("../test-playground/testLink/b")
+	c, _ := filepath.Abs("../test-playground/testLink/c")
+	d, _ := filepath.Abs("../test-playground/testLink/d")
 
 	// Add dependency link
-	if err = Create("../test-playground/test-link", a, b); err != nil {
+	if err = Create("../test-playground/testLink", a, b); err != nil {
 		t.Errorf("[ERROR] Cannot create link: %s", err)
 	}
-	if err = Create("../test-playground/test-link", a, c); err != nil {
+	if err = Create("../test-playground/testLink", a, c); err != nil {
 		t.Errorf("[ERROR] Cannot create link: %s", err)
 	}
-	if err = Create("../test-playground/test-link", b, d); err != nil {
+	if err = Create("../test-playground/testLink", b, d); err != nil {
 		t.Errorf("[ERROR] Cannot create link: %s", err)
 	}
 
 	// Read dependency file
-	depFileName := "../test-playground/test-link/zaruba.dependency.json"
+	depFileName := "../test-playground/testLink/zaruba.dependency.json"
 	jsonB, err := ioutil.ReadFile(depFileName)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot read zaruba.dependency.json: %s", err)
