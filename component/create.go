@@ -8,8 +8,12 @@ import (
 )
 
 // Create component
-func Create(template, projectDir string, args []string) (err error) {
+func Create(template, projectDir string, args ...string) (err error) {
 	templateDir := config.GetTemplateDir()
+	projectDir, err = filepath.Abs(projectDir)
+	if err != nil {
+		return
+	}
 	// run create-component.sh
 	createComponentArgs := append([]string{projectDir}, args...)
 	err = command.Run(filepath.Join(templateDir, template), "./create-component", createComponentArgs...)

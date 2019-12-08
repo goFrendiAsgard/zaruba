@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"log"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -20,11 +19,6 @@ var organizeProjectCmd = &cobra.Command{
 		projectDir := "."
 		if len(args) > 0 {
 			projectDir = args[0]
-		}
-		// make projectDir absolute
-		projectDir, err := filepath.Abs(projectDir)
-		if err != nil {
-			log.Fatal("[ERROR] ", err)
 		}
 		// invoke action
 		log.Printf("[INFO] Invoking organize-project. project-dir: %s", projectDir)
