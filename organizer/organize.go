@@ -3,6 +3,7 @@ package organizer
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -15,6 +16,10 @@ import (
 func Organize(projectDir string, arguments ...string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
+		return
+	}
+	// remove depFile
+	if err = os.Remove(filepath.Join(projectDir, "zaruba.dependency.json")); err != nil && !os.IsNotExist(err) {
 		return
 	}
 	// link

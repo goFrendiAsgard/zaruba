@@ -6,9 +6,9 @@ import (
 )
 
 // GetAllDirs fetch sub directories recursively
-func GetAllDirs(dirPath string) (allDirPaths []string, err error) {
-	allDirPaths = []string{}
-	allDirPaths = append(allDirPaths, dirPath)
+func GetAllDirs(dirPath string) (allDirs []string, err error) {
+	allDirs = []string{}
+	allDirs = append(allDirs, dirPath)
 	subdirs, err := ioutil.ReadDir(dirPath)
 	if err != nil {
 		return
@@ -20,9 +20,9 @@ func GetAllDirs(dirPath string) (allDirPaths []string, err error) {
 		subdirPath := path.Join(dirPath, subdir.Name())
 		subdirPaths, err := GetAllDirs(subdirPath)
 		if err != nil {
-			return allDirPaths, err
+			return allDirs, err
 		}
-		allDirPaths = append(allDirPaths, subdirPaths...)
+		allDirs = append(allDirs, subdirPaths...)
 	}
 	return
 }

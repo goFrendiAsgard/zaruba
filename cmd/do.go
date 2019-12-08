@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"log"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/action"
@@ -25,7 +26,8 @@ var doCmd = &cobra.Command{
 		arguments := args[1:]
 		projectDir := "."
 		// invoke action
-		log.Printf("[INFO] Invoking %s. project-dir: %s, other arguments: %#v", actionString, projectDir, arguments)
+		cwd, _ := os.Getwd()
+		log.Printf("[INFO] Invoking %s. cwd: %s, project-dir: %s, other arguments: %s", cwd, actionString, projectDir, arguments)
 		if err := action.Do(actionString, projectDir, arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}

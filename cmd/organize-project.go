@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"log"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/organizer"
@@ -14,7 +15,7 @@ func init() {
 var organizeProjectCmd = &cobra.Command{
 	Use:   "organize-project [project-dir] [...args]",
 	Short: "Organize a project",
-	Long:  `Zaruba will manage project-dependency and perform organize-project.sh`,
+	Long:  `Zaruba will manage project-dependency and perform organize-project script in every directory`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."
@@ -23,7 +24,8 @@ var organizeProjectCmd = &cobra.Command{
 		}
 		arguments := args[1:]
 		// invoke action
-		log.Printf("[INFO] Invoking organize-project. project-dir: %s, other arguments: %#v", projectDir, arguments)
+		cwd, _ := os.Getwd()
+		log.Printf("[INFO] Invoking organize-project. cwd: %s, project-dir: %s, other arguments: %#v", cwd, projectDir, arguments)
 		if err := organizer.Organize(projectDir, arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}

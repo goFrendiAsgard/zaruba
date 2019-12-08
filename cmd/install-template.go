@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"log"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -15,7 +16,7 @@ func init() {
 var installTemplateCmd = &cobra.Command{
 	Use:   "install-template <git-url> [template-dir]",
 	Short: "Install template",
-	Long:  `Zaruba will install a template for you`,
+	Long:  `Zaruba will install a template`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
@@ -31,7 +32,8 @@ var installTemplateCmd = &cobra.Command{
 			templateDir = args[1]
 		}
 		// invoke action
-		log.Printf("[INFO] Invoking install-template. git-url: %s, template-dir: %s", gitURL, templateDir)
+		cwd, _ := os.Getwd()
+		log.Printf("[INFO] Invoking install-template. cwd: %s, git-url: %s, template-dir: %s", cwd, gitURL, templateDir)
 		if err := template.Install(gitURL, templateDir); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}

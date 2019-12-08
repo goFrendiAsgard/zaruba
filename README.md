@@ -84,68 +84,7 @@ zaruba link <project-dir> <source> <destination>
 
 This command is usually invoked while performing `organize-project`. Usually, this command is part of `<project-dir>/.../link` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
 
-Running this command should has the same effect as performing:
-
-```sh
-add_dependency ${project_dir} ${source} ${destination}
-```
-
-assuming `add-dependency` is a binary executable with the following source code:
-
-```go
-package main
-
-import (
-	"encoding/json"
-	"io/ioutil"
-    "os"
-    "path/filepath"
-	"syscall"
-)
-
-func main() {
-    // initiate variables, assuming all parameters are valid
-    projectDir, _ := filepath.Abs(os.Args[1])
-    source, _ := filepath.Abs(os.Args[2])
-    destination, _ := filepath.Abs(os.Args[3])
-	depFileName := filepath.Join(projectDir, "zaruba.dependency.json")
-    dep := map[string][]string{}
-
-    // create `depFileName` if it is not exists
-    if _, err := os.Stat(depFileName); os.IsNotExist(err) {
-        os.Create(depFileName)
-        ioutil.WriteFile(depFileName, []byte("{}"), 0644)
-    }
-
-    // open `depFile`
-	depFile, err := os.Open(depFileName)
-	if err != nil {
-		defer depFile.Close()
-    }
-
-	// lock `depFile`
-    syscall.Flock(int(depFile.Fd()), syscall.LOCK_EX)
-
-	// read `dep` from `defFileName`, assuming it is a valid json file
-    b, err := ioutil.ReadFile(depFileName)
-    json.Unmarshal(b, &dep)
-    
-    // add `source` and `destination` to `dep`
-    if _, sourceExists := dep[source]; !sourceExists {
-        dep[source] = []string{}
-    }
-    dep[source] = append(dep[source], destination)
-
-    // write `dep` to `depFileName`, assuming operation should always success
-	b, _ = json.Marshal(dep)
-    ioutil.WriteFile(depFileName, b, 0644)
-
-	// unloack `depFile`
-	syscall.Flock(int(depFile.Fd()), syscall.LOCK_UN)
-}
-```
-
-As you can see, after running `zaruba-link <source> <destination>`, there should be a json file name `<preject-dir>/zaruba.dependency.json`. The file should contains all dependencies in a single project in JSON format:
+After running `zaruba-link <project-dir> <source> <destination>`, there should be a json file named `zaruba.dependency.json` in your `<project-dir>`. The file should contains all dependencies in a single project in JSON format:
 
 ```json
 {
@@ -158,7 +97,6 @@ As you can see, after running `zaruba-link <source> <destination>`, there should
 }
 ```
 
-
 ## organize-project
 
 ```sh
@@ -167,84 +105,18 @@ zaruba organize-project [project-dir]
 
 This command will do the following actions:
 
-* Delete `zaruba.dependency.json`.
-* Recursively look for and run `organize-project` in every sub-directory of `<project-dir>`
+* Re-create `zaruba.dependency.json` by performing `link` action in `<project-dir>` and it's sub-directories.
+* Sort dependencies in `zaruba.dependency.json`.
+* Copy sources to their respective destinations.
+* Recursively look for and run `organize-project` in every sub-directory of `<project-dir>`.
 
-Invoking `zaruba organize-project [project-dir]` should have the same effect as:
+## watch-project
 
 ```sh
-cd ${project_dir}
-
-# remove `zaruba.dependency.json`
-rm zaruba.dependency.json
-
-# collect all dependencies into `zaruba.dependency.json`
-for subdir in $(find "./") 
-do
-    filename = "./{$subdir}/link"
-    if [ -f ${filename} ]
-    then
-        ./${filename} ${project_dir}
-    fi
-done     
-
-# perform organize-project
-./organize-project 
+zaruba watch-project [project-dir]
 ```
 
-assuming `organize-project` is a binary executable with the following source code:
-
-```go
-package main
-
-import (
-	"encoding/json"
-	"io/ioutil"
-    "path/filepath"
-    "strings"
-    "sort"
-)
-
-func main() {
-    // initiate variables, assuming all parameters are valid
-    projectDir, _ := filepath.Abs(os.Args[1])
-	depFileName := filepath.Join(projectDir, "zaruba.dependency.json")
-    dep := map[string][]string{}
-
-    // read `dep` from `defFileName`, assuming it is a valid json file
-    b, err := ioutil.ReadFile(depFileName)
-    json.Unmarshal(b, &dep)
-
-    // get all keys of dep (i.e: list of sources)
-    sources := []string{}
-    for source := range dep {
-        sources = append(sources, source)
-    }
-
-    // sort keys
-    sort.SliceStable(sources, func(i int, j int) bool {
-		firstSource, secondSource := sources[i], sources[j]
-        // get destination
-        firstDestinations := dep[firstSource]
-        // compare
-        for _, destination := range firstDestinations {
-			if strings.HasPrefix(destination, secondSource) {
-                return true
-            }
-        }
-        return false
-    }) 
-
-    for source, destinations := range(sources) {
-        for _, destination := range(destinations) {
-            exec.Command("rm", "-Rf", destination)
-            exec.Command("cp", "-r", source, destination)
-        }
-    }
-    
-
-}
-```
+Detect changes in project and `organize-project` automatically.
 
 ## custom action
 
