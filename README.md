@@ -33,6 +33,8 @@ A component is usually based on specific template, but user can also create thei
 
 * `link.sh`: A shell script, containing set of commands to be executed when user perform `zaruba orgainze` or `zaruba watch`.
 
+Optionally, a component can also has `organize-project.sh` or any other shell script for custome command.
+
 To create a new component, you can perform:
 
 ```sh
@@ -62,12 +64,12 @@ cd ${zaruba_template_dir}/${folder_name}
 ## create-component
 
 ```
-zaruba create-component <template> [project-dir] [--interactive | -i]
+zaruba create-component <template> [project-dir] [...args]
 ```
 
-This will run template's `create-component.sh <project-dir> [--interactive | -i]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
+This will run template's `create-component.sh <project-dir> [...args]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
 
-Running `zaruba create-component <template> [project-dir] [--interactive | -i]` should has the same effect as performing:
+Running `zaruba create-component <template> [project-dir] [...args]` should has the same effect as performing:
 
 ```
 cd ${zaruba_template_dir}/${template}
@@ -80,7 +82,7 @@ cd ${zaruba_template_dir}/${template}
 zaruba link <project-dir> <source> <destination>
 ```
 
-This command is usually invoked while performing `organize` or `watch`. Usually, this command is part of `<project-dir>/.../link.sh` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
+This command is usually invoked while performing `organize-project` or `watch`. Usually, this command is part of `<project-dir>/.../link.sh` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
 
 Running this command should has the same effect as performing:
 
@@ -157,18 +159,18 @@ As you can see, after running `zaruba-link <source> <destination>`, there should
 ```
 
 
-## organize
+## organize-project
 
 ```sh
-zaruba organize [project-dir]
+zaruba organize-project [project-dir]
 ```
 
 This command will do the following actions:
 
 * Delete `zaruba.dependency.json`.
-* Recursively look for and run `organize.sh` in every sub-directory of `<project-dir>`
+* Recursively look for and run `organize-project.sh` in every sub-directory of `<project-dir>`
 
-Invoking `zaruba organize [project-dir]` should have the same effect as:
+Invoking `zaruba organize-project [project-dir]` should have the same effect as:
 
 ```sh
 cd ${project_dir}
@@ -249,6 +251,24 @@ func main() {
 
 ## custom action
 
+```
+zaruba do <action> [...args]
+```
+
 You can add any custom action by creating a shell script in any directory of the project. The name of the script should match your custom action.
 
-In short, when you perform `zaruba fight`, zaruba will looks for every `fight.sh` in the current directory, and perform `fight.sh <current-directory>`.
+In short, when you perform `zaruba do fight`, zaruba will looks for every `fight.sh` in the current directory, and perform `fight.sh <current-directory>`.
+
+# Configuration
+
+## Environment Variable
+
+* `ZARUBA_TEMPLATE_DIR`
+    - Zaruba's template directory
+    - Default to `<zaruba-parent-dir>/templates`
+* `ZARUBA_SHELL`
+    - Shell to perform commands
+    - Default to `/bin/sh`
+* `ZARUBA_SHELL_ARGS`
+    - Shell arguments of `ZARUBA_SHELL`
+    - Default to `-c`
