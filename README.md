@@ -18,7 +18,7 @@ A template should contains at least two files:
 To install a template, you can perform:
 
 ```sh
-zaruba install-template https://github.com/someUser/someTemplate
+zaruba install-template https://github.com/someUser/someTemplate.git
 ```
 
 ## Project
@@ -82,7 +82,7 @@ cd ${zaruba_template_dir}/${template}
 zaruba link <project-dir> <source> <destination>
 ```
 
-This command is usually invoked while performing `organize-project` or `watch`. Usually, this command is part of `<project-dir>/.../link` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
+This command is usually invoked while performing `organize-project`. Usually, this command is part of `<project-dir>/.../link` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
 
 Running this command should has the same effect as performing:
 
@@ -200,12 +200,9 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
-    "os"
-    "os/exec"
     "path/filepath"
     "strings"
     "sort"
-	"syscall"
 )
 
 func main() {
@@ -228,10 +225,10 @@ func main() {
     sort.SliceStable(sources, func(i int, j int) bool {
 		firstSource, secondSource := sources[i], sources[j]
         // get destination
-        firstDestinations = dep[firstSource]
+        firstDestinations := dep[firstSource]
         // compare
         for _, destination := range firstDestinations {
-            if strings.HasPrefix(secondSource, destination) {
+			if strings.HasPrefix(destination, secondSource) {
                 return true
             }
         }

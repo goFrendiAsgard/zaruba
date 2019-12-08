@@ -19,7 +19,7 @@ var installTemplateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
-			log.Fatal("[ERROR] template's Git URL is expected")
+			log.Fatal("[ERROR] template's Git URL is expected, current arguments: ", args)
 		}
 		// get `gitURL` and `templateDir`
 		gitURL := args[0]

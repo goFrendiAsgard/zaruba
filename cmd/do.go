@@ -18,7 +18,7 @@ var doCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
-			log.Fatal("[ERROR] action")
+			log.Fatal("[ERROR] action expected, current arguments: ", args)
 		}
 		// get `action`, `arguments` and `projectDir`
 		actionString := args[0]
@@ -26,7 +26,7 @@ var doCmd = &cobra.Command{
 		projectDir := "."
 		// invoke action
 		log.Printf("[INFO] Invoking %s. project-dir: %s, other arguments: %#v", actionString, projectDir, arguments)
-		if err := action.Do(projectDir, actionString, args...); err != nil {
+		if err := action.Do(actionString, projectDir, arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
 	},

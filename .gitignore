@@ -9,7 +9,10 @@ zaruba-windows-amd64
 
 # testing
 templates/testInstallTemplate/
-test-playground/
+test-playground/testCreateComponent
+test-playground/testDo
+test-playground/testLink
+test-playground/testOrganize
 
 #coverage
 profile.out

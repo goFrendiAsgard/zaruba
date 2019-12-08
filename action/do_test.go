@@ -8,8 +8,8 @@ import (
 
 func TestDo(t *testing.T) {
 
-	// Create component should succeed
-	err := Do("../test-playground/testDo", "doWrite")
+	// Do action should succeed
+	err := Do("doWrite", "../test-playground/testDo")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot do action: %s", err)
 	}

@@ -18,7 +18,7 @@ var linkCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 3 {
-			log.Fatal("[ERROR] `project-dir`, `source`, and `destination` expected")
+			log.Fatal("[ERROR] `project-dir`, `source`, and `destination` expected, current arguments: ", args)
 		}
 		// get projectDir
 		projectDir := args[0]

@@ -18,7 +18,7 @@ var createComponentCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
-			log.Fatal("[ERROR] template is expected")
+			log.Fatal("[ERROR] template is expected, current arguments: ", args)
 		}
 		// get `template`, `projectDir` and `arguments`
 		template := args[0]
@@ -30,7 +30,7 @@ var createComponentCmd = &cobra.Command{
 		}
 		// invoke action
 		log.Printf("[INFO] Invoking organize-project, template: %s. project-dir: %s, other arguments: %#v", template, projectDir, arguments)
-		if err := component.Create(template, projectDir, args...); err != nil {
+		if err := component.Create(template, projectDir, arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
 	},
