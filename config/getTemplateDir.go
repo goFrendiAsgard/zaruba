@@ -12,7 +12,7 @@ func GetTemplateDir() string {
 	if templateDir == "" {
 		executable, err := os.Executable()
 		if err == nil {
-			templateDir = path.Join(path.Base(executable), "templates")
+			templateDir = path.Join(filepath.Dir(executable), "templates")
 		}
 	}
 	absTemplateDir, err := filepath.Abs(templateDir)

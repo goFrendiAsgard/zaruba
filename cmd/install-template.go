@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/installtemplate"
+	"github.com/state-alchemists/zaruba/template"
 )
 
 func init() {
@@ -32,8 +32,8 @@ var installTemplateCmd = &cobra.Command{
 		}
 		// invoke action
 		log.Printf("[INFO] Invoking install-template. git-url: %s, template-dir: %s", gitURL, templateDir)
-		if err := installtemplate.Install(gitURL, templateDir); err != nil {
-			log.Fatal("[ERROR]", err)
+		if err := template.Install(gitURL, templateDir); err != nil {
+			log.Fatal("[ERROR] ", err)
 		}
 	},
 }

@@ -1,8 +1,10 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"log"
+	"path/filepath"
+
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -22,6 +24,11 @@ var linkCmd = &cobra.Command{
 		projectDir := args[0]
 		source := args[1]
 		destination := args[2]
+		// make projectDir absolute
+		projectDir, err := filepath.Abs(projectDir)
+		if err != nil {
+			log.Fatal("[ERROR] ", err)
+		}
 		// invoke action
 		log.Printf("[INFO] Invoking link. project-dir: %s, source: %s, destination: %s", projectDir, source, destination)
 	},

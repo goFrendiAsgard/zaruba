@@ -6,9 +6,8 @@ import (
 )
 
 // Run a single command
-func Run(shell []string, dir string, command string) error {
-	commandList := append(shell, command)
-	cmd := exec.Command(commandList[0], commandList[1:]...)
+func Run(dir, command string, args ...string) error {
+	cmd := exec.Command(command, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Env = os.Environ()

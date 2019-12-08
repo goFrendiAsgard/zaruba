@@ -2,7 +2,7 @@ build:
 	go build
 	./build.sh
 test:
-	set PATH=%PATH%;${PWD}
+	set PATH=${PATH};$(pwd)
 	mkdir -p "test-playground"
 	# tear down
 	# prepare

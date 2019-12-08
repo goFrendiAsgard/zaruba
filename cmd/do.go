@@ -1,8 +1,10 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"log"
+	"path/filepath"
+
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -18,10 +20,15 @@ var doCmd = &cobra.Command{
 		if len(args) < 1 {
 			log.Fatal("[ERROR] action")
 		}
-		// get `template`, `projectDir` and `arguments`
+		// get `action`, `arguments` and `projectDir`
 		action := args[0]
 		arguments := args[1:]
 		projectDir := "."
+		// make projectDir absolute
+		projectDir, err := filepath.Abs(projectDir)
+		if err != nil {
+			log.Fatal("[ERROR] ", err)
+		}
 		// invoke action
 		log.Printf("[INFO] Invoking %s. project-dir: %s, other arguments: %#v", action, projectDir, arguments)
 	},

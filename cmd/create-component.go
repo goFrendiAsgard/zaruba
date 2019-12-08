@@ -1,8 +1,11 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"log"
+	"path/filepath"
+
+	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/component"
 )
 
 func init() {
@@ -26,7 +29,16 @@ var createComponentCmd = &cobra.Command{
 			projectDir = args[1]
 			arguments = args[2:]
 		}
+		// make projectDir absolute
+		projectDir, err := filepath.Abs(projectDir)
+		if err != nil {
+			log.Fatal("[ERROR] ", err)
+		}
 		// invoke action
 		log.Printf("[INFO] Invoking organize-project, template: %s. project-dir: %s, other arguments: %#v", template, projectDir, arguments)
+		if err := component.Create(template, projectDir, args); err != nil {
+			log.Fatal("[ERROR] ", err)
+		}
+
 	},
 }

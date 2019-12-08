@@ -12,8 +12,8 @@ Templates are component's blueprint. It can be a node.js package, python program
 
 A template should contains at least two files:
 
-* `install-template.sh`: A shell script, containing set of commands to be executed after user install the template. You might find some `npm init` or `pip install` here.
-* `create-component.sh`: A shell script, containing set of commands to be executed when user creates new component based on current template. `create-component.sh` should at least a single argument containing project directory.
+* `install-template`: A shell script, containing set of commands to be executed after user install the template. You might find some `npm init` or `pip install` here.
+* `create-component`: A shell script, containing set of commands to be executed when user creates new component based on current template. `create-component` should at least a single argument containing project directory.
 
 To install a template, you can perform:
 
@@ -31,9 +31,9 @@ Component can be anything from a project, a shared library, or a single service.
 
 A component is usually based on specific template, but user can also create their own components from scratch. Also, a component should contains at least a single file:
 
-* `link.sh`: A shell script, containing set of commands to be executed when user perform `zaruba orgainze` or `zaruba watch`.
+* `link`: A shell script, containing set of commands to be executed when user perform `zaruba orgainze` or `zaruba watch`.
 
-Optionally, a component can also has `organize-project.sh` or any other shell script for custome command.
+Optionally, a component can also has `organize-project` or any other shell script for custome command.
 
 To create a new component, you can perform:
 
@@ -49,16 +49,16 @@ zaruba create-component someTemplate
 zaruba install-template <template-git-url> [folder-name]
 ```
 
-This one basically run `git clone <template-gir-url>` and executing `install-template.sh`.
+This one basically run `git clone <template-gir-url>` and executing `install-template`.
 
-While running `install-template.sh`, current working directory is set to `[folder-name]`. However, if `[folder-name]` is not specified, zaruba will use `<template-git-url>`'s repository name as `[folder-name]`.
+While running `install-template`, current working directory is set to `[folder-name]`. However, if `[folder-name]` is not specified, zaruba will use `<template-git-url>`'s repository name as `[folder-name]`.
 
 Running `zaruba install-template <template-git-url> [folder-name]` should has the same effect as performing:
 
 ```sh
 git clone ${template_git_url} ${zaruba_template_dir}/${folder_name}
 cd ${zaruba_template_dir}/${folder_name}
-./install_template.sh
+./install_template
 ```
 
 ## create-component
@@ -67,13 +67,13 @@ cd ${zaruba_template_dir}/${folder_name}
 zaruba create-component <template> [project-dir] [...args]
 ```
 
-This will run template's `create-component.sh <project-dir> [...args]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
+This will run template's `create-component <project-dir> [...args]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
 
 Running `zaruba create-component <template> [project-dir] [...args]` should has the same effect as performing:
 
 ```
 cd ${zaruba_template_dir}/${template}
-./create_component.sh ${project_dir}
+./create_component ${project_dir}
 ```
 
 ## link
@@ -82,7 +82,7 @@ cd ${zaruba_template_dir}/${template}
 zaruba link <project-dir> <source> <destination>
 ```
 
-This command is usually invoked while performing `organize-project` or `watch`. Usually, this command is part of `<project-dir>/.../link.sh` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
+This command is usually invoked while performing `organize-project` or `watch`. Usually, this command is part of `<project-dir>/.../link` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
 
 Running this command should has the same effect as performing:
 
@@ -168,7 +168,7 @@ zaruba organize-project [project-dir]
 This command will do the following actions:
 
 * Delete `zaruba.dependency.json`.
-* Recursively look for and run `organize-project.sh` in every sub-directory of `<project-dir>`
+* Recursively look for and run `organize-project` in every sub-directory of `<project-dir>`
 
 Invoking `zaruba organize-project [project-dir]` should have the same effect as:
 
@@ -181,7 +181,7 @@ rm zaruba.dependency.json
 # collect all dependencies into `zaruba.dependency.json`
 for subdir in $(find "./") 
 do
-    filename = "./{$subdir}/link.sh"
+    filename = "./{$subdir}/link"
     if [ -f ${filename} ]
     then
         ./${filename} ${project_dir}
@@ -266,9 +266,3 @@ In short, when you perform `zaruba do fight`, zaruba will looks for every `fight
 * `ZARUBA_TEMPLATE_DIR`
     - Zaruba's template directory
     - Default to `<zaruba-parent-dir>/templates`
-* `ZARUBA_SHELL`
-    - Shell to perform commands
-    - Default to `/bin/sh`
-* `ZARUBA_SHELL_ARGS`
-    - Shell arguments of `ZARUBA_SHELL`
-    - Default to `-c`

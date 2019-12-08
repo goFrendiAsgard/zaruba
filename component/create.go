@@ -1,0 +1,17 @@
+package component
+
+import (
+	"path/filepath"
+
+	"github.com/state-alchemists/zaruba/command"
+	"github.com/state-alchemists/zaruba/config"
+)
+
+// Create component
+func Create(template, projectDir string, args []string) (err error) {
+	templateDir := config.GetTemplateDir()
+	// run create-component.sh
+	createComponentArgs := append([]string{projectDir}, args...)
+	err = command.Run(filepath.Join(templateDir, template), "./create-component", createComponentArgs...)
+	return
+}
