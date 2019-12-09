@@ -44,7 +44,9 @@ When you perform `zaruba test`, all corresponding task script (the ones named `t
 
 ## Dependency Problem
 
-Last but not least, Zaruba tries to solve dependency problem by using `zaruba link`, providing special action named `zaruba organize-project` and even full-fledge project watcher (`zaruba watch-project`).
+Even in the world full of microservices and isolation, you might encounter some resources has to be shared among different services. For example like proto-buff schema or even a single function. Sometime problems occured when you update a single part in a service, unaware that it will also affect other services as well.
+
+Zaruba tries to solve dependency problem by using `zaruba link`, providing special action named `zaruba organize-project` and even full-fledge project watcher (`zaruba watch-project`).
 
 # Concepts
 
