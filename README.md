@@ -4,6 +4,48 @@
 
 Zaruba is agnostic generator and task runner. It sole purpose is to help you create project and maintain dependencies among components.
 
+# Why Zaruba
+
+There are bunch of task-runners out there, like `gulp`, `grunts`, `webpack`, and that `good-old-shell-scripts`.
+
+Some things are better written in shell-scripts, while some others (like manipulating JSON) are better written in Javascript. Zaruba solve this problem by introducing a little set of convetions. Belows are problems Zaruba address:
+
+## Language Lock Problem
+
+First, Zaruba allows you to write tasks in any language. In order to achieve this, you script should has `#!` directives:
+
+* Shell script should be started with `#!/bin/sh`
+* Node script should be started with `#!/bin/node`
+* Python script should be started with `#!/bin/python`
+
+## Monolithic Task Problem
+
+Second, you can spread up your tasks in your project directories in order to make them small, single-responsible, and maintainable.
+
+Let's see the following examples:
+
+```
+.
+├── LICENSE.md
+├── Makefile
+├── README.md
+├── payment
+│   ├── payment.go
+│   └── test               # our task-script
+├── recommendation
+│   ├── recommendation.py
+│   └── test               # our task-script
+└── authentication
+    ├── authentication.js
+    └── test               # our task-script
+```
+
+When you perform `zaruba test`, all corresponding task script (the ones named `test`) will be executed.
+
+## Dependency Problem
+
+Last but not least, Zaruba tries to solve dependency problem by using `zaruba link`, providing special action named `zaruba organize-project` and even full-fledge project watcher (`zaruba watch-project`).
+
 # Concepts
 
 ## Template
@@ -12,8 +54,8 @@ Templates are component's blueprint. It can be a node.js package, python program
 
 A template should contains at least two files:
 
-* `install-template`: A shell script, containing set of commands to be executed after user install the template. You might find some `npm init` or `pip install` here.
-* `create-component`: A shell script, containing set of commands to be executed when user creates new component based on current template. `create-component` should at least a single argument containing project directory.
+* `install-template`: Any executable script, containing set of commands to be executed after user install the template. You might find some `npm init` or `pip install` here.
+* `create-component`: Any executable script, containing set of commands to be executed when user creates new component based on current template. `create-component` should at least a single argument containing project directory.
 
 To install a template, you can perform:
 
@@ -31,7 +73,7 @@ Component can be anything from a project, a shared library, or a single service.
 
 A component is usually based on specific template, but user can also create their own components from scratch. Also, a component should contains at least a single file:
 
-* `link`: A shell script, containing set of commands to be executed when user perform `zaruba orgainze` or `zaruba watch`.
+* `link`: Any executable script, containing set of commands to be executed when user perform `zaruba organize` or `zaruba watch`.
 
 Optionally, a component can also has `organize-project` or any other shell script for custome command.
 
