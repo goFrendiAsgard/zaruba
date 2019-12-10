@@ -26,7 +26,10 @@ var watchProjectCmd = &cobra.Command{
 		// invoke action
 		cwd, _ := os.Getwd()
 		log.Printf("[INFO] Invoking watch-project. cwd: %s, project-dir: %s, other arguments: %#v", cwd, projectDir, arguments)
-		if err := watcher.Watch(projectDir, make(chan bool), arguments...); err != nil {
+		errChan := make(chan error)
+		go watcher.Watch(projectDir, errChan, make(chan bool), arguments...)
+		err := <-errChan
+		if err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
 	},

@@ -85,6 +85,14 @@ To create a new component, you can perform:
 zaruba create-component someTemplate
 ```
 
+## pre-action
+
+pre-action is will be executed before an action is executed. You can make pre-action by simply create an executable file with `pre` prefix.
+
+## post-action
+
+post-action is will be executed after an action is executed. You can make post-action by simply create an executable file with `post` prefix.
+
 # Commmands
 
 ## install-template
@@ -152,7 +160,7 @@ This command will do the following actions:
 * Re-create `zaruba.dependency.json` by performing `link` action in `<project-dir>` and it's sub-directories.
 * Sort dependencies in `zaruba.dependency.json`.
 * Copy sources to their respective destinations.
-* Recursively look for and run `organize-project` in every sub-directory of `<project-dir>`.
+* Recursively look for and run `organize-project` in every sub-directory of `<project-dir>` and execute it. This command support pre-action (`pre-organize-project`) and post-action (`post-organize-project`).
 
 ## watch-project
 
@@ -168,9 +176,9 @@ Detect changes in project and `organize-project` automatically.
 zaruba do <action> [...args]
 ```
 
-You can add any custom action by creating a shell script in any directory of the project. The name of the script should match your custom action.
+You can add any custom action by creating a shell script in any directory of the project. The name of the script should match your custom action. Custom action also support pre-action and post-action.
 
-In short, when you perform `zaruba do fight`, zaruba will looks for every `fight.sh` in the current directory, and perform `fight.sh <current-directory>`.
+In short, when you perform `zaruba do fight`, zaruba will looks for every `fight` script in the current directory, and perform `fight <current-directory>`. To make pre-action and post-action, you can simply create `pre-fight` and `post-fight`.
 
 # Configuration
 

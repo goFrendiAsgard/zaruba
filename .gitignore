@@ -13,6 +13,7 @@ test-playground/testCreateComponent
 test-playground/testDo
 test-playground/testLink
 test-playground/testOrganize
+test-playground/testWatch
 
 #coverage
 profile.out

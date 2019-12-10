@@ -15,7 +15,25 @@ func Do(actionString, projectDir string, arguments ...string) (err error) {
 	if err != nil {
 		return
 	}
+	// get allDirs
 	allDirs, err := dir.GetAllDirs(projectDir)
+	if err != nil {
+		return
+	}
+	// pre-action
+	if err = processAllDirs(allDirs, "pre-"+actionString, arguments...); err != nil {
+		return
+	}
+	// action
+	if err = processAllDirs(allDirs, actionString, arguments...); err != nil {
+		return
+	}
+	// post-action
+	err = processAllDirs(allDirs, "post-"+actionString, arguments...)
+	return
+}
+
+func processAllDirs(allDirs []string, actionString string, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
 	errChans := []chan error{}
 	for _, dir := range allDirs {

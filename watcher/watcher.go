@@ -10,20 +10,22 @@ import (
 )
 
 // Watch projectDir
-func Watch(projectDir string, stopChan chan bool, arguments ...string) (err error) {
-	projectDir, err = filepath.Abs(projectDir)
+func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments ...string) {
+	projectDir, err := filepath.Abs(projectDir)
 	if err != nil {
+		errChan <- err
 		return
 	}
 	// perform organize
 	err = organizer.Organize(projectDir, arguments...)
 	if err != nil {
+		errChan <- err
 		return
 	}
 	go listen(projectDir, arguments...)
-	// wait until stopped
-	<-stopChan
-	return
+	if stop := <-stopChan; stop {
+		errChan <- nil
+	}
 }
 
 func listen(projectDir string, arguments ...string) {
