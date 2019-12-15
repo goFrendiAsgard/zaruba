@@ -7,13 +7,7 @@ zaruba-linux-amd64
 zaruba-windows-386
 zaruba-windows-amd64
 
-# testing
-templates/testInstallTemplate/
-test-playground/testCreateComponent
-test-playground/testDo
-test-playground/testLink
-test-playground/testOrganize
-test-playground/testWatch
+.env
 
 #coverage
 profile.out

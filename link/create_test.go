@@ -3,40 +3,58 @@ package link
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/otiai10/copy"
 )
 
 func TestCreateLink(t *testing.T) {
 	var err error
 
-	a, _ := filepath.Abs("../test-playground/testLink/a")
-	b, _ := filepath.Abs("../test-playground/testLink/b")
-	c, _ := filepath.Abs("../test-playground/testLink/c")
-	d, _ := filepath.Abs("../test-playground/testLink/d")
+	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
+	if err != nil {
+		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
+		return
+	}
+	testPath := filepath.Join(baseTestPath, "testLink")
+	if err = copy.Copy("../test-resource/testLink.template", testPath); err != nil {
+		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
+		return
+	}
+
+	a := filepath.Join(testPath, "a")
+	b := filepath.Join(testPath, "b")
+	c := filepath.Join(testPath, "c")
+	d := filepath.Join(testPath, "d")
 
 	// Add dependency link
-	if err = Create("../test-playground/testLink", a, b); err != nil {
+	if err = Create(testPath, a, b); err != nil {
 		t.Errorf("[ERROR] Cannot create link: %s", err)
+		return
 	}
-	if err = Create("../test-playground/testLink", a, c); err != nil {
+	if err = Create(testPath, a, c); err != nil {
 		t.Errorf("[ERROR] Cannot create link: %s", err)
+		return
 	}
-	if err = Create("../test-playground/testLink", b, d); err != nil {
+	if err = Create(testPath, b, d); err != nil {
 		t.Errorf("[ERROR] Cannot create link: %s", err)
+		return
 	}
 
 	// Read dependency file
-	depFileName := "../test-playground/testLink/zaruba.dependency.json"
+	depFileName := filepath.Join(testPath, "zaruba.dependency.json")
 	jsonB, err := ioutil.ReadFile(depFileName)
 	if err != nil {
-		t.Errorf("[ERROR] Cannot read zaruba.dependency.json: %s", err)
+		t.Errorf("[UNEXPECTED] Cannot read zaruba.dependency.json: %s", err)
 	}
 
 	// unmarshal
 	dep := map[string][]string{}
 	if err = json.Unmarshal(jsonB, &dep); err != nil {
 		t.Errorf("[ERROR] Cannot unmarshal JSON: %s", err)
+		return
 	}
 
 	// check a
