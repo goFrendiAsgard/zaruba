@@ -9,7 +9,7 @@ test:
 	rm -Rf ${ZARUBA_TEST_DIR}
 	rm -Rf ${ZARUBA_TEMPLATE_DIR}
 	# perform test
-	go test ./... -ldflags="-s -w -v"
+	go test ./... 
 test-verbose:
 	# build newest binary for current architecture
 	go build

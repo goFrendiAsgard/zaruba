@@ -24,8 +24,8 @@ jobs:
             dep ensure
         fi
     
-    - name: Test
-      run: source template.env && make test
+    # - name: Test
+    #   run: source template.env && make test
 
     - name: Build
       run: go build -v .
