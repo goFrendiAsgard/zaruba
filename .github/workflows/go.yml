@@ -30,7 +30,7 @@ jobs:
     - name: Build
       run: |
         go build -v .
-        tar -zvf release.tar ./zaruba
+        tar -cvf release.tar ./zaruba
         ls
   
     - name: Upload to release
