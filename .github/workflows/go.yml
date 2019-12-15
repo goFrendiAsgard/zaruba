@@ -26,8 +26,8 @@ jobs:
 
     - name: Test
       run: |
-        ./tear-down-test.sh
-        ./prepare-test.sh
+        sh -c ./tear-down-test.sh
+        sh -c ./prepare-test.sh
         go test -race ./..
 
     - name: Build
