@@ -30,7 +30,7 @@ jobs:
     - name: Copy to /usr/bin
       run: |
         echo "${PATH}"
-        cp ./zaruba /usr/bin
+        cp ./zaruba /usr/local/bin
 
     # - name: Test
     #   env:
