@@ -31,6 +31,7 @@ jobs:
       run: |
         go build -v .
         tar -czvf release.tar.gz ./zaruba
+        ls
   
     - name: Upload to release
       uses: JasonEtco/upload-to-release@master
