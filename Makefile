@@ -4,12 +4,12 @@ build:
 	./build.sh
 test:
 	# build newest binary for current architecture
-	go build -ldflags="-s -w"
+	go build
 	# tear down
 	rm -Rf ${ZARUBA_TEST_DIR}
 	rm -Rf ${ZARUBA_TEMPLATE_DIR}
 	# perform test
-	go test ./...
+	go test ./... -ldflags="-s -w -v"
 test-verbose:
 	# build newest binary for current architecture
 	go build
