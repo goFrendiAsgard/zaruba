@@ -1,0 +1,2 @@
+#!/bin/sh
+zaruba link $1 . ../../service/d/controller/c

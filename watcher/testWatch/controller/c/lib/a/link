@@ -1,0 +1,2 @@
+#!/bin/sh
+zaruba link $1 . ../../controller/c/lib/a
