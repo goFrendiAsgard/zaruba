@@ -33,7 +33,6 @@ jobs:
         ZARUBA_TEST_DIR: /tmp/zaruba-test
         ZARUBA_TEMPLATE_DIR: /tmp/zaruba-template
       run: |
-        apt-get install git
         go test ./...
 
     - name: Upload to release
