@@ -32,7 +32,10 @@ jobs:
         PATH: $(pwd):${PATH}
         ZARUBA_TEST_DIR: /tmp/zaruba-test
         ZARUBA_TEMPLATE_DIR: /tmp/zaruba-template
-      run: go test ./...
+      run: |
+        chmod 777 -R ${ZARUBA_TEST_DIR}
+        chmod 777 -R ${ZARUBA_TEMPLATE_DIR}
+        go test ./...
 
     - name: Upload to release
       uses: JasonEtco/upload-to-release@master
