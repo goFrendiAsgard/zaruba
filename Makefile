@@ -4,7 +4,8 @@ build:
 	./build.sh
 test:
 	# build newest binary for current architecture
-	go build
+	#go build
+	go build -gcflags="-N -l"
 	# tear down
 	rm -Rf ${ZARUBA_TEST_DIR}
 	rm -Rf ${ZARUBA_TEMPLATE_DIR}
