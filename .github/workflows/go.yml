@@ -1,5 +1,9 @@
 name: Go
 on: [push]
+branches:
+  - master
+tags:
+  - v*
 jobs:
 
   build:
