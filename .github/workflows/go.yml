@@ -28,11 +28,13 @@ jobs:
     #   run: source template.env && make test
 
     - name: Build
-      run: go build -v .
+      run: |
+        go build -v .
+        ls
   
     - name: Upload to release
       uses: JasonEtco/upload-to-release@master
       with:
-        args: zaruba application/octet-stream
+        args: zaruba
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
