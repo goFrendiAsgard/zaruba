@@ -26,8 +26,19 @@ jobs:
 
     - name: Test
       run: |
-        sh -c ./tear-down-test.sh
-        sh -c ./prepare-test.sh
+        # tear down
+        rm -Rf templates/testInstallTemplate
+        rm -Rf test-playground/testCreateComponent
+        rm -Rf test-playground/testDo
+        rm -Rf test-playground/testLink
+        rm -Rf test-playground/testOrganize
+        rm -Rf test-playground/testWatch
+        # prepare
+        mkdir -p test-playground/testLink
+        cp -r test-playground/testDo.template test-playground/testDo
+        cp -r test-playground/testOrganize.template test-playground/testOrganize
+        cp -r test-playground/testWatch.template test-playground/testWatch
+        # real test
         go test -race ./..
 
     - name: Build
