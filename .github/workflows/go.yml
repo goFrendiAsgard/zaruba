@@ -25,10 +25,11 @@ jobs:
         fi
 
     - name: Test
+      env:
+        PATH: $(pwd):${{ PATH }}
+        ZARUBA_TEST_DIR: /tmp/zaruba-test
+        ZARUBA_TEMPLATE_DIR: /tmp/zaruba-template
       run: |
-	      export PATH=$(pwd):${PATH}
-        export ZARUBA_TEST_DIR=/tmp/zaruba-test
-        export ZARUBA_TEMPLATE_DIR=/tmp/zaruba-template
         rm -Rf ${ZARUBA_TEST_DIR}
         rm -Rf ${ZARUBA_TEMPLATE_DIR}
         go test -race ./...
