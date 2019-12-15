@@ -28,7 +28,9 @@ jobs:
       run: go build -v .
     
     - name: Copy to /usr/bin
-      run: cp ./zaruba /usr/bin
+      run: |
+        echo "${PATH}"
+        cp ./zaruba /usr/bin
 
     # - name: Test
     #   env:
