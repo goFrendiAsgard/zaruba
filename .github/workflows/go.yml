@@ -32,8 +32,7 @@ jobs:
         PATH: $(pwd):${PATH}
         ZARUBA_TEST_DIR: /tmp/zaruba-test
         ZARUBA_TEMPLATE_DIR: /tmp/zaruba-template
-      run: |
-        go test -race ./...
+      run: go test ./...
 
     - name: Upload to release
       uses: JasonEtco/upload-to-release@master
