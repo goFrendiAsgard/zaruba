@@ -28,8 +28,7 @@ jobs:
       run: go build -v .
     
     - name: Test
-      run: |
-        source .env && make test
+      run: source template.env && make test
    
     # - name: Test
     #   env:
