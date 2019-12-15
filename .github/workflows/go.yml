@@ -30,8 +30,6 @@ jobs:
         ZARUBA_TEST_DIR: /tmp/zaruba-test
         ZARUBA_TEMPLATE_DIR: /tmp/zaruba-template
       run: |
-        rm -Rf ${ZARUBA_TEST_DIR}
-        rm -Rf ${ZARUBA_TEMPLATE_DIR}
         go test -race ./...
 
     - name: Build
