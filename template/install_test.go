@@ -11,6 +11,7 @@ func TestInstallTemplate(t *testing.T) {
 	if err != nil {
 		t.Errorf("[ERROR] Cannot fetch templatePath from envvar: %s", err)
 	}
+	os.MkdirAll(templatePath, 0777)
 	templateGitPath := filepath.Join(templatePath, "testInstallTemplate/.git")
 
 	// Install template should succeed
