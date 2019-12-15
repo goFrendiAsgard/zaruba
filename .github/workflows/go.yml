@@ -24,5 +24,18 @@ jobs:
             dep ensure
         fi
 
+    - name: Test
+      run: |
+        ./tear-down-test.sh
+        ./prepare-test.sh
+        go test -race ./..
+
     - name: Build
       run: go build -v .
+
+    - name: Upload to release
+      uses: JasonEtco/upload-to-release@master
+      with:
+        args: zaruba
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
