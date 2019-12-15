@@ -19,7 +19,7 @@ func TestCreateComponent(t *testing.T) {
 		return
 	}
 
-	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_PATH"))
+	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
 	if err != nil {
 		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
 		return
