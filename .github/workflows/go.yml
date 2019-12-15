@@ -33,8 +33,7 @@ jobs:
         ZARUBA_TEST_DIR: /tmp/zaruba-test
         ZARUBA_TEMPLATE_DIR: /tmp/zaruba-template
       run: |
-        chmod 777 -R ${ZARUBA_TEST_DIR}
-        chmod 777 -R ${ZARUBA_TEMPLATE_DIR}
+        apt-get install git
         go test ./...
 
     - name: Upload to release
