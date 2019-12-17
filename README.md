@@ -108,22 +108,22 @@ While running `install-template`, current working directory is set to `[folder-n
 Running `zaruba install-template <template-git-url> [folder-name]` should has the same effect as performing:
 
 ```sh
-git clone ${template_git_url} ${zaruba_template_dir}/${folder_name}
+git clone ${template_git_url} ${zaruba_template_dir}/${folder_name}.git
 cd ${zaruba_template_dir}/${folder_name}
 ./install_template
 ```
 
 ## create-component
 
-```
-zaruba create-component <template> [project-dir] [...args]
+```sh
+zaruba create-component <template> [project-dir [...args]]
 ```
 
 This will run template's `create-component <project-dir> [...args]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
 
 Running `zaruba create-component <template> [project-dir] [...args]` should has the same effect as performing:
 
-```
+```sh
 cd ${zaruba_template_dir}/${template}
 ./create_component ${project_dir}
 ```
@@ -152,7 +152,7 @@ After running `zaruba-link <project-dir> <source> <destination>`, there should b
 ## organize-project
 
 ```sh
-zaruba organize-project [project-dir]
+zaruba organize-project [project-dir [...args]]
 ```
 
 This command will do the following actions:
@@ -165,20 +165,22 @@ This command will do the following actions:
 ## watch-project
 
 ```sh
-zaruba watch-project [project-dir]
+zaruba watch-project [project-dir [...args]]
 ```
 
 Detect changes in project and `organize-project` automatically.
 
 ## custom action
 
-```
-zaruba do <action> [...args]
+```sh
+zaruba do <action> [project-dir [...args]]
 ```
 
 You can add any custom action by creating a shell script in any directory of the project. The name of the script should match your custom action. Custom action also support pre-action and post-action.
 
 In short, when you perform `zaruba do fight`, zaruba will looks for every `fight` script in the current directory, and perform `fight <current-directory>`. To make pre-action and post-action, you can simply create `pre-fight` and `post-fight`.
+
+Note: whenever running the executables, zaruba will automatically add `<project-dir>` as first argument. The value of `<project-dir>` is taken from current working directory.
 
 # Configuration
 
@@ -187,3 +189,12 @@ In short, when you perform `zaruba do fight`, zaruba will looks for every `fight
 * `ZARUBA_TEMPLATE_DIR`
     - Zaruba's template directory
     - Default to `<zaruba-parent-dir>/templates`
+
+# Testing
+
+Create `.env` based on `template.env`.
+
+```sh
+source .env
+make test # or make test-verbose
+```

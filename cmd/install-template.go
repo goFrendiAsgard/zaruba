@@ -27,7 +27,7 @@ var installTemplateCmd = &cobra.Command{
 		templateDir := ""
 		if len(args) < 2 {
 			urlParts := strings.Split(gitURL, "/")
-			templateDir = urlParts[len(urlParts)-1]
+			templateDir = strings.Split(urlParts[len(urlParts)-1], ".")[0]
 		} else {
 			templateDir = args[1]
 		}

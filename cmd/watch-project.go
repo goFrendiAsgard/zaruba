@@ -13,16 +13,19 @@ func init() {
 }
 
 var watchProjectCmd = &cobra.Command{
-	Use:   "watch-project [project-dir] [...args]",
+	Use:   "watch-project [project-dir [...args]]",
 	Short: "Watch and organize a project",
 	Long:  `Zaruba will perform "organize" whenever something changed`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."
+		arguments := []string{}
 		if len(args) > 0 {
 			projectDir = args[0]
+			if len(args) > 1 {
+				arguments = args[1:]
+			}
 		}
-		arguments := args[1:]
 		// invoke action
 		cwd, _ := os.Getwd()
 		log.Printf("[INFO] Invoking watch-project. cwd: %s, project-dir: %s, other arguments: %#v", cwd, projectDir, arguments)

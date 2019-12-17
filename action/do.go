@@ -15,6 +15,7 @@ func Do(actionString, projectDir string, arguments ...string) (err error) {
 	if err != nil {
 		return
 	}
+	arguments = append([]string{projectDir}, arguments...)
 	// get allDirs
 	allDirs, err := dir.GetAllDirs(projectDir)
 	if err != nil {
