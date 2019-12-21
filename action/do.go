@@ -22,24 +22,24 @@ func Do(actionString, projectDir string, arguments ...string) (err error) {
 		return
 	}
 	// pre-action
-	if err = processAllDirs(allDirs, "pre-"+actionString, arguments...); err != nil {
+	if err = processAllDirs("pre-"+actionString, allDirs, arguments...); err != nil {
 		return
 	}
 	// action
-	if err = processAllDirs(allDirs, actionString, arguments...); err != nil {
+	if err = processAllDirs(actionString, allDirs, arguments...); err != nil {
 		return
 	}
 	// post-action
-	err = processAllDirs(allDirs, "post-"+actionString, arguments...)
+	err = processAllDirs("post-"+actionString, allDirs, arguments...)
 	return
 }
 
-func processAllDirs(allDirs []string, actionString string, arguments ...string) (err error) {
+func processAllDirs(actionString string, allDirs []string, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
 	errChans := []chan error{}
 	for _, dir := range allDirs {
 		errChan := make(chan error)
-		go processDir(errChan, dir, actionString, arguments...)
+		go processDir(errChan, actionString, dir, arguments...)
 		errChans = append(errChans, errChan)
 	}
 	// wait all go-routine finished
@@ -52,7 +52,7 @@ func processAllDirs(allDirs []string, actionString string, arguments ...string) 
 	return
 }
 
-func processDir(errChan chan error, dir, actionString string, arguments ...string) {
+func processDir(errChan chan error, actionString, dir string, arguments ...string) {
 	actionPath := filepath.Join(dir, fmt.Sprintf("./%s", actionString))
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
