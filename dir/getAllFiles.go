@@ -29,7 +29,7 @@ func GetAllFiles(dirName string, option GetFilesOption) (allFiles []string, err 
 	for _, subFile := range subFiles {
 		if !subFile.IsDir() {
 			if !option.OnlyDir {
-				allFiles = append(allFiles, subFile.Name())
+				allFiles = append(allFiles, path.Join(dirName, subFile.Name()))
 			}
 			continue
 		}

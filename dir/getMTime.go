@@ -6,13 +6,13 @@ import (
 )
 
 // GetMTime get modified time of file or dir
-func GetMTime(fileName string) (mtime time.Time, err error) {
+func GetMTime(fileName string) (mTime time.Time, err error) {
 	fileInfo, err := os.Stat(fileName)
 	if err != nil {
 		return
 	}
 	// if `filename` is an actual file, return it's modtime
-	mtime = fileInfo.ModTime()
+	mTime = fileInfo.ModTime()
 	if !fileInfo.IsDir() {
 		return
 	}
@@ -23,9 +23,12 @@ func GetMTime(fileName string) (mtime time.Time, err error) {
 	}
 	for _, subFileName := range subFileNames {
 		fileInfo, err = os.Stat(subFileName)
+		if err != nil {
+			return
+		}
 		subMTime := fileInfo.ModTime()
-		if subMTime.After(mtime) {
-			mtime = subMTime
+		if subMTime.After(mTime) {
+			mTime = subMTime
 		}
 	}
 	return

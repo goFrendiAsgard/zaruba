@@ -66,9 +66,9 @@ func DoAction(actionString, projectDir string, option DoActionOption, arguments 
 func processAllDirs(actionString string, allDirs []string, option DoActionOption, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
 	errChans := []chan error{}
-	for _, dir := range allDirs {
+	for _, dirName := range allDirs {
 		errChan := make(chan error)
-		go processDir(errChan, actionString, dir, option, arguments...)
+		go processDir(errChan, actionString, dirName, option, arguments...)
 		errChans = append(errChans, errChan)
 	}
 	// wait all go-routine finished
@@ -81,8 +81,12 @@ func processAllDirs(actionString string, allDirs []string, option DoActionOption
 	return
 }
 
-func processDir(errChan chan error, actionString, dir string, option DoActionOption, arguments ...string) {
-	actionPath := filepath.Join(dir, fmt.Sprintf("./%s", actionString))
+func processDir(errChan chan error, actionString, dirName string, option DoActionOption, arguments ...string) {
+	mTime, err := dir.GetMTime(dirName)
+	if err != nil || mTime.Before(option.MTime) {
+		errChan <- err
+	}
+	actionPath := filepath.Join(dirName, fmt.Sprintf("./%s", actionString))
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
 		if os.IsNotExist(err) {
@@ -92,6 +96,6 @@ func processDir(errChan chan error, actionString, dir string, option DoActionOpt
 		errChan <- err
 		return
 	}
-	err := command.Run(dir, actionPath, arguments...)
+	err = command.Run(dirName, actionPath, arguments...)
 	errChan <- err
 }
