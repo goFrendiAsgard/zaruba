@@ -10,10 +10,11 @@ import (
 
 	"github.com/otiai10/copy"
 	"github.com/state-alchemists/zaruba/action"
+	"github.com/state-alchemists/zaruba/file"
 )
 
 // Organize projectDir
-func Organize(projectDir string, arguments ...string) (err error) {
+func Organize(projectDir string, option *Option, arguments ...string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return
@@ -23,22 +24,31 @@ func Organize(projectDir string, arguments ...string) (err error) {
 		return
 	}
 	// link
-	err = action.Do("link", projectDir, action.GetDefaultDoOption())
-	if err != nil {
+	if err = action.Do("link", projectDir, action.NewOption()); err != nil {
 		return
 	}
 	// get dep and sortedSources
 	dep, sortedSources, err := getDepAndSort(projectDir)
+	// pre-organize
+	err = action.Do(
+		"organize-project", projectDir,
+		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetPerformAction(false).SetPerformPre(false),
+		arguments...,
+	)
 	// copy
 	for _, source := range sortedSources {
 		destinationList := dep[source]
-		err = copyAll(source, destinationList)
+		err = copyAll(option, source, destinationList)
 		if err != nil {
 			return
 		}
 	}
-	// organize
-	err = action.Do("organize-project", projectDir, action.GetDefaultDoOption(), arguments...)
+	// organize and post-organize
+	err = action.Do(
+		"organize-project", projectDir,
+		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetPerformPre(false),
+		arguments...,
+	)
 	return
 }
 
@@ -75,12 +85,12 @@ func getDepAndSort(projectDir string) (dep map[string][]string, sortedSources []
 	return
 }
 
-func copyAll(source string, destinationList []string) (err error) {
+func copyAll(option *Option, source string, destinationList []string) (err error) {
 	// start multiple copyWithChannel as go-routines
 	errChans := []chan error{}
 	for _, destination := range destinationList {
 		errChan := make(chan error)
-		go copyWithChannel(source, destination, errChan)
+		go copyWithChannel(option, source, destination, errChan)
 		errChans = append(errChans, errChan)
 	}
 	// wait all go-routine finished
@@ -93,7 +103,14 @@ func copyAll(source string, destinationList []string) (err error) {
 	return
 }
 
-func copyWithChannel(source, destination string, errChan chan error) {
-	err := copy.Copy(source, destination)
+func copyWithChannel(option *Option, source, destination string, errChan chan error) {
+	sourceMTime, err := file.GetMTime(source)
+	if err != nil {
+		errChan <- err
+		return
+	}
+	if sourceMTime.After(option.GetMTimeLimit()) {
+		err = copy.Copy(source, destination)
+	}
 	errChan <- err
 }

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/state-alchemists/zaruba/dir"
+	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/organizer"
 )
 
@@ -16,25 +16,15 @@ func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments 
 		errChan <- err
 		return
 	}
-	// perform organize
-	err = organizer.Organize(projectDir, arguments...)
-	if err != nil {
-		errChan <- err
-		return
-	}
-	go listen(projectDir, arguments...)
+	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	if stop := <-stopChan; stop {
 		errChan <- nil
 	}
 }
 
-func listen(projectDir string, arguments ...string) {
+func listen(projectDir string, organizerOption *organizer.Option, arguments ...string) {
 	// get allDirs
-	allDirs, err := dir.GetAllDirs(projectDir)
-	for err != nil {
-		log.Printf("[ERROR] Fail to get list of directories: %s. Retrying...", err)
-		allDirs, err = dir.GetAllDirs(projectDir)
-	}
+	allDirs, err := getAllDirsTirelessly(projectDir)
 	// create watcher, don't give up
 	watcher, err := fsnotify.NewWatcher()
 	for err != nil {
@@ -52,12 +42,14 @@ func listen(projectDir string, arguments ...string) {
 			}
 			log.Printf("[INFO] Detect event: %s", event)
 			removeDirsFromWatcher(watcher, allDirs)
-			organizer.Organize(projectDir, arguments...)
-			allDirs, err = dir.GetAllDirs(projectDir)
-			for err != nil {
-				allDirs, err = dir.GetAllDirs(projectDir)
-			}
+			organizer.Organize(
+				projectDir,
+				organizerOption,
+				arguments...,
+			)
+			allDirs, err = getAllDirsTirelessly(projectDir)
 			addDirsToWatcher(watcher, allDirs)
+			organizerOption = organizer.NewOption().SetMTimeLimitToNow()
 		case err, ok := <-watcher.Errors:
 			if !ok {
 				continue
@@ -65,6 +57,15 @@ func listen(projectDir string, arguments ...string) {
 			log.Printf("[ERROR] Watcher error: %s. Continue to listen...", err)
 		}
 	}
+}
+
+func getAllDirsTirelessly(projectDir string) (allDirs []string, err error) {
+	allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetOnlyDir(true))
+	for err != nil {
+		log.Printf("[ERROR] Fail to get list of directories: %s. Retrying...", err)
+		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetOnlyDir(true))
+	}
+	return
 }
 
 func removeDirsFromWatcher(watcher *fsnotify.Watcher, allDirs []string) {

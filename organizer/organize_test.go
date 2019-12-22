@@ -19,7 +19,7 @@ func TestOrganize(t *testing.T) {
 	}
 
 	// Organize project should succeed
-	err := Organize(testPath)
+	err := Organize(testPath, NewOption())
 	if err != nil {
 		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}

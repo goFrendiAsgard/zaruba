@@ -1,4 +1,4 @@
-package dir
+package file
 
 import (
 	"os"
@@ -17,7 +17,7 @@ func GetMTime(fileName string) (mTime time.Time, err error) {
 		return
 	}
 	// if `filename` is a directory, then check for it's subdirectories
-	subFileNames, err := GetAllFiles(fileName, DefaultGetFilesOption)
+	subFileNames, err := GetAllFiles(fileName, NewOption())
 	if err != nil {
 		return
 	}

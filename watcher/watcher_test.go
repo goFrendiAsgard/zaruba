@@ -24,8 +24,9 @@ func TestWatch(t *testing.T) {
 	stopChan := make(chan bool)
 	errChan := make(chan error)
 	go Watch(testPath, errChan, stopChan)
+	time.Sleep(time.Millisecond * 500)
 	os.Create(filepath.Join(testPath, "lib/b/watchTrigger.txt"))
-	time.Sleep(time.Second)
+	time.Sleep(time.Millisecond * 500)
 	stopChan <- true
 	err := <-errChan
 	if err != nil {
@@ -34,22 +35,17 @@ func TestWatch(t *testing.T) {
 
 	// a.txt
 	textFilePath := filepath.Join(testPath, "service/d/controller/c/lib/a/a.txt")
+	if _, err := os.Stat(textFilePath); err == nil || !os.IsNotExist(err) {
+		t.Errorf("[UNEXPECTED] `a` should not be created because the trigger is on `b` service")
+	}
+
+	// b.txt
+	textFilePath = filepath.Join(testPath, "service/d/controller/c/lib/b/b.txt")
 	contentB, err := ioutil.ReadFile(textFilePath)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot read %s: %s", textFilePath, err)
 	}
 	content := strings.Trim(string(contentB), "\n")
-	if content != "a" {
-		t.Errorf("[UNEXPECTED] content should be `a`: %s", content)
-	}
-
-	// b.txt
-	textFilePath = filepath.Join(testPath, "service/d/controller/c/lib/b/b.txt")
-	contentB, err = ioutil.ReadFile(textFilePath)
-	if err != nil {
-		t.Errorf("[ERROR] Cannot read %s: %s", textFilePath, err)
-	}
-	content = strings.Trim(string(contentB), "\n")
 	if content != "b" {
 		t.Errorf("[UNEXPECTED] content should be `b`: %s", content)
 	}

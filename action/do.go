@@ -4,58 +4,43 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/state-alchemists/zaruba/command"
-	"github.com/state-alchemists/zaruba/dir"
+	"github.com/state-alchemists/zaruba/file"
 )
 
-// DoActionOption is option for action.Do
-type DoActionOption struct {
-	MTime       time.Time
-	PerformPre  bool
-	PerformPost bool
-}
-
-// GetDefaultDoOption get new DoOption
-func GetDefaultDoOption() DoActionOption {
-	return DoActionOption{
-		MTime:       time.Time{},
-		PerformPre:  true,
-		PerformPost: true,
-	}
-}
-
 // Do with options on projectDir
-func Do(actionString, projectDir string, option DoActionOption, arguments ...string) (err error) {
+func Do(actionString, projectDir string, option *Option, arguments ...string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return
 	}
 	arguments = append([]string{projectDir}, arguments...)
 	// get allDirs
-	allDirs, err := dir.GetAllDirs(projectDir)
+	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetOnlyDir(true))
 	if err != nil {
 		return
 	}
 	// pre-action
-	if option.PerformPre {
+	if option.GetPerformPre() {
 		if err = processAllDirs("pre-"+actionString, allDirs, option, arguments...); err != nil {
 			return
 		}
 	}
 	// action
-	if err = processAllDirs(actionString, allDirs, option, arguments...); err != nil {
-		return
+	if option.GetPerformAction() {
+		if err = processAllDirs(actionString, allDirs, option, arguments...); err != nil {
+			return
+		}
 	}
 	// post-action
-	if option.PerformPost {
+	if option.GetPerformPost() {
 		err = processAllDirs("post-"+actionString, allDirs, option, arguments...)
 	}
 	return
 }
 
-func processAllDirs(actionString string, allDirs []string, option DoActionOption, arguments ...string) (err error) {
+func processAllDirs(actionString string, allDirs []string, option *Option, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
 	errChans := []chan error{}
 	for _, dirName := range allDirs {
@@ -73,9 +58,9 @@ func processAllDirs(actionString string, allDirs []string, option DoActionOption
 	return
 }
 
-func processDir(errChan chan error, actionString, dirName string, option DoActionOption, arguments ...string) {
-	mTime, err := dir.GetMTime(dirName)
-	if err != nil || mTime.Before(option.MTime) {
+func processDir(errChan chan error, actionString, dirName string, option *Option, arguments ...string) {
+	mTime, err := file.GetMTime(dirName)
+	if err != nil || mTime.Before(option.mTimeLimit) {
 		errChan <- err
 	}
 	actionPath := filepath.Join(dirName, fmt.Sprintf("./%s", actionString))

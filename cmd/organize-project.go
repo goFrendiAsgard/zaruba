@@ -29,7 +29,7 @@ var organizeProjectCmd = &cobra.Command{
 		// invoke action
 		cwd, _ := os.Getwd()
 		log.Printf("[INFO] Invoking organize-project. cwd: %s, project-dir: %s, other arguments: %#v", cwd, projectDir, arguments)
-		if err := organizer.Organize(projectDir, arguments...); err != nil {
+		if err := organizer.Organize(projectDir, organizer.NewOption(), arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
 	},
