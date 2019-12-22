@@ -1,6 +1,7 @@
 package template
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 
@@ -11,6 +12,7 @@ import (
 // Install template
 func Install(gitURL, dirName string) (err error) {
 	templateDir := config.GetTemplateDir()
+	log.Printf("[INFO] Install template from `%s` to `%s`", gitURL, templateDir)
 	// run git init
 	if err = command.Run(templateDir, "git", "clone", gitURL, dirName, "--depth=1"); err != nil {
 		return
@@ -29,6 +31,7 @@ func Install(gitURL, dirName string) (err error) {
 	os.Chmod(filepath.Join(templateDir, dirName, "install-template.zaruba"), 0555)
 	os.Chmod(filepath.Join(templateDir, dirName, "create-component.zaruba"), 0555)
 	// run install
+	log.Printf("[INFO] Execute `./install-template.zaruba`")
 	err = command.Run(filepath.Join(templateDir, dirName), "./install-template.zaruba")
 	return
 }

@@ -38,12 +38,15 @@ then
     fi 
 fi
 
+# create directory
+mkdir -p ${PROJECT_DIR}
+
 # Copy project to PROJECT_DIR, add .gitignore and change to the project directory
-cp -r ${TEMPLATE_DIR}/project ${PROJECT_DIR}
+cp -r ${TEMPLATE_DIR}/project/* ${PROJECT_DIR}
 cp ${TEMPLATE_DIR}/resources/gitignore ${PROJECT_DIR}/.gitignore
 
-mkdir -p ${PROJECT_DIR}
 cd ${PROJECT_DIR}
+ls
 
 # Perform substitution
 sed -i "s/{{PROJECT_NAME}}/${PROJECT_NAME}/g" "./README.md"

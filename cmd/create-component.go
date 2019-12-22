@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"log"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/component"
@@ -30,8 +29,6 @@ var createComponentCmd = &cobra.Command{
 			arguments = args[2:]
 		}
 		// invoke action
-		cwd, _ := os.Getwd()
-		log.Printf("[INFO] Invoking organize-project, cwd: %s, template: %s. project-dir: %s, other arguments: %#v", cwd, template, projectDir, arguments)
 		if err := component.Create(template, projectDir, arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}

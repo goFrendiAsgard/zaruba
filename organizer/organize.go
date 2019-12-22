@@ -12,6 +12,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/action"
 	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/format"
 )
 
 // Organize projectDir
@@ -20,6 +21,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	if err != nil {
 		return
 	}
+	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), format.SprintArgs(arguments))
 	// remove depFile
 	if err = os.Remove(filepath.Join(projectDir, "zaruba.dependency.json")); err != nil && !os.IsNotExist(err) {
 		return
@@ -40,11 +42,28 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		if err != nil {
 			return
 		}
-		if sourceMTime.Before(option.GetMTimeLimit()) {
-			option.SetMTimeLimit(sourceMTime.Add(-time.Nanosecond))
+		destinationList := dep[source]
+		for _, destination := range destinationList {
+			if sourceMTime.Before(option.GetMTimeLimit()) {
+				var destinationMTime time.Time
+				destinationMTime, err = file.GetMTime(destination)
+				if err != nil && os.IsNotExist(err) {
+					option = getOptionBeforeSourceMTime(option, sourceMTime)
+					log.Printf("[INFO] Update organizer.Option to %s because `%s` is not exists", option.Sprintf(), destination)
+					break
+				} else if destinationMTime.Before(sourceMTime) {
+					option = getOptionBeforeSourceMTime(option, sourceMTime)
+					log.Printf("[INFO] Update organizer.Option to %s because `%s` is older than `%s`", option.Sprintf(), destination, source)
+					break
+				}
+			}
 		}
 	}
 	return organize(projectDir, dep, sortedSources, option, arguments...)
+}
+
+func getOptionBeforeSourceMTime(option *Option, sourceMTime time.Time) *Option {
+	return option.SetMTimeLimit(sourceMTime.Add(-time.Nanosecond))
 }
 
 func organize(projectDir string, dep map[string][]string, sortedSources []string, option *Option, arguments ...string) (err error) {
@@ -109,7 +128,6 @@ func copyAll(option *Option, source string, destinationList []string) (err error
 	errChans := []chan error{}
 	for _, destination := range destinationList {
 		errChan := make(chan error)
-		log.Printf("[INFO] Copy `%s` to: `%s`", source, destination)
 		go copyWithChannel(option, source, destination, errChan)
 		errChans = append(errChans, errChan)
 	}
@@ -130,6 +148,7 @@ func copyWithChannel(option *Option, source, destination string, errChan chan er
 		return
 	}
 	if sourceMTime.After(option.GetMTimeLimit()) {
+		log.Printf("[INFO] Copy `%s` to `%s`", source, destination)
 		err = file.CopyExcept(source, destination, []string{`\.zaruba$`})
 	}
 	errChan <- err

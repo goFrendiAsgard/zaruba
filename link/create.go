@@ -57,6 +57,7 @@ func addDependency(depFileName, source, destination string) (err error) {
 		log.Printf("[WARNING] Invalid JSON format: %s", err)
 	}
 	// add `source` and `destination` to `dep`
+	log.Printf("[INFO] Create link from `%s` to `%s` at `%s`", source, destination, depFileName)
 	if _, sourceExists := dep[source]; !sourceExists {
 		dep[source] = []string{}
 	}

@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"log"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/watcher"
@@ -27,8 +26,6 @@ var watchProjectCmd = &cobra.Command{
 			}
 		}
 		// invoke action
-		cwd, _ := os.Getwd()
-		log.Printf("[INFO] Invoking watch-project. cwd: %s, project-dir: %s, other arguments: %#v", cwd, projectDir, arguments)
 		errChan := make(chan error)
 		go watcher.Watch(projectDir, errChan, make(chan bool), arguments...)
 		err := <-errChan

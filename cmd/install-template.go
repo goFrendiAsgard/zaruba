@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"log"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -32,8 +31,6 @@ var installTemplateCmd = &cobra.Command{
 			templateDir = args[1]
 		}
 		// invoke action
-		cwd, _ := os.Getwd()
-		log.Printf("[INFO] Invoking install-template. cwd: %s, git-url: %s, template-dir: %s", cwd, gitURL, templateDir)
 		if err := template.Install(gitURL, templateDir); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}

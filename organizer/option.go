@@ -1,6 +1,7 @@
 package organizer
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -24,6 +25,10 @@ func (option *Option) SetMTimeLimit(value time.Time) *Option {
 func (option *Option) SetMTimeLimitToNow() *Option {
 	option.mTimeLimit = time.Now()
 	return option
+}
+
+func (option *Option) Sprintf() string {
+	return fmt.Sprintf("{mTimeLimit: %s}", option.mTimeLimit)
 }
 
 // NewOption create option
