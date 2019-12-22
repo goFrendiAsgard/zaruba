@@ -24,6 +24,18 @@ func TestOrganize(t *testing.T) {
 		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}
 
+	// test content (result of pre-organize, organize, and post-organize)
+	testFilePath := filepath.Join(testPath, "test")
+	testByteContent, err := ioutil.ReadFile(testFilePath)
+	if err != nil {
+		t.Errorf("[ERROR] Cannot read %s: %s", testFilePath, err)
+	} else {
+		testContent := strings.Trim(string(testByteContent), "\n")
+		if testContent != "pre-organize\norganize\npost-organize" {
+			t.Errorf("[UNEXPECTED] content should be `pre-organize\norganize\npost-organize`: %s", testContent)
+		}
+	}
+
 	// a.txt content
 	aFilePath := filepath.Join(testPath, "service/d/controller/c/lib/a/a.txt")
 	aByteContent, err := ioutil.ReadFile(aFilePath)

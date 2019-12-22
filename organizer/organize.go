@@ -70,7 +70,7 @@ func organize(projectDir string, dep map[string][]string, sortedSources []string
 	// pre-organize
 	err = action.Do(
 		"organize-project", projectDir,
-		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetPerformAction(false).SetPerformPre(false),
+		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetPerformAction(false).SetPerformPost(false),
 		arguments...,
 	)
 	// copy
@@ -149,7 +149,11 @@ func copyWithChannel(option *Option, source, destination string, errChan chan er
 	}
 	if sourceMTime.After(option.GetMTimeLimit()) {
 		log.Printf("[INFO] Copy `%s` to `%s`", source, destination)
-		err = file.CopyExcept(source, destination, []string{`\.zaruba$`})
+		err = file.CopyExcept(source, destination, []string{
+			`\.zaruba$`,       // imperative executables
+			`\.zaruba\.yml$`,  // declarative configuration (not implemented yet)
+			`\.zaruba\.yaml$`, // declarative configuration (not implemented yet)
+		})
 	}
 	errChan <- err
 }

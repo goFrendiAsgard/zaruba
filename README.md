@@ -56,8 +56,8 @@ Templates are component's blueprint. It can be a node.js package, python program
 
 A template should contains at least two files:
 
-* `install-template`: Any executable script, containing set of commands to be executed after user install the template. You might find some `npm init` or `pip install` here.
-* `create-component`: Any executable script, containing set of commands to be executed when user creates new component based on current template. `create-component` should at least a single argument containing project directory.
+* `install-template.zaruba`: Any executable script, containing set of commands to be executed after user install the template. You might find some `npm init` or `pip install` here.
+* `create-component.zaruba`: Any executable script, containing set of commands to be executed when user creates new component based on current template. `create-component` should at least a single argument containing project directory.
 
 To install a template, you can perform:
 
@@ -75,9 +75,9 @@ Component can be anything from a project, a shared library, or a single service.
 
 A component is usually based on specific template, but user can also create their own components from scratch. Also, a component should contains at least a single file:
 
-* `link`: Any executable script, containing set of commands to be executed when user perform `zaruba organize` or `zaruba watch`.
+* `link`: Any executable script, containing set of commands to be executed when user perform `zaruba organize-project` or `zaruba watch-project`.
 
-Optionally, a component can also has `organize-project` or any other shell script for custome command.
+Optionally, a component can also has `organize-project.zaruba` or any other shell script for custom command.
 
 To create a new component, you can perform:
 
@@ -110,7 +110,7 @@ Running `zaruba install-template <template-git-url> [folder-name]` should has th
 ```sh
 git clone ${template_git_url} ${zaruba_template_dir}/${folder_name}.git
 cd ${zaruba_template_dir}/${folder_name}
-./install_template
+./install_template.zaruba
 ```
 
 ## create-component
@@ -125,7 +125,7 @@ Running `zaruba create-component <template> [project-dir] [...args]` should has 
 
 ```sh
 cd ${zaruba_template_dir}/${template}
-./create_component ${project_dir}
+./create_component.zaruba ${project_dir}
 ```
 
 ## link
@@ -134,7 +134,7 @@ cd ${zaruba_template_dir}/${template}
 zaruba link <project-dir> <source> <destination>
 ```
 
-This command is usually invoked while performing `organize-project`. Usually, this command is part of `<project-dir>/.../link` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
+This command is usually invoked while performing `organize-project`. Usually, this command is part of `<project-dir>/.../link.zaruba` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
 
 After running `zaruba-link <project-dir> <source> <destination>`, there should be a json file named `zaruba.dependency.json` in your `<project-dir>`. The file should contains all dependencies in a single project in JSON format:
 
@@ -160,7 +160,7 @@ This command will do the following actions:
 * Re-create `zaruba.dependency.json` by performing `link` action in `<project-dir>` and it's sub-directories.
 * Sort dependencies in `zaruba.dependency.json`.
 * Copy sources to their respective destinations.
-* Recursively look for and run `organize-project` in every sub-directory of `<project-dir>` and execute it. This command support pre-action (`pre-organize-project`) and post-action (`post-organize-project`).
+* Recursively look for and run `organize-project.zaruba` in every sub-directory of `<project-dir>` and execute it. This command support pre-action (`pre-organize-project.zaruba`) and post-action (`post-organize-project.zaruba`).
 
 ## watch-project
 
@@ -178,7 +178,7 @@ zaruba do <action> [project-dir [...args]]
 
 You can add any custom action by creating a shell script in any directory of the project. The name of the script should match your custom action. Custom action also support pre-action and post-action.
 
-In short, when you perform `zaruba do fight`, zaruba will looks for every `fight` script in the current directory, and perform `fight <current-directory>`. To make pre-action and post-action, you can simply create `pre-fight` and `post-fight`.
+In short, when you perform `zaruba do fight`, zaruba will looks for every `fight.zaruba` script in the current directory, and perform `fight.zaruba <current-directory>`. To make pre-action and post-action, you can simply create `pre-fight.zaruba` and `post-fight.zaruba`.
 
 Note: whenever running the executables, zaruba will automatically add `<project-dir>` as first argument. The value of `<project-dir>` is taken from current working directory.
 

@@ -18,12 +18,12 @@ func Install(gitURL, dirName string) (err error) {
 		return
 	}
 	// install-template should be exists
-	if _, err = os.Stat(filepath.Join(templateDir, dirName, "install-template.zaruba")); err != nil {
+	if isScriptExists(templateDir, dirName, "install-template") {
 		os.RemoveAll(filepath.Join(templateDir, dirName))
 		return
 	}
 	// create-component should be exists
-	if _, err = os.Stat(filepath.Join(templateDir, dirName, "create-component.zaruba")); err != nil {
+	if isScriptExists(templateDir, dirName, "create-component") {
 		os.RemoveAll(filepath.Join(templateDir, dirName))
 		return
 	}
@@ -33,5 +33,28 @@ func Install(gitURL, dirName string) (err error) {
 	// run install
 	log.Printf("[INFO] Execute `./install-template.zaruba`")
 	err = command.Run(filepath.Join(templateDir, dirName), "./install-template.zaruba")
+	return
+}
+
+func isScriptExists(templateDir, dirName, actionName string) (exist bool) {
+	exist = false
+	// imperative
+	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba")); err != nil {
+		exist = exist || false
+	}
+	if exist {
+		return
+	}
+	// declarative yml
+	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba.yml")); err != nil {
+		exist = exist || false
+	}
+	if exist {
+		return
+	}
+	// declarative yaml
+	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba.yml")); err != nil {
+		exist = exist || false
+	}
 	return
 }
