@@ -9,16 +9,13 @@ import (
 	"time"
 
 	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/config"
 )
 
 func TestWatch(t *testing.T) {
-	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
-	if err != nil {
-		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
-		return
-	}
+	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testWatch")
-	if err = copy.Copy("../test-resource/testOrganize.template", testPath); err != nil {
+	if err := copy.Copy("../test-resource/testOrganize.template", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
@@ -30,7 +27,7 @@ func TestWatch(t *testing.T) {
 	os.Create(filepath.Join(testPath, "lib/b/watchTrigger.txt"))
 	time.Sleep(time.Second)
 	stopChan <- true
-	err = <-errChan
+	err := <-errChan
 	if err != nil {
 		t.Errorf("[ERROR] Cannot watch: %s", err)
 	}

@@ -6,28 +6,21 @@ import (
 	"testing"
 
 	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/config"
 )
 
 func TestCreateComponent(t *testing.T) {
-
-	templatePath, err := filepath.Abs(os.Getenv("ZARUBA_TEMPLATE_DIR"))
-	if err != nil {
-		t.Errorf("[ERROR] Cannot fetch templatePath from envvar: %s", err)
-	}
-	if err = copy.Copy("../test-resource/project.template", filepath.Join(templatePath, "project")); err != nil {
+	templatePath := config.GetTemplateDir()
+	if err := copy.Copy("../test-resource/project.template", filepath.Join(templatePath, "project")); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
 
-	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
-	if err != nil {
-		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
-		return
-	}
+	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testCreateComponent")
 
 	// Create component should succeed
-	err = Create("project", testPath)
+	err := Create("project", testPath)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return

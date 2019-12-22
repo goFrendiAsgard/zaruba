@@ -17,25 +17,17 @@ type DoActionOption struct {
 	PerformPost bool
 }
 
-// DefaultDoOption is default option used for Do
-var DefaultDoOption DoActionOption = DoActionOption{
-	MTime:       time.Time{},
-	PerformPre:  true,
-	PerformPost: true,
+// GetDefaultDoOption get new DoOption
+func GetDefaultDoOption() DoActionOption {
+	return DoActionOption{
+		MTime:       time.Time{},
+		PerformPre:  true,
+		PerformPost: true,
+	}
 }
 
-// Do action on projectDir
-func Do(actionString, projectDir string, arguments ...string) (err error) {
-	return DoAction(
-		actionString,
-		projectDir,
-		DefaultDoOption,
-		arguments...,
-	)
-}
-
-// DoAction action on projectDir
-func DoAction(actionString, projectDir string, option DoActionOption, arguments ...string) (err error) {
+// Do with options on projectDir
+func Do(actionString, projectDir string, option DoActionOption, arguments ...string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return

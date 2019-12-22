@@ -14,8 +14,5 @@ func Run(dir, command string, args ...string) error {
 	cmd.Env = os.Environ()
 	cmd.Dir, _ = filepath.Abs(dir)
 	err := cmd.Run()
-	if err != nil {
-		return err
-	}
 	return err
 }

@@ -2,29 +2,24 @@ package action
 
 import (
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/config"
 )
 
 func TestDo(t *testing.T) {
-
-	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
-	if err != nil {
-		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
-		return
-	}
+	baseTestPath := config.GetTemplateDir()
 	testPath := filepath.Join(baseTestPath, "testDo")
-	if err = copy.Copy("../test-resource/testDo.template", testPath); err != nil {
+	if err := copy.Copy("../test-resource/testDo.template", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
 
 	// Do action should succeed
-	err = Do("doWrite", testPath)
+	err := Do("doWrite", testPath, GetDefaultDoOption())
 	if err != nil {
 		t.Errorf("[ERROR] Cannot do action: %s", err)
 		return

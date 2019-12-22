@@ -3,21 +3,17 @@ package link
 import (
 	"encoding/json"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/config"
 )
 
 func TestCreateLink(t *testing.T) {
 	var err error
 
-	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
-	if err != nil {
-		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
-		return
-	}
+	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testLink")
 	if err = copy.Copy("../test-resource/testLink.template", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)

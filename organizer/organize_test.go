@@ -2,28 +2,24 @@ package organizer
 
 import (
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/otiai10/copy"
+	"github.com/state-alchemists/zaruba/config"
 )
 
 func TestOrganize(t *testing.T) {
-	baseTestPath, err := filepath.Abs(os.Getenv("ZARUBA_TEST_DIR"))
-	if err != nil {
-		t.Errorf("[ERROR] Cannot fetch testPath from envvar: %s", err)
-		return
-	}
+	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testOrganize")
-	if err = copy.Copy("../test-resource/testOrganize.template", testPath); err != nil {
+	if err := copy.Copy("../test-resource/testOrganize.template", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
 
 	// Organize project should succeed
-	err = Organize(testPath)
+	err := Organize(testPath)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}

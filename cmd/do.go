@@ -34,7 +34,7 @@ var doCmd = &cobra.Command{
 		// invoke action
 		cwd, _ := os.Getwd()
 		log.Printf("[INFO] Invoking %s. cwd: %s, project-dir: %s, other arguments: %s", cwd, actionString, projectDir, arguments)
-		if err := action.Do(actionString, projectDir, arguments...); err != nil {
+		if err := action.Do(actionString, projectDir, action.GetDefaultDoOption(), arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
 	},

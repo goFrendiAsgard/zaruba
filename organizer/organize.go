@@ -23,7 +23,7 @@ func Organize(projectDir string, arguments ...string) (err error) {
 		return
 	}
 	// link
-	err = action.Do("link", projectDir, projectDir)
+	err = action.Do("link", projectDir, action.GetDefaultDoOption())
 	if err != nil {
 		return
 	}
@@ -38,7 +38,7 @@ func Organize(projectDir string, arguments ...string) (err error) {
 		}
 	}
 	// organize
-	err = action.Do("organize-project", projectDir, arguments...)
+	err = action.Do("organize-project", projectDir, action.GetDefaultDoOption(), arguments...)
 	return
 }
 
