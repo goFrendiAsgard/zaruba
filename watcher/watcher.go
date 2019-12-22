@@ -16,6 +16,7 @@ func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments 
 		errChan <- err
 		return
 	}
+	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	if stop := <-stopChan; stop {
 		errChan <- nil

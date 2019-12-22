@@ -16,19 +16,19 @@ func Install(gitURL, dirName string) (err error) {
 		return
 	}
 	// install-template should be exists
-	if _, err = os.Stat(filepath.Join(templateDir, dirName, "install-template")); err != nil {
+	if _, err = os.Stat(filepath.Join(templateDir, dirName, "install-template.zaruba")); err != nil {
 		os.RemoveAll(filepath.Join(templateDir, dirName))
 		return
 	}
 	// create-component should be exists
-	if _, err = os.Stat(filepath.Join(templateDir, dirName, "create-component")); err != nil {
+	if _, err = os.Stat(filepath.Join(templateDir, dirName, "create-component.zaruba")); err != nil {
 		os.RemoveAll(filepath.Join(templateDir, dirName))
 		return
 	}
 	// make the file executable
-	os.Chmod(filepath.Join(templateDir, dirName, "install-template"), 0555)
-	os.Chmod(filepath.Join(templateDir, dirName, "create-component"), 0555)
+	os.Chmod(filepath.Join(templateDir, dirName, "install-template.zaruba"), 0555)
+	os.Chmod(filepath.Join(templateDir, dirName, "create-component.zaruba"), 0555)
 	// run install
-	err = command.Run(filepath.Join(templateDir, dirName), "./install-template")
+	err = command.Run(filepath.Join(templateDir, dirName), "./install-template.zaruba")
 	return
 }

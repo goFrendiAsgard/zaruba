@@ -16,6 +16,6 @@ func Create(template, projectDir string, args ...string) (err error) {
 	}
 	// run create-component.sh
 	createComponentArgs := append([]string{projectDir}, args...)
-	err = command.Run(filepath.Join(templateDir, template), "./create-component", createComponentArgs...)
+	err = command.Run(filepath.Join(templateDir, template), "./create-component.zaruba", createComponentArgs...)
 	return
 }

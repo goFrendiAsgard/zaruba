@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/otiai10/copy"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/file"
 )
 
 func TestCreateLink(t *testing.T) {
@@ -15,7 +15,7 @@ func TestCreateLink(t *testing.T) {
 
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testLink")
-	if err = copy.Copy("../test-resource/testLink.template", testPath); err != nil {
+	if err = file.Copy("../test-resource/testLink.template", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}

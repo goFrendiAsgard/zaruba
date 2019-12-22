@@ -6,14 +6,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/otiai10/copy"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/file"
 )
 
 func TestDo(t *testing.T) {
 	baseTestPath := config.GetTemplateDir()
 	testPath := filepath.Join(baseTestPath, "testDo")
-	if err := copy.Copy("../test-resource/testDo.template", testPath); err != nil {
+	if err := file.Copy("../test-resource/testDo.template", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}

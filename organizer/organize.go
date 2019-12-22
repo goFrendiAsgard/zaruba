@@ -3,12 +3,13 @@ package organizer
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 
-	"github.com/otiai10/copy"
 	"github.com/state-alchemists/zaruba/action"
 	"github.com/state-alchemists/zaruba/file"
 )
@@ -29,6 +30,24 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	}
 	// get dep and sortedSources
 	dep, sortedSources, err := getDepAndSort(projectDir)
+	if err != nil {
+		return
+	}
+	// update option.MTimeLimit
+	for _, source := range sortedSources {
+		var sourceMTime time.Time
+		sourceMTime, err = file.GetMTime(source)
+		if err != nil {
+			return
+		}
+		if sourceMTime.Before(option.GetMTimeLimit()) {
+			option.SetMTimeLimit(sourceMTime.Add(-time.Nanosecond))
+		}
+	}
+	return organize(projectDir, dep, sortedSources, option, arguments...)
+}
+
+func organize(projectDir string, dep map[string][]string, sortedSources []string, option *Option, arguments ...string) (err error) {
 	// pre-organize
 	err = action.Do(
 		"organize-project", projectDir,
@@ -90,6 +109,7 @@ func copyAll(option *Option, source string, destinationList []string) (err error
 	errChans := []chan error{}
 	for _, destination := range destinationList {
 		errChan := make(chan error)
+		log.Printf("[INFO] Copy `%s` to: `%s`", source, destination)
 		go copyWithChannel(option, source, destination, errChan)
 		errChans = append(errChans, errChan)
 	}
@@ -110,7 +130,7 @@ func copyWithChannel(option *Option, source, destination string, errChan chan er
 		return
 	}
 	if sourceMTime.After(option.GetMTimeLimit()) {
-		err = copy.Copy(source, destination)
+		err = file.CopyExcept(source, destination, []string{`\.zaruba$`})
 	}
 	errChan <- err
 }

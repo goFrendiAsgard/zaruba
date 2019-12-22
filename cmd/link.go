@@ -3,6 +3,8 @@ package cmd
 import (
 	"log"
 	"os"
+	"path"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/link"
@@ -22,12 +24,12 @@ var linkCmd = &cobra.Command{
 			log.Fatal("[ERROR] `project-dir`, `source`, and `destination` expected, current arguments: ", args)
 		}
 		// get projectDir
-		projectDir := args[0]
-		source := args[1]
-		destination := args[2]
-		// invoke action
+		projectDir, _ := filepath.Abs(args[0])
 		cwd, _ := os.Getwd()
-		log.Printf("[INFO] Invoking link. cwd: %s, project-dir: %s, source: %s, destination: %s", cwd, projectDir, source, destination)
+		source := path.Join(cwd, args[1])
+		destination := path.Join(cwd, args[2])
+		// invoke action
+		log.Printf("[INFO] Invoking link. project-dir: %s, source: %s, destination: %s", projectDir, source, destination)
 		link.Create(projectDir, source, destination)
 	},
 }

@@ -63,7 +63,7 @@ func processDir(errChan chan error, actionString, dirName string, option *Option
 	if err != nil || mTime.Before(option.mTimeLimit) {
 		errChan <- err
 	}
-	actionPath := filepath.Join(dirName, fmt.Sprintf("./%s", actionString))
+	actionPath := filepath.Join(dirName, fmt.Sprintf("./%s.zaruba", actionString))
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
 		if os.IsNotExist(err) {
