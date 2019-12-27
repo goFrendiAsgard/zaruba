@@ -63,10 +63,10 @@ func listen(projectDir string, organizerOption *organizer.Option, arguments ...s
 }
 
 func getAllDirsTirelessly(projectDir string) (allDirs []string, err error) {
-	allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetOnlyDir(true))
+	allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	for err != nil {
 		log.Printf("[ERROR] Fail to get list of directories: %s. Retrying...", err)
-		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetOnlyDir(true))
+		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	}
 	return
 }

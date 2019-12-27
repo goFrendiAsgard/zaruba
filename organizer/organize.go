@@ -70,7 +70,7 @@ func organize(projectDir string, dep map[string][]string, sortedSources []string
 	// pre-organize
 	err = action.Do(
 		"organize-project", projectDir,
-		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetPerformAction(false).SetPerformPost(false),
+		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetIsPerformAction(false).SetIsPerformPost(false),
 		arguments...,
 	)
 	// copy
@@ -84,7 +84,7 @@ func organize(projectDir string, dep map[string][]string, sortedSources []string
 	// organize and post-organize
 	err = action.Do(
 		"organize-project", projectDir,
-		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetPerformPre(false),
+		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetIsPerformPre(false),
 		arguments...,
 	)
 	return

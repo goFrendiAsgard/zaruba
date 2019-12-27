@@ -10,13 +10,16 @@ import (
 )
 
 // Run a single command
-func Run(dir, command string, args ...string) error {
+func Run(dir, command string, args ...string) (err error) {
 	cmd := exec.Command(command, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Env = os.Environ()
-	cmd.Dir, _ = filepath.Abs(dir)
+	cmd.Dir, err = filepath.Abs(dir)
+	if err != nil {
+		return err
+	}
 	log.Printf("[INFO] Run `%s` on `%s` %s", command, cmd.Dir, format.SprintArgs(args))
-	err := cmd.Run()
+	err = cmd.Run()
 	return err
 }

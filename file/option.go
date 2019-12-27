@@ -2,8 +2,8 @@ package file
 
 // Option is configuration used for second parameter of GetAllFiles
 type Option struct {
-	maxDepth int
-	onlyDir  bool
+	maxDepth  int
+	isOnlyDir bool
 }
 
 // GetMaxDepth get MTime of option
@@ -17,21 +17,21 @@ func (option *Option) SetMaxDepth(value int) *Option {
 	return option
 }
 
-// GetOnlyDir get performAction of option
-func (option *Option) GetOnlyDir() bool {
-	return option.onlyDir
+// GetIsOnlyDir get performAction of option
+func (option *Option) GetIsOnlyDir() bool {
+	return option.isOnlyDir
 }
 
-// SetOnlyDir set performAction of option
-func (option *Option) SetOnlyDir(value bool) *Option {
-	option.onlyDir = value
+// SetIsOnlyDir set performAction of option
+func (option *Option) SetIsOnlyDir(value bool) *Option {
+	option.isOnlyDir = value
 	return option
 }
 
 // NewOption get default Option
 func NewOption() *Option {
 	return &Option{
-		maxDepth: 100,
-		onlyDir:  false,
+		maxDepth:  100,
+		isOnlyDir: false,
 	}
 }

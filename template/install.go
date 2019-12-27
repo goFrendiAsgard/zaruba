@@ -1,6 +1,7 @@
 package template
 
 import (
+	"errors"
 	"log"
 	"os"
 	"path/filepath"
@@ -18,13 +19,15 @@ func Install(gitURL, dirName string) (err error) {
 		return
 	}
 	// install-template should be exists
-	if isScriptExists(templateDir, dirName, "install-template") {
+	if !isScriptExists(templateDir, dirName, "install-template") {
 		os.RemoveAll(filepath.Join(templateDir, dirName))
+		err = errors.New("Cannot find `install-template` script")
 		return
 	}
 	// create-component should be exists
-	if isScriptExists(templateDir, dirName, "create-component") {
+	if !isScriptExists(templateDir, dirName, "create-component") {
 		os.RemoveAll(filepath.Join(templateDir, dirName))
+		err = errors.New("Cannot find `create-component` script")
 		return
 	}
 	// make the file executable
@@ -37,24 +40,17 @@ func Install(gitURL, dirName string) (err error) {
 }
 
 func isScriptExists(templateDir, dirName, actionName string) (exist bool) {
-	exist = false
 	// imperative
-	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba")); err != nil {
-		exist = exist || false
-	}
-	if exist {
-		return
+	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba")); err == nil {
+		return true
 	}
 	// declarative yml
-	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba.yml")); err != nil {
-		exist = exist || false
-	}
-	if exist {
-		return
+	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba.yml")); err == nil {
+		return true
 	}
 	// declarative yaml
-	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba.yml")); err != nil {
-		exist = exist || false
+	if _, err := os.Stat(filepath.Join(templateDir, dirName, actionName+".zaruba.yml")); err == nil {
+		return true
 	}
-	return
+	return false
 }

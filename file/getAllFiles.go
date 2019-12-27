@@ -16,7 +16,7 @@ func GetAllFiles(fileOrDirName string, option *Option) (allFiles []string, err e
 	option.SetMaxDepth(option.GetMaxDepth() - 1)
 	for _, subFile := range subFiles {
 		if !subFile.IsDir() {
-			if !option.onlyDir {
+			if !option.GetIsOnlyDir() {
 				allFiles = append(allFiles, path.Join(fileOrDirName, subFile.Name()))
 			}
 			continue

@@ -12,42 +12,51 @@ import (
 )
 
 // Do with options on projectDir
-func Do(actionString, projectDir string, option *Option, arguments ...string) (err error) {
-	projectDir, err = filepath.Abs(projectDir)
+func Do(actionString, scriptDir string, option *Option, arguments ...string) (err error) {
+	// make scriptDir absolute
+	scriptDir, err = filepath.Abs(scriptDir)
 	if err != nil {
 		return
 	}
-	arguments = append([]string{projectDir}, arguments...)
-	// get allDirs
-	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetOnlyDir(true))
+	// if option.workDir is empty, set it to scriptDir
+	option, err = option.SetScriptDir(scriptDir)
 	if err != nil {
 		return
+	}
+	arguments = append([]string{option.GetWorkDir()}, arguments...)
+	// get allWorkDirs
+	allWorkDirs := []string{option.GetWorkDir()}
+	if option.GetIsRecursiveWorkDir() {
+		allWorkDirs, err = file.GetAllFiles(option.GetWorkDir(), file.NewOption().SetIsOnlyDir(true))
+		if err != nil {
+			return
+		}
 	}
 	// pre-action
-	if option.GetPerformPre() {
-		if err = processAllDirs("pre-"+actionString, allDirs, option, arguments...); err != nil {
+	if option.GetIsPerformPre() {
+		if err = processAllDirs("pre-"+actionString, allWorkDirs, option, arguments...); err != nil {
 			return
 		}
 	}
 	// action
-	if option.GetPerformAction() {
-		if err = processAllDirs(actionString, allDirs, option, arguments...); err != nil {
+	if option.GetIsPerformAction() {
+		if err = processAllDirs(actionString, allWorkDirs, option, arguments...); err != nil {
 			return
 		}
 	}
 	// post-action
-	if option.GetPerformPost() {
-		err = processAllDirs("post-"+actionString, allDirs, option, arguments...)
+	if option.GetIsPerformPost() {
+		err = processAllDirs("post-"+actionString, allWorkDirs, option, arguments...)
 	}
 	return
 }
 
-func processAllDirs(actionString string, allDirs []string, option *Option, arguments ...string) (err error) {
+func processAllDirs(actionString string, allWorkDirs []string, option *Option, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
 	errChans := []chan error{}
-	for _, dirName := range allDirs {
+	for _, workDir := range allWorkDirs {
 		errChan := make(chan error)
-		go processDir(errChan, actionString, dirName, option, arguments...)
+		go processDir(errChan, actionString, workDir, option, arguments...)
 		errChans = append(errChans, errChan)
 	}
 	// wait all go-routine finished
@@ -60,12 +69,12 @@ func processAllDirs(actionString string, allDirs []string, option *Option, argum
 	return
 }
 
-func processDir(errChan chan error, actionString, dirName string, option *Option, arguments ...string) {
-	mTime, err := file.GetMTime(dirName)
+func processDir(errChan chan error, actionString, workDir string, option *Option, arguments ...string) {
+	mTime, err := file.GetMTime(workDir)
 	if err != nil || mTime.Before(option.mTimeLimit) {
 		errChan <- err
 	}
-	actionPath := filepath.Join(dirName, fmt.Sprintf("./%s.zaruba", actionString))
+	actionPath := filepath.Join(workDir, fmt.Sprintf("./%s.zaruba", actionString))
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
 		if os.IsNotExist(err) {
@@ -75,7 +84,7 @@ func processDir(errChan chan error, actionString, dirName string, option *Option
 		errChan <- err
 		return
 	}
-	log.Printf("[INFO] Invoke `%s` on `%s` %s", actionString, dirName, format.SprintArgs(arguments))
-	err = command.Run(dirName, actionPath, arguments...)
+	log.Printf("[INFO] Invoke `%s` on `%s` %s", actionString, workDir, format.SprintArgs(arguments))
+	err = command.Run(workDir, actionPath, arguments...)
 	errChan <- err
 }
