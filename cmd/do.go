@@ -30,8 +30,9 @@ var doCmd = &cobra.Command{
 				arguments = args[2:]
 			}
 		}
+		arguments = append([]string{projectDir}, arguments...)
 		// invoke action
-		if err := action.Do(actionString, projectDir, action.NewOption(), arguments...); err != nil {
+		if err := action.Do(actionString, action.NewOption().SetWorkDir(projectDir), arguments...); err != nil {
 			log.Fatal("[ERROR] ", err)
 		}
 	},

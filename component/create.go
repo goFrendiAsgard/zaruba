@@ -4,21 +4,28 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/state-alchemists/zaruba/command"
+	"github.com/state-alchemists/zaruba/action"
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/format"
+	"github.com/state-alchemists/zaruba/stringformat"
 )
 
 // Create component
 func Create(template, projectDir string, args ...string) (err error) {
-	templateDir := config.GetTemplateDir()
+	templateDir := filepath.Join(config.GetTemplateDir(), template)
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return
 	}
-	// run create-component.sh
+	// run create-component script
 	createComponentArgs := append([]string{projectDir}, args...)
-	log.Printf("[INFO] Create component from `%s` into `%s` %s", templateDir, projectDir, format.SprintArgs(createComponentArgs))
-	err = command.Run(filepath.Join(templateDir, template), "./create-component.zaruba", createComponentArgs...)
+	log.Printf("[INFO] Create component from `%s` into `%s` %s", templateDir, projectDir, stringformat.SprintArgs(createComponentArgs))
+	err = action.Do(
+		"create-component",
+		action.NewOption().
+			SetScriptDir(templateDir).
+			SetWorkDir(templateDir).
+			SetIsRecursiveWorkDir(false),
+		createComponentArgs...,
+	)
 	return
 }

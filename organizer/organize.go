@@ -12,7 +12,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/action"
 	"github.com/state-alchemists/zaruba/file"
-	"github.com/state-alchemists/zaruba/format"
+	"github.com/state-alchemists/zaruba/stringformat"
 )
 
 // Organize projectDir
@@ -21,13 +21,13 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	if err != nil {
 		return
 	}
-	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), format.SprintArgs(arguments))
+	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), stringformat.SprintArgs(arguments))
 	// remove depFile
 	if err = os.Remove(filepath.Join(projectDir, "zaruba.dependency.json")); err != nil && !os.IsNotExist(err) {
 		return
 	}
 	// link
-	if err = action.Do("link", projectDir, action.NewOption()); err != nil {
+	if err = action.Do("link", action.NewOption().SetWorkDir(projectDir), projectDir); err != nil {
 		return
 	}
 	// get dep and sortedSources
@@ -48,11 +48,11 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 				var destinationMTime time.Time
 				destinationMTime, err = file.GetMTime(destination)
 				if err != nil && os.IsNotExist(err) {
-					option = getOptionBeforeSourceMTime(option, sourceMTime)
+					updateOptionToPreeceedSource(option, sourceMTime)
 					log.Printf("[INFO] Update organizer.Option to %s because `%s` is not exists", option.Sprintf(), destination)
 					break
 				} else if destinationMTime.Before(sourceMTime) {
-					option = getOptionBeforeSourceMTime(option, sourceMTime)
+					updateOptionToPreeceedSource(option, sourceMTime)
 					log.Printf("[INFO] Update organizer.Option to %s because `%s` is older than `%s`", option.Sprintf(), destination, source)
 					break
 				}
@@ -62,15 +62,20 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	return organize(projectDir, dep, sortedSources, option, arguments...)
 }
 
-func getOptionBeforeSourceMTime(option *Option, sourceMTime time.Time) *Option {
+func updateOptionToPreeceedSource(option *Option, sourceMTime time.Time) *Option {
 	return option.SetMTimeLimit(sourceMTime.Add(-time.Nanosecond))
 }
 
 func organize(projectDir string, dep map[string][]string, sortedSources []string, option *Option, arguments ...string) (err error) {
+	arguments = append([]string{projectDir}, arguments...)
 	// pre-organize
 	err = action.Do(
-		"organize-project", projectDir,
-		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetIsPerformAction(false).SetIsPerformPost(false),
+		"organize-project",
+		action.NewOption().
+			SetWorkDir(projectDir).
+			SetMTimeLimit(option.GetMTimeLimit()).
+			SetIsPerformAction(false).
+			SetIsPerformPost(false),
 		arguments...,
 	)
 	// copy
@@ -83,8 +88,11 @@ func organize(projectDir string, dep map[string][]string, sortedSources []string
 	}
 	// organize and post-organize
 	err = action.Do(
-		"organize-project", projectDir,
-		action.NewOption().SetMTimeLimit(option.GetMTimeLimit()).SetIsPerformPre(false),
+		"organize-project",
+		action.NewOption().
+			SetWorkDir(projectDir).
+			SetMTimeLimit(option.GetMTimeLimit()).
+			SetIsPerformPre(false),
 		arguments...,
 	)
 	return

@@ -19,7 +19,7 @@ func TestDo(t *testing.T) {
 	}
 
 	// Do action should succeed
-	err := Do("doWrite", testPath, NewOption())
+	err := Do("doWrite", NewOption().SetWorkDir(testPath))
 	if err != nil {
 		t.Errorf("[ERROR] Cannot do action: %s", err)
 		return

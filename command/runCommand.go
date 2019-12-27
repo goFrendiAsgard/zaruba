@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/state-alchemists/zaruba/format"
+	"github.com/state-alchemists/zaruba/stringformat"
 )
 
 // Run a single command
@@ -19,7 +19,7 @@ func Run(dir, command string, args ...string) (err error) {
 	if err != nil {
 		return err
 	}
-	log.Printf("[INFO] Run `%s` on `%s` %s", command, cmd.Dir, format.SprintArgs(args))
+	log.Printf("[INFO] Run `%s` on `%s` %s", command, cmd.Dir, stringformat.SprintArgs(args))
 	err = cmd.Run()
 	return err
 }

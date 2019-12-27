@@ -1,20 +1,20 @@
 package action
 
 import (
-	"path/filepath"
 	"time"
 )
 
 // Option is option for action.Do
+// if option.workDir == option.scriptDir, we will run the matching scripts found in every workDir's sub-directory,
+// otherwise we will run a matching script in scriptDir into every workDir's sub-directory
 type Option struct {
-	mTimeLimit           time.Time
-	isPerformPre         bool
-	isPerformPost        bool
-	isPerformAction      bool
-	isRecursiveWorkDir   bool
-	workDir              string
-	isRecursiveScriptDir bool
-	scriptDir            string
+	mTimeLimit         time.Time
+	isPerformPre       bool
+	isPerformPost      bool
+	isPerformAction    bool
+	isRecursiveWorkDir bool
+	workDir            string
+	scriptDir          string
 }
 
 // GetMTimeLimit get MTime of option
@@ -72,27 +72,15 @@ func (option *Option) SetIsRecursiveWorkDir(value bool) *Option {
 	return option
 }
 
-// GetIsRecursiveScriptDir get isRecursiveScriptDir of option
-func (option *Option) GetIsRecursiveScriptDir() bool {
-	return option.isRecursiveScriptDir
-}
-
-// SetIsRecursiveScriptDir set isRecursiveScriptDir of option
-func (option *Option) SetIsRecursiveScriptDir(value bool) *Option {
-	option.isRecursiveScriptDir = value
-	return option
-}
-
 // GetWorkDir get workDir of option
 func (option *Option) GetWorkDir() string {
 	return option.workDir
 }
 
 // SetWorkDir set workDir of option
-func (option *Option) SetWorkDir(value string) (*Option, error) {
-	var err error
-	option.workDir, err = filepath.Abs(value)
-	return option, err
+func (option *Option) SetWorkDir(value string) *Option {
+	option.workDir = value
+	return option
 }
 
 // GetScriptDir get scriptDir of option
@@ -101,17 +89,9 @@ func (option *Option) GetScriptDir() string {
 }
 
 // SetScriptDir set scriptDir of option. Also set workDir if it is not set yet
-func (option *Option) SetScriptDir(value string) (*Option, error) {
-	var err error
-	oldScriptDir := option.GetScriptDir()
-	option.scriptDir, err = filepath.Abs(value)
-	if err != nil {
-		return option, err
-	}
-	if option.GetWorkDir() == oldScriptDir {
-		option, err = option.SetWorkDir(value)
-	}
-	return option, err
+func (option *Option) SetScriptDir(value string) *Option {
+	option.scriptDir = value
+	return option
 }
 
 // NewOption create option

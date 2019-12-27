@@ -8,22 +8,12 @@ import (
 
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/file"
-	"github.com/state-alchemists/zaruba/format"
+	"github.com/state-alchemists/zaruba/stringformat"
 )
 
 // Do with options on projectDir
-func Do(actionString, scriptDir string, option *Option, arguments ...string) (err error) {
-	// make scriptDir absolute
-	scriptDir, err = filepath.Abs(scriptDir)
-	if err != nil {
-		return
-	}
-	// if option.workDir is empty, set it to scriptDir
-	option, err = option.SetScriptDir(scriptDir)
-	if err != nil {
-		return
-	}
-	arguments = append([]string{option.GetWorkDir()}, arguments...)
+func Do(actionString string, option *Option, arguments ...string) (err error) {
+	prepareOption(option)
 	// get allWorkDirs
 	allWorkDirs := []string{option.GetWorkDir()}
 	if option.GetIsRecursiveWorkDir() {
@@ -51,6 +41,27 @@ func Do(actionString, scriptDir string, option *Option, arguments ...string) (er
 	return
 }
 
+func prepareOption(option *Option) (err error) {
+	// set workDir
+	workDir, err := filepath.Abs(option.GetWorkDir())
+	if err != nil {
+		return
+	}
+	option.SetWorkDir(workDir)
+	// set scriptDir
+	if option.GetScriptDir() == "" {
+		option.SetScriptDir(option.GetWorkDir())
+	} else {
+		var scriptDir string
+		scriptDir, err = filepath.Abs(option.GetScriptDir())
+		if err != nil {
+			return
+		}
+		option.SetScriptDir(scriptDir)
+	}
+	return
+}
+
 func processAllDirs(actionString string, allWorkDirs []string, option *Option, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
 	errChans := []chan error{}
@@ -74,7 +85,8 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 	if err != nil || mTime.Before(option.mTimeLimit) {
 		errChan <- err
 	}
-	actionPath := filepath.Join(workDir, fmt.Sprintf("./%s.zaruba", actionString))
+	actionPath := getActionPath(actionString, workDir, option)
+	log.Printf("[INFO] Inspect script `%s`", actionPath)
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
 		if os.IsNotExist(err) {
@@ -84,7 +96,14 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 		errChan <- err
 		return
 	}
-	log.Printf("[INFO] Invoke `%s` on `%s` %s", actionString, workDir, format.SprintArgs(arguments))
+	log.Printf("[INFO] Invoke `%s` on `%s` %s", actionString, workDir, stringformat.SprintArgs(arguments))
 	err = command.Run(workDir, actionPath, arguments...)
 	errChan <- err
+}
+
+func getActionPath(actionString, workDir string, option *Option) (actionPath string) {
+	if option.GetWorkDir() == option.GetScriptDir() {
+		return filepath.Join(workDir, fmt.Sprintf("./%s.zaruba", actionString))
+	}
+	return filepath.Join(option.GetScriptDir(), fmt.Sprintf("./%s.zaruba", actionString))
 }

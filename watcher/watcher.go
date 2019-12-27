@@ -6,8 +6,8 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/state-alchemists/zaruba/file"
-	"github.com/state-alchemists/zaruba/format"
 	"github.com/state-alchemists/zaruba/organizer"
+	"github.com/state-alchemists/zaruba/stringformat"
 )
 
 // Watch projectDir
@@ -17,7 +17,7 @@ func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments 
 		errChan <- err
 		return
 	}
-	log.Printf("[INFO] Watch project `%s` %s", projectDir, format.SprintArgs(arguments))
+	log.Printf("[INFO] Watch project `%s` %s", projectDir, stringformat.SprintArgs(arguments))
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	if stop := <-stopChan; stop {
