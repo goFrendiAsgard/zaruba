@@ -1,0 +1,22 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goFrendiAsgard/switch-repo-gateway.git"
+  },
+  "author": "goFrendiAsgard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/goFrendiAsgard/switch-repo-gateway/issues"
+  },
+  "homepage": "https://github.com/goFrendiAsgard/switch-repo-gateway#readme",
+  "dependencies": {
+    "nats": "^1.3.2"
+  }
+}

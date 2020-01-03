@@ -1,16 +1,13 @@
 package organizer
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-	"sort"
-	"strings"
 	"time"
 
 	"github.com/state-alchemists/zaruba/action"
+	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/stringformat"
 )
@@ -22,27 +19,19 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		return
 	}
 	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), stringformat.SprintArgs(arguments))
-	// remove depFile
-	if err = os.Remove(filepath.Join(projectDir, "zaruba.dependency.json")); err != nil && !os.IsNotExist(err) {
-		return
-	}
-	// link
-	if err = action.Do("link", action.NewOption().SetWorkDir(projectDir), projectDir); err != nil {
-		return
-	}
-	// get dep and sortedSources
-	dep, sortedSources, err := getDepAndSort(projectDir)
+	projectConfig, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
 		return
 	}
+	sortedLinkSources := projectConfig.GetSortedLinkSources()
 	// update option.MTimeLimit
-	for _, source := range sortedSources {
+	for _, source := range sortedLinkSources {
 		var sourceMTime time.Time
 		sourceMTime, err = file.GetMTime(source)
 		if err != nil {
 			return
 		}
-		destinationList := dep[source]
+		destinationList := projectConfig.Links[source]
 		for _, destination := range destinationList {
 			if sourceMTime.Before(option.GetMTimeLimit()) {
 				var destinationMTime time.Time
@@ -59,14 +48,14 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 			}
 		}
 	}
-	return organize(projectDir, dep, sortedSources, option, arguments...)
+	return organize(projectDir, projectConfig.Links, sortedLinkSources, option, arguments...)
 }
 
 func updateOptionToPreeceedSource(option *Option, sourceMTime time.Time) *Option {
 	return option.SetMTimeLimit(sourceMTime.Add(-time.Nanosecond))
 }
 
-func organize(projectDir string, dep map[string][]string, sortedSources []string, option *Option, arguments ...string) (err error) {
+func organize(projectDir string, links map[string][]string, sortedLinkSources []string, option *Option, arguments ...string) (err error) {
 	arguments = append([]string{projectDir}, arguments...)
 	// pre-organize
 	err = action.Do(
@@ -79,8 +68,8 @@ func organize(projectDir string, dep map[string][]string, sortedSources []string
 		arguments...,
 	)
 	// copy
-	for _, source := range sortedSources {
-		destinationList := dep[source]
+	for _, source := range sortedLinkSources {
+		destinationList := links[source]
 		err = copyAll(option, source, destinationList)
 		if err != nil {
 			return
@@ -95,39 +84,6 @@ func organize(projectDir string, dep map[string][]string, sortedSources []string
 			SetIsPerformPre(false),
 		arguments...,
 	)
-	return
-}
-
-func getDepAndSort(projectDir string) (dep map[string][]string, sortedSources []string, err error) {
-	dep = map[string][]string{}
-	sortedSources = []string{}
-	// Read dependency file
-	depFileName := filepath.Join(projectDir, "zaruba.dependency.json")
-	jsonB, err := ioutil.ReadFile(depFileName)
-	if err != nil {
-		return
-	}
-	// unmarshal
-	if err = json.Unmarshal(jsonB, &dep); err != nil {
-		return
-	}
-	// get all keys of dep (i.e: list of sortedSources)
-	for source := range dep {
-		sortedSources = append(sortedSources, source)
-	}
-	// sort keys
-	sort.SliceStable(sortedSources, func(i int, j int) bool {
-		firstSource, secondSource := sortedSources[i], sortedSources[j]
-		// get destination
-		firstDestinations := dep[firstSource]
-		// compare
-		for _, destination := range firstDestinations {
-			if strings.HasPrefix(destination, secondSource) {
-				return true
-			}
-		}
-		return false
-	})
 	return
 }
 

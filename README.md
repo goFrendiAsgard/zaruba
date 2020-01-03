@@ -128,27 +128,6 @@ cd ${zaruba_template_dir}/${template}
 ./create_component.zaruba ${project_dir}
 ```
 
-## link
-
-```sh
-zaruba link <project-dir> <source> <destination>
-```
-
-This command is usually invoked while performing `organize-project`. Usually, this command is part of `<project-dir>/.../link.zaruba` and never invoked directly. By invoking this command, user should be able to add dependency to project's `zaruba.dependency.json`.
-
-After running `zaruba-link <project-dir> <source> <destination>`, there should be a json file named `zaruba.dependency.json` in your `<project-dir>`. The file should contains all dependencies in a single project in JSON format:
-
-```json
-{
-    "<source-1>" : [
-        "destination-1", "destination-2", "destination-3"
-    ],
-    "<source-2>" : [
-        "destination-1", "destination-2", "destination-3"
-    ]
-}
-```
-
 ## organize-project
 
 ```sh
@@ -157,8 +136,6 @@ zaruba organize-project [project-dir [...args]]
 
 This command will do the following actions:
 
-* Re-create `zaruba.dependency.json` by performing `link` action in `<project-dir>` and it's sub-directories.
-* Sort dependencies in `zaruba.dependency.json`.
 * Copy sources to their respective destinations.
 * Recursively look for and run `organize-project.zaruba` in every sub-directory of `<project-dir>` and execute it. This command support pre-action (`pre-organize-project.zaruba`) and post-action (`post-organize-project.zaruba`).
 

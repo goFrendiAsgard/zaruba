@@ -86,7 +86,6 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 		errChan <- err
 	}
 	actionPath := getActionPath(actionString, workDir, option)
-	log.Printf("[INFO] Inspect script `%s`", actionPath)
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
 		if os.IsNotExist(err) {

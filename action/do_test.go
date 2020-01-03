@@ -13,7 +13,7 @@ import (
 func TestDo(t *testing.T) {
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testDo")
-	if err := file.Copy("../test-resource/testDo.template", testPath); err != nil {
+	if err := file.Copy("../test-resource/testDo", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
