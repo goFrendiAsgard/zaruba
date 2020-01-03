@@ -128,10 +128,10 @@ cd ${zaruba_template_dir}/${template}
 ./create_component.zaruba ${project_dir}
 ```
 
-## organize-project
+## organize
 
 ```sh
-zaruba organize-project [project-dir [...args]]
+zaruba organize [project-dir [...args]]
 ```
 
 This command will do the following actions:
@@ -139,10 +139,10 @@ This command will do the following actions:
 * Copy sources to their respective destinations.
 * Recursively look for and run `organize-project.zaruba` in every sub-directory of `<project-dir>` and execute it. This command support pre-action (`pre-organize-project.zaruba`) and post-action (`post-organize-project.zaruba`).
 
-## watch-project
+## watch
 
 ```sh
-zaruba watch-project [project-dir [...args]]
+zaruba watch [project-dir [...args]]
 ```
 
 Detect changes in project and `organize-project` automatically.
