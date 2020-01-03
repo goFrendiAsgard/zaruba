@@ -12,8 +12,8 @@ func init() {
 }
 
 var watchProjectCmd = &cobra.Command{
-	Use:   "watch-project [project-dir [...args]]",
-	Short: "Watch and organize a project",
+	Use:   "watch [project-dir [...args]]",
+	Short: "Watch project and organize accordingly",
 	Long:  `Zaruba will perform "organize" whenever something changed`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir

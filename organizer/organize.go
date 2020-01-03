@@ -59,7 +59,7 @@ func organize(projectDir string, links map[string][]string, sortedLinkSources []
 	arguments = append([]string{projectDir}, arguments...)
 	// pre-organize
 	err = action.Do(
-		"organize-project",
+		"organize",
 		action.NewOption().
 			SetWorkDir(projectDir).
 			SetMTimeLimit(option.GetMTimeLimit()).
@@ -77,7 +77,7 @@ func organize(projectDir string, links map[string][]string, sortedLinkSources []
 	}
 	// organize and post-organize
 	err = action.Do(
-		"organize-project",
+		"organize",
 		action.NewOption().
 			SetWorkDir(projectDir).
 			SetMTimeLimit(option.GetMTimeLimit()).
