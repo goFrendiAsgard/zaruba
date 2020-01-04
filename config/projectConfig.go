@@ -19,7 +19,7 @@ type Environments struct {
 // Component describe component specs
 type Component struct {
 	Type          string `yaml:"type"`          // Component type: "service", "library", "other", or "container"
-	Origin        string `yaml:"string"`        // Component's git origin
+	Origin        string `yaml:"origin"`        // Component's git origin
 	Branch        string `yaml:"branch"`        // Component's branch
 	Location      string `yaml:"location"`      // location of the component
 	Start         string `yaml:"start"`         // command to start service component
