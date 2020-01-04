@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"io/ioutil"
+	"net/http"
 	"path/filepath"
 	"testing"
 	"time"
@@ -34,6 +36,34 @@ func TestRun(t *testing.T) {
 	go Run(testPath, stopChan, executedChan, errChan)
 	<-executedChan
 	time.Sleep(time.Millisecond * 500)
+
+	res, err := http.Get("http://localhost:3000/go/frendi")
+	if err != nil {
+		t.Errorf("[ERROR] Cannot seend request: %s", err)
+	}
+	content, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("[ERROR] Cannot parse response: %s", err)
+	}
+	expected := "Hello go frendi"
+	actual := string(content)
+	if actual != expected {
+		t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+	}
+
+	res, err = http.Get("http://localhost:3000")
+	if err != nil {
+		t.Errorf("[ERROR] Cannot seend request: %s", err)
+	}
+	content, err = ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("[ERROR] Cannot parse response: %s", err)
+	}
+	expected = "Hello world"
+	actual = string(content)
+	if actual != expected {
+		t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+	}
 
 	// test done
 	stopChan <- true
