@@ -9,6 +9,7 @@ const publishEvent = process.env.sendMessageEvent || "bar";
 console.log(`Listen to ${subscribeEvent} event`);
 nats.subscribe(subscribeEvent, (receivedMessage) => {
     console.log(`Received a message: ${receivedMessage}`);
+    receivedMessage = receivedMessage.split("/").join(" ").trim();
     const publishedMessage = greeting.greet(receivedMessage);
     console.log(`Publish to ${publishEvent} event: ${publishedMessage}`);
     nats.publish(publishEvent, publishedMessage);

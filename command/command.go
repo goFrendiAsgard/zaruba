@@ -15,8 +15,6 @@ func GetCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
 	cmd = exec.Command(command, args...)
 	cmd.Env = os.Environ()
 	cmd.Dir, err = filepath.Abs(dir)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
 	return
 }
 
@@ -29,6 +27,8 @@ func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 
 // Run a single command
 func Run(cmd *exec.Cmd) (err error) {
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
 	err = cmd.Run()
 	return err

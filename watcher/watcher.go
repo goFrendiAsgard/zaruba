@@ -7,6 +7,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/organizer"
+	"github.com/state-alchemists/zaruba/runner"
 	"github.com/state-alchemists/zaruba/stringformat"
 )
 
@@ -19,13 +20,37 @@ func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments 
 	}
 	log.Printf("[INFO] Watch project `%s` %s", projectDir, stringformat.SprintArgs(arguments))
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
-	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
+	processKillChan := make(chan string) // order to kill process, containing either "shutdown" or "restart"
+	executedChan := make(chan bool)      // informing whether execution has been done or not
+	terminatedChan := make(chan bool)    // informing whether execution has been terminated or not
+	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), executedChan, processKillChan, arguments...)
+	go run(projectDir, executedChan, processKillChan, terminatedChan)
 	if stop := <-stopChan; stop {
-		errChan <- nil
+		processKillChan <- "shutdown"
 	}
+	<-terminatedChan
+	errChan <- nil
 }
 
-func listen(projectDir string, organizerOption *organizer.Option, arguments ...string) {
+func run(projectDir string, executedChan chan bool, processKillChan chan string, terminatedChan chan bool) {
+	errChan := make(chan error)
+	stopChan := make(chan bool)
+	for {
+		go runner.Run(projectDir, stopChan, executedChan, errChan)
+		killSignal := <-processKillChan
+		stopChan <- true
+		if killSignal != "restart" {
+			break
+		}
+	}
+	err := <-errChan
+	if err != nil {
+		log.Printf("[ERROR] Run/terminate process: %s", err)
+	}
+	terminatedChan <- true
+}
+
+func listen(projectDir string, organizerOption *organizer.Option, executedChan chan bool, processKillChan chan string, arguments ...string) {
 	// get allDirs
 	allDirs, err := getAllDirsTirelessly(projectDir)
 	// create watcher, don't give up
@@ -50,6 +75,8 @@ func listen(projectDir string, organizerOption *organizer.Option, arguments ...s
 				organizerOption,
 				arguments...,
 			)
+			processKillChan <- "restart"
+			<-executedChan
 			allDirs, err = getAllDirsTirelessly(projectDir)
 			addDirsToWatcher(watcher, allDirs)
 			organizerOption = organizer.NewOption().SetMTimeLimitToNow()

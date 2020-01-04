@@ -24,7 +24,9 @@ var runCmd = &cobra.Command{
 		// invoke action
 		stopChan := make(chan bool)
 		errChan := make(chan error)
-		go runner.Run(projectDir, stopChan, errChan)
+		executedChan := make(chan bool)
+		go runner.Run(projectDir, stopChan, executedChan, errChan)
+		<-executedChan
 		// listen to kill signal
 		c := make(chan os.Signal)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)

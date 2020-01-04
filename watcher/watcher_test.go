@@ -16,14 +16,18 @@ func TestWatch(t *testing.T) {
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testWatch")
 
-	triggerFilePath := filepath.Join(testPath, "services/greeter/trigger.txt")
-	megazordGatewayFilePath := filepath.Join(testPath, "megazord/gateway")
-	megazordGreeterFilePath := filepath.Join(testPath, "megazord/greeter")
-
 	if err := file.Copy("../test-resource/project", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
+	if err := file.Copy("../test-resource/zaruba.config.megazord.yaml", filepath.Join(testPath, "zaruba.config.yaml")); err != nil {
+		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
+		return
+	}
+
+	triggerFilePath := filepath.Join(testPath, "services/greeter/trigger.txt")
+	megazordGatewayFilePath := filepath.Join(testPath, "megazord/gateway")
+	megazordGreeterFilePath := filepath.Join(testPath, "megazord/greeter")
 
 	// Watch project should succeed
 	stopChan := make(chan bool)

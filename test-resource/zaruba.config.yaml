@@ -29,18 +29,10 @@ components:
     containerName: nats
 
 links:
-  ./services/gateway:
-    - ./megazord/gateway
   ./libraries/greeting-lib: 
     - ./services/greeter/greeting-lib
     - ./services/gateway/greeting-lib
-  ./services/greeter:
-    - ./megazord/greeter
-  ./changelog.md:
-    - ./libraries/greeting-lib/parent-changelog.md
-    - ./services/greeter/parent-changelog.md
-    - ./services/gateway/parent-changelog.md
-
+  
 executions:
   - nats
   - greeter

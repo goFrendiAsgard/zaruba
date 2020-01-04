@@ -32,7 +32,6 @@ type ProjectConfig struct {
 	Components   map[string]Component `yaml:"components"`
 	Executions   []string             `yaml:"executions"`
 	Links        map[string][]string  `yaml:"links"`
-	ProjectDir   string
 }
 
 // ToYaml get yaml representation of projectConfig
@@ -87,7 +86,6 @@ func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
 
 // NewProjectConfig create new ProjectConfig
 func NewProjectConfig() (p *ProjectConfig, err error) {
-	defaultProjectDir, err := filepath.Abs(".")
 	if err != nil {
 		return
 	}
@@ -99,7 +97,6 @@ func NewProjectConfig() (p *ProjectConfig, err error) {
 		Components: make(map[string]Component),
 		Executions: []string{},
 		Links:      make(map[string][]string),
-		ProjectDir: defaultProjectDir,
 	}
 	return
 }
@@ -118,7 +115,6 @@ func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	str := string(b)
 	// create new ProjectConfig and unmarshal
 	p, err = NewProjectConfig()
-	p.ProjectDir = projectDir
 	err = yaml.Unmarshal([]byte(str), p)
 	p.adjustLocation(projectDir)
 	return

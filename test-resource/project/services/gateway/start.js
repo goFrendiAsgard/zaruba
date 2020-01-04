@@ -14,7 +14,8 @@ http.createServer(function (req, res) {
     nats.subscribe(subscribeEvent,
         (receivedMessage) => {
             console.log(`Receive request from url: ${req.url}`);
-            res.end(`${greeting.defaultGreeting}<br />${receivedMessage}`);
+            receivedMessage = receivedMessage || greeting.defaultGreeting
+            res.end(receivedMessage);
         },
         (error) => {
             console.error(error);

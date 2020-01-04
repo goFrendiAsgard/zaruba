@@ -1,4 +1,4 @@
 module.exports = {
-    greet: (name) => `Hello ${name}`,
+    greet: (name) => name ? `Hello ${name}` : "",
     defaultGreeting: "Hello world"
 }

@@ -5,53 +5,58 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
 )
 
-// Run a project config
-func Run(projectDir string, stopChan chan bool, errChan chan error) {
+// Run a project config.
+func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
 	projectDir, err := filepath.Abs(projectDir)
 	if err != nil {
 		errChan <- err
+		executedChan <- true
 		return
 	}
 	log.Printf("[INFO] Run project `%s`", projectDir)
 	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
 		errChan <- err
+		executedChan <- true
 		return
 	}
-	cmdDict, err := getCmdDict(p)
+	// get cmdDict and all it's output/error pipes
+	cmdDict, outPipeDict, errPipeDict, err := getCmdDictAndPipes(projectDir, p)
 	if err != nil {
+		killCmdDict(p, cmdDict)
 		errChan <- err
+		executedChan <- true
 		return
 	}
-	/*
-		// listen to sigterm
-		c := make(chan os.Signal)
-		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-		go func() {
-			<-c
-			stopChan <- true
-		}()
-	*/
+	// redirect error and output pipe
+	for serviceName := range cmdDict {
+		go logService(serviceName, "OUT", outPipeDict[serviceName])
+		go logService(serviceName, "ERR", errPipeDict[serviceName])
+	}
 	// listen to stopChan
 	<-stopChan
-	killCmdDict(cmdDict)
+	killCmdDict(p, cmdDict)
 	errChan <- nil
 }
 
-func killCmdDict(cmdDict map[string]*exec.Cmd) {
-	for serviceName, cmd := range cmdDict {
-		log.Printf("[INFO] Kill %s process", serviceName)
+// kill based on p.Executions in reverse order
+func killCmdDict(p *config.ProjectConfig, cmdDict map[string]*exec.Cmd) {
+	for index := len(p.Executions) - 1; index >= 0; index-- {
+		serviceName := p.Executions[index]
+		cmd := cmdDict[serviceName]
 		if cmd.Process == nil {
+			log.Printf("[INFO] Process %s not found", serviceName)
 			continue
 		}
+		log.Printf("[INFO] Kill %s process", serviceName)
 		err := cmd.Process.Kill()
 		if err != nil {
 			log.Printf("[ERROR] Failed to kill %s process: %s", serviceName, err)
@@ -59,25 +64,29 @@ func killCmdDict(cmdDict map[string]*exec.Cmd) {
 	}
 }
 
-func getCmdDict(p *config.ProjectConfig) (cmdDict map[string]*exec.Cmd, err error) {
+func getCmdDictAndPipes(projectDir string, p *config.ProjectConfig) (cmdDict map[string]*exec.Cmd, outPipeDict, errPipeDict map[string]io.ReadCloser, err error) {
 	cmdDict = map[string]*exec.Cmd{}
+	outPipeDict = map[string]io.ReadCloser{}
+	errPipeDict = map[string]io.ReadCloser{}
 	for _, serviceName := range p.Executions {
 		component := p.Components[serviceName]
 		var cmd *exec.Cmd
 		if component.Type == "container" {
-			cmd, err = command.GetShellCmd(p.ProjectDir, fmt.Sprintf("(docker start %s || %s) && docker logs --follow %s", component.ContainerName, component.Run, component.ContainerName))
+			cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf("(docker start %s || %s) && docker logs --follow %s", component.ContainerName, component.Run, component.ContainerName))
 		} else if component.Type == "service" {
 			cmd, err = command.GetShellCmd(component.Location, component.Start)
 		} else {
 			continue
 		}
-		log.Printf("[INFO] Start %s", serviceName)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		/*
-			go logServiceOutput(serviceName, cmd)
-			go logServiceError(serviceName, cmd)
-		*/
+		outPipeDict[serviceName], err = cmd.StdoutPipe()
+		if err != nil {
+			return
+		}
+		errPipeDict[serviceName], err = cmd.StderrPipe()
+		if err != nil {
+			return
+		}
+		log.Printf("[INFO] Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
 		err = cmd.Start()
 		cmdDict[serviceName] = cmd
 		// if error, stop
@@ -88,36 +97,12 @@ func getCmdDict(p *config.ProjectConfig) (cmdDict map[string]*exec.Cmd, err erro
 	return
 }
 
-func logServiceOutput(serviceName string, cmd *exec.Cmd) {
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		log.Printf("[ERROR] Cannot get stdoutPipe: %s", err)
-		return
-	}
-	logService(serviceName, "OUT", stdout)
-}
-
-func logServiceError(serviceName string, cmd *exec.Cmd) {
-	stderr, err := cmd.StderrPipe()
-	if err != nil {
-		log.Printf("[ERROR] Cannot get stderrPipe: %s", err)
-		return
-	}
-	logService(serviceName, "ERR", stderr)
-}
-
 func logService(serviceName, prefix string, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
-	go func() {
-		for buf.Scan() {
-			log.Printf("[%s] %s > %s", prefix, serviceName, buf.Text())
-		}
-	}()
-	go func() {
-		if err := buf.Err(); err != nil {
-			log.Printf("[ERROR] %s > %s", serviceName, err)
-		}
-	}()
-	forever := make(chan bool)
-	<-forever
+	for buf.Scan() {
+		log.Printf("[%s] %s > %s", prefix, serviceName, buf.Text())
+	}
+	if err := buf.Err(); err != nil {
+		log.Printf("[ERROR] %s > %s", serviceName, err)
+	}
 }
