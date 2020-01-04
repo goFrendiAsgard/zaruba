@@ -31,7 +31,7 @@ var watchCmd = &cobra.Command{
 		// invoke action
 		stopChan := make(chan bool)
 		errChan := make(chan error)
-		go watcher.Watch(projectDir, errChan, stopChan, arguments...)
+		go watcher.Watch(projectDir, stopChan, errChan, arguments...)
 		// listen to kill signal
 		c := make(chan os.Signal)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)

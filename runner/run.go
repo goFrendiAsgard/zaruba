@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -22,12 +23,7 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		return
 	}
 	log.Printf("[INFO] Run project `%s`", projectDir)
-	p, err := config.LoadProjectConfig(projectDir)
-	if err != nil {
-		errChan <- err
-		executedChan <- true
-		return
-	}
+	p := config.LoadProjectConfig(projectDir)
 	// get cmdDict and all it's output/error pipes
 	cmdDict, outPipeDict, errPipeDict, err := getCmdDictAndPipes(projectDir, p)
 	if err != nil {
@@ -36,6 +32,7 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		executedChan <- true
 		return
 	}
+	executedChan <- true
 	// redirect error and output pipe
 	for serviceName := range cmdDict {
 		go logService(serviceName, "OUT", outPipeDict[serviceName])
@@ -70,14 +67,20 @@ func getCmdDictAndPipes(projectDir string, p *config.ProjectConfig) (cmdDict map
 	errPipeDict = map[string]io.ReadCloser{}
 	for _, serviceName := range p.Executions {
 		component := p.Components[serviceName]
+		serviceEnv := getServiceEnv(p, serviceName)
+		// get cmd
 		var cmd *exec.Cmd
-		if component.Type == "container" {
+		switch component.Type {
+		case "container":
 			cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf("(docker start %s || %s) && docker logs --follow %s", component.ContainerName, component.Run, component.ContainerName))
-		} else if component.Type == "service" {
+		case "service":
 			cmd, err = command.GetShellCmd(component.Location, component.Start)
-		} else {
+		default:
 			continue
 		}
+		// set cmd.Env
+		cmd.Env = serviceEnv
+		// get pipes
 		outPipeDict[serviceName], err = cmd.StdoutPipe()
 		if err != nil {
 			return
@@ -97,10 +100,30 @@ func getCmdDictAndPipes(projectDir string, p *config.ProjectConfig) (cmdDict map
 	return
 }
 
+func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
+	environDict := map[string]string{}
+	for key, val := range p.Environments.General {
+		environDict[key] = val
+	}
+	if serviceEnv, exists := p.Environments.Services[serviceName]; exists {
+		for key, val := range serviceEnv {
+			environDict[key] = val
+		}
+	}
+	// transform the map into array
+	configEnv := []string{}
+	for key, val := range environDict {
+		configEnv = append(configEnv, fmt.Sprintf("%s=%s", key, val))
+	}
+	// merge the array with os.Environ
+	environ = append(os.Environ(), configEnv...)
+	return
+}
+
 func logService(serviceName, prefix string, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("[%s] %s > %s", prefix, serviceName, buf.Text())
+		log.Printf("[%s | %s] %s", prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
 		log.Printf("[ERROR] %s > %s", serviceName, err)

@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/organizer"
 	"github.com/state-alchemists/zaruba/runner"
 )
 
@@ -21,6 +22,8 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."
+		// organize
+		organizer.Organize(projectDir, organizer.NewOption())
 		// invoke action
 		stopChan := make(chan bool)
 		errChan := make(chan error)

@@ -2,6 +2,7 @@ package config
 
 import (
 	"io/ioutil"
+	"log"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -85,10 +86,7 @@ func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
 }
 
 // NewProjectConfig create new ProjectConfig
-func NewProjectConfig() (p *ProjectConfig, err error) {
-	if err != nil {
-		return
-	}
+func NewProjectConfig() (p *ProjectConfig) {
 	p = &ProjectConfig{
 		Environments: Environments{
 			General:  make(map[string]string),
@@ -102,20 +100,26 @@ func NewProjectConfig() (p *ProjectConfig, err error) {
 }
 
 // LoadProjectConfig load project configuration from project directory
-func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
-	projectDir, err = filepath.Abs(projectDir)
+func LoadProjectConfig(projectDir string) (p *ProjectConfig) {
+	p = NewProjectConfig()
+	projectDir, err := filepath.Abs(projectDir)
 	if err != nil {
+		log.Printf("[ERROR] Invalid project directory `%s`: %s", projectDir, err)
 		return
 	}
 	// read file's content
 	b, err := ioutil.ReadFile(filepath.Join(projectDir, "zaruba.config.yaml"))
 	if err != nil {
+		log.Printf("[ERROR] Cannot read `zaruba.config.yaml`: %s", err)
 		return
 	}
 	str := string(b)
 	// create new ProjectConfig and unmarshal
-	p, err = NewProjectConfig()
 	err = yaml.Unmarshal([]byte(str), p)
+	if err != nil {
+		log.Printf("[ERROR] Cannot load `zaruba.config.yaml`: %s", err)
+		return
+	}
 	p.adjustLocation(projectDir)
 	return
 }

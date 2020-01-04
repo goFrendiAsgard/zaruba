@@ -20,12 +20,7 @@ func TestLoadProjectConfig(t *testing.T) {
 		return
 	}
 
-	config, err := LoadProjectConfig(testPath)
-	if err != nil {
-		t.Errorf("[ERROR] Cannot load project config: %s", err)
-		return
-	}
-
+	config := LoadProjectConfig(testPath)
 	sortedLinkSources := config.GetSortedLinkSources()
 
 	expected := filepath.Join(testPath, "./changelog.md")

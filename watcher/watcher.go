@@ -12,7 +12,7 @@ import (
 )
 
 // Watch projectDir
-func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments ...string) {
+func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments ...string) {
 	projectDir, err := filepath.Abs(projectDir)
 	if err != nil {
 		errChan <- err
@@ -20,67 +20,55 @@ func Watch(projectDir string, errChan chan error, stopChan chan bool, arguments 
 	}
 	log.Printf("[INFO] Watch project `%s` %s", projectDir, stringformat.SprintArgs(arguments))
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
-	processKillChan := make(chan string) // order to kill process, containing either "shutdown" or "restart"
-	executedChan := make(chan bool)      // informing whether execution has been done or not
-	terminatedChan := make(chan bool)    // informing whether execution has been terminated or not
-	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), executedChan, processKillChan, arguments...)
-	go run(projectDir, executedChan, processKillChan, terminatedChan)
-	if stop := <-stopChan; stop {
-		processKillChan <- "shutdown"
-	}
-	<-terminatedChan
+	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
+	<-stopChan
 	errChan <- nil
 }
 
-func run(projectDir string, executedChan chan bool, processKillChan chan string, terminatedChan chan bool) {
-	errChan := make(chan error)
-	stopChan := make(chan bool)
-	for {
-		go runner.Run(projectDir, stopChan, executedChan, errChan)
-		killSignal := <-processKillChan
-		stopChan <- true
-		if killSignal != "restart" {
-			break
-		}
-	}
-	err := <-errChan
-	if err != nil {
-		log.Printf("[ERROR] Run/terminate process: %s", err)
-	}
-	terminatedChan <- true
-}
-
-func listen(projectDir string, organizerOption *organizer.Option, executedChan chan bool, processKillChan chan string, arguments ...string) {
+func listen(projectDir string, organizerOption *organizer.Option, arguments ...string) {
+	// run services and wait until executed
+	runnerStopChan := make(chan bool)
+	runnerErrChan := make(chan error)
+	runnerExecutedChan := make(chan bool)
+	go runner.Run(projectDir, runnerStopChan, runnerExecutedChan, runnerErrChan)
+	<-runnerExecutedChan
+	// define `isListening`
+	isListening := true
 	// get allDirs
 	allDirs, err := getAllDirsTirelessly(projectDir)
 	// create watcher, don't give up
-	watcher, err := fsnotify.NewWatcher()
+	w, err := fsnotify.NewWatcher()
 	for err != nil {
 		log.Printf("[ERROR] Fail to create watcher: %s. Retrying...", err)
-		watcher, err = fsnotify.NewWatcher()
+		w, err = fsnotify.NewWatcher()
 	}
-	defer watcher.Close()
+	defer w.Close()
 	// add allDirs to watcher
-	addDirsToWatcher(watcher, allDirs)
+	addDirsToWatcher(w, allDirs)
 	for {
 		select {
-		case event, ok := <-watcher.Events:
-			if !ok {
+		case event, ok := <-w.Events:
+			if !ok || !isListening {
 				continue
 			}
 			log.Printf("[INFO] Detect event `%s`", event)
-			removeDirsFromWatcher(watcher, allDirs)
+			removeDirsFromWatcher(w, allDirs)
+			// stop services
+			runnerStopChan <- true
+			<-runnerErrChan
+			// re run services
+			go runner.Run(projectDir, runnerStopChan, runnerExecutedChan, runnerErrChan)
+			<-runnerExecutedChan
+			// re-organize
+			organizerOption = organizer.NewOption().SetMTimeLimitToNow()
 			organizer.Organize(
 				projectDir,
 				organizerOption,
 				arguments...,
 			)
-			processKillChan <- "restart"
-			<-executedChan
 			allDirs, err = getAllDirsTirelessly(projectDir)
-			addDirsToWatcher(watcher, allDirs)
-			organizerOption = organizer.NewOption().SetMTimeLimitToNow()
-		case err, ok := <-watcher.Errors:
+			addDirsToWatcher(w, allDirs)
+		case err, ok := <-w.Errors:
 			if !ok {
 				continue
 			}
