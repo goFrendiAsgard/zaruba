@@ -35,11 +35,11 @@ func TestRun(t *testing.T) {
 	executedChan := make(chan bool)
 	go Run(testPath, stopChan, executedChan, errChan)
 	<-executedChan
-	time.Sleep(time.Millisecond * 500)
+	time.Sleep(time.Second * 10)
 
 	res, err := http.Get("http://localhost:3000/go/frendi")
 	if err != nil {
-		t.Errorf("[ERROR] Cannot seend request: %s", err)
+		t.Errorf("[ERROR] Cannot send request: %s", err)
 	}
 	content, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -53,7 +53,7 @@ func TestRun(t *testing.T) {
 
 	res, err = http.Get("http://localhost:3000")
 	if err != nil {
-		t.Errorf("[ERROR] Cannot seend request: %s", err)
+		t.Errorf("[ERROR] Cannot send request: %s", err)
 	}
 	content, err = ioutil.ReadAll(res.Body)
 	if err != nil {
