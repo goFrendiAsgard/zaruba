@@ -1,32 +1,30 @@
 package file
 
 import (
-	"io/ioutil"
 	"path"
+
+	"github.com/zealic/xignore"
 )
 
-// GetAllFiles fetch sub directories in files recursively
-func GetAllFiles(fileOrDirName string, option *Option) (allFiles []string, err error) {
-	allFiles = []string{}
-	allFiles = append(allFiles, fileOrDirName)
-	subFiles, err := ioutil.ReadDir(fileOrDirName)
+// GetAllFiles fetch sub-files and sub-directories recursively
+func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) {
+	allFiles = []string{dirName}
+	result, err := xignore.DirMatches(dirName, &xignore.MatchesOptions{
+		Ignorefile: ".gitignore",
+		Nested:     true, // Handle nested ignorefile
+	})
 	if err != nil {
 		return
 	}
-	option.SetMaxDepth(option.GetMaxDepth() - 1)
-	for _, subFile := range subFiles {
-		if !subFile.IsDir() {
-			if !option.GetIsOnlyDir() {
-				allFiles = append(allFiles, path.Join(fileOrDirName, subFile.Name()))
-			}
-			continue
+	// add all sub-directories that doesn't match gitignore
+	for _, subDirName := range result.UnmatchedDirs {
+		allFiles = append(allFiles, path.Join(dirName, subDirName))
+	}
+	if !option.GetIsOnlyDir() {
+		// add all sub-files that doesn't match gitignore
+		for _, subFileName := range result.UnmatchedFiles {
+			allFiles = append(allFiles, path.Join(dirName, subFileName))
 		}
-		subFilePath := path.Join(fileOrDirName, subFile.Name())
-		subfileOrDirNames, err := GetAllFiles(subFilePath, option)
-		if err != nil {
-			return allFiles, err
-		}
-		allFiles = append(allFiles, subfileOrDirNames...)
 	}
 	return
 }
