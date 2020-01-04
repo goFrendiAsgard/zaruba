@@ -20,12 +20,20 @@ func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments 
 	}
 	log.Printf("[INFO] Watch project `%s` %s", projectDir, stringformat.SprintArgs(arguments))
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
-	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
+	// start to listen for changes and do appropriate actions
+	listenerStopChan := make(chan bool)
+	listenerErrChan := make(chan error)
+	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), listenerStopChan, listenerErrChan, arguments...)
+	// wait for stop request
 	<-stopChan
-	errChan <- nil
+	// trigger listener to stop
+	listenerStopChan <- true
+	// wait for error from listener and return it
+	err = <-listenerErrChan
+	errChan <- err
 }
 
-func listen(projectDir string, organizerOption *organizer.Option, arguments ...string) {
+func listen(projectDir string, organizerOption *organizer.Option, listenerStopChan chan bool, listenerErrChan chan error, arguments ...string) {
 	// run services and wait until executed
 	runnerStopChan := make(chan bool)
 	runnerErrChan := make(chan error)
@@ -73,6 +81,14 @@ func listen(projectDir string, organizerOption *organizer.Option, arguments ...s
 				continue
 			}
 			log.Printf("[ERROR] Watcher error: %s. Continue to listen...", err)
+		case stop, ok := <-listenerStopChan:
+			if !ok {
+				continue
+			}
+			runnerStopChan <- stop
+			err := <-runnerErrChan
+			listenerErrChan <- err
+			break
 		}
 	}
 }
