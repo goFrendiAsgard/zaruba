@@ -1,4 +1,6 @@
 #!/bin/sh
+set -x
+
 go build
 # tear down
 rm -Rf ${ZARUBA_TEST_DIR}

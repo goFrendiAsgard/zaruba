@@ -2,13 +2,11 @@ package action
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/file"
-	"github.com/state-alchemists/zaruba/stringformat"
 )
 
 // Do with options on projectDir
@@ -95,8 +93,12 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 		errChan <- err
 		return
 	}
-	log.Printf("[INFO] Invoke `%s` on `%s` %s", actionString, workDir, stringformat.SprintArgs(arguments))
-	err = command.Run(workDir, actionPath, arguments...)
+	cmd, err := command.GetCmd(workDir, actionPath, arguments...)
+	if err != nil {
+		errChan <- err
+		return
+	}
+	err = command.Run(cmd)
 	errChan <- err
 }
 

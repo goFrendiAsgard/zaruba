@@ -7,31 +7,24 @@ import (
 	"syscall"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/watcher"
+	"github.com/state-alchemists/zaruba/runner"
 )
 
 func init() {
-	rootCmd.AddCommand(watchCmd)
+	rootCmd.AddCommand(runCmd)
 }
 
-var watchCmd = &cobra.Command{
-	Use:   "watch [project-dir [...args]]",
-	Short: "Watch project and organize accordingly",
-	Long:  `Zaruba will perform "organize" whenever something changed`,
+var runCmd = &cobra.Command{
+	Use:   "run [project-dir]",
+	Short: "Run project",
+	Long:  `Zaruba will run all defined services`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."
-		arguments := []string{}
-		if len(args) > 0 {
-			projectDir = args[0]
-			if len(args) > 1 {
-				arguments = args[1:]
-			}
-		}
 		// invoke action
 		stopChan := make(chan bool)
 		errChan := make(chan error)
-		go watcher.Watch(projectDir, errChan, stopChan, arguments...)
+		go runner.Run(projectDir, stopChan, errChan)
 		// listen to kill signal
 		c := make(chan os.Signal)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)

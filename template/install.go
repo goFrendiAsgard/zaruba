@@ -16,8 +16,12 @@ func Install(gitURL, newTemplateName string) (err error) {
 	baseTemplateDir := config.GetTemplateDir()
 	templateDir := filepath.Join(baseTemplateDir, newTemplateName)
 	log.Printf("[INFO] Install template from `%s` to `%s`", gitURL, templateDir)
-	// run git init
-	if err = command.Run(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
+	// run git clone
+	cmd, err := command.GetCmd(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1")
+	if err != nil {
+		return
+	}
+	if err = command.Run(cmd); err != nil {
 		return
 	}
 	// install-template should be exists

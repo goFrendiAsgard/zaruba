@@ -43,5 +43,5 @@ links:
 
 executions:
   - nats
-  - service
+  - greeter
   - gateway
