@@ -23,7 +23,7 @@ func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments 
 	// start to listen for changes and do appropriate actions
 	listenerStopChan := make(chan bool)
 	listenerErrChan := make(chan error)
-	go listen(projectDir, organizer.NewOption().SetMTimeLimitToNow(), listenerStopChan, listenerErrChan, arguments...)
+	go listen(projectDir, listenerStopChan, listenerErrChan, arguments...)
 	// wait for stop request
 	<-stopChan
 	// trigger listener to stop
@@ -33,23 +33,16 @@ func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments 
 	errChan <- err
 }
 
-func listen(projectDir string, organizerOption *organizer.Option, listenerStopChan chan bool, listenerErrChan chan error, arguments ...string) {
+func listen(projectDir string, listenerStopChan chan bool, listenerErrChan chan error, arguments ...string) {
 	// run services and wait until executed
 	runnerStopChan := make(chan bool)
 	runnerErrChan := make(chan error)
 	runnerExecutedChan := make(chan bool)
 	go runner.Run(projectDir, runnerStopChan, runnerExecutedChan, runnerErrChan)
 	<-runnerExecutedChan
-	// define `isListening`
 	isListening := true
-	// get allDirs
-	allDirs, err := getAllDirsTirelessly(projectDir)
-	// create watcher, don't give up
-	w, err := fsnotify.NewWatcher()
-	for err != nil {
-		log.Printf("[ERROR] Fail to create watcher: %s. Retrying...", err)
-		w, err = fsnotify.NewWatcher()
-	}
+	allDirs := getAllDirsTirelessly(projectDir)
+	w := getNewWatcherTirelessly()
 	defer w.Close()
 	// add allDirs to watcher
 	addDirsToWatcher(w, allDirs)
@@ -68,13 +61,8 @@ func listen(projectDir string, organizerOption *organizer.Option, listenerStopCh
 			go runner.Run(projectDir, runnerStopChan, runnerExecutedChan, runnerErrChan)
 			<-runnerExecutedChan
 			// re-organize
-			organizerOption = organizer.NewOption().SetMTimeLimitToNow()
-			organizer.Organize(
-				projectDir,
-				organizerOption,
-				arguments...,
-			)
-			allDirs, err = getAllDirsTirelessly(projectDir)
+			organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
+			allDirs = getAllDirsTirelessly(projectDir)
 			addDirsToWatcher(w, allDirs)
 		case err, ok := <-w.Errors:
 			if !ok {
@@ -93,8 +81,17 @@ func listen(projectDir string, organizerOption *organizer.Option, listenerStopCh
 	}
 }
 
-func getAllDirsTirelessly(projectDir string) (allDirs []string, err error) {
-	allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
+func getNewWatcherTirelessly() (w *fsnotify.Watcher) {
+	w, err := fsnotify.NewWatcher()
+	for err != nil {
+		log.Printf("[ERROR] Fail to create watcher: %s. Retrying...", err)
+		w, err = fsnotify.NewWatcher()
+	}
+	return
+}
+
+func getAllDirsTirelessly(projectDir string) (allDirs []string) {
+	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	for err != nil {
 		log.Printf("[ERROR] Fail to get list of directories: %s. Retrying...", err)
 		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
