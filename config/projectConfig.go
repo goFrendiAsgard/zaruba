@@ -37,8 +37,8 @@ type ProjectConfig struct {
 
 // ToYaml get yaml representation of projectConfig
 func (p *ProjectConfig) ToYaml() (str string, err error) {
-	d, err := yaml.Marshal(p)
-	if err == nil {
+	d, err := yaml.Marshal(*p)
+	if err != nil {
 		return
 	}
 	str = string(d)

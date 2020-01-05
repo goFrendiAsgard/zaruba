@@ -66,6 +66,7 @@ func createZarubaConfigIfNotExists(projectDir string) (err error) {
 		if err != nil {
 			return
 		}
+		log.Printf("[INFO] Write to %s:\n%s", zarubaConfigFile, configYaml)
 		ioutil.WriteFile(zarubaConfigFile, []byte(configYaml), 0755)
 	}
 	return
