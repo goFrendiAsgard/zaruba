@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/state-alchemists/zaruba/command"
@@ -35,11 +36,12 @@ func Init(projectDir string) (err error) {
 			os.Mkdir(locationDir, os.ModePerm)
 		}
 		log.Printf("[INFO] Initiating sub-repo %s", componentName)
+		subRepoPrefix := getSubrepoPrefix(projectDir, location)
 		var cmd *exec.Cmd
 		cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf(
 			"git remote add %s %s && git subtree add --prefix=%s %s %s && git fetch %s %s",
 			componentName, origin, // git remote add
-			location, componentName, branch, // git subtree add
+			subRepoPrefix, componentName, branch, // git subtree add
 			componentName, branch, // git fetch
 		))
 		if err != nil {
@@ -48,6 +50,13 @@ func Init(projectDir string) (err error) {
 		command.Run(cmd)
 	}
 	return
+}
+
+func getSubrepoPrefix(projectDir, location string) string {
+	if !strings.HasPrefix(location, projectDir) {
+		return location
+	}
+	return strings.Trim(strings.TrimPrefix(location, projectDir), string(os.PathSeparator))
 }
 
 func gitInitAndCommit(projectDir string) (err error) {
