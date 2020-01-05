@@ -2,6 +2,7 @@ package initiator
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -22,6 +23,10 @@ func Init(projectDir string) (err error) {
 	}
 	log.Println("[INFO] Initiating repo")
 	gitInitAndCommit(projectDir)
+	// create config file if not exists
+	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
+		return
+	}
 	p := config.LoadProjectConfig(projectDir)
 	for componentName, component := range p.Components {
 		location := component.Location
@@ -50,6 +55,19 @@ func Init(projectDir string) (err error) {
 		command.Run(cmd)
 	}
 	organizer.Organize(projectDir, organizer.NewOption())
+	return
+}
+
+func createZarubaConfigIfNotExists(projectDir string) (err error) {
+	zarubaConfigFile := filepath.Join(projectDir, "zaruba.config.yaml")
+	if _, statErr := os.Stat(zarubaConfigFile); os.IsNotExist(statErr) {
+		var configYaml string
+		configYaml, err = config.NewProjectConfig().ToYaml()
+		if err != nil {
+			return
+		}
+		ioutil.WriteFile(zarubaConfigFile, []byte(configYaml), 0755)
+	}
 	return
 }
 
