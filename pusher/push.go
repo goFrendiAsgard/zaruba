@@ -11,10 +11,12 @@ import (
 
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/organizer"
 )
 
 // Push monorepo and subtree
 func Push(projectDir string) (err error) {
+	organizer.Organize(projectDir, organizer.NewOption())
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return
@@ -25,7 +27,6 @@ func Push(projectDir string) (err error) {
 	gitPush(projectDir)
 	p := config.LoadProjectConfig(projectDir)
 	for componentName, component := range p.Components {
-		log.Printf("[INFO] Checking %s", componentName)
 		location := component.Location
 		origin := component.Origin
 		branch := component.Branch

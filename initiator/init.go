@@ -11,6 +11,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/organizer"
 )
 
 // Init monorepo and subtree
@@ -23,7 +24,6 @@ func Init(projectDir string) (err error) {
 	gitInitAndCommit(projectDir)
 	p := config.LoadProjectConfig(projectDir)
 	for componentName, component := range p.Components {
-		log.Printf("[INFO] Checking %s", componentName)
 		location := component.Location
 		origin := component.Origin
 		branch := component.Branch
@@ -49,6 +49,7 @@ func Init(projectDir string) (err error) {
 		}
 		command.Run(cmd)
 	}
+	organizer.Organize(projectDir, organizer.NewOption())
 	return
 }
 
