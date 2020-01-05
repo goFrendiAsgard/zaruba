@@ -3,8 +3,10 @@ package puller
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/state-alchemists/zaruba/command"
@@ -31,10 +33,11 @@ func Pull(projectDir string) (err error) {
 			continue
 		}
 		log.Printf("[INFO] Pulling sub-repo %s", componentName)
+		subRepoPrefix := getSubrepoPrefix(projectDir, location)
 		var cmd *exec.Cmd
 		cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf(
 			"git subtree pull --prefix=%s --squash %s %s",
-			location, componentName, branch,
+			subRepoPrefix, componentName, branch,
 		))
 		if err != nil {
 			return
@@ -42,6 +45,13 @@ func Pull(projectDir string) (err error) {
 		command.Run(cmd)
 	}
 	return
+}
+
+func getSubrepoPrefix(projectDir, location string) string {
+	if !strings.HasPrefix(location, projectDir) {
+		return location
+	}
+	return strings.Trim(strings.TrimPrefix(location, projectDir), string(os.PathSeparator))
 }
 
 func gitCommit(projectDir string) (err error) {
