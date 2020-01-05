@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"time"
 
 	"github.com/state-alchemists/zaruba/command"
 	"github.com/state-alchemists/zaruba/config"
@@ -17,8 +18,8 @@ func Init(projectDir string) (err error) {
 	if err != nil {
 		return
 	}
-	log.Println("[INFO] Initiating master repo")
-	gitInitMaster(projectDir)
+	log.Println("[INFO] Initiating repo")
+	gitInitAndCommit(projectDir)
 	p := config.LoadProjectConfig(projectDir)
 	for componentName, component := range p.Components {
 		log.Printf("[INFO] Checking %s", componentName)
@@ -49,8 +50,11 @@ func Init(projectDir string) (err error) {
 	return
 }
 
-func gitInitMaster(projectDir string) (err error) {
-	cmd, err := command.GetShellCmd(projectDir, "git init && git add . -A && git commit -m 'First Commmit'")
+func gitInitAndCommit(projectDir string) (err error) {
+	cmd, err := command.GetShellCmd(projectDir, fmt.Sprintf(
+		"git init && git add . -A && git commit -m 'First commit on %s'",
+		time.Now().Format(time.RFC3339),
+	))
 	if err != nil {
 		return
 	}
