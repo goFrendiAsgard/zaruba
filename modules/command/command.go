@@ -33,3 +33,12 @@ func Run(cmd *exec.Cmd) (err error) {
 	err = cmd.Run()
 	return err
 }
+
+// RunScript Run script directly
+func RunScript(dir, script string) (err error) {
+	cmd, err := GetShellCmd(dir, script)
+	if err != nil {
+		return
+	}
+	return Run(cmd)
+}
