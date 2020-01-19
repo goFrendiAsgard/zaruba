@@ -1,4 +1,5 @@
 #!/bin/sh
+set x
 
 echo "* INSTALLING ZARUBA"
 go get -u github.com/state-alchemists/zaruba
