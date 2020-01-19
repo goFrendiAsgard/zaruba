@@ -89,7 +89,7 @@ To initiate the project, you need to invoke:
 ```sh
 mkdir myproject
 cd myproject
-git init
+zaruba init
 git remote add origin git@github.com:goFrendiAsgard/zaruba-project.git # Adjust this one with your repo address
 ```
 
@@ -258,6 +258,7 @@ Once you have create the configuration, you need to re-init the project in order
 ```sh
 zaruba init
 ```
+![](readme-resource/zaruba-init.png)
 
 ## Run The Project
 
@@ -269,7 +270,7 @@ To run the project, you should perform:
 zaruba run
 ```
 
-![](readme-resource/run-project.png)
+![](readme-resource/zaruba-run.png)
 
 As you see, zaruba put the services logs in a single screen. This help us to debug the project as a whole.
 
@@ -282,7 +283,7 @@ After making sure everything behave as expected, you can push your project by us
 ```sh
 zaruba push
 ```
-![](readme-resource/push.png)
+![](readme-resource/zaruba-push.png)
 
 Now your mono-repo, as well as your services repo are updated.
 
@@ -302,51 +303,33 @@ It is important to be able to retrieve the changes into the monorepo. In this ca
 zaruba pull
 ```
 
+![](readme-resource/zaruba-pull.png)
+
 # Available Actions
 
-# Why Zaruba
-
-There are bunch of task-runners out there, like `gulp`, `grunts`, `webpack`, and that `good-old-shell-scripts`.
-
-Some things are better written in shell-scripts, while some others (like manipulating JSON) are better written in Javascript. Zaruba solve this problem by introducing a little set of convetions. Belows are problems Zaruba address:
-
-## Language Lock Problem
-
-First, Zaruba allows you to write tasks in any language. In order to achieve this, you script should has `#!` directives:
-
-* Shell script should be started with `#!/bin/sh`
-* Node script should be started with `#!/bin/node`
-* Python script should be started with `#!/bin/python`
-
-## Monolithic Task Problem
-
-Second, you can spread up your tasks in your project directories in order to make them small, single-responsible, and maintainable.
-
-Let's see the following examples:
-
 ```
-.
-├── LICENSE.md
-├── Makefile
-├── README.md
-├── payment
-│   ├── payment.go
-│   └── test               # our task-script
-├── recommendation
-│   ├── recommendation.py
-│   └── test               # our task-script
-└── authentication
-    ├── authentication.js
-    └── test               # our task-script
+Usage:
+  zaruba <action> [...args] [flags]
+  zaruba [command]
+
+Available Commands:
+  create-component Create Component
+  do               Do custom action
+  help             Help about any command
+  init             Init a project
+  install-template Install template
+  organize         Organize a project
+  pull             Pull from subtrees
+  push             Push from subtrees
+  run              Run project
+  version          Print the version number of Zaruba
+  watch            Watch project and organize accordingly
+
+Flags:
+  -h, --help   help for zaruba
+
+Use "zaruba [command] --help" for more information about a command.
 ```
-
-When you perform `zaruba test`, all corresponding task script (the ones named `test`) will be executed.
-
-## Dependency Problem
-
-Even in the world full of microservices and isolation, you might encounter some resources has to be shared among different services. For example like proto-buff schema or even a single function. Sometime problems occured when you update a single part in a service, unaware that it will also affect other services as well.
-
-Zaruba tries to solve dependency problem by using `zaruba link`, providing special action named `zaruba organize-project` and even full-fledge project watcher (`zaruba watch-project`).
 
 # Concepts
 
@@ -469,7 +452,7 @@ Note: whenever running the executables, zaruba will automatically add `<project-
 
 # Testing
 
-Create `.env` based on `template.env`.
+Copy `template.env` to `.env` and invoke:
 
 ```sh
 source .env
