@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/template"
+	"github.com/state-alchemists/zaruba/modules/template"
 )
 
 func init() {

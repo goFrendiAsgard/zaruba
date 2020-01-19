@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/modules/config"
 )
 
 // GetCmd get Cmd object

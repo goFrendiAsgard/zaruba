@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/state-alchemists/zaruba/action"
-	"github.com/state-alchemists/zaruba/command"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/modules/action"
+	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/config"
 )
 
 // Install template

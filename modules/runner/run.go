@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/command"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/config"
 )
 
 // Run a project config.

@@ -9,7 +9,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/modules/file"
 )
 
 // Environments describe environment variables in general and for each services

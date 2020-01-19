@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/state-alchemists/zaruba/command"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/file"
 )
 
 // Do with options on projectDir

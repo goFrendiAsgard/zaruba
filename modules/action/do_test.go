@@ -6,14 +6,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/file"
 )
 
 func TestDo(t *testing.T) {
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testDo")
-	if err := file.Copy("../test-resource/testDo", testPath); err != nil {
+	if err := file.Copy("../../test-resource/testDo", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}

@@ -4,9 +4,9 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/state-alchemists/zaruba/action"
-	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/stringformat"
+	"github.com/state-alchemists/zaruba/modules/action"
+	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/stringformat"
 )
 
 // Create component

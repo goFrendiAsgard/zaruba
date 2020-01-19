@@ -5,10 +5,10 @@ import (
 	"path/filepath"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/state-alchemists/zaruba/file"
-	"github.com/state-alchemists/zaruba/organizer"
-	"github.com/state-alchemists/zaruba/runner"
-	"github.com/state-alchemists/zaruba/stringformat"
+	"github.com/state-alchemists/zaruba/modules/file"
+	"github.com/state-alchemists/zaruba/modules/organizer"
+	"github.com/state-alchemists/zaruba/modules/runner"
+	"github.com/state-alchemists/zaruba/modules/stringformat"
 )
 
 // Watch projectDir

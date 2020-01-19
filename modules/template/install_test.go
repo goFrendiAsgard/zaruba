@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/modules/config"
 )
 
 func TestInstallTemplate(t *testing.T) {

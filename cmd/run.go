@@ -7,8 +7,8 @@ import (
 	"syscall"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/organizer"
-	"github.com/state-alchemists/zaruba/runner"
+	"github.com/state-alchemists/zaruba/modules/organizer"
+	"github.com/state-alchemists/zaruba/modules/runner"
 )
 
 func init() {

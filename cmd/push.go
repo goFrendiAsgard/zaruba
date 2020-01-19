@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/pusher"
+	"github.com/state-alchemists/zaruba/modules/pusher"
 )
 
 func init() {

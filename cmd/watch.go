@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/watcher"
+	"github.com/state-alchemists/zaruba/modules/watcher"
 )
 
 func init() {

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/state-alchemists/zaruba/command"
-	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/organizer"
+	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/organizer"
 )
 
 // Init monorepo and subtree
