@@ -25,7 +25,10 @@ func Push(projectDir string) (err error) {
 	gitCommit(projectDir)
 	log.Println("[INFO] Push repo")
 	gitPush(projectDir)
-	p := config.LoadProjectConfig(projectDir)
+	p, err := config.LoadProjectConfig(projectDir)
+	if err != nil {
+		return
+	}
 	for componentName, component := range p.Components {
 		location := component.Location
 		origin := component.Origin

@@ -27,7 +27,10 @@ func Init(projectDir string) (err error) {
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
 		return
 	}
-	p := config.LoadProjectConfig(projectDir)
+	p, err := config.LoadProjectConfig(projectDir)
+	if err != nil {
+		return
+	}
 	for componentName, component := range p.Components {
 		location := component.Location
 		origin := component.Origin

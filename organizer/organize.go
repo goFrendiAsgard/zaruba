@@ -19,7 +19,10 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		return
 	}
 	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), stringformat.SprintArgs(arguments))
-	projectConfig := config.LoadProjectConfig(projectDir)
+	projectConfig, err := config.LoadProjectConfig(projectDir)
+	if err != nil {
+		return
+	}
 	sortedLinkSources := projectConfig.GetSortedLinkSources()
 	// update option.MTimeLimit
 	for _, source := range sortedLinkSources {

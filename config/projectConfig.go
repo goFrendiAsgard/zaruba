@@ -2,12 +2,14 @@ package config
 
 import (
 	"io/ioutil"
-	"log"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
 
 	"gopkg.in/yaml.v2"
+
+	"github.com/state-alchemists/zaruba/file"
 )
 
 // Environments describe environment variables in general and for each services
@@ -82,12 +84,12 @@ func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
 		}
 		return false
 	})
-	return
+	return sortedSources
 }
 
 // NewProjectConfig create new ProjectConfig
 func NewProjectConfig() (p *ProjectConfig) {
-	p = &ProjectConfig{
+	return &ProjectConfig{
 		Environments: Environments{
 			General:  make(map[string]string),
 			Services: make(map[string]map[string]string),
@@ -96,31 +98,103 @@ func NewProjectConfig() (p *ProjectConfig) {
 		Executions: []string{},
 		Links:      make(map[string][]string),
 	}
-	return
 }
 
 // LoadProjectConfig load project configuration from project directory
-func LoadProjectConfig(projectDir string) (p *ProjectConfig) {
+func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
+	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	p = NewProjectConfig()
-	projectDir, err := filepath.Abs(projectDir)
+	for _, directory := range allDirs {
+		subP, loadSubErr := loadSingleConfig(directory)
+		if loadSubErr != nil {
+			if os.IsNotExist(loadSubErr) {
+				continue
+			}
+			err = loadSubErr
+			break
+		}
+		// merge general environment
+		for generalSubEnvName, generalSubEnv := range subP.Environments.General {
+			if _, exists := p.Environments.General[generalSubEnvName]; !exists {
+				p.Environments.General[generalSubEnvName] = generalSubEnv
+			}
+		}
+		// merge service environment
+		for serviceName, serviceEnvMap := range subP.Environments.Services {
+			// if p doesn't have any environment for the service, add it
+			if _, exists := p.Environments.Services[serviceName]; !exists {
+				p.Environments.Services[serviceName] = serviceEnvMap
+				continue
+			}
+			// p already has environment for the service, cascade it
+			for serviceSubEnvName, serviceSubEnv := range serviceEnvMap {
+				if _, exists := p.Environments.Services[serviceName][serviceSubEnvName]; !exists {
+					p.Environments.Services[serviceName][serviceSubEnvName] = serviceSubEnv
+				}
+			}
+		}
+		// merge component
+		for componentName, component := range subP.Components {
+			if _, exists := p.Components[componentName]; !exists {
+				p.Components[componentName] = component
+			}
+		}
+		// merge executions
+		for _, subExecution := range subP.Executions {
+			exists := false
+			for _, execution := range p.Executions {
+				if execution == subExecution {
+					exists = true
+					break
+				}
+			}
+			if !exists {
+				p.Executions = append(p.Executions, subExecution)
+			}
+		}
+		// merge links
+		for libPath, subLinks := range subP.Links {
+			// if p doesn't have any link for libPath, add it
+			if _, exists := p.Links[libPath]; !exists {
+				p.Links[libPath] = subLinks
+				continue
+			}
+			for _, subLink := range subLinks {
+				exists := false
+				for _, link := range p.Links[libPath] {
+					if subLink == link {
+						exists = true
+						break
+					}
+				}
+				if !exists {
+					p.Links[libPath] = append(p.Links[libPath], subLink)
+				}
+			}
+		}
+	}
+	return
+}
+
+// loadSingleConfig load project configuration from a directory
+func loadSingleConfig(directory string) (p *ProjectConfig, err error) {
+	p = NewProjectConfig()
+	directory, err = filepath.Abs(directory)
 	if err != nil {
-		log.Printf("[ERROR] Invalid project directory `%s`: %s", projectDir, err)
 		return
 	}
 	// read file's content
-	b, err := ioutil.ReadFile(filepath.Join(projectDir, "zaruba.config.yaml"))
+	b, err := ioutil.ReadFile(filepath.Join(directory, "zaruba.config.yaml"))
 	if err != nil {
-		log.Printf("[ERROR] Cannot read `zaruba.config.yaml`: %s", err)
 		return
 	}
 	str := string(b)
 	// create new ProjectConfig and unmarshal
 	err = yaml.Unmarshal([]byte(str), p)
 	if err != nil {
-		log.Printf("[ERROR] Cannot load `zaruba.config.yaml`: %s", err)
 		return
 	}
-	p.adjustLocation(projectDir)
+	p.adjustLocation(directory)
 	return
 }
 

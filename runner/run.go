@@ -22,33 +22,39 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		executedChan <- true
 		return
 	}
-	log.Printf("[INFO] Run project `%s`", projectDir)
-	p := config.LoadProjectConfig(projectDir)
-	// get cmdDict and all it's output/error pipes
-	cmdDict, outPipeDict, errPipeDict, err := getCmdDictAndPipes(projectDir, p)
+	log.Printf("[INFO] Load config of project `%s`", projectDir)
+	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
-		killCmdDict(p, cmdDict)
+		errChan <- err
+		executedChan <- true
+		return
+	}
+	log.Printf("[INFO] Run project `%s`", projectDir)
+	// get cmdMap, run them, and get their output/error pipes
+	cmdMap, outPipeMap, errPipeMap, err := getCmdAndPipesMap(projectDir, p)
+	if err != nil {
+		killCmdMap(p, cmdMap)
 		errChan <- err
 		executedChan <- true
 		return
 	}
 	executedChan <- true
 	// redirect error and output pipe
-	for serviceName := range cmdDict {
-		go logService(serviceName, "OUT", outPipeDict[serviceName])
-		go logService(serviceName, "ERR", errPipeDict[serviceName])
+	for serviceName := range cmdMap {
+		go logService(serviceName, "OUT", outPipeMap[serviceName])
+		go logService(serviceName, "ERR", errPipeMap[serviceName])
 	}
 	// listen to stopChan
 	<-stopChan
-	killCmdDict(p, cmdDict)
+	killCmdMap(p, cmdMap)
 	errChan <- nil
 }
 
 // kill based on p.Executions in reverse order
-func killCmdDict(p *config.ProjectConfig, cmdDict map[string]*exec.Cmd) {
+func killCmdMap(p *config.ProjectConfig, cmdMap map[string]*exec.Cmd) {
 	for index := len(p.Executions) - 1; index >= 0; index-- {
 		serviceName := p.Executions[index]
-		cmd := cmdDict[serviceName]
+		cmd := cmdMap[serviceName]
 		if cmd.Process == nil {
 			log.Printf("[INFO] Process %s not found", serviceName)
 			continue
@@ -61,10 +67,10 @@ func killCmdDict(p *config.ProjectConfig, cmdDict map[string]*exec.Cmd) {
 	}
 }
 
-func getCmdDictAndPipes(projectDir string, p *config.ProjectConfig) (cmdDict map[string]*exec.Cmd, outPipeDict, errPipeDict map[string]io.ReadCloser, err error) {
-	cmdDict = map[string]*exec.Cmd{}
-	outPipeDict = map[string]io.ReadCloser{}
-	errPipeDict = map[string]io.ReadCloser{}
+func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[string]*exec.Cmd, outPipeMap, errPipeMap map[string]io.ReadCloser, err error) {
+	cmdMap = map[string]*exec.Cmd{}
+	outPipeMap = map[string]io.ReadCloser{}
+	errPipeMap = map[string]io.ReadCloser{}
 	for _, serviceName := range p.Executions {
 		component := p.Components[serviceName]
 		serviceEnv := getServiceEnv(p, serviceName)
@@ -81,17 +87,18 @@ func getCmdDictAndPipes(projectDir string, p *config.ProjectConfig) (cmdDict map
 		// set cmd.Env
 		cmd.Env = serviceEnv
 		// get pipes
-		outPipeDict[serviceName], err = cmd.StdoutPipe()
+		outPipeMap[serviceName], err = cmd.StdoutPipe()
 		if err != nil {
 			return
 		}
-		errPipeDict[serviceName], err = cmd.StderrPipe()
+		errPipeMap[serviceName], err = cmd.StderrPipe()
 		if err != nil {
 			return
 		}
 		log.Printf("[INFO] Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
+		// run
 		err = cmd.Start()
-		cmdDict[serviceName] = cmd
+		cmdMap[serviceName] = cmd
 		// if error, stop
 		if err != nil {
 			return
@@ -101,18 +108,18 @@ func getCmdDictAndPipes(projectDir string, p *config.ProjectConfig) (cmdDict map
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
-	environDict := map[string]string{}
+	environMap := map[string]string{}
 	for key, val := range p.Environments.General {
-		environDict[key] = val
+		environMap[key] = val
 	}
 	if serviceEnv, exists := p.Environments.Services[serviceName]; exists {
 		for key, val := range serviceEnv {
-			environDict[key] = val
+			environMap[key] = val
 		}
 	}
 	// transform the map into array
 	configEnv := []string{}
-	for key, val := range environDict {
+	for key, val := range environMap {
 		configEnv = append(configEnv, fmt.Sprintf("%s=%s", key, val))
 	}
 	// merge the array with os.Environ
