@@ -2,19 +2,31 @@
 
 > "My name is Zaruba. I came to be when Garo came to be and I am forever with him.”
 
-Zaruba is agnostic generator and service runner. It treat your project as big monorepo application, but still allow you to publish your services as multi-repos
+Zaruba is agnostic generator and service runner. Zaruba treat your project like a big monorepo application containing multiple micro-services. However, zaruba also allows you to publish the micro-services as individual repo, independent from each other.
+
+To see why you probably need monorepo, please look at this [awesome slide](https://www.symfony-news.com/slide/details/a-monorepo-vs-manyrepos).
+
+Despite of the advantages, managing monorepo without a proper tool might brings you a nightmare. Zaruba is specifically created to make monorepo management easier.
 
 # Installation
+
+To install zaruba in your local computer, you have to install `golang 1.13`. Next, you can install zaruba by using `curl`:
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
-or
+or `wget`:
 
 ```bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
+
+If you are using windows, it is recommended to use WSL.
+
+# Use Case
+
+![](readme-resource/usecase.png)
 
 # Why Zaruba
 
