@@ -2,7 +2,13 @@
 
 > "My name is Zaruba. I came to be when Garo came to be and I am forever with him.”
 
-Zaruba is agnostic generator and task runner. It sole purpose is to help you create project and maintain dependencies among components.
+Zaruba is agnostic generator and service runner. It treat your project as big monorepo application, but still allow you to publish your services as multi-repos
+
+# Installation
+
+```
+sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
+```
 
 # Why Zaruba
 
@@ -163,9 +169,9 @@ Note: whenever running the executables, zaruba will automatically add `<project-
 
 ## Environment Variable
 
-* `ZARUBA_TEMPLATE_DIR`
-    - Zaruba's template directory
-    - Default to `<zaruba-parent-dir>/templates`
+* `ZARUBA_TEMPLATE_DIR`: Zaruba's template directory, default to `<zaruba-parent-dir>/templates`
+* `ZARUBA_SHELL`: Default to `/bin/bash`
+* `ZARUBA_SHELL_ARG`: Default to `-c`
 
 # Testing
 
