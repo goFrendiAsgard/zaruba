@@ -47,7 +47,8 @@ func Init(projectDir string) (err error) {
 		subRepoPrefix := getSubrepoPrefix(projectDir, location)
 		var cmd *exec.Cmd
 		cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf(
-			"git remote add %s %s && git subtree add --prefix=%s %s %s && git fetch %s %s",
+			"git remote remove %s && git remote add %s %s && git subtree add --prefix=%s %s %s && git fetch %s %s",
+			componentName,         // git remote remove
 			componentName, origin, // git remote add
 			subRepoPrefix, componentName, branch, // git subtree add
 			componentName, branch, // git fetch
