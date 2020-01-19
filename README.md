@@ -6,7 +6,13 @@ Zaruba is agnostic generator and service runner. It treat your project as big mo
 
 # Installation
 
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
+
+or
+
+```bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
