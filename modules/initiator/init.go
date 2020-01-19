@@ -45,12 +45,16 @@ func Init(projectDir string) (err error) {
 		}
 		log.Printf("[INFO] Initiating sub-repo %s", componentName)
 		subRepoPrefix := getSubrepoPrefix(projectDir, location)
+		tmpLocation := filepath.Join(".git", subRepoPrefix)
 		var cmd *exec.Cmd
 		cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf(
-			"git remote add %s %s && git subtree add --prefix=%s %s %s && git fetch %s %s",
+			"(mv %s %s && git remote add %s %s && git subtree add --prefix=%s %s %s && git fetch %s %s && mv %s %s) || mv %s %s",
+			subRepoPrefix, tmpLocation, // mv
 			componentName, origin, // git remote add
 			subRepoPrefix, componentName, branch, // git subtree add
 			componentName, branch, // git fetch
+			tmpLocation, subRepoPrefix, // mv
+			tmpLocation, subRepoPrefix, // mv
 		))
 		if err != nil {
 			return
