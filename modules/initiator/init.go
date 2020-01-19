@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
@@ -30,6 +29,7 @@ func Init(projectDir string) (err error) {
 	if err != nil {
 		return
 	}
+	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	// git init
 	log.Println("[INFO] Initiating repo")
 	command.RunScript(projectDir, "git init")
@@ -37,7 +37,7 @@ func Init(projectDir string) (err error) {
 	log.Printf("[INFO] Checkout to `%s`", temporaryBranchName)
 	command.RunScript(projectDir, fmt.Sprintf("git checkout -b %s", temporaryBranchName))
 	// backup all services
-	for componentName, subrepoPrefix := range getSubrepoPrefixMap(projectDir, p) {
+	for componentName, subrepoPrefix := range subrepoPrefixMap {
 		location := p.Components[componentName].Location
 		locationDir := filepath.Dir(location)
 		// create locationDir in case of it doesn't exists. We need it for git subtree add
@@ -57,7 +57,7 @@ func Init(projectDir string) (err error) {
 	log.Println("[INFO] Commit changes before adding subtrees")
 	command.RunScript(projectDir, "git add . -A && git commit -m 'Remove services from monorepo'")
 	// add subtree
-	for componentName, subrepoPrefix := range getSubrepoPrefixMap(projectDir, p) {
+	for componentName, subrepoPrefix := range subrepoPrefixMap {
 		component := p.Components[componentName]
 		origin := component.Origin
 		branch := component.Branch
@@ -67,7 +67,7 @@ func Init(projectDir string) (err error) {
 		command.RunScript(projectDir, fmt.Sprintf("git fetch %s %s", componentName, branch))
 	}
 	// restore all services
-	for componentName, subrepoPrefix := range getSubrepoPrefixMap(projectDir, p) {
+	for componentName, subrepoPrefix := range subrepoPrefixMap {
 		location := p.Components[componentName].Location
 		backupLocation := filepath.Join(projectDir, ".git", ".backup", subrepoPrefix)
 		if _, statErr := os.Stat(backupLocation); os.IsNotExist(statErr) {
@@ -99,26 +99,4 @@ func createZarubaConfigIfNotExists(projectDir string) (err error) {
 		ioutil.WriteFile(zarubaConfigFile, []byte(configYaml), 0755)
 	}
 	return
-}
-
-func getSubrepoPrefixMap(projectDir string, p *config.ProjectConfig) (subRepoPrefixMap map[string]string) {
-	subRepoPrefixMap = map[string]string{}
-	for componentName, component := range p.Components {
-		location := component.Location
-		origin := component.Origin
-		branch := component.Branch
-		if location == "" || origin == "" || branch == "" {
-			continue
-		}
-		subRepoPrefix := getSubrepoPrefix(projectDir, location)
-		subRepoPrefixMap[componentName] = subRepoPrefix
-	}
-	return
-}
-
-func getSubrepoPrefix(projectDir, location string) string {
-	if !strings.HasPrefix(location, projectDir) {
-		return location
-	}
-	return strings.Trim(strings.TrimPrefix(location, projectDir), string(os.PathSeparator))
 }

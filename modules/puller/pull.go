@@ -3,10 +3,7 @@ package puller
 import (
 	"fmt"
 	"log"
-	"os"
-	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
@@ -21,14 +18,19 @@ func Pull(projectDir string) (err error) {
 		return
 	}
 	log.Println("[INFO] Commit if there are changes")
-	gitCommit(projectDir)
+	command.RunScript(projectDir, fmt.Sprintf(
+		"git add . -A && git commit -m 'Save before pull on %s'",
+		time.Now().Format(time.RFC3339),
+	))
 	log.Println("[INFO] Pull repo")
-	gitPull(projectDir)
+	command.RunScript(projectDir, "git pull origin HEAD")
 	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
 		return
 	}
-	for componentName, component := range p.Components {
+	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
+	for componentName, subrepoPrefix := range subrepoPrefixMap {
+		component := p.Components[componentName]
 		location := component.Location
 		origin := component.Origin
 		branch := component.Branch
@@ -36,43 +38,11 @@ func Pull(projectDir string) (err error) {
 			continue
 		}
 		log.Printf("[INFO] Pulling sub-repo %s", componentName)
-		subRepoPrefix := getSubrepoPrefix(projectDir, location)
-		var cmd *exec.Cmd
-		cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf(
+		command.RunScript(projectDir, fmt.Sprintf(
 			"git subtree pull --prefix=%s --squash %s %s",
-			subRepoPrefix, componentName, branch,
+			subrepoPrefix, componentName, branch,
 		))
-		if err != nil {
-			return
-		}
-		command.Run(cmd)
 	}
 	organizer.Organize(projectDir, organizer.NewOption())
 	return
-}
-
-func getSubrepoPrefix(projectDir, location string) string {
-	if !strings.HasPrefix(location, projectDir) {
-		return location
-	}
-	return strings.Trim(strings.TrimPrefix(location, projectDir), string(os.PathSeparator))
-}
-
-func gitCommit(projectDir string) (err error) {
-	cmd, err := command.GetShellCmd(projectDir, fmt.Sprintf(
-		"git add . -A && git commit -m 'Save before pull on %s'",
-		time.Now().Format(time.RFC3339),
-	))
-	if err != nil {
-		return
-	}
-	return command.Run(cmd)
-}
-
-func gitPull(projectDir string) (err error) {
-	cmd, err := command.GetShellCmd(projectDir, "git pull origin HEAD")
-	if err != nil {
-		return
-	}
-	return command.Run(cmd)
 }

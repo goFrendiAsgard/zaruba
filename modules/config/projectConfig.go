@@ -87,6 +87,22 @@ func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
 	return sortedSources
 }
 
+// GetSubrepoPrefixMap get map of all eligible component's subrepoPrefix (for git subtree)
+func (p *ProjectConfig) GetSubrepoPrefixMap(projectDir string) (subRepoPrefixMap map[string]string) {
+	subRepoPrefixMap = map[string]string{}
+	for componentName, component := range p.Components {
+		location := component.Location
+		origin := component.Origin
+		branch := component.Branch
+		if location == "" || origin == "" || branch == "" {
+			continue
+		}
+		subRepoPrefix := getSubrepoPrefix(projectDir, location)
+		subRepoPrefixMap[componentName] = subRepoPrefix
+	}
+	return
+}
+
 // NewProjectConfig create new ProjectConfig
 func NewProjectConfig() (p *ProjectConfig) {
 	return &ProjectConfig{
@@ -174,6 +190,13 @@ func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 		}
 	}
 	return
+}
+
+func getSubrepoPrefix(projectDir, location string) string {
+	if !strings.HasPrefix(location, projectDir) {
+		return location
+	}
+	return strings.Trim(strings.TrimPrefix(location, projectDir), string(os.PathSeparator))
 }
 
 // loadSingleConfig load project configuration from a directory
