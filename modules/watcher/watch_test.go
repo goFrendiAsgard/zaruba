@@ -20,7 +20,7 @@ func TestWatch(t *testing.T) {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
-	if err := file.Copy("../../test-resource/zaruba.config.megazord.yaml", filepath.Join(testPath, "zaruba.config.yaml")); err != nil {
+	if err := file.Copy("../../test-resource/testWatch/zaruba.config.yaml", filepath.Join(testPath, "zaruba.config.yaml")); err != nil {
 		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
 		return
 	}
