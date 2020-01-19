@@ -40,7 +40,7 @@ func Pull(projectDir string) (err error) {
 		var cmd *exec.Cmd
 		cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf(
 			"git subtree pull --prefix=%s --squash %s %s",
-			subRepoPrefix, componentName, branch,
+			subRepoPrefix, origin, branch,
 		))
 		if err != nil {
 			return
