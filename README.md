@@ -58,6 +58,30 @@ Please make sure you use the different addresses by make your own repos.
 
 ![](readme-resource/remote-repos.png)
 
+Before proceed any further, you have to make sure that your service repositories are not empty.
+
+```sh
+mkdir gateway
+cd gateway
+git init
+echo "# zaruba-gateway" >> README.md
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:goFrendiAsgard/zaruba-gateway.git
+git push -u origin master
+cd ..
+
+mkdir greeter
+cd greeter
+git init
+echo "# zaruba-greeter" >> README.md
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:goFrendiAsgard/zaruba-greeter.git
+git push -u origin master
+cd ..
+```
+
 ## Initiating Project
 
 To initiate the project, you need to invoke:
@@ -65,11 +89,9 @@ To initiate the project, you need to invoke:
 ```sh
 mkdir myproject
 cd myproject
-zaruba init
+git init
 git remote add origin git@github.com:goFrendiAsgard/zaruba-project.git # Adjust this one with your repo address
 ```
-
-![](readme-resource/init-project.png)
 
 ## Coding
 

@@ -74,6 +74,7 @@ func Init(projectDir string) (err error) {
 			continue
 		}
 		log.Printf("[INFO] Moving `%s` to `%s`", backupLocation, location)
+		os.RemoveAll(location)
 		os.Rename(backupLocation, location)
 	}
 	// git commit before add subtrees
