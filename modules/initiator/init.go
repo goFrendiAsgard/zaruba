@@ -63,7 +63,7 @@ func Init(projectDir string) (err error) {
 		branch := component.Branch
 		command.RunScript(projectDir, fmt.Sprintf("git remote remove %s", componentName))
 		command.RunScript(projectDir, fmt.Sprintf("git remote add %s %s", componentName, origin))
-		command.RunScript(projectDir, fmt.Sprintf("git subtree add --prefix=%s %s, %s", subrepoPrefix, componentName, branch))
+		command.RunScript(projectDir, fmt.Sprintf("git subtree add --prefix=%s %s %s", subrepoPrefix, componentName, branch))
 		command.RunScript(projectDir, fmt.Sprintf("git fetch %s %s", componentName, branch))
 	}
 	// restore all services
