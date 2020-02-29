@@ -2,6 +2,7 @@ package file
 
 import (
 	"path"
+	"strings"
 
 	"github.com/zealic/xignore"
 )
@@ -16,26 +17,17 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 	if err != nil {
 		return allFiles, err
 	}
-	// create xignorePatterns
-	xignorePatterns := []*xignore.Pattern{}
-	for _, strPattern := range option.GetIgnores() {
-		xignorePattern := xignore.NewPattern(strPattern)
-		if err = xignorePattern.Prepare(); err != nil {
-			return allFiles, err
-		}
-		xignorePattern.Prepare()
-	}
 	// add all sub-directories that doesn't match gitignore
 	for _, subDirName := range result.UnmatchedDirs {
 		absSubDirName := path.Join(dirName, subDirName)
-		match := false
-		for _, xignorePattern := range xignorePatterns {
-			if xignorePattern.Match(absSubDirName) {
-				match = true
+		ignored := false
+		for _, prefix := range option.GetIgnores() {
+			if strings.HasPrefix(absSubDirName, prefix) {
+				ignored = true
 				break
 			}
 		}
-		if !match {
+		if !ignored {
 			allFiles = append(allFiles, absSubDirName)
 		}
 	}
@@ -43,14 +35,14 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 		// add all sub-files that doesn't match gitignore
 		for _, subFileName := range result.UnmatchedFiles {
 			absFileName := path.Join(dirName, subFileName)
-			match := false
-			for _, xignorePattern := range xignorePatterns {
-				if xignorePattern.Match(absFileName) {
-					match = true
+			ignored := false
+			for _, prefix := range option.GetIgnores() {
+				if strings.HasPrefix(absFileName, prefix) {
+					ignored = true
 					break
 				}
 			}
-			if !match {
+			if !ignored {
 				allFiles = append(allFiles, absFileName)
 			}
 		}

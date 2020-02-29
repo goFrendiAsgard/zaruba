@@ -130,6 +130,9 @@ func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	}
 	ignores := rootConfig.Ignores
 	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true).SetIgnores(ignores))
+	if err != nil {
+		return p, err
+	}
 	p = NewProjectConfig()
 	for _, directory := range allDirs {
 		subP, loadSubErr := LoadSingleProjectConfig(directory)

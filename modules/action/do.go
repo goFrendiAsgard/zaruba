@@ -2,6 +2,7 @@ package action
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -12,6 +13,7 @@ import (
 
 // Do with options on projectDir
 func Do(actionString string, option *Option, arguments ...string) (err error) {
+	log.Println(actionString)
 	if err = prepareOption(option); err != nil {
 		return err
 	}
@@ -22,6 +24,7 @@ func Do(actionString string, option *Option, arguments ...string) (err error) {
 	if loadErr == nil {
 		ignores = p.Ignores
 	}
+	log.Println(ignores, loadErr, p)
 	// get allWorkDirs
 	allWorkDirs := []string{rootWorkDir}
 	if option.GetIsRecursiveWorkDir() {
