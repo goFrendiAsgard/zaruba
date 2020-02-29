@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 
 	"github.com/state-alchemists/zaruba/modules/command"
-	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/file"
 )
 
@@ -15,17 +14,10 @@ func Do(actionString string, option *Option, arguments ...string) (err error) {
 	if err = prepareOption(option); err != nil {
 		return err
 	}
-	// get ignores
-	rootWorkDir := option.GetWorkDir()
-	ignores := []string{}
-	p, loadErr := config.LoadProjectConfig(rootWorkDir)
-	if loadErr == nil {
-		ignores = p.Ignores
-	}
 	// get allWorkDirs
-	allWorkDirs := []string{rootWorkDir}
+	allWorkDirs := []string{option.GetWorkDir()}
 	if option.GetIsRecursiveWorkDir() {
-		allWorkDirs, err = file.GetAllFiles(option.GetWorkDir(), file.NewOption().SetIsOnlyDir(true).SetIgnores(ignores))
+		allWorkDirs, err = file.GetAllFiles(option.GetWorkDir(), file.NewOption().SetIsOnlyDir(true))
 		if err != nil {
 			return err
 		}

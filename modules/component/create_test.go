@@ -27,8 +27,9 @@ func TestCreateComponent(t *testing.T) {
 	}
 
 	// After create component, component should be exists
-	if _, err := os.Stat(filepath.Join(testPath, ".git")); os.IsNotExist(err) {
-		t.Errorf("[UNEXPECTED] ../test-playground/testCreateComponent/.git is not exist: %s", err)
+	gitPath := filepath.Join(testPath, ".git")
+	if _, err := os.Stat(gitPath); os.IsNotExist(err) {
+		t.Errorf("[UNEXPECTED] %s is not exist: %s", gitPath, err)
 	}
 
 }
