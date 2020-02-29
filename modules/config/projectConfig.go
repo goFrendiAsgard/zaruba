@@ -31,6 +31,7 @@ type Component struct {
 
 // ProjectConfig configuration
 type ProjectConfig struct {
+	Ignores      []string             `yaml:"ignores"`
 	Environments Environments         `yaml:"environments"`
 	Components   map[string]Component `yaml:"components"`
 	Executions   []string             `yaml:"executions"`
@@ -61,6 +62,10 @@ func (p *ProjectConfig) adjustLocation(absDirPath string) {
 		for _, destination := range destinations {
 			newLinks[newSource] = append(newLinks[newSource], getAbsLocation(absDirPath, destination))
 		}
+	}
+	// adjust ignores
+	for index, ignore := range p.Ignores {
+		p.Ignores[index] = getAbsLocation(absDirPath, ignore)
 	}
 	p.Links = newLinks
 }
@@ -106,6 +111,7 @@ func (p *ProjectConfig) GetSubrepoPrefixMap(projectDir string) (subRepoPrefixMap
 // NewProjectConfig create new ProjectConfig
 func NewProjectConfig() (p *ProjectConfig) {
 	return &ProjectConfig{
+		Ignores: []string{},
 		Environments: Environments{
 			General:  make(map[string]string),
 			Services: make(map[string]map[string]string),
@@ -118,10 +124,15 @@ func NewProjectConfig() (p *ProjectConfig) {
 
 // LoadProjectConfig load project configuration from project directory
 func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
-	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
+	rootConfig, err := LoadSingleProjectConfig(projectDir)
+	if err != nil {
+		return p, err
+	}
+	ignores := rootConfig.Ignores
+	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true).SetIgnores(ignores))
 	p = NewProjectConfig()
 	for _, directory := range allDirs {
-		subP, loadSubErr := loadSingleConfig(directory)
+		subP, loadSubErr := LoadSingleProjectConfig(directory)
 		if loadSubErr != nil {
 			if os.IsNotExist(loadSubErr) {
 				continue
@@ -199,8 +210,8 @@ func getSubrepoPrefix(projectDir, location string) string {
 	return strings.Trim(strings.TrimPrefix(location, projectDir), string(os.PathSeparator))
 }
 
-// loadSingleConfig load project configuration from a directory
-func loadSingleConfig(directory string) (p *ProjectConfig, err error) {
+// LoadSingleProjectConfig load project configuration from a directory
+func LoadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 	p = NewProjectConfig()
 	directory, err = filepath.Abs(directory)
 	if err != nil {

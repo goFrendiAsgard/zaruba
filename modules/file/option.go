@@ -4,6 +4,7 @@ package file
 type Option struct {
 	maxDepth  int
 	isOnlyDir bool
+	ignores   []string
 }
 
 // GetMaxDepth get MTime of option
@@ -25,6 +26,17 @@ func (option *Option) GetIsOnlyDir() bool {
 // SetIsOnlyDir set performAction of option
 func (option *Option) SetIsOnlyDir(value bool) *Option {
 	option.isOnlyDir = value
+	return option
+}
+
+// GetIgnores get ignores of option
+func (option *Option) GetIgnores() []string {
+	return option.ignores
+}
+
+// SetIgnores set ignores of option
+func (option *Option) SetIgnores(value []string) *Option {
+	option.ignores = value
 	return option
 }
 
