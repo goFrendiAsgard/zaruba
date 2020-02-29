@@ -19,3 +19,9 @@ post-organize
 pre-organize
 organize
 post-organize
+pre-organize
+organize
+post-organize
+pre-organize
+organize
+post-organize

@@ -32,6 +32,7 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 		}
 		log.Println(absSubDirName, ignored)
 		if !ignored {
+			log.Println(absSubDirName)
 			allFiles = append(allFiles, absSubDirName)
 		}
 	}
