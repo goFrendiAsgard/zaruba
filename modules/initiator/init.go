@@ -1,12 +1,11 @@
 package initiator
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-	"time"
+	"strings"
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
@@ -19,7 +18,6 @@ func Init(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
-	temporaryBranchName := fmt.Sprintf("sync-%s", time.Now().Format(time.RFC3339))
 	// load project config
 	log.Println("[INFO] Load Project Config")
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
@@ -32,60 +30,60 @@ func Init(projectDir string) (err error) {
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	// git init
 	log.Println("[INFO] Initiating repo")
-	command.RunScript(projectDir, "git init")
-	// git checkout
-	log.Printf("[INFO] Checkout to `%s`", temporaryBranchName)
-	command.RunScript(projectDir, fmt.Sprintf("git checkout -b %s", temporaryBranchName))
-	// backup all services
-	for componentName, subrepoPrefix := range subrepoPrefixMap {
-		location := p.Components[componentName].Location
-		locationDir := filepath.Dir(location)
-		// create locationDir in case of it doesn't exists. We need it for git subtree add
-		if _, statErr := os.Stat(locationDir); os.IsNotExist(statErr) {
-			log.Printf("[INFO] Creating directory `%s`", locationDir)
-			os.Mkdir(locationDir, os.ModePerm)
-		}
-		if _, statErr := os.Stat(location); os.IsNotExist(statErr) {
-			continue
-		}
-		backupLocation := filepath.Join(projectDir, ".git", ".backup", subrepoPrefix)
-		os.MkdirAll(filepath.Dir(backupLocation), 0700)
-		log.Printf("[INFO] Moving `%s` to `%s`", location, backupLocation)
-		os.Rename(location, backupLocation)
+	if err = command.RunAndRedirect(projectDir, "git", "init"); err != nil {
+		return err
 	}
-	// git commit before add subtrees
-	log.Println("[INFO] Commit changes before adding subtrees")
-	command.RunScript(projectDir, "git add . -A && git commit -m 'Remove services from monorepo'")
+	// get current git remotes
+	currentGitRemotes, err := getCurrentGitRemotes(projectDir)
+	if err != nil {
+		return err
+	}
 	// add subtree
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
+		if isComponentNameInCurrentGitRemotes(componentName, currentGitRemotes) {
+			continue
+		}
 		component := p.Components[componentName]
 		origin := component.Origin
 		branch := component.Branch
-		command.RunScript(projectDir, fmt.Sprintf("git remote remove %s", componentName))
-		command.RunScript(projectDir, fmt.Sprintf("git remote add %s %s", componentName, origin))
-		command.RunScript(projectDir, fmt.Sprintf("git subtree add --prefix=%s %s %s", subrepoPrefix, componentName, branch))
-		command.RunScript(projectDir, fmt.Sprintf("git fetch %s %s", componentName, branch))
-	}
-	// restore all services
-	for componentName, subrepoPrefix := range subrepoPrefixMap {
-		location := p.Components[componentName].Location
-		backupLocation := filepath.Join(projectDir, ".git", ".backup", subrepoPrefix)
-		if _, statErr := os.Stat(backupLocation); os.IsNotExist(statErr) {
-			continue
+		if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
+			return err
 		}
-		log.Printf("[INFO] Moving `%s` to `%s`", backupLocation, location)
-		os.RemoveAll(location)
-		os.Rename(backupLocation, location)
+		if err = command.RunAndRedirect(projectDir, "git", "subtree", "add", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
+			return err
+		}
+		if err = command.RunAndRedirect(projectDir, "git", "fetch", componentName, branch); err != nil {
+			return err
+		}
 	}
-	// git commit before add subtrees
-	log.Println("[INFO] Commit changes before adding subtrees")
-	command.RunScript(projectDir, "git add . -A && git commit -m 'Re-add services to monorepo'")
-	// git checkout master
-	log.Printf("[INFO] Checkout to master and merge `%s`", temporaryBranchName)
-	command.RunScript(projectDir, fmt.Sprintf("git checkout master && git merge --squash  %s", temporaryBranchName))
 	// organize
-	organizer.Organize(projectDir, organizer.NewOption())
-	return err
+	return organizer.Organize(projectDir, organizer.NewOption())
+}
+
+func isComponentNameInCurrentGitRemotes(componentName string, currentGitRemotes []string) (exists bool) {
+	for _, remote := range currentGitRemotes {
+		if remote == componentName {
+			return true
+		}
+	}
+	return false
+}
+
+func getCurrentGitRemotes(projectDir string) (currentGitRemotes []string, err error) {
+	log.Println("[INFO] Get current remotes")
+	output, err := command.Run(projectDir, "git", "remote")
+	if err != nil {
+		return currentGitRemotes, err
+	}
+	outputList := strings.Split(output, "\n")
+	for _, remote := range outputList {
+		remote = strings.Trim(remote, "\r\n ")
+		if remote != "" {
+			log.Printf("[INFO] * %s", remote)
+			currentGitRemotes = append(currentGitRemotes, remote)
+		}
+	}
+	return currentGitRemotes, err
 }
 
 func createZarubaConfigIfNotExists(projectDir string) (err error) {

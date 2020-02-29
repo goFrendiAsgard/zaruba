@@ -10,7 +10,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/config"
 )
 
-// GetCmd get Cmd object
+// GetCmd get cmd object
 func GetCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
 	cmd = exec.Command(command, args...)
 	cmd.Env = os.Environ()
@@ -18,15 +18,44 @@ func GetCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
 	return cmd, err
 }
 
-// GetShellCmd get Cmd object for running shell command
+// GetShellCmd get cmd object for running shell command
 func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 	shell, shellArg := config.GetShellAndShellArg()
 	args := []string{shellArg, script}
 	return GetCmd(dir, shell, args...)
 }
 
-// RunCmd a single command
-func RunCmd(cmd *exec.Cmd) (err error) {
+// RunCmd run cmd object
+func RunCmd(cmd *exec.Cmd) (output string, err error) {
+	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+	outputB, err := cmd.Output()
+	if err != nil {
+		return output, err
+	}
+	output = string(outputB)
+	return output, err
+}
+
+// Run run command
+func Run(dir, command string, args ...string) (output string, err error) {
+	cmd, err := GetCmd(dir, command, args...)
+	if err != nil {
+		return output, err
+	}
+	return RunCmd(cmd)
+}
+
+// RunScript run script
+func RunScript(dir, script string) (output string, err error) {
+	cmd, err := GetShellCmd(dir, script)
+	if err != nil {
+		return output, err
+	}
+	return RunCmd(cmd)
+}
+
+// RunCmdAndRedirect run cmd object
+func RunCmdAndRedirect(cmd *exec.Cmd) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
@@ -34,20 +63,20 @@ func RunCmd(cmd *exec.Cmd) (err error) {
 	return err
 }
 
-// Run run command
-func Run(dir, command string, args ...string) (err error) {
+// RunAndRedirect run command
+func RunAndRedirect(dir, command string, args ...string) (err error) {
 	cmd, err := GetCmd(dir, command, args...)
 	if err != nil {
 		return err
 	}
-	return RunCmd(cmd)
+	return RunCmdAndRedirect(cmd)
 }
 
-// RunScript run script
-func RunScript(dir, script string) (err error) {
+// RunScriptAndRedirect run script
+func RunScriptAndRedirect(dir, script string) (err error) {
 	cmd, err := GetShellCmd(dir, script)
 	if err != nil {
 		return err
 	}
-	return RunCmd(cmd)
+	return RunCmdAndRedirect(cmd)
 }

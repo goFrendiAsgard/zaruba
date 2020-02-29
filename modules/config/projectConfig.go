@@ -41,7 +41,7 @@ type ProjectConfig struct {
 func (p *ProjectConfig) ToYaml() (str string, err error) {
 	d, err := yaml.Marshal(*p)
 	if err != nil {
-		return
+		return str, err
 	}
 	str = string(d)
 	return str, err

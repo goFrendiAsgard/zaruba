@@ -11,18 +11,6 @@ components:
   greeting-lib:
     type: library
     location: "./libraries/greeting-lib"
-  gateway:
-    type: service
-    origin: git@github.com:state-alchemists/zaruba-gateway-example.git
-    branch: master
-    location: "./services/gateway"
-    start: echo gateway started && sleep 3
-  greeter:
-    type: service
-    origin: git@github.com:goFrendiAsgard/zaruba-service-example.git
-    branch: master
-    location: "./services/greeter"
-    start: echo greeter started && sleep 3
   nats:
     type: container
     run: docker run --name nats -p 4222:4222 -p 6222:6222 -p 8222:8222 -d nats

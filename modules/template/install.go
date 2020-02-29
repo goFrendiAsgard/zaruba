@@ -17,7 +17,7 @@ func Install(gitURL, newTemplateName string) (err error) {
 	templateDir := filepath.Join(baseTemplateDir, newTemplateName)
 	log.Printf("[INFO] Install template from `%s` to `%s`", gitURL, templateDir)
 	// run git clone
-	if err = command.Run(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
+	if err = command.RunAndRedirect(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
 		return err
 	}
 	// install-template should be exists
@@ -49,14 +49,6 @@ func Install(gitURL, newTemplateName string) (err error) {
 func isScriptExists(templateDir, actionName string) (exist bool) {
 	// imperative
 	if _, err := os.Stat(filepath.Join(templateDir, actionName+".zaruba")); err == nil {
-		return true
-	}
-	// declarative yml
-	if _, err := os.Stat(filepath.Join(templateDir, actionName+".zaruba.yml")); err == nil {
-		return true
-	}
-	// declarative yaml
-	if _, err := os.Stat(filepath.Join(templateDir, actionName+".zaruba.yml")); err == nil {
 		return true
 	}
 	return false

@@ -95,12 +95,7 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 		errChan <- err
 		return
 	}
-	cmd, err := command.GetCmd(workDir, actionPath, arguments...)
-	if err != nil {
-		errChan <- err
-		return
-	}
-	err = command.RunCmd(cmd)
+	err = command.RunAndRedirect(workDir, actionPath, arguments...)
 	errChan <- err
 }
 

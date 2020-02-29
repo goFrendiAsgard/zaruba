@@ -13,18 +13,23 @@ import (
 
 // Push monorepo and subtree
 func Push(projectDir string) (err error) {
-	organizer.Organize(projectDir, organizer.NewOption())
+	if err = organizer.Organize(projectDir, organizer.NewOption()); err != nil {
+		return err
+	}
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return err
 	}
 	log.Println("[INFO] Commit if there are changes")
-	command.RunScript(projectDir, fmt.Sprintf(
-		"git add . -A && git commit -m 'Save before push on %s'",
-		time.Now().Format(time.RFC3339),
-	))
-	log.Println("[INFO] Push repo")
-	command.RunScript(projectDir, "git push origin HEAD")
+	if err = command.RunAndRedirect(projectDir, "git", "add", ".", "-A"); err != nil {
+		return err
+	}
+	command.RunAndRedirect(projectDir, "git", "commit", "-m", fmt.Sprintf("Save before push on %s", time.Now().Format(time.RFC3339)))
+	log.Println("[INFO] Push to main repo")
+	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", "HEAD"); err != nil {
+		return err
+	}
+	// get project config
 	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
 		return err
@@ -38,11 +43,10 @@ func Push(projectDir string) (err error) {
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}
-		log.Printf("[INFO] Pushing sub-repo %s", componentName)
-		command.RunScript(projectDir, fmt.Sprintf(
-			"git subtree push --prefix=%s %s %s",
-			subrepoPrefix, componentName, branch,
-		))
+		log.Printf("[INFO] Push to sub-repo %s", componentName)
+		if err = command.RunAndRedirect(projectDir, "git", "subtree", "push", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
+			return err
+		}
 	}
 	return err
 }
