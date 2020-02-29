@@ -58,6 +58,7 @@ func RunScript(dir, script string) (output string, err error) {
 func RunCmdAndRedirect(cmd *exec.Cmd) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
 	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
 	err = cmd.Run()
 	return err

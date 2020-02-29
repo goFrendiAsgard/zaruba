@@ -1,0 +1,9 @@
+components:
+
+  project-template:
+    type: library
+    location: ./templates/project
+    origin: git@github.com:state-alchemists/zaruba-project-template.git
+    branch: master
+
+links: {}

@@ -458,3 +458,12 @@ Copy `template.env` to `.env` and invoke:
 source .env
 make test # or make test-verbose
 ```
+
+# Clone (Only for State-alchemists crews)
+
+```
+git clone git@github.com:state-alchemists/zaruba.git
+cd zaruba
+make install
+zaruba init
+```
