@@ -14,12 +14,12 @@ func Create(template, projectDir string, args ...string) (err error) {
 	templateDir := filepath.Join(config.GetTemplateDir(), template)
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	// run create-component script
 	createComponentArgs := append([]string{projectDir}, args...)
 	log.Printf("[INFO] Create component from `%s` into `%s` %s", templateDir, projectDir, stringformat.SprintArgs(createComponentArgs))
-	err = action.Do(
+	return action.Do(
 		"create-component",
 		action.NewOption().
 			SetScriptDir(templateDir).
@@ -27,5 +27,4 @@ func Create(template, projectDir string, args ...string) (err error) {
 			SetIsRecursiveWorkDir(false),
 		createComponentArgs...,
 	)
-	return
 }

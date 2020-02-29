@@ -7,7 +7,7 @@ import (
 )
 
 // GetTemplateDir retrieve template dir from environment variable
-func GetTemplateDir() string {
+func GetTemplateDir() (absTemplateDir string) {
 	templateDir := os.Getenv("ZARUBA_TEMPLATE_DIR")
 	if templateDir == "" {
 		executable, err := os.Executable()

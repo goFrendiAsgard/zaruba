@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 go build
 for GOOS in darwin linux windows
 do

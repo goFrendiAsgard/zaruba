@@ -25,18 +25,20 @@ func TestLoadProjectConfig(t *testing.T) {
 		t.Errorf("[ERROR] Cannot load config: %s", err)
 		return
 	}
+
 	sortedLinkSources := config.GetSortedLinkSources()
 
-	expected := filepath.Join(testPath, "./changelog.md")
-	if sortedLinkSources[0] != expected {
-		t.Errorf("[UNEXPECTED] sortedLinkSources[0] should be `%s`, but sortedLinksSources contains: %s", expected, sortedLinkSources)
-		t.Errorf("[INFO] config.Links: %#v", config.Links)
+	expectations := []string{
+		filepath.Join(testPath, "./changelog.md"),
+		filepath.Join(testPath, "./libraries/greeting-lib"),
+		filepath.Join(testPath, "./services/greeter"),
+		filepath.Join(testPath, "./services/gateway"),
 	}
-
-	expected = filepath.Join(testPath, "./libraries/greeting-lib")
-	if sortedLinkSources[1] != expected {
-		t.Errorf("[UNEXPECTED] sortedLinkSources[1] should be `%s`, but sortedLinksSources contains: %s", expected, sortedLinkSources)
-		t.Errorf("[INFO] config.Links: %#v", config.Links)
+	for index, expected := range expectations {
+		if sortedLinkSources[index] != expected {
+			t.Errorf("[UNEXPECTED] sortedLinkSources[%d] should be `%s`, but contains: %s", index, expected, sortedLinkSources[index])
+			t.Errorf("[INFO] config.Links: %#v", config.Links)
+		}
 	}
 
 }

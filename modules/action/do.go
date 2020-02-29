@@ -11,39 +11,41 @@ import (
 
 // Do with options on projectDir
 func Do(actionString string, option *Option, arguments ...string) (err error) {
-	prepareOption(option)
+	if err = prepareOption(option); err != nil {
+		return err
+	}
 	// get allWorkDirs
 	allWorkDirs := []string{option.GetWorkDir()}
 	if option.GetIsRecursiveWorkDir() {
 		allWorkDirs, err = file.GetAllFiles(option.GetWorkDir(), file.NewOption().SetIsOnlyDir(true))
 		if err != nil {
-			return
+			return err
 		}
 	}
 	// pre-action
 	if option.GetIsPerformPre() {
 		if err = processAllDirs("pre-"+actionString, allWorkDirs, option, arguments...); err != nil {
-			return
+			return err
 		}
 	}
 	// action
 	if option.GetIsPerformAction() {
 		if err = processAllDirs(actionString, allWorkDirs, option, arguments...); err != nil {
-			return
+			return err
 		}
 	}
 	// post-action
 	if option.GetIsPerformPost() {
 		err = processAllDirs("post-"+actionString, allWorkDirs, option, arguments...)
 	}
-	return
+	return err
 }
 
 func prepareOption(option *Option) (err error) {
 	// set workDir
 	workDir, err := filepath.Abs(option.GetWorkDir())
 	if err != nil {
-		return
+		return err
 	}
 	option.SetWorkDir(workDir)
 	// set scriptDir
@@ -53,11 +55,11 @@ func prepareOption(option *Option) (err error) {
 		var scriptDir string
 		scriptDir, err = filepath.Abs(option.GetScriptDir())
 		if err != nil {
-			return
+			return err
 		}
 		option.SetScriptDir(scriptDir)
 	}
-	return
+	return err
 }
 
 func processAllDirs(actionString string, allWorkDirs []string, option *Option, arguments ...string) (err error) {
@@ -72,10 +74,10 @@ func processAllDirs(actionString string, allWorkDirs []string, option *Option, a
 	for _, errChan := range errChans {
 		err = <-errChan
 		if err != nil {
-			return
+			return err
 		}
 	}
-	return
+	return err
 }
 
 func processDir(errChan chan error, actionString, workDir string, option *Option, arguments ...string) {
@@ -98,7 +100,7 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 		errChan <- err
 		return
 	}
-	err = command.Run(cmd)
+	err = command.RunCmd(cmd)
 	errChan <- err
 }
 

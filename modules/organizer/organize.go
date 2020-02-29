@@ -16,12 +16,12 @@ import (
 func Organize(projectDir string, option *Option, arguments ...string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), stringformat.SprintArgs(arguments))
 	projectConfig, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	sortedLinkSources := projectConfig.GetSortedLinkSources()
 	// update option.MTimeLimit
@@ -29,7 +29,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		var sourceMTime time.Time
 		sourceMTime, err = file.GetMTime(source)
 		if err != nil {
-			return
+			return err
 		}
 		destinationList := projectConfig.Links[source]
 		for _, destination := range destinationList {
@@ -51,7 +51,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	return organize(projectDir, projectConfig.Links, sortedLinkSources, option, arguments...)
 }
 
-func updateOptionToPreeceedSource(option *Option, sourceMTime time.Time) *Option {
+func updateOptionToPreeceedSource(option *Option, sourceMTime time.Time) (updatedOption *Option) {
 	return option.SetMTimeLimit(sourceMTime.Add(-time.Nanosecond))
 }
 
@@ -67,16 +67,19 @@ func organize(projectDir string, links map[string][]string, sortedLinkSources []
 			SetIsPerformPost(false),
 		arguments...,
 	)
+	if err != nil {
+		return err
+	}
 	// copy
 	for _, source := range sortedLinkSources {
 		destinationList := links[source]
 		err = copyAll(option, source, destinationList)
 		if err != nil {
-			return
+			return err
 		}
 	}
 	// organize and post-organize
-	err = action.Do(
+	return action.Do(
 		"organize",
 		action.NewOption().
 			SetWorkDir(projectDir).
@@ -84,7 +87,6 @@ func organize(projectDir string, links map[string][]string, sortedLinkSources []
 			SetIsPerformPre(false),
 		arguments...,
 	)
-	return
 }
 
 func copyAll(option *Option, source string, destinationList []string) (err error) {
@@ -99,10 +101,10 @@ func copyAll(option *Option, source string, destinationList []string) (err error
 	for _, errChan := range errChans {
 		err = <-errChan
 		if err != nil {
-			return
+			return err
 		}
 	}
-	return
+	return err
 }
 
 func copyWithChannel(option *Option, source, destination string, errChan chan error) {

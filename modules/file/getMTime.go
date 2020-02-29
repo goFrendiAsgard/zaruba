@@ -9,27 +9,27 @@ import (
 func GetMTime(fileName string) (mTime time.Time, err error) {
 	fileInfo, err := os.Stat(fileName)
 	if err != nil {
-		return
+		return mTime, err
 	}
 	// if `filename` is an actual file, return it's modtime
 	mTime = fileInfo.ModTime()
 	if !fileInfo.IsDir() {
-		return
+		return mTime, err
 	}
 	// if `filename` is a directory, then check for it's subdirectories
 	subFileNames, err := GetAllFiles(fileName, NewOption())
 	if err != nil {
-		return
+		return mTime, err
 	}
 	for _, subFileName := range subFileNames {
 		fileInfo, err = os.Stat(subFileName)
 		if err != nil {
-			return
+			return mTime, err
 		}
 		subMTime := fileInfo.ModTime()
 		if subMTime.After(mTime) {
 			mTime = subMTime
 		}
 	}
-	return
+	return mTime, err
 }

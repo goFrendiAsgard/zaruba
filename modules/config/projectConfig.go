@@ -44,7 +44,7 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 		return
 	}
 	str = string(d)
-	return
+	return str, err
 }
 
 func (p *ProjectConfig) adjustLocation(absDirPath string) {
@@ -100,7 +100,7 @@ func (p *ProjectConfig) GetSubrepoPrefixMap(projectDir string) (subRepoPrefixMap
 		subRepoPrefix := getSubrepoPrefix(projectDir, location)
 		subRepoPrefixMap[componentName] = subRepoPrefix
 	}
-	return
+	return subRepoPrefixMap
 }
 
 // NewProjectConfig create new ProjectConfig
@@ -189,7 +189,7 @@ func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 			}
 		}
 	}
-	return
+	return p, err
 }
 
 func getSubrepoPrefix(projectDir, location string) string {
@@ -204,21 +204,21 @@ func loadSingleConfig(directory string) (p *ProjectConfig, err error) {
 	p = NewProjectConfig()
 	directory, err = filepath.Abs(directory)
 	if err != nil {
-		return
+		return p, err
 	}
 	// read file's content
 	b, err := ioutil.ReadFile(filepath.Join(directory, "zaruba.config.yaml"))
 	if err != nil {
-		return
+		return p, err
 	}
 	str := string(b)
 	// create new ProjectConfig and unmarshal
 	err = yaml.Unmarshal([]byte(str), p)
 	if err != nil {
-		return
+		return p, err
 	}
 	p.adjustLocation(directory)
-	return
+	return p, err
 }
 
 func getAbsLocation(absDirPath, location string) string {

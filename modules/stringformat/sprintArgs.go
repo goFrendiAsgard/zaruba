@@ -6,7 +6,7 @@ import (
 )
 
 // SprintArgs print arguments for logging
-func SprintArgs(args []string) string {
+func SprintArgs(args []string) (description string) {
 	if len(args) > 0 {
 		return fmt.Sprintf("with %d argument(s): %s", len(args), strings.Join(args, ", "))
 	}

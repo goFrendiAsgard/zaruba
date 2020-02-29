@@ -6,7 +6,7 @@ import (
 )
 
 // GetTestDir retrieve test dir from environment variable
-func GetTestDir() string {
+func GetTestDir() (absTestDir string) {
 	testDir := os.Getenv("ZARUBA_TEST_DIR")
 	if testDir == "" {
 		return "/tmp"

@@ -38,12 +38,12 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		executedChan <- true
 		return
 	}
-	executedChan <- true
 	// redirect error and output pipe
 	for serviceName := range cmdMap {
 		go logService(serviceName, "OUT", outPipeMap[serviceName])
 		go logService(serviceName, "ERR", errPipeMap[serviceName])
 	}
+	executedChan <- true
 	// listen to stopChan
 	<-stopChan
 	killCmdMap(p, cmdMap)
@@ -89,11 +89,11 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 		// get pipes
 		outPipeMap[serviceName], err = cmd.StdoutPipe()
 		if err != nil {
-			return
+			return cmdMap, outPipeMap, errPipeMap, err
 		}
 		errPipeMap[serviceName], err = cmd.StderrPipe()
 		if err != nil {
-			return
+			return cmdMap, outPipeMap, errPipeMap, err
 		}
 		log.Printf("[INFO] Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
 		// run
@@ -101,10 +101,10 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 		cmdMap[serviceName] = cmd
 		// if error, stop
 		if err != nil {
-			return
+			return cmdMap, outPipeMap, errPipeMap, err
 		}
 	}
-	return
+	return cmdMap, outPipeMap, errPipeMap, err
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
@@ -124,7 +124,7 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 	}
 	// merge the array with os.Environ
 	environ = append(os.Environ(), configEnv...)
-	return
+	return environ
 }
 
 func logService(serviceName, prefix string, readCloser io.ReadCloser) {

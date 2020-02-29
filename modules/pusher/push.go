@@ -16,7 +16,7 @@ func Push(projectDir string) (err error) {
 	organizer.Organize(projectDir, organizer.NewOption())
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	log.Println("[INFO] Commit if there are changes")
 	command.RunScript(projectDir, fmt.Sprintf(
@@ -27,7 +27,7 @@ func Push(projectDir string) (err error) {
 	command.RunScript(projectDir, "git push origin HEAD")
 	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
@@ -44,5 +44,5 @@ func Push(projectDir string) (err error) {
 			subrepoPrefix, componentName, branch,
 		))
 	}
-	return
+	return err
 }

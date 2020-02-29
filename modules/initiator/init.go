@@ -16,18 +16,18 @@ import (
 // Init monorepo and subtree
 func Init(projectDir string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
-	temporaryBranchName := fmt.Sprintf("sync-%s", time.Now().Format(time.RFC3339))
 	if err != nil {
-		return
+		return err
 	}
+	temporaryBranchName := fmt.Sprintf("sync-%s", time.Now().Format(time.RFC3339))
 	// load project config
 	log.Println("[INFO] Load Project Config")
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
-		return
+		return err
 	}
 	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	// git init
@@ -85,7 +85,7 @@ func Init(projectDir string) (err error) {
 	command.RunScript(projectDir, fmt.Sprintf("git checkout master && git merge --squash  %s", temporaryBranchName))
 	// organize
 	organizer.Organize(projectDir, organizer.NewOption())
-	return
+	return err
 }
 
 func createZarubaConfigIfNotExists(projectDir string) (err error) {

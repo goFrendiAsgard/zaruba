@@ -4,8 +4,8 @@ import (
 	"os"
 )
 
-// GetShell get shell and args
-func GetShell() (shell, shellArg string) {
+// GetShellAndShellArg get shell and args
+func GetShellAndShellArg() (shell, shellArg string) {
 	shell = os.Getenv("ZARUBA_SHELL")
 	shellArg = os.Getenv("ZARUBA_SHELL_ARG")
 	if shell == "" {
@@ -14,5 +14,5 @@ func GetShell() (shell, shellArg string) {
 			shellArg = "-c"
 		}
 	}
-	return
+	return shell, shellArg
 }

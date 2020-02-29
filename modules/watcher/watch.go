@@ -87,7 +87,7 @@ func getNewWatcherTirelessly() (w *fsnotify.Watcher) {
 		log.Printf("[ERROR] Fail to create watcher: %s. Retrying...", err)
 		w, err = fsnotify.NewWatcher()
 	}
-	return
+	return w
 }
 
 func getAllDirsTirelessly(projectDir string) (allDirs []string) {
@@ -96,7 +96,7 @@ func getAllDirsTirelessly(projectDir string) (allDirs []string) {
 		log.Printf("[ERROR] Fail to get list of directories: %s. Retrying...", err)
 		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	}
-	return
+	return allDirs
 }
 
 func removeDirsFromWatcher(watcher *fsnotify.Watcher, allDirs []string) {

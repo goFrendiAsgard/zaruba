@@ -15,7 +15,7 @@ import (
 func Pull(projectDir string) (err error) {
 	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	log.Println("[INFO] Commit if there are changes")
 	command.RunScript(projectDir, fmt.Sprintf(
@@ -26,7 +26,7 @@ func Pull(projectDir string) (err error) {
 	command.RunScript(projectDir, "git pull origin HEAD")
 	p, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
-		return
+		return err
 	}
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
@@ -44,5 +44,5 @@ func Pull(projectDir string) (err error) {
 		))
 	}
 	organizer.Organize(projectDir, organizer.NewOption())
-	return
+	return err
 }

@@ -15,18 +15,18 @@ func GetCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
 	cmd = exec.Command(command, args...)
 	cmd.Env = os.Environ()
 	cmd.Dir, err = filepath.Abs(dir)
-	return
+	return cmd, err
 }
 
 // GetShellCmd get Cmd object for running shell command
 func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
-	shell, shellArg := config.GetShell()
+	shell, shellArg := config.GetShellAndShellArg()
 	args := []string{shellArg, script}
 	return GetCmd(dir, shell, args...)
 }
 
-// Run a single command
-func Run(cmd *exec.Cmd) (err error) {
+// RunCmd a single command
+func RunCmd(cmd *exec.Cmd) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
@@ -34,11 +34,20 @@ func Run(cmd *exec.Cmd) (err error) {
 	return err
 }
 
-// RunScript Run script directly
+// Run run command
+func Run(dir, command string, args ...string) (err error) {
+	cmd, err := GetCmd(dir, command, args...)
+	if err != nil {
+		return err
+	}
+	return RunCmd(cmd)
+}
+
+// RunScript run script
 func RunScript(dir, script string) (err error) {
 	cmd, err := GetShellCmd(dir, script)
 	if err != nil {
-		return
+		return err
 	}
-	return Run(cmd)
+	return RunCmd(cmd)
 }

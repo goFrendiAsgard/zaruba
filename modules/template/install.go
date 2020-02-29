@@ -17,30 +17,26 @@ func Install(gitURL, newTemplateName string) (err error) {
 	templateDir := filepath.Join(baseTemplateDir, newTemplateName)
 	log.Printf("[INFO] Install template from `%s` to `%s`", gitURL, templateDir)
 	// run git clone
-	cmd, err := command.GetCmd(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1")
-	if err != nil {
-		return
-	}
-	if err = command.Run(cmd); err != nil {
-		return
+	if err = command.Run(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
+		return err
 	}
 	// install-template should be exists
 	if !isScriptExists(templateDir, "install-template") {
 		os.RemoveAll(templateDir)
 		err = errors.New("Cannot find `install-template` script")
-		return
+		return err
 	}
 	// create-component should be exists
 	if !isScriptExists(templateDir, "create-component") {
 		os.RemoveAll(templateDir)
 		err = errors.New("Cannot find `create-component` script")
-		return
+		return err
 	}
 	// make the file executable
 	os.Chmod(filepath.Join(templateDir, "install-template.zaruba"), 0555)
 	os.Chmod(filepath.Join(templateDir, "create-component.zaruba"), 0555)
 	// run install
-	err = action.Do(
+	return action.Do(
 		"install-template",
 		action.NewOption().
 			SetScriptDir(templateDir).
@@ -48,7 +44,6 @@ func Install(gitURL, newTemplateName string) (err error) {
 			SetIsRecursiveWorkDir(false),
 		templateDir,
 	)
-	return
 }
 
 func isScriptExists(templateDir, actionName string) (exist bool) {

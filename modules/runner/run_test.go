@@ -35,34 +35,36 @@ func TestRun(t *testing.T) {
 	executedChan := make(chan bool)
 	go Run(testPath, stopChan, executedChan, errChan)
 	<-executedChan
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 30)
 
 	res, err := http.Get("http://localhost:3000/go/frendi")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot send request: %s", err)
-	}
-	content, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		t.Errorf("[ERROR] Cannot parse response: %s", err)
-	}
-	expected := "Hello go frendi"
-	actual := string(content)
-	if actual != expected {
-		t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+	} else {
+		content, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			t.Errorf("[ERROR] Cannot parse response: %s", err)
+		}
+		expected := "Hello go frendi"
+		actual := string(content)
+		if actual != expected {
+			t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+		}
 	}
 
 	res, err = http.Get("http://localhost:3000")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot send request: %s", err)
-	}
-	content, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		t.Errorf("[ERROR] Cannot parse response: %s", err)
-	}
-	expected = "Hello world"
-	actual = string(content)
-	if actual != expected {
-		t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+	} else {
+		content, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			t.Errorf("[ERROR] Cannot parse response: %s", err)
+		}
+		expected := "Hello world"
+		actual := string(content)
+		if actual != expected {
+			t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+		}
 	}
 
 	// test done

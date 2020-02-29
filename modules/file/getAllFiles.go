@@ -14,7 +14,7 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 		Nested:     true, // Handle nested ignorefile
 	})
 	if err != nil {
-		return
+		return allFiles, err
 	}
 	// add all sub-directories that doesn't match gitignore
 	for _, subDirName := range result.UnmatchedDirs {
@@ -26,5 +26,5 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 			allFiles = append(allFiles, path.Join(dirName, subFileName))
 		}
 	}
-	return
+	return allFiles, err
 }
