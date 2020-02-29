@@ -17,11 +17,12 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 	if err != nil {
 		return allFiles, err
 	}
+	ignores := option.GetIgnores()
 	// add all sub-directories that doesn't match gitignore
 	for _, subDirName := range result.UnmatchedDirs {
 		absSubDirName := path.Join(dirName, subDirName)
 		ignored := false
-		for _, prefix := range option.GetIgnores() {
+		for _, prefix := range ignores {
 			if strings.HasPrefix(absSubDirName, prefix) {
 				ignored = true
 				break
@@ -36,7 +37,7 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 		for _, subFileName := range result.UnmatchedFiles {
 			absFileName := path.Join(dirName, subFileName)
 			ignored := false
-			for _, prefix := range option.GetIgnores() {
+			for _, prefix := range ignores {
 				if strings.HasPrefix(absFileName, prefix) {
 					ignored = true
 					break

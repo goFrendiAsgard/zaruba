@@ -231,6 +231,8 @@ func LoadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 	if err != nil {
 		return p, err
 	}
+	// always add .git to ignores
+	p.Ignores = append(p.Ignores, ".git")
 	p.adjustLocation(directory)
 	return p, err
 }
