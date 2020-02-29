@@ -1,6 +1,7 @@
 package file
 
 import (
+	"log"
 	"path"
 	"strings"
 
@@ -48,5 +49,6 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 			}
 		}
 	}
+	log.Println(allFiles)
 	return allFiles, err
 }
