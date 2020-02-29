@@ -26,11 +26,12 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 		for _, prefix := range ignores {
 			if strings.HasPrefix(absSubDirName, prefix) {
 				ignored = true
+				log.Println(absSubDirName, prefix, ignored)
 				break
 			}
 		}
+		log.Println(absSubDirName, ignored)
 		if !ignored {
-			log.Println(absSubDirName)
 			allFiles = append(allFiles, absSubDirName)
 		}
 	}
@@ -46,7 +47,6 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 				}
 			}
 			if !ignored {
-				log.Println(absFileName)
 				allFiles = append(allFiles, absFileName)
 			}
 		}
