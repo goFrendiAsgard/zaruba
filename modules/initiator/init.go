@@ -26,13 +26,8 @@ func Init(projectDir string) (err error) {
 		return err
 	}
 	// load project
-	p, currentBranchName, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
+	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
 	if err != nil {
-		return err
-	}
-	// get temporary branch name and checkout
-	temporaryBranchName := getTemporaryBranchName()
-	if err = git.Checkout(projectDir, temporaryBranchName, true); err != nil {
 		return err
 	}
 	// process subtree
@@ -42,18 +37,9 @@ func Init(projectDir string) (err error) {
 			continue
 		}
 		if err = gitProcessSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
-			if checkoutErr := git.Checkout(projectDir, currentBranchName, false); checkoutErr != nil {
-				return checkoutErr
-			}
+			command.RunAndRedirect(projectDir, "git", "remote", "remove", componentName)
 			return err
 		}
-	}
-	// checkout to current branch
-	if err = git.Checkout(projectDir, currentBranchName, false); err != nil {
-		return err
-	}
-	if err = git.Merge(projectDir, temporaryBranchName); err != nil {
-		return err
 	}
 	// organize
 	return organizer.Organize(projectDir, organizer.NewOption())
@@ -76,9 +62,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return nil
 	}
 	// backup
-	if err = backup(location, backupLocation); err != nil {
-		return err
-	}
+	backup(location, backupLocation)
 	// add remote
 	log.Printf("[INFO] Add remote `%s` as `%s`", origin, componentName)
 	if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
@@ -89,7 +73,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	git.Commit(projectDir, "prepare to initiate "+componentName)
 	// add subtree
 	log.Printf("[INFO] Add subtree `%s` with prefix `%s`", componentName, subrepoPrefix)
-	if err := command.RunAndRedirect(projectDir, "git", "subtree", "add", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
+	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
 		return err
 	}
 	// fetch
@@ -98,9 +82,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// restore
-	if err = restore(backupLocation, location); err != nil {
-		return err
-	}
+	restore(backupLocation, location)
 	// commit
 	log.Printf("[INFO] Commit after subtree operation")
 	git.Commit(projectDir, "after initiate "+componentName)
@@ -120,7 +102,8 @@ func restore(backupLocation, location string) (err error) {
 func backup(location, backupLocation string) (err error) {
 	// backup
 	log.Printf("[INFO] Prepare backup location")
-	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
+	os.RemoveAll(backupLocation)
+	if err = os.MkdirAll(filepath.Dir(backupLocation), 0777); err != nil {
 		return err
 	}
 	log.Printf("[INFO] Moving `%s` to `%s`", location, backupLocation)

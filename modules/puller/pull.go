@@ -43,7 +43,9 @@ func Pull(projectDir string) (err error) {
 			continue
 		}
 		log.Printf("[INFO] Pulling from sub-repo %s", componentName)
-		command.RunAndRedirect(projectDir, "git", "subtree", "pull", "--prefix="+subrepoPrefix, "--squash", componentName, branch)
+		if err = command.RunAndRedirect(projectDir, "git", "subtree", "pull", "--prefix="+subrepoPrefix, "--squash", componentName, branch); err != nil {
+			return err
+		}
 	}
 	organizer.Organize(projectDir, organizer.NewOption())
 	return err

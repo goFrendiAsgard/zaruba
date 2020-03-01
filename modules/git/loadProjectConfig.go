@@ -2,7 +2,10 @@ package git
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 
+	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
 )
 
@@ -25,8 +28,15 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 			continue
 		}
 		log.Printf("[INFO] Check origin of component `%s`", componentName)
-		if err = LsRemote(projectDir, origin); err != nil {
+		output, err := LsRemote(projectDir, origin)
+		if err != nil {
 			return p, currentBranchName, currentGitRemotes, err
+		}
+		// an empty repo doesn't output anything.
+		if output == "" {
+			if err = initRepo(projectDir, componentName, component); err != nil {
+				return p, currentBranchName, currentGitRemotes, err
+			}
 		}
 	}
 	// get currentBranchName
@@ -37,4 +47,42 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 	// get currentGitRemotes
 	currentGitRemotes, err = GetCurrentGitRemotes(projectDir)
 	return p, currentBranchName, currentGitRemotes, err
+}
+
+func initRepo(projectDir, componentName string, component config.Component) (err error) {
+	tempDir := filepath.Join(projectDir, ".git", "new-repo", componentName)
+	if err = os.MkdirAll(tempDir, 0777); err != nil {
+		return err
+	}
+	origin := component.Origin
+	branch := component.Branch
+	// init
+	if err = Init(tempDir); err != nil {
+		return err
+	}
+	// create README.md
+	f, err := os.Create(filepath.Join(tempDir, "README.md"))
+	if err != nil {
+		return err
+	}
+	f.WriteString("# " + componentName)
+	// commit
+	if err = Commit(tempDir, "First commit by zaruba"); err != nil {
+		return err
+	}
+	// add remote
+	if err = command.RunAndRedirect(tempDir, "git", "remote", "add", "origin", origin); err != nil {
+		return err
+	}
+	// checkout if branch != master
+	if branch != "master" {
+		if err = Checkout(tempDir, branch, true); err != nil {
+			return err
+		}
+	}
+	// push
+	if err = command.RunAndRedirect(tempDir, "git", "push", "-u", "origin", branch); err != nil {
+		return err
+	}
+	return os.RemoveAll(tempDir)
 }
