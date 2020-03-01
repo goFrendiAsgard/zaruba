@@ -1,0 +1,14 @@
+environments:
+  general: {}
+  services:
+    servicename:
+      port: 3000
+
+components:
+  servicename:
+    type: service
+    origin: "" # fill this one with your git repository
+    branch: master
+    location: "."
+    start: npm install && npm start
+

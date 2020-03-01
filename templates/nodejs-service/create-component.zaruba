@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+PROJECT_DIR=$1
+TEMPLATE_DIR=$(pwd)
+
+# get service name
+read -p "Type your service name: " SERVICE_NAME
+
+# if service already exists, skip it
+if [ -e ${PROJECT_DIR}/services/${SERVICE_NAME} ]
+then
+    echo "Service ${SERVICE} already exists in ${PROJECT_DIR}/services"
+    exit 0
+fi
+
+# Copy service
+cp -r ${TEMPLATE_DIR}/service ${PROJECT_DIR}/services/${SERVICE_NAME}
+
+cd ${PROJECT_DIR}/services/${SERVICE_NAME}
+
+# Perform substitution
+for FILE in ./package.json ./Dockerfile ./zaruba.config.yaml
+do
+    sed -i "s/servicename/$(basename ${SERVICE_NAME})/g" ${FILE}
+done
+
+npm install
+
+echo "Service ${SERVICE_NAME} created."

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+echo "Check node"
+node -v
+
+echo "Check npm"
+npm -v
+
+echo "Node-service template has been successfully installed. Enjoy !!!"

@@ -37,10 +37,16 @@ read -p "Do you want to install pre-built templates(Y/n)? " INSTALL_TEMPLATE
 if [ $INSTALL_TEMPLATE = "Y" ] || [ $INSTALL_TEMPLATE = "y" ]
 then
     TEMPLATE_PATH=$(go env GOPATH)/src/github.com/state-alchemists/zaruba/templates
+    if [ -e templates ]
+    then
+        TEMPLATE_PATH=templates
+    fi
     echo "* INSTALL PRE-BUILT TEMPLATES"
     for COMPONENT in $(ls ${TEMPLATE_PATH})
     do
+        echo "   - ${COMPONENT}"
         cp -R ${TEMPLATE_PATH}/${COMPONENT} ${HOME}/.zaruba/template
+        chmod 755 -R ${HOME}/.zaruba/template/${COMPONENT}
     done
 fi
 

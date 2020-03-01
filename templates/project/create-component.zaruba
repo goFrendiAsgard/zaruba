@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 PROJECT_DIR=$1
 TEMPLATE_DIR=$(pwd)
@@ -21,7 +22,7 @@ cp ${TEMPLATE_DIR}/resources/gitignore ${PROJECT_DIR}/.gitignore
 cd ${PROJECT_DIR}
 
 # Perform substitution
-sed -i "s/{{PROJECT_DIR}}/${PROJECT_DIR}/g" "./README.md"
+sed -i "s/{{PROJECT_DIR}}/$(basename ${PROJECT_DIR})/g" ./README.md
 git init
 
 echo "Project created. Perform 'cd "${PROJECT_DIR}"' and enjoy :)"
