@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
-	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 	"github.com/state-alchemists/zaruba/modules/strutil"
@@ -19,24 +18,21 @@ func Pull(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
+	// load project
+	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
+	if err != nil {
+		return err
+	}
 	// commit
 	git.Commit(projectDir, fmt.Sprintf("Save before pull on %s", time.Now().Format(time.RFC3339)))
 	log.Println("[INFO] Pull from main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "pull", "origin", "HEAD"); err != nil {
 		return err
 	}
-	p, err := config.LoadProjectConfig(projectDir)
-	if err != nil {
-		return err
-	}
-	// get current git remotes
-	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
-	if err != nil {
-		return err
-	}
+
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
-		if strutil.IsInArray(componentName, currentGitRemotes) {
+		if !strutil.IsInArray(componentName, currentGitRemotes) {
 			continue
 		}
 		component := p.Components[componentName]

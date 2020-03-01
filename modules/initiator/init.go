@@ -22,22 +22,11 @@ func Init(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
-	// load project config
-	log.Println("[INFO] Load Project Config")
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
 		return err
 	}
-	p, err := config.LoadProjectConfig(projectDir)
-	if err != nil {
-		return err
-	}
-	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
-	// git init
-	if err = git.Init(projectDir); err != nil {
-		return err
-	}
-	// get current branch name
-	currentBranchName, err := git.GetCurrentBranchName(projectDir)
+	// load project
+	p, currentBranchName, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
 	if err != nil {
 		return err
 	}
@@ -46,17 +35,16 @@ func Init(projectDir string) (err error) {
 	if err = git.Checkout(projectDir, temporaryBranchName, true); err != nil {
 		return err
 	}
-	// get current git remotes
-	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
-	if err != nil {
-		return err
-	}
 	// process subtree
+	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
 		if strutil.IsInArray(componentName, currentGitRemotes) {
 			continue
 		}
-		if err = gitPullSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
+		if err = gitProcessSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
+			if checkoutErr := git.Checkout(projectDir, currentBranchName, false); checkoutErr != nil {
+				return checkoutErr
+			}
 			return err
 		}
 	}
@@ -78,7 +66,7 @@ func getTemporaryBranchName() (branchName string) {
 	return branchName
 }
 
-func gitPullSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
+func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
 	component := p.Components[componentName]
 	origin := component.Origin
 	branch := component.Branch
@@ -88,12 +76,7 @@ func gitPullSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoP
 		return nil
 	}
 	// backup
-	log.Printf("[INFO] Prepare backup location")
-	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
-		return err
-	}
-	log.Printf("[INFO] Moving `%s` to `%s`", location, backupLocation)
-	if err = os.Rename(location, backupLocation); err != nil {
+	if err = backup(location, backupLocation); err != nil {
 		return err
 	}
 	// add remote
@@ -115,18 +98,33 @@ func gitPullSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoP
 		return err
 	}
 	// restore
-	log.Printf("[INFO] Restore")
-	if err = os.RemoveAll(location); err != nil {
-		return err
-	}
-	log.Printf("[INFO] Moving `%s` to `%s`", backupLocation, location)
-	if err = os.Rename(backupLocation, location); err != nil {
+	if err = restore(backupLocation, location); err != nil {
 		return err
 	}
 	// commit
 	log.Printf("[INFO] Commit after subtree operation")
 	git.Commit(projectDir, "after initiate "+componentName)
 	return err
+}
+
+func restore(backupLocation, location string) (err error) {
+	// restore
+	log.Printf("[INFO] Restore")
+	if err = os.RemoveAll(location); err != nil {
+		return err
+	}
+	log.Printf("[INFO] Moving `%s` to `%s`", backupLocation, location)
+	return os.Rename(backupLocation, location)
+}
+
+func backup(location, backupLocation string) (err error) {
+	// backup
+	log.Printf("[INFO] Prepare backup location")
+	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
+		return err
+	}
+	log.Printf("[INFO] Moving `%s` to `%s`", location, backupLocation)
+	return os.Rename(location, backupLocation)
 }
 
 func createZarubaConfigIfNotExists(projectDir string) (err error) {
