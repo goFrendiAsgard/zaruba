@@ -26,10 +26,16 @@ func Init(projectDir string) (err error) {
 		return err
 	}
 	// load project
-	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
+	p, currentBranchName, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
 	if err != nil {
 		return err
 	}
+	// get temporary branch name and checkout
+	temporaryBranchName := getTemporaryBranchName()
+	if err = git.Checkout(projectDir, temporaryBranchName, true); err != nil {
+		return err
+	}
+
 	// process subtree
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
@@ -40,6 +46,13 @@ func Init(projectDir string) (err error) {
 			command.RunAndRedirect(projectDir, "git", "remote", "remove", componentName)
 			return err
 		}
+	}
+	// checkout to current branch
+	if err = git.Checkout(projectDir, currentBranchName, false); err != nil {
+		return err
+	}
+	if err = git.Merge(projectDir, temporaryBranchName); err != nil {
+		return err
 	}
 	// organize
 	return organizer.Organize(projectDir, organizer.NewOption())
