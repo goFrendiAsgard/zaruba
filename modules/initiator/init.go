@@ -1,14 +1,17 @@
 package initiator
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 )
 
@@ -33,8 +36,18 @@ func Init(projectDir string) (err error) {
 	if err = command.RunAndRedirect(projectDir, "git", "init"); err != nil {
 		return err
 	}
+	// get current branch name
+	currentBranchName, err := git.GetCurrentBranchName(projectDir)
+	if err != nil {
+		return err
+	}
+	// get temporary branch name and checkout
+	temporaryBranchName := getTemporaryBranchName()
+	if err = git.Checkout(projectDir, temporaryBranchName, true); err != nil {
+		return err
+	}
 	// get current git remotes
-	currentGitRemotes, err := getCurrentGitRemotes(projectDir)
+	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
 	if err != nil {
 		return err
 	}
@@ -43,21 +56,74 @@ func Init(projectDir string) (err error) {
 		if isComponentNameInCurrentGitRemotes(componentName, currentGitRemotes) {
 			continue
 		}
-		component := p.Components[componentName]
-		origin := component.Origin
-		branch := component.Branch
-		if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
-			return err
-		}
-		if err = command.RunAndRedirect(projectDir, "git", "subtree", "add", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
-			return err
-		}
-		if err = command.RunAndRedirect(projectDir, "git", "fetch", componentName, branch); err != nil {
+		if err = gitPullSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
 			return err
 		}
 	}
+	// checkout to current branch
+	if err = git.Checkout(projectDir, currentBranchName, false); err != nil {
+		return err
+	}
+	if err = git.Merge(projectDir, temporaryBranchName); err != nil {
+		return err
+	}
 	// organize
 	return organizer.Organize(projectDir, organizer.NewOption())
+}
+
+func getTemporaryBranchName() (branchName string) {
+	branchName = fmt.Sprintf("init-%s", time.Now().Format(time.RFC3339))
+	branchName = strings.ReplaceAll(branchName, "+", "Z")
+	branchName = strings.ReplaceAll(branchName, ":", "-")
+	return branchName
+}
+
+func gitPullSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
+	component := p.Components[componentName]
+	origin := component.Origin
+	branch := component.Branch
+	location := component.Location
+	backupLocation := filepath.Join(projectDir, ".git", "subrepo-backup", subrepoPrefix)
+	// backup
+	log.Printf("[INFO] Prepare backup location")
+	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
+		return err
+	}
+	log.Printf("[INFO] Moving `%s` to `%s`", location, backupLocation)
+	if err = os.Rename(location, backupLocation); err != nil {
+		return err
+	}
+	// add remote
+	log.Printf("[INFO] Add remote `%s` as `%s`", origin, componentName)
+	if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
+		return err
+	}
+	// commit
+	log.Printf("[INFO] Commit before subtree operation")
+	git.Commit(projectDir, "prepare to initiate "+componentName)
+	// add subtree
+	log.Printf("[INFO] Add subtree `%s` with prefix `%s`", componentName, subrepoPrefix)
+	if err := command.RunAndRedirect(projectDir, "git", "subtree", "add", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
+		return err
+	}
+	// fetch
+	log.Printf("[INFO] Fetch `%s`", componentName)
+	if err = command.RunAndRedirect(projectDir, "git", "fetch", componentName, branch); err != nil {
+		return err
+	}
+	// restore
+	log.Printf("[INFO] Restore")
+	if err = os.RemoveAll(location); err != nil {
+		return err
+	}
+	log.Printf("[INFO] Moving `%s` to `%s`", backupLocation, location)
+	if err = os.Rename(backupLocation, location); err != nil {
+		return err
+	}
+	// commit
+	log.Printf("[INFO] Commit after subtree operation")
+	git.Commit(projectDir, "after initiate "+componentName)
+	return err
 }
 
 func isComponentNameInCurrentGitRemotes(componentName string, currentGitRemotes []string) (exists bool) {
@@ -67,23 +133,6 @@ func isComponentNameInCurrentGitRemotes(componentName string, currentGitRemotes 
 		}
 	}
 	return false
-}
-
-func getCurrentGitRemotes(projectDir string) (currentGitRemotes []string, err error) {
-	log.Println("[INFO] Get current remotes")
-	output, err := command.Run(projectDir, "git", "remote")
-	if err != nil {
-		return currentGitRemotes, err
-	}
-	outputList := strings.Split(output, "\n")
-	for _, remote := range outputList {
-		remote = strings.Trim(remote, "\r\n ")
-		if remote != "" {
-			log.Printf("[INFO] * %s", remote)
-			currentGitRemotes = append(currentGitRemotes, remote)
-		}
-	}
-	return currentGitRemotes, err
 }
 
 func createZarubaConfigIfNotExists(projectDir string) (err error) {

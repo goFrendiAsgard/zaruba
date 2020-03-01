@@ -8,6 +8,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 )
 
@@ -20,11 +21,8 @@ func Push(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Commit if there are changes")
-	if err = command.RunAndRedirect(projectDir, "git", "add", ".", "-A"); err != nil {
-		return err
-	}
-	command.RunAndRedirect(projectDir, "git", "commit", "-m", fmt.Sprintf("Save before push on %s", time.Now().Format(time.RFC3339)))
+	// commit
+	git.Commit(projectDir, fmt.Sprintf("Save before push on %s", time.Now().Format(time.RFC3339)))
 	log.Println("[INFO] Push to main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", "HEAD"); err != nil {
 		return err
