@@ -10,6 +10,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/organizer"
+	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
 // Push monorepo and subtree
@@ -32,8 +33,16 @@ func Push(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
+	// get current git remotes
+	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
+	if err != nil {
+		return err
+	}
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
+		if strutil.IsInArray(componentName, currentGitRemotes) {
+			continue
+		}
 		component := p.Components[componentName]
 		location := component.Location
 		origin := component.Origin

@@ -13,6 +13,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/organizer"
+	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
 // Init monorepo and subtree
@@ -52,7 +53,7 @@ func Init(projectDir string) (err error) {
 	}
 	// process subtree
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
-		if isComponentNameInCurrentGitRemotes(componentName, currentGitRemotes) {
+		if strutil.IsInArray(componentName, currentGitRemotes) {
 			continue
 		}
 		if err = gitPullSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
@@ -83,6 +84,9 @@ func gitPullSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoP
 	branch := component.Branch
 	location := component.Location
 	backupLocation := filepath.Join(projectDir, ".git", "subrepo-backup", subrepoPrefix)
+	if location == "" || origin == "" || branch == "" {
+		return nil
+	}
 	// backup
 	log.Printf("[INFO] Prepare backup location")
 	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
@@ -123,15 +127,6 @@ func gitPullSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoP
 	log.Printf("[INFO] Commit after subtree operation")
 	git.Commit(projectDir, "after initiate "+componentName)
 	return err
-}
-
-func isComponentNameInCurrentGitRemotes(componentName string, currentGitRemotes []string) (exists bool) {
-	for _, remote := range currentGitRemotes {
-		if remote == componentName {
-			return true
-		}
-	}
-	return false
 }
 
 func createZarubaConfigIfNotExists(projectDir string) (err error) {
