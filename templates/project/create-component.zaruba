@@ -6,18 +6,12 @@ TEMPLATE_DIR=$(pwd)
 # If project already exists, we should ask user, whether he/she want to continue or not
 if [ -e ${PROJECT_DIR} ]
 then
-    if [ ${INTERACTIVE} = 1 ]
+    read -p "${PROJECT_DIR} is not empty, do you want to continue (Y/n)? " answer
+    if [ $answer != "Y" ] && [ $answer != "y" ]
     then
-        read -p "${PROJECT_DIR} is not empty, do you want to continue (Y/n)? " answer
-        if [ $answer = "n" ] || [ $answer = "N" ]
-        then
-            echo "Project not created."
-            exit 0
-        fi
-    else
-        echo "${PROJECT_DIR} is not empty. Project not created."
+        echo "Project not created."
         exit 0
-    fi 
+    fi
 fi
 
 # Copy project to PROJECT_DIR, add .gitignore and change to the project directory

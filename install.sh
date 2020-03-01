@@ -33,5 +33,16 @@ do
     fi
 done
 
+read -p "Do you want to install pre-built templates(Y/n)? " INSTALL_TEMPLATE
+if [ $INSTALL_TEMPLATE = "Y" ] || [ $INSTALL_TEMPLATE = "y" ]
+then
+    TEMPLATE_PATH=$(go env GOPATH)/src/github.com/state-alchemists/zaruba/templates
+    echo "* INSTALL PRE-BUILT TEMPLATES"
+    for COMPONENT in $(ls ${TEMPLATE_PATH})
+    do
+        cp -R ${TEMPLATE_PATH}/${COMPONENT} ${HOME}/.zaruba/template
+    done
+fi
+
 echo "* DONE"
 echo "Please invoke 'source ${HOME}/.zaruba/zaruba.env' or restart this terminal in order to start using zaruba"
