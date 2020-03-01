@@ -8,7 +8,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/file"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 	"github.com/state-alchemists/zaruba/modules/runner"
-	"github.com/state-alchemists/zaruba/modules/stringformat"
+	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
 // Watch projectDir
@@ -18,7 +18,7 @@ func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments 
 		errChan <- err
 		return
 	}
-	log.Printf("[INFO] Watch project `%s` %s", projectDir, stringformat.SprintArgs(arguments))
+	log.Printf("[INFO] Watch project `%s` %s", projectDir, strutil.SprintArgs(arguments))
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	// start to listen for changes and do appropriate actions
 	listenerStopChan := make(chan bool)

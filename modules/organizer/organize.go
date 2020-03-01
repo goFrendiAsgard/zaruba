@@ -9,7 +9,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/file"
-	"github.com/state-alchemists/zaruba/modules/stringformat"
+	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
 // Organize projectDir
@@ -18,7 +18,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	if err != nil {
 		return err
 	}
-	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), stringformat.SprintArgs(arguments))
+	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), strutil.SprintArgs(arguments))
 	projectConfig, err := config.LoadProjectConfig(projectDir)
 	if err != nil {
 		return err

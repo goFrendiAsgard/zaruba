@@ -6,7 +6,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/config"
-	"github.com/state-alchemists/zaruba/modules/stringformat"
+	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
 // Create component
@@ -18,7 +18,7 @@ func Create(template, projectDir string, args ...string) (err error) {
 	}
 	// run create-component script
 	createComponentArgs := append([]string{projectDir}, args...)
-	log.Printf("[INFO] Create component from `%s` into `%s` %s", templateDir, projectDir, stringformat.SprintArgs(createComponentArgs))
+	log.Printf("[INFO] Create component from `%s` into `%s` %s", templateDir, projectDir, strutil.SprintArgs(createComponentArgs))
 	return action.Do(
 		"create-component",
 		action.NewOption().

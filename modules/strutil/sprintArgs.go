@@ -1,4 +1,4 @@
-package stringformat
+package strutil
 
 import (
 	"fmt"

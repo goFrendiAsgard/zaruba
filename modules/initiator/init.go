@@ -32,8 +32,7 @@ func Init(projectDir string) (err error) {
 	}
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	// git init
-	log.Println("[INFO] Initiating repo")
-	if err = command.RunAndRedirect(projectDir, "git", "init"); err != nil {
+	if err = git.Init(projectDir); err != nil {
 		return err
 	}
 	// get current branch name
@@ -51,7 +50,7 @@ func Init(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
-	// add subtree
+	// process subtree
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
 		if isComponentNameInCurrentGitRemotes(componentName, currentGitRemotes) {
 			continue

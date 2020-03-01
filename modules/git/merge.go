@@ -8,6 +8,6 @@ import (
 
 // Merge checkout to branchName
 func Merge(projectDir, branchName string) (err error) {
-	log.Printf("[INFO] Merge %s", branchName)
+	log.Printf("[INFO] Git merge `%s`", branchName)
 	return command.RunAndRedirect(projectDir, "git", "merge", "--squash", branchName)
 }
