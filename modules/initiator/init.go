@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
@@ -26,16 +25,10 @@ func Init(projectDir string) (err error) {
 		return err
 	}
 	// load project
-	p, currentBranchName, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
+	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
 	if err != nil {
 		return err
 	}
-	// get temporary branch name and checkout
-	temporaryBranchName := getTemporaryBranchName()
-	if err = git.Checkout(projectDir, temporaryBranchName, true); err != nil {
-		return err
-	}
-
 	// process subtree
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
@@ -44,25 +37,12 @@ func Init(projectDir string) (err error) {
 		}
 		if err = gitProcessSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
 			command.RunAndRedirect(projectDir, "git", "remote", "remove", componentName)
-			return err
+			log.Printf("[ERROR] %s", err)
+			break
 		}
-	}
-	// checkout to current branch
-	if err = git.Checkout(projectDir, currentBranchName, false); err != nil {
-		return err
-	}
-	if err = git.Merge(projectDir, temporaryBranchName); err != nil {
-		return err
 	}
 	// organize
 	return organizer.Organize(projectDir, organizer.NewOption())
-}
-
-func getTemporaryBranchName() (branchName string) {
-	branchName = fmt.Sprintf("init-%s", time.Now().Format(time.RFC3339))
-	branchName = strings.ReplaceAll(branchName, "+", "Z")
-	branchName = strings.ReplaceAll(branchName, ":", "-")
-	return branchName
 }
 
 func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
@@ -70,12 +50,14 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	origin := component.Origin
 	branch := component.Branch
 	location := component.Location
-	backupLocation := filepath.Join(projectDir, ".git", "subrepo-backup", subrepoPrefix)
+	backupLocation := filepath.Join(projectDir, ".git", ".subrepobackup", subrepoPrefix)
 	if location == "" || origin == "" || branch == "" {
 		return nil
 	}
 	// backup
-	backup(location, backupLocation)
+	if backupErr := backup(location, backupLocation); backupErr != nil {
+		log.Printf("[WARNING] %s", backupErr)
+	}
 	// add remote
 	log.Printf("[INFO] Add remote `%s` as `%s`", origin, componentName)
 	if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
@@ -83,7 +65,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	}
 	// commit
 	log.Printf("[INFO] Commit before subtree operation")
-	git.Commit(projectDir, "prepare to initiate "+componentName)
+	git.Commit(projectDir, fmt.Sprintf("Zaruba: syncing `%s` at %s ", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
 	log.Printf("[INFO] Add subtree `%s` with prefix `%s`", componentName, subrepoPrefix)
 	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
@@ -94,11 +76,16 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	if err = command.RunAndRedirect(projectDir, "git", "fetch", componentName, branch); err != nil {
 		return err
 	}
+	if err = command.RunAndRedirect(projectDir, "git", "pull", componentName, branch); err != nil {
+		return err
+	}
 	// restore
-	restore(backupLocation, location)
+	if restoreErr := restore(backupLocation, location); restoreErr != nil {
+		log.Printf("[WARNING] %s", restoreErr)
+	}
 	// commit
 	log.Printf("[INFO] Commit after subtree operation")
-	git.Commit(projectDir, "after initiate "+componentName)
+	git.Commit(projectDir, fmt.Sprintf("Zaruba: after sync on %s", time.Now().Format(time.RFC3339)))
 	return err
 }
 
@@ -116,7 +103,7 @@ func backup(location, backupLocation string) (err error) {
 	// backup
 	log.Printf("[INFO] Prepare backup location")
 	os.RemoveAll(backupLocation)
-	if err = os.MkdirAll(filepath.Dir(backupLocation), 0777); err != nil {
+	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
 		return err
 	}
 	log.Printf("[INFO] Moving `%s` to `%s`", location, backupLocation)

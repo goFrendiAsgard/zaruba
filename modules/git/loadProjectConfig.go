@@ -1,9 +1,11 @@
 package git
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
@@ -40,9 +42,9 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 		}
 	}
 	// get currentBranchName
-	currentBranchName, err = GetCurrentBranchName(projectDir)
-	if err != nil {
-		return p, currentBranchName, currentGitRemotes, err
+	currentBranchName, getCurrentBranchErr := GetCurrentBranchName(projectDir)
+	if getCurrentBranchErr != nil {
+		currentBranchName = "master"
 	}
 	// get currentGitRemotes
 	currentGitRemotes, err = GetCurrentGitRemotes(projectDir)
@@ -50,8 +52,8 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 }
 
 func initRepo(projectDir, componentName string, component config.Component) (err error) {
-	tempDir := filepath.Join(projectDir, ".git", "new-repo", componentName)
-	if err = os.MkdirAll(tempDir, 0777); err != nil {
+	tempDir := filepath.Join(projectDir, ".git", ".newsubrepo", componentName)
+	if err = os.MkdirAll(tempDir, 0700); err != nil {
 		return err
 	}
 	origin := component.Origin
@@ -67,7 +69,7 @@ func initRepo(projectDir, componentName string, component config.Component) (err
 	}
 	f.WriteString("# " + componentName)
 	// commit
-	if err = Commit(tempDir, "First commit by zaruba"); err != nil {
+	if err = Commit(tempDir, fmt.Sprintf("Zaruba: First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339))); err != nil {
 		return err
 	}
 	// add remote

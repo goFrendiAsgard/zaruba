@@ -26,7 +26,7 @@ func Push(projectDir string) (err error) {
 		return err
 	}
 	// commit
-	git.Commit(projectDir, fmt.Sprintf("Save before push on %s", time.Now().Format(time.RFC3339)))
+	git.Commit(projectDir, fmt.Sprintf("Zaruba: Save before push to sub-repos at %s", time.Now().Format(time.RFC3339)))
 	log.Println("[INFO] Push to main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", "HEAD"); err != nil {
 		return err
