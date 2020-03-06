@@ -5,11 +5,20 @@ echo "* INSTALLING ZARUBA"
 go get -u github.com/state-alchemists/zaruba
 
 echo "* CREATING ZARUBA CONFIG DIRECTORY"
+if [ -z ${HOME} ]
+then
+    HOME=~
+fi
 mkdir -p ${HOME}/.zaruba
 mkdir -p ${HOME}/.zaruba/template
 
 # create zaruba/zaruba.env
-echo 'export PATH="$(go env GOPATH)/bin:${PATH}"' > ${HOME}/.zaruba/zaruba.env
+
+echo 'if [ -z ${HOME} ]' > ${HOME}/.zaruba/zaruba.env
+echo 'then' >> ${HOME}/.zaruba/zaruba.env
+echo '    HOME=~' >> ${HOME}/.zaruba/zaruba.env
+echo 'fi' >> ${HOME}/.zaruba/zaruba.env
+echo 'export PATH="$(go env GOPATH)/bin:${PATH}"' >> ${HOME}/.zaruba/zaruba.env
 echo 'export ZARUBA_SHELL="/bin/bash"' >> ${HOME}/.zaruba/zaruba.env
 echo 'export ZARUBA_SHELL_ARG="-c"' >> ${HOME}/.zaruba/zaruba.env
 echo 'export ZARUBA_TEMPLATE_DIR="${HOME}/.zaruba/template"' >> ${HOME}/.zaruba/zaruba.env
