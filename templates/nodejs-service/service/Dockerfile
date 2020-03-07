@@ -2,7 +2,7 @@ FROM node:lts
 LABEL SERVICE servicename
 
 # define environments
-ENV port 3000
+ENV SERVICENAME_HTTP_PORT 3010
 
 # Create and set the workdir
 RUN mkdir -p /app

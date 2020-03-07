@@ -1,8 +1,7 @@
 environments:
-  general: {}
-  services:
-    servicename:
-      port: 3000
+  general:
+    SERVICENAME_HTTP_PORT: 3010
+  services: {}
 
 components:
   servicename:

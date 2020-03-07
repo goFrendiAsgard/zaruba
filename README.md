@@ -289,7 +289,7 @@ Usage:
   zaruba [command]
 
 Available Commands:
-  create-component Create Component
+  create           Create Component
   do               Do custom action
   help             Help about any command
   init             Init a project
@@ -334,14 +334,14 @@ Component can be anything from a project, a shared library, or a single service.
 
 A component is usually based on specific template, but user can also create their own components from scratch. Also, a component should contains at least a single file:
 
-* `link`: Any executable script, containing set of commands to be executed when user perform `zaruba organize-project` or `zaruba watch-project`.
+* `link`: Any executable script, containing set of commands to be executed when user perform `zaruba organize` or `zaruba watch`.
 
 Optionally, a component can also has `organize-project.zaruba` or any other shell script for custom command.
 
 To create a new component, you can perform:
 
 ```sh
-zaruba create-component someTemplate
+zaruba create someTemplate
 ```
 
 ## pre-action
@@ -364,28 +364,13 @@ This one basically run `git clone <template-gir-url>` and executing `install-tem
 
 While running `install-template`, current working directory is set to `[folder-name]`. However, if `[folder-name]` is not specified, zaruba will use `<template-git-url>`'s repository name as `[folder-name]`.
 
-Running `zaruba install-template <template-git-url> [folder-name]` should has the same effect as performing:
+## create
 
 ```sh
-git clone ${template_git_url} ${zaruba_template_dir}/${folder_name}.git
-cd ${zaruba_template_dir}/${folder_name}
-./install_template.zaruba
+zaruba create <template> [project-dir [...args]]
 ```
 
-## create-component
-
-```sh
-zaruba create-component <template> [project-dir [...args]]
-```
-
-This will run template's `create-component <project-dir> [...args]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
-
-Running `zaruba create-component <template> [project-dir] [...args]` should has the same effect as performing:
-
-```sh
-cd ${zaruba_template_dir}/${template}
-./create_component.zaruba ${project_dir}
-```
+This will run template's `create <project-dir> [...args]`. Typically, it should create new component based on `<template>`. It is assumed that current working directory is pointing to `<template>`.
 
 ## organize
 
@@ -404,7 +389,7 @@ This command will do the following actions:
 zaruba watch [project-dir [...args]]
 ```
 
-Detect changes in project and `organize-project` automatically.
+Detect changes in project and `organize` automatically.
 
 ## custom action
 

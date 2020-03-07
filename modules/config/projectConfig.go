@@ -2,6 +2,7 @@ package config
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"sort"
@@ -192,6 +193,8 @@ func LoadProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 			}
 		}
 	}
+	pYaml, _ := p.ToYaml()
+	log.Printf("[INFO] Project Config Loaded:\n%s", pYaml)
 	return p, err
 }
 

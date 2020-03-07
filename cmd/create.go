@@ -12,7 +12,7 @@ func init() {
 }
 
 var createComponentCmd = &cobra.Command{
-	Use:   "create-component <template> [project-dir]",
+	Use:   "create <template> [project-dir]",
 	Short: "Create Component",
 	Long:  `Zaruba will manage project-dependency and perform organize-project.sh`,
 	Run: func(cmd *cobra.Command, args []string) {

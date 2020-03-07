@@ -1,20 +1,30 @@
+// imports
 const express = require('express');
-const app = express();
-const port = process.env.port || 3000;
+const bodyParser = require('body-parser');
+const serviceDesc = require('./serviceDesc');
+const createApp = require('./helpers/createApp');
 
-// liveness, typically used if you want to deploy the service into kubernetes cluster
-app.get('/liveness', (req, res) => {
-    res.send('I am alive');
+// global variables
+const { logger } = serviceDesc;
+const app = createApp(serviceDesc, express, bodyParser);
+
+app.all('/', (req, res) => {
+    logger.log('QUERY', req.query)
+    logger.log('BODY', req.body)
+    return res.status(200).send('Hello World !!!');
 });
 
-// readiness, typically used if you want to deploy the service into kubernetes cluster
-app.get('/readiness', (req, res) => {
-    res.send('I am ready');
+app.get('/kill', (req, res) => {
+    serviceDesc.status.setLiveness(false);
+    return res.send('kill');
 });
 
-// legendary hello world :)
-app.get('/', (req, res) => {
-    res.send('Hello world');
-})
+app.get('/revive', (req, res) => {
+    serviceDesc.status.setLiveness(true);
+    return res.send('revive');
+});
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+if (require.main == module) {
+    // Serve HTTP Server
+    app.startService();
+}
