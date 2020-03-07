@@ -1,30 +1,40 @@
 // imports
+const amqplib = require('amqplib');
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const serviceDesc = require('./serviceDesc');
-const createApp = require('./helpers/createApp');
+const { createApp, startApp } = require('./helpers/express/expressHelper');
+const { createConnection: createRmqConnection, sendToQueue, consume } = require('./helpers/amqp/amqpHelper');
+const { logger, rmqEvent } = serviceDesc;
 
-// global variables
-const { logger } = serviceDesc;
-const app = createApp(serviceDesc, express, bodyParser);
+async function main() {
+    try {
+        // Variables
+        const app = createApp(serviceDesc, express, bodyParser);
+        const rmq = await createRmqConnection(serviceDesc.rmq, amqplib);
 
-app.all('/', (req, res) => {
-    logger.log('QUERY', req.query)
-    logger.log('BODY', req.body)
-    return res.status(200).send('Hello World !!!');
-});
+        // Http routes
+        app.all('/', (req, res) => {
+            logger.log('QUERY', req.query)
+            logger.log('BODY', req.body)
+            return res.status(200).send('Hello World !!!');
+        });
 
-app.get('/kill', (req, res) => {
-    serviceDesc.status.setLiveness(false);
-    return res.send('kill');
-});
+        // Start Listening to rmqEvent
+        await consume(serviceDesc, rmq, rmqEvent, (message) => {
+            logger.log("GET MESSAGE:", message);
+        });
+        // Send Message to rmqEvent
+        sendToQueue(serviceDesc, rmq, rmqEvent, "A message");
 
-app.get('/revive', (req, res) => {
-    serviceDesc.status.setLiveness(true);
-    return res.send('revive');
-});
+        // Start HTTP Server
+        startApp(serviceDesc, app);
+    } catch (error) {
+        logger.error(error);
+    }
+}
 
 if (require.main == module) {
-    // Serve HTTP Server
-    app.startService();
+    main();
 }

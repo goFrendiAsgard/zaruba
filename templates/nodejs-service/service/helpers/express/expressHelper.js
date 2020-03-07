@@ -1,6 +1,10 @@
+module.exports = {
+    createApp,
+    startApp,
+};
 
-module.exports = function (serviceDesc, express, bodyParser) {
-    const { httpPort, logger, serviceName } = serviceDesc;
+function createApp(serviceDesc, express, bodyParser) {
+    const { logger } = serviceDesc;
 
     // initiate app
     const app = express();
@@ -35,12 +39,13 @@ module.exports = function (serviceDesc, express, bodyParser) {
         return res.status(500).send(serviceName + ' is not ready');
     });
 
-    // custom function to start http server
-    app.startService = () => {
-        app.listen(httpPort, () => {
-            logger.log(`${serviceName} is running at port ${httpPort}`);
-        });
-    }
-
     return app;
+}
+
+
+function startApp(serviceDesc, app) {
+    const { httpPort, logger, serviceName } = serviceDesc;
+    return app.listen(httpPort, () => {
+        logger.log(`${serviceName} is running at port ${httpPort}`);
+    });
 }
