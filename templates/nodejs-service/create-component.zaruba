@@ -4,7 +4,7 @@ set -e
 PROJECT_DIR=$1
 SERVICE_NAME=$2
 TEMPLATE_DIR=$(pwd)
-EXISTING_SERVICE_COUNT=$(find ${PROJECT_DIR}/services -maxdepth 1 -type f|wc -l)
+EXISTING_SERVICE_COUNT=$(find ${PROJECT_DIR}/services -maxdepth 1 -type d|wc -l)
 HTTP_PORT=$(expr ${EXISTING_SERVICE_COUNT} + 3010)
 
 # get service name
