@@ -1,19 +1,21 @@
 module.exports = {
-    createConnection,
+    createRmq,
     sendToQueue,
     publish,
     consume,
     bindQueue,
 };
 
-async function createConnection(serviceDescRmq, amqplib) {
+async function createRmq(serviceDesc, serviceDescRmq, amqplib) {
+    const { logger } = serviceDesc;
     const { host, port, user, password, vhost } = serviceDescRmq;
     const connectionString = 'amqp://' + user + ':' + password + '@' + host + ':' + port + vhost;
-    return await amqplib.connect(connectionString);
+    const connection = await amqplib.connect(connectionString);
+    return { connection, logger };
 }
 
-async function sendToQueue(serviceDesc, connection, queue, message) {
-    const { logger } = serviceDesc;
+async function sendToQueue(rmq, queue, message) {
+    const { logger, connection } = rmq;
     try {
         channel = await connection.createChannel(connection);
         logger.log(`Sending to queue ${queue}: ${message}`)
@@ -26,8 +28,8 @@ async function sendToQueue(serviceDesc, connection, queue, message) {
 }
 
 
-async function publish(serviceDesc, connection, exchange, message) {
-    const { logger } = serviceDesc;
+async function publish(rmq, exchange, message) {
+    const { logger, connection } = rmq;
     try {
         channel = await connection.createChannel(connection);
         logger.log(`Sending to exchange ${exchange}: ${message}`)
@@ -40,8 +42,8 @@ async function publish(serviceDesc, connection, exchange, message) {
 }
 
 
-async function consume(serviceDesc, connection, queue, onMessage) {
-    const { logger } = serviceDesc;
+async function consume(rmq, queue, onMessage) {
+    const { logger, connection } = rmq;
     try {
         channel = await connection.createChannel(connection);
         await channel.assertQueue(queue);
@@ -51,14 +53,14 @@ async function consume(serviceDesc, connection, queue, onMessage) {
             } catch (error) {
                 logger.error(error);
             }
-        });
+        }, { noAck: true });
     } catch (error) {
         return logger.error(error);
     }
 }
 
-async function bindQueue(serviceDesc, connection, queue, exchange, pattern) {
-    const { logger } = serviceDesc;
+async function bindQueue(rmq, queue, exchange, pattern) {
+    const { logger, connection } = rmq;
     pattern = pattern ? pattern : '#'
     try {
         channel = await connection.createChannel(connection);

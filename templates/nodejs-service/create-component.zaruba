@@ -39,6 +39,20 @@ do
     sed -i "s/3010/${HTTP_PORT}/g" ${FILE}
 done
 
+# copy to shared lib
+SHARED_LIB_HELPER_DIR=${PROJECT_DIR}/libraries/nodejs/helpers
+LIB_HELPER_DIR=${SERVICE_DIR}/helpers
+mkdir -p ${SHARED_LIB_HELPER_DIR}
+for HELPER in amqp express
+do
+    if [ -e ${SHARED_LIB_HELPER_DIR}/${HELPER} ]
+    then
+        echo "${SHARED_LIB_HELPER_DIR}/${HELPER} is already exists"
+    else
+        cp -r ${LIB_HELPER_DIR}/${HELPER} ${SHARED_LIB_HELPER_DIR}/${HELPER}
+    fi
+done
+
 npm install
 
 echo "Service ${SERVICE_NAME} created."

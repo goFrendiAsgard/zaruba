@@ -5,14 +5,14 @@ const bodyParser = require('body-parser');
 
 const serviceDesc = require('./serviceDesc');
 const { createApp, startApp } = require('./helpers/express/expressHelper');
-const { createConnection: createRmqConnection, sendToQueue, consume } = require('./helpers/amqp/amqpHelper');
+const { createRmq, sendToQueue, consume } = require('./helpers/amqp/amqpHelper');
 const { logger, rmqEvent } = serviceDesc;
 
 async function main() {
     try {
         // Variables
         const app = createApp(serviceDesc, express, bodyParser);
-        const rmq = await createRmqConnection(serviceDesc.rmq, amqplib);
+        const rmq = await createRmq(serviceDesc, serviceDesc.rmq, amqplib);
 
         // Http routes
         app.all('/', (req, res) => {
@@ -22,11 +22,11 @@ async function main() {
         });
 
         // Start Listening to rmqEvent
-        await consume(serviceDesc, rmq, rmqEvent, (message) => {
+        await consume(rmq, rmqEvent, (message) => {
             logger.log("GET MESSAGE:", message);
         });
         // Send Message to rmqEvent
-        sendToQueue(serviceDesc, rmq, rmqEvent, "A message");
+        await sendToQueue(rmq, rmqEvent, "A message");
 
         // Start HTTP Server
         startApp(serviceDesc, app);

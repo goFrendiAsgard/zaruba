@@ -12,3 +12,8 @@ components:
     location: "."
     start: npm install && npm start
 
+links:
+  ../../libraries/nodejs/helpers/amqp:
+    - ./helpers/amqp
+  ../../libraries/nodejs/helpers/express: 
+    - ./helpers/express
