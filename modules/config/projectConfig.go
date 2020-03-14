@@ -193,6 +193,7 @@ func (e *Environments) GetRuntimeVariables(serviceName string) (variables map[st
 	// get service variables
 	if serviceEnv, exists := e.services[serviceName]; exists {
 		for key, val := range serviceEnv {
+			// TODO: replace from general
 			variables[key] = val
 		}
 	}
