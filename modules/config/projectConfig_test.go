@@ -32,8 +32,8 @@ func TestLoadProjectConfig(t *testing.T) {
 
 	// test cascaded config
 	expected := filepath.Join(testPath, "./services/gateway")
-	if config.Components["gateway"].Location != expected {
-		t.Errorf("[UNEXPECTED] config.Components[\"gateway\"].Location should be `%s`, but contains `%s`", expected, config.Components["gateway"].Location)
+	if config.GetComponentByName("gateway").GetLocation() != expected {
+		t.Errorf("[UNEXPECTED] config.Components[\"gateway\"].Location should be `%s`, but contains `%s`", expected, config.GetComponentByName("gateway").GetLocation())
 	}
 
 	// test sorted Link sources
@@ -45,7 +45,7 @@ func TestLoadProjectConfig(t *testing.T) {
 	for index, expected := range expectations {
 		if sortedLinkSources[index] != expected {
 			t.Errorf("[UNEXPECTED] sortedLinkSources[%d] should be `%s`, but contains: %s", index, expected, sortedLinkSources[index])
-			t.Errorf("[INFO] config.Links: %#v", config.Links)
+			t.Errorf("[INFO] config.Links: %#v", config.GetLinks())
 		}
 	}
 	// the length of sortedLinkSources should be 4

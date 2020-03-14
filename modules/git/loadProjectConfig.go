@@ -24,8 +24,8 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 		return p, currentBranchName, currentGitRemotes, err
 	}
 	// check all component's origin
-	for componentName, component := range p.Components {
-		origin := component.Origin
+	for componentName, component := range p.GetComponents() {
+		origin := component.GetOrigin()
 		if origin == "" {
 			continue
 		}
@@ -51,13 +51,13 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 	return p, currentBranchName, currentGitRemotes, err
 }
 
-func initRepo(projectDir, componentName string, component config.Component) (err error) {
+func initRepo(projectDir, componentName string, component *config.Component) (err error) {
 	tempDir := filepath.Join(projectDir, ".git", ".newsubrepo", componentName)
 	if err = os.MkdirAll(tempDir, 0700); err != nil {
 		return err
 	}
-	origin := component.Origin
-	branch := component.Branch
+	origin := component.GetOrigin()
+	branch := component.GetBranch()
 	// init
 	if err = Init(tempDir); err != nil {
 		return err

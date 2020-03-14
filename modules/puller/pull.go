@@ -35,10 +35,10 @@ func Pull(projectDir string) (err error) {
 		if !strutil.IsInArray(componentName, currentGitRemotes) {
 			continue
 		}
-		component := p.Components[componentName]
-		location := component.Location
-		origin := component.Origin
-		branch := component.Branch
+		component := p.GetComponentByName(componentName)
+		location := component.GetLocation()
+		origin := component.GetOrigin()
+		branch := component.GetBranch()
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}

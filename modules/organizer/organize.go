@@ -31,7 +31,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		if err != nil {
 			return err
 		}
-		destinationList := projectConfig.Links[source]
+		destinationList := projectConfig.GetLinkDestinationList(source)
 		for _, destination := range destinationList {
 			if sourceMTime.Before(option.GetMTimeLimit()) {
 				var destinationMTime time.Time
@@ -48,7 +48,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 			}
 		}
 	}
-	return organize(projectDir, projectConfig.Links, sortedLinkSources, option, arguments...)
+	return organize(projectDir, projectConfig.GetLinks(), sortedLinkSources, option, arguments...)
 }
 
 func updateOptionToPreeceedSource(option *Option, sourceMTime time.Time) (updatedOption *Option) {
@@ -116,9 +116,7 @@ func copyWithChannel(option *Option, source, destination string, errChan chan er
 	if sourceMTime.After(option.GetMTimeLimit()) {
 		log.Printf("[INFO] Copy `%s` to `%s`", source, destination)
 		err = file.CopyExcept(source, destination, []string{
-			`\.zaruba$`,       // imperative executables
-			`\.zaruba\.yml$`,  // declarative configuration (not implemented yet)
-			`\.zaruba\.yaml$`, // declarative configuration (not implemented yet)
+			`\.zaruba$`,
 		})
 	}
 	errChan <- err

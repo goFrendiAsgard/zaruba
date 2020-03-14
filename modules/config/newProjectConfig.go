@@ -31,23 +31,9 @@ func NewProjectConfig(args ...string) (p *ProjectConfig, err error) {
 		p = mergeExecutions(p, subP)
 		p = mergeLinks(p, subP)
 	}
-	pYaml, _ := p.ToYaml()
-	log.Printf("[INFO] Project Config Loaded:\n%s", pYaml)
+	str, _ := p.ToYaml()
+	log.Printf("[INFO] Project Config Loaded:\n%s", str)
 	return p, err
-}
-
-// newEmptyProjectConfig create new ProjectConfig
-func newEmptyProjectConfig() (p *ProjectConfig) {
-	return &ProjectConfig{
-		ProjectName: "",
-		Environments: Environments{
-			General:  make(map[string]string),
-			Services: make(map[string]map[string]string),
-		},
-		Components: make(map[string]Component),
-		Executions: []string{},
-		Links:      make(map[string][]string),
-	}
 }
 
 func getAllDirs(args ...string) (allDirs []string, err error) {
@@ -60,24 +46,38 @@ func getAllDirs(args ...string) (allDirs []string, err error) {
 	return allDirs, nil
 }
 
+// newEmptyProjectConfig create new ProjectConfig
+func newEmptyProjectConfig() (p *ProjectConfig) {
+	return &ProjectConfig{
+		projectName: "",
+		environments: &Environments{
+			general:  make(map[string]string),
+			services: make(map[string]map[string]string),
+		},
+		components: make(map[string]*Component),
+		executions: []string{},
+		links:      make(map[string][]string),
+	}
+}
+
 func mergeEnvironment(p, subP *ProjectConfig) *ProjectConfig {
 	// merge general environment
-	for generalSubEnvName, generalSubEnv := range subP.Environments.General {
-		if _, exists := p.Environments.General[generalSubEnvName]; !exists {
-			p.Environments.General[generalSubEnvName] = generalSubEnv
+	for generalSubEnvName, generalSubEnv := range subP.environments.general {
+		if _, exists := p.environments.general[generalSubEnvName]; !exists {
+			p.environments.general[generalSubEnvName] = generalSubEnv
 		}
 	}
 	// merge service environment
-	for serviceName, serviceEnvMap := range subP.Environments.Services {
+	for serviceName, serviceEnvMap := range subP.environments.services {
 		// if p doesn't have any environment for the service, add it
-		if _, exists := p.Environments.Services[serviceName]; !exists {
-			p.Environments.Services[serviceName] = serviceEnvMap
+		if _, exists := p.environments.services[serviceName]; !exists {
+			p.environments.services[serviceName] = serviceEnvMap
 			continue
 		}
 		// p already has environment for the service, cascade it
 		for serviceSubEnvName, serviceSubEnv := range serviceEnvMap {
-			if _, exists := p.Environments.Services[serviceName][serviceSubEnvName]; !exists {
-				p.Environments.Services[serviceName][serviceSubEnvName] = serviceSubEnv
+			if _, exists := p.environments.services[serviceName][serviceSubEnvName]; !exists {
+				p.environments.services[serviceName][serviceSubEnvName] = serviceSubEnv
 			}
 		}
 	}
@@ -86,9 +86,9 @@ func mergeEnvironment(p, subP *ProjectConfig) *ProjectConfig {
 
 func mergeComponents(p, subP *ProjectConfig) *ProjectConfig {
 	// merge component
-	for componentName, component := range subP.Components {
-		if _, exists := p.Components[componentName]; !exists {
-			p.Components[componentName] = component
+	for componentName, component := range subP.components {
+		if _, exists := p.components[componentName]; !exists {
+			p.components[componentName] = component
 		}
 	}
 	return p
@@ -96,16 +96,16 @@ func mergeComponents(p, subP *ProjectConfig) *ProjectConfig {
 
 func mergeExecutions(p, subP *ProjectConfig) *ProjectConfig {
 	// merge component
-	for _, subExecution := range subP.Executions {
+	for _, subExecution := range subP.executions {
 		exists := false
-		for _, execution := range p.Executions {
+		for _, execution := range p.executions {
 			if execution == subExecution {
 				exists = true
 				break
 			}
 		}
 		if !exists {
-			p.Executions = append(p.Executions, subExecution)
+			p.executions = append(p.executions, subExecution)
 		}
 	}
 	return p
@@ -113,22 +113,22 @@ func mergeExecutions(p, subP *ProjectConfig) *ProjectConfig {
 
 func mergeLinks(p, subP *ProjectConfig) *ProjectConfig {
 	// merge links
-	for libPath, subLinks := range subP.Links {
+	for libPath, subLinks := range subP.links {
 		// if p doesn't have any link for libPath, add it
-		if _, exists := p.Links[libPath]; !exists {
-			p.Links[libPath] = subLinks
+		if _, exists := p.links[libPath]; !exists {
+			p.links[libPath] = subLinks
 			continue
 		}
 		for _, subLink := range subLinks {
 			exists := false
-			for _, link := range p.Links[libPath] {
+			for _, link := range p.links[libPath] {
 				if subLink == link {
 					exists = true
 					break
 				}
 			}
 			if !exists {
-				p.Links[libPath] = append(p.Links[libPath], subLink)
+				p.links[libPath] = append(p.links[libPath], subLink)
 			}
 		}
 	}
@@ -138,6 +138,16 @@ func mergeLinks(p, subP *ProjectConfig) *ProjectConfig {
 // loadSingleProjectConfig load project configuration from a directory
 func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 	p = newEmptyProjectConfig()
+	pYaml := &ProjectConfigYaml{
+		ProjectName: "",
+		Environments: EnvironmentsYaml{
+			General:  make(map[string]string),
+			Services: make(map[string]map[string]string),
+		},
+		Components: make(map[string]ComponentYaml),
+		Executions: []string{},
+		Links:      make(map[string][]string),
+	}
 	directory, err = filepath.Abs(directory)
 	if err != nil {
 		return p, err
@@ -149,29 +159,32 @@ func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 	}
 	str := string(b)
 	// create new ProjectConfig and unmarshal
-	err = yaml.Unmarshal([]byte(str), p)
+	err = yaml.Unmarshal([]byte(str), pYaml)
 	if err != nil {
 		return p, err
 	}
+	// load pYaml into p
+	p.fromProjectConfigYaml(pYaml, directory)
+	// adjust location
 	p = adjustLocation(p, directory)
 	return p, err
 }
 
 func adjustLocation(p *ProjectConfig, absDirPath string) *ProjectConfig {
 	// adjust component's location
-	for componentName, component := range p.Components {
-		component.Location = file.GetAbsoluteLocation(absDirPath, component.Location)
-		p.Components[componentName] = component
+	for componentName, component := range p.components {
+		component.location = file.GetAbsoluteLocation(absDirPath, component.location)
+		p.components[componentName] = component
 	}
 	// adjust component's link
 	newLinks := make(map[string][]string)
-	for source, destinations := range p.Links {
+	for source, destinations := range p.links {
 		newSource := file.GetAbsoluteLocation(absDirPath, source)
 		newLinks[newSource] = []string{}
 		for _, destination := range destinations {
 			newLinks[newSource] = append(newLinks[newSource], file.GetAbsoluteLocation(absDirPath, destination))
 		}
 	}
-	p.Links = newLinks
+	p.links = newLinks
 	return p
 }

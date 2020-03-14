@@ -46,10 +46,10 @@ func Init(projectDir string) (err error) {
 }
 
 func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
-	component := p.Components[componentName]
-	origin := component.Origin
-	branch := component.Branch
-	location := component.Location
+	component := p.GetComponentByName(componentName)
+	origin := component.GetOrigin()
+	branch := component.GetBranch()
+	location := component.GetLocation()
 	backupLocation := filepath.Join(projectDir, ".git", ".subrepobackup", subrepoPrefix)
 	if location == "" || origin == "" || branch == "" {
 		return nil

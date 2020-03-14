@@ -52,8 +52,9 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 
 // kill based on p.Executions in reverse order
 func killCmdMap(p *config.ProjectConfig, cmdMap map[string]*exec.Cmd) {
-	for index := len(p.Executions) - 1; index >= 0; index-- {
-		serviceName := p.Executions[index]
+	executions := p.GetExecutions()
+	for index := len(executions) - 1; index >= 0; index-- {
+		serviceName := executions[index]
 		cmd := cmdMap[serviceName]
 		if cmd.Process == nil {
 			log.Printf("[INFO] Process %s not found", serviceName)
@@ -71,16 +72,16 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 	cmdMap = map[string]*exec.Cmd{}
 	outPipeMap = map[string]io.ReadCloser{}
 	errPipeMap = map[string]io.ReadCloser{}
-	for _, serviceName := range p.Executions {
-		component := p.Components[serviceName]
+	for _, serviceName := range p.GetExecutions() {
+		component := p.GetComponentByName(serviceName)
 		serviceEnv := getServiceEnv(p, serviceName)
 		// get cmd
 		var cmd *exec.Cmd
-		switch component.Type {
+		switch component.GetType() {
 		case "container":
-			cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf("(docker start %s || %s) && docker logs --follow %s", component.ContainerName, component.Run, component.ContainerName))
+			cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf("(docker start %s || %s) && docker logs --follow %s", component.GetContainerName(), component.GetRunCommand(), component.GetContainerName()))
 		case "service":
-			cmd, err = command.GetShellCmd(component.Location, component.Start)
+			cmd, err = command.GetShellCmd(component.GetLocation(), component.GetStartCommand())
 		default:
 			continue
 		}
@@ -108,15 +109,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
-	environMap := map[string]string{}
-	for key, val := range p.Environments.General {
-		environMap[key] = val
-	}
-	if serviceEnv, exists := p.Environments.Services[serviceName]; exists {
-		for key, val := range serviceEnv {
-			environMap[key] = val
-		}
-	}
+	environMap := p.GetEnvironments().GetServiceVariables(serviceName)
 	// transform the map into array
 	configEnv := []string{}
 	for key, val := range environMap {
