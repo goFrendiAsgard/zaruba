@@ -12,12 +12,14 @@ import (
 
 // ProjectConfig configuration
 type ProjectConfig struct {
-	dirName      string
-	name         string
-	environments *Environments
-	components   map[string]*Component
-	executions   []string
-	links        map[string][]string
+	dirName                   string
+	name                      string
+	environments              *Environments
+	components                map[string]*Component
+	executions                []string
+	links                     map[string][]string
+	sortedLinkSources         []string
+	isSortedLinkSourcesCached bool
 }
 
 // GetName get name of project
@@ -96,6 +98,9 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 
 // GetSortedLinkSources get sorted link sources
 func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
+	if p.isSortedLinkSourcesCached {
+		return p.sortedLinkSources
+	}
 	sortedSources = []string{}
 	for source := range p.links {
 		sortedSources = append(sortedSources, source)
@@ -113,6 +118,8 @@ func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
 		}
 		return false
 	})
+	p.sortedLinkSources = sortedSources
+	p.isSortedLinkSourcesCached = true
 	return sortedSources
 }
 
@@ -187,14 +194,26 @@ func (e *Environments) GetAllServicesVariables() (services map[string]map[string
 func (e *Environments) GetRuntimeVariables(serviceName string) (variables map[string]string) {
 	variables = map[string]string{}
 	// get variables from general
-	for key, val := range e.general {
-		variables[key] = val
+	for generalVarName, generalVal := range e.general {
+		actualVal := generalVal
+		// prefer global env
+		if os.Getenv(generalVarName) != "" {
+			actualVal = os.Getenv(generalVarName)
+		}
+		variables[generalVarName] = actualVal
 	}
 	// get service variables
 	if serviceEnv, exists := e.services[serviceName]; exists {
-		for key, val := range serviceEnv {
-			// TODO: replace from general
-			variables[key] = val
+		for serviceVarName, serviceVal := range serviceEnv {
+			actualVal := serviceVal
+			// take actual service's variable value from previous variable
+			for generalVarName, generalVal := range variables {
+				if serviceVal == fmt.Sprintf("${%s}", generalVarName) || serviceVal == fmt.Sprintf("$%s", generalVarName) {
+					actualVal = generalVal
+					break
+				}
+			}
+			variables[serviceVarName] = actualVal
 		}
 	}
 	// inject container name

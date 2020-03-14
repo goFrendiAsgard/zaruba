@@ -17,7 +17,6 @@ func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	}
 	p = newEmptyProjectConfig()
 	p.dirName = projectDir
-	p.name = filepath.Base(projectDir)
 	for _, directory := range allDirs {
 		subP, loadSubErr := loadSingleProjectConfig(directory)
 		if loadSubErr != nil {
@@ -32,7 +31,11 @@ func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 		p = mergeExecutions(p, subP)
 		p = mergeLinks(p, subP)
 	}
-	// inject projectName to environment and components
+	// set projectName if not exists
+	if p.name == "" {
+		p.name = filepath.Base(projectDir)
+	}
+	// inject project object to environment and components
 	p.environments.project = p
 	for componentName := range p.components {
 		p.components[componentName].project = p
@@ -55,9 +58,11 @@ func newEmptyProjectConfig() (p *ProjectConfig) {
 			general:  make(map[string]string),
 			services: make(map[string]map[string]string),
 		},
-		components: make(map[string]*Component),
-		executions: []string{},
-		links:      make(map[string][]string),
+		components:                make(map[string]*Component),
+		executions:                []string{},
+		links:                     make(map[string][]string),
+		sortedLinkSources:         []string{},
+		isSortedLinkSourcesCached: false,
 	}
 }
 

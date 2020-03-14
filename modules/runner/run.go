@@ -118,7 +118,7 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 func logService(serviceName, prefix string, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("%s - %-20v | %s", prefix, serviceName, buf.Text())
+		log.Printf("%s - %-15v | %s", prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
 		log.Printf("[ERROR] %s > %s", serviceName, err)
