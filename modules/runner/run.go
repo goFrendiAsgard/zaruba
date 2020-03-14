@@ -74,19 +74,14 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 	errPipeMap = map[string]io.ReadCloser{}
 	for _, serviceName := range p.GetExecutions() {
 		component := p.GetComponentByName(serviceName)
-		serviceEnv := getServiceEnv(p, serviceName)
+		componentType := component.GetType()
 		// get cmd
-		var cmd *exec.Cmd
-		switch component.GetType() {
-		case "container":
-			cmd, err = command.GetShellCmd(projectDir, fmt.Sprintf("(docker start %s || %s) && docker logs --follow %s", component.GetContainerName(), component.GetRunCommand(), component.GetContainerName()))
-		case "service":
-			cmd, err = command.GetShellCmd(component.GetLocation(), component.GetStartCommand())
-		default:
+		if componentType != "container" && componentType != "service" {
 			continue
 		}
+		cmd, err := command.GetShellCmd(component.GetRuntimeLocation(), component.GetRuntimeCommand())
 		// set cmd.Env
-		cmd.Env = serviceEnv
+		cmd.Env = getServiceEnv(p, serviceName)
 		// get pipes
 		outPipeMap[serviceName], err = cmd.StdoutPipe()
 		if err != nil {
@@ -109,7 +104,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
-	environMap := p.GetEnvironments().GetServiceVariables(serviceName)
+	environMap := p.GetEnvironments().GetRuntimeVariables(serviceName)
 	// transform the map into array
 	configEnv := []string{}
 	for key, val := range environMap {
@@ -123,7 +118,7 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 func logService(serviceName, prefix string, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("%s - %s \t| %s", prefix, serviceName, buf.Text())
+		log.Printf("%s - %-20v | %s", prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
 		log.Printf("[ERROR] %s > %s", serviceName, err)

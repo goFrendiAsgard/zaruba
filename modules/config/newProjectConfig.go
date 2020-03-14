@@ -2,7 +2,6 @@ package config
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -11,12 +10,14 @@ import (
 )
 
 // NewProjectConfig load project configuration from project directory
-func NewProjectConfig(args ...string) (p *ProjectConfig, err error) {
-	allDirs, err := getAllDirs(args...)
+func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
+	allDirs, err := getAllDirs(projectDir)
 	if err != nil {
 		return p, err
 	}
 	p = newEmptyProjectConfig()
+	p.dirName = projectDir
+	p.name = filepath.Base(projectDir)
 	for _, directory := range allDirs {
 		subP, loadSubErr := loadSingleProjectConfig(directory)
 		if loadSubErr != nil {
@@ -31,25 +32,25 @@ func NewProjectConfig(args ...string) (p *ProjectConfig, err error) {
 		p = mergeExecutions(p, subP)
 		p = mergeLinks(p, subP)
 	}
-	str, _ := p.ToYaml()
-	log.Printf("[INFO] Project Config Loaded:\n%s", str)
+	// inject projectName to environment and components
+	p.environments.project = p
+	for componentName := range p.components {
+		p.components[componentName].project = p
+		p.components[componentName].name = componentName
+	}
 	return p, err
 }
 
-func getAllDirs(args ...string) (allDirs []string, err error) {
+func getAllDirs(parentDir string) (allDirs []string, err error) {
 	allDirs = []string{}
-	if len(args) > 0 {
-		projectDir := args[0]
-		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
-		return allDirs, err
-	}
-	return allDirs, nil
+	allDirs, err = file.GetAllFiles(parentDir, file.NewOption().SetIsOnlyDir(true))
+	return allDirs, err
 }
 
 // newEmptyProjectConfig create new ProjectConfig
 func newEmptyProjectConfig() (p *ProjectConfig) {
 	return &ProjectConfig{
-		projectName: "",
+		name: "",
 		environments: &Environments{
 			general:  make(map[string]string),
 			services: make(map[string]map[string]string),

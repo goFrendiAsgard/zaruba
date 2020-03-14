@@ -113,7 +113,7 @@ func backup(location, backupLocation string) (err error) {
 func createZarubaConfigIfNotExists(projectDir string) (err error) {
 	zarubaConfigFile := filepath.Join(projectDir, "zaruba.config.yaml")
 	if _, statErr := os.Stat(zarubaConfigFile); os.IsNotExist(statErr) {
-		p, err := config.NewProjectConfig()
+		p, err := config.NewProjectConfig(projectDir)
 		if err != nil {
 			return err
 		}

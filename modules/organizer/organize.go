@@ -19,11 +19,13 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		return err
 	}
 	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), strutil.SprintArgs(arguments))
-	projectConfig, err := config.NewProjectConfig(projectDir)
+	p, err := config.NewProjectConfig(projectDir)
 	if err != nil {
 		return err
 	}
-	sortedLinkSources := projectConfig.GetSortedLinkSources()
+	str, _ := p.ToYaml()
+	log.Printf("[INFO] Project Config Loaded:\n%s", str)
+	sortedLinkSources := p.GetSortedLinkSources()
 	// update option.MTimeLimit
 	for _, source := range sortedLinkSources {
 		var sourceMTime time.Time
@@ -31,7 +33,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		if err != nil {
 			return err
 		}
-		destinationList := projectConfig.GetLinkDestinationList(source)
+		destinationList := p.GetLinkDestinationList(source)
 		for _, destination := range destinationList {
 			if sourceMTime.Before(option.GetMTimeLimit()) {
 				var destinationMTime time.Time
@@ -48,7 +50,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 			}
 		}
 	}
-	return organize(projectDir, projectConfig.GetLinks(), sortedLinkSources, option, arguments...)
+	return organize(projectDir, p.GetLinks(), sortedLinkSources, option, arguments...)
 }
 
 func updateOptionToPreeceedSource(option *Option, sourceMTime time.Time) (updatedOption *Option) {

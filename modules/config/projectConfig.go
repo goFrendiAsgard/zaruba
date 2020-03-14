@@ -1,8 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -11,16 +13,21 @@ import (
 // ProjectConfig configuration
 type ProjectConfig struct {
 	dirName      string
-	projectName  string
+	name         string
 	environments *Environments
 	components   map[string]*Component
 	executions   []string
 	links        map[string][]string
 }
 
-// GetProjectName get name of project
-func (p *ProjectConfig) GetProjectName() (projectName string) {
-	return p.projectName
+// GetName get name of project
+func (p *ProjectConfig) GetName() (projectName string) {
+	return p.name
+}
+
+// GetDirName get name of project
+func (p *ProjectConfig) GetDirName() (projectDirName string) {
+	return p.dirName
 }
 
 // GetEnvironments get environments of project
@@ -56,7 +63,7 @@ func (p *ProjectConfig) GetLinkDestinationList(source string) (destinationList [
 // ToYaml get yaml representation of projectConfig
 func (p *ProjectConfig) ToYaml() (str string, err error) {
 	pYaml := &ProjectConfigYaml{
-		ProjectName: p.GetProjectName(),
+		ProjectName: p.GetName(),
 		Environments: EnvironmentsYaml{
 			General:  p.GetEnvironments().general,
 			Services: p.GetEnvironments().services,
@@ -71,9 +78,11 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 			Origin:        component.GetOrigin(),
 			Branch:        component.GetBranch(),
 			Location:      component.GetLocation(),
+			ImageName:     component.GetImageName(),
 			Start:         component.GetStartCommand(),
 			Run:           component.GetRunCommand(),
 			ContainerName: component.GetContainerName(),
+			Ports:         component.GetPorts(),
 		}
 	}
 
@@ -133,7 +142,7 @@ func getSubrepoPrefix(projectDir, location string) string {
 func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, directory string) *ProjectConfig {
 	// load pYaml into p
 	p.dirName = directory
-	p.projectName = pYaml.ProjectName
+	p.name = pYaml.ProjectName
 	p.environments = &Environments{
 		general:  pYaml.Environments.General,
 		services: pYaml.Environments.Services,
@@ -147,9 +156,11 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 			origin:        component.Origin,
 			branch:        component.Branch,
 			location:      component.Location,
+			imageName:     component.ImageName,
 			start:         component.Start,
 			run:           component.Run,
 			containerName: component.ContainerName,
+			ports:         component.Ports,
 		}
 	}
 	return p
@@ -157,6 +168,7 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 
 // Environments describe environment variables in general and for each services
 type Environments struct {
+	project  *ProjectConfig
 	general  map[string]string
 	services map[string]map[string]string
 }
@@ -171,29 +183,56 @@ func (e *Environments) GetAllServicesVariables() (services map[string]map[string
 	return e.services
 }
 
-// GetServiceVariables get variable of a service
-func (e *Environments) GetServiceVariables(serviceName string) (variables map[string]string) {
+// GetRuntimeVariables get variable of a service
+func (e *Environments) GetRuntimeVariables(serviceName string) (variables map[string]string) {
 	variables = map[string]string{}
+	// get variables from general
 	for key, val := range e.general {
 		variables[key] = val
 	}
+	// get service variables
 	if serviceEnv, exists := e.services[serviceName]; exists {
 		for key, val := range serviceEnv {
 			variables[key] = val
 		}
+	}
+	// inject container name
+	if _, isExists := variables[serviceName]; !isExists {
+		if component, isExists := e.project.GetComponents()[serviceName]; isExists {
+			variables["CONTAINER_NAME"] = component.GetRuntimeContainerName()
+		}
+	}
+	return variables
+}
+
+// GetQuotedRuntimeVariables get variable of a service
+func (e *Environments) GetQuotedRuntimeVariables(serviceName string) (variables map[string]string) {
+	variables = e.GetRuntimeVariables(serviceName)
+	// quote variable value
+	for key, val := range variables {
+		unquotedVal, err := strconv.Unquote(val)
+		if err != nil {
+			unquotedVal = val
+		}
+		quotedVal := strconv.Quote(unquotedVal)
+		variables[key] = quotedVal
 	}
 	return variables
 }
 
 // Component describe component specs
 type Component struct {
+	name          string
+	project       *ProjectConfig
 	componentType string
 	origin        string
 	branch        string
 	location      string
+	imageName     string
 	start         string
 	run           string
 	containerName string
+	ports         map[int]int
 }
 
 // GetType get component type
@@ -216,6 +255,16 @@ func (c *Component) GetLocation() (location string) {
 	return c.location
 }
 
+// GetName get component name
+func (c *Component) GetName() (name string) {
+	return c.name
+}
+
+// GetImageName get component imageName
+func (c *Component) GetImageName() (imageName string) {
+	return c.imageName
+}
+
 // GetStartCommand get component start command
 func (c *Component) GetStartCommand() (start string) {
 	return c.start
@@ -229,4 +278,78 @@ func (c *Component) GetRunCommand() (run string) {
 // GetContainerName get component container name
 func (c *Component) GetContainerName() (containerName string) {
 	return c.containerName
+}
+
+// GetPorts get component container name
+func (c *Component) GetPorts() (ports map[int]int) {
+	return c.ports
+}
+
+// GetRuntimeContainerName get container name for runtime
+func (c *Component) GetRuntimeContainerName() (containerName string) {
+	containerName = c.GetContainerName()
+	if containerName == "" {
+		projectName := c.project.GetName()
+		componentName := c.name
+		containerName = fmt.Sprintf("%s-%s", projectName, componentName)
+	}
+	return containerName
+}
+
+// GetRuntimeLocation get runtime location
+func (c *Component) GetRuntimeLocation() (location string) {
+	if c.GetType() == "service" {
+		return c.GetLocation()
+	}
+	return c.project.GetDirName()
+}
+
+// GetRuntimeRunCommand get runtime run command
+func (c *Component) GetRuntimeRunCommand() (command string) {
+	command = c.GetRunCommand()
+	if c.GetType() == "container" && command == "" {
+		containerName := c.GetRuntimeContainerName()
+		imageName := c.GetImageName()
+		variables := c.project.GetEnvironments().GetQuotedRuntimeVariables(c.GetName())
+		portMap := c.GetPorts()
+		// parse ports
+		portParams := "--publish-all"
+		ports := []string{}
+		for key, val := range portMap {
+			ports = append(ports, fmt.Sprintf("-p %d:%d", key, val))
+		}
+		if len(ports) > 0 {
+			portParams = strings.Join(ports, " ")
+		}
+		// parse environments
+		environments := []string{}
+		for key, val := range variables {
+			environments = append(environments, fmt.Sprintf("-e %s=%s", key, val))
+		}
+		environmentParams := strings.Join(environments, " ")
+		// create command
+		command = fmt.Sprintf("docker run --name \"%s\" %s %s  -d \"%s\"", containerName, environmentParams, portParams, imageName)
+	}
+	return command
+}
+
+// GetRuntimeStartCommand get runtime start command
+func (c *Component) GetRuntimeStartCommand() (command string) {
+	command = c.GetStartCommand()
+	if c.GetType() == "container" && command == "" {
+		containerName := c.GetRuntimeContainerName()
+		command = fmt.Sprintf("docker start \"%s\"", containerName)
+	}
+	return command
+}
+
+// GetRuntimeCommand get runtime command
+func (c *Component) GetRuntimeCommand() (command string) {
+	if c.GetType() == "container" {
+		startCommand := c.GetRuntimeStartCommand()
+		runCommand := c.GetRuntimeRunCommand()
+		containerName := c.GetRuntimeContainerName()
+		return fmt.Sprintf("(%s || %s) && docker logs --follow %s", startCommand, runCommand, containerName)
+	}
+	return c.GetRuntimeStartCommand()
 }
