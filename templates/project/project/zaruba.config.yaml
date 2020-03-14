@@ -1,9 +1,10 @@
 environments: 
-  RMQ_HOST: 0.0.0.0
-  RMQ_PORT: 5672
-  RMQ_USER: root
-  RMQ_PASSWORD: toor
-  RMQ_VHOST: /
+  general:
+    RMQ_HOST: 0.0.0.0
+    RMQ_PORT: 5672
+    RMQ_USER: root
+    RMQ_PASSWORD: toor
+    RMQ_VHOST: /
 
 components: 
   projectrmq:

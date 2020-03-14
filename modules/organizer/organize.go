@@ -19,7 +19,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		return err
 	}
 	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), strutil.SprintArgs(arguments))
-	projectConfig, err := config.LoadProjectConfig(projectDir)
+	projectConfig, err := config.NewProjectConfig(projectDir)
 	if err != nil {
 		return err
 	}

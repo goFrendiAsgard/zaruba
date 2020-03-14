@@ -15,7 +15,7 @@ import (
 func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranchName string, currentGitRemotes []string, err error) {
 	// load project config
 	log.Printf("[INFO] Load project config from `%s`", projectDir)
-	p, err = config.LoadProjectConfig(projectDir)
+	p, err = config.NewProjectConfig(projectDir)
 	if err != nil {
 		return p, currentBranchName, currentGitRemotes, err
 	}

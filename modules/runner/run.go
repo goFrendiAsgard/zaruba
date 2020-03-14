@@ -23,7 +23,7 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		return
 	}
 	log.Printf("[INFO] Load config of project `%s`", projectDir)
-	p, err := config.LoadProjectConfig(projectDir)
+	p, err := config.NewProjectConfig(projectDir)
 	if err != nil {
 		errChan <- err
 		executedChan <- true
@@ -130,7 +130,7 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 func logService(serviceName, prefix string, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("[%s - %s] %s", prefix, serviceName, buf.Text())
+		log.Printf("%s - %s \t| %s", prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
 		log.Printf("[ERROR] %s > %s", serviceName, err)

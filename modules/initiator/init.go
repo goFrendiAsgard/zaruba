@@ -113,10 +113,13 @@ func backup(location, backupLocation string) (err error) {
 func createZarubaConfigIfNotExists(projectDir string) (err error) {
 	zarubaConfigFile := filepath.Join(projectDir, "zaruba.config.yaml")
 	if _, statErr := os.Stat(zarubaConfigFile); os.IsNotExist(statErr) {
-		var configYaml string
-		configYaml, err = config.NewProjectConfig().ToYaml()
+		p, err := config.NewProjectConfig()
 		if err != nil {
-			return
+			return err
+		}
+		configYaml, err := p.ToYaml()
+		if err != nil {
+			return err
 		}
 		log.Printf("[INFO] Write to %s:\n%s", zarubaConfigFile, configYaml)
 		ioutil.WriteFile(zarubaConfigFile, []byte(configYaml), 0755)
