@@ -63,6 +63,8 @@ func newEmptyProjectConfig() (p *ProjectConfig) {
 		links:                     make(map[string][]string),
 		sortedLinkSources:         []string{},
 		isSortedLinkSourcesCached: false,
+		lastGeneratedSymbolIndex:  0,
+		lastGeneratedColorIndex:   0,
 	}
 }
 

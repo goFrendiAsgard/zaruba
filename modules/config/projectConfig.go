@@ -2,12 +2,10 @@ package config
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 	"sort"
 	"strconv"
 	"strings"
-	"time"
 
 	"gopkg.in/yaml.v2"
 )
@@ -22,6 +20,8 @@ type ProjectConfig struct {
 	links                     map[string][]string
 	sortedLinkSources         []string
 	isSortedLinkSourcesCached bool
+	lastGeneratedSymbolIndex  int
+	lastGeneratedColorIndex   int
 }
 
 // GetName get name of project
@@ -95,6 +95,15 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 		return str, err
 	}
 	str = string(d)
+	return str, err
+}
+
+// ToColorizedYaml get yaml representation (colorized)
+func (p *ProjectConfig) ToColorizedYaml() (str string, err error) {
+	str, err = p.ToYaml()
+	if err != nil {
+		str = fmt.Sprintf("\n\033[33m%s\033[0m", str)
+	}
 	return str, err
 }
 
@@ -408,12 +417,14 @@ func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 			c.runtimeSymbol = c.symbol
 			return c.symbol
 		}
-		symbolList := []string{"🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🐺", "🐴", "🦄"}
-		if c.GetType() == "container" {
-			symbolList = []string{"🐋", "🐳", "🐡", "🐠", "🐟", "🦈"}
+		symbolList := []string{"🍏", "🍎", "🍌", "🍉", "🍇", "🍐", "🍊", "🍋", "🍓", "🍈", "🍒", "🍑", "🍍", "🥝", "🍅", "🍆", "🥑"}
+		index := c.project.lastGeneratedSymbolIndex
+		c.runtimeSymbol = symbolList[index]
+		index++
+		if index >= len(symbolList) {
+			index = 0
 		}
-		rand.Seed(time.Now().UnixNano())
-		c.runtimeSymbol = symbolList[rand.Intn(len(symbolList))]
+		c.project.lastGeneratedSymbolIndex = index
 	}
 	return c.runtimeSymbol
 }
@@ -425,10 +436,15 @@ func (c *Component) GetRuntimeName() (name string) {
 
 // GetColor get component name
 func (c *Component) GetColor() (color int) {
-	colorList := []int{92, 93, 94, 95, 96}
 	if c.color == 0 {
-		rand.Seed(time.Now().UnixNano())
-		c.color = colorList[rand.Intn(len(colorList))]
+		colorList := []int{92, 93, 94, 95, 96, 91}
+		index := c.project.lastGeneratedColorIndex
+		c.color = colorList[index]
+		index++
+		if index >= len(colorList) {
+			index = 0
+		}
+		c.project.lastGeneratedColorIndex = index
 	}
 	return c.color
 }
