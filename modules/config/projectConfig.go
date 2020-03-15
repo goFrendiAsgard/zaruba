@@ -2,10 +2,12 @@ package config
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v2"
 )
@@ -168,6 +170,8 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 			run:           component.Run,
 			containerName: component.ContainerName,
 			ports:         component.Ports,
+			symbol:        component.Symbol,
+			livenessCheck: component.LivenessCheck,
 		}
 	}
 	return p
@@ -251,8 +255,12 @@ type Component struct {
 	imageName     string
 	start         string
 	run           string
+	livenessCheck string
 	containerName string
 	ports         map[int]int
+	symbol        string
+	runtimeSymbol string
+	color         int
 }
 
 // GetType get component type
@@ -293,6 +301,16 @@ func (c *Component) GetStartCommand() (start string) {
 // GetRunCommand get component run command
 func (c *Component) GetRunCommand() (run string) {
 	return c.run
+}
+
+// GetLivenessCheckCommand get component run command
+func (c *Component) GetLivenessCheckCommand() (livenessCheck string) {
+	return c.livenessCheck
+}
+
+// GetSymbol get component run command
+func (c *Component) GetSymbol() (symbol string) {
+	return c.symbol
 }
 
 // GetContainerName get component container name
@@ -363,7 +381,7 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 	return command
 }
 
-// GetRuntimeCommand get runtime command
+// GetRuntimeCommand get runtime command (run or start)
 func (c *Component) GetRuntimeCommand() (command string) {
 	if c.GetType() == "container" {
 		startCommand := c.GetRuntimeStartCommand()
@@ -372,4 +390,45 @@ func (c *Component) GetRuntimeCommand() (command string) {
 		return fmt.Sprintf("(%s || %s) && docker logs --follow %s", startCommand, runCommand, containerName)
 	}
 	return c.GetRuntimeStartCommand()
+}
+
+// GetRuntimeLivenessCheckCommand get runtime start command
+func (c *Component) GetRuntimeLivenessCheckCommand() (command string) {
+	command = c.GetLivenessCheckCommand()
+	if command == "" {
+		command = "sleep 1"
+	}
+	return command
+}
+
+// GetRuntimeSymbol get component container name
+func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
+	if c.runtimeSymbol == "" {
+		if c.symbol != "" {
+			c.runtimeSymbol = c.symbol
+			return c.symbol
+		}
+		symbolList := []string{"🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🐺", "🐴", "🦄"}
+		if c.GetType() == "container" {
+			symbolList = []string{"🐋", "🐳", "🐡", "🐠", "🐟", "🦈"}
+		}
+		rand.Seed(time.Now().UnixNano())
+		c.runtimeSymbol = symbolList[rand.Intn(len(symbolList))]
+	}
+	return c.runtimeSymbol
+}
+
+// GetRuntimeName get component name
+func (c *Component) GetRuntimeName() (name string) {
+	return fmt.Sprintf("%s %-15v", c.GetRuntimeSymbol(), c.GetName())
+}
+
+// GetColor get component name
+func (c *Component) GetColor() (color int) {
+	colorList := []int{92, 93, 94, 95, 96}
+	if c.color == 0 {
+		rand.Seed(time.Now().UnixNano())
+		c.color = colorList[rand.Intn(len(colorList))]
+	}
+	return c.color
 }

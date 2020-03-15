@@ -24,7 +24,7 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 		return err
 	}
 	str, _ := p.ToYaml()
-	log.Printf("[INFO] Project Config Loaded:\n%s", str)
+	log.Printf("[INFO] Project Config Loaded:\n\033[33m%s\033[0m", str)
 	sortedLinkSources := p.GetSortedLinkSources()
 	// update option.MTimeLimit
 	for _, source := range sortedLinkSources {

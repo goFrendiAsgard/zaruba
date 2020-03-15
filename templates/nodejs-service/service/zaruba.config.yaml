@@ -11,6 +11,7 @@ components:
     branch: master
     location: "."
     start: npm install && npm start
+    livenessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}
 
 links:
   ../../libraries/nodejs/helpers/amqp:

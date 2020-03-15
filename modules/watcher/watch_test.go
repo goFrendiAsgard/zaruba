@@ -33,7 +33,7 @@ func TestWatch(t *testing.T) {
 	stopChan := make(chan bool)
 	errChan := make(chan error)
 	go Watch(testPath, stopChan, errChan)
-	time.Sleep(time.Millisecond * 500)
+	time.Sleep(time.Second * 5)
 	os.Create(triggerFilePath)
 	time.Sleep(time.Millisecond * 300)
 	stopChan <- true

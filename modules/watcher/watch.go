@@ -19,6 +19,7 @@ func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments 
 		return
 	}
 	log.Printf("[INFO] Watch project `%s` %s", projectDir, strutil.SprintArgs(arguments))
+	//organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	// start to listen for changes and do appropriate actions
 	listenerStopChan := make(chan bool)

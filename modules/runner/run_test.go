@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"testing"
-	"time"
 
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/file"
@@ -35,7 +34,7 @@ func TestRun(t *testing.T) {
 	executedChan := make(chan bool)
 	go Run(testPath, stopChan, executedChan, errChan)
 	<-executedChan
-	time.Sleep(time.Second * 30)
+	//time.Sleep(time.Second * 50)
 
 	res, err := http.Get("http://localhost:3000/go/frendi")
 	if err != nil {

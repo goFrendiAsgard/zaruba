@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
@@ -29,19 +30,16 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		executedChan <- true
 		return
 	}
-	log.Printf("[INFO] Run project `%s`", projectDir)
+	str, _ := p.ToYaml()
+	log.Printf("[INFO] Project Config Loaded:\n\033[33m%s\033[0m", str)
 	// get cmdMap, run them, and get their output/error pipes
-	cmdMap, outPipeMap, errPipeMap, err := getCmdAndPipesMap(projectDir, p)
+	log.Printf("[INFO] Run project `%s`", projectDir)
+	cmdMap, err := getCmdAndPipesMap(projectDir, p)
 	if err != nil {
 		killCmdMap(p, cmdMap)
 		errChan <- err
 		executedChan <- true
 		return
-	}
-	// redirect error and output pipe
-	for serviceName := range cmdMap {
-		go logService(serviceName, "OUT", outPipeMap[serviceName])
-		go logService(serviceName, "ERR", errPipeMap[serviceName])
 	}
 	executedChan <- true
 	// listen to stopChan
@@ -68,10 +66,8 @@ func killCmdMap(p *config.ProjectConfig, cmdMap map[string]*exec.Cmd) {
 	}
 }
 
-func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[string]*exec.Cmd, outPipeMap, errPipeMap map[string]io.ReadCloser, err error) {
+func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[string]*exec.Cmd, err error) {
 	cmdMap = map[string]*exec.Cmd{}
-	outPipeMap = map[string]io.ReadCloser{}
-	errPipeMap = map[string]io.ReadCloser{}
 	for _, serviceName := range p.GetExecutions() {
 		component := p.GetComponentByName(serviceName)
 		componentType := component.GetType()
@@ -79,28 +75,67 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 		if componentType != "container" && componentType != "service" {
 			continue
 		}
-		cmd, err := command.GetShellCmd(component.GetRuntimeLocation(), component.GetRuntimeCommand())
+		runtimeName := component.GetRuntimeName()
+		runtimeLocation := component.GetRuntimeLocation()
+		runtimeEnv := getServiceEnv(p, serviceName)
+		color := component.GetColor()
+		cmd, err := command.GetShellCmd(runtimeLocation, component.GetRuntimeCommand())
 		// set cmd.Env
-		cmd.Env = getServiceEnv(p, serviceName)
+		cmd.Env = runtimeEnv
 		// get pipes
-		outPipeMap[serviceName], err = cmd.StdoutPipe()
+		outPipe, err := cmd.StdoutPipe()
 		if err != nil {
-			return cmdMap, outPipeMap, errPipeMap, err
+			return cmdMap, err
 		}
-		errPipeMap[serviceName], err = cmd.StderrPipe()
+		errPipe, err := cmd.StderrPipe()
 		if err != nil {
-			return cmdMap, outPipeMap, errPipeMap, err
+			return cmdMap, err
 		}
-		log.Printf("[INFO] Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
+		go logService(runtimeName, "OUT", color, outPipe)
+		go logService(runtimeName, "ERR", color, errPipe)
 		// run
+		log.Printf("[INFO] Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
 		err = cmd.Start()
 		cmdMap[serviceName] = cmd
 		// if error, stop
 		if err != nil {
-			return cmdMap, outPipeMap, errPipeMap, err
+			return cmdMap, err
 		}
+		// check whether the service is running or not
+		startedChan := make(chan bool)
+		errChan := make(chan error)
+		go checkLiveness(serviceName, runtimeLocation, component.GetRuntimeLivenessCheckCommand(), runtimeEnv, startedChan, errChan)
+		<-startedChan
+		err = <-errChan
+		if err != nil {
+			return cmdMap, err
+		}
+		log.Printf("[INFO] %s started", serviceName)
 	}
-	return cmdMap, outPipeMap, errPipeMap, err
+	return cmdMap, err
+}
+
+func checkLiveness(serviceName, runtimeLocation, livenessCheckCommand string, runtimeEnv []string, startedChan chan bool, errChan chan error) {
+	started := false
+	// set cmd
+	for !started {
+		cmd, err := command.GetShellCmd(runtimeLocation, livenessCheckCommand)
+		if err != nil {
+			startedChan <- false
+			errChan <- err
+		}
+		cmd.Env = runtimeEnv
+		time.Sleep(time.Second * 1)
+		log.Printf("[INFO] Checking liveness of %s", serviceName)
+		_, err = command.RunCmd(cmd)
+		if err == nil {
+			started = true
+			break
+		}
+		log.Printf("[INFO] Failed to confirm liveness of %s: %s", serviceName, err)
+	}
+	startedChan <- started
+	errChan <- nil
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
@@ -115,12 +150,12 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 	return environ
 }
 
-func logService(serviceName, prefix string, readCloser io.ReadCloser) {
+func logService(serviceName, prefix string, color int, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("%s - %-15v | %s", prefix, serviceName, buf.Text())
+		log.Printf("\033[%dm[%s - %s]\033[0m %s", color, prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
-		log.Printf("[ERROR] %s > %s", serviceName, err)
+		log.Printf("[ERROR] %s: %s", serviceName, err)
 	}
 }
