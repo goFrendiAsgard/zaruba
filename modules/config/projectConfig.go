@@ -101,7 +101,7 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 // ToColorizedYaml get yaml representation (colorized)
 func (p *ProjectConfig) ToColorizedYaml() (str string, err error) {
 	str, err = p.ToYaml()
-	if err != nil {
+	if err == nil {
 		str = fmt.Sprintf("\n\033[36m%s\033[0m", str)
 	}
 	return str, err
