@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 // GetCurrentGitRemotes get remotes of current projectDir
@@ -18,7 +19,7 @@ func GetCurrentGitRemotes(projectDir string) (currentGitRemotes []string, err er
 	for _, remote := range outputList {
 		remote = strings.Trim(remote, "\r\n ")
 		if remote != "" {
-			log.Printf("[INFO] * %s", remote)
+			logger.Info("* %s", remote)
 			currentGitRemotes = append(currentGitRemotes, remote)
 		}
 	}

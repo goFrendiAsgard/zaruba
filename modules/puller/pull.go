@@ -8,6 +8,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/git"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 	"github.com/state-alchemists/zaruba/modules/strutil"
 )
@@ -42,7 +43,7 @@ func Pull(projectDir string) (err error) {
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}
-		log.Printf("[INFO] Pulling from sub-repo %s", componentName)
+		logger.Info("Pulling from sub-repo %s", componentName)
 		if err = command.RunAndRedirect(projectDir, "git", "subtree", "pull", "--prefix="+subrepoPrefix, "--squash", componentName, branch); err != nil {
 			return err
 		}

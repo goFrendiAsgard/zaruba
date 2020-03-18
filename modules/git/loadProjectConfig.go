@@ -2,19 +2,19 @@ package git
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 // LoadProjectConfig check project component origin
 func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranchName string, currentGitRemotes []string, err error) {
 	// load project config
-	log.Printf("[INFO] Load project config from `%s`", projectDir)
+	logger.Info("Load project config from `%s`", projectDir)
 	p, err = config.NewProjectConfig(projectDir)
 	if err != nil {
 		return p, currentBranchName, currentGitRemotes, err
@@ -29,7 +29,7 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 		if origin == "" {
 			continue
 		}
-		log.Printf("[INFO] Check origin of component `%s`", componentName)
+		logger.Info("Check origin of component `%s`", componentName)
 		output, err := LsRemote(projectDir, origin)
 		if err != nil {
 			return p, currentBranchName, currentGitRemotes, err

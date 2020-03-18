@@ -8,6 +8,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/git"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 	"github.com/state-alchemists/zaruba/modules/strutil"
 )
@@ -43,7 +44,7 @@ func Push(projectDir string) (err error) {
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}
-		log.Printf("[INFO] Push to sub-repo %s", componentName)
+		logger.Info("Push to sub-repo %s", componentName)
 		if err = command.RunAndRedirect(projectDir, "git", "subtree", "push", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
 			return err
 		}

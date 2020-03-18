@@ -2,20 +2,20 @@ package template
 
 import (
 	"errors"
-	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 // Install template
 func Install(gitURL, newTemplateName string) (err error) {
 	baseTemplateDir := config.GetTemplateDir()
 	templateDir := filepath.Join(baseTemplateDir, newTemplateName)
-	log.Printf("[INFO] Install template from `%s` to `%s`", gitURL, templateDir)
+	logger.Info("Install template from `%s` to `%s`", gitURL, templateDir)
 	// run git clone
 	if err = command.RunAndRedirect(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
 		return err

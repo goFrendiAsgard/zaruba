@@ -34,7 +34,6 @@ func TestRun(t *testing.T) {
 	executedChan := make(chan bool)
 	go Run(testPath, stopChan, executedChan, errChan)
 	<-executedChan
-	//time.Sleep(time.Second * 50)
 
 	res, err := http.Get("http://localhost:3000/go/frendi")
 	if err != nil {

@@ -102,7 +102,7 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 func (p *ProjectConfig) ToColorizedYaml() (str string, err error) {
 	str, err = p.ToYaml()
 	if err != nil {
-		str = fmt.Sprintf("\n\033[33m%s\033[0m", str)
+		str = fmt.Sprintf("\n\033[36m%s\033[0m", str)
 	}
 	return str, err
 }
@@ -405,7 +405,7 @@ func (c *Component) GetRuntimeCommand() (command string) {
 func (c *Component) GetRuntimeLivenessCheckCommand() (command string) {
 	command = c.GetLivenessCheckCommand()
 	if command == "" {
-		command = "sleep 1"
+		command = "echo ok"
 	}
 	return command
 }
@@ -431,7 +431,8 @@ func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 
 // GetRuntimeName get component name
 func (c *Component) GetRuntimeName() (name string) {
-	return fmt.Sprintf("%s %-15v", c.GetRuntimeSymbol(), c.GetName())
+	runtimeName := fmt.Sprintf("%s %s", c.GetRuntimeSymbol(), c.GetName())
+	return fmt.Sprintf("%-12v", runtimeName)
 }
 
 // GetColor get component name

@@ -1,13 +1,13 @@
 package command
 
 import (
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 
 	"github.com/state-alchemists/zaruba/modules/config"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 // GetCmd get cmd object
@@ -27,7 +27,7 @@ func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 
 // RunCmd run cmd object
 func RunCmd(cmd *exec.Cmd) (output string, err error) {
-	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
 	outputB, err := cmd.Output()
 	if err != nil {
 		return output, err
@@ -59,7 +59,7 @@ func RunCmdAndRedirect(cmd *exec.Cmd) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
-	log.Printf("[INFO] Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
 	err = cmd.Run()
 	return err
 }

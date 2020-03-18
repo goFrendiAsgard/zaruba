@@ -1,11 +1,11 @@
 package watcher
 
 import (
-	"log"
 	"path/filepath"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/state-alchemists/zaruba/modules/file"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 	"github.com/state-alchemists/zaruba/modules/runner"
 	"github.com/state-alchemists/zaruba/modules/strutil"
@@ -18,7 +18,7 @@ func Watch(projectDir string, stopChan chan bool, errChan chan error, arguments 
 		errChan <- err
 		return
 	}
-	log.Printf("[INFO] Watch project `%s` %s", projectDir, strutil.SprintArgs(arguments))
+	logger.Info("Watch project `%s` %s", projectDir, strutil.SprintArgs(arguments))
 	//organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	organizer.Organize(projectDir, organizer.NewOption().SetMTimeLimitToNow(), arguments...)
 	// start to listen for changes and do appropriate actions
@@ -53,7 +53,7 @@ func listen(projectDir string, listenerStopChan chan bool, listenerErrChan chan 
 			if !ok || !isListening {
 				continue
 			}
-			log.Printf("[INFO] Detect event `%s`", event)
+			logger.Info("Detect event `%s`", event)
 			removeDirsFromWatcher(w, allDirs)
 			// stop services
 			runnerStopChan <- true
@@ -69,7 +69,7 @@ func listen(projectDir string, listenerStopChan chan bool, listenerErrChan chan 
 			if !ok {
 				continue
 			}
-			log.Printf("[ERROR] Watcher error: %s. Continue to listen...", err)
+			logger.Error("Watcher error: %s. Continue to listen...", err)
 		case stop, ok := <-listenerStopChan:
 			if !ok {
 				continue
@@ -85,7 +85,7 @@ func listen(projectDir string, listenerStopChan chan bool, listenerErrChan chan 
 func getNewWatcherTirelessly() (w *fsnotify.Watcher) {
 	w, err := fsnotify.NewWatcher()
 	for err != nil {
-		log.Printf("[ERROR] Fail to create watcher: %s. Retrying...", err)
+		logger.Error("Fail to create watcher: %s. Retrying...", err)
 		w, err = fsnotify.NewWatcher()
 	}
 	return w
@@ -94,7 +94,7 @@ func getNewWatcherTirelessly() (w *fsnotify.Watcher) {
 func getAllDirsTirelessly(projectDir string) (allDirs []string) {
 	allDirs, err := file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	for err != nil {
-		log.Printf("[ERROR] Fail to get list of directories: %s. Retrying...", err)
+		logger.Error("Fail to get list of directories: %s. Retrying...", err)
 		allDirs, err = file.GetAllFiles(projectDir, file.NewOption().SetIsOnlyDir(true))
 	}
 	return allDirs

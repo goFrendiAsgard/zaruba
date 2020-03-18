@@ -1,7 +1,6 @@
 package organizer
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -9,6 +8,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/file"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
@@ -18,13 +18,13 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 	if err != nil {
 		return err
 	}
-	log.Printf("[INFO] Organize project `%s` with option %s %s", projectDir, option.Sprintf(), strutil.SprintArgs(arguments))
+	logger.Info("Organize project `%s` with option %s %s", projectDir, option.Sprintf(), strutil.SprintArgs(arguments))
 	p, err := config.NewProjectConfig(projectDir)
 	if err != nil {
 		return err
 	}
 	str, _ := p.ToYaml()
-	log.Printf("[INFO] Project Config Loaded:\n\033[33m%s\033[0m", str)
+	logger.Info("Project Config Loaded:\n\033[33m%s\033[0m", str)
 	sortedLinkSources := p.GetSortedLinkSources()
 	// update option.MTimeLimit
 	for _, source := range sortedLinkSources {
@@ -40,11 +40,11 @@ func Organize(projectDir string, option *Option, arguments ...string) (err error
 				destinationMTime, err = file.GetMTime(destination)
 				if err != nil && os.IsNotExist(err) {
 					updateOptionToPreeceedSource(option, sourceMTime)
-					log.Printf("[INFO] Update organizer.Option to %s because `%s` is not exists", option.Sprintf(), destination)
+					logger.Info("Update organizer.Option to %s because `%s` is not exists", option.Sprintf(), destination)
 					break
 				} else if destinationMTime.Before(sourceMTime) {
 					updateOptionToPreeceedSource(option, sourceMTime)
-					log.Printf("[INFO] Update organizer.Option to %s because `%s` is older than `%s`", option.Sprintf(), destination, source)
+					logger.Info("Update organizer.Option to %s because `%s` is older than `%s`", option.Sprintf(), destination, source)
 					break
 				}
 			}
@@ -116,7 +116,7 @@ func copyWithChannel(option *Option, source, destination string, errChan chan er
 		return
 	}
 	if sourceMTime.After(option.GetMTimeLimit()) {
-		log.Printf("[INFO] Copy `%s` to `%s`", source, destination)
+		logger.Info("Copy `%s` to `%s`", source, destination)
 		err = file.CopyExcept(source, destination, []string{
 			`\.zaruba$`,
 		})
