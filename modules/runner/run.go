@@ -24,15 +24,15 @@ func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error
 		executedChan <- true
 		return
 	}
-	logger.Info("Load config of project `%s`", projectDir)
+	logger.Info("Load project config from `%s`", projectDir)
 	p, err := config.NewProjectConfig(projectDir)
 	if err != nil {
 		errChan <- err
 		executedChan <- true
 		return
 	}
-	str, _ := p.ToYaml()
-	logger.Info("Project Config Loaded:\n\033[33m%s\033[0m", str)
+	str, _ := p.ToColorizedYaml()
+	logger.Info("Project Config Loaded: %s", str)
 	// get cmdMap, run them, and get their output/error pipes
 	logger.Info("Run project `%s`", projectDir)
 	cmdMap, err := getCmdAndPipesMap(projectDir, p)
