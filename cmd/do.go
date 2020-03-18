@@ -1,10 +1,9 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/modules/action"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 func init() {
@@ -18,7 +17,7 @@ var doCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
-			log.Fatal("[ERROR] action expected, current arguments: ", args)
+			logger.Fatal("action expected, current arguments: ", args)
 		}
 		// get `action`, `arguments` and `projectDir`
 		actionString := args[0]
@@ -33,7 +32,7 @@ var doCmd = &cobra.Command{
 		arguments = append([]string{projectDir}, arguments...)
 		// invoke action
 		if err := action.Do(actionString, action.NewOption().SetWorkDir(projectDir), arguments...); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

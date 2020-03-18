@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/organizer"
 )
 
@@ -27,7 +26,7 @@ var organizeCmd = &cobra.Command{
 		}
 		// invoke action
 		if err := organizer.Organize(projectDir, organizer.NewOption(), arguments...); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

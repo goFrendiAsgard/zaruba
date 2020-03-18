@@ -2,7 +2,6 @@ package puller
 
 import (
 	"fmt"
-	"log"
 	"path/filepath"
 	"time"
 
@@ -26,7 +25,7 @@ func Pull(projectDir string) (err error) {
 	}
 	// commit
 	git.Commit(projectDir, fmt.Sprintf("Zaruba: Save before pull from sub-repos at %s", time.Now().Format(time.RFC3339)))
-	log.Println("[INFO] Pull from main repo")
+	logger.Info("Pull from main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "pull", "origin", "HEAD"); err != nil {
 		return err
 	}

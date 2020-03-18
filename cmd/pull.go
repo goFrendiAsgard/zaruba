@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/puller"
 )
 
@@ -23,7 +22,7 @@ var pullCmd = &cobra.Command{
 		}
 		// invoke action
 		if err := puller.Pull(projectDir); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

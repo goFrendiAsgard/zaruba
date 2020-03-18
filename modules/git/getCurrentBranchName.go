@@ -1,15 +1,15 @@
 package git
 
 import (
-	"log"
 	"strings"
 
 	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 // GetCurrentBranchName get current branch name
 func GetCurrentBranchName(projectDir string) (branchName string, err error) {
-	log.Println("[INFO] Get current git branch")
+	logger.Info("Get current git branch")
 	output, err := command.Run(projectDir, "git", "rev-parse", "--abbrev-ref", "HEAD")
 	if err != nil {
 		return branchName, err

@@ -1,10 +1,9 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/modules/initiator"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 func init() {
@@ -23,7 +22,7 @@ var initCmd = &cobra.Command{
 		}
 		// invoke action
 		if err := initiator.Init(projectDir); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

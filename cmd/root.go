@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 var rootCmd = &cobra.Command{
@@ -12,7 +11,7 @@ var rootCmd = &cobra.Command{
 	Long:  `Zaruba will help you create project and maintain dependencies among components`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
-			log.Fatal("[ERROR] action required. Try `zaruba help`")
+			logger.Fatal("action required. Try `zaruba help`")
 		}
 	},
 }

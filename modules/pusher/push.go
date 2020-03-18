@@ -2,7 +2,6 @@ package pusher
 
 import (
 	"fmt"
-	"log"
 	"path/filepath"
 	"time"
 
@@ -28,7 +27,7 @@ func Push(projectDir string) (err error) {
 	}
 	// commit
 	git.Commit(projectDir, fmt.Sprintf("Zaruba: Save before push to sub-repos at %s", time.Now().Format(time.RFC3339)))
-	log.Println("[INFO] Push to main repo")
+	logger.Info("Push to main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", "HEAD"); err != nil {
 		return err
 	}

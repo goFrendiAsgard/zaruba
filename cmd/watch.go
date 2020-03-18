@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/watcher"
 )
 
@@ -42,7 +42,7 @@ var watchCmd = &cobra.Command{
 		// wait for errChan
 		err := <-errChan
 		if err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

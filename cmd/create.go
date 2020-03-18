@@ -1,10 +1,9 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/modules/component"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 func init() {
@@ -18,7 +17,7 @@ var createComponentCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
-			log.Fatal("[ERROR] template is expected, current arguments: ", args)
+			logger.Fatal("template is expected, current arguments: ", args)
 		}
 		// get `template`, `projectDir` and `arguments`
 		template := args[0]
@@ -30,7 +29,7 @@ var createComponentCmd = &cobra.Command{
 		}
 		// invoke action
 		if err := component.Create(template, projectDir, arguments...); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

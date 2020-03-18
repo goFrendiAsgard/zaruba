@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"log"
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/template"
 )
 
@@ -19,7 +19,7 @@ var installTemplateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {
-			log.Fatal("[ERROR] template's Git URL is expected, current arguments: ", args)
+			logger.Fatal("template's Git URL is expected, current arguments: ", args)
 		}
 		// get `gitURL` and `templateDir`
 		gitURL := args[0]
@@ -32,7 +32,7 @@ var installTemplateCmd = &cobra.Command{
 		}
 		// invoke action
 		if err := template.Install(gitURL, templateDir); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }

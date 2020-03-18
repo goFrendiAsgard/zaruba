@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/pusher"
 )
 
@@ -23,7 +22,7 @@ var pushCmd = &cobra.Command{
 		}
 		// invoke action
 		if err := pusher.Push(projectDir); err != nil {
-			log.Fatal("[ERROR] ", err)
+			logger.Fatal(err)
 		}
 	},
 }
