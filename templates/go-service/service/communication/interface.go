@@ -1,8 +1,5 @@
 package communication
 
-// Message for RPC and pub-sub
-type Message map[string]interface{}
-
 // RPCHandler function to handle RPC
 type RPCHandler func(input Message) (output Message, err error)
 
