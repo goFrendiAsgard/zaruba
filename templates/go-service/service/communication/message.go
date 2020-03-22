@@ -12,7 +12,7 @@ type Message map[string]interface{}
 func (m Message) GetInterface(key string) (val interface{}, err error) {
 	val, exists := m[key]
 	if !exists {
-		errorMessage := fmt.Sprintf("Key `%s` doesn't exist", key)
+		errorMessage := fmt.Sprintf("Key `%s` doesn't exist on %#v", key, val)
 		err = errors.New(errorMessage)
 	}
 	return val, err
@@ -26,7 +26,8 @@ func (m Message) GetInt64(key string) (val int64, err error) {
 	}
 	val, success := data.(int64)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to int64 failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }
@@ -39,7 +40,8 @@ func (m Message) GetInt32(key string) (val int32, err error) {
 	}
 	val, success := data.(int32)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to int32 failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }
@@ -52,7 +54,8 @@ func (m Message) GetFloat64(key string) (val float64, err error) {
 	}
 	val, success := data.(float64)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to float64 failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }
@@ -65,7 +68,8 @@ func (m Message) GetFloat32(key string) (val float32, err error) {
 	}
 	val, success := data.(float32)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to float32 failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }
@@ -78,7 +82,8 @@ func (m Message) GetInt(key string) (val int, err error) {
 	}
 	val, success := data.(int)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to int failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }
@@ -91,7 +96,8 @@ func (m Message) GetBool(key string) (val bool, err error) {
 	}
 	val, success := data.(bool)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to bool failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }
@@ -104,7 +110,22 @@ func (m Message) GetString(key string) (val string, err error) {
 	}
 	val, success := data.(string)
 	if !success {
-		return val, errors.New("Convertion error")
+		errorMessage := fmt.Sprintf("Conversion to string failed: %#v", val)
+		err = errors.New(errorMessage)
+	}
+	return val, err
+}
+
+// GetStringArray of Message
+func (m Message) GetStringArray(key string) (val []string, err error) {
+	data, err := m.GetInterface(key)
+	if err != nil {
+		return val, err
+	}
+	val, success := data.([]string)
+	if !success {
+		errorMessage := fmt.Sprintf("Conversion to string array failed: %#v", val)
+		err = errors.New(errorMessage)
 	}
 	return val, err
 }

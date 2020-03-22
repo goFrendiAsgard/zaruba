@@ -1,4 +1,4 @@
-package rpccontroller
+package rpchandlers
 
 import (
 	"registry.com/user/serviceName/communication"

@@ -1,4 +1,4 @@
-package httpcontroller
+package httphandlers
 
 import (
 	"fmt"

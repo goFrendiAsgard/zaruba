@@ -15,7 +15,7 @@ type PubSubHandler func(input Message) (err error)
 
 // PubSub interface
 type PubSub interface {
-	Publish(eventName string, message Message)
-	Subscribe()
+	Publish(eventName string, message Message) (err error)
+	Start()
 	RegisterHandler(eventName string, handler PubSubHandler)
 }

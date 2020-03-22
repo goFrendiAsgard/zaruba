@@ -5,7 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +18,7 @@ func NewSimpleRPC(engine *gin.Engine, serviceMap map[string]string) *SimpleRPC {
 		engine:     engine,
 		serviceMap: serviceMap,
 		handlers:   map[string]RPCHandler{},
+		logger:     log.New(os.Stdout, "", log.LstdFlags),
 	}
 }
 
@@ -24,6 +27,13 @@ type SimpleRPC struct {
 	engine     *gin.Engine
 	serviceMap map[string]string
 	handlers   map[string]RPCHandler
+	logger     *log.Logger
+}
+
+// SetLogger set custome logger
+func (rpc *SimpleRPC) SetLogger(logger *log.Logger) *SimpleRPC {
+	rpc.logger = logger
+	return rpc
 }
 
 // RegisterHandler register servicemap for call
@@ -43,7 +53,7 @@ func (rpc *SimpleRPC) Serve() {
 				return
 			}
 			output, err := handler(envelopedInput.Message)
-			envelopedOutput := NewCorrelatedEnvelopedMessage(envelopedInput.CorrelationID, output)
+			envelopedOutput := NewEnvelopedMessageWithCorrelationID(envelopedInput.CorrelationID, output)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, envelopedOutput)
 				return

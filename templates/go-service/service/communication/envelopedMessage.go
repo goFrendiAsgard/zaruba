@@ -12,12 +12,12 @@ func NewEnvelopedMessage(message Message) (em *EnvelopedMessage, err error) {
 	if err != nil {
 		return em, err
 	}
-	em = NewCorrelatedEnvelopedMessage(correlationID.String(), message)
+	em = NewEnvelopedMessageWithCorrelationID(correlationID.String(), message)
 	return em, err
 }
 
-// NewCorrelatedEnvelopedMessage create new EnvelopedMessage
-func NewCorrelatedEnvelopedMessage(correlationID string, message Message) (em *EnvelopedMessage) {
+// NewEnvelopedMessageWithCorrelationID create new EnvelopedMessage
+func NewEnvelopedMessageWithCorrelationID(correlationID string, message Message) (em *EnvelopedMessage) {
 	em = &EnvelopedMessage{
 		CorrelationID: correlationID,
 		Message:       message,

@@ -1,6 +1,19 @@
-package config
+package servicedesc
 
 import "fmt"
+
+// InitLocalCache set LocalCache
+func (context *Context) InitLocalCache(key string, val interface{}) {
+	if _, exists := context.LocalCache[key]; !exists {
+		context.LocalCache[key] = val
+	}
+}
+
+// Status represent liveness and readiness of service
+type Status struct {
+	IsAlive bool
+	IsReady bool
+}
 
 // RmqConfig is a rabbitmq configuration
 type RmqConfig struct {
