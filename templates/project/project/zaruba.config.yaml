@@ -22,5 +22,3 @@ components:
 
 executions: 
   - rmq
-  - kodok
-  - siput
