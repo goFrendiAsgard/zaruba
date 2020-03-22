@@ -5,7 +5,7 @@ type RPCHandler func(input Message) (output Message, err error)
 
 // RPC interface
 type RPC interface {
-	Call(serviceName, functionName string, input Message) (output Message, err error)
+	Call(servicename, functionName string, input Message) (output Message, err error)
 	Serve()
 	RegisterHandler(functionName string, handler RPCHandler)
 }

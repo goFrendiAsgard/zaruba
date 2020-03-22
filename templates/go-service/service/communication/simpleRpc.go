@@ -64,8 +64,8 @@ func (rpc *SimpleRPC) Serve() {
 }
 
 // Call remote function
-func (rpc *SimpleRPC) Call(serviceName, functionName string, input Message) (output Message, err error) {
-	resp, err := rpc.sendRPCRequest(serviceName, functionName, input)
+func (rpc *SimpleRPC) Call(servicename, functionName string, input Message) (output Message, err error) {
+	resp, err := rpc.sendRPCRequest(servicename, functionName, input)
 	defer resp.Body.Close()
 	if err != nil {
 		return output, err
@@ -90,8 +90,8 @@ func (rpc *SimpleRPC) Call(serviceName, functionName string, input Message) (out
 	return output, err
 }
 
-func (rpc *SimpleRPC) sendRPCRequest(serviceName, functionName string, input Message) (resp *http.Response, err error) {
-	req, err := rpc.createRPCRequest(serviceName, functionName, input)
+func (rpc *SimpleRPC) sendRPCRequest(servicename, functionName string, input Message) (resp *http.Response, err error) {
+	req, err := rpc.createRPCRequest(servicename, functionName, input)
 	if err != nil {
 		return resp, err
 	}
@@ -104,13 +104,13 @@ func (rpc *SimpleRPC) sendRPCRequest(serviceName, functionName string, input Mes
 	return resp, err
 }
 
-func (rpc *SimpleRPC) createRPCRequest(serviceName, functionName string, input Message) (req *http.Request, err error) {
+func (rpc *SimpleRPC) createRPCRequest(servicename, functionName string, input Message) (req *http.Request, err error) {
 	envelopedJSON, err := rpc.inputMessageToJSON(input)
 	if err != nil {
 		return req, err
 	}
 	// create HTTP request
-	remoteAddress := fmt.Sprintf("%s/api/%s", rpc.serviceMap[serviceName], functionName)
+	remoteAddress := fmt.Sprintf("%s/api/%s", rpc.serviceMap[servicename], functionName)
 	req, err = http.NewRequest("POST", remoteAddress, bytes.NewBuffer(envelopedJSON))
 	if err != nil {
 		return req, err

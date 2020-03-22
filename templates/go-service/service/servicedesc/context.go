@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"registry.com/user/serviceName/communication"
-	"registry.com/user/serviceName/env"
+	"registry.com/user/servicename/communication"
+	"registry.com/user/servicename/env"
 )
 
 // NewContext initiate new Context
@@ -22,8 +22,8 @@ func NewContext() (context *Context) {
 	}
 	return &Context{
 		HTTPPort:        HTTPPort,
-		ServiceName:     "serviceName",
-		DefaultRmqEvent: env.Getenv("SERVICENAME_EVENT", "serviceName"),
+		ServiceName:     "servicename",
+		DefaultRmqEvent: env.Getenv("SERVICENAME_EVENT", "servicename"),
 		DefaultRmq: &RmqConfig{
 			Host:     env.Getenv("RMQ_HOST", "localhost"),
 			Port:     RmqPort,
@@ -32,7 +32,7 @@ func NewContext() (context *Context) {
 			VHost:    env.Getenv("RMQ_VHOST", "/"),
 		},
 		ServiceURLMap: map[string]string{
-			"serviceName": env.Getenv("SERVICENAME_URL", fmt.Sprintf("http://localhost:%d", HTTPPort)),
+			"servicename": env.Getenv("SERVICENAME_URL", fmt.Sprintf("http://localhost:%d", HTTPPort)),
 		},
 		Status: &Status{
 			IsAlive: true,

@@ -1,8 +1,8 @@
 package pubsubhandlers
 
 import (
-	"registry.com/user/serviceName/communication"
-	"registry.com/user/serviceName/servicedesc"
+	"registry.com/user/servicename/communication"
+	"registry.com/user/servicename/servicedesc"
 )
 
 // CreateHelloHandler create hello handler for pubsub

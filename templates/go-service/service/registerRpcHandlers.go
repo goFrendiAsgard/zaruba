@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"registry.com/user/serviceName/communication"
-	"registry.com/user/serviceName/rpchandlers"
-	"registry.com/user/serviceName/servicedesc"
+	"registry.com/user/servicename/communication"
+	"registry.com/user/servicename/rpchandlers"
+	"registry.com/user/servicename/servicedesc"
 )
 
 func registerRPCHandlers(context *servicedesc.Context, router *gin.Engine, rpc communication.RPC, pubSub communication.PubSub) {

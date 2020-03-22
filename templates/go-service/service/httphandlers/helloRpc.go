@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/serviceName/communication"
+	"registry.com/user/servicename/communication"
 )
 
 // CreateHelloRPCHandler create helloRPC handler
@@ -23,7 +23,7 @@ func CreateHelloRPCHandler(rpc communication.RPC) (handler func(c *gin.Context))
 		}
 
 		// call RPC
-		output, err := rpc.Call("serviceName", "helloRpc", communication.Message{"name": name})
+		output, err := rpc.Call("servicename", "helloRpc", communication.Message{"name": name})
 		if err != nil {
 			c.String(http.StatusInternalServerError, "RPC Call error")
 			return

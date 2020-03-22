@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/serviceName/communication"
-	"registry.com/user/serviceName/servicedesc"
+	"registry.com/user/servicename/communication"
+	"registry.com/user/servicename/servicedesc"
 )
 
 // CreateHelloPubSubHandler create helloPubSub handler

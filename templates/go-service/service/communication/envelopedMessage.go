@@ -38,6 +38,7 @@ func NewEnvelopedMessageFromJSON(jsonMessage []byte) (em *EnvelopedMessage, err 
 type EnvelopedMessage struct {
 	CorrelationID string  `json:"correlation_id"`
 	Message       Message `json:"message"`
+	ErrorMessage  string  `json:"error"`
 }
 
 // ToJSON change envelopedMessage to JSON

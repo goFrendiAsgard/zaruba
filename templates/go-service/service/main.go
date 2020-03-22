@@ -4,15 +4,16 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/serviceName/communication"
-	"registry.com/user/serviceName/servicedesc"
+	"registry.com/user/servicename/communication"
+	"registry.com/user/servicename/servicedesc"
 )
 
 func main() {
 	context := servicedesc.NewContext()
 	router := gin.Default()
-	rpc := communication.NewSimpleRPC(router, context.ServiceURLMap).SetLogger(context.Logger)
 	pubSub := communication.NewRmqPubSub(context.DefaultRmq.CreateConnectionString()).SetLogger(context.Logger)
+	rpc := communication.NewRmqRPC(context.DefaultRmq.CreateConnectionString()).SetLogger(context.Logger)
+	// rpc := communication.NewSimpleRPC(router, context.ServiceURLMap).SetLogger(context.Logger)
 
 	registerHTTPHandlers(context, router, rpc, pubSub)
 	registerRPCHandlers(context, router, rpc, pubSub)

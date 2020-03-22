@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/serviceName/servicedesc"
+	"registry.com/user/servicename/servicedesc"
 )
 
 // CreateHelloAllHandler create helloPubSub handler

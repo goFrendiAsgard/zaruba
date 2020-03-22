@@ -1,4 +1,4 @@
-module registry.com/user/serviceName
+module registry.com/user/servicename
 
 go 1.14
 

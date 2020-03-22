@@ -1,7 +1,7 @@
 package rpchandlers
 
 import (
-	"registry.com/user/serviceName/communication"
+	"registry.com/user/servicename/communication"
 )
 
 // Hello classical hello world or hello + name

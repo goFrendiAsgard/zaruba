@@ -7,4 +7,4 @@ node -v
 echo "Check npm"
 npm -v
 
-echo "Node-service template has been successfully installed. Enjoy !!!"
+echo "Nodejs-service template has been successfully installed. Enjoy !!!"

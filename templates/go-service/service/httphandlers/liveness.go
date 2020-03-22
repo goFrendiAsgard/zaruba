@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/serviceName/servicedesc"
+	"registry.com/user/servicename/servicedesc"
 )
 
 // CreateLivenessHandler is a factory to create http liveness handler
@@ -17,7 +17,7 @@ func CreateLivenessHandler(context *servicedesc.Context) (handler func(c *gin.Co
 		}
 		// send response
 		c.JSON(httpCode, gin.H{
-			"serviceName": context.ServiceName,
+			"servicename": context.ServiceName,
 			"isAlive":     context.Status.IsAlive,
 		})
 	}
