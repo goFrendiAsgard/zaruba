@@ -5,14 +5,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"registry.com/user/servicename/communication"
-	"registry.com/user/servicename/servicedesc"
+	"registry.com/user/servicename/context"
 )
 
 func main() {
-	context := servicedesc.NewContext()
+	context := context.NewContext()
 	router := gin.Default()
-	pubSub := communication.NewRmqPubSub(context.DefaultRmq.CreateConnectionString()).SetLogger(context.Logger)
-	rpc := communication.NewRmqRPC(context.DefaultRmq.CreateConnectionString()).SetLogger(context.Logger)
+	pubSub := communication.NewRmqPubSub(context.Config.DefaultRmq.CreateConnectionString()).SetLogger(context.Logger)
+	rpc := communication.NewRmqRPC(context.Config.DefaultRmq.CreateConnectionString()).SetLogger(context.Logger)
 	// rpc := communication.NewSimpleRPC(router, context.ServiceURLMap).SetLogger(context.Logger)
 
 	registerHTTPHandlers(context, router, rpc, pubSub)

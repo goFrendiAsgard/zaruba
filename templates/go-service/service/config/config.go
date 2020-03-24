@@ -1,4 +1,4 @@
-package servicedesc
+package config
 
 import (
 	"fmt"
@@ -6,12 +6,11 @@ import (
 	"os"
 	"strconv"
 
-	"registry.com/user/servicename/communication"
 	"registry.com/user/servicename/env"
 )
 
-// NewContext initiate new Context
-func NewContext() (context *Context) {
+// NewConfig initiate new config
+func NewConfig() (config *Config) {
 	HTTPPort, err := strconv.Atoi(env.Getenv("SERVICENAME_HTTP_PORT", "3000"))
 	if err != nil {
 		log.Fatal(err)
@@ -20,9 +19,10 @@ func NewContext() (context *Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return &Context{
+	return &Config{
 		HTTPPort:        HTTPPort,
 		ServiceName:     "servicename",
+		Logger:          log.New(os.Stdout, "", log.LstdFlags),
 		DefaultRmqEvent: env.Getenv("SERVICENAME_EVENT", "servicename"),
 		DefaultRmq: &RmqConfig{
 			Host:     env.Getenv("RMQ_HOST", "localhost"),
@@ -34,23 +34,29 @@ func NewContext() (context *Context) {
 		ServiceURLMap: map[string]string{
 			"servicename": env.Getenv("SERVICENAME_URL", fmt.Sprintf("http://localhost:%d", HTTPPort)),
 		},
-		Status: &Status{
-			IsAlive: true,
-			IsReady: true,
-		},
-		Logger:     log.New(os.Stdout, "", log.LstdFlags),
-		LocalCache: communication.Message{},
 	}
 }
 
-// Context is a general service context
-type Context struct {
+// Config is a general service context
+type Config struct {
 	HTTPPort        int
 	ServiceName     string
+	Logger          *log.Logger
 	DefaultRmq      *RmqConfig
 	DefaultRmqEvent string
 	ServiceURLMap   map[string]string
-	Status          *Status
-	Logger          *log.Logger
-	LocalCache      communication.Message
+}
+
+// RmqConfig is a rabbitmq configuration
+type RmqConfig struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	VHost    string
+}
+
+// CreateConnectionString create connectionString of rmqConfig
+func (r *RmqConfig) CreateConnectionString() (connectionString string) {
+	return fmt.Sprintf("amqp://%s:%s@%s:%d%s", r.User, r.Password, r.Host, r.Port, r.VHost)
 }
