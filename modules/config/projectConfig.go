@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"sort"
@@ -45,8 +46,13 @@ func (p *ProjectConfig) GetComponents() (components map[string]*Component) {
 }
 
 // GetComponentByName get component of project by name
-func (p *ProjectConfig) GetComponentByName(name string) (component *Component) {
-	return p.components[name]
+func (p *ProjectConfig) GetComponentByName(name string) (component *Component, err error) {
+	component, exists := p.components[name]
+	if !exists {
+		errorMessage := fmt.Sprintf("Cannot find component `%s`", name)
+		err = errors.New(errorMessage)
+	}
+	return component, err
 }
 
 // GetExecutions get executions order of projects

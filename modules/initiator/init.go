@@ -47,7 +47,10 @@ func Init(projectDir string) (err error) {
 }
 
 func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
-	component := p.GetComponentByName(componentName)
+	component, err := p.GetComponentByName(componentName)
+	if err != nil {
+		return err
+	}
 	origin := component.GetOrigin()
 	branch := component.GetBranch()
 	location := component.GetLocation()

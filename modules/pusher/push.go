@@ -36,7 +36,10 @@ func Push(projectDir string) (err error) {
 		if !strutil.IsInArray(componentName, currentGitRemotes) {
 			continue
 		}
-		component := p.GetComponentByName(componentName)
+		component, err := p.GetComponentByName(componentName)
+		if err != nil {
+			return err
+		}
 		location := component.GetLocation()
 		origin := component.GetOrigin()
 		branch := component.GetBranch()

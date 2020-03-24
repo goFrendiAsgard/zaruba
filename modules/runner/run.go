@@ -70,45 +70,43 @@ func killCmdMap(p *config.ProjectConfig, cmdMap map[string]*exec.Cmd) {
 func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[string]*exec.Cmd, err error) {
 	cmdMap = map[string]*exec.Cmd{}
 	for _, serviceName := range p.GetExecutions() {
-		component := p.GetComponentByName(serviceName)
+		component, err := p.GetComponentByName(serviceName)
+		if err != nil {
+			killCmdMap(p, cmdMap)
+			return cmdMap, err
+		}
 		componentType := component.GetType()
-		// get cmd
 		if componentType != "container" && componentType != "service" {
 			continue
 		}
-		runtimeName := component.GetRuntimeName()
-		runtimeLocation := component.GetRuntimeLocation()
-		runtimeEnv := getServiceEnv(p, serviceName)
-		color := component.GetColor()
+		runtimeName, runtimeLocation, runtimeEnv, color := component.GetRuntimeName(), component.GetRuntimeLocation(), getServiceEnv(p, serviceName), component.GetColor()
 		cmd, err := command.GetShellCmd(runtimeLocation, component.GetRuntimeCommand())
-		// set cmd.Env
 		cmd.Env = runtimeEnv
-		// get pipes
 		outPipe, err := cmd.StdoutPipe()
 		if err != nil {
+			killCmdMap(p, cmdMap)
 			return cmdMap, err
 		}
 		errPipe, err := cmd.StderrPipe()
 		if err != nil {
+			killCmdMap(p, cmdMap)
 			return cmdMap, err
 		}
 		go logService(runtimeName, "OUT", color, outPipe)
 		go logService(runtimeName, "ERR", color, errPipe)
-		// run
 		logger.Info("Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
 		err = cmd.Start()
 		cmdMap[serviceName] = cmd
-		// if error, stop
 		if err != nil {
+			killCmdMap(p, cmdMap)
 			return cmdMap, err
 		}
-		// check whether the service is running or not
-		startedChan := make(chan bool)
-		errChan := make(chan error)
+		startedChan, errChan := make(chan bool), make(chan error)
 		go checkLiveness(serviceName, runtimeLocation, component.GetRuntimeLivenessCheckCommand(), runtimeEnv, startedChan, errChan)
 		<-startedChan
 		err = <-errChan
 		if err != nil {
+			killCmdMap(p, cmdMap)
 			return cmdMap, err
 		}
 		logger.Info("%s started", serviceName)

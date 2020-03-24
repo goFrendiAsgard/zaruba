@@ -3,7 +3,7 @@ export PATH := $(shell pwd):$(PATH)
 build:
 	./build.sh
 install:
-	./install.sh
+	./install.sh --y
 test:
 	./prepare-test.sh
 	# perform test

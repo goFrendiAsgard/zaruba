@@ -32,8 +32,11 @@ func TestLoadProjectConfig(t *testing.T) {
 
 	// test cascaded config
 	expected := filepath.Join(testPath, "./services/gateway")
-	if config.GetComponentByName("gateway").GetLocation() != expected {
-		t.Errorf("[UNEXPECTED] config.Components[\"gateway\"].Location should be `%s`, but contains `%s`", expected, config.GetComponentByName("gateway").GetLocation())
+	component, err := config.GetComponentByName("gateway")
+	if err != nil {
+		t.Errorf("[ERROR] Cannot get component: %s", err)
+	} else if component.GetLocation() != expected {
+		t.Errorf("[UNEXPECTED] config.Components[\"gateway\"].Location should be `%s`, but contains `%s`", expected, component.GetLocation())
 	}
 
 	// test sorted Link sources

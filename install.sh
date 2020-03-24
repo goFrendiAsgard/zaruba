@@ -12,8 +12,17 @@ fi
 mkdir -p ${HOME}/.zaruba
 mkdir -p ${HOME}/.zaruba/template
 
-# create zaruba/zaruba.env
+# check whether user provide `--y` parameter or not
+YES_TO_ALL=0
+for PARAMETER in "$@" ; do
+    if [ ${PARAMETER} = "--y" ] ||[ ${PARAMETER} = "--Y" ]
+    then
+        YES_TO_ALL=1
+        break
+    fi
+done
 
+# create zaruba/zaruba.env
 echo 'if [ -z ${HOME} ]' > ${HOME}/.zaruba/zaruba.env
 echo 'then' >> ${HOME}/.zaruba/zaruba.env
 echo '    HOME=~' >> ${HOME}/.zaruba/zaruba.env
@@ -42,8 +51,12 @@ do
     fi
 done
 
-read -p "Do you want to install pre-built templates(Y/n)? " INSTALL_TEMPLATE
-if [ $INSTALL_TEMPLATE = "Y" ] || [ $INSTALL_TEMPLATE = "y" ]
+
+if [ $YES_TO_ALL -eq 0 ]
+then
+    read -p "Do you want to install pre-built templates(Y/n)? " INSTALL_TEMPLATE
+fi
+if [ $YES_TO_ALL -eq 1 ] || [ $INSTALL_TEMPLATE = "Y" ] || [ $INSTALL_TEMPLATE = "y" ]
 then
     TEMPLATE_PATH=$(go env GOPATH)/src/github.com/state-alchemists/zaruba/templates
     if [ -e templates ]
