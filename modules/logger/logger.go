@@ -24,7 +24,7 @@ func Error(format string, v ...interface{}) {
 
 // Fatal print error and exit
 func Fatal(v ...interface{}) {
-	prefix := fmt.Sprintf("\033[31m[ERR - %s]\033[0m", getzarubaRuntimeName())
+	prefix := fmt.Sprintf("\033[31m[ERR - %s]\033[0m ", getzarubaRuntimeName())
 	newV := []interface{}{prefix}
 	newV = append(newV, v...)
 	log.Fatal(newV...)
