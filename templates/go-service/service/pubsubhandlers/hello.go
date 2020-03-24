@@ -2,16 +2,16 @@ package pubsubhandlers
 
 import (
 	"registry.com/user/servicename/communication"
-	"registry.com/user/servicename/servicedesc"
+	"registry.com/user/servicename/context"
 )
 
 // CreateHelloHandler create hello handler for pubsub
-func CreateHelloHandler(context *servicedesc.Context) communication.PubSubHandler {
+func CreateHelloHandler(context *context.Context) communication.PubSubHandler {
 	return func(input communication.Message) (err error) {
 
 		// get name
 		name := input["name"].(string)
-		context.Logger.Printf("[RMQ PUBSUB] Hello %s", name)
+		context.Config.Logger.Printf("[RMQ PUBSUB] Hello %s", name)
 
 		// add name to localCache
 		context.InitLocalCache("names", []string{})

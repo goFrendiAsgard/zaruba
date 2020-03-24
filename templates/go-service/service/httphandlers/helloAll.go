@@ -6,11 +6,11 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/servicename/servicedesc"
+	"registry.com/user/servicename/context"
 )
 
 // CreateHelloAllHandler create helloPubSub handler
-func CreateHelloAllHandler(context *servicedesc.Context) (handler func(c *gin.Context)) {
+func CreateHelloAllHandler(context *context.Context) (handler func(c *gin.Context)) {
 	return func(c *gin.Context) {
 		greeting := "Hello, everyone..."
 		context.InitLocalCache("names", []string{})

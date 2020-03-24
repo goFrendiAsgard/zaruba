@@ -5,11 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"registry.com/user/servicename/communication"
-	"registry.com/user/servicename/servicedesc"
+	"registry.com/user/servicename/context"
 )
 
 // CreateHelloPubSubHandler create helloPubSub handler
-func CreateHelloPubSubHandler(context *servicedesc.Context, pubSub communication.PubSub) (handler func(c *gin.Context)) {
+func CreateHelloPubSubHandler(context *context.Context, pubSub communication.PubSub) (handler func(c *gin.Context)) {
 	return func(c *gin.Context) {
 		// get name
 		name := c.Param("name")
@@ -24,9 +24,9 @@ func CreateHelloPubSubHandler(context *servicedesc.Context, pubSub communication
 		}
 
 		// publish to DefaultRmqEvent of current service
-		err := pubSub.Publish(context.DefaultRmqEvent, communication.Message{"name": name})
+		err := pubSub.Publish(context.Config.DefaultRmqEvent, communication.Message{"name": name})
 		if err != nil {
-			context.Logger.Println(err)
+			context.Config.Logger.Println(err)
 			c.String(http.StatusInternalServerError, "Sending error")
 			return
 		}

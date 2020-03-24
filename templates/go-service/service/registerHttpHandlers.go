@@ -5,11 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"registry.com/user/servicename/communication"
+	"registry.com/user/servicename/context"
 	"registry.com/user/servicename/httphandlers"
-	"registry.com/user/servicename/servicedesc"
 )
 
-func registerHTTPHandlers(context *servicedesc.Context, router *gin.Engine, rpc communication.RPC, pubSub communication.PubSub) {
+func registerHTTPHandlers(context *context.Context, router *gin.Engine, rpc communication.RPC, pubSub communication.PubSub) {
 	// liveness and readiness handlers
 	router.GET("/liveness", httphandlers.CreateLivenessHandler(context))
 	router.GET("/readiness", httphandlers.CreateReadinessHandler(context))

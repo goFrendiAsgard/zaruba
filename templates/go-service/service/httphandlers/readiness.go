@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"registry.com/user/servicename/servicedesc"
+	"registry.com/user/servicename/context"
 )
 
 // CreateReadinessHandler is a factory to create http liveness handler
-func CreateReadinessHandler(context *servicedesc.Context) (handler func(c *gin.Context)) {
+func CreateReadinessHandler(context *context.Context) (handler func(c *gin.Context)) {
 	return func(c *gin.Context) {
 		// get http status
 		httpCode := http.StatusOK
@@ -17,7 +17,7 @@ func CreateReadinessHandler(context *servicedesc.Context) (handler func(c *gin.C
 		}
 		// send response
 		c.JSON(httpCode, gin.H{
-			"servicename": context.ServiceName,
+			"servicename": context.Config.ServiceName,
 			"isReady":     context.Status.IsReady,
 		})
 	}
