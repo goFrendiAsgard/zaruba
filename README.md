@@ -1,6 +1,6 @@
-# Zaruba
+# 💀 Zaruba 
 
-> "My name is Zaruba. I came to be when Garo came to be and I am forever with him.”
+> "My name is Zaruba. I came to be when Garo came to be and I am forever with him."
 
 Zaruba is agnostic generator and service runner. Zaruba treat your project like a big monorepo application containing multiple micro-services. However, zaruba also allows you to publish the micro-services as individual repo, independent from each other.
 
@@ -8,7 +8,7 @@ To see why you probably need monorepo, please look at this [awesome slide](https
 
 Despite of the advantages, managing monorepo without a proper tool might brings you a nightmare. Zaruba is specifically created to make monorepo management easier.
 
-# Installation
+# 👨‍💻 Installation
 
 To install zaruba in your local computer, you have to install `golang 1.13`. Next, you can install zaruba by using `curl`:
 
@@ -24,7 +24,7 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 If you are using windows, it is recommended to use WSL.
 
-# Use Case
+# 🥗 Use Case
 
 Let's say you have two services communicating via [NATS messaging system](https://nats.io/).
 
@@ -281,7 +281,7 @@ zaruba pull
 
 ![](readme-resource/zaruba-pull.png)
 
-# Available Actions
+# ✍🏻 Available Actions
 
 ```
 Usage:
@@ -307,7 +307,7 @@ Flags:
 Use "zaruba [command] --help" for more information about a command.
 ```
 
-# Concepts
+# 👴 Concepts
 
 ## Template
 
@@ -403,7 +403,7 @@ In short, when you perform `zaruba do fight`, zaruba will looks for every `fight
 
 Note: whenever running the executables, zaruba will automatically add `<project-dir>` as first argument. The value of `<project-dir>` is taken from current working directory.
 
-# Configuration
+# 👩🏻‍🏫 Configuration
 
 ## Environment Variable
 
@@ -411,7 +411,7 @@ Note: whenever running the executables, zaruba will automatically add `<project-
 * `ZARUBA_SHELL`: Default to `/bin/bash`
 * `ZARUBA_SHELL_ARG`: Default to `-c`
 
-# Testing
+# 🙇🏽 Testing
 
 Copy `template.env` to `.env` and invoke:
 

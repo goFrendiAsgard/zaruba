@@ -6,7 +6,7 @@ import (
 )
 
 func getzarubaRuntimeName() (name string) {
-	name = "🌞 zaruba"
+	name = "💀 ZARUBA"
 	return fmt.Sprintf("%-12v", name)
 }
 

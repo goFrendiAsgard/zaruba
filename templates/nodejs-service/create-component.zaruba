@@ -32,7 +32,7 @@ cp -r ${TEMPLATE_DIR}/service ${SERVICE_DIR}
 cd ${SERVICE_DIR}
 
 # Perform substitution
-for FILE in ./serviceDesc.js ./package.json ./Dockerfile ./zaruba.config.yaml
+for FILE in ./*.js ./*/*.js ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
 do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}

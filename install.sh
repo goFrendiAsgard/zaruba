@@ -1,6 +1,26 @@
 #!/bin/sh
 set -e
 
+# check whether user provide `--y` parameter or not
+YES_TO_ALL=0
+for PARAMETER in "$@" ; do
+    if [ ${PARAMETER} = "--y" ] ||[ ${PARAMETER} = "--Y" ]
+    then
+        YES_TO_ALL=1
+        break
+    fi
+done
+
+# Set default value for ZARUBA_TEMPLATE_DIR
+if [ -z ${ZARUBA_TEMPLATE_DIR} ]
+then
+    ZARUBA_TEMPLATE_DIR=${HOME}/.zaruba/template
+fi
+
+
+echo "* CHECK GO VERSION"
+go version
+
 echo "* INSTALLING ZARUBA"
 go get -u github.com/state-alchemists/zaruba
 
@@ -11,16 +31,6 @@ then
 fi
 mkdir -p ${HOME}/.zaruba
 mkdir -p ${HOME}/.zaruba/template
-
-# check whether user provide `--y` parameter or not
-YES_TO_ALL=0
-for PARAMETER in "$@" ; do
-    if [ ${PARAMETER} = "--y" ] ||[ ${PARAMETER} = "--Y" ]
-    then
-        YES_TO_ALL=1
-        break
-    fi
-done
 
 # create zaruba/zaruba.env
 echo 'if [ -z ${HOME} ]' > ${HOME}/.zaruba/zaruba.env
@@ -67,6 +77,7 @@ then
     for COMPONENT in $(ls ${TEMPLATE_PATH})
     do
         echo "   - ${COMPONENT}"
+        [ -e ${HOME}/.zaruba/template/${COMPONENT} ] && rm -Rf ${HOME}/.zaruba/template/${COMPONENT}
         cp -R ${TEMPLATE_PATH}/${COMPONENT} ${HOME}/.zaruba/template
         chmod 755 -R ${HOME}/.zaruba/template/${COMPONENT}
     done

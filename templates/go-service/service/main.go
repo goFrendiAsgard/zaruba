@@ -11,10 +11,13 @@ import (
 func main() {
 	context := context.NewContext()
 	config := context.Config
+	rmqConnectionString := config.DefaultRmq.CreateConnectionString()
+	logger := config.Logger
+
 	router := gin.Default()
-	pubSub := communication.NewRmqPubSub(config.DefaultRmq.CreateConnectionString()).SetLogger(config.Logger)
-	rpc := communication.NewRmqRPC(config.DefaultRmq.CreateConnectionString()).SetLogger(config.Logger)
-	// rpc := communication.NewSimpleRPC(router, config.ServiceURLMap).SetLogger(config.Logger)
+	pubSub := communication.NewRmqPubSub(rmqConnectionString).SetLogger(logger)
+	rpc := communication.NewRmqRPC(rmqConnectionString).SetLogger(logger)
+	// rpc := communication.NewSimpleRPC(router, config.ServiceURLMap).SetLogger(logger)
 
 	registerHTTPHandlers(context, router, rpc, pubSub)
 	registerRPCHandlers(context, router, rpc, pubSub)
