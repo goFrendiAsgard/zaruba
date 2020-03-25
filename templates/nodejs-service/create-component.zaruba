@@ -31,6 +31,7 @@ cp -r ${TEMPLATE_DIR}/service ${SERVICE_DIR}
 # Change to service directory
 cd ${SERVICE_DIR}
 
+[ -e ./node_modules ] && rm -Rf ./node_modules
 # Perform substitution
 for FILE in ./*.js ./*/*.js ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
 do
@@ -40,16 +41,16 @@ do
 done
 
 # copy to shared lib
-SHARED_LIB_HELPER_DIR=${PROJECT_DIR}/libraries/nodejs/helpers
-LIB_HELPER_DIR=${SERVICE_DIR}/helpers
-mkdir -p ${SHARED_LIB_HELPER_DIR}
-for HELPER in amqp express
+SHARED_LIB_DIR=${PROJECT_DIR}/libraries/nodejs/
+LIB_DIR=${SERVICE_DIR}/
+mkdir -p ${SHARED_LIB_DIR}
+for HELPER in communication
 do
-    if [ -e ${SHARED_LIB_HELPER_DIR}/${HELPER} ]
+    if [ -e ${SHARED_LIB_DIR}/${HELPER} ]
     then
-        echo "${SHARED_LIB_HELPER_DIR}/${HELPER} is already exists"
+        echo "${SHARED_LIB_DIR}/${HELPER} is already exists"
     else
-        cp -r ${LIB_HELPER_DIR}/${HELPER} ${SHARED_LIB_HELPER_DIR}/${HELPER}
+        cp -r ${LIB_DIR}/${HELPER} ${SHARED_LIB_DIR}/${HELPER}
     fi
 done
 

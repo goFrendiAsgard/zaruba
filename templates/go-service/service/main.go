@@ -26,6 +26,7 @@ func main() {
 	go pubSub.Start()
 	go rpc.Serve()
 	go router.Run(fmt.Sprintf(":%d", config.HTTPPort))
+	logger.Println(fmt.Sprintf("Ruant at port %d", config.HTTPPort))
 
 	forever := make(chan bool)
 	<-forever

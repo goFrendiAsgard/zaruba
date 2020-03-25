@@ -17,8 +17,8 @@ func CreateLivenessHandler(context *context.Context) (handler func(c *gin.Contex
 		}
 		// send response
 		c.JSON(httpCode, gin.H{
-			"servicename": context.Config.ServiceName,
-			"isAlive":     context.Status.IsAlive,
+			"service_name": context.Config.ServiceName,
+			"is_alive":     context.Status.IsAlive,
 		})
 	}
 }

@@ -49,12 +49,13 @@ func (rpc *SimpleRPC) Serve() {
 			envelopedInput := EnvelopedMessage{}
 			err := c.BindJSON(&envelopedInput)
 			if err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"correlation_id": envelopedInput.CorrelationID})
+				c.JSON(http.StatusBadRequest, gin.H{"correlation_id": envelopedInput.CorrelationID, "error": fmt.Sprintf("%s", err)})
 				return
 			}
 			output, err := handler(envelopedInput.Message)
 			envelopedOutput := NewEnvelopedMessageWithCorrelationID(envelopedInput.CorrelationID, output)
 			if err != nil {
+				envelopedOutput.ErrorMessage = fmt.Sprintf("%s", err)
 				c.JSON(http.StatusInternalServerError, envelopedOutput)
 				return
 			}

@@ -36,15 +36,15 @@ func (pubSub *RmqPubSub) RegisterHandler(eventName string, handler PubSubHandler
 
 // Start consuming message from all event
 func (pubSub *RmqPubSub) Start() {
+	// create connection and channel
+	conn, ch, err := createRmqConnectionAndChannel(pubSub.connectionString)
+	if err != nil {
+		pubSub.logger.Println("[ERROR]", err)
+		return
+	}
+	defer conn.Close()
+	defer ch.Close()
 	for eventName, handler := range pubSub.handlers {
-		// create connection and channel
-		conn, ch, err := createRmqConnectionAndChannel(pubSub.connectionString)
-		if err != nil {
-			pubSub.logger.Println("[ERROR]", err)
-			return
-		}
-		defer conn.Close()
-		defer ch.Close()
 		// declare queue and bind
 		q, err := declareAndBindRmqQueueToExchange(ch, eventName)
 		if err != nil {

@@ -1,40 +1,32 @@
 // imports
-const amqplib = require('amqplib');
-const express = require('express');
-const bodyParser = require('body-parser');
-
-const serviceDesc = require('./serviceDesc');
-const { createApp, startApp } = require('./helpers/express/expressHelper');
-const { createRmq, sendToQueue, consume } = require('./helpers/amqp/amqpHelper');
-const { logger, rmqEvent } = serviceDesc;
+const { Context } = require("./context");
+const { RmqPubSub, RmqRPC, SimpleRPC, createApp } = require("./communication");
+const { registerHTTPHandlers } = require("./registerHttpHandlers");
+const { registerRPCHandlers } = require("./registerRpcHandlers");
+const { registerPubSubHandlers } = require("./registerPubSubHandlers");
 
 async function main() {
-    try {
-        // Variables
-        const app = createApp(serviceDesc, express, bodyParser);
-        const rmq = await createRmq(serviceDesc, serviceDesc.rmq, amqplib);
+    const context = new Context();
+    const config = context.getConfig();
+    const rmqConnectionString = config.defaultRmq.createConnectionString();
+    const { logger } = config;
 
-        // Http routes
-        app.all('/', (req, res) => {
-            logger.log('QUERY', req.query)
-            logger.log('BODY', req.body)
-            return res.status(200).send('Hello World !!!');
-        });
+    const app = createApp(logger);
+    const pubSub = new RmqPubSub(rmqConnectionString).setLogger(logger);
+    const rpc = new RmqRPC(rmqConnectionString).setLogger(logger);
+    // const rpc = new SimpleRPC(app, config.serviceUrlMap).setLogger(logger);
 
-        // Start Listening to rmqEvent
-        await consume(rmq, rmqEvent, (message) => {
-            logger.log("GET MESSAGE:", message);
-        });
-        // Send Message to rmqEvent
-        await sendToQueue(rmq, rmqEvent, "A message");
+    registerHTTPHandlers(context, app, rpc, pubSub);
+    registerRPCHandlers(context, app, rpc, pubSub);
+    registerPubSubHandlers(context, app, rpc, pubSub);
 
-        // Start HTTP Server
-        startApp(serviceDesc, app);
-    } catch (error) {
-        logger.error(error);
-    }
+    pubSub.start();
+    rpc.serve();
+    app.listen(config.httpPort, () => {
+        logger.log(`Run at port ${config.httpPort}`);
+    });
 }
 
 if (require.main == module) {
-    main();
+    main().catch(error => console.log(error));
 }

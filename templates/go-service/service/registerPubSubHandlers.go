@@ -9,5 +9,6 @@ import (
 
 func registerPubSubHandlers(context *context.Context, router *gin.Engine, rpc communication.RPC, pubSub communication.PubSub) {
 	// EXAMPLE: Register helloPubSub handler
-	pubSub.RegisterHandler(context.Config.DefaultRmqEvent, pubsubhandlers.CreateHelloHandler(context))
+	config := context.Config
+	pubSub.RegisterHandler(config.DefaultRmqEvent, pubsubhandlers.CreateHelloHandler(context))
 }

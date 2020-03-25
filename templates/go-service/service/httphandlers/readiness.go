@@ -17,8 +17,8 @@ func CreateReadinessHandler(context *context.Context) (handler func(c *gin.Conte
 		}
 		// send response
 		c.JSON(httpCode, gin.H{
-			"servicename": context.Config.ServiceName,
-			"isReady":     context.Status.IsReady,
+			"service_name": context.Config.ServiceName,
+			"is_eady":      context.Status.IsReady,
 		})
 	}
 }
