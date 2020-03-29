@@ -32,7 +32,7 @@ cp -r ${TEMPLATE_DIR}/service ${SERVICE_DIR}
 cd ${SERVICE_DIR}
 
 # Perform substitution
-for FILE in ./*.go ./*/*.go ./go.mod ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
+for FILE in ./*.go ./*/*.go ./*/*/*.go ./go.mod ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
 do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}
@@ -40,10 +40,10 @@ do
 done
 
 # copy to shared lib
-SHARED_LIB_DIR=${PROJECT_DIR}/libraries/golang/
+SHARED_LIB_DIR=${PROJECT_DIR}/libraries/go/
 LIB_DIR=${SERVICE_DIR}/
 mkdir -p ${SHARED_LIB_DIR}
-for HELPER in communication env
+for HELPER in transport
 do
     if [ -e ${SHARED_LIB_DIR}/${HELPER} ]
     then

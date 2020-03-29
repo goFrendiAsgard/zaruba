@@ -33,7 +33,7 @@ cd ${SERVICE_DIR}
 
 [ -e ./node_modules ] && rm -Rf ./node_modules
 # Perform substitution
-for FILE in ./*.js ./*/*.js ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
+for FILE in ./*.js ./*/*.js ./*/*/*.js ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
 do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}
@@ -44,7 +44,7 @@ done
 SHARED_LIB_DIR=${PROJECT_DIR}/libraries/nodejs/
 LIB_DIR=${SERVICE_DIR}/
 mkdir -p ${SHARED_LIB_DIR}
-for HELPER in communication
+for HELPER in transport
 do
     if [ -e ${SHARED_LIB_DIR}/${HELPER} ]
     then
