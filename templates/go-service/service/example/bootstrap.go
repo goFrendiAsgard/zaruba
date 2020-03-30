@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"app/bootstrap"
+	"app/example/components/greeting"
 
-	"registry.com/user/servicename/bootstrap"
-	"registry.com/user/servicename/example/components/greeting"
+	"github.com/gin-gonic/gin"
 )
 
 // SetUp Example

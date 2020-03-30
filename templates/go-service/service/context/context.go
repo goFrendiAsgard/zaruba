@@ -1,8 +1,8 @@
 package context
 
 import (
-	"registry.com/user/servicename/config"
-	"registry.com/user/servicename/transport"
+	"app/config"
+	"app/transport"
 )
 
 // NewContext initiate new Context

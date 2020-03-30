@@ -1,6 +1,6 @@
 package bootstrap
 
-import "registry.com/user/servicename/components/monitoring"
+import "app/components/monitoring"
 
 // Setup everything
 func Setup(s *Setting) {

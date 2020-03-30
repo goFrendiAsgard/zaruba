@@ -1,4 +1,4 @@
-module registry.com/user/servicename
+module app
 
 go 1.14
 

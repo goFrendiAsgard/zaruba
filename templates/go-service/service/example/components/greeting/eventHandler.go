@@ -1,8 +1,8 @@
 package greeting
 
 import (
-	"registry.com/user/servicename/context"
-	"registry.com/user/servicename/transport"
+	"app/context"
+	"app/transport"
 )
 
 // CreateRegisterPersonHandler create event handler for "registerPerson"

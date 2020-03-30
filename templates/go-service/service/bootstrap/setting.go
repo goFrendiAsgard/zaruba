@@ -1,9 +1,10 @@
 package bootstrap
 
 import (
+	"app/context"
+	"app/transport"
+
 	"github.com/gin-gonic/gin"
-	"registry.com/user/servicename/context"
-	"registry.com/user/servicename/transport"
 )
 
 // Setting is data to be injected into SetUp

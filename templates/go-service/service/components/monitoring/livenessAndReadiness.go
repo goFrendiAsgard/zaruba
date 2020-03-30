@@ -3,8 +3,9 @@ package monitoring
 import (
 	"net/http"
 
+	"app/context"
+
 	"github.com/gin-gonic/gin"
-	"registry.com/user/servicename/context"
 )
 
 // RegisterHealthController registerHealthController

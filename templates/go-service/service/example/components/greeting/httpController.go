@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"app/context"
+	"app/transport"
+
 	"github.com/gin-gonic/gin"
-	"registry.com/user/servicename/context"
-	"registry.com/user/servicename/transport"
 )
 
 func getName(c *gin.Context) string {

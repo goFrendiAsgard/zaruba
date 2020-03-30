@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"registry.com/user/servicename/bootstrap"
-	"registry.com/user/servicename/context"
-	"registry.com/user/servicename/example"
-	"registry.com/user/servicename/transport"
+	"app/bootstrap"
+	"app/context"
+	"app/example"
+	"app/transport"
 )
 
 func main() {
