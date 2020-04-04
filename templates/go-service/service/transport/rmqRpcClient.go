@@ -66,7 +66,7 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 			return
 		}
 	}()
-	// publish message
+	// send message
 	err = rmqRpcCall(ch, functionName, replyTo, inputs)
 	if err != nil {
 		waitReply <- true

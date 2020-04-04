@@ -24,14 +24,14 @@ servicename
 │   └── setup.go                        # (Customizable) Code to set-up components
 ├── components                          # (Customizable) You should put your components here
 │   └── monitoring
-│       └── livenessAndReadiness.go
+│       └── setup.go
 ├── config                              # (Customizable) Config related Code
 │   ├── config.go
 │   └── helper.go
 ├── context                             # (Customizable) Wrapper of Config, status, and other properties
 │   └── context.go
 ├── example                             # (Example) Example. Delete this if not necessary
-│   ├── bootstrap.go                    # (Example) Code to link local components with the global ones
+│   ├── setup.go                        # (Example) Code to link local components with the global ones
 │   └── components
 │       └── greeting                    # (Example) Component example
 │           ├── eventHandler.go         # (Example) Event handler functions and factories
@@ -136,12 +136,12 @@ func EventHandler(message transport.Message) (err error) {
 
 Just like HTTP Handlers, you can wrap Event Handler functions into factories.
 
-## Bootstrap
+## Setup
 
-Bootstrap is a function to connect your component to the application. You can think of it as a place to wire up component's dependencies.
+Setup is a function to connect your component to the application. You can think of it as a place to wire up component's dependencies.
 
 ```go
-func SetUp(s *bootstrap.Setting) {
+func Setup(s *bootstrap.Setting) {
 	// TODO: setup your HTTP handlers etc here...
 }
 ```

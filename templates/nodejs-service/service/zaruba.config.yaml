@@ -10,11 +10,9 @@ components:
     origin: "" # fill this one with your git repository
     branch: master
     location: "."
-    start: npm install && npm start
+    start: npm start
     livenessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}
 
 links:
-  ../../libraries/nodejs/helpers/amqp:
-    - ./helpers/amqp
-  ../../libraries/nodejs/helpers/express: 
-    - ./helpers/express
+  ../../libraries/typescript/transport:
+    - ./src/transport

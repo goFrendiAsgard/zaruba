@@ -33,13 +33,13 @@ func (c *SimpleRPCClient) SetLogger(logger *log.Logger) RPCClient {
 // Call remote function
 func (c *SimpleRPCClient) Call(functionName string, inputs ...interface{}) (output interface{}, err error) {
 	// prepare JSON message to be send
-	envelopedMsgJSON, err := rpcInputsToJSON(inputs)
+	envelopedInputJSON, err := rpcInputsToJSON(inputs)
 	if err != nil {
 		return output, err
 	}
 	// prepare request
 	remoteAddr := fmt.Sprintf("%s/api/%s", c.serverAddress, functionName)
-	req, err := http.NewRequest("POST", remoteAddr, bytes.NewBuffer(envelopedMsgJSON))
+	req, err := http.NewRequest("POST", remoteAddr, bytes.NewBuffer(envelopedInputJSON))
 	if err != nil {
 		return output, err
 	}

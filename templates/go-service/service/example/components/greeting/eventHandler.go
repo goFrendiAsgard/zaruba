@@ -13,11 +13,11 @@ func CreateRegisterPersonHandler(ctx *context.Context) transport.EventHandler {
 			return err
 		}
 		ctx.InitLocalCache("names", []string{})
-		names, err := ctx.LocalCache.GetStringArray("names")
-		if err != nil {
-			return err
-		}
 		if name != "" {
+			names, err := ctx.LocalCache.GetStringArray("names")
+			if err != nil {
+				return err
+			}
 			ctx.LocalCache["names"] = append(names, name)
 		}
 		return err

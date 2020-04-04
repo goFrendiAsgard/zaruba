@@ -1,12 +1,13 @@
 package bootstrap
 
 import (
+	"app/components"
 	"fmt"
 )
 
 // Run everything
 // TODO: change the implementation to fit your need
-func Run(s *Setting) {
+func Run(s *components.Setting) {
 	go s.RPCServers.Main.Serve()
 	go s.RPCServers.Secondary.Serve()
 	go s.Subscribers.Main.Subscribe()

@@ -1,10 +1,13 @@
 package bootstrap
 
-import "app/components/monitoring"
+import (
+	"app/components"
+	"app/components/monitoring"
+)
 
 // Setup everything
-func Setup(s *Setting) {
-	monitoring.RegisterHealthController(s.Ctx, s.Router)
+func Setup(s *components.Setting) {
+	monitoring.Setup(s)
 
 	// TODO: Add your custom handlers here
 
