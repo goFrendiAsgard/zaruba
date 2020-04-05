@@ -40,10 +40,10 @@ do
 done
 
 # copy to shared lib
-SHARED_LIB_DIR=${PROJECT_DIR}/libraries/golang/
+SHARED_LIB_DIR=${PROJECT_DIR}/libraries/go/
 LIB_DIR=${SERVICE_DIR}/
 mkdir -p ${SHARED_LIB_DIR}
-for HELPER in communication env
+for HELPER in transport
 do
     if [ -e ${SHARED_LIB_DIR}/${HELPER} ]
     then

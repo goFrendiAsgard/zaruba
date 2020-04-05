@@ -1,8 +1,8 @@
 package context
 
 import (
-	"registry.com/user/servicename/communication"
-	"registry.com/user/servicename/config"
+	"app/config"
+	"app/transport"
 )
 
 // NewContext initiate new Context
@@ -13,7 +13,7 @@ func NewContext() (context *Context) {
 			IsAlive: true,
 			IsReady: true,
 		},
-		LocalCache: communication.Message{},
+		LocalCache: transport.Message{},
 	}
 }
 
@@ -21,7 +21,7 @@ func NewContext() (context *Context) {
 type Context struct {
 	Config     *config.Config
 	Status     *Status
-	LocalCache communication.Message
+	LocalCache transport.Message
 }
 
 // InitLocalCache set LocalCache

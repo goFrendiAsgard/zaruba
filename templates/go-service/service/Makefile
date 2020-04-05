@@ -1,2 +1,2 @@
 run:
-	go build && ./servicename
+	go build -o app && ./app

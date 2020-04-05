@@ -32,8 +32,9 @@ cp -r ${TEMPLATE_DIR}/service ${SERVICE_DIR}
 cd ${SERVICE_DIR}
 
 [ -e ./node_modules ] && rm -Rf ./node_modules
+[ -e ./dist ] && rm -Rf ./dist
 # Perform substitution
-for FILE in ./*.js ./*/*.js ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
+for FILE in ./src/*.ts ./src/*/*.ts ./src/*/*/*.ts ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
 do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}
@@ -41,16 +42,16 @@ do
 done
 
 # copy to shared lib
-SHARED_LIB_DIR=${PROJECT_DIR}/libraries/nodejs/
+SHARED_LIB_DIR=${PROJECT_DIR}/libraries/typescript/
 LIB_DIR=${SERVICE_DIR}/
 mkdir -p ${SHARED_LIB_DIR}
-for HELPER in communication
+for HELPER in transport
 do
     if [ -e ${SHARED_LIB_DIR}/${HELPER} ]
     then
         echo "${SHARED_LIB_DIR}/${HELPER} is already exists"
     else
-        cp -r ${LIB_DIR}/${HELPER} ${SHARED_LIB_DIR}/${HELPER}
+        cp -r ${LIB_DIR}/src/${HELPER} ${SHARED_LIB_DIR}/${HELPER}
     fi
 done
 

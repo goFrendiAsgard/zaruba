@@ -3,7 +3,6 @@ package initiator
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -30,12 +29,12 @@ func Init(projectDir string) (err error) {
 	if err != nil {
 		return err
 	}
-	// process subtree
-	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
-	for componentName, subrepoPrefix := range subrepoPrefixMap {
-		if strutil.IsInArray(componentName, currentGitRemotes) {
-			continue
-		}
+	// get valid subrepo prefix map
+	validSubrepoPrefixMap, err := getValidSubrepoPrefixMap(p, projectDir, currentGitRemotes)
+	if err != nil {
+		return err
+	}
+	for componentName, subrepoPrefix := range validSubrepoPrefixMap {
 		if err = gitProcessSubtree(p, projectDir, componentName, subrepoPrefix); err != nil {
 			command.RunAndRedirect(projectDir, "git", "remote", "remove", componentName)
 			logger.Error("%s", err)
@@ -58,9 +57,11 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	if location == "" || origin == "" || branch == "" {
 		return nil
 	}
+	// commit
+	git.Commit(projectDir, fmt.Sprintf("Zaruba: prepare syncing `%s` on %s", componentName, time.Now().Format(time.RFC3339)))
 	// backup
-	if backupErr := backup(location, backupLocation); backupErr != nil {
-		log.Printf("[WARNING] %s", backupErr)
+	if err = backup(location, backupLocation); err != nil {
+		return err
 	}
 	// add remote
 	logger.Info("Add remote `%s` as `%s`", origin, componentName)
@@ -68,7 +69,6 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	logger.Info("Commit before subtree operation")
 	git.Commit(projectDir, fmt.Sprintf("Zaruba: syncing `%s` at %s ", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
 	logger.Info("Add subtree `%s` with prefix `%s`", componentName, subrepoPrefix)
@@ -84,12 +84,11 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// restore
-	if restoreErr := restore(backupLocation, location); restoreErr != nil {
-		log.Printf("[WARNING] %s", restoreErr)
+	if err := restore(backupLocation, location); err != nil {
+		return err
 	}
 	// commit
-	logger.Info("Commit after subtree operation")
-	git.Commit(projectDir, fmt.Sprintf("Zaruba: after sync on %s", time.Now().Format(time.RFC3339)))
+	git.Commit(projectDir, fmt.Sprintf("Zaruba: successfully syncing `%s` on %s", componentName, time.Now().Format(time.RFC3339)))
 	return err
 }
 
@@ -129,4 +128,17 @@ func createZarubaConfigIfNotExists(projectDir string) (err error) {
 		ioutil.WriteFile(zarubaConfigFile, []byte(configYaml), 0755)
 	}
 	return
+}
+
+func getValidSubrepoPrefixMap(p *config.ProjectConfig, projectDir string, currentGitRemotes []string) (validSubRepoPrefixMap map[string]string, err error) {
+	// process subtree
+	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
+	validSubRepoPrefixMap = map[string]string{}
+	for componentName, subrepoPrefix := range subrepoPrefixMap {
+		if strutil.IsInArray(componentName, currentGitRemotes) {
+			continue
+		}
+		validSubRepoPrefixMap[componentName] = subrepoPrefix
+	}
+	return validSubRepoPrefixMap, err
 }

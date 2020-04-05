@@ -10,11 +10,9 @@ components:
     origin: "" # fill this one with your git repository
     branch: master
     location: "."
-    start: go build && ./servicename
-    livenessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}
+    start: go build && ./app
+    readinessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}/readiness
 
 links:
-  ../../libraries/golang/communication:
-    - ./communication
-  ../../libraries/golang/env: 
-    - ./env
+  ../../libraries/go/transport:
+    - ./transport

@@ -102,7 +102,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 			return cmdMap, err
 		}
 		startedChan, errChan := make(chan bool), make(chan error)
-		go checkLiveness(serviceName, runtimeLocation, component.GetRuntimeLivenessCheckCommand(), runtimeEnv, startedChan, errChan)
+		go checkReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, startedChan, errChan)
 		<-startedChan
 		err = <-errChan
 		if err != nil {
@@ -114,24 +114,24 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig) (cmdMap map[s
 	return cmdMap, err
 }
 
-func checkLiveness(serviceName, runtimeLocation, livenessCheckCommand string, runtimeEnv []string, startedChan chan bool, errChan chan error) {
+func checkReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, startedChan chan bool, errChan chan error) {
 	started := false
 	// set cmd
 	for !started {
-		cmd, err := command.GetShellCmd(runtimeLocation, livenessCheckCommand)
+		cmd, err := command.GetShellCmd(runtimeLocation, readinessCheckCommand)
 		if err != nil {
 			startedChan <- false
 			errChan <- err
 		}
 		cmd.Env = runtimeEnv
 		time.Sleep(time.Second * 1)
-		logger.Info("Checking liveness of %s", serviceName)
+		logger.Info("Checking readiness of %s", serviceName)
 		_, err = command.RunCmd(cmd)
 		if err == nil {
 			started = true
 			break
 		}
-		logger.Info("Failed to confirm liveness of %s: %s", serviceName, err)
+		logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
 	}
 	startedChan <- started
 	errChan <- nil

@@ -1,33 +1,37 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
-	"registry.com/user/servicename/communication"
-	"registry.com/user/servicename/context"
+
+	"app/bootstrap"
+	"app/components"
+	"app/context"
+	"app/transport"
 )
 
 func main() {
-	context := context.NewContext()
-	config := context.Config
-	rmqConnectionString := config.DefaultRmq.CreateConnectionString()
-	logger := config.Logger
 
+	ctx := context.NewContext()
+	logger := ctx.Config.Logger
+	rmqConnectionString := ctx.Config.RmqConnectionString
 	router := gin.Default()
-	pubSub := communication.NewRmqPubSub(rmqConnectionString).SetLogger(logger)
-	rpc := communication.NewRmqRPC(rmqConnectionString).SetLogger(logger)
-	// rpc := communication.NewSimpleRPC(router, config.ServiceURLMap).SetLogger(logger)
 
-	registerHTTPHandlers(context, router, rpc, pubSub)
-	registerRPCHandlers(context, router, rpc, pubSub)
-	registerPubSubHandlers(context, router, rpc, pubSub)
+	// define setting
+	s := &components.Setting{
+		Ctx:    ctx,
+		Router: router,
+	}
+	// main publisher
+	s.Publishers.Main = transport.NewRmqPublisher(rmqConnectionString).SetLogger(logger)
+	// main subscriber
+	s.Subscribers.Main = transport.NewRmqSubscriber(rmqConnectionString).SetLogger(logger)
+	// RPC Servers
+	s.RPCServers.Main = transport.NewRmqRPCServer(rmqConnectionString).SetLogger(logger)
+	s.RPCServers.Secondary = transport.NewSimpleRPCServer(router).SetLogger(logger)
+	// RPC Clients
+	s.RPCClients.MainLoopBack = transport.NewRmqRPCClient(rmqConnectionString).SetLogger(logger)
+	s.RPCClients.SecondaryLoopBack = transport.NewSimpleRPCClient(ctx.Config.LocalServiceAddress).SetLogger(logger)
 
-	go pubSub.Start()
-	go rpc.Serve()
-	go router.Run(fmt.Sprintf(":%d", config.HTTPPort))
-	logger.Println(fmt.Sprintf("Ruant at port %d", config.HTTPPort))
-
-	forever := make(chan bool)
-	<-forever
+	bootstrap.Setup(s)
+	bootstrap.Run(s)
 }

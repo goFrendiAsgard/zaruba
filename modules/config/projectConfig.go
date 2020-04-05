@@ -176,17 +176,17 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 	p.links = pYaml.Links
 	for componentName, component := range pYaml.Components {
 		p.components[componentName] = &Component{
-			componentType: component.Type,
-			origin:        component.Origin,
-			branch:        component.Branch,
-			location:      component.Location,
-			imageName:     component.ImageName,
-			start:         component.Start,
-			run:           component.Run,
-			containerName: component.ContainerName,
-			ports:         component.Ports,
-			symbol:        component.Symbol,
-			livenessCheck: component.LivenessCheck,
+			componentType:  component.Type,
+			origin:         component.Origin,
+			branch:         component.Branch,
+			location:       component.Location,
+			imageName:      component.ImageName,
+			start:          component.Start,
+			run:            component.Run,
+			containerName:  component.ContainerName,
+			ports:          component.Ports,
+			symbol:         component.Symbol,
+			readinessCheck: component.ReadinessCheck,
 		}
 	}
 	return p
@@ -261,21 +261,21 @@ func (e *Environments) GetQuotedRuntimeVariables(serviceName string) (variables 
 
 // Component describe component specs
 type Component struct {
-	name          string
-	project       *ProjectConfig
-	componentType string
-	origin        string
-	branch        string
-	location      string
-	imageName     string
-	start         string
-	run           string
-	livenessCheck string
-	containerName string
-	ports         map[int]int
-	symbol        string
-	runtimeSymbol string
-	color         int
+	name           string
+	project        *ProjectConfig
+	componentType  string
+	origin         string
+	branch         string
+	location       string
+	imageName      string
+	start          string
+	run            string
+	readinessCheck string
+	containerName  string
+	ports          map[int]int
+	symbol         string
+	runtimeSymbol  string
+	color          int
 }
 
 // GetType get component type
@@ -318,9 +318,9 @@ func (c *Component) GetRunCommand() (run string) {
 	return c.run
 }
 
-// GetLivenessCheckCommand get component run command
-func (c *Component) GetLivenessCheckCommand() (livenessCheck string) {
-	return c.livenessCheck
+// GetReadinessCheckCommand get component run command
+func (c *Component) GetReadinessCheckCommand() (readinessCheck string) {
+	return c.readinessCheck
 }
 
 // GetSymbol get component run command
@@ -407,9 +407,9 @@ func (c *Component) GetRuntimeCommand() (command string) {
 	return c.GetRuntimeStartCommand()
 }
 
-// GetRuntimeLivenessCheckCommand get runtime start command
-func (c *Component) GetRuntimeLivenessCheckCommand() (command string) {
-	command = c.GetLivenessCheckCommand()
+// GetRuntimeReadinessCheckCommand get runtime start command
+func (c *Component) GetRuntimeReadinessCheckCommand() (command string) {
+	command = c.GetReadinessCheckCommand()
 	if command == "" {
 		command = "echo ok"
 	}

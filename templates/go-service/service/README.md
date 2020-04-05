@@ -2,109 +2,204 @@
 
 One Paragraph of project description goes here
 
+# How to Start
+
+```sh
+go build && ./servicename
+```
+
 # Project Structure
 
 ```
 servicename
-├── README.md
-├── communication/                 # (shared-lib)    Any code related to communication protocols (RPC, Pubsub, etc).
-├── env/                           # (shared-lib)    Any code related to environment manipulation
-├── config/                        # (customizeable) Your service cofiguration.
-├── context/                       # (customizeable) Wrapper for config and global states.
-├── httphandlers/                  # (customizeable) Functions and factories to handle HTTP requests.
-├── pubsubhandlers/                # (customizeable) Functions and factories to handle Pub-sub messages.
-├── rpchandlers/                   # (customizeable) Functions and factories to handle RPC requests.
-├── registerHttpHandlers.go        # (customizeable) Function to register HTTP handlers.
-├── registerPubSubHandlers.go      # (customizeable) Function to register pubsub handlers. 
-├── registerRpcHandlers.go         # (customizeable) Function to register RPC handlers. 
-├── main.go                        # (customizaable) Service entry point
-├── go.mod
-├── go.sum
 ├── Dockerfile
 ├── Makefile
+├── README.md
+├── go.mod
+├── go.sum
+├── main.go 							# (Customizable) Application entry point
+├── bootstrap                           # (Customizable) Code to set-up and run components
+│   ├── run.go                          # (Customizable) Code to run components
+│   ├── setting.go                      # (Customizable) Global Dependency Definition
+│   └── setup.go                        # (Customizable) Code to set-up components
+├── components                          # (Customizable) You should put your components here
+│   └── monitoring
+│       └── setup.go
+├── config                              # (Customizable) Config related Code
+│   ├── config.go
+│   └── helper.go
+├── context                             # (Customizable) Wrapper of Config, status, and other properties
+│   └── context.go
+├── example                             # (Example) Example. Delete this if not necessary
+│   ├── setup.go                        # (Example) Code to link local components with the global ones
+│   └── components
+│       └── greeting                    # (Example) Component example
+│           ├── eventHandler.go         # (Example) Event handler functions and factories
+│           ├── httpController.go       # (Example) HTTP handler functions and factories
+│           ├── rpcHandler.go           # (Example) RPC handler functions and factories
+│           └── serviceGreeting.go      # (Example) Service (business logic), avoid side-effects here
+├── transport                           # (Shared-Lib) Low-level transport implementation
+│   ├── envelopedMessage.go
+│   ├── helpers.go
+│   ├── interface.go
+│   ├── message.go
+│   ├── rmqPublisher.go
+│   ├── rmqRpcClient.go
+│   ├── rmqRpcServer.go
+│   ├── rmqSubscriber.go
+│   ├── simpleRpcClient.go
+│   └── simpleRpcServer.go
 └── zaruba.config.yaml
 ```
 
-# Convention
+# Component
 
-## Reusing instead of initializing components
+We try to make components as loosely coupled as possible. Business logic should not tightly bound to transport/communication layer. To serve this purpose we divide component into several parts:
 
-If your components is going to be used over and over, you should put it in `main.go`. By default, `main.go` contains some components (`context`, `router`, `pubSub`, `rpc`):
+* __Service (business logic)__
+* __HTTP Handler__
+* __RPC Handler__
+* __Event Handler__
 
-```go
-context := context.NewContext()
-config := context.Config
-rmqConnectionString := config.DefaultRmq.CreateConnectionString()
-logger := config.Logger
+## Service
 
-router := gin.Default()
-pubSub := communication.NewRmqPubSub(rmqConnectionString).SetLogger(logger)
-rpc := communication.NewRmqRPC(rmqConnectionString).SetLogger(logger)
-```
+Service is the highest level abstraction of your business logic. It should be technology and transport agnostic.
 
-In some cases, you might need second pubSub connection, redis, or even database-connection. Feel free to implement and add more components as you need.
-
-## Component naming
-
-Component naming should represent usage/purpose, not technology. For example, `externalPubSub` is a better name than `rabbitmqPubSub` or `natsPubSub`. We believe it is a better practice since technologies can be easily replaced, while architecture might not be affected.
-
-Component naming should be consistent within the application or among the applications if possible.
-
-## Swapping components
-
-It is recommended to create component interfaces, so that you can swap components without affecting business logic.
-
-For example, since `RmqRPC` and `SimpleRPC` have the same interface, you can easily swap `rpc` component with HTTP instead of rabbitMq:
+For example, to calculate average numbers of user visiting your website, you should only care about the logic:
 
 ```go
-// rpc := communication.NewRmqRPC(rmqConnectionString).SetLogger(logger)
-rpc := communication.NewSimpleRPC(router, config.ServiceURLMap).SetLogger(logger)
-```
-
-## Injecting components
-
-Rather than using `constructor`, we recommend you to use `closure` (factories and function parameters) instead.
-
-For example, you need `context` and `router` to serve "liveness". Thus you pass both component to `registerHTTPHandlers`:
-
-```go
-// main.go
-registerHTTPHandlers(context, router)
-```
-
-In `registerHTTPHandlers`, we use `router` to link `/liveness` URL with corresponding HTTP handler. Since the handler itself only has `*gin.Context` input parameter, we need to wrap the handler inside `CreateLivenessHandler` factory.
-
-```go
-// registerHttpHandlers.go
-func registerHTTPHandlers(context *context.Context, router *gin.Engine) {
-    router.GET("/liveness", httphandlers.CreateLivenessHandler(context))
+func GetAverageVisit(visitPerDays []int) float64 {
+	totalVisit := 0
+	for visitInADay := range(visitPerDays) {
+		totalVisit += visitInADay
+	}
+	return totalVisit/len(vistPerDays)
 }
 ```
 
-`CreateLivenessHandler` return a handler function and pass `context` to it.
+You don't need to care about how to get the data (e.g: message-queue, database, etc)
+
+By convention you should put your services in `service` prefixed files.
+
+## HTTP Handler
+
+HTTP Handlers are functions or factories to handle HTTP request. By convention, you should put your HTTP Handlers in `httpController.go`
+
+Here is how a simple HTTP Handler looks like:
 
 ```go
-// httphandlers/livenesHandler.go
-func CreateLivenessHandler(context *context.Context) (handler func(c *gin.Context)) {
+func SayHi (c *gin.Context) { 
+	c.String(http.StatusOK, "Hi") 
+}
+```
+
+In case of you need something more than `gin.context`, you should write factory instead:
+
+```go
+func CreateRegisterHandler(publisher transport.Publisher, registerEvent string) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		// get http status
-		httpCode := http.StatusOK
-		if !context.Status.IsAlive {
-			httpCode = http.StatusInternalServerError
+		registrant := c.Query("registrant")
+		err := publisher.Publish(registerEvent, transport.Message{"registrant": registrant})
+		if err != nil {
+			c.String(http.StatusInternalServerError, "Registration failed, please try again")
 		}
-		// send response
-		c.JSON(httpCode, gin.H{
-			"servicename": context.Config.ServiceName,
-			"isAlive":     context.Status.IsAlive,
-		})
+		c.String(http.StatusOK, "Registration Submitted")
 	}
 }
-
-
 ```
 
-## Handlers
+## RPC Handler
 
-You should put your handlers in either `httphandlers`, `pubsubhandlers`, or `rpchandlers` depending on the message/request you want to handle. 
+RPC Handlers are functions or factories to handle RPC Request. By convention, you should put your RPC Controller in `rpcHandler.go`.
 
-The handle could be a simple function or a factory (a function that return another function). You should use factory if your handler need external components (`context`, `pubSub`, `rpc`, `router`, etc).
+RPC Handler function signature is as follow:
+
+```go
+func RPCHandler(inputs ...[]interface{]}) (output interface{}, err error) {
+	return output, err
+}
+```
+
+Just like HTTP Handlers, you can wrap RPC Handler functions into factories.
+
+## Event Handler
+
+Event Handlers are functions or factories to handle Event Request. By convention, you should put your Event Controller in `eventHandler.go`.
+
+Event Handler function signature is as follow:
+
+```go
+func EventHandler(message transport.Message) (err error) {
+	return err
+}
+```
+
+Just like HTTP Handlers, you can wrap Event Handler functions into factories.
+
+## Setup
+
+Setup is a function to connect your component to the application. You can think of it as a place to wire up component's dependencies.
+
+```go
+func Setup(s *bootstrap.Setting) {
+	// TODO: setup your HTTP handlers etc here...
+}
+```
+
+The `bootstrap.Setting` is free to modified to fit your need.  By default, it contains `gin.Engine`, `context.Context`, and bunch of interfaces:
+
+```go
+type Setting struct {
+	Ctx        *context.Context
+	Router     *gin.Engine
+	Publishers struct {
+		Main transport.Publisher
+	}
+	Subscribers struct {
+		Main transport.Subscriber
+	}
+	RPCServers struct {
+		Main      transport.RPCServer
+		Secondary transport.RPCServer
+	}
+	RPCClients struct {
+		MainLoopBack      transport.RPCClient
+		SecondaryLoopBack transport.RPCClient
+	}
+}
+```
+
+We don't try to give you any hidden magic, so you should register your bootstrap in `main.go`.
+
+For example we register example bootstrap as follow:
+
+```go
+func main() {
+
+	ctx := context.NewContext()
+	logger := ctx.Config.Logger
+	rmqConnectionString := ctx.Config.RmqConnectionString
+	router := gin.Default()
+
+	// define setting
+	s := &components.Setting{
+		Ctx:    ctx,
+		Router: router,
+	}
+	// main publisher
+	s.Publishers.Main = transport.NewRmqPublisher(rmqConnectionString).SetLogger(logger)
+	// main subscriber
+	s.Subscribers.Main = transport.NewRmqSubscriber(rmqConnectionString).SetLogger(logger)
+	// RPC Servers
+	s.RPCServers.Main = transport.NewRmqRPCServer(rmqConnectionString).SetLogger(logger)
+	s.RPCServers.Secondary = transport.NewSimpleRPCServer(router).SetLogger(logger)
+	// RPC Clients
+	s.RPCCLients.MainLoopBack = transport.NewRmqRPCClient(rmqConnectionString).SetLogger(logger)
+	s.RPCClients.SecondaryLoopBack = transport.NewSimpleRPCClient(ctx.Config.LocalServiceAddress).SetLogger(logger)
+
+	bootstrap.Setup(s)
+	bootstrap.Run(s)
+}
+```
+
+Please visit `components/example` folder as it already show you almost every possible use-case.

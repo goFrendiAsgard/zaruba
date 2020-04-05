@@ -9,5 +9,5 @@ zaruba install-template https://github.com/state-alchemists/zaruba-project-templ
 Usage
 
 ```
-zaruba create-component project
+zaruba create project
 ```

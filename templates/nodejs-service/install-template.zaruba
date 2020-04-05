@@ -7,4 +7,7 @@ node -v
 echo "Check npm"
 npm -v
 
+echo "Check typescript"
+tsc -v
+
 echo "Nodejs-service template has been successfully installed. Enjoy !!!"
