@@ -6,11 +6,13 @@ import (
 )
 
 // Commit add and commit
-func Commit(projectDir, message string) (err error) {
+func Commit(projectDir, message string) {
 	logger.Info("Git add and git commit with messsage `%s`", message)
-	if err = command.RunAndRedirect(projectDir, "git", "add", ".", "-A"); err != nil {
-		return err
+	if err := command.RunAndRedirect(projectDir, "git", "add", ".", "-A"); err != nil {
+		logger.Error("%s", err)
+		return
 	}
-	err = command.RunAndRedirect(projectDir, "git", "commit", "-m", message)
-	return err
+	if err := command.RunAndRedirect(projectDir, "git", "commit", "-m", message); err != nil {
+		logger.Error("%s", err)
+	}
 }

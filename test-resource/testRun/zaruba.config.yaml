@@ -17,7 +17,7 @@ components:
     branch: master
     location: "./services/gateway"
     start: npm install && node start
-    livenessCheck: curl 0.0.0.0:${port}
+    readinessCheck: curl 0.0.0.0:${port}
   greeter:
     type: service
     origin: git@github.com:goFrendiAsgard/zaruba-service-example.git
@@ -28,7 +28,7 @@ components:
     type: container
     run: docker run --name nats -p 4222:4222 -p 6222:6222 -p 8222:8222 -d nats
     containerName: nats
-    livenessCheck: curl 0.0.0.0:8222
+    readinessCheck: curl 0.0.0.0:8222
 
 links:
   ./libraries/greeting-lib: 

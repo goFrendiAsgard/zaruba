@@ -18,7 +18,7 @@ components:
     ports: 
         5672: 5672   # host: container
         15672: 15672
-    livenessCheck: curl 0.0.0.0:15672
+    readinessCheck: curl 0.0.0.0:15672
 
 executions: 
   - rmq

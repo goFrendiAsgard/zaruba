@@ -13,6 +13,9 @@ then
     exit 1
 fi
 
+docker version
+go version
+
 go build
 # tear down
 rm -Rf ${ZARUBA_TEST_DIR}

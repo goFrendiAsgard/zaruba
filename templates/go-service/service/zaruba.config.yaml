@@ -11,7 +11,7 @@ components:
     branch: master
     location: "."
     start: go build && ./app
-    livenessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}/liveness
+    readinessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}/readiness
 
 links:
   ../../libraries/go/transport:
