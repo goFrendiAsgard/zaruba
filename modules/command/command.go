@@ -28,6 +28,7 @@ func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 // RunCmd run cmd object
 func RunCmd(cmd *exec.Cmd) (output string, err error) {
 	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+	cmd.Stderr = os.Stderr
 	outputB, err := cmd.Output()
 	if err != nil {
 		return output, err
