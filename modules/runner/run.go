@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -17,24 +16,9 @@ import (
 )
 
 // Run a project config.
-func Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
-	projectDir, err := filepath.Abs(projectDir)
-	if err != nil {
-		errChan <- err
-		executedChan <- true
-		return
-	}
-	logger.Info("Load project config from `%s`", projectDir)
-	p, err := config.NewProjectConfig(projectDir)
-	if err != nil {
-		errChan <- err
-		executedChan <- true
-		return
-	}
+func Run(projectDir string, p *config.ProjectConfig, stopChan, executedChan chan bool, errChan chan error) {
 	str, _ := p.ToColorizedYaml()
 	logger.Info("Project Config Loaded: %s", str)
-	// get cmdMap, run them, and get their output/error pipes
-	logger.Info("Run project `%s`", projectDir)
 	cmdMap, err := getCmdAndPipesMap(projectDir, p)
 	if err != nil {
 		killCmdMap(p, cmdMap)

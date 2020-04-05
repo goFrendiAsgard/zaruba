@@ -2,29 +2,16 @@ package organizer
 
 import (
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/file"
 	"github.com/state-alchemists/zaruba/modules/logger"
-	"github.com/state-alchemists/zaruba/modules/strutil"
 )
 
 // Organize projectDir
-func Organize(projectDir string, option *Option, arguments ...string) (err error) {
-	projectDir, err = filepath.Abs(projectDir)
-	if err != nil {
-		return err
-	}
-	logger.Info("Organize project `%s` with option %s %s", projectDir, option.Sprintf(), strutil.SprintArgs(arguments))
-	p, err := config.NewProjectConfig(projectDir)
-	if err != nil {
-		return err
-	}
-	str, _ := p.ToColorizedYaml()
-	logger.Info("Project Config Loaded: %s", str)
+func Organize(projectDir string, p *config.ProjectConfig, option *Option, arguments ...string) (err error) {
 	sortedLinkSources := p.GetSortedLinkSources()
 	// update option.MTimeLimit
 	for _, source := range sortedLinkSources {

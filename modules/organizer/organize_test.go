@@ -21,9 +21,14 @@ func TestOrganize(t *testing.T) {
 		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
 		return
 	}
+	p, err := config.NewProjectConfig(testPath)
+	if err != nil {
+		t.Errorf("[ERROR] Cannot load project config: %s", err)
+		return
+	}
 
 	// Organize project should succeed
-	err := Organize(testPath, NewOption())
+	err = Organize(testPath, p, NewOption())
 	if err != nil {
 		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}
