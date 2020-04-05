@@ -5,8 +5,7 @@ import (
 	"fmt"
 )
 
-// Run everything
-// TODO: change the implementation to fit your need
+// Run application
 func Run(s *components.Setting) {
 	go s.RPCServers.Main.Serve()
 	go s.RPCServers.Secondary.Serve()

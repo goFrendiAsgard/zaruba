@@ -1,6 +1,6 @@
 import { greet } from "./serviceGreeting";
 
-export function greetRpcController(inputs: any[]): any {
+export function greetRpcController(...inputs: any[]): any {
     if (inputs.length === 0) {
         throw new Error("Message accepted but input is invalid");
     }

@@ -28,11 +28,11 @@ export class SimpleRPCServer implements RPCServer {
         for (let key in this.handlers) {
             const functionName = key;
             const handler = this.handlers[functionName];
-            this.engine.post(`api/${functionName}`, function (req, res) {
+            this.engine.post(`/api/${functionName}`, function (req, res) {
                 const envelopedInput = new EnvelopedMessage(req.body);
                 try {
                     const inputs = envelopedInput.message.inputs as any[];
-                    const output = handler(inputs);
+                    const output = handler(...inputs);
                     res.json(rpcCreateEnvelopedOutputMessage(envelopedInput, output));
                 } catch (err) {
                     res.json(rpcCreateEnvelopedErrorMessage(envelopedInput, err))

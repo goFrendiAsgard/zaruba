@@ -28,12 +28,14 @@ export class RmqRPCClient implements RPCClient {
                 // consume
                 await rmqDeclareQueue(ch, replyTo);
                 let replyAccepted = false;
-                rmqConsume(ch, replyTo, async (rmqMessage) => {
+                rmqConsume(ch, replyTo, async (rmqMessageOrNull) => {
                     if (replyAccepted) {
                         return false;
                     }
+                    replyAccepted = true;
                     try {
-                        const jsonMessage = rmqMessage?.content.toString();
+                        const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
+                        const jsonMessage = rmqMessage.content.toString();
                         const envelopedOutput = new EnvelopedMessage(jsonMessage);
                         if (envelopedOutput.errorMessage) {
                             return reject(new Error(envelopedOutput.errorMessage));
@@ -48,8 +50,7 @@ export class RmqRPCClient implements RPCClient {
                     }
                 });
                 // send message
-                const success = await rmqRpcCall(ch, functionName, replyTo, inputs);
-                resolve(success);
+                await rmqRpcCall(ch, functionName, replyTo, inputs);
             } catch (err) {
                 self.logger.error(err);
                 reject(err);

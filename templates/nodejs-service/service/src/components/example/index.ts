@@ -1,7 +1,7 @@
-import { Setting } from "../components/setting";
-import { greetHttpController, createGreetEveryoneHttpController, createGreetRPCHttpController, createGreetPublishHttpController } from "./components/greeting/httpController";
-import { greetRpcController } from "./components/greeting/rpcHandler";
-import { createRegisterPersonHandler } from "./components/greeting/eventHandler";
+import { Setting } from "../setting";
+import { greetHttpController, createGreetEveryoneHttpController, createGreetRPCHttpController, createGreetPublishHttpController } from "./httpController";
+import { greetRpcController } from "./rpcHandler";
+import { createRegisterPersonHandler } from "./eventHandler";
 
 export function setup(s: Setting) {
 
@@ -40,7 +40,7 @@ export function setup(s: Setting) {
     // RPC EXAMPLE ========================================================================================
 
     // Example: RPC Handler  (Main)
-    s.rpcServers.main.registerHandler("greetRPC", greetRpcController);
+    s.rpcServers.secondary.registerHandler("greetRPC", greetRpcController);
 
     // Example: HTTP handler to trigger RPC
     const secondaryGreetRpcHttpController = createGreetRPCHttpController(s.rpcClients.secondaryLoopBack, "greetRPC")

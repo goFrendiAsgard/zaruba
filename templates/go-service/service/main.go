@@ -6,7 +6,6 @@ import (
 	"app/bootstrap"
 	"app/components"
 	"app/context"
-	"app/example"
 	"app/transport"
 )
 
@@ -16,27 +15,22 @@ func main() {
 	logger := ctx.Config.Logger
 	rmqConnectionString := ctx.Config.RmqConnectionString
 	router := gin.Default()
+
+	// define setting
 	s := &components.Setting{
 		Ctx:    ctx,
 		Router: router,
-		Publishers: &components.Publishers{
-			Main: transport.NewRmqPublisher(rmqConnectionString).SetLogger(logger),
-		},
-		Subscribers: &components.Subscribers{
-			Main: transport.NewRmqSubscriber(rmqConnectionString).SetLogger(logger),
-		},
-		RPCServers: &components.RPCServers{
-			Main:      transport.NewRmqRPCServer(rmqConnectionString).SetLogger(logger),
-			Secondary: transport.NewSimpleRPCServer(router).SetLogger(logger),
-		},
-		RPCClients: &components.RPCClients{
-			MainLoopBack:      transport.NewRmqRPCClient(rmqConnectionString).SetLogger(logger),
-			SecondaryLoopBack: transport.NewSimpleRPCClient(ctx.Config.LocalServiceAddress).SetLogger(logger),
-		},
 	}
-
-	// TODO: remove this.
-	example.Setup(s)
+	// main publisher
+	s.Publishers.Main = transport.NewRmqPublisher(rmqConnectionString).SetLogger(logger)
+	// main subscriber
+	s.Subscribers.Main = transport.NewRmqSubscriber(rmqConnectionString).SetLogger(logger)
+	// RPC Servers
+	s.RPCServers.Main = transport.NewRmqRPCServer(rmqConnectionString).SetLogger(logger)
+	s.RPCServers.Secondary = transport.NewSimpleRPCServer(router).SetLogger(logger)
+	// RPC Clients
+	s.RPCClients.MainLoopBack = transport.NewRmqRPCClient(rmqConnectionString).SetLogger(logger)
+	s.RPCClients.SecondaryLoopBack = transport.NewSimpleRPCClient(ctx.Config.LocalServiceAddress).SetLogger(logger)
 
 	bootstrap.Setup(s)
 	bootstrap.Run(s)

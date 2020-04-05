@@ -1,6 +1,6 @@
 import { greet, greetEveryone } from "./serviceGreeting";
-import { Context } from "../../../context";
-import { RPCClient, Publisher } from "../../../transport";
+import { Context } from "../../context";
+import { RPCClient, Publisher } from "../../transport";
 
 function getName(req: any) {
     return req.params.name || req.query.name || req.body.name || "";
@@ -20,10 +20,10 @@ export function createGreetEveryoneHttpController(ctx: Context) {
 }
 
 export function createGreetRPCHttpController(rpcClient: RPCClient, functionName: string) {
-    return (req: any, res: any) => {
+    return async (req: any, res: any) => {
         const name = getName(req);
         try {
-            const greeting = rpcClient.call(functionName, name);
+            const greeting = await rpcClient.call(functionName, name);
             res.send(greeting);
         } catch (err) {
             res.status(500).send(err);

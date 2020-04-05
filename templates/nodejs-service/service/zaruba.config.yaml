@@ -11,7 +11,7 @@ components:
     branch: master
     location: "."
     start: npm start
-    livenessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}
+    livenessCheck: curl 0.0.0.0:${SERVICENAME_HTTP_PORT}/liveness
 
 links:
   ../../libraries/typescript/transport:

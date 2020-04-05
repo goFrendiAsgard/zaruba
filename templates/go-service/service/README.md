@@ -176,29 +176,30 @@ For example we register example bootstrap as follow:
 ```go
 func main() {
 
-	s := bootstrap.NewSetting() // <-- "container" for our dependency injection
+	ctx := context.NewContext()
+	logger := ctx.Config.Logger
+	rmqConnectionString := ctx.Config.RmqConnectionString
+	router := gin.Default()
 
-	s.Ctx = context.NewContext()
-	s.Router = gin.Default()
-
-	logger := s.Ctx.Config.Logger
-	rmqConnectionString := s.Ctx.Config.RmqConnectionString
-
+	// define setting
+	s := &components.Setting{
+		Ctx:    ctx,
+		Router: router,
+	}
+	// main publisher
 	s.Publishers.Main = transport.NewRmqPublisher(rmqConnectionString).SetLogger(logger)
+	// main subscriber
 	s.Subscribers.Main = transport.NewRmqSubscriber(rmqConnectionString).SetLogger(logger)
-
+	// RPC Servers
 	s.RPCServers.Main = transport.NewRmqRPCServer(rmqConnectionString).SetLogger(logger)
-	s.RPCClients.MainLoopBack = transport.NewRmqRPCClient(rmqConnectionString).SetLogger(logger)
-
-	s.RPCServers.Secondary = transport.NewSimpleRPCServer(s.Router).SetLogger(logger)
-	s.RPCClients.SecondaryLoopBack = transport.NewSimpleRPCClient(s.Ctx.Config.LocalServiceAddress).SetLogger(logger)
-
-	// TODO: remove the example, and implement your own
-	example.SetUp(s) // <-- No magic, just function call
+	s.RPCServers.Secondary = transport.NewSimpleRPCServer(router).SetLogger(logger)
+	// RPC Clients
+	s.RPCCLients.MainLoopBack = transport.NewRmqRPCClient(rmqConnectionString).SetLogger(logger)
+	s.RPCClients.SecondaryLoopBack = transport.NewSimpleRPCClient(ctx.Config.LocalServiceAddress).SetLogger(logger)
 
 	bootstrap.Setup(s)
 	bootstrap.Run(s)
 }
 ```
 
-Please visit `example` folder as it already show you almost every possible use-case.
+Please visit `components/example` folder as it already show you almost every possible use-case.

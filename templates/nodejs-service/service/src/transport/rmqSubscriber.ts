@@ -1,7 +1,7 @@
 import amqplib from "amqplib";
 import { EventHandler, Subscriber } from "./interfaces";
 import { EnvelopedMessage } from "./envelopedMessage";
-import { rpcCreateEnvelopedErrorMessage, rpcCreateEnvelopedOutputMessage, rmqCreateConnectionAndChannel, rmqDeclareQueueAndBindToDefaultExchange, rmqConsume, rmqRpcReply, rmqRpcReplyError, rmqDeclareFanoutExchange } from "./helpers";
+import { rmqCreateConnectionAndChannel, rmqConsume, rmqDeclareQueueAndBindToDefaultExchange } from "./helpers";
 
 export class RmqSubscriber implements Subscriber {
     logger: Console;
@@ -30,7 +30,7 @@ export class RmqSubscriber implements Subscriber {
         for (let key in this.handlers) {
             const eventName = key;
             const handler = this.handlers[eventName];
-            rmqDeclareFanoutExchange(ch, eventName);
+            await rmqDeclareQueueAndBindToDefaultExchange(ch, eventName);
             rmqConsume(ch, eventName, async (rmqMessageOrNull) => {
                 try {
                     const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;

@@ -1,4 +1,4 @@
-package greeting
+package example
 
 import (
 	"app/context"

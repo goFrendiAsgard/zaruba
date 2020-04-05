@@ -1,5 +1,5 @@
-import { Context } from "../../../context";
-import { EventHandler, Message } from "../../../transport";
+import { Context } from "../../context";
+import { EventHandler, Message } from "../../transport";
 
 export function createRegisterPersonHandler(ctx: Context): EventHandler {
     return (msg: Message) => {

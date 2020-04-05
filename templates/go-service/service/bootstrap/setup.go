@@ -2,13 +2,12 @@ package bootstrap
 
 import (
 	"app/components"
+	"app/components/example"
 	"app/components/monitoring"
 )
 
-// Setup everything
+// Setup application
 func Setup(s *components.Setting) {
 	monitoring.Setup(s)
-
-	// TODO: Add your custom handlers here
-
+	example.Setup(s)
 }

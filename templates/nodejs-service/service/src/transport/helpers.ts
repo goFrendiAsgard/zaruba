@@ -67,9 +67,9 @@ export async function rmqCreateConnectionAndChannel(connectionString: string): P
 }
 
 export async function rmqDeclareQueueAndBindToDefaultExchange(ch: amqplib.Channel, queueName: string): Promise<amqplib.Replies.AssertQueue> {
-    const exchangeName = queueName
-    await rmqDeclareFanoutExchange(ch, exchangeName)
-    const q = await rmqDeclareQueue(ch, queueName)
+    const exchangeName = queueName;
+    await rmqDeclareFanoutExchange(ch, exchangeName);
+    const q = await rmqDeclareQueue(ch, queueName);
     await ch.bindQueue(queueName, exchangeName, "");
     return q
 }

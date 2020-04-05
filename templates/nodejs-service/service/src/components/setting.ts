@@ -31,34 +31,20 @@ export class Setting {
     }
 }
 
-export class Publishers {
+export interface Publishers {
     main: Publisher;
-    constructor(main: Publisher) {
-        this.main = main;
-    }
 }
 
-export class Subscribers {
+export interface Subscribers {
     main: Subscriber;
-    constructor(main: Subscriber) {
-        this.main = main;
-    }
 }
 
-export class RPCServers {
+export interface RPCServers {
     main: RPCServer;
     secondary: RPCServer;
-    constructor(main: RPCServer, secondary: RPCServer) {
-        this.main = main;
-        this.secondary = secondary;
-    }
 }
 
-export class RPCClients {
+export interface RPCClients {
     mainLoopBack: RPCClient;
     secondaryLoopBack: RPCClient;
-    constructor(mainLoopBack: RPCClient, secondaryLoopBack: RPCClient) {
-        this.mainLoopBack = mainLoopBack;
-        this.secondaryLoopBack = secondaryLoopBack;
-    }
 }

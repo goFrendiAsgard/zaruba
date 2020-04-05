@@ -10,7 +10,7 @@ export class EnvelopedMessage {
         this.correlationId = "";
         this.message = {};
         this.errorMessage = "";
-        if (jsonMessage === "") {
+        if (jsonMessage !== "") {
             const obj = typeof jsonMessage == "string" ? JSON.parse(jsonMessage) : jsonMessage;
             this.correlationId = obj.correlation_id;
             this.message = obj.message;

@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"app/components"
-	"app/example/components/greeting"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,11 +24,11 @@ func Setup(s *components.Setting) {
 	})
 
 	// Example: Use HTTP Handler from greeting component
-	s.Router.GET("/hello", greeting.GreetHTTPController)
-	s.Router.POST("/hello", greeting.GreetHTTPController)
-	s.Router.GET("/hello/:name", greeting.GreetHTTPController)
+	s.Router.GET("/hello", GreetHTTPController)
+	s.Router.POST("/hello", GreetHTTPController)
+	s.Router.GET("/hello/:name", GreetHTTPController)
 
-	GreetEveryoneHTTPController := greeting.CreateGreetEveryoneHTTPController(s.Ctx)
+	GreetEveryoneHTTPController := CreateGreetEveryoneHTTPController(s.Ctx)
 	s.Router.GET("/hello-all", GreetEveryoneHTTPController)
 	s.Router.POST("/hello-all", GreetEveryoneHTTPController)
 	s.Router.GET("/hello-all/:name", GreetEveryoneHTTPController)
@@ -37,10 +36,10 @@ func Setup(s *components.Setting) {
 	// RPC EXAMPLE ========================================================================================
 
 	// Example: RPC Handler  (Main)
-	s.RPCServers.Main.RegisterHandler("greetRPC", greeting.GreetRPCController)
+	s.RPCServers.Main.RegisterHandler("greetRPC", GreetRPCController)
 
 	// Example: HTTP handler to trigger RPC
-	GreetRPCHTTPController := greeting.CreateGreetRPCHTTPController(s.RPCClients.MainLoopBack, "greetRPC")
+	GreetRPCHTTPController := CreateGreetRPCHTTPController(s.RPCClients.MainLoopBack, "greetRPC")
 	s.Router.GET("/hello-rpc", GreetRPCHTTPController)
 	s.Router.POST("/hello-rpc", GreetRPCHTTPController)
 	s.Router.GET("/hello-rpc/:name", GreetRPCHTTPController)
@@ -48,10 +47,10 @@ func Setup(s *components.Setting) {
 	// RPC EXAMPLE ========================================================================================
 
 	// Example: RPC (Secondary)
-	s.RPCServers.Secondary.RegisterHandler("greetRPC", greeting.GreetRPCController)
+	s.RPCServers.Secondary.RegisterHandler("greetRPC", GreetRPCController)
 
 	// Example: HTTP handler to trigger RPC
-	SecondaryGreetRPCHTTPController := greeting.CreateGreetRPCHTTPController(s.RPCClients.SecondaryLoopBack, "greetRPC")
+	SecondaryGreetRPCHTTPController := CreateGreetRPCHTTPController(s.RPCClients.SecondaryLoopBack, "greetRPC")
 	s.Router.GET("/hello-secondary-rpc", SecondaryGreetRPCHTTPController)
 	s.Router.POST("/hello-secondary-rpc", SecondaryGreetRPCHTTPController)
 	s.Router.GET("/hello-secondary-rpc/:name", SecondaryGreetRPCHTTPController)
@@ -59,11 +58,11 @@ func Setup(s *components.Setting) {
 	// PUB SUB EXAMPLE =====================================================================================
 
 	// Example: Event Handler
-	registerPersonEvenHandler := greeting.CreateRegisterPersonHandler(s.Ctx)
+	registerPersonEvenHandler := CreateRegisterPersonHandler(s.Ctx)
 	s.Subscribers.Main.RegisterHandler("personRegistered", registerPersonEvenHandler)
 
 	// Example: HTTP handler to publish event
-	GreetPublishHTTPController := greeting.CreateGreetPublishHTTPController(s.Publishers.Main, "personRegistered")
+	GreetPublishHTTPController := CreateGreetPublishHTTPController(s.Publishers.Main, "personRegistered")
 	s.Router.GET("/hello-pub", GreetPublishHTTPController)
 	s.Router.POST("/hello-pub", GreetPublishHTTPController)
 	s.Router.GET("/hello-pub/:name", GreetPublishHTTPController)

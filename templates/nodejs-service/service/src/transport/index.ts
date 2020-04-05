@@ -5,4 +5,5 @@ export { RmqRPCClient } from "./rmqRpcClient";
 export { RmqRPCServer } from "./rmqRpcServer";
 export { RmqPublisher } from "./rmqPublisher";
 export { RmqSubscriber } from "./rmqSubscriber";
-export { createHttpLogger } from "./httpLogger";
+export { createHttpLogger } from "./expressMiddleware";
+export { logExpressRoutes } from "./logExpressRoutes";
