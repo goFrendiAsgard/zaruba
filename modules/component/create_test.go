@@ -11,7 +11,7 @@ import (
 
 func TestCreateComponent(t *testing.T) {
 	templatePath := config.GetTemplateDir()
-	if err := file.Copy("../../test-resource/template", filepath.Join(templatePath, "empty-project")); err != nil {
+	if err := file.Copy("../../test-resource/template/empty-project", filepath.Join(templatePath, "empty-project")); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
