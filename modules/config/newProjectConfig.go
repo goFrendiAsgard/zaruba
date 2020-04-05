@@ -12,6 +12,7 @@ import (
 
 // NewProjectConfig load project configuration from project directory
 func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
+	logger.Info(projectDir)
 	allDirs, err := getAllDirs(projectDir)
 	if err != nil {
 		return p, err
