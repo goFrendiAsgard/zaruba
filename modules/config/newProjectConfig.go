@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/state-alchemists/zaruba/modules/file"
+	"github.com/state-alchemists/zaruba/modules/logger"
 	"gopkg.in/yaml.v2"
 )
 
@@ -19,6 +20,7 @@ func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	p.dirName = projectDir
 	for _, directory := range allDirs {
 		subP, loadSubErr := loadSingleProjectConfig(directory)
+		logger.Info(directory)
 		if loadSubErr != nil {
 			if os.IsNotExist(loadSubErr) {
 				continue
