@@ -39,6 +39,7 @@ func RunCmd(cmd *exec.Cmd) (output string, err error) {
 // Run run command
 func Run(dir, command string, args ...string) (output string, err error) {
 	cmd, err := GetCmd(dir, command, args...)
+	cmd.Stderr = os.Stderr
 	if err != nil {
 		return output, err
 	}
@@ -48,6 +49,7 @@ func Run(dir, command string, args ...string) (output string, err error) {
 // RunScript run script
 func RunScript(dir, script string) (output string, err error) {
 	cmd, err := GetShellCmd(dir, script)
+	cmd.Stderr = os.Stderr
 	if err != nil {
 		return output, err
 	}

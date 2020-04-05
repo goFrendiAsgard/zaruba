@@ -290,7 +290,6 @@ Usage:
 
 Available Commands:
   create           Create Component
-  do               Do custom action
   help             Help about any command
   init             Init a project
   install-template Install template
@@ -299,7 +298,6 @@ Available Commands:
   push             Push from subtrees
   run              Run project
   version          Print the version number of Zaruba
-  watch            Watch project and organize accordingly
 
 Flags:
   -h, --help   help for zaruba
@@ -382,26 +380,6 @@ This command will do the following actions:
 
 * Copy sources to their respective destinations.
 * Recursively look for and run `organize-project.zaruba` in every sub-directory of `<project-dir>` and execute it. This command support pre-action (`pre-organize-project.zaruba`) and post-action (`post-organize-project.zaruba`).
-
-## watch
-
-```sh
-zaruba watch [project-dir [...args]]
-```
-
-Detect changes in project and `organize` automatically.
-
-## custom action
-
-```sh
-zaruba do <action> [project-dir [...args]]
-```
-
-You can add any custom action by creating a shell script in any directory of the project. The name of the script should match your custom action. Custom action also support pre-action and post-action.
-
-In short, when you perform `zaruba do fight`, zaruba will looks for every `fight.zaruba` script in the current directory, and perform `fight.zaruba <current-directory>`. To make pre-action and post-action, you can simply create `pre-fight.zaruba` and `post-fight.zaruba`.
-
-Note: whenever running the executables, zaruba will automatically add `<project-dir>` as first argument. The value of `<project-dir>` is taken from current working directory.
 
 # 👩🏻‍🏫 Configuration
 

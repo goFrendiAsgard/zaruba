@@ -16,16 +16,12 @@ import (
 )
 
 // Init monorepo and subtree
-func Init(projectDir string) (err error) {
-	projectDir, err = filepath.Abs(projectDir)
-	if err != nil {
-		return err
-	}
+func Init(projectDir string, p *config.ProjectConfig) (err error) {
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
 		return err
 	}
 	// load project
-	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
+	_, currentGitRemotes, err := git.GetCurrentBranchAndRemotes(projectDir, p)
 	if err != nil {
 		return err
 	}
@@ -42,7 +38,7 @@ func Init(projectDir string) (err error) {
 		}
 	}
 	// organize
-	return organizer.Organize(projectDir, organizer.NewOption())
+	return organizer.Organize(projectDir, p, organizer.NewOption())
 }
 
 func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {
@@ -64,19 +60,16 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// add remote
-	logger.Info("Add remote `%s` as `%s`", origin, componentName)
 	if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
 		return err
 	}
 	// commit
 	git.Commit(projectDir, fmt.Sprintf("Zaruba: syncing `%s` at %s ", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
-	logger.Info("Add subtree `%s` with prefix `%s`", componentName, subrepoPrefix)
 	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
 		return err
 	}
 	// fetch
-	logger.Info("Fetch `%s`", componentName)
 	if err = command.RunAndRedirect(projectDir, "git", "fetch", componentName, branch); err != nil {
 		return err
 	}

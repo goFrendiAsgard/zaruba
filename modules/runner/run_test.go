@@ -22,9 +22,14 @@ func TestRun(t *testing.T) {
 		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
 		return
 	}
+	p, err := config.NewProjectConfig(testPath)
+	if err != nil {
+		t.Errorf("[ERROR] Cannot load project config: %s", err)
+		return
+	}
 
 	// Organize project should succeed
-	err := organizer.Organize(testPath, organizer.NewOption())
+	err = organizer.Organize(testPath, p, organizer.NewOption())
 	if err != nil {
 		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}
@@ -32,7 +37,7 @@ func TestRun(t *testing.T) {
 	stopChan := make(chan bool)
 	errChan := make(chan error)
 	executedChan := make(chan bool)
-	go Run(testPath, stopChan, executedChan, errChan)
+	go Run(testPath, p, stopChan, executedChan, errChan)
 	<-executedChan
 
 	res, err := http.Get("http://localhost:3000/go/frendi")

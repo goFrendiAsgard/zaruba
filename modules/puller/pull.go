@@ -2,10 +2,10 @@ package puller
 
 import (
 	"fmt"
-	"path/filepath"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/organizer"
@@ -13,13 +13,9 @@ import (
 )
 
 // Pull monorepo and subtree
-func Pull(projectDir string) (err error) {
-	projectDir, err = filepath.Abs(projectDir)
-	if err != nil {
-		return err
-	}
+func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 	// load project
-	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
+	_, currentGitRemotes, err := git.GetCurrentBranchAndRemotes(projectDir, p)
 	if err != nil {
 		return err
 	}
@@ -50,6 +46,6 @@ func Pull(projectDir string) (err error) {
 			return err
 		}
 	}
-	organizer.Organize(projectDir, organizer.NewOption())
+	organizer.Organize(projectDir, p, organizer.NewOption())
 	return err
 }

@@ -2,10 +2,10 @@ package pusher
 
 import (
 	"fmt"
-	"path/filepath"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
+	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/git"
 	"github.com/state-alchemists/zaruba/modules/logger"
 	"github.com/state-alchemists/zaruba/modules/organizer"
@@ -13,16 +13,12 @@ import (
 )
 
 // Push monorepo and subtree
-func Push(projectDir string) (err error) {
-	if err = organizer.Organize(projectDir, organizer.NewOption()); err != nil {
-		return err
-	}
-	projectDir, err = filepath.Abs(projectDir)
+func Push(projectDir string, p *config.ProjectConfig) (err error) {
+	_, currentGitRemotes, err := git.GetCurrentBranchAndRemotes(projectDir, p)
 	if err != nil {
 		return err
 	}
-	p, _, currentGitRemotes, err := git.LoadProjectConfig(projectDir)
-	if err != nil {
+	if err = organizer.Organize(projectDir, p, organizer.NewOption()); err != nil {
 		return err
 	}
 	// commit

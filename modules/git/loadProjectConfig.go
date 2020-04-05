@@ -11,17 +11,11 @@ import (
 	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
-// LoadProjectConfig check project component origin
-func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranchName string, currentGitRemotes []string, err error) {
-	// load project config
-	logger.Info("Load project config from `%s`", projectDir)
-	p, err = config.NewProjectConfig(projectDir)
-	if err != nil {
-		return p, currentBranchName, currentGitRemotes, err
-	}
+// GetCurrentBranchAndRemotes check project component origin
+func GetCurrentBranchAndRemotes(projectDir string, p *config.ProjectConfig) (currentBranchName string, currentGitRemotes []string, err error) {
 	// git init
 	if err = Init(projectDir); err != nil {
-		return p, currentBranchName, currentGitRemotes, err
+		return currentBranchName, currentGitRemotes, err
 	}
 	// check all component's origin
 	errChans := []chan error{}
@@ -32,7 +26,7 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 	}
 	for _, errChan := range errChans {
 		if err = <-errChan; err != nil {
-			return p, currentBranchName, currentGitRemotes, err
+			return currentBranchName, currentGitRemotes, err
 		}
 	}
 	// get currentBranchName
@@ -42,7 +36,7 @@ func LoadProjectConfig(projectDir string) (p *config.ProjectConfig, currentBranc
 	}
 	// get currentGitRemotes
 	currentGitRemotes, err = GetCurrentGitRemotes(projectDir)
-	return p, currentBranchName, currentGitRemotes, err
+	return currentBranchName, currentGitRemotes, err
 }
 
 func checkComponent(projectDir string, componentName string, component *config.Component, errChan chan error) {
