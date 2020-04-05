@@ -28,7 +28,6 @@ func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 // RunCmd run cmd object
 func RunCmd(cmd *exec.Cmd) (output string, err error) {
 	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
-	cmd.Stderr = os.Stderr
 	outputB, err := cmd.Output()
 	if err != nil {
 		return output, err
@@ -40,6 +39,7 @@ func RunCmd(cmd *exec.Cmd) (output string, err error) {
 // Run run command
 func Run(dir, command string, args ...string) (output string, err error) {
 	cmd, err := GetCmd(dir, command, args...)
+	cmd.Stderr = os.Stderr
 	if err != nil {
 		return output, err
 	}
@@ -49,6 +49,7 @@ func Run(dir, command string, args ...string) (output string, err error) {
 // RunScript run script
 func RunScript(dir, script string) (output string, err error) {
 	cmd, err := GetShellCmd(dir, script)
+	cmd.Stderr = os.Stderr
 	if err != nil {
 		return output, err
 	}
