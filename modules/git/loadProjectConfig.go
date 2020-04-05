@@ -69,9 +69,7 @@ func initRepo(projectDir, componentName string, component *config.Component) (er
 	}
 	f.WriteString("# " + componentName)
 	// commit
-	if err = Commit(tempDir, fmt.Sprintf("Zaruba: First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339))); err != nil {
-		return err
-	}
+	Commit(tempDir, fmt.Sprintf("Zaruba: First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339)))
 	// add remote
 	if err = command.RunAndRedirect(tempDir, "git", "remote", "add", "origin", origin); err != nil {
 		return err
