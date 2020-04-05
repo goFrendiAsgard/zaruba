@@ -1,0 +1,24 @@
+name: PROJECT NAME
+environments: 
+  general:
+    RMQ_HOST: 0.0.0.0
+    RMQ_PORT: 5672
+    RMQ_USER: root
+    RMQ_PASSWORD: toor
+    RMQ_VHOST: /
+  services:
+    rmq:
+      RABBITMQ_DEFAULT_USER: ${RMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASSWORD}
+
+components: 
+  rmq:
+    type: container
+    imageName: rabbitmq:3-management
+    ports: 
+        5672: 5672   # host: container
+        15672: 15672
+    readinessCheck: curl 0.0.0.0:15672
+
+executions: 
+  - rmq
