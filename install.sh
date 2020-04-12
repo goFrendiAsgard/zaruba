@@ -54,13 +54,13 @@ do
     then
         if $(grep -q ".zaruba/zaruba.env" ${HOME}/${CONFIG_FILE})
         then
+            echo "* ZARUBA HOOK FOR ${CONFIG_FILE} ALREADY EXISTS"
+        else
             echo "* ADD ZARUBA HOOK FOR ${CONFIG_FILE}"
             echo '' >> ${HOME}/${CONFIG_FILE}
             echo '# init zaruba' >> ${HOME}/${CONFIG_FILE}
             echo 'source ${HOME}/.zaruba/zaruba.env' >> ${HOME}/${CONFIG_FILE}
             echo '' >> ${HOME}/${CONFIG_FILE}
-        else
-            echo "* ZARUBA HOOK FOR ${CONFIG_FILE} ALREADY EXISTS"
         fi
     fi
 done
