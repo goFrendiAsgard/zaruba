@@ -14,9 +14,14 @@ done
 # Set default value for ZARUBA_TEMPLATE_DIR
 if [ -z ${ZARUBA_TEMPLATE_DIR} ]
 then
-    ZARUBA_TEMPLATE_DIR=${HOME}/.zaruba/template
+    ZARUBA_TEMPLATE_DIR=${HOME}/.zaruba/templates
 fi
 
+echo "* CHECK GIT VERSION"
+git version
+
+echo "* CHECK DOCKER VERSION"
+docker version
 
 echo "* CHECK GO VERSION"
 go version
@@ -30,7 +35,7 @@ then
     HOME=~
 fi
 mkdir -p ${HOME}/.zaruba
-mkdir -p ${HOME}/.zaruba/template
+mkdir -p ${HOME}/.zaruba/templates
 
 # create zaruba/zaruba.env
 echo 'if [ -z ${HOME} ]' > ${HOME}/.zaruba/zaruba.env
@@ -40,7 +45,7 @@ echo 'fi' >> ${HOME}/.zaruba/zaruba.env
 echo 'export PATH="$(go env GOPATH)/bin:${PATH}"' >> ${HOME}/.zaruba/zaruba.env
 echo 'export ZARUBA_SHELL="/bin/bash"' >> ${HOME}/.zaruba/zaruba.env
 echo 'export ZARUBA_SHELL_ARG="-c"' >> ${HOME}/.zaruba/zaruba.env
-echo 'export ZARUBA_TEMPLATE_DIR="${HOME}/.zaruba/template"' >> ${HOME}/.zaruba/zaruba.env
+echo 'export ZARUBA_TEMPLATE_DIR="${HOME}/.zaruba/templates"' >> ${HOME}/.zaruba/zaruba.env
 
 # create hook for bash and zsh
 for CONFIG_FILE in .bashrc .zshrc
@@ -77,9 +82,9 @@ then
     for COMPONENT in $(ls ${TEMPLATE_PATH})
     do
         echo "   - ${COMPONENT}"
-        [ -e ${HOME}/.zaruba/template/${COMPONENT} ] && rm -Rf ${HOME}/.zaruba/template/${COMPONENT}
-        cp -R ${TEMPLATE_PATH}/${COMPONENT} ${HOME}/.zaruba/template
-        chmod 755 -R ${HOME}/.zaruba/template/${COMPONENT}
+        [ -e ${HOME}/.zaruba/templates/${COMPONENT} ] && rm -Rf ${HOME}/.zaruba/templates/${COMPONENT}
+        cp -R ${TEMPLATE_PATH}/${COMPONENT} ${HOME}/.zaruba/templates
+        chmod 755 -R ${HOME}/.zaruba/templates/${COMPONENT}
     done
 fi
 

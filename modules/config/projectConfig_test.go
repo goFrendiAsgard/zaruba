@@ -10,61 +10,57 @@ import (
 func TestLoadProjectConfig(t *testing.T) {
 	baseTestPath := GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testProjectConfig")
-
-	if err := file.Copy("../../test-resource/project", testPath); err != nil {
+	if err := file.Copy("../../test-resource/testProjectConfig", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
-	if err := file.Copy("../../test-resource/testProjectConfig/zaruba.config.yaml", filepath.Join(testPath, "zaruba.config.yaml")); err != nil {
-		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
-		return
-	}
-	if err := file.Copy("../../test-resource/testProjectConfig/services/zaruba.config.yaml", filepath.Join(testPath, "services", "zaruba.config.yaml")); err != nil {
-		t.Errorf("[ERROR] Cannot copy services/zaruba.config.yaml: %s", err)
-		return
-	}
 
-	config, err := NewProjectConfig(testPath)
+	// load project config
+	p, err := NewProjectConfig(testPath)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot load config: %s", err)
 		return
 	}
 
 	// test cascaded config
-	expected := filepath.Join(testPath, "./services/gateway")
-	component, err := config.GetComponentByName("gateway")
+	expected := filepath.Join(testPath, "./services/gopher")
+	component, err := p.GetComponentByName("gopher")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot get component: %s", err)
 	} else if component.GetLocation() != expected {
-		t.Errorf("[UNEXPECTED] config.Components[\"gateway\"].Location should be `%s`, but contains `%s`", expected, component.GetLocation())
+		t.Errorf("[UNEXPECTED] config.Components[\"gopher\"].Location should be `%s`, but contains `%s`", expected, component.GetLocation())
 	}
 
-	// test sorted Link sources
-	sortedLinkSources := config.GetSortedLinkSources()
-	expectations := []string{
-		filepath.Join(testPath, "./changelog.md"),
-		filepath.Join(testPath, "./libraries/greeting-lib"),
+	// test component runtime environment
+	component, err = p.GetComponentByName("gopher")
+	if err != nil {
+		t.Errorf("[ERROR] Cannot get component: %s", err)
 	}
-	for index, expected := range expectations {
-		if sortedLinkSources[index] != expected {
-			t.Errorf("[UNEXPECTED] sortedLinkSources[%d] should be `%s`, but contains: %s", index, expected, sortedLinkSources[index])
-			t.Errorf("[INFO] config.Links: %#v", config.GetLinks())
+	expectedEnv := map[string]string{
+		"GOPHER_HTTP_PORT": "3011",
+		"RMQ_HOST":         "0.0.0.0",
+		"RMQ_PASSWORD":     "toor",
+		"RMQ_PORT":         "5672",
+		"RMQ_USER":         "root",
+		"RMQ_VHOST":        "/",
+		"gopher":           "0.0.0.0",
+		"rmq":              "0.0.0.0",
+	}
+	env := component.GetRuntimeEnv()
+	for name, expectedValue := range expectedEnv {
+		if value := env[name]; value != expectedValue {
+			t.Errorf("[UNEXPECTED] env `%s` should be `%s`, but contains `%s`", name, expectedValue, value)
 		}
-	}
-	// the length of sortedLinkSources should be 4
-	if len(sortedLinkSources) != 4 {
-		t.Errorf("[UNEXPECTED] len(sortedLinkSources) should be 4, but contains %d", len(sortedLinkSources))
 	}
 
 	// test subRepoPrefixMap
-	subRepoPrefixMap := config.GetSubrepoPrefixMap(testPath)
-	expected = "services/gateway"
-	if subRepoPrefixMap["gateway"] != expected {
-		t.Errorf("[UNEXPECTED] subRepoPrefixMap[\"gateway\"] should be `%s`, but contains: `%s`", subRepoPrefixMap["gateway"], expected)
+	expected = "services/gopher"
+	if subRepoPrefixMap := p.GetSubrepoPrefixMap(testPath); subRepoPrefixMap["gopher"] != expected {
+		t.Errorf("[UNEXPECTED] subRepoPrefixMap[\"gopher\"] should be `%s`, but contains: `%s`", expected, subRepoPrefixMap["gopher"])
 	}
 
 	// test YAML conversion
-	yaml, err := config.ToYaml()
+	yaml, err := p.ToYaml()
 	if err != nil {
 		t.Errorf("[ERROR] Cannot convert config into YAML: %s", err)
 	} else if yaml == "" {

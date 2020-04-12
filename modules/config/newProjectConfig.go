@@ -29,15 +29,13 @@ func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 		}
 		p = mergeEnvironment(p, subP)
 		p = mergeComponents(p, subP)
-		p = mergeExecutions(p, subP)
 		p = mergeLinks(p, subP)
 	}
 	// set projectName if not exists
 	if p.name == "" {
 		p.name = filepath.Base(projectDir)
 	}
-	// inject project object to environment and components
-	p.environments.project = p
+	// inject project to components
 	for componentName := range p.components {
 		p.components[componentName].project = p
 		p.components[componentName].name = componentName
@@ -56,13 +54,9 @@ func getAllDirs(parentDir string) (allDirs []string, err error) {
 // newEmptyProjectConfig create new ProjectConfig
 func newEmptyProjectConfig() (p *ProjectConfig) {
 	return &ProjectConfig{
-		name: "",
-		environments: &Environments{
-			general:  make(map[string]string),
-			services: make(map[string]map[string]string),
-		},
+		name:                      "",
+		env:                       make(map[string]string),
 		components:                make(map[string]*Component),
-		executions:                []string{},
 		links:                     make(map[string][]string),
 		sortedLinkSources:         []string{},
 		isSortedLinkSourcesCached: false,
@@ -72,51 +66,18 @@ func newEmptyProjectConfig() (p *ProjectConfig) {
 }
 
 func mergeEnvironment(p, subP *ProjectConfig) *ProjectConfig {
-	// merge general environment
-	for generalSubEnvName, generalSubEnv := range subP.environments.general {
-		if _, exists := p.environments.general[generalSubEnvName]; !exists {
-			p.environments.general[generalSubEnvName] = generalSubEnv
-		}
-	}
-	// merge service environment
-	for serviceName, serviceEnvMap := range subP.environments.services {
-		// if p doesn't have any environment for the service, add it
-		if _, exists := p.environments.services[serviceName]; !exists {
-			p.environments.services[serviceName] = serviceEnvMap
-			continue
-		}
-		// p already has environment for the service, cascade it
-		for serviceSubEnvName, serviceSubEnv := range serviceEnvMap {
-			if _, exists := p.environments.services[serviceName][serviceSubEnvName]; !exists {
-				p.environments.services[serviceName][serviceSubEnvName] = serviceSubEnv
-			}
+	for name, value := range subP.env {
+		if _, exists := p.env[name]; !exists {
+			p.env[name] = value
 		}
 	}
 	return p
 }
 
 func mergeComponents(p, subP *ProjectConfig) *ProjectConfig {
-	// merge component
 	for componentName, component := range subP.components {
 		if _, exists := p.components[componentName]; !exists {
 			p.components[componentName] = component
-		}
-	}
-	return p
-}
-
-func mergeExecutions(p, subP *ProjectConfig) *ProjectConfig {
-	// merge component
-	for _, subExecution := range subP.executions {
-		exists := false
-		for _, execution := range p.executions {
-			if execution == subExecution {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			p.executions = append(p.executions, subExecution)
 		}
 	}
 	return p
@@ -150,13 +111,9 @@ func mergeLinks(p, subP *ProjectConfig) *ProjectConfig {
 func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 	p = newEmptyProjectConfig()
 	pYaml := &ProjectConfigYaml{
-		ProjectName: "",
-		Environments: EnvironmentsYaml{
-			General:  make(map[string]string),
-			Services: make(map[string]map[string]string),
-		},
+		Name:       "",
+		Env:        make(map[string]string),
 		Components: make(map[string]ComponentYaml),
-		Executions: []string{},
 		Links:      make(map[string][]string),
 	}
 	directory, err = filepath.Abs(directory)

@@ -1,8 +1,0 @@
-#!/bin/sh
-set -ex
-
-PROJECT_DIR=$1
-
-mkdir -p ${PROJECT_DIR}
-cd ${PROJECT_DIR}
-git init

@@ -182,16 +182,9 @@ After defining the project, you should create `zaruba.config.yaml`. This configu
 
 ```yaml
 environments:
-
-  general: # General environments are shared among services
-    natsUrl: nats://nats.io:4222 # Connection to nats
-    getMessageEvent: foo   # gateway publish this event while greeter listen to it
-    sendMessageEvent: bar  # gateway listen to this event while greeter send message to it
-
-  services: # Service environments are localized to particular services
-    gateway:
-      port: 3000
-
+  natsUrl: nats://nats.io:4222 # Connection to nats
+  getMessageEvent: foo   # gateway publish this event while greeter listen to it
+  sendMessageEvent: bar  # gateway listen to this event while greeter send message to it
 
 components:
 
@@ -205,6 +198,8 @@ components:
     branch: master
     location: "./services/gateway"
     start: npm install && node start
+    env:
+      port: 3000
 
   greeter: # greeter service
     type: service

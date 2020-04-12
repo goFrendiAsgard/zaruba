@@ -6,41 +6,37 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/state-alchemists/zaruba/modules/component"
 	"github.com/state-alchemists/zaruba/modules/config"
-	"github.com/state-alchemists/zaruba/modules/file"
-	"github.com/state-alchemists/zaruba/modules/organizer"
 )
 
 func TestRun(t *testing.T) {
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testRun")
-	if err := file.Copy("../../test-resource/project", testPath); err != nil {
-		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
+
+	// create project and service
+	if err := component.Create("project", testPath); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
-	if err := file.Copy("../../test-resource/testRun/zaruba.config.yaml", filepath.Join(testPath, "zaruba.config.yaml")); err != nil {
-		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
+	if err := component.Create("go-service", testPath, "gopher"); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
+	// load project config
 	p, err := config.NewProjectConfig(testPath)
 	if err != nil {
-		t.Errorf("[ERROR] Cannot load project config: %s", err)
+		t.Errorf("[ERROR] Cannot load config: %s", err)
 		return
-	}
-
-	// Organize project should succeed
-	err = organizer.Organize(testPath, p, organizer.NewOption())
-	if err != nil {
-		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}
 
 	stopChan := make(chan bool)
 	errChan := make(chan error)
 	executedChan := make(chan bool)
-	go Run(testPath, p, stopChan, executedChan, errChan)
+	go Run(testPath, p, []string{}, stopChan, executedChan, errChan)
 	<-executedChan
 
-	res, err := http.Get("http://localhost:3000/go/frendi")
+	res, err := http.Get("http://localhost:3011/hello/Tony")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot send request: %s", err)
 	} else {
@@ -48,14 +44,14 @@ func TestRun(t *testing.T) {
 		if err != nil {
 			t.Errorf("[ERROR] Cannot parse response: %s", err)
 		}
-		expected := "Hello go frendi"
+		expected := "Hello Tony"
 		actual := string(content)
 		if actual != expected {
 			t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
 		}
 	}
 
-	res, err = http.Get("http://localhost:3000")
+	res, err = http.Get("http://localhost:3011/hello-rpc/Tony")
 	if err != nil {
 		t.Errorf("[ERROR] Cannot send request: %s", err)
 	} else {
@@ -63,7 +59,7 @@ func TestRun(t *testing.T) {
 		if err != nil {
 			t.Errorf("[ERROR] Cannot parse response: %s", err)
 		}
-		expected := "Hello world"
+		expected := "Hello Tony"
 		actual := string(content)
 		if actual != expected {
 			t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
