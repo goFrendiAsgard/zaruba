@@ -6,22 +6,14 @@ import (
 	"testing"
 
 	"github.com/state-alchemists/zaruba/modules/config"
-	"github.com/state-alchemists/zaruba/modules/file"
 )
 
 func TestCreateComponent(t *testing.T) {
-	templatePath := config.GetTemplateDir()
-	if err := file.Copy("../../test-resource/template/empty-project", filepath.Join(templatePath, "empty-project")); err != nil {
-		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
-		return
-	}
-
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testCreateComponent")
 
 	// Create component should succeed
-	err := Create("empty-project", testPath)
-	if err != nil {
+	if err := Create("project", testPath); err != nil {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}

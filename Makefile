@@ -25,5 +25,4 @@ test-live:
 	cd myproject && \
 	zaruba create go-service . kodok && \
 	zaruba create nodejs-service . siput && \
-	echo "\n  - kodok\n  - siput\n" >> zaruba.config.yaml && \
 	zaruba run

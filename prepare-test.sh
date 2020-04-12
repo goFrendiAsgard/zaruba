@@ -13,10 +13,18 @@ then
     exit 1
 fi
 
+# check things
+git version
 docker version
 go version
 
+# check compilation
 go build
-# tear down
+
+# clean up directories
 rm -Rf ${ZARUBA_TEST_DIR}
 rm -Rf ${ZARUBA_TEMPLATE_DIR}
+
+# prepare directories
+mkdir -p ${ZARUBA_TEST_DIR}
+cp -R ./templates ${ZARUBA_TEMPLATE_DIR}

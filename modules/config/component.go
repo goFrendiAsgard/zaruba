@@ -219,12 +219,14 @@ func (c *Component) GetDependencies() (dependencies []string) {
 // GetRuntimeEnv get runtime environment variables of a service
 func (c *Component) GetRuntimeEnv() (env map[string]string) {
 	env = map[string]string{}
+	envNames := []string{}
 	// other service/container name
 	for otherServiceName, otherComponent := range c.project.components {
 		if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
 			continue
 		}
 		env[otherServiceName] = "0.0.0.0"
+		envNames = append(envNames, otherServiceName)
 	}
 	// project env
 	for name, value := range c.project.env {
@@ -232,33 +234,19 @@ func (c *Component) GetRuntimeEnv() (env map[string]string) {
 			value = osValue
 		}
 		env[name] = value
+		envNames = append(envNames, name)
 	}
 	// current service env
 	for name, value := range c.env {
 		env[name] = value
+		envNames = append(envNames, name)
 	}
 	// current container name
 	if componentType := c.GetType(); componentType == "container" {
 		env["CONTAINER_NAME"] = c.GetRuntimeContainerName()
+		envNames = append(envNames, "CONTAINER_NAME")
 	}
-	env = c.parseEnv(env)
-	return env
-}
-
-func (c *Component) parseEnv(env map[string]string) map[string]string {
-	names := []string{}
-	for name := range env {
-		names = append(names, name)
-	}
-	for index, name := range names {
-		value := env[name]
-		for _, prevName := range names[:index] {
-			prevValue := env[prevName]
-			value = strings.ReplaceAll(value, fmt.Sprintf("${%s}", prevName), prevValue)
-			value = strings.ReplaceAll(value, fmt.Sprintf("$%s", prevName), prevValue)
-		}
-		env[name] = value
-	}
+	env = parseEnv(env, envNames)
 	return env
 }
 
@@ -271,6 +259,19 @@ func (c *Component) GetQuotedRuntimeEnv() (env map[string]string) {
 			unquotedVal = value
 		}
 		env[name] = strconv.Quote(unquotedVal)
+	}
+	return env
+}
+
+func parseEnv(env map[string]string, envNames []string) map[string]string {
+	for index, name := range envNames {
+		value := env[name]
+		for _, prevName := range envNames[:index] {
+			prevValue := env[prevName]
+			value = strings.ReplaceAll(value, fmt.Sprintf("${%s}", prevName), prevValue)
+			value = strings.ReplaceAll(value, fmt.Sprintf("$%s", prevName), prevValue)
+		}
+		env[name] = value
 	}
 	return env
 }

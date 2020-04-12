@@ -2,61 +2,56 @@ package organizer
 
 import (
 	"io/ioutil"
+	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
+	"github.com/state-alchemists/zaruba/modules/component"
 	"github.com/state-alchemists/zaruba/modules/config"
-	"github.com/state-alchemists/zaruba/modules/file"
 )
 
 func TestOrganize(t *testing.T) {
 	baseTestPath := config.GetTestDir()
 	testPath := filepath.Join(baseTestPath, "testOrganize")
-	if err := file.Copy("../../test-resource/project", testPath); err != nil {
-		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
+
+	// create project and service
+	if err := component.Create("project", testPath); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
-	if err := file.Copy("../../test-resource/testOrganize/zaruba.config.yaml", filepath.Join(testPath, "zaruba.config.yaml")); err != nil {
-		t.Errorf("[ERROR] Cannot copy zaruba.config.yaml: %s", err)
+	if err := component.Create("go-service", testPath, "gopher_one"); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
+	if err := component.Create("go-service", testPath, "gopher_two"); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
+		return
+	}
+	// load project config
 	p, err := config.NewProjectConfig(testPath)
 	if err != nil {
-		t.Errorf("[ERROR] Cannot load project config: %s", err)
+		t.Errorf("[ERROR] Cannot load config: %s", err)
 		return
 	}
 
-	// Organize project should succeed
-	err = Organize(testPath, p, NewOption())
-	if err != nil {
+	// create test.txt
+	if err := ioutil.WriteFile(filepath.Join(testPath, "libraries/go/transport/test.txt"), []byte("test"), 0755); err != nil {
+		t.Errorf("[ERROR] Cannot create test.txt: %s", err)
+	}
+
+	// organize
+	if err := Organize(testPath, p, NewOption()); err != nil {
 		t.Errorf("[ERROR] Cannot organize: %s", err)
 	}
 
-	// `log.txt` should contains `pre-organize`, `organize`, and `post-organize`
-	testFilePath := filepath.Join(testPath, "log.txt")
-	testByteContent, err := ioutil.ReadFile(testFilePath)
-	if err != nil {
-		t.Errorf("[ERROR] Cannot read %s: %s", testFilePath, err)
-	} else {
-		testContent := strings.Trim(string(testByteContent), "\n")
-		expected := "pre-organize\norganize\npost-organize"
-		if testContent != expected {
-			t.Errorf("[UNEXPECTED] content should be `%s`, get: `%s`", expected, testContent)
-		}
+	// check test.txt in gopher_one
+	if _, err := os.Stat(filepath.Join(testPath, "services/gopher_one/transport/test.txt")); err != nil && os.IsNotExist(err) {
+		t.Errorf("[ERROR] test.txt is not exist on gopher_one: %s", err)
 	}
 
-	// `megazord/gateway/greeting-lib/changelog.md` should contains `init`
-	testFilePath = filepath.Join(testPath, "megazord/gateway/greeting-lib/parent-changelog.md")
-	testByteContent, err = ioutil.ReadFile(testFilePath)
-	if err != nil {
-		t.Errorf("[ERROR] Cannot read %s: %s", testFilePath, err)
-	} else {
-		testContent := strings.Trim(string(testByteContent), "\n")
-		expected := "init"
-		if testContent != expected {
-			t.Errorf("[UNEXPECTED] content should be `%s`, get: `%s`", expected, testContent)
-		}
+	// check test.txt in gopher_two
+	if _, err := os.Stat(filepath.Join(testPath, "services/gopher_two/transport/test.txt")); err != nil && os.IsNotExist(err) {
+		t.Errorf("[ERROR] test.txt is not exist on gopher_two: %s", err)
 	}
 
 }

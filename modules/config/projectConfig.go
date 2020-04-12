@@ -137,9 +137,8 @@ func (p *ProjectConfig) GetSubrepoPrefixMap(projectDir string) (subRepoPrefixMap
 	subRepoPrefixMap = map[string]string{}
 	for componentName, component := range p.components {
 		location := component.location
-		origin := component.origin
 		branch := component.branch
-		if location == "" || origin == "" || branch == "" {
+		if location == "" || branch == "" {
 			continue
 		}
 		subRepoPrefix := getSubrepoPrefix(projectDir, location)
@@ -158,6 +157,7 @@ func getSubrepoPrefix(projectDir, location string) string {
 func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, directory string) *ProjectConfig {
 	// load pYaml into p
 	p.dirName = directory
+	p.env = pYaml.Env
 	p.name = pYaml.Name
 	p.components = make(map[string]*Component)
 	p.links = pYaml.Links

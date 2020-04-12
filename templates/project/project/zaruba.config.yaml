@@ -1,5 +1,5 @@
 name: PROJECT NAME
-environments: 
+env: 
   RMQ_HOST: ${rmq}
   RMQ_PORT: 5672
   RMQ_USER: root
