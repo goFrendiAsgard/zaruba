@@ -34,7 +34,7 @@ var runCmd = &cobra.Command{
 		stopChan := make(chan bool)
 		errChan := make(chan error)
 		executedChan := make(chan bool)
-		go runner.Run(projectDir, p, stopChan, executedChan, errChan)
+		go runner.Run(projectDir, p, args, stopChan, executedChan, errChan)
 		<-executedChan
 		// listen to kill signal
 		c := make(chan os.Signal)
