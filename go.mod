@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/spf13/afero v1.2.2 // indirect
-	github.com/spf13/cobra v0.0.7
+	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/zealic/xignore v0.3.3
 	golang.org/x/sys v0.0.0-20200331124033-c3d80250170d // indirect

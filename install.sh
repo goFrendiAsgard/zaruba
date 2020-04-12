@@ -52,8 +52,7 @@ for CONFIG_FILE in .bashrc .zshrc
 do
     if [ -e ${HOME}/${CONFIG_FILE} ]
     then
-        grep -q "/.zaruba/zaruba.env" ${HOME}/${CONFIG_FILE}
-        if [ $? -ne 0 ]
+        if $(grep -q ".zaruba/zaruba.env" ${HOME}/${CONFIG_FILE})
         then
             echo "* ADD ZARUBA HOOK FOR ${CONFIG_FILE}"
             echo '' >> ${HOME}/${CONFIG_FILE}
