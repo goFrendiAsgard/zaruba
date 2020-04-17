@@ -152,7 +152,7 @@ func (c *Component) GetRuntimeCommand() (command string) {
 		startCommand := c.GetRuntimeStartCommand()
 		runCommand := c.GetRuntimeRunCommand()
 		containerName := c.GetRuntimeContainerName()
-		return fmt.Sprintf("(%s || %s) && docker logs --follow %s", startCommand, runCommand, containerName)
+		return fmt.Sprintf("(%s || %s) && docker logs --since 0m --follow %s", startCommand, runCommand, containerName)
 	}
 	return c.GetRuntimeStartCommand()
 }
