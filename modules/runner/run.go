@@ -25,7 +25,7 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	orderedExecutions := getOrderedExecutions(p, executions)
 	cmdMap, err := getCmdAndPipesMap(projectDir, p, orderedExecutions)
 	if err != nil {
-		killCmdMap(p, cmdMap, orderedExecutions)
+		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 		errChan <- err
 		executedChan <- true
 		return
@@ -33,7 +33,7 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	executedChan <- true
 	// listen to stopChan
 	<-stopChan
-	killCmdMap(p, cmdMap, orderedExecutions)
+	killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 	errChan <- nil
 }
 
@@ -50,7 +50,7 @@ func getServiceNames(p *config.ProjectConfig) (serviceNames []string) {
 }
 
 // kill based on p.Executions in reverse order
-func killCmdMap(p *config.ProjectConfig, cmdMap map[string]*exec.Cmd, orderedExecutions []string) {
+func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*exec.Cmd, orderedExecutions []string) {
 	for index := len(orderedExecutions) - 1; index >= 0; index-- {
 		serviceName := orderedExecutions[index]
 		cmd := cmdMap[serviceName]
@@ -59,7 +59,18 @@ func killCmdMap(p *config.ProjectConfig, cmdMap map[string]*exec.Cmd, orderedExe
 			continue
 		}
 		logger.Info("Kill %s process", serviceName)
-		err := cmd.Process.Kill()
+		component, err := p.GetComponentByName(serviceName)
+		if err != nil {
+			logger.Error("Failed to get %s component: %s", serviceName, err)
+		}
+		if component.GetType() == "container" {
+			err = command.RunAndRedirect(projectDir, "docker", "stop", component.GetRuntimeContainerName())
+			if err != nil {
+				logger.Error("Failed to stop %s container: %s", serviceName, err)
+			}
+			continue
+		}
+		err = cmd.Process.Kill()
 		if err != nil {
 			logger.Error("Failed to kill %s process: %s", serviceName, err)
 		}
@@ -71,7 +82,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 	for _, serviceName := range orderedExecutions {
 		component, err := p.GetComponentByName(serviceName)
 		if err != nil {
-			killCmdMap(p, cmdMap, orderedExecutions)
+			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
 		componentType := component.GetType()
@@ -83,12 +94,12 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 		cmd.Env = runtimeEnv
 		outPipe, err := cmd.StdoutPipe()
 		if err != nil {
-			killCmdMap(p, cmdMap, orderedExecutions)
+			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
 		errPipe, err := cmd.StderrPipe()
 		if err != nil {
-			killCmdMap(p, cmdMap, orderedExecutions)
+			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
 		go logService(runtimeName, "OUT", color, outPipe)
@@ -97,7 +108,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 		err = cmd.Start()
 		cmdMap[serviceName] = cmd
 		if err != nil {
-			killCmdMap(p, cmdMap, orderedExecutions)
+			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
 		startedChan, errChan := make(chan bool), make(chan error)
@@ -105,7 +116,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 		<-startedChan
 		err = <-errChan
 		if err != nil {
-			killCmdMap(p, cmdMap, orderedExecutions)
+			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
 		logger.Info("%s started", serviceName)
