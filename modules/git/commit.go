@@ -7,6 +7,10 @@ import (
 
 // Commit add and commit
 func Commit(projectDir, message string) {
+	if !IsAnyDiff(projectDir) {
+		logger.Info("Nothing to commit")
+		return
+	}
 	logger.Info("Git add and git commit with messsage `%s`", message)
 	if err := command.RunAndRedirect(projectDir, "git", "add", ".", "-A"); err != nil {
 		logger.Error("%s", err)
