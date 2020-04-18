@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
@@ -63,20 +64,20 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 			logger.Info("Process %s not found", serviceName)
 			continue
 		}
-		logger.Info("Kill %s process", serviceName)
 		component, err := p.GetComponentByName(serviceName)
 		if err != nil {
 			logger.Error("Failed to get %s component: %s", serviceName, err)
 		}
 		if component.GetType() == "container" {
+			logger.Info("Stop %s container", serviceName)
 			err = command.RunAndRedirect(projectDir, "docker", "stop", component.GetRuntimeContainerName())
 			if err != nil {
 				logger.Error("Failed to stop %s container: %s", serviceName, err)
 			}
 			continue
 		}
-		err = cmd.Process.Kill()
-		if err != nil {
+		logger.Info("Kill %s process", serviceName)
+		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL); err != nil {
 			logger.Error("Failed to kill %s process: %s", serviceName, err)
 		}
 	}
@@ -110,6 +111,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 		go logService(runtimeName, "OUT", color, outPipe)
 		go logService(runtimeName, "ERR", color, errPipe)
 		logger.Info("Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
+		cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 		err = cmd.Start()
 		cmdMap[serviceName] = cmd
 		if err != nil {
