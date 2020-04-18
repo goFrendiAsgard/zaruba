@@ -22,7 +22,12 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	if len(executions) == 0 {
 		executions = getServiceNames(p)
 	}
-	orderedExecutions := getOrderedExecutions(p, executions)
+	orderedExecutions, err := getOrderedExecutions(p, executions)
+	if err != nil {
+		errChan <- err
+		executedChan <- true
+		return
+	}
 	cmdMap, err := getCmdAndPipesMap(projectDir, p, orderedExecutions)
 	if err != nil {
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
@@ -111,26 +116,26 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
-		startedChan, errChan := make(chan bool), make(chan error)
-		go checkReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, startedChan, errChan)
-		<-startedChan
+		readyChan, errChan := make(chan bool), make(chan error)
+		go checkReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, readyChan, errChan)
+		<-readyChan
 		err = <-errChan
 		if err != nil {
 			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 			return cmdMap, err
 		}
-		logger.Info("%s started", serviceName)
+		logger.Info("%s ready", serviceName)
 	}
 	return cmdMap, err
 }
 
-func checkReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, startedChan chan bool, errChan chan error) {
+func checkReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, readyChan chan bool, errChan chan error) {
 	started := false
 	// set cmd
 	for !started {
 		cmd, err := command.GetShellCmd(runtimeLocation, readinessCheckCommand)
 		if err != nil {
-			startedChan <- false
+			readyChan <- false
 			errChan <- err
 		}
 		cmd.Env = runtimeEnv
@@ -143,7 +148,7 @@ func checkReadiness(serviceName, runtimeLocation, readinessCheckCommand string, 
 		}
 		logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
 	}
-	startedChan <- started
+	readyChan <- started
 	errChan <- nil
 }
 
@@ -173,45 +178,34 @@ func logService(serviceName, prefix string, color int, readCloser io.ReadCloser)
 	}
 }
 
-func getOrderedExecutions(p *config.ProjectConfig, executions []string) (orderedExecutions []string) {
-	skipped := map[string]bool{}
-	for len(orderedExecutions) < len(executions) {
-		findNew := false
-		for _, execution := range executions {
-			if skipped[execution] {
-				continue
-			}
-			component, err := p.GetComponentByName(execution)
-			if err != nil {
-				logger.Fatal(err)
-			}
-			componentType := component.GetType()
-			if componentType != "service" && componentType != "container" {
-				continue
-			}
-			componentOk := true
-			componentDependencies := component.GetDependencies()
-			for _, dep := range componentDependencies {
-				depOk := false
-				for _, current := range orderedExecutions {
-					if current == dep {
-						depOk = true
-					}
-				}
-				if !depOk {
-					componentOk = false
-				}
-			}
-			if !componentOk {
-				continue
-			}
-			orderedExecutions = append(orderedExecutions, execution)
-			skipped[execution] = true
-			findNew = true
+func getOrderedExecutions(p *config.ProjectConfig, services []string) (dependencies []string, err error) {
+	dependencies = []string{}
+	for _, service := range services {
+		component, err := p.GetComponentByName(service)
+		if err != nil {
+			return dependencies, err
 		}
-		if !findNew {
-			logger.Fatal("Failed to resolve dependencies after %#v", orderedExecutions)
+		currentDependencies := component.GetDependencies()
+		subDependencies, err := getOrderedExecutions(p, currentDependencies)
+		if err != nil {
+			return dependencies, err
 		}
+		dependencies = append(subDependencies, dependencies...)
+		dependencies = append(dependencies, service)
 	}
-	return orderedExecutions
+	dependencies = getUniqueArr(dependencies)
+	return dependencies, err
+}
+
+func getUniqueArr(arr []string) (uniqueArr []string) {
+	uniqueArr = []string{}
+	encountered := map[string]bool{}
+	for _, element := range arr {
+		if encountered[element] {
+			continue
+		}
+		uniqueArr = append(uniqueArr, element)
+		encountered[element] = true
+	}
+	return uniqueArr
 }

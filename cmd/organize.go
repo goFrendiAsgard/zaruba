@@ -37,7 +37,7 @@ var organizeCmd = &cobra.Command{
 			logger.Fatal(err)
 		}
 		// invoke action
-		if err = organizer.Organize(projectDir, p, organizer.NewOption(), arguments...); err != nil {
+		if err = organizer.Organize(projectDir, p, arguments...); err != nil {
 			logger.Fatal(err)
 		}
 	},

@@ -1,4 +1,4 @@
-import { greet, greetEveryone } from "./serviceGreeting";
+import { greet, greetEveryone } from "./greetingService";
 import { Context } from "../../context";
 import { RPCClient, Publisher } from "../../transport";
 

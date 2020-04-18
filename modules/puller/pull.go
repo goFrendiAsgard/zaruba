@@ -46,6 +46,6 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 			return err
 		}
 	}
-	organizer.Organize(projectDir, p, organizer.NewOption())
+	organizer.Organize(projectDir, p)
 	return err
 }

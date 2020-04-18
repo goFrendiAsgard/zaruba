@@ -18,7 +18,7 @@ func Push(projectDir string, p *config.ProjectConfig) (err error) {
 	if err != nil {
 		return err
 	}
-	if err = organizer.Organize(projectDir, p, organizer.NewOption()); err != nil {
+	if err = organizer.Organize(projectDir, p); err != nil {
 		return err
 	}
 	// commit

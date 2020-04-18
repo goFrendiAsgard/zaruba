@@ -1,31 +1,15 @@
 package action
 
-import (
-	"time"
-)
-
 // Option is option for action.Do
 // if option.workDir == option.scriptDir, we will run the matching scripts found in every workDir's sub-directory,
 // otherwise we will run a matching script in scriptDir into every workDir's sub-directory
 type Option struct {
-	mTimeLimit         time.Time
 	isPerformPre       bool
 	isPerformPost      bool
 	isPerformAction    bool
 	isRecursiveWorkDir bool
 	workDir            string
 	scriptDir          string
-}
-
-// GetMTimeLimit get MTime of option
-func (option *Option) GetMTimeLimit() time.Time {
-	return option.mTimeLimit
-}
-
-// SetMTimeLimit set MTime of option
-func (option *Option) SetMTimeLimit(value time.Time) *Option {
-	option.mTimeLimit = value
-	return option
 }
 
 // GetIsPerformAction get isPerformAction of option
@@ -97,7 +81,6 @@ func (option *Option) SetScriptDir(value string) *Option {
 // NewOption create option
 func NewOption() *Option {
 	return &Option{
-		mTimeLimit:         time.Time{},
 		isPerformPre:       true,
 		isPerformPost:      true,
 		isPerformAction:    true,

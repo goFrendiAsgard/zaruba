@@ -1,4 +1,4 @@
-import { greet } from "./serviceGreeting";
+import { greet } from "./greetingService";
 
 export function greetRpcController(...inputs: any[]): any {
     if (inputs.length === 0) {

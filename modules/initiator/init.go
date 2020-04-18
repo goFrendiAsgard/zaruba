@@ -38,7 +38,7 @@ func Init(projectDir string, p *config.ProjectConfig) (err error) {
 		}
 	}
 	// organize
-	return organizer.Organize(projectDir, p, organizer.NewOption())
+	return organizer.Organize(projectDir, p)
 }
 
 func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subrepoPrefix string) (err error) {

@@ -81,10 +81,6 @@ func processAllDirs(actionString string, allWorkDirs []string, option *Option, a
 }
 
 func processDir(errChan chan error, actionString, workDir string, option *Option, arguments ...string) {
-	mTime, err := file.GetMTime(workDir)
-	if err != nil || mTime.Before(option.mTimeLimit) {
-		errChan <- err
-	}
 	actionPath := getActionPath(actionString, workDir, option)
 	if _, err := os.Stat(actionPath); err != nil {
 		// if file is not exists
@@ -95,7 +91,7 @@ func processDir(errChan chan error, actionString, workDir string, option *Option
 		errChan <- err
 		return
 	}
-	err = command.RunAndRedirect(workDir, actionPath, arguments...)
+	err := command.RunAndRedirect(workDir, actionPath, arguments...)
 	errChan <- err
 }
 
