@@ -11,35 +11,28 @@ import (
 	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
-// GetCurrentBranchAndRemotes check project component origin
-func GetCurrentBranchAndRemotes(projectDir string, p *config.ProjectConfig) (currentBranchName string, currentGitRemotes []string, err error) {
+// InitProject check project component origin
+func InitProject(projectDir string, p *config.ProjectConfig) (err error) {
 	// git init
 	if err = Init(projectDir); err != nil {
-		return currentBranchName, currentGitRemotes, err
+		return err
 	}
 	// check all component's origin
 	errChans := []chan error{}
 	for componentName, component := range p.GetComponents() {
 		errChan := make(chan error)
 		errChans = append(errChans, errChan)
-		go checkComponent(projectDir, componentName, component, errChan)
+		go checkSubrepo(projectDir, componentName, component, errChan)
 	}
 	for _, errChan := range errChans {
 		if err = <-errChan; err != nil {
-			return currentBranchName, currentGitRemotes, err
+			return err
 		}
 	}
-	// get currentBranchName
-	currentBranchName, getCurrentBranchErr := GetCurrentBranchName(projectDir)
-	if getCurrentBranchErr != nil {
-		currentBranchName = "master"
-	}
-	// get currentGitRemotes
-	currentGitRemotes, err = GetCurrentGitRemotes(projectDir)
-	return currentBranchName, currentGitRemotes, err
+	return err
 }
 
-func checkComponent(projectDir string, componentName string, component *config.Component, errChan chan error) {
+func checkSubrepo(projectDir string, componentName string, component *config.Component, errChan chan error) {
 	origin := component.GetOrigin()
 	if origin == "" {
 		errChan <- nil
@@ -53,7 +46,7 @@ func checkComponent(projectDir string, componentName string, component *config.C
 	}
 	// an empty repo doesn't output anything.
 	if output == "" {
-		if err = initRepo(projectDir, componentName, component); err != nil {
+		if err = initSubrepo(projectDir, componentName, component); err != nil {
 			errChan <- err
 			return
 		}
@@ -62,7 +55,7 @@ func checkComponent(projectDir string, componentName string, component *config.C
 	return
 }
 
-func initRepo(projectDir, componentName string, component *config.Component) (err error) {
+func initSubrepo(projectDir, componentName string, component *config.Component) (err error) {
 	tempDir := filepath.Join(projectDir, ".git", ".newsubrepo", componentName)
 	if err = os.MkdirAll(tempDir, 0700); err != nil {
 		return err

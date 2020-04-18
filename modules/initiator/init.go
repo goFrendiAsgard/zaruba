@@ -20,8 +20,12 @@ func Init(projectDir string, p *config.ProjectConfig) (err error) {
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
 		return err
 	}
-	// load project
-	_, currentGitRemotes, err := git.GetCurrentBranchAndRemotes(projectDir, p)
+	// Init project
+	if err = git.InitProject(projectDir, p); err != nil {
+		return err
+	}
+	// get remotes
+	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
 	if err != nil {
 		return err
 	}

@@ -14,18 +14,27 @@ import (
 
 // Pull monorepo and subtree
 func Pull(projectDir string, p *config.ProjectConfig) (err error) {
-	// load project
-	_, currentGitRemotes, err := git.GetCurrentBranchAndRemotes(projectDir, p)
+	// Init project
+	if err = git.InitProject(projectDir, p); err != nil {
+		return err
+	}
+	// get current branch
+	currentBranch, err := git.GetCurrentBranchName(projectDir)
+	if err != nil {
+		return err
+	}
+	// get remotes
+	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
 	if err != nil {
 		return err
 	}
 	// commit
 	git.Commit(projectDir, fmt.Sprintf("Zaruba: Save before pull from sub-repos at %s", time.Now().Format(time.RFC3339)))
 	logger.Info("Pull from main repo")
-	if err = command.RunAndRedirect(projectDir, "git", "pull", "origin", "HEAD"); err != nil {
+	if err = command.RunAndRedirect(projectDir, "git", "pull", "origin", currentBranch); err != nil {
 		return err
 	}
-
+	// pull from subrepo
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
 	for componentName, subrepoPrefix := range subrepoPrefixMap {
 		if !strutil.IsInArray(componentName, currentGitRemotes) {
@@ -37,13 +46,15 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 		}
 		location := component.GetLocation()
 		origin := component.GetOrigin()
-		branch := component.GetBranch()
+		branch := currentBranch
+		// branch := component.GetBranch()
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}
 		logger.Info("Pulling from sub-repo %s", componentName)
 		if err = command.RunAndRedirect(projectDir, "git", "subtree", "pull", "--prefix="+subrepoPrefix, "--squash", componentName, branch); err != nil {
-			return err
+			logger.Error("Cannot pull from subrepo `%s`", subrepoPrefix)
+			// return err
 		}
 	}
 	organizer.Organize(projectDir, p)

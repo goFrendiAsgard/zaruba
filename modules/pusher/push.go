@@ -14,17 +14,28 @@ import (
 
 // Push monorepo and subtree
 func Push(projectDir string, p *config.ProjectConfig) (err error) {
-	_, currentGitRemotes, err := git.GetCurrentBranchAndRemotes(projectDir, p)
+	// init project
+	if err = git.InitProject(projectDir, p); err != nil {
+		return err
+	}
+	// get current branch
+	currentBranch, err := git.GetCurrentBranchName(projectDir)
 	if err != nil {
 		return err
 	}
+	// get remotes
+	currentGitRemotes, err := git.GetCurrentGitRemotes(projectDir)
+	if err != nil {
+		return err
+	}
+	// organize
 	if err = organizer.Organize(projectDir, p); err != nil {
 		return err
 	}
 	// commit
 	git.Commit(projectDir, fmt.Sprintf("Zaruba: Save before push to sub-repos at %s", time.Now().Format(time.RFC3339)))
 	logger.Info("Push to main repo")
-	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", "HEAD"); err != nil {
+	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", currentBranch); err != nil {
 		return err
 	}
 	subrepoPrefixMap := p.GetSubrepoPrefixMap(projectDir)
@@ -38,7 +49,8 @@ func Push(projectDir string, p *config.ProjectConfig) (err error) {
 		}
 		location := component.GetLocation()
 		origin := component.GetOrigin()
-		branch := component.GetBranch()
+		branch := currentBranch
+		//branch := component.GetBranch()
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}
