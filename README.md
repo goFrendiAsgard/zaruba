@@ -400,4 +400,5 @@ git clone git@github.com:state-alchemists/zaruba.git
 cd zaruba
 make install
 zaruba init
+zaruba pull
 ```
