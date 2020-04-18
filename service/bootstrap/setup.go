@@ -2,12 +2,10 @@ package bootstrap
 
 import (
 	"app/components"
-	"app/components/example"
-	"app/components/monitoring"
+	"app/components/bootstrap"
 )
 
 // Setup application
 func Setup(s *components.Setting) {
-	monitoring.Setup(s)
-	example.Setup(s)
+	bootstrap.Setup(s)
 }
