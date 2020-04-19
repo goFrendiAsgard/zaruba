@@ -12,7 +12,7 @@ components:
     start: go build && ./app
     readinessCheck: curl ${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
-      - rmq
+      - rmqGlobal
 
 links:
   ../../libraries/go/transport:

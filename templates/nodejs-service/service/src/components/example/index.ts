@@ -1,64 +1,109 @@
-import { Setting } from "../setting";
-import { greetHttpController, createGreetEveryoneHttpController, createGreetRPCHttpController, createGreetPublishHttpController } from "./httpController";
-import { greetRpcController } from "./rpcHandler";
-import { createRegisterPersonHandler } from "./eventHandler";
+import { Message } from "../../transport";
+import { App } from "../../core";
+import { Config } from "../../config";
+import { getName } from "./helpers";
+import { greet, greetEveryone } from "./service";
 
-export function setup(s: Setting) {
+export class Component {
+    private names: string[];
+    private app: App;
+    private config: Config;
 
-    // HTTP EXAMPLE =======================================================================================
+    constructor(app: App, config: Config) {
+        this.names = [];
+        this.app = app;
+        this.config = config;
+    }
 
-    // Example: simple HTTP Handler
-    s.router.all("/", (req, res) => res.send("servicename"));
+    setup() {
+        const r = this.app.router();
+        const rpcServer = this.app.globalRPCServer();
+        const subscriber = this.app.globalSubscriber();
 
-    // Example: More complex HTTP handler, with side-effect
-    s.router.get("/toggle-readiness", (req, res) => {
-        s.ctx.status.isReady = !s.ctx.status.isReady;
-        res.send(`Readiness: ${s.ctx.status.isReady}`);
-    });
+        // Simple HTTP Handler
+        r.all("/", (_, res) => res.send("servicename"));
 
-    // Example: Use HTTP Handler from greeting component
-    s.router.get("/hello", greetHttpController);
-    s.router.post("/hello", greetHttpController);
-    s.router.get("/hello/:name", greetHttpController);
+        // More complex HTTP Handler, with side-effect
+        r.get("/toggle-readiness", (_, res) => {
+            this.app.setReadiness(!this.app.readiness());
+            const readiness = this.app.readiness();
+            res.send(`Readiness: ${readiness}`);
+        });
 
-    const greetEveryoneHttpController = createGreetEveryoneHttpController(s.ctx);
-    s.router.get("/hello-all", greetEveryoneHttpController);
-    s.router.post("/hello-all", greetEveryoneHttpController);
-    s.router.get("/hello-all/:name", greetEveryoneHttpController);
+        // Use the same HTTP Handler for multiple URLS
+        const handleHTTPHello = (req: any, res: any) => this.handleHTTPHello.call(this, req, res);
+        r.get("/hello", handleHTTPHello);
+        r.get("/hello/:name", handleHTTPHello);
+        r.post("/hello", handleHTTPHello);
 
-    // RPC EXAMPLE ========================================================================================
+        // Use HTTP Handler that take state from component
+        const handleHTTPHelloAll = (req: any, res: any) => this.handleHTTPHelloAll.call(this, req, res);
+        r.get("/hello-all", handleHTTPHelloAll);
 
-    // Example: RPC Handler  (Main)
-    s.rpcServers.main.registerHandler("greetRPC", greetRpcController);
+        // Trigger RPC Call
+        const handleHTTPHelloRPC = (req: any, res: any) => this.handleHTTPHelloRPC.call(this, req, res);
+        r.get("/hello-rpc", handleHTTPHelloRPC);
+        r.get("/hello-rpc/:name", handleHTTPHelloRPC);
+        r.post("/hello-rpc", handleHTTPHelloRPC);
 
-    // Example: HTTP handler to trigger RPC
-    const greetRpcHttpController = createGreetRPCHttpController(s.rpcClients.mainLoopBack, "greetRPC")
-    s.router.get("/hello-rpc", greetRpcHttpController)
-    s.router.post("/hello-rpc", greetRpcHttpController)
-    s.router.get("/hello-rpc/:name", greetRpcHttpController)
+        // Trigger RPC Call
+        const handleHTTPHelloPub = (req: any, res: any) => this.handleHTTPHelloPub.call(this, req, res);
+        r.get("/hello-pub", handleHTTPHelloPub);
+        r.get("/hello-pub/:name", handleHTTPHelloPub);
+        r.post("/hello-pub", this.handleHTTPHelloPub);
 
-    // RPC EXAMPLE ========================================================================================
+        // Serve RPC
+        const handleRPCHello = (...inputs: any[]) => this.handleRPCHello.call(this, ...inputs);
+        rpcServer.registerHandler("helloRPC", handleRPCHello);
 
-    // Example: RPC Handler  (Main)
-    s.rpcServers.secondary.registerHandler("greetRPC", greetRpcController);
+        // Event
+        const handleEventHello = (msg: Message) => this.handleEventHello.call(this, msg);
+        subscriber.registerHandler("helloEvent", handleEventHello);
 
-    // Example: HTTP handler to trigger RPC
-    const secondaryGreetRpcHttpController = createGreetRPCHttpController(s.rpcClients.secondaryLoopBack, "greetRPC")
-    s.router.get("/hello-secondary-rpc", secondaryGreetRpcHttpController)
-    s.router.post("/hello-secondary-rpc", secondaryGreetRpcHttpController)
-    s.router.get("/hello-secondary-rpc/:name", secondaryGreetRpcHttpController)
+    }
 
-    // PUB SUB EXAMPLE =====================================================================================
+    handleHTTPHello(req: any, res: any) {
+        const name = getName(req);
+        res.send(greet(name));
+    }
 
-    // Example: Event Handler
-    const registerPersonEvenHandler = createRegisterPersonHandler(s.ctx)
-    s.subscribers.main.registerHandler("personRegistered", registerPersonEvenHandler)
+    handleHTTPHelloAll(req: any, res: any) {
+        res.send(greetEveryone(this.names));
+    }
 
-    // Example: HTTP handler to publish event
-    const greetPublishHTTPController = createGreetPublishHttpController(s.publishers.main, "personRegistered")
-    s.router.get("/hello-pub", greetPublishHTTPController)
-    s.router.post("/hello-pub", greetPublishHTTPController)
-    s.router.get("/hello-pub/:name", greetPublishHTTPController)
+    async handleHTTPHelloRPC(req: any, res: any) {
+        const rpcClient = this.app.globalRPCClient();
+        const name = getName(req);
+        try {
+            const greeting = await rpcClient.call("helloRPC", name);
+            res.send(greeting);
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
+
+    handleHTTPHelloPub(req: any, res: any) {
+        const publisher = this.app.globalPublisher();
+        const name = getName(req);
+        try {
+            publisher.publish("helloEvent", { name });
+            res.send("Message sent");
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
+
+    handleRPCHello(...inputs: any[]): any {
+        if (inputs.length === 0) {
+            throw new Error("Message accepted but input is invalid");
+        }
+        const name = inputs[0] as string
+        return greet(name);
+    }
+
+    handleEventHello(msg: Message) {
+        const { name } = msg;
+        this.names.push(name);
+    }
+
 }
-
-export default { setup };

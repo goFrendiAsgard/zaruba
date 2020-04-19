@@ -44,8 +44,8 @@ func (comp *Component) Setup() {
 
 	// Use the same HTTP Handler for multiple URLS
 	r.GET("/hello", comp.handleHTTPHello)
-	r.POST("/hello", comp.handleHTTPHello)
 	r.GET("/hello/:name", comp.handleHTTPHello)
+	r.POST("/hello", comp.handleHTTPHello)
 
 	// Use HTTP Handler that take state from component
 	r.GET("/hello-all", comp.handleHTTPHelloAll)

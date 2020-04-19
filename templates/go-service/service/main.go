@@ -11,7 +11,7 @@ import (
 func main() {
 	// create config and app
 	config := config.CreateConfig()
-	fmt.Println(config)
+	fmt.Println("CONFIG:", config)
 	app := core.CreateApplication(
 		config.HTTPPort,
 		config.GlobalRmqConnectionString,
