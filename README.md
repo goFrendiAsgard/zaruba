@@ -26,255 +26,301 @@ If you are using windows, it is recommended to use WSL.
 
 # 🥗 Use Case
 
-Let's say you have two services communicating via [NATS messaging system](https://nats.io/).
+Let's say you want to build two services (`greeter` and `gateway`) that talking to each other using Rabbitmq. As both of them need to talk to Rabbitmq in certain way, it is inevitable for them to share a common `transport` library.
 
-The first service is named `Gateway`. It listen to client's HTTP request, send a message to NATS, and waiting for another message before sendir HTTP response to client.
+Whenever you modify `transport` library, `greeter` and `gateway` should be updated as well.
 
-The second service is named `Greeter`. It listen to NATS and send a message as response.
+![use-case](./readme-resource/use-case.png)
 
-Both services depended on `greeting-lib`. As the library contains a small amount of code, we don't want to publish is as `npm package`.
+## Generating Project
 
-We want to publish `Gateway` and `Greeter` on separate repo, so that we can have different CI/CD and access privilege. However, we want to develop the application as a single monorepo because it is going to be easier to maintain.
-
-Finally, we want our engineers to run all services in their local computer, isolated from each others.
-
-![](readme-resource/usecase.png)
-
-Zaruba was created to solve those problems. Let's see how zaruba helps you
-
-## Creating Remote Respository
-
-First of all you need to create 3 repositories. One for monorepo, and two for our services. In this tutorial, I will use github.
-
-![](readme-resource/create-remote-repo.png)
-
-The repository addresses in this tutorial are as follow:
-
-* Monorepo: https://github.com/goFrendiAsgard/zaruba-project
-* Gateway Service: https://github.com/goFrendiAsgard/zaruba-gateway
-* Greeter Service: https://github.com/goFrendiAsgard/zaruba-greeter
-
-Please make sure you use the different addresses by make your own repos.
-
-![](readme-resource/remote-repos.png)
-
-## Initiating Project
-
-To initiate the project, you need to invoke:
+Let's start building our project.
 
 ```sh
-mkdir myproject
+zaruba create project myproject
 cd myproject
-zaruba init
-git remote add origin git@github.com:goFrendiAsgard/zaruba-project.git # Adjust this one with your repo address
+zaruba create nodejs-service . gateway
+zaruba create nodejs-service . greeter
 ```
 
-## Coding
+After invoking the commands, you should see the following output:
 
-Before writing some codes into our project, let's start with making some directories:
+![create-project](./readme-resource/create-project.png)
+
+The structure of the generated project is as follow:
 
 ```
 .
+├── README.md
 ├── libraries
-│   └── greeting-lib
-│       └── greeting.js
-└── services
-    ├── gateway
-    │   ├── package.json  # going to be generated when you perform `npm init`
-    │   └── start.js
-    └── greeter
-        ├── package.json  # going to be generated when you perform `npm init`
-        └── start.js
+│   ├── README.md
+│   └── typescript
+│       └── transport            # Our shared library
+├── services
+│   ├── README.md
+│   ├── gateway
+│   │   ├── Dockerfile
+│   │   ├── Makefile
+│   │   ├── README.md
+│   │   ├── node_modules
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── src
+│   │   ├── tsconfig.json
+│   │   └── zaruba.config.yaml   # gateway config
+│   └── greeter
+│       ├── Dockerfile
+│       ├── Makefile
+│       ├── README.md
+│       ├── node_modules
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── src
+│       ├── tsconfig.json
+│       └── zaruba.config.yaml   # greeter config
+└── zaruba.config.yaml           # project config
 ```
 
-You can create all necessary directories by performing:
+Now, let's see on top-level `zaruba.config.yaml`. This file contains your project configuration:
 
-```sh
-mkdir -p libraries/greeting-lib
-mkdir -p services/gateway
-mkdir -p services/greeter
+```yaml
+name: myproject # the name of your project
+env:
+  GLOBAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmqGlobal}:5672/ # global environment
+
+components: # list of components
+  rmqGlobal: # rabbitmq container definition
+    type: container
+    image: rabbitmq:3-management
+    env:
+      RABBITMQ_DEFAULT_USER: root # local environment
+      RABBITMQ_DEFAULT_PASS: toor # local environment
+    ports:
+        5672: 5672   # host: container
+        15672: 15672
+    readinessCheck: curl ${rmqGlobal}:15672
 ```
 
-### Greeting-Lib
+On runtime, zaruba cascade this configuration with service's configuration. Now let's check `services/gateway/zaruba.config.yaml`:
 
-Greeting-lib is a shared library that will be used by our services. It only contains a single file `libraries/greeting-lib/greeting.js`:
+```yaml
+env:
+  GATEWAY_HTTP_PORT: 3011
 
-```js
-module.exports = {
-    greet: (name) => name ? `Hello ${name}` : "",
-    defaultGreeting: "Hello world"
+components:
+  gateway:
+    type: service
+    origin: "" # fill this one with your git repository
+    branch: master
+    env:
+      LOCAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmqGlobal}:5672/ # local environment
+    location: "."
+    start: npm start
+    readinessCheck: curl ${gateway}:${GATEWAY_HTTP_PORT}/readiness
+    dependencies:
+      - rmqGlobal
+
+links:
+  ../../libraries/typescript/transport: # shared lib definition
+    - ./src/transport
+```
+
+Everytime you create a service, zaruba will make the configuration for you. Feel free to modify in case of yo need to so.
+
+## Coding
+
+Let's start with `greeter` first since it need to handle event and RPC call from `gateway`. Modify your `services/greeter/src/components/example/index.ts` into:
+
+```typescript
+import { Message } from "../../transport";
+import { App } from "../../core";
+import { Config } from "../../config";
+import { greet, greetEveryone } from "./service";
+
+export class Component {
+  private names: string[];
+  private app: App;
+  private config: Config;
+
+  constructor(app: App, config: Config) {
+    this.names = [];
+    this.app = app;
+    this.config = config;
+  }
+
+  setup() {
+    const r = this.app.router();
+    const rpcServer = this.app.globalRPCServer();
+    const subscriber = this.app.globalSubscriber();
+
+    r.all("/", (_, res) => res.send("greeter"));
+
+    // serving RPC Call: helloAll
+    rpcServer.registerHandler("helloAll", (...inputs: any[]) => {
+      // this will either return "hello everyone !!!" or "hello ${this.names} and everyone" 
+      return greetEveryone(this.names);
+    });
+
+    // serving RPC Call: helloRPC
+    rpcServer.registerHandler("helloRPC", (...inputs: any[]) => {
+      if (inputs.length === 0) {
+        throw new Error("Message accepted but input is invalid");
+      }
+      const name = inputs[0] as string
+      // thiw will return "hello world !!!" or "hello ${name}"
+      return greet(name);
+    });
+
+    // subscribe to event: helloEvent
+    subscriber.registerHandler("helloEvent", (msg: Message) => {
+      const { name } = msg;
+      // this will add name to this.names
+      this.names.push(name);
+    });
+
+  }
+
 }
 ```
 
-### Gateway
+Next, you also need to modify your `services/gateway/src/components/example/index.ts` into:
 
-We use Node.Js to write gateway service. In order to prepare the package you need to change your working-directory to `services/gateway` and perform:
+```typescript
+import { App } from "../../core";
+import { Config } from "../../config";
+import { getName } from "./helpers";
 
-```sh
-npm init
-npm install --save nats
+export class Component {
+  private app: App;
+  private config: Config;
+
+  constructor(app: App, config: Config) {
+    this.app = app;
+    this.config = config;
+  }
+
+  setup() {
+    const r = this.app.router();
+    const rpcClient = this.app.globalRPCClient();
+    const publisher = this.app.globalPublisher();
+
+    r.all("/", (_, res) => res.send("gateway"));
+
+    // Serving HTTP Request: /hello
+    r.get("/hello", async (_, res) => {
+      try {
+        // RPC Call: helloAll
+        const greeting = await rpcClient.call("helloAll");
+        res.send(greeting);
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+
+    // Serving HTTP Request: /hello-rpc/:name
+    r.get("/hello-rpc/:name", async (req, res) => {
+      const name = getName(req);
+      try {
+        // RPC Call: helloRPC
+        const greeting = await rpcClient.call("helloRPC", name);
+        res.send(greeting);
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+
+    // Serving HTTP Request: /hello-pub/:name
+    r.get("/hello-pub/:name", (req, res) => {
+      const name = getName(req);
+      try {
+        // Publish event: helloEvent
+        publisher.publish("helloEvent", { name });
+        res.send("Message sent");
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+  }
+
+}
 ```
 
-Finally, you have to create `services/gateway/start.js`:
+The good thing when you use message broker like rabbit-mq is your services doesn't need to know each other. Just fire a RPC-call or publish an event.
 
-```js
-const http = require("http");
-const NATS = require("nats");
-const greeting = require("./greeting-lib/greeting")
+In our case, the RPC-call and event published by `gateway` will be handled by `greeter` since the RPC/Events served by `greeter` are match to `gateway`'s.
 
-const nats = NATS.connect();
+## Running Project
 
-const port = process.env.port || 80;
-const subscribeEvent = process.env.sendMessageEvent || "bar";
-const publishEvent = process.env.getMessageEvent || "foo";
+Instead of openning a lot of terminals/tmux-panels, zaruba allows you to run your services at once. It is like docker-compose, but without isolation.
 
-//create a server object:
-console.log(`Serve HTTP on port ${port}`);
-http.createServer(function (req, res) {
-    nats.subscribe(subscribeEvent,
-        (receivedMessage) => {
-            console.log(`Receive request from url: ${req.url}`);
-            receivedMessage = receivedMessage || greeting.defaultGreeting
-            res.end(receivedMessage);
-        },
-        (error) => {
-            console.error(error);
-            res.end("Internal server error");
-        }
-    );
-    nats.publish(publishEvent, req.url);
-}).listen(port);
-```
-
-### Greeter
-
-Just like we made `Gateway`, we will make `Greeter` with a similar manner. First, you need to invoke:
-
-```sh
-npm init
-npm install --save nats
-```
-
-After initiating npm package, we can make `services/greeter/start.js`:
-
-```js
-const NATS = require("nats");
-const greeting = require("./greeting-lib/greeting")
-
-const nats = NATS.connect();
-
-const subscribeEvent = process.env.getMessageEvent || "foo";
-const publishEvent = process.env.sendMessageEvent || "bar";
-
-console.log(`Listen to ${subscribeEvent} event`);
-nats.subscribe(subscribeEvent, (receivedMessage) => {
-    console.log(`Received a message: ${receivedMessage}`);
-    receivedMessage = receivedMessage.split("/").join(" ").trim();
-    const publishedMessage = greeting.greet(receivedMessage);
-    console.log(`Publish to ${publishEvent} event: ${publishedMessage}`);
-    nats.publish(publishEvent, publishedMessage);
-});
-```
-
-## Defining Project Configuration
-
-After defining the project, you should create `zaruba.config.yaml`. This configuration define how to run the service locally and how to 
-
-```yaml
-environments:
-  natsUrl: nats://nats.io:4222 # Connection to nats
-  getMessageEvent: foo   # gateway publish this event while greeter listen to it
-  sendMessageEvent: bar  # gateway listen to this event while greeter send message to it
-
-components:
-
-  greeting-lib: # greeting-lib is a shared library, used by gateway and greeter
-    type: library
-    location: "./libraries/greeting-lib"
-
-  gateway: # gateway service
-    type: service
-    origin: git@github.com:goFrendiAsgard/zaruba-gateway.git # Adjust this one with your repo address
-    branch: master
-    location: "./services/gateway"
-    start: npm install && node start
-    env:
-      port: 3000
-
-  greeter: # greeter service
-    type: service
-    origin: git@github.com:goFrendiAsgard/zaruba-greeter.git # Adjust this one with your repo address
-    branch: master
-    location: "./services/greeter"
-    start: npm install && node start
-
-  nats: # nats docker container for running the application locally
-    type: container
-    run: docker run --name nats -p 4222:4222 -p 6222:6222 -p 8222:8222 -d nats
-    containerName: nats
-
-links:
-  ./libraries/greeting-lib: # greeting-lib should be copied to greeter and gateway
-    - ./services/greeter/greeting-lib
-    - ./services/gateway/greeting-lib
-  
-executions: # Execution order
-  - nats
-  - greeter
-  - gateway
-```
-
-Once you have create the configuration, you need to re-init the project in order to register the subtrees
-
-```sh
-zaruba init
-```
-![](readme-resource/zaruba-init.png)
-
-## Run The Project
-
-Everything has been set. Now let's try to run the project in our local computer. Please note that you also need docker in order to install and run NATS.
-
-To run the project, you should perform:
+To run your project, you just need to invoke:
 
 ```sh
 zaruba run
 ```
 
-![](readme-resource/zaruba-run.png)
+![run](readme-resource/run.png)
 
-As you see, zaruba put the services logs in a single screen. This help us to debug the project as a whole.
+Now let's check to ensure that everything is working as expected:
 
-Just to make sure, you can try send some HTTP request to the gateway.
+```
+curl localhost:3011                  # should return `gateway`
+curl localhost:3011/hello            # should return `Hello everyone !!!`
+curl localhost:3011/hello-rpc/Jon    # should return `Hello Jon`
+curl localhost:3011/hello-pub/Jack   # should return `Message sent`
+curl localhost:3011/hello-pub/Rose   # should return `Message sent`
+curl localhost:3011/hello            # should return `Hello Jack, Rose, and everyone`
+```
 
-## Publishing Changes to Service Repo
+![run](readme-resource/test.png)
 
-After making sure everything behave as expected, you can push your project by using:
+
+## Managing Shared Library
+
+Not only helps you to build your project and run your services, zaruba also helps you to manage your shared-libraries.
+
+For example, whenever you change anything `libraries/typescript/transport`, `services/gateway/src/transport` and `services/greeter/src/transport` will also be synchronized once you perform `organize` command:
 
 ```sh
+zaruba organize
+```
+
+To add your own shared libraries, you need to add `links` section to your `zaruba.config.yaml`:
+
+```yaml
+links:
+  ../../libraries/typescript/transport: # shared lib definition
+    - ./src/transport
+```
+
+## Go to Multi Repo
+
+It is good to put everything in a single location (aka: monorepo). But in some cases you might also want to publish your services as independent repositories. One good use-case for this is when you want to publish some of your services as open source project, but you want some others to be private.
+
+To enable multi-repo, you need to set your service's `origin`:
+
+```yaml
+components:
+  gateway:
+    type: service
+    origin: "git@github.com:myUser/myRepo.git" # fill this one with your git repository
+
+```
+
+Once you set it, you can simply perform:
+
+```sh
+zaruba init
 zaruba push
 ```
-![](readme-resource/zaruba-push.png)
 
-Now your mono-repo, as well as your services repo are updated.
+Now your service is available as independent repository !!!
 
-![](readme-resource/sub-repo-updated.png)
-
-__Note:__ If you don't want to publish your work to services repos, you can invoke `git push -u origin HEAD` instead.
-
-## Fetching Changes from Service Repo
-
-As you publish your service-repo, someone might contribute to it.
-
-![](readme-resource/change-on-sub-repo.png)
-
-It is important to be able to retrieve the changes into the monorepo. In this case, you can perform:
+To reflect changes from multi-repo (in case of there are changes in your service repo), you can perform:
 
 ```sh
 zaruba pull
 ```
-
-![](readme-resource/zaruba-pull.png)
 
 # ✍🏻 Available Actions
 
@@ -336,14 +382,6 @@ To create a new component, you can perform:
 ```sh
 zaruba create someTemplate
 ```
-
-## pre-action
-
-pre-action is will be executed before an action is executed. You can make pre-action by simply create an executable file with `pre` prefix.
-
-## post-action
-
-post-action is will be executed after an action is executed. You can make post-action by simply create an executable file with `post` prefix.
 
 # Commmands
 

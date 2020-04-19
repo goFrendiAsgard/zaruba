@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 func init() {
@@ -15,6 +14,6 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of Zaruba",
 	Long:  `All software has versions. This is Zaruba's`,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("Zaruba v0.0.0 -- [prototype]")
+		logger.Info("Zaruba v0.0.0 -- [prototype]")
 	},
 }
