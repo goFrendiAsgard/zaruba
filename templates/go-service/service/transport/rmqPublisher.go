@@ -7,8 +7,8 @@ import (
 	"github.com/streadway/amqp"
 )
 
-// NewRmqPublisher create new RmqPublisher
-func NewRmqPublisher(connectionString string) *RmqPublisher {
+// CreateRmqPublisher create new RmqPublisher
+func CreateRmqPublisher(connectionString string) *RmqPublisher {
 	return &RmqPublisher{
 		connectionString: connectionString,
 		logger:           log.New(os.Stdout, "", log.LstdFlags),

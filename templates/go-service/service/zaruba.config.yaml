@@ -6,11 +6,13 @@ components:
     type: service
     origin: "" # fill this one with your git repository
     branch: master
+    env:
+      LOCAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmqGlobal}:5672/
     location: "."
     start: go build && ./app
     readinessCheck: curl ${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
-      - rmq
+      - rmqGlobal
 
 links:
   ../../libraries/go/transport:

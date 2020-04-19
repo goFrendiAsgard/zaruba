@@ -50,7 +50,6 @@ func Push(projectDir string, p *config.ProjectConfig) (err error) {
 		location := component.GetLocation()
 		origin := component.GetOrigin()
 		branch := currentBranch
-		//branch := component.GetBranch()
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}

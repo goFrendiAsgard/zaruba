@@ -1,48 +1,24 @@
-import express from "express";
-import bootstrap from "./bootstrap";
-import { Context } from "./context";
-import { RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient, SimpleRPCServer, SimpleRPCClient, createHttpLogger } from "./transport";
-import { Setting } from "./components/setting";
-import bodyParser from "body-parser";
+import { Config } from "./config";
+import { Application } from "./core/application";
+import * as monitoring from "./components/monitoring";
+import * as example from "./components/example";
 
 function main() {
-
-    const ctx = new Context();
-    const logger = ctx.config.logger;
-    const rmqConnectionString = ctx.config.rmqConnectionString;
-
-    const router = express();
-    router.use(bodyParser.urlencoded({ extended: false }));
-    router.use(bodyParser.json());
-    router.use(createHttpLogger(logger));
-
-    const s: Setting = new Setting(
-        ctx,
-        router,
-        // publishers
-        {
-            main: new RmqPublisher(rmqConnectionString).setLogger(logger)
-        },
-        // subscribers
-        {
-            main: new RmqSubscriber(rmqConnectionString).setLogger(logger)
-        },
-        // rpc servers
-        {
-            main: new RmqRPCServer(rmqConnectionString).setLogger(logger),
-            secondary: new SimpleRPCServer(router).setLogger(logger)
-        },
-        // rpc clients
-        {
-            mainLoopBack: new RmqRPCClient(rmqConnectionString).setLogger(logger),
-            secondaryLoopBack: new SimpleRPCClient(ctx.config.localServiceAddress).setLogger(logger)
-        },
+    // create config and app
+    const config = new Config();
+    console.log("CONFIG:", config);
+    const app = new Application(
+        config.httpPort,
+        config.globalRmqConnectionString,
+        config.localRmqConnectionString,
     );
-
-
-    bootstrap.setup(s);
-    bootstrap.run(s);
-
+    // setup components
+    app.setup([
+        monitoring.createSetup(app, config),                // setup monitoring
+        () => (new example.Component(app, config)).setup(), // setup example
+    ]);
+    // run
+    app.run();
 }
 
 main();

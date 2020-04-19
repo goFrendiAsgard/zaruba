@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -25,9 +24,4 @@ func GetIntFromEnv(env string, defaultValue int) (value int) {
 		return value
 	}
 	return defaultValue
-}
-
-// GetRmqConnectionString get RMQConnectionString
-func GetRmqConnectionString(host string, port int, user, password, vHost string) (connectionString string) {
-	return fmt.Sprintf("amqp://%s:%s@%s:%d%s", user, password, host, port, vHost)
 }

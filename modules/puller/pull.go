@@ -47,14 +47,12 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 		location := component.GetLocation()
 		origin := component.GetOrigin()
 		branch := currentBranch
-		// branch := component.GetBranch()
 		if location == "" || origin == "" || branch == "" {
 			continue
 		}
 		logger.Info("Pulling from sub-repo %s", componentName)
 		if err = command.RunAndRedirect(projectDir, "git", "subtree", "pull", "--prefix="+subrepoPrefix, "--squash", componentName, branch); err != nil {
 			logger.Error("Cannot pull from subrepo `%s`", subrepoPrefix)
-			// return err
 		}
 	}
 	organizer.Organize(projectDir, p)
