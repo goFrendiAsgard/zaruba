@@ -47,7 +47,7 @@ func TestRun(t *testing.T) {
 		testRequest(t, port, "hello-rpc/Tony", "Hello Tony")
 		testRequest(t, port, "hello-all", "Hello everyone !!!")
 		testRequest(t, port, "hello-pub/Dono", "Message sent")
-		time.Sleep(1 * time.Second)
+		time.Sleep(1 * time.Second) // Consuming is somehow slow in node.js
 		testRequest(t, port, "hello-all", "Hello Dono, and everyone")
 	}
 
