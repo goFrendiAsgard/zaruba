@@ -25,5 +25,4 @@ export function createSetup(app: App, config: Config): () => void {
         });
 
     }
-
 }

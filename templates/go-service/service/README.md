@@ -291,6 +291,9 @@ You can use `app.GlobalRPCClient` and `app.LocalRPCClient` to send RPC Call:
 ```go
 client := app.LocalRPCClient()
 result, err := client.Call("helloRPC", name)
+if err != nil {
+	fmt.Println(err)
+}
 fmt.Println(result.(string))
 ```
 
