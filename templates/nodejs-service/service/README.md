@@ -23,13 +23,13 @@ This application was built with the following opinions:
 * Your app has two contexts, global and local-domain (eventhough you can use one context only)
 
 ```
-	[Other Domain App] --- [Global Message Broker] --- [Other Domain App]
-	                        		  |
-									  |
-								 [Your App]
-								      |
-									  |
-[Other Same Domain App] ---	[Local Message Broker] --- [Other Same Domain App]
+    [Other Domain App] --- [Global Message Broker] --- [Other Domain App]
+                                      |
+                                      |
+                                 [Your App]
+                                      |
+                                      |
+[Other Same Domain App] ---    [Local Message Broker] --- [Other Same Domain App]
 ```
 
 >__NOTE__ You can implement your own communication protocol (e.g: nats, kafka, etc)
