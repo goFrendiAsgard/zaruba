@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/state-alchemists/zaruba/modules/component"
 	"github.com/state-alchemists/zaruba/modules/config"
@@ -41,10 +42,14 @@ func TestRun(t *testing.T) {
 	go Run(testPath, p, []string{}, stopChan, executedChan, errChan)
 	<-executedChan
 
-	testRequest(t, 3011, "hello/Tony", "Hello Tony")
-	testRequest(t, 3012, "hello/Tony", "Hello Tony")
-	testRequest(t, 3011, "hello-rpc/Tony", "Hello Tony")
-	testRequest(t, 3012, "hello-rpc/Tony", "Hello Tony")
+	for _, port := range []int{3011, 3012} {
+		testRequest(t, port, "hello/Tony", "Hello Tony")
+		testRequest(t, port, "hello-rpc/Tony", "Hello Tony")
+		testRequest(t, port, "hello-all", "Hello everyone !!!")
+		testRequest(t, port, "hello-pub/Dono", "Message sent")
+		time.Sleep(1 * time.Second)
+		testRequest(t, port, "hello-all", "Hello Dono, and everyone")
+	}
 
 	// test done
 	stopChan <- true

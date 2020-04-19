@@ -61,10 +61,10 @@ func (comp *Component) Setup() {
 	r.POST("/hello-pub", comp.handleHTTPHelloPub)
 
 	// Serve RPC
-	rpcServer.RegisterHandler("helloRPC", comp.handleRPCHello)
+	rpcServer.RegisterHandler("servicename.helloRPC", comp.handleRPCHello)
 
 	// Event
-	subscriber.RegisterHandler("helloEvent", comp.handleEventHello)
+	subscriber.RegisterHandler("servicename.helloEvent", comp.handleEventHello)
 
 }
 
@@ -80,7 +80,7 @@ func (comp *Component) handleHTTPHelloAll(c *gin.Context) {
 func (comp *Component) handleHTTPHelloRPC(c *gin.Context) {
 	rpcClient := comp.app.GlobalRPCClient()
 	name := getName(c)
-	greetingInterface, err := rpcClient.Call("helloRPC", name)
+	greetingInterface, err := rpcClient.Call("servicename.helloRPC", name)
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
 		return
@@ -96,7 +96,7 @@ func (comp *Component) handleHTTPHelloRPC(c *gin.Context) {
 func (comp *Component) handleHTTPHelloPub(c *gin.Context) {
 	publisher := comp.app.GlobalPublisher()
 	name := getName(c)
-	err := publisher.Publish("helloEvent", transport.Message{"name": name})
+	err := publisher.Publish("servicename.helloEvent", transport.Message{"name": name})
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
 		return

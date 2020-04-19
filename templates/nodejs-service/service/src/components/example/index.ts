@@ -54,11 +54,11 @@ export class Component {
 
         // Serve RPC
         const handleRPCHello = (...inputs: any[]) => this.handleRPCHello.call(this, ...inputs);
-        rpcServer.registerHandler("helloRPC", handleRPCHello);
+        rpcServer.registerHandler("servicename.helloRPC", handleRPCHello);
 
         // Event
         const handleEventHello = (msg: Message) => this.handleEventHello.call(this, msg);
-        subscriber.registerHandler("helloEvent", handleEventHello);
+        subscriber.registerHandler("servicename.helloEvent", handleEventHello);
 
     }
 
@@ -75,7 +75,7 @@ export class Component {
         const rpcClient = this.app.globalRPCClient();
         const name = getName(req);
         try {
-            const greeting = await rpcClient.call("helloRPC", name);
+            const greeting = await rpcClient.call("servicename.helloRPC", name);
             res.send(greeting);
         } catch (err) {
             res.status(500).send(err);
@@ -86,7 +86,7 @@ export class Component {
         const publisher = this.app.globalPublisher();
         const name = getName(req);
         try {
-            publisher.publish("helloEvent", { name });
+            publisher.publish("servicename.helloEvent", { name });
             res.send("Message sent");
         } catch (err) {
             res.status(500).send(err);
