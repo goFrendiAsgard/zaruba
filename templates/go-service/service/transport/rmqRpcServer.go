@@ -7,8 +7,8 @@ import (
 	"github.com/streadway/amqp"
 )
 
-// NewRmqRPCServer create new RmqRPC
-func NewRmqRPCServer(connectionString string) *RmqRPCServer {
+// CreateRmqRPCServer create new RmqRPC
+func CreateRmqRPCServer(connectionString string) *RmqRPCServer {
 	return &RmqRPCServer{
 		connectionString: connectionString,
 		handlers:         map[string]RPCHandler{},
@@ -35,12 +35,13 @@ func (s *RmqRPCServer) RegisterHandler(functionName string, handler RPCHandler) 
 	return s
 }
 
-// Serve
-func (s *RmqRPCServer) Serve() {
+// Serve serve RPC
+func (s *RmqRPCServer) Serve(errChan chan error) {
 	// create connection and channel
 	conn, ch, err := rmqCreateConnectionAndChannel(s.connectionString)
 	if err != nil {
-		s.logger.Println("[ERROR]", err)
+		s.logger.Println("[ERROR RmqRPCServer]", err)
+		errChan <- err
 		return
 	}
 	defer conn.Close()
@@ -48,13 +49,15 @@ func (s *RmqRPCServer) Serve() {
 	for functionName, handler := range s.handlers {
 		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, functionName)
 		if err != nil {
-			s.logger.Println("[ERROR]", err)
+			s.logger.Println("[ERROR RmqRPCServer]", err)
+			errChan <- err
 			return
 		}
 		// start consume
 		rmqMessages, err := rmqConsume(ch, functionName)
 		if err != nil {
-			s.logger.Println("[ERROR]", err)
+			s.logger.Println("[ERROR RmqRPCServer]", err)
+			errChan <- err
 			return
 		}
 		// handle message

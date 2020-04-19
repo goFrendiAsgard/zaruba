@@ -7,8 +7,8 @@ import (
 	"os"
 )
 
-// NewRmqRPCClient create new RmqRPC
-func NewRmqRPCClient(connectionString string) *RmqRPCClient {
+// CreateRmqRPCClient create new RmqRPC
+func CreateRmqRPCClient(connectionString string) *RmqRPCClient {
 	return &RmqRPCClient{
 		connectionString: connectionString,
 		logger:           log.New(os.Stdout, "", log.LstdFlags),

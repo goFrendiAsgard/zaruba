@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-// NewRmqSubscriber create new RmqSubscriber
-func NewRmqSubscriber(connectionString string) *RmqSubscriber {
+// CreateRmqSubscriber create new RmqSubscriber
+func CreateRmqSubscriber(connectionString string) *RmqSubscriber {
 	return &RmqSubscriber{
 		connectionString: connectionString,
 		handlers:         map[string]EventHandler{},
@@ -34,11 +34,12 @@ func (s *RmqSubscriber) RegisterHandler(eventName string, handler EventHandler) 
 }
 
 // Subscribe consuming message from all event
-func (s *RmqSubscriber) Subscribe() {
+func (s *RmqSubscriber) Subscribe(errChan chan error) {
 	// create connection and channel
 	conn, ch, err := rmqCreateConnectionAndChannel(s.connectionString)
 	if err != nil {
-		s.logger.Println("[ERROR]", err)
+		s.logger.Println("[ERROR RmqSubscriber]", err)
+		errChan <- err
 		return
 	}
 	defer conn.Close()
@@ -47,12 +48,14 @@ func (s *RmqSubscriber) Subscribe() {
 		// start consume
 		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, eventName)
 		if err != nil {
-			s.logger.Println("[ERROR]", err)
+			s.logger.Println("[ERROR RmqSubscriber]", err)
+			errChan <- err
 			return
 		}
 		rmqMessages, err := rmqConsume(ch, eventName)
 		if err != nil {
-			s.logger.Println("[ERROR]", err)
+			s.logger.Println("[ERROR RmqSubscriber]", err)
+			errChan <- err
 			return
 		}
 		// handle message
@@ -61,12 +64,12 @@ func (s *RmqSubscriber) Subscribe() {
 			for rmqMessage := range rmqMessages {
 				envelopedMessage, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
 				if err != nil {
-					s.logger.Println("[ERROR]", err)
+					s.logger.Println("[ERROR RmqSubscriber]", err)
 					continue
 				}
 				err = messageHandler(envelopedMessage.Message)
 				if err != nil {
-					s.logger.Println("[ERROR]", err)
+					s.logger.Println("[ERROR RmqSubscriber]", err)
 				}
 			}
 		}()

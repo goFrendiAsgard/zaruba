@@ -18,7 +18,7 @@ type RPCClient interface {
 type RPCServer interface {
 	RegisterHandler(functionName string, handler RPCHandler) RPCServer
 	SetLogger(logger *log.Logger) RPCServer
-	Serve()
+	Serve(errChan chan error)
 }
 
 // Publisher interface
@@ -31,5 +31,5 @@ type Publisher interface {
 type Subscriber interface {
 	RegisterHandler(functionName string, handler EventHandler) Subscriber
 	SetLogger(logger *log.Logger) Subscriber
-	Subscribe()
+	Subscribe(errChan chan error)
 }

@@ -1,19 +1,15 @@
 name: PROJECT NAME
 env: 
-  RMQ_HOST: ${rmq}
-  RMQ_PORT: 5672
-  RMQ_USER: root
-  RMQ_PASSWORD: toor
-  RMQ_VHOST: /
+  GLOBAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmqGlobal}:5672/
 
 components: 
-  rmq:
+  rmqGlobal:
     type: container
     image: rabbitmq:3-management
     env:
-      RABBITMQ_DEFAULT_USER: ${RMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RMQ_PASSWORD}
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: toor
     ports: 
         5672: 5672   # host: container
         15672: 15672
-    readinessCheck: curl ${rmq}:15672
+    readinessCheck: curl ${rmqGlobal}:15672
