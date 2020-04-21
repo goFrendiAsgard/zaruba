@@ -52,6 +52,7 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 			errChan <- err
 			return
 		}
+		s.logger.Printf("[INFO RmqRPCSubscriber] Subscribe %s", eventName)
 		rmqMessages, err := rmqConsume(ch, eventName)
 		if err != nil {
 			s.logger.Println("[ERROR RmqSubscriber]", err)
@@ -60,6 +61,7 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 		}
 		// handle message
 		messageHandler := handler
+		thisEventName := eventName
 		go func() {
 			for rmqMessage := range rmqMessages {
 				envelopedMessage, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
@@ -67,6 +69,7 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 					s.logger.Println("[ERROR RmqSubscriber]", err)
 					continue
 				}
+				s.logger.Printf("[INFO RmqRPCSubscriber] Get %s: %#v", thisEventName, envelopedMessage.Message)
 				err = messageHandler(envelopedMessage.Message)
 				if err != nil {
 					s.logger.Println("[ERROR RmqSubscriber]", err)

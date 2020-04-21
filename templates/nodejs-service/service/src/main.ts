@@ -1,5 +1,5 @@
 import { Config } from "./config";
-import { Application } from "./core/application";
+import { Application } from "./core";
 import * as monitoring from "./components/monitoring";
 import * as example from "./components/example";
 

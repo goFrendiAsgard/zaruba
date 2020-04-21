@@ -25,11 +25,12 @@ export class RmqRPCServer implements RPCServer {
     }
 
     async serve() {
-        const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+        const { ch } = await rmqCreateConnectionAndChannel(this.connectionString);
         for (let key in this.handlers) {
             const functionName = key;
             const handler = this.handlers[functionName];
             await rmqDeclareQueueAndBindToDefaultExchange(ch, functionName);
+            this.logger.log(`[INFO RmqRPCServer] Serve ${functionName}`);
             rmqConsume(ch, functionName, async (rmqMessageOrNull) => {
                 const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                 const { replyTo } = rmqMessage.properties;
@@ -38,8 +39,10 @@ export class RmqRPCServer implements RPCServer {
                 try {
                     const inputs = envelopedInput.message.inputs;
                     const output = await handler(...inputs);
+                    this.logger.log(`[INFO RmqRPCServer] Reply ${functionName}`, JSON.stringify(inputs), "output:", JSON.stringify(output));
                     await rmqRpcReply(ch, replyTo, envelopedInput, output);
                 } catch (err) {
+                    this.logger.error(`[ERROR RmqRPCServer] Reply ${functionName}: `, err);
                     await rmqRpcReplyError(ch, replyTo, envelopedInput, err);
                 }
             });

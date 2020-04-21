@@ -52,6 +52,7 @@ func (p *RmqPublisher) Publish(eventName string, message Message) (err error) {
 		return err
 	}
 	// publish to exchange
+	p.logger.Printf("[INFO RmqPublisher] Publish %s %#v", eventName, message)
 	return rmqPublish(ch, eventName, "",
 		amqp.Publishing{
 			ContentType:   "text/json",

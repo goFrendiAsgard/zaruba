@@ -17,6 +17,7 @@ export class RmqPublisher implements Publisher {
     }
 
     async publish(eventName: string, msg: Message) {
+        this.logger.log("[INFO RmqPublisher] Publish", eventName, JSON.stringify(msg));
         const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
         await rmqDeclareQueueAndBindToDefaultExchange(ch, eventName);
         const envelopedMessage = new EnvelopedMessage().setCorrelationId().setMessage(msg);

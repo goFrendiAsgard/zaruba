@@ -31,13 +31,16 @@ export class RmqSubscriber implements Subscriber {
             const eventName = key;
             const handler = this.handlers[eventName];
             await rmqDeclareQueueAndBindToDefaultExchange(ch, eventName);
+            this.logger.log(`[INFO RmqSubscriber] Subscribe ${eventName}`);
             rmqConsume(ch, eventName, async (rmqMessageOrNull) => {
                 try {
                     const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                     const jsonMessage = rmqMessage.content.toString();
                     const envelopedInput = new EnvelopedMessage(jsonMessage);
+                    this.logger.log(`[INFO RmqSubscriber] Get Event ${eventName}: `, JSON.stringify(envelopedInput.message));
                     await handler(envelopedInput.message);
                 } catch (err) {
+                    this.logger.log(`[ERROR RmqSubscriber] Get Event ${eventName}: `, err);
                     self.logger.error(err);
                 }
             })

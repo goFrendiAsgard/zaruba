@@ -1,6 +1,7 @@
 package transport
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -54,6 +55,7 @@ func (s *RmqRPCServer) Serve(errChan chan error) {
 			return
 		}
 		// start consume
+		s.logger.Printf("[INFO RmqRPCServer] Serve %s", functionName)
 		rmqMessages, err := rmqConsume(ch, functionName)
 		if err != nil {
 			s.logger.Println("[ERROR RmqRPCServer]", err)
@@ -62,24 +64,26 @@ func (s *RmqRPCServer) Serve(errChan chan error) {
 		}
 		// handle message
 		messageHandler := handler
+		thisFunctionName := functionName
 		go func() {
 			for rmqMessage := range rmqMessages {
 				replyTo := rmqMessage.ReplyTo
 				envelopedInput, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
 				if err != nil {
-					s.handleError(ch, replyTo, envelopedInput, err)
+					s.handleError(ch, thisFunctionName, replyTo, envelopedInput, err)
 					continue
 				}
 				inputs, err := envelopedInput.Message.GetInterfaceArray("inputs")
 				if err != nil {
-					s.handleError(ch, replyTo, envelopedInput, err)
+					s.handleError(ch, thisFunctionName, replyTo, envelopedInput, err)
 					continue
 				}
 				output, err := messageHandler(inputs...)
 				if err != nil {
-					s.handleError(ch, replyTo, envelopedInput, err)
+					s.handleError(ch, thisFunctionName, replyTo, envelopedInput, err)
 					continue
 				}
+				s.logger.Printf("[INFO RmqRPCServer] Reply %s: %#v", thisFunctionName, output)
 				rmqRpcReply(ch, replyTo, envelopedInput, output)
 			}
 		}()
@@ -88,7 +92,7 @@ func (s *RmqRPCServer) Serve(errChan chan error) {
 	<-forever
 }
 
-func (s *RmqRPCServer) handleError(ch *amqp.Channel, replyTo string, envelopedInput *EnvelopedMessage, err error) {
-	s.logger.Println("[ERROR]", err)
+func (s *RmqRPCServer) handleError(ch *amqp.Channel, thisFunctionName, replyTo string, envelopedInput *EnvelopedMessage, err error) {
+	s.logger.Printf(fmt.Sprintf("[ERROR RmqRPCServer] Reply %s:", thisFunctionName), err)
 	rmqRpcReplyError(ch, replyTo, envelopedInput, err)
 }

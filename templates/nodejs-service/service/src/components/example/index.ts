@@ -31,43 +31,37 @@ export class Component {
         });
 
         // Use the same HTTP Handler for multiple URLS
-        const handleHTTPHello = (req: any, res: any) => this.handleHTTPHello.call(this, req, res);
-        r.get("/hello", handleHTTPHello);
-        r.get("/hello/:name", handleHTTPHello);
-        r.post("/hello", handleHTTPHello);
+        r.get("/hello", this.handleHTTPHello.bind(this));
+        r.get("/hello/:name", this.handleHTTPHello.bind(this));
+        r.post("/hello", this.handleHTTPHello.bind(this));
 
         // Use HTTP Handler that take state from component
-        const handleHTTPHelloAll = (req: any, res: any) => this.handleHTTPHelloAll.call(this, req, res);
-        r.get("/hello-all", handleHTTPHelloAll);
+        r.get("/hello-all", this.handleHTTPHelloAll.bind(this));
 
         // Trigger RPC Call
-        const handleHTTPHelloRPC = (req: any, res: any) => this.handleHTTPHelloRPC.call(this, req, res);
-        r.get("/hello-rpc", handleHTTPHelloRPC);
-        r.get("/hello-rpc/:name", handleHTTPHelloRPC);
-        r.post("/hello-rpc", handleHTTPHelloRPC);
+        r.get("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
+        r.get("/hello-rpc/:name", this.handleHTTPHelloRPC.bind(this));
+        r.post("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
 
         // Trigger RPC Call
-        const handleHTTPHelloPub = (req: any, res: any) => this.handleHTTPHelloPub.call(this, req, res);
-        r.get("/hello-pub", handleHTTPHelloPub);
-        r.get("/hello-pub/:name", handleHTTPHelloPub);
-        r.post("/hello-pub", this.handleHTTPHelloPub);
+        r.get("/hello-pub", this.handleHTTPHelloPub.bind(this));
+        r.get("/hello-pub/:name", this.handleHTTPHelloPub.bind(this));
+        r.post("/hello-pub", this.handleHTTPHelloPub.bind(this));
 
         // Serve RPC
-        const handleRPCHello = (...inputs: any[]) => this.handleRPCHello.call(this, ...inputs);
-        rpcServer.registerHandler("servicename.helloRPC", handleRPCHello);
+        rpcServer.registerHandler("servicename.helloRPC", this.handleRPCHello.bind(this));
 
         // Event
-        const handleEventHello = (msg: Message) => this.handleEventHello.call(this, msg);
-        subscriber.registerHandler("servicename.helloEvent", handleEventHello);
+        subscriber.registerHandler("servicename.helloEvent", this.handleEventHello.bind(this));
 
     }
 
-    handleHTTPHello(req: any, res: any) {
+    async handleHTTPHello(req: any, res: any) {
         const name = getName(req);
         res.send(greet(name));
     }
 
-    handleHTTPHelloAll(req: any, res: any) {
+    async handleHTTPHelloAll(req: any, res: any) {
         res.send(greetEveryone(this.names));
     }
 
@@ -82,7 +76,7 @@ export class Component {
         }
     }
 
-    handleHTTPHelloPub(req: any, res: any) {
+    async handleHTTPHelloPub(req: any, res: any) {
         const publisher = this.app.globalPublisher();
         const name = getName(req);
         try {
@@ -93,7 +87,7 @@ export class Component {
         }
     }
 
-    handleRPCHello(...inputs: any[]): any {
+    async handleRPCHello(...inputs: any[]): Promise<any> {
         if (inputs.length === 0) {
             throw new Error("Message accepted but input is invalid");
         }
@@ -101,7 +95,7 @@ export class Component {
         return greet(name);
     }
 
-    handleEventHello(msg: Message) {
+    async handleEventHello(msg: Message) {
         const { name } = msg;
         this.names.push(name);
     }
