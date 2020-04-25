@@ -11,6 +11,7 @@ type ComponentYaml struct {
 	Run            string            `yaml:"run"`            // run container command
 	ContainerName  string            `yaml:"containerName"`  // container name
 	Ports          map[int]int       `yaml:"ports"`          // exposed ports (host:container)
+	Volumes        map[string]string `yaml:"volumes"`        // volumes (host:container)
 	Symbol         string            `yaml:"symbol"`         // emoji representation
 	ReadinessCheck string            `yaml:"readinessCheck"` // check readiness command
 	Dependencies   []string          `yaml:"dependencies"`   // dependencies

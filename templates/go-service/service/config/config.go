@@ -1,11 +1,25 @@
 package config
 
+import (
+	"encoding/json"
+	"log"
+)
+
 // Config is a general service context
 type Config struct {
 	HTTPPort                  int
 	ServiceName               string
 	GlobalRmqConnectionString string
 	LocalRmqConnectionString  string
+}
+
+// ToString change config into string
+func (c *Config) ToString() string {
+	b, err := json.Marshal(c)
+	if err != nil {
+		log.Fatal("[ERROR]", err)
+	}
+	return string(b)
 }
 
 // CreateConfig initiate new config

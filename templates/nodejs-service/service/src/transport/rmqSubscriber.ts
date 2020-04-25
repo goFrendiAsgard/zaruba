@@ -25,8 +25,20 @@ export class RmqSubscriber implements Subscriber {
     }
 
     async subscribe() {
+        return new Promise(async (_, reject) => {
+            const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+            conn.on("error", (err) => {
+                reject(err);
+            });
+            conn.on("close", (err) => {
+                reject(err);
+            });
+            this.pSubscribe(ch);
+        });
+    }
+
+    async pSubscribe(ch: amqplib.Channel) {
         const self = this;
-        const { ch } = await rmqCreateConnectionAndChannel(this.connectionString);
         for (let key in this.handlers) {
             const eventName = key;
             const handler = this.handlers[eventName];

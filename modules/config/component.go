@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -22,6 +23,7 @@ type Component struct {
 	run            string
 	containerName  string
 	ports          map[int]int
+	volumes        map[string]string
 	symbol         string
 	readinessCheck string
 	dependencies   []string
@@ -83,9 +85,24 @@ func (c *Component) GetContainerName() (containerName string) {
 	return c.containerName
 }
 
+// GetVolumes get component container name
+func (c *Component) GetVolumes() (volumens map[string]string) {
+	return c.volumes
+}
+
 // GetPorts get component container name
 func (c *Component) GetPorts() (ports map[int]int) {
 	return c.ports
+}
+
+// GetEnv get env of service
+func (c *Component) GetEnv() (env map[string]string) {
+	return c.env
+}
+
+// GetDependencies get service dependencies
+func (c *Component) GetDependencies() (dependencies []string) {
+	return c.dependencies
 }
 
 // GetRuntimeContainerName get container name for runtime
@@ -111,10 +128,13 @@ func (c *Component) GetRuntimeLocation() (location string) {
 func (c *Component) GetRuntimeRunCommand() (command string) {
 	command = c.GetRunCommand()
 	if c.GetType() == "container" && command == "" {
+		location := c.GetRuntimeLocation()
+		projectName := c.project.name
 		containerName := c.GetRuntimeContainerName()
 		image := c.GetImage()
 		env := c.GetQuotedRuntimeEnv()
 		portMap := c.GetPorts()
+		volumeMap := c.GetVolumes()
 		// parse ports
 		portParams := "--publish-all"
 		ports := []string{}
@@ -124,6 +144,12 @@ func (c *Component) GetRuntimeRunCommand() (command string) {
 		if len(ports) > 0 {
 			portParams = strings.Join(ports, " ")
 		}
+		// parse volume
+		volumes := []string{}
+		for key, val := range volumeMap {
+			volumes = append(volumes, fmt.Sprintf("-v %s:%s", filepath.Join(location, key), val))
+		}
+		volumeParams := strings.Join(volumes, " ")
 		// parse environments
 		environments := []string{}
 		for name, value := range env {
@@ -131,17 +157,7 @@ func (c *Component) GetRuntimeRunCommand() (command string) {
 		}
 		environmentParams := strings.Join(environments, " ")
 		// create command
-		command = fmt.Sprintf("docker run --name \"%s\" %s %s  -d \"%s\"", containerName, environmentParams, portParams, image)
-	}
-	return command
-}
-
-// GetRuntimeStartCommand get runtime start command
-func (c *Component) GetRuntimeStartCommand() (command string) {
-	command = c.GetStartCommand()
-	if c.GetType() == "container" && command == "" {
-		containerName := c.GetRuntimeContainerName()
-		command = fmt.Sprintf("docker start \"%s\"", containerName)
+		command = fmt.Sprintf("docker run  --name \"%s\" --net=\"%s\" %s %s %s  -d \"%s\"", containerName, projectName, volumeParams, environmentParams, portParams, image)
 	}
 	return command
 }
@@ -149,19 +165,27 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 // GetRuntimeCommand get runtime command (run or start)
 func (c *Component) GetRuntimeCommand() (command string) {
 	if c.GetType() == "container" {
-		startCommand := c.GetRuntimeStartCommand()
+		projectName := c.project.name
 		runCommand := c.GetRuntimeRunCommand()
 		containerName := c.GetRuntimeContainerName()
-		return fmt.Sprintf("(%s || %s) && docker logs --since 0m --follow %s", startCommand, runCommand, containerName)
+		dockerCreateNetworkCommand := fmt.Sprintf("docker network create \"%s\"", projectName)
+		dockerRemoveCommand := fmt.Sprintf("docker rm \"%s\"", containerName)
+		dockerRunCommand := fmt.Sprintf("(%s && docker logs --since 0m --follow %s)", runCommand, containerName)
+		dockerCreateNetworkAndRunCommand := fmt.Sprintf("(%s && %s) || %s", dockerCreateNetworkCommand, dockerRunCommand, dockerRunCommand)
+		return fmt.Sprintf("(%s && %s) || %s", dockerRemoveCommand, dockerCreateNetworkAndRunCommand, dockerCreateNetworkAndRunCommand)
 	}
-	return c.GetRuntimeStartCommand()
+	return c.GetStartCommand()
 }
 
 // GetRuntimeReadinessCheckCommand get runtime start command
 func (c *Component) GetRuntimeReadinessCheckCommand() (command string) {
 	command = c.GetReadinessCheckCommand()
 	if command == "" {
-		command = "echo ok"
+		if c.componentType != "container" {
+			command = "echo ok"
+			return command
+		}
+		command = fmt.Sprintf("docker inspect -f '{{.State.Running}}' \"%s\"", c.GetRuntimeContainerName())
 	}
 	return command
 }
@@ -206,16 +230,6 @@ func (c *Component) GetColor() (color int) {
 	return c.color
 }
 
-// GetEnv get env of service
-func (c *Component) GetEnv() (env map[string]string) {
-	return c.env
-}
-
-// GetDependencies get service dependencies
-func (c *Component) GetDependencies() (dependencies []string) {
-	return c.dependencies
-}
-
 // GetRuntimeEnv get runtime environment variables of a service
 func (c *Component) GetRuntimeEnv() (env map[string]string) {
 	env = map[string]string{}
@@ -225,7 +239,11 @@ func (c *Component) GetRuntimeEnv() (env map[string]string) {
 		if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
 			continue
 		}
-		env[otherServiceName] = "0.0.0.0"
+		if c.componentType == "container" && otherComponent.GetType() == "container" {
+			env[otherServiceName] = otherComponent.GetRuntimeContainerName()
+		} else {
+			env[otherServiceName] = "0.0.0.0"
+		}
 		envNames = append(envNames, otherServiceName)
 	}
 	// project env

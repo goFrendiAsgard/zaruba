@@ -20,16 +20,6 @@ export class Component {
         const rpcServer = this.app.globalRPCServer();
         const subscriber = this.app.globalSubscriber();
 
-        // Simple HTTP Handler
-        r.all("/", (_, res) => res.send("servicename"));
-
-        // More complex HTTP Handler, with side-effect
-        r.get("/toggle-readiness", (_, res) => {
-            this.app.setReadiness(!this.app.readiness());
-            const readiness = this.app.readiness();
-            res.send(`Readiness: ${readiness}`);
-        });
-
         // Use the same HTTP Handler for multiple URLS
         r.get("/hello", this.handleHTTPHello.bind(this));
         r.get("/hello/:name", this.handleHTTPHello.bind(this));
@@ -80,7 +70,7 @@ export class Component {
         const publisher = this.app.globalPublisher();
         const name = getName(req);
         try {
-            publisher.publish("servicename.helloEvent", { name });
+            await publisher.publish("servicename.helloEvent", { name });
             res.send("Message sent");
         } catch (err) {
             res.status(500).send(err);

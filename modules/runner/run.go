@@ -133,6 +133,7 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 
 func checkReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, readyChan chan bool, errChan chan error) {
 	started := false
+	counter := 0
 	// set cmd
 	for !started {
 		cmd, err := command.GetShellCmd(runtimeLocation, readinessCheckCommand)
@@ -142,13 +143,21 @@ func checkReadiness(serviceName, runtimeLocation, readinessCheckCommand string, 
 		}
 		cmd.Env = runtimeEnv
 		time.Sleep(time.Second * 1)
-		logger.Info("Checking readiness of %s", serviceName)
+		if counter == 0 {
+			logger.Info("Checking readiness of %s", serviceName)
+		}
 		_, err = command.RunCmd(cmd)
 		if err == nil {
 			started = true
 			break
 		}
-		logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
+		if counter == 0 {
+			logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
+		}
+		counter = counter + 1
+		if counter == 10 {
+			counter = 0
+		}
 	}
 	readyChan <- started
 	errChan <- nil

@@ -55,7 +55,7 @@ This application was built with the following opinions:
 │   ├── config
 │   │   └── index.ts
 │   ├── core
-│   │   ├── application.ts         # core application
+│   │   ├── mainApp.ts             # core application
 │   │   ├── index.ts
 │   │   └── interfaces.ts          # application interface
 │   ├── main.ts                    # container and application runner
@@ -93,7 +93,7 @@ function main() {
     // create config and app
     const config = new Config();
     console.log("CONFIG:", config);
-    const app = new Application(
+    const app = new MainApp(
         config.httpPort,
         config.globalRmqConnectionString,
         config.localRmqConnectionString,
@@ -114,13 +114,13 @@ Let's say you want to implement your own `Application` component. In order to do
 
 ```ts
 /*
-const app = new Application(
+const app = new MainApp(
 	config.httpPort,
 	config.globalRmqConnectionString,
 	config.localRmqConnectionString,
 );
 */
-const app = MockApplication()
+const app = new MockApp();
 ```
 
 Of course, you have to make sure that `MockApplication` is comply with `App` interface. But aside from that, there is no magic here, it is just your day-to-day simple go code.

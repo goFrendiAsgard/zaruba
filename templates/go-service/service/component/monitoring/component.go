@@ -30,5 +30,6 @@ func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
 				"is_ready":     readiness,
 			})
 		})
+
 	}
 }

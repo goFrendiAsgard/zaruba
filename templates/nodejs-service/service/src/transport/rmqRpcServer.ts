@@ -24,8 +24,20 @@ export class RmqRPCServer implements RPCServer {
         return this;
     }
 
-    async serve() {
-        const { ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+    serve(): Promise<void> {
+        return new Promise(async (_, reject) => {
+            const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+            conn.on("error", (err) => {
+                reject(err);
+            });
+            conn.on("close", (err) => {
+                reject(err);
+            })
+            this.pServe(ch);
+        });
+    }
+
+    async pServe(ch: amqplib.Channel) {
         for (let key in this.handlers) {
             const functionName = key;
             const handler = this.handlers[functionName];

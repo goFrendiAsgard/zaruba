@@ -53,7 +53,7 @@ This application was built with the following opinions:
 │   ├── config.go
 │   └── helper.go
 ├── core
-│   ├── application.go        # core application
+│   ├── mainApp.go            # core application
 │   └── interface.go          # application interface
 ├── go.mod
 ├── go.sum
@@ -89,7 +89,7 @@ func main() {
 	// create config and app
 	config := config.CreateConfig()
 	fmt.Println(config)
-	app := core.CreateApplication(
+	app := core.CreateMainApp(
 		config.HTTPPort,
 		config.GlobalRmqConnectionString,
 		config.LocalRmqConnectionString,
@@ -110,13 +110,13 @@ Let's say you want to implement your own `Application` component. In order to do
 
 ```go
 /*
-app := core.CreateApplication(
+app := core.CreateMainApp(
 	config.HTTPPort,
 	config.GlobalRmqConnectionString,
 	config.LocalRmqConnectionString,
 )
 */
-app := MockApplication()
+app := CreateMockApp()
 ```
 
 Of course, you have to make sure that `MockApplication` is comply with `App` interface. But aside from that, there is no magic here, it is just your day-to-day simple go code.

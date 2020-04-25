@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Application implementation, comply with App
-type Application struct {
+// mainApp implementation, comply with App
+type mainApp struct {
 	readinessMux     sync.Mutex
 	readiness        bool
 	livenessMux      sync.Mutex
@@ -30,14 +30,14 @@ type Application struct {
 }
 
 // Setup application
-func (app *Application) Setup(setupComponents []SetupComponent) {
+func (app *mainApp) Setup(setupComponents []SetupComponent) {
 	for _, setup := range setupComponents {
 		setup()
 	}
 }
 
 // Run application
-func (app *Application) Run() {
+func (app *mainApp) Run() {
 	errChan := make(chan error)
 	go app.globalSubscriber.Subscribe(errChan)
 	go app.localSubscriber.Subscribe(errChan)
@@ -47,88 +47,94 @@ func (app *Application) Run() {
 	app.logger.Println(fmt.Sprintf("Run at port %d", app.httpPort))
 	app.liveness = true
 	app.readiness = true
+	// waiting for error
 	err := <-errChan
-	app.logger.Fatal(err)
+	app.logger.Printf("[ERROR] %s", err)
+	app.liveness = false
+	app.readiness = false
+	// waiting forever
+	forever := make(chan bool)
+	<-forever
 }
 
 // Logger get logger
-func (app *Application) Logger() *log.Logger {
+func (app *mainApp) Logger() *log.Logger {
 	return app.logger
 }
 
 // Router get router
-func (app *Application) Router() *gin.Engine {
+func (app *mainApp) Router() *gin.Engine {
 	return app.router
 }
 
 // GlobalPublisher get globalPublisher
-func (app *Application) GlobalPublisher() transport.Publisher {
+func (app *mainApp) GlobalPublisher() transport.Publisher {
 	return app.globalPublisher
 }
 
 // LocalPublisher get globalPublisher
-func (app *Application) LocalPublisher() transport.Publisher {
+func (app *mainApp) LocalPublisher() transport.Publisher {
 	return app.localPublisher
 }
 
 // GlobalSubscriber get globalSubscriber
-func (app *Application) GlobalSubscriber() transport.Subscriber {
+func (app *mainApp) GlobalSubscriber() transport.Subscriber {
 	return app.globalSubscriber
 }
 
 // LocalSubscriber get globalSubscriber
-func (app *Application) LocalSubscriber() transport.Subscriber {
+func (app *mainApp) LocalSubscriber() transport.Subscriber {
 	return app.localSubscriber
 }
 
 // GlobalRPCServer get globalRPCServer
-func (app *Application) GlobalRPCServer() transport.RPCServer {
+func (app *mainApp) GlobalRPCServer() transport.RPCServer {
 	return app.globalRPCServer
 }
 
 // LocalRPCServer get globalRPCServer
-func (app *Application) LocalRPCServer() transport.RPCServer {
+func (app *mainApp) LocalRPCServer() transport.RPCServer {
 	return app.localRPCServer
 }
 
 // GlobalRPCClient get globalRPCClient
-func (app *Application) GlobalRPCClient() transport.RPCClient {
+func (app *mainApp) GlobalRPCClient() transport.RPCClient {
 	return app.globalRPCClient
 }
 
 // LocalRPCClient get globalRPCClient
-func (app *Application) LocalRPCClient() transport.RPCClient {
+func (app *mainApp) LocalRPCClient() transport.RPCClient {
 	return app.localRPCClient
 }
 
 // Liveness get liveness of application
-func (app *Application) Liveness() bool {
+func (app *mainApp) Liveness() bool {
 	return app.liveness
 }
 
 // SetLiveness set liveness of application
-func (app *Application) SetLiveness(liveness bool) {
+func (app *mainApp) SetLiveness(liveness bool) {
 	app.livenessMux.Lock()
 	defer app.livenessMux.Unlock()
 	app.liveness = liveness
 }
 
 // Readiness get readiness of application
-func (app *Application) Readiness() bool {
+func (app *mainApp) Readiness() bool {
 	return app.readiness
 }
 
 // SetReadiness set readiness of application
-func (app *Application) SetReadiness(readiness bool) {
+func (app *mainApp) SetReadiness(readiness bool) {
 	app.readinessMux.Lock()
 	defer app.readinessMux.Unlock()
 	app.readiness = readiness
 }
 
-// CreateApplication create application
-func CreateApplication(httpPort int, globalRmqConnectionString, localRmqConnectionString string) (app App) {
+// CreateMainApp create application
+func CreateMainApp(httpPort int, globalRmqConnectionString, localRmqConnectionString string) (app App) {
 	logger := log.New(os.Stdout, "", log.LstdFlags)
-	app = &Application{
+	app = &mainApp{
 		liveness:         false,
 		readiness:        false,
 		httpPort:         httpPort,

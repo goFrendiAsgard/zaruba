@@ -20,7 +20,7 @@ export function createSetup(app: App, config: Config): () => void {
             const httpCode = readiness ? 200 : 500;
             res.status(httpCode).send({
                 service_name: serviceName,
-                is_alive: readiness,
+                is_ready: readiness,
             });
         });
 

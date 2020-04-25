@@ -1,15 +1,32 @@
 name: PROJECT NAME
 env: 
-  GLOBAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmqGlobal}:5672/
+  RABBITMQ_DEFAULT_USER: guest
+  RABBITMQ_DEFAULT_PASS: guest
+  MYSQL_USER: mysql
+  MYSQL_PASSWORD: mysql
+  MYSQL_DATABASE: sample
+  MYSQL_ROOT_PASSWORD: toor
 
 components: 
+
   rmqGlobal:
     type: container
-    image: rabbitmq:3-management
-    env:
-      RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: toor
+    image: rabbitmq:3
     ports: 
-        5672: 5672   # host: container
-        15672: 15672
-    readinessCheck: curl ${rmqGlobal}:15672
+        5672: 5672
+
+  redisGlobal:
+    type: container
+    image: redis
+    ports:
+      6379: 6379
+    volumes:
+      ./volumes/redis: /data
+  
+  mySqlGlobal:
+    type: container
+    image: mysql
+    ports:
+      3306: 3306
+    volumes:
+      ./volumes/mysql: /var/lib/mysql

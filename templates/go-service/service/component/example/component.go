@@ -33,15 +33,6 @@ func (comp *Component) Setup() {
 	rpcServer := comp.app.GlobalRPCServer()
 	subscriber := comp.app.GlobalSubscriber()
 
-	// Simple HTTP Handler
-	r.Any("/", func(c *gin.Context) { c.String(http.StatusOK, "servicename") })
-
-	// More complex HTTP Handler, with side-effect
-	r.GET("/toggle-readiness", func(c *gin.Context) {
-		comp.app.SetReadiness(!comp.app.Readiness())
-		c.String(http.StatusOK, fmt.Sprintf("Readiness: %#v", comp.app.Readiness()))
-	})
-
 	// Use the same HTTP Handler for multiple URLS
 	r.GET("/hello", comp.handleHTTPHello)
 	r.GET("/hello/:name", comp.handleHTTPHello)

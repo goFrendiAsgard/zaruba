@@ -3,6 +3,8 @@ package transport
 import (
 	"log"
 	"os"
+
+	"github.com/streadway/amqp"
 )
 
 // CreateRmqSubscriber create new RmqSubscriber
@@ -38,45 +40,50 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 	// create connection and channel
 	conn, ch, err := rmqCreateConnectionAndChannel(s.connectionString)
 	if err != nil {
-		s.logger.Println("[ERROR RmqSubscriber]", err)
-		errChan <- err
+		s.handleRmqError(err, errChan)
 		return
 	}
+	amqpErrChan := conn.NotifyClose(make(chan *amqp.Error))
 	defer conn.Close()
 	defer ch.Close()
 	for eventName, handler := range s.handlers {
 		// start consume
 		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, eventName)
 		if err != nil {
-			s.logger.Println("[ERROR RmqSubscriber]", err)
-			errChan <- err
+			s.handleRmqError(err, errChan)
 			return
 		}
 		s.logger.Printf("[INFO RmqRPCSubscriber] Subscribe %s", eventName)
 		rmqMessages, err := rmqConsume(ch, eventName)
 		if err != nil {
-			s.logger.Println("[ERROR RmqSubscriber]", err)
-			errChan <- err
+			s.handleRmqError(err, errChan)
 			return
 		}
 		// handle message
-		messageHandler := handler
+		thisHandler := handler
 		thisEventName := eventName
-		go func() {
-			for rmqMessage := range rmqMessages {
-				envelopedMessage, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
-				if err != nil {
-					s.logger.Println("[ERROR RmqSubscriber]", err)
-					continue
-				}
-				s.logger.Printf("[INFO RmqRPCSubscriber] Get %s: %#v", thisEventName, envelopedMessage.Message)
-				err = messageHandler(envelopedMessage.Message)
-				if err != nil {
-					s.logger.Println("[ERROR RmqSubscriber]", err)
-				}
-			}
-		}()
+		go s.handleRmqMessages(thisEventName, thisHandler, rmqMessages)
 	}
-	forever := make(chan bool)
-	<-forever
+	err = <-amqpErrChan
+	errChan <- err
+}
+
+func (s *RmqSubscriber) handleRmqMessages(eventName string, handler EventHandler, rmqMessages <-chan amqp.Delivery) {
+	for rmqMessage := range rmqMessages {
+		envelopedMessage, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
+		if err != nil {
+			s.logger.Println("[ERROR RmqSubscriber]", err)
+			continue
+		}
+		s.logger.Printf("[INFO RmqSubscriber] Get %s: %#v", eventName, envelopedMessage.Message)
+		err = handler(envelopedMessage.Message)
+		if err != nil {
+			s.logger.Println("[ERROR RmqSubscriber]", err)
+		}
+	}
+}
+
+func (s *RmqSubscriber) handleRmqError(err error, errChan chan error) {
+	s.logger.Println("[ERROR RmqSubscriber]", err)
+	errChan <- err
 }

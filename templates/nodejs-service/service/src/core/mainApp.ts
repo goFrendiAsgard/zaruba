@@ -1,11 +1,12 @@
-import { Express, RequestHandler } from "express";
+import { Express } from "express";
 import express from "express";
 import bodyParser from "body-parser";
 import { App, SetupComponent } from "./interfaces";
 import { Publisher, Subscriber, RPCServer, RPCClient, RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient } from "../transport";
+import { createHttpLogger, logExpressRoutes } from "./expressMiddlewares";
 
-export class Application implements App {
-    private static _instance: Application;
+export class MainApp implements App {
+    private static _instance: MainApp;
 
     private _readiness: boolean;
     private _liveness: boolean;
@@ -22,7 +23,7 @@ export class Application implements App {
     private _httpPort: number;
 
     constructor(httpPort: number, globalRmqConnectionString: string, localRmqConnectionString: string) {
-        if (Application._instance) {
+        if (MainApp._instance) {
             throw new Error("Application initialized, use Application.getInstance() instead");
         }
         this._httpPort = httpPort;
@@ -44,7 +45,7 @@ export class Application implements App {
     }
 
     getInstance() {
-        return Application._instance;
+        return MainApp._instance;
     }
 
     setup(setupComponents: SetupComponent[]) {
@@ -67,7 +68,7 @@ export class Application implements App {
             }),
         ]).catch((err) => {
             this._liveness = false;
-            this._liveness = true;
+            this._readiness = false;
             this._logger.error(err);
         });
 
@@ -130,35 +131,4 @@ export class Application implements App {
         this._readiness = readiness;
     }
 
-}
-
-export function createHttpLogger(logger: Console): RequestHandler {
-    return async (req, res, next) => {
-        const startHr = process.hrtime();
-        try {
-            await next();
-        } catch (err) {
-            logger.error(err);
-            res.sendStatus(500);
-        }
-        const durationHr = process.hrtime(startHr);
-        const duration = durationHr[0] * 1000000 + durationHr[1] / 1000;
-        logger.log(`HTTP Request ${req.method} ${req.url} ${res.statusCode} ${duration} ms`);
-    }
-}
-
-export function logExpressRoutes(router: Express, logger: Console) {
-    try {
-        for (let layer of router._router.stack) {
-            if (layer.route && layer.route.path && layer.route.methods) {
-                const path = layer.route.path;
-                for (let method in layer.route.methods) {
-                    const shownMethod = method.toUpperCase().padEnd(15, " ");
-                    logger.log(`${shownMethod}\t ${path}`);
-                }
-            }
-        }
-    } catch (err) {
-        logger.error(err);
-    }
 }
