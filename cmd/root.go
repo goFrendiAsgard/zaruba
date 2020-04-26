@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
 var banner string = `
@@ -23,7 +22,7 @@ var rootCmd = &cobra.Command{
 		if len(args) < 1 {
 			fmt.Println(banner)
 			fmt.Println("My name is Zaruba. I came to be when Garo came to be and I am forever with him.")
-			logger.Info("Action required. Try `zaruba help`")
+			cmd.Help()
 		}
 	},
 }
