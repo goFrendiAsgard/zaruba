@@ -65,7 +65,6 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 	if err != nil {
 		return err
 	}
-	// branch := component.GetBranch()
 	// init
 	if err = Init(tempDir); err != nil {
 		return err
@@ -82,14 +81,6 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 	if err = command.RunAndRedirect(tempDir, "git", "remote", "add", "origin", origin); err != nil {
 		return err
 	}
-	/*
-		// checkout if branch != master
-		if branch != "master" {
-			if err = Checkout(tempDir, branch, true); err != nil {
-				return err
-			}
-		}
-	*/
 	// push
 	if err = command.RunAndRedirect(tempDir, "git", "push", "-u", "origin", branch); err != nil {
 		return err

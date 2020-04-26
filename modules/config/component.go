@@ -16,7 +16,6 @@ type Component struct {
 	runtimeSymbol  string         // emoji, will be `symbol` if assigned or random
 	componentType  string         // service, library, container
 	origin         string
-	branch         string
 	location       string
 	image          string
 	start          string
@@ -37,11 +36,6 @@ func (c *Component) GetType() (componentType string) {
 // GetOrigin get component origin
 func (c *Component) GetOrigin() (origin string) {
 	return c.origin
-}
-
-// GetBranch get component branch
-func (c *Component) GetBranch() (branch string) {
-	return c.branch
 }
 
 // GetLocation get component location

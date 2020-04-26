@@ -9,18 +9,15 @@ components:
     type: library
     location: ./templates/project
     origin: git@github.com:state-alchemists/zaruba-project-template.git
-    branch: master
 
   nodejs-service-template:
     type: library
     location: ./templates/nodejs-service
     origin: git@github.com:state-alchemists/zaruba-nodejs-service-template.git
-    branch: master
 
   go-service-template:
     type: library
     location: ./templates/go-service
     origin: git@github.com:state-alchemists/zaruba-go-service-template.git
-    branch: master
 
 links: {}

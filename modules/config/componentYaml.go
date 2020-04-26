@@ -4,7 +4,6 @@ package config
 type ComponentYaml struct {
 	Type           string            `yaml:"type"`           // "service", "library", "container"
 	Origin         string            `yaml:"origin"`         // Component's git origin
-	Branch         string            `yaml:"branch"`         // Component's branch
 	Location       string            `yaml:"location"`       // location of the component
 	Image          string            `yaml:"image"`          // container's image
 	Start          string            `yaml:"start"`          // start service command

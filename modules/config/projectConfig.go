@@ -75,7 +75,6 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 		pYaml.Components[componentName] = ComponentYaml{
 			Type:           component.GetType(),
 			Origin:         component.GetOrigin(),
-			Branch:         component.GetBranch(),
 			Location:       component.GetLocation(),
 			Image:          component.GetImage(),
 			Start:          component.GetStartCommand(),
@@ -164,7 +163,6 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 		p.components[componentName] = &Component{
 			componentType:  component.Type,
 			origin:         component.Origin,
-			branch:         component.Branch,
 			location:       component.Location,
 			image:          component.Image,
 			start:          component.Start,
