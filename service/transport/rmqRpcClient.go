@@ -7,8 +7,8 @@ import (
 	"os"
 )
 
-// NewRmqRPCClient create new RmqRPC
-func NewRmqRPCClient(connectionString string) *RmqRPCClient {
+// CreateRmqRPCClient create new RmqRPC
+func CreateRmqRPCClient(connectionString string) *RmqRPCClient {
 	return &RmqRPCClient{
 		connectionString: connectionString,
 		logger:           log.New(os.Stdout, "", log.LstdFlags),
@@ -62,11 +62,13 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 				errorMessage := fmt.Sprintf("output not found in %#v", envelopedOutput.Message)
 				err = errors.New(errorMessage)
 			}
+			c.logger.Printf("[INFO RmqRPCClient] Get Reply %s %#v: %#v", functionName, inputs, output)
 			waitReply <- true
 			return
 		}
 	}()
 	// send message
+	c.logger.Printf("[INFO RmqRPCClient] Call %s %#v", functionName, inputs)
 	err = rmqRpcCall(ch, functionName, replyTo, inputs)
 	if err != nil {
 		waitReply <- true

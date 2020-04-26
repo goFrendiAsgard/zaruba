@@ -1,35 +1,33 @@
 package config
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
-	"os"
 )
-
-// NewConfig initiate new config
-func NewConfig() (config *Config) {
-	servicePort := GetIntFromEnv("SERVICENAME_HTTP_PORT", 3000)
-	rmqConnectionString := GetRmqConnectionString(
-		GetStrFromEnv("RMQ_HOST", "localhost"),
-		GetIntFromEnv("RMQ_PORT", 5672),
-		GetStrFromEnv("RMQ_USER", "root"),
-		GetStrFromEnv("RMQ_PASSWORD", "toor"),
-		GetStrFromEnv("RMQ_VHOST", "/"),
-	)
-	return &Config{
-		HTTPPort:            servicePort,
-		ServiceName:         "servicename",
-		Logger:              log.New(os.Stdout, "", log.LstdFlags),
-		RmqConnectionString: rmqConnectionString,
-		LocalServiceAddress: fmt.Sprintf("http://localhost:%d", servicePort),
-	}
-}
 
 // Config is a general service context
 type Config struct {
-	HTTPPort            int
-	ServiceName         string
-	Logger              *log.Logger
-	RmqConnectionString string
-	LocalServiceAddress string
+	HTTPPort                  int
+	ServiceName               string
+	GlobalRmqConnectionString string
+	LocalRmqConnectionString  string
+}
+
+// ToString change config into string
+func (c *Config) ToString() string {
+	b, err := json.Marshal(c)
+	if err != nil {
+		log.Fatal("[ERROR]", err)
+	}
+	return string(b)
+}
+
+// CreateConfig initiate new config
+func CreateConfig() (config *Config) {
+	return &Config{
+		HTTPPort:                  GetIntFromEnv("SERVICENAME_HTTP_PORT", 3000),
+		ServiceName:               "servicename",
+		GlobalRmqConnectionString: GetStrFromEnv("GLOBAL_RMQ_CONNECTION_STRING", "amqp://localhost:5672/"),
+		LocalRmqConnectionString:  GetStrFromEnv("LOCAL_RMQ_CONNECTION_STRING", "amqp://localhost:5672/"),
+	}
 }
