@@ -1,6 +1,5 @@
 name: PROJECT NAME
 env: 
-<<<<<<< HEAD
   RABBITMQ_DEFAULT_USER: root
   RABBITMQ_DEFAULT_PASS: toor
 
@@ -12,35 +11,3 @@ components:
         5672: 5672
         15672: 15672
     readinessCheck: docker exec ${CONTAINER_NAME} rabbitmqctl await_startup 
-=======
-  RABBITMQ_DEFAULT_USER: guest
-  RABBITMQ_DEFAULT_PASS: guest
-  MYSQL_USER: mysql
-  MYSQL_PASSWORD: mysql
-  MYSQL_DATABASE: sample
-  MYSQL_ROOT_PASSWORD: toor
-
-components: 
-
-  rmqGlobal:
-    type: container
-    image: rabbitmq:3
-    ports: 
-        5672: 5672
-
-  redisGlobal:
-    type: container
-    image: redis
-    ports:
-      6379: 6379
-    volumes:
-      ./volumes/redis: /data
-  
-  mySqlGlobal:
-    type: container
-    image: mysql
-    ports:
-      3306: 3306
-    volumes:
-      ./volumes/mysql: /var/lib/mysql
->>>>>>> a4ca4e8a00d74d9459a85c8a62052b9c3f22742d
