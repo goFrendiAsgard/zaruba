@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+PROJECT_DIR=$1
+TEMPLATE_DIR=$(pwd)
+
+if [ -e ${PROJECT_DIR}/mysql ]
+then
+    read -p "${PROJECT_DIR}/mysql is not empty, do you want to continue (Y/n)? " answer
+    if [ $answer != "Y" ] && [ $answer != "y" ]
+    then
+        echo "MySql not created."
+        exit 0
+    fi
+fi
+
+# Copy project to PROJECT_DIR, add .gitignore and change to the project directory
+cp -r ${TEMPLATE_DIR}/mysql ${PROJECT_DIR}/mysql
+echo "MySql created"
