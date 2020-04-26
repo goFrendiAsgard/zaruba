@@ -29,7 +29,7 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Commit changes at: %s", time.Now().Format(time.RFC3339)))
+	git.Commit(projectDir, fmt.Sprintf("💀 Commit changes at: %s", time.Now().Format(time.RFC3339)))
 	logger.Info("Pull from main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "pull", "origin", currentBranch); err != nil {
 		return err
