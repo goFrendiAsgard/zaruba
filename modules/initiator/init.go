@@ -82,13 +82,13 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	git.Commit(projectDir, fmt.Sprintf("💀 Sync %s from subrepo at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Sync %s from subrepo at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// restore
 	if err := restore(backupLocation, location); err != nil {
 		return err
 	}
 	// commit
-	git.Commit(projectDir, fmt.Sprintf("💀 Overwrite %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Overwrite %s at: %s", componentName, time.Now().Format(time.RFC3339)))
 	return err
 }
 
