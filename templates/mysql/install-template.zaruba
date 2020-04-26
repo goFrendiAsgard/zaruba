@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+
+echo "MySql template has been successfully installed. Enjoy !!!"

@@ -47,7 +47,7 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 		location := component.GetLocation()
 		origin := component.GetOrigin()
 		branch := currentBranch
-		if location == "" || origin == "" || branch == "" {
+		if location == "" || origin == "" {
 			continue
 		}
 		logger.Info("Pulling from sub-repo %s", componentName)

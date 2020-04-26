@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+
+echo "Redis template has been successfully installed. Enjoy !!!"
