@@ -72,7 +72,7 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 	}
 	f.WriteString("# " + componentName)
 	// commit
-	Commit(tempDir, fmt.Sprintf("💀 First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339)))
+	Commit(tempDir, fmt.Sprintf("💀 [INIT] First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339)))
 	// add remote
 	if err = command.RunAndRedirect(tempDir, "git", "remote", "add", "origin", origin); err != nil {
 		return err

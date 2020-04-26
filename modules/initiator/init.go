@@ -67,7 +67,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return nil
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Backup local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [INIT] Backup local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// backup
 	if err = backup(location, backupLocation); err != nil {
 		restore(backupLocation, location)
@@ -79,7 +79,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Remove local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [INIT] Remove local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
 	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
 		restore(backupLocation, location)
@@ -99,7 +99,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Restore local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [INIT] Restore local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
 	return err
 }
 

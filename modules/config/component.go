@@ -218,7 +218,7 @@ func (c *Component) GetColor() (color int) {
 // GetRuntimeEnv get runtime environment variables of a service
 func (c *Component) GetRuntimeEnv() (env map[string]string) {
 	env = map[string]string{}
-	envNames := []string{}
+	sortedEnvNames := []string{}
 	// other service/container name
 	for otherServiceName, otherComponent := range c.project.components {
 		if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
@@ -229,7 +229,7 @@ func (c *Component) GetRuntimeEnv() (env map[string]string) {
 		} else {
 			env[otherServiceName] = "0.0.0.0"
 		}
-		envNames = append(envNames, otherServiceName)
+		sortedEnvNames = append(sortedEnvNames, otherServiceName)
 	}
 	// project env
 	for name, value := range c.project.env {
@@ -237,19 +237,19 @@ func (c *Component) GetRuntimeEnv() (env map[string]string) {
 			value = osValue
 		}
 		env[name] = value
-		envNames = append(envNames, name)
+		sortedEnvNames = append(sortedEnvNames, name)
 	}
 	// current service env
 	for name, value := range c.env {
 		env[name] = value
-		envNames = append(envNames, name)
+		sortedEnvNames = append(sortedEnvNames, name)
 	}
 	// current container name
 	if componentType := c.GetType(); componentType == "container" {
 		env["CONTAINER_NAME"] = c.GetRuntimeContainerName()
-		envNames = append(envNames, "CONTAINER_NAME")
+		sortedEnvNames = append(sortedEnvNames, "CONTAINER_NAME")
 	}
-	env = parseEnv(env, envNames)
+	env = parseEnv(env, sortedEnvNames)
 	return env
 }
 
@@ -266,10 +266,10 @@ func (c *Component) GetQuotedRuntimeEnv() (env map[string]string) {
 	return env
 }
 
-func parseEnv(env map[string]string, envNames []string) map[string]string {
-	for index, name := range envNames {
+func parseEnv(env map[string]string, sortedEnvNames []string) map[string]string {
+	for index, name := range sortedEnvNames {
 		value := env[name]
-		for _, prevName := range envNames[:index] {
+		for _, prevName := range sortedEnvNames[:index] {
 			prevValue := env[prevName]
 			value = strings.ReplaceAll(value, fmt.Sprintf("${%s}", prevName), prevValue)
 			value = strings.ReplaceAll(value, fmt.Sprintf("$%s", prevName), prevValue)
