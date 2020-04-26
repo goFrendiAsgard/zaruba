@@ -18,8 +18,6 @@ import (
 
 // Run a project config.
 func Run(projectDir string, p *config.ProjectConfig, executions []string, stopChan, executedChan chan bool, errChan chan error) {
-	str, _ := p.ToColorizedYaml()
-	logger.Info("Project Config Loaded: %s", str)
 	if len(executions) == 0 {
 		executions = getServiceNames(p)
 	}
@@ -100,8 +98,6 @@ func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecut
 				killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 				return cmdMap, err
 			}
-			// remove container
-			// removeContainerIfNeeded(projectDir, component)
 			// create cmd
 			runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color := component.GetRuntimeName(), component.GetRuntimeLocation(), component.GetRuntimeCommand(), getServiceEnv(p, serviceName), component.GetColor()
 			cmd, err := createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color)
@@ -147,15 +143,6 @@ func createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation stri
 	logger.Info("Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 	return cmd, err
-}
-
-func removeContainerIfNeeded(projectDir string, component *config.Component) {
-	componentType := component.GetType()
-	if componentType == "container" {
-		containerName := component.GetRuntimeContainerName()
-		command.RunAndRedirect(projectDir, "docker", "stop", containerName)
-		command.RunAndRedirect(projectDir, "docker", "rm", containerName)
-	}
 }
 
 func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, errChan chan error) {
@@ -207,7 +194,7 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 func logService(serviceName, prefix string, color int, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("\033[%dm[%s - %s]\033[0m %s", color, prefix, serviceName, buf.Text())
+		log.Printf("\033[%dm%s - %s\033[0m   %s", color, prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
 		logger.Error("%s: %s", serviceName, err)

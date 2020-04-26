@@ -95,15 +95,6 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 	return str, err
 }
 
-// ToColorizedYaml get yaml representation (colorized)
-func (p *ProjectConfig) ToColorizedYaml() (str string, err error) {
-	str, err = p.ToYaml()
-	if err == nil {
-		str = fmt.Sprintf("\n\033[36m%s\033[0m", str)
-	}
-	return str, err
-}
-
 // GetSortedLinkSources get sorted link sources
 func (p *ProjectConfig) GetSortedLinkSources() (sortedSources []string) {
 	if p.isSortedLinkSourcesCached {

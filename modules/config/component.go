@@ -197,13 +197,13 @@ func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 // GetRuntimeName get component name
 func (c *Component) GetRuntimeName() (name string) {
 	runtimeName := fmt.Sprintf("%s %s", c.GetRuntimeSymbol(), c.GetName())
-	return fmt.Sprintf("%-12v", runtimeName)
+	return fmt.Sprintf("%-14v", runtimeName)
 }
 
 // GetColor get component name
 func (c *Component) GetColor() (color int) {
 	if c.color == 0 {
-		colorList := []int{92, 93, 94, 95, 96, 91}
+		colorList := []int{92, 93, 95, 96}
 		index := c.project.lastGeneratedColorIndex
 		c.color = colorList[index]
 		index++
