@@ -42,14 +42,16 @@ export class RmqRPCClient implements RPCClient {
                         }
                         const message = envelopedOutput.message;
                         await self.deleteQueue(conn, ch, replyTo);
+                        self.logger.log(`[INFO RmqRPCClient] Get Reply ${functionName}`, JSON.stringify(inputs), ":", JSON.stringify(message.output));
                         resolve(message.output);
                     } catch (err) {
-                        self.logger.error(err);
+                        self.logger.log(`[ERROR RmqRPCClient] Get Reply ${functionName}`, JSON.stringify(inputs), ":", err);
                         await self.deleteQueue(conn, ch, replyTo);
                         reject(err);
                     }
                 });
                 // send message
+                self.logger.log(`[INFO RmqRPCClient] Call ${functionName}`, JSON.stringify(inputs));
                 await rmqRpcCall(ch, functionName, replyTo, inputs);
             } catch (err) {
                 self.logger.error(err);

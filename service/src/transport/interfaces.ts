@@ -14,7 +14,7 @@ export interface RPCServer {
 }
 
 export interface Publisher {
-    publish: (eventName: string, msg: Message) => void;
+    publish: (eventName: string, msg: Message) => void | Promise<void>;
     setLogger: (logger: Console) => Publisher
 }
 

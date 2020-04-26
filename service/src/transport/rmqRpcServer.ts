@@ -24,12 +24,29 @@ export class RmqRPCServer implements RPCServer {
         return this;
     }
 
-    async serve() {
-        const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+    serve(): Promise<void> {
+        return new Promise(async (_, reject) => {
+            try {
+                const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+                conn.on("error", (err) => {
+                    reject(err);
+                });
+                conn.on("close", (err) => {
+                    reject(err);
+                })
+                this.pServe(ch);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async pServe(ch: amqplib.Channel) {
         for (let key in this.handlers) {
             const functionName = key;
             const handler = this.handlers[functionName];
             await rmqDeclareQueueAndBindToDefaultExchange(ch, functionName);
+            this.logger.log(`[INFO RmqRPCServer] Serve ${functionName}`);
             rmqConsume(ch, functionName, async (rmqMessageOrNull) => {
                 const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                 const { replyTo } = rmqMessage.properties;
@@ -38,8 +55,10 @@ export class RmqRPCServer implements RPCServer {
                 try {
                     const inputs = envelopedInput.message.inputs;
                     const output = await handler(...inputs);
+                    this.logger.log(`[INFO RmqRPCServer] Reply ${functionName}`, JSON.stringify(inputs), "output:", JSON.stringify(output));
                     await rmqRpcReply(ch, replyTo, envelopedInput, output);
                 } catch (err) {
+                    this.logger.error(`[ERROR RmqRPCServer] Reply ${functionName}: `, err);
                     await rmqRpcReplyError(ch, replyTo, envelopedInput, err);
                 }
             });

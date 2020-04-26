@@ -1,2 +1,2 @@
 run:
-	npm install --save && tsc && npm start
+	npm start
