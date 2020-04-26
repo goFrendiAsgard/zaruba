@@ -1,6 +1,7 @@
 package initiator
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -17,6 +18,11 @@ import (
 
 // Init monorepo and subtree
 func Init(projectDir string, p *config.ProjectConfig) (err error) {
+	if branchName, err := git.GetCurrentBranchName(projectDir); err == nil {
+		if branchName != "master" {
+			return errors.New("You are not on `master` branch, please checkout to `master` and continue")
+		}
+	}
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
 		return err
 	}
@@ -73,7 +79,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Add Subtree %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Remove local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
 	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
 		restore(backupLocation, location)
@@ -88,14 +94,12 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		restore(backupLocation, location)
 		return err
 	}
-	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Sync %s from subrepo at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// restore
 	if err := restore(backupLocation, location); err != nil {
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Overwrite %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Restore local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
 	return err
 }
 
