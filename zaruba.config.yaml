@@ -20,4 +20,14 @@ components:
     location: ./templates/go-service
     origin: git@github.com:state-alchemists/zaruba-go-service-template.git
 
+  mysql-template:
+    type: library
+    location: ./templates/mysql
+    origin: git@github.com:state-alchemists/zaruba-mysql-template.git
+
+  redis-template:
+    type: library
+    location: ./templates/redis
+    origin: git@github.com:state-alchemists/zaruba-redis-template.git
+
 links: {}
