@@ -61,10 +61,6 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 		return err
 	}
 	origin := component.GetOrigin()
-	branch, err := GetCurrentBranchName(projectDir)
-	if err != nil {
-		return err
-	}
 	// init
 	if err = Init(tempDir); err != nil {
 		return err
@@ -76,13 +72,13 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 	}
 	f.WriteString("# " + componentName)
 	// commit
-	Commit(tempDir, fmt.Sprintf("Zaruba: First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339)))
+	Commit(tempDir, fmt.Sprintf("💀 First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339)))
 	// add remote
 	if err = command.RunAndRedirect(tempDir, "git", "remote", "add", "origin", origin); err != nil {
 		return err
 	}
 	// push
-	if err = command.RunAndRedirect(tempDir, "git", "push", "-u", "origin", branch); err != nil {
+	if err = command.RunAndRedirect(tempDir, "git", "push", "-u", "origin", "master"); err != nil {
 		return err
 	}
 	return os.RemoveAll(tempDir)
