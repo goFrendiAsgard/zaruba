@@ -61,7 +61,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return nil
 	}
 	// commit
-	git.Commit(projectDir, fmt.Sprintf("💀 Backup local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 Backup local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// backup
 	if err = backup(location, backupLocation); err != nil {
 		return err
