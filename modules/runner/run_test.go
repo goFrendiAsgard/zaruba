@@ -21,7 +21,19 @@ func TestRun(t *testing.T) {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
+	if err := component.Create("mysql", testPath); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
+		return
+	}
+	if err := component.Create("redis", testPath); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
+		return
+	}
 	if err := component.Create("go-service", testPath, "alpha"); err != nil {
+		t.Errorf("[ERROR] Cannot create component: %s", err)
+		return
+	}
+	if err := component.Create("nodejs-service", testPath, "beta"); err != nil {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
@@ -57,6 +69,15 @@ func TestRun(t *testing.T) {
 	if err != nil {
 		t.Errorf("[ERROR] Error while running: %s", err)
 	}
+
+	if err = StopContainers(testPath, p); err != nil {
+		t.Errorf("[ERROR] Cannot stop containers: %s", err)
+	}
+
+	if err = RemoveContainers(testPath, p); err != nil {
+		t.Errorf("[ERROR] Cannot remove containers: %s", err)
+	}
+
 }
 
 func testRequest(t *testing.T, port int, url, expected string) {

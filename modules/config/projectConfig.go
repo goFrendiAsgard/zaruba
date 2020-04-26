@@ -79,7 +79,6 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 			Location:       component.GetLocation(),
 			Image:          component.GetImage(),
 			Start:          component.GetStartCommand(),
-			Run:            component.GetRunCommand(),
 			ContainerName:  component.GetContainerName(),
 			Ports:          component.GetPorts(),
 			Volumes:        component.GetVolumes(),
@@ -138,8 +137,7 @@ func (p *ProjectConfig) GetSubrepoPrefixMap(projectDir string) (subRepoPrefixMap
 	subRepoPrefixMap = map[string]string{}
 	for componentName, component := range p.components {
 		location := component.location
-		branch := component.branch
-		if location == "" || branch == "" {
+		if location == "" {
 			continue
 		}
 		subRepoPrefix := getSubrepoPrefix(projectDir, location)
@@ -170,7 +168,6 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 			location:       component.Location,
 			image:          component.Image,
 			start:          component.Start,
-			run:            component.Run,
 			containerName:  component.ContainerName,
 			ports:          component.Ports,
 			volumes:        component.Volumes,

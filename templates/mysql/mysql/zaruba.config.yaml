@@ -1,0 +1,30 @@
+env: 
+  MYSQL_USER: mysql
+  MYSQL_PASSWORD: mysql
+  MYSQL_DATABASE: sample
+  MYSQL_ROOT_PASSWORD: toor
+
+components: 
+
+  mysqlGlobal:
+    type: container
+    image: mysql
+    ports:
+      3306: 3306
+    volumes:
+      ./volume: /var/lib/mysql
+    readinessCheck: docker exec ${CONTAINER_NAME} mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SHOW SCHEMAS"
+  
+  phpmyadmin:
+    type: container
+    image: phpmyadmin/phpmyadmin
+    env:
+      PMA_HOST: ${mysqlGlobal}
+      PMA_USER: root
+      PMA_PASSWORD: toor
+      PMA_PORT: 3306
+    ports:
+      8080: 80
+    dependencies:
+      - mysqlGlobal
+    readinessCheck: curl localhost:8080

@@ -8,7 +8,6 @@ type ComponentYaml struct {
 	Location       string            `yaml:"location"`       // location of the component
 	Image          string            `yaml:"image"`          // container's image
 	Start          string            `yaml:"start"`          // start service command
-	Run            string            `yaml:"run"`            // run container command
 	ContainerName  string            `yaml:"containerName"`  // container name
 	Ports          map[int]int       `yaml:"ports"`          // exposed ports (host:container)
 	Volumes        map[string]string `yaml:"volumes"`        // volumes (host:container)

@@ -26,14 +26,18 @@ export class RmqSubscriber implements Subscriber {
 
     async subscribe() {
         return new Promise(async (_, reject) => {
-            const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
-            conn.on("error", (err) => {
+            try {
+                const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
+                conn.on("error", (err) => {
+                    reject(err);
+                });
+                conn.on("close", (err) => {
+                    reject(err);
+                });
+                this.pSubscribe(ch);
+            } catch (err) {
                 reject(err);
-            });
-            conn.on("close", (err) => {
-                reject(err);
-            });
-            this.pSubscribe(ch);
+            }
         });
     }
 

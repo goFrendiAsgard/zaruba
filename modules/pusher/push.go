@@ -50,7 +50,7 @@ func Push(projectDir string, p *config.ProjectConfig) (err error) {
 		location := component.GetLocation()
 		origin := component.GetOrigin()
 		branch := currentBranch
-		if location == "" || origin == "" || branch == "" {
+		if location == "" || origin == "" {
 			continue
 		}
 		logger.Info("Push to sub-repo %s", componentName)

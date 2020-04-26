@@ -20,7 +20,6 @@ type Component struct {
 	location       string
 	image          string
 	start          string
-	run            string
 	containerName  string
 	ports          map[int]int
 	volumes        map[string]string
@@ -63,11 +62,6 @@ func (c *Component) GetImage() (image string) {
 // GetStartCommand get component start command
 func (c *Component) GetStartCommand() (start string) {
 	return c.start
-}
-
-// GetRunCommand get component run command
-func (c *Component) GetRunCommand() (run string) {
-	return c.run
 }
 
 // GetReadinessCheckCommand get component run command
@@ -124,9 +118,9 @@ func (c *Component) GetRuntimeLocation() (location string) {
 	return c.project.GetDirName()
 }
 
-// GetRuntimeRunCommand get runtime run command
-func (c *Component) GetRuntimeRunCommand() (command string) {
-	command = c.GetRunCommand()
+// GetRuntimeStartCommand get runtime run command
+func (c *Component) GetRuntimeStartCommand() (command string) {
+	command = c.GetStartCommand()
 	if c.GetType() == "container" && command == "" {
 		location := c.GetRuntimeLocation()
 		projectName := c.project.name
@@ -165,14 +159,11 @@ func (c *Component) GetRuntimeRunCommand() (command string) {
 // GetRuntimeCommand get runtime command (run or start)
 func (c *Component) GetRuntimeCommand() (command string) {
 	if c.GetType() == "container" {
-		projectName := c.project.name
-		runCommand := c.GetRuntimeRunCommand()
+		runCommand := c.GetRuntimeStartCommand()
 		containerName := c.GetRuntimeContainerName()
-		dockerCreateNetworkCommand := fmt.Sprintf("docker network create \"%s\"", projectName)
-		dockerRemoveCommand := fmt.Sprintf("docker rm \"%s\"", containerName)
-		dockerRunCommand := fmt.Sprintf("(%s && docker logs --since 0m --follow %s)", runCommand, containerName)
-		dockerCreateNetworkAndRunCommand := fmt.Sprintf("(%s && %s) || %s", dockerCreateNetworkCommand, dockerRunCommand, dockerRunCommand)
-		return fmt.Sprintf("(%s && %s) || %s", dockerRemoveCommand, dockerCreateNetworkAndRunCommand, dockerCreateNetworkAndRunCommand)
+		startOrRunCommand := fmt.Sprintf("(docker start \"%s\" || %s)", containerName, runCommand)
+		startOrRunAndFollowCommand := fmt.Sprintf("%s && docker logs --since 0m --follow %s", startOrRunCommand, containerName)
+		return startOrRunAndFollowCommand
 	}
 	return c.GetStartCommand()
 }
@@ -185,7 +176,7 @@ func (c *Component) GetRuntimeReadinessCheckCommand() (command string) {
 			command = "echo ok"
 			return command
 		}
-		command = fmt.Sprintf("docker inspect -f '{{.State.Running}}' \"%s\"", c.GetRuntimeContainerName())
+		command = fmt.Sprintf("if [ $(docker inspect -f '{{.State.Running}}' \"%s\") = true ]; then echo ok; else echo notOk 1>&2; fi;", c.GetRuntimeContainerName())
 	}
 	return command
 }

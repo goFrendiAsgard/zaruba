@@ -86,12 +86,6 @@ func testGopher1Component(t *testing.T, gopher1 *Component) {
 	if gopher1.GetStartCommand() != "go build && ./app" {
 		t.Errorf("[UNEXPECTED] gopher1's runtime start command should be `go build && ./app`, but it contains `%s`", gopher1.GetStartCommand())
 	}
-	if gopher1.GetRunCommand() != "" {
-		t.Errorf("[UNEXPECTED] gopher1's run command should be ``, but it contains `%s`", gopher1.GetRunCommand())
-	}
-	if gopher1.GetRuntimeRunCommand() != "" {
-		t.Errorf("[UNEXPECTED] gopher1's runtime run command should be ``, but it contains `%s`", gopher1.GetRuntimeRunCommand())
-	}
 	if gopher1.GetRuntimeCommand() != gopher1.GetStartCommand() {
 		t.Errorf("[UNEXPECTED] gopher1's runtime command should be `%s`, but it contains `%s`", gopher1.GetStartCommand(), gopher1.GetRuntimeCommand())
 	}
@@ -120,10 +114,7 @@ func testRmqComponent(t *testing.T, rmq *Component) {
 	if rmq.GetStartCommand() != "" {
 		t.Errorf("[UNEXPECTED] rmq's start command should be ``, but it contains `%s`", rmq.GetStartCommand())
 	}
-	if rmq.GetRunCommand() != "" {
-		t.Errorf("[UNEXPECTED] rmq's run command should be ``, but it contains `%s`", rmq.GetRunCommand())
-	}
-	if rmq.GetRuntimeRunCommand() == "" {
-		t.Errorf("[UNEXPECTED] rmq's runtime run command should not be empty, but it contains `%s`", rmq.GetRuntimeRunCommand())
+	if rmq.GetRuntimeCommand() == "" {
+		t.Errorf("[UNEXPECTED] rmq's runtime run command should not be empty, but it contains `%s`", rmq.GetRuntimeCommand())
 	}
 }

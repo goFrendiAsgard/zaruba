@@ -50,11 +50,15 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	if err != nil {
 		return err
 	}
+	branch, err := git.GetCurrentBranchName(projectDir)
+	if err != nil {
+		return err
+	}
 	origin := component.GetOrigin()
-	branch := component.GetBranch()
+	// branch := component.GetBranch()
 	location := component.GetLocation()
 	backupLocation := filepath.Join(projectDir, ".git", ".subrepobackup", subrepoPrefix)
-	if location == "" || origin == "" || branch == "" {
+	if location == "" || origin == "" {
 		return nil
 	}
 	// commit
