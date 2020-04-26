@@ -1,13 +1,13 @@
-# Zaruba project template
+# Zaruba redis template
 
 Install
 
 ```
-zaruba install-template https://github.com/state-alchemists/zaruba-project-template.git project
+zaruba install-template https://github.com/state-alchemists/zaruba-redis-template.git project
 ```
 
 Usage
 
 ```
-zaruba create project
+zaruba create redis
 ```

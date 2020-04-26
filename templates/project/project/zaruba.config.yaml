@@ -9,5 +9,5 @@ components:
     image: rabbitmq:3-management
     ports: 
         5672: 5672
-        15672: 15672
+        8091: 15672
     readinessCheck: docker exec ${CONTAINER_NAME} rabbitmqctl await_startup 

@@ -1,13 +1,13 @@
-# Zaruba project template
+# Zaruba MySQL template
 
 Install
 
 ```
-zaruba install-template https://github.com/state-alchemists/zaruba-project-template.git project
+zaruba install-template https://github.com/state-alchemists/zaruba-mysql-template.git project
 ```
 
 Usage
 
 ```
-zaruba create project
+zaruba create mysql
 ```

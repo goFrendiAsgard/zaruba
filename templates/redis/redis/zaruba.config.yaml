@@ -7,4 +7,14 @@ components:
       6379: 6379
     volumes:
       ./volume: /data
- 
+
+  redisCommander:
+    type: container
+    image: rediscommander/redis-commander
+    env:
+      REDIS_HOSTS: local:${redisGlobal}:6379
+    ports:
+      8093: 8081 
+    dependencies:
+      - redisGlobal
+    readinessCheck: curl localhost:8093
