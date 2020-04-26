@@ -61,7 +61,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return nil
 	}
 	// commit
-	git.Commit(projectDir, fmt.Sprintf("Zaruba: prepare syncing `%s` on %s", componentName, time.Now().Format(time.RFC3339)))
+	git.Commit(projectDir, fmt.Sprintf("💀 Backup local %s at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// backup
 	if err = backup(location, backupLocation); err != nil {
 		return err
@@ -70,8 +70,6 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
 		return err
 	}
-	// commit
-	git.Commit(projectDir, fmt.Sprintf("Zaruba: syncing `%s` at %s ", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
 	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
 		return err
@@ -83,12 +81,14 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 	if err = command.RunAndRedirect(projectDir, "git", "pull", componentName, branch); err != nil {
 		return err
 	}
+	// commit
+	git.Commit(projectDir, fmt.Sprintf("💀 Sync %s from subrepo at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// restore
 	if err := restore(backupLocation, location); err != nil {
 		return err
 	}
 	// commit
-	git.Commit(projectDir, fmt.Sprintf("Zaruba: successfully syncing `%s` on %s", componentName, time.Now().Format(time.RFC3339)))
+	git.Commit(projectDir, fmt.Sprintf("💀 Overwrite %s at: %s", componentName, time.Now().Format(time.RFC3339)))
 	return err
 }
 
