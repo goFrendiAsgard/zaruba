@@ -25,15 +25,20 @@ func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 	return GetCmd(dir, shell, args...)
 }
 
-// RunCmd run cmd object
-func RunCmd(cmd *exec.Cmd) (output string, err error) {
-	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+// RunCmdSilently run cmd object
+func RunCmdSilently(cmd *exec.Cmd) (output string, err error) {
 	outputB, err := cmd.Output()
 	if err != nil {
 		return output, err
 	}
 	output = string(outputB)
 	return output, err
+}
+
+// RunCmd run cmd object
+func RunCmd(cmd *exec.Cmd) (output string, err error) {
+	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+	return RunCmdSilently(cmd)
 }
 
 // Run run command
@@ -58,10 +63,10 @@ func RunScript(dir, script string) (output string, err error) {
 
 // RunCmdAndRedirect run cmd object
 func RunCmdAndRedirect(cmd *exec.Cmd) (err error) {
+	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
-	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
 	err = cmd.Run()
 	return err
 }

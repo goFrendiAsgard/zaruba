@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -217,40 +216,30 @@ func (c *Component) GetColor() (color int) {
 
 // GetRuntimeEnv get runtime environment variables of a service
 func (c *Component) GetRuntimeEnv() (env map[string]string) {
-	env = map[string]string{}
-	sortedEnvNames := []string{}
-	// other service/container name
+	venv := NewVirtualEnv()
 	for otherServiceName, otherComponent := range c.project.components {
 		if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
 			continue
 		}
 		if c.componentType == "container" && otherComponent.GetType() == "container" {
-			env[otherServiceName] = otherComponent.GetRuntimeContainerName()
+			venv.Add(otherServiceName, otherComponent.GetRuntimeContainerName())
 		} else {
-			env[otherServiceName] = "0.0.0.0"
+			venv.Add(otherServiceName, "0.0.0.0")
 		}
-		sortedEnvNames = append(sortedEnvNames, otherServiceName)
 	}
 	// project env
 	for name, value := range c.project.env {
-		if osValue := os.Getenv(name); osValue != "" {
-			value = osValue
-		}
-		env[name] = value
-		sortedEnvNames = append(sortedEnvNames, name)
+		venv.Add(name, value)
 	}
 	// current service env
 	for name, value := range c.env {
-		env[name] = value
-		sortedEnvNames = append(sortedEnvNames, name)
+		venv.Add(name, value)
 	}
 	// current container name
 	if componentType := c.GetType(); componentType == "container" {
-		env["CONTAINER_NAME"] = c.GetRuntimeContainerName()
-		sortedEnvNames = append(sortedEnvNames, "CONTAINER_NAME")
+		venv.Add("CONTAINER_NAME", c.GetRuntimeContainerName())
 	}
-	env = parseEnv(env, sortedEnvNames)
-	return env
+	return venv.GetEnv()
 }
 
 // GetQuotedRuntimeEnv get runtime environment variables of a service
@@ -262,19 +251,6 @@ func (c *Component) GetQuotedRuntimeEnv() (env map[string]string) {
 			unquotedVal = value
 		}
 		env[name] = strconv.Quote(unquotedVal)
-	}
-	return env
-}
-
-func parseEnv(env map[string]string, sortedEnvNames []string) map[string]string {
-	for index, name := range sortedEnvNames {
-		value := env[name]
-		for _, prevName := range sortedEnvNames[:index] {
-			prevValue := env[prevName]
-			value = strings.ReplaceAll(value, fmt.Sprintf("${%s}", prevName), prevValue)
-			value = strings.ReplaceAll(value, fmt.Sprintf("$%s", prevName), prevValue)
-		}
-		env[name] = value
 	}
 	return env
 }

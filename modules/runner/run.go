@@ -156,20 +156,24 @@ func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand s
 			errChan <- err
 		}
 		cmd.Env = runtimeEnv
-		time.Sleep(time.Millisecond * 500)
-		_, err = command.RunCmd(cmd)
+		if failedCounter%10 == 0 {
+			_, err = command.RunCmd(cmd)
+		} else {
+			_, err = command.RunCmdSilently(cmd)
+		}
 		if err == nil {
 			started = true
 			break
 		}
 		// show failure and increase failedCounter
-		if failedCounter == 0 {
+		if failedCounter%10 == 0 {
 			logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
 		}
 		failedCounter = failedCounter + 1
 		if failedCounter == 100 {
 			failedCounter = 0
 		}
+		time.Sleep(time.Millisecond * 500)
 	}
 	logger.Info("%s ready", serviceName)
 	errChan <- nil
