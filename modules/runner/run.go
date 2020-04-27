@@ -148,7 +148,7 @@ func createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation stri
 func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, errChan chan error) {
 	started := false
 	failedCounter := 0
-	logger.Info("Checking readiness of %s", serviceName)
+	outputInterval := 20
 	// set cmd
 	for !started {
 		cmd, err := command.GetShellCmd(runtimeLocation, readinessCheckCommand)
@@ -156,7 +156,8 @@ func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand s
 			errChan <- err
 		}
 		cmd.Env = runtimeEnv
-		if failedCounter%10 == 0 {
+		if failedCounter == 0 {
+			logger.Info("Checking readiness of %s", serviceName)
 			_, err = command.RunCmd(cmd)
 		} else {
 			_, err = command.RunCmdSilently(cmd)
@@ -166,11 +167,11 @@ func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand s
 			break
 		}
 		// show failure and increase failedCounter
-		if failedCounter%10 == 0 {
+		if failedCounter == 0 {
 			logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
 		}
 		failedCounter = failedCounter + 1
-		if failedCounter == 100 {
+		if failedCounter == outputInterval {
 			failedCounter = 0
 		}
 		time.Sleep(time.Millisecond * 500)
