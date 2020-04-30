@@ -5,6 +5,7 @@ env:
 
 components: 
   rmqGlobal:
+    symbol: 🐇 
     type: container
     image: rabbitmq:3-management
     ports: 

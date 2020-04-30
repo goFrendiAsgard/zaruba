@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 )
 
 // Component describe component specs
@@ -25,6 +26,7 @@ type Component struct {
 	readinessCheck string
 	dependencies   []string
 	env            map[string]string
+	runtimeName    string
 }
 
 // GetType get component type
@@ -195,8 +197,21 @@ func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 
 // GetRuntimeName get component name
 func (c *Component) GetRuntimeName() (name string) {
-	runtimeName := fmt.Sprintf("%s %s", c.GetRuntimeSymbol(), c.GetName())
-	return fmt.Sprintf("%-14v", runtimeName)
+	if c.runtimeName == "" {
+		maxRuntimeNameLength := 12
+		for _, otherC := range c.project.GetComponents() {
+			runtimeName := fmt.Sprintf("%s %s", otherC.GetRuntimeSymbol(), otherC.GetName())
+			if nameLength := utf8.RuneCountInString(runtimeName); nameLength > maxRuntimeNameLength {
+				maxRuntimeNameLength = nameLength
+			}
+		}
+		runtimeName := fmt.Sprintf("%s %s", c.GetRuntimeSymbol(), c.GetName())
+		for utf8.RuneCountInString(runtimeName) < maxRuntimeNameLength {
+			runtimeName += " "
+		}
+		c.runtimeName = runtimeName
+	}
+	return c.runtimeName
 }
 
 // GetColor get component name

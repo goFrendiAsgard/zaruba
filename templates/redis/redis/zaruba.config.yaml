@@ -1,6 +1,7 @@
 components: 
 
   redisGlobal:
+    symbol: 🏮
     type: container
     image: redis
     ports:
@@ -9,6 +10,7 @@ components:
       ./volume: /data
 
   redisCommander:
+    symbol: 🏮
     type: container
     image: rediscommander/redis-commander
     env:
