@@ -1,8 +1,8 @@
 package main
 
 import (
+	"app/component/defaultcomponent"
 	"app/component/example"
-	"app/component/landingpage"
 	"app/component/monitoring"
 	"app/config"
 	"app/core"
@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+
 	// create config and app
 	config := config.CreateConfig()
 	fmt.Println("CONFIG:", config.ToString())
@@ -18,12 +19,15 @@ func main() {
 		config.GlobalRmqConnectionString,
 		config.LocalRmqConnectionString,
 	)
+
 	// setup components
 	app.Setup([]core.SetupComponent{
-		landingpage.CreateSetup(app, config),       // setup landingPage
+		defaultcomponent.CreateSetup(app, config),  // setup landingPage
 		monitoring.CreateSetup(app, config),        // setup monitoring
 		example.CreateComponent(app, config).Setup, // setup example
 	})
+
 	// run
 	app.Run()
+
 }

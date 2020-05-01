@@ -13,6 +13,7 @@ import (
 // ProjectConfig configuration
 type ProjectConfig struct {
 	dirName                   string // directory name (assigned automatically)
+	ignores                   []string
 	name                      string
 	env                       map[string]string
 	components                map[string]*Component
@@ -66,6 +67,7 @@ func (p *ProjectConfig) GetEnv() (env map[string]string) {
 // ToYaml get yaml representation of projectConfig
 func (p *ProjectConfig) ToYaml() (str string, err error) {
 	pYaml := &ProjectConfigYaml{
+		Ignores:    p.ignores,
 		Name:       p.GetName(),
 		Env:        p.GetEnv(),
 		Components: map[string]ComponentYaml{},
@@ -145,6 +147,7 @@ func getSubrepoPrefix(projectDir, location string) string {
 
 func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, directory string) *ProjectConfig {
 	// load pYaml into p
+	p.ignores = pYaml.Ignores
 	p.dirName = directory
 	p.env = pYaml.Env
 	p.name = pYaml.Name

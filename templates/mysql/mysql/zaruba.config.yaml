@@ -6,7 +6,7 @@ env:
 
 components: 
 
-  mysqlGlobal:
+  mysql:
     symbol: 🐬
     type: container
     image: mysql
@@ -21,12 +21,12 @@ components:
     type: container
     image: phpmyadmin/phpmyadmin
     env:
-      PMA_HOST: ${mysqlGlobal}
+      PMA_HOST: ${mysql}
       PMA_USER: root
       PMA_PASSWORD: toor
       PMA_PORT: 3306
     ports:
       8092: 80
     dependencies:
-      - mysqlGlobal
+      - mysql
     readinessCheck: curl localhost:8092

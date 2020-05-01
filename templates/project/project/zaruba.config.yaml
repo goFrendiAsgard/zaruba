@@ -4,11 +4,11 @@ env:
   RABBITMQ_DEFAULT_PASS: toor
 
 components: 
-  rmqGlobal:
+  rmq:
     symbol: 🐇 
     type: container
     image: rabbitmq:3-management
     ports: 
         5672: 5672
         8091: 15672
-    readinessCheck: docker exec ${CONTAINER_NAME} rabbitmqctl await_startup 
+    readinessCheck: sleep 1 && curl localhost:8091 

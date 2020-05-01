@@ -1,6 +1,6 @@
 components: 
 
-  redisGlobal:
+  redis:
     symbol: 🏮
     type: container
     image: redis
@@ -9,14 +9,14 @@ components:
     volumes:
       ./volume: /data
 
-  redisCommander:
+  rediscmder:
     symbol: 🏮
     type: container
     image: rediscommander/redis-commander
     env:
-      REDIS_HOSTS: local:${redisGlobal}:6379
+      REDIS_HOSTS: local:${redis}:6379
     ports:
       8093: 8081 
     dependencies:
-      - redisGlobal
+      - redis
     readinessCheck: curl localhost:8093

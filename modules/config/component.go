@@ -217,7 +217,7 @@ func (c *Component) GetRuntimeName() (name string) {
 // GetColor get component name
 func (c *Component) GetColor() (color int) {
 	if c.color == 0 {
-		colorList := []int{92, 93, 95, 96}
+		colorList := []int{92, 93, 94, 95, 96}
 		index := c.project.lastGeneratedColorIndex
 		c.color = colorList[index]
 		index++

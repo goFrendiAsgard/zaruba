@@ -2,11 +2,13 @@ package runner
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"os"
 	"os/exec"
+	"sort"
 	"strings"
 	"syscall"
 	"time"
@@ -31,11 +33,14 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	// create network
 	command.RunAndRedirect(projectDir, "docker", "network", "create", p.GetName())
 	// run processes
-	cmdMap, err := getCmdAndPipesMap(projectDir, p, orderedExecutions)
+	cmdMapChan := make(chan map[string]*exec.Cmd)
+	go getCmdAndPipesMap(projectDir, p, orderedExecutions, stopChan, cmdMapChan, errChan)
+	cmdMap := <-cmdMapChan
+	err = <-errChan
 	if err != nil {
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-		errChan <- err
 		executedChan <- true
+		errChan <- err
 		return
 	}
 	executedChan <- true
@@ -80,7 +85,12 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 }
 
 func killCmd(projectDir string, p *config.ProjectConfig, serviceName string, cmd *exec.Cmd, errChan chan error) {
-	logger.Info("Kill %s process", serviceName)
+	component, _ := p.GetComponentByName(serviceName)
+	if component.GetType() == "container" {
+		logger.Info("Kill %s logger", serviceName)
+	} else {
+		logger.Info("Kill %s process", serviceName)
+	}
 	if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL); err != nil {
 		logger.Error("Failed to kill %s process: %s", serviceName, err)
 		errChan <- err
@@ -88,43 +98,51 @@ func killCmd(projectDir string, p *config.ProjectConfig, serviceName string, cmd
 	errChan <- nil
 }
 
-func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][]string) (cmdMap map[string]*exec.Cmd, err error) {
-	cmdMap = map[string]*exec.Cmd{}
+func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][]string, stopChan chan bool, cmdMapChan chan map[string]*exec.Cmd, errChan chan error) {
+	cmdMap := map[string]*exec.Cmd{}
 	for _, executionBatch := range orderedExecutions {
-		errChans := make([]chan error, len(executionBatch))
+		serviceErrChans := make([]chan error, len(executionBatch))
 		for index, serviceName := range executionBatch {
 			component, err := p.GetComponentByName(serviceName)
 			if err != nil {
-				killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-				return cmdMap, err
+				cmdMapChan <- cmdMap
+				errChan <- err
 			}
 			// create cmd
 			runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color := component.GetRuntimeName(), component.GetRuntimeLocation(), component.GetRuntimeCommand(), getServiceEnv(p, serviceName), component.GetColor()
 			cmd, err := createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color)
 			if err != nil {
-				killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-				return cmdMap, err
+				cmdMapChan <- cmdMap
+				errChan <- err
 			}
 			// start cmd
 			err = cmd.Start()
 			cmdMap[serviceName] = cmd
 			if err != nil {
-				killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-				return cmdMap, err
+				cmdMapChan <- cmdMap
+				errChan <- err
 			}
-			errChans[index] = make(chan error)
-			go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, errChans[index])
+			serviceErrChans[index] = make(chan error)
+			go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChans[index])
 		}
+		// if there is stop signal, send signal to all errChans
+		go func() {
+			stop := <-stopChan
+			stopChan <- stop
+			cmdMapChan <- cmdMap
+			errChan <- errors.New("Receiving stop signal")
+		}()
 		// wait all service run
-		for _, errChan := range errChans {
-			err = <-errChan
+		for _, serviceErrChan := range serviceErrChans {
+			err := <-serviceErrChan
 			if err != nil {
-				killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-				return cmdMap, err
+				cmdMapChan <- cmdMap
+				errChan <- err
 			}
 		}
 	}
-	return cmdMap, err
+	cmdMapChan <- cmdMap
+	errChan <- nil
 }
 
 func createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation string, runtimeCommand string, runtimeEnv []string, color int) (cmd *exec.Cmd, err error) {
@@ -199,7 +217,7 @@ func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []strin
 func logService(serviceName, prefix string, color int, readCloser io.ReadCloser) {
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("\033[%dm%s - %s\033[0m %s", color, prefix, serviceName, buf.Text())
+		log.Printf("\033[%dm%s - %s\033[0m  %s", color, prefix, serviceName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
 		logger.Error("%s: %s", serviceName, err)
@@ -221,6 +239,7 @@ func getOrderedExecutions(p *config.ProjectConfig, executedServices []string) (e
 				currentBatch = append(currentBatch, service)
 			}
 		}
+		sort.Strings(currentBatch)
 		executions = append(executions, currentBatch)
 		leftServices = getLeftServices(services, executions)
 	}

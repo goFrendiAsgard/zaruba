@@ -5,6 +5,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"syscall"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/modules/config"
@@ -34,15 +35,18 @@ var runCmd = &cobra.Command{
 		stopChan := make(chan bool)
 		errChan := make(chan error)
 		executedChan := make(chan bool)
-		go runner.Run(projectDir, p, args, stopChan, executedChan, errChan)
-		<-executedChan
 		// listen to kill signal
 		c := make(chan os.Signal)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 		go func() {
 			<-c
 			stopChan <- true
+			time.Sleep(60 * time.Second) // after one minute if the process is not stopped, kill it
+			logger.Fatal("Cannot terminate process, force kill")
 		}()
+		// Run
+		go runner.Run(projectDir, p, args, stopChan, executedChan, errChan)
+		<-executedChan
 		// wait for errChan
 		err = <-errChan
 		if err != nil {

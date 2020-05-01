@@ -1,4 +1,4 @@
-package landingpage
+package defaultcomponent
 
 import (
 	"app/config"

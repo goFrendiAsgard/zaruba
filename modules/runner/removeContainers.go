@@ -20,7 +20,7 @@ func RemoveContainers(projectDir string, p *config.ProjectConfig) (err error) {
 		}
 		if component.GetType() == "container" {
 			logger.Info("Remove %s container", serviceName)
-			err = command.RunAndRedirect(projectDir, "docker", "rm", component.GetRuntimeContainerName())
+			_, err = command.Run(projectDir, "docker", "rm", component.GetRuntimeContainerName())
 			if err != nil {
 				logger.Error("Cannot stop container %s: %s", serviceName, err)
 			}
