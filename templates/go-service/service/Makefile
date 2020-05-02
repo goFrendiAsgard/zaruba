@@ -1,2 +1,2 @@
 run:
-	go build -o app && ./app
+	go test ./... && go build -o app && ./app

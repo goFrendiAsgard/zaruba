@@ -1,8 +1,13 @@
 package example
 
-import "github.com/gin-gonic/gin"
+// Context is interface of ginContext
+type Context interface {
+	Param(key string) string
+	Query(key string) string
+	PostForm(key string) string
+}
 
-func getName(c *gin.Context) string {
+func getName(c Context) string {
 	name := c.Param("name")
 	if name == "" {
 		name = c.Query("name")

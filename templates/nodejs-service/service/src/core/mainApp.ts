@@ -6,7 +6,6 @@ import { Publisher, Subscriber, RPCServer, RPCClient, RmqPublisher, RmqSubscribe
 import { createHttpLogger, logExpressRoutes } from "./expressMiddlewares";
 
 export class MainApp implements App {
-    private static _instance: MainApp;
 
     private _readiness: boolean;
     private _liveness: boolean;
@@ -23,9 +22,6 @@ export class MainApp implements App {
     private _httpPort: number;
 
     constructor(httpPort: number, globalRmqConnectionString: string, localRmqConnectionString: string) {
-        if (MainApp._instance) {
-            throw new Error("Application initialized, use Application.getInstance() instead");
-        }
         this._httpPort = httpPort;
         this._readiness = false;
         this._liveness = false;
@@ -42,10 +38,6 @@ export class MainApp implements App {
         this._localRPCServer = new RmqRPCServer(localRmqConnectionString).setLogger(this._logger);
         this._globalRPCClient = new RmqRPCClient(globalRmqConnectionString).setLogger(this._logger);
         this._localRPCClient = new RmqRPCClient(localRmqConnectionString).setLogger(this._logger);
-    }
-
-    getInstance() {
-        return MainApp._instance;
     }
 
     setup(setupComponents: SetupComponent[]) {

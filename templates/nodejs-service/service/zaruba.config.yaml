@@ -8,7 +8,7 @@ components:
       GLOBAL_RMQ_CONNECTION_STRING: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${rmq}:5672/
       LOCAL_RMQ_CONNECTION_STRING: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${rmq}:5672/
     location: "."
-    start: npm start
+    start: npm test && npm start
     readinessCheck: curl ${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
       - rmq

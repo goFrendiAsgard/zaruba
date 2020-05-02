@@ -2,7 +2,7 @@ import { Message } from "../../transport";
 import { App } from "../../core";
 import { Config } from "../../config";
 import { getName } from "./helpers";
-import { greet, greetEveryone } from "./service";
+import { greet, greetEveryone } from "./services";
 
 export class Component {
     private names: string[];

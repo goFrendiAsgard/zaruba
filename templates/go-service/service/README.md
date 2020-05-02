@@ -43,11 +43,11 @@ This application was built with the following opinions:
 ├── README.md
 ├── component                 # your components
 │   ├── example
-│   │   ├── component.go
+│   │   ├── index.go
 │   │   ├── helpers.go
 │   │   └── services.go
 │   └── monitoring
-│       ├── component.go
+│       ├── index.go
 │       └── helpers.go
 ├── config
 │   ├── config.go
@@ -318,6 +318,6 @@ server.RegisterHandler("helloRPC", func(inputs ...interface{}) (greeting interfa
 
 A component usually contains several files:
 
-* `component.go`: This file contains code to produce your `setup`.
-* `helpers.go`: This file contains any general-purpose code that are used by `component.go` or `services.go`.
+* `index.go`: This file contains code to produce your `setup`.
+* `helpers.go`: This file contains any general-purpose code that are used by `index.go` or `services.go`.
 * `services.go`: This file contains your main business logic. It should not care about how it is called.
