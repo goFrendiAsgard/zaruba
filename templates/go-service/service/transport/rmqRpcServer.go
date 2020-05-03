@@ -72,7 +72,7 @@ func (s *RmqRPCServer) Serve(errChan chan error) {
 func (s *RmqRPCServer) handleRmqMessages(ch *amqp.Channel, functionName string, handler RPCHandler, rmqMessages <-chan amqp.Delivery) {
 	for rmqMessage := range rmqMessages {
 		replyTo := rmqMessage.ReplyTo
-		envelopedInput, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
+		envelopedInput, err := CreateEnvelopedMessageFromJSON(rmqMessage.Body)
 		if err != nil {
 			s.handleRmqMessageError(ch, functionName, replyTo, envelopedInput, err)
 			continue

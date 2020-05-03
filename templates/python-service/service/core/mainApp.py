@@ -2,6 +2,7 @@ from .interfaces import App, SetupComponent
 from flask import Flask
 from logging import Logger, getLogger
 from typing import List
+import asyncio
 
 
 class MainApp(App):
@@ -37,6 +38,8 @@ class MainApp(App):
 
     def run(self) -> None:
         try:
+            with self._app.app_context():
+                print("hi")
             self._app.run("0.0.0.0", self._http_port)
         except Exception as e:
             self._logger.error(e)

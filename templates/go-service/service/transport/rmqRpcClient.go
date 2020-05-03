@@ -50,7 +50,7 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 	waitReply := make(chan bool)
 	go func() {
 		for rmqMessage := range rmqMessages {
-			envelopedOutput, parseError := NewEnvelopedMessageFromJSON(rmqMessage.Body)
+			envelopedOutput, parseError := CreateEnvelopedMessageFromJSON(rmqMessage.Body)
 			if parseError != nil {
 				err = parseError
 				waitReply <- true

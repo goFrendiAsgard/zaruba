@@ -1,0 +1,8 @@
+name: servicename
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - flask=1.1.1
+  - pika=1.1.0
+  

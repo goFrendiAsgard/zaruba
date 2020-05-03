@@ -10,7 +10,12 @@ import (
 
 func rpcCreateEnvelopedInputMessage(inputs []interface{}) (envelopedInput *EnvelopedMessage, err error) {
 	msg := Message{"inputs": inputs}
-	return NewEnvelopedMessage(msg)
+	envelopedInput = CreateEnvelopedMessage()
+	if err = envelopedInput.SetNewCorrelationID(); err != nil {
+		return envelopedInput, err
+	}
+	envelopedInput.Message = msg
+	return envelopedInput, err
 }
 
 func rpcInputsToJSON(inputs []interface{}) (jsonMessage []byte, err error) {
@@ -23,13 +28,17 @@ func rpcInputsToJSON(inputs []interface{}) (jsonMessage []byte, err error) {
 
 func rpcCreateEnvelopedErrorMessage(envelopedInput *EnvelopedMessage, err error) (envelopedError *EnvelopedMessage) {
 	errorMessage := fmt.Sprintf("%s", err)
-	envelopedError = NewEnvelopedMessageWithCorrelationID(envelopedInput.CorrelationID, Message{"output": "", "error": errorMessage})
+	envelopedError = CreateEnvelopedMessage()
+	envelopedError.CorrelationID = envelopedInput.CorrelationID
+	envelopedError.Message = Message{"output": "", "error": errorMessage}
 	envelopedError.ErrorMessage = errorMessage
 	return envelopedError
 }
 
 func rpcCreateEnvelopedOutputMessage(envelopedInput *EnvelopedMessage, output interface{}) (envelopedOutput *EnvelopedMessage) {
-	envelopedOutput = NewEnvelopedMessageWithCorrelationID(envelopedInput.CorrelationID, Message{"output": output, "error": ""})
+	envelopedOutput = CreateEnvelopedMessage()
+	envelopedOutput.CorrelationID = envelopedInput.CorrelationID
+	envelopedOutput.Message = Message{"output": output, "error": ""}
 	return envelopedOutput
 }
 

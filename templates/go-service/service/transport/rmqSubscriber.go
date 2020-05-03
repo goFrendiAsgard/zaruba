@@ -70,7 +70,7 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 
 func (s *RmqSubscriber) handleRmqMessages(eventName string, handler EventHandler, rmqMessages <-chan amqp.Delivery) {
 	for rmqMessage := range rmqMessages {
-		envelopedMessage, err := NewEnvelopedMessageFromJSON(rmqMessage.Body)
+		envelopedMessage, err := CreateEnvelopedMessageFromJSON(rmqMessage.Body)
 		if err != nil {
 			s.logger.Println("[ERROR RmqSubscriber]", err)
 			continue

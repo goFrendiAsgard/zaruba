@@ -42,10 +42,11 @@ func (p *RmqPublisher) Publish(eventName string, message Message) (err error) {
 		return err
 	}
 	// create envelopedMessage
-	envelopedMessage, err := NewEnvelopedMessage(message)
-	if err != nil {
+	envelopedMessage := CreateEnvelopedMessage()
+	if err = envelopedMessage.SetNewCorrelationID(); err != nil {
 		return err
 	}
+	envelopedMessage.Message = message
 	// make json representation of envelopedMessage
 	jsonMessage, err := envelopedMessage.ToJSON()
 	if err != nil {
