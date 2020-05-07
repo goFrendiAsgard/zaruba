@@ -35,8 +35,8 @@ export class RmqRPCClient implements RPCClient {
                     replyAccepted = true;
                     try {
                         const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
-                        const jsonMessage = rmqMessage.content.toString();
-                        const envelopedOutput = new EnvelopedMessage(jsonMessage);
+                        const jsonEnvelopedOutput = rmqMessage.content.toString();
+                        const envelopedOutput = new EnvelopedMessage(jsonEnvelopedOutput);
                         if (envelopedOutput.errorMessage) {
                             return reject(new Error(envelopedOutput.errorMessage));
                         }

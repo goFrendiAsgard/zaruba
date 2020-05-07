@@ -88,7 +88,7 @@ func (s *RmqRPCServer) handleRmqMessages(ch *amqp.Channel, functionName string, 
 			continue
 		}
 		s.logger.Printf("[INFO RmqRPCServer] Reply %s: %#v", functionName, output)
-		rmqRpcReply(ch, replyTo, envelopedInput, output)
+		rmqRPCReplyOutput(ch, replyTo, envelopedInput, output)
 	}
 }
 
@@ -99,5 +99,5 @@ func (s *RmqRPCServer) handleRmqError(err error, errChan chan error) {
 
 func (s *RmqRPCServer) handleRmqMessageError(ch *amqp.Channel, thisFunctionName, replyTo string, envelopedInput *EnvelopedMessage, err error) {
 	s.logger.Printf(fmt.Sprintf("[ERROR RmqRPCServer] Reply %s:", thisFunctionName), err)
-	rmqRpcReplyError(ch, replyTo, envelopedInput, err)
+	rmqRPCReplyError(ch, replyTo, envelopedInput, err)
 }

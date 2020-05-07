@@ -51,8 +51,8 @@ export class RmqSubscriber implements Subscriber {
             rmqConsume(ch, eventName, async (rmqMessageOrNull) => {
                 try {
                     const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
-                    const jsonMessage = rmqMessage.content.toString();
-                    const envelopedInput = new EnvelopedMessage(jsonMessage);
+                    const jsonEnvelopedInput = rmqMessage.content.toString();
+                    const envelopedInput = new EnvelopedMessage(jsonEnvelopedInput);
                     this.logger.log(`[INFO RmqSubscriber] Get Event ${eventName}: `, JSON.stringify(envelopedInput.message));
                     await handler(envelopedInput.message);
                 } catch (err) {

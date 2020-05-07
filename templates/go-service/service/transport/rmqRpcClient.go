@@ -29,7 +29,7 @@ func (c *RmqRPCClient) SetLogger(logger *log.Logger) RPCClient {
 
 // Call remote function
 func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output interface{}, err error) {
-	replyTo, err := rmqRpcGenerateReplyQueueName(functionName)
+	replyTo, err := rmqRPCGenerateReplyQueueName(functionName)
 	if err != nil {
 		return output, err
 	}
@@ -69,7 +69,7 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 	}()
 	// send message
 	c.logger.Printf("[INFO RmqRPCClient] Call %s %#v", functionName, inputs)
-	err = rmqRpcCall(ch, functionName, replyTo, inputs)
+	err = rmqRPCCall(ch, functionName, replyTo, inputs)
 	if err != nil {
 		waitReply <- true
 	}

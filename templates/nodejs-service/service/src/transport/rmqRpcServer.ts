@@ -1,7 +1,7 @@
 import amqplib from "amqplib";
 import { RPCServer, RPCHandler } from "./interfaces";
 import { EnvelopedMessage } from "./envelopedMessage";
-import { rmqCreateConnectionAndChannel, rmqDeclareQueueAndBindToDefaultExchange, rmqConsume, rmqRpcReply, rmqRpcReplyError } from "./helpers";
+import { rmqCreateConnectionAndChannel, rmqDeclareQueueAndBindToDefaultExchange, rmqConsume, rmqRpcReplyOutput, rmqRpcReplyError } from "./helpers";
 
 export class RmqRPCServer implements RPCServer {
     logger: Console;
@@ -50,13 +50,13 @@ export class RmqRPCServer implements RPCServer {
             rmqConsume(ch, functionName, async (rmqMessageOrNull) => {
                 const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                 const { replyTo } = rmqMessage.properties;
-                const jsonMessage = rmqMessage.content.toString();
-                const envelopedInput = new EnvelopedMessage(jsonMessage);
+                const jsonEnvelopedInput = rmqMessage.content.toString();
+                const envelopedInput = new EnvelopedMessage(jsonEnvelopedInput);
                 try {
                     const inputs = envelopedInput.message.inputs;
                     const output = await handler(...inputs);
                     this.logger.log(`[INFO RmqRPCServer] Reply ${functionName}`, JSON.stringify(inputs), "output:", JSON.stringify(output));
-                    await rmqRpcReply(ch, replyTo, envelopedInput, output);
+                    await rmqRpcReplyOutput(ch, replyTo, envelopedInput, output);
                 } catch (err) {
                     this.logger.error(`[ERROR RmqRPCServer] Reply ${functionName}: `, err);
                     await rmqRpcReplyError(ch, replyTo, envelopedInput, err);

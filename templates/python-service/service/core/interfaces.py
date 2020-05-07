@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from flask import Flask
 from logging import Logger
-from typing import List, Callable
+from typing import List, Callable, NoReturn
 
-SetupComponent = Callable[[], None]
+SetupComponent = Callable[[], NoReturn]
 
 
 class App(ABC):
@@ -25,17 +25,17 @@ class App(ABC):
         pass
 
     @abstractmethod
-    def set_liveness(self, liveness: bool) -> None:
+    def set_liveness(self, liveness: bool) -> NoReturn:
         pass
 
     @abstractmethod
-    def set_readiness(self, readiness: bool) -> None:
+    def set_readiness(self, readiness: bool) -> NoReturn:
         pass
 
     @abstractmethod
-    def setup(self, setupComponents: List[SetupComponent]) -> None:
+    def setup(self, setupComponents: List[SetupComponent]) -> NoReturn:
         pass
 
     @abstractmethod
-    def run(self) -> None:
+    def run(self) -> NoReturn:
         pass

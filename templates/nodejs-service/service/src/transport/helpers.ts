@@ -4,17 +4,17 @@ import { EnvelopedMessage } from "./envelopedMessage";
 
 const uuid = v4;
 
-export function rpcCreateEnvelopedInputMessage(inputs: any[]): EnvelopedMessage {
-    const envelopedMessage = new EnvelopedMessage();
-    envelopedMessage.message = { "inputs": inputs };
-    return envelopedMessage;
+export function rpcCreateEnvelopedInput(inputs: any[]): EnvelopedMessage {
+    const envelopedInput = new EnvelopedMessage();
+    envelopedInput.message = { "inputs": inputs };
+    return envelopedInput;
 }
 
 export function rpcInputsToJSON(inputs: any[]): string {
-    return rpcCreateEnvelopedInputMessage(inputs).toJson();
+    return rpcCreateEnvelopedInput(inputs).toJson();
 }
 
-export function rpcCreateEnvelopedErrorMessage(envelopedInput: EnvelopedMessage, err: Error | string): EnvelopedMessage {
+export function rpcCreateEnvelopedError(envelopedInput: EnvelopedMessage, err: Error | string): EnvelopedMessage {
     const envelopedError = new EnvelopedMessage().setCorrelationId(envelopedInput.correlationId);
     const errorMessage: string = typeof err === "string" ? err : err.message;
     envelopedError.message = { "output": "", "error": errorMessage };
@@ -22,7 +22,7 @@ export function rpcCreateEnvelopedErrorMessage(envelopedInput: EnvelopedMessage,
     return envelopedError;
 }
 
-export function rpcCreateEnvelopedOutputMessage(envelopedInput: EnvelopedMessage, output: any): EnvelopedMessage {
+export function rpcCreateEnvelopedOutput(envelopedInput: EnvelopedMessage, output: any): EnvelopedMessage {
     const envelopedOutput = new EnvelopedMessage().setCorrelationId(envelopedInput.correlationId);
     envelopedOutput.message = { "output": output, "error": "" };
     return envelopedOutput;
@@ -35,26 +35,26 @@ export function rmqRpcGenerateReplyQueueName(functionName: string): string {
 }
 
 export async function rmqRpcCall(ch: amqplib.Channel, functionName: string, replyTo: string, inputs: any[]): Promise<boolean> {
-    const envelopedInput = rpcCreateEnvelopedInputMessage(inputs);
-    const jsonMessage = envelopedInput.toJson();
-    return rmqPublish(ch, functionName, "", new Buffer(jsonMessage), {
+    const envelopedInput = rpcCreateEnvelopedInput(inputs);
+    const jsonInput = envelopedInput.toJson();
+    return rmqPublish(ch, functionName, "", new Buffer(jsonInput), {
         contentType: "text/json",
         correlationId: envelopedInput.correlationId,
         replyTo,
     });
 }
 
-export async function rmqRpcReply(ch: amqplib.Channel, replyTo: string, envelopedInput: EnvelopedMessage, output: any): Promise<boolean> {
-    const jsonMessage = rpcCreateEnvelopedOutputMessage(envelopedInput, output).toJson();
-    return rmqPublish(ch, "", replyTo, new Buffer(jsonMessage), {
+export async function rmqRpcReplyOutput(ch: amqplib.Channel, replyTo: string, envelopedInput: EnvelopedMessage, output: any): Promise<boolean> {
+    const jsonOutput = rpcCreateEnvelopedOutput(envelopedInput, output).toJson();
+    return rmqPublish(ch, "", replyTo, new Buffer(jsonOutput), {
         contentType: "text/json",
         correlationId: envelopedInput.correlationId,
     });
 }
 
 export async function rmqRpcReplyError(ch: amqplib.Channel, replyTo: string, envelopedInput: EnvelopedMessage, err: Error | string): Promise<boolean> {
-    const jsonMessage = rpcCreateEnvelopedErrorMessage(envelopedInput, err).toJson();
-    return rmqPublish(ch, "", replyTo, new Buffer(jsonMessage), {
+    const jsonError = rpcCreateEnvelopedError(envelopedInput, err).toJson();
+    return rmqPublish(ch, "", replyTo, new Buffer(jsonError), {
         contentType: "text/json",
         correlationId: envelopedInput.correlationId,
     });

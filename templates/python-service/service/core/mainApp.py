@@ -8,11 +8,11 @@ import asyncio
 class MainApp(App):
 
     def __init__(self, http_port: int, global_rmq_connection_string: str, local_rmq_connection_string: str):
-        self._http_port = http_port
-        self._app = Flask(__name__.split(".")[0])
-        self._logger = getLogger(__name__.split(".")[0])
-        self._liveness = False
-        self._readiness = False
+        self._http_port: int = http_port
+        self._app: Flask = Flask(__name__.split(".")[0])
+        self._logger: Logger = getLogger(__name__.split(".")[0])
+        self._liveness: bool = False
+        self._readiness: bool = False
 
     def logger(self) -> Logger:
         return self._logger

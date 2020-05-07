@@ -8,7 +8,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func rpcCreateEnvelopedInputMessage(inputs []interface{}) (envelopedInput *EnvelopedMessage, err error) {
+func rpcCreateEnvelopedInput(inputs []interface{}) (envelopedInput *EnvelopedMessage, err error) {
 	msg := Message{"inputs": inputs}
 	envelopedInput = CreateEnvelopedMessage()
 	if err = envelopedInput.SetNewCorrelationID(); err != nil {
@@ -19,14 +19,14 @@ func rpcCreateEnvelopedInputMessage(inputs []interface{}) (envelopedInput *Envel
 }
 
 func rpcInputsToJSON(inputs []interface{}) (jsonMessage []byte, err error) {
-	envelopedInput, err := rpcCreateEnvelopedInputMessage(inputs)
+	envelopedInput, err := rpcCreateEnvelopedInput(inputs)
 	if err != nil {
 		return jsonMessage, err
 	}
 	return envelopedInput.ToJSON()
 }
 
-func rpcCreateEnvelopedErrorMessage(envelopedInput *EnvelopedMessage, err error) (envelopedError *EnvelopedMessage) {
+func rpcCreateEnvelopedError(envelopedInput *EnvelopedMessage, err error) (envelopedError *EnvelopedMessage) {
 	errorMessage := fmt.Sprintf("%s", err)
 	envelopedError = CreateEnvelopedMessage()
 	envelopedError.CorrelationID = envelopedInput.CorrelationID
@@ -35,14 +35,14 @@ func rpcCreateEnvelopedErrorMessage(envelopedInput *EnvelopedMessage, err error)
 	return envelopedError
 }
 
-func rpcCreateEnvelopedOutputMessage(envelopedInput *EnvelopedMessage, output interface{}) (envelopedOutput *EnvelopedMessage) {
+func rpcCreateEnvelopedOutput(envelopedInput *EnvelopedMessage, output interface{}) (envelopedOutput *EnvelopedMessage) {
 	envelopedOutput = CreateEnvelopedMessage()
 	envelopedOutput.CorrelationID = envelopedInput.CorrelationID
 	envelopedOutput.Message = Message{"output": output, "error": ""}
 	return envelopedOutput
 }
 
-func rmqRpcGenerateReplyQueueName(functionName string) (queueName string, err error) {
+func rmqRPCGenerateReplyQueueName(functionName string) (queueName string, err error) {
 	randomID, err := uuid.NewUUID()
 	if err != nil {
 		return queueName, err
@@ -51,8 +51,8 @@ func rmqRpcGenerateReplyQueueName(functionName string) (queueName string, err er
 	return queueName, err
 }
 
-func rmqRpcCall(ch *amqp.Channel, functionName, replyTo string, inputs []interface{}) (err error) {
-	envelopedInput, err := rpcCreateEnvelopedInputMessage(inputs)
+func rmqRPCCall(ch *amqp.Channel, functionName, replyTo string, inputs []interface{}) (err error) {
+	envelopedInput, err := rpcCreateEnvelopedInput(inputs)
 	if err != nil {
 		return err
 	}
@@ -70,8 +70,8 @@ func rmqRpcCall(ch *amqp.Channel, functionName, replyTo string, inputs []interfa
 		})
 }
 
-func rmqRpcReply(ch *amqp.Channel, replyTo string, envelopedInput *EnvelopedMessage, output interface{}) (err error) {
-	envelopedOutput := rpcCreateEnvelopedOutputMessage(envelopedInput, output)
+func rmqRPCReplyOutput(ch *amqp.Channel, replyTo string, envelopedInput *EnvelopedMessage, output interface{}) (err error) {
+	envelopedOutput := rpcCreateEnvelopedOutput(envelopedInput, output)
 	jsonMessage, err := envelopedOutput.ToJSON()
 	if err != nil {
 		return err
@@ -85,8 +85,8 @@ func rmqRpcReply(ch *amqp.Channel, replyTo string, envelopedInput *EnvelopedMess
 		})
 }
 
-func rmqRpcReplyError(ch *amqp.Channel, replyTo string, envelopedInput *EnvelopedMessage, errReply error) (err error) {
-	envelopedErr := rpcCreateEnvelopedErrorMessage(envelopedInput, errReply)
+func rmqRPCReplyError(ch *amqp.Channel, replyTo string, envelopedInput *EnvelopedMessage, errReply error) (err error) {
+	envelopedErr := rpcCreateEnvelopedError(envelopedInput, errReply)
 	jsonMessage, err := envelopedErr.ToJSON()
 	if err != nil {
 		return err

@@ -1,33 +1,30 @@
 import { v4 } from "uuid";
+import { Message } from "./interfaces";
 const uuid = v4;
 
 export class EnvelopedMessage {
     correlationId: string;
-    message: { [key: string]: any };
+    message: Message;
     errorMessage: string;
 
-    constructor(jsonMessage: string = "") {
+    constructor(jsonEnvelopedMessage?: string) {
         this.correlationId = "";
         this.message = {};
         this.errorMessage = "";
-        if (jsonMessage !== "") {
-            const obj = typeof jsonMessage == "string" ? JSON.parse(jsonMessage) : jsonMessage;
+        if (jsonEnvelopedMessage !== undefined) {
+            const obj = JSON.parse(jsonEnvelopedMessage);
             this.correlationId = obj.correlation_id;
             this.message = obj.message;
             this.errorMessage = obj.error;
         }
     }
 
-    setCorrelationId(correlationId: string = ""): EnvelopedMessage {
-        if (correlationId === "") {
-            this.correlationId = correlationId;
-            return this;
-        }
-        this.correlationId = uuid();
+    setCorrelationId(correlationId?: string): EnvelopedMessage {
+        this.correlationId == correlationId !== undefined ? correlationId : uuid();
         return this;
     }
 
-    setMessage(message: { [key: string]: any }): EnvelopedMessage {
+    setMessage(message: Message): EnvelopedMessage {
         this.message = message;
         return this;
     }
