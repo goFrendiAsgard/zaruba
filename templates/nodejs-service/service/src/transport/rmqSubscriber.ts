@@ -14,8 +14,8 @@ export class RmqSubscriber implements Subscriber {
         this.handlers = {};
     }
 
-    registerHandler(functionName: string, handler: EventHandler): Subscriber {
-        this.handlers[functionName] = handler;
+    registerHandler(eventName: string, handler: EventHandler): Subscriber {
+        this.handlers[eventName] = handler;
         return this;
     }
 
