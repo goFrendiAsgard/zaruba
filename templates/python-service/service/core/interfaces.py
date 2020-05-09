@@ -34,6 +34,22 @@ class App(ABC):
         pass
 
     @abstractmethod
+    def global_rpc_server(self) -> RPCServer:
+        pass
+
+    @abstractmethod
+    def local_rpc_server(self) -> RPCServer:
+        pass
+
+    @abstractmethod
+    def global_rpc_client(self) -> RPCClient:
+        pass
+
+    @abstractmethod
+    def local_rpc_client(self) -> RPCClient:
+        pass
+
+    @abstractmethod
     def liveness(self) -> bool:
         pass
 

@@ -1,6 +1,8 @@
 from config import Config
 from core import MainApp
-import components.defaultcomponent as defaultcomponent
+import components.defaultcomponent as defaultComponent
+import components.monitoring as monitoring
+import components.example as example
 
 
 def main():
@@ -16,7 +18,9 @@ def main():
 
     # setup components
     app.setup([
-        defaultcomponent.create_setup(app, config),
+        defaultComponent.create_setup(app, config),
+        monitoring.create_setup(app, config),
+        example.Component(app, config).setup
     ])
 
     # run

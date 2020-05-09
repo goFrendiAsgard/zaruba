@@ -81,11 +81,11 @@ def rmq_declare_queue_and_bind_to_default_exchange(ch: BlockingChannel, queue_na
 
 
 def rmq_declare_queue(ch: BlockingChannel, queue_name: str):
-    ch.queue_declare(queue_name)
+    ch.queue_declare(queue_name, durable=True)
 
 
 def rmq_declare_fanout_exchange(ch: BlockingChannel, exchange_name: str):
-    ch.exchange_declare(exchange_name, "fanout")
+    ch.exchange_declare(exchange_name, "fanout", durable=True)
 
 
 def rmq_consume(ch: BlockingChannel, queue_name: str, handler: OnMessageCallback):

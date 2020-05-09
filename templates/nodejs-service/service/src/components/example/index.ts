@@ -33,7 +33,7 @@ export class Component {
         r.get("/hello-rpc/:name", this.handleHTTPHelloRPC.bind(this));
         r.post("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
 
-        // Trigger RPC Call
+        // Trigger Publisher
         r.get("/hello-pub", this.handleHTTPHelloPub.bind(this));
         r.get("/hello-pub/:name", this.handleHTTPHelloPub.bind(this));
         r.post("/hello-pub", this.handleHTTPHelloPub.bind(this));

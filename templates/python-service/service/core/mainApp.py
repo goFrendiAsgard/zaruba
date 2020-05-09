@@ -2,7 +2,7 @@ from .interfaces import App, SetupComponent
 from flask import Flask
 from logging import Logger, getLogger
 from typing import List
-from transport import Publisher, Subscriber, RPCServer, RPCClient, RmqPublisher, RmqSubscriber
+from transport import Publisher, Subscriber, RPCServer, RPCClient, RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient
 import logging
 
 
@@ -23,6 +23,14 @@ class MainApp(App):
             global_rmq_connection_string).set_logger(self._logger)
         self._local_subscriber: Subscriber = RmqSubscriber(
             local_rmq_connection_string).set_logger(self._logger)
+        self._global_rpc_server: RPCServer = RmqRPCServer(
+            global_rmq_connection_string).set_logger(self._logger)
+        self._local_rpc_server: RPCServer = RmqRPCServer(
+            local_rmq_connection_string).set_logger(self._logger)
+        self._global_rpc_client: RPCClient = RmqRPCClient(
+            global_rmq_connection_string).set_logger(self._logger)
+        self._local_rpc_client: RPCClient = RmqRPCClient(
+            local_rmq_connection_string).set_logger(self._logger)
 
     def logger(self) -> Logger:
         return self._logger
@@ -41,6 +49,18 @@ class MainApp(App):
 
     def local_subscriber(self) -> Subscriber:
         return self._local_subscriber
+
+    def global_rpc_server(self) -> RPCServer:
+        return self._global_rpc_server
+
+    def local_rpc_server(self) -> RPCServer:
+        return self._local_rpc_server
+
+    def global_rpc_client(self) -> RPCClient:
+        return self._global_rpc_client
+
+    def local_rpc_client(self) -> RPCClient:
+        return self._local_rpc_client
 
     def liveness(self) -> bool:
         return self._liveness
@@ -61,17 +81,16 @@ class MainApp(App):
     def run(self) -> None:
         try:
             with self._app.app_context():
-
-                # testing, TODO: remove this later
-                self._global_subscriber.register_handler(
-                    "test", lambda msg: print("GETTING MESSAGE", msg))
-
-                self._global_subscriber.subscribe()
-                self._local_subscriber.subscribe()
-
-                # testing, TODO: remove this later
-                self._global_publisher.publish("test", {"name": "pulgasari"})
-
+                try:
+                    self._global_subscriber.subscribe()
+                    self._local_subscriber.subscribe()
+                    self._global_rpc_server.serve()
+                    self._local_rpc_server.serve()
+                    self.set_liveness(True)
+                    self.set_readiness(True)
+                except:
+                    self.set_liveness(False)
+                    self.set_readiness(False)
             self._app.run("0.0.0.0", self._http_port)
         except Exception as e:
             self._logger.error(e)

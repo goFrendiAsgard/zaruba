@@ -10,6 +10,5 @@ def create_setup(app: App, config: Config) -> SetupComponent:
     def setup():
         r = app.router()
         r.add_url_rule("/", "index", index)
-        pass
 
     return setup

@@ -50,7 +50,7 @@ class RmqRPCClient(RPCClient):
         reply_to = rmq_rpc_generate_reply_queue_name(function_name)
         conn, ch = rmq_create_connection_and_channel(self.connection_string)
         rmq_declare_queue(ch, reply_to)
-        rmq_consume(ch, function_name, create_on_reply(reply_state))
+        rmq_consume(ch, reply_to, create_on_reply(reply_state))
         self.logger.info(
             "[INFO RmqRPCClient] Call {} {}".format(function_name, inputs))
         rmq_rpc_call(ch, function_name, reply_to, cast(List[Any], inputs))
