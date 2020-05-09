@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
 from __future__ import annotations
-from typing import Dict, List, Callable, NoReturn, Type, Any
+from abc import ABC, abstractmethod
+from typing import Dict, List, Callable, Type, Any
 from logging import Logger
 
 Message = Dict[str, Any]
 RPCHandler = Callable[..., Any]
-EventHandler = Callable[[Message], NoReturn]
+EventHandler = Callable[[Message], None]
 
 
 class RPCClient(ABC):
@@ -30,7 +30,7 @@ class RPCServer(ABC):
         pass
 
     @abstractmethod
-    def serve(self) -> NoReturn:
+    def serve(self) -> None:
         pass
 
 
@@ -56,5 +56,5 @@ class Subscriber(ABC):
         pass
 
     @abstractmethod
-    def subscribe(self) -> NoReturn:
+    def subscribe(self) -> None:
         pass

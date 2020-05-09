@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from flask import Flask
 from logging import Logger
-from typing import List, Callable, NoReturn
+from typing import List, Callable
+from transport import Publisher, Subscriber, RPCServer, RPCClient
 
-SetupComponent = Callable[[], NoReturn]
+SetupComponent = Callable[[], None]
 
 
 class App(ABC):
@@ -17,6 +18,22 @@ class App(ABC):
         pass
 
     @abstractmethod
+    def global_publisher(self) -> Publisher:
+        pass
+
+    @abstractmethod
+    def local_publisher(self) -> Publisher:
+        pass
+
+    @abstractmethod
+    def global_subscriber(self) -> Subscriber:
+        pass
+
+    @abstractmethod
+    def local_subscriber(self) -> Subscriber:
+        pass
+
+    @abstractmethod
     def liveness(self) -> bool:
         pass
 
@@ -25,17 +42,17 @@ class App(ABC):
         pass
 
     @abstractmethod
-    def set_liveness(self, liveness: bool) -> NoReturn:
+    def set_liveness(self, liveness: bool) -> None:
         pass
 
     @abstractmethod
-    def set_readiness(self, readiness: bool) -> NoReturn:
+    def set_readiness(self, readiness: bool) -> None:
         pass
 
     @abstractmethod
-    def setup(self, setupComponents: List[SetupComponent]) -> NoReturn:
+    def setup(self, setupComponents: List[SetupComponent]) -> None:
         pass
 
     @abstractmethod
-    def run(self) -> NoReturn:
+    def run(self) -> None:
         pass

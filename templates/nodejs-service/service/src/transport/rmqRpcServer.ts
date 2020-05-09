@@ -48,18 +48,22 @@ export class RmqRPCServer implements RPCServer {
             await rmqDeclareQueueAndBindToDefaultExchange(ch, functionName);
             this.logger.log(`[INFO RmqRPCServer] Serve ${functionName}`);
             rmqConsume(ch, functionName, async (rmqMessageOrNull) => {
-                const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
-                const { replyTo } = rmqMessage.properties;
-                const jsonEnvelopedInput = rmqMessage.content.toString();
-                const envelopedInput = new EnvelopedMessage(jsonEnvelopedInput);
                 try {
-                    const inputs = envelopedInput.message.inputs;
-                    const output = await handler(...inputs);
-                    this.logger.log(`[INFO RmqRPCServer] Reply ${functionName}`, JSON.stringify(inputs), "output:", JSON.stringify(output));
-                    await rmqRpcReplyOutput(ch, replyTo, envelopedInput, output);
+                    const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
+                    const { replyTo } = rmqMessage.properties;
+                    const jsonEnvelopedInput = rmqMessage.content.toString();
+                    const envelopedInput = new EnvelopedMessage(jsonEnvelopedInput);
+                    try {
+                        const inputs = envelopedInput.message.inputs;
+                        const output = await handler(...inputs);
+                        this.logger.log(`[INFO RmqRPCServer] Reply ${functionName}`, JSON.stringify(inputs), "output:", JSON.stringify(output));
+                        await rmqRpcReplyOutput(ch, replyTo, envelopedInput, output);
+                    } catch (err) {
+                        this.logger.error(`[ERROR RmqRPCServer] Reply ${functionName}: `, err);
+                        await rmqRpcReplyError(ch, replyTo, envelopedInput, err);
+                    }
                 } catch (err) {
-                    this.logger.error(`[ERROR RmqRPCServer] Reply ${functionName}: `, err);
-                    await rmqRpcReplyError(ch, replyTo, envelopedInput, err);
+                    this.logger.error(`[ERROR RmqRPCServer] Error Replying ${functionName}: `, err);
                 }
             });
         }

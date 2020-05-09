@@ -1,7 +1,6 @@
 import amqplib from "amqplib";
 import { RPCClient } from "./interfaces";
 import { rmqRpcGenerateReplyQueueName, rmqConsume, rmqCreateConnectionAndChannel, rmqDeclareQueue, rmqCloseConnectionAndChannel, rmqRpcCall } from "./helpers";
-
 import { EnvelopedMessage } from "./envelopedMessage";
 
 
@@ -38,15 +37,17 @@ export class RmqRPCClient implements RPCClient {
                         const jsonEnvelopedOutput = rmqMessage.content.toString();
                         const envelopedOutput = new EnvelopedMessage(jsonEnvelopedOutput);
                         if (envelopedOutput.errorMessage) {
+                            self.logger.log(`[ERROR RmqRPCClient] Get Error Reply ${functionName}`, JSON.stringify(inputs), ":", envelopedOutput.errorMessage);
+                            await self.deleteQueueAndCloseConnection(conn, ch, replyTo);
                             return reject(new Error(envelopedOutput.errorMessage));
                         }
                         const message = envelopedOutput.message;
-                        await self.deleteQueue(conn, ch, replyTo);
+                        await self.deleteQueueAndCloseConnection(conn, ch, replyTo);
                         self.logger.log(`[INFO RmqRPCClient] Get Reply ${functionName}`, JSON.stringify(inputs), ":", JSON.stringify(message.output));
                         resolve(message.output);
                     } catch (err) {
-                        self.logger.log(`[ERROR RmqRPCClient] Get Reply ${functionName}`, JSON.stringify(inputs), ":", err);
-                        await self.deleteQueue(conn, ch, replyTo);
+                        self.logger.error(`[ERROR RmqRPCClient] Error While Processing Reply ${functionName}`, JSON.stringify(inputs), ":", err);
+                        await self.deleteQueueAndCloseConnection(conn, ch, replyTo);
                         reject(err);
                     }
                 });
@@ -60,7 +61,7 @@ export class RmqRPCClient implements RPCClient {
         });
     }
 
-    async deleteQueue(conn: amqplib.Connection, ch: amqplib.Channel, queueName: string) {
+    async deleteQueueAndCloseConnection(conn: amqplib.Connection, ch: amqplib.Channel, queueName: string) {
         try {
             await ch.deleteQueue(queueName, { ifUnused: false, ifEmpty: false });
             await rmqCloseConnectionAndChannel(conn, ch);

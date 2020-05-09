@@ -1,5 +1,5 @@
-from .interfaces import Message
 from __future__ import annotations
+from .interfaces import Message
 from typing import Dict, Type, TypeVar
 import uuid
 import json
@@ -9,9 +9,13 @@ class EnvelopedMessage:
 
     def __init__(self, json_enveloped_message: str = None):
         self.correlation_id: str = ""
-        self.message: Message = json.loads(json_enveloped_message) if isinstance(
-            json_enveloped_message, str) else {}
+        self.message: Message = {}
         self.error_message: str = ""
+        if isinstance(json_enveloped_message, bytes) or isinstance(json_enveloped_message, str):
+            obj = json.loads(json_enveloped_message)
+            self.correlation_id = obj["correlation_id"]
+            self.message = obj["message"]
+            self.error_message = obj["error_message"]
 
     def set_correlation_id(self, correlation_id: str = None) -> EnvelopedMessage:
         self.correlation_id = correlation_id if isinstance(

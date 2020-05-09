@@ -77,7 +77,7 @@ def rmq_declare_queue_and_bind_to_default_exchange(ch: BlockingChannel, queue_na
     exchange_name = queue_name
     rmq_declare_fanout_exchange(ch, exchange_name)
     rmq_declare_queue(ch, queue_name)
-    ch.queue_declare(exchange=exchange_name, queue=queue_name)
+    ch.queue_bind(exchange=exchange_name, queue=queue_name)
 
 
 def rmq_declare_queue(ch: BlockingChannel, queue_name: str):

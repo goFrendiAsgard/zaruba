@@ -12,7 +12,7 @@ class RmqSubscriber(Subscriber):
 
     def __init__(self, connection_string: str):
         self.connection_string: str = connection_string
-        self.logger: Logger = getLogger(__name__.split(".")[0])
+        self.logger: Logger = getLogger()
         self.handlers: Dict[str, EventHandler] = cast(
             Dict[str, EventHandler], {})
 

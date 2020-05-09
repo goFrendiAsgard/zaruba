@@ -9,7 +9,7 @@ class RmqPublisher(Publisher):
 
     def __init__(self, connection_string: str):
         self.connection_string: str = connection_string
-        self.logger: Logger = getLogger(__name__.split(".")[0])
+        self.logger: Logger = getLogger()
 
     def set_logger(self, logger: Logger) -> Publisher:
         self.logger = logger
