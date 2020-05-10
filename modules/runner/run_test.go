@@ -37,7 +37,7 @@ func TestRun(t *testing.T) {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
-	if err := component.Create("nodejs-service", testPath, "beta"); err != nil {
+	if err := component.Create("python-service", testPath, "gamma"); err != nil {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
@@ -54,7 +54,7 @@ func TestRun(t *testing.T) {
 	go Run(testPath, p, []string{}, stopChan, executedChan, errChan)
 	<-executedChan
 
-	for _, port := range []int{3011, 3012} {
+	for _, port := range []int{3011, 3012, 3013} {
 		testRequest(t, port, "hello/Tony", "Hello Tony")
 		testRequest(t, port, "hello-rpc/Tony", "Hello Tony")
 		testRequest(t, port, "hello-all", "Hello everyone !!!")

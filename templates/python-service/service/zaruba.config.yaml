@@ -1,0 +1,21 @@
+components:
+  servicename:
+    type: service
+    origin: "" # fill this one with your git repository
+    branch: master
+    env:
+      SERVICENAME_HTTP_PORT: 3010
+      GLOBAL_RMQ_CONNECTION_STRING: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${rmq}:5672/
+      LOCAL_RMQ_CONNECTION_STRING: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${rmq}:5672/
+      CONDA_SH_PATH: ${HOME}/anaconda3/etc/profile.d/conda.sh
+    location: "."
+    start: source ${CONDA_SH_PATH} && (conda env create --file=environment.yml || echo "environment exists") && (conda activate servicename && python main.py)
+    readinessCheck: curl ${servicename}:${SERVICENAME_HTTP_PORT}/readiness
+    dependencies:
+      - rmq
+
+links:
+  ../../libraries/python/transport:
+    - ./transport
+  ../../libraries/python/core:
+    - ./core
