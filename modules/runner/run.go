@@ -90,16 +90,17 @@ func getServiceNames(p *config.ProjectConfig) (serviceNames []string) {
 func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*exec.Cmd, orderedExecutions [][]string) {
 	for batchIndex := len(orderedExecutions) - 1; batchIndex >= 0; batchIndex-- {
 		executionBatch := orderedExecutions[batchIndex]
-		errChans := make([]chan error, len(executionBatch))
-		for index, serviceName := range executionBatch {
-			errChans[index] = make(chan error)
+		errChans := []chan error{}
+		for _, serviceName := range executionBatch {
+			errChan := make(chan error)
+			errChans = append(errChans, errChan)
 			cmd := cmdMap[serviceName]
 			if cmd == nil || cmd.Process == nil {
-				errChans[index] <- nil
+				errChan <- nil
 				logger.Info("Process %s not found", serviceName)
 				continue
 			}
-			go killCmd(projectDir, p, serviceName, cmd, errChans[index])
+			go killCmd(projectDir, p, serviceName, cmd, errChan)
 		}
 		// wait all service killed
 		for _, errChan := range errChans {
@@ -110,16 +111,22 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 
 func killCmd(projectDir string, p *config.ProjectConfig, serviceName string, cmd *exec.Cmd, errChan chan error) {
 	component, _ := p.GetComponentByName(serviceName)
-	if component.GetType() == "container" {
-		logger.Info("Kill %s logger", serviceName)
-	} else {
-		logger.Info("Kill %s process", serviceName)
+	componentType := component.GetType()
+	if componentType == "command" {
+		errChan <- nil
+		return
 	}
+	processType := "service"
+	if componentType == "docker" {
+		processType = "container logger"
+	}
+	logger.Info("Kill %s %s", processType, serviceName)
 	if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL); err != nil {
-		logger.Error("Failed to kill %s process: %s", serviceName, err)
+		logger.Error("Failed to kill %s %s: %s", processType, serviceName, err)
 		errChan <- err
+		return
 	}
-	logger.Info("Process %s killed", serviceName)
+	logger.Info("%s %s killed", processType, serviceName)
 	errChan <- nil
 }
 
