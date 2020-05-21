@@ -1,47 +1,69 @@
 package file
 
 import (
-	"path"
+	"io/ioutil"
+	"path/filepath"
 	"strings"
-
-	"github.com/zealic/xignore"
 )
 
 // GetAllFiles fetch sub-files and sub-directories recursively
 func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) {
-	allFiles = []string{dirName}
-	// create pattern
-	result, err := xignore.DirMatches(dirName, &xignore.MatchesOptions{
-		Ignorefile: ".gitignore",
-		Nested:     true, // Handle nested ignorefile
-	})
-	if err != nil {
-		return allFiles, err
-	}
-	// add all sub-directories that doesn't match gitignore and not in IgnoreConfig
-	for _, subDirName := range result.UnmatchedDirs {
-		absSubDirName := path.Join(dirName, subDirName)
-		if !shouldIgnore(option.GetIgnores(), absSubDirName) {
-			allFiles = append(allFiles, absSubDirName)
-		}
-	}
-	if !option.GetIsOnlyDir() {
-		// add all sub-files that doesn't match gitignore and not in IgnoreConfig
-		for _, subFileName := range result.UnmatchedFiles {
-			absFileName := path.Join(dirName, subFileName)
-			if !shouldIgnore(option.GetIgnores(), absFileName) {
-				allFiles = append(allFiles, absFileName)
-			}
-		}
-	}
-	return allFiles, err
+	resultChan := make(chan resultOfGetFile)
+	go getAllFiles(dirName, option, resultChan)
+	result := <-resultChan
+	return result.fileNames, result.err
 }
 
-func shouldIgnore(ignores []string, absFileName string) (ignored bool) {
-	for _, prefix := range ignores {
-		if strings.HasPrefix(absFileName, prefix) {
-			return true
-		}
+type resultOfGetFile struct {
+	err       error
+	fileNames []string
+}
+
+func createResultOfGetFile(err error, fileNames []string) resultOfGetFile {
+	return resultOfGetFile{
+		err:       err,
+		fileNames: fileNames,
 	}
-	return false
+}
+
+func getAllFiles(dir string, option *Option, resultChan chan resultOfGetFile) {
+	fileNames := []string{dir}
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		resultChan <- createResultOfGetFile(err, fileNames)
+		return
+	}
+	// recursive
+	subResultChanList := []chan resultOfGetFile{}
+	for _, file := range files {
+		absName := filepath.Join(dir, file.Name())
+		shouldExclude := false
+		for _, exclude := range option.GetIgnores() {
+			if strings.HasPrefix(absName, exclude) || absName == filepath.Join(dir, ".git") {
+				shouldExclude = true
+			}
+		}
+		if shouldExclude || (option.GetIsOnlyDir() && !file.IsDir()) {
+			continue
+		}
+		fileNames = append(fileNames, absName)
+		// if directory, do recursive
+		if !file.IsDir() {
+			continue
+		}
+		subResultChan := make(chan resultOfGetFile)
+		subResultChanList = append(subResultChanList, subResultChan)
+		go getAllFiles(absName, option, subResultChan)
+	}
+	// handle result
+	for _, subResultChan := range subResultChanList {
+		subResult := <-subResultChan
+		err = subResult.err
+		if err != nil {
+			resultChan <- createResultOfGetFile(err, fileNames)
+			return
+		}
+		fileNames = append(fileNames, subResult.fileNames...)
+	}
+	resultChan <- createResultOfGetFile(err, fileNames)
 }

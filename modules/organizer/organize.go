@@ -39,7 +39,8 @@ func Organize(projectDir string, p *config.ProjectConfig, arguments ...string) (
 		"organize",
 		action.CreateOption().
 			SetWorkDir(projectDir).
-			SetIsPerformPre(false),
+			SetIsPerformPre(false).
+			SetIgnores(ignores),
 		arguments...,
 	)
 }
