@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"sort"
 	"strings"
 	"syscall"
 	"time"
@@ -40,32 +39,46 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	// listen for stop channel
 	go func() {
 		<-stopChan
-		stopOnProgressChan <- true // end go routine in "getCmdMap"
-		if executed {
+		if executed { // if execution is complete, kill cmdMap and send error to errChan. This will end everything
 			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-			errChan <- err
-			<-resultOfGetCmdMapChan // the go routine in "getCmdMap" will send data through this channel, so that we have to catch it
+			errChan <- err // when everything is finished, we send something to errChan
+		} else { // if execution is not complete, tell "getCmdMap" to stop immedieately
+			stopOnProgressChan <- true
 		}
 	}()
-	// run processes
+	// run container, services, and commands
 	go getCmdMap(projectDir, p, orderedExecutions, stopOnProgressChan, resultOfGetCmdMapChan)
 	resultOfGetCmdMap := <-resultOfGetCmdMapChan
 	cmdMap, err = resultOfGetCmdMap.cmdMap, resultOfGetCmdMap.err
 	executed = true
-	if err != nil {
+	if err != nil { // if there is error (possibly because of "stopChan"), kill all process, send data to executedChan and errChan
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
+		executedChan <- executed
 		errChan <- err
-		stopOnProgressChan <- true // end go routine in "getCmdMap"
-		<-resultOfGetCmdMapChan    // the go routine in "getCmdMap" will send data through this channel, so that we have to catch it
+		return
 	}
-	executedChan <- executed
+	executedChan <- executed             // still waiting, because we don't send anything to errChan
+	if !isServiceExists(p, executions) { // unless we only have "command" and "container" in this session. In that case, kill process
+		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
+		errChan <- nil
+	}
+}
+
+func isServiceExists(p *config.ProjectConfig, executions []string) bool {
+	for _, execution := range executions {
+		component, _ := p.GetComponentByName(execution)
+		if component.GetType() == "service" {
+			return true
+		}
+	}
+	return false
 }
 
 func getServiceNames(p *config.ProjectConfig) (serviceNames []string) {
 	serviceNames = []string{}
 	for name, component := range p.GetComponents() {
 		componentType := component.GetType()
-		if componentType != "service" && componentType != "container" {
+		if componentType != "service" && componentType != "container" && componentType != "command" {
 			continue
 		}
 		serviceNames = append(serviceNames, name)
@@ -81,14 +94,14 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 		for index, serviceName := range executionBatch {
 			errChans[index] = make(chan error)
 			cmd := cmdMap[serviceName]
-			if cmd.Process == nil {
+			if cmd == nil || cmd.Process == nil {
 				errChans[index] <- nil
 				logger.Info("Process %s not found", serviceName)
 				continue
 			}
 			go killCmd(projectDir, p, serviceName, cmd, errChans[index])
 		}
-		// wait all service run
+		// wait all service killed
 		for _, errChan := range errChans {
 			<-errChan
 		}
@@ -106,6 +119,7 @@ func killCmd(projectDir string, p *config.ProjectConfig, serviceName string, cmd
 		logger.Error("Failed to kill %s process: %s", serviceName, err)
 		errChan <- err
 	}
+	logger.Info("Process %s killed", serviceName)
 	errChan <- nil
 }
 
@@ -125,12 +139,14 @@ func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][
 	cmdMap := map[string]*exec.Cmd{}
 	// if there is stop signal, stop working
 	go func() {
-		<-stopProgressChan
-		resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, errors.New("Receiving stop signal"))
+		stopProgress, notClosed := <-stopProgressChan
+		if stopProgress || notClosed {
+			resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, errors.New("Receiving stop signal"))
+		}
 	}()
 	for _, executionBatch := range orderedExecutions {
-		serviceErrChans := make([]chan error, len(executionBatch))
-		for index, serviceName := range executionBatch {
+		serviceErrChans := []chan error{}
+		for _, serviceName := range executionBatch {
 			component, err := p.GetComponentByName(serviceName)
 			if err != nil {
 				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
@@ -147,11 +163,12 @@ func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][
 			if err != nil {
 				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
 			}
-			serviceErrChans[index] = make(chan error)
+			serviceErrChan := make(chan error)
+			serviceErrChans = append(serviceErrChans, serviceErrChan)
 			if component.GetType() == "command" {
-				go checkCommandFinished(cmd, serviceErrChans[index])
+				go checkCommandFinished(cmd, serviceErrChan)
 			} else {
-				go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChans[index])
+				go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChan)
 			}
 		}
 		// wait all service run
@@ -248,93 +265,4 @@ func logService(serviceName, prefix string, color int, readCloser io.ReadCloser)
 	if err := buf.Err(); err != nil {
 		logger.Error("%s: %s", serviceName, err)
 	}
-}
-
-func getOrderedExecutions(p *config.ProjectConfig, executedServices []string) (executions [][]string, err error) {
-	services := includeCandidate(p, executedServices)
-	executions = [][]string{}
-	leftServices := getLeftServices(services, executions)
-	for len(leftServices) > 0 {
-		currentBatch := []string{}
-		for _, service := range leftServices {
-			component, err := p.GetComponentByName(service)
-			if err != nil {
-				return executions, err
-			}
-			if isDependenciesFullfiled(component, executions) {
-				currentBatch = append(currentBatch, service)
-			}
-		}
-		sort.Strings(currentBatch)
-		executions = append(executions, currentBatch)
-		leftServices = getLeftServices(services, executions)
-	}
-	return executions, err
-}
-
-func includeCandidate(p *config.ProjectConfig, services []string) []string {
-	dependencies := []string{}
-	for _, service := range services {
-		component, err := p.GetComponentByName(service)
-		if err != nil {
-			logger.Fatal("Cannot get component ", service)
-		}
-		componentDependencies := component.GetDependencies()
-		completeDependencies := includeCandidate(p, componentDependencies)
-		for _, dependency := range completeDependencies {
-			if !inArray(dependency, services) && !inArray(dependency, dependencies) {
-				dependencies = append(dependencies, dependency)
-			}
-		}
-	}
-	return append(dependencies, services...)
-}
-
-func getLeftServices(services []string, executions [][]string) (left []string) {
-	flattenExecutions := flattenArray(executions)
-	left = []string{}
-	for _, service := range services {
-		if !inArray(service, flattenExecutions) {
-			left = append(left, service)
-		}
-	}
-	return left
-}
-
-func inArray(element string, arr []string) (found bool) {
-	found = false
-	for _, otherElement := range arr {
-		if element == otherElement {
-			found = true
-			break
-		}
-	}
-	return found
-}
-
-func isDependenciesFullfiled(component *config.Component, executions [][]string) (fullfilled bool) {
-	flattenExecutions := flattenArray(executions)
-	for _, dependency := range component.GetDependencies() {
-		found := false
-		for _, service := range flattenExecutions {
-			if service == dependency {
-				found = true
-				break
-			}
-		}
-		if !found {
-			return false
-		}
-	}
-	return true
-}
-
-func flattenArray(arr [][]string) (flatten []string) {
-	flatten = []string{}
-	for _, subArr := range arr {
-		for _, element := range subArr {
-			flatten = append(flatten, element)
-		}
-	}
-	return flatten
 }
