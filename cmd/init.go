@@ -36,15 +36,15 @@ var initCmd = &cobra.Command{
 			logger.Fatal(err)
 		}
 		// listen to kill signal
-		c := make(chan os.Signal)
-		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+		osSignalChan := make(chan os.Signal)
+		signal.Notify(osSignalChan, os.Interrupt, syscall.SIGTERM, syscall.SIGKILL)
 		// invoke action
 		if err := initiator.Init(projectDir, p); err != nil {
 			logger.Fatal(err)
 		}
 		// Don't handle kill signal unless the action was finished
 		go func() {
-			<-c
+			<-osSignalChan
 		}()
 	},
 }

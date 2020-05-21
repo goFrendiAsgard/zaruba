@@ -30,24 +30,38 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 		executedChan <- true
 		return
 	}
-	// create network
+	// create docker network
 	command.RunAndRedirect(projectDir, "docker", "network", "create", p.GetName())
+	// prepare channels
+	cmdMap := map[string]*exec.Cmd{}
+	executed := false
+	resultOfGetCmdMapChan := make(chan resultOfGetCmdMap)
+	stopOnProgressChan := make(chan bool)
+	// listen for stop channel
+	go func() {
+		<-stopChan
+		stopOnProgressChan <- true // end go routine in "getCmdMap"
+		if executed {
+			killCmdMap(projectDir, p, cmdMap, orderedExecutions)
+			errChan <- err
+			<-resultOfGetCmdMapChan // the go routine in "getCmdMap" will send data through this channel, so that we have to catch it
+		}
+	}()
 	// run processes
-	cmdMapChan := make(chan map[string]*exec.Cmd)
-	go getCmdAndPipesMap(projectDir, p, orderedExecutions, stopChan, cmdMapChan, errChan)
-	cmdMap := <-cmdMapChan
-	err = <-errChan
+	go getCmdMap(projectDir, p, orderedExecutions, stopOnProgressChan, resultOfGetCmdMapChan)
+	resultOfGetCmdMap := <-resultOfGetCmdMapChan
+	cmdMap, err = resultOfGetCmdMap.cmdMap, resultOfGetCmdMap.err
 	if err != nil {
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
+		executed = true
 		executedChan <- true
 		errChan <- err
+		stopOnProgressChan <- true // end go routine in "getCmdMap"
+		<-resultOfGetCmdMapChan    // the go routine in "getCmdMap" will send data through this channel, so that we have to catch it
 		return
 	}
-	executedChan <- true
-	// listen to stopChan
-	<-stopChan
-	killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-	errChan <- nil
+	executed = true
+	executedChan <- executed
 }
 
 func getServiceNames(p *config.ProjectConfig) (serviceNames []string) {
@@ -98,51 +112,61 @@ func killCmd(projectDir string, p *config.ProjectConfig, serviceName string, cmd
 	errChan <- nil
 }
 
-func getCmdAndPipesMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][]string, stopChan chan bool, cmdMapChan chan map[string]*exec.Cmd, errChan chan error) {
+type resultOfGetCmdMap struct {
+	cmdMap map[string]*exec.Cmd
+	err    error
+}
+
+func createResultOfGetCmdMap(cmdMap map[string]*exec.Cmd, err error) resultOfGetCmdMap {
+	return resultOfGetCmdMap{
+		cmdMap: cmdMap,
+		err:    err,
+	}
+}
+
+func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][]string, stopProgressChan chan bool, resultOfGetCmdMapChan chan resultOfGetCmdMap) {
 	cmdMap := map[string]*exec.Cmd{}
+	// if there is stop signal, stop working
+	go func() {
+		<-stopProgressChan
+		resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, errors.New("Receiving stop signal"))
+	}()
 	for _, executionBatch := range orderedExecutions {
 		serviceErrChans := make([]chan error, len(executionBatch))
 		for index, serviceName := range executionBatch {
 			component, err := p.GetComponentByName(serviceName)
 			if err != nil {
-				cmdMapChan <- cmdMap
-				errChan <- err
+				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
 			}
 			// create cmd
 			runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color := component.GetRuntimeName(), component.GetRuntimeLocation(), component.GetRuntimeCommand(), getServiceEnv(p, serviceName), component.GetColor()
 			cmd, err := createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color)
 			if err != nil {
-				cmdMapChan <- cmdMap
-				errChan <- err
+				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
 			}
 			// start cmd
 			err = cmd.Start()
 			cmdMap[serviceName] = cmd
 			if err != nil {
-				cmdMapChan <- cmdMap
-				errChan <- err
+				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
 			}
 			serviceErrChans[index] = make(chan error)
-			go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChans[index])
+			if component.GetType() == "command" {
+				go checkCommandFinished(cmd, serviceErrChans[index])
+			} else {
+				go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChans[index])
+			}
 		}
-		// if there is stop signal, send signal to all errChans
-		go func() {
-			stop := <-stopChan
-			stopChan <- stop
-			cmdMapChan <- cmdMap
-			errChan <- errors.New("Receiving stop signal")
-		}()
 		// wait all service run
 		for _, serviceErrChan := range serviceErrChans {
 			err := <-serviceErrChan
 			if err != nil {
-				cmdMapChan <- cmdMap
-				errChan <- err
+				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
+				return
 			}
 		}
 	}
-	cmdMapChan <- cmdMap
-	errChan <- nil
+	resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, nil)
 }
 
 func createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation string, runtimeCommand string, runtimeEnv []string, color int) (cmd *exec.Cmd, err error) {
@@ -161,6 +185,11 @@ func createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation stri
 	logger.Info("Start %s: %s", serviceName, strings.Join(cmd.Args, " "))
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 	return cmd, err
+}
+
+func checkCommandFinished(cmd *exec.Cmd, errChan chan error) {
+	err := cmd.Wait()
+	errChan <- err
 }
 
 func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, errChan chan error) {

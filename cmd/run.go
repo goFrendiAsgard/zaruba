@@ -36,10 +36,10 @@ var runCmd = &cobra.Command{
 		errChan := make(chan error)
 		executedChan := make(chan bool)
 		// listen to kill signal
-		c := make(chan os.Signal)
-		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+		osSignalChan := make(chan os.Signal)
+		signal.Notify(osSignalChan, os.Interrupt, syscall.SIGTERM, syscall.SIGKILL)
 		go func() {
-			<-c
+			<-osSignalChan
 			stopChan <- true
 			time.Sleep(60 * time.Second) // after one minute if the process is not stopped, kill it
 			logger.Fatal("Cannot terminate process, force kill")
