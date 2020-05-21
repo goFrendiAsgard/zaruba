@@ -51,16 +51,13 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	go getCmdMap(projectDir, p, orderedExecutions, stopOnProgressChan, resultOfGetCmdMapChan)
 	resultOfGetCmdMap := <-resultOfGetCmdMapChan
 	cmdMap, err = resultOfGetCmdMap.cmdMap, resultOfGetCmdMap.err
+	executed = true
 	if err != nil {
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-		executed = true
-		executedChan <- true
 		errChan <- err
 		stopOnProgressChan <- true // end go routine in "getCmdMap"
 		<-resultOfGetCmdMapChan    // the go routine in "getCmdMap" will send data through this channel, so that we have to catch it
-		return
 	}
-	executed = true
 	executedChan <- executed
 }
 

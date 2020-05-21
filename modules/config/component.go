@@ -107,7 +107,8 @@ func (c *Component) GetRuntimeContainerName() (containerName string) {
 
 // GetRuntimeLocation get runtime location
 func (c *Component) GetRuntimeLocation() (location string) {
-	if c.GetType() == "service" {
+	componentType := c.GetType()
+	if componentType == "service" || componentType == "command" {
 		return c.GetLocation()
 	}
 	return c.project.GetDirName()
