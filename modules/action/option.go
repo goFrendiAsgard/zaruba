@@ -10,6 +10,7 @@ type Option struct {
 	isRecursiveWorkDir bool
 	workDir            string
 	scriptDir          string
+	ignores            []string
 }
 
 // GetIsPerformAction get isPerformAction of option
@@ -78,8 +79,19 @@ func (option *Option) SetScriptDir(value string) *Option {
 	return option
 }
 
-// NewOption create option
-func NewOption() *Option {
+// GetIgnores get ignores of option
+func (option *Option) GetIgnores() []string {
+	return option.ignores
+}
+
+// SetIgnores set ignores of option
+func (option *Option) SetIgnores(ignores []string) *Option {
+	option.ignores = ignores
+	return option
+}
+
+// CreateOption create option
+func CreateOption() *Option {
 	return &Option{
 		isPerformPre:       true,
 		isPerformPost:      true,
@@ -87,5 +99,6 @@ func NewOption() *Option {
 		isRecursiveWorkDir: true,
 		workDir:            "",
 		scriptDir:          "",
+		ignores:            []string{},
 	}
 }

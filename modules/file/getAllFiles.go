@@ -2,6 +2,7 @@ package file
 
 import (
 	"path"
+	"strings"
 
 	"github.com/zealic/xignore"
 )
@@ -17,12 +18,10 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 	if err != nil {
 		return allFiles, err
 	}
-	// load ignoreConfig
-	i := NewIgnoreConfig(dirName)
 	// add all sub-directories that doesn't match gitignore and not in IgnoreConfig
 	for _, subDirName := range result.UnmatchedDirs {
 		absSubDirName := path.Join(dirName, subDirName)
-		if !i.ShouldIgnore(absSubDirName) {
+		if !shouldIgnore(option.GetIgnores(), absSubDirName) {
 			allFiles = append(allFiles, absSubDirName)
 		}
 	}
@@ -30,10 +29,19 @@ func GetAllFiles(dirName string, option *Option) (allFiles []string, err error) 
 		// add all sub-files that doesn't match gitignore and not in IgnoreConfig
 		for _, subFileName := range result.UnmatchedFiles {
 			absFileName := path.Join(dirName, subFileName)
-			if !i.ShouldIgnore(absFileName) {
+			if !shouldIgnore(option.GetIgnores(), absFileName) {
 				allFiles = append(allFiles, absFileName)
 			}
 		}
 	}
 	return allFiles, err
+}
+
+func shouldIgnore(ignores []string, absFileName string) (ignored bool) {
+	for _, prefix := range ignores {
+		if strings.HasPrefix(absFileName, prefix) {
+			return true
+		}
+	}
+	return false
 }

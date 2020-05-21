@@ -11,14 +11,16 @@ import (
 func Organize(projectDir string, p *config.ProjectConfig, arguments ...string) (err error) {
 	sortedLinkSources := p.GetSortedLinkSources()
 	links := p.GetLinks()
+	ignores := p.GetIgnores()
 	arguments = append([]string{projectDir}, arguments...)
 	// pre-organize
 	err = action.Do(
 		"organize",
-		action.NewOption().
+		action.CreateOption().
 			SetWorkDir(projectDir).
 			SetIsPerformAction(false).
-			SetIsPerformPost(false),
+			SetIsPerformPost(false).
+			SetIgnores(ignores),
 		arguments...,
 	)
 	if err != nil {
@@ -35,7 +37,7 @@ func Organize(projectDir string, p *config.ProjectConfig, arguments ...string) (
 	// organize and post-organize
 	return action.Do(
 		"organize",
-		action.NewOption().
+		action.CreateOption().
 			SetWorkDir(projectDir).
 			SetIsPerformPre(false),
 		arguments...,

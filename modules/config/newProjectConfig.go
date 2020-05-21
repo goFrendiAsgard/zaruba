@@ -10,32 +10,41 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// NewProjectConfig load project configuration from project directory
-func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
-	allDirs, err := getAllDirs(projectDir)
+// CreateProjectConfig load project configuration from project directory
+func CreateProjectConfig(projectDir string) (p *ProjectConfig, err error) {
+	// get absolute project dir
+	projectDir, err = filepath.Abs(projectDir)
 	if err != nil {
 		return p, err
 	}
-	p = newEmptyProjectConfig()
-	p.dirName = projectDir
+	// load main projectConfig
+	p, err = loadMainProjectConfig(projectDir)
+	if err != nil {
+		return p, err
+	}
+	// fetch sub projectConfigs
+	allDirs, err := getAllDirs(projectDir, p.ignores)
+	if err != nil {
+		return p, err
+	}
 	for _, directory := range allDirs {
+		// Don't load mainProjectConfig twice
+		if directory == projectDir {
+			continue
+		}
 		subP, loadSubErr := loadSingleProjectConfig(directory)
 		if loadSubErr != nil {
 			if os.IsNotExist(loadSubErr) {
 				continue
 			}
 			err = loadSubErr
-			break
+			return p, err
 		}
 		p = mergeEnvironment(p, subP)
 		p = mergeComponents(p, subP)
 		p = mergeLinks(p, subP)
 	}
-	// set projectName if not exists
-	if p.name == "" {
-		p.name = filepath.Base(projectDir)
-	}
-	// inject project to components
+	// inject project to components (for back-linking)
 	for componentName := range p.components {
 		p.components[componentName].project = p
 		p.components[componentName].name = componentName
@@ -45,15 +54,34 @@ func NewProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	return p, err
 }
 
-func getAllDirs(parentDir string) (allDirs []string, err error) {
+func loadMainProjectConfig(projectDir string) (p *ProjectConfig, err error) {
+	p, err = loadSingleProjectConfig(projectDir)
+	if err != nil {
+		return p, err
+	}
+	p.dirName = projectDir
+	// set projectName if not exists
+	if p.name == "" {
+		p.name = filepath.Base(projectDir)
+	}
+	return p, err
+}
+
+func getAllDirs(parentDir string, ignores []string) (allDirs []string, err error) {
 	allDirs = []string{}
-	allDirs, err = file.GetAllFiles(parentDir, file.NewOption().SetIsOnlyDir(true))
+	allDirs, err = file.GetAllFiles(
+		parentDir,
+		file.CreateOption().
+			SetIsOnlyDir(true).
+			SetIgnores(ignores))
 	return allDirs, err
 }
 
 // newEmptyProjectConfig create new ProjectConfig
 func newEmptyProjectConfig() (p *ProjectConfig) {
 	return &ProjectConfig{
+		dirName:                   "",
+		ignores:                   []string{},
 		name:                      "",
 		env:                       make(map[string]string),
 		components:                make(map[string]*Component),
@@ -111,6 +139,7 @@ func mergeLinks(p, subP *ProjectConfig) *ProjectConfig {
 func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 	p = newEmptyProjectConfig()
 	pYaml := &ProjectConfigYaml{
+		Ignores:    []string{},
 		Name:       "",
 		Env:        make(map[string]string),
 		Components: make(map[string]ComponentYaml),
@@ -139,6 +168,10 @@ func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 }
 
 func adjustLocation(p *ProjectConfig, absDirPath string) *ProjectConfig {
+	// adjust component's ignores
+	for index, ignore := range p.ignores {
+		p.ignores[index] = file.GetAbsoluteLocation(absDirPath, ignore)
+	}
 	// adjust component's location
 	for componentName, component := range p.components {
 		component.location = file.GetAbsoluteLocation(absDirPath, component.location)

@@ -52,8 +52,8 @@ func (v *VirtualEnv) getNativeEnvNames() (names []string) {
 	return names
 }
 
-// NewVirtualEnv get new virtualEnv
-func NewVirtualEnv() (v *VirtualEnv) {
+// CreateVirtualEnv get new virtualEnv
+func CreateVirtualEnv() (v *VirtualEnv) {
 	v = &VirtualEnv{
 		env:           map[string]string{},
 		envParseOrder: []string{},

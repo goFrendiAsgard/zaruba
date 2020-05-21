@@ -21,7 +21,7 @@ func Create(template, projectDir string, args ...string) (err error) {
 	logger.Info("Create component from `%s` into `%s` %s", templateDir, projectDir, strutil.SprintArgs(createComponentArgs))
 	return action.Do(
 		"create-component",
-		action.NewOption().
+		action.CreateOption().
 			SetScriptDir(templateDir).
 			SetWorkDir(templateDir).
 			SetIsRecursiveWorkDir(false),

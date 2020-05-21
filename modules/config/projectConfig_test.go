@@ -16,7 +16,7 @@ func TestLoadProjectConfig(t *testing.T) {
 	}
 
 	// load project config
-	p, err := NewProjectConfig(testPath)
+	p, err := CreateProjectConfig(testPath)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot load config: %s", err)
 		return

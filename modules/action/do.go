@@ -17,7 +17,11 @@ func Do(actionString string, option *Option, arguments ...string) (err error) {
 	// get allWorkDirs
 	allWorkDirs := []string{option.GetWorkDir()}
 	if option.GetIsRecursiveWorkDir() {
-		allWorkDirs, err = file.GetAllFiles(option.GetWorkDir(), file.NewOption().SetIsOnlyDir(true))
+		allWorkDirs, err = file.GetAllFiles(
+			option.GetWorkDir(),
+			file.CreateOption().
+				SetIsOnlyDir(true).
+				SetIgnores(option.GetIgnores()))
 		if err != nil {
 			return err
 		}

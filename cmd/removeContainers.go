@@ -28,7 +28,7 @@ var removeContainersCmd = &cobra.Command{
 		if err != nil {
 			logger.Fatal(err)
 		}
-		p, err := config.NewProjectConfig(projectDir)
+		p, err := config.CreateProjectConfig(projectDir)
 		if err != nil {
 			logger.Fatal(err)
 		}

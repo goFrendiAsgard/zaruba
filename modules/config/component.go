@@ -231,7 +231,7 @@ func (c *Component) GetColor() (color int) {
 
 // GetRuntimeEnv get runtime environment variables of a service
 func (c *Component) GetRuntimeEnv() (env map[string]string) {
-	venv := NewVirtualEnv()
+	venv := CreateVirtualEnv()
 	for otherServiceName, otherComponent := range c.project.components {
 		if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
 			continue

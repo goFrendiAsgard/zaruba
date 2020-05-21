@@ -42,7 +42,7 @@ func TestRun(t *testing.T) {
 		return
 	}
 	// load project config
-	p, err := config.NewProjectConfig(testPath)
+	p, err := config.CreateProjectConfig(testPath)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot load config: %s", err)
 		return

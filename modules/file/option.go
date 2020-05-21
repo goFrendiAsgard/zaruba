@@ -4,6 +4,7 @@ package file
 type Option struct {
 	maxDepth  int
 	isOnlyDir bool
+	ignores   []string
 }
 
 // GetMaxDepth get MTime of option
@@ -28,10 +29,22 @@ func (option *Option) SetIsOnlyDir(value bool) *Option {
 	return option
 }
 
-// NewOption get default Option
-func NewOption() *Option {
+// GetIgnores get ignores of option
+func (option *Option) GetIgnores() []string {
+	return option.ignores
+}
+
+// SetIgnores set ignores of option
+func (option *Option) SetIgnores(ignores []string) *Option {
+	option.ignores = ignores
+	return option
+}
+
+// CreateOption get default Option
+func CreateOption() *Option {
 	return &Option{
 		maxDepth:  100,
 		isOnlyDir: false,
+		ignores:   []string{},
 	}
 }

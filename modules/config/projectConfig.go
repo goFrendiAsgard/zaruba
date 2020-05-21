@@ -24,6 +24,11 @@ type ProjectConfig struct {
 	lastGeneratedColorIndex   int
 }
 
+// GetIgnores get ignored of project
+func (p *ProjectConfig) GetIgnores() (ignores []string) {
+	return p.ignores
+}
+
 // GetName get name of project
 func (p *ProjectConfig) GetName() (projectName string) {
 	return p.name

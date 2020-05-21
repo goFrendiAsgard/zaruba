@@ -38,7 +38,7 @@ func Install(gitURL, newTemplateName string) (err error) {
 	// run install
 	return action.Do(
 		"install-template",
-		action.NewOption().
+		action.CreateOption().
 			SetScriptDir(templateDir).
 			SetWorkDir(templateDir).
 			SetIsRecursiveWorkDir(false),
