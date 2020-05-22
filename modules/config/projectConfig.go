@@ -54,6 +54,46 @@ func (p *ProjectConfig) GetComponentByName(name string) (component *Component, e
 	return component, err
 }
 
+// GetComponentsByLabels get component by labels
+func (p *ProjectConfig) GetComponentsByLabels(labelStrings []string) (components map[string]*Component) {
+	components = map[string]*Component{}
+	for _, labelString := range labelStrings {
+		pair := strings.SplitN(labelString, ":", 2)
+		queryKey, queryVal := pair[0], pair[1]
+		for componentName, component := range p.GetComponents() {
+			labels := component.GetLabels()
+			for key, val := range labels {
+				if queryKey == key && queryVal == val {
+					components[componentName] = component
+				}
+			}
+		}
+	}
+	return components
+}
+
+// GetComponentsByNamesOrLabels get component by names or labels
+func (p *ProjectConfig) GetComponentsByNamesOrLabels(selectors []string) (components map[string]*Component, err error) {
+	components = map[string]*Component{}
+	for _, selector := range selectors {
+		// by label
+		if strings.Contains(selector, ":") {
+			byLabelComponents := p.GetComponentsByLabels([]string{selector})
+			for name, component := range byLabelComponents {
+				components[name] = component
+			}
+			continue
+		}
+		// by name
+		byNameComponent, err := p.GetComponentByName(selector)
+		if err != nil {
+			return components, err
+		}
+		components[selector] = byNameComponent
+	}
+	return components, err
+}
+
 // GetLinks get links in the project
 func (p *ProjectConfig) GetLinks() (links map[string][]string) {
 	return p.links
@@ -81,6 +121,7 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 	for componentName, component := range p.GetComponents() {
 		pYaml.Components[componentName] = ComponentYaml{
 			Type:           component.GetType(),
+			Labels:         component.GetLabels(),
 			Origin:         component.GetOrigin(),
 			Location:       component.GetLocation(),
 			Image:          component.GetImage(),
@@ -158,20 +199,21 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 	p.name = pYaml.Name
 	p.components = make(map[string]*Component)
 	p.links = pYaml.Links
-	for componentName, component := range pYaml.Components {
+	for componentName, cYaml := range pYaml.Components {
 		p.components[componentName] = &Component{
-			componentType:  component.Type,
-			origin:         component.Origin,
-			location:       component.Location,
-			image:          component.Image,
-			start:          component.Start,
-			containerName:  component.ContainerName,
-			ports:          component.Ports,
-			volumes:        component.Volumes,
-			symbol:         component.Symbol,
-			readinessCheck: component.ReadinessCheck,
-			dependencies:   component.Dependencies,
-			env:            component.Env,
+			labels:         cYaml.Labels,
+			componentType:  cYaml.Type,
+			origin:         cYaml.Origin,
+			location:       cYaml.Location,
+			image:          cYaml.Image,
+			start:          cYaml.Start,
+			containerName:  cYaml.ContainerName,
+			ports:          cYaml.Ports,
+			volumes:        cYaml.Volumes,
+			symbol:         cYaml.Symbol,
+			readinessCheck: cYaml.ReadinessCheck,
+			dependencies:   cYaml.Dependencies,
+			env:            cYaml.Env,
 		}
 	}
 	return p

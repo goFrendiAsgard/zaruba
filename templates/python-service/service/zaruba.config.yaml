@@ -5,10 +5,14 @@ components:
 
   servicename-create-env:
     type: command
+    labels:
+      purpose: preparation
     start: source ${CONDA_SH_PATH} && (conda env create --file=environment.yml || conda env update --file=environment.yml  --prune || echo "Failed. Keep going.")
 
   servicename-test:
     type: command
+    labels:
+      purpose: test
     env:
       SERVICENAME_HTTP_PORT: 4010
       GLOBAL_RMQ_CONNECTION_STRING: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${rmq}:5672/
@@ -21,6 +25,8 @@ components:
 
   servicename:
     type: service
+    labels:
+      purpose: live
     origin: "" # fill this one with your git repository
     branch: master
     env:
@@ -30,7 +36,6 @@ components:
     start: source ${CONDA_SH_PATH} && conda activate servicename && python main.py
     readinessCheck: curl ${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
-      - servicename-create-env
       - rmq
 
 links:

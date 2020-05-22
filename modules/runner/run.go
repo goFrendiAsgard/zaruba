@@ -18,15 +18,16 @@ import (
 )
 
 // Run a project config.
-func Run(projectDir string, p *config.ProjectConfig, executions []string, stopChan, executedChan chan bool, errChan chan error) {
-	if len(executions) == 0 {
-		executions = getServiceNames(p)
+func Run(projectDir string, p *config.ProjectConfig, selectors []string, stopChan, executedChan chan bool, errChan chan error) {
+	// get ordered executions
+	executableComponentNames, err := getExecutableComponentNames(p, selectors)
+	orderedExecutions := [][]string{}
+	if err == nil {
+		orderedExecutions, err = getOrderedExecutions(p, executableComponentNames)
 	}
-	// get ordered execution
-	orderedExecutions, err := getOrderedExecutions(p, executions)
 	if err != nil {
-		errChan <- err
 		executedChan <- true
+		errChan <- err
 		return
 	}
 	// create docker network
@@ -78,16 +79,25 @@ func isComponentTypeExists(p *config.ProjectConfig, componentType string, ordere
 	return false
 }
 
-func getServiceNames(p *config.ProjectConfig) (serviceNames []string) {
-	serviceNames = []string{}
-	for name, component := range p.GetComponents() {
+func getExecutableComponentNames(p *config.ProjectConfig, executions []string) (componentNames []string, err error) {
+	componentNames = []string{}
+	var components map[string]*config.Component
+	if len(executions) == 0 {
+		components = p.GetComponents()
+	} else {
+		components, err = p.GetComponentsByNamesOrLabels(executions)
+		if err != nil {
+			return componentNames, err
+		}
+	}
+	for name, component := range components {
 		componentType := component.GetType()
 		if componentType != "service" && componentType != "container" && componentType != "command" {
 			continue
 		}
-		serviceNames = append(serviceNames, name)
+		componentNames = append(componentNames, name)
 	}
-	return serviceNames
+	return componentNames, err
 }
 
 // kill based on p.Executions in reverse order

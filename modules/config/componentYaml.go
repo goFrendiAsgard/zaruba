@@ -2,7 +2,8 @@ package config
 
 // ComponentYaml describe component specs
 type ComponentYaml struct {
-	Type           string            `yaml:"type"`           // "service", "library", "container"
+	Type           string            `yaml:"type"`           // Component's type: "service", "library", "container", "command"
+	Labels         map[string]string `yaml:"labels"`         // Component's label
 	Origin         string            `yaml:"origin"`         // Component's git origin
 	Location       string            `yaml:"location"`       // location of the component
 	Image          string            `yaml:"image"`          // container's image

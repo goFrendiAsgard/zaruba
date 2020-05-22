@@ -8,21 +8,25 @@ import (
 
 // RemoveContainers stop and remove all containers in this project
 func RemoveContainers(projectDir string, p *config.ProjectConfig) (err error) {
+	// stop containers
 	err = StopContainers(projectDir, p)
 	if err != nil {
 		return err
 	}
-	serviceNames := getServiceNames(p)
-	for _, serviceName := range serviceNames {
-		component, err := p.GetComponentByName(serviceName)
+	componentNames, err := getExecutableComponentNames(p, []string{})
+	if err != nil {
+		return err
+	}
+	for _, componentName := range componentNames {
+		component, err := p.GetComponentByName(componentName)
 		if err != nil {
 			return err
 		}
 		if component.GetType() == "container" {
-			logger.Info("Remove %s container", serviceName)
+			logger.Info("Remove %s container", componentName)
 			_, err = command.Run(projectDir, "docker", "rm", component.GetRuntimeContainerName())
 			if err != nil {
-				logger.Error("Cannot stop container %s: %s", serviceName, err)
+				logger.Error("Cannot stop container %s: %s", componentName, err)
 			}
 		}
 	}
