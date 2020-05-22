@@ -33,9 +33,9 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	command.RunAndRedirect(projectDir, "docker", "network", "create", p.GetName())
 	// prepare channels
 	cmdMap := map[string]*exec.Cmd{}
-	executed := false
 	resultOfGetCmdMapChan := make(chan resultOfGetCmdMap)
 	stopOnProgressChan := make(chan bool)
+	executed := false
 	// listen for stop channel
 	go func() {
 		<-stopChan
@@ -100,7 +100,7 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 				logger.Info("Process %s not found", serviceName)
 				continue
 			}
-			go killCmd(projectDir, p, serviceName, cmd, errChan)
+			go killCmd(p, serviceName, cmd, errChan)
 		}
 		// wait all service killed
 		for _, errChan := range errChans {
@@ -109,25 +109,29 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 	}
 }
 
-func killCmd(projectDir string, p *config.ProjectConfig, serviceName string, cmd *exec.Cmd, errChan chan error) {
+func killCmd(p *config.ProjectConfig, serviceName string, cmd *exec.Cmd, errChan chan error) {
 	component, _ := p.GetComponentByName(serviceName)
 	componentType := component.GetType()
-	if componentType == "command" {
+	if componentType == "command" { // ignore command
 		errChan <- nil
 		return
 	}
-	processType := "service"
-	if componentType == "docker" {
-		processType = "container logger"
-	}
-	logger.Info("Kill %s %s", processType, serviceName)
+	processLabel := getProcessLabel(componentType, serviceName)
+	logger.Info("Kill %s", processLabel)
 	if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL); err != nil {
-		logger.Error("Failed to kill %s %s: %s", processType, serviceName, err)
+		logger.Error("Failed to kill %s: %s", processLabel, err)
 		errChan <- err
 		return
 	}
-	logger.Info("%s %s killed", processType, serviceName)
+	logger.Info("Succesfully kill %s", processLabel)
 	errChan <- nil
+}
+
+func getProcessLabel(componentType, serviceName string) (processLabel string) {
+	if componentType == "docker" {
+		return fmt.Sprintf("container logger %s", serviceName)
+	}
+	return fmt.Sprintf("service %s", serviceName)
 }
 
 type resultOfGetCmdMap struct {
@@ -157,40 +161,60 @@ func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][
 			component, err := p.GetComponentByName(serviceName)
 			if err != nil {
 				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
+				return
 			}
 			// create cmd
-			runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color := component.GetRuntimeName(), component.GetRuntimeLocation(), component.GetRuntimeCommand(), getServiceEnv(p, serviceName), component.GetColor()
-			cmd, err := createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation, runtimeCommand, runtimeEnv, color)
+			runtimeEnv := getServiceEnv(p, serviceName)
+			cmd, err := createServiceCmd(serviceName, component, runtimeEnv)
 			if err != nil {
 				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
+				return
 			}
 			// start cmd
 			err = cmd.Start()
 			cmdMap[serviceName] = cmd
 			if err != nil {
 				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
-			}
-			serviceErrChan := make(chan error)
-			serviceErrChans = append(serviceErrChans, serviceErrChan)
-			if component.GetType() == "command" {
-				go checkCommandFinished(cmd, serviceErrChan)
-			} else {
-				go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChan)
-			}
-		}
-		// wait all service run
-		for _, serviceErrChan := range serviceErrChans {
-			err := <-serviceErrChan
-			if err != nil {
-				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
 				return
 			}
+			// wait for component to be executed correctly
+			serviceErrChan := make(chan error)
+			serviceErrChans = append(serviceErrChans, serviceErrChan)
+			checkComponent(component, cmd, serviceName, runtimeEnv, serviceErrChan)
+		}
+		// wait all service run
+		if serviceErr := waitServiceErrChans(serviceErrChans); serviceErr != nil {
+			resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, serviceErr)
+			return
 		}
 	}
 	resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, nil)
 }
 
-func createServiceCmd(projectDir, serviceName, runtimeName, runtimeLocation string, runtimeCommand string, runtimeEnv []string, color int) (cmd *exec.Cmd, err error) {
+func checkComponent(component *config.Component, cmd *exec.Cmd, serviceName string, runtimeEnv []string, serviceErrChan chan error) {
+	runtimeLocation := component.GetRuntimeLocation()
+	if component.GetType() == "command" {
+		go checkCommandFinished(cmd, serviceErrChan)
+	} else {
+		go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChan)
+	}
+}
+
+func waitServiceErrChans(serviceErrChans []chan error) (err error) {
+	for _, serviceErrChan := range serviceErrChans {
+		err = <-serviceErrChan
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func createServiceCmd(serviceName string, component *config.Component, runtimeEnv []string) (cmd *exec.Cmd, err error) {
+	runtimeName := component.GetRuntimeName()
+	runtimeLocation := component.GetRuntimeLocation()
+	runtimeCommand := component.GetRuntimeCommand()
+	color := component.GetColor()
 	cmd, err = command.GetShellCmd(runtimeLocation, runtimeCommand)
 	cmd.Env = runtimeEnv
 	outPipe, err := cmd.StdoutPipe()
