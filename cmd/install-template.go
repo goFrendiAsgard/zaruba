@@ -14,8 +14,8 @@ func init() {
 
 var installTemplateCmd = &cobra.Command{
 	Use:   "install-template <git-url> [template-dir]",
-	Short: "Install template",
-	Long:  `Zaruba will install a template`,
+	Short: "Install template.",
+	Long:  "Install template from internet into local computer.",
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {

@@ -18,9 +18,9 @@ func init() {
 }
 
 var runCmd = &cobra.Command{
-	Use:   "run [project-dir]",
-	Short: "Run project",
-	Long:  `Zaruba will run all defined services`,
+	Use:   "run [project-dir [service-1 ... service-N]]",
+	Short: "Run project.",
+	Long:  "Run components defined in a project",
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir, err := filepath.Abs(".")

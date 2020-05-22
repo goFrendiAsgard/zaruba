@@ -15,8 +15,8 @@ func init() {
 
 var stopContainersCmd = &cobra.Command{
 	Use:   "stop-containers [project-dir]",
-	Short: "Stop containers in a project",
-	Long:  `Zaruba will stop all containers related to a project`,
+	Short: "Stop all containers.",
+	Long:  "Stop (without removing) all containers defined in a project.",
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."

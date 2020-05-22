@@ -12,8 +12,8 @@ func init() {
 
 var createComponentCmd = &cobra.Command{
 	Use:   "create <template> [project-dir]",
-	Short: "Create Component",
-	Long:  `Zaruba will manage project-dependency and perform organize-project.sh`,
+	Short: "Create component.",
+	Long:  "Create component in a project based on installed template",
 	Run: func(cmd *cobra.Command, args []string) {
 		// handle invalid parameter
 		if len(args) < 1 {

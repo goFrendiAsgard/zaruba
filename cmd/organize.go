@@ -15,8 +15,8 @@ func init() {
 
 var organizeCmd = &cobra.Command{
 	Use:   "organize [project-dir [...args]]",
-	Short: "Organize a project",
-	Long:  `Zaruba will manage project-dependency and perform organize-project script in every directory`,
+	Short: "Organize project.",
+	Long:  "Manage component dependencies in a project.",
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."

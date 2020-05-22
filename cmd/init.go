@@ -18,8 +18,8 @@ func init() {
 
 var initCmd = &cobra.Command{
 	Use:   "init [project-dir]",
-	Short: "Init a project",
-	Long:  `Zaruba will init a project`,
+	Short: "Init project.",
+	Long:  "Init project.",
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."

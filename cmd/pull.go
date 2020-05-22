@@ -15,8 +15,8 @@ func init() {
 
 var pullCmd = &cobra.Command{
 	Use:   "pull [project-dir]",
-	Short: "Pull from subtrees",
-	Long:  `Zaruba will pull from subtrees`,
+	Short: "Pull project.",
+	Long:  "Pull project repository from remote server (including subtrees).",
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."

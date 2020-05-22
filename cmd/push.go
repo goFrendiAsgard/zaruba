@@ -15,8 +15,8 @@ func init() {
 
 var pushCmd = &cobra.Command{
 	Use:   "push [project-dir]",
-	Short: "Push from subtrees",
-	Long:  `Zaruba will push to subtrees`,
+	Short: "Push project.",
+	Long:  "Push project repository to remote server (including subtrees).",
 	Run: func(cmd *cobra.Command, args []string) {
 		// get projectDir
 		projectDir := "."
