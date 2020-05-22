@@ -52,8 +52,8 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	cmdMap, err = resultOfGetCmdMap.cmdMap, resultOfGetCmdMap.err
 	executed = true
 	if err != nil { // if there is error (possibly because of "stopChan"), kill all process, send data to executedChan and errChan
-		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 		executedChan <- executed
+		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 		errChan <- err
 		return
 	}
@@ -94,10 +94,12 @@ func killCmdMap(projectDir string, p *config.ProjectConfig, cmdMap map[string]*e
 		for _, serviceName := range executionBatch {
 			errChan := make(chan error)
 			errChans = append(errChans, errChan)
-			cmd := cmdMap[serviceName]
-			if cmd == nil || cmd.Process == nil {
-				errChan <- nil
+			cmd, exists := cmdMap[serviceName]
+			if !exists || cmd == nil || cmd.Process == nil {
 				logger.Info("Process %s not found", serviceName)
+				go func() {
+					errChan <- nil
+				}()
 				continue
 			}
 			go killCmd(p, serviceName, cmd, errChan)
@@ -146,16 +148,18 @@ func createResultOfGetCmdMap(cmdMap map[string]*exec.Cmd, err error) resultOfGet
 	}
 }
 
-func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][]string, stopProgressChan chan bool, resultOfGetCmdMapChan chan resultOfGetCmdMap) {
-	cmdMap := map[string]*exec.Cmd{}
+func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][]string, stopOnProgressChan chan bool, resultOfGetCmdMapChan chan resultOfGetCmdMap) {
+	cmdMap, forcedStop := map[string]*exec.Cmd{}, false
 	// if there is stop signal, stop working
 	go func() {
-		stopProgress, notClosed := <-stopProgressChan
-		if stopProgress || notClosed {
-			resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, errors.New("Receiving stop signal"))
-		}
+		<-stopOnProgressChan
+		resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, errors.New("Receiving stop signal"))
+		forcedStop = true
 	}()
 	for _, executionBatch := range orderedExecutions {
+		if forcedStop {
+			return
+		}
 		serviceErrChans := []chan error{}
 		for _, serviceName := range executionBatch {
 			component, err := p.GetComponentByName(serviceName)
@@ -170,6 +174,9 @@ func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][
 				resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, err)
 				return
 			}
+			if forcedStop {
+				return
+			}
 			// start cmd
 			err = cmd.Start()
 			cmdMap[serviceName] = cmd
@@ -180,7 +187,7 @@ func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][
 			// wait for component to be executed correctly
 			serviceErrChan := make(chan error)
 			serviceErrChans = append(serviceErrChans, serviceErrChan)
-			checkComponent(component, cmd, serviceName, runtimeEnv, serviceErrChan)
+			go checkComponent(component, cmd, serviceName, runtimeEnv, serviceErrChan)
 		}
 		// wait all service run
 		if serviceErr := waitServiceErrChans(serviceErrChans); serviceErr != nil {
@@ -191,23 +198,11 @@ func getCmdMap(projectDir string, p *config.ProjectConfig, orderedExecutions [][
 	resultOfGetCmdMapChan <- createResultOfGetCmdMap(cmdMap, nil)
 }
 
-func checkComponent(component *config.Component, cmd *exec.Cmd, serviceName string, runtimeEnv []string, serviceErrChan chan error) {
-	runtimeLocation := component.GetRuntimeLocation()
-	if component.GetType() == "command" {
-		go checkCommandFinished(cmd, serviceErrChan)
-	} else {
-		go checkServiceReadiness(serviceName, runtimeLocation, component.GetRuntimeReadinessCheckCommand(), runtimeEnv, serviceErrChan)
-	}
-}
-
 func waitServiceErrChans(serviceErrChans []chan error) (err error) {
 	for _, serviceErrChan := range serviceErrChans {
 		err = <-serviceErrChan
-		if err != nil {
-			return err
-		}
 	}
-	return nil
+	return err
 }
 
 func createServiceCmd(serviceName string, component *config.Component, runtimeEnv []string) (cmd *exec.Cmd, err error) {
@@ -232,12 +227,23 @@ func createServiceCmd(serviceName string, component *config.Component, runtimeEn
 	return cmd, err
 }
 
+func checkComponent(component *config.Component, cmd *exec.Cmd, serviceName string, runtimeEnv []string, serviceErrChan chan error) {
+	if component.GetType() == "command" {
+		checkCommandFinished(cmd, serviceErrChan)
+	} else {
+		checkServiceReadiness(component, serviceName, runtimeEnv, serviceErrChan)
+	}
+}
+
 func checkCommandFinished(cmd *exec.Cmd, errChan chan error) {
 	err := cmd.Wait()
 	errChan <- err
 }
 
-func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand string, runtimeEnv []string, errChan chan error) {
+func checkServiceReadiness(component *config.Component, serviceName string, runtimeEnv []string, errChan chan error) {
+	var err error
+	runtimeLocation := component.GetRuntimeLocation()
+	readinessCheckCommand := component.GetRuntimeReadinessCheckCommand()
 	started := false
 	failedCounter := 0
 	outputInterval := 20
@@ -255,8 +261,9 @@ func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand s
 			_, err = command.RunCmdSilently(cmd)
 		}
 		if err == nil {
-			started = true
-			break
+			logger.Info("%s ready", serviceName)
+			errChan <- nil
+			return
 		}
 		// show failure and increase failedCounter
 		if failedCounter == 0 {
@@ -268,8 +275,8 @@ func checkServiceReadiness(serviceName, runtimeLocation, readinessCheckCommand s
 		}
 		time.Sleep(time.Millisecond * 500)
 	}
-	logger.Info("%s ready", serviceName)
-	errChan <- nil
+	logger.Info("%s is not ready", serviceName)
+	errChan <- err
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {
