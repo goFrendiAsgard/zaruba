@@ -10,11 +10,12 @@ import (
 
 // Component describe component specs
 type Component struct {
-	name           string         // name of the component (assigned when load config)
-	project        *ProjectConfig // parent project
-	color          int            // color (assigned automatically)
-	runtimeSymbol  string         // emoji, will be `symbol` if assigned or random
-	componentType  string         // service, library, container
+	name           string            // name of the component (assigned when load config)
+	labels         map[string]string // labels
+	project        *ProjectConfig    // parent project
+	color          int               // color (assigned automatically)
+	runtimeSymbol  string            // emoji, will be `symbol` if assigned or random
+	componentType  string            // service, library, container
 	origin         string
 	location       string
 	image          string
@@ -47,6 +48,11 @@ func (c *Component) GetLocation() (location string) {
 // GetName get component name
 func (c *Component) GetName() (name string) {
 	return c.name
+}
+
+// GetLabels get component name
+func (c *Component) GetLabels() (labels map[string]string) {
+	return c.labels
 }
 
 // GetImage get component image

@@ -39,6 +39,24 @@ func TestLoadProjectConfig(t *testing.T) {
 		return
 	}
 
+	// get component by labels
+	selectors := []string{"type:test"}
+	components := p.GetComponentsByLabels(selectors)
+	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test"})
+
+	// get component by labels
+	selectors = []string{"language:go"}
+	components = p.GetComponentsByLabels(selectors)
+	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test", "gopher1", "gopher2"})
+
+	// get component by names or labels
+	selectors = []string{"type:test", "rmq"}
+	components, err = p.GetComponentsByNamesOrLabels(selectors)
+	if err != nil {
+		t.Errorf("[ERROR] Cannot get component language:go")
+	}
+	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test", "rmq"})
+
 	testGopher1Component(t, gopher1)
 	testRmqComponent(t, rmq)
 
@@ -116,5 +134,19 @@ func testRmqComponent(t *testing.T, rmq *Component) {
 	}
 	if rmq.GetRuntimeCommand() == "" {
 		t.Errorf("[UNEXPECTED] rmq's runtime run command should not be empty, but it contains `%s`", rmq.GetRuntimeCommand())
+	}
+}
+
+func testComponentsExist(t *testing.T, selectors []string, components map[string]*Component, names []string) {
+	for _, name := range names {
+		nameExists := false
+		for componentName := range components {
+			if componentName == name {
+				nameExists = true
+			}
+		}
+		if !nameExists {
+			t.Errorf("[UNEXPECTED] component %s is not exists on %#v when fetched with selector %#v", name, components, selectors)
+		}
 	}
 }
