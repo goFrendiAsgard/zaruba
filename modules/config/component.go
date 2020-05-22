@@ -122,7 +122,8 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 		projectName := c.project.name
 		containerName := c.GetRuntimeContainerName()
 		image := c.GetImage()
-		env := c.GetQuotedRuntimeEnv()
+		quotedRuntimeEnv := c.GetQuotedRuntimeEnv()
+		containerEnv := c.GetEnv()
 		portMap := c.GetPorts()
 		volumeMap := c.GetVolumes()
 		// parse ports
@@ -142,7 +143,8 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 		volumeParams := strings.Join(volumes, " ")
 		// parse environments
 		environments := []string{}
-		for name, value := range env {
+		for name := range containerEnv {
+			value := quotedRuntimeEnv[name]
 			environments = append(environments, fmt.Sprintf("-e %s=%s", name, value))
 		}
 		environmentParams := strings.Join(environments, " ")

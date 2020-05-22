@@ -83,15 +83,15 @@ func TestRun(t *testing.T) {
 func testRequest(t *testing.T, port int, url, expected string) {
 	res, err := http.Get(fmt.Sprintf("http://localhost:%d/%s", port, url))
 	if err != nil {
-		t.Errorf("[ERROR] Cannot send request: %s", err)
+		t.Errorf("[ERROR] Cannot send request from http://localhost:%d/%s: %s", port, url, err)
 	} else {
 		content, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			t.Errorf("[ERROR] Cannot parse response: %s", err)
+			t.Errorf("[ERROR] Cannot parse response from http://localhost:%d/%s: %s", port, url, err)
 		}
 		actual := string(content)
 		if actual != expected {
-			t.Errorf("[UNEXPECTED] expecting response to be `%s`, get: %s", expected, actual)
+			t.Errorf("[UNEXPECTED] expecting response from http://localhost:%d/%s to be `%s`, get: %s", port, url, expected, actual)
 		}
 	}
 }

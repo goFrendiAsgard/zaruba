@@ -60,7 +60,7 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 	executedChan <- executed             // still waiting, because we don't send anything to errChan
 	if !isServiceExists(p, executions) { // unless we only have "command" and "container" in this session. In that case, kill process
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
-		errChan <- nil
+		errChan <- err
 	}
 }
 

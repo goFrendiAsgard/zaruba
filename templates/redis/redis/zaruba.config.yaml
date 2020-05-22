@@ -9,14 +9,14 @@ components:
     volumes:
       ./volume: /data
 
-  rediscmder:
-    symbol: 🏮
-    type: container
-    image: rediscommander/redis-commander
-    env:
-      REDIS_HOSTS: local:${redis}:6379
-    ports:
-      8093: 8081 
-    dependencies:
-      - redis
-    readinessCheck: curl localhost:8093
+  # rediscmder:
+  #   symbol: 🏮
+  #   type: container
+  #   image: rediscommander/redis-commander
+  #   env:
+  #     REDIS_HOSTS: local:${redis}:6379
+  #   ports:
+  #     8081: 8081 
+  #   dependencies:
+  #     - redis
+  #   readinessCheck: curl localhost:8081

@@ -12,3 +12,6 @@ zaruba-windows-amd64
 #coverage
 profile.out
 coverage.html
+
+.mypy_cache/
+.vscode/

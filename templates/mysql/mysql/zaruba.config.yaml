@@ -10,23 +10,28 @@ components:
     symbol: 🐬
     type: container
     image: mysql
+    env:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       3306: 3306
     volumes:
       ./volume: /var/lib/mysql
     readinessCheck: docker exec ${CONTAINER_NAME} mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SHOW SCHEMAS"
   
-  phpmyadmin:
-    symbol: 🐬
-    type: container
-    image: phpmyadmin/phpmyadmin
-    env:
-      PMA_HOST: ${mysql}
-      PMA_USER: root
-      PMA_PASSWORD: toor
-      PMA_PORT: 3306
-    ports:
-      8092: 80
-    dependencies:
-      - mysql
-    readinessCheck: curl localhost:8092
+  # phpmyadmin:
+  #   symbol: 🐬
+  #   type: container
+  #   image: phpmyadmin/phpmyadmin
+  #   env:
+  #     PMA_HOST: ${mysql}
+  #     PMA_USER: root
+  #     PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     PMA_PORT: 3306
+  #   ports:
+  #     80: 80
+  #   dependencies:
+  #     - mysql
+  #   readinessCheck: curl localhost:80

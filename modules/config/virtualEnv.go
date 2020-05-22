@@ -43,15 +43,6 @@ func (v *VirtualEnv) GetEnv() (env map[string]string) {
 	return v.env
 }
 
-func (v *VirtualEnv) getNativeEnvNames() (names []string) {
-	names = []string{}
-	for _, e := range os.Environ() {
-		pair := strings.SplitN(e, "=", 2)
-		names = append(names, pair[0])
-	}
-	return names
-}
-
 // CreateVirtualEnv get new virtualEnv
 func CreateVirtualEnv() (v *VirtualEnv) {
 	v = &VirtualEnv{

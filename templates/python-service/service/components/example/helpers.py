@@ -2,10 +2,10 @@ from flask import request
 
 
 def get_name(name) -> str:
-    if name == "" or name is None:
+    if not name:
         name = request.args.get("name")
-    if name == "" or name is None:
+    if not name:
         name = request.form.get("name")
-    if name is None:
+    if not name:
         name = ""
     return name
