@@ -5,7 +5,7 @@ components:
 
   servicename-create-env:
     type: command
-    start: source ${CONDA_SH_PATH} && (conda env create --file=environment.yml || conda env update --file=environment.yml  --prune)
+    start: source ${CONDA_SH_PATH} && (conda env create --file=environment.yml || conda env update --file=environment.yml  --prune || echo "Failed. Keep going.")
 
   servicename-test:
     type: command

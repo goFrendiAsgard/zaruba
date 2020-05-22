@@ -30,7 +30,9 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 		return
 	}
 	// create docker network
-	command.RunAndRedirect(projectDir, "docker", "network", "create", p.GetName())
+	if isComponentTypeExists(p, "container", orderedExecutions) {
+		command.RunAndRedirect(projectDir, "docker", "network", "create", p.GetName())
+	}
 	// prepare channels
 	cmdMap := map[string]*exec.Cmd{}
 	resultOfGetCmdMapChan := make(chan resultOfGetCmdMap)
@@ -57,18 +59,20 @@ func Run(projectDir string, p *config.ProjectConfig, executions []string, stopCh
 		errChan <- err
 		return
 	}
-	executedChan <- executed             // still waiting, because we don't send anything to errChan
-	if !isServiceExists(p, executions) { // unless we only have "command" and "container" in this session. In that case, kill process
+	executedChan <- executed                                     // still waiting, because we don't send anything to errChan
+	if !isComponentTypeExists(p, "service", orderedExecutions) { // unless we only have "command" and "container" in this session. In that case, kill process
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
 		errChan <- err
 	}
 }
 
-func isServiceExists(p *config.ProjectConfig, executions []string) bool {
-	for _, execution := range executions {
-		component, _ := p.GetComponentByName(execution)
-		if component.GetType() == "service" {
-			return true
+func isComponentTypeExists(p *config.ProjectConfig, componentType string, orderedExecutions [][]string) bool {
+	for _, executions := range orderedExecutions {
+		for _, execution := range executions {
+			component, _ := p.GetComponentByName(execution)
+			if component.GetType() == componentType {
+				return true
+			}
 		}
 	}
 	return false
