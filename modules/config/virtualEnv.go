@@ -15,11 +15,12 @@ type VirtualEnv struct {
 
 // Add add to virtualEnv
 func (v *VirtualEnv) Add(key, value string) {
-	v.env[key] = v.parseValue(value)
+	v.env[key] = v.ParseString(value)
 	v.envParseOrder = append(v.envParseOrder, key)
 }
 
-func (v *VirtualEnv) parseValue(str string) (newStr string) {
+// ParseString parse string
+func (v *VirtualEnv) ParseString(str string) (newStr string) {
 	newStr = str
 	// replace with current env
 	for _, key := range v.envParseOrder {

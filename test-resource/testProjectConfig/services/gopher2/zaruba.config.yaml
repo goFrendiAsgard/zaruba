@@ -19,7 +19,7 @@ components:
     branch: master
     location: "."
     start: go build && ./app
-    readinessCheck: curl ${gopher2}:${GOPHER1_HTTP_PORT}/readiness
+    readinessUrl: http://${gopher2}:${GOPHER1_HTTP_PORT}/readiness
     dependencies:
       - rmq
 

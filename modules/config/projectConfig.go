@@ -150,6 +150,7 @@ func (p *ProjectConfig) ToYaml() (str string, err error) {
 			Ports:          component.GetPorts(),
 			Volumes:        component.GetVolumes(),
 			ReadinessCheck: component.GetReadinessCheckCommand(),
+			ReadinessURL:   component.GetReadinessURL(),
 			Dependencies:   component.GetDependencies(),
 			Env:            component.GetEnv(),
 		}
@@ -232,6 +233,7 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 			volumes:        cYaml.Volumes,
 			symbol:         cYaml.Symbol,
 			readinessCheck: cYaml.ReadinessCheck,
+			readinessURL:   cYaml.ReadinessURL,
 			dependencies:   cYaml.Dependencies,
 			env:            cYaml.Env,
 		}

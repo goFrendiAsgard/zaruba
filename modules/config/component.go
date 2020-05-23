@@ -25,7 +25,9 @@ type Component struct {
 	volumes        map[string]string
 	symbol         string
 	readinessCheck string
+	readinessURL   string
 	dependencies   []string
+	venv           *VirtualEnv
 	env            map[string]string
 	runtimeName    string
 }
@@ -68,6 +70,11 @@ func (c *Component) GetStartCommand() (start string) {
 // GetReadinessCheckCommand get component run command
 func (c *Component) GetReadinessCheckCommand() (readinessCheck string) {
 	return c.readinessCheck
+}
+
+// GetReadinessURL get component run command
+func (c *Component) GetReadinessURL() (readinessURL string) {
+	return c.readinessURL
 }
 
 // GetSymbol get component run command
@@ -185,6 +192,12 @@ func (c *Component) GetRuntimeReadinessCheckCommand() (command string) {
 	return command
 }
 
+// GetRuntimeReadinessURL get runtime readiness url
+func (c *Component) GetRuntimeReadinessURL() (readinessURL string) {
+	venv := c.GetVenv()
+	return venv.ParseString(c.GetReadinessURL())
+}
+
 // GetRuntimeSymbol get component container name
 func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 	if c.runtimeSymbol == "" {
@@ -238,31 +251,39 @@ func (c *Component) GetColor() (color int) {
 	return c.color
 }
 
+// GetVenv get virtualEnv
+func (c *Component) GetVenv() (venv *VirtualEnv) {
+	if c.venv == nil {
+		c.venv = CreateVirtualEnv()
+		for otherServiceName, otherComponent := range c.project.components {
+			if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
+				continue
+			}
+			if c.componentType == "container" && otherComponent.GetType() == "container" {
+				c.venv.Add(otherServiceName, otherComponent.GetRuntimeContainerName())
+			} else {
+				c.venv.Add(otherServiceName, "0.0.0.0")
+			}
+		}
+		// project env
+		for name, value := range c.project.env {
+			c.venv.Add(name, value)
+		}
+		// current service env
+		for name, value := range c.env {
+			c.venv.Add(name, value)
+		}
+		// current container name
+		if componentType := c.GetType(); componentType == "container" {
+			c.venv.Add("CONTAINER_NAME", c.GetRuntimeContainerName())
+		}
+	}
+	return c.venv
+}
+
 // GetRuntimeEnv get runtime environment variables of a service
 func (c *Component) GetRuntimeEnv() (env map[string]string) {
-	venv := CreateVirtualEnv()
-	for otherServiceName, otherComponent := range c.project.components {
-		if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
-			continue
-		}
-		if c.componentType == "container" && otherComponent.GetType() == "container" {
-			venv.Add(otherServiceName, otherComponent.GetRuntimeContainerName())
-		} else {
-			venv.Add(otherServiceName, "0.0.0.0")
-		}
-	}
-	// project env
-	for name, value := range c.project.env {
-		venv.Add(name, value)
-	}
-	// current service env
-	for name, value := range c.env {
-		venv.Add(name, value)
-	}
-	// current container name
-	if componentType := c.GetType(); componentType == "container" {
-		venv.Add("CONTAINER_NAME", c.GetRuntimeContainerName())
-	}
+	venv := c.GetVenv()
 	return venv.GetEnv()
 }
 

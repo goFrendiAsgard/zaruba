@@ -2,6 +2,9 @@ name: PROJECT NAME
 env: 
   RABBITMQ_DEFAULT_USER: root
   RABBITMQ_DEFAULT_PASS: toor
+  GLOBAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmq}:5672/
+  LOCAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmq}:5672/
+  TEST_RMQ_CONNECTION_STRING: amqp://root:toor@${rmq}:5672/
 
 components: 
   rmq:
@@ -14,4 +17,4 @@ components:
     ports: 
         5672: 5672
         15672: 15672
-    readinessCheck: sleep 1 && curl localhost:15672 
+    readinessUrl: http://localhost:15672 

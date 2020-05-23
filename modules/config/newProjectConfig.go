@@ -50,7 +50,7 @@ func CreateProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 		p.components[componentName].name = componentName
 	}
 	str, _ := p.ToYaml()
-	logger.Info("Project Config Loaded: %s", str)
+	logger.Info("Project Config Loaded:\n%s", str)
 	return p, err
 }
 
