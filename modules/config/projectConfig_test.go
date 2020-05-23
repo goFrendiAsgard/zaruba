@@ -39,18 +39,28 @@ func TestLoadProjectConfig(t *testing.T) {
 		return
 	}
 
-	// get component by labels
-	selectors := []string{"type:test"}
+	// get component by labels: purpose:test
+	selectors := []string{"purpose:test"}
 	components := p.GetComponentsByLabels(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test"})
 
-	// get component by labels
+	// get component by labels: language:go
 	selectors = []string{"language:go"}
 	components = p.GetComponentsByLabels(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test", "gopher1", "gopher2"})
 
+	// get component by labels: purpose:integration-test
+	selectors = []string{"purpose:integration-test"}
+	components = p.GetComponentsByLabels(selectors)
+	testComponentsExist(t, selectors, components, []string{"gopher1-test"})
+
+	// get component by labels: purpose:end-to-end-test
+	selectors = []string{"purpose:end-to-end-test"}
+	components = p.GetComponentsByLabels(selectors)
+	testComponentsExist(t, selectors, components, []string{"gopher1-test"})
+
 	// get component by names or labels
-	selectors = []string{"type:test", "rmq"}
+	selectors = []string{"purpose:test", "rmq"}
 	components, err = p.GetComponentsByNamesOrLabels(selectors)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot get component language:go")
@@ -138,6 +148,13 @@ func testRmqComponent(t *testing.T, rmq *Component) {
 }
 
 func testComponentsExist(t *testing.T, selectors []string, components map[string]*Component, names []string) {
+	componentCount := 0
+	for range components {
+		componentCount++
+	}
+	if componentCount != len(names) {
+		t.Errorf("[UNEXPECTED] expected component keys are %#v, but fetched components are %#v", names, components)
+	}
 	for _, name := range names {
 		nameExists := false
 		for componentName := range components {

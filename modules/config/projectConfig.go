@@ -63,13 +63,33 @@ func (p *ProjectConfig) GetComponentsByLabels(labelStrings []string) (components
 		for componentName, component := range p.GetComponents() {
 			labels := component.GetLabels()
 			for key, val := range labels {
-				if queryKey == key && queryVal == val {
+				if queryKey == key && isLabelValueMatch(queryVal, val) {
 					components[componentName] = component
 				}
 			}
 		}
 	}
 	return components
+}
+
+func isLabelValueMatch(queryVal, val string) (match bool) {
+	// val only contains single value and match
+	if queryVal == val {
+		return true
+	}
+	// val contains multiple value (space sparated) and the first value is match
+	if strings.HasPrefix(val, fmt.Sprintf("%s ", queryVal)) {
+		return true
+	}
+	// val contains multiple value (space sparated) and the last value is match
+	if strings.HasSuffix(val, fmt.Sprintf(" %s", queryVal)) {
+		return true
+	}
+	// val contains multiple value (space sparated) and any 1..N-1 value is match
+	if strings.Contains(val, fmt.Sprintf(" %s ", queryVal)) {
+		return true
+	}
+	return false
 }
 
 // GetComponentsByNamesOrLabels get component by names or labels
