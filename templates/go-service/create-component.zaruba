@@ -6,6 +6,7 @@ SERVICE_NAME=$2
 TEMPLATE_DIR=$(pwd)
 EXISTING_SERVICE_COUNT=$(find ${PROJECT_DIR}/services -maxdepth 1 -type d|wc -l)
 HTTP_PORT=$(expr ${EXISTING_SERVICE_COUNT} + 3010)
+HTTP_TEST_PORT=$(expr ${EXISTING_SERVICE_COUNT} + 4010)
 
 # get service name
 if [ -z ${SERVICE_NAME} ]
@@ -24,6 +25,8 @@ fi
 
 # Define service dir
 SERVICE_DIR=${PROJECT_DIR}/services/${SERVICE_NAME}
+SHARED_LIB_DIR=${PROJECT_DIR}/libraries/go/
+LIB_DIR=${SERVICE_DIR}/
 
 # Copy service
 cp -r ${TEMPLATE_DIR}/service ${SERVICE_DIR}
@@ -37,11 +40,10 @@ do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}
     sed -i "s/3010/${HTTP_PORT}/g" ${FILE}
+    sed -i "s/4010/${HTTP_TEST_PORT}/g" ${FILE}
 done
 
 # copy to shared lib
-SHARED_LIB_DIR=${PROJECT_DIR}/libraries/go/
-LIB_DIR=${SERVICE_DIR}/
 mkdir -p ${SHARED_LIB_DIR}
 for HELPER in transport core
 do
@@ -52,7 +54,5 @@ do
         cp -r ${LIB_DIR}/${HELPER} ${SHARED_LIB_DIR}/${HELPER}
     fi
 done
-
-go build
 
 echo "Service ${SERVICE_NAME} created."

@@ -98,7 +98,7 @@ components: # list of components
     ports:
         5672: 5672   # host: container
         15672: 15672
-    readinessCheck: curl ${rmqGlobal}:15672
+    readinessUrl: http://${rmqGlobal}:15672
 ```
 
 On runtime, zaruba cascade this configuration with service's configuration. Now let's check `services/gateway/zaruba.config.yaml`:
@@ -116,7 +116,7 @@ components:
       LOCAL_RMQ_CONNECTION_STRING: amqp://root:toor@${rmqGlobal}:5672/ # local environment
     location: "."
     start: npm start
-    readinessCheck: curl ${gateway}:${GATEWAY_HTTP_PORT}/readiness
+    readinessUrl: http://${gateway}:${GATEWAY_HTTP_PORT}/readiness
     dependencies:
       - rmqGlobal
 

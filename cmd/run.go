@@ -18,7 +18,7 @@ func init() {
 }
 
 var runCmd = &cobra.Command{
-	Use:   "run [project-dir [service-1 ... service-N]]",
+	Use:   "run [project-dir [selector-1 ... selector-N]]",
 	Short: "Run project.",
 	Long:  "Run components defined in a project",
 	Run: func(cmd *cobra.Command, args []string) {

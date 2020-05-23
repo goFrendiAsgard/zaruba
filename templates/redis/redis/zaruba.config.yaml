@@ -19,4 +19,4 @@ components:
   #     8081: 8081 
   #   dependencies:
   #     - redis
-  #   readinessCheck: curl localhost:8081
+  #   readinessUrl: http://localhost:8081

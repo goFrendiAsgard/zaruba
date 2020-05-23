@@ -13,6 +13,7 @@ type ComponentYaml struct {
 	Volumes        map[string]string `yaml:"volumes"`        // volumes (host:container)
 	Symbol         string            `yaml:"symbol"`         // emoji representation
 	ReadinessCheck string            `yaml:"readinessCheck"` // check readiness command
+	ReadinessURL   string            `yaml:"readinessUrl"`   // check readiness command
 	Dependencies   []string          `yaml:"dependencies"`   // dependencies
 	Env            map[string]string `yaml:"env"`            // environment
 }

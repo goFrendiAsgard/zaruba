@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"strings"
@@ -51,9 +52,8 @@ func Run(projectDir string, p *config.ProjectConfig, selectors []string, stopCha
 	}()
 	// run container, services, and commands
 	go getCmdMap(projectDir, p, orderedExecutions, stopOnProgressChan, resultOfGetCmdMapChan)
-	resultOfGetCmdMap := <-resultOfGetCmdMapChan
+	resultOfGetCmdMap, executed := <-resultOfGetCmdMapChan, true
 	cmdMap, err = resultOfGetCmdMap.cmdMap, resultOfGetCmdMap.err
-	executed = true
 	if err != nil { // if there is error (possibly because of "stopChan"), kill all process, send data to executedChan and errChan
 		executedChan <- executed
 		killCmdMap(projectDir, p, cmdMap, orderedExecutions)
@@ -256,23 +256,17 @@ func checkCommandFinished(cmd *exec.Cmd, errChan chan error) {
 
 func checkServiceReadiness(component *config.Component, serviceName string, runtimeEnv []string, errChan chan error) {
 	var err error
-	runtimeLocation := component.GetRuntimeLocation()
-	readinessCheckCommand := component.GetRuntimeReadinessCheckCommand()
 	started := false
-	failedCounter := 0
-	outputInterval := 20
+	trialCounter := 0
+	resetTrialCounterInterval := 20
+	runtimeReadinessURL := component.GetRuntimeReadinessURL()
 	// set cmd
 	for !started {
-		cmd, err := command.GetShellCmd(runtimeLocation, readinessCheckCommand)
-		if err != nil {
-			errChan <- err
-		}
-		cmd.Env = runtimeEnv
-		if failedCounter == 0 {
-			logger.Info("Checking readiness of %s", serviceName)
-			_, err = command.RunCmd(cmd)
+		verboseOutput := trialCounter == 0
+		if runtimeReadinessURL == "" {
+			err = runReadinessCmdCheck(verboseOutput, serviceName, component, runtimeEnv)
 		} else {
-			_, err = command.RunCmdSilently(cmd)
+			err = runReadinessURLCheck(verboseOutput, serviceName, runtimeReadinessURL)
 		}
 		if err == nil {
 			logger.Info("%s ready", serviceName)
@@ -280,17 +274,40 @@ func checkServiceReadiness(component *config.Component, serviceName string, runt
 			return
 		}
 		// show failure and increase failedCounter
-		if failedCounter == 0 {
+		if trialCounter == 0 {
 			logger.Info("Failed to confirm readiness of %s: %s", serviceName, err)
 		}
-		failedCounter = failedCounter + 1
-		if failedCounter == outputInterval {
-			failedCounter = 0
+		trialCounter = trialCounter + 1
+		if trialCounter == resetTrialCounterInterval {
+			trialCounter = 0
 		}
 		time.Sleep(time.Millisecond * 500)
 	}
 	logger.Info("%s is not ready", serviceName)
 	errChan <- err
+}
+
+func runReadinessURLCheck(verboseOutput bool, serviceName string, runtimeReadinessURL string) (err error) {
+	if verboseOutput {
+		logger.Info("Checking readiness URL of %s", serviceName)
+	}
+	_, err = http.Get(runtimeReadinessURL)
+	return err
+}
+
+func runReadinessCmdCheck(verboseOutput bool, serviceName string, component *config.Component, runtimeEnv []string) (err error) {
+	cmd, err := command.GetShellCmd(component.GetRuntimeLocation(), component.GetRuntimeReadinessCheckCommand())
+	if err != nil {
+		return err
+	}
+	cmd.Env = runtimeEnv
+	if verboseOutput {
+		logger.Info("Checking readiness of %s", serviceName)
+		_, err = command.RunCmd(cmd)
+		return err
+	}
+	_, err = command.RunCmdSilently(cmd)
+	return err
 }
 
 func getServiceEnv(p *config.ProjectConfig, serviceName string) (environ []string) {

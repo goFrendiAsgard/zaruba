@@ -16,4 +16,4 @@ components:
     ports: 
         5672: 5672   # host: container
         15672: 15672
-    readinessCheck: curl ${rmq}:15672
+    readinessUrl: http://${rmq}:15672

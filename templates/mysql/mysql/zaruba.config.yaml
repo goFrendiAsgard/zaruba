@@ -34,4 +34,4 @@ components:
   #     80: 80
   #   dependencies:
   #     - mysql
-  #   readinessCheck: curl localhost:80
+  #   readinessUrl: http://localhost:80
