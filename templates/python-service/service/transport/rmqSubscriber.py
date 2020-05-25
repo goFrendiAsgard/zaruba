@@ -1,18 +1,19 @@
+import pika
+import threading
 from .interfaces import EventHandler, Subscriber
 from .envelopedMessage import EnvelopedMessage
-from .helpers import rmq_create_connection_and_channel, rmq_consume, rmq_declare_queue_and_bind_to_default_exchange, OnMessageCallback
+from .helpers import rmq_consume, rmq_declare_queue_and_bind_to_default_exchange, OnMessageCallback
 from typing import Dict, cast
-from logging import Logger, getLogger
-import threading
+from logging import Logger
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
 
 
 class RmqSubscriber(Subscriber):
 
-    def __init__(self, connection_string: str):
-        self.connection_string: str = connection_string
-        self.logger: Logger = getLogger()
+    def __init__(self, logger: Logger, connection: pika.BlockingConnection):
+        self.connection: pika.BlockingConnection = connection
+        self.logger: Logger = logger
         self.handlers: Dict[str, EventHandler] = cast(
             Dict[str, EventHandler], {})
 
@@ -20,12 +21,8 @@ class RmqSubscriber(Subscriber):
         self.handlers[event_name] = handler
         return self
 
-    def set_logger(self, logger: Logger) -> Subscriber:
-        self.logger = logger
-        return self
-
     def subscribe(self):
-        _, ch = rmq_create_connection_and_channel(self.connection_string)
+        ch = self.connection.channel()
         for key in self.handlers:
             event_name = key
             handler = self.handlers[event_name]

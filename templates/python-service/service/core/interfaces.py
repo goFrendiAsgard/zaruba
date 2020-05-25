@@ -10,46 +10,6 @@ SetupComponent = Callable[[], None]
 class App(ABC):
 
     @abstractmethod
-    def logger(self) -> Logger:
-        pass
-
-    @abstractmethod
-    def router(self) -> Flask:
-        pass
-
-    @abstractmethod
-    def global_publisher(self) -> Publisher:
-        pass
-
-    @abstractmethod
-    def local_publisher(self) -> Publisher:
-        pass
-
-    @abstractmethod
-    def global_subscriber(self) -> Subscriber:
-        pass
-
-    @abstractmethod
-    def local_subscriber(self) -> Subscriber:
-        pass
-
-    @abstractmethod
-    def global_rpc_server(self) -> RPCServer:
-        pass
-
-    @abstractmethod
-    def local_rpc_server(self) -> RPCServer:
-        pass
-
-    @abstractmethod
-    def global_rpc_client(self) -> RPCClient:
-        pass
-
-    @abstractmethod
-    def local_rpc_client(self) -> RPCClient:
-        pass
-
-    @abstractmethod
     def liveness(self) -> bool:
         pass
 
