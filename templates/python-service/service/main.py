@@ -13,7 +13,7 @@ import components.example as example
 
 def main():
 
-    # component definitions
+    # app component definitions
     logging.basicConfig(level="INFO")
     logger = getLogger()
     config = Config()
@@ -35,7 +35,7 @@ def main():
     publisher_connection = pika.BlockingConnection(rmq_connection_url)
     publisher = RmqPublisher(logger, publisher_connection)
 
-    # create app
+    # app creation
     app = MainApp(
         logger,
         router,
@@ -44,7 +44,7 @@ def main():
         config.http_port,
     )
 
-    # setup components
+    # app setup
     app.setup([
         defaultComponent.create_setup(config, router),
         monitoring.create_setup(config, app, router),
@@ -52,7 +52,7 @@ def main():
             config, router, publisher, subscriber, rpc_server, rpc_client).setup
     ])
 
-    # run
+    # app execution
     app.run()
 
 

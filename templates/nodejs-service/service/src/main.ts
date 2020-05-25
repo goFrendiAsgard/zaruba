@@ -9,7 +9,7 @@ import * as example from "./components/example";
 
 async function main() {
 
-    // component definitions
+    // app component definitions
     const logger = console;
     const config = new Config();
     logger.log("CONFIG:", JSON.stringify(config));
@@ -20,7 +20,7 @@ async function main() {
     const subscriber = new RmqSubscriber(logger, defaultRmqConnection);
     const publisher = new RmqPublisher(logger, defaultRmqConnection);
 
-    // create app
+    // app creation
     const app = new MainApp(
         logger,
         router,
@@ -29,7 +29,7 @@ async function main() {
         config.httpPort,
     );
 
-    // setup components
+    // app setup
     app.setup([
         defaultComponent.createSetup(config, router), // setup default
         monitoring.createSetup(config, app, router), // setup monitoring
@@ -38,7 +38,7 @@ async function main() {
         ), // setup example
     ]);
 
-    // run
+    // app execution
     app.run();
 
 }

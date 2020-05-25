@@ -16,7 +16,7 @@ import (
 
 func main() {
 
-	// component definitions
+	// app component definitions
 	logger := log.New(os.Stdout, "", log.LstdFlags)
 	config := config.CreateConfig()
 	logger.Println("CONFIG:", config.ToString())
@@ -30,7 +30,7 @@ func main() {
 	subscriber := transport.CreateRmqSubscriber(logger, defaultRmqConnection)
 	publisher := transport.CreateRmqPublisher(logger, defaultRmqConnection)
 
-	// create app
+	// app creation
 	app := core.CreateMainApp(
 		logger,
 		router,
@@ -39,7 +39,7 @@ func main() {
 		config.HTTPPort,
 	)
 
-	// setup components
+	// app setup
 	app.Setup([]core.SetupComponent{
 		defaultcomponent.CreateSetup(config, router), // setup landingPage
 		monitoring.CreateSetup(config, app, router),  // setup monitoring
@@ -48,7 +48,7 @@ func main() {
 		).Setup, // setup example
 	})
 
-	// run
+	// app execution
 	app.Run()
 
 }
