@@ -1,2 +1,4 @@
+test:
+	npm test
 run:
-	npm test && npm start
+	npm start

@@ -39,8 +39,8 @@ func TestLoadProjectConfig(t *testing.T) {
 		return
 	}
 
-	// get component by labels: purpose:test
-	selectors := []string{"purpose:test"}
+	// get component by labels: scenario:test
+	selectors := []string{"scenario:test"}
 	components := p.GetComponentsByLabels(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test"})
 
@@ -49,18 +49,18 @@ func TestLoadProjectConfig(t *testing.T) {
 	components = p.GetComponentsByLabels(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test", "gopher1", "gopher2"})
 
-	// get component by labels: purpose:integration-test
-	selectors = []string{"purpose:integration-test"}
+	// get component by labels: scenario:integration-test
+	selectors = []string{"scenario:integration-test"}
 	components = p.GetComponentsByLabels(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test"})
 
-	// get component by labels: purpose:end-to-end-test
-	selectors = []string{"purpose:end-to-end-test"}
+	// get component by labels: scenario:end-to-end-test
+	selectors = []string{"scenario:end-to-end-test"}
 	components = p.GetComponentsByLabels(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test"})
 
 	// get component by names or labels
-	selectors = []string{"purpose:test", "rmq"}
+	selectors = []string{"scenario:test", "rmq"}
 	components, err = p.GetComponentsByNamesOrLabels(selectors)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot get component language:go")

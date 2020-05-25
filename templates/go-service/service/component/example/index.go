@@ -2,7 +2,6 @@ package example
 
 import (
 	"app/config"
-	"app/core"
 	"app/transport"
 	"errors"
 	"fmt"
@@ -12,50 +11,54 @@ import (
 )
 
 // CreateComponent create component
-func CreateComponent(app core.App, config *config.Config) *Component {
+func CreateComponent(config *config.Config, router *gin.Engine, publisher transport.Publisher, subscriber transport.Subscriber, rpcServer transport.RPCServer, rpcClient transport.RPCClient) *Component {
 	return &Component{
-		names:  []string{},
-		app:    app,
-		config: config,
+		router:     router,
+		publisher:  publisher,
+		subscriber: subscriber,
+		rpcServer:  rpcServer,
+		rpcClient:  rpcClient,
+		config:     config,
+		names:      []string{},
 	}
 }
 
 // Component implementation
 type Component struct {
-	names  []string
-	app    core.App
-	config *config.Config
+	config     *config.Config
+	router     *gin.Engine
+	publisher  transport.Publisher
+	subscriber transport.Subscriber
+	rpcServer  transport.RPCServer
+	rpcClient  transport.RPCClient
+	names      []string
 }
 
 // Setup component
 func (comp *Component) Setup() {
-	r := comp.app.Router()
-	rpcServer := comp.app.GlobalRPCServer()
-	subscriber := comp.app.GlobalSubscriber()
-
 	// Use the same HTTP Handler for multiple URLS
-	r.GET("/hello", comp.handleHTTPHello)
-	r.GET("/hello/:name", comp.handleHTTPHello)
-	r.POST("/hello", comp.handleHTTPHello)
+	comp.router.GET("/hello", comp.handleHTTPHello)
+	comp.router.GET("/hello/:name", comp.handleHTTPHello)
+	comp.router.POST("/hello", comp.handleHTTPHello)
 
 	// Use HTTP Handler that take state from component
-	r.GET("/hello-all", comp.handleHTTPHelloAll)
+	comp.router.GET("/hello-all", comp.handleHTTPHelloAll)
 
 	// Trigger RPC Call
-	r.GET("/hello-rpc", comp.handleHTTPHelloRPC)
-	r.GET("/hello-rpc/:name", comp.handleHTTPHelloRPC)
-	r.POST("/hello-rpc", comp.handleHTTPHelloRPC)
+	comp.router.GET("/hello-rpc", comp.handleHTTPHelloRPC)
+	comp.router.GET("/hello-rpc/:name", comp.handleHTTPHelloRPC)
+	comp.router.POST("/hello-rpc", comp.handleHTTPHelloRPC)
 
 	// Trigger Publisher Call
-	r.GET("/hello-pub", comp.handleHTTPHelloPub)
-	r.GET("/hello-pub/:name", comp.handleHTTPHelloPub)
-	r.POST("/hello-pub", comp.handleHTTPHelloPub)
+	comp.router.GET("/hello-pub", comp.handleHTTPHelloPub)
+	comp.router.GET("/hello-pub/:name", comp.handleHTTPHelloPub)
+	comp.router.POST("/hello-pub", comp.handleHTTPHelloPub)
 
 	// Serve RPC
-	rpcServer.RegisterHandler("servicename.helloRPC", comp.handleRPCHello)
+	comp.rpcServer.RegisterHandler("servicename.helloRPC", comp.handleRPCHello)
 
 	// Event
-	subscriber.RegisterHandler("servicename.helloEvent", comp.handleEventHello)
+	comp.subscriber.RegisterHandler("servicename.helloEvent", comp.handleEventHello)
 
 }
 
@@ -69,9 +72,8 @@ func (comp *Component) handleHTTPHelloAll(c *gin.Context) {
 }
 
 func (comp *Component) handleHTTPHelloRPC(c *gin.Context) {
-	rpcClient := comp.app.GlobalRPCClient()
 	name := getName(c)
-	greetingInterface, err := rpcClient.Call("servicename.helloRPC", name)
+	greetingInterface, err := comp.rpcClient.Call("servicename.helloRPC", name)
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
 		return
@@ -85,9 +87,8 @@ func (comp *Component) handleHTTPHelloRPC(c *gin.Context) {
 }
 
 func (comp *Component) handleHTTPHelloPub(c *gin.Context) {
-	publisher := comp.app.GlobalPublisher()
 	name := getName(c)
-	err := publisher.Publish("servicename.helloEvent", transport.Message{"name": name})
+	err := comp.publisher.Publish("servicename.helloEvent", transport.Message{"name": name})
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
 		return
