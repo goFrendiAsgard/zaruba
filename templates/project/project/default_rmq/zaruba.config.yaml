@@ -1,7 +1,7 @@
 env: 
   RABBITMQ_DEFAULT_USER: root
   RABBITMQ_DEFAULT_PASS: toor
-  DEFAULT_RMQ_CONNECTION_STRING: amqp://root:toor@{rmq}:5672/
+  DEFAULT_RMQ_CONNECTION_STRING: amqp://root:toor@${rmq}:5672/
 
 components: 
   rmq:
