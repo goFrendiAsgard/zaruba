@@ -1,48 +1,53 @@
-import { Message } from "../../transport";
-import { App } from "../../core";
+import { Express } from "express";
+import { Message, Publisher, Subscriber, RPCServer, RPCClient } from "../../transport";
 import { Config } from "../../config";
 import { getName } from "./helpers";
 import { greet, greetEveryone } from "./services";
 
 export class Component {
-    private names: string[];
-    private app: App;
     private config: Config;
+    private router: Express;
+    private publisher: Publisher;
+    private subscriber: Subscriber;
+    private rpcServer: RPCServer;
+    private rpcClient: RPCClient;
+    private names: string[];
 
-    constructor(app: App, config: Config) {
+    constructor(config: Config, router: Express, publisher: Publisher, subscriber: Subscriber, rpcServer: RPCServer, rpcClient: RPCClient) {
         this.names = [];
-        this.app = app;
         this.config = config;
+        this.router = router;
+        this.publisher = publisher;
+        this.subscriber = subscriber;
+        this.rpcServer = rpcServer;
+        this.rpcClient = rpcClient;
     }
 
     setup() {
-        const r = this.app.router();
-        const rpcServer = this.app.globalRPCServer();
-        const subscriber = this.app.globalSubscriber();
 
         // Use the same HTTP Handler for multiple URLS
-        r.get("/hello", this.handleHTTPHello.bind(this));
-        r.get("/hello/:name", this.handleHTTPHello.bind(this));
-        r.post("/hello", this.handleHTTPHello.bind(this));
+        this.router.get("/hello", this.handleHTTPHello.bind(this));
+        this.router.get("/hello/:name", this.handleHTTPHello.bind(this));
+        this.router.post("/hello", this.handleHTTPHello.bind(this));
 
         // Use HTTP Handler that take state from component
-        r.get("/hello-all", this.handleHTTPHelloAll.bind(this));
+        this.router.get("/hello-all", this.handleHTTPHelloAll.bind(this));
 
         // Trigger RPC Call
-        r.get("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
-        r.get("/hello-rpc/:name", this.handleHTTPHelloRPC.bind(this));
-        r.post("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
+        this.router.get("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
+        this.router.get("/hello-rpc/:name", this.handleHTTPHelloRPC.bind(this));
+        this.router.post("/hello-rpc", this.handleHTTPHelloRPC.bind(this));
 
         // Trigger Publisher
-        r.get("/hello-pub", this.handleHTTPHelloPub.bind(this));
-        r.get("/hello-pub/:name", this.handleHTTPHelloPub.bind(this));
-        r.post("/hello-pub", this.handleHTTPHelloPub.bind(this));
+        this.router.get("/hello-pub", this.handleHTTPHelloPub.bind(this));
+        this.router.get("/hello-pub/:name", this.handleHTTPHelloPub.bind(this));
+        this.router.post("/hello-pub", this.handleHTTPHelloPub.bind(this));
 
         // Serve RPC
-        rpcServer.registerHandler("servicename.helloRPC", this.handleRPCHello.bind(this));
+        this.rpcServer.registerHandler("servicename.helloRPC", this.handleRPCHello.bind(this));
 
         // Event
-        subscriber.registerHandler("servicename.helloEvent", this.handleEventHello.bind(this));
+        this.subscriber.registerHandler("servicename.helloEvent", this.handleEventHello.bind(this));
 
     }
 
@@ -56,10 +61,9 @@ export class Component {
     }
 
     async handleHTTPHelloRPC(req: any, res: any) {
-        const rpcClient = this.app.globalRPCClient();
         const name = getName(req);
         try {
-            const greeting = await rpcClient.call("servicename.helloRPC", name);
+            const greeting = await this.rpcClient.call("servicename.helloRPC", name);
             res.send(greeting);
         } catch (err) {
             res.status(500).send(err);
@@ -67,10 +71,9 @@ export class Component {
     }
 
     async handleHTTPHelloPub(req: any, res: any) {
-        const publisher = this.app.globalPublisher();
         const name = getName(req);
         try {
-            await publisher.publish("servicename.helloEvent", { name });
+            await this.publisher.publish("servicename.helloEvent", { name });
             res.send("Message sent");
         } catch (err) {
             res.status(500).send(err);

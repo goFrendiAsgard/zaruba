@@ -67,12 +67,6 @@ def rmq_rpc_reply_error(ch: BlockingChannel, reply_to: str, enveloped_input: Env
     ))
 
 
-def rmq_create_connection_and_channel(connection_string: str) -> Tuple[BlockingConnection, BlockingChannel]:
-    connection = pika.BlockingConnection(pika.URLParameters(connection_string))
-    channel = connection.channel()
-    return connection, channel
-
-
 def rmq_declare_queue_and_bind_to_default_exchange(ch: BlockingChannel, queue_name: str):
     exchange_name = queue_name
     rmq_declare_fanout_exchange(ch, exchange_name)
@@ -95,14 +89,3 @@ def rmq_consume(ch: BlockingChannel, queue_name: str, handler: OnMessageCallback
 def rmq_publish(ch: BlockingChannel, exchange_name: str, routing_key: str, data: str, properties: BasicProperties):
     ch.basic_publish(
         exchange=exchange_name, routing_key=routing_key, body=data, properties=properties)
-
-
-def rmq_close_connection_and_channel(conn: BlockingConnection, ch: BlockingChannel):
-    try:
-        ch.close()
-    except:
-        "do nothing"
-    try:
-        conn.close()
-    except:
-        "do nothing"

@@ -4,27 +4,22 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"os"
+
+	"github.com/streadway/amqp"
 )
 
 // CreateRmqRPCClient create new RmqRPC
-func CreateRmqRPCClient(connectionString string) *RmqRPCClient {
+func CreateRmqRPCClient(logger *log.Logger, connection *amqp.Connection) *RmqRPCClient {
 	return &RmqRPCClient{
-		connectionString: connectionString,
-		logger:           log.New(os.Stdout, "", log.LstdFlags),
+		connection: connection,
+		logger:     logger,
 	}
 }
 
 // RmqRPCClient implementation
 type RmqRPCClient struct {
-	connectionString string
-	logger           *log.Logger
-}
-
-// SetLogger set custome logger
-func (c *RmqRPCClient) SetLogger(logger *log.Logger) RPCClient {
-	c.logger = logger
-	return c
+	connection *amqp.Connection
+	logger     *log.Logger
 }
 
 // Call remote function
@@ -34,11 +29,10 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 		return output, err
 	}
 	// create connection and channel
-	conn, ch, err := rmqCreateConnectionAndChannel(c.connectionString)
+	ch, err := c.connection.Channel()
 	if err != nil {
 		return output, err
 	}
-	defer conn.Close()
 	defer ch.Close()
 	// consume
 	rmqMessages, err := rmqConsume(ch, replyTo)

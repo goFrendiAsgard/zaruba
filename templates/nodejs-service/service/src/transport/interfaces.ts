@@ -4,22 +4,18 @@ export type EventHandler = (input: Message) => void;
 
 export interface RPCClient {
     call: (functionName: string, ...inputs: any[]) => Promise<any>;
-    setLogger: (logger: Console) => RPCClient;
 }
 
 export interface RPCServer {
     registerHandler: (functionName: string, handler: RPCHandler) => RPCServer;
-    setLogger: (logger: Console) => RPCServer;
-    serve: () => void;
+    serve: () => Promise<void>;
 }
 
 export interface Publisher {
-    publish: (eventName: string, msg: Message) => void | Promise<void>;
-    setLogger: (logger: Console) => Publisher
+    publish: (eventName: string, msg: Message) => Promise<void>;
 }
 
 export interface Subscriber {
     registerHandler: (eventName: string, handler: EventHandler) => Subscriber;
-    setLogger: (logger: Console) => Subscriber;
-    subscribe: () => void;
+    subscribe: () => Promise<void>;
 }

@@ -1,12 +1,11 @@
-import { App } from "../../core";
+import { Express } from "express";
 import { Config } from "../../config";
 
-export function createSetup(app: App, config: Config): () => void {
+export function createSetup(config: Config, router: Express): () => void {
     return () => {
         const serviceName = config.serviceName;
-        const r = app.router();
 
-        r.all("/", (_, res) => {
+        router.all("/", (_, res) => {
             res.send({
                 service_name: serviceName,
             });

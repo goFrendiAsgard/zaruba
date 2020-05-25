@@ -6,18 +6,16 @@ components:
   servicename-prepare:
     type: command
     labels:
-      purpose: preparation
+      scenario: preparation
     start: source ${CONDA_SH_PATH} && (conda env create --file=environment.yml || conda env update --file=environment.yml  --prune || echo "Failed. Keep going.")
 
   servicename-test:
     type: command
     labels:
-      purpose: test
+      scenario: test
     env:
       SERVICENAME_HTTP_PORT: 4010
-      GLOBAL_RMQ_CONNECTION_STRING: ${GLOBAL_RMQ_CONNECTION_STRING}
-      LOCAL_RMQ_CONNECTION_STRING: ${LOCAL_RMQ_CONNECTION_STRING}
-      TEST_RMQ_CONNECTION_STRING: ${TEST_RMQ_CONNECTION_STRING}
+      TEST_RMQ_CONNECTION_STRING: ${DEFAULT_RMQ_CONNECTION_STRING}
     start:  source ${CONDA_SH_PATH} && conda activate servicename && python -m pytest
     dependencies:
       - servicename-prepare
@@ -26,13 +24,12 @@ components:
   servicename:
     type: service
     labels:
-      purpose: live
+      scenario: live
     origin: "" # fill this one with your git repository
     branch: master
     env:
       SERVICENAME_HTTP_PORT: 3010
-      GLOBAL_RMQ_CONNECTION_STRING: ${GLOBAL_RMQ_CONNECTION_STRING}
-      LOCAL_RMQ_CONNECTION_STRING: ${LOCAL_RMQ_CONNECTION_STRING}
+      DEFAULT_RMQ_CONNECTION_STRING: ${DEFAULT_RMQ_CONNECTION_STRING}
     start: source ${CONDA_SH_PATH} && conda activate servicename && python main.py
     readinessUrl: http://${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:

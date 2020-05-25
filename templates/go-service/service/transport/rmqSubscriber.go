@@ -2,31 +2,24 @@ package transport
 
 import (
 	"log"
-	"os"
 
 	"github.com/streadway/amqp"
 )
 
 // CreateRmqSubscriber create new RmqSubscriber
-func CreateRmqSubscriber(connectionString string) *RmqSubscriber {
+func CreateRmqSubscriber(logger *log.Logger, connection *amqp.Connection) *RmqSubscriber {
 	return &RmqSubscriber{
-		connectionString: connectionString,
-		handlers:         map[string]EventHandler{},
-		logger:           log.New(os.Stdout, "", log.LstdFlags),
+		connection: connection,
+		handlers:   map[string]EventHandler{},
+		logger:     logger,
 	}
 }
 
 // RmqSubscriber for publish and subscribe
 type RmqSubscriber struct {
-	connectionString string
-	handlers         map[string]EventHandler
-	logger           *log.Logger
-}
-
-// SetLogger set custome logger
-func (s *RmqSubscriber) SetLogger(logger *log.Logger) Subscriber {
-	s.logger = logger
-	return s
+	connection *amqp.Connection
+	handlers   map[string]EventHandler
+	logger     *log.Logger
 }
 
 // RegisterHandler register servicemap for call
@@ -38,13 +31,12 @@ func (s *RmqSubscriber) RegisterHandler(eventName string, handler EventHandler) 
 // Subscribe consuming message from all event
 func (s *RmqSubscriber) Subscribe(errChan chan error) {
 	// create connection and channel
-	conn, ch, err := rmqCreateConnectionAndChannel(s.connectionString)
+	ch, err := s.connection.Channel()
 	if err != nil {
 		s.handleRmqError(err, errChan)
 		return
 	}
-	amqpErrChan := conn.NotifyClose(make(chan *amqp.Error))
-	defer conn.Close()
+	amqpErrChan := s.connection.NotifyClose(make(chan *amqp.Error))
 	defer ch.Close()
 	for eventName, handler := range s.handlers {
 		// start consume

@@ -100,15 +100,6 @@ func rmqRPCReplyError(ch *amqp.Channel, replyTo string, envelopedInput *Envelope
 		})
 }
 
-func rmqCreateConnectionAndChannel(connectionString string) (conn *amqp.Connection, ch *amqp.Channel, err error) {
-	conn, err = amqp.Dial(connectionString)
-	if err != nil {
-		return conn, ch, err
-	}
-	ch, err = conn.Channel()
-	return conn, ch, err
-}
-
 func rmqDeclareQueueAndBindToDefaultExchange(ch *amqp.Channel, queueName string) (q amqp.Queue, err error) {
 	// declare exchange
 	err = rmqDeclareFanoutExchange(ch, queueName)

@@ -1,18 +1,19 @@
+import pika
+import threading
 from .interfaces import RPCHandler, RPCServer
 from .envelopedMessage import EnvelopedMessage
-from .helpers import rmq_create_connection_and_channel, rmq_declare_queue_and_bind_to_default_exchange, rmq_consume, rmq_rpc_reply_output, rmq_rpc_reply_error, OnMessageCallback
+from .helpers import rmq_declare_queue_and_bind_to_default_exchange, rmq_consume, rmq_rpc_reply_output, rmq_rpc_reply_error, OnMessageCallback
 from typing import Dict, cast
-from logging import Logger, getLogger
-import threading
+from logging import Logger
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
 
 
 class RmqRPCServer(RPCServer):
 
-    def __init__(self, connection_string: str):
-        self.connection_string: str = connection_string
-        self.logger: Logger = getLogger()
+    def __init__(self, logger: Logger, connection: pika.BlockingConnection):
+        self.connection: pika.BlockingConnection = connection
+        self.logger: Logger = logger
         self.handlers: Dict[str, RPCHandler] = cast(
             Dict[str, RPCHandler], {})
 
@@ -20,12 +21,8 @@ class RmqRPCServer(RPCServer):
         self.handlers[event_name] = handler
         return self
 
-    def set_logger(self, logger: Logger) -> RPCServer:
-        self.logger = logger
-        return self
-
     def serve(self):
-        _, ch = rmq_create_connection_and_channel(self.connection_string)
+        ch = self.connection.channel()
         for key in self.handlers:
             function_name = key
             handler = self.handlers[function_name]

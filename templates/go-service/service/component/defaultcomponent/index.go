@@ -9,12 +9,11 @@ import (
 )
 
 // CreateSetup factory to create SetupComponent
-func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
+func CreateSetup(config *config.Config, router *gin.Engine) core.SetupComponent {
 	return func() {
 		serviceName := config.ServiceName
-		r := app.Router()
 
-		r.Any("/", func(c *gin.Context) {
+		router.Any("/", func(c *gin.Context) {
 			// send response
 			c.JSON(http.StatusOK, gin.H{
 				"service_name": serviceName,

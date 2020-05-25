@@ -2,35 +2,33 @@
 
 One Paragraph of project description goes here
 
-# How to Start
+# Start
 
 ```sh
-export GLOBAL_RMQ_CONNECTION_STRING=<your-rmq-connection-string>
-export LOCAL_RMQ_CONNECTION_STRING=<your-rmq-connection-string>
+export DEFAULT_RMQ_CONNECTION_STRING=<your-rmq-connection-string>
 export HTTP_PORT=3000
-... <other-env-setting>
+# ... other-env-setting
 go build && ./servicename
 ```
 
-# Opinions
+# Test
 
-This application was built with the following opinions:
-
-* You use message broker as main communication protocol.
-* Even RPC call should also use message broker.
-* The message broker you use is rabbitmq.
-* Explicit is better than implicit. Everything should be accessible and readable without any hidden-magic.
-* Your app has two contexts, global and local-domain (eventhough you can use one context only)
-
+```sh
+export TEST_RMQ_CONNECTION_STRING=<your-rmq-connection-string>
+export TEST_HTTP_PORT=3000
+# ... other-env-setting
+go test ./...
 ```
-    [Other Domain App] --- [Global Message Broker] --- [Other Domain App]
-                                      |
-                                      |
-                                 [Your App]
-                                      |
-                                      |
-[Other Same Domain App] ---    [Local Message Broker] --- [Other Same Domain App]
-```
+
+# Assumptions
+
+This application was built with the following assumptions:
+
+* Explicit is better than implicit. We try to make everything as accessible, as readable, and as replace-able as possible. 
+* We don't try to hide anything using any magic. No reflection, automatic dependency resolver, etc.
+* We use `rabbit-mq` as inter-service communication protocol.
+	- Pub/Sub
+	- RPC Call
 
 >__NOTE__ You can implement your own communication protocol (e.g: nats, kafka, etc)
 
@@ -41,27 +39,33 @@ This application was built with the following opinions:
 ├── Dockerfile
 ├── Makefile
 ├── README.md
-├── component                 # your components
+├── app
+├── component
+│   ├── defaultcomponent
+│   │   └── index.go
 │   ├── example
-│   │   ├── index.go
 │   │   ├── helpers.go
-│   │   └── services.go
+│   │   ├── helpers_test.go
+│   │   ├── index.go
+│   │   ├── services.go
+│   │   └── services_test.go
 │   └── monitoring
-│       ├── index.go
-│       └── helpers.go
+│       ├── helpers.go
+│       ├── helpers_test.go
+│       └── index.go
 ├── config
 │   ├── config.go
 │   └── helper.go
 ├── core
-│   ├── mainApp.go            # core application
-│   └── interface.go          # application interface
+│   ├── interfaces.go
+│   └── mainApp.go
 ├── go.mod
 ├── go.sum
-├── main.go                   # container and application runner
+├── main.go
 ├── transport
 │   ├── envelopedMessage.go
 │   ├── helpers.go
-│   ├── interface.go
+│   ├── interfaces.go
 │   ├── message.go
 │   ├── rmqPublisher.go
 │   ├── rmqRpcClient.go
@@ -70,84 +74,74 @@ This application was built with the following opinions:
 └── zaruba.config.yaml
 ```
 
-# Inversion of Control
+# Bootstrap
 
-Eventhough we love the idea of dependency injection. We don't like these two things:
+App initialization contains of 4 steps:
 
-* Dependency-injection usually use `injector`. Those injector sometimes use reflection or even declarative language like `XML` or `YAML`. Thus, the flow of the program become less obvious. You need to read tons of documentation or dive into the framework code just to know what's going on.
+* __App component definitions:__ In this step we define all components that will be used by our app or other components (e.g: logger, config, router, publisher, subscriber, rpc-server, and rpc-client). The definition should be explicit so that other developers can easily understand which components depend on which component.
+* __App creation:__ In this step, we initiate our app.
+* __App setup:__ In this step, we setup our app, by registering your components. To register your component, you need to provide a function with no parameter and return nothing. You can surely wrap the function into object method or wrapper-function. If you need to inject dependencies, you can use [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)) (more about this latter).
+* __App Execution:__ Finally, we run our app.
 
-* Most Dependency-injection framework heavily assume developer to only works with OOP paradigm. This is un-necessary. In fact we can even use `factory pattern` to inject things into our components.
-
-By stripping those two things from our list, we get an explicit and less-assumption architecture.
-
-The drawback is, this make your code more-verbose (which is actually a good thing because everything is under your control).
-
-Below is the implementation of `container` in `main.go`:
+Below is how everything looks like in `main.go`:
 
 ```go
+
 func main() {
-	// create config and app
+
+	// app component definitions
+	logger := log.New(os.Stdout, "", log.LstdFlags)
 	config := config.CreateConfig()
-	fmt.Println(config)
+	logger.Println("CONFIG:", config.ToString())
+	router := gin.Default()
+	defaultRmqConnection, err := amqp.Dial(config.DefaultRmqConnectionString)
+	if err != nil {
+		logger.Fatal("[RmqConnection]", err)
+	}
+	rpcServer := transport.CreateRmqRPCServer(logger, defaultRmqConnection)
+	rpcClient := transport.CreateRmqRPCClient(logger, defaultRmqConnection)
+	subscriber := transport.CreateRmqSubscriber(logger, defaultRmqConnection)
+	publisher := transport.CreateRmqPublisher(logger, defaultRmqConnection)
+
+	// app creation
 	app := core.CreateMainApp(
+		logger,
+		router,
+		[]transport.Subscriber{subscriber},
+		[]transport.RPCServer{rpcServer},
 		config.HTTPPort,
-		config.GlobalRmqConnectionString,
-		config.LocalRmqConnectionString,
 	)
-	// setup components
+
+	// app setup
 	app.Setup([]core.SetupComponent{
-		monitoring.CreateSetup(app, config),        // setup monitoring
-		example.CreateComponent(app, config).Setup, // setup example
+		defaultcomponent.CreateSetup(config, router), // setup landingPage
+		monitoring.CreateSetup(config, app, router),  // setup monitoring
+		example.CreateComponent(
+			config, router, publisher, subscriber, rpcServer, rpcClient,
+		).Setup, // setup example
 	})
-	// run
+
+	// app execution
 	app.Run()
+
 }
 ```
 
-## Swapping Components
+> __NOTE:__ Treat our app bootstrap as your own. You are free to define new components, replace one component with another ones, or wire the components differently.
 
-Let's say you want to implement your own `Application` component. In order to do that, you need to modify the corresponding lines:
+# Components
 
-```go
-/*
-app := core.CreateMainApp(
-	config.HTTPPort,
-	config.GlobalRmqConnectionString,
-	config.LocalRmqConnectionString,
-)
-*/
-app := CreateMockApp()
-```
+All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a function with no parameter and return nothing. However, there is no limitation to produce the function. You can use wrapper-function and utilize closure, expose object's method, etc.
 
-Of course, you have to make sure that `MockApplication` is comply with `App` interface. But aside from that, there is no magic here, it is just your day-to-day simple go code.
-
-## Injecting Setup to App
-
-Our `app` has a special method named `Setup`. You can use `Setup` to inject functions into app. This approach gives you a lot of freedom. For example you might use:
-
-* constructor-based injection
-* builder-based injection
-* factory function
-* anything that return a function
-
-Let's focus on this part:
+For example, our `monitoring` component need `config`, `app`, and `router`. Thus we utilize closure to inject those components:
 
 ```go
-app.Setup([]core.SetupComponent{
-	monitoring.CreateSetup(app, config),        // setup monitoring
-	example.CreateComponent(app, config).Setup, // setup example
-})
-```
-
-`monitoring.CreateSetup` is a factory function that produce anonymous function to change `app`'s behavior. Let's see how it looks like:
-
-```go
-func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
+// CreateSetup factory to create SetupComponent
+func CreateSetup(config *config.Config, app core.App, router *gin.Engine) core.SetupComponent {
 	return func() {
 		serviceName := config.ServiceName
-		r := app.Router()
 
-		r.GET("/liveness", func(c *gin.Context) {
+		router.GET("/liveness", func(c *gin.Context) {
 			liveness := app.Liveness()
 			// send response
 			c.JSON(getHTTPCodeByStatus(liveness), gin.H{
@@ -156,7 +150,7 @@ func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
 			})
 		})
 
-		r.GET("/readiness", func(c *gin.Context) {
+		router.GET("/readiness", func(c *gin.Context) {
 			readiness := app.Readiness()
 			// send response
 			c.JSON(getHTTPCodeByStatus(readiness), gin.H{
@@ -164,160 +158,31 @@ func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
 				"is_ready":     readiness,
 			})
 		})
+
 	}
 }
 ```
 
-As you see, we have just inject `app` and `config` into the anonymous function. You might find that the approach above is similar to `decorator`.
-
-On the other hand, `example.CreateComponent` is a class constructor:
+The returned function is then used on `app setup`:
 
 ```go
-// CreateComponent create component
-func CreateComponent(app core.App, config *config.Config) *Component {
-	return &Component{
-		names:  []string{},
-		app:    app,
-		config: config,
-	}
-}
-
-// Component implementation
-type Component struct {
-	names  []string
-	app    core.App
-	config *config.Config
-}
-
-// Setup component
-func (comp *Component) Setup() {
-	r := comp.app.Router()
-	rpcServer := comp.app.GlobalRPCServer()
-	subscriber := comp.app.GlobalSubscriber()
-
-	// Simple HTTP Handler
-	r.Any("/", func(c *gin.Context) { c.String(http.StatusOK, "servicename") })
-
-	// More complex HTTP Handler, with side-effect
-	r.GET("/toggle-readiness", func(c *gin.Context) {
-		comp.app.SetReadiness(!comp.app.Readiness())
-		c.String(http.StatusOK, fmt.Sprintf("Readiness: %#v", comp.app.Readiness()))
-	})
-
-	// Use the same HTTP Handler for multiple URLS
-	r.GET("/hello", comp.handleHTTPHello)
-	r.POST("/hello", comp.handleHTTPHello)
-	r.GET("/hello/:name", comp.handleHTTPHello)
-
-	// Use HTTP Handler that take state from component
-	r.GET("/hello-all", comp.handleHTTPHelloAll)
-
-	// Trigger RPC Call
-	r.GET("/hello-rpc", comp.handleHTTPHelloRPC)
-	r.GET("/hello-rpc/:name", comp.handleHTTPHelloRPC)
-	r.POST("/hello-rpc", comp.handleHTTPHelloRPC)
-
-	// Trigger Publisher Call
-	r.GET("/hello-pub", comp.handleHTTPHelloPub)
-	r.GET("/hello-pub/:name", comp.handleHTTPHelloPub)
-	r.POST("/hello-pub", comp.handleHTTPHelloPub)
-
-	// Serve RPC
-	rpcServer.RegisterHandler("helloRPC", comp.handleRPCHello)
-
-	// Event
-	subscriber.RegisterHandler("helloEvent", comp.handleEventHello)
-
-}
-
-// etc ...
-```
-
-This approach is better if you want to encapsulate state and share it among your handlers. For example, let's take a look on `comp.handleHTTPHelloAll` and `comp.handleEventHello`. Both method are sharing `comp.names` property as state.
-
-`comp.handleHTTPHelloAll` simply use `comp.names` to show HTTP response to user:
-
-```go
-func (comp *Component) handleHTTPHelloAll(c *gin.Context) {
-	c.String(http.StatusOK, GreetEveryone(comp.names))
-}
-```
-
-On the other hand, `comp.handleEventHello` listen to `helloEvent` and add user's name into `comp.names`:
-
-```go
-func (comp *Component) handleEventHello(msg transport.Message) (err error) {
-	name, err := msg.GetString("name")
-	if err != nil {
-		return err
-	}
-	comp.names = append(comp.names, name)
-	return err
-}
-```
-
-# Publish and Handle Event
-
-Pub-sub is an asyncrhonous communication pattern. To put it simple, you just fire an event without waiting for response. This pattern is quite common for long-running process, such as Machine-learning model training (i.e: You don't want to wait for days until your training process complete. Instead, you want to receive email once the process finished or failed).
-
-By default, you can use `app.GlobalPublisher` and `app.LocalPublisher` to publish message. Here is an example:
-
-```go
-pub := app.LocalPublisher()
-err := pub.Publish("helloEvent", transport.Message{"name": name})
-```
-
-To handle the event, you can use `app.GlobalSubscriber` and `app.LocalSubscriber`. Here is an example:
-
-```go
-sub := app.LocalSubscriber()
-sub.RegisterHandler("helloEvent", func (msg transport.Message) (err error) {
-		name, err := msg.GetString("name")
-		if err != nil {
-			return err
-		}
-		comp.names = append(comp.names, name)
-		return err
-	}
-)
-```
-
-# Call and Handle RPC
-
-RPC is stands for Remote Procecure Call. It let you call procedure/function from other application. Unlike pub-sub, you usually use RPC if you need to wait for the result.
-
-You can use `app.GlobalRPCClient` and `app.LocalRPCClient` to send RPC Call:
-
-```go
-client := app.LocalRPCClient()
-result, err := client.Call("helloRPC", name)
-if err != nil {
-	fmt.Println(err)
-}
-fmt.Println(result.(string))
-```
-
-To handle RPC, you can use `app.GlobalRPCServer` and `app.LocalRPCServer`:
-
-```go
-server := app.LocalRPCServer()
-server.RegisterHandler("helloRPC", func(inputs ...interface{}) (greeting interface{}, err error) {
-	if len(inputs) == 0 {
-		return greeting, errors.New("Message accepted but input is invalid")
-	}
-	name, success := inputs[0].(string)
-	if !success {
-		errorMessage := fmt.Sprintf("Cannot convert %#v to string", inputs[0])
-		return greeting, errors.New(errorMessage)
-	}
-	return Greet(name), err
+app.Setup([]core.SetupComponent{
+	// ...
+	monitoring.CreateSetup(config, app, router),  // setup monitoring
+	// ...
 })
 ```
 
-# Naming Convention
+We has already provide an `example` component that utilize OOP with some possible use-cases (including RPC and pub/sub communication). Feel free to explore.
 
-A component usually contains several files:
+# Component Convention
 
-* `index.go`: This file contains code to produce your `setup`.
-* `helpers.go`: This file contains any general-purpose code that are used by `index.go` or `services.go`.
-* `services.go`: This file contains your main business logic. It should not care about how it is called.
+Typically a component should contains at least one file named `index.go`. Although you can write anything inside `index.go`, it is better to just put `router`, `rpc-server`, and `subscriber` handler in it.
+
+Make your components as loosly coupled as possible, as it is going to help you in case of you want to split the app into several smaller apps.
+
+If you need some business logic, please put them inside `service` directory or `service.go`.
+
+If your components are depending on each other, please put the dependency in our `main.go` bootstrap, don't import the component directly as it will make your components tightly coupled to each other.
+
+If you need database connection or cache mechanism, please also define them in our `main.go`.

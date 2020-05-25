@@ -1,16 +1,16 @@
 import amqplib from "amqplib";
 import { RPCServer, RPCHandler } from "./interfaces";
 import { EnvelopedMessage } from "./envelopedMessage";
-import { rmqCreateConnectionAndChannel, rmqDeclareQueueAndBindToDefaultExchange, rmqConsume, rmqRpcReplyOutput, rmqRpcReplyError } from "./helpers";
+import { rmqDeclareQueueAndBindToDefaultExchange, rmqConsume, rmqRpcReplyOutput, rmqRpcReplyError } from "./helpers";
 
 export class RmqRPCServer implements RPCServer {
+    connection: amqplib.Connection;
     logger: Console;
-    connectionString: string;
     handlers: { [functionName: string]: RPCHandler };
 
-    constructor(connectionString: string) {
-        this.logger = console;
-        this.connectionString = connectionString;
+    constructor(logger: Console, connection: amqplib.Connection) {
+        this.connection = connection;
+        this.logger = logger;
         this.handlers = {};
     }
 
@@ -19,19 +19,15 @@ export class RmqRPCServer implements RPCServer {
         return this;
     }
 
-    setLogger(logger: Console): RPCServer {
-        this.logger = logger;
-        return this;
-    }
-
     serve(): Promise<void> {
+        const self = this;
         return new Promise(async (_, reject) => {
             try {
-                const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
-                conn.on("error", (err) => {
+                const ch = await self.connection.createChannel();
+                self.connection.on("error", (err) => {
                     reject(err);
                 });
-                conn.on("close", (err) => {
+                self.connection.on("close", (err) => {
                     reject(err);
                 })
                 this.pServe(ch);

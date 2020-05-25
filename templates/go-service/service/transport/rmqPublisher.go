@@ -2,39 +2,31 @@ package transport
 
 import (
 	"log"
-	"os"
 
 	"github.com/streadway/amqp"
 )
 
 // CreateRmqPublisher create new RmqPublisher
-func CreateRmqPublisher(connectionString string) *RmqPublisher {
+func CreateRmqPublisher(logger *log.Logger, connection *amqp.Connection) *RmqPublisher {
 	return &RmqPublisher{
-		connectionString: connectionString,
-		logger:           log.New(os.Stdout, "", log.LstdFlags),
+		connection: connection,
+		logger:     logger,
 	}
 }
 
 // RmqPublisher for publish and subscribe
 type RmqPublisher struct {
-	connectionString string
-	logger           *log.Logger
-}
-
-// SetLogger set custome logger
-func (p *RmqPublisher) SetLogger(logger *log.Logger) Publisher {
-	p.logger = logger
-	return p
+	connection *amqp.Connection
+	logger     *log.Logger
 }
 
 // Publish publish message to event
 func (p *RmqPublisher) Publish(eventName string, message Message) (err error) {
 	// create connection and channel
-	conn, ch, err := rmqCreateConnectionAndChannel(p.connectionString)
+	ch, err := p.connection.Channel()
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
 	defer ch.Close()
 	// declare exchange
 	err = rmqDeclareFanoutExchange(ch, eventName)

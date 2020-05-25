@@ -8,12 +8,11 @@ import (
 )
 
 // CreateSetup factory to create SetupComponent
-func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
+func CreateSetup(config *config.Config, app core.App, router *gin.Engine) core.SetupComponent {
 	return func() {
 		serviceName := config.ServiceName
-		r := app.Router()
 
-		r.GET("/liveness", func(c *gin.Context) {
+		router.GET("/liveness", func(c *gin.Context) {
 			liveness := app.Liveness()
 			// send response
 			c.JSON(getHTTPCodeByStatus(liveness), gin.H{
@@ -22,7 +21,7 @@ func CreateSetup(app core.App, config *config.Config) core.SetupComponent {
 			})
 		})
 
-		r.GET("/readiness", func(c *gin.Context) {
+		router.GET("/readiness", func(c *gin.Context) {
 			readiness := app.Readiness()
 			// send response
 			c.JSON(getHTTPCodeByStatus(readiness), gin.H{

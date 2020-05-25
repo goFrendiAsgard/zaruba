@@ -3,31 +3,24 @@ package transport
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/streadway/amqp"
 )
 
 // CreateRmqRPCServer create new RmqRPC
-func CreateRmqRPCServer(connectionString string) *RmqRPCServer {
+func CreateRmqRPCServer(logger *log.Logger, connection *amqp.Connection) *RmqRPCServer {
 	return &RmqRPCServer{
-		connectionString: connectionString,
-		handlers:         map[string]RPCHandler{},
-		logger:           log.New(os.Stdout, "", log.LstdFlags),
+		connection: connection,
+		handlers:   map[string]RPCHandler{},
+		logger:     logger,
 	}
 }
 
 // RmqRPCServer implementation
 type RmqRPCServer struct {
-	connectionString string
-	handlers         map[string]RPCHandler
-	logger           *log.Logger
-}
-
-// SetLogger set custome logger
-func (s *RmqRPCServer) SetLogger(logger *log.Logger) RPCServer {
-	s.logger = logger
-	return s
+	connection *amqp.Connection
+	handlers   map[string]RPCHandler
+	logger     *log.Logger
 }
 
 // RegisterHandler register servicemap for call
@@ -39,13 +32,12 @@ func (s *RmqRPCServer) RegisterHandler(functionName string, handler RPCHandler) 
 // Serve serve RPC
 func (s *RmqRPCServer) Serve(errChan chan error) {
 	// create connection and channel
-	conn, ch, err := rmqCreateConnectionAndChannel(s.connectionString)
+	ch, err := s.connection.Channel()
 	if err != nil {
 		s.handleRmqError(err, errChan)
 		return
 	}
-	amqpErrChan := conn.NotifyClose(make(chan *amqp.Error))
-	defer conn.Close()
+	amqpErrChan := s.connection.NotifyClose(make(chan *amqp.Error))
 	defer ch.Close()
 	for functionName, handler := range s.handlers {
 		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, functionName)

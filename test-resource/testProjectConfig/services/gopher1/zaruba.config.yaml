@@ -6,14 +6,14 @@ components:
   gopher1-test:
     type: command
     labels:
-      purpose: test integration-test end-to-end-test
+      scenario: test integration-test end-to-end-test
       language: go
     start: go test ./..
 
   gopher1:
     type: service
     labels:
-      purpose: service
+      scenario: service
       language: go
     origin: "" # fill this one with your git repository
     branch: master
