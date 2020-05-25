@@ -1,16 +1,16 @@
 import amqplib from "amqplib";
 import { EventHandler, Subscriber } from "./interfaces";
 import { EnvelopedMessage } from "./envelopedMessage";
-import { rmqCreateConnectionAndChannel, rmqConsume, rmqDeclareQueueAndBindToDefaultExchange } from "./helpers";
+import { rmqConsume, rmqDeclareQueueAndBindToDefaultExchange } from "./helpers";
 
 export class RmqSubscriber implements Subscriber {
+    connection: amqplib.Connection;
     logger: Console;
-    connectionString: string;
     handlers: { [functionName: string]: EventHandler };
 
-    constructor(connectionString: string) {
+    constructor(logger: Console, connection: amqplib.Connection) {
+        this.connection = connection;
         this.logger = console;
-        this.connectionString = connectionString;
         this.handlers = {};
     }
 
@@ -19,19 +19,15 @@ export class RmqSubscriber implements Subscriber {
         return this;
     }
 
-    setLogger(logger: Console): Subscriber {
-        this.logger = logger;
-        return this;
-    }
-
-    async subscribe() {
+    async subscribe(): Promise<void> {
+        const self = this;
         return new Promise(async (_, reject) => {
             try {
-                const { conn, ch } = await rmqCreateConnectionAndChannel(this.connectionString);
-                conn.on("error", (err) => {
+                const ch = await self.connection.createChannel();
+                self.connection.on("error", (err) => {
                     reject(err);
                 });
-                conn.on("close", (err) => {
+                self.connection.on("close", (err) => {
                     reject(err);
                 });
                 this.pSubscribe(ch);

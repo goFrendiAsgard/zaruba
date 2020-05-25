@@ -21,8 +21,7 @@ func main() {
 	config := config.CreateConfig()
 	logger.Println("CONFIG:", config.ToString())
 	router := gin.Default()
-	defaultRmqConnectionString := config.DefaultRmqConnectionString
-	defaultRmqConnection, err := amqp.Dial(defaultRmqConnectionString)
+	defaultRmqConnection, err := amqp.Dial(config.DefaultRmqConnectionString)
 	if err != nil {
 		logger.Fatal("[RmqConnection]", err)
 	}

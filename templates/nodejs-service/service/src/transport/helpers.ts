@@ -60,12 +60,6 @@ export async function rmqRpcReplyError(ch: amqplib.Channel, replyTo: string, env
     });
 }
 
-export async function rmqCreateConnectionAndChannel(connectionString: string): Promise<{ conn: amqplib.Connection, ch: amqplib.Channel }> {
-    const conn = await amqplib.connect(connectionString);
-    const ch = await conn.createChannel();
-    return { conn, ch };
-}
-
 export async function rmqDeclareQueueAndBindToDefaultExchange(ch: amqplib.Channel, queueName: string): Promise<amqplib.Replies.AssertQueue> {
     const exchangeName = queueName;
     await rmqDeclareFanoutExchange(ch, exchangeName);
@@ -98,13 +92,4 @@ export async function rmqPublish(ch: amqplib.Channel, exchangeName: string, rout
         data,
         options
     );
-}
-
-export async function rmqCloseConnectionAndChannel(conn: amqplib.Connection, ch: amqplib.Channel): Promise<void> {
-    try {
-        await ch.close();
-    } catch (err) { }
-    try {
-        await conn.close();
-    } catch (err) { }
 }
