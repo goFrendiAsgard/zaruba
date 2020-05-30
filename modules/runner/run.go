@@ -85,13 +85,13 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 			r.stop()
 		}
 	}
-	logger.Info("Successfully run: %s", strings.Join(componentNameList, ", "))
-	logger.Info("Have fun !!!")
 	executedChan <- true
 	if runAllErr != nil {
 		errChan <- runAllErr
 		return
 	}
+	logger.Info("Successfully run: %s", strings.Join(componentNameList, ", "))
+	logger.Info("Have fun !!!")
 	// if components to run are all command, then kill everything
 	if r.componentsToRunAreCommand() {
 		r.stop()
@@ -267,6 +267,9 @@ func (r *Runner) logComponent(component *config.Component, prefix string, readCl
 }
 
 func (r *Runner) runOrWaitDependencies(component *config.Component) (err error) {
+	if r.isStopped() {
+		return err
+	}
 	dependencyErrChanList := []chan error{}
 	for _, dependencyName := range component.GetDependencies() {
 		dependencyErrChan := make(chan error)

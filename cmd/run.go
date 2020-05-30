@@ -33,6 +33,7 @@ var runCmd = &cobra.Command{
 		}
 		// invoke action
 		stopChan := make(chan bool)
+		executedChan := make(chan bool)
 		errChan := make(chan error)
 		// listen to kill signal
 		osSignalChan := make(chan os.Signal)
@@ -49,7 +50,10 @@ var runCmd = &cobra.Command{
 			logger.Fatal(err)
 			return
 		}
-		go runner.Run(projectDir, stopChan, make(chan bool), errChan)
+		go func() {
+			<-executedChan // we don't really care about executedChan, but we should listen for it to avoid blocking
+		}()
+		go runner.Run(projectDir, stopChan, executedChan, errChan)
 		// wait for errChan
 		err = <-errChan
 		if err != nil {
