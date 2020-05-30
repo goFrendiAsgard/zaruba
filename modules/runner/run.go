@@ -232,7 +232,7 @@ func (r *Runner) createComponentCmd(component *config.Component) (cmd *exec.Cmd,
 	}
 	go r.logComponent(component, "OUT", outPipe)
 	go r.logComponent(component, "ERR", errPipe)
-	logger.Info("Start %s: %s", name, strings.Join(cmd.Args, " "))
+	logger.Info("Creating command %s: %s", name, strings.Join(cmd.Args, " "))
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 	return cmd, err
 }
@@ -251,13 +251,14 @@ func (r *Runner) getComponentEnv(component *config.Component) (environ []string)
 
 func (r *Runner) logComponent(component *config.Component, prefix string, readCloser io.ReadCloser) {
 	runtimeName := component.GetRuntimeName()
+	name := component.GetName()
 	color := component.GetColor()
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
 		log.Printf("\033[%dm%s - %s\033[0m  %s", color, prefix, runtimeName, buf.Text())
 	}
 	if err := buf.Err(); err != nil {
-		logger.Error("%s: %s", runtimeName, err)
+		logger.Error("%s: %s", name, err)
 	}
 }
 
