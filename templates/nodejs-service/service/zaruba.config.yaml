@@ -1,5 +1,11 @@
 components:
 
+  servicename-prep:
+    type: command
+    labels:
+      scenario: preparation
+    start: npm install && tsc --alwaysStrict
+
   servicename-test:
     type: command
     labels:
@@ -9,6 +15,7 @@ components:
       TEST_RMQ_CONNECTION_STRING: ${DEFAULT_RMQ_CONNECTION_STRING}
     start: npm test
     dependencies:
+      - servicename-prep
       - rmq
 
   servicename:
@@ -23,6 +30,7 @@ components:
     start: npm start
     readinessUrl: http://${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
+      - servicename-prep
       - rmq
 
 links:

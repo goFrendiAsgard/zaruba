@@ -4,7 +4,6 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
-    "prestart": "npm install && tsc --alwaysStrict",
     "start": "node .",
     "test": "jest"
   },

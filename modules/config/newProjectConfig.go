@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/state-alchemists/zaruba/modules/file"
 	"github.com/state-alchemists/zaruba/modules/logger"
@@ -80,16 +81,18 @@ func getAllDirs(parentDir string, ignores []string) (allDirs []string, err error
 // newEmptyProjectConfig create new ProjectConfig
 func newEmptyProjectConfig() (p *ProjectConfig) {
 	return &ProjectConfig{
-		dirName:                   "",
-		ignores:                   []string{},
-		name:                      "",
-		env:                       make(map[string]string),
-		components:                make(map[string]*Component),
-		links:                     make(map[string][]string),
-		sortedLinkSources:         []string{},
-		isSortedLinkSourcesCached: false,
-		lastGeneratedSymbolIndex:  0,
-		lastGeneratedColorIndex:   0,
+		dirName:                      "",
+		ignores:                      []string{},
+		name:                         "",
+		env:                          make(map[string]string),
+		components:                   make(map[string]*Component),
+		links:                        make(map[string][]string),
+		sortedLinkSources:            []string{},
+		isSortedLinkSourcesCached:    false,
+		lastGeneratedSymbolIndexLock: &sync.RWMutex{},
+		lastGeneratedSymbolIndex:     0,
+		lastGeneratedColorIndexLock:  &sync.RWMutex{},
+		lastGeneratedColorIndex:      0,
 	}
 }
 
@@ -175,6 +178,11 @@ func adjustLocation(p *ProjectConfig, absDirPath string) *ProjectConfig {
 	// adjust component's location
 	for componentName, component := range p.components {
 		component.location = file.GetAbsoluteLocation(absDirPath, component.location)
+		volumes := map[string]string{}
+		for hostLoc, containerLoc := range component.volumes {
+			volumes[file.GetAbsoluteLocation(component.location, hostLoc)] = containerLoc
+		}
+		component.volumes = volumes
 		p.components[componentName] = component
 	}
 	// adjust component's link

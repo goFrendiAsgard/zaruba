@@ -6,22 +6,25 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"sync"
 
 	"gopkg.in/yaml.v2"
 )
 
 // ProjectConfig configuration
 type ProjectConfig struct {
-	dirName                   string // directory name (assigned automatically)
-	ignores                   []string
-	name                      string
-	env                       map[string]string
-	components                map[string]*Component
-	links                     map[string][]string
-	sortedLinkSources         []string
-	isSortedLinkSourcesCached bool
-	lastGeneratedSymbolIndex  int
-	lastGeneratedColorIndex   int
+	dirName                      string // directory name (assigned automatically)
+	ignores                      []string
+	name                         string
+	env                          map[string]string
+	components                   map[string]*Component
+	links                        map[string][]string
+	sortedLinkSources            []string
+	isSortedLinkSourcesCached    bool
+	lastGeneratedSymbolIndexLock *sync.RWMutex
+	lastGeneratedSymbolIndex     int
+	lastGeneratedColorIndexLock  *sync.RWMutex
+	lastGeneratedColorIndex      int
 }
 
 // GetIgnores get ignored of project
@@ -93,23 +96,40 @@ func isLabelValueMatch(queryVal, val string) (match bool) {
 }
 
 // GetComponentsByNamesOrLabels get component by names or labels
-func (p *ProjectConfig) GetComponentsByNamesOrLabels(selectors []string) (components map[string]*Component, err error) {
+func (p *ProjectConfig) GetComponentsByNamesOrLabels(namesOrLabels []string) (components map[string]*Component, err error) {
 	components = map[string]*Component{}
-	for _, selector := range selectors {
+	for _, nameOrLabel := range namesOrLabels {
 		// by label
-		if strings.Contains(selector, ":") {
-			byLabelComponents := p.GetComponentsByLabels([]string{selector})
+		if strings.Contains(nameOrLabel, ":") {
+			byLabelComponents := p.GetComponentsByLabels([]string{nameOrLabel})
 			for name, component := range byLabelComponents {
 				components[name] = component
 			}
 			continue
 		}
 		// by name
-		byNameComponent, err := p.GetComponentByName(selector)
+		byNameComponent, err := p.GetComponentByName(nameOrLabel)
 		if err != nil {
 			return components, err
 		}
-		components[selector] = byNameComponent
+		components[nameOrLabel] = byNameComponent
+	}
+	return components, err
+}
+
+// GetComponentsBySelectors get component by selector
+func (p *ProjectConfig) GetComponentsBySelectors(selectors []string) (components map[string]*Component, err error) {
+	if len(selectors) == 0 {
+		selectors = []string{"scenario:default"}
+	}
+	components, err = p.GetComponentsByNamesOrLabels(selectors)
+	exists := false
+	for range components {
+		exists = true
+		break
+	}
+	if !exists {
+		components = p.GetComponents()
 	}
 	return components, err
 }
@@ -222,20 +242,25 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 	p.links = pYaml.Links
 	for componentName, cYaml := range pYaml.Components {
 		p.components[componentName] = &Component{
-			labels:         cYaml.Labels,
-			componentType:  cYaml.Type,
-			origin:         cYaml.Origin,
-			location:       cYaml.Location,
-			image:          cYaml.Image,
-			start:          cYaml.Start,
-			containerName:  cYaml.ContainerName,
-			ports:          cYaml.Ports,
-			volumes:        cYaml.Volumes,
-			symbol:         cYaml.Symbol,
-			readinessCheck: cYaml.ReadinessCheck,
-			readinessURL:   cYaml.ReadinessURL,
-			dependencies:   cYaml.Dependencies,
-			env:            cYaml.Env,
+			labels:              cYaml.Labels,
+			componentType:       cYaml.Type,
+			origin:              cYaml.Origin,
+			location:            cYaml.Location,
+			image:               cYaml.Image,
+			start:               cYaml.Start,
+			containerName:       cYaml.ContainerName,
+			ports:               cYaml.Ports,
+			volumes:             cYaml.Volumes,
+			symbol:              cYaml.Symbol,
+			readinessCheck:      cYaml.ReadinessCheck,
+			readinessURL:        cYaml.ReadinessURL,
+			dependencies:        cYaml.Dependencies,
+			venvLock:            &sync.RWMutex{},
+			env:                 cYaml.Env,
+			runtimeSymbolLock:   &sync.RWMutex{},
+			runtimeLocationLock: &sync.RWMutex{},
+			runtimeNameLock:     &sync.RWMutex{},
+			colorLock:           &sync.RWMutex{},
 		}
 	}
 	return p

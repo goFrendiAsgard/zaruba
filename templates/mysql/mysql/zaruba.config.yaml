@@ -17,8 +17,8 @@ components:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       3306: 3306
-    volumes:
-      ./volume: /var/lib/mysql
+    # volumes:
+    #   ./volume: /var/lib/mysql
     readinessCheck: docker exec ${CONTAINER_NAME} mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SHOW SCHEMAS"
   
   # phpmyadmin:

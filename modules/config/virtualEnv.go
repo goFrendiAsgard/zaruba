@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 )
 
 // VirtualEnv ...
 type VirtualEnv struct {
+	envLock       *sync.RWMutex
 	env           map[string]string
 	envParseOrder []string
 	nativeEnv     map[string]string
@@ -41,12 +43,19 @@ func (v *VirtualEnv) replace(str, key, replacement string) (newStr string) {
 
 // GetEnv of virtualEnv
 func (v *VirtualEnv) GetEnv() (env map[string]string) {
-	return v.env
+	v.envLock.RLock()
+	defer v.envLock.RUnlock()
+	env = map[string]string{}
+	for key, value := range v.env {
+		env[key] = value
+	}
+	return env
 }
 
 // CreateVirtualEnv get new virtualEnv
 func CreateVirtualEnv() (v *VirtualEnv) {
 	v = &VirtualEnv{
+		envLock:       &sync.RWMutex{},
 		env:           map[string]string{},
 		envParseOrder: []string{},
 		nativeEnv:     map[string]string{},
