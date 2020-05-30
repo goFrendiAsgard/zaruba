@@ -48,12 +48,28 @@ func TestRun(t *testing.T) {
 		return
 	}
 
+	selectors := []string{}
 	stopChan := make(chan bool)
 	errChan := make(chan error)
 	executedChan := make(chan bool)
-	go Run(testPath, p, []string{}, stopChan, executedChan, errChan)
-	<-executedChan
 
+	runner, err := CreateRunner(p, selectors)
+	if err != nil {
+		t.Errorf("[ERROR] Failed to create runner: %s", err)
+	}
+	go runner.Run(testPath, stopChan, executedChan, errChan)
+
+	// wait for execution
+	<-executedChan
+	go func() {
+		err = <-errChan
+		errMessage := fmt.Sprintf("%s", err)
+		if err != nil && errMessage != "Terminated" {
+			t.Errorf("[ERROR] Error while running: %s", err)
+		}
+	}()
+
+	// test
 	for _, port := range []int{3011, 3012, 3013} {
 		testRequest(t, port, "hello/Tony", "Hello Tony")
 		testRequest(t, port, "hello-rpc/Tony", "Hello Tony")
@@ -65,10 +81,6 @@ func TestRun(t *testing.T) {
 
 	// test done
 	stopChan <- true
-	err = <-errChan
-	if err != nil {
-		t.Errorf("[ERROR] Error while running: %s", err)
-	}
 
 	if err = StopContainers(testPath, p); err != nil {
 		t.Errorf("[ERROR] Cannot stop containers: %s", err)

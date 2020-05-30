@@ -34,7 +34,6 @@ var runCmd = &cobra.Command{
 		// invoke action
 		stopChan := make(chan bool)
 		errChan := make(chan error)
-		executedChan := make(chan bool)
 		// listen to kill signal
 		osSignalChan := make(chan os.Signal)
 		signal.Notify(osSignalChan, os.Interrupt, syscall.SIGTERM, syscall.SIGKILL)
@@ -45,8 +44,12 @@ var runCmd = &cobra.Command{
 			logger.Fatal("Cannot terminate process, force kill")
 		}()
 		// Run
-		go runner.Run(projectDir, p, args, stopChan, executedChan, errChan)
-		<-executedChan
+		runner, err := runner.CreateRunner(p, args)
+		if err != nil {
+			logger.Fatal(err)
+			return
+		}
+		go runner.Run(projectDir, stopChan, make(chan bool), errChan)
 		// wait for errChan
 		err = <-errChan
 		if err != nil {

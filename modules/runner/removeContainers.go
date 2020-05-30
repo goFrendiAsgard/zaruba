@@ -13,21 +13,14 @@ func RemoveContainers(projectDir string, p *config.ProjectConfig) (err error) {
 	if err != nil {
 		return err
 	}
-	componentNames, err := getExecutableComponentNames(p, []string{})
-	if err != nil {
-		return err
-	}
-	for _, componentName := range componentNames {
-		component, err := p.GetComponentByName(componentName)
-		if err != nil {
-			return err
+	for componentName, component := range p.GetComponents() {
+		if component.GetType() != "container" {
+			continue
 		}
-		if component.GetType() == "container" {
-			logger.Info("Remove %s container", componentName)
-			_, err = command.Run(projectDir, "docker", "rm", component.GetRuntimeContainerName())
-			if err != nil {
-				logger.Error("Cannot stop container %s: %s", componentName, err)
-			}
+		logger.Info("Remove %s container", componentName)
+		_, err = command.Run(projectDir, "docker", "rm", component.GetRuntimeContainerName())
+		if err != nil {
+			logger.Error("Cannot remove container %s: %s", componentName, err)
 		}
 	}
 	return nil

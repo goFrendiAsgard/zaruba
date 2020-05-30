@@ -6,22 +6,25 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"sync"
 
 	"gopkg.in/yaml.v2"
 )
 
 // ProjectConfig configuration
 type ProjectConfig struct {
-	dirName                   string // directory name (assigned automatically)
-	ignores                   []string
-	name                      string
-	env                       map[string]string
-	components                map[string]*Component
-	links                     map[string][]string
-	sortedLinkSources         []string
-	isSortedLinkSourcesCached bool
-	lastGeneratedSymbolIndex  int
-	lastGeneratedColorIndex   int
+	dirName                      string // directory name (assigned automatically)
+	ignores                      []string
+	name                         string
+	env                          map[string]string
+	components                   map[string]*Component
+	links                        map[string][]string
+	sortedLinkSources            []string
+	isSortedLinkSourcesCached    bool
+	lastGeneratedSymbolIndexLock *sync.RWMutex
+	lastGeneratedSymbolIndex     int
+	lastGeneratedColorIndexLock  *sync.RWMutex
+	lastGeneratedColorIndex      int
 }
 
 // GetIgnores get ignored of project
@@ -252,6 +255,7 @@ func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, director
 			readinessCheck: cYaml.ReadinessCheck,
 			readinessURL:   cYaml.ReadinessURL,
 			dependencies:   cYaml.Dependencies,
+			venvLock:       &sync.RWMutex{},
 			env:            cYaml.Env,
 		}
 	}

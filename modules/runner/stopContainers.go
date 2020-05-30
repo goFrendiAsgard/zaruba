@@ -8,21 +8,14 @@ import (
 
 // StopContainers stop all containers in this project
 func StopContainers(projectDir string, p *config.ProjectConfig) (err error) {
-	componentNames, err := getExecutableComponentNames(p, []string{})
-	if err != nil {
-		return err
-	}
-	for _, componentName := range componentNames {
-		component, err := p.GetComponentByName(componentName)
-		if err != nil {
-			return err
+	for componentName, component := range p.GetComponents() {
+		if component.GetType() != "container" {
+			continue
 		}
-		if component.GetType() == "container" {
-			logger.Info("Stop %s container", componentName)
-			_, err = command.Run(projectDir, "docker", "stop", component.GetRuntimeContainerName())
-			if err != nil {
-				logger.Error("Cannot stop container %s: %s", componentName, err)
-			}
+		logger.Info("Stop %s container", componentName)
+		_, err = command.Run(projectDir, "docker", "stop", component.GetRuntimeContainerName())
+		if err != nil {
+			logger.Error("Cannot stop container %s: %s", componentName, err)
 		}
 	}
 	return nil

@@ -3,7 +3,7 @@ env:
 
 components:
 
-  servicename-prepare:
+  servicename-prep:
     type: command
     labels:
       scenario: preparation
@@ -18,7 +18,7 @@ components:
       TEST_RMQ_CONNECTION_STRING: ${DEFAULT_RMQ_CONNECTION_STRING}
     start:  source ${CONDA_SH_PATH} && conda activate servicename && python -m pytest
     dependencies:
-      - servicename-prepare
+      - servicename-prep
       - rmq
 
   servicename:
@@ -33,7 +33,7 @@ components:
     start: source ${CONDA_SH_PATH} && conda activate servicename && python main.py
     readinessUrl: http://${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
-      - servicename-prepare
+      - servicename-prep
       - rmq
 
 links:

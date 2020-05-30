@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"unicode/utf8"
 )
 
@@ -27,6 +28,7 @@ type Component struct {
 	readinessCheck string
 	readinessURL   string
 	dependencies   []string
+	venvLock       *sync.RWMutex
 	venv           *VirtualEnv
 	env            map[string]string
 	runtimeName    string
@@ -201,6 +203,8 @@ func (c *Component) GetRuntimeReadinessURL() (readinessURL string) {
 // GetRuntimeSymbol get component container name
 func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 	if c.runtimeSymbol == "" {
+		c.project.lastGeneratedSymbolIndexLock.Lock()
+		defer c.project.lastGeneratedSymbolIndexLock.Unlock()
 		if c.symbol != "" {
 			c.runtimeSymbol = c.symbol
 			return c.symbol
@@ -239,6 +243,8 @@ func (c *Component) GetRuntimeName() (name string) {
 // GetColor get component name
 func (c *Component) GetColor() (color int) {
 	if c.color == 0 {
+		c.project.lastGeneratedColorIndexLock.Lock()
+		defer c.project.lastGeneratedColorIndexLock.Unlock()
 		colorList := []int{92, 93, 94, 95, 96}
 		index := c.project.lastGeneratedColorIndex
 		c.color = colorList[index]
@@ -253,6 +259,8 @@ func (c *Component) GetColor() (color int) {
 
 // GetVenv get virtualEnv
 func (c *Component) GetVenv() (venv *VirtualEnv) {
+	c.venvLock.Lock()
+	defer c.venvLock.Unlock()
 	if c.venv == nil {
 		c.venv = CreateVirtualEnv()
 		for otherServiceName, otherComponent := range c.project.components {
