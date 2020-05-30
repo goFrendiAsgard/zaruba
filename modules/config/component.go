@@ -11,27 +11,31 @@ import (
 
 // Component describe component specs
 type Component struct {
-	name           string            // name of the component (assigned when load config)
-	labels         map[string]string // labels
-	project        *ProjectConfig    // parent project
-	color          int               // color (assigned automatically)
-	runtimeSymbol  string            // emoji, will be `symbol` if assigned or random
-	componentType  string            // service, library, container
-	origin         string
-	location       string
-	image          string
-	start          string
-	containerName  string
-	ports          map[int]int
-	volumes        map[string]string
-	symbol         string
-	readinessCheck string
-	readinessURL   string
-	dependencies   []string
-	venvLock       *sync.RWMutex
-	venv           *VirtualEnv
-	env            map[string]string
-	runtimeName    string
+	name                string            // name of the component (assigned when load config)
+	labels              map[string]string // labels
+	project             *ProjectConfig    // parent project
+	color               int               // color (assigned automatically)
+	runtimeSymbol       string            // emoji, will be `symbol` if assigned or random
+	componentType       string            // service, library, container
+	origin              string
+	location            string
+	image               string
+	start               string
+	containerName       string
+	ports               map[int]int
+	volumes             map[string]string
+	symbol              string
+	readinessCheck      string
+	readinessURL        string
+	dependencies        []string
+	venvLock            *sync.RWMutex
+	venv                *VirtualEnv
+	env                 map[string]string
+	runtimeName         string
+	runtimeNameLock     *sync.RWMutex
+	runtimeSymbolLock   *sync.RWMutex
+	runtimeLocationLock *sync.RWMutex
+	colorLock           *sync.RWMutex
 }
 
 // GetType get component type
@@ -122,6 +126,8 @@ func (c *Component) GetRuntimeContainerName() (containerName string) {
 
 // GetRuntimeLocation get runtime location
 func (c *Component) GetRuntimeLocation() (location string) {
+	c.runtimeLocationLock.Lock()
+	c.runtimeLocationLock.Unlock()
 	componentType := c.GetType()
 	if componentType == "service" || componentType == "command" {
 		return c.GetLocation()
@@ -202,6 +208,8 @@ func (c *Component) GetRuntimeReadinessURL() (readinessURL string) {
 
 // GetRuntimeSymbol get component container name
 func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
+	c.runtimeSymbolLock.Lock()
+	defer c.runtimeSymbolLock.Unlock()
 	if c.runtimeSymbol == "" {
 		c.project.lastGeneratedSymbolIndexLock.Lock()
 		defer c.project.lastGeneratedSymbolIndexLock.Unlock()
@@ -223,6 +231,8 @@ func (c *Component) GetRuntimeSymbol() (runtimeSymbol string) {
 
 // GetRuntimeName get component name
 func (c *Component) GetRuntimeName() (name string) {
+	c.runtimeNameLock.Lock()
+	defer c.runtimeNameLock.Unlock()
 	if c.runtimeName == "" {
 		maxRuntimeNameLength := 12
 		for _, otherC := range c.project.GetComponents() {
@@ -242,6 +252,8 @@ func (c *Component) GetRuntimeName() (name string) {
 
 // GetColor get component name
 func (c *Component) GetColor() (color int) {
+	c.colorLock.Lock()
+	defer c.colorLock.Unlock()
 	if c.color == 0 {
 		c.project.lastGeneratedColorIndexLock.Lock()
 		defer c.project.lastGeneratedColorIndexLock.Unlock()

@@ -82,12 +82,12 @@ func TestRun(t *testing.T) {
 	// test done
 	stopChan <- true
 
-	if err = StopContainers(testPath, p); err != nil {
-		t.Errorf("[ERROR] Cannot stop containers: %s", err)
+	if stopErr := StopContainers(testPath, p); stopErr != nil {
+		t.Errorf("[ERROR] Cannot stop containers: %s", stopErr)
 	}
 
-	if err = RemoveContainers(testPath, p); err != nil {
-		t.Errorf("[ERROR] Cannot remove containers: %s", err)
+	if removeErr := RemoveContainers(testPath, p); removeErr != nil {
+		t.Errorf("[ERROR] Cannot remove containers: %s", removeErr)
 	}
 
 }

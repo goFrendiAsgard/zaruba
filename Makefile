@@ -7,7 +7,7 @@ install:
 test:
 	./prepare-test.sh
 	# perform test
-	go test ./... 
+	go test -race ./... 
 test-verbose:
 	./prepare-test.sh
 	# perform test
