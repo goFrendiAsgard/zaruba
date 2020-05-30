@@ -111,6 +111,10 @@ func (r *Runner) componentsToRunAreCommand() (isAllCommand bool) {
 }
 
 func (r *Runner) run(processName string, runErr chan error) {
+	if r.isRegistered(processName) {
+		go r.wait(processName, runErr)
+		return
+	}
 	// get component
 	component, err := r.p.GetComponentByName(processName)
 	if err != nil {
