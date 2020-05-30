@@ -204,7 +204,11 @@ func (r *Runner) checkComponentReadiness(component *config.Component, shouldLog 
 		return err
 	}
 	cmd.Env = runtimeEnv
-	command.RunCmd(cmd)
+	if shouldLog {
+		_, err = command.RunCmd(cmd)
+		return err
+	}
+	_, err = command.RunCmdSilently(cmd)
 	return err
 }
 
