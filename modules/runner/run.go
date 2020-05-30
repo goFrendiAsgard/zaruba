@@ -115,6 +115,7 @@ func (r *Runner) run(processName string, runErr chan error) {
 		go r.wait(processName, runErr)
 		return
 	}
+	r.register(processName, nil)
 	// get component
 	component, err := r.p.GetComponentByName(processName)
 	if err != nil {
@@ -130,11 +131,6 @@ func (r *Runner) run(processName string, runErr chan error) {
 	cmd, err := r.createComponentCmd(component)
 	if err != nil {
 		runErr <- err
-		return
-	}
-	// if the process is already registered, then just wait for it
-	if r.isRegistered(processName) {
-		go r.wait(processName, runErr)
 		return
 	}
 	// if this is stopping don't run
@@ -358,7 +354,11 @@ func (r *Runner) killall() {
 	defer r.processesStateLock.Unlock()
 	for index := len(r.executionOrder) - 1; index >= 0; index-- {
 		processName := r.executionOrder[index]
-		process := r.processState[processName].process
+		processState := r.processState[processName]
+		if processState == nil {
+			continue
+		}
+		process := processState.process
 		component, _ := r.p.GetComponentByName(processName)
 		if component.GetType() == "command" {
 			continue
