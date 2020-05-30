@@ -291,7 +291,11 @@ func runReadinessURLCheck(verboseOutput bool, serviceName string, runtimeReadine
 	if verboseOutput {
 		logger.Info("Checking readiness URL of %s", serviceName)
 	}
-	_, err = http.Get(runtimeReadinessURL)
+	resp, err := http.Get(runtimeReadinessURL)
+	if err == nil && (resp.StatusCode < 200 || resp.StatusCode > 299) {
+		errorMessage := fmt.Sprintf("Response Code: %d", resp.StatusCode)
+		return errors.New(errorMessage)
+	}
 	return err
 }
 

@@ -175,6 +175,11 @@ func adjustLocation(p *ProjectConfig, absDirPath string) *ProjectConfig {
 	// adjust component's location
 	for componentName, component := range p.components {
 		component.location = file.GetAbsoluteLocation(absDirPath, component.location)
+		volumes := map[string]string{}
+		for hostLoc, containerLoc := range component.volumes {
+			volumes[file.GetAbsoluteLocation(component.location, hostLoc)] = containerLoc
+		}
+		component.volumes = volumes
 		p.components[componentName] = component
 	}
 	// adjust component's link

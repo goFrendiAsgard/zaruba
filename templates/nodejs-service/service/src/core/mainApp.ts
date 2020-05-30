@@ -35,6 +35,8 @@ export class MainApp implements App {
             this._router.listen(this._httpPort, () => {
                 this._logger.info(`Run at port ${this._httpPort}`);
                 logExpressRoutes(this._router, this._logger);
+                this._liveness = true;
+                this._readiness = true;
                 resolve();
             }).on("error", (err) => reject(err));
         });
