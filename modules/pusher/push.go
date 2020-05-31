@@ -33,8 +33,8 @@ func Push(projectDir string, p *config.ProjectConfig) (err error) {
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [PUSH] Commit changes at: %s", time.Now().Format(time.RFC3339)))
-	logger.Info("Push to main repo")
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀🔼 [PUSH] Commit changes at: %s", time.Now().Format(time.RFC3339)))
+	logger.Info("🔼 Pushing to main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "push", "origin", currentBranch); err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func Push(projectDir string, p *config.ProjectConfig) (err error) {
 		if location == "" || origin == "" {
 			continue
 		}
-		logger.Info("Push to sub-repo %s", componentName)
+		logger.Info("🔼 Pushing to sub-repo %s", componentName)
 		if err = command.RunAndRedirect(projectDir, "git", "subtree", "push", "--prefix="+subrepoPrefix, componentName, branch); err != nil {
 			return err
 		}

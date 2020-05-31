@@ -17,8 +17,8 @@ func RemoveContainers(projectDir string, p *config.ProjectConfig) (err error) {
 		if component.GetType() != "container" {
 			continue
 		}
-		logger.Info("Remove %s container", componentName)
-		_, err = command.Run(projectDir, "docker", "rm", component.GetRuntimeContainerName())
+		logger.Info("🔪 Remove %s container", componentName)
+		_, err = command.RunSilently(projectDir, "docker", "rm", component.GetRuntimeContainerName())
 		if err != nil {
 			logger.Error("Cannot remove container %s: %s", componentName, err)
 		}

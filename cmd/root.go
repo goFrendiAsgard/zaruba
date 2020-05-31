@@ -9,7 +9,7 @@ import (
 
 var banner string = `
       _____
-     /     \        My name is Zaruba.
+     /     \        My name is 💀Zaruba.
     | () () |       I came to be when Garo came to be.
      \  ^  /        And I am forever with him.
       |||||

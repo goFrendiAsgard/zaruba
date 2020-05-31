@@ -18,7 +18,7 @@ func Create(template, projectDir string, args ...string) (err error) {
 	}
 	// run create-component script
 	createComponentArgs := append([]string{projectDir}, args...)
-	logger.Info("Create component from `%s` into `%s` %s", templateDir, projectDir, strutil.SprintArgs(createComponentArgs))
+	logger.Info("☀️ Create component from `%s` into `%s` %s", templateDir, projectDir, strutil.SprintArgs(createComponentArgs))
 	return action.Do(
 		"create-component",
 		action.CreateOption().

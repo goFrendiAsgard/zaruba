@@ -29,8 +29,8 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [PULL] Commit changes at: %s", time.Now().Format(time.RFC3339)))
-	logger.Info("Pull from main repo")
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀🔽 [PULL] Commit changes at: %s", time.Now().Format(time.RFC3339)))
+	logger.Info("🔽 Pulling from main repo")
 	if err = command.RunAndRedirect(projectDir, "git", "pull", "origin", currentBranch); err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func Pull(projectDir string, p *config.ProjectConfig) (err error) {
 		if location == "" || origin == "" {
 			continue
 		}
-		logger.Info("Pulling from sub-repo %s", componentName)
+		logger.Info("🔽 Pulling from sub-repo %s", componentName)
 		if err = command.RunAndRedirect(projectDir, "git", "subtree", "pull", "--prefix="+subrepoPrefix, "--squash", componentName, branch); err != nil {
 			logger.Error("Cannot pull from subrepo `%s`", subrepoPrefix)
 		}

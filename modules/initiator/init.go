@@ -67,7 +67,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return nil
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [INIT] Backup local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀☀️ [INIT] Backup local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// backup
 	if err = backup(location, backupLocation); err != nil {
 		restore(backupLocation, location)
@@ -79,7 +79,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [INIT] Remove local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀☀️ [INIT] Remove local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
 	// add subtree
 	if err := git.SubtreeAdd(projectDir, subrepoPrefix, componentName, branch); err != nil {
 		restore(backupLocation, location)
@@ -99,28 +99,28 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, componentName, subre
 		return err
 	}
 	// commit
-	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀 [INIT] Restore local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
+	git.CommitIfAnyDiff(projectDir, fmt.Sprintf("💀☀️ [INIT] Restore local `%s` at: %s", componentName, time.Now().Format(time.RFC3339)))
 	return err
 }
 
 func restore(backupLocation, location string) (err error) {
 	// restore
-	logger.Info("Restore")
+	logger.Info("🚚 Restore")
 	if err = os.RemoveAll(location); err != nil {
 		return err
 	}
-	logger.Info("Moving `%s` to `%s`", backupLocation, location)
+	logger.Info("🚚 Moving `%s` to `%s`", backupLocation, location)
 	return os.Rename(backupLocation, location)
 }
 
 func backup(location, backupLocation string) (err error) {
 	// backup
-	logger.Info("Prepare backup location")
+	logger.Info("🚚 Prepare backup location")
 	os.RemoveAll(backupLocation)
 	if err = os.MkdirAll(filepath.Dir(backupLocation), 0700); err != nil {
 		return err
 	}
-	logger.Info("Moving `%s` to `%s`", location, backupLocation)
+	logger.Info("🚚 Moving `%s` to `%s`", location, backupLocation)
 	return os.Rename(location, backupLocation)
 }
 
@@ -135,7 +135,7 @@ func createZarubaConfigIfNotExists(projectDir string) (err error) {
 		if err != nil {
 			return err
 		}
-		logger.Info("Write to %s:\n%s", zarubaConfigFile, configYaml)
+		logger.Info("📝 Write to %s:\n%s", zarubaConfigFile, configYaml)
 		ioutil.WriteFile(zarubaConfigFile, []byte(configYaml), 0755)
 	}
 	return

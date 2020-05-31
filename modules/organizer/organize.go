@@ -64,7 +64,7 @@ func copyLinks(source string, destinationList []string) (err error) {
 }
 
 func copyWithChannel(source, destination string, errChan chan error) {
-	logger.Info("Copy `%s` to `%s`", source, destination)
+	logger.Info("📝 Copy `%s` to `%s`", source, destination)
 	err := file.CopyExcept(source, destination, []string{`\.zaruba$`})
 	errChan <- err
 }

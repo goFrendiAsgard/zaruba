@@ -18,6 +18,14 @@ import (
 	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
+var runSuccessBanner string = `
+      _____
+     /     \        🎉 Successfully run: %s
+    | () () |       🎉 Have fun !!!
+     \  ^  /
+      |||||
+`
+
 type processState struct {
 	executed bool
 	process  *exec.Cmd
@@ -70,9 +78,7 @@ func CreateRunner(p *config.ProjectConfig, selectors []string) (r *Runner, err e
 func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
 	go r.stopByChan(stopChan, executedChan, errChan)
 	runErrList := []chan error{}
-	componentNameList := []string{}
 	for componentName := range r.componentsToRun {
-		componentNameList = append(componentNameList, componentName)
 		runErr := make(chan error)
 		go r.run(componentName, runErr)
 		runErrList = append(runErrList, runErr)
@@ -90,8 +96,7 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 		errChan <- runAllErr
 		return
 	}
-	logger.Info("Successfully run: %s", strings.Join(componentNameList, ", "))
-	logger.Info("Have fun !!!")
+	logger.Info(runSuccessBanner, strings.Join(r.executionOrder, ", "))
 	// if components to run are all command, then kill everything
 	if r.componentsToRunAreCommand() {
 		r.stop()
@@ -140,7 +145,7 @@ func (r *Runner) run(processName string, runErr chan error) {
 	}
 	// register and start
 	r.register(processName, cmd)
-	logger.Info("Starting %s", processName)
+	logger.Info("🏁 %s Starting %s", component.GetRuntimeSymbol(), processName)
 	if err := cmd.Start(); err != nil {
 		runErr <- err
 		return
@@ -153,13 +158,14 @@ func (r *Runner) run(processName string, runErr chan error) {
 
 func (r *Runner) waitComponentReadiness(component *config.Component, cmd *exec.Cmd) (err error) {
 	componentName := component.GetName()
+	symbol := component.GetRuntimeSymbol()
 	switch component.GetType() {
 	case "command":
 		err = cmd.Wait()
 		if err == nil {
-			logger.Info("%s execution succeed", componentName)
+			logger.Info("👍 %s %s execution succeed", symbol, componentName)
 		} else {
-			logger.Error("%s execution failed: %s", componentName, err)
+			logger.Error("👎 %s %s execution failed: %s", symbol, componentName, err)
 		}
 	default:
 		counter := 0
@@ -169,10 +175,10 @@ func (r *Runner) waitComponentReadiness(component *config.Component, cmd *exec.C
 			}
 			shouldLog := counter == 0
 			if err := r.checkComponentReadiness(component, shouldLog); err == nil {
-				logger.Info("%s is ready", componentName)
+				logger.Info("👍 %s %s is ready", symbol, componentName)
 				break
 			} else if shouldLog {
-				logger.Error("%s is not ready: %s", componentName, err)
+				logger.Error("👎 %s %s is not ready: %s", symbol, componentName, err)
 			}
 			counter++
 		}
@@ -367,7 +373,7 @@ func (r *Runner) killall() {
 		if component.GetType() == "container" {
 			processSuffix = "container logger"
 		}
-		logger.Info("Killing %s %s", processName, processSuffix)
+		logger.Info("🔪️ Killing %s %s", processName, processSuffix)
 		if err := syscall.Kill(-process.Process.Pid, syscall.SIGTERM); err != nil {
 			logger.Error("Failed to kill %s %s: %s", processName, processSuffix, err)
 		}

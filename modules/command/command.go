@@ -51,6 +51,16 @@ func Run(dir, command string, args ...string) (output string, err error) {
 	return RunCmd(cmd)
 }
 
+// RunSilently run command
+func RunSilently(dir, command string, args ...string) (output string, err error) {
+	cmd, err := GetCmd(dir, command, args...)
+	cmd.Stderr = os.Stderr
+	if err != nil {
+		return output, err
+	}
+	return RunCmdSilently(cmd)
+}
+
 // RunScript run script
 func RunScript(dir, script string) (output string, err error) {
 	cmd, err := GetShellCmd(dir, script)

@@ -15,7 +15,7 @@ import (
 func Install(gitURL, newTemplateName string) (err error) {
 	baseTemplateDir := config.GetTemplateDir()
 	templateDir := filepath.Join(baseTemplateDir, newTemplateName)
-	logger.Info("Install template from `%s` to `%s`", gitURL, templateDir)
+	logger.Info("☀️ Install template from `%s` to `%s`", gitURL, templateDir)
 	// run git clone
 	if err = command.RunAndRedirect(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
 		return err
