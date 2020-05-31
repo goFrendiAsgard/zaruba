@@ -76,12 +76,21 @@ func CreateRunner(p *config.ProjectConfig, selectors []string) (r *Runner, err e
 
 // Run run components
 func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
-	go r.stopByChan(stopChan, executedChan, errChan)
+	var runAllErr error
+	executed := false
+	go func(stopChan chan bool) {
+		<-stopChan
+		r.stop()
+		runAllErr = errors.New("Terminated")
+		if executed {
+			r.killall()
+			errChan <- runAllErr
+		}
+	}(stopChan)
 	runErrChan := make(chan error, len(r.componentsToRun))
 	for componentName := range r.componentsToRun {
 		go r.run(componentName, runErrChan)
 	}
-	var runAllErr error
 	for range r.componentsToRun {
 		err := <-runErrChan
 		if runAllErr == nil && err != nil {
@@ -90,7 +99,9 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 		}
 	}
 	executedChan <- true
+	executed = true
 	if runAllErr != nil {
+		r.killall()
 		errChan <- runAllErr
 		return
 	}
@@ -98,6 +109,7 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 	// if components to run are all command, then kill everything
 	if r.componentsToRunAreCommand() {
 		r.stop()
+		r.killall()
 		errChan <- nil
 		return
 	}
@@ -136,13 +148,14 @@ func (r *Runner) run(processName string, runErr chan error) {
 		runErr <- err
 		return
 	}
+	// register
+	r.register(processName, cmd)
 	// if this is stopping don't run
 	if r.isStopped() {
 		runErr <- err
 		return
 	}
-	// register and start
-	r.register(processName, cmd)
+	// start
 	logger.Info("🏁 %s Starting %s", component.GetRuntimeSymbol(), processName)
 	if err := cmd.Start(); err != nil {
 		runErr <- err
@@ -240,7 +253,7 @@ func (r *Runner) createComponentCmd(component *config.Component) (cmd *exec.Cmd,
 	}
 	go r.logComponent(component, "OUT", outPipe)
 	go r.logComponent(component, "ERR", errPipe)
-	logger.Info("Creating command %s: %s", name, strings.Join(cmd.Args, " "))
+	logger.Info("🔨 Creating command %s: %s", name, strings.Join(cmd.Args, " "))
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 	return cmd, err
 }
@@ -300,18 +313,10 @@ func (r *Runner) wait(processName string, errChan chan error) {
 	errChan <- nil
 }
 
-func (r *Runner) stopByChan(stopChan, executedChan chan bool, errChan chan error) {
-	<-stopChan
-	r.stop()
-	errChan <- errors.New("Terminated")
-	executedChan <- true
-}
-
 func (r *Runner) stop() {
 	r.stoppedLock.Lock()
 	defer r.stoppedLock.Unlock()
 	r.stopped = true
-	r.killall()
 }
 
 func (r *Runner) isStopped() bool {
