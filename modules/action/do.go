@@ -68,14 +68,12 @@ func prepareOption(option *Option) (err error) {
 
 func processAllDirs(actionString string, allWorkDirs []string, option *Option, arguments ...string) (err error) {
 	// start multiple processDir as go-routines
-	errChans := []chan error{}
+	errChan := make(chan error, len(allWorkDirs))
 	for _, workDir := range allWorkDirs {
-		errChan := make(chan error)
 		go processDir(errChan, actionString, workDir, option, arguments...)
-		errChans = append(errChans, errChan)
 	}
 	// wait all go-routine finished
-	for _, errChan := range errChans {
+	for range allWorkDirs {
 		err = <-errChan
 		if err != nil {
 			return err

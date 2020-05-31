@@ -9,7 +9,7 @@ import (
 
 // IsAnyDiff get whether there is diff or not
 func IsAnyDiff(projectDir string) bool {
-	logger.Info("Get current git branch")
+	logger.Info("Get diff")
 	output, err := command.Run(projectDir, "git", "--no-pager", "diff", "HEAD")
 	if err != nil {
 		return false

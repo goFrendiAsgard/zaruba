@@ -47,14 +47,12 @@ func Organize(projectDir string, p *config.ProjectConfig, arguments ...string) (
 
 func copyLinks(source string, destinationList []string) (err error) {
 	// start multiple copyWithChannel as go-routines
-	errChans := []chan error{}
+	errChan := make(chan error, len(destinationList))
 	for _, destination := range destinationList {
-		errChan := make(chan error)
 		go copyWithChannel(source, destination, errChan)
-		errChans = append(errChans, errChan)
 	}
 	// wait all go-routine finished
-	for _, errChan := range errChans {
+	for range destinationList {
 		err = <-errChan
 		if err != nil {
 			return err

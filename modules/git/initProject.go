@@ -18,18 +18,25 @@ func InitProject(projectDir string, p *config.ProjectConfig) (err error) {
 		return err
 	}
 	// check all component's origin
-	errChans := []chan error{}
-	for componentName, component := range p.GetComponents() {
-		errChan := make(chan error)
-		errChans = append(errChans, errChan)
+	components := p.GetComponents()
+	errChan := make(chan error, getComponentCount(components))
+	for componentName, component := range components {
 		go checkSubrepo(projectDir, componentName, component, errChan)
 	}
-	for _, errChan := range errChans {
+	for range components {
 		if err = <-errChan; err != nil {
 			return err
 		}
 	}
 	return err
+}
+
+func getComponentCount(components map[string]*config.Component) (count int) {
+	count = 0
+	for range components {
+		count++
+	}
+	return count
 }
 
 func checkSubrepo(projectDir string, componentName string, component *config.Component, errChan chan error) {

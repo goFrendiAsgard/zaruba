@@ -77,15 +77,13 @@ func CreateRunner(p *config.ProjectConfig, selectors []string) (r *Runner, err e
 // Run run components
 func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
 	go r.stopByChan(stopChan, executedChan, errChan)
-	runErrList := []chan error{}
+	runErrChan := make(chan error, len(r.componentsToRun))
 	for componentName := range r.componentsToRun {
-		runErr := make(chan error)
-		go r.run(componentName, runErr)
-		runErrList = append(runErrList, runErr)
+		go r.run(componentName, runErrChan)
 	}
 	var runAllErr error
-	for _, runErr := range runErrList {
-		err := <-runErr
+	for range r.componentsToRun {
+		err := <-runErrChan
 		if runAllErr == nil && err != nil {
 			runAllErr = err
 			r.stop()
@@ -276,18 +274,17 @@ func (r *Runner) runOrWaitDependencies(component *config.Component) (err error) 
 	if r.isStopped() {
 		return err
 	}
-	dependencyErrChanList := []chan error{}
-	for _, dependencyName := range component.GetDependencies() {
-		dependencyErrChan := make(chan error)
+	dependencies := component.GetDependencies()
+	dependencyErrChan := make(chan error, len(dependencies))
+	for _, dependencyName := range dependencies {
 		if r.isRegistered(dependencyName) {
 			go r.wait(dependencyName, dependencyErrChan)
 		} else {
 			go r.run(dependencyName, dependencyErrChan)
 		}
-		dependencyErrChanList = append(dependencyErrChanList, dependencyErrChan)
 	}
-	for _, dependencyErr := range dependencyErrChanList {
-		if err := <-dependencyErr; err != nil {
+	for range dependencies {
+		if err := <-dependencyErrChan; err != nil {
 			return err
 		}
 	}
@@ -358,6 +355,7 @@ func (r *Runner) isExecuted(name string) bool {
 func (r *Runner) killall() {
 	r.processesStateLock.Lock()
 	defer r.processesStateLock.Unlock()
+	logger.Info("🔪️ Terminating...")
 	for index := len(r.executionOrder) - 1; index >= 0; index-- {
 		processName := r.executionOrder[index]
 		processState := r.processState[processName]
