@@ -50,6 +50,7 @@ If you answer "yes" for any question above, then Zaruba is for you❤️.
 * 🔨 [Using Zaruba as scaffolding tool](#scaffolding)
 * ✈️ [Using Zaruba as service runner](#service-runner)
 * 🐙 [Using Zaruba as monorepo management tool](#monorepo-management)
+* 🤔 [FAQ](#faq)
 
 # <a name="install"></a> 👨‍💻 Installing Zaruba
 
@@ -213,7 +214,7 @@ components:
   alpha-test:
     type: command
     labels:
-      scenario: test complete
+      scenario: test complete       # alpha-test match `scenario:test`, as well as `scenario:complete`
     env:
       ALPHA_HTTP_PORT: 4011
       TEST_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
@@ -224,8 +225,8 @@ components:
   alpha:
     type: service
     labels:
-      scenario: default complete
-      domain: api-gateway
+      scenario: default complete    # alpha match `scenario:default`, as well as `scenario:complete`
+      domain: api-gateway           # as well as `domain:api-gateway`
     env:
       ALPHA_HTTP_PORT: ${ALPHA_HTTP_PORT}
       DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
@@ -245,17 +246,35 @@ There are some possibilities to run the components. Let's dive into them:
 
 ## 🙎‍♀️ Run by component's names
 
-To run specific components, you can pass component's names as arguments. You can put as many component's names as necessary.
+You can run components by passing their names as arguments:
 
 ```sh
-zaruba run rmq # Only run rmq
-zaruba run alpha # Only run alpha after running all alpha's dependencies
-zaruba run alpha alpha-test # Run alpha and alpha-test after running their dependencies
+zaruba run rmq # Only run `rmq`
+zaruba run alpha # Only run `alpha` and it's dependencies (i.e: rmq, alpha)
+zaruba run alpha alpha-test # Run `alpha`, `alpha-test`, and their dependencies (i.e: rmq, alpha, alpha-test)
 ```
 
 ## 👨‍👩‍👧 Run by selectors
 
+You can also run components by using selectors. You can use the following format as valid selector:
+
+* `<component-name>`
+* `<label-key>:<value>`
+
+Zaruba will looks for any component matching any of the selector (i.e: `or` logic). 
+
+```sh
+zaruba run domain:api-gateway # Run any component match `domain:api-gateway` and their dependencies (i.e: rmq, alpha)
+zaruba run domain:api-gateway scenario:test # Run any component match `domain:api-gateway` or `scenario:test` and their dependencies (i.e: rmq, alpha, alpha-test)
+zaruba run alpha scenario:test # Run `alpha` or any component match `scenario:test` and their dependencies (i.e: rmq, alpha, alpha-test)
+zaruba run scenario:complete # Run any component match `scenario:complete` and their dependencies (i.e: rmq, alpha, alpha-test)
+```
+
+> **Note:** Feel free to add as many labels as needed in order to help you run the components easily.
+
 ## 👨‍👩‍👧‍👧 Run with no parameter
+
+When no argument given, Zaruba will try to use `scenario:default` selector. If there is no component matching `scenario:default`, zaruba will run all components based on their dependencies.
 
 ```sh
 zaruba run
@@ -266,4 +285,116 @@ Zaruba will run all components matching `scenario:default` selector.
 
 # <a name="monorepo-management"></a> 🐙 Using Zaruba as monorepo management tool
 
-つづく
+Zaruba is a powerful monorepo management tool. It can automatically copy `shared-libraries`, as well as `push to` / `pull from` multiple repositories at once. Thanks to `git subtree` to make this possible.
+
+Please have a look at the following configurations:
+
+```yaml
+name: testRun
+env: 
+  RMQ_USER: root
+  RMQ_PASS: toor
+  RMQ_PORT: 5672
+  RMQ_API_PORT: 15672
+  ALPHA_HTTP_PORT: 3011
+
+components: 
+
+  rmq:
+    symbol: 🐇 
+    type: container
+    image: rabbitmq:3-management
+    env:
+      RABBITMQ_DEFAULT_USER: ${RMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASS}
+    ports: 
+        ${RMQ_PORT}: 5672
+        ${RMQ_API_PORT}: 15672
+    readinessUrl: http://localhost:15672 
+ 
+  alpha:
+    type: service
+    labels:
+      scenario: default
+    origin: "git@github.com:state-alchemists/alpha-service.git" # When you perform `zaruba init`, alpha will be registered as new subtree. This value will be used as alpha's origin.
+    env:
+      ALPHA_HTTP_PORT: ${ALPHA_HTTP_PORT}
+      DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
+    start: go build -o app && ./app
+    readinessUrl: http://${alpha}:${ALPHA_HTTP_PORT}/readiness
+    dependencies:
+      - rmq
+
+links:
+  ../../libraries/go/transport: # When you perform `zaruba organize|init|pull|push|run`, this directory will be copied to `./transport`
+    - ./transport
+  ../../libraries/go/core: # When you perform `zaruba organize|init|pull|push|run`, this directory will be copied to `./core`
+    - ./core
+ 
+``` 
+
+## 📁 Organize
+
+Zaruba automatically organizes your project whenever you perform `zaruba init`, `zaruba push`, `zaruba pull`, or `zaruba run`. However, if you need to organize the project manually, you can perform this command:
+
+```sh
+zaruba organize
+```
+
+Organizing a project is basically copy-pasting `link sources` to their destinations.
+
+## ☀️ Init
+
+You need to perform `zaruba init` in order to register repo's subtree. You also need to run this comment whenever you clone a zaruba-based repository from your git provider (e.g: github/gitlab/bitbucket) or add `origin` configuration for your components.
+
+```sh
+zaruba init
+```
+
+## 🔼 Push
+
+Like `git push`, this will push your project to your git provider (including all subtree components).
+
+```sh
+zaruba push
+```
+
+## 🔽 Pull
+
+Like `git pull`, this will push your project from your git provider (including all subtree components).
+
+```sh
+zaruba pull
+```
+
+# <a name="faq"></a> 🤔 FAQ
+
+## Why a 💀skull, and why you name this "Zaruba"?
+
+Madou Ring Zaruba (魔導輪ザルバ, Madōrin Zaruba?) is is the Madou Ring for Golden Knight Garo's duties as a Makai Knight [(Garo Wiki | Fandom)](https://garoseries.fandom.com/wiki/Zaruba). Eventhough Garo need to rely on his own power and expertise (like every developer in this world), a little help from a good tool can make everything easier.
+
+## How is Zaruba different from 🐳docker-compose?
+
+Docker-compose is a great tool to compose your containers. However, in most of the time, you don't want to build images and create containers just to make sure that your application works. Zaruba also allows you to run command for preparing your development environments or running the test.
+
+## Can Zaruba create 🐳docker-compose file for me?
+
+Depends on the template. Right now we don't have one, but we plan to make it come true (along with PM2). Stay tune.
+
+## How is Zaruba different from 💂‍♂️yeoman?
+
+Yeoman is based on Javascript, Zaruba template can be written in any language. You can use Yeoman and Zaruba together in case of you need to.
+
+## How is Zaruba different from 🧞‍♂️PM2?
+
+Zaruba is focusing in development while PM2 is focusing in production. For development, you need to run and kill everything at once as well as seeing all the log chronologically in a single place.
+
+## Who use 💀Zaruba?
+
+[This guy](https://twitter.com/gofrendiasgard) use Zaruba to run 5 micro-services (written in golang, python, and nodejs) and see all the logs in a single panel. The services was written long before Zaruba exists. Now he don't have any reason to not run and test them as often as possible.
+
+If you think Zaruba is useful and you want your name listed here, please shout to [this guy](https://twitter.com/gofrendiasgard) on twitter.
+
+## I found a 🐞bug, I have feature request, I want to contribute, How should I start?
+
+Open [issue](https://github.com/state-alchemists/zaruba/issues) or [pull request](https://github.com/state-alchemists/zaruba/pulls).
