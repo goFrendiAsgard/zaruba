@@ -18,8 +18,8 @@ var rootCmd = &cobra.Command{
 	Use:   "zaruba <action> [...args]",
 	Short: "Developer's Partner",
 	Long: strings.Join([]string{
-		"Zaruba is agnostic scaffolding tool, task runner, as well as monorepo management.",
-		"Zaruba will help you build project faster.",
+		"Zaruba is an agnostic scaffolding tool, service runner, as well as monorepo management tool.",
+		"Zaruba will help you build and test your project faster.",
 	}, "\n"),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
