@@ -151,8 +151,8 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 		portParams := "--publish-all"
 		ports := []string{}
 		for hostPort, containerPort := range portMap {
-			portString := venv.ParseString(fmt.Sprintf("%s:%s", hostPort, containerPort))
-			ports = append(ports, fmt.Sprintf("-p %s", portString))
+			hostPort, containerPort = venv.ParseString(hostPort), venv.ParseString(containerPort)
+			ports = append(ports, fmt.Sprintf("-p %s:%s", hostPort, containerPort))
 		}
 		if len(ports) > 0 {
 			portParams = strings.Join(ports, " ")
@@ -160,6 +160,7 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 		// parse volume
 		volumes := []string{}
 		for hostLocation, containerLocation := range volumeMap {
+			hostLocation, containerLocation = venv.ParseString(hostLocation), venv.ParseString(containerLocation)
 			volumes = append(volumes, fmt.Sprintf("-v %s:%s", filepath.Join(location, hostLocation), containerLocation))
 		}
 		volumeParams := strings.Join(volumes, " ")
