@@ -1,7 +1,8 @@
 env: 
-  RABBITMQ_DEFAULT_USER: root
-  RABBITMQ_DEFAULT_PASS: toor
-  DEFAULT_RMQ_CONNECTION_STRING: amqp://root:toor@${rmq}:5672/
+  RMQ_USER: root
+  RMQ_PASS: toor
+  RMQ_PORT: 5672
+  RMQ_API_PORT: 15672
 
 components: 
   rmq:
@@ -9,9 +10,9 @@ components:
     type: container
     image: rabbitmq:3-management
     env:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_USER: ${RMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASS}
     ports: 
-        5672: 5672
-        15672: 15672
+        ${RMQ_PORT}: 5672
+        ${RMQ_API_PORT}: 15672
     readinessUrl: http://localhost:15672 

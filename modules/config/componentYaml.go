@@ -9,7 +9,7 @@ type ComponentYaml struct {
 	Image          string            `yaml:"image"`          // container's image
 	Start          string            `yaml:"start"`          // start service command
 	ContainerName  string            `yaml:"containerName"`  // container name
-	Ports          map[int]int       `yaml:"ports"`          // exposed ports (host:container)
+	Ports          map[string]string `yaml:"ports"`          // exposed ports (host:container)
 	Volumes        map[string]string `yaml:"volumes"`        // volumes (host:container)
 	Symbol         string            `yaml:"symbol"`         // emoji representation
 	ReadinessCheck string            `yaml:"readinessCheck"` // check readiness command

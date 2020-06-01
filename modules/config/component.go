@@ -22,7 +22,7 @@ type Component struct {
 	image               string
 	start               string
 	containerName       string
-	ports               map[int]int
+	ports               map[string]string
 	volumes             map[string]string
 	symbol              string
 	readinessCheck      string
@@ -99,7 +99,7 @@ func (c *Component) GetVolumes() (volumens map[string]string) {
 }
 
 // GetPorts get component container name
-func (c *Component) GetPorts() (ports map[int]int) {
+func (c *Component) GetPorts() (ports map[string]string) {
 	return c.ports
 }
 
@@ -143,22 +143,24 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 		containerName := c.GetRuntimeContainerName()
 		image := c.GetImage()
 		quotedRuntimeEnv := c.GetQuotedRuntimeEnv()
+		venv := c.GetVenv()
 		containerEnv := c.GetEnv()
 		portMap := c.GetPorts()
 		volumeMap := c.GetVolumes()
 		// parse ports
 		portParams := "--publish-all"
 		ports := []string{}
-		for key, val := range portMap {
-			ports = append(ports, fmt.Sprintf("-p %d:%d", key, val))
+		for hostPort, containerPort := range portMap {
+			portString := venv.ParseString(fmt.Sprintf("%s:%s", hostPort, containerPort))
+			ports = append(ports, fmt.Sprintf("-p %s", portString))
 		}
 		if len(ports) > 0 {
 			portParams = strings.Join(ports, " ")
 		}
 		// parse volume
 		volumes := []string{}
-		for key, val := range volumeMap {
-			volumes = append(volumes, fmt.Sprintf("-v %s:%s", filepath.Join(location, key), val))
+		for hostLocation, containerLocation := range volumeMap {
+			volumes = append(volumes, fmt.Sprintf("-v %s:%s", filepath.Join(location, hostLocation), containerLocation))
 		}
 		volumeParams := strings.Join(volumes, " ")
 		// parse environments
