@@ -140,7 +140,6 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 	command = c.GetStartCommand()
 	if c.GetType() == "container" && command == "" {
 		location := c.GetRuntimeLocation()
-		projectName := c.project.name
 		containerName := c.GetRuntimeContainerName()
 		image := c.GetImage()
 		quotedRuntimeEnv := c.GetQuotedRuntimeEnv()
@@ -170,7 +169,7 @@ func (c *Component) GetRuntimeStartCommand() (command string) {
 		}
 		environmentParams := strings.Join(environments, " ")
 		// create command
-		command = fmt.Sprintf("docker run  --name \"%s\" --net=\"%s\" %s %s %s  -d \"%s\"", containerName, projectName, volumeParams, environmentParams, portParams, image)
+		command = fmt.Sprintf("docker run  --name \"%s\" %s %s %s  -d \"%s\"", containerName, volumeParams, environmentParams, portParams, image)
 	}
 	return command
 }
@@ -280,7 +279,7 @@ func (c *Component) GetVenv() (venv *VirtualEnv) {
 				continue
 			}
 			if c.componentType == "container" && otherComponent.GetType() == "container" {
-				c.venv.Add(otherServiceName, otherComponent.GetRuntimeContainerName())
+				c.venv.Add(otherServiceName, "host.docker.internal")
 			} else {
 				c.venv.Add(otherServiceName, "0.0.0.0")
 			}
