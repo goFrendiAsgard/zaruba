@@ -17,7 +17,7 @@ components:
   servicename:
     type: service
     labels:
-      scenario: live
+      scenario: default
     origin: "" # fill this one with your git repository
     branch: master
     env:
