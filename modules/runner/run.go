@@ -19,6 +19,7 @@ import (
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/logger"
+	"github.com/state-alchemists/zaruba/modules/organizer"
 )
 
 var runSuccessBanner string = `
@@ -82,9 +83,13 @@ func CreateRunner(p *config.ProjectConfig, selectors []string) (r *Runner, err e
 
 // Run run components
 func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
+	// organize
+	if err := organizer.Organize(projectDir, r.p); err != nil {
+		r.sendToExecutedAndErrChan(executedChan, errChan, err)
+		return
+	}
 	if err := r.createLogFile(projectDir); err != nil {
-		executedChan <- true
-		errChan <- err
+		r.sendToExecutedAndErrChan(executedChan, errChan, err)
 		return
 	}
 	var runAllErr error
@@ -155,6 +160,11 @@ func (r *Runner) monitorReadinessAfterExecution(errChan chan error) {
 		}
 		time.Sleep(60 * time.Second)
 	}
+}
+
+func (r *Runner) sendToExecutedAndErrChan(executedChan chan bool, errChan chan error, err error) {
+	executedChan <- true
+	errChan <- err
 }
 
 func (r *Runner) killAllAndSendError(errChan chan error, err error) {
