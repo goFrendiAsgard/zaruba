@@ -12,6 +12,7 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
@@ -175,32 +176,61 @@ func (r *Runner) waitComponentReadiness(component *config.Component, cmd *exec.C
 	symbol := component.GetRuntimeSymbol()
 	switch component.GetType() {
 	case "command":
-		err = cmd.Wait()
+		err = r.waitCommandReadiness(component, cmd)
 		if err == nil {
 			logger.Info("👍 %s %s execution succeed", symbol, componentName)
 		} else {
 			logger.Error("👎 %s %s execution failed: %s", symbol, componentName, err)
 		}
 	default:
-		counter := 0
+		lastCheckSecs := time.Now().Unix()
 		for true && !r.isStopped() {
-			if counter > 100000 {
-				counter = 0
+			shouldLog := false
+			checkSecs := time.Now().Unix()
+			if checkSecs-lastCheckSecs > 10 {
+				lastCheckSecs = checkSecs
+				shouldLog = true
 			}
-			shouldLog := counter == 0
-			if err := r.checkComponentReadiness(component, shouldLog); err == nil {
+			if err := r.checkServiceOrContainerReadiness(component, shouldLog); err == nil {
 				logger.Info("👍 %s %s is ready", symbol, componentName)
 				break
 			} else if shouldLog {
 				logger.Error("👎 %s %s is not ready: %s", symbol, componentName, err)
 			}
-			counter++
 		}
 	}
 	return err
 }
 
-func (r *Runner) checkComponentReadiness(component *config.Component, shouldLog bool) (err error) {
+func (r *Runner) waitCommandReadiness(component *config.Component, cmd *exec.Cmd) (err error) {
+	componentName := component.GetName()
+	symbol := component.GetRuntimeSymbol()
+	lastCheckSecs := time.Now().Unix()
+	executed, executedLock := false, &sync.RWMutex{}
+	go func() {
+		for !r.isStopped() {
+			executedLock.RLock()
+			if executed {
+				executedLock.RUnlock()
+				break
+			}
+			executedLock.RUnlock()
+			checkSecs := time.Now().Unix()
+			if checkSecs-lastCheckSecs > 10 {
+				lastCheckSecs = checkSecs
+				logger.Error("👎 %s %s execution is not ready", symbol, componentName)
+			}
+		}
+		syscall.Kill(-cmd.Process.Pid, syscall.SIGTERM)
+	}()
+	err = cmd.Wait()
+	executedLock.Lock()
+	executed = true
+	executedLock.Unlock()
+	return err
+}
+
+func (r *Runner) checkServiceOrContainerReadiness(component *config.Component, shouldLog bool) (err error) {
 	readinessURL := component.GetRuntimeReadinessURL()
 	componentName := component.GetName()
 	if readinessURL != "" {

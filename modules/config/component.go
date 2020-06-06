@@ -205,7 +205,9 @@ func (c *Component) GetRuntimeReadinessCheckCommand() (command string) {
 // GetRuntimeReadinessURL get runtime readiness url
 func (c *Component) GetRuntimeReadinessURL() (readinessURL string) {
 	venv := c.GetVenv()
-	return venv.ParseString(c.GetReadinessURL())
+	readinessURL = venv.ParseString(c.GetReadinessURL())
+	readinessURL = strings.Replace(readinessURL, "host.docker.internal", "0.0.0.0", -1)
+	return readinessURL
 }
 
 // GetRuntimeSymbol get component container name
