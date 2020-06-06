@@ -101,18 +101,21 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 	executedChan <- true
 	executed = true
 	if runAllErr != nil {
-		r.killall()
-		errChan <- runAllErr
+		r.killAllAndSendError(errChan, runAllErr)
 		return
 	}
 	logger.Info(runSuccessBanner, strings.Join(r.executionOrder, ", "))
 	// if components to run are all command, then kill everything
 	if r.componentsToRunAreCommand() {
 		r.stop()
-		r.killall()
-		errChan <- nil
+		r.killAllAndSendError(errChan, nil)
 		return
 	}
+}
+
+func (r *Runner) killAllAndSendError(errChan chan error, err error) {
+	r.killall()
+	errChan <- err
 }
 
 func (r *Runner) componentsToRunAreCommand() (isAllCommand bool) {
