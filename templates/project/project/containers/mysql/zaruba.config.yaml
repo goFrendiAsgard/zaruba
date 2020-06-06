@@ -3,9 +3,9 @@ env:
   MYSQL_PASSWORD: mysql
   MYSQL_DATABASE: sample
   MYSQL_ROOT_PASSWORD: toor
+  MYSQL_PORT: 3406
 
 components: 
-
   mysql:
     symbol: 🐬
     type: container
@@ -16,22 +16,10 @@ components:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      3306: 3306
-    # volumes:
-    #   ./volume: /var/lib/mysql
+      ${MYSQL_PORT}: 3306
     readinessCheck: docker exec ${CONTAINER_NAME} mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SHOW SCHEMAS"
-  
-  # phpmyadmin:
-  #   symbol: 🐬
-  #   type: container
-  #   image: phpmyadmin/phpmyadmin
-  #   env:
-  #     PMA_HOST: ${mysql}
-  #     PMA_USER: root
-  #     PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     PMA_PORT: 3306
-  #   ports:
-  #     80: 80
-  #   dependencies:
-  #     - mysql
-  #   readinessUrl: http://localhost:80
+
+    # [💀 NOTE] Uncomment the following 2 lines if you want to use volume
+    # volumes:
+    #   ./mysql-volume: /var/lib/mysql
+ 
