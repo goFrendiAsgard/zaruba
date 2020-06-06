@@ -24,7 +24,7 @@ PROJECT_NAME=$(basename ${PROJECT_DIR})
 
 # Perform substitution
 sed -i "s/PROJECT NAME/${PROJECT_NAME}/g" ./README.md
-sed -i "s/PROJECT NAME/${PROJECT_NAME}/g" ./zaruba.config.yaml
+sed -i "s/PROJECT NAME/${PROJECT_NAME}/g" ./zaruba.yaml
 git init
 
 echo "Project created. Perform 'cd "${PROJECT_DIR}"' and enjoy :)"

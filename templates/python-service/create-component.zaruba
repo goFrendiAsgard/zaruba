@@ -35,7 +35,7 @@ cp -r ${TEMPLATE_DIR}/service ${SERVICE_DIR}
 cd ${SERVICE_DIR}
 
 # Perform substitution
-for FILE in ./*.py ./*/*.py ./*/*/*.py ./environment.yml ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
+for FILE in ./*.py ./*/*.py ./*/*/*.py ./environment.yml ./Dockerfile ./zaruba.yaml ./Makefile ./README.md
 do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}
@@ -54,5 +54,8 @@ do
         cp -r ${LIB_DIR}/${HELPER} ${SHARED_LIB_DIR}/${HELPER}
     fi
 done
+
+# rename zaruba.yaml
+mv ${SERVICE_DIR}/zaruba.yaml ${SERVICE_DIR}/${SERVICE_NAME}.zaruba.yaml 
 
 echo "Service ${SERVICE_NAME} created."
