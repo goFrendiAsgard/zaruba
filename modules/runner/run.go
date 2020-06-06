@@ -116,12 +116,11 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 		return
 	}
 	logger.Info(runSuccessBanner, strings.Join(r.executionOrder, ", "))
-	// if components to run are all command, then kill everything
 	if r.componentsToRunAreCommand() {
-		r.stop()
 		r.killAllAndSendError(errChan, nil)
 		return
 	}
+	go r.monitorReadinessAfterExecution(errChan)
 }
 
 func (r *Runner) createLogFile(projectDir string) (err error) {
@@ -133,7 +132,33 @@ func (r *Runner) createLogFile(projectDir string) (err error) {
 	return err
 }
 
+func (r *Runner) monitorReadinessAfterExecution(errChan chan error) {
+	time.Sleep(180 * time.Second)
+	for true {
+		for _, componentName := range r.executionOrder {
+			if r.isStopped() {
+				return
+			}
+			component, _ := r.p.GetComponentByName(componentName)
+			symbol := component.GetRuntimeSymbol()
+			componentType := component.GetType()
+			if componentType != "container" && componentType != "service" {
+				continue
+			}
+			if err := r.checkServiceOrContainerReadiness(component, true); err != nil {
+				logger.Error("👎 %s %s is not ready: %s", symbol, componentName, err)
+				r.killAllAndSendError(errChan, err)
+				return
+			} else {
+				logger.Info("👍 %s %s is ready", symbol, componentName)
+			}
+		}
+		time.Sleep(60 * time.Second)
+	}
+}
+
 func (r *Runner) killAllAndSendError(errChan chan error, err error) {
+	r.stop()
 	r.killall()
 	errChan <- err
 }

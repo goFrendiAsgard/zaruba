@@ -50,11 +50,9 @@ var runCmd = &cobra.Command{
 			logger.Fatal(err)
 			return
 		}
-		go func() {
-			<-executedChan // we don't really care about executedChan, but we should listen for it to avoid blocking
-		}()
 		go runner.Run(projectDir, stopChan, executedChan, errChan)
 		// wait for errChan
+		<-executedChan
 		err = <-errChan
 		if err != nil {
 			logger.Fatal(err)
