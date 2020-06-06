@@ -30,7 +30,7 @@ components:
     branch: master
     env:
       SERVICENAME_HTTP_PORT: ${SERVICENAME_HTTP_PORT}
-      DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
+      DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/?heartbeat=0
     start: source ${CONDA_SH_PATH} && conda activate servicename && python main.py
     readinessUrl: http://${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:

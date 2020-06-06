@@ -75,7 +75,7 @@ def rmq_declare_queue_and_bind_to_default_exchange(ch: BlockingChannel, queue_na
 
 
 def rmq_declare_queue(ch: BlockingChannel, queue_name: str):
-    ch.queue_declare(queue_name, durable=True)
+    ch.queue_declare(queue_name)
 
 
 def rmq_declare_fanout_exchange(ch: BlockingChannel, exchange_name: str):
@@ -83,7 +83,8 @@ def rmq_declare_fanout_exchange(ch: BlockingChannel, exchange_name: str):
 
 
 def rmq_consume(ch: BlockingChannel, queue_name: str, handler: OnMessageCallback):
-    ch.basic_consume(queue=queue_name, on_message_callback=handler)
+    ch.basic_consume(
+        queue=queue_name, on_message_callback=handler, auto_ack=True)
 
 
 def rmq_publish(ch: BlockingChannel, exchange_name: str, routing_key: str, data: str, properties: BasicProperties):

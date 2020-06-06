@@ -158,7 +158,7 @@ func (r *Runner) monitorReadinessAfterExecution(errChan chan error) {
 				logger.Info("👍 %s %s is ready", symbol, componentName)
 			}
 		}
-		time.Sleep(60 * time.Second)
+		time.Sleep(180 * time.Second)
 	}
 }
 

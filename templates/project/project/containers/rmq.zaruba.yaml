@@ -15,4 +15,4 @@ components:
     ports: 
         ${RMQ_PORT}: 5672
         ${RMQ_API_PORT}: 15672
-    readinessUrl: http://${rmq}:${RMQ_API_PORT}?heartbeat=0 
+    readinessUrl: http://${rmq}:${RMQ_API_PORT}
