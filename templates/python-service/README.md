@@ -1,1 +1,0 @@
-# python-service-template

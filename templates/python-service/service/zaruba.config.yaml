@@ -1,0 +1,44 @@
+env:
+  SERVICENAME_HTTP_PORT: 3010
+  CONDA_SH_PATH: ${HOME}/anaconda3/etc/profile.d/conda.sh
+
+components:
+
+  servicename-prep:
+    type: command
+    labels:
+      scenario: preparation
+    start: source ${CONDA_SH_PATH} && (conda env create --file=environment.yml || conda env update --file=environment.yml  --prune || echo "Failed. Keep going.")
+
+  servicename-test:
+    type: command
+    labels:
+      scenario: test
+    env:
+      SERVICENAME_HTTP_PORT: 4010
+      TEST_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
+    start:  source ${CONDA_SH_PATH} && conda activate servicename && python -m pytest
+    dependencies:
+      - servicename-prep
+      - rmq
+
+  servicename:
+    type: service
+    labels:
+      scenario: default
+    origin: "" # fill this one with your git repository
+    branch: master
+    env:
+      SERVICENAME_HTTP_PORT: ${SERVICENAME_HTTP_PORT}
+      DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
+    start: source ${CONDA_SH_PATH} && conda activate servicename && python main.py
+    readinessUrl: http://${servicename}:${SERVICENAME_HTTP_PORT}/readiness
+    dependencies:
+      - servicename-prep
+      - rmq
+
+links:
+  ../../libraries/python/transport:
+    - ./transport
+  ../../libraries/python/core:
+    - ./core
