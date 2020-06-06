@@ -64,7 +64,7 @@ This application was built with the following assumptions:
 │   ├── rmqRpcClient.py
 │   ├── rmqRpcServer.py
 │   └── rmqSubscriber.py
-└── zaruba.config.yaml
+└── servicename.zaruba.yaml
 ```
 
 # Bootstrap

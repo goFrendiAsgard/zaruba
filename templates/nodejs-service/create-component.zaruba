@@ -37,7 +37,7 @@ cd ${SERVICE_DIR}
 [ -e ./node_modules ] && rm -Rf ./node_modules
 [ -e ./dist ] && rm -Rf ./dist
 # Perform substitution
-for FILE in ./src/*.ts ./src/*/*.ts ./src/*/*/*.ts ./package.json ./Dockerfile ./zaruba.config.yaml ./Makefile ./README.md
+for FILE in ./src/*.ts ./src/*/*.ts ./src/*/*/*.ts ./package.json ./Dockerfile ./zaruba.yaml ./Makefile ./README.md
 do
     sed -i "s/SERVICENAME/${UPPER_SERVICE_NAME}/g" ${FILE}
     sed -i "s/servicename/${SERVICE_NAME}/g" ${FILE}
@@ -56,5 +56,8 @@ do
         cp -r ${LIB_DIR}/src/${HELPER} ${SHARED_LIB_DIR}/${HELPER}
     fi
 done
+
+# rename zaruba.yaml
+mv ${SERVICE_DIR}/zaruba.yaml ${SERVICE_DIR}/${SERVICE_NAME}.zaruba.yaml 
 
 echo "Service ${SERVICE_NAME} created."

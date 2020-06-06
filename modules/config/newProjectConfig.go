@@ -2,8 +2,8 @@ package config
 
 import (
 	"io/ioutil"
-	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/state-alchemists/zaruba/modules/file"
@@ -18,27 +18,19 @@ func CreateProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	if err != nil {
 		return p, err
 	}
-	// load main projectConfig
+	// load main projectConfig (zaruba.yaml)
 	p, err = loadMainProjectConfig(projectDir)
 	if err != nil {
 		return p, err
 	}
 	// fetch sub projectConfigs
-	allDirs, err := getAllDirs(projectDir, p.ignores)
+	configFiles, err := getConfigFiles(projectDir, p.ignores)
 	if err != nil {
 		return p, err
 	}
-	for _, directory := range allDirs {
-		// Don't load mainProjectConfig twice
-		if directory == projectDir {
-			continue
-		}
-		subP, loadSubErr := loadSingleProjectConfig(directory)
-		if loadSubErr != nil {
-			if os.IsNotExist(loadSubErr) {
-				continue
-			}
-			err = loadSubErr
+	for _, configFile := range configFiles {
+		subP, err := loadSingleProjectConfig(configFile)
+		if err != nil {
 			return p, err
 		}
 		p = mergeEnvironment(p, subP)
@@ -56,7 +48,7 @@ func CreateProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 }
 
 func loadMainProjectConfig(projectDir string) (p *ProjectConfig, err error) {
-	p, err = loadSingleProjectConfig(projectDir)
+	p, err = loadSingleProjectConfig(filepath.Join(projectDir, "zaruba.yaml"))
 	if err != nil {
 		return p, err
 	}
@@ -68,14 +60,22 @@ func loadMainProjectConfig(projectDir string) (p *ProjectConfig, err error) {
 	return p, err
 }
 
-func getAllDirs(parentDir string, ignores []string) (allDirs []string, err error) {
-	allDirs = []string{}
-	allDirs, err = file.GetAllFiles(
+func getConfigFiles(parentDir string, ignores []string) (configFiles []string, err error) {
+	configFiles = []string{}
+	allFiles, err := file.GetAllFiles(
 		parentDir,
 		file.CreateOption().
-			SetIsOnlyDir(true).
+			SetIsOnlyDir(false).
 			SetIgnores(ignores))
-	return allDirs, err
+	if err != nil {
+		return configFiles, err
+	}
+	for _, fileName := range allFiles {
+		if strings.HasSuffix(fileName, ".zaruba.yaml") {
+			configFiles = append(configFiles, fileName)
+		}
+	}
+	return configFiles, err
 }
 
 // newEmptyProjectConfig create new ProjectConfig
@@ -139,7 +139,7 @@ func mergeLinks(p, subP *ProjectConfig) *ProjectConfig {
 }
 
 // loadSingleProjectConfig load project configuration from a directory
-func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
+func loadSingleProjectConfig(configFile string) (p *ProjectConfig, err error) {
 	p = newEmptyProjectConfig()
 	pYaml := &ProjectConfigYaml{
 		Ignores:    []string{},
@@ -148,12 +148,12 @@ func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 		Components: make(map[string]ComponentYaml),
 		Links:      make(map[string][]string),
 	}
-	directory, err = filepath.Abs(directory)
+	configFile, err = filepath.Abs(configFile)
 	if err != nil {
 		return p, err
 	}
 	// read file's content
-	b, err := ioutil.ReadFile(filepath.Join(directory, "zaruba.config.yaml"))
+	b, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return p, err
 	}
@@ -164,9 +164,9 @@ func loadSingleProjectConfig(directory string) (p *ProjectConfig, err error) {
 		return p, err
 	}
 	// load pYaml into p
-	p.fromProjectConfigYaml(pYaml, directory)
+	p.fromProjectConfigYaml(pYaml, configFile)
 	// adjust location
-	p = adjustLocation(p, directory)
+	p = adjustLocation(p, filepath.Dir(configFile))
 	return p, err
 }
 

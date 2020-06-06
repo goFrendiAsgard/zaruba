@@ -116,7 +116,7 @@ zaruba create project myproject # create a project named "myproject"
 cd myproject
 ```
 
-Our newly built project contains `zaruba.config.yaml`, `default_rmq/zaruba.config.yaml`. When you run the project using `zaruba run` (more about this later), the configuration will be cascaded on-the-fly. This mean that you can have nested configurations in the project.
+Our newly built project contains `zaruba.yaml`, `containers/rmq.zaruba.yaml`. When you run the project using `zaruba run` (more about this later), the configuration will be cascaded on-the-fly. This mean that you can have nested configurations in the project.
 
 **🥬 Creating service**
 

@@ -71,7 +71,7 @@ This application was built with the following assumptions:
 │   ├── rmqRpcClient.go
 │   ├── rmqRpcServer.go
 │   └── rmqSubscriber.go
-└── zaruba.config.yaml
+└── servicename.zaruba.yaml
 ```
 
 # Bootstrap

@@ -48,7 +48,7 @@ func TestRun(t *testing.T) {
 		return
 	}
 
-	selectors := []string{}
+	selectors := []string{"scenario:default", "redis", "mysql"}
 	stopChan := make(chan bool)
 	errChan := make(chan error)
 	executedChan := make(chan bool)
