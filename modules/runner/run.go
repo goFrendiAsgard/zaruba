@@ -2,6 +2,7 @@ package runner
 
 import (
 	"bufio"
+	"encoding/csv"
 	"errors"
 	"fmt"
 	"io"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"sync"
 	"syscall"
@@ -48,6 +50,8 @@ type Runner struct {
 	p                  *config.ProjectConfig
 	componentsToRun    map[string]*config.Component
 	executionOrder     []string
+	loggerFileLock     *sync.RWMutex
+	loggerFile         *os.File
 }
 
 // CreateRunner create runner
@@ -64,6 +68,7 @@ func CreateRunner(p *config.ProjectConfig, selectors []string) (r *Runner, err e
 		componentsToRun[name] = component
 	}
 	r = &Runner{
+		loggerFileLock:     &sync.RWMutex{},
 		stoppedLock:        &sync.RWMutex{},
 		processesStateLock: &sync.RWMutex{},
 		stopped:            false,
@@ -77,6 +82,11 @@ func CreateRunner(p *config.ProjectConfig, selectors []string) (r *Runner, err e
 
 // Run run components
 func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errChan chan error) {
+	if err := r.createLogFile(projectDir); err != nil {
+		executedChan <- true
+		errChan <- err
+		return
+	}
 	var runAllErr error
 	executed := false
 	go func(stopChan chan bool) {
@@ -112,6 +122,15 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 		r.killAllAndSendError(errChan, nil)
 		return
 	}
+}
+
+func (r *Runner) createLogFile(projectDir string) (err error) {
+	timeLabel := time.Now().Local().Format("20060102-150405")
+	sessionName := fmt.Sprintf("%s-%s", r.p.GetName(), timeLabel)
+	logDir := filepath.Join(projectDir, ".logs")
+	os.MkdirAll(logDir, os.ModePerm|os.ModeDir)
+	r.loggerFile, err = os.Create(filepath.Join(logDir, fmt.Sprintf("%s.log.csv", sessionName)))
+	return err
 }
 
 func (r *Runner) killAllAndSendError(errChan chan error, err error) {
@@ -309,7 +328,16 @@ func (r *Runner) logComponent(component *config.Component, prefix string, readCl
 	color := component.GetColor()
 	buf := bufio.NewScanner(readCloser)
 	for buf.Scan() {
-		log.Printf("\033[%dm%s - %s\033[0m  %s", color, prefix, runtimeName, buf.Text())
+		bufText := buf.Text()
+		log.Printf("\033[%dm%s - %s\033[0m  %s", color, prefix, runtimeName, bufText)
+		go func() {
+			timeLabel := time.Now().Local().Format("2006-01-02:15:04:05:06:07")
+			r.loggerFileLock.Lock()
+			defer r.loggerFileLock.Unlock()
+			csvWriter := csv.NewWriter(r.loggerFile)
+			csvWriter.Write([]string{timeLabel, name, prefix, bufText})
+			csvWriter.Flush()
+		}()
 	}
 	if err := buf.Err(); err != nil {
 		logger.Error("%s: %s", name, err)
