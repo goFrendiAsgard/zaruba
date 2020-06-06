@@ -15,3 +15,5 @@ coverage.html
 
 .mypy_cache/
 .vscode/
+
+.logs
