@@ -1,8 +1,8 @@
 env: 
   RMQ_USER: root
   RMQ_PASS: toor
-  RMQ_PORT: 5672
-  RMQ_API_PORT: 15672
+  RMQ_PORT: 5772
+  RMQ_API_PORT: 15772
 
 components: 
   rmq:
@@ -15,4 +15,4 @@ components:
     ports: 
         ${RMQ_PORT}: 5672
         ${RMQ_API_PORT}: 15672
-    readinessUrl: http://localhost:15672 
+    readinessUrl: http://${rmq}:${RMQ_API_PORT} 
