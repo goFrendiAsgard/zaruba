@@ -32,20 +32,26 @@ class MainApp(App):
         for setupComponent in setupComponents:
             setupComponent()
 
+    def _set_liveness_and_readiness(self, liveness_and_readiness: bool) -> None:
+        self.set_liveness(liveness_and_readiness)
+        self.set_readiness(liveness_and_readiness)
+
+    def _serve_and_subscribe(self) -> None:
+        for subscriber in self._subscribers:
+            subscriber.subscribe()
+        for rpc_server in self._rpc_servers:
+            rpc_server.serve()
+
     def run(self) -> None:
         try:
             with self._router.app_context():
                 try:
-                    for subscriber in self._subscribers:
-                        subscriber.subscribe()
-                    for rpc_server in self._rpc_servers:
-                        rpc_server.serve()
-                    self.set_liveness(True)
-                    self.set_readiness(True)
+                    self._serve_and_subscribe()
+                    self._set_liveness_and_readiness(True)
                 except Exception as e:
-                    self.set_liveness(False)
-                    self.set_readiness(False)
+                    self._set_liveness_and_readiness(False)
                     raise e
             self._router.run("0.0.0.0", self._http_port)
         except Exception as e:
+            self._set_liveness_and_readiness(False)
             self._logger.error(e)
