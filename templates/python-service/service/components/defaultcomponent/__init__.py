@@ -1,13 +1,15 @@
 from flask import Flask
-from core import App, SetupComponent
+from core import App, Comp
 from config import Config
 
 
-def create_setup(config: Config, router: Flask) -> SetupComponent:
+class Component(Comp):
 
-    def setup():
-        @router.route("/")
+    def __init__(self, config: Config, router: Flask):
+        self.config = config
+        self.router = router
+
+    def setup(self):
+        @self.router.route("/")
         def index():
-            return {"service_name": config.service_name}
-
-    return setup
+            return {"service_name": self.config.service_name}

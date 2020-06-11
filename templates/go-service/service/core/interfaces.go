@@ -1,7 +1,9 @@
 package core
 
-// SetupComponent function to setup component
-type SetupComponent func()
+// Comp interface
+type Comp interface {
+	Setup()
+}
 
 // App interface
 type App interface {
@@ -9,6 +11,6 @@ type App interface {
 	Readiness() bool
 	SetLiveness(liveness bool)
 	SetReadiness(readiness bool)
-	Setup(componentSetups []SetupComponent)
+	Setup(componentSetups []Comp)
 	Run()
 }

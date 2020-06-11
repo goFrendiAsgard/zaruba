@@ -131,7 +131,7 @@ func main() {
 
 # Components
 
-All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a function with no parameter and return nothing. However, there is no limitation to produce the function. You can use wrapper-function and utilize closure, expose object's method, etc.
+All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a struct with `Setup` function receiver.
 
 For example, our `monitoring` component need `config`, `app`, and `router`. Thus we utilize closure to inject those components:
 

@@ -4,7 +4,12 @@ from logging import Logger
 from typing import List, Callable
 from transport import Publisher, Subscriber, RPCServer, RPCClient
 
-SetupComponent = Callable[[], None]
+
+class Comp(ABC):
+
+    @abstractmethod
+    def setup(self) -> None:
+        pass
 
 
 class App(ABC):
@@ -26,7 +31,7 @@ class App(ABC):
         pass
 
     @abstractmethod
-    def setup(self, setupComponents: List[SetupComponent]) -> None:
+    def setup(self, setupComponents: List[Comp]) -> None:
         pass
 
     @abstractmethod

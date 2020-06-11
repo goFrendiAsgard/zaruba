@@ -1,12 +1,13 @@
 from typing import List, Any
 from transport import Message, Publisher, Subscriber, RPCServer, RPCClient
+from core import Comp
 from config import Config
 from .services import greet, greet_everyone
 from .helpers import get_name
 from flask import Flask, Response
 
 
-class Component():
+class Component(Comp):
 
     def __init__(self, config: Config, router: Flask, publisher: Publisher, subscriber: Subscriber, rpc_server: RPCServer, rpc_client: RPCClient):
         self.names: List[str] = []

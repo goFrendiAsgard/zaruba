@@ -1,4 +1,4 @@
-from .interfaces import App, SetupComponent
+from .interfaces import App, Comp
 from flask import Flask
 from logging import Logger
 from typing import List
@@ -28,9 +28,9 @@ class MainApp(App):
     def set_readiness(self, readiness: bool) -> None:
         self._readiness = readiness
 
-    def setup(self, setupComponents: List[SetupComponent]) -> None:
-        for setupComponent in setupComponents:
-            setupComponent()
+    def setup(self, components: List[Comp]) -> None:
+        for component in components:
+            component.setup()
 
     def _set_liveness_and_readiness(self, liveness_and_readiness: bool) -> None:
         self.set_liveness(liveness_and_readiness)
