@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { App, SetupComponent } from "./interfaces";
+import { App, Comp } from "./interfaces";
 import { logExpressRoutes } from "./logExpressRoutes";
 import { Subscriber, RPCServer } from "../transport";
 
@@ -24,9 +24,9 @@ export class MainApp implements App {
         this._rpcServers = rpcServers;
     }
 
-    setup(setupComponents: SetupComponent[]) {
-        for (let setup of setupComponents) {
-            setup();
+    setup(components: Comp[]) {
+        for (let component of components) {
+            component.setup();
         }
     }
 

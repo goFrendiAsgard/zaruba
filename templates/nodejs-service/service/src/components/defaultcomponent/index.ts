@@ -1,15 +1,17 @@
 import { Express } from "express";
 import { Config } from "../../config";
+import { Comp } from "../../core";
 
-export function createSetup(config: Config, router: Express): () => void {
-    return () => {
-        const serviceName = config.serviceName;
+export class Component implements Comp {
+    constructor(private config: Config, private router: Express) { }
 
-        router.all("/", (_, res) => {
+    setup() {
+        const serviceName = this.config.serviceName;
+
+        this.router.all("/", (_, res) => {
             res.send({
                 service_name: serviceName,
             });
         });
-
     }
 }

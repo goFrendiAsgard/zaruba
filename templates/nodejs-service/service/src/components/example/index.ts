@@ -1,26 +1,16 @@
 import { Express } from "express";
 import { Message, Publisher, Subscriber, RPCServer, RPCClient } from "../../transport";
+import { Comp } from "../../core";
 import { Config } from "../../config";
 import { getName } from "./helpers";
 import { greet, greetEveryone } from "./services";
 
-export class Component {
-    private config: Config;
-    private router: Express;
-    private publisher: Publisher;
-    private subscriber: Subscriber;
-    private rpcServer: RPCServer;
-    private rpcClient: RPCClient;
+export class Component implements Comp {
+
     private names: string[];
 
-    constructor(config: Config, router: Express, publisher: Publisher, subscriber: Subscriber, rpcServer: RPCServer, rpcClient: RPCClient) {
+    constructor(private config: Config, private router: Express, private publisher: Publisher, private subscriber: Subscriber, private rpcServer: RPCServer, private rpcClient: RPCClient) {
         this.names = [];
-        this.config = config;
-        this.router = router;
-        this.publisher = publisher;
-        this.subscriber = subscriber;
-        this.rpcServer = rpcServer;
-        this.rpcClient = rpcClient;
     }
 
     setup() {
