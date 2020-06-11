@@ -44,10 +44,10 @@ def main():
 
     # app setup
     app.setup([
-        defaultComponent.create_setup(config, router),
-        monitoring.create_setup(config, app, router),
+        defaultComponent.Component(config, router),
+        monitoring.Component(config, app, router),
         example.Component(
-            config, router, publisher, subscriber, rpc_server, rpc_client).setup
+            config, router, publisher, subscriber, rpc_server, rpc_client)
     ])
     link_rmq_status_to_app(
         app, [rpc_server_connection, subscriber_connection, client_connection])

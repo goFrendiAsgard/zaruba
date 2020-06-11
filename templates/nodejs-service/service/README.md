@@ -107,11 +107,9 @@ async function main() {
 
     // app setup
     app.setup([
-        defaultComponent.createSetup(config, router), // setup default
-        monitoring.createSetup(config, app, router), // setup monitoring
-        createSetup(new example.Component(
-            config, router, publisher, subscriber, rpcServer, rpcClient)
-        ), // setup example
+        new defaultComponent.Component(config, router), // setup default
+        new monitoring.Component(config, app, router), // setup monitoring
+        new example.Component(config, router, publisher, subscriber, rpcServer, rpcClient), // setup example
     ]);
 
     // app execution
@@ -125,17 +123,19 @@ async function main() {
 
 # Components
 
-All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a function with no parameter and return nothing. However, there is no limitation to produce the function. You can use wrapper-function and utilize closure, expose object's method, etc.
+All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a class with `setup` method.
 
 For example, our `monitoring` component need `config`, `app`, and `router`. Thus we utilize closure to inject those components:
 
 ```typescript
-export function createSetup(config: Config, app: App, router: Express): () => void {
-    return () => {
-        const serviceName = config.serviceName;
+export class Component implements Comp {
+    constructor(private config: Config, private app: App, private router: Express) { }
 
-        router.get("/liveness", (_, res) => {
-            const liveness = app.liveness();
+    setup() {
+        const serviceName = this.config.serviceName;
+
+        this.router.get("/liveness", (_, res) => {
+            const liveness = this.app.liveness();
             const httpCode = liveness ? 200 : 500;
             res.status(httpCode).send({
                 service_name: serviceName,
@@ -143,15 +143,14 @@ export function createSetup(config: Config, app: App, router: Express): () => vo
             });
         });
 
-        router.get("/readiness", (_, res) => {
-            const readiness = app.readiness();
+        this.router.get("/readiness", (_, res) => {
+            const readiness = this.app.readiness();
             const httpCode = readiness ? 200 : 500;
             res.status(httpCode).send({
                 service_name: serviceName,
                 is_ready: readiness,
             });
         });
-
     }
 }
 ```
@@ -161,7 +160,7 @@ The returned function is then used on `app setup`:
 ```typescript
 app.setup([
 	// ...
-	monitoring.createSetup(config, app, router), // setup monitoring
+	monitoring.Component(config, app, router), // setup monitoring
 	// ...
 ]);
 ```

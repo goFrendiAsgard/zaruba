@@ -115,11 +115,13 @@ def main():
 
     # app setup
     app.setup([
-        defaultComponent.create_setup(config, router),
-        monitoring.create_setup(config, app, router),
+        defaultComponent.Component(config, router),
+        monitoring.Component(config, app, router),
         example.Component(
-            config, router, publisher, subscriber, rpc_server, rpc_client).setup
+            config, router, publisher, subscriber, rpc_server, rpc_client)
     ])
+    link_rmq_status_to_app(
+        app, [rpc_server_connection, subscriber_connection, client_connection])
 
     # app execution
     app.run()
@@ -131,32 +133,37 @@ def main():
 
 # Components
 
-All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a function with no parameter and return nothing. However, there is no limitation to produce the function. You can use wrapper-function and utilize closure, expose object's method, etc.
+All components should be location on `component` directory. To expose a component and put them on `app setup`, you should provide a class with `setup` method.
 
 For example, our `monitoring` component need `config`, `app`, and `router`. Thus we utilize closure to inject those components:
 
 ```python
-def create_setup(config: Config, app: App, router: Flask) -> Callable[[], None]:
-    def setup():
-        service_name = config.service_name
+class Component(Comp):
 
-        @router.route("/liveness", methods=["GET"])
+    def __init__(self, config: Config, app: App, router: Flask):
+        self.config = config
+        self.app = app
+        self.router = router
+
+    def setup(self):
+        service_name = self.config.service_name
+
+        @self.router.route("/liveness", methods=["GET"])
         def liveness():
-            liveness = app.liveness()
+            liveness = self.app.liveness()
             http_code = 200 if liveness else 500
             json_response = json.dumps(
                 {"service_name": service_name, "is_alive": liveness})
             return Response(json_response, status=http_code, mimetype="application/json")
 
-        @router.route("/readiness", methods=["GET"])
+        @self.router.route("/readiness", methods=["GET"])
         def readiness():
-            readiness = app.readiness()
+            readiness = self.app.readiness()
             http_code = 200 if readiness else 500
             json_response = json.dumps(
                 {"service_name": service_name, "is_ready": readiness})
             return Response(json_response, status=http_code, mimetype="application/json")
 
-    return setup
 ```
 
 The returned function is then used on `app setup`:
@@ -164,7 +171,7 @@ The returned function is then used on `app setup`:
 ```python
  app.setup([
 	# ...
-	monitoring.create_setup(config, app, router),
+	monitoring.Component(config, app, router),
 	# ...
 ])
 ```

@@ -10,6 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Component implementation
+type Component struct {
+	config     *config.Config
+	router     *gin.Engine
+	publisher  transport.Publisher
+	subscriber transport.Subscriber
+	rpcServer  transport.RPCServer
+	rpcClient  transport.RPCClient
+	names      []string
+}
+
 // CreateComponent create component
 func CreateComponent(config *config.Config, router *gin.Engine, publisher transport.Publisher, subscriber transport.Subscriber, rpcServer transport.RPCServer, rpcClient transport.RPCClient) *Component {
 	return &Component{
@@ -21,17 +32,6 @@ func CreateComponent(config *config.Config, router *gin.Engine, publisher transp
 		config:     config,
 		names:      []string{},
 	}
-}
-
-// Component implementation
-type Component struct {
-	config     *config.Config
-	router     *gin.Engine
-	publisher  transport.Publisher
-	subscriber transport.Subscriber
-	rpcServer  transport.RPCServer
-	rpcClient  transport.RPCClient
-	names      []string
 }
 
 // Setup component

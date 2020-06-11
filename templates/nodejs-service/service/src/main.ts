@@ -1,6 +1,6 @@
 import amqplib from "amqplib";
 import { Config } from "./config";
-import { MainApp, createSetup, createRouter } from "./core";
+import { MainApp, createRouter } from "./core";
 import { RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient } from "./transport";
 
 import * as defaultComponent from "./components/defaultcomponent";
@@ -31,11 +31,9 @@ async function main() {
 
     // app setup
     app.setup([
-        defaultComponent.createSetup(config, router), // setup default
-        monitoring.createSetup(config, app, router), // setup monitoring
-        createSetup(new example.Component(
-            config, router, publisher, subscriber, rpcServer, rpcClient)
-        ), // setup example
+        new defaultComponent.Component(config, router), // setup default
+        new monitoring.Component(config, app, router), // setup monitoring
+        new example.Component(config, router, publisher, subscriber, rpcServer, rpcClient), // setup example
     ]);
 
     // app execution

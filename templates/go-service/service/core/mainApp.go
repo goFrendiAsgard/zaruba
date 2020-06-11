@@ -23,9 +23,9 @@ type mainApp struct {
 }
 
 // Setup application
-func (app *mainApp) Setup(setupComponents []SetupComponent) {
-	for _, setup := range setupComponents {
-		setup()
+func (app *mainApp) Setup(components []Comp) {
+	for _, component := range components {
+		component.Setup()
 	}
 }
 

@@ -1,4 +1,3 @@
-export { App, SetupComponent } from "./interfaces";
+export { App, Comp } from "./interfaces";
 export { MainApp } from "./mainApp";
-export { createSetup } from "./createSetup";
 export { createRouter } from "./createRouter";
