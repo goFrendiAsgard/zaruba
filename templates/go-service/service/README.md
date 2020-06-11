@@ -86,7 +86,6 @@ App initialization contains of 4 steps:
 Below is how everything looks like in `main.go`:
 
 ```go
-
 func main() {
 
 	// app component definitions
@@ -113,12 +112,12 @@ func main() {
 	)
 
 	// app setup
-	app.Setup([]core.SetupComponent{
-		defaultcomponent.CreateSetup(config, router), // setup landingPage
-		monitoring.CreateSetup(config, app, router),  // setup monitoring
+	app.Setup([]core.Comp{
+		defaultcomponent.CreateComponent(config, router), // setup landingPage
+		monitoring.CreateComponent(config, app, router),  // setup monitoring
 		example.CreateComponent(
 			config, router, publisher, subscriber, rpcServer, rpcClient,
-		).Setup, // setup example
+		), // setup example
 	})
 
 	// app execution
@@ -136,30 +135,44 @@ All components should be location on `component` directory. To expose a componen
 For example, our `monitoring` component need `config`, `app`, and `router`. Thus we utilize closure to inject those components:
 
 ```go
-// CreateSetup factory to create SetupComponent
-func CreateSetup(config *config.Config, app core.App, router *gin.Engine) core.SetupComponent {
-	return func() {
-		serviceName := config.ServiceName
+// Component component definition
+type Component struct {
+	config *config.Config
+	app    core.App
+	router *gin.Engine
+}
 
-		router.GET("/liveness", func(c *gin.Context) {
-			liveness := app.Liveness()
-			// send response
-			c.JSON(getHTTPCodeByStatus(liveness), gin.H{
-				"service_name": serviceName,
-				"is_alive":     liveness,
-			})
-		})
-
-		router.GET("/readiness", func(c *gin.Context) {
-			readiness := app.Readiness()
-			// send response
-			c.JSON(getHTTPCodeByStatus(readiness), gin.H{
-				"service_name": serviceName,
-				"is_ready":     readiness,
-			})
-		})
-
+// CreateComponent create new component
+func CreateComponent(config *config.Config, app core.App, router *gin.Engine) *Component {
+	return &Component{
+		config: config,
+		app:    app,
+		router: router,
 	}
+}
+
+// Setup component
+func (comp *Component) Setup() {
+	serviceName := comp.config.ServiceName
+
+	comp.router.GET("/liveness", func(c *gin.Context) {
+		liveness := comp.app.Liveness()
+		// send response
+		c.JSON(getHTTPCodeByStatus(liveness), gin.H{
+			"service_name": serviceName,
+			"is_alive":     liveness,
+		})
+	})
+
+	comp.router.GET("/readiness", func(c *gin.Context) {
+		readiness := comp.app.Readiness()
+		// send response
+		c.JSON(getHTTPCodeByStatus(readiness), gin.H{
+			"service_name": serviceName,
+			"is_ready":     readiness,
+		})
+	})
+
 }
 ```
 
@@ -168,7 +181,7 @@ The returned function is then used on `app setup`:
 ```go
 app.Setup([]core.SetupComponent{
 	// ...
-	monitoring.CreateSetup(config, app, router),  // setup monitoring
+	monitoring.CreateComponent(config, app, router),  // setup monitoring
 	// ...
 })
 ```

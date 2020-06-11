@@ -40,12 +40,12 @@ func main() {
 	)
 
 	// app setup
-	app.Setup([]core.SetupComponent{
-		defaultcomponent.CreateSetup(config, router), // setup landingPage
-		monitoring.CreateSetup(config, app, router),  // setup monitoring
+	app.Setup([]core.Comp{
+		defaultcomponent.CreateComponent(config, router), // setup landingPage
+		monitoring.CreateComponent(config, app, router),  // setup monitoring
 		example.CreateComponent(
 			config, router, publisher, subscriber, rpcServer, rpcClient,
-		).Setup, // setup example
+		), // setup example
 	})
 
 	// app execution
