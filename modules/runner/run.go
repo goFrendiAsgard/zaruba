@@ -52,7 +52,7 @@ type Runner struct {
 	componentsToRun    map[string]*config.Component
 	executionOrder     []string
 	loggerFileLock     *sync.RWMutex
-	loggerFile         *os.File
+	logWriter          *csv.Writer
 }
 
 // CreateRunner create runner
@@ -121,7 +121,7 @@ func (r *Runner) Run(projectDir string, stopChan, executedChan chan bool, errCha
 		return
 	}
 	logger.Info(runSuccessBanner, strings.Join(r.executionOrder, ", "))
-	if r.componentsToRunAreCommand() {
+	if r.isNoServiceComponentRunning() {
 		r.killAllAndSendError(errChan, nil)
 		return
 	}
@@ -133,7 +133,11 @@ func (r *Runner) createLogFile(projectDir string) (err error) {
 	sessionName := fmt.Sprintf("%s-%s", r.p.GetName(), timeLabel)
 	logDir := filepath.Join(projectDir, ".logs")
 	os.MkdirAll(logDir, os.ModePerm|os.ModeDir)
-	r.loggerFile, err = os.Create(filepath.Join(logDir, fmt.Sprintf("%s.log.csv", sessionName)))
+	loggerFile, err := os.Create(filepath.Join(logDir, fmt.Sprintf("%s.log.csv", sessionName)))
+	if err != nil {
+		return err
+	}
+	r.logWriter = csv.NewWriter(loggerFile)
 	return err
 }
 
@@ -173,7 +177,7 @@ func (r *Runner) killAllAndSendError(errChan chan error, err error) {
 	errChan <- err
 }
 
-func (r *Runner) componentsToRunAreCommand() (isAllCommand bool) {
+func (r *Runner) isNoServiceComponentRunning() (isAllCommand bool) {
 	isAllCommand = true
 	for _, component := range r.componentsToRun {
 		if component.GetType() != "command" {
@@ -365,14 +369,11 @@ func (r *Runner) logComponent(component *config.Component, prefix string, readCl
 	for buf.Scan() {
 		bufText := buf.Text()
 		log.Printf("\033[%dm%s - %s\033[0m  %s", color, prefix, runtimeName, bufText)
-		go func() {
-			timeLabel := time.Now().Local().Format("2006-01-02:15:04:05:06:07")
-			r.loggerFileLock.Lock()
-			defer r.loggerFileLock.Unlock()
-			csvWriter := csv.NewWriter(r.loggerFile)
-			csvWriter.Write([]string{timeLabel, name, prefix, bufText})
-			csvWriter.Flush()
-		}()
+		timeLabel := time.Now().Local().Format("2006-01-02:15:04:05:06:07")
+		r.loggerFileLock.Lock()
+		r.logWriter.Write([]string{timeLabel, name, prefix, bufText})
+		r.logWriter.Flush()
+		r.loggerFileLock.Unlock()
 	}
 	if err := buf.Err(); err != nil {
 		logger.Error("%s: %s", name, err)
