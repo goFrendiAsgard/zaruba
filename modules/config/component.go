@@ -279,6 +279,7 @@ func (c *Component) GetVenv() (venv *VirtualEnv) {
 	defer c.venvLock.Unlock()
 	if c.venv == nil {
 		c.venv = CreateVirtualEnv()
+		c.venv.Add("PYTHONUNBUFFERED", "1")
 		for otherServiceName, otherComponent := range c.project.components {
 			if otherComponentType := otherComponent.GetType(); otherComponentType != "service" && otherComponentType != "container" {
 				continue
