@@ -142,7 +142,7 @@ func (r *Runner) createLogFile(projectDir string) (err error) {
 }
 
 func (r *Runner) monitorReadinessAfterExecution(errChan chan error) {
-	time.Sleep(180 * time.Second)
+	time.Sleep(time.Minute)
 	for true {
 		for _, componentName := range r.executionOrder {
 			if r.isStopped() {
@@ -162,7 +162,7 @@ func (r *Runner) monitorReadinessAfterExecution(errChan chan error) {
 				logger.Info("👍 %s %s is ready", symbol, componentName)
 			}
 		}
-		time.Sleep(180 * time.Second)
+		time.Sleep(time.Minute)
 	}
 }
 

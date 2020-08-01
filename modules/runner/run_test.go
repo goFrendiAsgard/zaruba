@@ -71,6 +71,8 @@ func TestRun(t *testing.T) {
 		testRequest(t, port, "hello-all", "Hello Dono, and everyone")
 	}
 
+	time.Sleep(70 * time.Second)
+
 	// test done
 	stopChan <- true
 

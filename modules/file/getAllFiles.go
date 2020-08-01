@@ -19,18 +19,11 @@ type resultOfGetFile struct {
 	fileNames []string
 }
 
-func createResultOfGetFile(err error, fileNames []string) resultOfGetFile {
-	return resultOfGetFile{
-		err:       err,
-		fileNames: fileNames,
-	}
-}
-
 func getAllFiles(dir string, option *Option, resultChan chan resultOfGetFile) {
 	fileNames := []string{dir}
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
-		resultChan <- createResultOfGetFile(err, fileNames)
+		resultChan <- resultOfGetFile{err: err, fileNames: fileNames}
 		return
 	}
 	// recursive
@@ -60,10 +53,10 @@ func getAllFiles(dir string, option *Option, resultChan chan resultOfGetFile) {
 		subResult := <-subResultChan
 		err = subResult.err
 		if err != nil {
-			resultChan <- createResultOfGetFile(err, fileNames)
+			resultChan <- resultOfGetFile{err: err, fileNames: fileNames}
 			return
 		}
 		fileNames = append(fileNames, subResult.fileNames...)
 	}
-	resultChan <- createResultOfGetFile(err, fileNames)
+	resultChan <- resultOfGetFile{err: err, fileNames: fileNames}
 }

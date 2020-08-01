@@ -41,34 +41,44 @@ func TestLoadProjectConfig(t *testing.T) {
 
 	// get component by labels: scenario:test
 	selectors := []string{"scenario:test"}
-	components := p.GetComponentsByLabels(selectors)
+	components, err := p.GetComponentsBySelectors(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test"})
 
 	// get component by labels: language:go
 	selectors = []string{"language:go"}
-	components = p.GetComponentsByLabels(selectors)
+	components, err = p.GetComponentsBySelectors(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test", "gopher1", "gopher2"})
 
 	// get component by labels: scenario:integration-test
 	selectors = []string{"scenario:integration-test"}
-	components = p.GetComponentsByLabels(selectors)
+	components, err = p.GetComponentsBySelectors(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test"})
 
 	// get component by labels: scenario:end-to-end-test
 	selectors = []string{"scenario:end-to-end-test"}
-	components = p.GetComponentsByLabels(selectors)
+	components, err = p.GetComponentsBySelectors(selectors)
 	testComponentsExist(t, selectors, components, []string{"gopher1-test"})
 
 	// get component by names or labels
 	selectors = []string{"scenario:test", "rmq"}
-	components, err = p.GetComponentsByNamesOrLabels(selectors)
+	components, err = p.GetComponentsBySelectors(selectors)
 	if err != nil {
 		t.Errorf("[ERROR] Cannot get component language:go")
 	}
 	testComponentsExist(t, selectors, components, []string{"gopher1-test", "gopher2-test", "rmq"})
 
-	testGopher1Component(t, gopher1)
-	testRmqComponent(t, rmq)
+	// test each component
+	testGopher1Component(t, testPath, gopher1)
+	testRmqComponent(t, testPath, rmq)
+
+	// test sortedLinkSource
+	sortedLinkSources := p.GetSortedLinkSources()
+	expectedSortedLinkSources := []string{"/tmp/zaruba-test/testProjectConfig/libraries/go/transport"}
+	for index, source := range expectedSortedLinkSources {
+		if source != sortedLinkSources[index] {
+			t.Errorf("[UNEXPECTED] sortedLinkSource[%d] should be `%s`, get `%s`", index, source, sortedLinkSources[index])
+		}
+	}
 
 	// test cascaded config
 	expected := filepath.Join(testPath, "./services/gopher1")
@@ -94,7 +104,7 @@ func TestLoadProjectConfig(t *testing.T) {
 
 }
 
-func testGopher1Component(t *testing.T, gopher1 *Component) {
+func testGopher1Component(t *testing.T, testPath string, gopher1 *Component) {
 	// check gopher1's properties
 	if gopher1.GetName() != "gopher1" {
 		t.Errorf("[UNEXPECTED] gopher1's name should be `gopher1`, but it contains `%s`", gopher1.GetName())
@@ -104,6 +114,11 @@ func testGopher1Component(t *testing.T, gopher1 *Component) {
 	}
 	if gopher1.GetRuntimeSymbol() == "" {
 		t.Errorf("[UNEXPECTED] gopher1's runtimeSymbol should not be empty, but it contains `%s`", gopher1.GetRuntimeSymbol())
+	}
+	// expected runtimeLocation
+	expectedRuntimeLocation := filepath.Join(testPath, "./services/gopher1")
+	if gopher1.GetRuntimeLocation() != expectedRuntimeLocation {
+		t.Errorf("[UNEXPECTED] gopher1's runtimeLocation should not be `%s`, but it contains `%s`", expectedRuntimeLocation, gopher1.GetRuntimeLocation())
 	}
 	if gopher1.GetColor() == 0 {
 		t.Errorf("[UNEXPECTED] gopher1's color should be `0`, but it contains `%d`", gopher1.GetColor())
@@ -117,15 +132,16 @@ func testGopher1Component(t *testing.T, gopher1 *Component) {
 	if gopher1.GetRuntimeCommand() != gopher1.GetStartCommand() {
 		t.Errorf("[UNEXPECTED] gopher1's runtime command should be `%s`, but it contains `%s`", gopher1.GetStartCommand(), gopher1.GetRuntimeCommand())
 	}
+	if len(gopher1.GetRuntimeName()) < 12 {
+		t.Errorf("[UNEXPECTED] gopher1's runtimeReadinessURL should be at least 12 character, but it contains `%s`", gopher1.GetRuntimeName())
+	}
 	// test component runtime environment
 	expectedEnv := map[string]string{
 		"GOPHER1_HTTP_PORT": "3011",
 		"GOPHER2_HTTP_PORT": "3012",
-		"RMQ_HOST":          "0.0.0.0",
-		"RMQ_PASSWORD":      "toor",
-		"RMQ_PORT":          "5672",
+		"RMQ_PASS":          "toor",
+		"RMQ_PORT":          "5772",
 		"RMQ_USER":          "root",
-		"RMQ_VHOST":         "/",
 		"gopher1":           "0.0.0.0",
 		"gopher2":           "0.0.0.0",
 		"rmq":               "0.0.0.0",
@@ -138,12 +154,32 @@ func testGopher1Component(t *testing.T, gopher1 *Component) {
 	}
 }
 
-func testRmqComponent(t *testing.T, rmq *Component) {
+func testRmqComponent(t *testing.T, testPath string, rmq *Component) {
 	if rmq.GetStartCommand() != "" {
 		t.Errorf("[UNEXPECTED] rmq's start command should be ``, but it contains `%s`", rmq.GetStartCommand())
 	}
 	if rmq.GetRuntimeCommand() == "" {
 		t.Errorf("[UNEXPECTED] rmq's runtime run command should not be empty, but it contains `%s`", rmq.GetRuntimeCommand())
+	}
+	if rmq.GetRuntimeSymbol() != "🐇" {
+		t.Errorf("[UNEXPECTED] rmq's runtimeSymbol should be `🐇`, but it contains `%s`", rmq.GetRuntimeSymbol())
+	}
+	// expected runtimeLocation
+	expectedRuntimeLocation := testPath
+	if rmq.GetRuntimeLocation() != expectedRuntimeLocation {
+		t.Errorf("[UNEXPECTED] gopher1's runtimeLocation should not be `%s`, but it contains `%s`", expectedRuntimeLocation, rmq.GetRuntimeLocation())
+	}
+	if rmq.GetReadinessURL() != "http://${rmq}:${RMQ_API_PORT}" {
+		t.Errorf("[UNEXPECTED] rmq's readinessURL should be `http://${rmq}:${RMQ_API_PORT}`, but it contains `%s`", rmq.GetReadinessURL())
+	}
+	if rmq.GetRuntimeReadinessURL() != "http://0.0.0.0:15772" {
+		t.Errorf("[UNEXPECTED] rmq's runtimeReadinessURL should be `http://0.0.0.0:15772`, but it contains `%s`", rmq.GetRuntimeReadinessURL())
+	}
+	if len(rmq.GetRuntimeName()) < 12 {
+		t.Errorf("[UNEXPECTED] rmq's runtimeReadinessURL should be at least 12 character, but it contains `%s`", rmq.GetRuntimeName())
+	}
+	if rmq.GetRuntimeReadinessCheckCommand() != "if [ $(docker inspect -f '{{.State.Running}}' \"testProjectConfig-rmq\") = true ]; then echo ok; else echo notOk 1>&2; fi;" {
+		t.Errorf("[UNEXPECTED] rmq's runtimeCheckCommand should be `if [ $(docker inspect -f '{{.State.Running}}' \"testProjectConfig-rmq\") = true ]; then echo ok; else echo notOk 1>&2; fi;`, but it contains `%s`", rmq.GetRuntimeReadinessCheckCommand())
 	}
 }
 
