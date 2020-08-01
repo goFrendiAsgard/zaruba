@@ -8,5 +8,5 @@ import (
 // SubtreeAdd git subtree add
 func SubtreeAdd(projectDir, prefix, origin, branch string) (err error) {
 	logger.Info("Git subtree add `%s` with prefix `%s` and branch `%s`", origin, prefix, branch)
-	return command.RunAndRedirect(projectDir, "git", "subtree", "add", "--prefix="+prefix, origin, branch)
+	return command.RunInteractively(projectDir, "git", "subtree", "add", "--prefix="+prefix, origin, branch)
 }

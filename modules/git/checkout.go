@@ -9,7 +9,7 @@ import (
 func Checkout(projectDir, branchName string, newBranch bool) (err error) {
 	logger.Info("Git checkout to `%s`", branchName)
 	if newBranch {
-		return command.RunAndRedirect(projectDir, "git", "checkout", "-b", branchName)
+		return command.RunInteractively(projectDir, "git", "checkout", "-b", branchName)
 	}
-	return command.RunAndRedirect(projectDir, "git", "checkout", branchName)
+	return command.RunInteractively(projectDir, "git", "checkout", branchName)
 }

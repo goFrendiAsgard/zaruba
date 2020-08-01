@@ -13,7 +13,7 @@ func StopContainers(projectDir string, p *config.ProjectConfig) (err error) {
 			continue
 		}
 		logger.Info("🛑 Stop %s container", componentName)
-		_, err = command.RunSilently(projectDir, "docker", "stop", component.GetRuntimeContainerName())
+		_, err = command.RunAndReturn(projectDir, "docker", "stop", component.GetRuntimeContainerName())
 		if err != nil {
 			logger.Error("Cannot stop container %s: %s", componentName, err)
 		}

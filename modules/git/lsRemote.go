@@ -8,5 +8,5 @@ import (
 // LsRemote perform ls remote, return error if failed
 func LsRemote(projectDir, gitURL string) (output string, err error) {
 	logger.Info("Git ls-remote `%s`", gitURL)
-	return command.Run(projectDir, "git", "ls-remote", "-h", gitURL)
+	return command.RunAndReturn(projectDir, "git", "ls-remote", "-h", gitURL)
 }

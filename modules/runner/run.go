@@ -303,16 +303,7 @@ func (r *Runner) checkServiceOrContainerReadiness(component *config.Component, s
 	if shouldLog {
 		logger.Info("Checking readines of %s: %s", componentName, runtimeReadinessCheckCommand)
 	}
-	cmd, err := command.GetShellCmd(runtimeLocation, runtimeReadinessCheckCommand)
-	if err != nil {
-		return err
-	}
-	cmd.Env = runtimeEnv
-	if shouldLog {
-		_, err = command.RunCmd(cmd)
-		return err
-	}
-	_, err = command.RunCmdSilently(cmd)
+	_, err = command.RunShellScriptAndReturn(runtimeLocation, runtimeReadinessCheckCommand, runtimeEnv)
 	return err
 }
 

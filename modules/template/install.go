@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/command"
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/logger"
@@ -17,7 +16,7 @@ func Install(gitURL, newTemplateName string) (err error) {
 	templateDir := filepath.Join(baseTemplateDir, newTemplateName)
 	logger.Info("☀️ Install template from `%s` to `%s`", gitURL, templateDir)
 	// run git clone
-	if err = command.RunAndRedirect(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
+	if err = command.RunInteractively(baseTemplateDir, "git", "clone", gitURL, newTemplateName, "--depth=1"); err != nil {
 		return err
 	}
 	// install-template should be exists
@@ -36,14 +35,7 @@ func Install(gitURL, newTemplateName string) (err error) {
 	os.Chmod(filepath.Join(templateDir, "install-template.zaruba"), 0555)
 	os.Chmod(filepath.Join(templateDir, "create-component.zaruba"), 0555)
 	// run install
-	return action.Do(
-		"install-template",
-		action.CreateOption().
-			SetScriptDir(templateDir).
-			SetWorkDir(templateDir).
-			SetIsRecursiveWorkDir(false),
-		templateDir,
-	)
+	return command.RunInteractively(templateDir, filepath.Join(templateDir, "install-template.zaruba"))
 }
 
 func isScriptExists(templateDir, actionName string) (exist bool) {

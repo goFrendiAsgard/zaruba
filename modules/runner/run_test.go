@@ -21,14 +21,6 @@ func TestRun(t *testing.T) {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return
 	}
-	if err := component.Create("mysql", testPath); err != nil {
-		t.Errorf("[ERROR] Cannot create component: %s", err)
-		return
-	}
-	if err := component.Create("redis", testPath); err != nil {
-		t.Errorf("[ERROR] Cannot create component: %s", err)
-		return
-	}
 	if err := component.Create("go-service", testPath, "alpha"); err != nil {
 		t.Errorf("[ERROR] Cannot create component: %s", err)
 		return

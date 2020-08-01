@@ -8,5 +8,5 @@ import (
 // Init init git
 func Init(projectDir string) (err error) {
 	logger.Info("Git Init on `%s`", projectDir)
-	return command.RunAndRedirect(projectDir, "git", "init")
+	return command.RunInteractively(projectDir, "git", "init")
 }

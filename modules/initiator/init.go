@@ -43,7 +43,7 @@ func Init(projectDir string, p *config.ProjectConfig) (err error) {
 	}
 	for componentName, subrepoPrefix := range validSubrepoPrefixMap {
 		if err = gitProcessSubtree(p, projectDir, branchName, componentName, subrepoPrefix); err != nil {
-			command.RunAndRedirect(projectDir, "git", "remote", "remove", componentName)
+			command.RunInteractively(projectDir, "git", "remote", "remove", componentName)
 			logger.Error("%s", err)
 			break
 		}
@@ -70,7 +70,7 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, branchName, componen
 		return err
 	}
 	// add remote
-	if err = command.RunAndRedirect(projectDir, "git", "remote", "add", componentName, origin); err != nil {
+	if err = command.RunInteractively(projectDir, "git", "remote", "add", componentName, origin); err != nil {
 		restore(backupLocation, location)
 		return err
 	}
@@ -82,11 +82,11 @@ func gitProcessSubtree(p *config.ProjectConfig, projectDir, branchName, componen
 		return err
 	}
 	// fetch
-	if err = command.RunAndRedirect(projectDir, "git", "fetch", componentName, branchName); err != nil {
+	if err = command.RunInteractively(projectDir, "git", "fetch", componentName, branchName); err != nil {
 		restore(backupLocation, location)
 		return err
 	}
-	if err = command.RunAndRedirect(projectDir, "git", "pull", componentName, branchName); err != nil {
+	if err = command.RunInteractively(projectDir, "git", "pull", componentName, branchName); err != nil {
 		restore(backupLocation, location)
 		return err
 	}

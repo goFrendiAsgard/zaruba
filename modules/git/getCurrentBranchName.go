@@ -10,7 +10,7 @@ import (
 // GetCurrentBranchName get current branch name
 func GetCurrentBranchName(projectDir string) (branchName string, err error) {
 	logger.Info("Get current git branch")
-	output, err := command.Run(projectDir, "git", "rev-parse", "--abbrev-ref", "HEAD")
+	output, err := command.RunAndReturn(projectDir, "git", "rev-parse", "--abbrev-ref", "HEAD")
 	if err != nil {
 		return branchName, err
 	}

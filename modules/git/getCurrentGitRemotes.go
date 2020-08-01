@@ -10,7 +10,7 @@ import (
 // GetCurrentGitRemotes get remotes of current projectDir
 func GetCurrentGitRemotes(projectDir string) (currentGitRemotes []string, err error) {
 	logger.Info("Get current git remotes")
-	output, err := command.Run(projectDir, "git", "remote")
+	output, err := command.RunAndReturn(projectDir, "git", "remote")
 	if err != nil {
 		return currentGitRemotes, err
 	}

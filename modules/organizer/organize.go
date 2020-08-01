@@ -1,7 +1,6 @@
 package organizer
 
 import (
-	"github.com/state-alchemists/zaruba/modules/action"
 	"github.com/state-alchemists/zaruba/modules/config"
 	"github.com/state-alchemists/zaruba/modules/file"
 	"github.com/state-alchemists/zaruba/modules/logger"
@@ -11,21 +10,7 @@ import (
 func Organize(projectDir string, p *config.ProjectConfig, arguments ...string) (err error) {
 	sortedLinkSources := p.GetSortedLinkSources()
 	links := p.GetLinks()
-	ignores := p.GetIgnores()
 	arguments = append([]string{projectDir}, arguments...)
-	// pre-organize
-	err = action.Do(
-		"organize",
-		action.CreateOption().
-			SetWorkDir(projectDir).
-			SetIsPerformAction(false).
-			SetIsPerformPost(false).
-			SetIgnores(ignores),
-		arguments...,
-	)
-	if err != nil {
-		return err
-	}
 	// copy
 	for _, source := range sortedLinkSources {
 		destinationList := links[source]
@@ -34,15 +19,7 @@ func Organize(projectDir string, p *config.ProjectConfig, arguments ...string) (
 			return err
 		}
 	}
-	// organize and post-organize
-	return action.Do(
-		"organize",
-		action.CreateOption().
-			SetWorkDir(projectDir).
-			SetIsPerformPre(false).
-			SetIgnores(ignores),
-		arguments...,
-	)
+	return err
 }
 
 func copyLinks(source string, destinationList []string) (err error) {

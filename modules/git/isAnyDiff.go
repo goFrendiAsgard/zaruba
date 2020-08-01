@@ -10,7 +10,7 @@ import (
 // IsAnyDiff get whether there is diff or not
 func IsAnyDiff(projectDir string) bool {
 	logger.Info("Get diff")
-	output, err := command.Run(projectDir, "git", "--no-pager", "diff", "HEAD")
+	output, err := command.RunAndReturn(projectDir, "git", "--no-pager", "diff", "HEAD")
 	if err != nil {
 		return false
 	}

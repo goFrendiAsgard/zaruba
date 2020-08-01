@@ -10,8 +10,8 @@ import (
 	"github.com/state-alchemists/zaruba/modules/logger"
 )
 
-// GetCmd get cmd object
-func GetCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
+// getCmd get cmd object
+func getCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
 	cmd = exec.Command(command, args...)
 	cmd.Env = os.Environ()
 	cmd.Dir, err = filepath.Abs(dir)
@@ -22,11 +22,12 @@ func GetCmd(dir, command string, args ...string) (cmd *exec.Cmd, err error) {
 func GetShellCmd(dir, script string) (cmd *exec.Cmd, err error) {
 	shell, shellArg := config.GetShellAndShellArg()
 	args := []string{shellArg, script}
-	return GetCmd(dir, shell, args...)
+	return getCmd(dir, shell, args...)
 }
 
-// RunCmdSilently run cmd object
-func RunCmdSilently(cmd *exec.Cmd) (output string, err error) {
+// RunCmdAndReturnOutput run cmd object
+func RunCmdAndReturnOutput(cmd *exec.Cmd) (output string, err error) {
+	logger.Info("[%s] %s", cmd.Dir, strings.Join(cmd.Args, " "))
 	outputB, err := cmd.Output()
 	if err != nil {
 		return output, err
@@ -35,66 +36,41 @@ func RunCmdSilently(cmd *exec.Cmd) (output string, err error) {
 	return output, err
 }
 
-// RunCmd run cmd object
-func RunCmd(cmd *exec.Cmd) (output string, err error) {
-	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
-	return RunCmdSilently(cmd)
-}
-
-// Run run command
-func Run(dir, command string, args ...string) (output string, err error) {
-	cmd, err := GetCmd(dir, command, args...)
-	cmd.Stderr = os.Stderr
+// RunShellScriptAndReturn run shell script with custom env
+func RunShellScriptAndReturn(dir, script string, env []string) (output string, err error) {
+	shell, shellArg := config.GetShellAndShellArg()
+	args := []string{shellArg, script}
+	cmd, err := getCmd(dir, shell, args...)
 	if err != nil {
 		return output, err
 	}
-	return RunCmd(cmd)
+	cmd.Stderr = os.Stderr
+	if len(env) > 0 {
+		cmd.Env = env
+	}
+	return RunCmdAndReturnOutput(cmd)
 }
 
-// RunSilently run command
-func RunSilently(dir, command string, args ...string) (output string, err error) {
-	cmd, err := GetCmd(dir, command, args...)
-	cmd.Stderr = os.Stderr
+// RunAndReturn run command
+func RunAndReturn(dir, command string, args ...string) (output string, err error) {
+	cmd, err := getCmd(dir, command, args...)
 	if err != nil {
 		return output, err
 	}
-	return RunCmdSilently(cmd)
-}
-
-// RunScript run script
-func RunScript(dir, script string) (output string, err error) {
-	cmd, err := GetShellCmd(dir, script)
 	cmd.Stderr = os.Stderr
-	if err != nil {
-		return output, err
-	}
-	return RunCmd(cmd)
+	return RunCmdAndReturnOutput(cmd)
 }
 
-// RunCmdAndRedirect run cmd object
-func RunCmdAndRedirect(cmd *exec.Cmd) (err error) {
-	logger.Info("Run `%s` on `%s`", strings.Join(cmd.Args, " "), cmd.Dir)
+// RunInteractively run command
+func RunInteractively(dir, command string, args ...string) (err error) {
+	cmd, err := getCmd(dir, command, args...)
+	if err != nil {
+		return err
+	}
+	logger.Info("[%s] %s", cmd.Dir, strings.Join(cmd.Args, " "))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
 	err = cmd.Run()
 	return err
-}
-
-// RunAndRedirect run command
-func RunAndRedirect(dir, command string, args ...string) (err error) {
-	cmd, err := GetCmd(dir, command, args...)
-	if err != nil {
-		return err
-	}
-	return RunCmdAndRedirect(cmd)
-}
-
-// RunScriptAndRedirect run script
-func RunScriptAndRedirect(dir, script string) (err error) {
-	cmd, err := GetShellCmd(dir, script)
-	if err != nil {
-		return err
-	}
-	return RunCmdAndRedirect(cmd)
 }

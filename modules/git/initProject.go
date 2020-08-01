@@ -81,11 +81,11 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 	// commit
 	Commit(tempDir, fmt.Sprintf("💀 [INIT] First commit for `%s` at %s", componentName, time.Now().Format(time.RFC3339)))
 	// add remote
-	if err = command.RunAndRedirect(tempDir, "git", "remote", "add", "origin", origin); err != nil {
+	if err = command.RunInteractively(tempDir, "git", "remote", "add", "origin", origin); err != nil {
 		return err
 	}
 	// push
-	if err = command.RunAndRedirect(tempDir, "git", "push", "-u", "origin", "master"); err != nil {
+	if err = command.RunInteractively(tempDir, "git", "push", "-u", "origin", "master"); err != nil {
 		return err
 	}
 	return os.RemoveAll(tempDir)
