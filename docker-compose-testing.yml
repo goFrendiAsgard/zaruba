@@ -1,0 +1,21 @@
+version: "3"
+services:
+
+  git-server:
+    container_name: git-server
+    image: jkarlos/git-server-docker
+    ports:
+      - "2222:22"
+  
+  zaruba:
+    container_name: zaruba
+    build: .
+    command: >
+      bash -c "
+      sleep 10
+      && mkdir -p ./ssh
+      && ssh-keygen -t rsa -N '' -f './ssh/id_rsa'
+      && sshpass -p "password" scp -r user@example.com:/some/remote/path /some/local/path
+      && zaruba
+      && make test
+      "
