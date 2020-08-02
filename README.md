@@ -89,6 +89,7 @@ export PATH="$(go env GOPATH)/bin:${PATH}"
 export ZARUBA_SHELL="/bin/bash"
 export ZARUBA_SHELL_ARG="-c"
 export ZARUBA_TEMPLATE_DIR="${HOME}/.zaruba/templates"
+export ZARUBA_DOCKER_HOST="0.0.0.0"
 ```
 
 * `ZARUBA_TEMPLATE_DIR` is the location of your templates. You can install template by performing `zaruba install-template <git-url>`

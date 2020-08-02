@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"path/filepath"
 	"testing"
 
@@ -144,7 +145,7 @@ func testGopher1Component(t *testing.T, testPath string, gopher1 *Component) {
 		"RMQ_USER":          "root",
 		"gopher1":           "0.0.0.0",
 		"gopher2":           "0.0.0.0",
-		"rmq":               "0.0.0.0",
+		"rmq":               GetDockerHost(),
 	}
 	env := gopher1.GetRuntimeEnv()
 	for name, expectedValue := range expectedEnv {
@@ -172,8 +173,9 @@ func testRmqComponent(t *testing.T, testPath string, rmq *Component) {
 	if rmq.GetReadinessURL() != "http://${rmq}:${RMQ_API_PORT}" {
 		t.Errorf("[UNEXPECTED] rmq's readinessURL should be `http://${rmq}:${RMQ_API_PORT}`, but it contains `%s`", rmq.GetReadinessURL())
 	}
-	if rmq.GetRuntimeReadinessURL() != "http://0.0.0.0:15772" {
-		t.Errorf("[UNEXPECTED] rmq's runtimeReadinessURL should be `http://0.0.0.0:15772`, but it contains `%s`", rmq.GetRuntimeReadinessURL())
+	expectedReadinessURL := fmt.Sprintf("http://%s:15772", GetDockerHost())
+	if rmq.GetRuntimeReadinessURL() != expectedReadinessURL {
+		t.Errorf("[UNEXPECTED] rmq's runtimeReadinessURL should be `%s`, but it contains `%s`", expectedReadinessURL, rmq.GetRuntimeReadinessURL())
 	}
 	if len(rmq.GetRuntimeName()) < 12 {
 		t.Errorf("[UNEXPECTED] rmq's runtimeReadinessURL should be at least 12 character, but it contains `%s`", rmq.GetRuntimeName())

@@ -4,18 +4,23 @@ services:
   git-server:
     container_name: git-server
     image: jkarlos/git-server-docker
+    volumes:
+      - "./test-resource/.ssh/id_rsa.pub:/git-server/keys/zaruba.pub"
     ports:
       - "2222:22"
   
   zaruba:
     container_name: zaruba
     build: .
+    environment:
+      - "ZARUBA_TEMPLATE_DIR=/tmp/zaruba-template"
+      - "ZARUBA_TEST_DIR=/tmp/zaruba-test"
+    volumes:
+      - "./test-resource/.ssh:/root/.ssh"
     command: >
       bash -c "
-      sleep 10
-      && mkdir -p ./ssh
-      && ssh-keygen -t rsa -N '' -f './ssh/id_rsa'
-      && sshpass -p "password" scp -r user@example.com:/some/remote/path /some/local/path
-      && zaruba
+      echo 'WAITING GIT SERVER'
+      && sleep 5
+      && echo 'RUN TEST'
       && make test
       "

@@ -205,8 +205,8 @@ func (c *Component) GetRuntimeReadinessCheckCommand() (command string) {
 // GetRuntimeReadinessURL get runtime readiness url
 func (c *Component) GetRuntimeReadinessURL() (readinessURL string) {
 	venv := c.GetVenv()
-	readinessURL = venv.ParseString(c.GetReadinessURL())
-	readinessURL = strings.Replace(readinessURL, "host.docker.internal", "0.0.0.0", -1)
+	readinessURL = venv.ParseStringWithContext("readinessURL", c.GetReadinessURL())
+	// readinessURL = strings.Replace(readinessURL, "host.docker.internal", "0.0.0.0", -1)
 	return readinessURL
 }
 
@@ -286,7 +286,12 @@ func (c *Component) GetVenv() (venv *VirtualEnv) {
 			}
 			if c.componentType == "container" && otherComponent.GetType() == "container" {
 				c.venv.Add(otherServiceName, "host.docker.internal")
-			} else {
+				c.venv.AddContext("readinessURL", otherServiceName, GetDockerHost())
+			}
+			if c.componentType != "container" && otherComponent.GetType() == "container" {
+				c.venv.Add(otherServiceName, GetDockerHost())
+			}
+			if c.componentType != "container" && otherComponent.GetType() != "container" {
 				c.venv.Add(otherServiceName, "0.0.0.0")
 			}
 		}
