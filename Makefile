@@ -16,3 +16,8 @@ test-verbose:
 test-integration:
 	docker-compose -f docker-compose-testing.yml up --abort-on-container-exit
 	docker-compose -f docker-compose-testing.yml down
+publish-zaruba-env:
+	# login as "stalchmst" first, docker -u <user> -p <password>
+	docker build -f zaruba-env.Dockerfile -t stalchmst/zaruba-env:latest .
+	docker push stalchmst/zaruba-env:latest
+
