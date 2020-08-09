@@ -28,3 +28,15 @@ rm -Rf ${ZARUBA_TEMPLATE_DIR}
 # prepare directories
 mkdir -p ${ZARUBA_TEST_DIR}
 cp -R ./templates ${ZARUBA_TEMPLATE_DIR}
+
+# prepare server-repos
+mkdir -p test-resource/server-repos/parent
+cd test-resource/server-repos/parent
+rm -Rf .git && rm -Rf *
+git init
+cd ..
+mkdir -p child
+cd child
+rm -Rf .git && rm -Rf *
+git init
+cd ../..

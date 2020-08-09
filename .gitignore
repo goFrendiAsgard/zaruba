@@ -13,6 +13,10 @@ zaruba-windows-amd64
 coverage/profile.out
 coverage/coverage.html
 
+# server-repos
+test-resource/server-repos/child
+test-resource/server-repos/parent
+
 .mypy_cache/
 .vscode/
 

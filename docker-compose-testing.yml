@@ -6,6 +6,7 @@ services:
     image: jkarlos/git-server-docker
     volumes:
       - "./test-resource/.ssh/id_rsa.pub:/git-server/keys/zaruba.pub"
+      - "./test-resource/server-repos:/git-server/repos"
     ports:
       - "2222:22"
   
@@ -19,6 +20,7 @@ services:
     volumes:
       - "./test-resource/.ssh:/root/.ssh"
       - "./coverage:/zaruba-src/coverage"
+      - "./test-resource/server-repos:/zaruba-src/test-resource/server/repos"
     command: >
       bash -c "
       echo 'WAITING GIT SERVER'
