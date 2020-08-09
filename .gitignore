@@ -10,8 +10,8 @@ zaruba-windows-amd64
 .env
 
 #coverage
-profile.out
-coverage.html
+coverage/profile.out
+coverage/coverage.html
 
 .mypy_cache/
 .vscode/

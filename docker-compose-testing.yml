@@ -12,16 +12,19 @@ services:
   zaruba:
     container_name: zaruba
     build: .
+    image: stalchmst/zaruba:latest
     environment:
       - "ZARUBA_TEMPLATE_DIR=/tmp/zaruba-template"
       - "ZARUBA_TEST_DIR=/tmp/zaruba-test"
     volumes:
       - "./test-resource/.ssh:/root/.ssh"
+      - "./coverage:/zaruba-src/coverage"
     command: >
       bash -c "
       echo 'WAITING GIT SERVER'
       && sleep 5
       && echo 'RUN TEST'
       && ./prepare-test.sh
-      && go test ./... -covermode=atomic
+      && go test ./... -coverprofile=./coverage/profile.out -covermode=atomic
+      && go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
       "
