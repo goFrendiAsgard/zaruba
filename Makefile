@@ -14,7 +14,7 @@ test-verbose:
 	go test -race ./... -v -coverprofile=profile.out -count=1 -covermode=atomic
 	go tool cover -html=profile.out -o coverage.html
 test-integration:
-	docker-compose -f docker-compose-testing.yml up --abort-on-container-exit
+	docker-compose -f docker-compose-testing.yml up --build --abort-on-container-exit
 	docker-compose -f docker-compose-testing.yml down
 publish-zaruba-env:
 	# login as "stalchmst" first, docker -u <user> -p <password>

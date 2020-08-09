@@ -18,7 +18,7 @@ services:
     volumes:
       - "./test-resource/.ssh:/root/.ssh"
     command: >
-      bash -c "
+      sh -c "
       echo 'WAITING GIT SERVER'
       && sleep 5
       && echo 'RUN TEST'
