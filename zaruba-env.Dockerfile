@@ -3,7 +3,7 @@ FROM frolvlad/alpine-miniconda3
 ARG GO_DIR="/usr/local/go/bin"
 
 ENV PATH ${GO_DIR}:${PATH}
-ENV DOCKER_HOST=tcp://host.docker.internal:2375
+ENV DOCKER_HOST tcp://host.docker.internal:2375
 
 USER root
 
