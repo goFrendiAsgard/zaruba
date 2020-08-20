@@ -20,7 +20,7 @@ services:
     volumes:
       - "./test-resource/.ssh:/root/.ssh"
       - "./coverage:/zaruba-src/coverage"
-      - "./test-resource/server-repos:/zaruba-src/test-resource/server/repos"
+      - "./test-resource/server-repos:/zaruba-src/test-resource/server-repos"
     command: >
       bash -c "
       echo 'WAITING GIT SERVER'

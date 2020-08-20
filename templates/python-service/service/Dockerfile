@@ -1,12 +1,11 @@
-FROM continuumio/miniconda3
+FROM python:latest
 
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /home/anaconda/
+WORKDIR /app
 
-COPY ./environment.yml ./environment.yml
-RUN /opt/conda/bin/conda env update -n base -f environment.yml
+COPY . .
 
-COPY . /home/anaconda/
+RUN pip install pipenv && pipenv sync
 
-CMD /opt/conda/bin/conda init && source /home/anaconda/.bashrc && python main.py
+CMD pipenv run python main.py
