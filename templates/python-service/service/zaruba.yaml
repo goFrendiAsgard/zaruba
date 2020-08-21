@@ -30,7 +30,7 @@ components:
     env:
       SERVICENAME_HTTP_PORT: ${SERVICENAME_HTTP_PORT}
       DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/
-    start: conda init && source ${SHELL_PROFILE} && conda activate servicename && python main.py
+    start: pipenv run python main.py
     readinessUrl: http://${servicename}:${SERVICENAME_HTTP_PORT}/readiness
     dependencies:
       - servicename-prep
