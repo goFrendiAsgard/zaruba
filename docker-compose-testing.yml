@@ -2,13 +2,45 @@ version: "3"
 services:
 
   git-server:
-    container_name: ztest-gist-server
+    container_name: ztest-git-server
     image: jkarlos/git-server-docker
     volumes:
       - "./test-resource/.ssh/id_rsa.pub:/git-server/keys/zaruba.pub"
       - "./test-resource/server-repos:/git-server/repos"
     ports:
       - "2222:22"
+    command: >
+      sh -c "
+      echo 'SETUP GIT CONFIG'
+      && git config --global user.email 'you@example.com'
+      && git config --global user.name 'Your Name'
+      && cd repos
+      && echo 'CREATE PARENT REPO'
+      && rm -Rf parent
+      && mkdir -p parent
+      && cd parent
+      && git init --shared=true
+      && echo 'ADD'
+      && git add .
+      && echo 'COMMIT'
+      && git commit -m 'my first commit'
+      && cd ..
+      && echo 'CLONE'
+      && git commit -m 'my first commit'
+      && git clone --bare parent parent.git
+      && echo 'CREATE CHILD REPO'
+      && rm -Rf child
+      && mkdir -p child
+      && cd child
+      && git init --shared=true
+      && git add .
+      && git commit -m 'my first commit'
+      && cd ..
+      && git clone --bare child child.git
+      && echo 'START DAEMON'
+      && cd ..
+      && sh ./start.sh
+      "
   
   zaruba:
     container_name: ztest-zaruba
@@ -23,7 +55,10 @@ services:
       - "./test-resource/server-repos:/zaruba-src/test-resource/server-repos"
     command: >
       bash -c "
-      echo 'WAITING GIT SERVER'
+      echo 'SETUP GIT CONFIG'
+      && git config --global user.email 'you@example.com'
+      && git config --global user.name 'Your Name'
+      && echo 'WAITING GIT SERVER'
       && sleep 5
       && echo 'RUN TEST'
       && cd /zaruba-src
