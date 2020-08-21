@@ -7,7 +7,7 @@ components:
     type: command
     labels:
       scenario: preparation
-    start: (pip install pipenv || sudo pip install pipenv) && pipenv --three
+    start: pipenv --three && pipenv sync
 
   servicename-test:
     type: command

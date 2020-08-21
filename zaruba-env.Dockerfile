@@ -9,5 +9,4 @@ RUN apt-get install make wget curl git python3 python3-pip python-is-python3 nod
 
 RUN npm install -g typescript
 
-RUN alias python='python3'
-RUN alias pip='pip3'
+RUN pip3 install pipenv
