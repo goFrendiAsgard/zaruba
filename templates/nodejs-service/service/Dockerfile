@@ -8,14 +8,12 @@ ENV SERVICE_NAME servicename
 WORKDIR /app
 
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
-RUN npm run build && npm ci --only=production
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
+RUN npm run build
 
 EXPOSE 3000
 CMD npm start

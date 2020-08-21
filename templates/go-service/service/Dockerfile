@@ -7,10 +7,8 @@ ENV SERVICE_NAME servicename
 # Create app directory
 WORKDIR /app
 
-# Copy go mod and sum files
-COPY go.mod go.sum ./
-
 # Install app dependencies
+COPY go.mod go.sum ./
 RUN go mod download
 
 # Bundle app source
