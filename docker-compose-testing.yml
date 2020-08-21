@@ -27,6 +27,6 @@ services:
       && sleep 5
       && echo 'RUN TEST'
       && ./prepare-test.sh
-      && go test ./... -coverprofile=./coverage/profile.out -covermode=atomic
+      && go test ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
       && go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
       "
