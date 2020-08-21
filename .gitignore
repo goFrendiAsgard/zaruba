@@ -16,6 +16,8 @@ coverage/coverage.html
 # server-repos
 test-resource/server-repos/child
 test-resource/server-repos/parent
+test-resource/server-repos/child.git
+test-resource/server-repos/parent.git
 
 .mypy_cache/
 .vscode/
