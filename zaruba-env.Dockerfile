@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get install make wget curl git python3 python3-pip nodejs npm golang docker.io -y
+RUN apt-get install make wget curl git python3 python3-pip python-is-python3 nodejs npm golang docker.io  -y
 
 RUN npm install -g typescript
 

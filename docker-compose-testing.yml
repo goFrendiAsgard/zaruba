@@ -26,6 +26,7 @@ services:
       echo 'WAITING GIT SERVER'
       && sleep 5
       && echo 'RUN TEST'
+      && cd /zaruba-src
       && ./prepare-test.sh
       && go test ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
       && go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
