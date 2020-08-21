@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:latest
 
 ENV DOCKER_HOST="tcp://host.docker.internal:2375"
 ENV DEBIAN_FRONTEND=noninteractive
