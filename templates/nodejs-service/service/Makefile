@@ -1,4 +1,4 @@
 test:
 	npm test
 run:
-	npm start
+	npm run build && npm start

@@ -1,4 +1,4 @@
 test:
-	(conda env create --file=environment.yml || conda env update --file=environment.yml  --prune || echo "Failed. Keep going.") && python -m pytest
+	pipenv --three && pipenv sync && pipenv run python -m pytest
 run:
-	(conda env create --file=environment.yml || conda env update --file=environment.yml  --prune || echo "Failed. Keep going.") && python main.py
+	pipenv --three && pipenv sync && pipenv run python main.py
