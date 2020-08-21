@@ -12,7 +12,7 @@ WORKDIR /app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm ci --only=production
+RUN npm run build && npm ci --only=production
 
 # Bundle app source
 COPY . .

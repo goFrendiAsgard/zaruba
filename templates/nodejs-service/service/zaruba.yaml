@@ -7,7 +7,7 @@ components:
     type: command
     labels:
       scenario: preparation
-    start: npm install && tsc --alwaysStrict
+    start: npm install && npm run build
 
   servicename-test:
     type: command

@@ -4,8 +4,10 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
+    "build": "rm -rf ./dist && tsc",
     "start": "node .",
-    "test": "jest"
+    "test": "jest",
+    "pretest": "tsc"
   },
   "jest": {
     "transform": {
