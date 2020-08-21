@@ -16,7 +16,7 @@ COPY go.mod go.sum /zaruba-src/
 # build zaruba binary
 RUN cd /zaruba-src && go mod download
 COPY . /zaruba-src/
-RUN cd /zaruba-src go build -v -o zaruba .
+RUN cd /zaruba-src && go build -v -o zaruba .
 
 RUN mkdir -p /project
 WORKDIR /project
