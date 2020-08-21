@@ -4,7 +4,7 @@ import logging
 from flask import Flask
 from logging import getLogger
 from config import Config
-from core import MainApp, create_rmq_connection, link_rmq_status_to_app
+from core import MainApp, App, create_rmq_connection, link_rmq_status_to_app
 from transport import RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient
 
 import components.defaultcomponent as defaultComponent

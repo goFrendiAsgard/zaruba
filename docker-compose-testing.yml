@@ -2,7 +2,7 @@ version: "3"
 services:
 
   git-server:
-    container_name: git-server
+    container_name: ztest-gist-server
     image: jkarlos/git-server-docker
     volumes:
       - "./test-resource/.ssh/id_rsa.pub:/git-server/keys/zaruba.pub"
@@ -11,7 +11,7 @@ services:
       - "2222:22"
   
   zaruba:
-    container_name: zaruba
+    container_name: ztest-zaruba
     build: .
     image: stalchmst/zaruba:latest
     environment:
