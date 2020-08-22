@@ -11,30 +11,13 @@ services:
       - "2222:22"
     command: >
       sh -c "
-      echo 'SETUP GIT CONFIG ======================================================='
+      pwd
+      && echo 'SETUP GIT CONFIG ===================================================='
       && git config --global user.email 'you@example.com'
       && git config --global user.name 'Your Name'
+      && echo 'PREPARE REPOS ======================================================='
       && cd repos
-      && echo 'CREATE PARENT REPO =================================================='
-      && rm -Rf parent parent.git
-      && mkdir -p parent
-      && cd parent
-      && git init --shared=true
-      && touch README.md
-      && git add .
-      && git commit -m 'my first commit'
-      && cd ..
-      && git clone --bare parent parent.git
-      && echo 'CREATE CHILD REPO ==================================================='
-      && rm -Rf child child.git
-      && mkdir -p child
-      && cd child
-      && git init --shared=true
-      && touch README.md
-      && git add .
-      && git commit -m 'my first commit'
-      && cd ..
-      && git clone --bare child child.git
+      && ./prepare-repos.sh
       && echo 'START DAEMON ========================================================'
       && cd ..
       && sh ./start.sh
@@ -53,7 +36,8 @@ services:
       - "./test-resource/server-repos:/zaruba-src/test-resource/server-repos"
     command: >
       bash -c "
-      echo 'SETUP GIT CONFIG ======================================================='
+      pwd
+      && echo 'SETUP GIT CONFIG ===================================================='
       && git config --global user.email 'you@example.com'
       && git config --global user.name 'Your Name'
       && echo 'WAITING GIT SERVER =================================================='

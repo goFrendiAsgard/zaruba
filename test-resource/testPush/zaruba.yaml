@@ -1,0 +1,6 @@
+components:
+
+  child:
+    type: service
+    origin: ssh://git@ztest-git:22/git-server/repos/child-push.git
+    location: ./child
