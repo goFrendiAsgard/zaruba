@@ -2,7 +2,7 @@ version: "3"
 services:
 
   git-server:
-    container_name: ztest-git-server
+    container_name: ztest-git
     image: jkarlos/git-server-docker
     volumes:
       - "./test-resource/.ssh/id_rsa.pub:/git-server/keys/zaruba.pub"
@@ -16,7 +16,7 @@ services:
       && git config --global user.name 'Your Name'
       && cd repos
       && echo 'CREATE PARENT REPO =================================================='
-      && rm -Rf parent
+      && rm -Rf parent parent.git
       && mkdir -p parent
       && cd parent
       && git init --shared=true
@@ -26,7 +26,7 @@ services:
       && cd ..
       && git clone --bare parent parent.git
       && echo 'CREATE CHILD REPO ==================================================='
-      && rm -Rf child
+      && rm -Rf child child.git
       && mkdir -p child
       && cd child
       && git init --shared=true

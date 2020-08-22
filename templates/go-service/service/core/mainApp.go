@@ -76,16 +76,25 @@ func (app *mainApp) SetReadiness(readiness bool) {
 	app.readiness = readiness
 }
 
+// MainAppConfig configuration of app
+type MainAppConfig struct {
+	Logger      *log.Logger
+	Router      *gin.Engine
+	Subscribers []transport.Subscriber
+	RPCServers  []transport.RPCServer
+	HTTPPort    int
+}
+
 // CreateMainApp create application
-func CreateMainApp(logger *log.Logger, router *gin.Engine, subscribers []transport.Subscriber, rpcServers []transport.RPCServer, httpPort int) (app App) {
+func CreateMainApp(config MainAppConfig) (app App) {
 	app = &mainApp{
 		liveness:    false,
 		readiness:   false,
-		httpPort:    httpPort,
-		logger:      logger,
-		router:      router,
-		subscribers: subscribers,
-		rpcServers:  rpcServers,
+		httpPort:    config.HTTPPort,
+		logger:      config.Logger,
+		router:      config.Router,
+		subscribers: config.Subscribers,
+		rpcServers:  config.RPCServers,
 	}
 	return app
 }

@@ -1,10 +1,8 @@
-from typing import List, Any
-import pika
 import logging
 from flask import Flask
 from logging import getLogger
 from config import Config
-from core import MainApp, App, create_rmq_connection, link_rmq_status_to_app
+from core import MainApp, App, create_rmq_connection
 from transport import RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient
 
 import components.defaultcomponent as defaultComponent
@@ -35,11 +33,13 @@ def main():
 
     # app creation
     app: App = MainApp(
-        logger,
-        router,
-        [subscriber],
-        [rpc_server],
-        config.http_port,
+        logger=logger,
+        router=router,
+        subscribers=[subscriber],
+        rpc_servers=[rpc_server],
+        http_port=config.http_port,
+        rmq_connection_list=[
+            rpc_server_connection, subscriber_connection, client_connection]
     )
 
     # app setup
@@ -49,8 +49,6 @@ def main():
         example.Component(
             config, router, publisher, subscriber, rpc_server, rpc_client)
     ])
-    link_rmq_status_to_app(
-        app, [rpc_server_connection, subscriber_connection, client_connection])
 
     # app execution
     app.run()

@@ -1,4 +1,4 @@
 test:
-	pipenv --three && pipenv sync && pipenv run python -m pytest
+	pipenv sync && pipenv run python -m pytest
 run:
-	pipenv --three && pipenv sync && pipenv run python main.py
+	pipenv sync && pipenv run python main.py

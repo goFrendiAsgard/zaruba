@@ -7,7 +7,7 @@ components:
     type: command
     labels:
       scenario: preparation
-    start: pipenv --three && pipenv sync
+    start: pipenv sync
 
   servicename-test:
     type: command

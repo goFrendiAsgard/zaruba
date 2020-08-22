@@ -3,6 +3,14 @@ import { App, Comp } from "./interfaces";
 import { logExpressRoutes } from "./logExpressRoutes";
 import { Subscriber, RPCServer } from "../transport";
 
+export interface MainAppConfig {
+    logger: Console,
+    router: Express,
+    subscribers: Subscriber[],
+    rpcServers: RPCServer[],
+    httpPort: number,
+}
+
 export class MainApp implements App {
 
     private _readiness: boolean;
@@ -14,14 +22,14 @@ export class MainApp implements App {
     private _logger: Console;
 
 
-    constructor(logger: Console, router: Express, subscribers: Subscriber[], rpcServers: RPCServer[], httpPort: number) {
-        this._httpPort = httpPort;
+    constructor(config: MainAppConfig) {
+        this._httpPort = config.httpPort;
         this._readiness = false;
         this._liveness = false;
-        this._logger = logger;
-        this._router = router;
-        this._subscribers = subscribers;
-        this._rpcServers = rpcServers;
+        this._logger = config.logger;
+        this._router = config.router;
+        this._subscribers = config.subscribers;
+        this._rpcServers = config.rpcServers;
     }
 
     setup(components: Comp[]) {

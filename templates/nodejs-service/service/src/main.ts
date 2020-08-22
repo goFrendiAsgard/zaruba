@@ -21,13 +21,13 @@ async function main() {
     const publisher = new RmqPublisher(logger, defaultRmqConnection);
 
     // app creation
-    const app = new MainApp(
+    const app = new MainApp({
         logger,
         router,
-        [subscriber],
-        [rpcServer],
-        config.httpPort,
-    );
+        subscribers: [subscriber],
+        rpcServers: [rpcServer],
+        httpPort: config.httpPort,
+    });
 
     // app setup
     app.setup([

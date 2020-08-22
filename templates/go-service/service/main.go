@@ -24,6 +24,7 @@ func main() {
 	defaultRmqConnection, err := amqp.Dial(config.DefaultRmqConnectionString)
 	if err != nil {
 		logger.Fatal("[RmqConnection]", err)
+		return
 	}
 	rpcServer := transport.CreateRmqRPCServer(logger, defaultRmqConnection)
 	rpcClient := transport.CreateRmqRPCClient(logger, defaultRmqConnection)
@@ -31,13 +32,13 @@ func main() {
 	publisher := transport.CreateRmqPublisher(logger, defaultRmqConnection)
 
 	// app creation
-	app := core.CreateMainApp(
-		logger,
-		router,
-		[]transport.Subscriber{subscriber},
-		[]transport.RPCServer{rpcServer},
-		config.HTTPPort,
-	)
+	app := core.CreateMainApp(core.MainAppConfig{
+		Logger:      logger,
+		Router:      router,
+		Subscribers: []transport.Subscriber{subscriber},
+		RPCServers:  []transport.RPCServer{rpcServer},
+		HTTPPort:    config.HTTPPort,
+	})
 
 	// app setup
 	app.Setup([]core.Comp{
