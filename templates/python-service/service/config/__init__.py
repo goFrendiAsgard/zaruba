@@ -12,12 +12,12 @@ class Config():
             "DEFAULT_RMQ_CONNECTION_STRING", "amqp://localhost:5672/")
         self.rmq_event_map = RmqEventMap({
             "helloRPC": {
-                "exchange_name": "servicename.helloRPC",
-                "queue_name": "servicename.helloRPC",
+                "exchange_name": "servicename.exchange.helloRPC",
+                "queue_name": "servicename.queue.helloRPC",
             },
             "hello": {
-                "exchange_name": "servicename.helloEvent",
-                "queue_name": "servicename.helloEvent",
+                "exchange_name": "servicename.exchange.helloEvent",
+                "queue_name": "servicename.queue.helloEvent",
             }
         })
 

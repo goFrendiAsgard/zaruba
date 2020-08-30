@@ -12,12 +12,12 @@ export class Config {
         this.defaultRmqConnectionString = process.env.DEFAULT_RMQ_CONNECTION_STRING || "amqp://localhost:5672/";
         this.rmqEventMap = new RmqEventMap({
             helloRPC: {
-                exchangeName: "servicename.helloRPC",
-                queueName: "servicename.helloRPC",
+                exchangeName: "servicename.exchange.helloRPC",
+                queueName: "servicename.queue.helloRPC",
             },
             hello: {
-                exchangeName: "servicename.helloEvent",
-                queueName: "servicename.helloEvent",
+                exchangeName: "servicename.exchange.helloEvent",
+                queueName: "servicename.queue.helloEvent",
             }
         });
     }
