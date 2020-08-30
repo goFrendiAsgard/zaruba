@@ -26,5 +26,5 @@ class Config():
             "http_port": self.http_port,
             "service_name": self.service_name,
             "default_rmq_connection_string": self.default_rmq_connection_string,
-            "rmq_event_map": self.rmqEventMap
+            "rmq_event_map": self.rmq_event_map
         })
