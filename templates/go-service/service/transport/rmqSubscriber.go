@@ -7,11 +7,12 @@ import (
 )
 
 // CreateRmqSubscriber create new RmqSubscriber
-func CreateRmqSubscriber(logger *log.Logger, connection *amqp.Connection) *RmqSubscriber {
+func CreateRmqSubscriber(logger *log.Logger, connection *amqp.Connection, eventMap *RmqEventMap) *RmqSubscriber {
 	return &RmqSubscriber{
 		connection: connection,
 		handlers:   map[string]EventHandler{},
 		logger:     logger,
+		eventMap:   eventMap,
 	}
 }
 
@@ -20,6 +21,7 @@ type RmqSubscriber struct {
 	connection *amqp.Connection
 	handlers   map[string]EventHandler
 	logger     *log.Logger
+	eventMap   *RmqEventMap
 }
 
 // RegisterHandler register servicemap for call
@@ -39,14 +41,15 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 	amqpErrChan := s.connection.NotifyClose(make(chan *amqp.Error))
 	defer ch.Close()
 	for eventName, handler := range s.handlers {
-		// start consume
-		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, eventName)
+		exchangeName := s.eventMap.GetExchangeName(eventName)
+		queueName := s.eventMap.GetQueueName(eventName)
+		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, exchangeName, queueName)
 		if err != nil {
 			s.handleRmqError(err, errChan)
 			return
 		}
 		s.logger.Printf("[INFO RmqRPCSubscriber] Subscribe %s", eventName)
-		rmqMessages, err := rmqConsume(ch, eventName)
+		rmqMessages, err := rmqConsume(ch, queueName)
 		if err != nil {
 			s.handleRmqError(err, errChan)
 			return

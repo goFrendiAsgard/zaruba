@@ -9,10 +9,11 @@ import (
 )
 
 // CreateRmqRPCClient create new RmqRPC
-func CreateRmqRPCClient(logger *log.Logger, connection *amqp.Connection) *RmqRPCClient {
+func CreateRmqRPCClient(logger *log.Logger, connection *amqp.Connection, eventMap *RmqEventMap) *RmqRPCClient {
 	return &RmqRPCClient{
 		connection: connection,
 		logger:     logger,
+		eventMap:   eventMap,
 	}
 }
 
@@ -20,11 +21,13 @@ func CreateRmqRPCClient(logger *log.Logger, connection *amqp.Connection) *RmqRPC
 type RmqRPCClient struct {
 	connection *amqp.Connection
 	logger     *log.Logger
+	eventMap   *RmqEventMap
 }
 
 // Call remote function
 func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output interface{}, err error) {
-	replyTo, err := rmqRPCGenerateReplyQueueName(functionName)
+	queueName := c.eventMap.GetQueueName(functionName)
+	replyTo, err := rmqRPCGenerateReplyQueueName(queueName)
 	if err != nil {
 		return output, err
 	}
@@ -36,8 +39,8 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 	defer ch.Close()
 	// consume
 	rmqMessages, err := rmqConsume(ch, replyTo)
+	defer ch.QueueDelete(replyTo, false, false, true)
 	if err != nil {
-		ch.QueueDelete(replyTo, false, false, true)
 		return output, err
 	}
 	// create waiting channel
@@ -53,8 +56,7 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 			ok := true
 			output, ok = envelopedOutput.Message["output"]
 			if !ok {
-				errorMessage := fmt.Sprintf("output not found in %#v", envelopedOutput.Message)
-				err = errors.New(errorMessage)
+				err = c.getErrorFromEnvelopedOutput(envelopedOutput)
 			}
 			c.logger.Printf("[INFO RmqRPCClient] Get Reply %s %#v: %#v", functionName, inputs, output)
 			waitReply <- true
@@ -62,13 +64,17 @@ func (c *RmqRPCClient) Call(functionName string, inputs ...interface{}) (output 
 		}
 	}()
 	// send message
-	c.logger.Printf("[INFO RmqRPCClient] Call %s %#v", functionName, inputs)
-	err = rmqRPCCall(ch, functionName, replyTo, inputs)
+	exchangeName := c.eventMap.GetExchangeName(functionName)
+	c.logger.Printf("[INFO RmqRPCClient] Call %s %#v", exchangeName, inputs)
+	err = rmqRPCCall(ch, exchangeName, replyTo, inputs)
 	if err != nil {
 		waitReply <- true
 	}
-	// return
 	<-waitReply
-	ch.QueueDelete(replyTo, false, false, true)
 	return output, err
+}
+
+func (c *RmqRPCClient) getErrorFromEnvelopedOutput(envelopedOutput *EnvelopedMessage) error {
+	errorMessage := fmt.Sprintf("output not found in %#v", envelopedOutput.Message)
+	return errors.New(errorMessage)
 }

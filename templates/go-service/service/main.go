@@ -21,15 +21,15 @@ func main() {
 	config := config.CreateConfig()
 	logger.Println("CONFIG:", config.ToString())
 	router := gin.Default()
-	defaultRmqConnection, err := amqp.Dial(config.DefaultRmqConnectionString)
+	rmq, err := amqp.Dial(config.DefaultRmqConnectionString)
 	if err != nil {
 		logger.Fatal("[RmqConnection]", err)
 		return
 	}
-	rpcServer := transport.CreateRmqRPCServer(logger, defaultRmqConnection)
-	rpcClient := transport.CreateRmqRPCClient(logger, defaultRmqConnection)
-	subscriber := transport.CreateRmqSubscriber(logger, defaultRmqConnection)
-	publisher := transport.CreateRmqPublisher(logger, defaultRmqConnection)
+	rpcServer := transport.CreateRmqRPCServer(logger, rmq, config.RmqEventMap)
+	rpcClient := transport.CreateRmqRPCClient(logger, rmq, config.RmqEventMap)
+	subscriber := transport.CreateRmqSubscriber(logger, rmq, config.RmqEventMap)
+	publisher := transport.CreateRmqPublisher(logger, rmq, config.RmqEventMap)
 
 	// app creation
 	app := core.CreateMainApp(core.MainAppConfig{
