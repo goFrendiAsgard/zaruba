@@ -44,11 +44,11 @@ class Component(Comp):
 
         # Serve RPC
         self.rpc_server.register_handler(
-            "servicename.helloRPC", self.handle_rpc_hello)
+            "helloRPC", self.handle_rpc_hello)
 
         # Event
         self.subscriber.register_handler(
-            "servicename.helloEvent", self.handle_event_hello)
+            "hello", self.handle_event_hello)
 
     def handle_http_hello(self, name: str = ""):
         name = get_name(name)
@@ -60,7 +60,7 @@ class Component(Comp):
     def handle_http_hello_rpc(self, name: str = ""):
         name = get_name(name)
         try:
-            greeting = self.rpc_client.call("servicename.helloRPC", name)
+            greeting = self.rpc_client.call("helloRPC", name)
             return Response(greeting)
         except Exception as e:
             return Response(str(e), status=500)
@@ -68,7 +68,7 @@ class Component(Comp):
     def handle_http_hello_pub(self, name: str = ""):
         name = get_name(name)
         try:
-            self.publisher.publish("servicename.helloEvent", {"name": name})
+            self.publisher.publish("hello", {"name": name})
             return Response("Message sent")
         except Exception as e:
             return Response(str(e), status=500)

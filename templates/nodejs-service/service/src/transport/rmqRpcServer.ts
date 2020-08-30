@@ -1,25 +1,23 @@
 import amqplib from "amqplib";
 import { RPCServer, RPCHandler } from "./interfaces";
 import { EnvelopedMessage } from "./envelopedMessage";
-import { rmqDeclareQueueAndBindToDefaultExchange, rmqConsume, rmqRpcReplyOutput, rmqRpcReplyError } from "./helpers";
+import { rmqDeclareAndBindQueue, rmqConsume } from "./rmqHelper";
+import { rmqRpcReplyOutput, rmqRpcReplyError } from "./rmqRpcHelper";
+import { RmqEventMap } from "./rmqEventMap";
 
 export class RmqRPCServer implements RPCServer {
-    connection: amqplib.Connection;
-    logger: Console;
-    handlers: { [functionName: string]: RPCHandler };
+    private handlers: { [functionName: string]: RPCHandler };
 
-    constructor(logger: Console, connection: amqplib.Connection) {
-        this.connection = connection;
-        this.logger = logger;
+    constructor(private logger: Console, private connection: amqplib.Connection, private eventMap: RmqEventMap) {
         this.handlers = {};
     }
 
-    registerHandler(functionName: string, handler: RPCHandler): RPCServer {
+    public registerHandler(functionName: string, handler: RPCHandler): RPCServer {
         this.handlers[functionName] = handler;
         return this;
     }
 
-    serve(): Promise<void> {
+    public serve(): Promise<void> {
         const self = this;
         return new Promise(async (_, reject) => {
             try {
@@ -37,20 +35,22 @@ export class RmqRPCServer implements RPCServer {
         });
     }
 
-    async pServe(ch: amqplib.Channel) {
+    private async pServe(ch: amqplib.Channel) {
         for (let key in this.handlers) {
             const functionName = key;
+            const exchangeName = this.eventMap.getExchangeName(functionName);
+            const queueName = this.eventMap.getExchangeName(functionName);
             const handler = this.handlers[functionName];
-            await rmqDeclareQueueAndBindToDefaultExchange(ch, functionName);
+            await rmqDeclareAndBindQueue(ch, exchangeName, queueName);
             this.logger.log(`[INFO RmqRPCServer] Serve ${functionName}`);
-            rmqConsume(ch, functionName, async (rmqMessageOrNull) => {
+            rmqConsume(ch, queueName, async (rmqMessageOrNull) => {
                 try {
                     const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                     const { replyTo } = rmqMessage.properties;
                     const jsonEnvelopedInput = rmqMessage.content.toString();
                     const envelopedInput = new EnvelopedMessage(jsonEnvelopedInput);
                     try {
-                        const inputs = envelopedInput.message.inputs;
+                        const inputs = envelopedInput.getMessage().inputs;
                         const output = await handler(...inputs);
                         this.logger.log(`[INFO RmqRPCServer] Reply ${functionName}`, JSON.stringify(inputs), "output:", JSON.stringify(output));
                         await rmqRpcReplyOutput(ch, replyTo, envelopedInput, output);

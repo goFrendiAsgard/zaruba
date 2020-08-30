@@ -18,18 +18,18 @@ def main():
     config = Config()
     logger.info("CONFIG: {}".format(config))
     router: Flask = Flask(__name__)
-
     rmq_connection_string = config.default_rmq_connection_string
+    rmq_event_map = config.rmq_event_map
 
     rpc_server_connection = create_rmq_connection(rmq_connection_string, 10)
-    rpc_server = RmqRPCServer(logger, rpc_server_connection)
+    rpc_server = RmqRPCServer(logger, rpc_server_connection, rmq_event_map)
 
     subscriber_connection = create_rmq_connection(rmq_connection_string, 10)
-    subscriber = RmqSubscriber(logger, subscriber_connection)
+    subscriber = RmqSubscriber(logger, subscriber_connection, rmq_event_map)
 
     client_connection = create_rmq_connection(rmq_connection_string, 10)
-    rpc_client = RmqRPCClient(logger, client_connection)
-    publisher = RmqPublisher(logger, client_connection)
+    rpc_client = RmqRPCClient(logger, client_connection, rmq_event_map)
+    publisher = RmqPublisher(logger, client_connection, rmq_event_map)
 
     # app creation
     app: App = MainApp(
