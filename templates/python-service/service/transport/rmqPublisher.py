@@ -1,7 +1,7 @@
 import json
 from pika.adapters.blocking_connection import BlockingConnection
 from .interfaces import Message, Publisher
-from .rmqHelper import rmq_declare_and_bind_queue, rmq_declare_fanout_exchange, rmq_publish
+from .rmqHelper import rmq_declare_fanout_exchange, rmq_publish
 from .rmqEventMap import RmqEventMap
 from .envelopedMessage import EnvelopedMessage
 from logging import Logger

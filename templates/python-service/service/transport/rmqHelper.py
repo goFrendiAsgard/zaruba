@@ -5,8 +5,7 @@ from pika.spec import Basic, BasicProperties
 OnMessageCallback = Callable[
     [BlockingChannel, Basic.Deliver, BasicProperties, str], Any]
 
-def rmq_declare_and_bind_queue(ch: BlockingChannel, queue_name: str):
-    exchange_name = queue_name
+def rmq_declare_and_bind_queue(ch: BlockingChannel, exchange_name: str, queue_name: str):
     rmq_declare_fanout_exchange(ch, exchange_name)
     rmq_declare_queue(ch, queue_name)
     ch.queue_bind(exchange=exchange_name, queue=queue_name)

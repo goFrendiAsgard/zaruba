@@ -32,8 +32,8 @@ class RmqSubscriber(Subscriber):
             rmq_declare_and_bind_queue(ch, exchange_name, queue_name)
             self.logger.info(
                 "[INFO RmqSubscriber] Subscribe {}".format(event_name))
-            rmq_consume(ch, event_name, self._create_rmq_handler(
-                queue_name, handler))
+            rmq_consume(ch, queue_name, self._create_rmq_handler(
+                event_name, handler))
         thread = threading.Thread(target=ch.start_consuming)
         thread.start()
 
