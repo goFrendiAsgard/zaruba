@@ -44,7 +44,7 @@ func (s *RmqRPCServer) Serve(errChan chan error) {
 	for functionName, handler := range s.handlers {
 		exchangeName := s.eventMap.GetExchangeName(functionName)
 		queueName := s.eventMap.GetQueueName(functionName)
-		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, exchangeName, queueName)
+		_, err = rmqDeclareAndBindQueue(ch, exchangeName, queueName)
 		if err != nil {
 			s.handleRmqError(err, errChan)
 			return

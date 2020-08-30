@@ -34,10 +34,10 @@ export class Component implements Comp {
         this.router.post("/hello-pub", this.handleHTTPHelloPub.bind(this));
 
         // Serve RPC
-        this.rpcServer.registerHandler("servicename.helloRPC", this.handleRPCHello.bind(this));
+        this.rpcServer.registerHandler("helloRPC", this.handleRPCHello.bind(this));
 
         // Event
-        this.subscriber.registerHandler("servicename.helloEvent", this.handleEventHello.bind(this));
+        this.subscriber.registerHandler("hello", this.handleEventHello.bind(this));
 
     }
 
@@ -53,7 +53,7 @@ export class Component implements Comp {
     async handleHTTPHelloRPC(req: any, res: any) {
         const name = getName(req);
         try {
-            const greeting = await this.rpcClient.call("servicename.helloRPC", name);
+            const greeting = await this.rpcClient.call("helloRPC", name);
             res.send(greeting);
         } catch (err) {
             res.status(500).send(err);
@@ -63,7 +63,7 @@ export class Component implements Comp {
     async handleHTTPHelloPub(req: any, res: any) {
         const name = getName(req);
         try {
-            await this.publisher.publish("servicename.helloEvent", { name });
+            await this.publisher.publish("hello", { name });
             res.send("Message sent");
         } catch (err) {
             res.status(500).send(err);

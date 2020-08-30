@@ -3,9 +3,9 @@ import { Message } from "./interfaces";
 const uuid = v4;
 
 export class EnvelopedMessage {
-    correlationId: string;
-    message: Message;
-    errorMessage: string;
+    private correlationId: string;
+    private message: Message;
+    private errorMessage: string;
 
     constructor(jsonEnvelopedMessage?: string) {
         this.correlationId = "";
@@ -19,22 +19,40 @@ export class EnvelopedMessage {
         }
     }
 
-    setCorrelationId(correlationId?: string): EnvelopedMessage {
+    public setCorrelationId(correlationId?: string): EnvelopedMessage {
         this.correlationId == correlationId !== undefined ? correlationId : uuid();
         return this;
     }
 
-    setMessage(message: Message): EnvelopedMessage {
+    public setMessage(message: Message): EnvelopedMessage {
         this.message = message;
         return this;
     }
 
-    toJson(): string {
+    public setErrorMessage(errorMessage: string): EnvelopedMessage {
+        this.errorMessage = errorMessage;
+        return this;
+    }
+
+    public toJson(): string {
         return JSON.stringify({
             correlation_id: this.correlationId,
             message: this.message,
             error: this.errorMessage,
         });
     }
+
+    public getCorrelationId(): string {
+        return this.correlationId;
+    }
+
+    public getMessage(): Message {
+        return this.message;
+    }
+
+    public getErrorMessage(): string {
+        return this.errorMessage;
+    }
+
 
 }

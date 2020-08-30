@@ -1,21 +1,23 @@
-import pika
+from typing import Dict, cast
 import threading
+from logging import Logger
+from pika.adapters.blocking_connection import BlockingConnection, BlockingChannel
+from pika.spec import Basic, BasicProperties
 from .interfaces import RPCHandler, RPCServer
 from .envelopedMessage import EnvelopedMessage
-from .helpers import rmq_declare_queue_and_bind_to_default_exchange, rmq_consume, rmq_rpc_reply_output, rmq_rpc_reply_error, OnMessageCallback
-from typing import Dict, cast
-from logging import Logger
-from pika.adapters.blocking_connection import BlockingChannel
-from pika.spec import Basic, BasicProperties
+from .rmqHelper import rmq_declare_and_bind_queue, rmq_consume, OnMessageCallback
+from .rmqEventMap import RmqEventMap
+from .rmqRpcHelper import rmq_rpc_reply_error, rmq_rpc_reply_output
 
 
 class RmqRPCServer(RPCServer):
 
-    def __init__(self, logger: Logger, connection: pika.BlockingConnection):
-        self.connection: pika.BlockingConnection = connection
+    def __init__(self, logger: Logger, connection: BlockingConnection, event_map: RmqEventMap):
+        self.connection: BlockingConnection = connection
         self.logger: Logger = logger
         self.handlers: Dict[str, RPCHandler] = cast(
             Dict[str, RPCHandler], {})
+        self.event_map: RmqEventMap = event_map
 
     def register_handler(self, event_name: str, handler: RPCHandler) -> RPCServer:
         self.handlers[event_name] = handler
@@ -25,16 +27,18 @@ class RmqRPCServer(RPCServer):
         ch = self.connection.channel()
         for key in self.handlers:
             function_name = key
+            exchange_name = self.event_map.get_exchange_name(function_name)
+            queue_name = self.event_map.get_queue_name(function_name)
             handler = self.handlers[function_name]
-            rmq_declare_queue_and_bind_to_default_exchange(ch, function_name)
+            rmq_declare_and_bind_queue(ch, exchange_name, queue_name)
             self.logger.info(
                 "[INFO RmqRPCServer] Serve {}".format(function_name))
-            rmq_consume(ch, function_name, self.create_rmq_handler(
+            rmq_consume(ch, queue_name, self._create_rmq_handler(
                 function_name, handler))
         thread = threading.Thread(target=ch.start_consuming)
         thread.start()
 
-    def create_rmq_handler(self, function_name: str, handler: RPCHandler) -> OnMessageCallback:
+    def _create_rmq_handler(self, function_name: str, handler: RPCHandler) -> OnMessageCallback:
         def on_message(ch: BlockingChannel, method: Basic.Deliver, properties: BasicProperties, body: str):
             try:
                 reply_to = properties.reply_to

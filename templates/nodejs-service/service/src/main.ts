@@ -14,11 +14,11 @@ async function main() {
     const config = new Config();
     logger.log("CONFIG:", JSON.stringify(config));
     const router = createRouter(logger);
-    const defaultRmqConnection = await amqplib.connect(config.defaultRmqConnectionString);
-    const rpcServer = new RmqRPCServer(logger, defaultRmqConnection);
-    const rpcClient = new RmqRPCClient(logger, defaultRmqConnection);
-    const subscriber = new RmqSubscriber(logger, defaultRmqConnection);
-    const publisher = new RmqPublisher(logger, defaultRmqConnection);
+    const rmq = await amqplib.connect(config.defaultRmqConnectionString);
+    const rpcServer = new RmqRPCServer(logger, rmq, config.rmqEventMap);
+    const rpcClient = new RmqRPCClient(logger, rmq, config.rmqEventMap);
+    const subscriber = new RmqSubscriber(logger, rmq, config.rmqEventMap);
+    const publisher = new RmqPublisher(logger, rmq, config.rmqEventMap);
 
     // app creation
     const app = new MainApp({

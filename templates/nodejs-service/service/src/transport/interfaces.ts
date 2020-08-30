@@ -19,3 +19,8 @@ export interface Subscriber {
     registerHandler: (eventName: string, handler: EventHandler) => Subscriber;
     subscribe: () => Promise<void>;
 }
+
+export interface RmqEventConfig {
+    queueName: string;
+    exchangeName: string;
+}

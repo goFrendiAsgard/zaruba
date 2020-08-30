@@ -1,23 +1,20 @@
 import amqplib from "amqplib";
 import { Message, Publisher } from "./interfaces";
-import { rmqDeclareQueueAndBindToDefaultExchange, rmqPublish } from "./helpers";
+import { rmqPublish, rmqDeclareFanoutExchange } from "./rmqHelper";
 import { EnvelopedMessage } from "./envelopedMessage";
+import { RmqEventMap } from "./rmqEventMap";
 
 export class RmqPublisher implements Publisher {
-    connection: amqplib.Connection;
-    logger: Console;
 
-    constructor(logger: Console, connection: amqplib.Connection) {
-        this.connection = connection;
-        this.logger = logger;
-    }
+    constructor(private logger: Console, private connection: amqplib.Connection, private eventMap: RmqEventMap) {}
 
-    async publish(eventName: string, msg: Message): Promise<void> {
+    public async publish(eventName: string, msg: Message): Promise<void> {
         this.logger.log("[INFO RmqPublisher] Publish", eventName, JSON.stringify(msg));
         const ch = await this.connection.createChannel();
-        await rmqDeclareQueueAndBindToDefaultExchange(ch, eventName);
+        const exchangeName = this.eventMap.getExchangeName(eventName);
+        await rmqDeclareFanoutExchange(ch, exchangeName);
         const envelopedMessage = new EnvelopedMessage().setCorrelationId().setMessage(msg);
-        await rmqPublish(ch, eventName, "", Buffer.from(envelopedMessage.toJson()));
+        await rmqPublish(ch, exchangeName, "", Buffer.from(envelopedMessage.toJson()));
         await ch.close();
     };
 

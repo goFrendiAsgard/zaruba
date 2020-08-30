@@ -43,7 +43,7 @@ func (s *RmqSubscriber) Subscribe(errChan chan error) {
 	for eventName, handler := range s.handlers {
 		exchangeName := s.eventMap.GetExchangeName(eventName)
 		queueName := s.eventMap.GetQueueName(eventName)
-		_, err = rmqDeclareQueueAndBindToDefaultExchange(ch, exchangeName, queueName)
+		_, err = rmqDeclareAndBindQueue(ch, exchangeName, queueName)
 		if err != nil {
 			s.handleRmqError(err, errChan)
 			return

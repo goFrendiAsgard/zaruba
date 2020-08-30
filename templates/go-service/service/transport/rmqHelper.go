@@ -4,7 +4,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func rmqDeclareQueueAndBindToDefaultExchange(ch *amqp.Channel, exchangeName, queueName string) (q amqp.Queue, err error) {
+func rmqDeclareAndBindQueue(ch *amqp.Channel, exchangeName, queueName string) (q amqp.Queue, err error) {
 	// declare exchange
 	err = rmqDeclareFanoutExchange(ch, exchangeName)
 	if err != nil {

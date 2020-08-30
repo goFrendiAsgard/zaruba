@@ -1,5 +1,6 @@
 import os
 import json
+from transport import RmqEventMap
 
 
 class Config():
@@ -9,10 +10,21 @@ class Config():
         self.service_name = "servicename"
         self.default_rmq_connection_string = os.getenv(
             "DEFAULT_RMQ_CONNECTION_STRING", "amqp://localhost:5672/")
+        self.rmq_event_map = RmqEventMap({
+            "helloRPC": {
+                "exchangeName": "servicename.helloRPC",
+                "queueName": "servicename.helloRPC",
+            },
+            "hello": {
+                "exchangeName": "servicename.helloEvent",
+                "queueName": "servicename.helloEvent",
+            }
+        })
 
     def __str__(self):
-        return "http_port: {}, service_name: {}, default_rmq_connection_string: {}".format(
-            self.http_port,
-            self.service_name,
-            self.default_rmq_connection_string,
-        )
+        return json.dumps({
+            "http_port": self.http_port,
+            "service_name": self.service_name,
+            "default_rmq_connection_string": self.default_rmq_connection_string,
+            "rmq_event_map": self.rmqEventMap
+        })
