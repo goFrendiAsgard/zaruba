@@ -1,5 +1,5 @@
 #!/bin/sh
-. ./lib.sh
+. ./lib-service.sh
 SHARED_LIB_DIR=${PROJECT_DIR}/libraries/typescript
 copyAndMoveToService
 substituteValues ./src/*.ts ./src/*/*.ts ./src/*/*/*.ts ./package.json ./Dockerfile ./zaruba.yaml ./Makefile ./README.md

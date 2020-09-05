@@ -25,7 +25,7 @@ components:
     origin: git@github.com:state-alchemists/zaruba-python-service-template.git
 
 links:
-  ./templates/lib.sh:
-    - ./templates/go-service/lib.sh
-    - ./templates/nodejs-service/lib.sh
-    - ./templates/python-service/lib.sh
+  ./templates/lib-service.sh:
+    - ./templates/go-service/lib-service.sh
+    - ./templates/nodejs-service/lib-service.sh
+    - ./templates/python-service/lib-service.sh
