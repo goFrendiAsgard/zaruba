@@ -5,10 +5,9 @@ from config import Config
 from core import MainApp, App, create_rmq_connection
 from transport import RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient
 
-import components.defaultcomponent as defaultComponent
-import components.monitoring as monitoring
-import components.example as example
-
+import components.main.component as mainComponent
+import components.monitoring.component as monitoring
+import components.example.component as example
 
 def main():
 
@@ -38,16 +37,14 @@ def main():
         subscribers=[subscriber],
         rpc_servers=[rpc_server],
         http_port=config.http_port,
-        rmq_connection_list=[
-            rpc_server_connection, subscriber_connection, client_connection]
+        rmq_connection_list=[rpc_server_connection, subscriber_connection, client_connection]
     )
 
     # app setup
     app.setup([
-        defaultComponent.Component(config, router),
+        mainComponent.Component(config, router),
         monitoring.Component(config, app, router),
-        example.Component(
-            config, router, publisher, subscriber, rpc_server, rpc_client)
+        example.Component(config, app, router, publisher, subscriber, rpc_server, rpc_client)
     ])
 
     # app execution

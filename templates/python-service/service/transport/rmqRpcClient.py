@@ -8,6 +8,8 @@ from .rmqHelper import rmq_consume, rmq_declare_queue, OnMessageCallback
 from .rmqEventMap import RmqEventMap
 from .envelopedMessage import EnvelopedMessage
 
+import time
+
 
 class RmqRPCClient(RPCClient):
 
@@ -24,15 +26,20 @@ class RmqRPCClient(RPCClient):
         # send message
         reply_to = rmq_rpc_generate_reply_queue_name(queue_name)
         ch = self.connection.channel()
-        rmq_declare_queue(ch, reply_to)
-        rmq_consume(ch, reply_to, self._create_reply_handler(function_name, inputs, reply_state))
+        rmq_declare_queue(ch, reply_to, True, True, {})
+        rmq_consume(ch, reply_to, True, True, True, {}, self._create_reply_handler(function_name, inputs, reply_state))
         self.logger.info(
             "[INFO RmqRPCClient] Call {} {}".format(function_name, inputs))
         rmq_rpc_call(ch, exchange_name, reply_to, cast(List[Any], inputs))
         # waiting
+        start = time.time() * 1000
+        timeout = self.event_map.get_rpc_timeout(function_name)
         while not reply_state["accepted"]:
             self.connection.process_data_events()
-        self._delete_queue_and_close_channel(ch, reply_to)
+            if start + timeout < time.time() * 1000:
+                reply_state["error_message"] = "Timeout {}".format(timeout)
+                self.logger.info("[ERROR RmqRPCClient] Get timeout {} {}: {} ms".format(function_name, inputs, timeout))
+                break
         # return or throw error
         if reply_state["error_message"] != "":
             raise Exception(reply_state["error_message"])
@@ -62,10 +69,3 @@ class RmqRPCClient(RPCClient):
                     function_name, inputs, e))
                 reply_state["error_message"] = str(e)
         return on_reply 
-
-    def _delete_queue_and_close_channel(self, ch: BlockingChannel, queue_name: str):
-        try:
-            ch.queue_delete(queue_name)
-            ch.close()
-        except:
-            return

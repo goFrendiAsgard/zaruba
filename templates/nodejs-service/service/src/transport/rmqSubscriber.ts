@@ -1,7 +1,7 @@
 import amqplib from "amqplib";
 import { EventHandler, Subscriber } from "./interfaces";
 import { EnvelopedMessage } from "./envelopedMessage";
-import { rmqConsume, rmqDeclareAndBindQueue } from "./rmqHelper";
+import { rmqConsume, rmqDeclareAndBindQueue, rmqDeclareQueue } from "./rmqHelper";
 import { RmqEventMap } from "./rmqEventMap";
 
 export class RmqSubscriber implements Subscriber {
@@ -38,21 +38,39 @@ export class RmqSubscriber implements Subscriber {
         const self = this;
         for (let key in this.handlers) {
             const eventName = key;
+            // declare dlx
+            const args: amqplib.Options.AssertQueue = {};
+            if (this.eventMap.getTtl(eventName) > 0) {
+                const deadLetterExchange = this.eventMap.getDeadLetterExchange(eventName);
+                const deadLetterQueue = this.eventMap.getDeadLetterQueue(eventName);
+                await rmqDeclareAndBindQueue(ch, deadLetterExchange, deadLetterQueue, {durable: true});
+                args.deadLetterExchange = deadLetterExchange;
+                args.messageTtl = this.eventMap.getTtl(eventName);
+            }
+            // declare queue
             const exchangeName = self.eventMap.getExchangeName(eventName);
             const queueName = self.eventMap.getQueueName(eventName);
             const handler = this.handlers[eventName];
-            await rmqDeclareAndBindQueue(ch, exchangeName, queueName);
+            await rmqDeclareAndBindQueue(ch, exchangeName, queueName, args);
             this.logger.log(`[INFO RmqSubscriber] Subscribe ${eventName}`);
-            rmqConsume(ch, queueName, async (rmqMessageOrNull) => {
+            const autoAck = this.eventMap.getAutoAck(eventName);
+            // handle message
+            rmqConsume(ch, queueName, args, autoAck, async (rmqMessageOrNull) => {
+                const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                 try {
-                    const rmqMessage = rmqMessageOrNull as amqplib.ConsumeMessage;
                     const jsonEnvelopedInput = rmqMessage.content.toString();
                     const envelopedInput = new EnvelopedMessage(jsonEnvelopedInput);
                     this.logger.log(`[INFO RmqSubscriber] Get Event ${eventName}: `, JSON.stringify(envelopedInput.getMessage()));
-                    await handler(envelopedInput.getMessage());
+                    try {
+                        await handler(envelopedInput.getMessage());
+                        ch.ack(rmqMessage);
+                    } catch(err) {
+                        ch.nack(rmqMessage);
+                    }
                 } catch (err) {
                     this.logger.log(`[ERROR RmqSubscriber] Get Event ${eventName}: `, err);
                     self.logger.error(err);
+                    ch.ack(rmqMessage)
                 }
             })
         }

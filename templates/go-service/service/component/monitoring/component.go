@@ -3,6 +3,7 @@ package monitoring
 import (
 	"app/config"
 	"app/core"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,7 +31,7 @@ func (comp *Component) Setup() {
 	comp.router.GET("/liveness", func(c *gin.Context) {
 		liveness := comp.app.Liveness()
 		// send response
-		c.JSON(getHTTPCodeByStatus(liveness), gin.H{
+		c.JSON(comp.getHTTPCodeByStatus(liveness), gin.H{
 			"service_name": serviceName,
 			"is_alive":     liveness,
 		})
@@ -39,10 +40,17 @@ func (comp *Component) Setup() {
 	comp.router.GET("/readiness", func(c *gin.Context) {
 		readiness := comp.app.Readiness()
 		// send response
-		c.JSON(getHTTPCodeByStatus(readiness), gin.H{
+		c.JSON(comp.getHTTPCodeByStatus(readiness), gin.H{
 			"service_name": serviceName,
 			"is_ready":     readiness,
 		})
 	})
 
+}
+
+func (comp *Component) getHTTPCodeByStatus(status bool) (untyped int) {
+	if status {
+		return http.StatusOK
+	}
+	return http.StatusInternalServerError
 }

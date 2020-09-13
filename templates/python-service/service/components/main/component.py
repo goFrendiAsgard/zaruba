@@ -1,5 +1,5 @@
 from flask import Flask
-from core import App, Comp
+from core import Comp
 from config import Config
 
 

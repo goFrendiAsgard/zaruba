@@ -24,7 +24,7 @@ export class Config {
                 exchangeName: "servicename.exchange.helloEvent",
                 queueName: "servicename.queue.helloEvent",
                 deadLetterExchange: "servicename.exchange.helloEvent.dlx",
-                deadLetterQueue: "servicname.queue.helloEvent.dlx",
+                deadLetterQueue: "servicename.queue.helloEvent.dlx",
                 ttl: 60000,
                 autoAck: false,
             }

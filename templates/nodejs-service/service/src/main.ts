@@ -3,9 +3,9 @@ import { Config } from "./config";
 import { MainApp, createRouter } from "./core";
 import { RmqPublisher, RmqSubscriber, RmqRPCServer, RmqRPCClient } from "./transport";
 
-import * as defaultComponent from "./components/defaultcomponent";
-import * as monitoring from "./components/monitoring";
-import * as example from "./components/example";
+import * as mainComponent from "./components/main/component";
+import * as monitoring from "./components/monitoring/component";
+import * as example from "./components/example/component";
 
 async function main() {
 
@@ -31,9 +31,9 @@ async function main() {
 
     // app setup
     app.setup([
-        new defaultComponent.Component(config, router), // setup default
-        new monitoring.Component(config, app, router), // setup monitoring
-        new example.Component(config, router, publisher, subscriber, rpcServer, rpcClient), // setup example
+        new mainComponent.Component(config, router),
+        new monitoring.Component(config, app, router),
+        new example.Component(config, app, router, publisher, subscriber, rpcServer, rpcClient),
     ]);
 
     // app execution

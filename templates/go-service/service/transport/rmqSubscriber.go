@@ -77,15 +77,15 @@ func (s *RmqSubscriber) handleRmqMessages(eventName string, handler EventHandler
 	for rmqMessage := range rmqMessages {
 		envelopedMessage, err := CreateEnvelopedMessageFromJSON(rmqMessage.Body)
 		if err != nil {
-			s.logger.Println("[ERROR RmqSubscriber]", err)
+			s.logger.Printf("[ERROR RmqSubscriber] Get Event %s: %#v", eventName, err)
 			if !autoAck {
-				rmqMessage.Nack(false, true)
+				rmqMessage.Ack(false)
 			}
 			continue
 		}
 		s.logger.Printf("[INFO RmqSubscriber] Get %s: %#v", eventName, envelopedMessage.Message)
 		if err = handler(envelopedMessage.Message); err != nil {
-			s.logger.Println("[ERROR RmqSubscriber]", err)
+			s.logger.Printf("[ERROR RmqSubscriber] Get Event %s: %#v", eventName, err)
 			if !autoAck {
 				rmqMessage.Nack(false, true)
 			}

@@ -79,32 +79,24 @@ func (s *RmqRPCServer) Serve(errChan chan error) {
 
 func (s *RmqRPCServer) handleRmqMessages(ch *amqp.Channel, functionName string, handler RPCHandler, rmqMessages <-chan amqp.Delivery, autoAck bool) {
 	for rmqMessage := range rmqMessages {
+		if !autoAck {
+			rmqMessage.Ack(false)
+		}
 		replyTo := rmqMessage.ReplyTo
 		envelopedInput, err := CreateEnvelopedMessageFromJSON(rmqMessage.Body)
 		if err != nil {
 			s.handleRmqMessageError(ch, functionName, replyTo, envelopedInput, err)
-			if !autoAck {
-				rmqMessage.Nack(false, true)
-			}
 			continue
 		}
 		inputs, err := envelopedInput.Message.GetInterfaceArray("inputs")
 		if err != nil {
 			s.handleRmqMessageError(ch, functionName, replyTo, envelopedInput, err)
-			if !autoAck {
-				rmqMessage.Nack(false, true)
-			}
 			continue
 		}
 		output, err := handler(inputs...)
 		if err != nil {
 			s.handleRmqMessageError(ch, functionName, replyTo, envelopedInput, err)
-			if !autoAck {
-				rmqMessage.Nack(false, true)
-			}
 			continue
-		} else if !autoAck {
-			rmqMessage.Ack(false)
 		}
 		s.logger.Printf("[INFO RmqRPCServer] Reply %s by Sending to Queue %s: %#v", functionName, replyTo, output)
 		if err = rmqRPCReplyOutput(ch, replyTo, envelopedInput, output); err != nil {

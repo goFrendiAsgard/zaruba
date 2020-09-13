@@ -1,8 +1,8 @@
 package main
 
 import (
-	"app/component/defaultcomponent"
 	"app/component/example"
+	"app/component/maincomponent"
 	"app/component/monitoring"
 	"app/config"
 	"app/core"
@@ -42,11 +42,9 @@ func main() {
 
 	// app setup
 	app.Setup([]core.Comp{
-		defaultcomponent.CreateComponent(config, router), // setup landingPage
-		monitoring.CreateComponent(config, app, router),  // setup monitoring
-		example.CreateComponent(
-			config, router, publisher, subscriber, rpcServer, rpcClient,
-		), // setup example
+		maincomponent.CreateComponent(config, router),
+		monitoring.CreateComponent(config, app, router),
+		example.CreateComponent(config, app, router, publisher, subscriber, rpcServer, rpcClient),
 	})
 
 	// app execution

@@ -1,4 +1,4 @@
-package defaultcomponent
+package maincomponent
 
 import (
 	"app/config"
