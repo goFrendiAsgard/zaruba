@@ -19,36 +19,28 @@ class Component(Comp):
         self.rpc_client: RPCClient = rpc_client
 
     def setup(self):
+        self.route()
+        self.register_rpc_handler()
+        self.register_message_handler()
 
+    def route(self):
         # Use the same HTTP Handler for multiple URLS
-        self.router.add_url_rule(
-            "/hello", "hello", self.handle_http_hello, methods=["POST", "GET"])
-        self.router.add_url_rule(
-            "/hello/<name>", "hello-name", self.handle_http_hello, methods=["GET"])
-
+        self.router.add_url_rule("/hello", "hello", self.handle_http_hello, methods=["POST", "GET"])
+        self.router.add_url_rule("/hello/<name>", "hello-name", self.handle_http_hello, methods=["GET"])
         # Use HTTP Handler that take state from component
-        self.router.add_url_rule(
-            "/hello-all", "hello-all", self.handle_http_hello_all, methods=["GET"])
-
+        self.router.add_url_rule("/hello-all", "hello-all", self.handle_http_hello_all, methods=["GET"])
         # Trigger RPC Call
-        self.router.add_url_rule(
-            "/hello-rpc", "hello-rpc", self.handle_http_hello_rpc, methods=["POST", "GET"])
-        self.router.add_url_rule(
-            "/hello-rpc/<name>", "hello-rpc-name", self.handle_http_hello_rpc)
-
+        self.router.add_url_rule("/hello-rpc", "hello-rpc", self.handle_http_hello_rpc, methods=["POST", "GET"])
+        self.router.add_url_rule("/hello-rpc/<name>", "hello-rpc-name", self.handle_http_hello_rpc)
         # Trigger Publisher
-        self.router.add_url_rule(
-            "/hello-pub", "hello-pub", self.handle_http_hello_pub, methods=["POST", "GET"])
-        self.router.add_url_rule(
-            "/hello-pub/<name>", "hello-pub-name", self.handle_http_hello_pub)
+        self.router.add_url_rule("/hello-pub", "hello-pub", self.handle_http_hello_pub, methods=["POST", "GET"])
+        self.router.add_url_rule("/hello-pub/<name>", "hello-pub-name", self.handle_http_hello_pub)
 
-        # Serve RPC
-        self.rpc_server.register_handler(
-            "helloRPC", self.handle_rpc_hello)
+    def register_rpc_handler(self):
+        self.rpc_server.register_handler("helloRPC", self.handle_rpc_hello)
 
-        # Event
-        self.subscriber.register_handler(
-            "hello", self.handle_event_hello)
+    def register_message_handler(self):
+        self.subscriber.register_handler("hello", self.handle_event_hello)
 
     def handle_http_hello(self, name: str = ""):
         name = get_name(name)

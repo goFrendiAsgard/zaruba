@@ -14,10 +14,19 @@ export class Config {
             helloRPC: {
                 exchangeName: "servicename.exchange.helloRPC",
                 queueName: "servicename.queue.helloRPC",
+                deadLetterExchange: "servicename.exchange.helloRPC.dlx",
+                deadLetterQueue: "servicename.queue.helloRPC.dlx",
+                ttl: 10000,
+                autoAck: true,
+                rpcTimeout: 20000,
             },
             hello: {
                 exchangeName: "servicename.exchange.helloEvent",
                 queueName: "servicename.queue.helloEvent",
+                deadLetterExchange: "servicename.exchange.helloEvent.dlx",
+                deadLetterQueue: "servicname.queue.helloEvent.dlx",
+                ttl: 60000,
+                autoAck: false,
             }
         });
     }

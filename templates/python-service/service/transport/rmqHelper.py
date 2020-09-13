@@ -12,7 +12,7 @@ def rmq_declare_and_bind_queue(ch: BlockingChannel, exchange_name: str, queue_na
 
 
 def rmq_declare_queue(ch: BlockingChannel, queue_name: str):
-    ch.queue_declare(queue_name)
+    ch.queue_declare(queue_name, durable=True)
 
 
 def rmq_declare_fanout_exchange(ch: BlockingChannel, exchange_name: str):

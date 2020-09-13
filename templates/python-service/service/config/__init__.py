@@ -14,10 +14,19 @@ class Config():
             "helloRPC": {
                 "exchange_name": "servicename.exchange.helloRPC",
                 "queue_name": "servicename.queue.helloRPC",
+                "dead_letter_exchange": "servicename.exchange.helloRPC.dlx",
+                "dead_letter_queue": "servicename.queue.helloRPC.dlx",
+                "ttl": 10000,
+                "auto_ack": True,
+                "rpc_timeout": 20000
             },
             "hello": {
                 "exchange_name": "servicename.exchange.helloEvent",
                 "queue_name": "servicename.queue.helloEvent",
+                "dead_letter_exchange": "servicename.exchange.helloEvent.dlx",
+                "dead_letter_queue": "servicename.queue.helloEvent.dlx",
+                "ttl": 60000,
+                "autoAck": False
             }
         })
 

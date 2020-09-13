@@ -31,12 +31,21 @@ func CreateConfig() (config *Config) {
 		DefaultRmqConnectionString: GetStrFromEnv("DEFAULT_RMQ_CONNECTION_STRING", "amqp://localhost:5672/"),
 		RmqEventMap: &transport.RmqEventMap{
 			"helloRPC": transport.RmqEventConfig{
-				ExchangeName: "servicename.exchange.helloRPC",
-				QueueName:    "servicename.queue.helloRPC",
+				ExchangeName:       "servicename.exchange.helloRPC",
+				QueueName:          "servicename.queue.helloRPC",
+				DeadLetterExchange: "servicename.exchange.helloRPC.dlx",
+				DeadLetterQueue:    "servicename.queue.helloRPC.dlx",
+				TTL:                10000,
+				AutoAck:            true,
+				RPCTimeout:         20000,
 			},
 			"hello": transport.RmqEventConfig{
-				ExchangeName: "servicename.exchange.helloEvent",
-				QueueName:    "servicename.queue.helloEvent",
+				ExchangeName:       "servicename.exchange.helloEvent",
+				QueueName:          "servicename.queue.helloEvent",
+				DeadLetterExchange: "servicename.exchange.helloEvent.dlx",
+				DeadLetterQueue:    "servicename.queue.helloEvent.dlx",
+				TTL:                60000,
+				AutoAck:            false,
 			},
 		},
 	}

@@ -8,7 +8,7 @@ export async function rmqDeclareAndBindQueue(ch: amqplib.Channel, exchangeName: 
 }
 
 export async function rmqDeclareQueue(ch: amqplib.Channel, queueName: string): Promise<amqplib.Replies.AssertQueue> {
-    return await ch.assertQueue(queueName, { durable: false });
+    return await ch.assertQueue(queueName, { durable: true });
 }
 
 export async function rmqDeclareFanoutExchange(ch: amqplib.Channel, exchangeName: string): Promise<amqplib.Replies.AssertExchange> {

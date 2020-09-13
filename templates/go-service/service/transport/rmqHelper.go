@@ -4,14 +4,13 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func rmqDeclareAndBindQueue(ch *amqp.Channel, exchangeName, queueName string) (q amqp.Queue, err error) {
+func rmqDeclareAndBindQueue(ch *amqp.Channel, exchangeName, queueName string, durable, autoDelete, exclusive, noWait bool, args amqp.Table) (q amqp.Queue, err error) {
 	// declare exchange
-	err = rmqDeclareFanoutExchange(ch, exchangeName)
-	if err != nil {
+	if err = rmqDeclareFanoutExchange(ch, exchangeName); err != nil {
 		return q, err
 	}
 	// declare queue
-	q, err = rmqDeclareQueue(ch, queueName)
+	q, err = rmqDeclareQueue(ch, queueName, durable, autoDelete, exclusive, noWait, args)
 	if err != nil {
 		return q, err
 	}
@@ -26,15 +25,8 @@ func rmqDeclareAndBindQueue(ch *amqp.Channel, exchangeName, queueName string) (q
 	return q, err
 }
 
-func rmqDeclareQueue(ch *amqp.Channel, queueName string) (q amqp.Queue, err error) {
-	return ch.QueueDeclare(
-		queueName, // name
-		false,     // durable
-		false,     // delete when unused
-		false,     // exclusive
-		false,     // no-wait
-		nil,       // arguments
-	)
+func rmqDeclareQueue(ch *amqp.Channel, queueName string, durable, autoDelete, exclusive, noWait bool, args amqp.Table) (q amqp.Queue, err error) {
+	return ch.QueueDeclare(queueName, durable, autoDelete, exclusive, noWait, args)
 }
 
 func rmqDeclareFanoutExchange(ch *amqp.Channel, exchangeName string) (err error) {
@@ -49,16 +41,15 @@ func rmqDeclareFanoutExchange(ch *amqp.Channel, exchangeName string) (err error)
 	)
 }
 
-func rmqConsume(ch *amqp.Channel, queueName string) (rmqMessages <-chan amqp.Delivery, err error) {
-	_, err = rmqDeclareQueue(ch, queueName)
-	if err != nil {
+func rmqConsume(ch *amqp.Channel, queueName string, durable, autoDelete, exclusive, noWait, autoAck bool, args amqp.Table) (rmqMessages <-chan amqp.Delivery, err error) {
+	if _, err = rmqDeclareQueue(ch, queueName, durable, autoDelete, exclusive, noWait, args); err != nil {
 		return rmqMessages, err
 	}
 	// start consume
 	return ch.Consume(
 		queueName, // queue
 		"",        // consumer
-		true,      // auto-ack
+		autoAck,   // auto-ack
 		false,     // exclusive
 		false,     // no-local
 		false,     // no-wait
@@ -67,6 +58,11 @@ func rmqConsume(ch *amqp.Channel, queueName string) (rmqMessages <-chan amqp.Del
 }
 
 func rmqPublish(ch *amqp.Channel, exchangeName, routingKey string, data amqp.Publishing) (err error) {
+	if exchangeName != "" {
+		if err = rmqDeclareFanoutExchange(ch, exchangeName); err != nil {
+			return err
+		}
+	}
 	return ch.Publish(
 		exchangeName, // exchange
 		routingKey,   // routing key

@@ -36,30 +36,34 @@ func CreateComponent(config *config.Config, router *gin.Engine, publisher transp
 
 // Setup component
 func (comp *Component) Setup() {
+	comp.route()
+	comp.registerRPCHandler()
+	comp.registerMessageHandler()
+}
+
+func (comp *Component) route() {
 	// Use the same HTTP Handler for multiple URLS
 	comp.router.GET("/hello", comp.handleHTTPHello)
 	comp.router.GET("/hello/:name", comp.handleHTTPHello)
 	comp.router.POST("/hello", comp.handleHTTPHello)
-
 	// Use HTTP Handler that take state from component
 	comp.router.GET("/hello-all", comp.handleHTTPHelloAll)
-
 	// Trigger RPC Call
 	comp.router.GET("/hello-rpc", comp.handleHTTPHelloRPC)
 	comp.router.GET("/hello-rpc/:name", comp.handleHTTPHelloRPC)
 	comp.router.POST("/hello-rpc", comp.handleHTTPHelloRPC)
-
 	// Trigger Publisher Call
 	comp.router.GET("/hello-pub", comp.handleHTTPHelloPub)
 	comp.router.GET("/hello-pub/:name", comp.handleHTTPHelloPub)
 	comp.router.POST("/hello-pub", comp.handleHTTPHelloPub)
+}
 
-	// Serve RPC
+func (comp *Component) registerRPCHandler() {
 	comp.rpcServer.RegisterHandler("helloRPC", comp.handleRPCHello)
+}
 
-	// Event
+func (comp *Component) registerMessageHandler() {
 	comp.subscriber.RegisterHandler("hello", comp.handleEventHello)
-
 }
 
 func (comp *Component) handleHTTPHello(c *gin.Context) {

@@ -23,4 +23,9 @@ export interface Subscriber {
 export interface RmqEventConfig {
     queueName: string;
     exchangeName: string;
+    rpcTimeout?: number;
+    deadLetterExchange: string;
+    deadLetterQueue: string;
+    ttl: number;
+    autoAck: boolean;
 }
