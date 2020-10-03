@@ -18,11 +18,14 @@ import (
 
 // Init monorepo and subtree
 func Init(projectDir string, p *config.ProjectConfig) (err error) {
+	defaultBranchName := p.GetDefaultBranch()
 	branchName, err := git.GetCurrentBranchName(projectDir)
 	if err != nil {
 		return err
-	} else if branchName != "master" {
-		return errors.New("You are not on `master` branch, please checkout to `master` and continue")
+	}
+	if branchName != defaultBranchName {
+		errorMessage := fmt.Sprintf("You are on `%s` branch, please checkout to `%s` first", branchName, defaultBranchName)
+		return errors.New(errorMessage)
 	}
 	if err = createZarubaConfigIfNotExists(projectDir); err != nil {
 		return err

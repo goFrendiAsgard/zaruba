@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
@@ -16,6 +17,7 @@ type ProjectConfig struct {
 	dirName                      string // directory name (assigned automatically)
 	ignores                      []string
 	name                         string
+	defaultBranch                string
 	env                          map[string]string
 	components                   map[string]*Component
 	links                        map[string][]string
@@ -40,6 +42,11 @@ func (p *ProjectConfig) GetName() (projectName string) {
 // GetDirName get name of project
 func (p *ProjectConfig) GetDirName() (projectDirName string) {
 	return p.dirName
+}
+
+// GetDefaultBranch get branch of porject
+func (p *ProjectConfig) GetDefaultBranch() (projectDefaultBranch string) {
+	return p.defaultBranch
 }
 
 // GetComponents get components of project
@@ -149,21 +156,45 @@ func (p *ProjectConfig) GetEnv() (env map[string]string) {
 	return p.env
 }
 
+func (p *ProjectConfig) getRelativeLocation(basePath, location string) (relativeLocation string) {
+	relativeLocation, err := filepath.Rel(basePath, location)
+	if err != nil {
+		relativeLocation = location
+	}
+	return relativeLocation
+}
+
+func (p *ProjectConfig) getRelativeLinks(basePath string) (relativeLinks map[string][]string) {
+	relativeLinks = map[string][]string{}
+	for src, dstList := range p.GetLinks() {
+		relativeDstList := []string{}
+		for _, dst := range dstList {
+			relativeDst := p.getRelativeLocation(basePath, dst)
+			relativeDstList = append(relativeDstList, relativeDst)
+		}
+		relativeLinks[p.getRelativeLocation(basePath, src)] = relativeDstList
+	}
+	return relativeLinks
+}
+
 // ToYaml get yaml representation of projectConfig
 func (p *ProjectConfig) ToYaml() (str string, err error) {
+	basePath := p.GetDirName()
 	pYaml := &ProjectConfigYaml{
-		Ignores:    p.ignores,
-		Name:       p.GetName(),
-		Env:        p.GetEnv(),
-		Components: map[string]ComponentYaml{},
-		Links:      p.GetLinks(),
+		Ignores:       p.GetIgnores(),
+		Name:          p.GetName(),
+		Env:           p.GetEnv(),
+		DefaultBranch: p.GetDefaultBranch(),
+		Components:    map[string]ComponentYaml{},
+		Links:         p.getRelativeLinks(basePath),
 	}
 	for componentName, component := range p.GetComponents() {
+		componentLocation := component.GetLocation()
 		pYaml.Components[componentName] = ComponentYaml{
 			Type:           component.GetType(),
 			Labels:         component.GetLabels(),
 			Origin:         component.GetOrigin(),
-			Location:       component.GetLocation(),
+			Location:       p.getRelativeLocation(basePath, componentLocation),
 			Image:          component.GetImage(),
 			Start:          component.GetStartCommand(),
 			ContainerName:  component.GetContainerName(),
@@ -233,9 +264,14 @@ func getSubrepoPrefix(projectDir, location string) string {
 }
 
 func (p *ProjectConfig) fromProjectConfigYaml(pYaml *ProjectConfigYaml, directory string) *ProjectConfig {
+	branch := pYaml.DefaultBranch
+	if branch == "" {
+		branch = "main"
+	}
 	// load pYaml into p
 	p.ignores = pYaml.Ignores
 	p.dirName = directory
+	p.defaultBranch = branch
 	p.env = pYaml.Env
 	p.name = pYaml.Name
 	p.components = make(map[string]*Component)

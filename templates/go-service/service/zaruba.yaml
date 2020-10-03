@@ -19,7 +19,6 @@ components:
     labels:
       scenario: default
     origin: "" # fill this one with your git repository
-    branch: master
     env:
       SERVICENAME_HTTP_PORT: ${SERVICENAME_HTTP_PORT}
       DEFAULT_RMQ_CONNECTION_STRING: amqp://${RMQ_USER}:${RMQ_PASS}@${rmq}:${RMQ_PORT}/

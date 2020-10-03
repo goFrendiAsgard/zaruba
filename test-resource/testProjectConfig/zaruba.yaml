@@ -1,3 +1,4 @@
+defaultBranch: master
 env: 
   RMQ_USER: root
   RMQ_PASS: toor

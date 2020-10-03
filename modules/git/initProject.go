@@ -85,7 +85,8 @@ func initSubrepo(projectDir, componentName string, component *config.Component) 
 		return err
 	}
 	// push
-	if err = command.RunInteractively(tempDir, "git", "push", "-u", "origin", "master"); err != nil {
+	defaultBranch := component.GetDefaultBranch()
+	if err = command.RunInteractively(tempDir, "git", "push", "-u", "origin", defaultBranch); err != nil {
 		return err
 	}
 	return os.RemoveAll(tempDir)

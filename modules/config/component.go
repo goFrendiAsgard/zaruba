@@ -94,7 +94,7 @@ func (c *Component) GetContainerName() (containerName string) {
 }
 
 // GetVolumes get component container name
-func (c *Component) GetVolumes() (volumens map[string]string) {
+func (c *Component) GetVolumes() (volumes map[string]string) {
 	return c.volumes
 }
 
@@ -111,6 +111,11 @@ func (c *Component) GetEnv() (env map[string]string) {
 // GetDependencies get service dependencies
 func (c *Component) GetDependencies() (dependencies []string) {
 	return c.dependencies
+}
+
+// GetDefaultBranch get project defaultBranch
+func (c *Component) GetDefaultBranch() (defaultBranch string) {
+	return c.project.GetDefaultBranch()
 }
 
 // GetRuntimeContainerName get container name for runtime
