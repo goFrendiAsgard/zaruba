@@ -16,6 +16,7 @@ coverage/coverage.html
 # server-repos
 test-resource/server-repos/child*
 test-resource/server-repos/parent*
+test-resource/.ssh/known_hosts
 
 .mypy_cache/
 .vscode/
