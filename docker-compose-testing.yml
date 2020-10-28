@@ -41,7 +41,7 @@ services:
       && git config --global user.email 'you@example.com'
       && git config --global user.name 'Your Name'
       && echo 'WAITING GIT SERVER =================================================='
-      && sleep 5
+      && until nc -z ztest-git 22; do sleep 3; done
       && echo 'PREPARE TEST ========================================================'
       && cd /zaruba-src
       && (ssh -o StrictHostKeyChecking=no git@ztest-git  || echo "ok")
