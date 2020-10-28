@@ -17,11 +17,7 @@ func CommitIfAnyDiff(projectDir, message string) {
 // Commit add and commit
 func Commit(projectDir, message string) {
 	logger.Info("Git add and git commit with messsage `%s`", message)
-	if err := command.RunInteractively(projectDir, "git", "add", ".", "-A"); err != nil {
-		logger.Error("%s", err)
-		return
-	}
-	if err := command.RunInteractively(projectDir, "git", "commit", "-m", message); err != nil {
+	if err := command.RunInteractively(projectDir, "git", "commit", "-am", message); err != nil {
 		logger.Error("%s", err)
 	}
 }
