@@ -44,6 +44,7 @@ services:
       && sleep 5
       && echo 'PREPARE TEST ========================================================'
       && cd /zaruba-src
+      && (ssh -o StrictHostKeyChecking=no git@ztest-git  || echo "ok")
       && ./prepare-test.sh
       && echo 'RUN TEST ============================================================'
       && go test ./... --race -coverprofile=./coverage/profile.out -covermode=atomic

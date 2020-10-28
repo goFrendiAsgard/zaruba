@@ -23,4 +23,5 @@ test-resource/server-repos/child
 test-resource/server-repos/parent
 test-resource/server-repos/child.git
 test-resource/server-repos/parent.git
+test-resource/.ssh/known_hosts
 

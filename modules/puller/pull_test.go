@@ -27,7 +27,7 @@ func TestPull(t *testing.T) {
 		t.Errorf("[ERROR] Cannot copy test-case: %s", err)
 		return
 	}
-	if _, err := command.RunShellScriptAndReturn(testPath, "git commit -am 'first commit'", []string{}); err != nil {
+	if _, err := command.RunShellScriptAndReturn(testPath, "git add . -A && git commit -m 'first commit'", []string{}); err != nil {
 		t.Errorf("[ERROR] Cannot git commit: %s", err)
 	}
 
