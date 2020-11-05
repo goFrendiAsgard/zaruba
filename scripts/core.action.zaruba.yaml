@@ -13,3 +13,4 @@ tasks:
       script: |
         cd {{ .BasePath }}/..
         git pull origin master
+        go build
