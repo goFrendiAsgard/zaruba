@@ -20,7 +20,7 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # Documentation
 
-[Documentation](Documentation.md)
+[Documentation](docs/Documentation.md)
 
 # Fun Fact
 
