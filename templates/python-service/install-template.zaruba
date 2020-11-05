@@ -1,7 +1,0 @@
-#!/bin/sh
-set -e
-
-echo "Check conda"
-conda -v
-
-echo "Python-service template has been successfully installed. Enjoy !!!"

@@ -1,8 +1,0 @@
-#!/bin/sh
-. ./lib-service.sh
-SHARED_LIB_DIR=${PROJECT_DIR}/libraries/go
-copyAndMoveToService
-substituteValues ./*.go ./*/*.go ./*/*/*.go ./go.mod ./Dockerfile ./zaruba.yaml ./Makefile ./README.md
-copySharedLibs ${SHARED_LIB_DIR} . transport core
-adjustZarubaYaml
-echo "Service ${SERVICE_NAME} created."
