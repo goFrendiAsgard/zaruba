@@ -1,0 +1,147 @@
+tasks:
+ 
+  initMonorepo:
+    icon: 📦
+    description: |
+      Start a monorepo.
+      You must specify `branch`, `prefix`, and `git-url` of your subrepo in your `default.kwargs.yaml`:
+      ```yaml
+      subrepo::<name>::prefix: <repo-location>
+      subrepo::<name>::url: <git-url>
+      ```
+    extend: core.runShellScript
+    config:
+      script: |
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        ORIGINS=$(git remote)
+        {{ range $index, $name := $names -}}
+          {{ $prefix := $kwargs.GetValue "subrepo" $name "prefix" -}}
+          {{ $url := $kwargs.GetValue "subrepo" $name "url" -}}
+
+          NAME="{{ $name }}"
+          PREFIX="{{ $prefix }}"
+          URL="{{ $url }}"
+
+          if [ ! -z "$URL" ]
+          then
+
+            if [ -z "$BRANCH" ]
+            then
+              BRANCH="master"
+            fi
+
+            ORIGIN_EXISTS=0
+            for ORIGIN in $ORIGINS
+            do
+              if [ $ORIGIN = $NAME ]
+              then
+                ORIGIN_EXISTS=1
+              fi
+            done
+
+            if [ $ORIGIN_EXISTS = 0 ]
+            then
+              echo $NAME origin is not exist
+              git add . -A
+              git commit -m 'Save works'
+
+              PREFIX_EXISTS=0
+              if [ -d "$PREFIX" ]
+              then
+                PREFIX_EXISTS=1
+                mv "${PREFIX}" "${PREFIX}.bak"
+                git add . -A
+                git commit -m "Move ${PREFIX}"
+              fi
+
+              git remote add "${NAME}" "${URL}"
+              git subtree add --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+              git fetch "${NAME}" "${BRANCH}"
+              git pull "${NAME}" "${BRANCH}"
+
+              if [ $PREFIX_EXISTS = 1 ]
+              then
+                rm -Rf "${PREFIX}"
+                mv "${PREFIX}.bak" "${PREFIX}""
+                git add . -A
+                git commit -m "Move ${PREFIX} back"
+              fi
+            fi
+          fi
+         {{ end -}}
+
+  pushSubrepos:
+    icon: 📤
+    description: Publish subtree of your subrepo
+    extend: core.runShellScript
+    dependencies:
+      - initMonorepo
+      - organize
+    config:
+      script: |
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        ORIGINS=$(git remote)
+        {{ range $index, $name := $names -}}
+          {{ $prefix := $kwargs.GetValue "subrepo" $name "prefix" -}}
+          {{ $url := $kwargs.GetValue "subrepo" $name "url" -}}
+
+          NAME="{{ $name }}"
+          PREFIX="{{ $prefix }}"
+          URL="{{ $url }}"
+
+          ORIGIN_EXISTS=0
+          for ORIGIN in $ORIGINS
+          do
+            if [ $ORIGIN = $NAME ]
+            then
+              ORIGIN_EXISTS=1
+            fi
+          done
+          if [ $ORIGIN_EXISTS = 1 ]
+          then
+            git add . -A
+            git commit -m 'Save works'
+            git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+          fi
+        {{ end -}}
+
+  pullSubrepos:
+    icon: 📥
+    description: Publish subtree of your subrepo
+    extend: core.runShellScript
+    dependencies:
+      - initMonorepo
+    config:
+      script: |
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        ORIGINS=$(git remote)
+        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        {{ range $index, $name := $names -}}
+          {{ $prefix := $kwargs.GetValue "subrepo" $name "prefix" -}}
+          {{ $url := $kwargs.GetValue "subrepo" $name "url" -}}
+
+          NAME="{{ $name }}"
+          PREFIX="{{ $prefix }}"
+          URL="{{ $url }}"
+
+          ORIGIN_EXISTS=0
+          for ORIGIN in $ORIGINS
+          do
+            if [ $ORIGIN = $NAME ]
+            then
+              ORIGIN_EXISTS=1
+            fi
+          done
+          if [ $ORIGIN_EXISTS = 1 ]
+          then
+            git add . -A
+            git commit -m "Save works before pull"
+            git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+          fi
+        {{ end -}}
+ 

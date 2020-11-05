@@ -18,6 +18,21 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 > **NOTE** You need to have go 1.13 or higher to install zaruba
 
+# Getting Started
+
+```sh
+mkdir myProject
+cd myProject
+
+zaruba please initProject
+
+zaruba please add subRepo name=fibo-clock prefix=fibo-clock url="https://github.com/therealvasanth/fibonacci-clock"
+zaruba please initMonorepo
+
+cd fibo-clock
+zaruba please serveHttp
+```
+
 # Documentation
 
 [Documentation](docs/Documentation.md)

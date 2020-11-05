@@ -1,0 +1,36 @@
+tasks:
+  
+  initProject:
+    icon: 🚧
+    description: Init a zaruba project in your working directory.
+    extend: core.runShellScript
+    config:
+      script: | 
+        git init
+        cp -r {{ .BasePath }}/project-template/* ./
+ 
+  updateLinks:
+    icon: 🔗
+    description: |
+      Organize your shared library
+      You must specify links `default.kwargs.yaml`:
+      ```yaml
+      link::<destination>: <source>
+      ```
+    extend: core.runShellScript
+    config:
+      script: |
+        {{ $this := . -}}
+        {{ $workPath := .WorkPath }}
+        {{ $destinations := .Kwargs.GetSubKeys "link" -}}
+        {{ $kwargs := .Kwargs -}}
+        git add . -A
+        git commit -m "Save works before organize"
+        {{ range $index, $destination := $destinations -}}
+          {{ $source := $kwargs.GetValue "link" $destination -}}
+          {{ $absSource := $this.GetAbsPath $workPath $source -}}
+          {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
+          rm -Rf "{{ $absDestination }}"
+          cp -r "{{ $absSource }}" "{{ $absDestination }}"
+          chmod 555 "{{ $absDestination }}"
+        {{ end -}}

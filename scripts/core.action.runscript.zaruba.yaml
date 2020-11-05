@@ -1,0 +1,28 @@
+tasks:
+
+  core.runShellScript:
+    icon: 🐚
+    private: true
+    config:
+      executable: sh
+      argument: "-c"
+      script: "echo hello world"
+    start: ["{{ .Config.executable }}", "{{ .Config.argument }}", "{{ .Config.script }}"]
+ 
+  core.runPythonScript:
+    icon: 🐍
+    private: true
+    extend: core.runShellScript
+    config:
+      executable: python
+      script: "print('hello world')"
+ 
+  core.runNodeJsScript:
+    icon: 🐸
+    private: true
+    extend: core.runShellScript
+    config:
+      executable: node
+      argument: "-p"
+      script: "console.log('hello world')"
+ 

@@ -1,0 +1,15 @@
+includes:
+  - ./core.action.project.zaruba.yaml
+  - ./core.action.monorepo.zaruba.yaml
+  - ./core.action.runscript.zaruba.yaml
+
+tasks:
+
+  update:
+    icon: 🔄
+    description: Update zaruba
+    extend: core.runShellScript
+    config: 
+      script: |
+        cd {{ .BasePath }}/..
+        git pull origin master

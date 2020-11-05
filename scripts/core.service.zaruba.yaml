@@ -1,0 +1,95 @@
+tasks:
+
+  core.startDockerContainer:
+    icon: 🐳
+    description: |
+      A base task to run docker container.
+      It will try to run `docker run` first. 
+      If container is already exists, then it will run `docker start`.
+      All container's output will be shown as well.
+      Several configurations are available for this task:
+      ```yaml
+      config:
+        containerName: <containerName>      # Name of the container
+        imageName: <imageName>              # Base image of the container
+        port::<hostPort>: <containerPort>   # Binding <containerPort> to <hostPort>
+        volume::<hostPath>: <containerPath> # Binding <containerPath> to <hostPath>
+      ```
+    private: true
+    config:
+    start:
+      - sh
+      - "-c"
+      - |
+        {{ $this := . -}}
+        {{ $workPath := .WorkPath -}}
+        {{ $config := .Config -}}
+        {{ $ports := $config.GetSubKeys "port" -}}
+        {{ $volumes := $config.GetSubKeys "volume" -}}
+        ( {{ "" -}}
+          docker run --name {{ .Config.containerName }} {{ "" -}}
+            {{ range $key, $val := .Env }} -e {{ $key }}={{ $val }} {{ end -}}
+            {{ range $index, $hostPort := $ports -}} 
+              {{ $containerPort := $config.GetValue "port" $hostPort -}}
+              -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
+            {{ end -}}
+            {{ range $index, $hostVolume := $volumes -}} 
+              {{ $absHostVolume := $this.GetAbsPath $workPath $hostVolume -}}
+              {{ $containerVolume := $config.GetValue "volume" $hostVolume -}}
+              -v {{ $absHostVolume }}:{{ $containerVolume }} {{ "" -}}
+            {{ end -}}
+            -d {{ .Config.imageName }} || {{ "" -}}
+          docker start {{ .Config.containerName -}}
+        ) && {{ "" -}}
+        docker logs --since 0m --follow {{ .Config.containerName }}
+    check:
+      - sh
+      - "-c"
+      - |
+        {{ $ports := .Config.GetSubKeys "port" -}}
+        {{ range $index, $hostPort := $ports -}}
+          echo Checking port '{{ $hostPort }}'
+          until nc -z localhost {{ $hostPort }}; do sleep 1; done
+        {{ end -}}
+        echo Task '{{ .Name }}' checked
+
+  core.startService:
+    icon: 🚚
+    description: |
+      A base task to run service.
+      You can put exposed ports on `lconfig` as follow:
+      ```yaml
+      lconfig:
+        ports: [8080, 8081]
+      ```
+      You can also override `start` command as needed.
+      By default, this task will serve static files in your current directory at port 3031
+    private: true
+    lconfig:
+      ports: [3031]
+    env:
+      PYTHONUNBUFFERED: 
+        from: PYTHONUNBUFFERED
+        default: 1
+    start: ["python", "-m", "http.server", "{{ index .LConfig.ports 0 }}"]
+    check:
+      - sh
+      - "-c"
+      - |
+        {{ range $index, $port := .LConfig.ports -}}
+          echo Checking port '{{ $port }}'
+          until nc -z localhost {{ $port }}; do sleep 1; done
+        {{ end }}
+        echo Task '{{ .Name }}' checked
+
+  serveHttp:
+    icon: 🌐
+    description: |
+      Run a static web server from your working directory.
+      You can specify the port by using `port=<port>` argument.
+      Otherwise, the port will be 8000.
+    extend: core.startService
+    lconfig:
+      ports: ["{{ if .Kwargs.port }}{{ .Kwargs.port }}{{ else }}8000{{ end }}"]
+
+ 
