@@ -14,7 +14,7 @@ go build
 echo 💀 Remove old Zaruba 
 go clean -i github.com/state-alchemists/zaruba
 
-if grep -q "${HOME}/.zaruba" <<< "${PATH}"
+if echo "${HOME}/.zaruba" | grep "${PATH}"
 then
     echo 💀 PATH is already containing '${HOME}/.zaruba'
 else
