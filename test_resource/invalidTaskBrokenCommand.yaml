@@ -1,0 +1,4 @@
+tasks:
+  doSomething:
+    start: ["{{ invalidSyntax?!@ }}"]
+    end: ["{{ invalidSyntax?!@ }}"]

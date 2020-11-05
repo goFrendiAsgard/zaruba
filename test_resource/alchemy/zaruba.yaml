@@ -1,0 +1,63 @@
+tasks:
+
+  clearThings:
+    location: ./
+    start: ["rm", "-f", "alembic.txt"]
+
+  makeSomething:
+    location: ./
+    config:
+      name: something
+      duration: 0.5
+    start:
+      - sh
+      - "-c"
+      - echo creating {{ .Config.name }}
+    check:
+      - sh
+      - "-c"
+      - sleep {{ .Config.duration }} && echo {{ .Config.name }} >> alembic.txt && echo {{ .Config.name }} created
+  
+  makeNaOH:
+    extend: makeSomething
+    config:
+      name: "NaOH"
+    dependencies:
+      - clearThings
+
+  makeHCl:
+    extend: makeSomething
+    config:
+      name: "HCl"
+      duration: 1 
+    dependencies:
+      - clearThings
+  
+  makeNaCl:
+    extend: makeSomething
+    config:
+      name: "NaCl"
+    dependencies:
+      - makeNaOH
+      - makeHCl
+  
+  makeH2O:
+    extend: makeSomething
+    config:
+      name: "H2O"
+      duration: 1
+    dependencies:
+      - makeNaOH
+      - makeHCl
+  
+  makeHotWater:
+    extend: makeSomething
+    config:
+      name: "Hot Water"
+    dependencies:
+      - makeH2O
+  
+  makeEverything:
+    dependencies:
+      - makeNaCl
+      - makeHotWater

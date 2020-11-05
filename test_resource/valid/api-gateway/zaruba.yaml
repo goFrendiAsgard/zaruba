@@ -1,0 +1,17 @@
+tasks:
+
+  runApiGateway:
+    location: ./
+    extend: core.runNodeJsService
+    config:
+      checkPort: '{{ .GetEnv "HTTP_PORT" }}'
+    lconfig:
+      tags: ["api", "nodejs"]
+    env:
+      HTTP_PORT:
+        from: API_GATEWAY_HTTP_PORT
+        default: 3001
+      PROMETHEUS_PORT:
+        from: API_GATEWAY_PROMETHEUS_PORT
+        default: 3002
+

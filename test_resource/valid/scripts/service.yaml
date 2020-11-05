@@ -1,0 +1,19 @@
+tasks:
+
+  core.runNodeJsService:
+    env:
+      SOME_KEY:
+        default: SOME_VALUE
+    config:
+      checkPort: 3000
+      checkHost: localhost
+    lconfig:
+      tags: ["nodejs", "service"]
+      requirement: ["nodejs-v11", "npm-v6.5.0"]
+    start: ["npm", "start"]
+    check: 
+      - "sh"
+      - "-c"
+      - 'until nc -z {{ .Config.checkHost }} {{ .Config.checkPort }}; do sleep 1; done'
+    private: true
+

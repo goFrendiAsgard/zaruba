@@ -1,0 +1,20 @@
+includes:
+  - ${ZARUBA_HOME}/scripts/core.zaruba.yaml
+
+tasks:
+
+  startNginx:
+    extend: core.startDockerContainer
+    location: ./nginx
+    config:
+      containerName: myNginx
+      imageName: nginx
+      port::3030: 80
+      volume::./conf.d: /etc/nginx/conf.d
+      volume::./html: /usr/share/nginx/html
+  
+  serveStatic:
+    extend: core.startService
+    location: ./static
+    lconfig:
+      exposedPorts: [3031]

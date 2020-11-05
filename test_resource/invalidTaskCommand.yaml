@@ -1,0 +1,23 @@
+tasks:
+
+  brokenCommand:
+    start: ["{{ invalidSyntax?!@ }}", "-c", "echo Running long preparation && sleep 5"]
+
+  brokenProcessStart:
+    start: ["{{ invalidSyntax?!@ }}", "10"]
+    check: ["sh", "-c", "echo Check process && sleep 5"]
+
+  brokenProcessCheck:
+    start: ["sleep", "10"]
+    check: ["{{ invalidSyntax?!@ }}", "-c", "echo Check process && sleep 5"]
+
+  nonExecutableCommand:
+    start: ["invalidCommand", "-c", "echo Running long preparation && sleep 5"]
+
+  nonExecutableProcessStart:
+    start: ["invalidCommand", "10"]
+    check: ["sh", "-c", "echo Check process && sleep 5"]
+
+  nonExecutableProcessCheck:
+    start: ["sleep", "10"]
+    check: ["invalidCommand", "-c", "echo Check process && sleep 5"] 

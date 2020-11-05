@@ -1,0 +1,7 @@
+tasks:
+  job:
+    extend: parentJob
+  parentJob:
+    lconfig: 
+      someKey:
+        - "{{ invalidSyntax?!@ }}"

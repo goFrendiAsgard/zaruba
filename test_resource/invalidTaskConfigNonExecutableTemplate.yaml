@@ -1,0 +1,6 @@
+tasks:
+  job:
+    extend: parentJob
+  parentJob:
+    config: 
+      someKey: "{{ .Something.not.exist }}"

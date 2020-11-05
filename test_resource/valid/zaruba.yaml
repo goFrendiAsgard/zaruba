@@ -1,0 +1,24 @@
+includes:
+  - ./scripts/service.yaml
+  - ./scripts/run.yaml
+  - ./api-gateway/zaruba.yaml
+
+tasks:
+
+  runIntegrationTest:
+    location: ./cypress
+    start: ["npm", "start"]
+    dependencies:
+      - runApiGateway
+  
+  serveStaticFiles:
+    extend: core.runStaticWebService
+    location: ./static
+    config:
+      port: 9000
+  
+  sayPythonHello:
+    extend: core.runPythonScript
+    config:
+      script: print("Hello world")
+  

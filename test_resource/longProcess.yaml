@@ -1,0 +1,10 @@
+tasks:
+
+  longPreparation:
+    start: ["sh", "-c", "echo Running long preparation && sleep 5"]
+
+  longProcess:
+    start: ["sleep", "10"]
+    check: ["sh", "-c", "echo Check process && sleep 5"]
+    dependencies:
+      - longPreparation
