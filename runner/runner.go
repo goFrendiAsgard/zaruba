@@ -374,11 +374,13 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 }
 
 func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) string {
+	dimDecoration := "\x1B[2m"
+	resetDecoration := "\x1B[0m"
 	formattedArgs := []string{}
 	for _, arg := range cmd.Args {
 		rows := strings.Split(arg, "\n")
-		formattedArg := strings.Join(rows, fmt.Sprintf("\n    "))
+		formattedArg := strings.Join(rows, fmt.Sprintf("\n%s     ", r.Spaces))
 		formattedArgs = append(formattedArgs, fmt.Sprintf("%s   * %s", r.Spaces, formattedArg))
 	}
-	return strings.Join(formattedArgs, "\n")
+	return fmt.Sprintf("%s%s%s", dimDecoration, strings.Join(formattedArgs, "\n"), resetDecoration)
 }

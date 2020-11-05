@@ -46,7 +46,7 @@ To provide custom `kwargs declaration file`, you can use `-k` flag. Otherwise, Z
 
 ```yaml
 includes:
-  - ${ZARUBA_HOME}/scripts/core.zaruba.yaml
+  - "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
   - ./third-party/script.zaruba.yaml
   - http://example.com/remote-script.yaml # not implemented
 

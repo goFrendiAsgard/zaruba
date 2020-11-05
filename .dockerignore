@@ -1,27 +1,4 @@
-**/.git
-**/.mypy_cache
-**/.vscode
-**/.logs
-
-# build
+coverage
 zaruba
-zaruba-darwin-386
-zaruba-darwin-amd64
-zaruba-linux-386
-zaruba-linux-amd64
-zaruba-windows-386
-zaruba-windows-amd64
-
-.env
-
-#coverage
-coverage/profile.out
-coverage/coverage.html
-
-# server-repos
-test-resource/server-repos/child
-test-resource/server-repos/parent
-test-resource/server-repos/child.git
-test-resource/server-repos/parent.git
-test-resource/.ssh/known_hosts
-
+zaruba
+test_resource/alchemy/alembic.txt

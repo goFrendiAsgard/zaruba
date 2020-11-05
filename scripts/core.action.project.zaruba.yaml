@@ -1,9 +1,40 @@
 tasks:
+
+  core.checkIsProject:
+    icon: 🔍
+    private: true
+    extend: core.runShellScript
+    config:
+      script: |
+        echo "Current directory should be zaruba project"
+        if [ ! -e main.zaruba.yaml ]
+        then
+          echo "$(pwd) is not a zaruba project" 1>&2 
+          echo "The task has to be executed in a zaruba project directory" 1>&2 
+          echo "You might want to 'initProject' first" 1>&2 
+          exit 1
+        fi
+ 
+  core.checkIsNotProject:
+    icon: 🔍
+    private: true
+    extend: core.runShellScript
+    config:
+      script: |
+        echo "Current directory should not be zaruba project"
+        if [ -e main.zaruba.yaml ]
+        then
+          echo "$(pwd) is a zaruba project" 1>&2
+          echo "The task cannot be executed in a zaruba project directory" 1>&2 
+          exit 1
+        fi
   
   initProject:
     icon: 🚧
     description: Init a zaruba project in your working directory.
     extend: core.runShellScript
+    dependencies:
+      - core.checkIsNotProject
     config:
       script: | 
         git init
@@ -18,6 +49,8 @@ tasks:
       link::<destination>: <source>
       ```
     extend: core.runShellScript
+    dependencies:
+      - core.checkIsProject
     config:
       script: |
         {{ $this := . -}}
