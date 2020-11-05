@@ -95,7 +95,7 @@ For more comprehensive explanation, please read the [documentation](docs/Documen
 
 # Roadmap
 
-To see the future of Zaruba, plese visit our [Roadmap](roadmap.md).
+To see the future of Zaruba, plese visit our [Roadmap](Roadmap.md).
 
 
 # Fun Fact

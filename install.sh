@@ -29,3 +29,4 @@ else
         echo 'PATH=$PATH:"${HOME}/.zaruba"' >> "${HOME}/.zshrc"
     fi
 fi
+echo 💀 Installation success 
