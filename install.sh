@@ -1,7 +1,9 @@
 #!/bin/sh
 
+set -e
+
 echo 💀 Cloning Zaruba 
-git clone -–depth 1 https://github.com/state-alchemists/zaruba "${HOME}/.zaruba"
+git clone --depth 1 https://github.com/state-alchemists/zaruba "${HOME}/.zaruba"
 
 echo 💀 Build Zaruba 
 echo "Build Zaruba"
