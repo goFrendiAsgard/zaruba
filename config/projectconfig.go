@@ -18,6 +18,8 @@ import (
 type ProjectConfig struct {
 	Includes          []string         `yaml:"includes"`
 	Tasks             map[string]*Task `yaml:"tasks"`
+	Name              string           `yaml:"name"`
+	FileLocation      string
 	Kwargs            map[string]string
 	Generator         *iconer.Generator
 	SortedTaskNames   []string
@@ -40,7 +42,7 @@ func NewConfig(configFile string) (conf *ProjectConfig, err error) {
 		return conf, err
 	}
 	conf.generateProperties()
-	conf.fillTaskAndEnvParent()
+	conf.fillTaskAndEnv()
 	return conf, err
 }
 
@@ -78,12 +80,21 @@ func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
 			return conf, err
 		}
 	}
+	conf.FileLocation = absConfigFile
 	conf.fillTaskFileLocationAndDirPath(absConfigFile)
 	inclusionParentDir := filepath.Dir(absConfigFile)
 	if err = conf.loadInclusion(inclusionParentDir); err != nil {
 		return conf, err
 	}
 	return conf, err
+}
+
+// GetName get projectName
+func (conf *ProjectConfig) GetName() (name string) {
+	if conf.Name != "" {
+		return conf.Name
+	}
+	return filepath.Base(filepath.Dir(conf.Name))
 }
 
 // GetPublishedTask get all published task
@@ -186,10 +197,10 @@ func (conf *ProjectConfig) generateProperties() {
 	sort.Strings(conf.SortedTaskNames)
 }
 
-func (conf *ProjectConfig) fillTaskAndEnvParent() {
+func (conf *ProjectConfig) fillTaskAndEnv() {
 	for taskName, task := range conf.Tasks {
-		task.Parent = conf
+		task.Project = conf
 		task.Name = taskName
-		task.fillEnvParent()
+		task.fillEnvTask()
 	}
 }

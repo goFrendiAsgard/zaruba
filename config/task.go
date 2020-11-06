@@ -31,7 +31,7 @@ type Task struct {
 	Description     string                `yaml:"description"`
 	Icon            string                `yaml:"icon"`
 	FileLocation    string
-	Parent          *ProjectConfig
+	Project         *ProjectConfig
 	BasePath        string
 	ParsedEnv       map[string]string
 	ParsedConfig    map[string]string
@@ -41,9 +41,9 @@ type Task struct {
 	TimeoutDuration time.Duration
 }
 
-func (task *Task) fillEnvParent() {
+func (task *Task) fillEnvTask() {
 	for _, env := range task.Env {
-		env.Parent = task
+		env.Task = task
 	}
 }
 
@@ -61,7 +61,7 @@ func (task *Task) init() (err error) {
 		task.TimeoutDuration = 5 * time.Minute
 	}
 	if task.Extend != "" {
-		if _, exists := task.Parent.Tasks[task.Extend]; !exists {
+		if _, exists := task.Project.Tasks[task.Extend]; !exists {
 			return fmt.Errorf("Task %s is extending %s but task %s doesn't exist", task.Name, task.Extend, task.Extend)
 		}
 	}
@@ -79,14 +79,14 @@ func (task *Task) init() (err error) {
 
 func (task *Task) generateIcon() {
 	if task.Icon == "" {
-		icon := task.Parent.Generator.Create()
+		icon := task.Project.Generator.Create()
 		task.Icon = icon
 	}
 }
 
 func (task *Task) generateFunkyName() {
 	d := logger.NewDecoration()
-	repeat := task.Parent.MaxTaskNameLength - len(task.Name)
+	repeat := task.Project.MaxTaskNameLength - len(task.Name)
 	if repeat < 0 {
 		repeat = 0
 	}
@@ -103,7 +103,7 @@ func (task *Task) getParsedEnv() (parsedEnv map[string]string) {
 		}
 		parsedEnv[envName] = val
 	}
-	parentTask, exists := task.Parent.Tasks[task.Extend]
+	parentTask, exists := task.Project.Tasks[task.Extend]
 	if !exists {
 		return parsedEnv
 	}
@@ -123,7 +123,7 @@ func (task *Task) getParsedConfig() (parsedConfig map[string]string, err error) 
 			return parsedConfig, err
 		}
 	}
-	parentTask, exists := task.Parent.Tasks[task.Extend]
+	parentTask, exists := task.Project.Tasks[task.Extend]
 	if !exists {
 		return parsedConfig, nil
 	}
@@ -151,7 +151,7 @@ func (task *Task) getParsedLConfig() (parsedLConfig map[string][]string, err err
 			parsedLConfig[configName] = append(parsedLConfig[configName], val)
 		}
 	}
-	parentTask, exists := task.Parent.Tasks[task.Extend]
+	parentTask, exists := task.Project.Tasks[task.Extend]
 	if !exists {
 		return parsedLConfig, nil
 	}
@@ -184,7 +184,7 @@ func (task *Task) getPath() (path string) {
 	if task.Location != "" {
 		return filepath.Join(task.BasePath, task.Location)
 	}
-	if parentTask, exists := task.Parent.Tasks[task.Extend]; exists {
+	if parentTask, exists := task.Project.Tasks[task.Extend]; exists {
 		return parentTask.getPath()
 	}
 	return ""
@@ -197,7 +197,7 @@ func (task *Task) GetStartCmd() (cmd *exec.Cmd, exist bool, err error) {
 
 func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, err error) {
 	if len(task.Start) == 0 {
-		parentTask, exists := task.Parent.Tasks[task.Extend]
+		parentTask, exists := task.Project.Tasks[task.Extend]
 		if !exists {
 			return cmd, false, fmt.Errorf("Cannot retrieve StartCmd from %s's parent", task.Name)
 		}
@@ -214,7 +214,7 @@ func (task *Task) GetCheckCmd() (cmd *exec.Cmd, exist bool, err error) {
 
 func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, err error) {
 	if len(task.Check) == 0 {
-		parentTask, exists := task.Parent.Tasks[task.Extend]
+		parentTask, exists := task.Project.Tasks[task.Extend]
 		if !exists {
 			return cmd, false, fmt.Errorf("Cannot retrieve CheckCmd from %s's parent", task.Name)
 		}
@@ -258,13 +258,14 @@ func (task *Task) getCmd(commandPatternArgs []string, taskData *TaskData) (cmd *
 
 func (task *Task) log(pipe io.ReadCloser, taskData *TaskData, logType string) {
 	buf := bufio.NewScanner(pipe)
-	template := "  %s %s  %s\n"
+	d := logger.NewDecoration()
+	prefix := fmt.Sprintf("  %s%s%s %s", d.Dim, logType, d.Normal, task.FunkyName)
 	for buf.Scan() {
 		content := buf.Text()
 		if logType == "ERR" {
-			logger.PrintfError(template, logType, taskData.task.FunkyName, content)
+			logger.PrintfError("%s %s\n", prefix, content)
 		} else {
-			logger.Printf(template, logType, taskData.task.FunkyName, content)
+			logger.Printf("%s %s\n", prefix, content)
 		}
 	}
 }

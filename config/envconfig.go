@@ -4,5 +4,5 @@ package config
 type EnvConfig struct {
 	From    string `yaml:"from"`
 	Default string `yaml:"default"`
-	Parent  *Task
+	Task    *Task
 }

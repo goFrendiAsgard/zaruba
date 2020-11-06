@@ -114,27 +114,40 @@ func TestValidProjectConfigTaskDirPath(t *testing.T) {
 	}
 }
 
-func TestValidProjectConfigTaskParent(t *testing.T) {
+func TestValidProjectConfigTaskProject(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return
 	}
 	for _, task := range validConf.Tasks {
-		if task.Parent != validConf {
+		if task.Project != validConf {
 			t.Errorf("Task's parent is not correctly set")
 		}
 	}
 }
 
-func TestValidProjectConfigEnvParent(t *testing.T) {
+func TestValidProjectConfigEnvTask(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return
 	}
 	for _, task := range validConf.Tasks {
 		for _, env := range task.Env {
-			if env.Parent != task {
+			if env.Task != task {
 				t.Errorf("Env's parent is not correctly set")
 			}
 		}
+	}
+}
+
+func TestValidProjectConfigName(t *testing.T) {
+	conf, err := NewConfig("../test_resource/named.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	expected := "edward"
+	actual := conf.GetName()
+	if actual != expected {
+		t.Errorf(fmt.Sprintf("Expected: %s, Actual: %s", expected, actual))
 	}
 }
 

@@ -4,27 +4,29 @@ import "path/filepath"
 
 // TaskData is struct sent to template
 type TaskData struct {
-	task     *Task
-	Name     string
-	BasePath string
-	WorkPath string
-	Kwargs   Dictionary
-	Env      Dictionary
-	Config   Dictionary
-	LConfig  map[string][]string
+	task        *Task
+	Name        string
+	ProjectName string
+	BasePath    string
+	WorkPath    string
+	Kwargs      Dictionary
+	Env         Dictionary
+	Config      Dictionary
+	LConfig     map[string][]string
 }
 
 // NewTaskData create new task data
 func NewTaskData(task *Task) (td *TaskData) {
 	return &TaskData{
-		task:     task,
-		Name:     task.Name,
-		BasePath: task.BasePath,
-		WorkPath: task.GetWorkPath(),
-		Kwargs:   task.Parent.Kwargs,
-		Env:      task.ParsedEnv,
-		Config:   task.ParsedConfig,
-		LConfig:  task.ParsedLConfig,
+		task:        task,
+		Name:        task.Name,
+		ProjectName: task.Project.GetName(),
+		BasePath:    task.BasePath,
+		WorkPath:    task.GetWorkPath(),
+		Kwargs:      task.Project.Kwargs,
+		Env:         task.ParsedEnv,
+		Config:      task.ParsedConfig,
+		LConfig:     task.ParsedLConfig,
 	}
 }
 
