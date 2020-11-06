@@ -88,6 +88,24 @@ Perfect !!!
 
 Now you can run micro-services (dockerized or not) in a single computer.
 
+# Zaruba In Docker
+
+You can use Zaruba docker-container as part of your CI/CD pipeline or as your development machine.
+
+To run Zaruba docker-container you can run:
+
+```sh
+docker run --name zaruba -p 2810:8080 -v ${HOME}/your-project-location:/project -d stalchmst/zaruba:latest
+```
+
+This will expose Zaruba to port `2810` of your host, as well as mount `${HOME}/your-project-location` as Zaruba's current working directory.
+
+Next time you want to re-run Zaruba's container you can simply perform:
+
+```sh
+docker start zaruba
+```
+
 
 # Documentation
 

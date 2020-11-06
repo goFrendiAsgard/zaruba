@@ -57,8 +57,9 @@ func parseStr(rawStr string) (parsedStr string) {
 }
 
 func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
+	d := logger.NewDecoration()
 	configFile = parseStr(configFile)
-	logger.PrintfStarted("Loading %s\n", configFile)
+	logger.PrintfStarted("%sLoading %s%s\n", d.Dim, configFile, d.Normal)
 	conf = &ProjectConfig{
 		Includes: []string{},
 		Tasks:    map[string]*Task{},

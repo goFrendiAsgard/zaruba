@@ -85,11 +85,12 @@ func (task *Task) generateIcon() {
 }
 
 func (task *Task) generateFunkyName() {
+	d := logger.NewDecoration()
 	repeat := task.Parent.MaxTaskNameLength - len(task.Name)
 	if repeat < 0 {
 		repeat = 0
 	}
-	paddedName := task.Name + strings.Repeat(" ", repeat)
+	paddedName := d.Important + task.Name + d.Normal + strings.Repeat(" ", repeat)
 	task.FunkyName = fmt.Sprintf("%s %s %s", task.Icon, paddedName, task.Icon)
 }
 

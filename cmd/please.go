@@ -56,19 +56,15 @@ var pleaseCmd = &cobra.Command{
 		if len(taskNames) == 0 {
 			taskIndentation := strings.Repeat(" ", 6)
 			taskFieldIndentation := taskIndentation + strings.Repeat(" ", 5)
-			boldDecoration := "\x1B[1m"
-			yellowDecoration := "\x1B[32m"
-			resetDecoration := "\x1B[0m"
-			fieldDecoration := yellowDecoration
-
+			d := logger.NewDecoration()
 			publishedTask := conf.GetPublishedTask()
-			logger.Printf("%sPlease what?%s\n", boldDecoration, resetDecoration)
+			logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
 			logger.Printf("Here are some possible tasks you can execute:\n")
 			for _, taskName := range conf.SortedTaskNames {
 				if task, exist := publishedTask[taskName]; exist {
-					fmt.Printf("%s%s %szaruba please %s%s\n", taskIndentation, task.Icon, yellowDecoration, task.Name, resetDecoration)
-					fmt.Printf("%s%sDECLARED ON:%s %s\n", taskFieldIndentation, fieldDecoration, resetDecoration, task.FileLocation)
-					showTaskDescription(task, taskFieldIndentation, fieldDecoration)
+					fmt.Printf("%s%s %szaruba please %s%s\n", taskIndentation, task.Icon, d.Important, task.Name, d.Normal)
+					fmt.Printf("%s%sDECLARED ON:%s %s\n", taskFieldIndentation, d.Important, d.Normal, task.FileLocation)
+					showTaskDescription(task, taskFieldIndentation)
 				}
 			}
 			return
@@ -105,14 +101,14 @@ func init() {
 	pleaseCmd.Flags().StringArrayVarP(&pleaseKwargs, "kwargs", "k", defaultPleaseKwargs, "yaml file or pairs (e.g: '-k value.yaml' or '-k key=val')")
 }
 
-func showTaskDescription(task *config.Task, fieldIndentation, fieldDecoration string) {
+func showTaskDescription(task *config.Task, fieldIndentation string) {
 	if task.Description != "" {
-		resetDecoration := "\x1B[0m"
+		d := logger.NewDecoration()
 		description := strings.TrimSpace(task.Description)
 		rows := strings.Split(description, "\n")
 		for index, row := range rows {
 			if index == 0 {
-				row = fmt.Sprintf("%sDESCRIPTION:%s %s", fieldDecoration, resetDecoration, row)
+				row = fmt.Sprintf("%sDESCRIPTION:%s %s", d.Important, d.Normal, row)
 			}
 			fmt.Printf("%s%s\n", fieldIndentation, row)
 		}
