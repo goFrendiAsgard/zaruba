@@ -26,21 +26,30 @@ tasks:
         {{ $config := .Config -}}
         {{ $ports := $config.GetSubKeys "port" -}}
         {{ $volumes := $config.GetSubKeys "volume" -}}
-        ( {{ "" -}}
-          docker run --name {{ .Config.containerName }} {{ "" -}}
+        MATCH_EXISTING_CONTAINER=$(docker ps -q -a -f name="{{ .Config.containerName}}")
+        MATCH_RUNNING_CONTAINER=$(docker ps -q -f name="{{ .Config.containerName}}")
+        if [ -z $MATCH_EXISTING_CONTAINER ]
+        then
+          echo "Creating and starting container {{ .Config.containerName }}"
+          docker run --name "{{ .Config.containerName }}" {{ "" -}}
             {{ range $key, $val := .Env }} -e {{ $key }}={{ $val }} {{ end -}}
             {{ range $index, $hostPort := $ports -}} 
               {{ $containerPort := $config.GetValue "port" $hostPort -}}
-              -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
+              -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
             {{ end -}}
             {{ range $index, $hostVolume := $volumes -}} 
               {{ $absHostVolume := $this.GetAbsPath $workPath $hostVolume -}}
               {{ $containerVolume := $config.GetValue "volume" $hostVolume -}}
-              -v {{ $absHostVolume }}:{{ $containerVolume }} {{ "" -}}
+              -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
             {{ end -}}
-            -d {{ .Config.imageName }} || {{ "" -}}
-          docker start {{ .Config.containerName -}}
-        ) && {{ "" -}}
+            -d {{ .Config.imageName }}
+        elif [ -z $MATCH_RUNNING_CONTAINER ]
+        then
+          echo "Starting container {{ .Config.containerName }}"
+          docker start {{ .Config.containerName }}
+        else
+          echo "Container {{ .Config.containerName }} is already running"
+        fi
         docker logs --since 0m --follow {{ .Config.containerName }}
     check:
       - sh
