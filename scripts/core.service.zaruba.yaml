@@ -71,7 +71,7 @@ tasks:
       PYTHONUNBUFFERED: 
         from: PYTHONUNBUFFERED
         default: 1
-    start: ["python", "-m", "http.server", "{{ index .LConfig.ports 0 }}"]
+    start: ["/bin/sh", "-c", "{{ .Config.script }}"]
     check:
       - sh
       - "-c"
@@ -91,5 +91,7 @@ tasks:
     extend: core.startService
     lconfig:
       ports: ["{{ if .Kwargs.port }}{{ .Kwargs.port }}{{ else }}8000{{ end }}"]
+    start: ["python", "-m", "http.server", "{{ index .LConfig.ports 0 }}"]
+
 
  

@@ -62,7 +62,7 @@ func (task *Task) init() (err error) {
 	}
 	if task.Extend != "" {
 		if _, exists := task.Parent.Tasks[task.Extend]; !exists {
-			return fmt.Errorf("Task %s is extending %s but task %s doesn't exist", task.Name, task.Extend, task.Name)
+			return fmt.Errorf("Task %s is extending %s but task %s doesn't exist", task.Name, task.Extend, task.Extend)
 		}
 	}
 	task.ParsedEnv = task.getParsedEnv()
