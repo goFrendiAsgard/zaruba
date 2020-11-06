@@ -90,7 +90,7 @@ func (r *Runner) Terminate() {
 	r.CommandCmdMutex.Lock()
 	for label, cmd := range r.CommandCmds {
 		logger.PrintfKill("Kill %s\n", label)
-		if err := cmd.Process.Kill(); err != nil {
+		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGINT); err != nil {
 			fmt.Println(r.Spaces, err)
 		}
 	}
@@ -99,7 +99,7 @@ func (r *Runner) Terminate() {
 	r.ProcessCmdMutex.Lock()
 	for label, cmd := range r.ProcessCmds {
 		logger.PrintfKill("Kill %s\n", label)
-		if err := cmd.Process.Kill(); err != nil {
+		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGINT); err != nil {
 			fmt.Println(r.Spaces, err)
 		}
 	}
