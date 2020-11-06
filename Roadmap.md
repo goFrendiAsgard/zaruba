@@ -1,4 +1,3 @@
 # Backlog
 
-* [ ] Dockerize Zaruba
-* [ ] Create Taksk to generate programs
+* [ ] Create Task to generate programs
