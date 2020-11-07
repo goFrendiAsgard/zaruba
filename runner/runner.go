@@ -74,12 +74,10 @@ func (r *Runner) Run() (err error) {
 	go r.waitAnyProcessError(ch)
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
-		err = fmt.Errorf("Terminated")
+		return fmt.Errorf("Terminated")
 	}
-	if err != nil {
-		if !r.getKilledSignal() {
-			r.Terminate()
-		}
+	if !r.getKilledSignal() {
+		r.Terminate()
 	}
 	return err
 }

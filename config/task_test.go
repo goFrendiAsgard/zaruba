@@ -235,6 +235,27 @@ func TestValidTaskCheckCommand(t *testing.T) {
 	}
 }
 
+func TestValidTaskDependencies(t *testing.T) {
+	conf, err := NewConfig("../test_resource/dependencies.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := conf.Tasks["buyMilk"]
+	expectedDependencies := []string{"driveCar", "haveMoney"}
+	actualDependencies := task.GetDependencies()
+	if len(actualDependencies) != len(expectedDependencies) {
+		t.Errorf("Expecting dependencies of %s to contains %d element but getting %d element", task.Name, len(expectedDependencies), len(actualDependencies))
+		return
+	}
+	for index, expectedDependency := range expectedDependencies {
+		actualDependency := actualDependencies[index]
+		if actualDependency != expectedDependency {
+			t.Errorf("Expecting Dependencies[%d] of %s to be %s but getting %s", index, task.Name, expectedDependency, actualDependency)
+		}
+	}
+}
+
 func TestInvalidTaskExtension(t *testing.T) {
 	conf, err := NewConfig("../test_resource/invalidTaskExtension.yaml")
 	if err != nil {

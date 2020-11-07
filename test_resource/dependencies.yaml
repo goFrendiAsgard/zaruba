@@ -1,0 +1,16 @@
+tasks:
+
+  haveMoney: {}
+  driveCar: {}
+
+  buySomething:
+    dependencies:
+      - haveMoney
+      - driveCar
+
+  buyMilk:
+    extend: buySomething
+    dependencies:
+      - driveCar
+      - driveCar
+  
