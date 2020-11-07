@@ -26,6 +26,10 @@ tasks:
         imageName: <imageName>              # Base image of the container
         port::<hostPort>: <containerPort>   # Binding <containerPort> to <hostPort>
         volume::<hostPath>: <containerPath> # Binding <containerPath> to <hostPath>
+        beforeCheck: <script>               # Script to be executed before check
+        afterCheck: <script>                # Script to be executed after check
+        beforeStart: <script>               # Script to be executed before start
+        afterStart: <script>                # Script to be executed after start
       ```
     private: true
     config:
@@ -42,6 +46,7 @@ tasks:
         {{ if .Config.imageName }}{{ else -}} 
           echo "Image name is not provided" 1>&2 && exit 1
         {{ end -}}
+        {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
         {{ $this := . -}}
         {{ $workPath := .WorkPath -}}
         {{ $config := .Config -}}
@@ -69,11 +74,12 @@ tasks:
         elif [ -z $MATCH_RUNNING_CONTAINER ]
         then
           echo "Starting container {{ .Config.containerName }}"
-          docker start {{ .Config.containerName }}
+          docker start "{{ .Config.containerName }}"
         else
           echo "Container {{ .Config.containerName }} is already started"
         fi
-        docker logs --since 0m --follow {{ .Config.containerName }}
+        {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
+        docker logs --since 0m --follow "{{ .Config.containerName }}"
     check:
       - sh
       - "-c"
@@ -81,6 +87,7 @@ tasks:
         set -e
         echo Waiting {{ .Config.containerName }}
         until [ "$(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}")" = true ]; do sleep 1; done
+        {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         echo {{ .Config.containerName }} is running
         {{ $ports := .Config.GetSubKeys "port" -}}
         {{ range $index, $hostPort := $ports -}}
@@ -88,6 +95,7 @@ tasks:
           until nc -z localhost "{{ $hostPort }}"; do sleep 1; done
           echo Host port '{{ $hostPort }}' is ready
         {{ end -}}
+        {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo Task '{{ .Name }}' checked
 
   core.startService:
@@ -97,7 +105,10 @@ tasks:
       You can put exposed ports on `lconfig` as follow:
       ```yaml
       lconfig:
-        ports: [8080, 8081]
+        ports: [8080, 8081]    # Port to be checked
+        script: <script>       # Script to start the service
+        beforeCheck: <script>  # Script to be executed before check
+        afterCheck: <script>   # Script to be executed after check
       ```
       You can also override `start` command as needed.
       By default, this task will serve static files in your current directory at port 3031
@@ -114,10 +125,13 @@ tasks:
       - "-c"
       - |
         set -e
+        {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         {{ range $index, $port := .LConfig.ports -}}
-          echo Checking port '{{ $port }}'
+          echo Waiting port '{{ $port }}'
           until nc -z localhost {{ $port }}; do sleep 1; done
+          echo port '{{ $port }}' is ready
         {{ end }}
+        {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo Task '{{ .Name }}' checked
 
   serveHttp:
