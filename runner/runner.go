@@ -73,13 +73,15 @@ func (r *Runner) Run() (err error) {
 	go r.run(ch)
 	go r.waitAnyProcessError(ch)
 	err = <-ch
+	if err == nil && r.getKilledSignal() {
+		err = fmt.Errorf("Terminated")
+	}
 	if err != nil {
 		if !r.getKilledSignal() {
 			r.Terminate()
 		}
-		return err
 	}
-	return nil
+	return err
 }
 
 // Terminate all processes
@@ -119,6 +121,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 			go func() {
 				err := currentCmd.Wait()
 				r.unregisterProcessCmd(currentLabel)
+				logger.PrintfError("%s stopped:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
 				if err != nil {
 					ch <- err
 				} else {
@@ -207,7 +210,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 		ch <- r.waitTaskFinished(task.Name)
 		return
 	}
-	if err := r.runTaskNames(task.Dependencies); err != nil {
+	if err := r.runTaskNames(task.GetDependencies()); err != nil {
 		ch <- err
 		return
 	}

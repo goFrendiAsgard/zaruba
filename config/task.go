@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"syscall"
 	"text/template"
@@ -188,6 +189,37 @@ func (task *Task) getPath() (path string) {
 		return parentTask.getPath()
 	}
 	return ""
+}
+
+// GetDependencies get unique dependencies of a task, recursively
+func (task *Task) GetDependencies() (dependencies []string) {
+	dependencies = task.getDependencies()
+	sort.Strings(dependencies)
+	return dependencies
+}
+
+func (task *Task) getDependencies() (dependencies []string) {
+	dependencies = []string{}
+	seen := map[string]bool{}
+	for _, dependency := range task.Dependencies {
+		if _, exist := seen[dependency]; exist {
+			continue
+		}
+		seen[dependency] = true
+		dependencies = append(dependencies, dependency)
+	}
+	if task.Extend == "" {
+		return dependencies
+	}
+	// get parent's
+	for _, dependency := range task.Project.Tasks[task.Extend].getDependencies() {
+		if _, exist := seen[dependency]; exist {
+			continue
+		}
+		seen[dependency] = true
+		dependencies = append(dependencies, dependency)
+	}
+	return dependencies
 }
 
 // GetStartCmd get start command of a task

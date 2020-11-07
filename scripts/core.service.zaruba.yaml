@@ -1,5 +1,17 @@
 tasks:
 
+  createDockerNetwork:
+    icon: 🐳
+    description: Create docker network based on project name
+    extend: core.runShellScript
+    config:
+      script: |
+        MATCH_NETWORK=$(docker network ls -q -f name="{{ .ProjectName }}") 
+        if [ -z $MATCH_NETWORK ]
+        then
+          docker network create "{{ .ProjectName }}"
+        fi
+
   core.startDockerContainer:
     icon: 🐳
     description: |
@@ -17,12 +29,19 @@ tasks:
       ```
     private: true
     config:
+    dependencies:
+      - createDockerNetwork
     start:
       - sh
       - "-c"
       - |
-        {{ if .Config.containerName }}{{ else -}} echo "Container name is not provided" 1>&2 && exit 1 {{- end -}}
-        {{ if .Config.imageName }}{{ else -}} echo "Image name is not provided" 1>&2 && exit 1 {{- end -}}
+        set -e
+        {{ if .Config.containerName }}{{ else -}}
+          echo "Container name is not provided" 1>&2 && exit 1
+        {{ end -}}
+        {{ if .Config.imageName }}{{ else -}} 
+          echo "Image name is not provided" 1>&2 && exit 1
+        {{ end -}}
         {{ $this := . -}}
         {{ $workPath := .WorkPath -}}
         {{ $config := .Config -}}
@@ -35,6 +54,7 @@ tasks:
         then
           echo "Creating and starting container {{ .Config.containerName }}"
           docker run --name "{{ .Config.containerName }}" {{ "" -}}
+            --network="{{ .ProjectName }}" {{"" -}}
             {{ range $key, $val := .Env }} -e {{ $key }}={{ $val }} {{ end -}}
             {{ range $index, $hostPort := $ports -}} 
               {{ $containerPort := $config.GetValue "port" $hostPort -}}
@@ -51,19 +71,22 @@ tasks:
           echo "Starting container {{ .Config.containerName }}"
           docker start {{ .Config.containerName }}
         else
-          echo "Container {{ .Config.containerName }} is already running"
+          echo "Container {{ .Config.containerName }} is already started"
         fi
         docker logs --since 0m --follow {{ .Config.containerName }}
     check:
       - sh
       - "-c"
       - |
+        set -e
         echo Waiting {{ .Config.containerName }}
-        until [ $(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}") = true ]; do sleep 1; done
+        until [ "$(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}")" = true ]; do sleep 1; done
+        echo {{ .Config.containerName }} is running
         {{ $ports := .Config.GetSubKeys "port" -}}
         {{ range $index, $hostPort := $ports -}}
-          echo Waiting for port '{{ $hostPort }}'
-          until nc -z localhost {{ $hostPort }}; do sleep 1; done
+          echo Waiting for host port '{{ $hostPort }}'
+          until nc -z localhost "{{ $hostPort }}"; do sleep 1; done
+          echo Host port '{{ $hostPort }}' is ready
         {{ end -}}
         echo Task '{{ .Name }}' checked
 
@@ -90,6 +113,7 @@ tasks:
       - sh
       - "-c"
       - |
+        set -e
         {{ range $index, $port := .LConfig.ports -}}
           echo Checking port '{{ $port }}'
           until nc -z localhost {{ $port }}; do sleep 1; done

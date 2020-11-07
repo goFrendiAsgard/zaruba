@@ -94,7 +94,7 @@ func (conf *ProjectConfig) GetName() (name string) {
 	if conf.Name != "" {
 		return conf.Name
 	}
-	return filepath.Base(filepath.Dir(conf.Name))
+	return filepath.Base(filepath.Dir(conf.FileLocation))
 }
 
 // GetPublishedTask get all published task
