@@ -234,7 +234,7 @@ func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getStartCmd(taskData)
 	}
-	cmd, err = task.getCmd("START", task.Start, taskData)
+	cmd, err = task.getCmd("⏳", task.Start, taskData)
 	return cmd, true, err
 }
 
@@ -251,11 +251,11 @@ func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getCheckCmd(taskData)
 	}
-	cmd, err = task.getCmd("CHECK", task.Check, taskData)
+	cmd, err = task.getCmd("🔍", task.Check, taskData)
 	return cmd, true, err
 }
 
-func (task *Task) getCmd(cmdType string, commandPatternArgs []string, taskData *TaskData) (cmd *exec.Cmd, err error) {
+func (task *Task) getCmd(cmdIconType string, commandPatternArgs []string, taskData *TaskData) (cmd *exec.Cmd, err error) {
 	commandArgs := []string{}
 	for _, pattern := range commandPatternArgs {
 		arg, err := task.parseTemplatePattern(pattern, taskData)
@@ -278,19 +278,19 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string, taskData *
 	if err != nil {
 		return cmd, err
 	}
-	go task.log("⏳", "OUT", outPipe, taskData)
+	go task.log(cmdIconType, "OUT", outPipe, taskData)
 	errPipe, err := cmd.StderrPipe()
 	if err != nil {
 		return cmd, err
 	}
-	go task.log("✔️", "ERR", errPipe, taskData)
+	go task.log(cmdIconType, "ERR", errPipe, taskData)
 	return cmd, err
 }
 
-func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *TaskData) {
+func (task *Task) log(cmdIconType, logType string, pipe io.ReadCloser, taskData *TaskData) {
 	buf := bufio.NewScanner(pipe)
 	d := logger.NewDecoration()
-	prefix := fmt.Sprintf("  %s%s %s %s%s", d.Dim, cmdType, logType, taskData.task.FunkyName, d.Normal)
+	prefix := fmt.Sprintf("  %s%s %s%s", d.Dim, cmdIconType, taskData.task.FunkyName, d.Normal)
 	for buf.Scan() {
 		content := buf.Text()
 		if logType == "ERR" {
