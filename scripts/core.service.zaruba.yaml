@@ -21,9 +21,12 @@ tasks:
       - sh
       - "-c"
       - |
+        {{ if .Config.containerName }}{{ else -}} echo "Container name is not provided" 1>&2 && exit 1 {{- end -}}
+        {{ if .Config.imageName }}{{ else -}} echo "Image name is not provided" 1>&2 && exit 1 {{- end -}}
         {{ $this := . -}}
         {{ $workPath := .WorkPath -}}
         {{ $config := .Config -}}
+        {{ $projectName := .ProjectName -}}
         {{ $ports := $config.GetSubKeys "port" -}}
         {{ $volumes := $config.GetSubKeys "volume" -}}
         MATCH_EXISTING_CONTAINER=$(docker ps -q -a -f name="{{ .Config.containerName}}")
@@ -55,9 +58,11 @@ tasks:
       - sh
       - "-c"
       - |
+        echo Waiting {{ .Config.containerName }}
+        until [ $(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}") = true ]; do sleep 1; done
         {{ $ports := .Config.GetSubKeys "port" -}}
         {{ range $index, $hostPort := $ports -}}
-          echo Checking port '{{ $hostPort }}'
+          echo Waiting for port '{{ $hostPort }}'
           until nc -z localhost {{ $hostPort }}; do sleep 1; done
         {{ end -}}
         echo Task '{{ .Name }}' checked

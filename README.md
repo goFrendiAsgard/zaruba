@@ -2,7 +2,9 @@
 
 Declarative Task Runner Framework
 
-# Installation
+# 👨‍💻 Installation
+
+> **⚠️NOTE** You need to have `go 1.13` or higher to install zaruba. To install `go` quickly you can visit it's [official website](https://golang.org/doc/install)
 
 Using curl
 
@@ -16,9 +18,7 @@ Using wget
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
-> **⚠️NOTE** You need to have `go 1.13` or higher to install zaruba. To install `go` quickly you can visit it's [official website](https://golang.org/doc/install)
-
-# Getting Started
+# 🏁 Getting Started
 
 ```sh
 mkdir myProject
@@ -41,7 +41,7 @@ You can enjoy a pretty fibonacci clock:
 
 ![fibo-clock](screenshots/fibo-clock.png)
 
-# Create Custom Task
+# 🔨 Create Custom Task
 
 Zaruba can also do a lot of other tasks. Please type `zaruba please` to see what Zaruba is capable of.
 
@@ -89,7 +89,7 @@ Perfect !!!
 
 Now you can run micro-services (dockerized or not) in a single computer.
 
-# Zaruba In Docker
+# 🐳 Zaruba In Docker
 
 You can use Zaruba docker-container as part of your CI/CD pipeline or as your development machine.
 
@@ -107,16 +107,19 @@ Next time you want to re-run Zaruba's container you can simply perform:
 docker start zaruba
 ```
 
-
-# Documentation
+# 📁 Documentation
 
 For more comprehensive explanation, please read the [documentation](docs/Documentation.md).
 
-# Roadmap
+# 🗺️ Roadmap
 
 To see the future of Zaruba, plese visit our [Roadmap](Roadmap.md).
 
+# 🐞 Bug, Feature Request and Contribution
 
-# Fun Fact
+Open [issue](https://github.com/state-alchemists/zaruba/issues) or [pull request](https://github.com/state-alchemists/zaruba/pulls).
+
+
+# 🎉 Fun Fact
 
 > Madou Ring Zaruba (魔導輪ザルバ, Madōrin Zaruba?) is the Madou Ring for Golden Knight Garo's duties as a Makai Knight. He is a recurring character in the series, acting as a guide for the wearers of the Garo armor and being the narrator of the series in some episodes. [(Garo Wiki | Fandom)](https://garoseries.fandom.com/wiki/Zaruba)

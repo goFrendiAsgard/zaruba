@@ -62,8 +62,8 @@ var pleaseCmd = &cobra.Command{
 			logger.Printf("Here are some possible tasks you can execute:\n")
 			for _, taskName := range conf.SortedTaskNames {
 				if task, exist := publishedTask[taskName]; exist {
-					fmt.Printf("%s%s %szaruba please %s%s\n", taskIndentation, task.Icon, d.Important, task.Name, d.Normal)
-					fmt.Printf("%s%sDECLARED ON:%s %s\n", taskFieldIndentation, d.Important, d.Normal, task.FileLocation)
+					fmt.Printf("%s%s %szaruba please %s%s%s\n", taskIndentation, task.Icon, d.Important, d.Bold, task.Name, d.Normal)
+					fmt.Printf("%s%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Important, d.Dim, d.Normal, d.Dim, task.FileLocation, d.Normal)
 					showTaskDescription(task, taskFieldIndentation)
 				}
 			}
@@ -108,9 +108,9 @@ func showTaskDescription(task *config.Task, fieldIndentation string) {
 		rows := strings.Split(description, "\n")
 		for index, row := range rows {
 			if index == 0 {
-				row = fmt.Sprintf("%sDESCRIPTION:%s %s", d.Important, d.Normal, row)
+				row = fmt.Sprintf("%sDESCRIPTION:%s %s%s", d.Important, d.Normal, d.Dim, row)
 			}
-			fmt.Printf("%s%s\n", fieldIndentation, row)
+			fmt.Printf("%s%s%s%s\n", fieldIndentation, d.Dim, row, d.Normal)
 		}
 	}
 }

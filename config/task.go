@@ -259,7 +259,7 @@ func (task *Task) getCmd(commandPatternArgs []string, taskData *TaskData) (cmd *
 func (task *Task) log(pipe io.ReadCloser, taskData *TaskData, logType string) {
 	buf := bufio.NewScanner(pipe)
 	d := logger.NewDecoration()
-	prefix := fmt.Sprintf("  %s%s%s %s", d.Dim, logType, d.Normal, task.FunkyName)
+	prefix := fmt.Sprintf("  %s%s%s %s", d.Dim, logType, d.Normal, taskData.task.FunkyName)
 	for buf.Scan() {
 		content := buf.Text()
 		if logType == "ERR" {
