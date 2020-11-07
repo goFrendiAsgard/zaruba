@@ -86,13 +86,12 @@ func (task *Task) generateIcon() {
 }
 
 func (task *Task) generateFunkyName() {
-	d := logger.NewDecoration()
 	repeat := task.Project.MaxTaskNameLength - len(task.Name)
 	if repeat < 0 {
 		repeat = 0
 	}
-	paddedName := d.Important + task.Name + d.Normal + strings.Repeat(" ", repeat)
-	task.FunkyName = fmt.Sprintf("%s %s %s", task.Icon, paddedName, task.Icon)
+	paddedName := task.Name + strings.Repeat(" ", repeat)
+	task.FunkyName = fmt.Sprintf("%s %s", paddedName, task.Icon)
 }
 
 func (task *Task) getParsedEnv() (parsedEnv map[string]string) {
@@ -235,7 +234,7 @@ func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getStartCmd(taskData)
 	}
-	cmd, err = task.getCmd(task.Start, taskData)
+	cmd, err = task.getCmd("START", task.Start, taskData)
 	return cmd, true, err
 }
 
@@ -252,11 +251,11 @@ func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getCheckCmd(taskData)
 	}
-	cmd, err = task.getCmd(task.Check, taskData)
+	cmd, err = task.getCmd("CHECK", task.Check, taskData)
 	return cmd, true, err
 }
 
-func (task *Task) getCmd(commandPatternArgs []string, taskData *TaskData) (cmd *exec.Cmd, err error) {
+func (task *Task) getCmd(cmdType string, commandPatternArgs []string, taskData *TaskData) (cmd *exec.Cmd, err error) {
 	commandArgs := []string{}
 	for _, pattern := range commandPatternArgs {
 		arg, err := task.parseTemplatePattern(pattern, taskData)
@@ -279,19 +278,19 @@ func (task *Task) getCmd(commandPatternArgs []string, taskData *TaskData) (cmd *
 	if err != nil {
 		return cmd, err
 	}
-	go task.log(outPipe, taskData, "OUT")
+	go task.log("⏳", "OUT", outPipe, taskData)
 	errPipe, err := cmd.StderrPipe()
 	if err != nil {
 		return cmd, err
 	}
-	go task.log(errPipe, taskData, "ERR")
+	go task.log("✔️", "ERR", errPipe, taskData)
 	return cmd, err
 }
 
-func (task *Task) log(pipe io.ReadCloser, taskData *TaskData, logType string) {
+func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *TaskData) {
 	buf := bufio.NewScanner(pipe)
 	d := logger.NewDecoration()
-	prefix := fmt.Sprintf("  %s%s%s %s", d.Dim, logType, d.Normal, taskData.task.FunkyName)
+	prefix := fmt.Sprintf("  %s%s %s %s%s", d.Dim, cmdType, logType, taskData.task.FunkyName, d.Normal)
 	for buf.Scan() {
 		content := buf.Text()
 		if logType == "ERR" {

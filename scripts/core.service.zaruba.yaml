@@ -53,6 +53,7 @@ tasks:
         {{ $projectName := .ProjectName -}}
         {{ $ports := $config.GetSubKeys "port" -}}
         {{ $volumes := $config.GetSubKeys "volume" -}}
+        CONTAINER_NAME="{{ .Config.containerName }}"
         MATCH_EXISTING_CONTAINER=$(docker ps -q -a -f name="{{ .Config.containerName}}")
         MATCH_RUNNING_CONTAINER=$(docker ps -q -f name="{{ .Config.containerName}}")
         if [ -z $MATCH_EXISTING_CONTAINER ]
@@ -84,17 +85,25 @@ tasks:
       - sh
       - "-c"
       - |
+        CONTAINER_NAME="{{ .Config.containerName }}"
+        {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         set -e
         echo Waiting {{ .Config.containerName }}
-        until [ "$(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}")" = true ]; do sleep 1; done
-        {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
+        until [ "$(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}")" = true ]
+        do 
+          sleep 3
+        done
         echo {{ .Config.containerName }} is running
         {{ $ports := .Config.GetSubKeys "port" -}}
         {{ range $index, $hostPort := $ports -}}
           echo Waiting for host port '{{ $hostPort }}'
-          until nc -z localhost "{{ $hostPort }}"; do sleep 1; done
+          until nc -z localhost "{{ $hostPort }}"
+          do
+            sleep 3
+          done
           echo Host port '{{ $hostPort }}' is ready
         {{ end -}}
+        set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo Task '{{ .Name }}' checked
 
@@ -124,13 +133,17 @@ tasks:
       - sh
       - "-c"
       - |
-        set -e
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
+        set -e
         {{ range $index, $port := .LConfig.ports -}}
           echo Waiting port '{{ $port }}'
-          until nc -z localhost {{ $port }}; do sleep 1; done
+          until nc -z localhost {{ $port }}
+          do 
+            sleep 3
+          done
           echo port '{{ $port }}' is ready
         {{ end }}
+        set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo Task '{{ .Name }}' checked
 

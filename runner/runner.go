@@ -36,33 +36,35 @@ func (ts *TaskStatus) Finish(err error) {
 
 // Runner is used to run tasks
 type Runner struct {
-	TaskNames       []string
-	Conf            *config.ProjectConfig
-	TaskStatus      map[string]*TaskStatus
-	TaskStatusMutex *sync.RWMutex
-	CommandCmds     map[string]*exec.Cmd
-	CommandCmdMutex *sync.RWMutex
-	ProcessCmds     map[string]*exec.Cmd
-	ProcessCmdMutex *sync.RWMutex
-	Killed          bool
-	KilledMutex     *sync.RWMutex
-	Spaces          string
+	TaskNames           []string
+	Conf                *config.ProjectConfig
+	TaskStatus          map[string]*TaskStatus
+	TaskStatusMutex     *sync.RWMutex
+	CommandCmds         map[string]*exec.Cmd
+	CommandCmdMutex     *sync.RWMutex
+	ProcessCmds         map[string]*exec.Cmd
+	ProcessCmdTaskNames map[string]string
+	ProcessCmdMutex     *sync.RWMutex
+	Killed              bool
+	KilledMutex         *sync.RWMutex
+	Spaces              string
 }
 
 // NewRunner create new runner
 func NewRunner(conf *config.ProjectConfig, taskNames []string) (runner *Runner) {
 	return &Runner{
-		TaskNames:       taskNames,
-		Conf:            conf,
-		TaskStatus:      map[string]*TaskStatus{},
-		TaskStatusMutex: &sync.RWMutex{},
-		CommandCmds:     map[string]*exec.Cmd{},
-		CommandCmdMutex: &sync.RWMutex{},
-		ProcessCmds:     map[string]*exec.Cmd{},
-		ProcessCmdMutex: &sync.RWMutex{},
-		Killed:          false,
-		KilledMutex:     &sync.RWMutex{},
-		Spaces:          "     ",
+		TaskNames:           taskNames,
+		Conf:                conf,
+		TaskStatus:          map[string]*TaskStatus{},
+		TaskStatusMutex:     &sync.RWMutex{},
+		CommandCmds:         map[string]*exec.Cmd{},
+		CommandCmdMutex:     &sync.RWMutex{},
+		ProcessCmds:         map[string]*exec.Cmd{},
+		ProcessCmdTaskNames: map[string]string{},
+		ProcessCmdMutex:     &sync.RWMutex{},
+		Killed:              false,
+		KilledMutex:         &sync.RWMutex{},
+		Spaces:              "     ",
 	}
 }
 
@@ -118,13 +120,19 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 			currentLabel, currentCmd := label, cmd
 			go func() {
 				err := currentCmd.Wait()
+				currentTaskName := r.getProcessCmdTaskName(currentLabel)
 				r.unregisterProcessCmd(currentLabel)
-				logger.PrintfError("%s stopped:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
 				if err != nil {
+					logger.PrintfError("%s exited with error: %s\n", currentLabel, err)
 					ch <- err
-				} else {
-					logger.PrintfError("%s exited without any error message\n", currentLabel)
+					return
 				}
+				if !r.isTaskFinished(currentTaskName) {
+					logger.PrintfError("%s stopped before ready:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					ch <- fmt.Errorf("%s stopped before ready", currentLabel)
+					return
+				}
+				logger.PrintfError("%s exited without any error message\n", currentLabel)
 			}()
 		}
 		r.ProcessCmdMutex.Unlock()
@@ -260,10 +268,10 @@ func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd 
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	logger.PrintfStarted("Check '%s' readiness on %s\n", task.Name, checkCmd.Dir)
 	startCmdLabel := fmt.Sprintf("'%s' service", task.Name)
-	r.registerProcessCmd(startCmdLabel, startCmd)
+	r.registerProcessCmd(startCmdLabel, startCmd, task)
 	// checker
+	logger.PrintfStarted("Check '%s' readiness on %s\n", task.Name, checkCmd.Dir)
 	if err = checkCmd.Start(); err != nil {
 		logger.PrintfError("Error checking service '%s' readiness:\n%s\n", task.Name, r.sprintfCmdArgs(checkCmd))
 		fmt.Println(r.Spaces, err)
@@ -317,16 +325,25 @@ func (r *Runner) unregisterCommandCmd(label string) {
 	r.CommandCmdMutex.Unlock()
 }
 
-func (r *Runner) registerProcessCmd(label string, cmd *exec.Cmd) {
+func (r *Runner) registerProcessCmd(label string, cmd *exec.Cmd, task *config.Task) {
 	r.ProcessCmdMutex.Lock()
 	r.ProcessCmds[label] = cmd
+	r.ProcessCmdTaskNames[label] = task.Name
 	r.ProcessCmdMutex.Unlock()
 }
 
 func (r *Runner) unregisterProcessCmd(label string) {
 	r.ProcessCmdMutex.Lock()
 	delete(r.ProcessCmds, label)
+	delete(r.ProcessCmdTaskNames, label)
 	r.ProcessCmdMutex.Unlock()
+}
+
+func (r *Runner) getProcessCmdTaskName(label string) (taskName string) {
+	r.ProcessCmdMutex.Lock()
+	taskName = r.ProcessCmdTaskNames[label]
+	r.ProcessCmdMutex.Unlock()
+	return taskName
 }
 
 func (r *Runner) registerTask(taskName string) (success bool) {

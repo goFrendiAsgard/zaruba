@@ -190,7 +190,6 @@ func (conf *ProjectConfig) generateProperties() {
 		}
 		conf.SortedTaskNames = append(conf.SortedTaskNames, taskName)
 	}
-	conf.MaxTaskNameLength += 4
 	if conf.MaxTaskNameLength > 20 {
 		conf.MaxTaskNameLength = 20
 	}

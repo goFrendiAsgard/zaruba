@@ -12,7 +12,7 @@ tasks:
     start:
       - sh
       - "-c"
-      - echo creating {{ .Config.name }}
+      - echo creating {{ .Config.name }} && sleep 2
     check:
       - sh
       - "-c"

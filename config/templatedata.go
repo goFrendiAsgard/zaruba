@@ -1,6 +1,8 @@
 package config
 
-import "path/filepath"
+import (
+	"path/filepath"
+)
 
 // TaskData is struct sent to template
 type TaskData struct {
