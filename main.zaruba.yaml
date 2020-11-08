@@ -49,6 +49,7 @@ tasks:
   publishDocker:
     location: ./
     extend: core.runShellScript
+    timeout: 1h
     dependencies:
       - buildDocker
     config:
