@@ -33,11 +33,13 @@ tasks:
       ```
     private: true
     config:
+      shell: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
+      shellArg: "-c" 
     dependencies:
       - createDockerNetwork
     start:
-      - sh
-      - "-c"
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
       - |
         set -e
         {{ if .Config.containerName }}{{ else -}}
@@ -82,8 +84,8 @@ tasks:
         {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
         docker logs --since 0m --follow "{{ .Config.containerName }}"
     check:
-      - sh
-      - "-c"
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
       - |
         CONTAINER_NAME="{{ .Config.containerName }}"
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
@@ -124,20 +126,23 @@ tasks:
       ```
       You can also override `start` command as needed.
     private: true
+    config:
+      shell: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
+      shellArg: "-c" 
     env:
       PYTHONUNBUFFERED: 
         from: PYTHONUNBUFFERED
         default: 1
     start:
-      - sh
-      - "-c"
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
       - |
         {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
         {{ .Config.script }}
         {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
     check:
-      - sh
-      - "-c"
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
       - |
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         set -e
@@ -166,10 +171,13 @@ tasks:
         interval: 1
       config
       ```
+    config:
+      shell: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
+      shellArg: "-c" 
     check: ["echo", "Port monitoring started"]
     start:
-      - sh
-      - "-c"
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
       - |
         PORTS=""
         {{ range $index, $port := .LConfig.ports -}}

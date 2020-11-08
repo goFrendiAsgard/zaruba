@@ -4,7 +4,7 @@ tasks:
     icon: 🐚
     private: true
     config:
-      executable: sh
+      executable: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
       argument: "-c"
       script: "echo hello world"
     start: ["{{ .Config.executable }}", "{{ .Config.argument }}", "{{ .Config.script }}"]

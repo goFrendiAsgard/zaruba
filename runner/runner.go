@@ -123,7 +123,8 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				currentTaskName := r.getProcessCmdTaskName(currentLabel)
 				r.unregisterProcessCmd(currentLabel)
 				if err != nil {
-					logger.PrintfError("%s exited with error: %s\n", currentLabel, err)
+					logger.PrintfError("%s exited with error:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					fmt.Println(err)
 					ch <- err
 					return
 				}
