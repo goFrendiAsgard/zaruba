@@ -155,8 +155,14 @@ func init() {
 	if _, err := os.Stat(defaultKwargsFile); !os.IsNotExist(err) {
 		defaultPleaseKwargs = append(defaultPleaseKwargs, defaultKwargsFile)
 	}
+	// define defaultEnvFile
+	defaultEnv := []string{}
+	defaultEnvFile := filepath.Join(dir, ".env")
+	if _, err := os.Stat(defaultEnvFile); !os.IsNotExist(err) {
+		defaultEnv = append(defaultEnv, "${ZARUBA_HOME}/scripts/core.zaruba.yaml")
+	}
 	// register flags
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "custom file")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", []string{}, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseKwargs, "kwargs", "k", defaultPleaseKwargs, "yaml file or pairs (e.g: '-k value.yaml' or '-k key=val')")
 }
