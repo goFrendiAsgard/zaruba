@@ -176,7 +176,7 @@ tasks:
         {{ end }}
         while true
         do
-          for PORT in "${PORTS}"
+          for PORT in ${PORTS}
           do
             if nc -z "localhost" "${PORT}" 
             then 
