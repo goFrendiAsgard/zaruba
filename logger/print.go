@@ -2,8 +2,10 @@ package logger
 
 import "fmt"
 
+var d = NewDecoration()
+
 func printf(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("💀 %s", template)
+	pTemplate := fmt.Sprintf("%s💀%s %s", d.Faint, d.Normal, template)
 	return fmt.Printf(pTemplate, args...)
 }
 

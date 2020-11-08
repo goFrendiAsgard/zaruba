@@ -173,7 +173,8 @@ func (r *Runner) run(ch chan error) {
 		ch <- err
 		return
 	}
-	logger.PrintfSuccess("Job Complete !!!\n")
+	d := logger.NewDecoration()
+	logger.PrintfSuccess("%s%sJob Complete !!!%s\n", d.Bold, d.Yellow, d.Normal)
 	// wait until no process left
 	for true {
 		processExist := false
@@ -401,7 +402,7 @@ func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
 			if index == 0 {
 				prefix = "* "
 			}
-			row = fmt.Sprintf("%s   %s%s%s%s", r.Spaces, d.Dim, prefix, row, d.Normal)
+			row = fmt.Sprintf("%s   %s%s%s%s", r.Spaces, d.Faint, prefix, row, d.Normal)
 			rows[index] = row
 		}
 		formattedArg := strings.Join(rows, "\n")

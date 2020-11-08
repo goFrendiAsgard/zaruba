@@ -2,30 +2,93 @@ package logger
 
 // Decoration is decorator for terminal
 type Decoration struct {
-	Normal    string
-	Bold      string
-	Dim       string
-	Italic    string
-	Underline string
-	Blinking  string
-	Reverse   string
-	Invisible string
-	Yellow    string
-	Important string
+	Normal      string
+	Bold        string
+	Faint       string
+	Italic      string
+	Underline   string
+	BlinkSlow   string
+	BlinkRapid  string
+	Inverse     string
+	Conceal     string
+	CrossedOut  string
+	Black       string
+	Red         string
+	Green       string
+	Yellow      string
+	Blue        string
+	Magenta     string
+	Cyan        string
+	White       string
+	BgBlack     string
+	BgRed       string
+	BgGreen     string
+	BgYellow    string
+	BgBlue      string
+	BgMagenta   string
+	BgCyan      string
+	BgWhite     string
+	NoStyle     string
+	NoUnderline string
+	NoInverse   string
+	NoColor     string
+	index       int
+	colorList   []string
 }
 
 // NewDecoration Create New Decoration
-func NewDecoration() (decoration Decoration) {
-	return Decoration{
-		Normal:    "\x1B[0m",
-		Bold:      "\x1B[1m",
-		Dim:       "\x1B[2m",
-		Italic:    "\x1B[3m",
-		Underline: "\x1B[4m",
-		Blinking:  "\x1B[5m",
-		Reverse:   "\x1B[6m",
-		Invisible: "\x1B[7m",
-		Yellow:    "\x1B[33m",
-		Important: "\x1B[33m",
+func NewDecoration() (d *Decoration) {
+	// source: https://gist.github.com/mxmerz/92e97cd27857a9ba787b
+	d = &Decoration{
+		Normal:      "\x1b[0m",
+		Bold:        "\x1b[1m",
+		Faint:       "\x1b[2m",
+		Italic:      "\x1b[3m",
+		Underline:   "\x1b[4m",
+		BlinkSlow:   "\x1b[5m",
+		BlinkRapid:  "\x1b[6m",
+		Inverse:     "\x1b[7m",
+		Conceal:     "\x1b[8m",
+		CrossedOut:  "\x1b[9m",
+		Black:       "\x1b[30m",
+		Red:         "\x1b[31m",
+		Green:       "\x1b[32m",
+		Yellow:      "\x1b[33m",
+		Blue:        "\x1b[34m",
+		Magenta:     "\x1b[35m",
+		Cyan:        "\x1b[36m",
+		White:       "\x1b[37m",
+		BgBlack:     "\x1b[40m",
+		BgRed:       "\x1b[41m",
+		BgGreen:     "\x1b[42m",
+		BgYellow:    "\x1b[43m",
+		BgBlue:      "\x1b[44m",
+		BgMagenta:   "\x1b[45m",
+		BgCyan:      "\x1b[46m",
+		BgWhite:     "\x1b[47m",
+		NoStyle:     "\x1b[0m",
+		NoUnderline: "\x1b[24m",
+		NoInverse:   "\x1b[27m",
+		NoColor:     "\x1b[39m",
+		index:       0,
 	}
+	d.colorList = []string{
+		d.Red,
+		d.Green,
+		d.Yellow,
+		d.Blue,
+		d.Magenta,
+		d.Cyan,
+	}
+	return d
+}
+
+// GenerateColor new icon
+func (d *Decoration) GenerateColor() string {
+	if d.index >= len(d.colorList) {
+		d.index = 0
+	}
+	color := d.colorList[d.index]
+	d.index++
+	return color
 }

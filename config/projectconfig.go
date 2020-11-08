@@ -21,9 +21,10 @@ type ProjectConfig struct {
 	Name              string           `yaml:"name"`
 	FileLocation      string
 	Kwargs            map[string]string
-	Generator         *iconer.Generator
+	IconGenerator     *iconer.Generator
 	SortedTaskNames   []string
 	MaxTaskNameLength int
+	Decoration        *logger.Decoration
 }
 
 // NewConfig create new Config from Yaml File
@@ -37,7 +38,8 @@ func NewConfig(configFile string) (conf *ProjectConfig, err error) {
 	}
 	conf, err = loadConfigRecursively(configFile)
 	conf.Kwargs = map[string]string{}
-	conf.Generator = iconer.NewGenerator()
+	conf.IconGenerator = iconer.NewGenerator()
+	conf.Decoration = logger.NewDecoration()
 	if err != nil {
 		return conf, err
 	}
@@ -61,7 +63,7 @@ func parseStr(rawStr string) (parsedStr string) {
 func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
 	d := logger.NewDecoration()
 	configFile = parseStr(configFile)
-	logger.PrintfStarted("%sLoading %s%s\n", d.Dim, configFile, d.Normal)
+	logger.PrintfStarted("%sLoading %s%s\n", d.Faint, configFile, d.Normal)
 	conf = &ProjectConfig{
 		Includes: []string{},
 		Tasks:    map[string]*Task{},

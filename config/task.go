@@ -80,7 +80,7 @@ func (task *Task) init() (err error) {
 
 func (task *Task) generateIcon() {
 	if task.Icon == "" {
-		icon := task.Project.Generator.Create()
+		icon := task.Project.IconGenerator.Create()
 		task.Icon = icon
 	}
 }
@@ -90,8 +90,10 @@ func (task *Task) generateFunkyName() {
 	if repeat < 0 {
 		repeat = 0
 	}
-	paddedName := task.Name + strings.Repeat(" ", repeat)
-	task.FunkyName = fmt.Sprintf("%s %s", paddedName, task.Icon)
+	paddedStr := strings.Repeat(" ", repeat)
+	d := task.Project.Decoration
+	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.Name, d.Normal, paddedStr)
+	task.FunkyName = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
 }
 
 func (task *Task) getParsedEnv() (parsedEnv map[string]string) {
@@ -289,8 +291,8 @@ func (task *Task) getCmd(cmdIconType string, commandPatternArgs []string, taskDa
 
 func (task *Task) log(cmdIconType, logType string, pipe io.ReadCloser, taskData *TaskData) {
 	buf := bufio.NewScanner(pipe)
-	d := logger.NewDecoration()
-	prefix := fmt.Sprintf("  %s%s %s%s", d.Dim, cmdIconType, taskData.task.FunkyName, d.Normal)
+	d := task.Project.Decoration
+	prefix := fmt.Sprintf("  %s%s %s", d.Normal, cmdIconType, taskData.task.FunkyName)
 	for buf.Scan() {
 		content := buf.Text()
 		if logType == "ERR" {
