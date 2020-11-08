@@ -159,7 +159,7 @@ func init() {
 	defaultEnv := []string{}
 	defaultEnvFile := filepath.Join(dir, ".env")
 	if _, err := os.Stat(defaultEnvFile); !os.IsNotExist(err) {
-		defaultEnv = append(defaultEnv, "${ZARUBA_HOME}/scripts/core.zaruba.yaml")
+		defaultEnv = append(defaultEnv, defaultEnvFile)
 	}
 	// register flags
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "custom file")
