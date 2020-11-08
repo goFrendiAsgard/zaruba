@@ -158,13 +158,14 @@ tasks:
     private: true
     description: |
       Check whether all ports are used or not
-      You can put nonitored ports on `lconfig` as follow:
+      You can put nonitored ports on `lconfig.ports` and checking interval on `config.interval` as follow:
       ```yaml
       lconfig:
         ports: [8080, 8081]    # Port to be checkedTo 
+      config:
+        interval: 1
+      config
       ```
-    lconfig:
-      ports: [3000]
     check: ["echo", "Port monitoring started"]
     start:
       - sh
@@ -185,7 +186,7 @@ tasks:
             echo "Port ${PORT} is not listening" 1>&2
             exit 1
           done
-          sleep 60
+          sleep {{ if .Config.interval }}{{ .Config.interval }}{{ else }}1{{ end }}
         done
 
   serveHttp:
