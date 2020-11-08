@@ -174,7 +174,7 @@ func (r *Runner) run(ch chan error) {
 		return
 	}
 	d := logger.NewDecoration()
-	logger.PrintfSuccess("%s%sJob Complete !!!%s\n", d.Bold, d.Yellow, d.Normal)
+	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	// wait until no process left
 	for true {
 		processExist := false

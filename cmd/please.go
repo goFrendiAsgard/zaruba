@@ -117,7 +117,7 @@ func showTasks(conf *config.ProjectConfig, showPublished bool) {
 		if _, exist := publishedTask[taskName]; (exist && showPublished) || (!exist && !showPublished) {
 			task := conf.Tasks[taskName]
 			fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, taskPrefix, d.Bold, task.Name, d.Normal)
-			fmt.Printf("%s%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Yellow, d.Faint, d.Normal, d.Faint, task.FileLocation, d.Normal)
+			fmt.Printf("%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, task.FileLocation, d.Normal)
 			showTaskDescription(task, taskFieldIndentation)
 		}
 	}
@@ -130,9 +130,9 @@ func showTaskDescription(task *config.Task, fieldIndentation string) {
 		rows := strings.Split(description, "\n")
 		for index, row := range rows {
 			if index == 0 {
-				row = fmt.Sprintf("%sDESCRIPTION:%s %s%s", d.Yellow, d.Normal, d.Faint, row)
+				row = fmt.Sprintf("%sDESCRIPTION:%s %s", d.Blue, d.Normal, row)
 			}
-			fmt.Printf("%s%s%s%s\n", fieldIndentation, d.Faint, row, d.Normal)
+			fmt.Printf("%s%s\n", fieldIndentation, row)
 		}
 	}
 }
