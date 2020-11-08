@@ -18,6 +18,19 @@ Using wget
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
+Zaruba doesn't have any other dependency. However some of Zaruba's task depends on third party (yet commonly used) libraries/programming language.
+
+Some of the dependencies are:
+
+* wget, curl, and git
+* netcat
+* docker.io
+* python3, pip, and pipenv
+* nodejs, npm, and typescript
+
+For updated list, please have a look on [devbox/Dockerfile](./devbox/Dockerfile).
+
+
 # 🏁 Getting Started
 
 ```sh

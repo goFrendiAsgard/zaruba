@@ -111,24 +111,30 @@ tasks:
     icon: 🚚
     description: |
       A base task to run service.
-      You can put exposed ports on `lconfig` as follow:
+      The following configuration:
       ```yaml
       lconfig:
-        ports: [8080, 8081]    # Port to be checked
+        ports: [8080, 8081]    # Port to be checked before the service is considered "running"
+      config
         script: <script>       # Script to start the service
         beforeCheck: <script>  # Script to be executed before check
         afterCheck: <script>   # Script to be executed after check
+        beforeStart: <script>  # Script to be executed before start
+        afterStart: <script>   # Script to be executed after start
       ```
       You can also override `start` command as needed.
-      By default, this task will serve static files in your current directory at port 3031
     private: true
-    lconfig:
-      ports: [3031]
     env:
       PYTHONUNBUFFERED: 
         from: PYTHONUNBUFFERED
         default: 1
-    start: ["/bin/sh", "-c", "{{ .Config.script }}"]
+    start:
+      - sh
+      - "-c"
+      - |
+        {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
+        {{ .Config.script }}
+        {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
     check:
       - sh
       - "-c"
@@ -146,6 +152,41 @@ tasks:
         set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo Task '{{ .Name }}' checked
+  
+  core.monitorPorts:
+    icon: 🕵️‍♂️
+    private: true
+    description: |
+      Check whether all ports are used or not
+      You can put nonitored ports on `lconfig` as follow:
+      ```yaml
+      lconfig:
+        ports: [8080, 8081]    # Port to be checkedTo 
+      ```
+    lconfig:
+      ports: [3000]
+    check: ["echo", "Port monitoring started"]
+    start:
+      - sh
+      - "-c"
+      - |
+        PORTS=""
+        {{ range $index, $port := .LConfig.ports -}}
+          PORTS="${PORTS} {{ $port }}"
+        {{ end }}
+        while true
+        do
+          for PORT in "${PORTS}"
+          do
+            if nc -z "localhost" "${PORT}" 
+            then 
+              continue
+            fi 
+            echo "Port ${PORT} is not listening" 1>&2
+            exit 1
+          done
+          sleep 1
+        done
 
   serveHttp:
     icon: 🌐
