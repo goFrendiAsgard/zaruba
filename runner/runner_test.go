@@ -126,6 +126,17 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 	}
 }
 
+func TestInvalidLongProcessExitedBeforeCheck(t *testing.T) {
+	conf, err := createConf(t, "../test_resource/invalidLongProcessExitedBeforeCheck.yaml")
+	if err != nil {
+		return
+	}
+	runner := NewRunner(conf, []string{"longProcess"})
+	if err = runner.Run(); err == nil {
+		t.Errorf("Error expected")
+	}
+}
+
 func TestInvalidNonExistingTask(t *testing.T) {
 	conf, err := createConf(t, "../test_resource/alchemy/zaruba.yaml")
 	if err != nil {

@@ -22,10 +22,14 @@ else
     PATH=$PATH:"${HOME}/.zaruba"
     if [ -e "${HOME}/.bashrc" ]
     then
+        echo 💀 Injecting '${HOME}/.zaruba' to .bashrc
+        echo "" >> "${HOME}/.bashrc"
         echo 'PATH=$PATH:"${HOME}/.zaruba"' >> "${HOME}/.bashrc"
     fi
     if [ -e "${HOME}/.zshrc" ]
     then
+        echo 💀 Injecting '${HOME}/.zaruba' to .zshrc
+        echo "" >> "${HOME}/.zshrc"
         echo 'PATH=$PATH:"${HOME}/.zaruba"' >> "${HOME}/.zshrc"
     fi
 fi

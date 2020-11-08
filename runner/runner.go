@@ -391,13 +391,22 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	return nil
 }
 
-func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) string {
+func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
 	d := logger.NewDecoration()
 	formattedArgs := []string{}
 	for _, arg := range cmd.Args {
 		rows := strings.Split(arg, "\n")
-		formattedArg := strings.Join(rows, fmt.Sprintf("\n%s     ", r.Spaces))
-		formattedArgs = append(formattedArgs, fmt.Sprintf("%s   * %s", r.Spaces, formattedArg))
+		for index, row := range rows {
+			prefix := "  "
+			if index == 0 {
+				prefix = "* "
+			}
+			row = fmt.Sprintf("%s   %s%s%s%s", r.Spaces, d.Dim, prefix, row, d.Normal)
+			rows[index] = row
+		}
+		formattedArg := strings.Join(rows, "\n")
+		formattedArgs = append(formattedArgs, formattedArg)
 	}
-	return fmt.Sprintf("%s%s%s", d.Dim, strings.Join(formattedArgs, "\n"), d.Normal)
+	output = strings.Join(formattedArgs, "\n")
+	return fmt.Sprintf(output)
 }

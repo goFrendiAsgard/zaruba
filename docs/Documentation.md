@@ -7,37 +7,37 @@ main.zaruba.yaml        # task declaration
 default.kwargs.yaml     # kwargs declaration
 ```
 
-# Zaruba Command
-
-## Please
+# Zaruba Command: Please
 
 Run some tasks declared in `task declaration file`.
 
 ```sh
-zaruba init
 zaruba please [tasks...] [kwarg=val] [-f task-declaration.yaml] [-k kwargs-declaration.yaml] [-e environment.env] [-e key=val]
+zaruba please showTasks
+zaruba please showPublishedTasks
+zaruba please showUnpublishedTasks
 ```
 
-### Tasks
+## Tasks
 
 Zaruba consider any argument without `=` character as a `task`.
 You can provide as many `task` as you want.
 
 If there is no `task` provided, Zaruba will show you all available tasks instead.
 
-### Kwargs
+## Kwargs
 
 Zaruba consider any argument containing `=` character as `keyword argument`.
 If you have multiple `keyword arguments`, you can use `kwargs declaration file` instead.
 
-### Task Declaration File
+## Task Declaration File
 
 To provide custom `task declaration file`, you can use `-f` flag. Otherwise:
 
 * Zaruba will try to use `main.zaruba.yaml` in the current directory.
 * If `main.zaruba.yaml` is not found, Zaruba will use `${ZARUBA_HOME}/scripts/core.zaruba.yaml`. If `${ZARUBA_HOME}` is not defined, Zaruba will used it's parent directory as `${ZARUBA_HOME}`. In most cases, you don't need to set the environment variable.
 
-#### Kwargs Declaration File
+### Kwargs Declaration File
 
 To provide custom `kwargs declaration file`, you can use `-k` flag. Otherwise, Zaruba will try to use `default.kwargs.yaml` in the current directory.
 
@@ -216,6 +216,7 @@ Please check `config/templatedata.go` to see `TaskData` definition. Here is a gl
 type TaskData struct {
 	task     *Task
 	Name     string
+	ProjectName string
 	BasePath string
 	WorkPath string
 	Kwargs   Dictionary

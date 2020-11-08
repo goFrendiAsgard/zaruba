@@ -1,0 +1,74 @@
+includes:
+  - "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
+
+tasks:
+
+  build:
+    location: ./
+    extend: core.runShellScript
+    config:
+      script: go build
+
+  test:
+    location: ./
+    extend: core.runShellScript
+    config:
+      script: |
+        ZARUBA_HOME=""
+        mkdir -p ./coverage
+        rm -f ./test_resource/alchemy/alembic.txt
+        go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
+        go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
+  
+  serveCoverage:
+    location: ./coverage
+    extend: serveHttp
+    dependencies:
+      - test
+  
+  buildDocker:
+    location: ./
+    extend: core.runShellScript
+    dependencies:
+      - test
+    config:
+      script: |
+        docker build -t stalchmst/devbox:latest -f devbox/Dockerfile .
+        docker build -t stalchmst/zaruba:latest .
+  
+  runDocker:
+    location: ./
+    extend: core.runShellScript
+    config:
+      script: |
+        (docker stop zaruba || echo "container not running") && \
+        (docker rm zaruba || echo "container not exist") && \
+        docker run --name zaruba -p 2810:8080 -d stalchmst/zaruba:latest && \
+        docker exec -it zaruba /bin/bash
+  
+  publishDocker:
+    location: ./
+    extend: core.runShellScript
+    dependencies:
+      - buildDocker
+    config:
+      script: |
+        docker push stalchmst/devbox:latest
+        docker push stalchmst/zaruba:latest
+  
+  publishRepo:
+    location: ./
+    extend: core.runShellScript
+    dependencies:
+      - test
+    config:
+      script: |
+        git add . -A
+        git commit -m "save changes before publishing"
+        git push -u origin HEAD
+  
+  install:
+    location: ./
+    extend: core.runShellScript
+    config:
+      script: ./install.sh

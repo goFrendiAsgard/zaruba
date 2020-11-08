@@ -38,7 +38,7 @@ var pleaseCmd = &cobra.Command{
 				return
 			}
 		}
-		//  distinguis taskNames and additional kwargs
+		//  distinguish taskNames and additional kwargs
 		taskNames := []string{}
 		for _, arg := range args {
 			if strings.Contains(arg, "=") {
@@ -52,21 +52,8 @@ var pleaseCmd = &cobra.Command{
 			fmt.Println(err)
 			return
 		}
-		// show list of available tasks if no task provided
-		if len(taskNames) == 0 {
-			taskIndentation := strings.Repeat(" ", 6)
-			taskFieldIndentation := taskIndentation + strings.Repeat(" ", 5)
-			d := logger.NewDecoration()
-			publishedTask := conf.GetPublishedTask()
-			logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
-			logger.Printf("Here are some possible tasks you can execute:\n")
-			for _, taskName := range conf.SortedTaskNames {
-				if task, exist := publishedTask[taskName]; exist {
-					fmt.Printf("%s%s %szaruba please %s%s%s\n", taskIndentation, task.Icon, d.Important, d.Bold, task.Name, d.Normal)
-					fmt.Printf("%s%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Important, d.Dim, d.Normal, d.Dim, task.FileLocation, d.Normal)
-					showTaskDescription(task, taskFieldIndentation)
-				}
-			}
+		// handle special cases
+		if handleSpecialCases(conf, taskNames) {
 			return
 		}
 		// run
@@ -75,6 +62,79 @@ var pleaseCmd = &cobra.Command{
 			fmt.Println(err)
 		}
 	},
+}
+
+func handleSpecialCases(conf *config.ProjectConfig, taskNames []string) (handled bool) {
+	d := logger.NewDecoration()
+	// special case: task is not given
+	if len(taskNames) == 0 {
+		logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
+		logger.Printf("Here are some possible tasks you can execute:\n")
+		showTasks(conf, true)
+		return true
+	}
+	if len(taskNames) > 1 {
+		return false
+	}
+	taskName := taskNames[0]
+	_, taskIsDeclaredByUser := conf.Tasks[taskName]
+	if taskIsDeclaredByUser {
+		return false
+	}
+	specialTasks := map[string](func()){
+		"showTasks": func() {
+			fmt.Printf("\n%s%s%s\n", d.Bold, "PUBLISHED TASKS", d.Normal)
+			showTasks(conf, true)
+			fmt.Printf("\n%s%s%s\n", d.Bold, "UNPUBLISHED TASKS", d.Normal)
+			showTasks(conf, false)
+		},
+		"showPublishedTasks": func() {
+			showTasks(conf, true)
+		},
+		"showUnpublishedTasks": func() {
+			showTasks(conf, false)
+		},
+	}
+	action, taskIsSpecial := specialTasks[taskName]
+	if !taskIsSpecial {
+		return false
+	}
+	// special case: task is given, it is special task, and no other tasks exist
+	action()
+	return true
+}
+
+func showTasks(conf *config.ProjectConfig, showPublished bool) {
+	d := logger.NewDecoration()
+	taskIndentation := strings.Repeat(" ", 6)
+	taskFieldIndentation := taskIndentation + strings.Repeat(" ", 5)
+	taskPrefix := ""
+	if showPublished {
+		taskPrefix = "zaruba please "
+	}
+	publishedTask := conf.GetPublishedTask()
+	for _, taskName := range conf.SortedTaskNames {
+		if _, exist := publishedTask[taskName]; (exist && showPublished) || (!exist && !showPublished) {
+			task := conf.Tasks[taskName]
+			fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Important, taskPrefix, d.Bold, task.Name, d.Normal)
+			fmt.Printf("%s%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Important, d.Dim, d.Normal, d.Dim, task.FileLocation, d.Normal)
+			showTaskDescription(task, taskFieldIndentation)
+		}
+	}
+}
+
+func showTaskDescription(task *config.Task, fieldIndentation string) {
+	if task.Description != "" {
+		d := logger.NewDecoration()
+		description := strings.TrimSpace(task.Description)
+		rows := strings.Split(description, "\n")
+		for index, row := range rows {
+			if index == 0 {
+				row = fmt.Sprintf("%sDESCRIPTION:%s %s%s", d.Important, d.Normal, d.Dim, row)
+			}
+			fmt.Printf("%s%s%s%s\n", fieldIndentation, d.Dim, row, d.Normal)
+		}
+	}
 }
 
 func init() {
@@ -99,18 +159,4 @@ func init() {
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "custom file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", []string{}, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseKwargs, "kwargs", "k", defaultPleaseKwargs, "yaml file or pairs (e.g: '-k value.yaml' or '-k key=val')")
-}
-
-func showTaskDescription(task *config.Task, fieldIndentation string) {
-	if task.Description != "" {
-		d := logger.NewDecoration()
-		description := strings.TrimSpace(task.Description)
-		rows := strings.Split(description, "\n")
-		for index, row := range rows {
-			if index == 0 {
-				row = fmt.Sprintf("%sDESCRIPTION:%s %s%s", d.Important, d.Normal, d.Dim, row)
-			}
-			fmt.Printf("%s%s%s%s\n", fieldIndentation, d.Dim, row, d.Normal)
-		}
-	}
 }
