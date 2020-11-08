@@ -185,7 +185,7 @@ tasks:
             echo "Port ${PORT} is not listening" 1>&2
             exit 1
           done
-          sleep 1
+          sleep 60
         done
 
   serveHttp:
