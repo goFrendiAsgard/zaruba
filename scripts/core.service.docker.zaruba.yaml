@@ -1,0 +1,112 @@
+tasks:
+
+  createDockerNetwork:
+    icon: 🐳
+    description: Create docker network based on project name
+    extend: core.runShellScript
+    config:
+      script: |
+        MATCH_NETWORK=$(docker network ls -q -f name="{{ .ProjectName }}") 
+        if [ -z $MATCH_NETWORK ]
+        then
+          docker network create "{{ .ProjectName }}"
+        fi
+
+  core.startDockerContainer:
+    icon: 🐳
+    description: |
+      A base task to run docker container.
+      It will try to run `docker run` first. 
+      If container is already exists, then it will run `docker start`.
+      All container's output will be shown as well.
+      Several configurations are available for this task:
+      ```yaml
+      config:
+        containerName: <containerName>      # Name of the container
+        imageName: <imageName>              # Base image of the container
+        port::<hostPort>: <containerPort>   # Binding <containerPort> to <hostPort>
+        volume::<hostPath>: <containerPath> # Binding <containerPath> to <hostPath>
+        beforeCheck: <script>               # Script to be executed before check
+        afterCheck: <script>                # Script to be executed after check
+        beforeStart: <script>               # Script to be executed before start
+        afterStart: <script>                # Script to be executed after start
+        shell: sh
+        shellArg: "-c"
+      ```
+    private: true
+    config:
+      shell: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
+      shellArg: "-c" 
+    dependencies:
+      - createDockerNetwork
+    start:
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
+      - |
+        set -e
+        {{ if .Config.containerName }}{{ else -}}
+          echo "Container name is not provided" 1>&2 && exit 1
+        {{ end -}}
+        {{ if .Config.imageName }}{{ else -}} 
+          echo "Image name is not provided" 1>&2 && exit 1
+        {{ end -}}
+        {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
+        {{ $this := . -}}
+        {{ $workPath := .WorkPath -}}
+        {{ $config := .Config -}}
+        {{ $projectName := .ProjectName -}}
+        {{ $ports := $config.GetSubKeys "port" -}}
+        {{ $volumes := $config.GetSubKeys "volume" -}}
+        CONTAINER_NAME="{{ .Config.containerName }}"
+        MATCH_EXISTING_CONTAINER=$(docker ps -q -a -f name="{{ .Config.containerName}}")
+        MATCH_RUNNING_CONTAINER=$(docker ps -q -f name="{{ .Config.containerName}}")
+        if [ -z $MATCH_EXISTING_CONTAINER ]
+        then
+          echo "Creating and starting container {{ .Config.containerName }}"
+          docker run --name "{{ .Config.containerName }}" {{ "" -}}
+            --network="{{ .ProjectName }}" {{"" -}}
+            {{ range $key, $val := .Env }} -e {{ $key }}={{ $val }} {{ end -}}
+            {{ range $index, $hostPort := $ports -}} 
+              {{ $containerPort := $config.GetValue "port" $hostPort -}}
+              -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
+            {{ end -}}
+            {{ range $index, $hostVolume := $volumes -}} 
+              {{ $absHostVolume := $this.GetAbsPath $workPath $hostVolume -}}
+              {{ $containerVolume := $config.GetValue "volume" $hostVolume -}}
+              -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
+            {{ end -}}
+            -d {{ .Config.imageName }}
+        elif [ -z $MATCH_RUNNING_CONTAINER ]
+        then
+          echo "Starting container {{ .Config.containerName }}"
+          docker start "{{ .Config.containerName }}"
+        else
+          echo "Container {{ .Config.containerName }} is already started"
+        fi
+        {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
+        docker logs --since 0m --follow "{{ .Config.containerName }}"
+    check:
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
+      - |
+        CONTAINER_NAME="{{ .Config.containerName }}"
+        {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
+        set -e
+        echo Waiting {{ .Config.containerName }}
+        until [ "$(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}")" = true ]
+        do 
+          sleep 3
+        done
+        echo {{ .Config.containerName }} is running
+        {{ $ports := .Config.GetSubKeys "port" -}}
+        {{ range $index, $hostPort := $ports -}}
+          echo Waiting for host port '{{ $hostPort }}'
+          until nc -z localhost "{{ $hostPort }}"
+          do
+            sleep 3
+          done
+          echo Host port '{{ $hostPort }}' is ready
+        {{ end -}}
+        set +e
+        {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
+        echo Task '{{ .Name }}' checked
