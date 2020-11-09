@@ -86,7 +86,7 @@ func (task *Task) generateIcon() {
 }
 
 func (task *Task) generateFunkyName() {
-	repeat := task.Project.MaxTaskNameLength - len(task.Name)
+	repeat := task.Project.MaxTaskNameLength - len(task.Name) - len(task.Icon)
 	if repeat < 0 {
 		repeat = 0
 	}
