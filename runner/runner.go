@@ -403,6 +403,9 @@ func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
 			if index == 0 {
 				prefix = "* "
 			}
+			if len(rows) > 1 {
+				prefix += fmt.Sprintf("%s%4d |%s ", d.Yellow, index+1, d.NoColor)
+			}
 			row = fmt.Sprintf("%s   %s%s%s%s", r.Spaces, d.Faint, prefix, row, d.Normal)
 			rows[index] = row
 		}

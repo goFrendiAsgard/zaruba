@@ -16,8 +16,18 @@ tasks:
 
   nonExecutableProcessStart:
     start: ["invalidCommand", "10"]
-    check: ["sh", "-c", "echo Check process && sleep 5"]
+    check: 
+      - "sh"
+      - "-c"
+      - |
+        "echo Check process
+        sleep 5
 
   nonExecutableProcessCheck:
     start: ["sleep", "10"]
-    check: ["invalidCommand", "-c", "echo Check process && sleep 5"] 
+    check: 
+      - "invalidCommand"
+      - "-c"
+      - |
+        "echo Check process
+        sleep 5
