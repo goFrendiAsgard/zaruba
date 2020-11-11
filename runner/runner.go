@@ -95,9 +95,20 @@ func (r *Runner) Run() (err error) {
 	return err
 }
 
+func (r *Runner) sleep(duration time.Duration) {
+	done := make(chan bool)
+	ticker := time.NewTimer(duration)
+	go func() {
+		<-ticker.C
+		ticker.Stop()
+		done <- true
+	}()
+	<-done
+}
+
 func (r *Runner) showStatusByInterval() {
 	for true {
-		time.Sleep(r.StatusInterval)
+		r.sleep(r.StatusInterval)
 		if r.getKilledSignal() {
 			return
 		}
@@ -381,7 +392,7 @@ func (r *Runner) runTaskCmdWithTimeout(task *config.Task, cmd *exec.Cmd, cmdLabe
 		return
 	}()
 	go func() {
-		time.Sleep(task.TimeoutDuration)
+		r.sleep(task.TimeoutDuration)
 		if executed {
 			return
 		}
