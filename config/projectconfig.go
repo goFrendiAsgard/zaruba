@@ -16,15 +16,15 @@ import (
 
 // ProjectConfig is zaruba configuration
 type ProjectConfig struct {
-	Includes          []string         `yaml:"includes"`
-	Tasks             map[string]*Task `yaml:"tasks"`
-	Name              string           `yaml:"name"`
-	FileLocation      string
-	Kwargs            map[string]string
-	IconGenerator     *iconer.Generator
-	SortedTaskNames   []string
-	MaxTaskNameLength int
-	Decoration        *logger.Decoration
+	Includes                   []string         `yaml:"includes"`
+	Tasks                      map[string]*Task `yaml:"tasks"`
+	Name                       string           `yaml:"name"`
+	FileLocation               string
+	Kwargs                     map[string]string
+	IconGenerator              *iconer.Generator
+	SortedTaskNames            []string
+	MaxPublishedTaskNameLength int
+	Decoration                 *logger.Decoration
 }
 
 // NewConfig create new Config from Yaml File
@@ -185,15 +185,15 @@ func (conf *ProjectConfig) fillTaskFileLocationAndDirPath(absConfigFile string) 
 
 func (conf *ProjectConfig) generateProperties() {
 	conf.SortedTaskNames = []string{}
-	conf.MaxTaskNameLength = 0
+	conf.MaxPublishedTaskNameLength = 0
 	for taskName, task := range conf.GetPublishedTask() {
-		if !task.Private && len(taskName) > conf.MaxTaskNameLength {
-			conf.MaxTaskNameLength = len(taskName)
+		if !task.Private && len(taskName) > conf.MaxPublishedTaskNameLength {
+			conf.MaxPublishedTaskNameLength = len(taskName)
 		}
 		conf.SortedTaskNames = append(conf.SortedTaskNames, taskName)
 	}
-	if conf.MaxTaskNameLength > 20 {
-		conf.MaxTaskNameLength = 20
+	if conf.MaxPublishedTaskNameLength > 20 {
+		conf.MaxPublishedTaskNameLength = 20
 	}
 	sort.Strings(conf.SortedTaskNames)
 }
