@@ -80,7 +80,7 @@ func (r *Runner) Run() (err error) {
 	go r.handleTerminationSignal(ch)
 	go r.run(ch)
 	go r.waitAnyProcessError(ch)
-	go r.showStatus()
+	go r.showStatusByInterval()
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
 		return fmt.Errorf("Terminated")
@@ -89,6 +89,16 @@ func (r *Runner) Run() (err error) {
 		r.Terminate()
 	}
 	return err
+}
+
+func (r *Runner) showStatusByInterval() {
+	for true {
+		time.Sleep(r.StatusInterval)
+		if r.getKilledSignal() {
+			return
+		}
+		r.showStatus()
+	}
 }
 
 func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
@@ -100,36 +110,30 @@ func (r *Runner) showStatus() {
 	d := logger.NewDecoration()
 	descriptionPrefix := r.Spaces + "    "
 	processPrefix := r.Spaces + r.Spaces + " "
-	for true {
-		time.Sleep(r.StatusInterval)
-		if r.getKilledSignal() {
-			return
-		}
-		processRows := []string{}
-		r.CommandCmdMutex.Lock()
-		for label, cmd := range r.CommandCmds {
-			processRow := r.getProcessRow(label, cmd)
-			processRows = append(processRows, processRow)
-		}
-		r.CommandCmdMutex.Unlock()
-		r.ProcessCmdMutex.Lock()
-		for label, cmd := range r.ProcessCmds {
-			processRow := r.getProcessRow(label, cmd)
-			processRows = append(processRows, processRow)
-		}
-		r.ProcessCmdMutex.Unlock()
-		done := r.getDoneSignal()
-		statusCaption := fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
-		if done {
-			statusCaption = fmt.Sprintf("%s%sServices Running...%s\n", d.Bold, d.Green, d.Normal)
-		}
-		dt := time.Now()
-		timeString := dt.Format("15:04:05")
-		timeCaption := fmt.Sprintf("%s%sTime: %s%s\n", descriptionPrefix, d.Faint, timeString, d.Normal)
-		activeProcessLabel := fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
-		processCaption := processPrefix + strings.Join(processRows, "\n"+processPrefix)
-		logger.PrintfInspect("%s%s%s%s\n", statusCaption, timeCaption, activeProcessLabel, processCaption)
+	processRows := []string{}
+	r.CommandCmdMutex.Lock()
+	for label, cmd := range r.CommandCmds {
+		processRow := r.getProcessRow(label, cmd)
+		processRows = append(processRows, processRow)
 	}
+	r.CommandCmdMutex.Unlock()
+	r.ProcessCmdMutex.Lock()
+	for label, cmd := range r.ProcessCmds {
+		processRow := r.getProcessRow(label, cmd)
+		processRows = append(processRows, processRow)
+	}
+	r.ProcessCmdMutex.Unlock()
+	done := r.getDoneSignal()
+	statusCaption := fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
+	if done {
+		statusCaption = fmt.Sprintf("%s%sServices Running...%s\n", d.Bold, d.Green, d.Normal)
+	}
+	dt := time.Now()
+	timeString := dt.Format("15:04:05")
+	timeCaption := fmt.Sprintf("%s%sTime: %s%s\n", descriptionPrefix, d.Faint, timeString, d.Normal)
+	activeProcessLabel := fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
+	processCaption := processPrefix + strings.Join(processRows, "\n"+processPrefix)
+	logger.PrintfInspect("%s%s%s%s\n", statusCaption, timeCaption, activeProcessLabel, processCaption)
 }
 
 // Terminate all processes
@@ -238,6 +242,7 @@ func (r *Runner) run(ch chan error) {
 	d := logger.NewDecoration()
 	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	r.setDoneSignal()
+	r.showStatus()
 	// wait until no process left
 	for true {
 		processExist := false
