@@ -47,11 +47,14 @@ type Runner struct {
 	ProcessCmdMutex     *sync.RWMutex
 	Killed              bool
 	KilledMutex         *sync.RWMutex
+	Done                bool
+	DoneMutex           *sync.RWMutex
+	StatusInterval      time.Duration
 	Spaces              string
 }
 
 // NewRunner create new runner
-func NewRunner(conf *config.ProjectConfig, taskNames []string) (runner *Runner) {
+func NewRunner(conf *config.ProjectConfig, taskNames []string, statusInterval time.Duration) (runner *Runner) {
 	return &Runner{
 		TaskNames:           taskNames,
 		Conf:                conf,
@@ -64,6 +67,9 @@ func NewRunner(conf *config.ProjectConfig, taskNames []string) (runner *Runner) 
 		ProcessCmdMutex:     &sync.RWMutex{},
 		Killed:              false,
 		KilledMutex:         &sync.RWMutex{},
+		Done:                false,
+		DoneMutex:           &sync.RWMutex{},
+		StatusInterval:      statusInterval,
 		Spaces:              "     ",
 	}
 }
@@ -74,6 +80,7 @@ func (r *Runner) Run() (err error) {
 	go r.handleTerminationSignal(ch)
 	go r.run(ch)
 	go r.waitAnyProcessError(ch)
+	go r.showStatus()
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
 		return fmt.Errorf("Terminated")
@@ -84,10 +91,51 @@ func (r *Runner) Run() (err error) {
 	return err
 }
 
+func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
+	d := logger.NewDecoration()
+	return fmt.Sprintf("%s* (PID=%d) %s%s", d.Faint, cmd.Process.Pid, label, d.Normal)
+}
+
+func (r *Runner) showStatus() {
+	d := logger.NewDecoration()
+	descriptionPrefix := r.Spaces + "    "
+	processPrefix := r.Spaces + r.Spaces + " "
+	for true {
+		time.Sleep(r.StatusInterval)
+		if r.getKilledSignal() {
+			return
+		}
+		processRows := []string{}
+		r.CommandCmdMutex.Lock()
+		for label, cmd := range r.CommandCmds {
+			processRow := r.getProcessRow(label, cmd)
+			processRows = append(processRows, processRow)
+		}
+		r.CommandCmdMutex.Unlock()
+		r.ProcessCmdMutex.Lock()
+		for label, cmd := range r.ProcessCmds {
+			processRow := r.getProcessRow(label, cmd)
+			processRows = append(processRows, processRow)
+		}
+		r.ProcessCmdMutex.Unlock()
+		done := r.getDoneSignal()
+		statusCaption := fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
+		if done {
+			statusCaption = fmt.Sprintf("%s%sServices Running...%s\n", d.Bold, d.Green, d.Normal)
+		}
+		dt := time.Now()
+		timeString := dt.Format("15:04:05")
+		timeCaption := fmt.Sprintf("%s%sTime: %s%s\n", descriptionPrefix, d.Faint, timeString, d.Normal)
+		activeProcessLabel := fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
+		processCaption := processPrefix + strings.Join(processRows, "\n"+processPrefix)
+		logger.PrintfInspect("%s%s%s%s\n", statusCaption, timeCaption, activeProcessLabel, processCaption)
+	}
+}
+
 // Terminate all processes
 func (r *Runner) Terminate() {
 	logger.PrintfError("Terminating\n")
-	r.propagateKilledSignal()
+	r.setKilledSignal()
 	// kill unfinished commands
 	r.CommandCmdMutex.Lock()
 	for label, cmd := range r.CommandCmds {
@@ -156,7 +204,20 @@ func (r *Runner) handleTerminationSignal(ch chan error) {
 	}
 }
 
-func (r *Runner) propagateKilledSignal() {
+func (r *Runner) setDoneSignal() {
+	r.DoneMutex.Lock()
+	r.Done = true
+	r.DoneMutex.Unlock()
+}
+
+func (r *Runner) getDoneSignal() (isDone bool) {
+	r.DoneMutex.RLock()
+	isDone = r.Done
+	r.DoneMutex.RUnlock()
+	return isDone
+}
+
+func (r *Runner) setKilledSignal() {
 	r.KilledMutex.Lock()
 	r.Killed = true
 	r.KilledMutex.Unlock()
@@ -176,6 +237,7 @@ func (r *Runner) run(ch chan error) {
 	}
 	d := logger.NewDecoration()
 	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
+	r.setDoneSignal()
 	// wait until no process left
 	for true {
 		processExist := false

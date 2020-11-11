@@ -39,3 +39,9 @@ func PrintfKill(template string, args ...interface{}) (n int, err error) {
 	pTemplate := fmt.Sprintf("🔪 %s", template)
 	return printf(pTemplate, args...)
 }
+
+// PrintfInspect is a wrapper for fmt.Printf
+func PrintfInspect(template string, args ...interface{}) (n int, err error) {
+	pTemplate := fmt.Sprintf("🔎 %s", template)
+	return printf(pTemplate, args...)
+}

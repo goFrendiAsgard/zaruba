@@ -35,7 +35,7 @@ func TestValidRunnerAlchemy(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"makeEverything"})
+	runner := NewRunner(conf, []string{"makeEverything"}, time.Second)
 	if err = runner.Run(); err != nil {
 		t.Error(err)
 	}
@@ -62,7 +62,7 @@ func TestTerminateRunnerLongPreparationBeforeComplete(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"})
+	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
 	startTime := time.Now()
 	ch := make(chan error)
 	go func() {
@@ -85,7 +85,7 @@ func TestTerminateRunnerLongProcessBeforeComplete(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"})
+	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
 	startTime := time.Now()
 	ch := make(chan error)
 	go func() {
@@ -108,7 +108,7 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"})
+	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
 	startTime := time.Now()
 	ch := make(chan error)
 	go func() {
@@ -131,7 +131,7 @@ func TestInvalidLongProcessExitedBeforeCheck(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"})
+	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -142,7 +142,7 @@ func TestInvalidNonExistingTask(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"makeElixirOfImmortality"})
+	runner := NewRunner(conf, []string{"makeElixirOfImmortality"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -153,7 +153,7 @@ func TestInvalidBrokenCommand(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"brokenCommand"})
+	runner := NewRunner(conf, []string{"brokenCommand"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -164,7 +164,7 @@ func TestInvalidBrokenProcessStart(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"brokenProcessStart"})
+	runner := NewRunner(conf, []string{"brokenProcessStart"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -175,7 +175,7 @@ func TestInvalidBrokenProcessCheck(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"brokenProcessCheck"})
+	runner := NewRunner(conf, []string{"brokenProcessCheck"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -186,7 +186,7 @@ func TestInvalidNonExecutableCommand(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"nonExecutableCommand"})
+	runner := NewRunner(conf, []string{"nonExecutableCommand"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -197,7 +197,7 @@ func TestInvalidNonExecutableProcessStart(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"nonExecutableProcessStart"})
+	runner := NewRunner(conf, []string{"nonExecutableProcessStart"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -208,7 +208,7 @@ func TestInvalidNonExecutableProcessCheck(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"nonExecutableProcessCheck"})
+	runner := NewRunner(conf, []string{"nonExecutableProcessCheck"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
@@ -219,7 +219,7 @@ func TestInvalidTimeoutCheck(t *testing.T) {
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"timeoutTask"})
+	runner := NewRunner(conf, []string{"timeoutTask"}, time.Second)
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}

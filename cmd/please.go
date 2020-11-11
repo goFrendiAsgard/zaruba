@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
@@ -57,7 +58,7 @@ var pleaseCmd = &cobra.Command{
 			return
 		}
 		// run
-		r := runner.NewRunner(conf, taskNames)
+		r := runner.NewRunner(conf, taskNames, time.Minute*5)
 		if err := r.Run(); err != nil {
 			fmt.Println(err)
 		}
