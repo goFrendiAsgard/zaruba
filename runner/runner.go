@@ -131,9 +131,13 @@ func (r *Runner) showStatus() {
 	dt := time.Now()
 	timeString := dt.Format("15:04:05")
 	timeCaption := fmt.Sprintf("%s%sTime: %s%s\n", descriptionPrefix, d.Faint, timeString, d.Normal)
-	activeProcessLabel := fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
-	processCaption := processPrefix + strings.Join(processRows, "\n"+processPrefix)
-	logger.PrintfInspect("%s%s%s%s\n", statusCaption, timeCaption, activeProcessLabel, processCaption)
+	activeProcessLabel := ""
+	processCaption := ""
+	if len(processRows) > 0 {
+		activeProcessLabel = fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
+		processCaption = processPrefix + strings.Join(processRows, "\n"+processPrefix)
+	}
+	logger.PrintfInspect("%s%s%s%s", statusCaption, timeCaption, activeProcessLabel, processCaption)
 }
 
 // Terminate all processes
