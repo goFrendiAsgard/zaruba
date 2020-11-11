@@ -50,6 +50,8 @@ type Runner struct {
 	Done                bool
 	DoneMutex           *sync.RWMutex
 	StatusInterval      time.Duration
+	StartTimeMutex      *sync.RWMutex
+	StartTime           time.Time
 	Spaces              string
 }
 
@@ -71,11 +73,13 @@ func NewRunner(conf *config.ProjectConfig, taskNames []string, statusInterval ti
 		DoneMutex:           &sync.RWMutex{},
 		StatusInterval:      statusInterval,
 		Spaces:              "     ",
+		StartTimeMutex:      &sync.RWMutex{},
 	}
 }
 
 // Run Tasks
 func (r *Runner) Run() (err error) {
+	r.StartTime = time.Now()
 	ch := make(chan error)
 	go r.handleTerminationSignal(ch)
 	go r.run(ch)
@@ -126,18 +130,22 @@ func (r *Runner) showStatus() {
 	done := r.getDoneSignal()
 	statusCaption := fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
 	if done {
-		statusCaption = fmt.Sprintf("%s%sServices Running...%s\n", d.Bold, d.Green, d.Normal)
+		statusCaption = fmt.Sprintf("%s%sJob Running...%s\n", d.Bold, d.Green, d.Normal)
 	}
-	dt := time.Now()
-	timeString := dt.Format("15:04:05")
-	timeCaption := fmt.Sprintf("%s%sTime: %s%s\n", descriptionPrefix, d.Faint, timeString, d.Normal)
+	r.StartTimeMutex.RLock()
+	elapsedTime := time.Since(r.StartTime)
+	elapsedTimeCaption := fmt.Sprintf("%s%sElapsed Time: %s%s\n", descriptionPrefix, d.Faint, elapsedTime, d.Normal)
+	r.StartTimeMutex.RUnlock()
+	currentTime := time.Now()
+	currentTimeString := currentTime.Format("15:04:05")
+	currentTimeCaption := fmt.Sprintf("%s%sCurrent Time: %s%s\n", descriptionPrefix, d.Faint, currentTimeString, d.Normal)
 	activeProcessLabel := ""
 	processCaption := ""
 	if len(processRows) > 0 {
 		activeProcessLabel = fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
-		processCaption = processPrefix + strings.Join(processRows, "\n"+processPrefix)
+		processCaption = processPrefix + strings.Join(processRows, "\n"+processPrefix) + "\n"
 	}
-	logger.PrintfInspect("%s%s%s%s", statusCaption, timeCaption, activeProcessLabel, processCaption)
+	logger.PrintfInspect("%s%s%s%s%s", statusCaption, elapsedTimeCaption, currentTimeCaption, activeProcessLabel, processCaption)
 }
 
 // Terminate all processes
@@ -243,10 +251,10 @@ func (r *Runner) run(ch chan error) {
 		ch <- err
 		return
 	}
-	d := logger.NewDecoration()
-	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	r.setDoneSignal()
 	r.showStatus()
+	d := logger.NewDecoration()
+	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	// wait until no process left
 	for true {
 		processExist := false
