@@ -186,7 +186,7 @@ func (conf *ProjectConfig) fillTaskFileLocationAndDirPath(absConfigFile string) 
 func (conf *ProjectConfig) generateProperties() {
 	conf.SortedTaskNames = []string{}
 	conf.MaxPublishedTaskNameLength = 0
-	for taskName, task := range conf.GetPublishedTask() {
+	for taskName, task := range conf.Tasks {
 		if !task.Private && len(taskName) > conf.MaxPublishedTaskNameLength {
 			conf.MaxPublishedTaskNameLength = len(taskName)
 		}
