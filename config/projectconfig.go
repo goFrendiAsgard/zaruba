@@ -75,6 +75,7 @@ func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
 	if err = yaml.Unmarshal(b, conf); err != nil {
 		return conf, err
 	}
+	conf.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
 	absConfigFile := configFile
 	if !filepath.IsAbs(absConfigFile) {
 		absConfigFile, err = filepath.Abs(absConfigFile)
@@ -89,6 +90,16 @@ func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
 		return conf, err
 	}
 	return conf, err
+}
+
+func (conf *ProjectConfig) reverseInclusion() {
+	i := 0
+	j := len(conf.Includes) - 1
+	for i < j {
+		conf.Includes[i], conf.Includes[j] = conf.Includes[j], conf.Includes[i]
+		i++
+		j--
+	}
 }
 
 // GetName get projectName
@@ -192,8 +203,8 @@ func (conf *ProjectConfig) generateProperties() {
 		}
 		conf.SortedTaskNames = append(conf.SortedTaskNames, taskName)
 	}
-	if conf.MaxPublishedTaskNameLength > 20 {
-		conf.MaxPublishedTaskNameLength = 20
+	if conf.MaxPublishedTaskNameLength > 15 {
+		conf.MaxPublishedTaskNameLength = 15
 	}
 	sort.Strings(conf.SortedTaskNames)
 }

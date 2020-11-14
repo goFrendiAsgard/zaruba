@@ -87,11 +87,13 @@ func (r *Runner) Run() (err error) {
 	go r.showStatusByInterval()
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
+		r.showStatus()
 		return fmt.Errorf("Terminated")
 	}
 	if !r.getKilledSignal() {
 		r.Terminate()
 	}
+	r.showStatus()
 	return err
 }
 
@@ -138,11 +140,7 @@ func (r *Runner) showStatus() {
 		processRows = append(processRows, processRow)
 	}
 	r.ProcessCmdMutex.Unlock()
-	done := r.getDoneSignal()
-	statusCaption := fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
-	if done {
-		statusCaption = fmt.Sprintf("%s%sJob Running...%s\n", d.Bold, d.Green, d.Normal)
-	}
+	statusCaption := r.getStatusCaption()
 	r.StartTimeMutex.RLock()
 	elapsedTime := time.Since(r.StartTime)
 	elapsedTimeCaption := fmt.Sprintf("%s%sElapsed Time: %s%s\n", descriptionPrefix, d.Faint, elapsedTime, d.Normal)
@@ -157,6 +155,17 @@ func (r *Runner) showStatus() {
 		processCaption = processPrefix + strings.Join(processRows, "\n"+processPrefix) + "\n"
 	}
 	logger.PrintfInspect("%s%s%s%s%s", statusCaption, elapsedTimeCaption, currentTimeCaption, activeProcessLabel, processCaption)
+}
+
+func (r *Runner) getStatusCaption() (statusCaption string) {
+	d := logger.NewDecoration()
+	if done := r.getDoneSignal(); done {
+		return fmt.Sprintf("%s%sJob Running...%s\n", d.Bold, d.Green, d.Normal)
+	}
+	if killed := r.getKilledSignal(); killed {
+		return fmt.Sprintf("%sJob Ended...%s\n", d.Bold, d.Normal)
+	}
+	return fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
 }
 
 // Terminate all processes

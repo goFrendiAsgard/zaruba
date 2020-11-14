@@ -19,9 +19,10 @@ var pleaseFile string
 
 // pleaseCmd represents the please command
 var pleaseCmd = &cobra.Command{
-	Use:   "please",
-	Short: "Ask Zaruba to do something for you",
-	Long:  "💀 Ask Zaruba to do something for you",
+	Use:     "please",
+	Short:   "Ask Zaruba to do something for you",
+	Long:    "💀 Ask Zaruba to do something for you",
+	Aliases: []string{"run", "do", "invoke", "perform"},
 	Run: func(cmd *cobra.Command, args []string) {
 		conf, err := config.NewConfig(pleaseFile)
 		if err != nil {

@@ -7,11 +7,12 @@ import (
 
 // thanksCmd represents the thanks command
 var thanksCmd = &cobra.Command{
-	Use:   "thanks",
-	Short: "Say thank you to Zaruba",
-	Long:  "💀 Say thank you to Zaruba",
+	Use:     "thanks",
+	Short:   "Say thank you to Zaruba",
+	Long:    "💀 Say thank you to Zaruba",
+	Aliases: []string{"thankYou", "thankyou"},
 	Run: func(cmd *cobra.Command, args []string) {
-		logger.Printf("Your welcome, please consider donating to my creator\n")
+		logger.Printf("Your welcome, please consider donating to my creator here: https://paypal.me/gofrendi\n")
 	},
 }
 
