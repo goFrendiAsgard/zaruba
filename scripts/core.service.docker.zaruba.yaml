@@ -95,7 +95,7 @@ tasks:
         echo Waiting {{ .Config.containerName }}
         until [ "$(docker inspect -f "{{- "{{" -}} .State.Running {{- "}}" -}}" "{{ .Config.containerName }}")" = true ]
         do 
-          sleep 3
+          sleep 1
         done
         echo {{ .Config.containerName }} is running
         {{ $ports := .Config.GetSubKeys "port" -}}
@@ -103,7 +103,7 @@ tasks:
           echo Waiting for host port '{{ $hostPort }}'
           until nc -z localhost "{{ $hostPort }}"
           do
-            sleep 3
+            sleep 1
           done
           echo Host port '{{ $hostPort }}' is ready
         {{ end -}}

@@ -46,7 +46,7 @@ tasks:
           echo Waiting port '{{ $port }}'
           until nc -z localhost {{ $port }}
           do 
-            sleep 3
+            sleep 1
           done
           echo port '{{ $port }}' is ready
         {{ end }}

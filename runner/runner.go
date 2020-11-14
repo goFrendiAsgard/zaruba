@@ -80,6 +80,7 @@ func NewRunner(conf *config.ProjectConfig, taskNames []string, statusInterval ti
 // Run Tasks
 func (r *Runner) Run() (err error) {
 	r.StartTime = time.Now()
+	r.showStatus()
 	ch := make(chan error)
 	go r.handleTerminationSignal(ch)
 	go r.run(ch)
@@ -159,11 +160,11 @@ func (r *Runner) showStatus() {
 
 func (r *Runner) getStatusCaption() (statusCaption string) {
 	d := logger.NewDecoration()
-	if done := r.getDoneSignal(); done {
-		return fmt.Sprintf("%s%sJob Running...%s\n", d.Bold, d.Green, d.Normal)
-	}
 	if killed := r.getKilledSignal(); killed {
 		return fmt.Sprintf("%sJob Ended...%s\n", d.Bold, d.Normal)
+	}
+	if done := r.getDoneSignal(); done {
+		return fmt.Sprintf("%s%sJob Running...%s\n", d.Bold, d.Green, d.Normal)
 	}
 	return fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
 }
@@ -175,18 +176,22 @@ func (r *Runner) Terminate() {
 	// kill unfinished commands
 	r.CommandCmdMutex.Lock()
 	for label, cmd := range r.CommandCmds {
-		logger.PrintfKill("Kill %s\n", label)
+		logger.PrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
 		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGINT); err != nil {
 			fmt.Println(r.Spaces, err)
+		} else {
+			delete(r.CommandCmds, label)
 		}
 	}
 	r.CommandCmdMutex.Unlock()
 	// kill running processes
 	r.ProcessCmdMutex.Lock()
 	for label, cmd := range r.ProcessCmds {
-		logger.PrintfKill("Kill %s\n", label)
+		logger.PrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
 		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGINT); err != nil {
 			fmt.Println(r.Spaces, err)
+		} else {
+			delete(r.ProcessCmds, label)
 		}
 	}
 	r.ProcessCmdMutex.Unlock()
@@ -228,16 +233,20 @@ func (r *Runner) handleTerminationSignal(ch chan error) {
 	signalChannel := make(chan os.Signal, 2)
 	signal.Notify(signalChannel, os.Interrupt, syscall.SIGTERM)
 	sig := <-signalChannel
+	errorMsg := ""
 	switch sig {
 	case os.Interrupt:
-		ch <- fmt.Errorf("Receiving SIGINT")
+		errorMsg = "Receiving SIGINT"
 		break
 	case syscall.SIGTERM:
-		ch <- fmt.Errorf("Receiving SIGTERM")
+		errorMsg = "Receiving SIGTERM"
 		break
 	default:
-		ch <- fmt.Errorf("Receiving termination signal")
+		errorMsg = "Receiving termination signal"
 	}
+	fmt.Println()
+	logger.PrintfError("%s\n", errorMsg)
+	ch <- fmt.Errorf(errorMsg)
 }
 
 func (r *Runner) setDoneSignal() {

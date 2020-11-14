@@ -118,7 +118,7 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 	runner.Terminate()
 	err = <-ch
 	if err == nil {
-		t.Errorf("Error expected")
+		t.Error(err)
 	}
 	elapsed := time.Since(startTime)
 	if elapsed > 13*time.Second {
