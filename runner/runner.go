@@ -378,7 +378,7 @@ func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd 
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	startCmdLabel := fmt.Sprintf(" %s '%s' service", task.Icon, task.Name)
+	startCmdLabel := fmt.Sprintf("%s '%s' service", task.Icon, task.Name)
 	r.registerProcessCmd(startCmdLabel, startCmd, task)
 	// checker
 	logger.PrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.Name, checkCmd.Dir)
