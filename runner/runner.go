@@ -332,7 +332,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 	}
 	startCmd, startExist, startErr := task.GetStartCmd()
 	if !startExist {
-		logger.PrintfSuccess("Reach '%s' wrapper\n", task.Name)
+		logger.PrintfSuccess("Reach %s '%s' wrapper\n", task.Icon, task.Name)
 		r.finishTask(task.Name, nil)
 		ch <- nil
 		return
@@ -358,13 +358,13 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 }
 
 func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd) (err error) {
-	logger.PrintfStarted("Run '%s' command on %s\n", task.Name, startCmd.Dir)
+	logger.PrintfStarted("Run %s '%s' command on %s\n", task.Icon, task.Name, startCmd.Dir)
 	if err = startCmd.Start(); err != nil {
-		logger.PrintfError("Error running command '%s':\n%s\n", task.Name, r.sprintfCmdArgs(startCmd))
+		logger.PrintfError("Error running command %s '%s':\n%s\n", task.Icon, task.Name, r.sprintfCmdArgs(startCmd))
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("'%s' command", task.Name)
+	startCmdLabel := fmt.Sprintf("%s '%s' command", task.Icon, task.Name)
 	r.registerCommandCmd(startCmdLabel, startCmd)
 	err = r.runTaskCmdWithTimeout(task, startCmd, startCmdLabel)
 	r.unregisterCommandCmd(startCmdLabel)
@@ -372,22 +372,22 @@ func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd) (err erro
 }
 
 func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd *exec.Cmd) (err error) {
-	logger.PrintfStarted("Run '%s' service on %s\n", task.Name, startCmd.Dir)
+	logger.PrintfStarted("Run %s '%s' service on %s\n", task.Icon, task.Name, startCmd.Dir)
 	if err = startCmd.Start(); err != nil {
-		logger.PrintfError("Error running service '%s':\n%s\n", task.Name, r.sprintfCmdArgs(startCmd))
+		logger.PrintfError("Error running service %s '%s':\n%s\n", task.Icon, task.Name, r.sprintfCmdArgs(startCmd))
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("'%s' service", task.Name)
+	startCmdLabel := fmt.Sprintf(" %s '%s' service", task.Icon, task.Name)
 	r.registerProcessCmd(startCmdLabel, startCmd, task)
 	// checker
-	logger.PrintfStarted("Check '%s' readiness on %s\n", task.Name, checkCmd.Dir)
+	logger.PrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.Name, checkCmd.Dir)
 	if err = checkCmd.Start(); err != nil {
-		logger.PrintfError("Error checking service '%s' readiness:\n%s\n", task.Name, r.sprintfCmdArgs(checkCmd))
+		logger.PrintfError("Error checking service %s '%s' readiness:\n%s\n", task.Icon, task.Name, r.sprintfCmdArgs(checkCmd))
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	checkCmdLabel := fmt.Sprintf("'%s' readiness check", task.Name)
+	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", task.Icon, task.Name)
 	r.registerCommandCmd(checkCmdLabel, checkCmd)
 	err = r.runTaskCmdWithTimeout(task, checkCmd, checkCmdLabel)
 	r.unregisterCommandCmd(checkCmdLabel)
