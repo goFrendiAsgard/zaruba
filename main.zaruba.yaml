@@ -68,6 +68,11 @@ tasks:
         git commit -m "save changes before publishing"
         git push -u origin HEAD
   
+  publish:
+    dependencies:
+      - publishDocker
+      - publishRepo
+  
   install:
     location: ./
     extend: core.runShellScript
