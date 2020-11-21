@@ -14,3 +14,22 @@ tasks:
         cd {{ .BasePath }}/..
         git pull origin master
         go build
+        echo "Zaruba built"
+  
+  setupUbuntu:
+    icon: 💻
+    description: Setup zaruba prerequisites for ubuntu
+    extend: core.runShellScript
+    config:
+      script: |
+        set -e
+        echo "Update repository"
+        apt-get update
+        apt-get upgrade -y
+        echo "Install packages"
+        apt-get install -y ncat make wget curl git golang docker.io python3 python3-pip python-is-python3 nodejs npm
+        echo "Install typescript"
+        npm install -g typescript
+        echo "Install Pipenv"
+        pip3 install pipenv
+        echo "Complete"

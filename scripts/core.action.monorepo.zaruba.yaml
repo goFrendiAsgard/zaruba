@@ -1,5 +1,30 @@
 tasks:
 
+  core.isValidSubrepos:
+    icon: 🔍
+    private: true
+    extend: core.runShellScript
+    config:
+      script: |
+        echo "All Subrepos should be valid"
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        {{ range $index, $name := $names -}}
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          NAME="{{ $name }}"
+          if [ -z "$URL" ]
+          then
+            echo "Subrepo ${NAME} doesn't have url" 1>&2; exit 1
+          fi
+          if [ -z "$PREFIX" ]
+          then
+            echo "Subrepo ${NAME} doesn't have prefix" 1>&2; exit 1
+          fi
+        {{ end }}
+        echo "All Subrepos are valid"
+ 
+
   initSubrepos:
     icon: 📦
     description: |
@@ -11,74 +36,54 @@ tasks:
       ```
     extend: core.runShellScript
     dependencies:
-      - core.checkIsProject
+      - core.checkIsValidProject
+      - core.isValidSubrepos
     config:
       script: |
+        set -e
+        BASEPATH="{{ .BasePath }}"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
-          {{ $prefix := $kwargs.GetValue "subrepo" $name "prefix" -}}
-          {{ $url := $kwargs.GetValue "subrepo" $name "url" -}}
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          PREFIX="{{ $prefix }}"
-          URL="{{ $url }}"
-
           if [ -z "$URL" ]
           then
-            echo "Subrepo ${NAME} doesn't have url" 1>&2
-            exit 1
+            echo "Subrepo ${NAME} doesn't have url" 1>&2; exit 1
           fi
           if [ -z "$PREFIX" ]
           then
-            echo "Subrepo ${NAME} doesn't have prefix" 1>&2
-            exit 1
+            echo "Subrepo ${NAME} doesn't have prefix" 1>&2; exit 1
           fi
-
-          if [ -z "$BRANCH" ]
-          then
-            BRANCH="master"
-          fi
-
-          ORIGIN_EXISTS=0
-          for ORIGIN in $ORIGINS
-          do
-            if [ $ORIGIN = $NAME ]
-            then
-              ORIGIN_EXISTS=1
-            fi
-          done
-
+          ORIGIN_EXISTS=$(python "${BASEPATH}/util/python/is_in_array.py" "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 0 ]
           then
-            echo $NAME origin is not exist
-            git add . -A
-            git commit -m 'Save works'
-
+            echo "$NAME origin is not exist"
+            sh "${BASEPATH}/util/sh/git_save.sh" "Save works"
             PREFIX_EXISTS=0
             if [ -d "$PREFIX" ]
             then
               PREFIX_EXISTS=1
               mv "${PREFIX}" "${PREFIX}.bak"
-              git add . -A
-              git commit -m "Move ${PREFIX}"
+              sh "${BASEPATH}/util/sh/git_save.sh" "Move ${PREFIX}"
             fi
-
             git remote add "${NAME}" "${URL}"
             git subtree add --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
             git fetch "${NAME}" "${BRANCH}"
             git pull "${NAME}" "${BRANCH}"
-
             if [ $PREFIX_EXISTS = 1 ]
             then
               rm -Rf "${PREFIX}"
               mv "${PREFIX}.bak" "${PREFIX}"
-              git add . -A
-              git commit -m "Move ${PREFIX} back"
+              sh "${BASEPATH}/util/sh/git_save.sh" "Move ${PREFIX} back"
             fi
           fi
-         {{ end -}}
+        {{ end -}}
+        echo "Subrepos initialized"
+
 
   addSubrepo:
     icon: 🥂
@@ -90,29 +95,30 @@ tasks:
       ```
     extend: core.runShellScript
     dependencies:
-      - core.checkIsProject
+      - core.checkIsValidProject
     config:
       script: |
-        NAME="{{ .Kwargs.name }}"
-        PREFIX="{{ .Kwargs.prefix }}"
-        URL="{{ .Kwargs.url }}"
-        if [ -z $NAME ]
-        then
-          echo "Subrepo name is not defined" 1>&2
-          exit 1
-        fi
-        if [ -z $PREFIX ]
-        then
-          echo "Subrepo prefix is not defined" 1>&2
-          exit 1
-        fi
-        if [ -z $URL ]
-        then
+        set -e
+        BASEPATH="{{ .BasePath }}"
+        {{ if not .Kwargs.url }}
           echo "Subrepo url is not defined" 1>&2
           exit 1
-        fi
+        {{ end }}
+        URL="{{ .Kwargs.url }}"
+        {{ if not .Kwargs.prefix }}
+          PREFIX=$(python "${BASEPATH}/util/python/get_segment.py" "${URL}" "/" "-1")
+        {{ else }}
+          PREFIX="{{ .Kwargs.prefix }}"
+        {{ end }}
+        {{ if not .Kwargs.name }}
+          NAME="$PREFIX"
+        {{ else }}
+          NAME="{{ .Kwargs.name }}"
+        {{ end }}
         echo "subrepo::${NAME}::prefix: ${PREFIX}" >> "default.kwargs.yaml"
         echo "subrepo::${NAME}::url: ${URL}" >> "default.kwargs.yaml"
+        echo "Subrepo ${NAME} has been added"
+
 
   pushSubrepos:
     icon: 📤
@@ -120,37 +126,28 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - initSubrepos
-      - organize
-      - core.checkIsProject
+      - updateLinks
     config:
       script: |
+        set -e
+        BASEPATH="{{ .BasePath }}"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
-          {{ $prefix := $kwargs.GetValue "subrepo" $name "prefix" -}}
-          {{ $url := $kwargs.GetValue "subrepo" $name "url" -}}
-
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          PREFIX="{{ $prefix }}"
-          URL="{{ $url }}"
-
-          ORIGIN_EXISTS=0
-          for ORIGIN in $ORIGINS
-          do
-            if [ $ORIGIN = $NAME ]
-            then
-              ORIGIN_EXISTS=1
-            fi
-          done
+          ORIGIN_EXISTS=$(python "${BASEPATH}/util/python/is_in_array.py" "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            git add . -A
-            git commit -m 'Save works'
+            sh "${BASEPATH}/util/sh/git_save.sh" "Save works before push"
             git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
+        echo "Subrepos pushed"
+
 
   pullSubrepos:
     icon: 📥
@@ -158,34 +155,24 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - initSubrepos
-      - core.checkIsProject
     config:
       script: |
+        set -e
+        BASEPATH="{{ .BasePath }}"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         ORIGINS=$(git remote)
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
         {{ range $index, $name := $names -}}
-          {{ $prefix := $kwargs.GetValue "subrepo" $name "prefix" -}}
-          {{ $url := $kwargs.GetValue "subrepo" $name "url" -}}
-
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          PREFIX="{{ $prefix }}"
-          URL="{{ $url }}"
-
-          ORIGIN_EXISTS=0
-          for ORIGIN in $ORIGINS
-          do
-            if [ $ORIGIN = $NAME ]
-            then
-              ORIGIN_EXISTS=1
-            fi
-          done
+          ORIGIN_EXISTS=$(python "${BASEPATH}/util/python/is_in_array.py" "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            git add . -A
-            git commit -m "Save works before pull"
+            sh "${BASEPATH}/util/sh/git_save.sh" "Save works before pull"
             git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
+        echo "Subrepos pulled"
  

@@ -1,12 +1,12 @@
 tasks:
 
-  core.checkIsProject:
+  core.checkIsValidProject:
     icon: 🔍
     private: true
     extend: core.runShellScript
     config:
       script: |
-        echo "Current directory should be zaruba project"
+        echo "Current directory should be a valid zaruba project"
         if [ ! -e main.zaruba.yaml ]
         then
           echo "$(pwd) is not a zaruba project" 1>&2 
@@ -14,6 +14,8 @@ tasks:
           echo "You might want to 'initProject' first" 1>&2 
           exit 1
         fi
+        echo "Current directory is a valid zaruba project"
+
  
   core.checkIsNotProject:
     icon: 🔍
@@ -21,13 +23,15 @@ tasks:
     extend: core.runShellScript
     config:
       script: |
-        echo "Current directory should not be zaruba project"
+        echo "Current directory should not be a zaruba project"
         if [ -e main.zaruba.yaml ]
         then
           echo "$(pwd) is a zaruba project" 1>&2
           echo "The task cannot be executed in a zaruba project directory" 1>&2 
           exit 1
         fi
+        echo "Current directory is not a zaruba project"
+
   
   initProject:
     icon: 🚧
@@ -38,7 +42,9 @@ tasks:
     config:
       script: | 
         git init
-        cp -r {{ .BasePath }}/project-template/* ./
+        cp -r "{{ .BasePath }}/project-template/*" ./
+        echo "Project created"
+
  
   updateLinks:
     icon: 🔗
@@ -50,15 +56,15 @@ tasks:
       ```
     extend: core.runShellScript
     dependencies:
-      - core.checkIsProject
+      - core.checkIsValidProject
     config:
       script: |
         {{ $this := . -}}
         {{ $workPath := .WorkPath }}
         {{ $destinations := .Kwargs.GetSubKeys "link" -}}
         {{ $kwargs := .Kwargs -}}
-        git add . -A
-        git commit -m "Save works before organize"
+        BASEPATH="{{ .BasePath }}"
+        sh "${BASEPATH}/util/sh/git_save.sh" "Save works before organize"
         {{ range $index, $destination := $destinations -}}
           {{ $source := $kwargs.GetValue "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}
@@ -67,3 +73,4 @@ tasks:
           cp -r "{{ $absSource }}" "{{ $absDestination }}"
           chmod 555 "{{ $absDestination }}"
         {{ end -}}
+        echo "Links updated"
