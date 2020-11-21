@@ -177,7 +177,7 @@ func (r *Runner) Terminate() {
 	r.CommandCmdMutex.Lock()
 	for label, cmd := range r.CommandCmds {
 		logger.PrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
-		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGINT); err != nil {
+		if err := r.killByPid(-cmd.Process.Pid); err != nil {
 			fmt.Println(r.Spaces, err)
 		} else {
 			delete(r.CommandCmds, label)
@@ -188,13 +188,22 @@ func (r *Runner) Terminate() {
 	r.ProcessCmdMutex.Lock()
 	for label, cmd := range r.ProcessCmds {
 		logger.PrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
-		if err := syscall.Kill(-cmd.Process.Pid, syscall.SIGINT); err != nil {
+		if err := r.killByPid(-cmd.Process.Pid); err != nil {
 			fmt.Println(r.Spaces, err)
 		} else {
 			delete(r.ProcessCmds, label)
 		}
 	}
 	r.ProcessCmdMutex.Unlock()
+}
+
+func (r *Runner) killByPid(pid int) (err error) {
+	err = syscall.Kill(pid, syscall.SIGINT)
+	r.sleep(100 * time.Millisecond)
+	syscall.Kill(pid, syscall.SIGTERM)
+	r.sleep(100 * time.Millisecond)
+	syscall.Kill(pid, syscall.SIGKILL)
+	return err
 }
 
 func (r *Runner) waitAnyProcessError(ch chan error) {
@@ -212,7 +221,9 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				currentTaskName := r.getProcessCmdTaskName(currentLabel)
 				r.unregisterProcessCmd(currentLabel)
 				if err != nil {
-					logger.PrintfError("%s exited with error:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					if !r.getKilledSignal() {
+						logger.PrintfError("%s exited with error:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					}
 					fmt.Println(err)
 					ch <- err
 					return
