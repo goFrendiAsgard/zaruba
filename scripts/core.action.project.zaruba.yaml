@@ -42,7 +42,8 @@ tasks:
     config:
       script: | 
         git init
-        cp -r "{{ .BasePath }}/project-template/*" ./
+        cp "{{ .BasePath }}/project-template/default.kwargs.yaml" ./default.kwargs.yaml
+        cp "{{ .BasePath }}/project-template/main.zaruba.yaml" ./main.zaruba.yaml
         echo "Project created"
 
   
@@ -64,9 +65,9 @@ tasks:
         SH_UTIL="${BASEPATH}/util/sh"
         PYTHON_UTIL="${BASEPATH}/util/python"
         export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
-        IMAGE="{{ .Kwargs.image }}"
-        CONTAINER="{{ .Kwargs.container }}"
-        TASK="{{ .Kwargs.task }}"
+        IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
+        CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
         pipenv run python "${PYTHON_UTIL}/create_docker_task.py" "${IMAGE}" "${CONTAINER}" "${TASK}"
 
  
