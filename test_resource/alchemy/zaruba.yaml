@@ -2,10 +2,7 @@ tasks:
 
   clearThings:
     location: ./
-    start: 
-      - sh
-      - "-c"
-      - rm -f alembic.txt
+    start: [rm, -f, alimbic.txt]
 
   makeSomething:
     location: ./
