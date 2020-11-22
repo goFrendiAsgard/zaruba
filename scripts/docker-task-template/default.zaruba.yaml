@@ -1,0 +1,9 @@
+tasks:
+
+  runContainer:
+    icon: 🐳
+    extend: core.startDockerContainer
+    env: {}
+    config:
+      imageName: imageName
+      containerName: containerName

@@ -1,0 +1,27 @@
+tasks:
+
+  runContainer:
+    icon: 🐬 
+    extend: core.startDockerContainer
+    env:
+      MYSQL_USER:
+        from: MYSQL_USER
+        default: mysql
+      MYSQL_PASSWORD:
+        from: MYSQL_PASSWORD
+        default: mysql
+      MYSQL_ROOT_PASSWORD:
+        from: MYSQL_ROOT_PASSWORD
+        default: toor
+    config:
+      imageName: mysql
+      containerName: containerName
+      port::3306: 3306
+      afterCheck: |
+        echo "check ${CONTAINER_NAME} started"
+        docker exec "$CONTAINER_NAME" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
+        until [ "$?" = "0" ]
+        do
+          docker exec "$CONTAINER_NAME" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
+          sleep 3
+        done

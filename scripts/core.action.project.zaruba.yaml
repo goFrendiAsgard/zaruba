@@ -45,6 +45,30 @@ tasks:
         cp -r "{{ .BasePath }}/project-template/*" ./
         echo "Project created"
 
+  
+  createDockerTask:
+    icon: 🐳
+    description: |
+      Create docker task
+      You need to specify `image`, `task`, and `container`. For example:
+      ```sh
+      zaruba please createDockerTask  <image=nginx> [container=myNginx] [task=runMyNginx]
+    extend: core.runShellScript
+    dependencies:
+      - core.checkIsValidProject
+      - core.setupPythonUtil
+    config:
+      script: |
+        set -e
+        BASEPATH="{{ .BasePath }}"
+        SH_UTIL="${BASEPATH}/util/sh"
+        PYTHON_UTIL="${BASEPATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
+        IMAGE="{{ .Kwargs.image }}"
+        CONTAINER="{{ .Kwargs.container }}"
+        TASK="{{ .Kwargs.task }}"
+        pipenv run python "${PYTHON_UTIL}/create_docker_task.py" "${IMAGE}" "${CONTAINER}" "${TASK}"
+
  
   updateLinks:
     icon: 🔗
@@ -64,7 +88,8 @@ tasks:
         {{ $destinations := .Kwargs.GetSubKeys "link" -}}
         {{ $kwargs := .Kwargs -}}
         BASEPATH="{{ .BasePath }}"
-        sh "${BASEPATH}/util/sh/git_save.sh" "Save works before organize"
+        SH_UTIL="${BASEPATH}/util/sh"
+        sh "${SH_UTIL}/git_save.sh" "Save works before organize"
         {{ range $index, $destination := $destinations -}}
           {{ $source := $kwargs.GetValue "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}

@@ -38,10 +38,14 @@ tasks:
     dependencies:
       - core.checkIsValidProject
       - core.isValidSubrepos
+      - core.setupPythonUtil
     config:
       script: |
         set -e
         BASEPATH="{{ .BasePath }}"
+        SH_UTIL="${BASEPATH}/util/sh"
+        PYTHON_UTIL="${BASEPATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
@@ -58,27 +62,27 @@ tasks:
           then
             echo "Subrepo ${NAME} doesn't have prefix" 1>&2; exit 1
           fi
-          ORIGIN_EXISTS=$(python "${BASEPATH}/util/python/is_in_array.py" "${NAME}" ${ORIGINS})
-          if [ $ORIGIN_EXISTS = 0 ]
+          ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
+          if [ $ORIGIN_EXISTS = 1 ]
+          then
+            git remote set-url "${NAME}" "${URL}"
+          elif [ $ORIGIN_EXISTS = 0 ]
           then
             echo "$NAME origin is not exist"
-            sh "${BASEPATH}/util/sh/git_save.sh" "Save works"
+            sh "${SH_UTIL}/git_save.sh" "Save works"
             PREFIX_EXISTS=0
             if [ -d "$PREFIX" ]
             then
               PREFIX_EXISTS=1
               mv "${PREFIX}" "${PREFIX}.bak"
-              sh "${BASEPATH}/util/sh/git_save.sh" "Move ${PREFIX}"
+              sh "${SH_UTIL}/git_save.sh" "Move ${PREFIX}"
             fi
-            git remote add "${NAME}" "${URL}"
-            git subtree add --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-            git fetch "${NAME}" "${BRANCH}"
-            git pull "${NAME}" "${BRANCH}"
+            sh "${SH_UTIL}/git_init_subrepo.sh" "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
             if [ $PREFIX_EXISTS = 1 ]
             then
               rm -Rf "${PREFIX}"
               mv "${PREFIX}.bak" "${PREFIX}"
-              sh "${BASEPATH}/util/sh/git_save.sh" "Move ${PREFIX} back"
+              sh "${SH_UTIL}/git_save.sh" "Move ${PREFIX} back"
             fi
           fi
         {{ end -}}
@@ -89,24 +93,29 @@ tasks:
     icon: 🥂
     description: |
       Add external repository to your project.
-      You need to specify `name`, `prefix` and `url`. Example:
+      You need to specify `url`, `prefix`, and `name`. For example:
       ```sh
-      zaruba please addSubRepo name=<subrepo-name> prefix=<directory> url=<git-url>
+      zaruba please addSubRepo <url=git-url> [prefix=directory] [name=subrepo-name]
       ```
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
+      - core.setupPythonUtil
     config:
       script: |
         set -e
         BASEPATH="{{ .BasePath }}"
+        SH_UTIL="${BASEPATH}/util/sh"
+        PYTHON_UTIL="${BASEPATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ if not .Kwargs.url }}
           echo "Subrepo url is not defined" 1>&2
           exit 1
         {{ end }}
         URL="{{ .Kwargs.url }}"
         {{ if not .Kwargs.prefix }}
-          PREFIX=$(python "${BASEPATH}/util/python/get_segment.py" "${URL}" "/" "-1")
+          PREFIX=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${URL}" "/" "-1")
+          PREFIX=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${PREFIX}" "." "0")
         {{ else }}
           PREFIX="{{ .Kwargs.prefix }}"
         {{ end }}
@@ -115,8 +124,8 @@ tasks:
         {{ else }}
           NAME="{{ .Kwargs.name }}"
         {{ end }}
-        echo "subrepo::${NAME}::prefix: ${PREFIX}" >> "default.kwargs.yaml"
-        echo "subrepo::${NAME}::url: ${URL}" >> "default.kwargs.yaml"
+        pipenv run python "${PYTHON_UTIL}/set_project_kwarg.py" "subrepo::${NAME}::prefix" "${PREFIX}"
+        pipenv run python "${PYTHON_UTIL}/set_project_kwarg.py" "subrepo::${NAME}::url" "${URL}"
         echo "Subrepo ${NAME} has been added"
 
 
@@ -127,10 +136,14 @@ tasks:
     dependencies:
       - initSubrepos
       - updateLinks
+      - core.setupPythonUtil
     config:
       script: |
         set -e
         BASEPATH="{{ .BasePath }}"
+        SH_UTIL="${BASEPATH}/util/sh"
+        PYTHON_UTIL="${BASEPATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
@@ -139,10 +152,10 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(python "${BASEPATH}/util/python/is_in_array.py" "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            sh "${BASEPATH}/util/sh/git_save.sh" "Save works before push"
+            sh "${SH_UTIL}/git_save.sh" "Save works before push"
             git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
@@ -155,10 +168,14 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - initSubrepos
+      - core.setupPythonUtil
     config:
       script: |
         set -e
         BASEPATH="{{ .BasePath }}"
+        SH_UTIL="${BASEPATH}/util/sh"
+        PYTHON_UTIL="${BASEPATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         ORIGINS=$(git remote)
@@ -167,10 +184,10 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(python "${BASEPATH}/util/python/is_in_array.py" "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            sh "${BASEPATH}/util/sh/git_save.sh" "Save works before pull"
+            sh "${SH_UTIL}/git_save.sh" "Save works before pull"
             git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}

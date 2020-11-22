@@ -54,7 +54,6 @@ tasks:
         {{ $this := . -}}
         {{ $workPath := .WorkPath -}}
         {{ $config := .Config -}}
-        {{ $projectName := .ProjectName -}}
         {{ $ports := $config.GetSubKeys "port" -}}
         {{ $volumes := $config.GetSubKeys "volume" -}}
         CONTAINER_NAME="{{ .Config.containerName }}"

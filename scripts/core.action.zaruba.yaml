@@ -16,6 +16,14 @@ tasks:
         go build
         echo "Zaruba built"
   
+  core.setupPythonUtil:
+    private: true
+    extend: core.runShellScript
+    config:
+      script: |
+        cd "{{ .BasePath }}/util/python"
+        pipenv install
+  
   setupUbuntu:
     icon: 💻
     description: Setup zaruba prerequisites for ubuntu
