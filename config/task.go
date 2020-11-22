@@ -270,7 +270,6 @@ func (task *Task) getCmd(cmdIconType string, commandPatternArgs []string, taskDa
 	args := commandArgs[1:]
 	cmd = exec.Command(name, args...)
 	cmd.Dir = taskData.task.GetWorkPath()
-	// cmd.Stdin = os.Stdin
 	cmd.Env = os.Environ()
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	for key, val := range task.ParsedEnv {

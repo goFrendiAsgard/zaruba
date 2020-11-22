@@ -89,6 +89,7 @@ func (r *Runner) Run() (err error) {
 	go r.run(ch)
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
+	go r.readInput()
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
@@ -117,6 +118,18 @@ func (r *Runner) Terminate() {
 		}
 	}
 	r.CmdInfoMutex.Unlock()
+}
+
+func (r *Runner) readInput() {
+	for true {
+		input := ""
+		fmt.Scanf("%s", input)
+		r.CmdInfoMutex.Lock()
+		for _, cmdInfo := range r.CmdInfo {
+			io.WriteString(cmdInfo.StdInPipe, input+"\n")
+		}
+		r.CmdInfoMutex.Unlock()
+	}
 }
 
 func (r *Runner) showStatusByInterval() {
@@ -232,6 +245,7 @@ func (r *Runner) run(ch chan error) {
 		r.CmdInfoMutex.RUnlock()
 		if !processExist {
 			ch <- nil
+			return
 		}
 	}
 }
