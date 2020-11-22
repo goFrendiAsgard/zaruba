@@ -126,6 +126,17 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 	}
 }
 
+func TestInvalidLongProcessErrorAfterCheck(t *testing.T) {
+	conf, err := createConf(t, "../test_resource/invalidLongProcessErrorAfterCheck.yaml")
+	if err != nil {
+		return
+	}
+	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
+	if err = runner.Run(); err == nil {
+		t.Errorf("Error expected")
+	}
+}
+
 func TestInvalidLongProcessExitedBeforeCheck(t *testing.T) {
 	conf, err := createConf(t, "../test_resource/invalidLongProcessExitedBeforeCheck.yaml")
 	if err != nil {

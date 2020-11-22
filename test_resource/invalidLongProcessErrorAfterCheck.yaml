@@ -1,0 +1,5 @@
+tasks:
+
+  longProcess:
+    start: ["sh", "-c", "sleep 2 && invalidCommand"]
+    check: ["sh", "-c", "echo Check process && sleep 1"]
