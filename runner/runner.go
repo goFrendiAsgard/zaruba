@@ -122,7 +122,7 @@ func (r *Runner) Terminate() {
 
 func (r *Runner) readInput() {
 	for {
-		r.sleep(11 * time.Microsecond)
+		r.sleep(1 * time.Microsecond)
 		input := ""
 		fmt.Scanf("%s", input)
 		r.CmdInfoMutex.Lock()
@@ -135,7 +135,7 @@ func (r *Runner) readInput() {
 
 func (r *Runner) showStatusByInterval() {
 	for {
-		r.sleep(7 * time.Microsecond)
+		r.sleep(1 * time.Microsecond)
 		r.sleep(r.StatusInterval)
 		if r.getKilledSignal() {
 			return
@@ -147,7 +147,7 @@ func (r *Runner) showStatusByInterval() {
 func (r *Runner) waitAnyProcessError(ch chan error) {
 	seen := map[string]bool{}
 	for {
-		r.sleep(5 * time.Microsecond)
+		r.sleep(1 * time.Microsecond)
 		r.CmdInfoMutex.Lock()
 		for label, cmdInfo := range r.CmdInfo {
 			if _, exist := seen[label]; exist || !cmdInfo.IsProcess {
@@ -239,7 +239,7 @@ func (r *Runner) run(ch chan error) {
 	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	// wait until no cmd left
 	for {
-		r.sleep(3 * time.Microsecond)
+		r.sleep(1 * time.Microsecond)
 		processExist := false
 		r.CmdInfoMutex.RLock()
 		for range r.CmdInfo {
@@ -461,7 +461,7 @@ func (r *Runner) isTaskError(taskName string) (err error) {
 
 func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	for {
-		r.sleep(2 * time.Microsecond)
+		r.sleep(1 * time.Microsecond)
 		if r.isTaskFinished(taskName) {
 			return r.isTaskError(taskName)
 		}
