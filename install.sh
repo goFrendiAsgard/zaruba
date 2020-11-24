@@ -1,11 +1,11 @@
 #!/bin/sh
 
-set -e
-
+set +e
 echo 💀 Remove old Zaruba 
 go clean -i github.com/state-alchemists/zaruba
 rm -Rf "${HOME}/.zaruba"
 
+set -e
 echo 💀 Cloning Zaruba 
 git clone --depth 1 https://github.com/state-alchemists/zaruba "${HOME}/.zaruba"
 
