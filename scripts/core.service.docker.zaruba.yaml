@@ -57,8 +57,8 @@ tasks:
         {{ $ports := $config.GetSubKeys "port" -}}
         {{ $volumes := $config.GetSubKeys "volume" -}}
         CONTAINER_NAME="{{ .Config.containerName }}"
-        MATCH_EXISTING_CONTAINER='$(docker ps -q -a -f name="{{ .Config.containerName}}")'
-        MATCH_RUNNING_CONTAINER='$(docker ps -q -f name="{{ .Config.containerName}}")'
+        MATCH_EXISTING_CONTAINER=$(docker ps -q -a -f name="{{ .Config.containerName}}")
+        MATCH_RUNNING_CONTAINER=$(docker ps -q -f name="{{ .Config.containerName}}")
         if [ -z $MATCH_EXISTING_CONTAINER ]
         then
           echo "Creating and starting container {{ .Config.containerName }}"
