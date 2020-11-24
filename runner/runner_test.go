@@ -114,15 +114,15 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 	go func() {
 		ch <- runner.Run()
 	}()
-	time.Sleep(11 * time.Second)
+	time.Sleep(14 * time.Second)
 	runner.Terminate()
 	err = <-ch
 	if err == nil {
 		t.Error(err)
 	}
 	elapsed := time.Since(startTime)
-	if elapsed > 13*time.Second {
-		t.Errorf("Process should be ended in approximately 6 second, but currently it need %s", elapsed)
+	if elapsed > 16*time.Second {
+		t.Errorf("Process should be ended in approximately 14 second, but currently it need %s", elapsed)
 	}
 }
 
