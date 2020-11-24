@@ -7,7 +7,7 @@ tasks:
     config:
       script: |
         MATCH_NETWORK=$(docker network ls -q -f name="{{ .ProjectName }}") 
-        if [ -z $MATCH_NETWORK ]
+        if [ -z "$MATCH_NETWORK" ]
         then
           docker network create "{{ .ProjectName }}"
         fi
