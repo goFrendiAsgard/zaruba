@@ -108,14 +108,18 @@ func (r *Runner) Terminate() {
 	r.setKilledSignal()
 	// kill unfinished commands
 	r.CmdInfoMutex.Lock()
+	killedCh := map[string]chan error{}
 	for label, cmdInfo := range r.CmdInfo {
+		killedCh[label] = make(chan error)
 		cmd := cmdInfo.Cmd
 		logger.PrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
-		if err := r.killByPid(-cmd.Process.Pid); err != nil {
+		go r.killByPid(-cmd.Process.Pid, killedCh[label])
+	}
+	for label := range r.CmdInfo {
+		if err := <-killedCh[label]; err != nil {
 			fmt.Println(r.Spaces, err)
-		} else {
-			delete(r.CmdInfo, label)
 		}
+		delete(r.CmdInfo, label)
 	}
 	r.CmdInfoMutex.Unlock()
 }
@@ -124,10 +128,14 @@ func (r *Runner) readInput() {
 	for {
 		r.sleep(1 * time.Microsecond)
 		input := ""
-		fmt.Scanf("%s", input)
+		fmt.Scanf("%s", &input)
+		if input == "" {
+			continue
+		}
 		r.CmdInfoMutex.Lock()
-		for _, cmdInfo := range r.CmdInfo {
+		for label, cmdInfo := range r.CmdInfo {
 			io.WriteString(cmdInfo.StdInPipe, input+"\n")
+			logger.Printf("write %s to %s\n", input, label)
 		}
 		r.CmdInfoMutex.Unlock()
 	}
@@ -135,7 +143,6 @@ func (r *Runner) readInput() {
 
 func (r *Runner) showStatusByInterval() {
 	for {
-		r.sleep(1 * time.Microsecond)
 		r.sleep(r.StatusInterval)
 		if r.getKilledSignal() {
 			return
@@ -148,6 +155,10 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 	seen := map[string]bool{}
 	for {
 		r.sleep(1 * time.Microsecond)
+		if r.getKilledSignal() {
+			ch <- fmt.Errorf("Teriminated")
+			return
+		}
 		r.CmdInfoMutex.Lock()
 		for label, cmdInfo := range r.CmdInfo {
 			if _, exist := seen[label]; exist || !cmdInfo.IsProcess {
@@ -240,6 +251,10 @@ func (r *Runner) run(ch chan error) {
 	// wait until no cmd left
 	for {
 		r.sleep(1 * time.Microsecond)
+		if r.getKilledSignal() {
+			ch <- fmt.Errorf("Teriminated")
+			return
+		}
 		processExist := false
 		r.CmdInfoMutex.RLock()
 		for range r.CmdInfo {
@@ -550,11 +565,11 @@ func (r *Runner) getStatusCaption() (statusCaption string) {
 	return fmt.Sprintf("%sJob Starting...%s\n", d.Bold, d.Normal)
 }
 
-func (r *Runner) killByPid(pid int) (err error) {
-	err = syscall.Kill(pid, syscall.SIGINT)
+func (r *Runner) killByPid(pid int, ch chan error) {
+	err := syscall.Kill(pid, syscall.SIGINT)
 	r.sleep(100 * time.Millisecond)
 	syscall.Kill(pid, syscall.SIGTERM)
 	r.sleep(100 * time.Millisecond)
 	syscall.Kill(pid, syscall.SIGKILL)
-	return err
+	ch <- err
 }
