@@ -13,8 +13,10 @@ tasks:
       script: |
         cd {{ .BasePath }}/..
         echo 📥📥📥
+        echo "Pull zaruba"
         git pull origin master
         echo 🏗️🏗️🏗️
+        echo "Build zaruba binary"
         go build
         echo "Zaruba built"
   
