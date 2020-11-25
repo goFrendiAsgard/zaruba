@@ -11,12 +11,13 @@ tasks:
     extend: core.runShellScript
     config: 
       script: |
+        {{ $d := .Decoration }}
         cd {{ .BasePath }}/..
         echo 📥📥📥
-        echo "Pull zaruba"
+        echo "{{ d.Bold }}{{ d.Yellow }}Pull zaruba{{ d.Normal }}"
         git pull origin master
-        echo 🏗️🏗️🏗️
-        echo "Build zaruba binary"
+        echo 🚧🚧🚧
+        echo "{{ d.Bold }}{{ d.Yellow }}Build zaruba binary{{ d.Normal }}"
         go build
         echo "Zaruba built"
   
