@@ -14,10 +14,10 @@ tasks:
         {{ $d := .Decoration }}
         cd {{ .BasePath }}/..
         echo 📥📥📥
-        echo "{{ d.Bold }}{{ d.Yellow }}Pull zaruba{{ d.Normal }}"
+        echo "{{ $d.Bold }}{{ d.Yellow }}Pull zaruba{{ $d.Normal }}"
         git pull origin master
         echo 🚧🚧🚧
-        echo "{{ d.Bold }}{{ d.Yellow }}Build zaruba binary{{ d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Build zaruba binary{{ $d.Normal }}"
         go build
         echo "Zaruba built"
   
