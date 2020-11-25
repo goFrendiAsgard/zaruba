@@ -12,7 +12,9 @@ tasks:
     config: 
       script: |
         cd {{ .BasePath }}/..
+        echo 📥📥📥
         git pull origin master
+        echo 🏗️🏗️🏗️
         go build
         echo "Zaruba built"
   
