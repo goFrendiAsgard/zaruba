@@ -30,14 +30,27 @@ tasks:
     extend: core.runShellScript
     config:
       script: |
+        {{ $d := .Decoration }}
+        if echo "${HOME}" | grep -q "/root$" 
+        then
+           echo '{{ $d.Red }}Your ${HOME} is seems to be root home directory:' ${HOME}{{ $d.Normal }}
+           echo 'You might want to re-run this command with {{ $d.Yellow }}`sudo -E`{{ $d.Normal }} option instead'
+           echo "{{ $d.Bold }}{{ $d.Yellow }}Do you really want to continue with current home directory? (Y/n){{ $d.Normal }}"
+           read INPUT
+           if [ "${INPUT}" != "Y" ] && [ "${INPUT}" != "y" ]
+           then
+             echo "Wise choice. Setup canceled"
+             exit 0
+           fi
+        fi
         set -e
-        echo "Update repository"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
-        echo "Install packages"
-        apt-get install -y ncat make wget curl git golang docker.io python3 python3-pip python-is-python3 nodejs npm
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
+        apt-get install -y ncat make wget curl git golang docker.io python3 python3-pip python-is-python3 nodejs npm figlet cowsay
         echo "Install typescript and node-gyp"
         npm install -g typescript node-gyp
-        echo "Install Pipenv"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Install Pipenv{{ $d.Normal }}"
         pip3 install pipenv
-        echo "Complete"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"

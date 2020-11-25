@@ -2,6 +2,8 @@ package config
 
 import (
 	"path/filepath"
+
+	"github.com/state-alchemists/zaruba/logger"
 )
 
 // TaskData is struct sent to template
@@ -15,6 +17,7 @@ type TaskData struct {
 	Env         Dictionary
 	Config      Dictionary
 	LConfig     map[string][]string
+	Decoration  logger.Decoration
 }
 
 // NewTaskData create new task data
@@ -29,6 +32,7 @@ func NewTaskData(task *Task) (td *TaskData) {
 		Env:         task.ParsedEnv,
 		Config:      task.ParsedConfig,
 		LConfig:     task.ParsedLConfig,
+		Decoration:  *logger.NewDecoration(),
 	}
 }
 

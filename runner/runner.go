@@ -125,6 +125,7 @@ func (r *Runner) Terminate() {
 }
 
 func (r *Runner) readInput() {
+	d := logger.NewDecoration()
 	for {
 		r.sleep(1 * time.Microsecond)
 		input := ""
@@ -133,9 +134,18 @@ func (r *Runner) readInput() {
 			continue
 		}
 		r.CmdInfoMutex.Lock()
+		cmdCount := len(r.CmdInfo)
 		for label, cmdInfo := range r.CmdInfo {
-			io.WriteString(cmdInfo.StdInPipe, input+"\n")
-			logger.Printf("write %s to %s\n", input, label)
+			redirect := false
+			if cmdCount > 1 {
+				logger.Printf("%sDo you want to send the input to `%s`? (Y/n)%s\n", d.Bold, label, d.Normal)
+				confirmInput := ""
+				fmt.Scanf("%s", &confirmInput)
+				redirect = confirmInput == "Y" || confirmInput == "y"
+			}
+			if cmdCount == 1 || redirect {
+				io.WriteString(cmdInfo.StdInPipe, input+"\n")
+			}
 		}
 		r.CmdInfoMutex.Unlock()
 	}
