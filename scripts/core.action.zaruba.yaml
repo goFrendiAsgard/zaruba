@@ -17,7 +17,7 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
         git pull origin master
         echo 🚧🚧🚧
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Build zaruba binary{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
         go build
         echo "Zaruba built"
   
@@ -67,7 +67,7 @@ tasks:
         apt-get upgrade -y
         echo 📥📥📥
         echo "{{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
-        apt-get install -y ncat make wget curl git golang docker.io python3 python3-pip python-is-python3 nodejs npm figlet cowsay
+        apt-get install -y ncat make wget curl git golang docker.io python3 python3-pip python-is-python3 nodejs npm figlet cowsay lolcat
         echo 🐍🐍🐍
         echo "{{ $d.Bold }}{{ $d.Yellow }}Install Pipenv{{ $d.Normal }}"
         pip3 install pipenv
