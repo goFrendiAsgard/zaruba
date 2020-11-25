@@ -26,31 +26,66 @@ tasks:
   
   setupUbuntu:
     icon: 💻
-    description: Setup zaruba prerequisites for ubuntu
+    description: |
+      Setup your ubuntu machine (or Ubuntu WSL).
+      This command will install:
+      * pipenv
+      * nvm
+      * netcat
+      * and some other utilities
+      into your machine.
+      USAGE: sudo -E zaruba please setupUbuntu.
+      LIMITATION: Your home directory should be match to your user name.
     extend: core.runShellScript
     config:
       script: |
+        set -e
+        BASEPATH="{{ .BasePath }}"
         {{ $d := .Decoration }}
         if echo "${HOME}" | grep -q "/root$" 
         then
-           echo '{{ $d.Red }}Your ${HOME} is seems to be root home directory:' ${HOME}{{ $d.Normal }}
-           echo 'You might want to re-run this command with {{ $d.Yellow }}`sudo -E`{{ $d.Normal }} option instead'
-           echo "{{ $d.Bold }}{{ $d.Yellow }}Do you really want to continue with current home directory? (Y/n){{ $d.Normal }}"
-           read INPUT
-           if [ "${INPUT}" != "Y" ] && [ "${INPUT}" != "y" ]
-           then
-             echo "Wise choice. Setup canceled"
-             exit 0
-           fi
+          echo ⚠️⚠️⚠️
+          echo '{{ $d.Red }}Your ${HOME} is seems to be root home directory:'
+          echo "{{ $d.Red }}${HOME}{{ $d.Normal }}"
+          echo 'You might want to re-run this command with {{ $d.Yellow }}`sudo -E`{{ $d.Normal }} option instead'
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Do you really want to continue with current home directory? (Y/n){{ $d.Normal }}"
+          read INPUT
+          if [ "${INPUT}" != "Y" ] && [ "${INPUT}" != "y" ]
+          then
+            echo "👏 Wise choice. Setup canceled"
+            exit 0
+          fi
         fi
-        set -e
+        echo 📡📡📡
         echo "{{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
+        echo 📥📥📥
         echo "{{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
         apt-get install -y ncat make wget curl git golang docker.io python3 python3-pip python-is-python3 nodejs npm figlet cowsay
-        echo "Install typescript and node-gyp"
-        npm install -g typescript node-gyp
+        echo 🐍🐍🐍
         echo "{{ $d.Bold }}{{ $d.Yellow }}Install Pipenv{{ $d.Normal }}"
         pip3 install pipenv
+        PYTHON_UTIL="${BASEPATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
+        CURRENT_USER=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${HOME}" / -1)
+        if [ -d "${HOME}/.nvm" ]
+        then
+          echo "👏 NVM already installed"
+        else
+          echo 🐸🐸🐸
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+          NVM_DIR="$HOME/.nvm"
+          \. "$NVM_DIR/nvm.sh"
+          nvm install node
+          chown "${CURRENT_USER}" "$NVM_DIR"
+        fi
+        echo 🐸🐸🐸
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Install Node packages{{ $d.Normal }}"
+        npm install -g typescript node-gyp
+        echo 🎉🎉🎉
+        figlet complete
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience"
+        echo "https://docs.docker.com/docker-for-windows/wsl/"
