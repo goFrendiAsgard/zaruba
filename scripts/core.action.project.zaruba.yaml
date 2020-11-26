@@ -47,13 +47,13 @@ tasks:
         echo "Project created"
 
   
-  createDockerTask:
+  addDocker:
     icon: 🐳
     description: |
       Create docker task
       You need to specify `image`, `task`, and `container`. For example:
       ```sh
-      zaruba please createDockerTask  <image=nginx> [container=myNginx] [task=runMyNginx]
+      zaruba please addDocker  <image=nginx> [container=myNginx] [task=runMyNginx]
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
