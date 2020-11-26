@@ -16,10 +16,13 @@ tasks:
         echo 📥📥📥
         echo "{{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
         git pull origin master
+        git fetch origin --tags
         echo 🚧🚧🚧
         echo "{{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
         go build
-        echo "Zaruba built"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready !!!{{ $d.Normal }}"
+        echo "Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD)"
   
   core.setupPythonUtil:
     private: true
@@ -50,7 +53,7 @@ tasks:
         if echo "${HOME}" | grep -q "/root$" 
         then
           echo ⚠️⚠️⚠️
-          echo '{{ $d.Red }}Your ${HOME} is seems to be root home directory:'
+          echo '{{ $d.Red }}Your ${HOME} is seems to be root home directory:{{ $d.Normal }}'
           echo "{{ $d.Red }}${HOME}{{ $d.Normal }}"
           echo 'You might want to re-run this command with {{ $d.Yellow }}`sudo -E`{{ $d.Normal }} option instead'
           echo "{{ $d.Bold }}{{ $d.Yellow }}Do you really want to continue with current home directory? (Y/n){{ $d.Normal }}"
@@ -76,7 +79,8 @@ tasks:
         CURRENT_USER=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${HOME}" / -1)
         if [ -d "${HOME}/.nvm" ]
         then
-          echo "👏 NVM already installed"
+          echo 🐸🐸🐸
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM already installed{{ $d.Normal }}"
         else
           echo 🐸🐸🐸
           echo "{{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
