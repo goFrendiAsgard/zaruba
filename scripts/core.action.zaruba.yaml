@@ -22,7 +22,7 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready !!!{{ $d.Normal }}"
-        echo "Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD)"
+        echo "{{ $d.Bold }}{{ $d.Green }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
   
   core.setupPythonUtil:
     private: true
