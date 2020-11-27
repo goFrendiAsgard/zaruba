@@ -1,0 +1,9 @@
+tasks:
+
+  runService:
+    icon: 📜
+    description: Serve static files
+    extend: core.serveHttp
+    lconfig:
+      ports:
+        - '{{ .GetEnv "SERVICE_HTTP_PORT" }}'

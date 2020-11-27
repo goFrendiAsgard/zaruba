@@ -5,6 +5,15 @@ includes:
 
 tasks:
 
+  showVersion:
+    icon: 🕵️‍♂️
+    description: Show zaruba version
+    extend: core.runShellScript
+    config:
+      script: |
+        {{ $d := .Decoration }}
+        echo "{{ $d.Bold }}{{ $d.Green }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
+
   update:
     icon: 🔄
     description: Update zaruba

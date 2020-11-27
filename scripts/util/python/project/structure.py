@@ -1,9 +1,43 @@
 from __future__ import annotations
-from typing import List, Mapping, TypedDict, Any
+from typing import List, Mapping, Any, Type, TypedDict
+
+
+EnvDict = TypedDict('envDict', {'from': str, 'default': str}, total=False)
+
+
+class TaskDict(TypedDict, total=False):
+    icon: str
+    extend: str
+    description: str
+    dependencies: List[str]
+    env: EnvDict
+    config: Mapping[str, str]
+    lconfig: Mapping[str, List[str]]
+
+
+
+class ProjectDict(TypedDict, total=False):
+    includes: List[str]
+    tasks: Mapping[str, TaskDict]
+
+
 
 class Env():
-    key: str
-    default: str
+
+    def __init__(self, envvar: str, default: str):
+        self.envvar: str = envvar
+        self.default: str = default
+    
+
+    def to_dict(self) -> EnvDict:
+        dictionary: EnvDict = {}
+        if self.envvar:
+            dictionary['from'] = self.envvar
+        if self.default:
+            dictionary['default'] = self.default
+        return dictionary
+
+
 
 class Task():
 
@@ -12,7 +46,7 @@ class Task():
         self.extend: str = ''
         self.description: str = ''
         self.dependencies: List[str] = []
-        self.env: Mapping[str, TypedDict('Env', {'from': str, 'default': str})] = {}
+        self.env: Mapping[str, Env] = {}
         self.config: Mapping[str, str] = {}
         self.lconfig: Mapping[str, List[str]] = {}
 
@@ -34,10 +68,7 @@ class Task():
 
 
     def set_env(self, key: str, envvar: str, default: str) -> Task:
-        self.env[key] = {
-            'from': envvar,
-            'default': default,
-        }
+        self.env[key] = Env(envvar, default)
         return self
 
     
@@ -54,21 +85,20 @@ class Task():
         return self
 
     
-    def to_dict(self) -> Mapping[str, Any]:
-        dictionary = {}
+    def to_dict(self) -> TaskDict:
+        dictionary: TaskDict = {}
         if self.icon:
             dictionary['icon'] = self.icon
-        if self.extends:
+        if self.extend:
             dictionary['extend'] = self.extend
         if self.description:
             dictionary['description'] = self.description
-        if self.dependenceies:
+        if self.dependencies:
             dictionary['dependencies'] = self.dependencies
         if self.env:
-            dictionary['env'] = self.env
+            dictionary['env'] = {key: env.to_dict() for key, env in self.env.items()}
         if self.config:
             dictionary['config'] = self.config
         if self.lconfig:
             dictionary['lconfig'] = self.lconfig
         return dictionary
-

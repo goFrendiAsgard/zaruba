@@ -1,79 +1,80 @@
 from typing import Any
 import sys
 import os
+import traceback
 
-from ruamel.yaml import YAML
 import project
 
 
 # USAGE
 # python create_docker_task.py <image> <container> <task>
 
-def create_docker_task(template_path: str, image: str, container: str, task: str):
+def create_docker_task(template_path: str, image: str, container: str, task_name: str):
     try:
         image = image if image != '' else 'nginx'
         container = container if container != '' else image
-        task = task if task != '' else 'run{}'.format(container.capitalize())
-        create_dir('docker')
-        task_filename = get_taskfilename_or_error(task)
-        template_filename = get_actual_template_filename(template_path, image)
+        task_name = task_name if task_name != '' else 'run{}'.format(container.capitalize())
+        project.create_dir('docker')
+        task_file_name = get_taskfile_name_or_error(task_name)
+        template_file_name = get_actual_template_file_name(template_path, image)
         should_override_image = get_should_override_image(template_path, image)
-        template_obj = get_template_obj(template_filename)
-        create_docker_task_file(task_filename, task, container, image, should_override_image, template_obj)
-        print('Task {} ({}) is created successfully'.format(task, task_filename))
-        if project.add_include(task_filename):
-            print('{} has been added to main.zaruba.yaml'.format(task_filename))
-            return
-        print('{} already exists in main.zaruba.yaml'.format(task_filename))
+        template_dict = project.get_dict(template_file_name)
+        create_docker_task_file(task_file_name, task_name, container, image, should_override_image, template_dict)
+        print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
+        add_to_include(task_file_name)
+        add_to_run_task(task_name)
     except Exception as e:
         print(e)
+        traceback.print_exc()
         sys.exit(1)
 
 
-def create_dir(dirname: str):
-    if not os.path.exists(dirname):
-        os.makedirs(dirname)
+def add_to_include(task_file_name: str):
+    if project.add_to_include(task_file_name):
+        print('{} has been added to main.zaruba.yaml'.format(task_file_name))
+        return
+    print('{} already exists in main.zaruba.yaml'.format(task_file_name))
 
 
-def get_taskfilename_or_error(task: str) -> str:
-    task_filename = os.path.join('.', 'docker', '{}.zaruba.yaml'.format(task))
-    if os.path.isfile(task_filename):
-        raise Exception('{} already exists'.format(task_filename))
-    return task_filename
+def add_to_run_task(task_name: str):
+    if project.add_to_run_task(task_name):
+        print('{} has been added to main.zaruba.yaml'.format(task_name))
+        return
+    print('{} already exists in main.zaruba.yaml'.format(task_name))
+
+
+def get_taskfile_name_or_error(task: str) -> str:
+    task_file_name = os.path.join('.', 'docker', '{}.zaruba.yaml'.format(task))
+    if os.path.isfile(task_file_name):
+        raise Exception('{} already exists'.format(task_file_name))
+    return task_file_name
 
 
 def get_should_override_image(template_path: str, image: str) -> bool:
-    template_filename = get_template_filename(template_path, image)
-    if not os.path.isfile(template_filename):
+    template_file_name = get_template_file_name(template_path, image)
+    if not os.path.isfile(template_file_name):
         return True
     return False
 
 
-def get_actual_template_filename(template_path: str, image: str) -> str:
-    template_filename = get_template_filename(template_path, image)
-    if not os.path.isfile(template_filename):
-        template_filename = os.path.join(template_path, 'default.zaruba.yaml')
-    return template_filename
+def get_actual_template_file_name(template_path: str, image: str) -> str:
+    template_file_name = get_template_file_name(template_path, image)
+    if not os.path.isfile(template_file_name):
+        template_file_name = os.path.join(template_path, 'default.zaruba.yaml')
+    return template_file_name
 
 
-def get_template_obj(template_filename: str) -> Any:
-    yaml=YAML()
-    template_obj = yaml.load(open(template_filename, 'r'))
-    return template_obj
-
-
-def get_template_filename(template_path: str, image: str) -> str:
+def get_template_file_name(template_path: str, image: str) -> str:
     return os.path.join(template_path, '{}.zaruba.yaml'.format(image))
 
 
-def create_docker_task_file(task_filename: str, task: str, container: str, image: str, should_override_image: bool, template_obj: Any):
-    obj = {'tasks': {}}
-    obj['tasks'][task] = template_obj['tasks']['runContainer']
-    obj['tasks'][task]['config']['containerName'] = container
+def create_docker_task_file(task_file_name: str, task_name: str, container: str, image: str, should_override_image: bool, template_obj: Any):
+    task_dict = {'tasks': {}}
+    task_dict['tasks'][task_name] = template_obj['tasks']['runContainer']
+    task_dict['tasks'][task_name]['config']['containerName'] = container
     if should_override_image:
-        obj['tasks'][task]['config']['imageName'] = image
-    yaml=YAML()
-    yaml.dump(obj, open(task_filename, 'w'))
+        task_dict['tasks'][task_name]['config']['imageName'] = image
+    project.write_dict(task_file_name, task_dict)
 
 
 if __name__ == '__main__':
