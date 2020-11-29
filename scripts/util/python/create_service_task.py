@@ -9,17 +9,16 @@ import project
 # USAGE
 # python create_docker_task.py <image> <container> <task>
 
-def create_docker_task(template_path: str, image: str, container: str, task_name: str):
+def create_service_task(template_path: str, location: str, service_type: str, task_name: str):
     try:
-        image = image if image != '' else 'nginx'
-        container = container if container != '' else image
-        task_name = task_name if task_name != '' else 'run{}'.format(container.capitalize())
+        service_type = service_type if service_type != '' else 'default'
+        location = location if location != '' else './'
+        task_name = task_name if task_name != '' else default_task_name(location)
         project.create_dir('tasks')
         task_file_name = get_taskfile_name_or_error(task_name)
-        template_file_name = get_template_or_default_file_name(template_path, image)
-        should_override_image = get_should_override_image(template_path, image)
+        template_file_name = get_template_or_default_file_name(template_path, service_type)
         template_dict = project.get_dict(template_file_name)
-        create_docker_task_file(task_file_name, task_name, container, image, should_override_image, template_dict)
+        create_service_task_file(task_file_name, task_name, location, template_dict)
         print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
         add_to_include(task_file_name)
         add_to_run_task(task_name)
@@ -27,6 +26,11 @@ def create_docker_task(template_path: str, image: str, container: str, task_name
         print(e)
         traceback.print_exc()
         sys.exit(1)
+
+
+def default_task_name(location: str) -> str:
+    abs_location = os.path.abspath(location)
+    return 'run{}'.format(os.path.basename(abs_location).capitalize())
 
 
 def add_to_include(task_file_name: str):
@@ -43,18 +47,11 @@ def add_to_run_task(task_name: str):
     print('{} already exists in main.zaruba.yaml'.format(task_name))
 
 
-def get_taskfile_name_or_error(task_name: str) -> str:
-    task_file_name = os.path.join('.', 'tasks', '{}.zaruba.yaml'.format(task_name))
+def get_taskfile_name_or_error(task: str) -> str:
+    task_file_name = os.path.join('.', 'tasks', '{}.zaruba.yaml'.format(task))
     if os.path.isfile(task_file_name):
         raise Exception('{} already exists'.format(task_file_name))
     return task_file_name
-
-
-def get_should_override_image(template_path: str, image: str) -> bool:
-    template_file_name = get_template_file_name(template_path, image)
-    if not os.path.isfile(template_file_name):
-        return True
-    return False
 
 
 def get_template_or_default_file_name(template_path: str, image: str) -> str:
@@ -68,21 +65,22 @@ def get_template_file_name(template_path: str, image: str) -> str:
     return os.path.join(template_path, '{}.zaruba.yaml'.format(image))
 
 
-def create_docker_task_file(task_file_name: str, task_name: str, container: str, image: str, should_override_image: bool, template_obj: Any):
+def create_service_task_file(task_file_name: str, task_name: str, location: str, template_obj: Any):
     task_dict = {'tasks': {}}
-    task_dict['tasks'][task_name] = template_obj['tasks']['runContainer']
-    task_dict['tasks'][task_name]['config']['containerName'] = container
-    if should_override_image:
-        task_dict['tasks'][task_name]['config']['imageName'] = image
+    task_dict['tasks'][task_name] = template_obj['tasks']['runService']
+    if os.path.isabs(location):
+        task_dict['tasks'][task_name]['location'] = location
+    else:
+        task_dict['tasks'][task_name]['location'] = os.path.join('..', location)
     project.write_dict(task_file_name, task_dict)
 
 
 if __name__ == '__main__':
     template_path = os.path.join(
         os.path.dirname(os.path.dirname(os.path.dirname(sys.argv[0]))),
-        'docker-task-template'
+        'service-task-template'
     )
-    image = sys.argv[1] if len(sys.argv) > 1 else ''
-    container = sys.argv[2] if len(sys.argv) > 2 else ''
+    location = sys.argv[1] if len(sys.argv) > 1 else ''
+    service_type = sys.argv[2] if len(sys.argv) > 2 else ''
     task_name = sys.argv[3] if len(sys.argv) > 3 else ''
-    create_docker_task(template_path, image, container, task_name)
+    create_service_task(template_path, location, service_type, task_name)

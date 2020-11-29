@@ -1,26 +1,46 @@
 tasks:
 
-  core.runShellScript:
-    icon: 🐚
+  core.runScript:
+    icon: 📔
     private: true
     config:
       executable: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
       argument: "-c"
       script: "echo hello world"
-    start: ["{{ .Config.executable }}", "{{ .Config.argument }}", "{{ .Config.script }}"]
+    start: 
+      - "{{ .Config.executable }}"
+      - "{{ .Config.argument }}"
+      - "{{ .Config.script }}"
+
+
+  core.runShellScript:
+    icon: 🐚
+    private: true
+    extend: core.runScript
+    start: 
+      - "{{ .Config.executable }}"
+      - "{{ .Config.argument }}"
+      - |
+        SCRIPT_PATH="${ZARUBA_HOME}/scripts"
+        SH_UTIL="${SCRIPT_PATH}/util/sh"
+        PYTHON_UTIL="${SCRIPT_PATH}/util/python"
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
+        {{ .Config.script }}
+
  
   core.runPythonScript:
     icon: 🐍
     private: true
-    extend: core.runShellScript
+    extend: core.runScript
     config:
       executable: python
       script: "print('hello world')"
+
  
   core.runNodeJsScript:
     icon: 🐸
     private: true
-    extend: core.runShellScript
+    extend: core.runScript
     config:
       executable: node
       argument: "-p"

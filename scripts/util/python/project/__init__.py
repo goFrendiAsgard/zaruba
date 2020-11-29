@@ -37,7 +37,7 @@ def add_to_run_task(task_name: str) -> bool:
         main_project_dict['tasks'] = {}
     if 'run' not in main_project_dict['tasks']:
         task = Task()
-        task.icon = '🚒' 
+        task.icon = '🎬'
         task.description = 'Run everything at once'
         task_dict = task.to_dict()
         main_project_dict['tasks']['run'] = task_dict

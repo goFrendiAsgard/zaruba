@@ -6,15 +6,15 @@ tasks:
     extend: core.runShellScript
     config:
       script: |
-        echo "Current directory should be a valid zaruba project"
+        {{ $d := .Decoration -}}
         if [ ! -e main.zaruba.yaml ]
         then
-          echo "$(pwd) is not a zaruba project" 1>&2 
-          echo "The task has to be executed in a zaruba project directory" 1>&2 
-          echo "You might want to 'initProject' first" 1>&2 
+          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project{{ $d.Normal }}" 1>&2 
+          echo "{{ $d.Bold }}{{ $d.Red }}The task has to be executed in a zaruba project directory{{ $d.Normal }}" 1>&2 
+          echo "{{ $d.Bold }}{{ $d.Red }}You might want to 'initProject' first{{ $d.Normal }}" 1>&2 
           exit 1
         fi
-        echo "Current directory is a valid zaruba project"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
 
  
   core.checkIsNotProject:
@@ -23,14 +23,14 @@ tasks:
     extend: core.runShellScript
     config:
       script: |
-        echo "Current directory should not be a zaruba project"
+        {{ $d := .Decoration -}}
         if [ -e main.zaruba.yaml ]
         then
-          echo "$(pwd) is a zaruba project" 1>&2
-          echo "The task cannot be executed in a zaruba project directory" 1>&2 
+          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project{{ $d.Normal }}" 1>&2
+          echo "{{ $d.Bold }}{{ $d.Red }}The task cannot be executed in a zaruba project directory{{ $d.Normal }}" 1>&2 
           exit 1
         fi
-        echo "Current directory is not a zaruba project"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
 
   
   initProject:
@@ -41,10 +41,12 @@ tasks:
       - core.checkIsNotProject
     config:
       script: | 
+        {{ $d := .Decoration -}}
         git init
-        cp "{{ .BasePath }}/project-template/default.kwargs.yaml" ./default.kwargs.yaml
-        cp "{{ .BasePath }}/project-template/main.zaruba.yaml" ./main.zaruba.yaml
-        echo "Project created"
+        cp "${SCRIPT_PATH}/project-template/default.kwargs.yaml" ./default.kwargs.yaml
+        cp "${SCRIPT_PATH}/project-template/main.zaruba.yaml" ./main.zaruba.yaml
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
 
   
   addDocker:
@@ -54,21 +56,45 @@ tasks:
       You need to specify `image`, `task`, and `container`. For example:
       ```sh
       zaruba please addDocker  <image=nginx> [container=myNginx] [task=runMyNginx]
+      ```
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
       - core.setupPythonUtil
     config:
       script: |
+        {{ $d := .Decoration -}}
         set -e
-        BASEPATH="{{ .BasePath }}"
-        SH_UTIL="${BASEPATH}/util/sh"
-        PYTHON_UTIL="${BASEPATH}/util/python"
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
         CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
         pipenv run python "${PYTHON_UTIL}/create_docker_task.py" "${IMAGE}" "${CONTAINER}" "${TASK}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+  
+ 
+  addService:
+    icon: 📦
+    description: |
+      Create service task
+      You need to specify `location`, task, and `type`. For example:
+      ```sh
+      zaruba please addService  <location=./service> [type=python] [task=runService]
+      ```
+    extend: core.runShellScript
+    dependencies:
+      - core.checkIsValidProject
+      - core.setupPythonUtil
+    config:
+      script: |
+        {{ $d := .Decoration -}}
+        set -e
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${LOCATION}" "${TYPE}" "${TASK}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
  
   updateLinks:
@@ -84,12 +110,11 @@ tasks:
       - core.checkIsValidProject
     config:
       script: |
+        {{ $d := .Decoration -}}
         {{ $this := . -}}
         {{ $workPath := .WorkPath }}
         {{ $destinations := .Kwargs.GetSubKeys "link" -}}
         {{ $kwargs := .Kwargs -}}
-        BASEPATH="{{ .BasePath }}"
-        SH_UTIL="${BASEPATH}/util/sh"
         sh "${SH_UTIL}/git_save.sh" "Save works before organize"
         {{ range $index, $destination := $destinations -}}
           {{ $source := $kwargs.GetValue "link" $destination -}}
@@ -99,4 +124,5 @@ tasks:
           cp -r "{{ $absSource }}" "{{ $absDestination }}"
           chmod 555 "{{ $absDestination }}"
         {{ end -}}
-        echo "Links updated"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"

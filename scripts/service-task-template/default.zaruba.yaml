@@ -3,7 +3,10 @@ tasks:
   runService:
     icon: 📜
     description: Serve static files
-    extend: core.serveHttp
+    extend: serveHttp
+    env:
+      SERVICE_HTTP_PORT:
+        default: 8080
     lconfig:
       ports:
         - '{{ .GetEnv "SERVICE_HTTP_PORT" }}'

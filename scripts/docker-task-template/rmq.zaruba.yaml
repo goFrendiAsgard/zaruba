@@ -16,7 +16,6 @@ tasks:
       port::5672: 5672
       port::15672: 15672
       afterCheck: |
-        echo "check ${CONTAINER_NAME} started"
         docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
         until [ "$?" = "0" ]
         do

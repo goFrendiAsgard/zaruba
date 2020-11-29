@@ -18,7 +18,6 @@ tasks:
       containerName: containerName
       port::3306: 3306
       afterCheck: |
-        echo "check ${CONTAINER_NAME} started"
         docker exec "$CONTAINER_NAME" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
         until [ "$?" = "0" ]
         do

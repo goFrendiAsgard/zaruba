@@ -6,7 +6,7 @@ tasks:
     extend: core.runShellScript
     config:
       script: |
-        echo "All Subrepos should be valid"
+        {{ $d := .Decoration -}}
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         {{ range $index, $name := $names -}}
@@ -15,14 +15,14 @@ tasks:
           NAME="{{ $name }}"
           if [ -z "$URL" ]
           then
-            echo "Subrepo ${NAME} doesn't have url" 1>&2; exit 1
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}" 1>&2; exit 1
           fi
           if [ -z "$PREFIX" ]
           then
-            echo "Subrepo ${NAME} doesn't have prefix" 1>&2; exit 1
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}" 1>&2; exit 1
           fi
         {{ end }}
-        echo "All Subrepos are valid"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
  
 
   initSubrepos:
@@ -41,11 +41,8 @@ tasks:
       - core.setupPythonUtil
     config:
       script: |
+        {{ $d := .Decoration -}}
         set -e
-        BASEPATH="{{ .BasePath }}"
-        SH_UTIL="${BASEPATH}/util/sh"
-        PYTHON_UTIL="${BASEPATH}/util/python"
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
@@ -54,14 +51,6 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          if [ -z "$URL" ]
-          then
-            echo "Subrepo ${NAME} doesn't have url" 1>&2; exit 1
-          fi
-          if [ -z "$PREFIX" ]
-          then
-            echo "Subrepo ${NAME} doesn't have prefix" 1>&2; exit 1
-          fi
           ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
@@ -86,7 +75,8 @@ tasks:
             fi
           fi
         {{ end -}}
-        echo "Subrepos initialized"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos Initialized{{ $d.Normal }}"
 
 
   addSubrepo:
@@ -103,13 +93,10 @@ tasks:
       - core.setupPythonUtil
     config:
       script: |
+        {{ $d := .Decoration -}}
         set -e
-        BASEPATH="{{ .BasePath }}"
-        SH_UTIL="${BASEPATH}/util/sh"
-        PYTHON_UTIL="${BASEPATH}/util/python"
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ if not .Kwargs.url }}
-          echo "Subrepo url is not defined" 1>&2
+          echo "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}" 1>&2
           exit 1
         {{ end }}
         URL="{{ .Kwargs.url }}"
@@ -126,7 +113,8 @@ tasks:
         {{ end }}
         pipenv run python "${PYTHON_UTIL}/set_project_kwarg.py" "subrepo::${NAME}::prefix" "${PREFIX}"
         pipenv run python "${PYTHON_UTIL}/set_project_kwarg.py" "subrepo::${NAME}::url" "${URL}"
-        echo "Subrepo ${NAME} has been added"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
 
   pushSubrepos:
@@ -139,11 +127,8 @@ tasks:
       - core.setupPythonUtil
     config:
       script: |
+        {{ $d := .Decoration -}}
         set -e
-        BASEPATH="{{ .BasePath }}"
-        SH_UTIL="${BASEPATH}/util/sh"
-        PYTHON_UTIL="${BASEPATH}/util/python"
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
@@ -159,7 +144,8 @@ tasks:
             git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
-        echo "Subrepos pushed"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
 
 
   pullSubrepos:
@@ -171,11 +157,8 @@ tasks:
       - core.setupPythonUtil
     config:
       script: |
+        {{ $d := .Decoration -}}
         set -e
-        BASEPATH="{{ .BasePath }}"
-        SH_UTIL="${BASEPATH}/util/sh"
-        PYTHON_UTIL="${BASEPATH}/util/python"
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         ORIGINS=$(git remote)
@@ -191,5 +174,6 @@ tasks:
             git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
-        echo "Subrepos pulled"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
  

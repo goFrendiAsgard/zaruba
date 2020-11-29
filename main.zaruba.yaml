@@ -3,11 +3,13 @@ includes:
 
 tasks:
 
+
   build:
     location: ./
     extend: core.runShellScript
     config:
       script: go build
+
 
   test:
     location: ./
@@ -19,13 +21,15 @@ tasks:
         rm -f ./test_resource/alchemy/alembic.txt
         go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
-  
+
+
   serveCoverage:
     location: ./coverage
     extend: serveHttp
     dependencies:
       - test
-  
+
+
   buildDocker:
     location: ./
     extend: core.runShellScript
@@ -35,7 +39,8 @@ tasks:
       script: |
         docker build -t stalchmst/devbox:latest -f devbox/Dockerfile .
         docker build -t stalchmst/zaruba:latest .
-  
+
+
   runDocker:
     location: ./
     extend: core.runShellScript
@@ -45,8 +50,9 @@ tasks:
         (docker rm zaruba || echo "container not exist") && \
         docker run --name zaruba -p 2810:8080 -d stalchmst/zaruba:latest && \
         docker exec -it zaruba /bin/bash
-  
-  publishDocker:
+
+
+  pushDocker:
     location: ./
     extend: core.runShellScript
     timeout: 1h
@@ -56,8 +62,9 @@ tasks:
       script: |
         docker push stalchmst/devbox:latest
         docker push stalchmst/zaruba:latest
-  
-  publishRepo:
+
+
+  pushRepo:
     location: ./
     extend: core.runShellScript
     dependencies:
@@ -65,14 +72,42 @@ tasks:
     config:
       script: |
         git add . -A
-        git commit -m "save changes before publishing"
+        git commit -m "Save changes before pushing"
         git push -u origin HEAD
-  
-  publish:
+
+
+  push:
     dependencies:
-      - publishDocker
-      - publishRepo
-  
+      - pushDocker
+      - pushRepo
+
+
+  initPlayground:
+    private: true
+    location: ./
+    extend: core.runShellScript
+    config:
+      script: rm -Rf playground && mkdir -p playground
+
+
+  showOff:
+    location: ./playground
+    extend: core.runShellScript
+    dependencies:
+      - initPlayground
+      - build
+    config:
+      script: |
+        set -e
+        rm -Rf tasks
+        rm -f main.zaruba.yaml
+        sudo -E ../zaruba please setupUbuntu
+        ../zaruba please initProject
+        ../zaruba please addDocker image=rmq
+        ../zaruba please addService location=fibonacci-clock
+        ../zaruba please run
+
+
   install:
     location: ./
     extend: core.runShellScript

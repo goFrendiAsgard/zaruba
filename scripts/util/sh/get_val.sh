@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # USAGE
-# /bin/sh get.sh <val> <default-val>
+# /bin/sh get_val.sh <val> <default-val>
 
 if [ -z ${1} ]
 then

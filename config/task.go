@@ -236,7 +236,7 @@ func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getStartCmd(taskData)
 	}
-	cmd, err = task.getCmd("⏳", task.Start, taskData)
+	cmd, err = task.getCmd("🚀", task.Start, taskData)
 	return cmd, true, err
 }
 
@@ -253,7 +253,7 @@ func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getCheckCmd(taskData)
 	}
-	cmd, err = task.getCmd("🔍", task.Check, taskData)
+	cmd, err = task.getCmd("🔎", task.Check, taskData)
 	return cmd, true, err
 }
 
