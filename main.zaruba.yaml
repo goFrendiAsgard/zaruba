@@ -119,7 +119,7 @@ tasks:
         ../zaruba please initSubrepos
         ../zaruba please pullSubrepos
         ../zaruba please addDocker image=rmq
-        echo "export EMAIL=gofrendiasgard@gmail.com" >> ./fibo/.env
+        echo "export EMAIL=somebody@gmail.com" >> ./fibo/.env
         echo "CITY=Malang" >> ./fibo/.env
         echo "COUNTRY=Indonesia" >> ./fibo/.env
         ../zaruba please addService location=fibo

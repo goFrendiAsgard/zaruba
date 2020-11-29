@@ -30,13 +30,6 @@ def create_service_task(template_path: str, location: str, service_type: str, ta
         sys.exit(1)
 
 
-def get_default_task_name(location: str) -> str:
-    abs_location = os.path.abspath(location)
-    basename = os.path.basename(abs_location)
-    capitalized_alphanum = re.sub(r'[^A-Za-z0-9]+', ' ', basename).capitalize()
-    return 'run{}'.format(capitalized_alphanum.replace(' ', ''))
-
-
 def add_to_include(task_file_name: str):
     if project.add_to_include(task_file_name):
         print('{} has been added to main.zaruba.yaml'.format(task_file_name))
@@ -76,6 +69,13 @@ def create_service_task_file(task_file_name: str, task_name: str, location: str,
         task_dict['tasks'][task_name]['location'] = location
     else:
         task_dict['tasks'][task_name]['location'] = os.path.join('..', location)
+    # adjust env from template
+    if 'env' in task_dict['tasks'][task_name]:
+        for key, val in task_dict['tasks'][task_name]['env'].items():
+            if 'from' in task_dict['tasks'][task_name]['env'][key]:
+                continue
+            task_dict['tasks'][task_name]['env'][key]['from'] = get_env_from(location, key)
+    # add env from location
     for env_file in ('.env', 'template.env', 'env.template'):
         env_path = os.path.join(location, env_file)
         if not os.path.isfile(env_path):
@@ -84,8 +84,37 @@ def create_service_task_file(task_file_name: str, task_name: str, location: str,
         for key, val in env_dict.items():
             if 'env' not in task_dict['tasks'][task_name]:
                 task_dict['tasks'][task_name]['env'] = {}
-            task_dict['tasks'][task_name]['env'][key] = {'default': val}
+            if key in task_dict['tasks'][task_name]['env']:
+                continue
+            task_dict['tasks'][task_name]['env'][key] = {
+                'from': get_env_from(location, key),
+                'default': val
+            }
     project.write_dict(task_file_name, task_dict)
+
+
+def get_env_from(location: str, env_name: str) -> str:
+    upper_env_name = env_name.upper()
+    env_prefix = get_env_prefix(location)
+    if upper_env_name.startswith(env_prefix):
+        return upper_env_name
+    return '_'.join([env_prefix, upper_env_name])
+
+
+def get_env_prefix(location: str) -> str:
+    upper_alphanum = get_location_base_name(location).upper()
+    return upper_alphanum.replace(' ', '_')
+
+
+def get_default_task_name(location: str) -> str:
+    capitalized_alphanum = get_location_base_name(location).capitalize()
+    return 'run{}'.format(capitalized_alphanum.replace(' ', ''))
+
+
+def get_location_base_name(location: str) -> str:
+    abs_location = os.path.abspath(location)
+    base_name = os.path.basename(abs_location)
+    return re.sub(r'[^A-Za-z0-9]+', ' ', base_name)
 
 
 if __name__ == '__main__':
