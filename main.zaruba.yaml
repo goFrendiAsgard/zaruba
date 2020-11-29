@@ -101,10 +101,14 @@ tasks:
         set -e
         rm -Rf tasks
         rm -f main.zaruba.yaml
+        ZARUBA_HOME=$(pwd)/..
         sudo -E ../zaruba please setupUbuntu
         ../zaruba please initProject
+        ../zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock" prefix="fibo"
+        ../zaruba please initSubrepos
+        ../zaruba please initSubrepos
         ../zaruba please addDocker image=rmq
-        ../zaruba please addService location=fibonacci-clock
+        ../zaruba please addService location=fibo
         ../zaruba please run
 
 
