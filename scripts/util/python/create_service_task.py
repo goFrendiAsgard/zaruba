@@ -1,8 +1,9 @@
-from typing import Any
+from typing import Any, Mapping
 import sys
 import os
 import re
 import traceback
+from dotenv import dotenv_values
 
 import project
 
@@ -15,7 +16,7 @@ def create_service_task(template_path: str, location: str, service_type: str, ta
         service_type = service_type if service_type != '' else 'default'
         location = location if location != '' else './'
         task_name = task_name if task_name != '' else get_default_task_name(location)
-        project.create_dir('tasks')
+        project.create_dir('zaruba-tasks')
         task_file_name = get_taskfile_name_or_error(task_name)
         template_file_name = get_template_or_default_file_name(template_path, service_type)
         template_dict = project.get_dict(template_file_name)
@@ -51,7 +52,7 @@ def add_to_run_task(task_name: str):
 
 
 def get_taskfile_name_or_error(task: str) -> str:
-    task_file_name = os.path.join('.', 'tasks', '{}.zaruba.yaml'.format(task))
+    task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task))
     if os.path.isfile(task_file_name):
         raise Exception('{} already exists'.format(task_file_name))
     return task_file_name
@@ -75,6 +76,15 @@ def create_service_task_file(task_file_name: str, task_name: str, location: str,
         task_dict['tasks'][task_name]['location'] = location
     else:
         task_dict['tasks'][task_name]['location'] = os.path.join('..', location)
+    for env_file in ('.env', 'template.env', 'env.template'):
+        env_path = os.path.join(location, env_file)
+        if not os.path.isfile(env_path):
+            continue
+        env_dict: Mapping[str, str] = dotenv_values(env_path)
+        for key, val in env_dict.items():
+            if 'env' not in task_dict['tasks'][task_name]:
+                task_dict['tasks'][task_name]['env'] = {}
+            task_dict['tasks'][task_name]['env'][key] = {'default': val}
     project.write_dict(task_file_name, task_dict)
 
 

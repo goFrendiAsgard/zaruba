@@ -15,7 +15,7 @@ def create_docker_task(template_path: str, image: str, container: str, task_name
         image = image if image != '' else 'nginx'
         container = container if container != '' else get_default_container_name(image)
         task_name = task_name if task_name != '' else 'run{}'.format(container.capitalize())
-        project.create_dir('tasks')
+        project.create_dir('zaruba-tasks')
         task_file_name = get_taskfile_name_or_error(task_name)
         template_file_name = get_template_or_default_file_name(template_path, image)
         should_override_image = get_should_override_image(template_path, image)
@@ -50,7 +50,7 @@ def add_to_run_task(task_name: str):
 
 
 def get_taskfile_name_or_error(task_name: str) -> str:
-    task_file_name = os.path.join('.', 'tasks', '{}.zaruba.yaml'.format(task_name))
+    task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task_name))
     if os.path.isfile(task_file_name):
         raise Exception('{} already exists'.format(task_file_name))
     return task_file_name

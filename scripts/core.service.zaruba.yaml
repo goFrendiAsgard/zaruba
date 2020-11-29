@@ -40,19 +40,21 @@ tasks:
       - "{{ .Config.shell }}"
       - "{{ .Config.shellArg }}"
       - |
+        {{ $d := .Decoration -}}
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         set -e
         {{ range $index, $port := .LConfig.ports -}}
-          echo Waiting port '{{ $port }}'
+          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
           until nc -z localhost {{ $port }}
           do 
             sleep 1
           done
-          echo port '{{ $port }}' is ready
+          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end }}
         set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
-        echo Task '{{ .Name }}' checked
+        echo 🎉🎉🎉
+        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
 
   
   core.monitorPorts:
@@ -72,11 +74,17 @@ tasks:
     config:
       shell: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
       shellArg: "-c" 
-    check: ["echo", "Port monitoring started"]
+    check:
+      - "{{ .Config.shell }}"
+      - "{{ .Config.shellArg }}"
+      - |
+        {{ $d := .Decoration -}}
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started{{ $d.Normal }}"
     start:
       - "{{ .Config.shell }}"
       - "{{ .Config.shellArg }}"
       - |
+        {{ $d := .Decoration -}}
         set -e
         PORTS=""
         {{ range $index, $port := .LConfig.ports -}}
@@ -90,7 +98,7 @@ tasks:
             then 
               continue
             fi 
-            echo "Port ${PORT} is not listening" 1>&2
+            echo "🔎 {{ $d.Bold }}{{ $d.Red }}Port '${PORT}' is not listening{{ $d.Normal }}"
             exit 1
           done
           sleep {{ if .Config.interval }}{{ .Config.interval }}{{ else }}1{{ end }}

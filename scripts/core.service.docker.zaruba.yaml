@@ -68,10 +68,10 @@ tasks:
         IS_RUNNING=$(sh "${SH_UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")
         if [ "${IS_RUNNING}" = true ]
         then
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container ${CONTAINER_NAME} was already started{{ $d.Normal }}"
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
         elif [ -z $(sh "${SH_UTIL}/inspect_docker.sh" "container" ".Name" "${CONTAINER_NAME}") ]
         then
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container ${CONTAINER_NAME}{{ $d.Normal }}"
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker run --name "${CONTAINER_NAME}" {{ "" -}}
             --network="{{ .ProjectName }}" {{"" -}}
             {{ range $key, $val := .Env }} -e {{ $key }}={{ $val }} {{ end -}}
@@ -86,15 +86,15 @@ tasks:
             {{ end -}}
             -d {{ .Config.imageName }}
         else
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container ${CONTAINER_NAME}{{ $d.Normal }}"
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker start "${CONTAINER_NAME}"
         fi
         {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging ${CONTAINER_NAME}{{ $d.Normal }}"
+        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Connecting container ${CONTAINER_NAME} to {{ $projectName }} network{{ $d.Normal }}"
+        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Connecting container '${CONTAINER_NAME}' to '{{ $projectName }}' network{{ $d.Normal }}"
         docker network connect "{{ $projectName }}" "${CONTAINER_NAME}"
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container ${CONTAINER_NAME} started{{ $d.Normal }}"
+        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' started{{ $d.Normal }}"
     check:
       - "sh"
       - "-c"
@@ -105,14 +105,14 @@ tasks:
         CONTAINER_NAME="{{ .Config.containerName }}"
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         set -e
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting ${CONTAINER_NAME}{{ $d.Normal }}"
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
         IS_RUNNING=$(sh "${SH_UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")
         until [ "${IS_RUNNING}" = true ]
         do 
           sleep 1
           IS_RUNNING=$(sh "${SH_UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")
         done
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}${CONTAINER_NAME} is running{{ $d.Normal }}"
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
         {{ $ports := .Config.GetSubKeys "port" -}}
         {{ range $index, $hostPort := $ports -}}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
@@ -125,4 +125,4 @@ tasks:
         set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Container ${CONTAINER_NAME} ready{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is ready{{ $d.Normal }}"
