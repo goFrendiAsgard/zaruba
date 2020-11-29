@@ -53,9 +53,10 @@ tasks:
         set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo Task '{{ .Name }}' checked
+
   
   core.monitorPorts:
-    icon: 🕵️‍♂️
+    icon: 🔎
     private: true
     description: |
       Check whether all ports are used or not
@@ -94,6 +95,7 @@ tasks:
           done
           sleep {{ if .Config.interval }}{{ .Config.interval }}{{ else }}1{{ end }}
         done
+
 
   serveHttp:
     icon: 🌐

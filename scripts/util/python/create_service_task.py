@@ -1,6 +1,7 @@
 from typing import Any
 import sys
 import os
+import re
 import traceback
 
 import project
@@ -13,7 +14,7 @@ def create_service_task(template_path: str, location: str, service_type: str, ta
     try:
         service_type = service_type if service_type != '' else 'default'
         location = location if location != '' else './'
-        task_name = task_name if task_name != '' else default_task_name(location)
+        task_name = task_name if task_name != '' else get_default_task_name(location)
         project.create_dir('tasks')
         task_file_name = get_taskfile_name_or_error(task_name)
         template_file_name = get_template_or_default_file_name(template_path, service_type)
@@ -28,9 +29,11 @@ def create_service_task(template_path: str, location: str, service_type: str, ta
         sys.exit(1)
 
 
-def default_task_name(location: str) -> str:
+def get_default_task_name(location: str) -> str:
     abs_location = os.path.abspath(location)
-    return 'run{}'.format(os.path.basename(abs_location).capitalize())
+    basename = os.path.basename(abs_location)
+    capitalized_alphanum = re.sub(r'[^A-Za-z0-9]+', ' ', basename).capitalize()
+    return 'run{}'.format(capitalized_alphanum.replace(' ', ''))
 
 
 def add_to_include(task_file_name: str):

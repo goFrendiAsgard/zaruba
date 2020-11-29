@@ -1,6 +1,7 @@
 from typing import Any
 import sys
 import os
+import re
 import traceback
 
 import project
@@ -12,7 +13,7 @@ import project
 def create_docker_task(template_path: str, image: str, container: str, task_name: str):
     try:
         image = image if image != '' else 'nginx'
-        container = container if container != '' else image
+        container = container if container != '' else get_default_container_name(image)
         task_name = task_name if task_name != '' else 'run{}'.format(container.capitalize())
         project.create_dir('tasks')
         task_file_name = get_taskfile_name_or_error(task_name)
@@ -27,6 +28,11 @@ def create_docker_task(template_path: str, image: str, container: str, task_name
         print(e)
         traceback.print_exc()
         sys.exit(1)
+
+
+def get_default_container_name(image: str) -> str:
+    capitalized_alphanum = re.sub(r'[^A-Za-z0-9]+', ' ', image).capitalize()
+    return capitalized_alphanum.replace(' ', '')
 
 
 def add_to_include(task_file_name: str):

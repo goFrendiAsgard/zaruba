@@ -14,6 +14,7 @@ tasks:
         {{ $d := .Decoration -}}
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
 
+
   update:
     icon: 🔄
     description: Update zaruba
@@ -22,7 +23,7 @@ tasks:
       script: |
         {{ $d := .Decoration -}}
         cd ${ZARUBA_HOME}
-        echo "📥 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
+        echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
         git pull origin master
         git fetch origin --tags
         echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
@@ -30,14 +31,17 @@ tasks:
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready !!!{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
+
   
   core.setupPythonUtil:
+    icon: 🐍
     private: true
     extend: core.runShellScript
     config:
       script: |
         cd "${ZARUBA_HOME}/scripts/util/python"
         pipenv install
+
   
   setupUbuntu:
     icon: 🔨
@@ -69,11 +73,13 @@ tasks:
             exit 0
           fi
         fi
+
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
-        echo "📥 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
+        echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
         apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm
+
         if [ -z "$(docker -v)" ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Install docker{{ $d.Normal }}"
@@ -81,8 +87,15 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Docker was already installed{{ $d.Normal }}"
         fi
-        echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pipenv{{ $d.Normal }}"
-        pip3 install pipenv
+
+        if [ -z "$(pipenv --version)" ]
+        then
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pipenv{{ $d.Normal }}"
+          pip3 install pipenv
+        else
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
+        fi
+
         CURRENT_USER=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${HOME}" / -1)
         if [ -d "${HOME}/.nvm" ]
         then
@@ -95,8 +108,23 @@ tasks:
           nvm install node
           chown "${CURRENT_USER}" "$NVM_DIR"
         fi
-        echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install Node packages{{ $d.Normal }}"
-        npm install -g typescript node-gyp
+
+        if [ -z "$(tsc -v)" ]
+        then
+          echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install typescript{{ $d.Normal }}"
+          npm install -g typescript
+        else
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
+        fi
+
+        if [ -z "$(node-gyp -v)" ]
+        then
+          echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install node-gyp{{ $d.Normal }}"
+          npm install -g node-gyp
+        else
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Node-gyp was already installed{{ $d.Normal }}"
+        fi
+
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
         echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience"

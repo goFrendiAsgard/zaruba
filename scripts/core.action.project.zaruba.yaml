@@ -1,7 +1,7 @@
 tasks:
 
   core.checkIsValidProject:
-    icon: 🔍
+    icon: 🔎
     private: true
     extend: core.runShellScript
     config:
@@ -18,7 +18,7 @@ tasks:
 
  
   core.checkIsNotProject:
-    icon: 🔍
+    icon: 🔎
     private: true
     extend: core.runShellScript
     config:

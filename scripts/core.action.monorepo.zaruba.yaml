@@ -118,7 +118,7 @@ tasks:
 
 
   pushSubrepos:
-    icon: 📤
+    icon: 🔼
     description: Publish subtree of your subrepo
     extend: core.runShellScript
     dependencies:
@@ -149,7 +149,7 @@ tasks:
 
 
   pullSubrepos:
-    icon: 📥
+    icon: 🔽
     description: Publish subtree of your subrepo
     extend: core.runShellScript
     dependencies:

@@ -5,8 +5,9 @@ tasks:
     description: Serve static files
     extend: serveHttp
     env:
-      SERVICE_HTTP_PORT:
+      HTTP_PORT:
+        from: "SERVICE_HTTP_PORT"
         default: 8080
     lconfig:
       ports:
-        - '{{ .GetEnv "SERVICE_HTTP_PORT" }}'
+        - '{{ .GetEnv "HTTP_PORT" }}'

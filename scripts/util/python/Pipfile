@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 "ruamel.yaml" = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
