@@ -6,7 +6,7 @@ includes:
 tasks:
 
   showVersion:
-    icon: 🕵️‍♂️
+    icon: 🔎
     description: Show zaruba version
     extend: core.runShellScript
     config:
@@ -40,7 +40,7 @@ tasks:
         pipenv install
   
   setupUbuntu:
-    icon: 💻
+    icon: 🔨
     description: |
       Setup your ubuntu machine (or Ubuntu WSL).
       This command will install:

@@ -4,7 +4,7 @@ includes:
 tasks:
 
   core.startService:
-    icon: 🚚
+    icon: 📜
     description: |
       A base task to run service.
       The following configuration are available:
