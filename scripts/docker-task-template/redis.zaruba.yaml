@@ -1,0 +1,10 @@
+tasks:
+
+  runContainer:
+    icon: 🧰
+    extend: core.startDockerContainer
+    config:
+      imageName: redis
+      containerName: containerName
+      port::6379: 6379
+      

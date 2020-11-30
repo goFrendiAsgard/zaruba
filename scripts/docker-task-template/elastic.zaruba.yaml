@@ -1,0 +1,19 @@
+tasks:
+
+  runContainer:
+    icon: 🍝
+    extend: core.startDockerContainer
+    env:
+      discover.type:
+        default: single-node
+      bootstrap.memory_lock:
+        default: true
+      ES_JAVA_OPTS:
+        from: JVM_OPTS
+        defult: -Xms512m -Xmx512m
+    config:
+      imageName: elasticsearch
+      containerName: containerName
+      port::9200: 9200
+      port::9300: 9300
+      

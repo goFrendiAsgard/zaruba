@@ -1,0 +1,17 @@
+tasks:
+
+  runContainer:
+    icon: 🍃
+    extend: core.startDockerContainer
+    env:
+      MONGO_INITDB_ROOT_USERNAME:
+        from: MONGO_INITDB_ROOT_USERNAME
+        default: root
+      MONGO_INITDB_ROOT_PASSWORD:
+        from: MONGO_INITDB_ROOT_PASSWORD
+        default: toor
+    config:
+      imageName: mongo
+      containerName: containerName
+      port::27017: 27017
+      

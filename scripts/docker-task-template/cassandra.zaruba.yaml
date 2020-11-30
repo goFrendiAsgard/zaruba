@@ -1,0 +1,17 @@
+tasks:
+
+  runContainer:
+    icon: 👁️
+    extend: core.startDockerContainer
+    env:
+      JVM_OPTS:
+        from: JVM_OPTS
+        defult: -Xms512m -Xmx512m
+    config:
+      imageName: cassandra
+      containerName: containerName
+      port::7001: 7001
+      port::7199: 7199
+      port::9042: 9042
+      port::9160: 9160
+      

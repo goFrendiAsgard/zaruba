@@ -13,6 +13,9 @@ tasks:
       MYSQL_ROOT_PASSWORD:
         from: MYSQL_ROOT_PASSWORD
         default: toor
+      MYSQL_DATABASE:
+        from: MYSQL_DATABASE
+        defult: sample
     config:
       imageName: mysql
       containerName: containerName
