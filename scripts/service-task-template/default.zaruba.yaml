@@ -6,6 +6,7 @@ tasks:
     extend: serveHttp
     env:
       HTTP_PORT:
+        from: HTTP_PORT
         default: 8080
     lconfig:
       ports:

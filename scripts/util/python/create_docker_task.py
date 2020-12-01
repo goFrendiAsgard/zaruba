@@ -22,8 +22,8 @@ def create_docker_task(template_path: str, image: str, container: str, task_name
         template_dict = project.get_dict(template_file_name)
         create_docker_task_file(task_file_name, task_name, container, image, should_override_image, template_dict)
         print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
-        add_to_include(task_file_name)
-        add_to_run_task(task_name)
+        project.add_to_include(task_file_name)
+        project.add_to_run_task(task_name)
     except Exception as e:
         print(e)
         traceback.print_exc()
@@ -33,20 +33,6 @@ def create_docker_task(template_path: str, image: str, container: str, task_name
 def get_default_container_name(image: str) -> str:
     capitalized_alphanum = re.sub(r'[^A-Za-z0-9]+', ' ', image).capitalize()
     return capitalized_alphanum.replace(' ', '')
-
-
-def add_to_include(task_file_name: str):
-    if project.add_to_include(task_file_name):
-        print('{} has been added to main.zaruba.yaml'.format(task_file_name))
-        return
-    print('{} already exists in main.zaruba.yaml'.format(task_file_name))
-
-
-def add_to_run_task(task_name: str):
-    if project.add_to_run_task(task_name):
-        print('{} has been added to main.zaruba.yaml'.format(task_name))
-        return
-    print('{} already exists in main.zaruba.yaml'.format(task_name))
 
 
 def get_taskfile_name_or_error(task_name: str) -> str:
@@ -75,12 +61,12 @@ def get_template_file_name(template_path: str, image: str) -> str:
 
 
 def create_docker_task_file(task_file_name: str, task_name: str, container: str, image: str, should_override_image: bool, template_obj: Any):
-    task_dict = {'tasks': {}}
-    task_dict['tasks'][task_name] = template_obj['tasks']['runContainer']
-    task_dict['tasks'][task_name]['config']['containerName'] = container
+    task = project.Task(template_obj['tasks']['runContainer'])
+    task.set_config('containerName', container)
     if should_override_image:
-        task_dict['tasks'][task_name]['config']['imageName'] = image
-    project.write_dict(task_file_name, task_dict)
+        task.set_config('imageName', image)
+    project_dict = {'tasks': {task_name: task.as_dict()}}
+    project.write_dict(task_file_name, project_dict)
 
 
 if __name__ == '__main__':

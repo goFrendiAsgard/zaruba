@@ -257,7 +257,8 @@ func (r *Runner) run(ch chan error) {
 	r.setDoneSignal()
 	r.showStatus()
 	d := logger.NewDecoration()
-	logger.PrintfSuccess("%s%sJob Complete !!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
+	logger.PrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
+	logger.PrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	// wait until no cmd left
 	for {
 		r.sleep(1 * time.Microsecond)

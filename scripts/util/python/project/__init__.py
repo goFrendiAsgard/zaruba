@@ -1,6 +1,6 @@
 from typing import Mapping, Any
 import os
-from project.structure import Task, ProjectDict
+from project.structure import Task, Env, ProjectDict, EnvDict
 from ruamel.yaml import YAML
 
 
@@ -14,7 +14,7 @@ def add_task(file_name: str, task_name: str, task: Task):
         project_dict['tasks'] = {}
     if task_name in project_dict.tasks:
         return False
-    project_dict['tasks'][task_name] = task.to_dict()
+    project_dict['tasks'][task_name] = task.as_dict()
     write_dict(file_name, project_dict)
 
 
@@ -35,17 +35,11 @@ def add_to_run_task(task_name: str) -> bool:
     main_project_dict = get_dict(main_file_name)
     if 'tasks' not in main_project_dict:
         main_project_dict['tasks'] = {}
-    if 'run' not in main_project_dict['tasks']:
-        task = Task()
-        task.icon = '🚅'
-        task.description = 'Run everything at once'
-        task_dict = task.to_dict()
-        main_project_dict['tasks']['run'] = task_dict
-    if 'dependencies' not in main_project_dict['tasks']['run']:
-        main_project_dict['tasks']['run']['dependencies'] = []
-    if task_name in main_project_dict['tasks']['run']['dependencies']:
-        return False
-    main_project_dict['tasks']['run']['dependencies'].append(task_name)
+    task = Task(main_project_dict['tasks']['run']) \
+        if 'run' in main_project_dict['tasks'] \
+        else Task().set_icon('🚅').set_description('Run everything at once')
+    task.add_dependency(task_name)
+    main_project_dict['tasks']['run'] = task.as_dict()
     write_dict(main_file_name, main_project_dict)
     return True
 
