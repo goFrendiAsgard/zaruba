@@ -1,0 +1,11 @@
+tasks:
+
+  runService:
+    icon: 🐸
+    extend: core.startService
+    config:
+      script: |
+        npm install --save-dev
+        tsc
+        npm start
+    

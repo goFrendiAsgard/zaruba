@@ -1,0 +1,11 @@
+tasks:
+
+  runService:
+    icon: 🐍
+    extend: core.startService
+    config:
+      script: |
+        pipenv install
+        MAIN_SCRIPT=$(sh "${SH_UTIL}/get_python_main_script.sh")
+        pipenv run python ${MAIN_SCRIPT}
+  

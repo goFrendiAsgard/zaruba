@@ -1,0 +1,9 @@
+tasks:
+
+  runService:
+    icon: 🐹
+    extend: core.startService
+    config:
+      script: |
+        go run main.go
+    

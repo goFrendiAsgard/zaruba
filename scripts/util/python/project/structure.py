@@ -45,7 +45,7 @@ class Env():
     
     def set_default(self, default: str) -> Env:
         if default:
-            self._dict['default'] = default
+            self._dict['default'] = str(default)
         elif 'default' in self._dict:
             del self._dict['default']
         return self
@@ -53,7 +53,7 @@ class Env():
     
     def get_default(self) -> str:
         if 'default' in self._dict:
-            return self._dict['default']
+            return str(self._dict['default'])
         return ''  
 
 
@@ -145,6 +145,39 @@ class Task():
         for val in vals:
             self._dict['lconfig'][key].append(val)
         return self
+    
+
+    def add_lconfig_port(self, port: str) -> Task:
+        port = port.strip()
+        if port == '':
+            return self
+        if port.isnumeric():
+            self.add_lconfig('ports', port)
+            return self
+        self.add_lconfig(
+            'ports', 
+            '{open_template} .GetEnv "{env_name}" {close_template}'.format(
+                open_template='{{', 
+                close_template='}}', 
+                env_name=port
+            )
+        )
+        return self
+
+
+    def add_lconfig_ports(self, *ports: str) -> Task:
+        for port in ports:
+            self.add_lconfig_port(port)
+        return self
+
+
+    def get_possible_ports(self) -> List[str]:
+        ports: List[str] = []
+        for key, env in self.get_all_env().items():
+            val = env.get_default()
+            if val.isnumeric() and (int(val) == 80 or int(val) >= 3000):
+                ports.append(key)
+        return ports
 
     
     def as_dict(self) -> TaskDict:

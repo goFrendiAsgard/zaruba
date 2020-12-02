@@ -42,6 +42,7 @@ tasks:
     config:
       script: |
         {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
@@ -94,6 +95,7 @@ tasks:
     config:
       script: |
         {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ if not .Kwargs.url }}
           echo "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}" 1>&2
@@ -128,6 +130,7 @@ tasks:
     config:
       script: |
         {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
@@ -158,6 +161,7 @@ tasks:
     config:
       script: |
         {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}

@@ -67,6 +67,8 @@ def create_docker_task_file(task_file_name: str, task_name: str, container: str,
         task.set_config('imageName', image)
     project_dict = {'tasks': {task_name: task.as_dict()}}
     project.write_dict(task_file_name, project_dict)
+    project.write_task_env('.env', task)
+    project.write_task_env('template.env', task)
 
 
 if __name__ == '__main__':

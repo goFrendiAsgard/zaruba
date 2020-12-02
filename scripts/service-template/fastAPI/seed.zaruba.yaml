@@ -28,4 +28,4 @@ tasks:
         pipenv run uvicorn main:app --reload --port={{ .GetEnv "SEED_HTTP_PORT" }}
     dependencies:
       - runMysql
-      - runRmq
+      - runRabbitmq

@@ -1,4 +1,4 @@
-from typing import Any, Mapping
+from typing import Any, Mapping, List
 import sys
 import os
 import re
@@ -11,7 +11,7 @@ import project
 # USAGE
 # python create_docker_task.py <image> <container> <task>
 
-def create_service_task(template_path: str, task_location: str, service_type: str, task_name: str):
+def create_service_task(template_path: str, task_location: str, service_type: str, task_name: str, ports=List[str]):
     try:
         service_type = service_type if service_type != '' else 'default'
         task_location = task_location if task_location != '' else './'
@@ -20,7 +20,7 @@ def create_service_task(template_path: str, task_location: str, service_type: st
         task_file_name = get_taskfile_name_or_error(task_name)
         template_file_name = get_template_or_default_file_name(template_path, service_type)
         template_dict = project.get_dict(template_file_name)
-        create_service_task_file(task_file_name, task_name, task_location, template_dict)
+        create_service_task_file(task_file_name, task_name, task_location, template_dict, ports)
         print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
         project.add_to_include(task_file_name)
         project.add_to_run_task(task_name)
@@ -37,8 +37,8 @@ def get_taskfile_name_or_error(task: str) -> str:
     return task_file_name
 
 
-def get_template_or_default_file_name(template_path: str, image: str) -> str:
-    template_file_name = get_template_file_name(template_path, image)
+def get_template_or_default_file_name(template_path: str, service_type: str) -> str:
+    template_file_name = get_template_file_name(template_path, service_type)
     if not os.path.isfile(template_file_name):
         template_file_name = os.path.join(template_path, 'default.zaruba.yaml')
     return template_file_name
@@ -48,7 +48,7 @@ def get_template_file_name(template_path: str, image: str) -> str:
     return os.path.join(template_path, '{}.zaruba.yaml'.format(image))
 
 
-def create_service_task_file(task_file_name: str, task_name: str, task_location: str, template_obj: Any):
+def create_service_task_file(task_file_name: str, task_name: str, task_location: str, template_obj: Any, ports: List[str]):
     task = project.Task(template_obj['tasks']['runService'])
     if os.path.isabs(task_location):
         task.set_location(task_location)
@@ -71,8 +71,14 @@ def create_service_task_file(task_file_name: str, task_name: str, task_location:
                 'default': default,
             })
             task.set_env(key, env)
+    # add lconfig.ports
+    ports = ports if ports else task.get_possible_ports()
+    task.add_lconfig_ports(*ports)
+    # save project and env
     project_dict = {'tasks': {task_name: task.as_dict()}}
     project.write_dict(task_file_name, project_dict)
+    project.write_task_env('.env', task)
+    project.write_task_env('template.env', task)
 
 
 def get_env_from(location: str, env_name: str) -> str:
@@ -107,4 +113,5 @@ if __name__ == '__main__':
     location = sys.argv[1] if len(sys.argv) > 1 else ''
     service_type = sys.argv[2] if len(sys.argv) > 2 else ''
     task_name = sys.argv[3] if len(sys.argv) > 3 else ''
-    create_service_task(template_path, location, service_type, task_name)
+    ports = sys.argv[3].split(',') if len(sys.argv) > 3 and sys.argv[3] != '' else []
+    create_service_task(template_path, location, service_type, task_name, ports)

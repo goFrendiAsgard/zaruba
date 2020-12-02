@@ -12,7 +12,10 @@ var thanksCmd = &cobra.Command{
 	Long:    "💀 Say thank you to Zaruba",
 	Aliases: []string{"thankYou", "thankyou"},
 	Run: func(cmd *cobra.Command, args []string) {
-		logger.Printf("Your welcome, please consider donating to my creator here: https://paypal.me/gofrendi\n")
+		d := logger.NewDecoration()
+		logger.Printf("%s%sYour welcome 😊%s\n", d.Bold, d.Yellow, d.Normal)
+		logger.Printf("Please consider donating ☕ to my creator here:\n")
+		logger.Printf("%shttps://paypal.me/gofrendi%s\n", d.Yellow, d.Normal)
 	},
 }
 

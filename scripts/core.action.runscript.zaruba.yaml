@@ -24,7 +24,6 @@ tasks:
         SCRIPT_PATH="${ZARUBA_HOME}/scripts"
         SH_UTIL="${SCRIPT_PATH}/util/sh"
         PYTHON_UTIL="${SCRIPT_PATH}/util/python"
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         {{ .Config.script }}
 
  

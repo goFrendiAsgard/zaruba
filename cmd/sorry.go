@@ -11,7 +11,8 @@ var sorryCmd = &cobra.Command{
 	Short: "Apologize to Zaruba",
 	Long:  "💀 Apologize to Zaruba",
 	Run: func(cmd *cobra.Command, args []string) {
-		logger.Printf("Don't worry, everyone makes mistakes\n")
+		d := logger.NewDecoration()
+		logger.Printf("%s%sDon't worry 👌%s, everyone makes mistakes\n", d.Bold, d.Yellow, d.Normal)
 	},
 }
 

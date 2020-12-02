@@ -15,7 +15,7 @@ tasks:
         default: toor
       MYSQL_DATABASE:
         from: MYSQL_DATABASE
-        defult: sample
+        default: sample
     config:
       imageName: mysql
       containerName: containerName

@@ -68,3 +68,14 @@ def write_dict(file_name: str, dictionary: Mapping[str, Any]):
     yaml.dump(dictionary, f)
     f.close()
 
+def write_task_env(file_name: str, task: Task):
+    f = open(file_name, 'a')
+    f.write('\n')
+    for _, env in task.get_all_env().items():
+        envvar = env.get_from()
+        if envvar == '':
+            continue
+        value = env.get_default()
+        f.write('{}={}\n'.format(envvar, value))
+    f.close()
+

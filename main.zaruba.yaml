@@ -113,12 +113,14 @@ tasks:
         rm -Rf tasks
         rm -f main.zaruba.yaml
         ZARUBA_HOME=$(pwd)/..
+        ../zaruba sorry
+        ../zaruba thanks
         sudo -E ../zaruba please setupUbuntu
         ../zaruba please initProject
         ../zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock" prefix="fibo"
         ../zaruba please initSubrepos
         ../zaruba please pullSubrepos
-        ../zaruba please addDocker image=rmq
+        ../zaruba please addDocker image=rabbitmq
         echo "export EMAIL=somebody@gmail.com" >> ./fibo/.env
         echo "CITY=Malang" >> ./fibo/.env
         echo "COUNTRY=Indonesia" >> ./fibo/.env

@@ -64,6 +64,7 @@ tasks:
     config:
       script: |
         {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
         CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
@@ -88,11 +89,13 @@ tasks:
     config:
       script: |
         {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${LOCATION}" "${TYPE}" "${TASK}"
+        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
+        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 

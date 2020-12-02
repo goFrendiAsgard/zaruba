@@ -29,10 +29,14 @@ tasks:
       PYTHONUNBUFFERED: 
         from: PYTHONUNBUFFERED
         default: 1
+    dependencies:
+      - updateLinks
     start:
       - "{{ .Config.shell }}"
       - "{{ .Config.shellArg }}"
       - |
+        SCRIPT_PATH="${ZARUBA_HOME}/scripts"
+        SH_UTIL="${SCRIPT_PATH}/util/sh"
         {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
         {{ .Config.script }}
         {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
@@ -41,6 +45,8 @@ tasks:
       - "{{ .Config.shellArg }}"
       - |
         {{ $d := .Decoration -}}
+        SCRIPT_PATH="${ZARUBA_HOME}/scripts"
+        SH_UTIL="${SCRIPT_PATH}/util/sh"
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         set -e
         {{ range $index, $port := .LConfig.ports -}}
