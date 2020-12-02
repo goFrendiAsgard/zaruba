@@ -16,9 +16,9 @@ import (
 
 // ProjectConfig is zaruba configuration
 type ProjectConfig struct {
-	Includes                   []string         `yaml:"includes"`
-	Tasks                      map[string]*Task `yaml:"tasks"`
-	Name                       string           `yaml:"name"`
+	Includes                   []string         `yaml:"includes,omitempty"`
+	Tasks                      map[string]*Task `yaml:"tasks,omitempty"`
+	Name                       string           `yaml:"name,omitempty"`
 	FileLocation               string
 	Kwargs                     map[string]string
 	IconGenerator              *iconer.Generator

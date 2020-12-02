@@ -19,18 +19,18 @@ import (
 
 // Task is zaruba task
 type Task struct {
-	Start           []string              `yaml:"start"`
-	Check           []string              `yaml:"check"`
-	Timeout         string                `yaml:"timeout"`
-	Private         bool                  `yaml:"private"`
-	Extend          string                `yaml:"extend"`
-	Location        string                `yaml:"location"`
-	Config          map[string]string     `yaml:"config"`
-	LConfig         map[string][]string   `yaml:"lconfig"`
-	Env             map[string]*EnvConfig `yaml:"env"`
-	Dependencies    []string              `yaml:"dependencies"`
-	Description     string                `yaml:"description"`
-	Icon            string                `yaml:"icon"`
+	Start           []string              `yaml:"start,omitempty"`
+	Check           []string              `yaml:"check,omitempty"`
+	Timeout         string                `yaml:"timeout,omitempty"`
+	Private         bool                  `yaml:"private,omitempty"`
+	Extend          string                `yaml:"extend,omitempty"`
+	Location        string                `yaml:"location,omitempty"`
+	Config          map[string]string     `yaml:"config,omitempty"`
+	LConfig         map[string][]string   `yaml:"lconfig,omitempty"`
+	Env             map[string]*EnvConfig `yaml:"env,omitempty"`
+	Dependencies    []string              `yaml:"dependencies,omitempty"`
+	Description     string                `yaml:"description,omitempty"`
+	Icon            string                `yaml:"icon,omitempty"`
 	FileLocation    string
 	Project         *ProjectConfig
 	BasePath        string

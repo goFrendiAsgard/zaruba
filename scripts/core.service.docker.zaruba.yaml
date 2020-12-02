@@ -43,7 +43,6 @@ tasks:
       shellArg: "-c" 
     dependencies:
       - createDockerNetwork
-      - updateLinks
     start:
       - "sh"
       - "-c"
