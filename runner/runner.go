@@ -577,6 +577,7 @@ func (r *Runner) getStatusCaption() (statusCaption string) {
 }
 
 func (r *Runner) killByPid(pid int, ch chan error) {
+	r.sleep(100 * time.Millisecond)
 	err := syscall.Kill(pid, syscall.SIGINT)
 	r.sleep(100 * time.Millisecond)
 	syscall.Kill(pid, syscall.SIGTERM)
