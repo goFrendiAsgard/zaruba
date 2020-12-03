@@ -25,6 +25,7 @@ type ProjectConfig struct {
 	SortedTaskNames            []string
 	MaxPublishedTaskNameLength int
 	Decoration                 *logger.Decoration
+	CSVLogWriter               *logger.CSVLogWriter
 }
 
 // NewConfig create new Config from Yaml File
@@ -37,6 +38,12 @@ func NewConfig(configFile string) (conf *ProjectConfig, err error) {
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
 	}
 	conf, err = loadConfigRecursively(configFile)
+	if err != nil {
+		return conf, err
+	}
+	dir := filepath.Dir(configFile)
+	logFile := filepath.Join(dir, "log.zaruba.csv")
+	conf.CSVLogWriter = logger.NewCSVLogWriter(logFile)
 	conf.Kwargs = map[string]string{}
 	conf.IconGenerator = iconer.NewGenerator()
 	conf.Decoration = logger.NewDecoration()

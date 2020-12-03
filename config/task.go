@@ -236,7 +236,7 @@ func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getStartCmd(taskData)
 	}
-	cmd, err = task.getCmd("🚀", task.Start, taskData)
+	cmd, err = task.getCmd("START", task.Start, taskData)
 	return cmd, true, err
 }
 
@@ -253,7 +253,7 @@ func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getCheckCmd(taskData)
 	}
-	cmd, err = task.getCmd("🔎", task.Check, taskData)
+	cmd, err = task.getCmd("CHECK", task.Check, taskData)
 	return cmd, true, err
 }
 
@@ -288,9 +288,10 @@ func (task *Task) getCmd(cmdIconType string, commandPatternArgs []string, taskDa
 	return cmd, err
 }
 
-func (task *Task) log(cmdIconType, logType string, pipe io.ReadCloser, taskData *TaskData) {
+func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *TaskData) {
 	buf := bufio.NewScanner(pipe)
 	d := task.Project.Decoration
+	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, taskData.task.FunkyName)
 	for buf.Scan() {
 		content := buf.Text()
@@ -299,7 +300,15 @@ func (task *Task) log(cmdIconType, logType string, pipe io.ReadCloser, taskData 
 		} else {
 			logger.Printf("%s %s\n", prefix, content)
 		}
+		go task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content)
 	}
+}
+
+func (task *Task) getCmdIconType(cmdType string) string {
+	if cmdType == "CHECK" {
+		return "🔎"
+	}
+	return "🚀"
 }
 
 func (task *Task) parseCurentTaskTemplatePattern(pattern string) (val string, err error) {

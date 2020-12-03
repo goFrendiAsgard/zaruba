@@ -23,7 +23,6 @@ func PrintfSuccess(template string, args ...interface{}) (n int, err error) {
 
 // PrintfError is a wrapper for fmt.Printf
 func PrintfError(template string, args ...interface{}) (n int, err error) {
-
 	pTemplate := fmt.Sprintf("🔥 %s", template)
 	return printf(pTemplate, args...)
 }

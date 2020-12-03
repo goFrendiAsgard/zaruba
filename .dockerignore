@@ -2,3 +2,4 @@ coverage
 zaruba
 playground
 test_resource/alchemy/alembic.txt
+log.zaruba.csv
