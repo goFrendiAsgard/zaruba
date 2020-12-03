@@ -118,7 +118,6 @@ tasks:
         {{ $workPath := .WorkPath }}
         {{ $destinations := .Kwargs.GetSubKeys "link" -}}
         {{ $kwargs := .Kwargs -}}
-        sh "${SH_UTIL}/git_save.sh" "Save works before organize"
         {{ range $index, $destination := $destinations -}}
           {{ $source := $kwargs.GetValue "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}

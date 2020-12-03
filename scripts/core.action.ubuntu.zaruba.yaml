@@ -64,7 +64,14 @@ tasks:
           NVM_DIR="$HOME/.nvm"
           \. "$NVM_DIR/nvm.sh"
           nvm install node
-          chown "${CURRENT_USER}" "$NVM_DIR"
+          chown -R "${CURRENT_USER}" "$NVM_DIR"
+          if [ -f ${HOME}/.zshrc ]
+          then
+            echo '' >> "${HOME}/.zshrc"
+            echo 'export NVM_DIR="$HOME/.nvm"' >> "${HOME}/.zshrc"
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> "${HOME}/.zshrc"
+            echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> "${HOME}/.zshrc"
+          fi
         fi
 
         if [ -z "$(tsc -v)" ]
