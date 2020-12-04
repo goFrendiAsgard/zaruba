@@ -39,10 +39,10 @@ cd myProject
 
 zaruba please initProject
 
-zaruba please addSubrepo name=fiboclock prefix=fibo-clock url="https://github.com/therealvasanth/fibonacci-clock"
+zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock"
 zaruba please initSubrepos
 
-cd fibo-clock
+cd fibonacci-clock
 zaruba please serveHttp
 ```
 
@@ -68,6 +68,7 @@ tasks:
 
   runFiboClock:
     extend: core.startService
+    location: fibonacci-clock
     lconfig:
       ports: [3031]
     config:
@@ -101,6 +102,8 @@ zaruba please runAll
 Perfect !!!
 
 Now you can run micro-services (dockerized or not) in a single computer.
+
+> **💡NOTE** You can add `onComplete=stop` argument in case of you want zaruba to kill all processes once the task is finished. E.g: `zaruba please testMyApp onComplete=stop`
 
 # 🐳 Zaruba In Docker
 

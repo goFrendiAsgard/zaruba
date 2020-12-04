@@ -1,2 +1,2 @@
 includes:
-  - "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
+- "${ZARUBA_HOME}/scripts/core.zaruba.yaml"

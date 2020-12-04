@@ -6,10 +6,12 @@ tasks:
     config:
       script: |
         pipenv install
-        MAIN_SCRIPT=$(sh "${SH_UTIL}/get_python_main_script.sh")
-        pipenv run python ${MAIN_SCRIPT}
+        pipenv run uvicorn main:app --reload --port={{ .GetEnv "HTTP_PORT" }}
     env:
       PIPENV_DONT_LOAD_ENV:
         from: PIPENV_DONT_LOAD_ENV
         default: 1
+      HTTP_PORT:
+        from: HTTP_PORT
+        default: 3000
   

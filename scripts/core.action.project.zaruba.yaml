@@ -45,6 +45,7 @@ tasks:
         git init
         cp "${SCRIPT_PATH}/project-template/default.kwargs.yaml" ./default.kwargs.yaml
         cp "${SCRIPT_PATH}/project-template/main.zaruba.yaml" ./main.zaruba.yaml
+        cp "${SCRIPT_PATH}/project-template/.gitignore" ./.gitignore
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
 
@@ -128,3 +129,10 @@ tasks:
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
+
+  clearLog:
+    icon: 🔥
+    extend: core.runShellScript
+    description: Clear log
+    config:
+      script: rm -Rf log.zaruba.csv

@@ -1,7 +1,7 @@
 tasks:
 
   runContainer:
-    icon: 👁️
+    icon: 👀
     extend: core.startDockerContainer
     env:
       JVM_OPTS:
