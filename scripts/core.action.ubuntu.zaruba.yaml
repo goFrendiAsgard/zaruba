@@ -10,13 +10,15 @@ tasks:
       * netcat
       * and some other utilities
       into your machine.
-      USAGE: sudo -E zaruba please setupUbuntu.
-      LIMITATION: Your home directory should be match to your user name.
+      USAGE:
+      * sudo -E zaruba please setupUbuntu
+      * sudo -E zaruba please user=<user> home=<home>
     extend: core.runShellScript
     config:
       script: |
         set -e
         {{ $d := .Decoration -}}
+        {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
         export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         if echo "${HOME}" | grep -q "/root$" 
         then
@@ -54,7 +56,7 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         fi
 
-        CURRENT_USER=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${HOME}" / -1)
+        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${HOME}" / -1){{ end }}
         if [ -d "${HOME}/.nvm" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"

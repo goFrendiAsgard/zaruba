@@ -43,9 +43,9 @@ tasks:
       script: | 
         {{ $d := .Decoration -}}
         git init
-        cp "${SCRIPT_PATH}/project-template/default.kwargs.yaml" ./default.kwargs.yaml
-        cp "${SCRIPT_PATH}/project-template/main.zaruba.yaml" ./main.zaruba.yaml
-        cp "${SCRIPT_PATH}/project-template/.gitignore" ./.gitignore
+        cp "${SCRIPT_PATH}/templates/project/default.kwargs.yaml" ./default.kwargs.yaml
+        cp "${SCRIPT_PATH}/templates/project/main.zaruba.yaml" ./main.zaruba.yaml
+        cp "${SCRIPT_PATH}/templates/project/.gitignore" ./.gitignore
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
 
@@ -67,10 +67,11 @@ tasks:
         {{ $d := .Decoration -}}
         export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
+        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
         CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/create_docker_task.py" "${IMAGE}" "${CONTAINER}" "${TASK}"
+        pipenv run python "${PYTHON_UTIL}/create_docker_task.py" "${TEMPLATES}" "${IMAGE}" "${CONTAINER}" "${TASK}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
   
@@ -92,11 +93,12 @@ tasks:
         {{ $d := .Decoration -}}
         export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
+        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
         PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
+        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -135,4 +137,7 @@ tasks:
     extend: core.runShellScript
     description: Clear log
     config:
-      script: rm -Rf log.zaruba.csv
+      script: |
+        {{ $d := .Decoration -}}
+        rm -Rf log.zaruba.csv
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"

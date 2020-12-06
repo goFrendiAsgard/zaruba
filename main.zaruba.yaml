@@ -110,8 +110,6 @@ tasks:
     config:
       script: |
         set -e
-        rm -Rf tasks
-        rm -f main.zaruba.yaml
         ZARUBA_HOME=$(pwd)/..
         ../zaruba sorry
         ../zaruba thanks

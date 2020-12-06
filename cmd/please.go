@@ -62,6 +62,7 @@ var pleaseCmd = &cobra.Command{
 		r := runner.NewRunner(conf, taskNames, time.Minute*5)
 		if err := r.Run(); err != nil {
 			fmt.Println(err)
+			os.Exit(1)
 		}
 	},
 }

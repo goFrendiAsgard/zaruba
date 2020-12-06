@@ -11,19 +11,19 @@ import project
 # USAGE
 # python create_docker_task.py <image> <container> <task>
 
-def create_service_task(template_path: str, task_location: str, service_type: str, task_name: str, ports=List[str]):
+def create_service_task(template_path_list: List[str], task_location: str, service_type: str, task_name: str, ports=List[str]):
     try:
         service_type = service_type if service_type != '' else 'default'
         task_location = task_location if task_location != '' else './'
         task_name = task_name if task_name != '' else get_default_task_name(task_location)
         project.create_dir('zaruba-tasks')
         task_file_name = get_taskfile_name_or_error(task_name)
-        template_file_name = get_template_or_default_file_name(template_path, service_type)
-        template_dict = project.get_dict(template_file_name)
+        template_file_name, _ = project.get_service_task_template(template_path_list, service_type)
+        template_dict = project.get_dict_from_file(template_file_name)
         create_service_task_file(task_file_name, task_name, task_location, template_dict, ports)
         print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
-        project.add_to_include(task_file_name)
-        project.add_to_run_task(task_name)
+        project.add_to_main_include(task_file_name)
+        project.add_to_main_task(task_name)
     except Exception as e:
         print(e)
         traceback.print_exc()
@@ -35,17 +35,6 @@ def get_taskfile_name_or_error(task: str) -> str:
     if os.path.isfile(task_file_name):
         raise Exception('{} already exists'.format(task_file_name))
     return task_file_name
-
-
-def get_template_or_default_file_name(template_path: str, service_type: str) -> str:
-    template_file_name = get_template_file_name(template_path, service_type)
-    if not os.path.isfile(template_file_name):
-        template_file_name = os.path.join(template_path, 'default.zaruba.yaml')
-    return template_file_name
-
-
-def get_template_file_name(template_path: str, image: str) -> str:
-    return os.path.join(template_path, '{}.zaruba.yaml'.format(image))
 
 
 def create_service_task_file(task_file_name: str, task_name: str, task_location: str, template_obj: Any, ports: List[str]):
@@ -76,7 +65,7 @@ def create_service_task_file(task_file_name: str, task_name: str, task_location:
     task.add_lconfig_ports(*ports)
     # save project and env
     project_dict = {'tasks': {task_name: task.as_dict()}}
-    project.write_dict(task_file_name, project_dict)
+    project.save_dict_to_file(task_file_name, project_dict)
     project.write_task_env('.env', task)
     project.write_task_env('template.env', task)
 
@@ -106,12 +95,9 @@ def get_location_base_name(location: str) -> str:
 
 
 if __name__ == '__main__':
-    template_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(sys.argv[0]))),
-        'service-task-template'
-    )
-    location = sys.argv[1] if len(sys.argv) > 1 else ''
-    service_type = sys.argv[2] if len(sys.argv) > 2 else ''
-    task_name = sys.argv[3] if len(sys.argv) > 3 else ''
-    ports = sys.argv[3].split(',') if len(sys.argv) > 3 and sys.argv[3] != '' else []
-    create_service_task(template_path, location, service_type, task_name, ports)
+    template_path_list = sys.argv[1].split(':') if len(sys.argv) > 1 and sys.argv[1] != '' else []
+    location = sys.argv[2] if len(sys.argv) > 2 else ''
+    service_type = sys.argv[3] if len(sys.argv) > 3 else ''
+    task_name = sys.argv[4] if len(sys.argv) > 4 else ''
+    ports = sys.argv[5].split(',') if len(sys.argv) > 5 and sys.argv[5] != '' else []
+    create_service_task(template_path_list, location, service_type, task_name, ports)
