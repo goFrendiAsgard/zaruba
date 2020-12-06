@@ -1,0 +1,12 @@
+{
+    "service": "./service",
+    "module": "./module",
+    "links": [
+        {
+            "./transport": {
+                "source": "./shared-libs/python/transport",
+                "destination": "./transport"
+            }
+        }
+    ]
+}

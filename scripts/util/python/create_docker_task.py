@@ -1,6 +1,5 @@
 from typing import Any, List
 import sys
-import os
 import re
 import traceback
 
@@ -16,7 +15,7 @@ def create_docker_task(template_path_list: List[str], image: str, container: str
         container = container if container != '' else get_default_container_name(image)
         task_name = task_name if task_name != '' else 'run{}'.format(container.capitalize())
         project.create_dir('zaruba-tasks')
-        task_file_name = get_taskfile_name_or_error(task_name)
+        task_file_name = project.get_task_file_name(task_name)
         template_file_name, should_override_image = project.get_docker_task_template(template_path_list, image)
         template_dict = project.get_dict_from_file(template_file_name)
         create_docker_task_file(task_file_name, task_name, container, image, should_override_image, template_dict)
@@ -32,13 +31,6 @@ def create_docker_task(template_path_list: List[str], image: str, container: str
 def get_default_container_name(image: str) -> str:
     capitalized_alphanum = re.sub(r'[^A-Za-z0-9]+', ' ', image).capitalize()
     return capitalized_alphanum.replace(' ', '')
-
-
-def get_taskfile_name_or_error(task_name: str) -> str:
-    task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task_name))
-    if os.path.isfile(task_file_name):
-        raise Exception('{} already exists'.format(task_file_name))
-    return task_file_name
 
 
 def create_docker_task_file(task_file_name: str, task_name: str, container: str, image: str, should_override_image: bool, template_obj: Any):

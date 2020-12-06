@@ -9,7 +9,7 @@ import project
 
 
 # USAGE
-# python create_docker_task.py <image> <container> <task>
+# python create_service_task.py <image> <container> <task>
 
 def create_service_task(template_path_list: List[str], task_location: str, service_type: str, task_name: str, ports=List[str]):
     try:
@@ -17,7 +17,7 @@ def create_service_task(template_path_list: List[str], task_location: str, servi
         task_location = task_location if task_location != '' else './'
         task_name = task_name if task_name != '' else get_default_task_name(task_location)
         project.create_dir('zaruba-tasks')
-        task_file_name = get_taskfile_name_or_error(task_name)
+        task_file_name = project.get_task_file_name(task_name)
         template_file_name, _ = project.get_service_task_template(template_path_list, service_type)
         template_dict = project.get_dict_from_file(template_file_name)
         create_service_task_file(task_file_name, task_name, task_location, template_dict, ports)
@@ -28,13 +28,6 @@ def create_service_task(template_path_list: List[str], task_location: str, servi
         print(e)
         traceback.print_exc()
         sys.exit(1)
-
-
-def get_taskfile_name_or_error(task: str) -> str:
-    task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task))
-    if os.path.isfile(task_file_name):
-        raise Exception('{} already exists'.format(task_file_name))
-    return task_file_name
 
 
 def create_service_task_file(task_file_name: str, task_name: str, task_location: str, template_obj: Any, ports: List[str]):

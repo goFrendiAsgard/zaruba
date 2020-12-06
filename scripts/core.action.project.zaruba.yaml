@@ -56,7 +56,7 @@ tasks:
       Create docker task
       You need to specify `image`, `task`, and `container`. For example:
       ```sh
-      zaruba please addDocker  <image=nginx> [container=myNginx] [task=runMyNginx]
+      zaruba please addDocker  <image=nginx> [container=myNginx] [task=runMyNginx] [templates=templatePath1:templatePath2]
       ```
     extend: core.runShellScript
     dependencies:
@@ -80,9 +80,9 @@ tasks:
     icon: 📦
     description: |
       Create service task
-      You need to specify `location`, task, and `type`. For example:
+      You need to specify `location`, `task`, `type`, and `templates`. For example:
       ```sh
-      zaruba please addService  <location=./service> [type=python] [task=runService]
+      zaruba please addService  <location=./service> [type=python] [task=runService] [ports=port1,port2] [templates=templatePath1:templatePath2]
       ```
     extend: core.runShellScript
     dependencies:
@@ -103,11 +103,39 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
  
+  createService:
+    icon: 📦
+    description: |
+      Create service task
+      You need to specify `location`, `task`, `type`, and `templates`. For example:
+      ```sh
+      zaruba please addService  <location=./service> [type=python] [task=runService] [ports=port1,port2] [templates=templatePath1:templatePath2]
+      ```
+    extend: core.runShellScript
+    dependencies:
+      - core.checkIsValidProject
+      - core.setupPythonUtil
+    config:
+      script: |
+        {{ $d := .Decoration -}}
+        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
+        set -e
+        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
+        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
+        pipenv run python "${PYTHON_UTIL}/create_service.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service created{{ $d.Normal }}"
+        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "" "${PORTS}"
+        echo 🎉🎉🎉
+
+ 
   updateLinks:
     icon: 🔗
     description: |
       Organize your shared library
-      You must specify links `default.kwargs.yaml`:
+      You must specify links in `default.kwargs.yaml`:
       ```yaml
       link::<destination>: <source>
       ```
@@ -125,9 +153,7 @@ tasks:
           {{ $source := $kwargs.GetValue "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}
           {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
-          rm -Rf "{{ $absDestination }}"
-          cp -r "{{ $absSource }}" "{{ $absDestination }}"
-          chmod 555 "{{ $absDestination }}"
+          sh "${SH_UTIL}/update_link.sh" "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"

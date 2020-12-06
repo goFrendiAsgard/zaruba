@@ -49,6 +49,13 @@ def get_main_file_name() -> str:
     return main_file_name
 
 
+def get_task_file_name(task_name: str) -> str:
+    task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task_name))
+    if os.path.isfile(task_file_name):
+        raise Exception('{} already exists'.format(task_file_name))
+    return task_file_name
+
+
 def create_dir(dirname: str):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
