@@ -119,9 +119,8 @@ tasks:
         ../zaruba please initSubrepos
         ../zaruba please pullSubrepos
         ../zaruba please addDocker image=rabbitmq
-        echo "export EMAIL=somebody@gmail.com" >> ./fibo/.env
-        echo "CITY=Malang" >> ./fibo/.env
-        echo "COUNTRY=Indonesia" >> ./fibo/.env
+        ../zaruba please createService type=fastapi
+        ../zaruba please addService location=fastapi
         ../zaruba please addService location=fibo
         ../zaruba please run
 

@@ -1,8 +1,7 @@
-from typing import Any, Mapping, List
+from typing import Any, Mapping, List, TypedDict
 import sys
 import shutil
 import traceback
-from dotenv import dotenv_values
 
 import project
 
@@ -10,14 +9,15 @@ import project
 # USAGE
 # python create_service.py <image> <container> <task>
 
-def create_service(template_path_list: List[str], service_location: str, service_type: str, ports=List[str]):
+def create_service(template_path_list: List[str], target_location: str, service_type: str, ports=List[str]):
     try:
         service_type = service_type if service_type != '' else 'fastapi'
-        service_location = service_location if service_location != '' else './{}'.format(service_type)
+        target_location = target_location if target_location != '' else './{}'.format(service_type)
         project.create_dir('zaruba-tasks')
-        template_dir_name, _ = project.get_service_template(template_path_list, service_type)
-        shutil.copytree(template_dir_name, service_location)
-        print('Service {} ({}) is created successfully'.format(service_location, service_type))
+        template = project.get_service_template(template_path_list, service_type)
+        gen = project.ServiceGen(template, target_location, ports)
+        gen.generate_service()
+        print('Service {} ({}) is created successfully'.format(target_location, service_type))
     except Exception as e:
         print(e)
         traceback.print_exc()

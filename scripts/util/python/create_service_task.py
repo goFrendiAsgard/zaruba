@@ -15,11 +15,11 @@ def create_service_task(template_path_list: List[str], task_location: str, servi
     try:
         service_type = service_type if service_type != '' else 'default'
         task_location = task_location if task_location != '' else './'
-        task_name = task_name if task_name != '' else get_default_task_name(task_location)
+        task_name = task_name if task_name != '' else project.get_task_name_by_location(task_location)
         project.create_dir('zaruba-tasks')
         task_file_name = project.get_task_file_name(task_name)
-        template_file_name, _ = project.get_service_task_template(template_path_list, service_type)
-        template_dict = project.get_dict_from_file(template_file_name)
+        template = project.get_service_task_template(template_path_list, service_type)
+        template_dict = project.get_dict_from_file(template.location)
         create_service_task_file(task_file_name, task_name, task_location, template_dict, ports)
         print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
         project.add_to_main_include(task_file_name)
@@ -65,26 +65,10 @@ def create_service_task_file(task_file_name: str, task_name: str, task_location:
 
 def get_env_from(location: str, env_name: str) -> str:
     upper_env_name = env_name.upper()
-    env_prefix = get_env_prefix(location)
+    env_prefix = project.get_env_prefix_by_location(location)
     if upper_env_name.startswith(env_prefix):
         return upper_env_name
     return '_'.join([env_prefix, upper_env_name])
-
-
-def get_env_prefix(location: str) -> str:
-    upper_alphanum = get_location_base_name(location).upper()
-    return upper_alphanum.replace(' ', '_')
-
-
-def get_default_task_name(location: str) -> str:
-    capitalized_alphanum = get_location_base_name(location).capitalize()
-    return 'run{}'.format(capitalized_alphanum.replace(' ', ''))
-
-
-def get_location_base_name(location: str) -> str:
-    abs_location = os.path.abspath(location)
-    base_name = os.path.basename(abs_location)
-    return re.sub(r'[^A-Za-z0-9]+', ' ', base_name)
 
 
 if __name__ == '__main__':

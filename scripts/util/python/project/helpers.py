@@ -1,6 +1,7 @@
-from typing import Mapping, Any, List, Tuple
+from typing import Mapping, Any, List
+import re
 import os
-from project.structures import Task, ProjectDict
+from project.structures import Task, ProjectDict, Template
 from ruamel.yaml import YAML
 
 
@@ -88,41 +89,60 @@ def write_task_env(file_name: str, task: Task):
     f.close()
 
 
-def get_default_template() -> str:
+def get_default_template_location() -> str:
     return os.path.join(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))),
         'templates'
     )
 
 
-def get_template(template_path_list: List[str], location: str, default_location: str, location_is_dir=False) -> Tuple[str, bool]:
+def get_template(template_path_list: List[str], location: str, default_location: str, location_is_dir=False) -> Template:
     real_template_path_list = [os.path.join('.', 'templates')]
     real_template_path_list.extend(template_path_list)
-    default_template_location = get_default_template()
+    default_template_location = get_default_template_location()
     real_template_path_list.append(default_template_location)
     for template_path in real_template_path_list:
         template_location = os.path.join(template_path, location)
         if (location_is_dir and os.path.isdir(template_location)) or os.path.isfile(template_location):
-            return template_location, False
-    return os.path.join(default_template_location, default_location), True
+            return Template(template_location, False)
+    return Template(os.path.join(default_template_location, default_location), True)
 
 
-def get_service_task_template(template_path_list: List[str], service_type: str) -> Tuple[str, bool]:
+def get_service_task_template(template_path_list: List[str], service_type: str) -> Template:
     service_task_template_dir = 'service-task'
     location = os.path.join(service_task_template_dir, '{}.zaruba.yaml'.format(service_type))
     default_location = os.path.join(service_task_template_dir, 'default.zaruba.yaml')
     return get_template(template_path_list, location, default_location, location_is_dir=False)
 
 
-def get_docker_task_template(template_path_list: List[str], image: str) -> Tuple[str, bool]:
+def get_docker_task_template(template_path_list: List[str], image: str) -> Template:
     docker_task_template_dir = 'docker-task'
     location = os.path.join(docker_task_template_dir, '{}.zaruba.yaml'.format(image))
     default_location = os.path.join(docker_task_template_dir, 'default.zaruba.yaml')
     return get_template(template_path_list, location, default_location, location_is_dir=False)
 
 
-def get_service_template(template_path_list: List[str], service_type: str) -> Tuple[str, bool]:
+def get_service_template(template_path_list: List[str], service_type: str) -> Template:
     service_template_dir = 'service'
     location = os.path.join(service_template_dir, service_type)
     default_location = os.path.join(service_template_dir, 'fastapi')
     return get_template(template_path_list, location, default_location, location_is_dir=True)
+
+
+def get_sanitized_base_name(location: str) -> str:
+    abs_location = os.path.abspath(location)
+    base_name = os.path.basename(abs_location)
+    return re.sub(r'[^A-Za-z0-9]+', ' ', base_name)
+
+
+def get_env_prefix_by_location(location: str) -> str:
+    return get_sanitized_base_name(location).upper().replace(' ', '_')
+
+
+def get_service_name_by_location(location: str) -> str:
+    capitalized_service_name =  get_sanitized_base_name(location).capitalize().replace(' ', '')
+    return capitalized_service_name[0].lower() + capitalized_service_name[1:]
+
+
+def get_task_name_by_location(location: str) -> str:
+    return 'run{}'.format(get_sanitized_base_name(location).capitalize().replace(' ', ''))

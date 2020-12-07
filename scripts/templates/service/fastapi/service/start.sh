@@ -1,5 +1,5 @@
-if [ -z "${HTTP_PORT}" ]
+if [ -z "${SERVICE_HTTP_PORT}" ]
 then
-    HTTP_PORT=3000
+    SERVICE_HTTP_PORT=3000
 fi
-pipenv run uvicorn main:app --reload --port=${HTTP_PORT}
+pipenv run uvicorn main:app --reload --port=${SERVICE_HTTP_PORT}

@@ -104,7 +104,7 @@ tasks:
 
  
   createService:
-    icon: 📦
+    icon: 🍄
     description: |
       Create service task
       You need to specify `location`, `task`, `type`, and `templates`. For example:
@@ -125,9 +125,6 @@ tasks:
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
         PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
         pipenv run python "${PYTHON_UTIL}/create_service.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service created{{ $d.Normal }}"
-        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "" "${PORTS}"
         echo 🎉🎉🎉
 
  

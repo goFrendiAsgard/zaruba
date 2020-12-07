@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List, Mapping, Any, Type, TypedDict
+import os
 
 
 EnvDict = TypedDict('envDict', {'from': str, 'default': str}, total=False)
@@ -182,3 +183,12 @@ class Task():
     
     def as_dict(self) -> TaskDict:
         return self._dict
+
+
+
+class Template():
+
+    def __init__(self, location: str, is_default: bool):
+        self.location = location
+        self.is_default = is_default
+

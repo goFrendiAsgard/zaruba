@@ -6,12 +6,12 @@ tasks:
     config:
       script: |
         pipenv install
-        pipenv run uvicorn main:app --reload --port={{ .GetEnv "HTTP_PORT" }}
+        pipenv run uvicorn main:app --reload --port={{ .GetEnv "SERVICE_HTTP_PORT" }}
     env:
       PIPENV_DONT_LOAD_ENV:
         from: PIPENV_DONT_LOAD_ENV
         default: 1
-      HTTP_PORT:
-        from: HTTP_PORT
+      SERVICE_HTTP_PORT:
+        from: SERVICE_HTTP_PORT
         default: 3000
   
