@@ -1,6 +1,6 @@
 from typing import List, Mapping, TypedDict
 from project.structures import Template
-from project.helpers import get_service_template, get_dict_from_file, save_dict_to_file, get_service_name_by_location
+from project.helpers import get_dict_from_file, replace_file_content, save_dict_to_file, get_service_name_by_location
 import os
 import shutil
 
@@ -18,10 +18,9 @@ class Link():
 
 class ServiceGen():
 
-    def __init__(self, template: Template, target_location: str, ports: List[str]):
+    def __init__(self, template: Template, target_location: str):
         config = get_dict_from_file(os.path.join(template.location, 'config.yaml'))
         self.target_location = target_location
-        self.ports = ports
         self.service_location = os.path.join(template.location, config.get('service', './service'))
         self.module_location = os.path.join(template.location, config.get('module', './module'))
         self.links: Mapping[str, Link] = {}
@@ -32,6 +31,12 @@ class ServiceGen():
                 link.get('source', ''),
                 link.get('destination', '')
             )
+        self.replace_dict = self.create_replace_dict()
+        self.ports: List[str] = []
+        ports: List[str] = config.get('ports', [])
+        for port in ports:
+            for key, val in self.replace_dict.items():
+                self.ports.append(port.replace(key, val))
     
 
     def generate_service(self):
@@ -43,25 +48,17 @@ class ServiceGen():
     
     def create_service(self):
         shutil.copytree(self.service_location, self.target_location)
-        replace_dict = {
-            'SERVICE': get_service_name_by_location(self.target_location),
-        }
-        template_port = 3000
-        for port in self.ports:
-            replace_dict[str(template_port)] = port
-            template_port += 1
         for root, dir_names, file_names in os.walk(os.path.abspath(self.target_location)):
             for file_name in file_names:
                 file_name = os.path.join(root, file_name)
-                f_read = open(file_name, 'r')
-                lines = f_read.readlines()
-                f_read.close()
-                for index, line in enumerate(lines):
-                    for key, val in replace_dict.items():
-                        lines[index] = line.replace(key, val)
-                f_write = open(file_name, 'w')
-                f_write.writelines(lines)
-                f_write.close()
+                replace_file_content(file_name, self.replace_dict)
+
+
+    def create_replace_dict(self) -> Mapping[str, str]:
+        replace_dict = {
+            'SERVICE': get_service_name_by_location(self.target_location).upper(),
+        }
+        return replace_dict
             
     
     def create_link(self):
@@ -80,9 +77,3 @@ class ServiceGen():
             kwargs['link::{}'.format(destination)] = source
         save_dict_to_file('default.kwargs.yaml', kwargs)
 
-
-
-def get_service_gen(template_path_list: List[str], service_type: str, service_location: str) -> ServiceGen:
-    template = get_service_template(template_path_list, service_type, service_location)
-    return ServiceGen(template)
-    

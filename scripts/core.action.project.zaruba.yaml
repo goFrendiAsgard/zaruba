@@ -109,7 +109,7 @@ tasks:
       Create service task
       You need to specify `location`, `task`, `type`, and `templates`. For example:
       ```sh
-      zaruba please addService  <location=./service> [type=python] [task=runService] [ports=port1,port2] [templates=templatePath1:templatePath2]
+      zaruba please createService <location=./service> [type=python] [task=runService] [templates=templatePath1:templatePath2]
       ```
     extend: core.runShellScript
     dependencies:

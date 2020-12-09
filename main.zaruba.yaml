@@ -118,11 +118,10 @@ tasks:
         ../zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock" prefix="fibo"
         ../zaruba please initSubrepos
         ../zaruba please pullSubrepos
+        ../zaruba please addService location=fibo
         ../zaruba please addDocker image=rabbitmq
         ../zaruba please createService type=fastapi
-        ../zaruba please addService location=fastapi
-        ../zaruba please addService location=fibo
-        ../zaruba please run
+        ../zaruba please run onComplete=stop
 
 
   install:

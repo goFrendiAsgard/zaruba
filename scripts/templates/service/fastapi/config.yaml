@@ -1,5 +1,7 @@
 service: ./service
 module: ./module
+ports:
+- SERVICE_HTTP_PORT
 links:
   ./transport:
     source: ./shared-libs/python/transport

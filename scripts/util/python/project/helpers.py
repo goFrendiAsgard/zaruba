@@ -146,3 +146,19 @@ def get_service_name_by_location(location: str) -> str:
 
 def get_task_name_by_location(location: str) -> str:
     return 'run{}'.format(get_sanitized_base_name(location).capitalize().replace(' ', ''))
+
+
+def get_container_name_by_image(image_name: str) -> str:
+    return get_service_name_by_location(image_name)
+
+
+def replace_file_content(file_name: str, replace_dict: Mapping[str, str]):
+    f_read = open(file_name, 'r')
+    lines = f_read.readlines()
+    f_read.close()
+    for index, line in enumerate(lines):
+        for key, val in replace_dict.items():
+            lines[index] = line.replace(key, val)
+    f_write = open(file_name, 'w')
+    f_write.writelines(lines)
+    f_write.close()

@@ -1,6 +1,5 @@
-from typing import Any, List
+from typing import List
 import sys
-import re
 import traceback
 
 import project
@@ -9,39 +8,19 @@ import project
 # USAGE
 # python create_docker_task.py <image> <container> <task>
 
-def create_docker_task(template_path_list: List[str], image: str, container: str, task_name: str):
+def create_docker_task(template_path_list: List[str], image_name: str, container_name: str, task_name: str):
     try:
-        image = image if image != '' else 'nginx'
-        container = container if container != '' else get_default_container_name(image)
-        task_name = task_name if task_name != '' else 'run{}'.format(container.capitalize())
-        project.create_dir('zaruba-tasks')
-        task_file_name = project.get_task_file_name(task_name)
-        template = project.get_docker_task_template(template_path_list, image)
-        template_dict = project.get_dict_from_file(template.location)
-        create_docker_task_file(task_file_name, task_name, container, image, template.is_default, template_dict)
-        print('Task {} ({}) is created successfully'.format(task_name, task_file_name))
-        project.add_to_main_include(task_file_name)
-        project.add_to_main_task(task_name)
+        image_name = image_name if image_name != '' else 'nginx'
+        container_name = container_name if container_name != '' else project.get_container_name_by_image(image_name)
+        task_name = task_name if task_name != '' else 'run{}'.format(container_name.capitalize())
+        template = project.get_docker_task_template(template_path_list, image_name)
+        gen = project.DockerTaskGen(template, task_name, image_name, container_name)
+        gen.generate_docker_task()
+        print('Task {} is created successfully'.format(task_name))
     except Exception as e:
         print(e)
         traceback.print_exc()
         sys.exit(1)
-
-
-def get_default_container_name(image: str) -> str:
-    capitalized_alphanum = re.sub(r'[^A-Za-z0-9]+', ' ', image).capitalize()
-    return capitalized_alphanum.replace(' ', '')
-
-
-def create_docker_task_file(task_file_name: str, task_name: str, container: str, image: str, should_override_image: bool, template_obj: Any):
-    task = project.Task(template_obj['tasks']['runContainer'])
-    task.set_config('containerName', container)
-    if should_override_image:
-        task.set_config('imageName', image)
-    project_dict = {'tasks': {task_name: task.as_dict()}}
-    project.save_dict_to_file(task_file_name, project_dict)
-    project.write_task_env('.env', task)
-    project.write_task_env('template.env', task)
 
 
 if __name__ == '__main__':

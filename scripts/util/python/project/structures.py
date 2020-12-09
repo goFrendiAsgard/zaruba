@@ -1,6 +1,5 @@
 from __future__ import annotations
-from typing import List, Mapping, Any, Type, TypedDict
-import os
+from typing import List, Mapping, TypedDict
 
 
 EnvDict = TypedDict('envDict', {'from': str, 'default': str}, total=False)
@@ -15,6 +14,10 @@ class TaskDict(TypedDict, total=False):
     env: EnvDict
     config: Mapping[str, str]
     lconfig: Mapping[str, List[str]]
+    start: List[str]
+    check: list[str]
+    private: bool
+    timeout: str
 
 
 
@@ -137,13 +140,26 @@ class Task():
         self._dict['config'][key] = val
         return self
 
- 
-    def add_lconfig(self, key: str, *vals: str) -> Task:
+    
+    def init_lconfig(self, key: str) -> Task:
         if 'lconfig'not in self._dict:
             self._dict['lconfig'] = {}
         if key not in self._dict['lconfig']:
             self._dict['lconfig'][key] = []
+
+ 
+    def add_lconfig(self, key: str, *vals: str) -> Task:
+        self.init_lconfig(key)
         for val in vals:
+            self._dict['lconfig'][key].append(val)
+        return self
+
+ 
+    def add_unique_lconfig(self, key: str, *vals: str) -> Task:
+        self.init_lconfig(key)
+        for val in vals:
+            if val in self._dict['lconfig'][key]:
+                continue
             self._dict['lconfig'][key].append(val)
         return self
     
@@ -153,9 +169,9 @@ class Task():
         if port == '':
             return self
         if port.isnumeric():
-            self.add_lconfig('ports', port)
+            self.add_unique_lconfig('ports', port)
             return self
-        self.add_lconfig(
+        self.add_unique_lconfig(
             'ports', 
             '{open_template} .GetEnv "{env_name}" {close_template}'.format(
                 open_template='{{', 
@@ -176,7 +192,7 @@ class Task():
         ports: List[str] = []
         for key, env in self.get_all_env().items():
             val = env.get_default()
-            if val.isnumeric() and (int(val) == 80 or int(val) >= 3000):
+            if val.isnumeric() and (int(val) == 80 or int(val) == 443 or int(val) >= 3000):
                 ports.append(key)
         return ports
 
