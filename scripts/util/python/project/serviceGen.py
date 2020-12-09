@@ -37,6 +37,7 @@ class ServiceGen():
         for port in ports:
             for key, val in self.replace_dict.items():
                 self.ports.append(port.replace(key, val))
+        self.dependencies: List[str] = config.get('dependencies', [])
     
 
     def generate_service(self):
