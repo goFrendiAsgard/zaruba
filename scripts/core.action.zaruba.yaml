@@ -30,5 +30,5 @@ tasks:
         echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
         go build
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready !!!{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
