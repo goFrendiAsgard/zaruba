@@ -77,16 +77,47 @@ def save_dict_to_file(file_name: str, dictionary: Mapping[str, Any]):
     f.close()
 
 
-def write_task_env(file_name: str, task: Task):
-    f = open(file_name, 'a')
-    f.write('\n')
+def get_existing_envvars(file_name: str) -> List[str]:
+    if not os.path.isfile(file_name):
+        return []
+    f_read = open(file_name, 'r')
+    lines = f_read.readlines()
+    f_read.close()
+    existing_envvars = []
+    for line in lines:
+        if line.startswith('#'):
+            continue
+        if line.startswith('export '):
+            line = line.lstrip('export ')
+        pair = line.split('=')
+        if len(pair) > 1:
+            existing_envvars.append(pair[0].strip())
+    return existing_envvars
+
+
+def write_task_env_to_file(file_name: str, task: Task):
+    existing_envvars = get_existing_envvars(file_name)
+    is_first_writing = True
+    f_write = open(file_name, 'a')
     for _, env in task.get_all_env().items():
         envvar = env.get_from()
-        if envvar == '':
+        if envvar == '' or envvar in existing_envvars:
             continue
         value = env.get_default()
-        f.write('{}={}\n'.format(envvar, value))
-    f.close()
+        if is_first_writing:
+            is_first_writing = False
+            f_write.write('\n')
+        f_write.write('{}={}\n'.format(envvar, value))
+    f_write.close()
+
+
+def write_task_env(dir_name: str, task: Task):
+    env_file_names = [os.path.join(dir_name, f) for f in os.listdir(dir_name) if os.path.isfile(os.path.join(dir_name, f)) and f.endswith('.env')]
+    default_file_name = os.path.join(dir_name, '.env')
+    if default_file_name not in env_file_names:
+        env_file_names.append(default_file_name)
+    for file_name in env_file_names:
+        write_task_env_to_file(file_name, task)
 
 
 def get_default_template_location() -> str:

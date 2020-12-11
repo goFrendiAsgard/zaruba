@@ -44,8 +44,7 @@ class ServiceTaskGen():
         save_dict_to_file(self.task_file_name, project_dict)
         replace_dict = self.create_replace_dict()
         replace_file_content(self.task_file_name, replace_dict)
-        write_task_env('.env', task)
-        write_task_env('template.env', task)
+        write_task_env('.', task)
 
     
     def load_task(self) -> Task:

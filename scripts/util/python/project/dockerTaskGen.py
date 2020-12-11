@@ -24,8 +24,7 @@ class DockerTaskGen():
         task = self.load_task()
         project_dict = {'tasks': {self.task_name: task.as_dict()}}
         save_dict_to_file(self.task_file_name, project_dict)
-        write_task_env('.env', task)
-        write_task_env('template.env', task)
+        write_task_env('.', task)
 
     
     def load_task(self) -> Task:
