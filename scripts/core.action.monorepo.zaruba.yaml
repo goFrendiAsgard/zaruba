@@ -42,6 +42,7 @@ tasks:
       script: |
         {{ $d := .Decoration -}}
         set -e
+        sh ${UTIL}/py_install.sh
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
@@ -93,6 +94,7 @@ tasks:
       script: |
         {{ $d := .Decoration -}}
         set -e
+        sh ${UTIL}/py_install.sh
         {{ if not .Kwargs.url }}
           echo "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}" 1>&2
           exit 1
@@ -126,6 +128,7 @@ tasks:
       script: |
         {{ $d := .Decoration -}}
         set -e
+        sh ${UTIL}/py_install.sh
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}

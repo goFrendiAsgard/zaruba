@@ -55,6 +55,7 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         fi
 
+        sh ${UTIL}/py_install.sh
         CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${UTIL}/py.sh" get_segment "${HOME}" / -1){{ end }}
         if [ -d "${HOME}/.nvm" ]
         then
