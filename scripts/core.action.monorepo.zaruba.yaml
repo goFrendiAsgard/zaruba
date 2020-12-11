@@ -38,11 +38,9 @@ tasks:
     dependencies:
       - core.checkIsValidProject
       - core.isValidSubrepos
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
@@ -52,27 +50,27 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git remote set-url "${NAME}" "${URL}"
           elif [ $ORIGIN_EXISTS = 0 ]
           then
             echo "$NAME origin is not exist"
-            sh "${SH_UTIL}/git_save.sh" "Save works before pulling from ${URL}"
+            sh "${UTIL}/git_save.sh" "Save works before pulling from ${URL}"
             PREFIX_EXISTS=0
             if [ -d "$PREFIX" ]
             then
               PREFIX_EXISTS=1
               mv "${PREFIX}" "${PREFIX}.bak"
-              sh "${SH_UTIL}/git_save.sh" "Temporarily move ${PREFIX}"
+              sh "${UTIL}/git_save.sh" "Temporarily move ${PREFIX}"
             fi
-            sh "${SH_UTIL}/git_init_subrepo.sh" "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
+            sh "${UTIL}/git_init_subrepo.sh" "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
             if [ $PREFIX_EXISTS = 1 ]
             then
               rm -Rf "${PREFIX}"
               mv "${PREFIX}.bak" "${PREFIX}"
-              sh "${SH_UTIL}/git_save.sh" "Restore ${PREFIX}"
+              sh "${UTIL}/git_save.sh" "Restore ${PREFIX}"
             fi
           fi
         {{ end -}}
@@ -91,11 +89,9 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ if not .Kwargs.url }}
           echo "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}" 1>&2
@@ -103,8 +99,8 @@ tasks:
         {{ end }}
         URL="{{ .Kwargs.url }}"
         {{ if not .Kwargs.prefix }}
-          PREFIX=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${URL}" "/" "-1")
-          PREFIX=$(pipenv run python "${PYTHON_UTIL}/get_segment.py" "${PREFIX}" "." "0")
+          PREFIX=$(sh "${UTIL}/py.sh" get_segment "${URL}" "/" "-1")
+          PREFIX=$(sh "${UTIL}/py.sh" get_segment "${PREFIX}" "." "0")
         {{ else }}
           PREFIX="{{ .Kwargs.prefix }}"
         {{ end }}
@@ -113,8 +109,8 @@ tasks:
         {{ else }}
           NAME="{{ .Kwargs.name }}"
         {{ end }}
-        pipenv run python "${PYTHON_UTIL}/set_project_kwarg.py" "subrepo::${NAME}::prefix" "${PREFIX}"
-        pipenv run python "${PYTHON_UTIL}/set_project_kwarg.py" "subrepo::${NAME}::url" "${URL}"
+        sh "${UTIL}/py.sh" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
+        sh "${UTIL}/py.sh" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
@@ -126,11 +122,9 @@ tasks:
     dependencies:
       - initSubrepos
       - updateLinks
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
@@ -140,10 +134,10 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            sh "${SH_UTIL}/git_save.sh" "Save works before push"
+            sh "${UTIL}/git_save.sh" "Save works before push"
             git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
@@ -157,11 +151,9 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - initSubrepos
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
@@ -171,10 +163,10 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(pipenv run python "${PYTHON_UTIL}/is_in_array.py" "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            sh "${SH_UTIL}/git_save.sh" "Save works before pull"
+            sh "${UTIL}/git_save.sh" "Save works before pull"
             git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}

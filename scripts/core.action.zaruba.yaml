@@ -32,13 +32,3 @@ tasks:
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready !!!{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
-
-  
-  core.setupPythonUtil:
-    icon: 🐍
-    private: true
-    extend: core.runShellScript
-    config:
-      script: |
-        cd "${ZARUBA_HOME}/scripts/util/python"
-        pipenv install

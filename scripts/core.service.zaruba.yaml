@@ -36,7 +36,7 @@ tasks:
       - "{{ .Config.shellArg }}"
       - |
         SCRIPT_PATH="${ZARUBA_HOME}/scripts"
-        SH_UTIL="${SCRIPT_PATH}/util/sh"
+        UTIL="${SCRIPT_PATH}/util/sh"
         {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
         {{ .Config.script }}
         {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
@@ -46,7 +46,7 @@ tasks:
       - |
         {{ $d := .Decoration -}}
         SCRIPT_PATH="${ZARUBA_HOME}/scripts"
-        SH_UTIL="${SCRIPT_PATH}/util/sh"
+        UTIL="${SCRIPT_PATH}/util/sh"
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
         set -e
         {{ range $index, $port := .LConfig.ports -}}

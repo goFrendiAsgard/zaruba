@@ -6,7 +6,7 @@ tasks:
     config:
       script: |
         pipenv install
-        MAIN_SCRIPT=$(sh "${SH_UTIL}/get_python_main_script.sh")
+        MAIN_SCRIPT=$(sh "${UTIL}/get_python_main_script.sh")
         pipenv run python ${MAIN_SCRIPT}
     env:
       PIPENV_DONT_LOAD_ENV:

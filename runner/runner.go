@@ -166,7 +166,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 	for {
 		r.sleep(1 * time.Microsecond)
 		if r.getKilledSignal() {
-			ch <- fmt.Errorf("Teriminated")
+			ch <- fmt.Errorf("Terminated")
 			return
 		}
 		r.CmdInfoMutex.Lock()

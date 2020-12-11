@@ -303,7 +303,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *Tas
 			logger.Printf("%s %s\n", prefix, content)
 		}
 		if !logless {
-			go task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content, taskData.task.FunkyName)
+			task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content, taskData.task.FunkyName)
 		}
 	}
 }

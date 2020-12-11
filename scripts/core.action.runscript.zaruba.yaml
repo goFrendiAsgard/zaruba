@@ -22,8 +22,7 @@ tasks:
       - "{{ .Config.argument }}"
       - |
         SCRIPT_PATH="${ZARUBA_HOME}/scripts"
-        SH_UTIL="${SCRIPT_PATH}/util/sh"
-        PYTHON_UTIL="${SCRIPT_PATH}/util/python"
+        UTIL="${SCRIPT_PATH}/util/sh"
         {{ .Config.script }}
 
  

@@ -61,17 +61,15 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
         CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/create_docker_task.py" "${TEMPLATES}" "${IMAGE}" "${CONTAINER}" "${TASK}"
+        sh "${UTIL}/py.sh" create_docker_task "${TEMPLATES}" "${IMAGE}" "${CONTAINER}" "${TASK}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
   
@@ -87,18 +85,16 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
         PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/create_service_task.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
+        sh "${UTIL}/py.sh" create_service_task "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -114,17 +110,15 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
-      - core.setupPythonUtil
     config:
       script: |
         {{ $d := .Decoration -}}
-        export PIPENV_PIPFILE="${PYTHON_UTIL}/Pipfile"
         set -e
         TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
         PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/create_service.py" "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
+        sh "${UTIL}/py.sh" create_service "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
         echo 🎉🎉🎉
 
  
@@ -150,7 +144,7 @@ tasks:
           {{ $source := $kwargs.GetValue "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}
           {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
-          sh "${SH_UTIL}/update_link.sh" "{{ $absSource }}" "{{ $absDestination }}"
+          sh "${UTIL}/update_link.sh" "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
@@ -176,8 +170,6 @@ tasks:
       zaruba please showLog
       zaruba please showLog task="test.*"
       ```
-    dependencies:
-      - core.setupPythonUtil
     logless: true
     config:
       script: |
@@ -187,4 +179,4 @@ tasks:
           exit 1
         fi
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}.*{{ end }}"
-        pipenv run python "${PYTHON_UTIL}/show_log.py" "log.zaruba.csv" "${TASK}"
+        sh "${UTIL}/py.sh" show_log "log.zaruba.csv" "${TASK}"
