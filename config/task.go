@@ -31,6 +31,7 @@ type Task struct {
 	Dependencies    []string              `yaml:"dependencies,omitempty"`
 	Description     string                `yaml:"description,omitempty"`
 	Icon            string                `yaml:"icon,omitempty"`
+	Logless         bool                  `yaml:"logless,omitempty"`
 	FileLocation    string
 	Project         *ProjectConfig
 	BasePath        string
@@ -293,6 +294,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *Tas
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, taskData.task.FunkyName)
+	logless := taskData.task.Logless
 	for buf.Scan() {
 		content := buf.Text()
 		if logType == "ERR" {
@@ -300,7 +302,9 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *Tas
 		} else {
 			logger.Printf("%s %s\n", prefix, content)
 		}
-		go task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content)
+		if !logless {
+			go task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content, taskData.task.FunkyName)
+		}
 	}
 }
 

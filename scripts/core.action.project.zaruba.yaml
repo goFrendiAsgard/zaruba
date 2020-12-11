@@ -164,3 +164,27 @@ tasks:
         {{ $d := .Decoration -}}
         rm -Rf log.zaruba.csv
         echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+  
+
+  showLog:
+    icon: 🔎
+    extend: core.runShellScript
+    description: |
+      Show log for all/particular tasks using regex
+      Usage:
+      ```sh
+      zaruba please showLog
+      zaruba please showLog task="test.*"
+      ```
+    dependencies:
+      - core.setupPythonUtil
+    logless: true
+    config:
+      script: |
+        if [ ! -f log.zaruba.csv ]
+        then
+          echo "Log is not exist" 1>&2
+          exit 1
+        fi
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}.*{{ end }}"
+        pipenv run python "${PYTHON_UTIL}/show_log.py" "log.zaruba.csv" "${TASK}"

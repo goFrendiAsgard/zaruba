@@ -6,7 +6,7 @@ import project
 
 
 # USAGE
-# python create_service.py <image> <container> <task>
+# python create_service.py <template_path_list> <location> <service>
 
 def create_service(template_path_list: List[str], target_location: str, service_type: str):
     try:
