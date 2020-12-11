@@ -61,11 +61,11 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
+      - core.setupPyUtil
     config:
       script: |
         {{ $d := .Decoration -}}
         set -e
-        sh ${UTIL}/py_install.sh
         TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
         CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
@@ -86,11 +86,11 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
+      - core.setupPyUtil
     config:
       script: |
         {{ $d := .Decoration -}}
         set -e
-        sh ${UTIL}/py_install.sh
         TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
@@ -112,11 +112,11 @@ tasks:
     extend: core.runShellScript
     dependencies:
       - core.checkIsValidProject
+      - core.setupPyUtil
     config:
       script: |
         {{ $d := .Decoration -}}
         set -e
-        sh ${UTIL}/py_install.sh
         TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
         TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
@@ -173,10 +173,11 @@ tasks:
       zaruba please showLog
       zaruba please showLog task="test.*"
       ```
+    dependencies:
+    - core.setupPyUtil
     logless: true
     config:
       script: |
-        sh ${UTIL}/py_install.sh
         if [ ! -f log.zaruba.csv ]
         then
           echo "Log is not exist" 1>&2

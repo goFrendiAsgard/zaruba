@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"ruamel.yaml" = "*"
-python-dotenv = "*"
+"ruamel.yaml" = "0.16.2"
+python-dotenv = "0.15.0"
 
 [dev-packages]
 
