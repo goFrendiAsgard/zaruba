@@ -35,25 +35,6 @@ func setupValidProjectConfig(t *testing.T) (err error) {
 	return err
 }
 
-func TestValidProjectConfigGetPublishedTasks(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
-		return
-	}
-	publishedTaskNames := []string{"runApiGateway", "runIntegrationTest", "serveStaticFiles", "sayPythonHello"}
-	privateTaskNames := []string{"core.runShellScript", "core.runBashScript", "core.runPythonScript", "core.runNodeJsScript", "core.runStaticWebService", "core.runNodeJsService"}
-	publishedTasks := validConf.GetPublishedTask()
-	for _, publishedTaskName := range publishedTaskNames {
-		if _, exists := publishedTasks[publishedTaskName]; !exists {
-			t.Errorf("Task %s should be published", publishedTaskName)
-		}
-	}
-	for _, privateTaskName := range privateTaskNames {
-		if _, exists := publishedTasks[privateTaskName]; exists {
-			t.Errorf("Task %s should be private", privateTaskName)
-		}
-	}
-}
-
 func TestValidProjectConfigAddGlobalEnv(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return

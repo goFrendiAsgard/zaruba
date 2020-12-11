@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 
@@ -47,67 +48,82 @@ var pleaseCmd = &cobra.Command{
 				conf.AddKwargs(arg)
 				continue
 			}
+			_, argIsTask := conf.Tasks[arg]
+			if !argIsTask {
+				if arg == "autostop" {
+					conf.AddKwargs("onComplete=stop")
+					continue
+				}
+			}
 			taskNames = append(taskNames, arg)
 		}
 		// init
+		d := logger.NewDecoration()
 		if err = conf.Init(); err != nil {
-			fmt.Println(err)
-			return
+			logger.PrintfError("%s%s%s%s\n", d.Bold, d.Red, err.Error(), d.Normal)
+			os.Exit(1)
 		}
 		// handle special cases
-		if handleSpecialCases(conf, taskNames) {
+		if handleShowTask(conf, taskNames) {
 			return
 		}
 		// run
 		r := runner.NewRunner(conf, taskNames, time.Minute*5)
 		if err := r.Run(); err != nil {
-			fmt.Println(err)
+			logger.PrintfError("%s%s%s%s\n", d.Bold, d.Red, err.Error(), d.Normal)
 			os.Exit(1)
 		}
 	},
 }
 
-func handleSpecialCases(conf *config.ProjectConfig, taskNames []string) (handled bool) {
+func handleShowTask(conf *config.ProjectConfig, taskNames []string) (handled bool) {
 	d := logger.NewDecoration()
 	// special case: task is not given
 	if len(taskNames) == 0 {
 		logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
 		logger.Printf("Here are some possible tasks you can execute:\n")
-		showTasks(conf, true)
+		totalMatched := showTasks(conf, true, getRegexSearchPattern(""))
+		showSearchFooter(totalMatched, "")
 		return true
 	}
-	if len(taskNames) > 1 {
+	taskName, keyword := taskNames[0], strings.Join(taskNames[1:], " ")
+	_, taskDeclared := conf.Tasks[taskName]
+	if taskDeclared || taskName != "explain" {
 		return false
 	}
-	taskName := taskNames[0]
-	_, taskIsDeclaredByUser := conf.Tasks[taskName]
-	if taskIsDeclaredByUser {
-		return false
+	r := getRegexSearchPattern(keyword)
+	published, publishExist := conf.Kwargs["published"]
+	totalMatched := 0
+	if !publishExist || published == "false" {
+		totalMatched += showTasks(conf, false, r)
 	}
-	specialTasks := map[string](func()){
-		"showTasks": func() {
-			fmt.Printf("\n%s%s%s\n", d.Bold, "PUBLISHED TASKS", d.Normal)
-			showTasks(conf, true)
-			fmt.Printf("\n%s%s%s\n", d.Bold, "UNPUBLISHED TASKS", d.Normal)
-			showTasks(conf, false)
-		},
-		"showPublishedTasks": func() {
-			showTasks(conf, true)
-		},
-		"showUnpublishedTasks": func() {
-			showTasks(conf, false)
-		},
+	if !publishExist || published == "true" {
+		totalMatched += showTasks(conf, true, r)
 	}
-	action, taskIsSpecial := specialTasks[taskName]
-	if !taskIsSpecial {
-		return false
-	}
-	// special case: task is given, it is special task, and no other tasks exist
-	action()
+	showSearchFooter(totalMatched, keyword)
 	return true
 }
 
-func showTasks(conf *config.ProjectConfig, showPublished bool) {
+func showSearchFooter(totalMatched int, keyword string) {
+	d := logger.NewDecoration()
+	logger.Printf("%d task(s) matched '%s' keyword.\n", totalMatched, keyword)
+	logger.Printf("You can also use %s%szaruba please explain <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
+}
+
+func getRegexSearchPattern(searchPattern string) (r *regexp.Regexp) {
+	if searchPattern == "" {
+		r, _ = regexp.Compile(".*")
+		return r
+	}
+	r, err := regexp.Compile("(?i)" + searchPattern)
+	if err != nil {
+		logger.PrintfError("Invalid regex: %s\n", searchPattern)
+		r, _ = regexp.Compile(".*")
+	}
+	return r
+}
+
+func showTasks(conf *config.ProjectConfig, showPublished bool, r *regexp.Regexp) (totalMatch int) {
 	d := logger.NewDecoration()
 	taskIndentation := strings.Repeat(" ", 6)
 	taskFieldIndentation := taskIndentation + strings.Repeat(" ", 5)
@@ -115,15 +131,21 @@ func showTasks(conf *config.ProjectConfig, showPublished bool) {
 	if showPublished {
 		taskPrefix = "zaruba please "
 	}
-	publishedTask := conf.GetPublishedTask()
 	for _, taskName := range conf.SortedTaskNames {
-		if _, exist := publishedTask[taskName]; (exist && showPublished) || (!exist && !showPublished) {
-			task := conf.Tasks[taskName]
-			fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, taskPrefix, d.Bold, task.Name, d.Normal)
-			fmt.Printf("%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, task.FileLocation, d.Normal)
-			showTaskDescription(task, taskFieldIndentation)
+		task := conf.Tasks[taskName]
+		if (task.Private && showPublished) || (!task.Private && !showPublished) {
+			continue
 		}
+		if !r.MatchString(taskName) {
+			continue
+		}
+		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, taskPrefix, d.Bold, task.Name, d.Normal)
+		fmt.Printf("%s%sPUBLISHED  :%s%s %t%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, !task.Private, d.Normal)
+		fmt.Printf("%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, task.FileLocation, d.Normal)
+		showTaskDescription(task, taskFieldIndentation)
+		totalMatch++
 	}
+	return totalMatch
 }
 
 func showTaskDescription(task *config.Task, fieldIndentation string) {

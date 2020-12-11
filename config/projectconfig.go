@@ -117,17 +117,6 @@ func (conf *ProjectConfig) GetName() (name string) {
 	return filepath.Base(filepath.Dir(conf.FileLocation))
 }
 
-// GetPublishedTask get all published task
-func (conf *ProjectConfig) GetPublishedTask() (publishedTasks map[string]*Task) {
-	publishedTasks = map[string]*Task{}
-	for taskName, task := range conf.Tasks {
-		if !task.Private {
-			publishedTasks[taskName] = task
-		}
-	}
-	return publishedTasks
-}
-
 // AddGlobalEnv add global environment for a projectConfig
 func (conf *ProjectConfig) AddGlobalEnv(pairOrFile string) {
 	pairParts := strings.SplitN(pairOrFile, "=", 2)
