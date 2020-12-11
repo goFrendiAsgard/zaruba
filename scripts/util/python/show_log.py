@@ -30,7 +30,7 @@ def show_log(log_file: str, pattern: str):
 
 
 if __name__ == '__main__':
-    log_file = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] != '' > 1 else 'log.zaruba.csv'
+    log_file = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] != '' else 'log.zaruba.csv'
     pattern = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2] != '' else '.*'
     show_log(log_file, pattern)
 
