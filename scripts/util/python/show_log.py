@@ -2,6 +2,7 @@ import sys
 import re
 import csv
 import traceback
+import time
 
 # USAGE
 # python create_service.py <log_file> <task>
@@ -10,17 +11,16 @@ def show_log(log_file: str, pattern: str):
     try:
         f = open(log_file, 'r')
         csv_reader = csv.reader(f, delimiter=',', quotechar='"')
+        matched_dict = {}
         for row in csv_reader:
-            if not re.match(pattern, row[3]):
+            if row[3] not in matched_dict:
+                matched_dict[row[3]] = re.match(pattern, row[3])
+            if not matched_dict[row[3]]:
                 continue
-            timestamp = row[0]
+            timestamp, task, log = row[0][:23], row[3], row[4]
             output_type_icon = "🔥" if row[1] == "ERR" else "  "
             command_type_icon = "🚀" if row[2] == "START" else "🔎"
-            task = row[3]
-            log = row[4]
             funkyName = row[5] if len(row) > 5 else task
-            timestamp_parts = timestamp.split(' ')
-            timestamp = ' '.join([timestamp_parts[0], timestamp_parts[1]]).ljust(27)
             print(' '.join([timestamp, output_type_icon, command_type_icon, funkyName, log]))
         f.close()
     except Exception as e:

@@ -295,13 +295,13 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *Tas
 	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, taskData.task.FunkyName)
 	logless := taskData.task.Logless
+	print := logger.Printf
+	if logType == "ERR" {
+		print = logger.PrintfError
+	}
 	for buf.Scan() {
 		content := buf.Text()
-		if logType == "ERR" {
-			logger.PrintfError("%s %s\n", prefix, content)
-		} else {
-			logger.Printf("%s %s\n", prefix, content)
-		}
+		print("%s %s\n", prefix, content)
 		if !logless {
 			task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content, taskData.task.FunkyName)
 		}
