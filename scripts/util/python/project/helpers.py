@@ -156,9 +156,10 @@ def adjust_task_env(task: Task, task_file_name: str) -> Task:
             continue
         raw_env_dict: Mapping[str, str] = dotenv_values(env_path)
         for env_key, env_value in raw_env_dict.items():
-            env_from = get_task_env_name(location, env_key)
             env = task.get_env(env_key)
-            env.set_from(env_from)
+            if not env.get_from():
+                env_from = get_task_env_name(location, env_key)
+                env.set_from(env_from)
             if not env.get_default():
                 env.set_default(env_value)
             task.set_env(env_key, env, env_value)
