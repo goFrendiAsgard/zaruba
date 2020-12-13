@@ -7,9 +7,9 @@ tasks:
       evalParam: "-c"
       script: 'echo "hello world"'
     start:
-      - "{{ .Config.cmd }}"
-      - "{{ .Config.evalParam }}"
-      - "{{ .Config.script }}"
+    - "{{ .Config.cmd }}"
+    - "{{ .Config.evalParam }}"
+    - "{{ .Config.script }}"
     
   core.runBashScript:
     private: true

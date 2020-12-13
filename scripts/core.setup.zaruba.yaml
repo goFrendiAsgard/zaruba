@@ -9,7 +9,7 @@ tasks:
       runTask:
         extend: core.runCoreScript
         dependencies: 
-          - core.setupPyUtil
+        - core.setupPyUtil
         config:
           start: |
             sh ${UTIL}/py.sh "show_log"
@@ -31,10 +31,10 @@ tasks:
         sudo -E zaruba please user=<user> home=<home>
     extend: core.runCoreScript
     dependencies:
-      - core.ubuntu.setup
-      - core.ubuntu.setupDocker
-      - core.ubuntu.setupNvm
-      - core.ubuntu.setupPipenv
+    - core.ubuntu.setup
+    - core.ubuntu.setupDocker
+    - core.ubuntu.setupNvm
+    - core.ubuntu.setupPipenv
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -75,7 +75,7 @@ tasks:
     icon: 🔨
     extend: core.runCoreScript
     dependencies:
-      - core.ubuntu.setup
+    - core.ubuntu.setup
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -92,7 +92,7 @@ tasks:
     icon: 🔨
     extend: core.runCoreScript
     dependencies:
-      - core.ubuntu.setup
+    - core.ubuntu.setup
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -109,8 +109,8 @@ tasks:
     icon: 🔨
     extend: core.runCoreScript
     dependencies:
-      - core.ubuntu.setup
-      - core.ubuntu.setupPipenv
+    - core.ubuntu.setup
+    - core.ubuntu.setupPipenv
     config:
       start: |
         {{ $d := .Decoration -}}

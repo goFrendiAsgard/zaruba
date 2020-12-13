@@ -113,10 +113,11 @@ class Task():
         return self     
 
 
-    def set_env(self, key: str, env: Env) -> Task:
-        if 'env' not in self._dict:
-            self._dict['env'] = {}
-        self._dict['env'][key] = env.as_dict()
+    def set_env(self, key: str, env: Env, override: bool=True) -> Task:
+        if override or ('env' not in self._dict) or (key not in self._dict['env']):
+            if 'env' not in self._dict:
+                self._dict['env'] = {}
+            self._dict['env'][key] = env.as_dict()
         return self
 
     
@@ -186,14 +187,23 @@ class Task():
         for port in ports:
             self.add_lconfig_port(port)
         return self
+    
 
+    def get_location(self) -> str:
+        if 'location' in self._dict:
+            return self._dict['location']
+        return ''
+    
 
     def get_possible_ports(self) -> List[str]:
         ports: List[str] = []
         for key, env in self.get_all_env().items():
             val = env.get_default()
-            if val.isnumeric() and (int(val) == 80 or int(val) == 443 or int(val) >= 3000):
-                ports.append(key)
+            if val.isnumeric():
+                if int(val) in [3306, 5432, 5672, 15672, 27017, 6379, 9200, 9300, 7001, 7199, 9042, 9160]:
+                    continue
+                if int(val) in [80, 443] or int(val) >= 3000:
+                    ports.append(key)
         return ports
 
     

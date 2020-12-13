@@ -10,4 +10,4 @@ tasks:
         default: 8080
     lconfig:
       ports:
-        - '{{ .GetEnv "HTTP_PORT" }}'
+      - '{{ .GetEnv "HTTP_PORT" }}'

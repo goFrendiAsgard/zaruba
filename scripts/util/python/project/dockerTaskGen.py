@@ -1,5 +1,5 @@
 from project.structures import Template, Task, Env
-from project.helpers import add_to_main_include, add_to_main_task, create_dir, get_dict_from_file, get_task_file_name, save_dict_to_file, write_task_env
+from project.helpers import add_to_main_include, add_to_main_task, create_dir, get_dict_from_file, get_generated_task_file_name, save_dict_to_file, write_task_env
 
 
 class DockerTaskGen():
@@ -10,7 +10,7 @@ class DockerTaskGen():
         self.container_name = container_name
         self.task_name = task_name
         self.template_dict = get_dict_from_file(template.location)
-        self.task_file_name = get_task_file_name(self.task_name)
+        self.task_file_name = get_generated_task_file_name(self.task_name)
 
     
     def generate_docker_task(self):

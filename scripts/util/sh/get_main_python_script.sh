@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # USAGE
-# /bin/sh get_python_main_script.sh
+# /bin/sh get_main_python_script.sh
 
 if [ -f __main__.py ]
 then

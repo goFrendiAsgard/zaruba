@@ -1,7 +1,9 @@
 from typing import Mapping, Any, List
 import re
 import os
-from project.structures import Task, ProjectDict, Template
+
+from dotenv import dotenv_values
+from project.structures import Task, ProjectDict, Template, Env
 from ruamel.yaml import YAML
 
 
@@ -50,11 +52,11 @@ def get_main_file_name() -> str:
     return main_file_name
 
 
-def get_task_file_name(task_name: str) -> str:
-    task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task_name))
-    if os.path.isfile(task_file_name):
-        raise Exception('{} already exists'.format(task_file_name))
-    return task_file_name
+def get_generated_task_file_name(task_name: str) -> str:
+    generated_task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task_name))
+    if os.path.isfile(generated_task_file_name):
+        raise Exception('{} already exists'.format(generated_task_file_name))
+    return generated_task_file_name
 
 
 def create_dir(dirname: str):
@@ -77,26 +79,8 @@ def save_dict_to_file(file_name: str, dictionary: Mapping[str, Any]):
     f.close()
 
 
-def get_existing_envvars(file_name: str) -> List[str]:
-    if not os.path.isfile(file_name):
-        return []
-    f_read = open(file_name, 'r')
-    lines = f_read.readlines()
-    f_read.close()
-    existing_envvars = []
-    for line in lines:
-        if line.startswith('#'):
-            continue
-        if line.startswith('export '):
-            line = line.lstrip('export ')
-        pair = line.split('=')
-        if len(pair) > 1:
-            existing_envvars.append(pair[0].strip())
-    return existing_envvars
-
-
 def write_task_env_to_file(file_name: str, task: Task):
-    existing_envvars = get_existing_envvars(file_name)
+    existing_envvars: Mapping[str, str] = dotenv_values(file_name) if os.path.isfile(file_name) else {}
     is_first_writing = True
     f_write = open(file_name, 'a')
     for _, env in task.get_all_env().items():
@@ -168,6 +152,30 @@ def get_sanitized_base_name(location: str) -> str:
 
 def get_env_prefix_by_location(location: str) -> str:
     return get_sanitized_base_name(location).upper().replace(' ', '_')
+
+
+def get_task_env_name(location: str, raw_env_name: str) -> str:
+    upper_env_name = raw_env_name.upper()
+    env_prefix = get_env_prefix_by_location(location)
+    if upper_env_name.startswith(env_prefix):
+        return upper_env_name
+    return '_'.join([env_prefix, upper_env_name])
+
+
+def adjust_task_env(task: Task, task_file_name: str, override: bool = True) -> Task:
+    location = task.get_location() if os.path.isabs(task.get_location()) else os.path.join(os.path.dirname(task_file_name), task.get_location())
+    for env_file in ('sample.env', 'template.env', 'env.template', '.env'):
+        env_path = os.path.join(location, env_file)
+        if not os.path.isfile(env_path):
+            continue
+        raw_env_dict: Mapping[str, str] = dotenv_values(env_path)
+        for key, default in raw_env_dict.items():
+            env = Env({
+                'from': get_task_env_name(location, key),
+                'default': default,
+            })
+            task.set_env(key, env, override)
+    return task
 
 
 def get_service_name_by_location(location: str) -> str:

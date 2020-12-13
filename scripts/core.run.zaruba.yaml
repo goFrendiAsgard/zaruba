@@ -31,9 +31,9 @@ tasks:
         from: PYTHONUNBUFFERED
         default: 1
     start:
-      - "{{ .Config.cmd }}"
-      - "{{ .Config.cmdArg }}"
-      - |
+    - "{{ .Config.cmd }}"
+    - "{{ .Config.cmdArg }}"
+    - |
         {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
         {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
         {{ if .Config.start }}{{ .Config.start }}{{ end }}

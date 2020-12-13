@@ -145,9 +145,9 @@ tasks:
         In order to do that, you can invoke `zaruba please addSubrepo <url=remote-url>`
     extend: core.runCoreScript
     dependencies:
-      - core.isProject
-      - core.isValidSubrepos
-      - core.setupPyUtil
+    - core.isProject
+    - core.isValidSubrepos
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -203,8 +203,8 @@ tasks:
         To init subrepositories, you should perform `zaruba please initSubrepos`
     extend: core.runCoreScript
     dependencies:
-      - core.isProject
-      - core.setupPyUtil
+    - core.isProject
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -240,12 +240,11 @@ tasks:
       ARGUMENTS:
         subrepo::<name>::prefix: Prefix (directory name) of the subrepo
         subrepo::<name>::url:    Remote url of the subrepo
-        subrepo::<name>::name:   Origin name of the subrepo
     extend: core.runCoreScript
     dependencies:
-      - initSubrepos
-      - updateLinks
-      - core.setupPyUtil
+    - initSubrepos
+    - updateLinks
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -278,10 +277,9 @@ tasks:
       ARGUMENTS:
         subrepo::<name>::prefix: Prefix (directory name) of the subrepo
         subrepo::<name>::url:    Remote url of the subrepo
-        subrepo::<name>::name:   Origin name of the subrepo
     extend: core.runCoreScript
     dependencies:
-      - initSubrepos
+    - initSubrepos
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -346,7 +344,7 @@ tasks:
         zaruba please initProject
     extend: core.runCoreScript
     dependencies:
-      - core.isNotProject
+    - core.isNotProject
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -372,8 +370,8 @@ tasks:
         templates:  Template directory. (optional, used to define custom template path)
     extend: core.runCoreScript
     dependencies:
-      - core.isProject
-      - core.setupPyUtil
+    - core.isProject
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -401,8 +399,8 @@ tasks:
         templates:  Template directory. (optional, used to define custom template path)
     extend: core.runCoreScript
     dependencies:
-      - core.isProject
-      - core.setupPyUtil
+    - core.isProject
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -431,8 +429,8 @@ tasks:
         templates:  Template directory. (optional, used to define custom template path)
     extend: core.runCoreScript
     dependencies:
-      - core.isProject
-      - core.setupPyUtil
+    - core.isProject
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -443,6 +441,22 @@ tasks:
         PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
         sh "${UTIL}/py.sh" create_service "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
         echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service created{{ $d.Normal }}"
+
+
+  updateEnv:
+    icon: 🔄
+    description: |
+      Update environment of every task in the current project 
+      USAGE:
+        zaruba please updateEnv
+    extend: core.runCoreScript
+    dependencies:
+    - core.isProject
+    - core.setupPyUtil
+    config:
+      start: |
+        echo "NOT IMPLEMENTED YET"
 
 
   updateLinks:
@@ -457,9 +471,10 @@ tasks:
         link::<destination>:  Location of the shared code
       TIPS:
         It is recommended to put `link` arguments in `default.kwargs.yaml`.
+        In order to do that, you can invoke `zaruba please addLink <from=source-location> <to=destination-location>`
     extend: core.runCoreScript
     dependencies:
-      - core.isProject
+    - core.isProject
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -475,3 +490,37 @@ tasks:
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
+
+
+  addLink:
+    icon: 🔗
+    description: |
+      Add link.
+      USAGE:
+        zaruba please addLink from="common-css" to="fibo/css"
+      ARGUMENTS:
+        from:   Source Location. (required)
+        to:     Destination Location (required)
+      TIPS:
+        To update links, you should perform `zaruba please updateLinks`
+    extend: core.runCoreScript
+    dependencies:
+    - core.isProject
+    - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        {{ if not .Kwargs.from }}
+          echo "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}" 1>&2
+          exit 1
+        {{ end }}
+        SOURCE="{{ .Kwargs.from }}"
+        {{ if not .Kwargs.to }}
+          echo "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}" 1>&2
+          exit 1
+        {{ end }}
+        DESTINATION="{{ .Kwargs.to }}"
+        sh "${UTIL}/py.sh" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
