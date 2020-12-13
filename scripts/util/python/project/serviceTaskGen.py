@@ -23,7 +23,7 @@ class ServiceTaskGen():
     def create_service_task_file(self):
         task = self.load_task()
         # add env from location's file
-        task = adjust_task_env(task, self.task_file_name, override=True)
+        task = adjust_task_env(task, self.task_file_name)
         # add lconfig.ports
         ports = self.ports if self.ports else task.get_possible_ports()
         task.add_lconfig_ports(*ports)

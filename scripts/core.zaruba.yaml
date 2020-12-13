@@ -450,13 +450,20 @@ tasks:
       Update environment of every task in the current project 
       USAGE:
         zaruba please updateEnv
+        zaruba please updateEnv dir=.
+      ARGUMENT:
+        dir:  Directory name
     extend: core.runCoreScript
     dependencies:
     - core.isProject
     - core.setupPyUtil
     config:
       start: |
-        echo "NOT IMPLEMENTED YET"
+        {{ $d := .Decoration -}}
+        DIR="{{ if .Kwargs.dir }}{{ .Kwargs.dir }}{{ else }}.{{ end }}"
+        sh "${UTIL}/py.sh" update_env "${DIR}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
 
   updateLinks:

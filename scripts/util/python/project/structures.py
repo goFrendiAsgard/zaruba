@@ -29,10 +29,10 @@ class ProjectDict(TypedDict, total=False):
 
 class Env():
 
-    def __init__(self, env_dict: EnvDict = {}):
+    def __init__(self, env_dict: EnvDict):
         self._dict: EnvDict = env_dict
 
-    
+
     def set_from(self, envvar: str) -> Env:
         if envvar:
             self._dict['from'] = envvar
@@ -40,13 +40,13 @@ class Env():
             del self._dict['from']
         return self
 
-    
+
     def get_from(self) -> str:
         if 'from' in self._dict:
             return self._dict['from']
         return ''
 
-    
+
     def set_default(self, default: str) -> Env:
         if default:
             self._dict['default'] = str(default)
@@ -54,7 +54,7 @@ class Env():
             del self._dict['default']
         return self
 
-    
+
     def get_default(self) -> str:
         if 'default' in self._dict:
             return str(self._dict['default'])
@@ -70,6 +70,7 @@ class Task():
 
     def __init__(self, task_dict: TaskDict = {}):
         self._dict: TaskDict = task_dict
+        self._env_values: Mapping[str, str] = {}
 
 
     def set_icon(self, icon: str) -> Task:
@@ -103,7 +104,7 @@ class Task():
             del self._dict['location']
         return self
 
- 
+
     def add_dependency(self, *dependencies: str) -> Task:
         if 'dependencies' not in self._dict:
             self._dict['dependencies'] = []
@@ -113,57 +114,67 @@ class Task():
         return self     
 
 
-    def set_env(self, key: str, env: Env, override: bool=True) -> Task:
-        if override or ('env' not in self._dict) or (key not in self._dict['env']):
-            if 'env' not in self._dict:
-                self._dict['env'] = {}
-            self._dict['env'][key] = env.as_dict()
+    def set_env(self, env_key: str, env: Env, env_value: str = '') -> Task:
+        if 'env' not in self._dict:
+            self._dict['env'] = {}
+        if env_key not in self._dict['env']:
+            self._dict['env'][env_key] = env.as_dict()
+        self._env_values[env_key] = env_value
         return self
 
-    
+
     def get_all_env(self) -> Mapping[str, Env]:
         env_map: Mapping[str, Env] = {}
         if 'env' in self._dict:
             for key in self._dict['env']:
                 env_map[key] = self.get_env(key)
         return env_map
-    
 
-    def get_env(self, key) -> Env:
-        if 'env' in self._dict and key in self._dict['env']:
-            return Env(self._dict['env'][key])
-        return Env()
 
-    
-    def set_config(self, key: str, val: str) -> Task:
+    def get_env(self, env_key: str) -> Env:
+        if ('env' in self._dict) and (env_key in self._dict['env']):
+            return Env(self._dict['env'][env_key])
+        return Env({})
+
+
+    def get_env_value(self, env_key: str) -> str:
+        if env_key in self._env_values:
+            value = self._env_values[env_key]
+            if value:
+                return value
+        env = self.get_env(env_key)
+        return env.get_default()
+
+
+    def set_config(self, config_key: str, val: str) -> Task:
         if 'config'not in self._dict:
             self._dict['config'] = {}
-        self._dict['config'][key] = val
+        self._dict['config'][config_key] = val
         return self
 
-    
-    def init_lconfig(self, key: str) -> Task:
+
+    def init_lconfig(self, lconfig_key: str) -> Task:
         if 'lconfig'not in self._dict:
             self._dict['lconfig'] = {}
-        if key not in self._dict['lconfig']:
-            self._dict['lconfig'][key] = []
+        if lconfig_key not in self._dict['lconfig']:
+            self._dict['lconfig'][lconfig_key] = []
 
- 
-    def add_lconfig(self, key: str, *vals: str) -> Task:
-        self.init_lconfig(key)
+
+    def add_lconfig(self, lconfig_key: str, *vals: str) -> Task:
+        self.init_lconfig(lconfig_key)
         for val in vals:
-            self._dict['lconfig'][key].append(val)
+            self._dict['lconfig'][lconfig_key].append(val)
         return self
 
- 
-    def add_unique_lconfig(self, key: str, *vals: str) -> Task:
-        self.init_lconfig(key)
+
+    def add_unique_lconfig(self, lconfig_key: str, *vals: str) -> Task:
+        self.init_lconfig(lconfig_key)
         for val in vals:
-            if val in self._dict['lconfig'][key]:
+            if val in self._dict['lconfig'][lconfig_key]:
                 continue
-            self._dict['lconfig'][key].append(val)
+            self._dict['lconfig'][lconfig_key].append(val)
         return self
-    
+
 
     def add_lconfig_port(self, port: str) -> Task:
         port = port.strip()
@@ -187,13 +198,13 @@ class Task():
         for port in ports:
             self.add_lconfig_port(port)
         return self
-    
+
 
     def get_location(self) -> str:
         if 'location' in self._dict:
             return self._dict['location']
         return ''
-    
+
 
     def get_possible_ports(self) -> List[str]:
         ports: List[str] = []
@@ -206,7 +217,7 @@ class Task():
                     ports.append(key)
         return ports
 
-    
+
     def as_dict(self) -> TaskDict:
         return self._dict
 

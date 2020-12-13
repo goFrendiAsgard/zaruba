@@ -10,10 +10,11 @@ showOff:
 	ZARUBA_HOME=$(realpath $(pwd))
 	sudo rm -Rf playground
 	mkdir -p playground
+	./zaruba please clearLog
 	echo "=== SORRY"
-	cd playground && ../zaruba sorry
+	./zaruba sorry
 	echo "=== THANKS"
-	cd playground && ../zaruba thanks
+	./zaruba thanks
 	echo "=== SETUP UBUNTU"
 	cd playground && sudo -E ../zaruba please setupUbuntu
 	echo "=== INIT PROJECT"

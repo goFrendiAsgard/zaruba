@@ -3,22 +3,8 @@ import re
 import os
 
 from dotenv import dotenv_values
-from project.structures import Task, ProjectDict, Template, Env
+from project.structures import Task, ProjectDict, Template
 from ruamel.yaml import YAML
-
-
-def write_task(file_name: str, task_name: str, task: Task):
-    project_dict: ProjectDict = {}
-    try:
-        project_dict = get_dict_from_file(file_name)
-    except:
-        pass
-    if 'tasks' not in project_dict:
-        project_dict['tasks'] = {}
-    if task_name in project_dict.tasks:
-        return False
-    project_dict['tasks'][task_name] = task.as_dict()
-    save_dict_to_file(file_name, project_dict)
 
 
 def add_to_main_include(file_name: str) -> bool:
@@ -83,15 +69,15 @@ def write_task_env_to_file(file_name: str, task: Task):
     existing_envvars: Mapping[str, str] = dotenv_values(file_name) if os.path.isfile(file_name) else {}
     is_first_writing = True
     f_write = open(file_name, 'a')
-    for _, env in task.get_all_env().items():
-        envvar = env.get_from()
-        if envvar == '' or envvar in existing_envvars:
+    for env_key, env in task.get_all_env().items():
+        env_from = env.get_from()
+        if env_from == '' or env_from in existing_envvars:
             continue
-        value = env.get_default()
         if is_first_writing:
             is_first_writing = False
             f_write.write('\n')
-        f_write.write('{}={}\n'.format(envvar, value))
+        env_value = task.get_env_value(env_key)
+        f_write.write('{}={}\n'.format(env_from, env_value))
     f_write.close()
 
 
@@ -162,19 +148,20 @@ def get_task_env_name(location: str, raw_env_name: str) -> str:
     return '_'.join([env_prefix, upper_env_name])
 
 
-def adjust_task_env(task: Task, task_file_name: str, override: bool = True) -> Task:
+def adjust_task_env(task: Task, task_file_name: str) -> Task:
     location = task.get_location() if os.path.isabs(task.get_location()) else os.path.join(os.path.dirname(task_file_name), task.get_location())
     for env_file in ('sample.env', 'template.env', 'env.template', '.env'):
         env_path = os.path.join(location, env_file)
         if not os.path.isfile(env_path):
             continue
         raw_env_dict: Mapping[str, str] = dotenv_values(env_path)
-        for key, default in raw_env_dict.items():
-            env = Env({
-                'from': get_task_env_name(location, key),
-                'default': default,
-            })
-            task.set_env(key, env, override)
+        for env_key, env_value in raw_env_dict.items():
+            env_from = get_task_env_name(location, env_key)
+            env = task.get_env(env_key)
+            env.set_from(env_from)
+            if not env.get_default():
+                env.set_default(env_value)
+            task.set_env(env_key, env, env_value)
     return task
 
 
