@@ -2,6 +2,7 @@ from typing import List, Mapping, TypedDict
 from project.structures import Template
 from project.helpers import get_dict_from_file, replace_file_content, save_dict_to_file, get_service_name_by_location
 import os
+import stat
 import shutil
 
 
@@ -64,6 +65,7 @@ class ServiceGen():
     
     def create_link(self):
         kwargs = get_dict_from_file('default.kwargs.yaml')
+        rx_mode = stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
         for location, link in self.links.items():
             source = os.path.abspath(os.path.join('.', link.source))
             destination = os.path.abspath(os.path.join(self.target_location, link.destination))
@@ -71,10 +73,10 @@ class ServiceGen():
             shutil.copytree(location, destination)
             for root, dir_names, file_names in os.walk(destination):
                 for file_name in file_names:
-                    os.chmod(os.path.join(root, file_name), 0o555)
+                    os.chmod(os.path.join(root, file_name), rx_mode)
                 for dir_name in dir_names:
-                    os.chmod(os.path.join(root, dir_name), 0o555)
-                os.chmod(root, 0o555)
+                    os.chmod(os.path.join(root, dir_name), rx_mode)
+                os.chmod(root, rx_mode)
             kwargs['link::{}'.format(destination)] = source
         save_dict_to_file('default.kwargs.yaml', kwargs)
 

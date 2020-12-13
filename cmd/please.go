@@ -65,7 +65,6 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle special cases
 		if handleShowTask(conf, taskNames) {
-			time.Sleep(time.Second)
 			return
 		}
 		// run

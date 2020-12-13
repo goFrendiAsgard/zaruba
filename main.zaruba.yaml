@@ -90,56 +90,6 @@ tasks:
       - pushRepo
 
 
-  initPlayground:
-    icon: 🎬
-    private: true
-    location: ./
-    extend: core.runShellScript
-    config:
-      start: rm -Rf playground && mkdir -p playground
-
-
-  showOff:
-    icon: ✨
-    location: ./playground
-    extend: core.runShellScript
-    description: Run this command with `sudo -E`
-    dependencies:
-      - initPlayground
-      - build
-    config:
-      start: |
-        set -e
-        ZARUBA_HOME=$(realpath $(pwd)/..)
-        echo "=== SORRY"
-        ../zaruba sorry
-        echo "=== THANKS"
-        ../zaruba thanks
-        echo "=== SETUP UBUNTU"
-        sudo -E ../zaruba please setupUbuntu
-        echo "=== INIT PROJECT"
-        ../zaruba please initProject
-        echo "=== ADD SUBREPOS"
-        ../zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock" prefix="fibo"
-        ../zaruba please initSubrepos
-        ../zaruba please pullSubrepos
-        echo "=== ADD FIBO SERVICE"
-        ../zaruba please addService location=fibo
-        echo "=== ADD DOCKER SERVICE"
-        ../zaruba please addDocker image=rabbitmq
-        echo "=== CREATE FASTAPI SERVICE"
-        ../zaruba please createService type=fastapi
-        echo "=== RUN AND AUTOSTOP"
-        ../zaruba please run autostop
-        echo "=== SHOW FASTAPI LOG"
-        ../zaruba please showLog task=fastapi
-        echo "=== CLEAR LOG"
-        ../zaruba please clearLog
-        echo "=== EXPLAIN START"
-        ../zaruba please explain start
-        echo "=== DONE!!!"
-
-
   install:
     icon: 🔨
     location: ./
