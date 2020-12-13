@@ -132,12 +132,17 @@ tasks:
   initSubrepos:
     icon: 📦
     description: |
-      Start a monorepo.
-      You must specify `prefix`, and `url` of your subrepo in your `default.kwargs.yaml`:
-      ```yaml
-      subrepo::<name>::prefix: <directory>
-      subrepo::<name>::url: <git-url>
-      ```
+      Init subrepositories.
+      USAGE:
+        zaruba please initSubrepos
+        zaruba please initSubrepos "subrepo::fibo::url=https://github.com/therealvasanth/fibonacci-clock"
+      ARGUMENTS:
+        subrepo::<name>::prefix: Prefix (directory name) of the subrepo
+        subrepo::<name>::url:    Remote url of the subrepo
+        subrepo::<name>::name:   Origin name of the subrepo
+      TIPS:
+        It is recommended to put `subrepo` arguments in `default.kwargs.yaml`.
+        In order to do that, you can invoke `zaruba please addSubrepo <url=remote-url>`
     extend: core.runCoreScript
     dependencies:
       - core.isProject
@@ -186,11 +191,16 @@ tasks:
   addSubrepo:
     icon: 🥂
     description: |
-      Add external repository to your project.
-      You need to specify `url`, `prefix`, and `name`. For example:
-      ```sh
-      zaruba please addSubRepo <url=git-url> [prefix=directory] [name=subrepo-name]
-      ```
+      Add subrepository.
+      USAGE:
+        zaruba please addSubrepo url=https://github.com/therealvasanth/fibonacci-clock
+        zaruba please addSubrepo url=https://github.com/therealvasanth/fibonacci-clock name=fibo prefix=fibo
+      ARGUMENTS:
+        url:    Remote url of the subrepo. (required)
+        prefix: Prefix (directory name) of the subrepo. (optional)
+        name:   Origin name of the subrepo. (optional)
+      TIPS:
+        To init subrepositories, you should perform `zaruba please initSubrepos`
     extend: core.runCoreScript
     dependencies:
       - core.isProject
@@ -223,7 +233,14 @@ tasks:
 
   pushSubrepos:
     icon: 🔼
-    description: Publish subtree of your subrepo
+    description: |
+      Publish subrepositories.
+      USAGE:
+        zaruba please pushSubrepos
+      ARGUMENTS:
+        subrepo::<name>::prefix: Prefix (directory name) of the subrepo
+        subrepo::<name>::url:    Remote url of the subrepo
+        subrepo::<name>::name:   Origin name of the subrepo
     extend: core.runCoreScript
     dependencies:
       - initSubrepos
@@ -254,7 +271,14 @@ tasks:
 
   pullSubrepos:
     icon: 🔽
-    description: Publish subtree of your subrepo
+    description: |
+      Pull subrepositories.
+      USAGE:
+        zaruba please pullSubrepos
+      ARGUMENTS:
+        subrepo::<name>::prefix: Prefix (directory name) of the subrepo
+        subrepo::<name>::url:    Remote url of the subrepo
+        subrepo::<name>::name:   Origin name of the subrepo
     extend: core.runCoreScript
     dependencies:
       - initSubrepos
@@ -316,7 +340,10 @@ tasks:
 
   initProject:
     icon: 🚧
-    description: Init a zaruba project in your working directory.
+    description: |
+      Initiate empty zaruba project.
+      USAGE:
+        zaruba please initProject
     extend: core.runCoreScript
     dependencies:
       - core.isNotProject
@@ -334,11 +361,15 @@ tasks:
   addDocker:
     icon: 🐳
     description: |
-      Create docker task
-      You need to specify `image`, `task`, and `container`. For example:
-      ```sh
-      zaruba please addDocker  <image=nginx> [container=myNginx] [task=runMyNginx] [templates=templatePath1:templatePath2]
-      ```
+      Add docker task to the project.
+      USAGE:
+        zaruba please addDocker image=nginx
+        zaruba please addDocker image=nginx container=myNginx task=runMyNginx templates=templates
+      ARGUMENTS
+        image:      Docker image. (required)
+        container:  Container name. (optional, if not provided, will be inferred from `image`)
+        task:       Task name. (optional, if not provided, will be inferred from `image`)
+        templates:  Template directory. (optional, used to define custom template path)
     extend: core.runCoreScript
     dependencies:
       - core.isProject
@@ -359,11 +390,15 @@ tasks:
   addService:
     icon: 📦
     description: |
-      Create service task
-      You need to specify `location`, `task`, `type`, and `templates`. For example:
-      ```sh
-      zaruba please addService  <location=./service> [type=python] [task=runService] [ports=port1,port2] [templates=templatePath1:templatePath2]
-      ```
+      Add service task to the project.
+      USAGE:
+        zaruba please addService location=fibo
+        zaruba please addService location=fibo type=default task=runFibo templates=templates
+      ARGUMENTS
+        location:   Service location. (required)
+        type:       Service type. (optional, default to 'default')
+        task:       Task name. (optional, if not provided, will be inferred from `location`)
+        templates:  Template directory. (optional, used to define custom template path)
     extend: core.runCoreScript
     dependencies:
       - core.isProject
@@ -385,11 +420,15 @@ tasks:
   createService:
     icon: 🍄
     description: |
-      Create service task
-      You need to specify `location`, `task`, `type`, and `templates`. For example:
-      ```sh
-      zaruba please createService <location=./service> [type=python] [task=runService] [templates=templatePath1:templatePath2]
-      ```
+      Create service and add it to the project.
+      USAGE:
+        zaruba please createService location=app type=fastapi
+        zaruba please createService location=app type=fastapi task=runApp templates=templates
+      ARGUMENTS
+        location:   Service location, should not be exists. (required)
+        type:       Service type. (optional, default to 'default')
+        task:       Task name. (optional, if not provided, will be inferred from `location`)
+        templates:  Template directory. (optional, used to define custom template path)
     extend: core.runCoreScript
     dependencies:
       - core.isProject
@@ -409,11 +448,15 @@ tasks:
   updateLinks:
     icon: 🔗
     description: |
-      Organize your shared library
-      You must specify links in `default.kwargs.yaml`:
-      ```yaml
-      link::<destination>: <source>
-      ```
+      Update "links" in your project. Very useful if you have multiple apps sharing some parts of code
+      USAGE:
+        zaruba please updateLinks
+        zaruba please updateLinks "link::fibo/css=common-css"
+        zaruba please updateLinks "link::app/css=common-css"
+      ARGUMENTS
+        link::<destination>:  Location of the shared code
+      TIPS:
+        It is recommended to put `link` arguments in `default.kwargs.yaml`.
     extend: core.runCoreScript
     dependencies:
       - core.isProject

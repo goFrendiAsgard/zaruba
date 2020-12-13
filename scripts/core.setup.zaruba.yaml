@@ -31,10 +31,10 @@ tasks:
         sudo -E zaruba please user=<user> home=<home>
     extend: core.runCoreScript
     dependencies:
-      - ubuntu.setup
-      - ubuntu.setupDocker
-      - ubuntu.setupNvm
-      - ubuntu.setupPipenv
+      - core.ubuntu.setup
+      - core.ubuntu.setupDocker
+      - core.ubuntu.setupNvm
+      - core.ubuntu.setupPipenv
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -44,7 +44,7 @@ tasks:
         echo "https://docs.docker.com/docker-for-windows/wsl/"
 
 
-  ubuntu.setup:
+  core.ubuntu.setup:
     icon: 🔨
     extend: core.runCoreScript
     config:
@@ -71,11 +71,11 @@ tasks:
         apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm
 
 
-  ubuntu.setupDocker:
+  core.ubuntu.setupDocker:
     icon: 🔨
     extend: core.runCoreScript
     dependencies:
-      - ubuntu.setup
+      - core.ubuntu.setup
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -88,11 +88,11 @@ tasks:
         fi
 
 
-  ubuntu.setupPipenv:
+  core.ubuntu.setupPipenv:
     icon: 🔨
     extend: core.runCoreScript
     dependencies:
-      - ubuntu.setup
+      - core.ubuntu.setup
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -105,12 +105,12 @@ tasks:
         fi
 
 
-  ubuntu.setupNvm:
+  core.ubuntu.setupNvm:
     icon: 🔨
     extend: core.runCoreScript
     dependencies:
-      - ubuntu.setup
-      - ubuntu.setupPipenv
+      - core.ubuntu.setup
+      - core.ubuntu.setupPipenv
     config:
       start: |
         {{ $d := .Decoration -}}

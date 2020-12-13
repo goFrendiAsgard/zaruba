@@ -65,6 +65,7 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle special cases
 		if handleShowTask(conf, taskNames) {
+			time.Sleep(time.Second)
 			return
 		}
 		// run
@@ -140,12 +141,28 @@ func showTasks(conf *config.ProjectConfig, showPublished bool, r *regexp.Regexp)
 			continue
 		}
 		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, taskPrefix, d.Bold, task.Name, d.Normal)
-		fmt.Printf("%s%sPUBLISHED  :%s%s %t%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, !task.Private, d.Normal)
-		fmt.Printf("%s%sDECLARED ON:%s%s %s%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, task.FileLocation, d.Normal)
+		fmt.Printf("%s%sPUBLISHED     :%s%s %t%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, !task.Private, d.Normal)
+		fmt.Printf("%s%sDECLARED ON   :%s%s %s%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, task.FileLocation, d.Normal)
 		showTaskDescription(task, taskFieldIndentation)
+		showTaskDependencies(task, taskFieldIndentation)
+		showTaskExtend(task, taskFieldIndentation)
 		totalMatch++
 	}
 	return totalMatch
+}
+
+func showTaskDependencies(task *config.Task, fieldIndentation string) {
+	if len(task.Dependencies) > 0 {
+		d := logger.NewDecoration()
+		fmt.Printf("%s%sDEPENDENCIES  :%s%s %s%s\n", fieldIndentation, d.Blue, d.Normal, d.Faint, strings.Join(task.Dependencies, ", "), d.Normal)
+	}
+}
+
+func showTaskExtend(task *config.Task, fieldIndentation string) {
+	if task.Extend != "" {
+		d := logger.NewDecoration()
+		fmt.Printf("%s%sEXTENDED FROM :%s%s %s%s\n", fieldIndentation, d.Blue, d.Normal, d.Faint, task.Extend, d.Normal)
+	}
 }
 
 func showTaskDescription(task *config.Task, fieldIndentation string) {
@@ -155,7 +172,7 @@ func showTaskDescription(task *config.Task, fieldIndentation string) {
 		rows := strings.Split(description, "\n")
 		for index, row := range rows {
 			if index == 0 {
-				row = fmt.Sprintf("%sDESCRIPTION:%s %s", d.Blue, d.Normal, row)
+				row = fmt.Sprintf("%sDESCRIPTION   :%s %s", d.Blue, d.Normal, row)
 			}
 			fmt.Printf("%s%s\n", fieldIndentation, row)
 		}

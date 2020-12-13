@@ -28,11 +28,11 @@ tasks:
         {{- $d := .Decoration -}}
         {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
         {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
-        {{- range $index, $port := .LConfig.ports -}}
+        {{ range $index, $port := .LConfig.ports -}}
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
           sh "${UTIL}/wait_port.sh" "localhost" "{{ $port }}"
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
-        {{- end -}}
+        {{ end -}}
         set +e
         {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
         echo 🎉🎉🎉
