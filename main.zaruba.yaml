@@ -9,7 +9,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     config:
-      script: go build
+      start: go build
 
 
   test:
@@ -17,7 +17,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     config:
-      script: |
+      start: |
         ZARUBA_HOME=""
         mkdir -p ./coverage
         rm -f ./test_resource/alchemy/alembic.txt
@@ -40,7 +40,7 @@ tasks:
     dependencies:
       - test
     config:
-      script: |
+      start: |
         docker build -t stalchmst/devbox:latest -f devbox/Dockerfile .
         docker build -t stalchmst/zaruba:latest .
 
@@ -50,7 +50,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     config:
-      script: |
+      start: |
         (docker stop zaruba || echo "container not running") && \
         (docker rm zaruba || echo "container not exist") && \
         docker run --name zaruba -p 2810:8080 -d stalchmst/zaruba:latest && \
@@ -65,7 +65,7 @@ tasks:
     dependencies:
       - buildDocker
     config:
-      script: |
+      start: |
         docker push stalchmst/devbox:latest
         docker push stalchmst/zaruba:latest
 
@@ -77,7 +77,7 @@ tasks:
     dependencies:
       - test
     config:
-      script: |
+      start: |
         git add . -A
         git commit -m "Save changes before pushing"
         git push -u origin HEAD
@@ -96,7 +96,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     config:
-      script: rm -Rf playground && mkdir -p playground
+      start: rm -Rf playground && mkdir -p playground
 
 
   showOff:
@@ -108,7 +108,7 @@ tasks:
       - initPlayground
       - build
     config:
-      script: |
+      start: |
         set -e
         ZARUBA_HOME=$(pwd)/..
         ../zaruba sorry
@@ -130,4 +130,4 @@ tasks:
     extend: core.runShellScript
     description: Run this command with `sudo -E`
     config:
-      script: ./install.sh
+      start: ./install.sh

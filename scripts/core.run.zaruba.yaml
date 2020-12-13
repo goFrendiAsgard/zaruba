@@ -1,0 +1,119 @@
+tasks:
+
+  core.runScript:
+    icon: 📔
+    description: |
+      Run script
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runScript
+        config:
+          # Executable. (default: sh)
+          cmd: sh
+          # Executable argument to run script. (default: -c)
+          cmdArg: -c
+          # Before start script. (no default)
+          beforeStart: ""
+          # Start script. (no default)
+          start: ""
+          # After start script. (no default)
+          afterStart: ""
+          # Executed even before "BeforeStart". (no default)
+          setup: ""
+      ```
+    private: true
+    config:
+      cmd: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
+      cmdArg: "-c"
+    env:
+      PYTHONUNBUFFERED:
+        from: PYTHONUNBUFFERED
+        default: 1
+    start:
+      - "{{ .Config.cmd }}"
+      - "{{ .Config.cmdArg }}"
+      - |
+        {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
+        {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
+        {{ if .Config.start }}{{ .Config.start }}{{ end }}
+        {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
+
+
+  core.runCoreScript:
+    icon: 📔
+    description: |
+      Run script for core tasks
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runCoreScript
+        config:
+          # Start script. (default: "echo hello world")
+          start: "echo hello world"
+      ```
+    private: true
+    extend: core.runScript
+    config:
+      setup: |
+        set -e
+        SCRIPT_PATH="${ZARUBA_HOME}/scripts"
+        UTIL="${SCRIPT_PATH}/util/sh"
+      start: "echo hello world"
+
+
+  core.runShellScript:
+    icon: 🐚
+    description: |
+      Run shell script
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runCoreScript
+        config:
+          # Start script. (default: "echo hello world")
+          start: echo hello world
+      ```
+    private: true
+    extend: core.runScript
+    config:
+      start: "echo hello world"
+
+
+  core.runPythonScript:
+    icon: 🐍
+    description: |
+      Run python script
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runPythonScript
+        config:
+          # Start script. (default: "print('hello world')")
+          start: print('hello world')
+      ```
+    private: true
+    extend: core.runScript
+    config:
+      cmd: python
+      start: "print('hello world')"
+
+
+  core.runNodeJsScript:
+    icon: 🐸
+    description: |
+      Run Node.Js script
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runNodeJsScript
+        config:
+          # Start script. (default: "console.log('hello world')")
+          start: console.log('hello world')
+      ```
+    private: true
+    extend: core.runScript
+    config:
+      cmd: node
+      cmdArg: "-p"
+      start: "console.log('hello world')"

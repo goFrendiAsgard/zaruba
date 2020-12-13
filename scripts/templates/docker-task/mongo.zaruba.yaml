@@ -14,4 +14,3 @@ tasks:
       imageName: mongo
       containerName: containerName
       port::27017: 27017
-      

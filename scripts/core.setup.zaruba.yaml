@@ -1,25 +1,57 @@
 tasks:
- 
+
+  core.setupPyUtil:
+    icon: 🐍
+    description: |
+      Setup python helper utitities.
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runCoreScript
+        dependencies: 
+          - core.setupPyUtil
+        config:
+          start: |
+            sh ${UTIL}/py.sh "show_log"
+      ```
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        set -e
+        sh ${UTIL}/py_install.sh
+  
+
   setupUbuntu:
     icon: 🔨
     description: |
-      Setup your ubuntu machine (or Ubuntu WSL).
-      This command will install:
-      * pipenv
-      * nvm
-      * netcat
-      * and some other utilities
-      into your machine.
+      Setup ubuntu machine (or ubuntu WSL)
       USAGE:
-      * sudo -E zaruba please setupUbuntu
-      * sudo -E zaruba please user=<user> home=<home>
-    extend: core.runShellScript
+        sudo -E zaruba please setupUbuntu
+        sudo -E zaruba please user=<user> home=<home>
+    extend: core.runCoreScript
+    dependencies:
+      - ubuntu.setup
+      - ubuntu.setupDocker
+      - ubuntu.setupNvm
+      - ubuntu.setupPipenv
     config:
-      script: |
-        set -e
+      start: |
+        {{ $d := .Decoration -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience"
+        echo "https://docs.docker.com/docker-for-windows/wsl/"
+
+
+  ubuntu.setup:
+    icon: 🔨
+    extend: core.runCoreScript
+    config:
+      start: |
         {{ $d := .Decoration -}}
         {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
-        if echo "${HOME}" | grep -q "/root$" 
+        if echo "${HOME}" | grep -q "/root$"
         then
           echo '⚠️ {{ $d.Red }}Your ${HOME} is seems to be root home directory:{{ $d.Normal }}'
           echo "⚠️ {{ $d.Red }}${HOME}{{ $d.Normal }}"
@@ -32,13 +64,21 @@ tasks:
             exit 0
           fi
         fi
-
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
         apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm
 
+
+  ubuntu.setupDocker:
+    icon: 🔨
+    extend: core.runCoreScript
+    dependencies:
+      - ubuntu.setup
+    config:
+      start: |
+        {{ $d := .Decoration -}}
         if [ -z "$(docker -v)" ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Install docker{{ $d.Normal }}"
@@ -47,6 +87,15 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Docker was already installed{{ $d.Normal }}"
         fi
 
+
+  ubuntu.setupPipenv:
+    icon: 🔨
+    extend: core.runCoreScript
+    dependencies:
+      - ubuntu.setup
+    config:
+      start: |
+        {{ $d := .Decoration -}}
         if [ -z "$(pipenv --version)" ]
         then
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pipenv{{ $d.Normal }}"
@@ -55,6 +104,17 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         fi
 
+
+  ubuntu.setupNvm:
+    icon: 🔨
+    extend: core.runCoreScript
+    dependencies:
+      - ubuntu.setup
+      - ubuntu.setupPipenv
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
         sh ${UTIL}/py_install.sh
         CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${UTIL}/py.sh" get_segment "${HOME}" / -1){{ end }}
         if [ -d "${HOME}/.nvm" ]
@@ -75,7 +135,6 @@ tasks:
             echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> "${HOME}/.zshrc"
           fi
         fi
-
         if [ -z "$(tsc -v)" ]
         then
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install typescript{{ $d.Normal }}"
@@ -83,7 +142,6 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
         fi
-
         if [ -z "$(node-gyp -v)" ]
         then
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install node-gyp{{ $d.Normal }}"
@@ -91,8 +149,3 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Node-gyp was already installed{{ $d.Normal }}"
         fi
-
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
-        echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience"
-        echo "https://docs.docker.com/docker-for-windows/wsl/"

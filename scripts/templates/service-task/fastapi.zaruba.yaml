@@ -4,7 +4,7 @@ tasks:
     icon: 🐍
     extend: core.startService
     config:
-      script: |
+      start: |
         pipenv install
         pipenv run uvicorn main:app --reload --port={{ if .GetEnv "SERVICE_HTTP_PORT" }}{{ .GetEnv "SERVICE_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
     env:

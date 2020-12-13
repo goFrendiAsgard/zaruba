@@ -1,3 +1,434 @@
 includes:
+  - ./core.run.zaruba.yaml
   - ./core.service.zaruba.yaml
-  - ./core.action.zaruba.yaml
+  - ./core.setup.zaruba.yaml
+
+tasks:
+
+  showVersion:
+    icon: 🔎
+    description: |
+      Show zaruba's current version.
+      USAGE: zaruba please showVersion
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
+
+
+  update:
+    icon: 🔄
+    description: |
+      Update zaruba to the latest version.
+      USAGE: zaruba please update
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        cd ${ZARUBA_HOME}
+        echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
+        git pull origin master
+        git fetch origin --tags
+        echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
+        go build
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
+
+
+  serveHttp:
+    icon: 🌐
+    description: |
+      Run static web server from your working directory.
+      USAGE: zaruba please serveHttp [port=port]
+      ARGUMENTS:
+        port: HTTP Port, default to 8000
+    extend: core.startService
+    lconfig:
+      ports: ["{{ if .Kwargs.port }}{{ .Kwargs.port }}{{ else }}8000{{ end }}"]
+    start: ["python", "-m", "http.server", "{{ index .LConfig.ports 0 }}"]
+
+
+  clearLog:
+    icon: 🔥
+    description: |
+      Clear log
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        rm -Rf log.zaruba.csv
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+
+
+  showLog:
+    icon: 🔎
+    description: |
+      Show log for all/particular tasks using regex
+      USAGE:
+        zaruba please showLog
+        zaruba please showLog task="test.*"
+      ARGUMENTS:
+        task: task regex pattern, default to '.*'
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    logless: true
+    config:
+      start: |
+        if [ ! -f log.zaruba.csv ]
+        then
+          echo "Log is not exist" 1>&2
+          exit 1
+        fi
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}.*{{ end }}"
+        sh "${UTIL}/py.sh" show_log "log.zaruba.csv" "${TASK}"
+
+
+  createDockerNetwork:
+    icon: 🐳
+    description: |
+      Create docker network based on project name.
+      USAGE: zaruba please createDockerNetwork
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        if [ -z $(sh "${UTIL}/inspect_docker.sh" "network" ".Name" "{{ .ProjectName }}") ]
+        then
+          docker network create "{{ .ProjectName }}"
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Docker network created: {{ .ProjectName }}{{ $d.Normal }}"
+        else
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Docker network already exists: {{ .ProjectName }}{{ $d.Normal }}"
+        fi
+
+
+  core.isValidSubrepos:
+    icon: 🔍
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        {{ range $index, $name := $names -}}
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          NAME="{{ $name }}"
+          if [ -z "$URL" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}" 1>&2; exit 1
+          fi
+          if [ -z "$PREFIX" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}" 1>&2; exit 1
+          fi
+        {{ end }}
+        echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
+
+
+  initSubrepos:
+    icon: 📦
+    description: |
+      Start a monorepo.
+      You must specify `prefix`, and `url` of your subrepo in your `default.kwargs.yaml`:
+      ```yaml
+      subrepo::<name>::prefix: <directory>
+      subrepo::<name>::url: <git-url>
+      ```
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+      - core.isValidSubrepos
+      - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        ORIGINS=$(git remote)
+        {{ range $index, $name := $names -}}
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          NAME="{{ $name }}"
+          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
+          if [ $ORIGIN_EXISTS = 1 ]
+          then
+            git remote set-url "${NAME}" "${URL}"
+          elif [ $ORIGIN_EXISTS = 0 ]
+          then
+            echo "$NAME origin is not exist"
+            sh "${UTIL}/git_save.sh" "Save works before pulling from ${URL}"
+            PREFIX_EXISTS=0
+            if [ -d "$PREFIX" ]
+            then
+              PREFIX_EXISTS=1
+              mv "${PREFIX}" "${PREFIX}.bak"
+              sh "${UTIL}/git_save.sh" "Temporarily move ${PREFIX}"
+            fi
+            sh "${UTIL}/git_init_subrepo.sh" "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
+            if [ $PREFIX_EXISTS = 1 ]
+            then
+              rm -Rf "${PREFIX}"
+              mv "${PREFIX}.bak" "${PREFIX}"
+              sh "${UTIL}/git_save.sh" "Restore ${PREFIX}"
+            fi
+          fi
+        {{ end -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos Initialized{{ $d.Normal }}"
+
+
+  addSubrepo:
+    icon: 🥂
+    description: |
+      Add external repository to your project.
+      You need to specify `url`, `prefix`, and `name`. For example:
+      ```sh
+      zaruba please addSubRepo <url=git-url> [prefix=directory] [name=subrepo-name]
+      ```
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+      - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        {{ if not .Kwargs.url }}
+          echo "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}" 1>&2
+          exit 1
+        {{ end }}
+        URL="{{ .Kwargs.url }}"
+        {{ if not .Kwargs.prefix }}
+          PREFIX=$(sh "${UTIL}/py.sh" get_segment "${URL}" "/" "-1")
+          PREFIX=$(sh "${UTIL}/py.sh" get_segment "${PREFIX}" "." "0")
+        {{ else }}
+          PREFIX="{{ .Kwargs.prefix }}"
+        {{ end }}
+        {{ if not .Kwargs.name }}
+          NAME="$PREFIX"
+        {{ else }}
+          NAME="{{ .Kwargs.name }}"
+        {{ end }}
+        sh "${UTIL}/py.sh" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
+        sh "${UTIL}/py.sh" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
+
+
+  pushSubrepos:
+    icon: 🔼
+    description: Publish subtree of your subrepo
+    extend: core.runCoreScript
+    dependencies:
+      - initSubrepos
+      - updateLinks
+      - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        ORIGINS=$(git remote)
+        {{ range $index, $name := $names -}}
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          NAME="{{ $name }}"
+          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
+          if [ $ORIGIN_EXISTS = 1 ]
+          then
+            sh "${UTIL}/git_save.sh" "Save works before push"
+            git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+          fi
+        {{ end -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
+
+
+  pullSubrepos:
+    icon: 🔽
+    description: Publish subtree of your subrepo
+    extend: core.runCoreScript
+    dependencies:
+      - initSubrepos
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
+        {{ $kwargs := .Kwargs -}}
+        ORIGINS=$(git remote)
+        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        {{ range $index, $name := $names -}}
+          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          NAME="{{ $name }}"
+          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
+          if [ $ORIGIN_EXISTS = 1 ]
+          then
+            sh "${UTIL}/git_save.sh" "Save works before pull"
+            git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+          fi
+        {{ end -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
+
+
+  core.isProject:
+    icon: 🔎
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        if [ ! -e main.zaruba.yaml ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project{{ $d.Normal }}" 1>&2
+          echo "{{ $d.Bold }}{{ $d.Red }}The task has to be executed in a zaruba project directory{{ $d.Normal }}" 1>&2
+          echo "{{ $d.Bold }}{{ $d.Red }}You might want to 'initProject' first{{ $d.Normal }}" 1>&2
+          exit 1
+        fi
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
+
+
+  core.isNotProject:
+    icon: 🔎
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        if [ -e main.zaruba.yaml ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project{{ $d.Normal }}" 1>&2
+          echo "{{ $d.Bold }}{{ $d.Red }}The task cannot be executed in a zaruba project directory{{ $d.Normal }}" 1>&2
+          exit 1
+        fi
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
+
+
+  initProject:
+    icon: 🚧
+    description: Init a zaruba project in your working directory.
+    extend: core.runCoreScript
+    dependencies:
+      - core.isNotProject
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        git init
+        cp "${SCRIPT_PATH}/templates/project/default.kwargs.yaml" ./default.kwargs.yaml
+        cp "${SCRIPT_PATH}/templates/project/main.zaruba.yaml" ./main.zaruba.yaml
+        cp "${SCRIPT_PATH}/templates/project/.gitignore" ./.gitignore
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
+
+
+  addDocker:
+    icon: 🐳
+    description: |
+      Create docker task
+      You need to specify `image`, `task`, and `container`. For example:
+      ```sh
+      zaruba please addDocker  <image=nginx> [container=myNginx] [task=runMyNginx] [templates=templatePath1:templatePath2]
+      ```
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+      - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
+        IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
+        CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        sh "${UTIL}/py.sh" create_docker_task "${TEMPLATES}" "${IMAGE}" "${CONTAINER}" "${TASK}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+
+
+  addService:
+    icon: 📦
+    description: |
+      Create service task
+      You need to specify `location`, `task`, `type`, and `templates`. For example:
+      ```sh
+      zaruba please addService  <location=./service> [type=python] [task=runService] [ports=port1,port2] [templates=templatePath1:templatePath2]
+      ```
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+      - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
+        sh "${UTIL}/py.sh" create_service_task "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+
+
+  createService:
+    icon: 🍄
+    description: |
+      Create service task
+      You need to specify `location`, `task`, `type`, and `templates`. For example:
+      ```sh
+      zaruba please createService <location=./service> [type=python] [task=runService] [templates=templatePath1:templatePath2]
+      ```
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+      - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        set -e
+        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
+        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
+        sh "${UTIL}/py.sh" create_service "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
+        echo 🎉🎉🎉
+
+
+  updateLinks:
+    icon: 🔗
+    description: |
+      Organize your shared library
+      You must specify links in `default.kwargs.yaml`:
+      ```yaml
+      link::<destination>: <source>
+      ```
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        {{ $this := . -}}
+        {{ $workPath := .WorkPath }}
+        {{ $destinations := .Kwargs.GetSubKeys "link" -}}
+        {{ $kwargs := .Kwargs -}}
+        {{ range $index, $destination := $destinations -}}
+          {{ $source := $kwargs.GetValue "link" $destination -}}
+          {{ $absSource := $this.GetAbsPath $workPath $source -}}
+          {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
+          sh "${UTIL}/update_link.sh" "{{ $absSource }}" "{{ $absDestination }}"
+        {{ end -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"

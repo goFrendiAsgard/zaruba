@@ -25,14 +25,14 @@ class RMQMessageBus(MessageBus):
         self.connection: BlockingConnection = pika.BlockingConnection(rmq_param)
         self.connection.add_callback_threadsafe(self._callback)
         self.connection.process_data_events()
-        signal.signal(signal.SIGINT, self._handle_signal) 
-        signal.signal(signal.SIGTERM, self._handle_signal) 
+        signal.signal(signal.SIGINT, self._handle_signal)
+        signal.signal(signal.SIGTERM, self._handle_signal)
 
 
     def _handle_signal(self, sig, frame):
         self.connection.close()
         self.thread.join()
-   
+
 
     def _process_data_events(self):
         while True:
@@ -79,7 +79,7 @@ class RMQMessageBus(MessageBus):
         caller = RMQRPCCaller(self)
         return caller.call(event_name, *args)
 
-    
+
     def handle(self, event_name: str, handler: Callable[[Any], Any]):
         exchange = self.event_map.get_exchange_name(event_name)
         queue = self.event_map.get_queue_name(event_name)
@@ -104,7 +104,7 @@ class RMQMessageBus(MessageBus):
         ch.basic_qos(prefetch_count=1)
         ch.basic_consume(queue=queue, on_message_callback=on_request, auto_ack=auto_ack)
 
-    
+
     def publish(self, event_name: str, msg: Any) -> Any:
         exchange = self.event_map.get_exchange_name(event_name)
         queue = self.event_map.get_queue_name(event_name)

@@ -4,8 +4,7 @@ tasks:
     icon: 🐸
     extend: core.startService
     config:
-      script: |
+      start: |
         npm install --save-dev
         tsc
         npm start
-    

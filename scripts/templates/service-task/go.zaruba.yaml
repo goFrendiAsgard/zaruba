@@ -4,6 +4,5 @@ tasks:
     icon: 🐹
     extend: core.startService
     config:
-      script: |
+      start: |
         go run main.go
-    

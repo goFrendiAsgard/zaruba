@@ -72,7 +72,7 @@ tasks:
     lconfig:
       ports: [3031]
     config:
-      script: "python -m http.server {{ index .LConfig.ports 0 }}"
+      start: "python -m http.server {{ index .LConfig.ports 0 }}"
   
   runNginx:
     extend: core.startDockerContainer
