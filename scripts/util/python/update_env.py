@@ -14,12 +14,14 @@ def update_env(project_dir:str):
             if not file_name.endswith('.zaruba.yaml'):
                 continue
             task_file_name = os.path.join(root, file_name)
+            task_dir_name = os.path.dirname(task_file_name)
             task_file_dict = project.get_dict_from_file(task_file_name)
             if 'tasks' not in task_file_dict:
                 continue
             for task_name, task_dict in task_file_dict['tasks'].items():
                 task = project.Task(task_dict)
-                task = adjust_task_env(task, task_file_name)
+                if task_dir_name != project_dir:
+                    task = adjust_task_env(task, task_file_name)
                 project.write_task_env(project_dir, task)
                 task_file_dict['tasks'][task_name] = task.as_dict()
             project.save_dict_to_file(task_file_name, task_file_dict)

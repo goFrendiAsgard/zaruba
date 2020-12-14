@@ -48,10 +48,7 @@ class Env():
 
 
     def set_default(self, default: str) -> Env:
-        if default:
-            self._dict['default'] = str(default)
-        elif 'default' in self._dict:
-            del self._dict['default']
+        self._dict['default'] = str(default)
         return self
 
 
