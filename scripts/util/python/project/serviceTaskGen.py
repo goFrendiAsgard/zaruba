@@ -51,6 +51,6 @@ class ServiceTaskGen():
 
     def create_replace_dict(self) -> Mapping[str, str]:
         replace_dict = {
-            'SERVICE': get_service_name_by_location(self.task_location).upper(),
+            'MYSERVICE': get_service_name_by_location(self.task_location).upper(),
         }
         return replace_dict

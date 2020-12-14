@@ -1,7 +1,7 @@
 service: ./service
 module: ./module
 ports:
-- SERVICE_HTTP_PORT
+- MYSERVICE_HTTP_PORT
 dependencies:
 - rabbitmq
 links:

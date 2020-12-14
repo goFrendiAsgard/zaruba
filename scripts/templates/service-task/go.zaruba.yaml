@@ -5,4 +5,4 @@ tasks:
     extend: core.startService
     config:
       start: |
-        go run main.go
+        go run .

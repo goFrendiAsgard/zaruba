@@ -58,7 +58,7 @@ class ServiceGen():
 
     def create_replace_dict(self) -> Mapping[str, str]:
         replace_dict = {
-            'SERVICE': get_service_name_by_location(self.target_location).upper(),
+            'MYSERVICE': get_service_name_by_location(self.target_location).upper(),
         }
         return replace_dict
             
