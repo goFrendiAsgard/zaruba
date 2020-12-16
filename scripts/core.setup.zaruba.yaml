@@ -65,11 +65,14 @@ tasks:
             exit 0
           fi
         fi
+        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${UTIL}/py.sh" get_segment "${HOME}" / -1){{ end }}
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
         apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm
+        chown -R ${CURRENT_USER} ${HOME}/.local
+        chown -R ${CURRENT_USER} ${HOME}/.config
 
 
   core.ubuntu.setupDocker:
