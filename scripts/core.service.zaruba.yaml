@@ -59,7 +59,6 @@ tasks:
     private: true
     extend: core.runCoreScript
     dependencies:
-    - createDockerNetwork
     - updateLinks
     start:
     - "sh"
