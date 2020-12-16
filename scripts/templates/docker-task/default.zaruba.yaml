@@ -3,6 +3,7 @@ tasks:
   runContainer:
     icon: 🐳
     extend: core.startDockerContainer
+    timeout: 1h
     env: {}
     config:
       imageName: imageName

@@ -3,6 +3,7 @@ tasks:
   runContainer:
     icon: 🍝
     extend: core.startDockerContainer
+    timeout: 1h
     env:
       discover.type:
         from: ES_DISCOVER_TYPE
@@ -12,9 +13,9 @@ tasks:
         default: true
       ES_JAVA_OPTS:
         from: ES_JAVA_OPTS
-        default: "-Xms512m -Xmx512m"
+        default: "\"-Xms512m -Xmx512m\""
     config:
-      imageName: elasticsearch
+      imageName: elasticsearch:7.10.1
       containerName: containerName
       port::9200: 9200
       port::9300: 9300

@@ -3,6 +3,7 @@ tasks:
   runContainer:
     icon: 🐇
     extend: core.startDockerContainer
+    timeout: 1h
     env:
       RABBITMQ_DEFAULT_USER:
         from: RABITMQ_DEFAULT_USER

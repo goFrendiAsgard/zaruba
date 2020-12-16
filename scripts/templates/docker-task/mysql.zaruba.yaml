@@ -3,6 +3,7 @@ tasks:
   runContainer:
     icon: 🐬 
     extend: core.startDockerContainer
+    timeout: 1h
     env:
       MYSQL_USER:
         from: MYSQL_USER

@@ -3,10 +3,11 @@ tasks:
   runContainer:
     icon: 👀
     extend: core.startDockerContainer
+    timeout: 1h
     env:
       JVM_OPTS:
         from: CASSANDRA_JVM_OPTS
-        default: "-Xms512m -Xmx512m"
+        default: "\"-Xms512m -Xmx512m\""
     config:
       imageName: cassandra
       containerName: containerName
