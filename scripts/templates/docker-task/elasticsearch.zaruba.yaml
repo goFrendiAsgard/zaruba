@@ -5,7 +5,7 @@ tasks:
     extend: core.startDockerContainer
     timeout: 1h
     env:
-      discover.type:
+      discovery.type:
         from: ES_DISCOVER_TYPE
         default: single-node
       bootstrap.memory_lock:
