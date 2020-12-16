@@ -106,7 +106,6 @@ tasks:
       {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
       docker logs --since 0m --follow "${CONTAINER_NAME}"
-      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Connecting container '${CONTAINER_NAME}' to '{{ $projectName }}' network{{ $d.Normal }}"
       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' started{{ $d.Normal }}"
     check:
     - "sh"
