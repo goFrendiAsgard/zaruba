@@ -89,7 +89,6 @@ tasks:
       then
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
-          --network="{{ .ProjectName }}" {{"" -}}
           {{ range $key, $val := .Env }} -e {{ $key }}={{ $val }} {{ end -}}
           {{ range $index, $hostPort := $ports -}}
             {{ $containerPort := $config.GetValue "port" $hostPort -}}
@@ -109,7 +108,6 @@ tasks:
       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
       docker logs --since 0m --follow "${CONTAINER_NAME}"
       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Connecting container '${CONTAINER_NAME}' to '{{ $projectName }}' network{{ $d.Normal }}"
-      docker network connect "{{ $projectName }}" "${CONTAINER_NAME}"
       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' started{{ $d.Normal }}"
     check:
     - "sh"

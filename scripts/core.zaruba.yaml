@@ -86,24 +86,6 @@ tasks:
         sh "${UTIL}/py.sh" show_log "log.zaruba.csv" "${TASK}"
 
 
-  createDockerNetwork:
-    icon: 🐳
-    description: |
-      Create docker network based on project name.
-      USAGE: zaruba please createDockerNetwork
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        if [ -z $(sh "${UTIL}/inspect_docker.sh" "network" ".Name" "{{ .ProjectName }}") ]
-        then
-          docker network create "{{ .ProjectName }}"
-          echo "{{ $d.Bold }}{{ $d.Yellow }}Docker network created: {{ .ProjectName }}{{ $d.Normal }}"
-        else
-          echo "{{ $d.Bold }}{{ $d.Yellow }}Docker network already exists: {{ .ProjectName }}{{ $d.Normal }}"
-        fi
-
-
   core.isValidSubrepos:
     icon: 🔍
     private: true
