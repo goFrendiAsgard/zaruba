@@ -34,10 +34,14 @@ tasks:
     - "{{ .Config.cmd }}"
     - "{{ .Config.cmdArg }}"
     - |
-        {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
-        {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
-        {{ if .Config.start }}{{ .Config.start }}{{ end }}
-        {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
+        {{- if .Config.setup }}{{ .Config.setup }}
+        {{ end -}}
+        {{- if .Config.beforeStart }}{{ .Config.beforeStart }}
+        {{ end -}}
+        {{- if .Config.start }}{{ .Config.start }}
+        {{ end -}}
+        {{- if .Config.afterStart }}{{ .Config.afterStart }}
+        {{ end -}}
 
 
   core.runCoreScript:
