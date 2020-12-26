@@ -214,15 +214,18 @@ Please check `config/templatedata.go` to see `TaskData` definition. Here is a gl
 ```go
 // TaskData is struct sent to template
 type TaskData struct {
-	task     *Task
-	Name     string
-	ProjectName string
-	BasePath string
-	WorkPath string
-	Kwargs   Dictionary
-	Env      Dictionary
-	Config   Dictionary
-	LConfig  map[string][]string
+	task         *Task
+	Name         string
+	ProjectName  string
+	BasePath     string
+	WorkPath     string
+	DirPath      string
+	FileLocation string
+	Kwargs       Dictionary
+	Env          Dictionary
+	Config       Dictionary
+	LConfig      map[string][]string
+	Decoration   logger.Decoration
 }
 
 // GetEnv of TaskData
