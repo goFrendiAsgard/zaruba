@@ -47,6 +47,7 @@ tasks:
   core.ubuntu.setup:
     icon: 🔨
     extend: core.runCoreScript
+    private: true
     timeout: 1h
     config:
       start: |
@@ -78,6 +79,7 @@ tasks:
   core.ubuntu.setupDocker:
     icon: 🔨
     extend: core.runCoreScript
+    private: true
     timeout: 1h
     dependencies:
     - core.ubuntu.setup
@@ -96,6 +98,7 @@ tasks:
   core.ubuntu.setupPipenv:
     icon: 🔨
     extend: core.runCoreScript
+    private: true
     timeout: 1h
     dependencies:
     - core.ubuntu.setup
@@ -114,6 +117,7 @@ tasks:
   core.ubuntu.setupNvm:
     icon: 🔨
     extend: core.runCoreScript
+    private: true
     timeout: 1h
     dependencies:
     - core.ubuntu.setup
