@@ -1,7 +1,7 @@
-from project.helpers import adjust_task_env
-import sys
-import os
-import project
+from common_helper import get_argv
+from generator_helper import read_config, update_task_env, write_config, write_task_env
+
+import os, sys, traceback
 
 # USAGE
 # python update_env.py <project_dir>
@@ -13,20 +13,24 @@ def update_env(project_dir:str):
         for file_name in file_names:
             if not file_name.endswith('.zaruba.yaml'):
                 continue
-            task_file_name = os.path.join(root, file_name)
-            task_dir_name = os.path.dirname(task_file_name)
-            task_file_dict = project.get_dict_from_file(task_file_name)
-            if 'tasks' not in task_file_dict:
+            file_name = os.path.join(root, file_name)
+            dir_name = os.path.dirname(file_name)
+            config = read_config(file_name)
+            if 'tasks' not in config:
                 continue
-            for task_name, task_dict in task_file_dict['tasks'].items():
-                task = project.Task(task_dict)
-                if task_dir_name != project_dir:
-                    task = adjust_task_env(task, task_file_name)
-                project.write_task_env(project_dir, task)
-                task_file_dict['tasks'][task_name] = task.as_dict()
-            project.save_dict_to_file(task_file_name, task_file_dict)
+            for task_name, task in config['tasks'].items():
+                if dir_name != project_dir:
+                    task = update_task_env(task, file_name)
+                write_task_env(project_dir, task)
+                config['tasks'][task_name] = task.as_dict()
+            write_config(file_name, config)
 
 
 if __name__ == '__main__':
-    project_dir = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] != '' else '.'
-    update_env(project_dir)
+    try:
+        project_dir = get_argv(1, '.')
+        update_env(project_dir)
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
+        sys.exit(1)

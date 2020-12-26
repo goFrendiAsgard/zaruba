@@ -1,6 +1,6 @@
 tasks:
 
-  runContainer:
+  zarubaTaskName:
     icon: 🍝
     extend: core.startDockerContainer
     timeout: 1h
@@ -16,7 +16,7 @@ tasks:
         default: "\"-Xms512m -Xmx512m\""
     config:
       imageName: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
-      containerName: containerName
+      containerName: zarubaContainerName
       port::9200: 9200
       port::9300: 9300
       

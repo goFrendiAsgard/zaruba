@@ -1,0 +1,42 @@
+tasks:
+
+  zarubaTaskName:
+    icon: 🐸
+    extend: core.startService
+    location: zarubaTaskLocation
+    dependencies:
+      - prepareZarubaServiceName
+    env: &zarubaServiceNameEnv
+    config:
+      start: npm start
+        npm install --save-dev
+        tsc
+        npm start
+    lconfig: {}
+  
+
+  testZarubaServiceName:
+    icon: 🐸
+    extend: core.runShellScript
+    location: zarubaTaskLocation
+    dependencies:
+      - prepareZarubaServiceName
+    timeout: 1h
+    env:
+      <<: *zarubaServiceNameEnv
+    config:
+      start: npm test
+
+  
+  prepareZarubaServiceName:
+    icon: 🐸
+    extend: core.runShellScript
+    location: zarubaTaskLocation
+    timeout: 1h
+    env:
+      <<: *zarubaServiceNameEnv
+    config:
+      start: |
+        npm install
+        tsc
+    

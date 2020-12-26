@@ -1,0 +1,21 @@
+tasks:
+
+  zarubaTaskName:
+    icon: 🐹
+    extend: core.startService
+    location: zarubaTaskLocation
+    env: &zarubaServiceNameEnv
+    config:
+      start: go run .
+    lconfig: {}
+
+
+  testZarubaServiceName:
+    icon: 🐹
+    extend: core.runShellScript
+    location: zarubaTaskLocation
+    timeout: 1h
+    env:
+      <<: *zarubaServiceNameEnv
+    config:
+      start: go test -v ./... --race -count=1

@@ -12,7 +12,7 @@ tasks:
         - core.setupPyUtil
         config:
           start: |
-            sh ${UTIL}/py.sh "show_log"
+            sh ${RUN_PY} "show_log"
       ```
     private: true
     extend: core.runCoreScript
@@ -65,7 +65,7 @@ tasks:
             exit 0
           fi
         fi
-        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${UTIL}/py.sh" get_segment "${HOME}" / -1){{ end }}
+        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${RUN_PY}" get_segment "${HOME}" / -1){{ end }}
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
@@ -123,7 +123,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
         sh ${UTIL}/py_install.sh
-        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${UTIL}/py.sh" get_segment "${HOME}" / -1){{ end }}
+        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${RUN_PY}" get_segment "${HOME}" / -1){{ end }}
         if [ -d "${HOME}/.nvm" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"

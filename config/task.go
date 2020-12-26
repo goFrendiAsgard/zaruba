@@ -32,9 +32,9 @@ type Task struct {
 	Description     string                `yaml:"description,omitempty"`
 	Icon            string                `yaml:"icon,omitempty"`
 	Logless         bool                  `yaml:"logless,omitempty"`
-	FileLocation    string
+	BasePath        string                // Main yaml's location
+	FileLocation    string                // File location where this task was declared
 	Project         *ProjectConfig
-	BasePath        string
 	ParsedEnv       map[string]string
 	ParsedConfig    map[string]string
 	ParsedLConfig   map[string][]string

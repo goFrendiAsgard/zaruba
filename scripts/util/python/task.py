@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import List, Mapping, TypedDict
-
+from dotenv import dotenv_values
+import os
 
 EnvDict = TypedDict('envDict', {'from': str, 'default': str}, total=False)
-
 
 class TaskDict(TypedDict, total=False):
     icon: str
@@ -20,18 +20,10 @@ class TaskDict(TypedDict, total=False):
     timeout: str
 
 
-
-class ProjectDict(TypedDict, total=False):
-    includes: List[str]
-    tasks: Mapping[str, TaskDict]
-
-
-
 class Env():
 
     def __init__(self, env_dict: EnvDict):
         self._dict: EnvDict = env_dict
-
 
     def set_from(self, envvar: str) -> Env:
         if envvar:
@@ -40,27 +32,22 @@ class Env():
             del self._dict['from']
         return self
 
-
     def get_from(self) -> str:
         if 'from' in self._dict:
             return self._dict['from']
         return ''
 
-
     def set_default(self, default: str) -> Env:
         self._dict['default'] = str(default)
         return self
-
 
     def get_default(self) -> str:
         if 'default' in self._dict:
             return str(self._dict['default'])
         return ''  
 
-
     def as_dict(self) -> EnvDict:
         return self._dict
-
 
 
 class Task():
@@ -69,14 +56,12 @@ class Task():
         self._dict: TaskDict = task_dict
         self._env_values: Mapping[str, str] = {}
 
-
     def set_icon(self, icon: str) -> Task:
         if icon:
             self._dict['icon'] = icon
         elif 'icon' in self._dict:
             del self._dict['icon']
         return self
-
 
     def set_extend(self, extend: str) -> Task:
         if extend:
@@ -85,7 +70,6 @@ class Task():
             del self._dict['extend']
         return self
 
-
     def set_description(self, description: str) -> Task:
         if description:
             self._dict['description'] = description
@@ -93,14 +77,12 @@ class Task():
             del self._dict['description']
         return self
 
-
     def set_location(self, location: str) -> Task:
         if location:
             self._dict['location'] = location
         elif 'location' in self._dict:
             del self._dict['location']
         return self
-
 
     def add_dependency(self, *dependencies: str) -> Task:
         if 'dependencies' not in self._dict:
@@ -110,7 +92,6 @@ class Task():
                 self._dict['dependencies'].append(dependency)
         return self     
 
-
     def set_env(self, env_key: str, env: Env, env_value: str = '') -> Task:
         if 'env' not in self._dict:
             self._dict['env'] = {}
@@ -119,7 +100,6 @@ class Task():
         self._env_values[env_key] = env_value
         return self
 
-
     def get_all_env(self) -> Mapping[str, Env]:
         env_map: Mapping[str, Env] = {}
         if 'env' in self._dict:
@@ -127,12 +107,10 @@ class Task():
                 env_map[key] = self.get_env(key)
         return env_map
 
-
     def get_env(self, env_key: str) -> Env:
         if ('env' in self._dict) and (env_key in self._dict['env']):
             return Env(self._dict['env'][env_key])
         return Env({})
-
 
     def get_env_value(self, env_key: str) -> str:
         if env_key in self._env_values:
@@ -142,13 +120,11 @@ class Task():
         env = self.get_env(env_key)
         return env.get_default()
 
-
     def set_config(self, config_key: str, val: str) -> Task:
         if 'config'not in self._dict:
             self._dict['config'] = {}
         self._dict['config'][config_key] = val
         return self
-
 
     def init_lconfig(self, lconfig_key: str) -> Task:
         if 'lconfig'not in self._dict:
@@ -156,13 +132,11 @@ class Task():
         if lconfig_key not in self._dict['lconfig']:
             self._dict['lconfig'][lconfig_key] = []
 
-
     def add_lconfig(self, lconfig_key: str, *vals: str) -> Task:
         self.init_lconfig(lconfig_key)
         for val in vals:
             self._dict['lconfig'][lconfig_key].append(val)
         return self
-
 
     def add_unique_lconfig(self, lconfig_key: str, *vals: str) -> Task:
         self.init_lconfig(lconfig_key)
@@ -171,7 +145,6 @@ class Task():
                 continue
             self._dict['lconfig'][lconfig_key].append(val)
         return self
-
 
     def add_lconfig_port(self, port: str) -> Task:
         port = port.strip()
@@ -190,18 +163,15 @@ class Task():
         )
         return self
 
-
-    def add_lconfig_ports(self, *ports: str) -> Task:
+    def add_lconfig_ports(self, ports: List[str]) -> Task:
         for port in ports:
             self.add_lconfig_port(port)
         return self
-
 
     def get_location(self) -> str:
         if 'location' in self._dict:
             return self._dict['location']
         return ''
-
 
     def get_possible_ports(self) -> List[str]:
         ports: List[str] = []
@@ -217,12 +187,3 @@ class Task():
 
     def as_dict(self) -> TaskDict:
         return self._dict
-
-
-
-class Template():
-
-    def __init__(self, location: str, is_default: bool):
-        self.location = location
-        self.is_default = is_default
-

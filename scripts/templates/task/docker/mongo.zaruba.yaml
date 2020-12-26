@@ -1,6 +1,6 @@
 tasks:
 
-  runContainer:
+  zarubaTaskName:
     icon: 🍃
     extend: core.startDockerContainer
     timeout: 1h
@@ -13,5 +13,5 @@ tasks:
         default: toor
     config:
       imageName: mongo
-      containerName: containerName
+      containerName: zarubaContainerName
       port::27017: 27017

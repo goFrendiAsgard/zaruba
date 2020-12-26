@@ -1,8 +1,0 @@
-tasks:
-
-  runService:
-    icon: 🐹
-    extend: core.startService
-    config:
-      start: |
-        go run .

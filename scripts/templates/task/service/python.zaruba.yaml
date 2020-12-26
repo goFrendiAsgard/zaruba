@@ -1,0 +1,28 @@
+tasks:
+
+  zarubaTaskName:
+    icon: 🐍
+    extend: core.startService
+    location: zarubaTaskLocation
+    dependencies:
+      - prepareZarubaServiceName
+    env: &zarubaServiceNameEnv
+      PIPENV_DONT_LOAD_ENV:
+        from: ZARUBA_ENV_PREFIX_PIPENV_DONT_LOAD_ENV
+        default: 1
+    config:
+      start: |
+        MAIN_SCRIPT=$(sh "${UTIL}/get_main_python_script.sh")
+        pipenv run python ${MAIN_SCRIPT}
+    lconfig: {}
+
+    
+  prepareZarubaServiceName:
+    icon: 🐍
+    extend: core.runShellScript
+    location: zarubaTaskLocation
+    timeout: 1h
+    env:
+      <<: *zarubaServiceNameEnv
+    config:
+      start: pipenv install

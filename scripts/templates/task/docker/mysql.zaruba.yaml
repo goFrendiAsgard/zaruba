@@ -1,6 +1,6 @@
 tasks:
 
-  runContainer:
+  zarubaTaskName:
     icon: 🐬 
     extend: core.startDockerContainer
     timeout: 1h
@@ -19,7 +19,7 @@ tasks:
         default: sample
     config:
       imageName: mysql
-      containerName: containerName
+      containerName: zarubaContainerName
       port::3306: 3306
       afterCheck: |
         set +e

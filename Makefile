@@ -24,15 +24,15 @@ showOff:
 	cd playground && ../zaruba please initSubrepos
 	cd playground && ../zaruba please pullSubrepos
 	echo "=== ADD FIBO SERVICE"
-	cd playground && ../zaruba please addService location=fibo
+	cd playground && ../zaruba please makeServiceTask location=fibo
 	echo "=== ADD DOCKER SERVICE"
-	cd playground && ../zaruba please addDocker image=rabbitmq
+	cd playground && ../zaruba please makeDockerTask image=rabbitmq
 	echo "=== CREATE FASTAPI SERVICE"
-	cd playground && ../zaruba please createService type=fastapi
+	cd playground && ../zaruba please makeFastService location=servicio
 	echo "=== RUN AND AUTOSTOP"
 	cd playground && ../zaruba please run autostop
 	echo "=== SHOW FASTAPI LOG"
-	cd playground && ../zaruba please showLog task=fastapi
+	cd playground && ../zaruba please showLog task=servicio
 	echo "=== CLEAR LOG"
 	cd playground && ../zaruba please clearLog
 	echo "=== EXPLAIN START"

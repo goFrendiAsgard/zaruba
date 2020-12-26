@@ -1,6 +1,6 @@
 tasks:
 
-  runContainer:
+  zarubaTaskName:
     icon: 🐇
     extend: core.startDockerContainer
     timeout: 1h
@@ -13,7 +13,7 @@ tasks:
         default: toor
     config:
       imageName: rabbitmq:3-management
-      containerName: containerName
+      containerName: zarubaContainerName
       port::5672: 5672
       port::15672: 15672
       afterCheck: |

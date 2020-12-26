@@ -85,3 +85,37 @@ func TestTaskDataKwargsGetValue(t *testing.T) {
 		t.Errorf("%s expected, but getting %s", expected, actual)
 	}
 }
+
+func TestTaskDataGetConfig(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	expected := "9000"
+	actual, err := td.GetTaskConfig("serveStaticFiles", "port")
+	if err != nil {
+		t.Error(err)
+	}
+	if actual != expected {
+		t.Errorf("%s expected, but getting %s", expected, actual)
+	}
+}
+
+func TestTaskDataGetTaskConfigFromInvalidTask(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	_, err := td.GetTaskConfig("invalidTask", "port")
+	if err == nil {
+		t.Error("Error expected, but no error found")
+	}
+}
+
+func TestTaskDataGetTaskConfigFromInvalidConfig(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	_, err := td.GetTaskConfig("serveStaticFiles", "invalidConfig")
+	if err == nil {
+		t.Error("Error expected, but no error found")
+	}
+}

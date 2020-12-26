@@ -1,4 +1,5 @@
 includes:
+  - ./core.generator.zaruba.yaml
   - ./core.run.zaruba.yaml
   - ./core.service.zaruba.yaml
   - ./core.setup.zaruba.yaml
@@ -83,7 +84,7 @@ tasks:
           exit 1
         fi
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}.*{{ end }}"
-        sh "${UTIL}/py.sh" show_log "log.zaruba.csv" "${TASK}"
+        sh "${RUN_PY}" show_log "log.zaruba.csv" "${TASK}"
 
 
   core.isValidSubrepos:
@@ -142,7 +143,7 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${RUN_PY}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git remote set-url "${NAME}" "${URL}"
@@ -197,8 +198,8 @@ tasks:
         {{ end }}
         URL="{{ .Kwargs.url }}"
         {{ if not .Kwargs.prefix }}
-          PREFIX=$(sh "${UTIL}/py.sh" get_segment "${URL}" "/" "-1")
-          PREFIX=$(sh "${UTIL}/py.sh" get_segment "${PREFIX}" "." "0")
+          PREFIX=$(sh "${RUN_PY}" get_segment "${URL}" "/" "-1")
+          PREFIX=$(sh "${RUN_PY}" get_segment "${PREFIX}" "." "0")
         {{ else }}
           PREFIX="{{ .Kwargs.prefix }}"
         {{ end }}
@@ -207,8 +208,8 @@ tasks:
         {{ else }}
           NAME="{{ .Kwargs.name }}"
         {{ end }}
-        sh "${UTIL}/py.sh" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
-        sh "${UTIL}/py.sh" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
+        sh "${RUN_PY}" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
+        sh "${RUN_PY}" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
@@ -239,7 +240,7 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${RUN_PY}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             sh "${UTIL}/git_save.sh" "Save works before push"
@@ -274,7 +275,7 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(sh "${UTIL}/py.sh" is_in_array "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${RUN_PY}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             sh "${UTIL}/git_save.sh" "Save works before pull"
@@ -327,103 +328,14 @@ tasks:
     extend: core.runCoreScript
     dependencies:
     - core.isNotProject
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
         git init
-        cp "${SCRIPT_PATH}/templates/project/default.kwargs.yaml" ./default.kwargs.yaml
-        cp "${SCRIPT_PATH}/templates/project/main.zaruba.yaml" ./main.zaruba.yaml
-        cp "${SCRIPT_PATH}/templates/project/.gitignore" ./.gitignore
+        sh "${RUN_PY}" copy_and_replace "${ZARUBA_HOME}/scripts/templates/project" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
-
-
-  addDocker:
-    icon: 🐳
-    description: |
-      Add docker task to the project.
-      USAGE:
-        zaruba please addDocker image=nginx
-        zaruba please addDocker image=nginx container=myNginx task=runMyNginx templates=templates
-      ARGUMENTS
-        image:      Docker image. (required)
-        container:  Container name. (optional, if not provided, will be inferred from `image`)
-        task:       Task name. (optional, if not provided, will be inferred from `image`)
-        templates:  Template directory. (optional, used to define custom template path)
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.setupPyUtil
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        set -e
-        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
-        IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
-        CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
-        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
-        sh "${UTIL}/py.sh" create_docker_task "${TEMPLATES}" "${IMAGE}" "${CONTAINER}" "${TASK}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
-
-
-  addService:
-    icon: 📦
-    description: |
-      Add service task to the project.
-      USAGE:
-        zaruba please addService location=fibo
-        zaruba please addService location=fibo type=default task=runFibo templates=templates
-      ARGUMENTS
-        location:   Service location. (required)
-        type:       Service type. (optional, default to 'default')
-        task:       Task name. (optional, if not provided, will be inferred from `location`)
-        templates:  Template directory. (optional, used to define custom template path)
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.setupPyUtil
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        set -e
-        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
-        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
-        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
-        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
-        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
-        sh "${UTIL}/py.sh" create_service_task "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
-
-
-  createService:
-    icon: 🍄
-    description: |
-      Create service and add it to the project.
-      USAGE:
-        zaruba please createService location=app type=fastapi
-        zaruba please createService location=app type=fastapi task=runApp templates=templates
-      ARGUMENTS
-        location:   Service location, should not be exists. (required)
-        type:       Service type. (optional, default to 'default')
-        task:       Task name. (optional, if not provided, will be inferred from `location`)
-        templates:  Template directory. (optional, used to define custom template path)
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.setupPyUtil
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        set -e
-        TEMPLATES="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}{{ end }}"
-        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
-        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
-        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
-        sh "${UTIL}/py.sh" create_service "${TEMPLATES}" "${LOCATION}" "${TYPE}" "${PORTS}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service created{{ $d.Normal }}"
 
 
   updateEnv:
@@ -443,7 +355,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         DIR="{{ if .Kwargs.dir }}{{ .Kwargs.dir }}{{ else }}.{{ end }}"
-        sh "${UTIL}/py.sh" update_env "${DIR}"
+        sh "${RUN_PY}" update_env "${DIR}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
@@ -510,6 +422,6 @@ tasks:
           exit 1
         {{ end }}
         DESTINATION="{{ .Kwargs.to }}"
-        sh "${UTIL}/py.sh" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
+        sh "${RUN_PY}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"

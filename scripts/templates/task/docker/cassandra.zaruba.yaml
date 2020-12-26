@@ -1,6 +1,6 @@
 tasks:
 
-  runContainer:
+  zarubaTaskName:
     icon: 👀
     extend: core.startDockerContainer
     timeout: 1h
@@ -10,7 +10,7 @@ tasks:
         default: "\"-Xms512m -Xmx512m\""
     config:
       imageName: cassandra
-      containerName: containerName
+      containerName: zarubaContainerName
       port::7001: 7001
       port::7199: 7199
       port::9042: 9042

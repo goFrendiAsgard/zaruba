@@ -1,12 +1,13 @@
 tasks:
 
-  runService:
+  zarubaTaskName:
     icon: 📜
     description: Serve static files
     extend: serveHttp
-    env:
+    location: zarubaTaskLocation
+    env: &zarubaServiceNameEnv
       HTTP_PORT:
-        from: HTTP_PORT
+        from: ZARUBA_ENV_PREFIX_HTTP_PORT
         default: 8080
     lconfig:
       ports:

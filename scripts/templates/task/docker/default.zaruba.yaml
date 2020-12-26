@@ -1,10 +1,10 @@
 tasks:
 
-  runContainer:
+  zarubaTaskName:
     icon: 🐳
     extend: core.startDockerContainer
     timeout: 1h
     env: {}
     config:
-      imageName: imageName
-      containerName: containerName
+      imageName: zarubaImageName
+      containerName: zarubaContainerName

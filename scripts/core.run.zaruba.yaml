@@ -61,8 +61,8 @@ tasks:
     config:
       setup: |
         set -e
-        SCRIPT_PATH="${ZARUBA_HOME}/scripts"
-        UTIL="${SCRIPT_PATH}/util/sh"
+        UTIL="${ZARUBA_HOME}/scripts/util/sh"
+        RUN_PY="${UTIL}/py.sh"
       start: "echo hello world"
 
 

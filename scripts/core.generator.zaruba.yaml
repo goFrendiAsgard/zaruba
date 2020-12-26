@@ -1,0 +1,118 @@
+tasks:
+
+  core.generate:
+    icon: 🏭
+    description: |
+      Base task to generate something.
+      USAGE:
+      ```yaml
+      addTask:
+        extend: core.generate
+      config:
+        start: |
+          sh ${RUN_PY} copyAndReplace source.yaml destination.yaml ${KWARGS}
+      ```
+    private: true
+    extend: core.runCoreScript
+    dependencies:
+      - core.setupPyUtil
+      - core.isProject
+    config:
+      setup: |
+        {{ .GetTaskConfig "core.runCoreScript" "setup" }}
+        TEMPLATE_PATHS="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
+
+
+  makeDockerTask:
+    icon: 🐳
+    description: |
+      Add docker task to the project.
+      USAGE:
+        zaruba please addDocker image=nginx
+        zaruba please addDocker image=nginx container=myNginx task=runMyNginx templates=./templates
+      ARGUMENTS:
+        image:      Docker image. (required)
+        container:  Container name. (optional, if not provided, will be inferred from `image`)
+        task:       Task name. (optional, if not provided, will be inferred from `image`)
+        templates:  Template directories, colon separated. (optional, used to define custom template path)
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        IMAGE="{{ if .Kwargs.image }}{{ .Kwargs.image }}{{ end }}"
+        CONTAINER="{{ if .Kwargs.container }}{{ .Kwargs.container }}{{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        sh "${RUN_PY}" create_docker_task "${TEMPLATE_PATHS}" "${IMAGE}" "${CONTAINER}" "${TASK}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+
+
+  makeServiceTask:
+    icon: 📦
+    description: |
+      Add service task to the project.
+      USAGE:
+        zaruba please addService location=fibo
+        zaruba please addService location=fibo type=default task=runFibo templates=./templates
+      ARGUMENTS:
+        location:   Service location. (required)
+        type:       Service type. (optional, default to 'default')
+        task:       Task name. (optional, if not provided, will be inferred from `location`)
+        templates:  Template directories, colon separated. (optional, used to define custom template path)
+        ports:      Service ports, colon separated. (optional, will be infered from environment if not defined)
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        TYPE="{{ if .Kwargs.type }}{{ .Kwargs.type }}{{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        PORTS="{{ if .Kwargs.ports }}{{ .Kwargs.ports }}{{ end }}"
+        sh "${RUN_PY}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+
+
+  makeFastService:
+    icon: ⚡
+    description: |
+      Make FastAPI service that use Rabbitmq as messagebus
+      USAGE:
+        zaruba please makeFastService location=myService
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ else }}$(sh "${RUN_PY}" get_random_name){{ end }}"
+        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        ENV_PREFIX=$(sh "${RUN_PY}" get_env_prefix "${LOCATION}")
+        FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
+        for FILE in $(ls "${FAST_TEMPLATE}")
+        do
+          SOURCE_FILE="${FAST_TEMPLATE}/${FILE}"
+          if [ -f "${SOURCE_FILE}" ]
+          then
+            echo "Creating ${LOCATION}/${FILE}"
+            sh "${RUN_PY}" copy_and_replace "${SOURCE_FILE}" "${LOCATION}/${FILE}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
+          fi
+        done
+        TRANSPORT_SHARED_LIB="shared-libs/python/transport"
+        if [ ! -d "${TRANSPORT_SHARED_LIB}" ]
+        then
+          echo "Creating ${TRANSPORT_DESTINATION}"
+          sh "${RUN_PY}" copy_and_replace "${FAST_TEMPLATE}/transport" "${TRANSPORT_SHARED_LIB}"
+        fi
+        echo "Creating link"
+        sh "${RUN_PY}" set_project_kwarg "link::${LOCATION}/transport" "${TRANSPORT_SHARED_LIB}"
+        echo "Update link"
+        sh "${UTIL}/update_link.sh" "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
+        sh "${RUN_PY}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK}" "${ENV_PREFIX}_HTTP_PORT"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created for ${LOCATION}{{ $d.Normal }}"
+  
+
+  makeFastModule:
+    icon: ⚡
+    extend: core.generate
