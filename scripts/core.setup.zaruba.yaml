@@ -40,9 +40,8 @@ tasks:
         {{ $d := .Decoration -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
-        echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience"
-        echo "https://docs.docker.com/docker-for-windows/wsl/"
-
+        echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
+    
 
   core.ubuntu.setup:
     icon: 🔨
@@ -53,25 +52,13 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
-        if echo "${HOME}" | grep -q "/root$"
-        then
-          echo '⚠️ {{ $d.Red }}Your ${HOME} is seems to be root home directory:{{ $d.Normal }}'
-          echo "⚠️ {{ $d.Red }}${HOME}{{ $d.Normal }}"
-          echo 'You might want to re-run this command with {{ $d.Yellow }}`sudo -E`{{ $d.Normal }} option instead'
-          echo "{{ $d.Bold }}{{ $d.Yellow }}Do you really want to continue with current home directory? (Y/n){{ $d.Normal }}"
-          read INPUT
-          if [ "${INPUT}" != "Y" ] && [ "${INPUT}" != "y" ]
-          then
-            echo "👏 Wise choice. Setup canceled"
-            exit 0
-          fi
-        fi
+        sh ${UTIL}/check_setup_ubuntu.sh "${HOME}"
         CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${RUN_PY}" get_segment "${HOME}" / -1){{ end }}
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
-        apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm
+        apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm tmux zsh neovim cowsay figlet lolcat
         chown -R ${CURRENT_USER} ${HOME}/.local
         chown -R ${CURRENT_USER} ${HOME}/.config
 

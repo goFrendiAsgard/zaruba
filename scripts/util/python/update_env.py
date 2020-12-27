@@ -1,5 +1,6 @@
 from common_helper import get_argv
 from generator_helper import read_config, update_task_env, write_config, write_task_env
+from decoration import yellow, normal
 
 import os, sys, traceback
 
@@ -18,11 +19,13 @@ def update_env(project_dir:str):
             config = read_config(file_name)
             if 'tasks' not in config:
                 continue
+            print('{yellow}Update tasks in "{file_name}"{normal}'.format(yellow=yellow, normal=normal, file_name=file_name))
             for task_name, task in config['tasks'].items():
                 if dir_name != project_dir:
                     task = update_task_env(task, file_name)
                 write_task_env(project_dir, task)
                 config['tasks'][task_name] = task.as_dict()
+            print('{yellow}Save updated tasks into "{file_name}"{normal}'.format(yellow=yellow, normal=normal, file_name=file_name))
             write_config(file_name, config)
 
 

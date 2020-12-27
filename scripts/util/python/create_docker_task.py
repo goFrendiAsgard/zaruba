@@ -1,6 +1,6 @@
 from typing import List
 from common_helper import get_argv
-from generator_helper import copy_and_replace, get_container_name, get_task_file_name, get_task_name, read_config, register_task, write_task_env
+from generator_helper import copy_and_replace_all, get_container_name, get_task_file_name, get_task_name, read_config, register_task, write_task_env
 from task import Task
 
 import os, sys, traceback
@@ -23,7 +23,7 @@ def create_docker_task(template_path_list: List[str], image_name: str, container
     container_name = container_name if container_name != '' else get_container_name(image_name)
     task_name = task_name if task_name != '' else get_task_name(container_name)
     task_file_name = get_task_file_name(task_name)
-    copy_and_replace(template, task_file_name, {
+    copy_and_replace_all(template, task_file_name, {
         'zarubaTaskName': task_name,
         'zarubaImageName': image_name,
         'zarubaContainerName': container_name,

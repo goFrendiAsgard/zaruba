@@ -328,12 +328,11 @@ tasks:
     extend: core.runCoreScript
     dependencies:
     - core.isNotProject
-    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
         git init
-        sh "${RUN_PY}" copy_and_replace "${ZARUBA_HOME}/scripts/templates/project" .
+        cp -rT "${ZARUBA_HOME}/scripts/templates/project/" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
 
@@ -387,7 +386,7 @@ tasks:
           {{ $source := $kwargs.GetValue "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}
           {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
-          sh "${UTIL}/update_link.sh" "{{ $absSource }}" "{{ $absDestination }}"
+          sh "${UTIL}/link_resource.sh" "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"

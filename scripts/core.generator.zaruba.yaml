@@ -87,25 +87,25 @@ tasks:
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
         ENV_PREFIX=$(sh "${RUN_PY}" get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        for FILE in $(ls "${FAST_TEMPLATE}")
-        do
-          SOURCE_FILE="${FAST_TEMPLATE}/${FILE}"
-          if [ -f "${SOURCE_FILE}" ]
-          then
-            echo "Creating ${LOCATION}/${FILE}"
-            sh "${RUN_PY}" copy_and_replace "${SOURCE_FILE}" "${LOCATION}/${FILE}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
-          fi
-        done
+        echo "{{ $d.Yellow }}Creating directory on ${LOCATION}{{ $d.Normal }}"
+        mkdir -p "${LOCATION}"
+        echo "{{ $d.Yellow }}Copying files from template...{{ $d.Normal }}"
+        cp "${FAST_TEMPLATE}/Dockerfile" "${LOCATION}/Dockerfile"
+        cp "${FAST_TEMPLATE}/main.py" "${LOCATION}/main.py"
+        cp "${FAST_TEMPLATE}/Pipfile" "${LOCATION}/Pipfile"
+        cp "${FAST_TEMPLATE}/Pipfile.lock" "${LOCATION}/Pipfile.lock"
+        cp "${FAST_TEMPLATE}/start.sh" "${LOCATION}/start.sh"
+        cp "${FAST_TEMPLATE}/template.env" "${LOCATION}/template.env"
+        sh "${RUN_PY}" replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
         TRANSPORT_SHARED_LIB="shared-libs/python/transport"
         if [ ! -d "${TRANSPORT_SHARED_LIB}" ]
         then
-          echo "Creating ${TRANSPORT_DESTINATION}"
-          sh "${RUN_PY}" copy_and_replace "${FAST_TEMPLATE}/transport" "${TRANSPORT_SHARED_LIB}"
+          echo "Creating transport shared library on ${TRANSPORT_SHARED_LIB}"
+          mkdir -p "${TRANSPORT_SHARED_LIB}"
+          cp -rT "${FAST_TEMPLATE}/transport" "${TRANSPORT_SHARED_LIB}"
         fi
-        echo "Creating link"
-        sh "${RUN_PY}" set_project_kwarg "link::${LOCATION}/transport" "${TRANSPORT_SHARED_LIB}"
-        echo "Update link"
-        sh "${UTIL}/update_link.sh" "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
+        sh "${RUN_PY}" add_link "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
+        sh "${UTIL}/link_resource.sh" "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
         sh "${RUN_PY}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK}" "${ENV_PREFIX}_HTTP_PORT"

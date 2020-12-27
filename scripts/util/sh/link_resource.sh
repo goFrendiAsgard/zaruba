@@ -1,13 +1,16 @@
 #!/bin/sh
 
 # USAGE
-# sh update_link.sh <src> <destination>
+# sh link_resource.sh <src> <destination>
+
+. "$(dirname ${0})/decoration.sh"
 
 _SRC="${1}"
 _DST="${2}"
 
 (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
 set -e
+echo "${Yellow}Link \"${_SRC}\" into \"${_DST}\"${Normal}"
 if [ -e "${_DST}" ]
 then
     chmod 777 -R "${_DST}"

@@ -4,7 +4,7 @@ from generator_helper import get_env_prefix
 import os, sys, traceback
 
 # USAGE
-# python copy_and_replace.py <location>
+# python get_env_prefix.py <location>
 
 if __name__ == '__main__':
     location = get_argv(1)

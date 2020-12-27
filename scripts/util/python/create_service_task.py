@@ -1,6 +1,6 @@
 from typing import List
 from common_helper import get_argv
-from generator_helper import copy_and_replace, get_env_prefix, get_task_file_name, get_service_name, get_task_name, read_config, register_task, update_task_env, write_config, write_task_env
+from generator_helper import copy_and_replace_all, get_env_prefix, get_task_file_name, get_service_name, get_task_name, read_config, register_task, update_task_env, write_config, write_task_env
 from task import Task
 
 import os, sys, traceback
@@ -25,7 +25,7 @@ def create_service_task(template_path_list: List[str], location: str, service_ty
     task_location = location if os.path.isabs(location) else os.path.join('..', location)
     service_name = get_service_name(location)
     template = get_service_task_template(template_path_list, service_type)
-    copy_and_replace(template, task_file_name, {
+    copy_and_replace_all(template, task_file_name, {
         'zarubaTaskName': task_name,
         'zarubaServiceName': service_name,
         'zarubaTaskLocation': task_location,

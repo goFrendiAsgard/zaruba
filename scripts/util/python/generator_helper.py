@@ -113,20 +113,32 @@ def get_task_name(service_or_container: str) -> str:
     return 'run{}'.format(service_or_container.capitalize())
 
 
-def replace_content(file_name: str, replace_dict: Mapping[str, str]):
+def replace_in_file(file_name: str, replace_dict: Mapping[str, str]):
     if not replace_dict:
         return
     f_read = open(file_name, 'r')
     content = f_read.read()
     f_read.close()
+    new_content = content
     for key, val in replace_dict.items():
-        content = content.replace(key, val)
+        new_content = new_content.replace(key, val)
+    if new_content == content:
+        return
     f_write = open(file_name, 'w')
-    f_write.write(content)
+    f_write.write(new_content)
     f_write.close()
 
 
-def copy_and_replace(source: str, destination: str, replace_dict: Mapping[str, str]):
+def replace_all(location: str, replace_dict: Mapping[str, str]):
+    if os.path.isfile(location):
+        replace_in_file(location, replace_dict)
+        return
+    for root, dir_names, file_names in os.walk(location):
+        for file_name in file_names:
+            replace_in_file(os.path.join(root, file_name), replace_dict)
+
+
+def copy_and_replace_all(source: str, destination: str, replace_dict: Mapping[str, str]):
     source = os.path.abspath(source)
     destination = os.path.abspath(destination)
     # create destination's parent in case of it doesn't exist
@@ -136,18 +148,16 @@ def copy_and_replace(source: str, destination: str, replace_dict: Mapping[str, s
     # the source is a file
     if os.path.isfile(source):
         shutil.copy(source, destination)
-        replace_content(destination, replace_dict)
+        replace_all(destination, replace_dict)
         return
     # the source is a directory, but the destination doesn't exist
     if os.path.isdir(destination):
         for root, source_dir_names, source_file_names in os.walk(source):
             for file_name in source_file_names:
-                copy_and_replace(os.path.join(root, file_name), os.path.join(destination, file_name), replace_dict)
+                copy_and_replace_all(os.path.join(root, file_name), os.path.join(destination, file_name), replace_dict)
             for dir_name in source_dir_names:
-                copy_and_replace(os.path.join(root, dir_name), os.path.join(destination, dir_name), replace_dict)
+                copy_and_replace_all(os.path.join(root, dir_name), os.path.join(destination, dir_name), replace_dict)
         return
     # the source is a directory and the destination is not exist
     shutil.copytree(source, destination)
-    for root, dir_names, file_names in os.walk(destination):
-        for file_name in file_names:
-            replace_content(os.path.join(root, file_name), replace_dict)
+    replace_all(destination, replace_dict)
