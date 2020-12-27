@@ -3,8 +3,8 @@ import sys
 def get_kwargs():
     kwargs = {}
     latest_key = ''
-    for index, arg in enumerate(sys.argv):
-        if index == 0:
+    for arg_index, arg in enumerate(sys.argv):
+        if arg_index == 0:
             continue
         pair_parts = arg.split('=')
         if len(pair_parts) > 1:
@@ -19,6 +19,13 @@ def get_kwargs():
 
 
 def get_argv(index: int, default=''):
-    if len(sys.argv) > index and sys.argv[index] != '':
-        return sys.argv[index]
+    latest_index = 0
+    for arg_index, arg in enumerate(sys.argv):
+        if '=' in arg and arg_index != 0:
+            continue
+        if arg == '':
+            continue
+        if latest_index == index:
+            return arg
+        latest_index += 1
     return default

@@ -13,6 +13,7 @@ if __name__ == '__main__':
         key = get_argv(1)
         value = get_argv(2)
         file_name = get_argv(3, './default.kwargs.yaml')
+        print(key, value, file_name)
         config = read_config(file_name)
         print('{yellow}Set "{key}" into "{value}" on "{file_name}"{normal}'.format(yellow=yellow, normal=normal, key=key, value=value, file_name=file_name))
         config[key] = value

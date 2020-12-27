@@ -79,23 +79,32 @@ tasks:
       Make FastAPI service that use Rabbitmq as messagebus
       USAGE:
         zaruba please makeFastService location=myService
+        zaruba please makeFastService location=myService task=runMyService
+      ARGUMENTS:
+        location:   Service location. (required)
+        task:       Task name. (optional, if not provided, will be inferred from `location`)
     extend: core.generate
     config:
       start: |
         {{- $d := .Decoration -}}
+        RMQ_TASK_NAME=$(sh "${RUN_PY}" find_task_name "config.containerName=rabbitmq.*")
+        if [ -e "$RMQ_TASK_NAME" ]
+        then
+          echo "{{ $d.Red }}{{ $d.Bold }}Rabbitmq task not found.{{ $d.Normal }}"
+          echo "You can make rabbitmq task by running {{ $d.Yellow }}zaruba please makeDockerTask image=rabbitmq{{ $d.Normal }}"
+          exit 1
+        fi
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ else }}$(sh "${RUN_PY}" get_random_name){{ end }}"
-        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ end }}"
+        TASK_NAME="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}$(sh "${RUN_PY}" get_task_name "$LOCATION"){{ end }}"
+        TASK_FILE_NAME="$(sh "${RUN_PY}" get_task_file_name "${TASK_NAME}")"
         ENV_PREFIX=$(sh "${RUN_PY}" get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         echo "{{ $d.Yellow }}Creating directory on ${LOCATION}{{ $d.Normal }}"
         mkdir -p "${LOCATION}"
         echo "{{ $d.Yellow }}Copying files from template...{{ $d.Normal }}"
         cp "${FAST_TEMPLATE}/Dockerfile" "${LOCATION}/Dockerfile"
-        cp "${FAST_TEMPLATE}/main.py" "${LOCATION}/main.py"
         cp "${FAST_TEMPLATE}/Pipfile" "${LOCATION}/Pipfile"
-        cp "${FAST_TEMPLATE}/Pipfile.lock" "${LOCATION}/Pipfile.lock"
-        cp "${FAST_TEMPLATE}/start.sh" "${LOCATION}/start.sh"
-        cp "${FAST_TEMPLATE}/template.env" "${LOCATION}/template.env"
+        cp "${FAST_TEMPLATE}/"*.* "${LOCATION}/"
         sh "${RUN_PY}" replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
         TRANSPORT_SHARED_LIB="shared-libs/python/transport"
         if [ ! -d "${TRANSPORT_SHARED_LIB}" ]
@@ -108,9 +117,10 @@ tasks:
         sh "${UTIL}/link_resource.sh" "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
-        sh "${RUN_PY}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK}" "${ENV_PREFIX}_HTTP_PORT"
+        sh "${RUN_PY}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK_NAME}" "${ENV_PREFIX}_HTTP_PORT"
+        sh "${RUN_PY}" add_task_dependency "${TASK_FILE_NAME}" "${TASK_NAME}" "${RMQ_TASK_NAME}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created for ${LOCATION}{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task ${TASK_NAME}created {{ $d.Normal }}"
   
 
   makeFastModule:
