@@ -13,19 +13,19 @@ import module_demo
 def init_mb(message_bus_type: str) -> transport.MessageBus:
     if message_bus_type == 'rmq':
         return transport.RMQMessageBus(
-            rmq_host = os.getenv("DEMO_RABBITMQ_HOST", "localhost"),
-            rmq_user = os.getenv("DEMO_RABBITMQ_USER", "root"),
-            rmq_pass = os.getenv("DEMO_RABBITMQ_PASS", "toor"),
-            rmq_vhost = os.getenv("DEMO_RABBITMQ_VHOST", "/")
+            rmq_host = os.getenv('DEMO_RABBITMQ_HOST', 'localhost'),
+            rmq_user = os.getenv('DEMO_RABBITMQ_USER', 'root'),
+            rmq_pass = os.getenv('DEMO_RABBITMQ_PASS', 'toor'),
+            rmq_vhost = os.getenv('DEMO_RABBITMQ_VHOST', '/')
         )
     return transport.LocalMessageBus()
 
 
 # Init application component
 app = FastAPI()
-mb: transport.MessageBus = init_mb(os.getenv("DEMO_MESSAGE_BUS_TYPE", 'local'))
+mb: transport.MessageBus = init_mb(os.getenv('DEMO_MESSAGE_BUS_TYPE', 'local'))
 engine = create_engine(
-    os.getenv("DEMO_SQLALCHEMY_DATABASE_URL", "sqlite:///./database.db"),
+    os.getenv('DEMO_SQLALCHEMY_DATABASE_URL', 'sqlite:///./database.db'),
     connect_args={'check_same_thread': False}
 )
 DBSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
