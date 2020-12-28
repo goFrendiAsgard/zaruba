@@ -25,9 +25,12 @@ curl --header "Content-Type: application/json" \
     --request POST \
     --data "{\"email\":\"${EMAIL}\",\"password\":\"${PASSWORD}\"}" \
     "http://localhost:${DEMO_HTTP_PORT}/users/"
+echo ""
 
 echo "Get first user"
 curl "http://localhost:${DEMO_HTTP_PORT}/users/1"
+echo ""
 
 echo "Get all users"
 curl "http://localhost:${DEMO_HTTP_PORT}/users/"
+echo ""
