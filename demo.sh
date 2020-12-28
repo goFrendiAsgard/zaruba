@@ -44,3 +44,4 @@ echo "=== EXPLAIN START"
 ../zaruba please explain start
 
 echo "=== DONE!!!"
+echo "You can re-run the services by moving to playground directory and run 'zaruba please run'"

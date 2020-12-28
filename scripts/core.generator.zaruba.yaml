@@ -21,6 +21,14 @@ tasks:
       setup: |
         {{ .GetTaskConfig "core.runCoreScript" "setup" }}
         TEMPLATE_PATHS="{{ if .Kwargs.templates }}{{ .Kwargs.templates }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
+        # Usage: copy_and_create_link <template_path> <link_source> <link_destination>
+        copy_and_create_link()
+        {
+          mkdir -p "${2}"
+          cp -rnT "${1}" "${2}"
+          sh "${RUN_PY}" add_link "${2}" "${3}"
+          sh "${UTIL}/link_resource.sh" "${2}" "${3}"
+        }
 
 
   makeDockerTask:
@@ -87,13 +95,6 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        RMQ_TASK_NAME=$(sh "${RUN_PY}" find_task_name "config.containerName=rabbitmq.*")
-        if [ -e "$RMQ_TASK_NAME" ]
-        then
-          echo "{{ $d.Red }}{{ $d.Bold }}Rabbitmq task not found.{{ $d.Normal }}"
-          echo "You can make rabbitmq task by running {{ $d.Yellow }}zaruba please makeDockerTask image=rabbitmq{{ $d.Normal }}"
-          exit 1
-        fi
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ else }}$(sh "${RUN_PY}" get_random_name){{ end }}"
         TASK_NAME="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}$(sh "${RUN_PY}" get_task_name "$LOCATION"){{ end }}"
         TASK_FILE_NAME="$(sh "${RUN_PY}" get_task_file_name "${TASK_NAME}")"
@@ -102,23 +103,19 @@ tasks:
         echo "{{ $d.Yellow }}Creating directory on ${LOCATION}{{ $d.Normal }}"
         mkdir -p "${LOCATION}"
         echo "{{ $d.Yellow }}Copying files from template...{{ $d.Normal }}"
+        cp "${FAST_TEMPLATE}/.gitignore" "${LOCATION}/.gitignore"
         cp "${FAST_TEMPLATE}/Dockerfile" "${LOCATION}/Dockerfile"
+        cp "${FAST_TEMPLATE}/main.py" "${LOCATION}/main.py"
         cp "${FAST_TEMPLATE}/Pipfile" "${LOCATION}/Pipfile"
-        cp "${FAST_TEMPLATE}/"*.* "${LOCATION}/"
+        cp "${FAST_TEMPLATE}/Pipfile.lock" "${LOCATION}/Pipfile.lock"
+        cp "${FAST_TEMPLATE}/start.sh" "${LOCATION}/start.sh"
+        cp "${FAST_TEMPLATE}/template.env" "${LOCATION}/template.env"
         sh "${RUN_PY}" replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
-        TRANSPORT_SHARED_LIB="shared-libs/python/transport"
-        if [ ! -d "${TRANSPORT_SHARED_LIB}" ]
-        then
-          echo "Creating transport shared library on ${TRANSPORT_SHARED_LIB}"
-          mkdir -p "${TRANSPORT_SHARED_LIB}"
-          cp -rT "${FAST_TEMPLATE}/transport" "${TRANSPORT_SHARED_LIB}"
-        fi
-        sh "${RUN_PY}" add_link "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
-        sh "${UTIL}/link_resource.sh" "${TRANSPORT_SHARED_LIB}" "${LOCATION}/transport"
+        copy_and_create_link "${FAST_TEMPLATE}/transport" "shared-libs/python/transport" "${LOCATION}/transport"
+        copy_and_create_link "${FAST_TEMPLATE}/database" "shared-libs/python/database" "${LOCATION}/database"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
         sh "${RUN_PY}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK_NAME}" "${ENV_PREFIX}_HTTP_PORT"
-        sh "${RUN_PY}" add_task_dependency "${TASK_FILE_NAME}" "${TASK_NAME}" "${RMQ_TASK_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task ${TASK_NAME}created {{ $d.Normal }}"
   

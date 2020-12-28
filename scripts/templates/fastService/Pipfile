@@ -12,6 +12,7 @@ uvicorn = "*"
 pika = "*"
 pytest = "*"
 uuid = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"

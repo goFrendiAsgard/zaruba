@@ -4,17 +4,17 @@ import abc
 class MessageBus(abc.ABC):
 
     @abc.abstractmethod
-    def handle_rpc(self, queue: str, handler: Callable[..., Any]) -> Any:
+    def handle_rpc(self, event_name: str, handler: Callable[..., Any]) -> Any:
         pass
 
     @abc.abstractmethod
-    def call_rpc(self, queue: str, *args: Any) -> Any:
+    def call_rpc(self, event_name: str, *args: Any) -> Any:
         pass
 
     @abc.abstractmethod
-    def handle(self, queue: str, handler: Callable[[Any], Any]) -> Any:
+    def handle(self, event_name: str, handler: Callable[[Any], Any]) -> Any:
         pass
 
     @abc.abstractmethod
-    def publish(self, queue: str, msg: Any) -> Any:
+    def publish(self, event_name: str, msg: Any) -> Any:
         pass
