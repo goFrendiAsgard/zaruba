@@ -18,3 +18,7 @@ class MessageBus(abc.ABC):
     @abc.abstractmethod
     def publish(self, event_name: str, msg: Any) -> Any:
         pass
+
+    @abc.abstractmethod
+    def shutdown(self) -> Any:
+        pass

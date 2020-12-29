@@ -13,6 +13,7 @@ pika = "*"
 pytest = "*"
 uuid = "*"
 sqlalchemy = "*"
+jsons = "*"
 
 [requires]
 python_version = "3.8"

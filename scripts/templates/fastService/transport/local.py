@@ -7,6 +7,10 @@ class LocalMessageBus(MessageBus):
         self.event_handler: Mapping[str, Callable[[Any], Any]] = {}
         self.rpc_handler: Mapping[str, Callable[..., Any]] = {}
 
+    
+    def shutdown(self):
+        pass
+
 
     def handle_rpc(self, event_name: str, handler: Callable[..., Any]) -> Any:
         self.rpc_handler[event_name] = handler

@@ -84,7 +84,7 @@ tasks:
   makeFastService:
     icon: ⚡
     description: |
-      Make FastAPI service that use Rabbitmq as messagebus
+      Make "messagebus and RDBMS ready" FastAPI service.
       USAGE:
         zaruba please makeFastService location=myService
         zaruba please makeFastService location=myService task=runMyService
@@ -110,6 +110,7 @@ tasks:
         cp "${FAST_TEMPLATE}/Pipfile.lock" "${LOCATION}/Pipfile.lock"
         cp "${FAST_TEMPLATE}/start.sh" "${LOCATION}/start.sh"
         cp "${FAST_TEMPLATE}/template.env" "${LOCATION}/template.env"
+        cp -r "${FAST_TEMPLATE}/schema" "${LOCATION}/schema"
         sh "${RUN_PY}" replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
         copy_and_create_link "${FAST_TEMPLATE}/transport" "shared-libs/python/transport" "${LOCATION}/transport"
         copy_and_create_link "${FAST_TEMPLATE}/database" "shared-libs/python/database" "${LOCATION}/database"
@@ -122,4 +123,28 @@ tasks:
 
   makeFastModule:
     icon: ⚡
+    description: |
+      Make module for FastService
+      USAGE:
+        zaruba please makeFastModule location=myService module=myModule
     extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        if [ -z "${LOCATION}" ] || [ ! -f "${LOCATION}/main.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Location is required and it should contain 'main.py'{{ $d.Normal }}"
+          exit 1
+        fi
+        MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
+        echo "${LOCATION}/${MODULE}"
+        if [ -z "${MODULE}" ] || [ -d "${LOCATION}/${MODULE}" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Module is required and ${LOCATION}/${MODULE} should not exist{{ $d.Normal }}"
+          exit 1
+        fi
+        FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
+        cp -r "${FAST_TEMPLATE}/module" "${LOCATION}/${MODULE}"
+        sh "${RUN_PY}" replace_all "${LOCATION}/${MODULE}" "module=${MODULE}"
+        sh "${RUN_PY}" register_fast_module "${LOCATION}" "${MODULE}"

@@ -1,4 +1,3 @@
-from typing import Any, Callable
 from fastapi import FastAPI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -7,7 +6,14 @@ import os
 import database, transport
 
 # Import module
-import module_demo
+import demo_module
+
+
+# Handle app shutdown event
+def handle_shutdown(app: FastAPI, mb: transport.MessageBus):
+    @app.on_event('shutdown')
+    def on_shutdown():
+        mb.shutdown()
 
 # Messagebus selector
 def init_mb(message_bus_type: str) -> transport.MessageBus:
@@ -21,7 +27,7 @@ def init_mb(message_bus_type: str) -> transport.MessageBus:
     return transport.LocalMessageBus()
 
 
-# Init application component
+# Init application and messagebus
 app = FastAPI()
 mb: transport.MessageBus = init_mb(os.getenv('DEMO_MESSAGE_BUS_TYPE', 'local'))
 engine = create_engine(
@@ -29,7 +35,9 @@ engine = create_engine(
     connect_args={'check_same_thread': False}
 )
 DBSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+handle_shutdown(app, mb)
+
 
 # Init module
-module_demo.message_handler.init(mb, engine, DBSession)
-module_demo.router.init(app, mb)
+demo_module.message_handler.init(mb, engine, DBSession)
+demo_module.router.init(app, mb)

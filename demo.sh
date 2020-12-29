@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 go build
 ZARUBA_HOME=$(realpath $(pwd))
 sudo rm -Rf playground
@@ -29,13 +30,16 @@ echo "=== ADD DOCKER SERVICE"
 ../zaruba please makeDockerTask image=rabbitmq
 
 echo "=== CREATE FASTAPI SERVICE"
-../zaruba please makeFastService location=oreno
+../zaruba please makeFastService location=myservice
+
+echo "=== CREATE FASTAPI MODULE"
+../zaruba please makeFastModule location=myservice module=mymodule
 
 echo "=== RUN AND AUTOSTOP"
 ../zaruba please run autostop
 
 echo "=== SHOW FASTAPI LOG"
-../zaruba please showLog task=oreno
+../zaruba please showLog task=myservice
 
 echo "=== CLEAR LOG"
 ../zaruba please clearLog
@@ -44,4 +48,4 @@ echo "=== EXPLAIN START"
 ../zaruba please explain start
 
 echo "=== DONE!!!"
-echo "You can re-run the services by moving to playground directory and run 'zaruba please run'"
+echo "You can re-run the services by moving to playground directory and run: zaruba please run"

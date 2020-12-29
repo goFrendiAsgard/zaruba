@@ -1,6 +1,5 @@
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 from sqlalchemy.orm import sessionmaker
-
 
 def handle(DBSession: sessionmaker) -> Callable[..., Any]:
     def decorator(handler: Callable[..., Any]):
