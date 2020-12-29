@@ -127,6 +127,9 @@ tasks:
       Make module for FastService
       USAGE:
         zaruba please makeFastModule location=myService module=myModule
+      ARGUMENTS:
+        location:  Service location. (required)
+        module:    Module name. (required)
     extend: core.generate
     config:
       start: |
@@ -138,7 +141,6 @@ tasks:
           exit 1
         fi
         MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
-        echo "${LOCATION}/${MODULE}"
         if [ -z "${MODULE}" ] || [ -d "${LOCATION}/${MODULE}" ]
         then
           echo "{{ $d.Bold }}{{ $d.Red }}Module is required and ${LOCATION}/${MODULE} should not exist{{ $d.Normal }}"
@@ -148,3 +150,112 @@ tasks:
         cp -r "${FAST_TEMPLATE}/module" "${LOCATION}/${MODULE}"
         sh "${RUN_PY}" replace_all "${LOCATION}/${MODULE}" "module=${MODULE}"
         sh "${RUN_PY}" register_fast_module "${LOCATION}" "${MODULE}"
+
+
+  makeFastRoute:
+    icon: ⚡
+    description: |
+      Make route for FastService
+      USAGE:
+        zaruba please makeFastRoute location=myService module=myModule url=url
+      ARGUMENTS:
+        location:  Service location. (required)
+        module:    Module name. (required)
+        url:       URL to be handled. (required)
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        if [ -z "${LOCATION}" ] || [ ! -f "${LOCATION}/main.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Location is required and it should contain 'main.py'{{ $d.Normal }}"
+          exit 1
+        fi
+        MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
+        if [ -z "${MODULE}" ] || [ ! -f "${LOCATION}/${MODULE}/route.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Module is required and ${LOCATION}/${MODULE}/route.py should exist{{ $d.Normal }}"
+          exit 1
+        fi
+        URL="{{ if .Kwargs.url }}{{ .Kwargs.url }}{{ end }}"
+        if [ -z "${URL}" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}url is required.{{ $d.Normal }}"
+          exit 1
+        fi
+        FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
+        sh "${RUN_PY}" create_fast_route "${LOCATION}" "${MODULE}" "${URL}"
+
+
+  makeFastEventHandler:
+    icon: ⚡
+    description: |
+      Make event handler for FastService
+      USAGE:
+        zaruba please makeFastEventHandler location=myService module=myModule event=event
+      ARGUMENTS:
+        location:  Service location. (required)
+        module:    Module name. (required)
+        event:     Event to be handled. (required)
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        if [ -z "${LOCATION}" ] || [ ! -f "${LOCATION}/main.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Location is required and it should contain 'main.py'{{ $d.Normal }}"
+          exit 1
+        fi
+        MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
+        if [ -z "${MODULE}" ] || [ ! -f "${LOCATION}/${MODULE}/route.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Module is required and ${LOCATION}/${MODULE}/route.py should exist{{ $d.Normal }}"
+          exit 1
+        fi
+        EVENT="{{ if .Kwargs.event }}{{ .Kwargs.event }}{{ end }}"
+        if [ -z "${EVENT}" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
+          exit 1
+        fi
+        FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
+        sh "${RUN_PY}" create_fast_event_handler "${LOCATION}" "${MODULE}" "${event}"
+
+
+  makeFastRPCHandler:
+    icon: ⚡
+    description: |
+      Make RPC handler for FastService
+      USAGE:
+        zaruba please makeFastRPCHandler location=myService module=myModule event=event
+      ARGUMENTS:
+        location:  Service location. (required)
+        module:    Module name. (required)
+        event:     Event to be handled. (required)
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        if [ -z "${LOCATION}" ] || [ ! -f "${LOCATION}/main.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Location is required and it should contain 'main.py'{{ $d.Normal }}"
+          exit 1
+        fi
+        MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
+        if [ -z "${MODULE}" ] || [ ! -f "${LOCATION}/${MODULE}/route.py" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Module is required and ${LOCATION}/${MODULE}/route.py should exist{{ $d.Normal }}"
+          exit 1
+        fi
+        EVENT="{{ if .Kwargs.event }}{{ .Kwargs.event }}{{ end }}"
+        if [ -z "${EVENT}" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
+          exit 1
+        fi
+        FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
+        sh "${RUN_PY}" create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${event}"
+

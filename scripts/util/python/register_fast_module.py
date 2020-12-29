@@ -6,8 +6,9 @@ import os, sys, traceback
 # python register_fast_module <location> <module>
 
 def register_fast_module(location: str, module: str):
+    file_name = os.path.abspath(os.path.join(location, 'main.py'))
     # read main file
-    f_read = open(os.path.abspath(os.path.join(location, 'main.py')), 'r')
+    f_read = open(file_name, 'r')
     lines = f_read.readlines()
     f_read.close()
     # look for last line with 'import' prefix
@@ -22,11 +23,12 @@ def register_fast_module(location: str, module: str):
     # add importer
     lines.insert(insert_index, 'import {}'.format(module))
     # add initiator
+    lines.append('\n\n')
     lines.append('# init {}\n'.format(module))
     lines.append('{}.event.init(mb, engine, DBSession)\n'.format(module))
     lines.append('{}.route.init(app, mb)\n'.format(module))
     # rewrite main file
-    f_write = open(os.path.abspath(os.path.join(location, 'main.py')), 'w')
+    f_write = open(file_name, 'w')
     f_write.writelines(lines)
     f_write.close()
 

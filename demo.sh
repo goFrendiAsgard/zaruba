@@ -35,6 +35,11 @@ echo "=== CREATE FASTAPI SERVICE"
 echo "=== CREATE FASTAPI MODULE"
 ../zaruba please makeFastModule location=myservice module=mymodule
 
+echo "=== CREATE FASTAPI ROUTE, EVENT, AND RPC HANDLER"
+../zaruba please makeFastRoute location=myservice module=mymodule url=/hello
+../zaruba please makeFastEventHandler location=myservice module=mymodule event=myEvent
+../zaruba please makeFastRPCHandler location=myservice module=mymodule event=myRPC
+
 echo "=== RUN AND AUTOSTOP"
 ../zaruba please run autostop
 
