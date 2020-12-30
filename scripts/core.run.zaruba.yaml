@@ -62,7 +62,7 @@ tasks:
       setup: |
         set -e
         UTIL="${ZARUBA_HOME}/scripts/util/sh"
-        RUN_PY="${UTIL}/py.sh"
+        PY_UTIL="${UTIL}/py_util.sh"
       start: "echo hello world"
 
 

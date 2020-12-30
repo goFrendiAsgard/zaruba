@@ -78,13 +78,10 @@ tasks:
     logless: true
     config:
       start: |
-        if [ ! -f log.zaruba.csv ]
-        then
-          echo "Log is not exist" 1>&2
-          exit 1
-        fi
+        {{ $d := .Decoration -}}
+        sh "${UTIL}/should_be_file.sh" "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
         TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}.*{{ end }}"
-        sh "${RUN_PY}" show_log "log.zaruba.csv" "${TASK}"
+        sh "${PY_UTIL}" show_log "log.zaruba.csv" "${TASK}"
 
 
   core.isValidSubrepos:
@@ -100,14 +97,8 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          if [ -z "$URL" ]
-          then
-            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}" 1>&2; exit 1
-          fi
-          if [ -z "$PREFIX" ]
-          then
-            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}" 1>&2; exit 1
-          fi
+          sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
+          sh "${UTIL}/should_not_be_empty.sh" "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
         {{ end }}
         echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
 
@@ -137,13 +128,13 @@ tasks:
         set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
-        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(sh "${RUN_PY}" is_in_array "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git remote set-url "${NAME}" "${URL}"
@@ -192,24 +183,17 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         set -e
-        {{ if not .Kwargs.url }}
-          echo "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}" 1>&2
-          exit 1
-        {{ end }}
-        URL="{{ .Kwargs.url }}"
+        URL="{{ if .Kwargs.url }}{{ .Kwargs.url }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}"
         {{ if not .Kwargs.prefix }}
-          PREFIX=$(sh "${RUN_PY}" get_segment "${URL}" "/" "-1")
-          PREFIX=$(sh "${RUN_PY}" get_segment "${PREFIX}" "." "0")
+          PREFIX=$(sh "${PY_UTIL}" get_segment "${URL}" "/" "-1")
+          PREFIX=$(sh "${PY_UTIL}" get_segment "${PREFIX}" "." "0")
         {{ else }}
           PREFIX="{{ .Kwargs.prefix }}"
         {{ end }}
-        {{ if not .Kwargs.name }}
-          NAME="$PREFIX"
-        {{ else }}
-          NAME="{{ .Kwargs.name }}"
-        {{ end }}
-        sh "${RUN_PY}" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
-        sh "${RUN_PY}" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
+        NAME="{{ if .Kwargs.name }}{{ .Kwargs.name }}{{ else }}${PREFIX}{{ end }}"
+        sh "${PY_UTIL}" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
+        sh "${PY_UTIL}" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
@@ -240,7 +224,7 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(sh "${RUN_PY}" is_in_array "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             sh "${UTIL}/git_save.sh" "Save works before push"
@@ -275,7 +259,7 @@ tasks:
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(sh "${RUN_PY}" is_in_array "${NAME}" ${ORIGINS})
+          ORIGIN_EXISTS=$(sh "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
           then
             sh "${UTIL}/git_save.sh" "Save works before pull"
@@ -293,13 +277,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        if [ ! -e main.zaruba.yaml ]
-        then
-          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project{{ $d.Normal }}" 1>&2
-          echo "{{ $d.Bold }}{{ $d.Red }}The task has to be executed in a zaruba project directory{{ $d.Normal }}" 1>&2
-          echo "{{ $d.Bold }}{{ $d.Red }}You might want to 'initProject' first{{ $d.Normal }}" 1>&2
-          exit 1
-        fi
+        sh "${UTIL}/should_be_file.sh" "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
 
 
@@ -310,12 +288,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        if [ -e main.zaruba.yaml ]
-        then
-          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project{{ $d.Normal }}" 1>&2
-          echo "{{ $d.Bold }}{{ $d.Red }}The task cannot be executed in a zaruba project directory{{ $d.Normal }}" 1>&2
-          exit 1
-        fi
+        sh "${UTIL}/should_not_be_file.sh" "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
 
 
@@ -354,7 +327,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         DIR="{{ if .Kwargs.dir }}{{ .Kwargs.dir }}{{ else }}.{{ end }}"
-        sh "${RUN_PY}" update_env "${DIR}"
+        sh "${PY_UTIL}" update_env "${DIR}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
@@ -411,16 +384,10 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         set -e
-        {{ if not .Kwargs.from }}
-          echo "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}" 1>&2
-          exit 1
-        {{ end }}
-        SOURCE="{{ .Kwargs.from }}"
-        {{ if not .Kwargs.to }}
-          echo "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}" 1>&2
-          exit 1
-        {{ end }}
-        DESTINATION="{{ .Kwargs.to }}"
-        sh "${RUN_PY}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
+        SOURCE="{{ if .Kwargs.from }}{{ .Kwargs.from }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}"
+        DESTINATION="{{ if .Kwargs.to }}{{ .Kwargs.to }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}"
+        sh "${PY_UTIL}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"

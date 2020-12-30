@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # USAGE
-# sh py.sh <py-util> [arg1]... [arg9]
+# sh py_util.sh <py-util> [arg1]... [arg9]
 
 _SH_UTIL=$(dirname $(realpath $0))
 _PY_UTIL=$(realpath "${_SH_UTIL}/../python")
