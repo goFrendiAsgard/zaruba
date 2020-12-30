@@ -135,10 +135,10 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}Location is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}Module is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         sh "${UTIL}/should_not_be_dir.sh" "${LOCATION}/${MODULE}" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE} is already exist{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         cp -r "${FAST_TEMPLATE}/module" "${LOCATION}/${MODULE}"
@@ -151,7 +151,7 @@ tasks:
   makeFastRoute:
     icon: ⚡
     description: |
-      Make route for FastService
+      Make route handler in FastService's module
       USAGE:
         zaruba please makeFastRoute location=myService module=myModule url=url
       ARGUMENTS:
@@ -163,10 +163,10 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}Location is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}Module is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/route.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/route.py should be exist{{ $d.Normal }}"
         URL="{{ if .Kwargs.url }}{{ .Kwargs.url }}{{ end }}"
         sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}url is required.{{ $d.Normal }}"
@@ -179,7 +179,7 @@ tasks:
   makeFastEventHandler:
     icon: ⚡
     description: |
-      Make event handler for FastService
+      Make event handler in FastService's module
       USAGE:
         zaruba please makeFastEventHandler location=myService module=myModule event=event
       ARGUMENTS:
@@ -191,15 +191,15 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}Location is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}Module is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
         EVENT="{{ if .Kwargs.event }}{{ .Kwargs.event }}{{ end }}"
         sh "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        sh "${PY_UTIL}" create_fast_event_handler "${LOCATION}" "${MODULE}" "${event}"
+        sh "${PY_UTIL}" create_fast_event_handler "${LOCATION}" "${MODULE}" "${EVENT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Event handler for ${EVENT} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"
 
@@ -207,7 +207,7 @@ tasks:
   makeFastRPCHandler:
     icon: ⚡
     description: |
-      Make RPC handler for FastService
+      Make RPC handler in FastService's module
       USAGE:
         zaruba please makeFastRPCHandler location=myService module=myModule event=event
       ARGUMENTS:
@@ -219,15 +219,44 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}Location is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
-        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}Module is required{{ $d.Normal }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         sh "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
         EVENT="{{ if .Kwargs.event }}{{ .Kwargs.event }}{{ end }}"
         sh "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        sh "${PY_UTIL}" create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${event}"
+        sh "${PY_UTIL}" create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${EVENT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}RPC handler for ${EVENT} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"
 
+
+  makeFastCRUD:
+    icon: ⚡
+    description: |
+      Make CRUD handler in FastService's module
+      USAGE:
+        zaruba please makeFastRPCHandler location=myService module=myModule entity=entity fields=field1,field2,field3
+      ARGUMENTS:
+        location:  Service location. (required)
+        module:    Module name. (required)
+        entity:    Entity name. (required)
+        fields:    Field names. (optional)
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
+        sh "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
+        MODULE="{{ if .Kwargs.module }}{{ .Kwargs.module }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
+        sh "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
+        ENTITY="{{ if .Kwargs.entity }}{{ .Kwargs.entity }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${ENTITY}" "{{ $d.Bold }}{{ $d.Red }}entity is required.{{ $d.Normal }}"
+        FIELDS="{{ if .Kwargs.fields }}{{ .Kwargs.fields }}{{ end }}"
+        FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
+        sh "${PY_UTIL}" create_fast_crud "${LOCATION}" "${MODULE}" "${ENTITY}" "${FIELDS}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}CRUD for ${ENTITY} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"

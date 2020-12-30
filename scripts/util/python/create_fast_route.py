@@ -5,27 +5,33 @@ import os, re, sys, traceback
 # USAGE
 # python create_fast_route <location> <module>
 
+
+handle_route_template = '''
+    @app.get('{url}')
+    def {handler}():
+        return 'response of {url}'
+
+'''
+
 def create_fast_route(location: str, module: str, url: str):
     file_name = os.path.abspath(os.path.join(location, module, 'route.py'))
     # read main file
     f_read = open(file_name, 'r')
     lines = f_read.readlines()
     f_read.close()
-    # look for last line with 'import' prefix
-    function_found = False
+    # look for last line with 'def init(' prefix
     insert_index = -1
     for index, line in enumerate(lines):
         if line.startswith('def init('):
-            function_found = True
-        elif function_found and line.startswith('    '):
-            insert_index = index
+            insert_index = index + 1
             break
+    if insert_index == -1:
+        raise Exception('init function not found in {}'.format(file_name))
     # add route handler
-    lines.insert(insert_index, '\n' + '\n'.join([
-        '    @app.get(\'{url}\')'.format(url=url),
-        '    def handle_{handle_name}():'.format(handle_name=re.sub(r'[^A-Za-z0-9_]+', '_', url).lower()),
-        '        return \'response of {url}\''.format(url=url)
-    ]) + '\n\n')
+    lines.insert(insert_index, handle_route_template.format(
+        url=url,
+        handler='handle_route_{}'.format(re.sub(r'[^A-Za-z0-9_]+', '_', url).lower())
+    ))
     # rewrite main file
     f_write = open(file_name, 'w')
     f_write.writelines(lines)

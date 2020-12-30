@@ -3,7 +3,7 @@
 # USAGE
 # sh should_be_dir.sh <value> <error-message>
 
-if [ ! -d "${1}" ] ]
+if [ ! -d "${1}" ]
 then
     echo "${2}" 1>&2
     exit 1

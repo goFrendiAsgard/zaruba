@@ -33,3 +33,4 @@ engine = create_engine(
 )
 DBSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 handle_shutdown(app, mb)
+

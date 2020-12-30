@@ -5,6 +5,13 @@ import os, sys, traceback
 # USAGE
 # python register_fast_module <location> <module>
 
+init_module_template = '''
+# init {module}
+{module}.event.init(mb, engine, DBSession)
+{module}.route.init(app, mb)
+
+'''
+
 def register_fast_module(location: str, module: str):
     file_name = os.path.abspath(os.path.join(location, 'main.py'))
     # read main file
@@ -23,10 +30,7 @@ def register_fast_module(location: str, module: str):
     # add importer
     lines.insert(insert_index, 'import {}'.format(module))
     # add initiator
-    lines.append('\n\n')
-    lines.append('# init {}\n'.format(module))
-    lines.append('{}.event.init(mb, engine, DBSession)\n'.format(module))
-    lines.append('{}.route.init(app, mb)\n'.format(module))
+    lines.append(init_module_template.format(module=module))
     # rewrite main file
     f_write = open(file_name, 'w')
     f_write.writelines(lines)
