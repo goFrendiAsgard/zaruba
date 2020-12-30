@@ -39,5 +39,6 @@ handle_shutdown(app, mb)
 
 
 # Init module
-demo_module.message_handler.init(mb, engine, DBSession)
-demo_module.router.init(app, mb)
+demo_module.model.Base.metadata.create_all(bind=engine)
+demo_module.event.init(mb, DBSession)
+demo_module.route.init(app, mb)

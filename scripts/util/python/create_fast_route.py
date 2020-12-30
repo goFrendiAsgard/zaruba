@@ -15,11 +15,10 @@ handle_route_template = '''
 
 def create_fast_route(location: str, module: str, url: str):
     file_name = os.path.abspath(os.path.join(location, module, 'route.py'))
-    # read main file
     f_read = open(file_name, 'r')
     lines = f_read.readlines()
     f_read.close()
-    # look for last line with 'def init(' prefix
+    # look for line with 'def init(' prefix
     insert_index = -1
     for index, line in enumerate(lines):
         if line.startswith('def init('):
@@ -27,12 +26,10 @@ def create_fast_route(location: str, module: str, url: str):
             break
     if insert_index == -1:
         raise Exception('init function not found in {}'.format(file_name))
-    # add route handler
     lines.insert(insert_index, handle_route_template.format(
         url=url,
         handler='handle_route_{}'.format(re.sub(r'[^A-Za-z0-9_]+', '_', url).lower())
     ))
-    # rewrite main file
     f_write = open(file_name, 'w')
     f_write.writelines(lines)
     f_write.close()

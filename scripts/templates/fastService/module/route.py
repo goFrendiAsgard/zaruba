@@ -1,11 +1,18 @@
+from typing import List
 from fastapi import FastAPI, HTTPException
-import transport, schema
+from module import schema
+
+import transport
 
 # 💡 HINT: 
 #
 #   * If you need other components beside `app` and `mb`, please:
 #       * Add them as parameter of `init` function
 #       * Declare the component at `main.py`
+#   * Whenever possible, don't put business logic here. Instead, try to:
+#       * Invoke RPC call (i.e: `mb.call_rpc(rpc_name, *args)`) or
+#       * Encapsulate your business logic into another class/function 
+#         so that you can import it here
 #   * Visit fastapi documentation at: https://fastapi.tiangolo.com/tutorial/first-steps/
 #
 #

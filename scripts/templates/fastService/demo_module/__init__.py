@@ -1,2 +1,3 @@
-from demo_module import router
-from demo_module import message_handler
+import demo_module.event
+import demo_module.model
+import demo_module.route

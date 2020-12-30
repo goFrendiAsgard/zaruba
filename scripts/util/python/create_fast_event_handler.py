@@ -14,11 +14,10 @@ handle_event_template = '''
 
 def create_fast_event_handler(location: str, module: str, event: str):
     file_name = os.path.abspath(os.path.join(location, module, 'event.py'))
-    # read main file
     f_read = open(file_name, 'r')
     lines = f_read.readlines()
     f_read.close()
-    # look for last line with 'def init(' prefix
+    # look for line with 'def init(' prefix
     insert_index = -1
     for index, line in enumerate(lines):
         if line.startswith('def init('):
@@ -26,12 +25,10 @@ def create_fast_event_handler(location: str, module: str, event: str):
             break
     if insert_index == -1:
         raise Exception('init function not found in {}'.format(file_name))
-    # add event handler
     lines.insert(insert_index, handle_event_template.format(
         event=event,
         handler='handle_event_{}'.format(re.sub(r'[^A-Za-z0-9_]+', '_', event).lower())
     ))
-    # rewrite main file
     f_write = open(file_name, 'w')
     f_write.writelines(lines)
     f_write.close()

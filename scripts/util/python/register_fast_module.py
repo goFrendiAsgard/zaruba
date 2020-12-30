@@ -7,14 +7,14 @@ import os, sys, traceback
 
 init_module_template = '''
 # init {module}
-{module}.event.init(mb, engine, DBSession)
+{module}.model.Base.metadata.create_all(bind=engine)
+{module}.event.init(mb, DBSession)
 {module}.route.init(app, mb)
 
 '''
 
 def register_fast_module(location: str, module: str):
     file_name = os.path.abspath(os.path.join(location, 'main.py'))
-    # read main file
     f_read = open(file_name, 'r')
     lines = f_read.readlines()
     f_read.close()
@@ -27,11 +27,8 @@ def register_fast_module(location: str, module: str):
         elif import_found:
             insert_index = index
             break
-    # add importer
     lines.insert(insert_index, 'import {}'.format(module))
-    # add initiator
     lines.append(init_module_template.format(module=module))
-    # rewrite main file
     f_write = open(file_name, 'w')
     f_write.writelines(lines)
     f_write.close()
