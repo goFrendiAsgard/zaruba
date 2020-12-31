@@ -1,5 +1,5 @@
 
-FROM python:latest
+FROM python:3.8
 
 # define environments
 ENV PYTHONUNBUFFERED 1
@@ -8,8 +8,9 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Install app dependencies
+RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
-RUN pip install pipenv && pipenv install
+RUN pipenv install --system --deploy
 
 # Bundle app source
 COPY . .

@@ -1,6 +1,6 @@
 tasks:
 
-  zarubaTaskName:
+  zarubaRunTask:
     icon: 📜
     description: Serve static files
     extend: serveHttp
@@ -12,3 +12,19 @@ tasks:
     lconfig:
       ports:
       - '{{ .GetEnv "HTTP_PORT" }}'
+  
+
+  zarubaBuildImageTask:
+    icon: 🐳
+    extend: core.buildDockerImage
+    location: zarubaTaskLocation
+    timeout: 1h
+
+
+  zarubaPushImageTask:
+    icon: 🐳
+    extend: core.pushDockerImage
+    location: zarubaTaskLocation
+    dependencies:
+    - zarubaBuildImageTask
+    timeout: 1h

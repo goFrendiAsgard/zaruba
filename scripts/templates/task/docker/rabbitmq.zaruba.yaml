@@ -1,6 +1,6 @@
 tasks:
 
-  zarubaTaskName:
+  zarubaRunTask:
     icon: 🐇
     extend: core.startDockerContainer
     timeout: 1h

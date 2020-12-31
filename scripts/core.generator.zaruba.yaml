@@ -97,7 +97,7 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ if .Kwargs.location }}{{ .Kwargs.location }}{{ else }}$(sh "${PY_UTIL}" get_random_name){{ end }}"
-        TASK_NAME="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}$(sh "${PY_UTIL}" get_task_name "$LOCATION"){{ end }}"
+        TASK_NAME="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}$(sh "${PY_UTIL}" get_run_task_name "$LOCATION"){{ end }}"
         TASK_FILE_NAME="$(sh "${PY_UTIL}" get_task_file_name "${TASK_NAME}")"
         ENV_PREFIX=$(sh "${PY_UTIL}" get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"

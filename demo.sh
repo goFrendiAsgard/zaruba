@@ -17,6 +17,7 @@ sudo -E ../zaruba please setupUbuntu
 
 echo "=== INIT PROJECT"
 ../zaruba please initProject
+../zaruba please setKwarg key=dockerRepo value=stalchmst
 
 echo "=== ADD SUBREPOS"
 ../zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock" prefix="fibo"
@@ -51,6 +52,17 @@ echo "=== SHOW FASTAPI LOG"
 
 echo "=== CLEAR LOG"
 ../zaruba please clearLog
+
+echo "=== BUILD DOCKER IMAGE"
+git add . -A && git commit -m 'first commit'
+../zaruba please buildMyserviceImage
+
+echo "=== BUILD DOCKER IMAGE (TAGGED)"
+git tag -a v0.0.0 -m 'version 0.0.0'
+../zaruba please buildMyserviceImage
+
+echo "=== PUSH IMAGE"
+../zaruba please pushMyserviceImage
 
 echo "=== EXPLAIN START"
 ../zaruba please explain start

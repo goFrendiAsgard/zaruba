@@ -18,7 +18,6 @@ tasks:
     extend: core.runCoreScript
     config:
       start: |
-        set -e
         sh ${UTIL}/py_install.sh
   
 

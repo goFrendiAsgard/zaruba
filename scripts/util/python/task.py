@@ -52,7 +52,7 @@ class Env():
 
 class Task():
 
-    def __init__(self, task_dict: TaskDict = {}):
+    def __init__(self, task_dict: TaskDict):
         self._dict: TaskDict = task_dict
         self._env_values: Mapping[str, str] = {}
 

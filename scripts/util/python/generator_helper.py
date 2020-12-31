@@ -22,7 +22,7 @@ def write_config(file_name: str, dictionary: Mapping[str, Any]):
     f.close()
 
 
-def register_task(file_name: str, task_name: str) -> bool:
+def register_run_task(file_name: str, task_name: str) -> bool:
     main_config = read_config(main_file_name)
     if 'includes' not in main_config:
         main_config['includes'] = []
@@ -30,9 +30,37 @@ def register_task(file_name: str, task_name: str) -> bool:
         main_config['includes'].append(file_name)
     if 'tasks' not in main_config:
         main_config['tasks'] = {}
-    main_task = Task(main_config['tasks']['run']) if 'run' in main_config['tasks'] else Task().set_icon('🚅').set_description('Run everything at once')
+    main_task = Task(main_config['tasks']['run']) if 'run' in main_config['tasks'] else Task({}).set_icon('🚅').set_description('Run everything at once')
     main_task.add_dependency(task_name)
     main_config['tasks']['run'] = main_task.as_dict()
+    write_config(main_file_name, main_config)
+
+
+def register_build_image_task(file_name: str, task_name: str) -> bool:
+    main_config = read_config(main_file_name)
+    if 'includes' not in main_config:
+        main_config['includes'] = []
+    if file_name not in main_config['includes']:
+        main_config['includes'].append(file_name)
+    if 'tasks' not in main_config:
+        main_config['tasks'] = {}
+    main_task = Task(main_config['tasks']['buildImage']) if 'buildImage' in main_config['tasks'] else Task({}).set_icon('🐳').set_description('Build docker images')
+    main_task.add_dependency(task_name)
+    main_config['tasks']['buildImage'] = main_task.as_dict()
+    write_config(main_file_name, main_config)
+
+
+def register_push_image_task(file_name: str, task_name: str) -> bool:
+    main_config = read_config(main_file_name)
+    if 'includes' not in main_config:
+        main_config['includes'] = []
+    if file_name not in main_config['includes']:
+        main_config['includes'].append(file_name)
+    if 'tasks' not in main_config:
+        main_config['tasks'] = {}
+    main_task = Task(main_config['tasks']['pushImage']) if 'pushImage' in main_config['tasks'] else Task({}).set_icon('🐳').set_description('Push docker images')
+    main_task.add_dependency(task_name)
+    main_config['tasks']['pushImage'] = main_task.as_dict()
     write_config(main_file_name, main_config)
 
 
@@ -109,8 +137,23 @@ def get_container_name(image_name: str) -> str:
     return capital_container_name[0].lower() + capital_container_name[1:]
 
 
-def get_task_name(service_or_container: str) -> str:
+def get_run_task_name(service_or_container: str) -> str:
     return 'run{}'.format(service_or_container.capitalize())
+
+
+def get_build_image_task_name(service_name: str) -> str:
+    return 'build{}Image'.format(service_name.capitalize())
+
+
+def get_push_image_task_name(service_name: str) -> str:
+    return 'push{}Image'.format(service_name.capitalize())
+
+
+def replace_str(string: str, replace_dict: Mapping[str, str]):
+    new_string = string
+    for key, val in replace_dict.items():
+        new_string = new_string.replace(key, val)
+    return new_string
 
 
 def replace_in_file(file_name: str, replace_dict: Mapping[str, str]):
@@ -119,9 +162,7 @@ def replace_in_file(file_name: str, replace_dict: Mapping[str, str]):
     f_read = open(file_name, 'r')
     content = f_read.read()
     f_read.close()
-    new_content = content
-    for key, val in replace_dict.items():
-        new_content = new_content.replace(key, val)
+    new_content = replace_str(content, replace_dict)
     if new_content == content:
         return
     f_write = open(file_name, 'w')

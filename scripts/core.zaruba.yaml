@@ -27,7 +27,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(sh "${UTIL}/get_latest_git_tag.sh") - $(sh "${UTIL}/get_latest_git_commit.sh"){{ $d.Normal }}"
 
 
   update:
@@ -47,7 +47,7 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags) - $(git rev-parse --verify HEAD){{ $d.Normal }}"
+        {{ .GetTaskConfig "showVersion" "start" }}
 
 
   serveHttp:
@@ -137,7 +137,6 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
@@ -194,7 +193,6 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        set -e
         URL="{{ if .Kwargs.url }}{{ .Kwargs.url }}{{ end }}"
         sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}"
         {{ if not .Kwargs.prefix }}
@@ -227,7 +225,6 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
@@ -262,7 +259,6 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        set -e
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         ORIGINS=$(git remote)
@@ -395,7 +391,6 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        set -e
         SOURCE="{{ if .Kwargs.from }}{{ .Kwargs.from }}{{ end }}"
         sh "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}"
         DESTINATION="{{ if .Kwargs.to }}{{ .Kwargs.to }}{{ end }}"
@@ -403,3 +398,107 @@ tasks:
         sh "${PY_UTIL}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
+
+  setKwarg:
+    icon: 🔗
+    description: |
+      Add link.
+      USAGE:
+        zaruba please setKwarg key="key" value="value"
+      ARGUMENTS:
+        key:    Key. (required)
+        value:  Value. (required)
+    extend: core.runCoreScript
+    dependencies:
+    - core.isProject
+    - core.setupPyUtil
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        KEY="{{ if .Kwargs.key }}{{ .Kwargs.key }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'key' argument is not defined{{ $d.Normal }}"
+        VALUE="{{ if .Kwargs.value }}{{ .Kwargs.value }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'value' argument is not defined{{ $d.Normal }}"
+        sh "${PY_UTIL}" set_project_kwarg "${KEY}" "${VALUE}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
+
+
+  core.buildDockerImage:
+    icon: 🐳
+    description: |
+      Build docker image.
+      USAGE:
+        zaruba please core.buildDockerImage dockerRepo="stalchmst"
+      ARGUMENTS:
+        dockerRepo:   Docker repository. (optional, default to 'local')
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateLinks
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        sh "${UTIL}/should_be_file.sh" "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+        DOCKER_REPO="{{ if .Kwargs.dockerRepo }}{{ .Kwargs.dockerRepo }}{{ else }}local{{ end }}"
+        SERVICE="$(sh "${PY_UTIL}" get_service_name "$(pwd)")"
+        COMMIT="$(sh "${UTIL}/get_latest_git_commit.sh")"
+        sh "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
+        SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
+        TAG="$(sh "${UTIL}/get_latest_git_tag.sh")"
+        if [ ! -z "${TAG}" ]
+        then
+          TAG_COMMIT="$(sh "${UTIL}/get_latest_git_tag_commit.sh")"
+          if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_REPO}/${SERVICE}:latest, ${DOCKER_REPO}/${SERVICE}:${TAG}, and ${DOCKER_REPO}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
+            docker build -t "${DOCKER_REPO}/${SERVICE}:${TAG}" -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
+            echo 🎉🎉🎉
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
+            exit 0
+          fi
+        fi
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_REPO}/${SERVICE}:latest and ${DOCKER_REPO}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
+        docker build -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
+
+
+  core.pushDockerImage:
+    icon: 🐳
+    description: |
+      Build docker image.
+      USAGE:
+        zaruba please core.pushDockerImage dockerRepo="stalchmst"
+      ARGUMENTS:
+        dockerRepo:   Docker repository. (required)
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateLinks
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        DOCKER_REPO="{{ if .Kwargs.dockerRepo }}{{ .Kwargs.dockerRepo }}{{ end }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${DOCKER_REPO}" "{{ $d.Bold }}{{ $d.Red }}'dockerRepo' is required{{ $d.Normal }}"
+        SERVICE="$(sh "${PY_UTIL}" get_service_name "$(pwd)")"
+        COMMIT="$(sh "${UTIL}/get_latest_git_commit.sh")"
+        sh "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
+        SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
+        TAG="$(sh "${UTIL}/get_latest_git_tag.sh")"
+        if [ ! -z "${TAG}" ]
+        then
+          TAG_COMMIT="$(sh "${UTIL}/get_latest_git_tag_commit.sh")"
+          if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_REPO}/${SERVICE}:${TAG}{{ $d.Normal }}"
+            docker push "${DOCKER_REPO}/${SERVICE}:${TAG}"
+          fi
+        fi
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_REPO}/${SERVICE}:latest{{ $d.Normal }}"
+        docker push "${DOCKER_REPO}/${SERVICE}:latest"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}{{ $d.Normal }}"
+        docker push "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
+        
