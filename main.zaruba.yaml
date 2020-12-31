@@ -37,6 +37,7 @@ tasks:
     icon: 🚧
     location: ./
     extend: core.runShellScript
+    timeout: 1h
     dependencies:
       - test
     config:
