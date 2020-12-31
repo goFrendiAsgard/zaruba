@@ -105,6 +105,7 @@ tasks:
         mkdir -p "${LOCATION}"
         echo "{{ $d.Yellow }}Copying files from template...{{ $d.Normal }}"
         cp "${FAST_TEMPLATE}/.gitignore" "${LOCATION}/.gitignore"
+        cp "${FAST_TEMPLATE}/.dockerignore" "${LOCATION}/.dockerignore"
         cp "${FAST_TEMPLATE}/Dockerfile" "${LOCATION}/Dockerfile"
         cp "${FAST_TEMPLATE}/main.py" "${LOCATION}/main.py"
         cp "${FAST_TEMPLATE}/Pipfile" "${LOCATION}/Pipfile"

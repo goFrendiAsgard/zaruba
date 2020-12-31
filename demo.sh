@@ -20,7 +20,7 @@ echo "=== INIT PROJECT"
 ../zaruba please setKwarg key=dockerRepo value=stalchmst
 
 echo "=== ADD SUBREPOS"
-../zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock" prefix="fibo"
+../zaruba please addSubrepo url="https://github.com/state-alchemists/fibonacci-clock" prefix="fibo"
 ../zaruba please initSubrepos
 ../zaruba please pullSubrepos
 
@@ -55,14 +55,14 @@ echo "=== CLEAR LOG"
 
 echo "=== BUILD DOCKER IMAGE"
 git add . -A && git commit -m 'first commit'
-../zaruba please buildMyserviceImage
+../zaruba please buildImage
 
 echo "=== BUILD DOCKER IMAGE (TAGGED)"
 git tag -a v0.0.0 -m 'version 0.0.0'
-../zaruba please buildMyserviceImage
+../zaruba please buildImage
 
 echo "=== PUSH IMAGE"
-../zaruba please pushMyserviceImage
+../zaruba please pushImage
 
 echo "=== EXPLAIN START"
 ../zaruba please explain start
