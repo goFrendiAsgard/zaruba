@@ -6,6 +6,18 @@ includes:
 
 tasks:
 
+  core.showAdv:
+    icon: ☕
+    private: true
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    logless: true
+    config:
+      start: |
+        {{ if .Kwargs.hideAvertisement }}{{ else }}sh "${PY_UTIL}" show_advertisement{{ end }}
+
+
   showVersion:
     icon: 🔎
     description: |

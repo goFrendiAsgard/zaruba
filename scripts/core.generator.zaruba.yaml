@@ -17,6 +17,7 @@ tasks:
     dependencies:
       - core.setupPyUtil
       - core.isProject
+      - core.showAdv
     config:
       setup: |
         {{ .GetTaskConfig "core.runCoreScript" "setup" }}

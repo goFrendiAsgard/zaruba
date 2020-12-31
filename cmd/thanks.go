@@ -14,8 +14,9 @@ var thanksCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		d := logger.NewDecoration()
 		logger.Printf("%s%sYour welcome 😊%s\n", d.Bold, d.Yellow, d.Normal)
-		logger.Printf("Please consider donating ☕ to my creator here:\n")
+		logger.Printf("Please consider donating ☕☕☕ to:\n")
 		logger.Printf("%shttps://paypal.me/gofrendi%s\n", d.Yellow, d.Normal)
+		logger.Printf("Also, follow Zaruba at 🐤 @zarubastalchmst\n")
 	},
 }
 

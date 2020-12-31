@@ -1,0 +1,20 @@
+today_wiki:
+  message: |
+    Hello world 🌎🌍🌏👍
+    Many things have been happened, and I hope you are doing well today.
+    https://en.wikipedia.org/wiki/Wikipedia:On_this_day/Today
+
+
+zaruba_donation:
+  message: |
+    Did 💀 Zaruba help you?
+    Please consider donating ☕☕☕ to:
+    https://paypal.me/gofrendi
+    Also, follow Zaruba at 🐤 @zarubastalchmst
+
+
+happy_new_year:
+  pattern: '.*-01-01'
+  message: |
+    Happy new year!!! 🎉🎉🎉
+    May happiness be with you
