@@ -3,7 +3,7 @@ FROM stalchmst/devbox:latest
 # preparing environments
 
 ENV PATH="${PATH}:/.zaruba"
-ENV ZARUBA_HTTP_PORT=8080
+ENV ZARUBA_HTTP_PORT=2810
 
 # building zaruba
 
@@ -19,6 +19,6 @@ RUN cd /.zaruba
 RUN mkdir -p /project
 WORKDIR /project
 
-EXPOSE 8080
+EXPOSE 2810
 
 CMD ["sh", "-c", "zaruba please serveHttp port=${ZARUBA_HTTP_PORT}"]

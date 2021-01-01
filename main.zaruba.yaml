@@ -50,12 +50,15 @@ tasks:
     icon: 🐳
     location: ./
     extend: core.runShellScript
+    dependencies:
+    - buildDocker
     config:
       start: |
-        (docker stop zaruba || echo "container not running") && \
-        (docker rm zaruba || echo "container not exist") && \
-        docker run --name zaruba -p 2810:8080 -d stalchmst/zaruba:latest && \
-        docker exec -it zaruba /bin/bash
+        docker stop zaruba || echo "Container is not running, will not stop"
+        docker rm zaruba || echo "Container is not exist, will not remove"
+        echo "Create and run zaruba container"
+        docker run --name zaruba -p 2810:2810 -d stalchmst/zaruba:latest && \
+        echo "Run 'docker exec -it zaruba /bin/bash'"
 
 
   pushDocker:
