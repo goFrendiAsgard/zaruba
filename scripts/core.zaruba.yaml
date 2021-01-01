@@ -354,8 +354,6 @@ tasks:
         It is recommended to put `link` arguments in `default.kwargs.yaml`.
         In order to do that, you can invoke `zaruba please addLink <from=source-location> <to=destination-location>`
     extend: core.runCoreScript
-    dependencies:
-    - core.isProject
     config:
       start: |
         {{ $d := .Decoration -}}
