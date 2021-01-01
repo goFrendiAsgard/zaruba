@@ -1,6 +1,6 @@
 from typing import List
 from common_helper import get_argv
-from generator_helper import copy_and_replace_all, get_container_name, get_task_file_name, get_run_task_name, read_config, register_run_task, write_task_env
+from generator_helper import copy, replace_all, get_container_name, get_task_file_name, get_run_task_name, read_config, register_run_task, register_run_container_task, write_task_env
 from task import Task
 
 import os, sys, traceback
@@ -23,7 +23,8 @@ def create_docker_task(template_path_list: List[str], image_name: str, container
     container_name = container_name if container_name != '' else get_container_name(image_name)
     run_task_name = run_task_name if run_task_name != '' else get_run_task_name(container_name)
     task_file_name = get_task_file_name(run_task_name)
-    copy_and_replace_all(template, task_file_name, {
+    copy(template, task_file_name)
+    replace_all(task_file_name, {
         'zarubaRunTask': run_task_name,
         'zarubaImageName': image_name,
         'zarubaContainerName': container_name,
@@ -32,6 +33,7 @@ def create_docker_task(template_path_list: List[str], image_name: str, container
     task = Task(config['tasks'][run_task_name])
     write_task_env('.', task)
     register_run_task(task_file_name, run_task_name)
+    register_run_container_task(task_file_name, run_task_name)
     print('Task {} is created successfully'.format(run_task_name))
 
 

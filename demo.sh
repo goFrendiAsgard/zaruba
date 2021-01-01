@@ -47,6 +47,10 @@ echo "=== CREATE FASTAPI CRUD"
 echo "=== RUN AND AUTOSTOP"
 ../zaruba please run autostop
 
+echo "=== RUN AND AUTOSTOP (CONTAINERIZED)"
+../zaruba please runContainer autostop
+../zaruba please removeContainer
+
 echo "=== SHOW FASTAPI LOG"
 ../zaruba please showLog task=myservice
 

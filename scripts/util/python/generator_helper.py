@@ -22,7 +22,7 @@ def write_config(file_name: str, dictionary: Mapping[str, Any]):
     f.close()
 
 
-def register_run_task(file_name: str, task_name: str) -> bool:
+def register_task(file_name: str, task_name: str, main_task_name: str, default_task: Task):
     main_config = read_config(main_file_name)
     if 'includes' not in main_config:
         main_config['includes'] = []
@@ -30,38 +30,30 @@ def register_run_task(file_name: str, task_name: str) -> bool:
         main_config['includes'].append(file_name)
     if 'tasks' not in main_config:
         main_config['tasks'] = {}
-    main_task = Task(main_config['tasks']['run']) if 'run' in main_config['tasks'] else Task({}).set_icon('🚅').set_description('Run everything at once')
+    main_task = Task(main_config['tasks'][main_task_name]) if main_task_name in main_config['tasks'] else default_task
     main_task.add_dependency(task_name)
-    main_config['tasks']['run'] = main_task.as_dict()
+    main_config['tasks'][main_task_name] = main_task.as_dict()
     write_config(main_file_name, main_config)
+
+
+def register_run_task(file_name: str, task_name: str) -> bool:
+    register_task(file_name, task_name, 'run', Task({}).set_icon('🚅').set_description('Run everything at once'))
 
 
 def register_build_image_task(file_name: str, task_name: str) -> bool:
-    main_config = read_config(main_file_name)
-    if 'includes' not in main_config:
-        main_config['includes'] = []
-    if file_name not in main_config['includes']:
-        main_config['includes'].append(file_name)
-    if 'tasks' not in main_config:
-        main_config['tasks'] = {}
-    main_task = Task(main_config['tasks']['buildImage']) if 'buildImage' in main_config['tasks'] else Task({}).set_icon('🐳').set_description('Build docker images')
-    main_task.add_dependency(task_name)
-    main_config['tasks']['buildImage'] = main_task.as_dict()
-    write_config(main_file_name, main_config)
+    register_task(file_name, task_name, 'buildImage', Task({}).set_icon('🐳').set_description('Build docker images'))
 
 
 def register_push_image_task(file_name: str, task_name: str) -> bool:
-    main_config = read_config(main_file_name)
-    if 'includes' not in main_config:
-        main_config['includes'] = []
-    if file_name not in main_config['includes']:
-        main_config['includes'].append(file_name)
-    if 'tasks' not in main_config:
-        main_config['tasks'] = {}
-    main_task = Task(main_config['tasks']['pushImage']) if 'pushImage' in main_config['tasks'] else Task({}).set_icon('🐳').set_description('Push docker images')
-    main_task.add_dependency(task_name)
-    main_config['tasks']['pushImage'] = main_task.as_dict()
-    write_config(main_file_name, main_config)
+    register_task(file_name, task_name, 'pushImage', Task({}).set_icon('🐳').set_description('Push docker images'))
+
+
+def register_run_container_task(file_name: str, task_name: str) -> bool:
+    register_task(file_name, task_name, 'runContainer', Task({}).set_icon('🚅').set_description('Run everything at once (containerized)'))
+
+
+def register_remove_container_task(file_name: str, task_name: str) -> bool:
+    register_task(file_name, task_name, 'removeContainer', Task({}).set_icon('🐳').set_description('Remove container'))
 
 
 def update_task_env(task: Task, task_file_name: str) -> Task:
@@ -149,6 +141,14 @@ def get_push_image_task_name(service_name: str) -> str:
     return 'push{}Image'.format(service_name.capitalize())
 
 
+def get_run_container_task_name(service_name: str) -> str:
+    return 'run{}Container'.format(service_name.capitalize())
+
+
+def get_remove_container_task_name(service_name: str) -> str:
+    return 'remove{}Container'.format(service_name.capitalize())
+
+
 def replace_str(string: str, replace_dict: Mapping[str, str]):
     new_string = string
     for key, val in replace_dict.items():
@@ -179,7 +179,7 @@ def replace_all(location: str, replace_dict: Mapping[str, str]):
             replace_in_file(os.path.join(root, file_name), replace_dict)
 
 
-def copy_and_replace_all(source: str, destination: str, replace_dict: Mapping[str, str]):
+def copy(source: str, destination: str):
     source = os.path.abspath(source)
     destination = os.path.abspath(destination)
     # create destination's parent in case of it doesn't exist
@@ -189,16 +189,14 @@ def copy_and_replace_all(source: str, destination: str, replace_dict: Mapping[st
     # the source is a file
     if os.path.isfile(source):
         shutil.copy(source, destination)
-        replace_all(destination, replace_dict)
         return
     # the source is a directory, but the destination doesn't exist
     if os.path.isdir(destination):
         for root, source_dir_names, source_file_names in os.walk(source):
             for file_name in source_file_names:
-                copy_and_replace_all(os.path.join(root, file_name), os.path.join(destination, file_name), replace_dict)
+                copy(os.path.join(root, file_name), os.path.join(destination, file_name))
             for dir_name in source_dir_names:
-                copy_and_replace_all(os.path.join(root, dir_name), os.path.join(destination, dir_name), replace_dict)
+                copy(os.path.join(root, dir_name), os.path.join(destination, dir_name))
         return
     # the source is a directory and the destination is not exist
     shutil.copytree(source, destination)
-    replace_all(destination, replace_dict)

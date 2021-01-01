@@ -7,16 +7,16 @@ tasks:
     location: zarubaTaskLocation
     dependencies:
       - prepareZarubaServiceName
-    config:
-      start: |
-        MAIN_SCRIPT=$(sh "${UTIL}/get_main_python_script.sh")
-        pipenv run python ${MAIN_SCRIPT}
-    lconfig:
-      ports: &zarubaServiceNamePorts []
     env: &zarubaServiceNameEnv
       PIPENV_DONT_LOAD_ENV:
         from: ZARUBA_ENV_PREFIX_PIPENV_DONT_LOAD_ENV
         default: 1
+    lconfig:
+      ports: &zarubaServiceNamePorts []
+    config:
+      start: |
+        MAIN_SCRIPT=$(sh "${UTIL}/get_main_python_script.sh")
+        pipenv run python ${MAIN_SCRIPT}
 
     
   prepareZarubaServiceName:
@@ -29,37 +29,3 @@ tasks:
     env:
       <<: *zarubaServiceNameEnv
     
-
-  zarubaRunContainerTask:
-    icon: 🐍
-    description: Run zarubaServiceName
-    extend: core.startDockerContainer
-    dependencies:
-    - zarubaBuildImageTask
-    timeout: 1h
-    config:
-      localhost: host.docker.internal
-      expose: lconfig.ports
-      imageName: local/zarubaServiceName:latest
-      containerName: zarubaServiceName
-    lconfig:
-      ports: *zarubaServiceNamePorts
-    env:
-      <<: *zarubaServiceNameEnv
-
-
-  zarubaBuildImageTask:
-    icon: 🐳
-    extend: core.buildDockerImage
-    location: zarubaTaskLocation
-    timeout: 1h
-
-
-  zarubaPushImageTask:
-    icon: 🐳
-    extend: core.pushDockerImage
-    location: zarubaTaskLocation
-    dependencies:
-    - zarubaBuildImageTask
-    timeout: 1h
- 

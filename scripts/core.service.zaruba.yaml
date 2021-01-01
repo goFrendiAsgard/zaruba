@@ -59,6 +59,8 @@ tasks:
           port::3307: 3306
           # Volume mapping (volume::<hostPath>)
           volume::myData: /var/data 
+          # Rebuild (default: false, possible values: "true", "false")
+          rebuild: true
         lconfig:
           # port, only taking effect if `expose` set to "lconfig.ports"
           ports: []
@@ -69,14 +71,18 @@ tasks:
     - updateLinks
     config:
       localhost: localhost
-      expose: "config.port"
+      expose: config.port
+      rebuild: false
     start:
     - "sh"
     - "-c"
     - |
       {{ $d := .Decoration -}}
+      {{ if and (ne .Config.rebuild "true") (ne .Config.rebuild "false") }}
+        echo "{{ $d.Bold }}{{ $d.Red }}'rebuild' value should be either 'true' or 'false'{{ $d.Normal }}" && exit 1
+      {{ end -}}
       {{ if and (ne .Config.expose "config.port") (ne .Config.expose "lconfig.ports") -}}
-        echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
       {{ end -}}
       {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
       CONTAINER_NAME="{{ .Config.containerName }}"
@@ -85,6 +91,7 @@ tasks:
       sh "${UTIL}/should_not_be_empty.sh" "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}Image name is not provided{{ $d.Normal }}"
       {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
       {{ $this := . -}}
+      {{ if eq .Config.rebuild "true" }}sh "${UTIL}/stop_and_remove_container.sh" "${CONTAINER_NAME}"{{ end }}
       if [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
       then
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"

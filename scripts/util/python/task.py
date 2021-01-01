@@ -153,14 +153,14 @@ class Task():
         if port.isnumeric():
             self.add_unique_lconfig('ports', port)
             return self
-        self.add_unique_lconfig(
-            'ports', 
-            '{open_template} .GetEnv "{env_name}" {close_template}'.format(
-                open_template='{{', 
-                close_template='}}', 
-                env_name=port
-            )
-        )
+        # port is envvar
+        new_port = '{{ .GetEnv "' + port + '" }}'
+        if 'lconfig' in self._dict and 'ports' in self._dict['lconfig']:
+            existing_ports = self._dict['lconfig']['ports']
+            for existing_port in existing_ports:
+                if new_port in existing_port:
+                    return self
+        self.add_unique_lconfig('ports', new_port)
         return self
 
     def add_lconfig_ports(self, ports: List[str]) -> Task:
