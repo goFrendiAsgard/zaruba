@@ -2,16 +2,34 @@ tasks:
 
   zarubaRunTask:
     icon: 📜
-    description: Serve static files
+    description: Run zarubaServiceName
     extend: serveHttp
     location: zarubaTaskLocation
+    lconfig:
+      ports: &zarubaServiceNamePorts
+      - '{{ .GetEnv "HTTP_PORT" }}'
     env: &zarubaServiceNameEnv
       HTTP_PORT:
         from: ZARUBA_ENV_PREFIX_HTTP_PORT
         default: 8080
+
+
+  zarubaRunContainerTask:
+    icon: 📜
+    description: Run zarubaServiceName
+    extend: core.startDockerContainer
+    dependencies:
+    - zarubaBuildImageTask
+    timeout: 1h
+    config:
+      localhost: host.docker.internal
+      expose: lconfig.ports
+      imageName: local/zarubaServiceName:latest
+      containerName: zarubaServiceName
     lconfig:
-      ports:
-      - '{{ .GetEnv "HTTP_PORT" }}'
+      ports: *zarubaServiceNamePorts
+    env:
+      <<: *zarubaServiceNameEnv
   
 
   zarubaBuildImageTask:

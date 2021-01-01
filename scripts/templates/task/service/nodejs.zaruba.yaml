@@ -2,17 +2,19 @@ tasks:
 
   zarubaRunTask:
     icon: 🐸
+    description: Run zarubaServiceName
     extend: core.startService
     location: zarubaTaskLocation
     dependencies:
       - prepareZarubaServiceName
-    env: &zarubaServiceNameEnv
     config:
       start: npm start
         npm install --save-dev
         tsc
         npm start
-    lconfig: {}
+    lconfig:
+      ports: &zarubaServiceNamePorts []
+    env: &zarubaServiceNameEnv
   
 
   testZarubaServiceName:
@@ -22,10 +24,10 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
     config:
       start: npm test
+    env:
+      <<: *zarubaServiceNameEnv
 
   
   prepareZarubaServiceName:
@@ -33,13 +35,31 @@ tasks:
     extend: core.runShellScript
     location: zarubaTaskLocation
     timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
     config:
       start: |
         npm install
         tsc
+    env:
+      <<: *zarubaServiceNameEnv
     
+
+  zarubaRunContainerTask:
+    icon: 🐸
+    description: Run zarubaServiceName
+    extend: core.startDockerContainer
+    dependencies:
+    - zarubaBuildImageTask
+    timeout: 1h
+    config:
+      localhost: host.docker.internal
+      expose: lconfig.ports
+      imageName: local/zarubaServiceName:latest
+      containerName: zarubaServiceName
+    lconfig:
+      ports: *zarubaServiceNamePorts
+    env:
+      <<: *zarubaServiceNameEnv
+
 
   zarubaBuildImageTask:
     icon: 🐳

@@ -320,7 +320,7 @@ func (task *Task) parseCurentTaskTemplatePattern(pattern string) (val string, er
 }
 
 func (task *Task) parseTemplatePattern(pattern string, taskData *TaskData) (val string, err error) {
-	tmpl, err := template.New(pattern).Parse(pattern)
+	tmpl, err := template.New(pattern).Option("missingkey=zero").Parse(pattern)
 	if err != nil {
 		return val, err
 	}

@@ -51,57 +51,69 @@ tasks:
           containerName: mysql
           # Image name (no default)
           imageName: mysql:latest
-          # Port mapping (port::<hostPort>)
+          # Localhost mapping for environment variables (default: "localhost")
+          localhost: host.docker.internal
+          # Port to be exposed (default: "config.port", possible values: "config.port", "lconfig.ports")
+          expose: lconfig.ports
+          # Port mapping, only taking effect if `expose` set to "config.port" (port::<hostPort>)
           port::3307: 3306
           # Volume mapping (volume::<hostPath>)
           volume::myData: /var/data 
+        lconfig:
+          # port, only taking effect if `expose` set to "lconfig.ports"
+          ports: []
       ```
     private: true
     extend: core.runCoreScript
     dependencies:
     - updateLinks
+    config:
+      localhost: localhost
+      expose: "config.port"
     start:
     - "sh"
     - "-c"
     - |
       {{ $d := .Decoration -}}
+      {{ if and (ne .Config.expose "config.port") (ne .Config.expose "lconfig.ports") -}}
+        echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}"
+      {{ end -}}
       {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
-      {{ if .Config.containerName }}{{ else -}}
-        echo "{{ $d.Bold }}{{ $d.Red }}Container name is not provided{{ $d.Normal }}" 1>&2 && exit 1
-      {{ end -}}
-      {{ if .Config.imageName }}{{ else -}}
-        echo "{{ $d.Bold }}{{ $d.Red }}Image name is not provided{{ $d.Normal }}" 1>&2 && exit 1
-      {{ end -}}
+      CONTAINER_NAME="{{ .Config.containerName }}"
+      sh "${UTIL}/should_not_be_empty.sh" "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}Container name is not provided{{ $d.Normal }}"
+      IMAGE_NAME="{{ .Config.imageName }}"
+      sh "${UTIL}/should_not_be_empty.sh" "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}Image name is not provided{{ $d.Normal }}"
       {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
       {{ $this := . -}}
-      {{ $workPath := .WorkPath -}}
-      {{ $config := .Config -}}
-      {{ $ports := $config.GetSubKeys "port" -}}
-      {{ $volumes := $config.GetSubKeys "volume" -}}
-      {{ $projectName := .ProjectName }}
-      CONTAINER_NAME="{{ .Config.containerName }}"
-      IS_RUNNING=$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")
-      if [ "${IS_RUNNING}" = true ]
+      if [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
       then
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
-      elif [ -z $(sh "${UTIL}/inspect_docker.sh" "container" ".Name" "${CONTAINER_NAME}") ]
+      elif [ ! -z $(sh "${UTIL}/inspect_docker.sh" "container" ".Name" "${CONTAINER_NAME}") ]
       then
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-        docker run --name "${CONTAINER_NAME}" {{ "" -}}
-          {{ range $key, $val := .Env -}} -e "{{ $key }}={{ $val }}" {{ end -}}
-          {{ range $index, $hostPort := $ports -}}
-            {{ $containerPort := $config.GetValue "port" $hostPort -}}
-            -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
-          {{ end -}}
-          {{ range $index, $hostVolume := $volumes -}}
-            {{ $absHostVolume := $this.GetAbsPath $workPath $hostVolume -}}
-            {{ $containerVolume := $config.GetValue "volume" $hostVolume -}}
-            -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
-          {{ end -}}
-          -d {{ .Config.imageName }}
-      else
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker start "${CONTAINER_NAME}"
+      else
+        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
+        docker run --name "${CONTAINER_NAME}" {{ "" -}}
+          {{ range $key, $val := .Env -}} 
+            -e {{ $key }}="$(echo "{{ $val }}" | sed s/localhost/{{ $this.Config.localhost }}/g)" {{ "" -}}
+          {{ end -}}
+          {{ if eq $this.Config.expose "config.port" -}}
+            {{ range $index, $hostPort := $this.Config.GetSubKeys "port" -}}
+              {{ $containerPort := $this.Config.GetValue "port" $hostPort -}}
+              -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
+            {{ end -}}
+          {{ else if eq $this.Config.expose "lconfig.ports" -}}
+            {{ range $index, $port := $this.LConfig.ports -}}
+              -p "{{ $port }}:{{ $port }}" {{ "" -}}
+            {{ end -}}
+          {{ end -}}
+          {{ range $index, $hostVolume := $this.Config.GetSubKeys "volume" -}}
+            {{ $absHostVolume := $this.GetAbsPath $this.WorkPath $hostVolume -}}
+            {{ $containerVolume := $this.Config.GetValue "volume" $hostVolume -}}
+            -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
+          {{ end -}}
+          -d "${IMAGE_NAME}"
       fi
       {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
@@ -116,14 +128,13 @@ tasks:
       CONTAINER_NAME="{{ .Config.containerName }}"
       {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
       echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-      IS_RUNNING=$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")
-      until [ "${IS_RUNNING}" = true ]
+      until [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
       do
         sleep 1
-        IS_RUNNING=$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")
       done
       echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
       {{ $ports := .Config.GetSubKeys "port" -}}
+      {{ if eq .Config.expose "lconfig.ports" -}}{{ $ports := .LConfig.ports }}{{ end -}}
       {{ range $index, $hostPort := $ports -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
         sh "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"

@@ -1,9 +1,21 @@
 from typing import List, Mapping
 from ruamel.yaml import YAML
 import os, random, re, time
+import decoration as d
 
 # USAGE
 # python show_advertisement.py
+
+default_advertisement='''
+ __________________________________
+< Nothing to show, have a nice day >
+ ----------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+'''
 
 def read_advertisement_dict() -> Mapping[str, Mapping[str, str]]:
     yaml = YAML()
@@ -46,18 +58,24 @@ def get_random_advertisement_message():
     return adv['message'].strip()
 
 
-def decorate_message(message: str) -> str:
-    lines = message.split('\n')
+def get_max_line_length(lines: List[str]) -> int:
     max_line_length = 0
     for line in lines:
         if len(line) > max_line_length:
             max_line_length = len(line)
-    decorated_lines = ['  ' + line for line in lines]
-    horizontal_border = '****' + ''.ljust(max_line_length, '*')
+    return max_line_length
+
+
+def decorate_message(message: str) -> str:
+    lines = message.split('\n')
+    max_line_length = get_max_line_length(lines)
+    horizontal_border = ''.ljust(max_line_length + 4, '*')
+    decorated_horizontal_border = '{faint}{horizontal_border}{normal}'.format(faint=d.faint, horizontal_border=horizontal_border, normal=d.normal)
+    decorated_lines = ['  {bold}{line}{normal}'.format(bold=d.bold, normal=d.normal, line=line)  for line in lines]
     return '\n'.join([
-        horizontal_border,
+        decorated_horizontal_border,
         '\n'.join(decorated_lines),
-        horizontal_border,
+        decorated_horizontal_border,
     ])
 
 
@@ -66,4 +84,4 @@ if __name__ == '__main__':
         message = get_random_advertisement_message()
         print(decorate_message(message))
     except:
-        print('Failed to show advertisement')
+        print(decorate_message(default_advertisement))

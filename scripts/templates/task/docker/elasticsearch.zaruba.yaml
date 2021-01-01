@@ -13,7 +13,7 @@ tasks:
         default: true
       ES_JAVA_OPTS:
         from: ES_JAVA_OPTS
-        default: "\"-Xms512m -Xmx512m\""
+        default: "-Xms512m -Xmx512m"
     config:
       imageName: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
       containerName: zarubaContainerName

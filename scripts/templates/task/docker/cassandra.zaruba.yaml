@@ -7,7 +7,7 @@ tasks:
     env:
       JVM_OPTS:
         from: CASSANDRA_JVM_OPTS
-        default: "\"-Xms512m -Xmx512m\""
+        default: "-Xms512m -Xmx512m"
     config:
       imageName: cassandra
       containerName: zarubaContainerName

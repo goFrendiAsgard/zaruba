@@ -2,18 +2,21 @@ tasks:
 
   zarubaRunTask:
     icon: 🐍
+    description: Run zarubaServiceName
     extend: core.startService
     location: zarubaTaskLocation
     dependencies:
       - prepareZarubaServiceName
+    config:
+      start: |
+        pipenv run uvicorn main:app --reload --port={{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
+    lconfig:
+      ports: &zarubaServiceNamePorts
+      - '{{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
     env: &zarubaServiceNameEnv
       PIPENV_DONT_LOAD_ENV:
         from: ZARUBA_ENV_PREFIX_PIPENV_DONT_LOAD_ENV
         default: 1
-    config:
-      start: |
-        pipenv run uvicorn main:app --reload --port={{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
-    lconfig: {}
 
     
   prepareZarubaServiceName:
@@ -21,10 +24,28 @@ tasks:
     extend: core.runShellScript
     location: zarubaTaskLocation
     timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
     config:
       start: pipenv install
+    env:
+      <<: *zarubaServiceNameEnv
+
+
+  zarubaRunContainerTask:
+    icon: 🐍
+    description: Run zarubaServiceName
+    extend: core.startDockerContainer
+    dependencies:
+    - zarubaBuildImageTask
+    timeout: 1h
+    config:
+      localhost: host.docker.internal
+      expose: lconfig.ports
+      imageName: local/zarubaServiceName:latest
+      containerName: zarubaServiceName
+    lconfig:
+      ports: *zarubaServiceNamePorts
+    env:
+      <<: *zarubaServiceNameEnv
 
    
   zarubaBuildImageTask:

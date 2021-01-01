@@ -193,7 +193,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        URL="{{ if .Kwargs.url }}{{ .Kwargs.url }}{{ end }}"
+        URL="{{ .Kwargs.url }}"
         sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}"
         {{ if not .Kwargs.prefix }}
           PREFIX=$(sh "${PY_UTIL}" get_segment "${URL}" "/" "-1")
@@ -227,7 +227,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
-        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
@@ -262,7 +262,7 @@ tasks:
         {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
         {{ $kwargs := .Kwargs -}}
         ORIGINS=$(git remote)
-        BRANCH={{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}
+        BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
         {{ range $index, $name := $names -}}
           PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
@@ -389,9 +389,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        SOURCE="{{ if .Kwargs.from }}{{ .Kwargs.from }}{{ end }}"
+        SOURCE="{{ .Kwargs.from }}"
         sh "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}"
-        DESTINATION="{{ if .Kwargs.to }}{{ .Kwargs.to }}{{ end }}"
+        DESTINATION="{{ .Kwargs.to }}"
         sh "${UTIL}/should_not_be_empty.sh" "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}"
         sh "${PY_UTIL}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
@@ -413,9 +413,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        KEY="{{ if .Kwargs.key }}{{ .Kwargs.key }}{{ end }}"
+        KEY="{{ .Kwargs.key }}"
         sh "${UTIL}/should_not_be_empty.sh" "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'key' argument is not defined{{ $d.Normal }}"
-        VALUE="{{ if .Kwargs.value }}{{ .Kwargs.value }}{{ end }}"
+        VALUE="{{ .Kwargs.value }}"
         sh "${UTIL}/should_not_be_empty.sh" "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'value' argument is not defined{{ $d.Normal }}"
         sh "${PY_UTIL}" set_project_kwarg "${KEY}" "${VALUE}"
         echo 🎉🎉🎉
@@ -450,14 +450,14 @@ tasks:
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
             echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_REPO}/${SERVICE}:latest, ${DOCKER_REPO}/${SERVICE}:${TAG}, and ${DOCKER_REPO}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
-            docker build -t "${DOCKER_REPO}/${SERVICE}:${TAG}" -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
+            docker build -t "local/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${TAG}" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
             echo 🎉🎉🎉
             echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
             exit 0
           fi
         fi
         echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_REPO}/${SERVICE}:latest and ${DOCKER_REPO}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
-        docker build -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
+        docker build -t "local/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
 
@@ -477,7 +477,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DOCKER_REPO="{{ if .Kwargs.dockerRepo }}{{ .Kwargs.dockerRepo }}{{ end }}"
+        DOCKER_REPO="{{ .Kwargs.dockerRepo }}"
         sh "${UTIL}/should_not_be_empty.sh" "${DOCKER_REPO}" "{{ $d.Bold }}{{ $d.Red }}'dockerRepo' is required{{ $d.Normal }}"
         SERVICE="$(sh "${PY_UTIL}" get_service_name "$(pwd)")"
         COMMIT="$(sh "${UTIL}/get_latest_git_commit.sh")"

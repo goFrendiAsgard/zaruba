@@ -52,7 +52,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
         sh ${UTIL}/check_setup_ubuntu.sh "${HOME}"
-        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}
+        CURRENT_USER="{{ if .Kwargs.user }}{{ .Kwargs.user }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
@@ -113,7 +113,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ if .Kwargs.home }}HOME="{{ .Kwargs.home }}"{{ end }}
         sh ${UTIL}/py_install.sh
-        CURRENT_USER={{ if .Kwargs.user }}"{{ .Kwargs.user }}"{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}
+        CURRENT_USER="{{ if .Kwargs.user }}{{ .Kwargs.user }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
         if [ -d "${HOME}/.nvm" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
