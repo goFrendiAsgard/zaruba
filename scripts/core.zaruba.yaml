@@ -15,7 +15,7 @@ tasks:
     logless: true
     config:
       start: |
-        {{ if .Kwargs.hideAvertisement }}{{ else }}sh "${PY_UTIL}" show_advertisement{{ end }}
+        {{ if .GetKwarg "hideAdvertisement" }}{{ else }}sh "${PY_UTIL}" show_advertisement{{ end }}
 
 
   showVersion:
@@ -47,7 +47,8 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        {{ .GetTaskConfig "showVersion" "start" }}
+        {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
+        {{ $runCoreScript.GetConfig "start" }}
 
 
   serveHttp:
@@ -59,8 +60,12 @@ tasks:
         port: HTTP Port, default to 8000
     extend: core.startService
     lconfig:
-      ports: ["{{ if .Kwargs.port }}{{ .Kwargs.port }}{{ else }}8000{{ end }}"]
-    start: ["python", "-m", "http.server", "{{ index .LConfig.ports 0 }}"]
+      ports: ['{{ if .GetKwarg "port" }}{{ .GetKwarg "port" }}{{ else }}8000{{ end }}']
+    start: 
+    - python 
+    - "-m"
+    - http.server
+    - '{{ $ports := .GetLConfig "ports" }}{{ index $ports 0 }}'
 
 
   clearLog:
@@ -92,7 +97,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         sh "${UTIL}/should_be_file.sh" "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-        TASK="{{ if .Kwargs.task }}{{ .Kwargs.task }}{{ else }}.*{{ end }}"
+        TASK="{{ if .GetKwarg "task" }}{{ .GetKwarg "task" }}{{ else }}.*{{ end }}"
         sh "${PY_UTIL}" show_log "log.zaruba.csv" "${TASK}"
 
 
@@ -103,11 +108,11 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
-        {{ $kwargs := .Kwargs -}}
+        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $this := . -}}
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
           sh "${UTIL}/should_not_be_empty.sh" "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
@@ -137,13 +142,13 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
-        {{ $kwargs := .Kwargs -}}
-        BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
+        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $this := . -}}
+        BRANCH="{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}main{{ end }}"
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           ORIGIN_EXISTS=$(sh "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
@@ -193,15 +198,15 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        URL="{{ .Kwargs.url }}"
+        URL="{{ .GetKwarg "url" }}"
         sh "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}"
-        {{ if not .Kwargs.prefix }}
+        {{ if .GetKwarg "prefix" }}
+          PREFIX="{{ .GetKwarg "prefix" }}"
+        {{ else }}
           PREFIX=$(sh "${PY_UTIL}" get_segment "${URL}" "/" "-1")
           PREFIX=$(sh "${PY_UTIL}" get_segment "${PREFIX}" "." "0")
-        {{ else }}
-          PREFIX="{{ .Kwargs.prefix }}"
         {{ end }}
-        NAME="{{ if .Kwargs.name }}{{ .Kwargs.name }}{{ else }}${PREFIX}{{ end }}"
+        NAME="{{ if .GetKwarg "name" }}{{ .GetKwarg "name" }}{{ else }}${PREFIX}{{ end }}"
         sh "${PY_UTIL}" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
         sh "${PY_UTIL}" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
@@ -225,13 +230,13 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
-        {{ $kwargs := .Kwargs -}}
-        BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
+        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $this := . -}}
+        BRANCH="{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}main{{ end }}"
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           ORIGIN_EXISTS=$(sh "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
@@ -259,13 +264,13 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .Kwargs.GetSubKeys "subrepo" -}}
-        {{ $kwargs := .Kwargs -}}
+        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $this := . -}}
         ORIGINS=$(git remote)
-        BRANCH="{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}main{{ end }}"
+        BRANCH="{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}main{{ end }}"
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $kwargs.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $kwargs.GetValue "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           ORIGIN_EXISTS=$(sh "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
@@ -334,7 +339,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DIR="{{ if .Kwargs.dir }}{{ .Kwargs.dir }}{{ else }}.{{ end }}"
+        DIR="{{ if .GetKwarg "dir" }}{{ .GetKwarg "dir" }}{{ else }}.{{ end }}"
         sh "${PY_UTIL}" update_env "${DIR}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
@@ -359,10 +364,9 @@ tasks:
         {{ $d := .Decoration -}}
         {{ $this := . -}}
         {{ $workPath := .WorkPath }}
-        {{ $destinations := .Kwargs.GetSubKeys "link" -}}
-        {{ $kwargs := .Kwargs -}}
+        {{ $destinations := .GetKwargSubKeys "link" -}}
         {{ range $index, $destination := $destinations -}}
-          {{ $source := $kwargs.GetValue "link" $destination -}}
+          {{ $source := $this.GetKwarg "link" $destination -}}
           {{ $absSource := $this.GetAbsPath $workPath $source -}}
           {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
           sh "${UTIL}/link_resource.sh" "{{ $absSource }}" "{{ $absDestination }}"
@@ -389,9 +393,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        SOURCE="{{ .Kwargs.from }}"
+        SOURCE="{{ .GetKwarg "from" }}"
         sh "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}"
-        DESTINATION="{{ .Kwargs.to }}"
+        DESTINATION="{{ .GetKwarg "to" }}"
         sh "${UTIL}/should_not_be_empty.sh" "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}"
         sh "${PY_UTIL}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
@@ -413,9 +417,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        KEY="{{ .Kwargs.key }}"
+        KEY="{{ .GetKwarg "key" }}"
         sh "${UTIL}/should_not_be_empty.sh" "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'key' argument is not defined{{ $d.Normal }}"
-        VALUE="{{ .Kwargs.value }}"
+        VALUE="{{ .GetKwarg "value" }}"
         sh "${UTIL}/should_not_be_empty.sh" "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'value' argument is not defined{{ $d.Normal }}"
         sh "${PY_UTIL}" set_project_kwarg "${KEY}" "${VALUE}"
         echo 🎉🎉🎉
@@ -424,10 +428,17 @@ tasks:
 
   core.buildDockerImage:
     icon: 🐳
+    private: true
     description: |
       Build docker image.
       USAGE:
-        zaruba please core.buildDockerImage dockerRepo="stalchmst"
+      ```yaml
+      buildMyImage:
+        location: ../myLocation
+        config:
+          # Service name, if not provided will be derived from location
+          service: myService
+      ```
       ARGUMENTS:
         dockerRepo:   Docker repository. (optional, default to 'local')
     extend: core.runCoreScript
@@ -438,8 +449,8 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         sh "${UTIL}/should_be_file.sh" "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        DOCKER_REPO="{{ if .Kwargs.dockerRepo }}{{ .Kwargs.dockerRepo }}{{ else }}local{{ end }}"
-        SERVICE="$(sh "${PY_UTIL}" get_service_name "$(pwd)")"
+        DOCKER_REPO="{{ if .GetKwarg "dockerRepo" }}{{ .GetKwarg "dockerRepo" }}{{ else }}local{{ end }}"
+        SERVICE="{{ if .GetConfig "service" }}{{ .GetConfig "service" }}{{ else }}$(sh "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(sh "${UTIL}/get_latest_git_commit.sh")"
         sh "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
         SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
@@ -464,10 +475,17 @@ tasks:
 
   core.pushDockerImage:
     icon: 🐳
+    private: true
     description: |
       Build docker image.
       USAGE:
-        zaruba please core.pushDockerImage dockerRepo="stalchmst"
+      ```yaml
+      buildMyImage:
+        location: ../myLocation
+        config:
+          # Service name, if not provided will be derived from location
+          service: myService
+      ```
       ARGUMENTS:
         dockerRepo:   Docker repository. (required)
     extend: core.runCoreScript
@@ -477,9 +495,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DOCKER_REPO="{{ .Kwargs.dockerRepo }}"
+        DOCKER_REPO="{{ .GetKwarg "dockerRepo" }}"
         sh "${UTIL}/should_not_be_empty.sh" "${DOCKER_REPO}" "{{ $d.Bold }}{{ $d.Red }}'dockerRepo' is required{{ $d.Normal }}"
-        SERVICE="$(sh "${PY_UTIL}" get_service_name "$(pwd)")"
+        SERVICE="{{ if .GetConfig "service" }}{{ .GetConfig "service" }}{{ else }}$(sh "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(sh "${UTIL}/get_latest_git_commit.sh")"
         sh "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
         SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
@@ -499,4 +517,32 @@ tasks:
         docker push "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
-        
+    
+
+  core.removeDockerContainer:
+    icon: 🐳
+    private: true
+    description: |
+      Remove docker container.
+      USAGE:
+      ```yaml
+      removeMyContainer:
+        location: ../myLocation
+        config:
+          # container name, if not provided will be derived from location
+          containerName: myContainer
+      ```
+      ARGUMENTS:
+        dockerRepo:   Docker repository. (required)
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateLinks
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(sh "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
+        sh "${UTIL}/stop_and_remove_container.sh" "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container removed{{ $d.Normal }}"

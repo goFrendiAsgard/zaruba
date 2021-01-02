@@ -12,11 +12,11 @@ tasks:
     start:
       - sh
       - "-c"
-      - echo creating {{ .Config.name }} && sleep 2
+      - echo creating {{ .GetConfig "name" }} && sleep 2
     check:
       - sh
       - "-c"
-      - sleep {{ .Config.duration }} && echo {{ .Config.name }} >> alembic.txt && echo {{ .Config.name }} created
+      - sleep {{ .GetConfig "duration" }} && echo {{ .GetConfig "name" }} >> alembic.txt && echo {{ .GetConfig "name" }} created
   
   makeNaOH:
     extend: makeSomething

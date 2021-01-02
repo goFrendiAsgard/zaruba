@@ -3,9 +3,33 @@ package config
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/state-alchemists/zaruba/logger"
 )
+
+func getSubKeys(dictionary map[string]string, parentKeys []string) (subKeys []string) {
+	seen := map[string]bool{}
+	parentKey := strings.Join(parentKeys, "::")
+	prefixLength := len(parentKey) + len("::")
+	subKeys = []string{}
+	for key := range dictionary {
+		if !strings.HasPrefix(key, parentKey) {
+			continue
+		}
+		childKey := key[prefixLength:]
+		if childKey == "" {
+			continue
+		}
+		childKeyParts := strings.SplitN(childKey, "::", 2)
+		subkey := childKeyParts[0]
+		seen[subkey] = true
+	}
+	for key := range seen {
+		subKeys = append(subKeys, key)
+	}
+	return subKeys
+}
 
 // TaskData is struct sent to template
 type TaskData struct {
@@ -16,10 +40,6 @@ type TaskData struct {
 	WorkPath     string
 	DirPath      string
 	FileLocation string
-	Kwargs       Dictionary
-	Env          Dictionary
-	Config       Dictionary
-	LConfig      map[string][]string
 	Decoration   logger.Decoration
 }
 
@@ -33,17 +53,58 @@ func NewTaskData(task *Task) (td *TaskData) {
 		WorkPath:     task.GetWorkPath(),
 		DirPath:      filepath.Dir(task.FileLocation),
 		FileLocation: task.FileLocation,
-		Kwargs:       task.Project.Kwargs,
-		Env:          task.ParsedEnv,
-		Config:       task.ParsedConfig,
-		LConfig:      task.ParsedLConfig,
 		Decoration:   *logger.NewDecoration(),
 	}
 }
 
-// GetEnv of TaskData
-func (td *TaskData) GetEnv(key string) (val string) {
-	return td.task.GetEnv(key)
+// GetConfig get config of task data
+func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
+	return td.task.GetConfig(td, keys...)
+}
+
+// GetAllConfig get all environment
+func (td *TaskData) GetAllConfig() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllConfig(td)
+}
+
+// GetConfigSubKeys get config subkeys
+func (td *TaskData) GetConfigSubKeys(keys ...string) (subKeys []string) {
+	return getSubKeys(td.task.Config, keys)
+}
+
+// GetLConfig get config of task data
+func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
+	return td.task.GetLConfig(td, keys...)
+}
+
+// GetAllLConfig get all environment
+func (td *TaskData) GetAllLConfig() (parsedEnv map[string][]string, err error) {
+	return td.task.GetAllLConfig(td)
+}
+
+// GetKwarg get keyword argument
+func (td *TaskData) GetKwarg(keys ...string) (val string, err error) {
+	return td.task.GetKwarg(td, keys...)
+}
+
+// GetKwargSubKeys get keyword argument subkeys
+func (td *TaskData) GetKwargSubKeys(keys ...string) (subKeys []string) {
+	return getSubKeys(td.task.Project.Kwargs, keys)
+}
+
+// GetAllKwargs get all environment
+func (td *TaskData) GetAllKwargs() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllKwargs(td)
+}
+
+// GetEnv get environment
+func (td *TaskData) GetEnv(key string) (val string, err error) {
+	return td.task.GetEnv(td, key)
+}
+
+// GetAllEnv get all environment
+func (td *TaskData) GetAllEnv() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllEnv(td)
 }
 
 // GetAbsPath of any string
@@ -54,19 +115,11 @@ func (td *TaskData) GetAbsPath(parentPath, path string) (absPath string) {
 	return filepath.Join(parentPath, path)
 }
 
-// GetTaskConfig get config from other task
-func (td *TaskData) GetTaskConfig(taskName, config string) (value string, err error) {
+// GetTask get other task
+func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
 	task, taskFound := td.task.Project.Tasks[taskName]
 	if !taskFound {
-		return "", fmt.Errorf("Task %s is not exist", taskName)
+		return nil, fmt.Errorf("Task %s is not exist", taskName)
 	}
-	parsedConfig, err := task.getParsedConfig()
-	if err != nil {
-		return "", err
-	}
-	value, configFound := parsedConfig[config]
-	if !configFound {
-		return "", fmt.Errorf("Config %s on task %s is not exist", config, taskName)
-	}
-	return value, nil
+	return NewTaskData(task), nil
 }

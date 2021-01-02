@@ -1,5 +1,5 @@
 
-FROM python:3.8
+FROM python:3.8-slim
 
 # define environments
 ENV PYTHONUNBUFFERED 1

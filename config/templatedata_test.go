@@ -54,7 +54,7 @@ func TestTaskDataKwargsGetSubKeys(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	subkeys := td.Kwargs.GetSubKeys("alchemist")
+	subkeys := td.GetKwargSubKeys("alchemist")
 	if len(subkeys) != 2 {
 		t.Errorf("Subkeys length should be 2, but currently contains %#v", subkeys)
 	}
@@ -79,19 +79,26 @@ func TestTaskDataKwargsGetValue(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	actual := td.Kwargs.GetValue("alchemist", "flamel", "name")
+	actual, err := td.GetKwarg("alchemist", "flamel", "name")
+	if err != nil {
+		t.Error(err)
+	}
 	expected := "Nicholas Flamel"
 	if actual != expected {
 		t.Errorf("%s expected, but getting %s", expected, actual)
 	}
 }
 
-func TestTaskDataGetConfig(t *testing.T) {
+func TestTaskDataGetTask(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
 	expected := "9000"
-	actual, err := td.GetTaskConfig("serveStaticFiles", "port")
+	other, err := td.GetTask("serveStaticFiles")
+	if err != nil {
+		t.Error(err)
+	}
+	actual, err := other.GetConfig("port")
 	if err != nil {
 		t.Error(err)
 	}
@@ -100,21 +107,11 @@ func TestTaskDataGetConfig(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetTaskConfigFromInvalidTask(t *testing.T) {
+func TestTaskDataGetInvalidTask(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	_, err := td.GetTaskConfig("invalidTask", "port")
-	if err == nil {
-		t.Error("Error expected, but no error found")
-	}
-}
-
-func TestTaskDataGetTaskConfigFromInvalidConfig(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
-		return
-	}
-	_, err := td.GetTaskConfig("serveStaticFiles", "invalidConfig")
+	_, err := td.GetTask("invalidTask")
 	if err == nil {
 		t.Error("Error expected, but no error found")
 	}

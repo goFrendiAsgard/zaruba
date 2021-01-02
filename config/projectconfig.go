@@ -156,7 +156,8 @@ func (conf *ProjectConfig) AddKwargs(pairOrFile string) (err error) {
 func (conf *ProjectConfig) Init() (err error) {
 	for _, taskName := range conf.SortedTaskNames {
 		task := conf.Tasks[taskName]
-		if err = task.init(); err != nil {
+		err := task.init()
+		if err != nil {
 			return err
 		}
 	}

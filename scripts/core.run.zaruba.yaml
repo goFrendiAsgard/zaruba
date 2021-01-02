@@ -24,24 +24,20 @@ tasks:
       ```
     private: true
     config:
-      cmd: "{{ if .Kwargs.defaultShell }}{{ .Kwargs.defaultShell }}{{ else }}sh{{ end }}"
+      cmd: '{{ if .GetKwarg "defaultShell" }}{{ .GetKwarg "defaultShell" }}{{ else }}sh{{ end }}'
       cmdArg: "-c"
     env:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED
         default: 1
     start:
-    - "{{ .Config.cmd }}"
-    - "{{ .Config.cmdArg }}"
+    - '{{ .GetConfig "cmd" }}'
+    - '{{ .GetConfig "cmdArg" }}'
     - |
-        {{- if .Config.setup }}{{ .Config.setup }}
-        {{ end -}}
-        {{- if .Config.beforeStart }}{{ .Config.beforeStart }}
-        {{ end -}}
-        {{- if .Config.start }}{{ .Config.start }}
-        {{ end -}}
-        {{- if .Config.afterStart }}{{ .Config.afterStart }}
-        {{ end -}}
+        {{ .GetConfig "setup" }}
+        {{ .GetConfig "beforeStart" }}
+        {{ .GetConfig "start" }}
+        {{ .GetConfig "afterStart" }}
 
 
   core.runCoreScript:

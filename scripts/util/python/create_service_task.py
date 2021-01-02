@@ -38,9 +38,9 @@ service_containerization_tasks = '''
   zarubaRemoveContainerTask:
     icon: 🐳
     description: Remove container for zarubaServiceName
-    extend: core.runCoreScript 
+    extend: core.removeDockerContainer 
     config:
-      start: sh "${UTIL}/stop_and_remove_container.sh" "zarubaServiceName"
+      containerName: zarubaServiceName
   
 
   zarubaBuildImageTask:
@@ -49,6 +49,8 @@ service_containerization_tasks = '''
     extend: core.buildDockerImage
     location: zarubaTaskLocation
     timeout: 1h
+    config:
+      service: zarubaServiceName
 
 
   zarubaPushImageTask:
@@ -59,6 +61,8 @@ service_containerization_tasks = '''
     dependencies:
     - zarubaBuildImageTask
     timeout: 1h
+    config:
+      service: zarubaServiceName
 
 '''
 

@@ -35,12 +35,154 @@ type Task struct {
 	BasePath        string                // Main yaml's location
 	FileLocation    string                // File location where this task was declared
 	Project         *ProjectConfig
-	ParsedEnv       map[string]string
-	ParsedConfig    map[string]string
-	ParsedLConfig   map[string][]string
 	Name            string
 	FunkyName       string
 	TimeoutDuration time.Duration
+}
+
+// GetWorkPath get path of current task
+func (task *Task) GetWorkPath() (path string) {
+	path = task.getPath()
+	if path != "" {
+		return path
+	}
+	path, err := os.Getwd()
+	if err != nil {
+		return task.BasePath
+	}
+	return path
+}
+
+// GetKwarg getting config of a task
+func (task *Task) GetKwarg(taskData *TaskData, keys ...string) (val string, err error) {
+	key := strings.Join(keys, "::")
+	pattern, exist := task.Project.Kwargs[key]
+	if !exist {
+		return "", nil
+	}
+	templateName := fmt.Sprintf("%s.kwargs.%s", task.Name, key)
+	return task.getParsedPattern(taskData, templateName, pattern)
+}
+
+// GetAllKwargs getting all parsed env
+func (task *Task) GetAllKwargs(taskData *TaskData) (parsedKwarg map[string]string, err error) {
+	parsedKwarg = map[string]string{}
+	for key := range taskData.task.Project.Kwargs {
+		parsedKwarg[key], err = task.GetKwarg(taskData, key)
+		if err != nil {
+			return parsedKwarg, err
+		}
+	}
+	return parsedKwarg, nil
+}
+
+// GetConfig getting config of a task
+func (task *Task) GetConfig(taskData *TaskData, keys ...string) (val string, err error) {
+	key := strings.Join(keys, "::")
+	pattern, exist := task.Config[key]
+	if !exist {
+		parentTask, exists := task.Project.Tasks[task.Extend]
+		if !exists {
+			return "", nil
+		}
+		return parentTask.GetConfig(taskData, keys...)
+	}
+	templateName := fmt.Sprintf("%s.config.%s", task.Name, key)
+	return task.getParsedPattern(taskData, templateName, pattern)
+}
+
+// GetAllConfig getting all parsed env
+func (task *Task) GetAllConfig(taskData *TaskData) (parsedConfig map[string]string, err error) {
+	parsedConfig = map[string]string{}
+	for key := range taskData.task.Config {
+		parsedConfig[key], err = task.GetConfig(taskData, key)
+		if err != nil {
+			return parsedConfig, err
+		}
+	}
+	return parsedConfig, nil
+}
+
+// GetLConfig getting lconfig of a task
+func (task *Task) GetLConfig(taskData *TaskData, keys ...string) (val []string, err error) {
+	key := strings.Join(keys, "::")
+	val = []string{}
+	lConfig, exist := task.LConfig[key]
+	if !exist {
+		parentTask, exists := task.Project.Tasks[task.Extend]
+		if !exists {
+			return []string{}, nil
+		}
+		return parentTask.GetLConfig(taskData, keys...)
+	}
+	for index, pattern := range lConfig {
+		templateName := fmt.Sprintf("%s.lconfig.%s[%d]", task.Name, key, index)
+		element, err := task.getParsedPattern(taskData, templateName, pattern)
+		if err != nil {
+			return val, err
+		}
+		val = append(val, element)
+	}
+	return val, err
+}
+
+// GetAllLConfig getting all lConfig
+func (task *Task) GetAllLConfig(taskData *TaskData) (parsedLConfig map[string][]string, err error) {
+	parsedLConfig = map[string][]string{}
+	for key := range taskData.task.LConfig {
+		parsedLConfig[key], err = task.GetLConfig(taskData, key)
+		if err != nil {
+			return parsedLConfig, err
+		}
+	}
+	return parsedLConfig, nil
+}
+
+// GetEnv getting env of a task
+func (task *Task) GetEnv(taskData *TaskData, key string) (val string, err error) {
+	envConfig, exist := task.Env[key]
+	if !exist {
+		parentTask, exists := task.Project.Tasks[task.Extend]
+		if !exists {
+			return os.Getenv(key), nil
+		}
+		return parentTask.GetEnv(taskData, key)
+	}
+	if envConfig.From != "" {
+		return os.Getenv(envConfig.From), nil
+	}
+	templateName := fmt.Sprintf("%s.env.%s", task.Name, key)
+	return task.getParsedPattern(taskData, templateName, envConfig.Default)
+}
+
+// GetAllEnv getting all parsed env
+func (task *Task) GetAllEnv(taskData *TaskData) (parsedEnv map[string]string, err error) {
+	parsedEnv = map[string]string{}
+	for key := range taskData.task.Env {
+		parsedEnv[key], err = task.GetEnv(taskData, key)
+		if err != nil {
+			return parsedEnv, err
+		}
+	}
+	return parsedEnv, nil
+}
+
+func (task *Task) getParsedPattern(taskData *TaskData, templateName, pattern string) (result string, err error) {
+	lines := strings.Split(pattern, "\n")
+	for index, line := range lines {
+		lines[index] = fmt.Sprintf("%s | %s", fmt.Sprintf("%4d", index+1), line)
+	}
+	tmplName := fmt.Sprintf("\n%s:\n%s\n", templateName, strings.Join(lines, "\n"))
+	tmpl, err := template.New(tmplName).Option("missingkey=zero").Parse(pattern)
+	if err != nil {
+		return "", err
+	}
+	var b bytes.Buffer
+	if err = tmpl.Execute(&b, taskData); err != nil {
+		return "", err
+	}
+	result = b.String()
+	return result, nil
 }
 
 func (task *Task) fillEnvTask() {
@@ -49,17 +191,10 @@ func (task *Task) fillEnvTask() {
 	}
 }
 
-// GetEnv get env for a task, parsed and os's
-func (task *Task) GetEnv(key string) (val string) {
-	if val, exists := task.ParsedEnv[key]; exists {
-		return val
-	}
-	return os.Getenv(key)
-}
-
 func (task *Task) init() (err error) {
-	task.TimeoutDuration, err = time.ParseDuration(task.Timeout)
-	if err != nil || task.TimeoutDuration <= 0 {
+	var timeErr error
+	task.TimeoutDuration, timeErr = time.ParseDuration(task.Timeout)
+	if timeErr != nil || task.TimeoutDuration <= 0 {
 		task.TimeoutDuration = 5 * time.Minute
 	}
 	if task.Extend != "" {
@@ -67,16 +202,9 @@ func (task *Task) init() (err error) {
 			return fmt.Errorf("Task %s is extended from %s but task %s doesn't exist", task.Name, task.Extend, task.Extend)
 		}
 	}
-	task.ParsedEnv = task.getParsedEnv()
-	if task.ParsedConfig, err = task.getParsedConfig(); err != nil {
-		return err
-	}
-	if task.ParsedLConfig, err = task.getParsedLConfig(); err != nil {
-		return err
-	}
 	task.generateIcon()
 	task.generateFunkyName()
-	return err
+	return nil
 }
 
 func (task *Task) generateIcon() {
@@ -95,92 +223,6 @@ func (task *Task) generateFunkyName() {
 	d := task.Project.Decoration
 	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.Name, d.Normal, paddedStr)
 	task.FunkyName = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
-}
-
-func (task *Task) getParsedEnv() (parsedEnv map[string]string) {
-	parsedEnv = map[string]string{}
-	for envName, envConfig := range task.Env {
-		val := os.Getenv(envConfig.From)
-		if val == "" {
-			val = envConfig.Default
-		}
-		parsedEnv[envName] = val
-	}
-	parentTask, exists := task.Project.Tasks[task.Extend]
-	if !exists {
-		return parsedEnv
-	}
-	parentParsedEnv := parentTask.getParsedEnv()
-	for key, val := range parentParsedEnv {
-		if _, exists := parsedEnv[key]; !exists {
-			parsedEnv[key] = val
-		}
-	}
-	return parsedEnv
-}
-
-func (task *Task) getParsedConfig() (parsedConfig map[string]string, err error) {
-	parsedConfig = map[string]string{}
-	for configName, configPattern := range task.Config {
-		if parsedConfig[configName], err = task.parseCurentTaskTemplatePattern(configPattern); err != nil {
-			return parsedConfig, err
-		}
-	}
-	parentTask, exists := task.Project.Tasks[task.Extend]
-	if !exists {
-		return parsedConfig, nil
-	}
-	parentParsedConfig, err := parentTask.getParsedConfig()
-	if err != nil {
-		return parsedConfig, err
-	}
-	for configName, val := range parentParsedConfig {
-		if _, exists := parsedConfig[configName]; !exists {
-			parsedConfig[configName] = val
-		}
-	}
-	return parsedConfig, err
-}
-
-func (task *Task) getParsedLConfig() (parsedLConfig map[string][]string, err error) {
-	parsedLConfig = map[string][]string{}
-	for configName, configPatterns := range task.LConfig {
-		parsedLConfig[configName] = []string{}
-		for _, configPattern := range configPatterns {
-			val, err := task.parseCurentTaskTemplatePattern(configPattern)
-			if err != nil {
-				return parsedLConfig, err
-			}
-			parsedLConfig[configName] = append(parsedLConfig[configName], val)
-		}
-	}
-	parentTask, exists := task.Project.Tasks[task.Extend]
-	if !exists {
-		return parsedLConfig, nil
-	}
-	parentParsedLConfig, err := parentTask.getParsedLConfig()
-	if err != nil {
-		return parsedLConfig, err
-	}
-	for configName, val := range parentParsedLConfig {
-		if _, exists := parsedLConfig[configName]; !exists {
-			parsedLConfig[configName] = val
-		}
-	}
-	return parsedLConfig, err
-}
-
-// GetWorkPath get path of current task
-func (task *Task) GetWorkPath() (path string) {
-	path = task.getPath()
-	if path != "" {
-		return path
-	}
-	path, err := os.Getwd()
-	if err != nil {
-		return task.BasePath
-	}
-	return path
 }
 
 func (task *Task) getPath() (path string) {
@@ -237,7 +279,7 @@ func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getStartCmd(taskData)
 	}
-	cmd, err = task.getCmd("START", task.Start, taskData)
+	cmd, err = task.getCmd(taskData, "START", task.Start)
 	return cmd, true, err
 }
 
@@ -254,14 +296,15 @@ func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, er
 		}
 		return parentTask.getCheckCmd(taskData)
 	}
-	cmd, err = task.getCmd("CHECK", task.Check, taskData)
+	cmd, err = task.getCmd(taskData, "CHECK", task.Check)
 	return cmd, true, err
 }
 
-func (task *Task) getCmd(cmdIconType string, commandPatternArgs []string, taskData *TaskData) (cmd *exec.Cmd, err error) {
+func (task *Task) getCmd(taskData *TaskData, cmdType string, commandPatternArgs []string) (cmd *exec.Cmd, err error) {
 	commandArgs := []string{}
+	templateName := fmt.Sprintf("%s.%s", task.Name, strings.ToLower(cmdType))
 	for _, pattern := range commandPatternArgs {
-		arg, err := task.parseTemplatePattern(pattern, taskData)
+		arg, err := task.getParsedPattern(taskData, templateName, pattern)
 		if err != nil {
 			return cmd, err
 		}
@@ -273,23 +316,27 @@ func (task *Task) getCmd(cmdIconType string, commandPatternArgs []string, taskDa
 	cmd.Dir = taskData.task.GetWorkPath()
 	cmd.Env = os.Environ()
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-	for key, val := range taskData.Env {
+	for key := range taskData.task.Env {
+		val, err := taskData.GetEnv(key)
+		if err != nil {
+			return cmd, err
+		}
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, val))
 	}
 	outPipe, err := cmd.StdoutPipe()
 	if err != nil {
 		return cmd, err
 	}
-	go task.log(cmdIconType, "OUT", outPipe, taskData)
+	go task.log(taskData, cmdType, "OUT", outPipe)
 	errPipe, err := cmd.StderrPipe()
 	if err != nil {
 		return cmd, err
 	}
-	go task.log(cmdIconType, "ERR", errPipe, taskData)
+	go task.log(taskData, cmdType, "ERR", errPipe)
 	return cmd, err
 }
 
-func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, taskData *TaskData) {
+func (task *Task) log(taskData *TaskData, cmdType, logType string, pipe io.ReadCloser) {
 	buf := bufio.NewScanner(pipe)
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
@@ -313,21 +360,4 @@ func (task *Task) getCmdIconType(cmdType string) string {
 		return "🔎"
 	}
 	return "🚀"
-}
-
-func (task *Task) parseCurentTaskTemplatePattern(pattern string) (val string, err error) {
-	return task.parseTemplatePattern(pattern, NewTaskData(task))
-}
-
-func (task *Task) parseTemplatePattern(pattern string, taskData *TaskData) (val string, err error) {
-	tmpl, err := template.New(pattern).Option("missingkey=zero").Parse(pattern)
-	if err != nil {
-		return val, err
-	}
-	var b bytes.Buffer
-	if err = tmpl.Execute(&b, taskData); err != nil {
-		return val, err
-	}
-	val = b.String()
-	return val, err
 }

@@ -21,22 +21,41 @@ tasks:
     extend: core.runCoreScript
     dependencies:
     - updateLinks
-    check:
-    - "{{ .Config.cmd }}"
-    - "{{ .Config.cmdArg }}"
+    config:
+      check: |
+        {{- $d := .Decoration -}}
+        {{ range $index, $port := .GetLConfig "ports" -}}
+          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
+          sh "${UTIL}/wait_port.sh" "localhost" "{{ $port }}"
+          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+        {{ end -}}
+      startFooter: ""
+      checkFooter: |
+        {{- $d := .Decoration -}}
+        echo 🎉🎉🎉
+        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+    start:
+    - '{{ .GetConfig "cmd" }}'
+    - '{{ .GetConfig "cmdArg" }}'
     - |
-      {{- $d := .Decoration -}}
-      {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
-      {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
-      {{ range $index, $port := .LConfig.ports -}}
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-        sh "${UTIL}/wait_port.sh" "localhost" "{{ $port }}"
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
-      {{ end -}}
-      set +e
-      {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
-      echo 🎉🎉🎉
-      echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+        {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
+        {{ $runCoreScript.GetConfig "setup" }}
+        {{ .GetConfig "setup" }}
+        {{ .GetConfig "beforeStart" }}
+        {{ .GetConfig "start" }}
+        {{ .GetConfig "afterStart" }}
+        {{ .GetConfig "startFooter" }}
+    check:
+    - '{{ .GetConfig "cmd" }}'
+    - '{{ .GetConfig "cmdArg" }}'
+    - |
+        {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
+        {{ $runCoreScript.GetConfig "setup" }}
+        {{ .GetConfig "setup" }}
+        {{ .GetConfig "beforeCheck" }}
+        {{ .GetConfig "check" }}
+        {{ .GetConfig "afterCheck" }}
+        {{ .GetConfig "checkFooter" }}
 
 
   core.startDockerContainer:
@@ -66,90 +85,86 @@ tasks:
           ports: []
       ```
     private: true
-    extend: core.runCoreScript
+    extend: core.startService
     dependencies:
     - updateLinks
     config:
       localhost: localhost
       expose: config.port
       rebuild: false
-    start:
-    - "sh"
-    - "-c"
-    - |
-      {{ $d := .Decoration -}}
-      {{ if and (ne .Config.rebuild "true") (ne .Config.rebuild "false") }}
-        echo "{{ $d.Bold }}{{ $d.Red }}'rebuild' value should be either 'true' or 'false'{{ $d.Normal }}" && exit 1
-      {{ end -}}
-      {{ if and (ne .Config.expose "config.port") (ne .Config.expose "lconfig.ports") -}}
-        echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
-      {{ end -}}
-      {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
-      CONTAINER_NAME="{{ .Config.containerName }}"
-      sh "${UTIL}/should_not_be_empty.sh" "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}Container name is not provided{{ $d.Normal }}"
-      IMAGE_NAME="{{ .Config.imageName }}"
-      sh "${UTIL}/should_not_be_empty.sh" "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}Image name is not provided{{ $d.Normal }}"
-      {{ if .Config.beforeStart }}{{ .Config.beforeStart }}{{ end }}
-      {{ $this := . -}}
-      {{ if eq .Config.rebuild "true" }}sh "${UTIL}/stop_and_remove_container.sh" "${CONTAINER_NAME}"{{ end }}
-      if [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
-      then
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
-      elif [ ! -z $(sh "${UTIL}/inspect_docker.sh" "container" ".Name" "${CONTAINER_NAME}") ]
-      then
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-        docker start "${CONTAINER_NAME}"
-      else
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-        docker run --name "${CONTAINER_NAME}" {{ "" -}}
-          {{ range $key, $val := .Env -}} 
-            -e {{ $key }}="$(echo "{{ $val }}" | sed s/localhost/{{ $this.Config.localhost }}/g)" {{ "" -}}
-          {{ end -}}
-          {{ if eq $this.Config.expose "config.port" -}}
-            {{ range $index, $hostPort := $this.Config.GetSubKeys "port" -}}
-              {{ $containerPort := $this.Config.GetValue "port" $hostPort -}}
-              -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
+      setup: |
+        {{- $d := .Decoration -}}
+        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}Container name is not provided{{ $d.Normal }}"
+        IMAGE_NAME="{{ .GetConfig "imageName" }}"
+        sh "${UTIL}/should_not_be_empty.sh" "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}Image name is not provided{{ $d.Normal }}"
+      check: |
+        {{ $d := .Decoration -}}
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
+        until [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        do
+          sleep 1
+        done
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
+        {{ $expose := .GetConfig "expose" -}}
+        {{ $ports := .GetConfigSubKeys "port" -}}
+        {{ if eq $expose "lconfig.ports" -}}{{ $ports := .GetLConfig "ports" }}{{ end -}}
+        {{ range $index, $hostPort := $ports -}}
+          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
+          sh "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"
+          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+        {{ end -}}
+      checkFooter: |
+        {{- $d := .Decoration -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is ready{{ $d.Normal }}"
+      start: |
+        {{ $d := .Decoration -}}
+        {{ $rebuild := .GetConfig "rebuild" -}}
+        {{ if and (ne $rebuild "true") (ne $rebuild "false") }}
+          echo "{{ $d.Bold }}{{ $d.Red }}'rebuild' value should be either 'true' or 'false'{{ $d.Normal }}" && exit 1
+        {{ end -}}
+        {{ $expose := .GetConfig "expose" -}}
+        {{ if and (ne $expose "config.port") (ne $expose "lconfig.ports") -}}
+          echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
+        {{ end -}}
+        {{ $this := . -}}
+        {{ if eq $rebuild "true" }}sh "${UTIL}/stop_and_remove_container.sh" "${CONTAINER_NAME}"{{ end }}
+        if [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        then
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
+        elif [ ! -z $(sh "${UTIL}/inspect_docker.sh" "container" ".Name" "${CONTAINER_NAME}") ]
+        then
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
+          docker start "${CONTAINER_NAME}"
+        else
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
+          docker run --name "${CONTAINER_NAME}" {{ "" -}}
+            {{ range $key, $val := $this.GetAllEnv -}} 
+              -e {{ $key }}="$(echo "{{ $val }}" | sed s/localhost/{{ $this.GetConfig "localhost" }}/g)" {{ "" -}}
             {{ end -}}
-          {{ else if eq $this.Config.expose "lconfig.ports" -}}
-            {{ range $index, $port := $this.LConfig.ports -}}
-              -p "{{ $port }}:{{ $port }}" {{ "" -}}
+            {{ if eq $expose "config.port" -}}
+              {{ range $index, $hostPort := $this.GetConfigSubKeys "port" -}}
+                {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+                -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
+              {{ end -}}
+            {{ else if eq $expose "lconfig.ports" -}}
+              {{ range $index, $port := $this.GetLConfig "ports" -}}
+                -p "{{ $port }}:{{ $port }}" {{ "" -}}
+              {{ end -}}
             {{ end -}}
-          {{ end -}}
-          {{ range $index, $hostVolume := $this.Config.GetSubKeys "volume" -}}
-            {{ $absHostVolume := $this.GetAbsPath $this.WorkPath $hostVolume -}}
-            {{ $containerVolume := $this.Config.GetValue "volume" $hostVolume -}}
-            -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
-          {{ end -}}
-          -d "${IMAGE_NAME}"
-      fi
-      {{ if .Config.afterStart }}{{ .Config.afterStart }}{{ end }}
-      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
-      docker logs --since 0m --follow "${CONTAINER_NAME}"
-      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' started{{ $d.Normal }}"
-    check:
-    - "sh"
-    - "-c"
-    - |
-      {{ $d := .Decoration -}}
-      {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
-      CONTAINER_NAME="{{ .Config.containerName }}"
-      {{ if .Config.beforeCheck }}{{ .Config.beforeCheck }}{{ end }}
-      echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-      until [ "$(sh "${UTIL}/inspect_docker.sh" "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
-      do
-        sleep 1
-      done
-      echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
-      {{ $ports := .Config.GetSubKeys "port" -}}
-      {{ if eq .Config.expose "lconfig.ports" -}}{{ $ports := .LConfig.ports }}{{ end -}}
-      {{ range $index, $hostPort := $ports -}}
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-        sh "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
-      {{ end -}}
-      {{ if .Config.afterCheck }}{{ .Config.afterCheck }}{{ end }}
-      echo 🎉🎉🎉
-      echo "{{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is ready{{ $d.Normal }}"
+            {{ range $index, $hostVolume := $this.GetConfigSubKeys "volume" -}}
+              {{ $absHostVolume := $this.GetAbsPath $this.WorkPath $hostVolume -}}
+              {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
+              -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
+            {{ end -}}
+            -d "${IMAGE_NAME}"
+        fi
+      startFooter: |
+        {{ $d := .Decoration -}}
+        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
+        docker logs --since 0m --follow "${CONTAINER_NAME}"
+        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' started{{ $d.Normal }}"
 
 
   core.monitorPorts:
@@ -172,33 +187,28 @@ tasks:
           - 3306
       ```
     private: true
-    extend: core.runCoreScript
-    start:
-    - "{{ .Config.cmd }}"
-    - "{{ .Config.cmdArg }}"
-    - |
-      {{ $d := .Decoration -}}
-      {{ if .Config.setup }}{{ .Config.setup }}{{ end }}
-      PORTS=""
-      {{ range $index, $port := .LConfig.ports -}}
-        PORTS="${PORTS} {{ $port }}"
-      {{ end -}}
-      while true
-      do
-        for PORT in ${PORTS}
+    extend: core.startService
+    config:
+      interval: 1
+      start: |
+        {{ $d := .Decoration -}}
+        PORTS=""
+        {{ range $index, $port := .GetLConfig "ports" -}}
+          PORTS="${PORTS} {{ $port }}"
+        {{ end -}}
+        while true
         do
-          if nc -z "localhost" "${PORT}"
-          then
-            continue
-          fi
-          echo "🔎 {{ $d.Bold }}{{ $d.Red }}Port '${PORT}' is not listening{{ $d.Normal }}"
-          exit 1
+          for PORT in ${PORTS}
+          do
+            if nc -z "localhost" "${PORT}"
+            then
+              continue
+            fi
+            echo "🔎 {{ $d.Bold }}{{ $d.Red }}Port '${PORT}' is not listening{{ $d.Normal }}"
+            exit 1
+          done
+          sleep {{ .GetConfig "interval" }}
         done
-        sleep {{ if .Config.interval }}{{ .Config.interval }}{{ else }}1{{ end }}
-      done
-    check:
-    - "{{ .Config.cmd }}"
-    - "{{ .Config.cmdArg }}"
-    - |
-      {{ $d := .Decoration -}}
-      echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started{{ $d.Normal }}"
+      checkFooter: |
+        {{ $d := .Decoration -}}
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started{{ $d.Normal }}"

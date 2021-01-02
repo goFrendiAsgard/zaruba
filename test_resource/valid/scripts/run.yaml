@@ -7,9 +7,9 @@ tasks:
       evalParam: "-c"
       script: 'echo "hello world"'
     start:
-    - "{{ .Config.cmd }}"
-    - "{{ .Config.evalParam }}"
-    - "{{ .Config.script }}"
+    - '{{ .GetConfig "cmd" }}'
+    - '{{ .GetConfig "evalParam" }}'
+    - '{{ .GetConfig "script" }}'
     
   core.runBashScript:
     private: true
@@ -34,4 +34,4 @@ tasks:
     private: true
     config:
       port: 8080
-    start: ["python", "-m", "http.server", "{{ .Config.port }}"]
+    start: ["python", "-m", "http.server", '{{ .GetConfig "port" }}']

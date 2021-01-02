@@ -4,44 +4,6 @@ import (
 	"testing"
 )
 
-func TestValidTaskParsedEnv(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
-		return
-	}
-	expectation := map[string]map[string]string{
-		"runApiGateway": {
-			"HTTP_PORT":       "8080",
-			"PROMETHEUS_PORT": "8081",
-			"SOME_KEY":        "SOME_VALUE",
-		},
-		"runIntegrationTest": {},
-		"core.runNodeJsService": {
-			"SOME_KEY": "SOME_VALUE",
-		},
-	}
-	for taskName, parsedEnvExpectation := range expectation {
-		task, exists := validConf.Tasks[taskName]
-		if !exists {
-			t.Errorf("Task %s is not exist", taskName)
-			continue
-		}
-		for key := range parsedEnvExpectation {
-			if _, exists := task.ParsedEnv[key]; !exists {
-				t.Errorf("Expecting env %s of %s but not found", key, taskName)
-			}
-		}
-		for key, actualVal := range task.ParsedEnv {
-			expectedVal, exists := parsedEnvExpectation[key]
-			if !exists {
-				t.Errorf("Env key %s of %s is not expected", key, taskName)
-			}
-			if expectedVal != actualVal {
-				t.Errorf("Expecting env %s of %s to be %s but getting %s", key, taskName, expectedVal, actualVal)
-			}
-		}
-	}
-}
-
 func TestValidTaskGetEnv(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return
@@ -71,14 +33,18 @@ func TestValidTaskGetEnv(t *testing.T) {
 			continue
 		}
 		for key, expectedVal := range parsedEnvExpectation {
-			if actualVal := task.GetEnv(key); actualVal != expectedVal {
+			actualVal, err := task.GetEnv(NewTaskData(task), key)
+			if err != nil {
+				t.Error(err)
+			}
+			if actualVal != expectedVal {
 				t.Errorf("Expecting env %s of %s to be %s but getting %s", key, taskName, expectedVal, actualVal)
 			}
 		}
 	}
 }
 
-func TestValidTaskParsedConfig(t *testing.T) {
+func TestValidTaskGetConfig(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return
 	}
@@ -100,23 +66,19 @@ func TestValidTaskParsedConfig(t *testing.T) {
 			continue
 		}
 		for key := range parsedConfigExpectation {
-			if _, exists := task.ParsedConfig[key]; !exists {
-				t.Errorf("Expecting config %s of %s but not found", key, taskName)
+			expectedVal := parsedConfigExpectation[key]
+			actualVal, err := task.GetConfig(NewTaskData(task), key)
+			if err != nil {
+				t.Error(err)
 			}
-		}
-		for key, actualVal := range task.ParsedConfig {
-			expectedVal, exists := parsedConfigExpectation[key]
-			if !exists {
-				t.Errorf("Config %s of %s is not expected", key, taskName)
-			}
-			if expectedVal != actualVal {
+			if actualVal != expectedVal {
 				t.Errorf("Expecting config %s of %s to be %s but getting %s", key, taskName, expectedVal, actualVal)
 			}
 		}
 	}
 }
 
-func TestValidTaskParsedLConfig(t *testing.T) {
+func TestValidTaskGetLConfig(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return
 	}
@@ -137,16 +99,10 @@ func TestValidTaskParsedLConfig(t *testing.T) {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
 		}
-		for key := range parsedLConfigExpectation {
-			if _, exists := task.ParsedLConfig[key]; !exists {
-				t.Errorf("Expecting config %s of %s but not found", key, taskName)
-			}
-		}
-		for key, actualVals := range task.ParsedLConfig {
-			expectedVals, exists := parsedLConfigExpectation[key]
-			if !exists {
-				t.Errorf("Config %s of %s is not expected", key, taskName)
-				continue
+		for key, expectedVals := range parsedLConfigExpectation {
+			actualVals, err := task.GetLConfig(NewTaskData(task), key)
+			if err != nil {
+				t.Error(err)
 			}
 			if len(expectedVals) != len(actualVals) {
 				t.Errorf("Expecting config %s of %s to contains %d element but getting %d element", key, taskName, len(expectedVals), len(actualVals))
@@ -273,7 +229,12 @@ func TestInvalidTaskConfigBrokenTemplate(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err == nil {
+	if err = conf.Init(); err != nil {
+		t.Error(err)
+		return
+	}
+	task := conf.Tasks["job"]
+	if _, parseError := task.GetConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -284,7 +245,12 @@ func TestInvalidTaskConfigNonExecutableTemplate(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err == nil {
+	if err = conf.Init(); err != nil {
+		t.Error(err)
+		return
+	}
+	task := conf.Tasks["job"]
+	if _, parseError := task.GetConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -295,7 +261,12 @@ func TestInvalidTaskLConfigBrokenTemplate(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err == nil {
+	if err = conf.Init(); err != nil {
+		t.Error(err)
+		return
+	}
+	task := conf.Tasks["job"]
+	if _, parseError := task.GetLConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -306,7 +277,12 @@ func TestInvalidTaskLConfigNonExecutableTemplate(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err == nil {
+	if err = conf.Init(); err != nil {
+		t.Error(err)
+		return
+	}
+	task := conf.Tasks["job"]
+	if _, parseError := task.GetLConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }

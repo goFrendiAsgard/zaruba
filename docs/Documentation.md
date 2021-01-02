@@ -214,58 +214,83 @@ Please check `config/templatedata.go` to see `TaskData` definition. Here is a gl
 ```go
 // TaskData is struct sent to template
 type TaskData struct {
-	task         *Task
+  task         *Task
 	Name         string
 	ProjectName  string
 	BasePath     string
 	WorkPath     string
 	DirPath      string
 	FileLocation string
-	Kwargs       Dictionary
-	Env          Dictionary
-	Config       Dictionary
-	LConfig      map[string][]string
-	Decoration   logger.Decoration
+  Decoration   logger.Decoration
 }
 
-// GetEnv of TaskData
-func (td *TaskData) GetEnv(key string) (val string) {
-  // ...
-	return val
+// GetConfig get config of task data
+func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
+	return td.task.GetConfig(td, keys...)
+}
+
+// GetAllConfig get all environment
+func (td *TaskData) GetAllConfig() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllConfig(td)
+}
+
+// GetConfigSubKeys get config subkeys
+func (td *TaskData) GetConfigSubKeys(keys ...string) (subKeys []string) {
+	return getSubKeys(td.task.Config, keys)
+}
+
+// GetLConfig get config of task data
+func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
+	return td.task.GetLConfig(td, keys...)
+}
+
+// GetAllLConfig get all environment
+func (td *TaskData) GetAllLConfig() (parsedEnv map[string][]string, err error) {
+	return td.task.GetAllLConfig(td)
+}
+
+// GetKwarg get keyword argument
+func (td *TaskData) GetKwarg(keys ...string) (val string, err error) {
+	return td.task.GetKwarg(td, keys...)
+}
+
+// GetKwargSubKeys get keyword argument subkeys
+func (td *TaskData) GetKwargSubKeys(keys ...string) (subKeys []string) {
+	return getSubKeys(td.task.Project.Kwargs, keys)
+}
+
+// GetAllKwargs get all environment
+func (td *TaskData) GetAllKwargs() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllKwargs(td)
+}
+
+// GetEnv get environment
+func (td *TaskData) GetEnv(key string) (val string, err error) {
+	return td.task.GetEnv(td, key)
+}
+
+// GetAllEnv get all environment
+func (td *TaskData) GetAllEnv() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllEnv(td)
 }
 
 // GetAbsPath of any string
 func (td *TaskData) GetAbsPath(parentPath, path string) (absPath string) {
-  // ...
-  return absPath
+	if filepath.IsAbs(path) {
+		return path
+	}
+	return filepath.Join(parentPath, path)
 }
 
-// Dictionary is advance map
-type Dictionary map[string]string
-
-// GetSubKeys get subkeys
-func (d Dictionary) GetSubKeys(parentKeys ...string) (subKeys []string) {
-  // ...
-  return subKeys
+// GetTask get other task
+func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
+	task, taskFound := td.task.Project.Tasks[taskName]
+	if !taskFound {
+		return nil, fmt.Errorf("Task %s is not exist", taskName)
+	}
+	return NewTaskData(task), nil
 }
 
-// GetSubKeysBySeparator get subkeys by separator
-func (d Dictionary) GetSubKeysBySeparator(separator string, parentKeys ...string) (subKeys []string) {
-  // ...
-  return subKeys
-}
-
-// GetValue of dictionary
-func (d Dictionary) GetValue(keys ...string) (val string) {
-  // ...
-	return val
-}
-
-// GetValueBySeparator of dictionary
-func (d Dictionary) GetValueBySeparator(separator string, keys ...string) (val string) {
-  // ...
-	return val
-}
 ```
 
 ## Template Usage Example
@@ -285,7 +310,7 @@ subrepo::fancy::url: https://github.com/jamietanna/gittalk15
 #### Template
 
 ```
-{{ .Kwargs.defaultBranch}}
+{{ .GetKwarg "defaultBranch" }}
 ```
 
 #### Output
@@ -299,7 +324,7 @@ main
 #### Template
 
 ```
-{{ if .Kwargs.defaultBranch }}{{ .Kwargs.defaultBranch }}{{ else }}master{{ end }}
+{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}master{{ end }}
 ```
 
 #### Output
@@ -313,15 +338,15 @@ main
 #### Template
 
 ```
-{{ $names := .Kwargs.GetSubKeys "subrepo" -}}
-{{ $kwargs := .Kwargs -}}
+{{ $this := .}}
+{{ $names := .GetKwargSubKeys "subrepo" -}}
 {{ range $index, $name := $names -}}
-  {{ index }} {{ name }} {{ $kwargs.GetValue "subrepo" $name "prefix" }}
+  {{ index }} {{ name }} {{ $this.GetKwarg "subrepo" $name "prefix" }}
 {{ end }}
 ```
 
 #### Output
 ```
   0 talk git-talk
-  0 fancy fancy
+  1 fancy fancy
 ```

@@ -28,10 +28,7 @@ func setupValidProjectConfig(t *testing.T) (err error) {
 		t.Error(err)
 		return err
 	}
-	if err = validConf.Init(); err != nil {
-		t.Error(err)
-		return err
-	}
+	validConf.Init()
 	return err
 }
 

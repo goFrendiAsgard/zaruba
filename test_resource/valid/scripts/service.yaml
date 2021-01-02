@@ -14,6 +14,6 @@ tasks:
     check:
     - "sh"
     - "-c"
-    - 'until nc -z {{ .Config.checkHost }} {{ .Config.checkPort }}; do sleep 1; done'
+    - 'until nc -z {{ .GetConfig "checkHost" }} {{ .GetConfig "checkPort" }}; do sleep 1; done'
     private: true
 
