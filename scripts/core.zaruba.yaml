@@ -47,7 +47,7 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        {{ $showVersion := .GetTask "core.showVersion" -}}
+        {{ $showVersion := .GetTask "showVersion" -}}
         {{ $showVersion.GetConfig "start" }}
 
 
