@@ -8,37 +8,37 @@ import os, re, sys, traceback
 
 route_template = '''
 
-    @app.get('/{entity}/', response_model=List[schema.{entity_caption}])
+    @app.get('/{entity}s/', response_model=List[schema.{entity_caption}])
     def crud_list_{entity}(skip: int = 0, limit: int = 100):
         db_{entity}_list = mb.call_rpc('list_{entity}', skip, limit)
         return [schema.{entity_caption}.parse_obj(db_{entity}) for db_{entity} in db_{entity}_list]
 
-    @app.get('/{entity}/{{{entity}_id}}', response_model=schema.{entity_caption})
+    @app.get('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_get_{entity}({entity}_id: int):
         db_{entity} = mb.call_rpc('get_{entity}', {entity}_id)
         if db_{entity} is None:
-            raise HTTPException(status_code=404, error='{entity_caption} not found')
+            raise HTTPException(status_code=404, detail='{entity_caption} not found')
         return schema.{entity_caption}.parse_obj(db_{entity})
 
-    @app.post('/{entity}/', response_model=schema.{entity_caption})
+    @app.post('/{entity}s/', response_model=schema.{entity_caption})
     def crud_create_{entity}({entity}_data: schema.{entity_caption}Create):
         db_{entity} = mb.call_rpc('create_{entity}', {entity}_data.dict())
         if db_{entity} is None:
-            raise HTTPException(status_code=404, error='{entity_caption} not found')
+            raise HTTPException(status_code=404, detail='{entity_caption} not found')
         return schema.{entity_caption}.parse_obj(db_{entity})
 
-    @app.put('/{entity}/{{{entity}_id}}', response_model=schema.{entity_caption})
+    @app.put('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_create_{entity}({entity}_id: int, {entity}_data: schema.{entity_caption}Create):
         db_{entity} = mb.call_rpc('update_{entity}', {entity}_id, {entity}_data.dict())
         if db_{entity} is None:
-            raise HTTPException(status_code=404, error='{entity_caption} not found')
+            raise HTTPException(status_code=404, detail='{entity_caption} not found')
         return schema.{entity_caption}.parse_obj(db_{entity})
 
-    @app.delete('/{entity}/{{{entity}_id}}', response_model=schema.{entity_caption})
+    @app.delete('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_get_{entity}({entity}_id: int):
         db_{entity} = mb.call_rpc('delete_{entity}', {entity}_id)
         if db_{entity} is None:
-            raise HTTPException(status_code=404, error='{entity_caption} not found')
+            raise HTTPException(status_code=404, detail='{entity_caption} not found')
         return schema.{entity_caption}.parse_obj(db_{entity})
 
 '''
@@ -127,14 +127,14 @@ model_template = '''
 class {entity_class}(Base):
     __tablename__ = '{entity}s'
     id = Column(Integer, primary_key=True, index=True)
-    {field_declaration}
+    {model_field_declaration}
 
 '''
 
 schema_template = '''
 
 class {entity_class}Base(BaseModel):
-    email: str
+    {schema_field_declaration}
 
 class {entity_class}Create({entity_class}Base):
     pass
@@ -151,14 +151,21 @@ class {entity_class}({entity_class}Base):
 
 def create_fast_crud(location: str, module: str, entity: str, fields: List[str]):
     # declare substitutions
-    indented_new_line = '    \n'
+    indentation = '    '
+    indented_new_line = '\n' + indentation
     entity = re.sub(r'[^A-Za-z0-9_]+', '_', entity).lower()
     entity_class = entity.capitalize()
     entity_caption = entity.replace('_', ' ').capitalize()
-    field_declaration = indented_new_line.join([
+    model_field_declaration = indented_new_line.join([
         '{field} = Column(String)'.format(field = field) 
         for field in fields 
     ])
+    schema_field_declaration = 'pass'
+    if len(fields) > 0:
+        schema_field_declaration = indented_new_line.join([
+            '{field} : str'.format(field = field) 
+            for field in fields 
+        ])
     update_property = indented_new_line.join([
         'db_{entity}.{field} = {entity}_data.{field}'.format(entity = entity, field = field)
         for field in fields 
@@ -168,10 +175,11 @@ def create_fast_crud(location: str, module: str, entity: str, fields: List[str])
         for field in fields
     ])
     # create files
-    create_schema(location, module, entity_class)
-    create_model(location, module, entity_class, entity, field_declaration)
+    create_schema(location, module, entity_class, schema_field_declaration)
+    create_model(location, module, entity_class, entity, model_field_declaration)
     create_crud(location, module, entity_class, entity, init_property, update_property)
     create_route(location, module, entity, entity_caption)
+    create_event(location, module, entity_class, entity)
 
 
 def create_event(location: str, module: str, entity_class: str, entity: str):
@@ -219,21 +227,24 @@ def create_route(location: str, module: str, entity: str, entity_caption: str):
     f_write.close()
 
 
-def create_schema(location: str, module: str, entity_class: str):
+def create_schema(location: str, module: str, entity_class: str, schema_field_declaration=str):
     # create schema
     file_name = os.path.abspath(os.path.join(location, module, 'schema.py'))
     f_write = open(file_name, 'a')
-    f_write.write(schema_template.format(entity_class=entity_class))
+    f_write.write(schema_template.format(
+        entity_class=entity_class, 
+        schema_field_declaration=schema_field_declaration
+    ))
     f_write.close()
 
 
-def create_model(location: str, module: str, entity_class: str, entity: str, field_declaration: str):
+def create_model(location: str, module: str, entity_class: str, entity: str, model_field_declaration: str):
     file_name = os.path.abspath(os.path.join(location, module, 'model.py'))
     f_write = open(file_name, 'a')
     f_write.write(model_template.format(
         entity_class=entity_class,
         entity=entity,
-        field_declaration=field_declaration
+        model_field_declaration=model_field_declaration
     ))
     f_write.close()
 

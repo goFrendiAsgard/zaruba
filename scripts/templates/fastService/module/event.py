@@ -1,6 +1,6 @@
 from typing import Any, List, Mapping
 from sqlalchemy.orm import sessionmaker, Session
-from module import schema
+from module import schema, crud
 
 import database, transport
 

@@ -107,12 +107,18 @@ tasks:
         done
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
         {{ $expose := .GetConfig "expose" -}}
-        {{ $ports := .GetConfigSubKeys "port" -}}
-        {{ if eq $expose "lconfig.ports" -}}{{ $ports := .GetLConfig "ports" }}{{ end -}}
-        {{ range $index, $hostPort := $ports -}}
-          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-          sh "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"
-          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+        {{ if eq $expose "lconfig.ports" -}}
+          {{ range $index, $hostPort := .GetLConfig "ports" -}}
+            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
+            sh "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"
+            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+          {{ end -}}
+        {{ else -}}
+          {{ range $index, $hostPort := .GetConfigSubKeys "port" -}}
+            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
+            sh "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"
+            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+          {{ end -}}
         {{ end -}}
       checkFooter: |
         {{- $d := .Decoration -}}
