@@ -78,7 +78,7 @@ tasks:
         if [ -z "$(docker -v)" ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Install docker{{ $d.Normal }}"
-          apt-get install docker.io
+          apt-get install -y docker.io
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Docker was already installed{{ $d.Normal }}"
         fi
