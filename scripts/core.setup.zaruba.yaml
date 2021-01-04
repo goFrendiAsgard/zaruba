@@ -37,6 +37,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
+        sh ${UTIL}/py_install.sh
         CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
         chown -R ${CURRENT_USER} ${HOME}/.local
         chown -R ${CURRENT_USER} ${HOME}/.config
@@ -110,7 +111,6 @@ tasks:
     dependencies:
     - core.ubuntu.setup
     - core.ubuntu.setupPipenv
-    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
