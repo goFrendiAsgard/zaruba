@@ -37,6 +37,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
+        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
+        chown -R ${CURRENT_USER} ${HOME}/.local
+        chown -R ${CURRENT_USER} ${HOME}/.config
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
         echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
@@ -52,14 +55,13 @@ tasks:
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
         sh ${UTIL}/check_setup_ubuntu.sh "${HOME}"
-        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
-        apt-get install -y ncat make wget curl git golang python3 python3-pip python-is-python3 nodejs npm tmux zsh neovim cowsay figlet lolcat
-        chown -R ${CURRENT_USER} ${HOME}/.local
-        chown -R ${CURRENT_USER} ${HOME}/.config
+        apt-get install -y ncat make wget curl git python3 python3-pip tmux zsh neovim cowsay figlet lolcat
+        update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+        update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 
   core.ubuntu.setupDocker:
@@ -108,6 +110,7 @@ tasks:
     dependencies:
     - core.ubuntu.setup
     - core.ubuntu.setupPipenv
+    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
