@@ -39,8 +39,14 @@ tasks:
         {{ $d := .Decoration -}}
         sh ${UTIL}/py_install.sh
         CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
-        chown -R ${CURRENT_USER} ${HOME}/.local
-        chown -R ${CURRENT_USER} ${HOME}/.config
+        if [ -f "${HOME}/.local" ]
+        then
+          chown -R "${CURRENT_USER}" "${HOME}/.local"
+        fi
+        if [ -f "${HOME}/.config" ]
+        then
+          chown -R "${CURRENT_USER}" "${HOME}/.config"
+        fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
         echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
