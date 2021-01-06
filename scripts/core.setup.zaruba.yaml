@@ -146,8 +146,6 @@ tasks:
         CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
         if [ ! -d "${HOME}/.nvm" ]
         then
-          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
-        else
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | sh
           NVM_DIR="$HOME/.nvm"
@@ -157,6 +155,8 @@ tasks:
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.bashrc"
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.zshrc"
           "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh"
+        else
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
         fi
         if [ -z "$(node-gyp -v)" ]
         then
