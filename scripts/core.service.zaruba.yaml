@@ -160,7 +160,7 @@ tasks:
               {{ end -}}
             {{ end -}}
             {{ range $index, $hostVolume := $this.GetConfigSubKeys "volume" -}}
-              {{ $absHostVolume := $this.GetAbsPath $this.WorkPath $hostVolume -}}
+              {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
               {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
               -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
             {{ end -}}

@@ -10,7 +10,5 @@ _OBJECT="${1}"
 _FORMAT="${2}"
 _CONTAINER_NAME="${3}"
 
-(echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
 set +e
 docker ${_OBJECT} inspect -f "{{ ${_FORMAT} }}" "${_CONTAINER_NAME}"
-set "${_OLD_STATE}"

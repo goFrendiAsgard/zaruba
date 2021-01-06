@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ex
 go build
 ZARUBA_HOME=$(realpath $(pwd))
 sudo rm -Rf playground

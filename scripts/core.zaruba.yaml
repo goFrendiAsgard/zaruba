@@ -367,8 +367,8 @@ tasks:
         {{ $destinations := .GetKwargSubKeys "link" -}}
         {{ range $index, $destination := $destinations -}}
           {{ $source := $this.GetKwarg "link" $destination -}}
-          {{ $absSource := $this.GetAbsPath $workPath $source -}}
-          {{ $absDestination := $this.GetAbsPath $workPath $destination -}}
+          {{ $absSource := $this.GetWorkPath $source -}}
+          {{ $absDestination := $this.GetWorkPath $destination -}}
           sh "${UTIL}/link_resource.sh" "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉

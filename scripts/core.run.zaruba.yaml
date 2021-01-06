@@ -56,7 +56,7 @@ tasks:
     extend: core.runScript
     config:
       setup: |
-        set -e
+        set -ex
         UTIL="${ZARUBA_HOME}/scripts/util/sh"
         PY_UTIL="${UTIL}/py_util.sh"
       start: "echo hello world"

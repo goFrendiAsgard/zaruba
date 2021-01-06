@@ -107,12 +107,31 @@ func (td *TaskData) GetAllEnv() (parsedEnv map[string]string, err error) {
 	return td.task.GetAllEnv(td)
 }
 
-// GetAbsPath of any string
-func (td *TaskData) GetAbsPath(parentPath, path string) (absPath string) {
+// getAbsPath of any string
+func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {
 	if filepath.IsAbs(path) {
 		return path
 	}
-	return filepath.Join(parentPath, path)
+	absParentPath, err := filepath.Abs(parentPath)
+	if err != nil {
+		absParentPath = parentPath
+	}
+	return filepath.Join(absParentPath, path)
+}
+
+// GetWorkPath get workPath
+func (td *TaskData) GetWorkPath(path string) (absPath string) {
+	return td.getAbsPath(td.WorkPath, path)
+}
+
+// GetBasePath get basePath
+func (td *TaskData) GetBasePath(path string) (absPath string) {
+	return td.getAbsPath(td.BasePath, path)
+}
+
+// GetRelativePath get basePath
+func (td *TaskData) GetRelativePath(path string) (absPath string) {
+	return td.getAbsPath(td.DirPath, path)
 }
 
 // GetTask get other task

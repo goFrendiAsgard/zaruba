@@ -33,23 +33,33 @@ tasks:
     - core.ubuntu.setup
     - core.ubuntu.setupDocker
     - core.ubuntu.setupNvm
-    - core.ubuntu.setupPipenv
+    - core.ubuntu.setupPyenv
     config:
       start: |
         {{ $d := .Decoration -}}
-        sh ${UTIL}/py_install.sh
-        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
-        if [ -f "${HOME}/.local" ]
+        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
+        if [ -d "${HOME}/.local" ]
         then
           chown -R "${CURRENT_USER}" "${HOME}/.local"
         fi
-        if [ -f "${HOME}/.config" ]
+        if [ -d "${HOME}/.config" ]
         then
           chown -R "${CURRENT_USER}" "${HOME}/.config"
         fi
+        if [ -d "${HOME}/.cache" ]
+        then
+          chown -R "${CURRENT_USER}" "${HOME}/.cache"
+        fi
+        if echo "$PATH" | grep -Fqe ".local/bin"
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}~/.local/bin is already in the PATH{{ $d.Normal }}"
+        else
+          sh "${UTIL}/append_if_exist.sh" 'export PATH=$PATH:$HOME/.local/bin' "${HOME}/.bashrc"
+          sh "${UTIL}/append_if_exist.sh" 'export PATH=$PATH:$HOME/.local/bin' "${HOME}/.zshrc"
+        fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
-        echo "TIPS: If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
+        echo "TIPS: Restart your terminal. If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
     
 
   core.ubuntu.setup:
@@ -66,9 +76,7 @@ tasks:
         apt-get update
         apt-get upgrade -y
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
-        apt-get install -y ncat make wget curl git python3 python3-pip tmux zsh neovim cowsay figlet lolcat
-        update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-        update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+        apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git ncat make tmux zsh neovim cowsay figlet lolcat
 
 
   core.ubuntu.setupDocker:
@@ -90,7 +98,7 @@ tasks:
         fi
 
 
-  core.ubuntu.setupPipenv:
+  core.ubuntu.setupPyenv:
     icon: 🔨
     extend: core.runCoreScript
     private: true
@@ -100,10 +108,25 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
+        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
+        if [ ! -d "${HOME}/.pyenv" ]
+        then
+          curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
+          sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")" "${HOME}/.bashrc"
+          sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")" "${HOME}/.zshrc"
+          "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh"
+          export PATH="${HOME}/.pyenv/bin:$PATH"
+          chown -R "${CURRENT_USER}" "${HOME}/.pyenv"
+          pyenv install 3.8.6
+          pyenv global 3.8.6
+          chmod 755 "${HOME}/.pyenv/shims"
+        else
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
+        fi
         if [ -z "$(pipenv --version)" ]
         then
-          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pipenv{{ $d.Normal }}"
-          pip3 install pipenv
+          "${HOME}/.pyenv/versions/3.8.6/bin/python3.8" -m pip install pipenv
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         fi
@@ -116,37 +139,24 @@ tasks:
     timeout: 1h
     dependencies:
     - core.ubuntu.setup
-    - core.ubuntu.setupPipenv
     config:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
-        sh ${UTIL}/py_install.sh
-        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${PY_UTIL}" get_segment "${HOME}" / -1){{ end }}"
-        if [ -d "${HOME}/.nvm" ]
+        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
+        if [ ! -d "${HOME}/.nvm" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
         else
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | sh
           NVM_DIR="$HOME/.nvm"
           \. "$NVM_DIR/nvm.sh"
           nvm install node
           chown -R "${CURRENT_USER}" "$NVM_DIR"
-          if [ -f ${HOME}/.zshrc ]
-          then
-            echo '' >> "${HOME}/.zshrc"
-            echo 'export NVM_DIR="$HOME/.nvm"' >> "${HOME}/.zshrc"
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> "${HOME}/.zshrc"
-            echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> "${HOME}/.zshrc"
-          fi
-        fi
-        if [ -z "$(tsc -v)" ]
-        then
-          echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install typescript{{ $d.Normal }}"
-          npm install -g typescript
-        else
-          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
+          sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.bashrc"
+          sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.zshrc"
+          "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh"
         fi
         if [ -z "$(node-gyp -v)" ]
         then
@@ -155,3 +165,11 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Node-gyp was already installed{{ $d.Normal }}"
         fi
+        if [ -z "$(tsc -v)" ]
+        then
+          echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install typescript{{ $d.Normal }}"
+          npm install -g typescript
+        else
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
+        fi
+        

@@ -33,18 +33,52 @@ func setupTaskData(t *testing.T) (err error) {
 	return err
 }
 
-func TestTaskDataGetAbsPath(t *testing.T) {
+func TestTaskDataGetWorkPath(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
 	workPath := td.WorkPath
-	absWorkPath := td.GetAbsPath(workPath, workPath)
+	absWorkPath := td.GetWorkPath(workPath)
 	if workPath != absWorkPath {
 		t.Errorf("Expecting %s, get %s", workPath, absWorkPath)
 	}
 	subPath := "./boom"
-	absSubPath := td.GetAbsPath(workPath, subPath)
+	absSubPath := td.GetWorkPath(subPath)
 	expected := filepath.Join(workPath, subPath)
+	if absSubPath != expected {
+		t.Errorf("Expecting %s, get %s", expected, absSubPath)
+	}
+}
+
+func TestTaskDataGetBasePath(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	basePath := td.BasePath
+	absBasePath := td.GetBasePath(basePath)
+	if basePath != absBasePath {
+		t.Errorf("Expecting %s, get %s", basePath, absBasePath)
+	}
+	subPath := "./boom"
+	absSubPath := td.GetBasePath(subPath)
+	expected := filepath.Join(basePath, subPath)
+	if absSubPath != expected {
+		t.Errorf("Expecting %s, get %s", expected, absSubPath)
+	}
+}
+
+func TestTaskDataGetRelativePath(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	basePath := td.BasePath
+	absBasePath := td.GetRelativePath(basePath)
+	if basePath != absBasePath {
+		t.Errorf("Expecting %s, get %s", basePath, absBasePath)
+	}
+	subPath := "./boom"
+	absSubPath := td.GetRelativePath(subPath)
+	expected := filepath.Join(basePath, subPath)
 	if absSubPath != expected {
 		t.Errorf("Expecting %s, get %s", expected, absSubPath)
 	}
