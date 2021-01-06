@@ -124,6 +124,7 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
         fi
+        export PATH="${HOME}/.pyenv/bin:${PATH}:${HOME}/.local/bin"
         if [ -z "$(pipenv --version)" ]
         then
           "${HOME}/.pyenv/versions/3.8.6/bin/python3.8" -m pip install pipenv
@@ -154,10 +155,12 @@ tasks:
           chown -R "${CURRENT_USER}" "$NVM_DIR"
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.bashrc"
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.zshrc"
-          "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh"
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
         fi
+        NODE_VERSION=$(ls "${HOME}/.nvm/versions/node")
+        export PATH="${PATH}:${HOME}/.nvm/versions/node/${NODE_VERSION}/bin"
+        "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh"
         if [ -z "$(node-gyp -v)" ]
         then
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install node-gyp{{ $d.Normal }}"
