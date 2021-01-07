@@ -24,46 +24,10 @@ tasks:
   setupUbuntu:
     icon: 🔨
     description: |
-      Setup ubuntu machine (or ubuntu WSL)
+      Install essential packages for ubuntu/mint/debian. Root privilege is required
       USAGE:
         sudo -E zaruba please setupUbuntu
-        sudo -E zaruba please user=<user> home=<home>
-    extend: core.runCoreScript
-    dependencies:
-    - core.ubuntu.setup
-    - core.ubuntu.setupDocker
-    - core.ubuntu.setupNvm
-    - core.ubuntu.setupPyenv
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
-        if [ -d "${HOME}/.local" ]
-        then
-          chown -R "${CURRENT_USER}" "${HOME}/.local"
-        fi
-        if [ -d "${HOME}/.config" ]
-        then
-          chown -R "${CURRENT_USER}" "${HOME}/.config"
-        fi
-        if [ -d "${HOME}/.cache" ]
-        then
-          chown -R "${CURRENT_USER}" "${HOME}/.cache"
-        fi
-        if echo "$PATH" | grep -Fqe ".local/bin"
-        then
-          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}~/.local/bin is already in the PATH{{ $d.Normal }}"
-        else
-          sh "${UTIL}/append_if_exist.sh" 'export PATH=$PATH:$HOME/.local/bin' "${HOME}/.bashrc"
-          sh "${UTIL}/append_if_exist.sh" 'export PATH=$PATH:$HOME/.local/bin' "${HOME}/.zshrc"
-        fi
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
-        echo "TIPS: Restart your terminal. If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
-    
-
-  core.ubuntu.setup:
-    icon: 🔨
+        sudo -E zaruba please setupUbuntu 
     extend: core.runCoreScript
     private: true
     timeout: 1h
@@ -77,18 +41,6 @@ tasks:
         apt-get upgrade -y
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Install packages{{ $d.Normal }}"
         apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git ncat make tmux zsh neovim cowsay figlet lolcat
-
-
-  core.ubuntu.setupDocker:
-    icon: 🔨
-    extend: core.runCoreScript
-    private: true
-    timeout: 1h
-    dependencies:
-    - core.ubuntu.setup
-    config:
-      start: |
-        {{ $d := .Decoration -}}
         if [ -z "$(docker -v)" ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Install docker{{ $d.Normal }}"
@@ -96,28 +48,51 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Docker was already installed{{ $d.Normal }}"
         fi
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS:"
+        echo "* Please restart your terminal."
+        echo "* If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
+        sleep 1
+    
 
-
-  core.ubuntu.setupPyenv:
+  core.injectPath:
     icon: 🔨
     extend: core.runCoreScript
-    private: true
-    timeout: 1h
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        if echo "$PATH" | grep -Fqe ".local/bin"
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}~/.local/bin is already in the PATH{{ $d.Normal }}"
+        else
+          sh "${UTIL}/append_if_exist.sh" 'export PATH=$PATH:$HOME/.local/bin' "${HOME}/.bashrc"
+          sh "${UTIL}/append_if_exist.sh" 'export PATH=$PATH:$HOME/.local/bin' "${HOME}/.zshrc"
+        fi
+
+
+  setupPyenv:
+    icon: 🔨
+    description: |
+      Install Pyenv
+      USAGE:
+        zaruba please setupPyenv
+    extend: core.runCoreScript
     dependencies:
-    - core.ubuntu.setup
+    - core.injectPath
+    timeout: 1h
     config:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
-        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
         if [ ! -d "${HOME}/.pyenv" ]
         then
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
           curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")" "${HOME}/.bashrc"
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")" "${HOME}/.zshrc"
           "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh"
           export PATH="${HOME}/.pyenv/bin:$PATH"
-          chown -R "${CURRENT_USER}" "${HOME}/.pyenv"
           pyenv install 3.8.6
           pyenv global 3.8.6
           chmod 755 "${HOME}/.pyenv/shims"
@@ -127,24 +102,28 @@ tasks:
         export PATH="${HOME}/.pyenv/bin:${PATH}:${HOME}/.local/bin"
         if [ -z "$(pipenv --version)" ]
         then
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pipenv{{ $d.Normal }}"
           "${HOME}/.pyenv/versions/3.8.6/bin/python3.8" -m pip install pipenv
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         fi
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS: Please restart your terminal"
 
 
-  core.ubuntu.setupNvm:
+  setupNvm:
     icon: 🔨
+    description: |
+      Install Pyenv
+      USAGE:
+        zaruba please setupNvm
     extend: core.runCoreScript
-    private: true
     timeout: 1h
-    dependencies:
-    - core.ubuntu.setup
     config:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
-        CURRENT_USER="{{ if .GetKwarg "user" }}{{ .GetKwarg "user" }}{{ else }}$(sh "${UTIL}/get_current_user.sh"){{ end }}"
         if [ ! -d "${HOME}/.nvm" ]
         then
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
@@ -152,7 +131,6 @@ tasks:
           NVM_DIR="$HOME/.nvm"
           \. "$NVM_DIR/nvm.sh"
           nvm install node
-          chown -R "${CURRENT_USER}" "$NVM_DIR"
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.bashrc"
           sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${HOME}/.zshrc"
         else
@@ -175,4 +153,71 @@ tasks:
         else
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
         fi
-        
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS: Please restart your terminal"
+       
+
+  setupSdkman:
+    icon: 🔨
+    description: |
+      Install Pyenv
+      USAGE:
+        zaruba please setupSdkman
+    extend: core.runCoreScript
+    timeout: 1h
+    config:
+      javaVersion: 8.0.275.open-adapt
+      cmd: /bin/bash
+      start: |
+        {{ $d := .Decoration -}}
+        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        if [ ! -d "${HOME}/.sdkman" ]
+        then
+          JAVA_VERSION="{{ if .GetKwarg "javaVersion" }}{{ .GetKwarg "javaVersion" }}{{ else }}{{ .GetConfig "javaVersion" }}{{ end }}"
+          echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
+          curl -s "https://get.sdkman.io" | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          echo "Install java and scala"
+          echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
+          sdk install java "$JAVA_VERSION"
+          echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
+          sdk install scala
+        else
+          java -version
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
+        fi 
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS: Please restart your terminal"
+  
+  
+  setupSpark:
+    icon: 🔨
+    description: |
+      Install Pyenv
+      USAGE:
+        zaruba please setupSpark
+    extend: core.runCoreScript
+    timeout: 1h
+    config:
+      javaVersion: 8.0.275.open-adapt
+      cmd: /bin/bash
+      start: |
+        {{ $d := .Decoration -}}
+        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        if [ -z "${SPARK_HOME}" ]
+        then
+          echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
+          wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz
+          mkdir -p "${HOME}/.spark"
+          tar -xvzf spark-3.0.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
+          sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")" "${HOME}/.bashrc"
+          sh "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")" "${HOME}/.zshrc"
+        else
+          spark-shell --version
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
+        fi
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+        echo "TIPS: Please restart your terminal"

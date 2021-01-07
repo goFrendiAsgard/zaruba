@@ -14,6 +14,10 @@ echo "=== THANKS"
 
 echo "=== SETUP UBUNTU"
 sudo -E ../zaruba please setupUbuntu
+../zaruba please setupPyenv
+../zaruba please setupNvm
+../zaruba please setupSdkman
+../zaruba please setupSpark
 
 echo "=== INIT PROJECT"
 ../zaruba please initProject

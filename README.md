@@ -34,12 +34,17 @@ For updated list, please have a look on [devbox/Dockerfile](./devbox/Dockerfile)
 # 🏁 Getting Started
 
 ```sh
+# setting up
+sudo -E zaruba please setupUbuntu
+zaruba please setupPyenv
+
+# create project
 mkdir myProject
 cd myProject
-
 zaruba please initProject
 
-zaruba please addSubrepo url="https://github.com/therealvasanth/fibonacci-clock"
+# add external repo
+zaruba please addSubrepo url="https://github.com/state-alchemists/fibonacci-clock"
 zaruba please initSubrepos
 
 cd fibonacci-clock
