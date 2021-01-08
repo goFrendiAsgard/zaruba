@@ -29,7 +29,6 @@ tasks:
         sudo -E zaruba please setupUbuntu
         sudo -E zaruba please setupUbuntu 
     extend: core.runCoreScript
-    private: true
     timeout: 1h
     config:
       start: |

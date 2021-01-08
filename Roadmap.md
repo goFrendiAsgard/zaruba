@@ -1,10 +1,11 @@
 # Doing
 
-* [ ] Run services as docker
+* [ ] Amalgam: the showcase and tutorial
 
 # Todo
 
-* [ ] Amalgam: the showcase and tutorial
+* [ ] helm integration
+
 
 # Done (v0.0.0)
 
@@ -12,3 +13,4 @@
 * [x] Create task to set up ubuntu
 * [x] Add external service
 * [x] Create tassk to generate program
+* [x] Run services as docker
