@@ -48,6 +48,9 @@ echo "=== CREATE FASTAPI ROUTE, EVENT, AND RPC HANDLER"
 echo "=== CREATE FASTAPI CRUD"
 ../zaruba please makeFastCRUD location=myservice module=mymodule entity=book fields=title,author,synopsis
 
+echo "=== UPDATE ENV"
+../zaruba please updateEnv
+
 echo "=== RUN AND AUTOSTOP"
 ../zaruba please run autostop
 
