@@ -27,6 +27,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
+        cd ${ZARUBA_HOME}
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(sh "${UTIL}/get_latest_git_tag.sh") - $(sh "${UTIL}/get_latest_git_commit.sh"){{ $d.Normal }}"
 
 
