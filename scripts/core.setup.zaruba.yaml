@@ -74,7 +74,8 @@ tasks:
   setupPyenv:
     icon: 🔨
     description: |
-      Install Pyenv
+      Install Pyenv and pipenv. Useful if you are going to start with Python.
+      Some zaruba tasks required python and pipenv to be installed, so you likely going to run this anyway.
       USAGE:
         zaruba please setupPyenv
     extend: core.runCoreScript
@@ -115,7 +116,7 @@ tasks:
   setupNvm:
     icon: 🔨
     description: |
-      Install Pyenv
+      Install NVM for Node.js development.
       USAGE:
         zaruba please setupNvm
     extend: core.runCoreScript
@@ -161,7 +162,7 @@ tasks:
   setupSdkman:
     icon: 🔨
     description: |
-      Install Pyenv
+      Install SDKMan for Java/Scala development.
       USAGE:
         zaruba please setupSdkman
     extend: core.runCoreScript
@@ -195,7 +196,7 @@ tasks:
   setupSpark:
     icon: 🔨
     description: |
-      Install Pyenv
+      Install Spark and hadoop.
       USAGE:
         zaruba please setupSpark
     extend: core.runCoreScript
