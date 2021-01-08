@@ -149,7 +149,9 @@ func (task *Task) GetEnv(taskData *TaskData, key string) (val string, err error)
 		return parentTask.GetEnv(taskData, key)
 	}
 	if envConfig.From != "" {
-		return os.Getenv(envConfig.From), nil
+		if val = os.Getenv(envConfig.From); val != "" {
+			return val, nil
+		}
 	}
 	templateName := fmt.Sprintf("%s.env.%s", task.Name, key)
 	return task.getParsedPattern(taskData, templateName, envConfig.Default)
