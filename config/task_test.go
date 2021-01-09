@@ -133,7 +133,7 @@ func TestValidTaskStartCommand(t *testing.T) {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
 		}
-		startCmd, exist, err := task.GetStartCmd()
+		startCmd, exist, err := task.GetStartCmd(make(chan error))
 		if err != nil {
 			t.Error(err)
 			continue
@@ -169,7 +169,7 @@ func TestValidTaskCheckCommand(t *testing.T) {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
 		}
-		checkCmd, exist, err := task.GetCheckCmd()
+		checkCmd, exist, err := task.GetCheckCmd(make(chan error))
 		if err != nil {
 			t.Error(err)
 			continue
@@ -301,10 +301,10 @@ func TestInvalidTaskUndefinedCommandWithoutParent(t *testing.T) {
 		t.Errorf("Task not found")
 		return
 	}
-	if _, _, err = task.GetStartCmd(); err == nil {
+	if _, _, err = task.GetStartCmd(make(chan error)); err == nil {
 		t.Errorf("Error expected")
 	}
-	if _, _, err = task.GetCheckCmd(); err == nil {
+	if _, _, err = task.GetCheckCmd(make(chan error)); err == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -323,10 +323,10 @@ func TestInvalidTaskBrokenCommand(t *testing.T) {
 		t.Errorf("Task not found")
 		return
 	}
-	if _, _, err = task.GetStartCmd(); err == nil {
+	if _, _, err = task.GetStartCmd(make(chan error)); err == nil {
 		t.Errorf("Error expected")
 	}
-	if _, _, err = task.GetCheckCmd(); err == nil {
+	if _, _, err = task.GetCheckCmd(make(chan error)); err == nil {
 		t.Errorf("Error expected")
 	}
 }

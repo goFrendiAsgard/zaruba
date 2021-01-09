@@ -52,7 +52,6 @@ tasks:
         echo "TIPS:"
         echo "* Please restart your terminal."
         echo "* If you are using WSL, please enable WSL2 Backend for best experience (https://docs.docker.com/docker-for-windows/wsl/)"
-        sleep 1
     
 
   core.injectPath:

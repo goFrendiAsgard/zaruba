@@ -29,12 +29,11 @@ func (c *CSVLogWriter) Log(data ...string) (err error) {
 	c.Mutex.Lock()
 	defer c.Mutex.Unlock()
 	f, err := os.OpenFile(c.FileName, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
+	defer f.Close()
 	if err != nil {
 		return err
 	}
-	defer f.Close()
 	writer := csv.NewWriter(f)
 	defer writer.Flush()
-	err = writer.Write(record)
-	return err
+	return writer.Write(record)
 }

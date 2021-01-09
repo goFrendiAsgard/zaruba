@@ -269,40 +269,40 @@ func (task *Task) getDependencies() (dependencies []string) {
 }
 
 // GetStartCmd get start command of a task
-func (task *Task) GetStartCmd() (cmd *exec.Cmd, exist bool, err error) {
-	return task.getStartCmd(NewTaskData(task))
+func (task *Task) GetStartCmd(logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
+	return task.getStartCmd(NewTaskData(task), logDone)
 }
 
-func (task *Task) getStartCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, err error) {
+func (task *Task) getStartCmd(taskData *TaskData, logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
 	if len(task.Start) == 0 {
 		parentTask, exists := task.Project.Tasks[task.Extend]
 		if !exists {
 			return cmd, false, fmt.Errorf("Cannot retrieve StartCmd from %s's parent", task.Name)
 		}
-		return parentTask.getStartCmd(taskData)
+		return parentTask.getStartCmd(taskData, logDone)
 	}
-	cmd, err = task.getCmd(taskData, "START", task.Start)
+	cmd, err = task.getCmd(taskData, "START", task.Start, logDone)
 	return cmd, true, err
 }
 
 // GetCheckCmd get check command of a task
-func (task *Task) GetCheckCmd() (cmd *exec.Cmd, exist bool, err error) {
-	return task.getCheckCmd(NewTaskData(task))
+func (task *Task) GetCheckCmd(logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
+	return task.getCheckCmd(NewTaskData(task), logDone)
 }
 
-func (task *Task) getCheckCmd(taskData *TaskData) (cmd *exec.Cmd, exist bool, err error) {
+func (task *Task) getCheckCmd(taskData *TaskData, logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
 	if len(task.Check) == 0 {
 		parentTask, exists := task.Project.Tasks[task.Extend]
 		if !exists {
 			return cmd, false, fmt.Errorf("Cannot retrieve CheckCmd from %s's parent", task.Name)
 		}
-		return parentTask.getCheckCmd(taskData)
+		return parentTask.getCheckCmd(taskData, logDone)
 	}
-	cmd, err = task.getCmd(taskData, "CHECK", task.Check)
+	cmd, err = task.getCmd(taskData, "CHECK", task.Check, logDone)
 	return cmd, true, err
 }
 
-func (task *Task) getCmd(taskData *TaskData, cmdType string, commandPatternArgs []string) (cmd *exec.Cmd, err error) {
+func (task *Task) getCmd(taskData *TaskData, cmdType string, commandPatternArgs []string, logDone chan error) (cmd *exec.Cmd, err error) {
 	commandArgs := []string{}
 	templateName := fmt.Sprintf("%s.%s", task.Name, strings.ToLower(cmdType))
 	for _, pattern := range commandPatternArgs {
@@ -325,20 +325,36 @@ func (task *Task) getCmd(taskData *TaskData, cmdType string, commandPatternArgs 
 		}
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, val))
 	}
+	// log stdout
 	outPipe, err := cmd.StdoutPipe()
 	if err != nil {
 		return cmd, err
 	}
-	go task.log(taskData, cmdType, "OUT", outPipe)
+	outDone := make(chan error)
+	go task.log(taskData, cmdType, "OUT", outPipe, outDone)
+	// log stderr
 	errPipe, err := cmd.StderrPipe()
 	if err != nil {
 		return cmd, err
 	}
-	go task.log(taskData, cmdType, "ERR", errPipe)
+	errDone := make(chan error)
+	go task.log(taskData, cmdType, "ERR", errPipe, errDone)
+	// combine stdout and stderr done
+	go task.combineLogDone(outDone, errDone, logDone)
 	return cmd, err
 }
 
-func (task *Task) log(taskData *TaskData, cmdType, logType string, pipe io.ReadCloser) {
+func (task *Task) combineLogDone(outDone, errDone, logDone chan error) {
+	errErr := <-errDone
+	outErr := <-outDone
+	if outErr != nil {
+		logDone <- outErr
+		return
+	}
+	logDone <- errErr
+}
+
+func (task *Task) log(taskData *TaskData, cmdType, logType string, pipe io.ReadCloser, logDone chan error) {
 	buf := bufio.NewScanner(pipe)
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
@@ -348,13 +364,17 @@ func (task *Task) log(taskData *TaskData, cmdType, logType string, pipe io.ReadC
 	if logType == "ERR" {
 		print = logger.PrintfError
 	}
+	var err error = nil
 	for buf.Scan() {
 		content := buf.Text()
 		print("%s %s\n", prefix, content)
 		if !logless {
-			task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content, taskData.task.FunkyName)
+			if csvWriteErr := task.Project.CSVLogWriter.Log(logType, cmdType, taskData.Name, content, taskData.task.FunkyName); csvWriteErr != nil {
+				err = csvWriteErr
+			}
 		}
 	}
+	logDone <- err
 }
 
 func (task *Task) getCmdIconType(cmdType string) string {
