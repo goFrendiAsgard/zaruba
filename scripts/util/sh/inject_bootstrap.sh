@@ -11,7 +11,7 @@ then
     else
         echo "" >> "${1}"
         echo "# Load zaruba's bootstrap" >> "${1}"
-        echo 'if [ -x ". ${ZARUBA_HOME}/scripts/bootstrap.sh" ]' >> "${1}"
+        echo "if [ -x "${ZARUBA_HOME}/scripts/bootstrap.sh" ]" >> "${1}"
         echo 'then' >> "${1}"
         echo "    . ${ZARUBA_HOME}/scripts/bootstrap.sh" >> "${1}"
         echo 'fi' >> "${1}"
