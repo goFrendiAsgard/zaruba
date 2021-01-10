@@ -149,5 +149,8 @@ func (td *TaskData) GetDefaultShell() (shell string) {
 	if _, err := os.Stat("/usr/bin/bash"); !os.IsNotExist(err) {
 		return "bash"
 	}
+	if _, err := os.Stat("/bin/bash"); !os.IsNotExist(err) {
+		return "bash"
+	}
 	return "sh"
 }

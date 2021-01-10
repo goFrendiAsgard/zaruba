@@ -18,6 +18,7 @@ sudo -E ../zaruba please setupUbuntu
 ../zaruba please setupNvm
 ../zaruba please setupSdkman
 ../zaruba please setupSpark
+../zaruba please setupKubeClient
 
 echo "=== INIT PROJECT"
 ../zaruba please initProject

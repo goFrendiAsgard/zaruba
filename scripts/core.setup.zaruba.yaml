@@ -217,7 +217,6 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     config:
-      cmd: /bin/bash
       beforeStart: |
         {{ $d := .Decoration -}}
         echo "This command will install spark and hadoop in your home directory. Root privilege is not required"
@@ -239,3 +238,43 @@ tasks:
         fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+  
+  
+  setupKubeClient:
+    icon: 🔨
+    description: |
+      Install kubectl and helm.
+      USAGE:
+        zaruba please setupSpark
+    extend: core.runCoreScript
+    timeout: 1h
+    config:
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install Kubectl and helm in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
+      start: |
+        {{ $d := .Decoration -}}
+        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" kubectl)" ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"
+        else
+          echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install Kubectl{{ $d.Normal }}"
+          curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod 755 kubectl
+          mkdir -p "${HOME}/.local/bin"
+          mv kubectl "${HOME}/.local/bin"
+        fi
+        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" helm)" ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helm was already installed{{ $d.Normal }}"
+        else
+          echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install helm{{ $d.Normal }}"
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          export HELM_INSTALL_DIR="${HOME}/.local/bin"
+          ./get_helm.sh --no-sudo
+          rm ./get_helm.sh
+        fi
