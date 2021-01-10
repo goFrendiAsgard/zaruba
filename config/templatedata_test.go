@@ -84,6 +84,78 @@ func TestTaskDataGetRelativePath(t *testing.T) {
 	}
 }
 
+func TestTaskDataGetConfig(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, err := td.GetConfig("checkPort"); err != nil {
+		t.Error("config checkPort does not exist")
+	}
+}
+
+func TestTaskDataGetAllConfig(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, err := td.GetAllConfig(); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestTaskDataGetLConfig(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, exist := td.GetLConfig("tags"); exist != nil {
+		t.Error("lconfig tags does not exist")
+	}
+}
+
+func TestTaskDataGetAllLConfig(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, err := td.GetAllLConfig(); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestTaskDataGetKwarg(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, exist := td.GetKwarg("alchemist::flamel::age"); exist != nil {
+		t.Error("kwarg alchemist::flamel::age does not exist")
+	}
+}
+
+func TestTaskDataGetAllKwargs(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, err := td.GetAllKwargs(); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestTaskDataGetEnv(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, exist := td.GetEnv("HTTP_PORT"); exist != nil {
+		t.Error("env HTTP_PORT does not exist")
+	}
+}
+
+func TestTaskDataGetAllEnv(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	if _, err := td.GetAllEnv(); err != nil {
+		t.Error(err)
+	}
+}
+
 func TestTaskDataKwargsGetSubKeys(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
