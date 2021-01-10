@@ -1,5 +1,7 @@
 coverage
-zaruba
-test_resource/alchemy/alembic.txt
-playground
 log.zaruba.csv
+zaruba
+playground
+scripts/bootstrap.sh
+scripts/thirdparties
+test_resource/alchemy/alembic.txt

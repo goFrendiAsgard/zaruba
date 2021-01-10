@@ -1,7 +1,7 @@
-#!/bin/sh
-
 # USAGE
 # sh should_not_be_file.sh <value> <error-message>
+
+. "${ZARUBA_HOME}/scripts/util/sh/_include.sh"
 
 if [ -f "${1}" ]
 then

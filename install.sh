@@ -1,4 +1,4 @@
-#!/bin/sh
+
 
 set +e
 echo 💀 Remove old Zaruba 

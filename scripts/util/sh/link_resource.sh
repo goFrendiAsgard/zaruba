@@ -1,9 +1,7 @@
-#!/bin/sh
-
 # USAGE
 # sh link_resource.sh <src> <destination>
 
-. "$(dirname ${0})/decoration.sh"
+. "${ZARUBA_HOME}/scripts/util/sh/_include.sh"
 
 _SRC="${1}"
 _DST="${2}"

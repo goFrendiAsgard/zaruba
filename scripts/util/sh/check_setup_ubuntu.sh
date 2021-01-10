@@ -1,9 +1,7 @@
-#!/bin/sh
-
 # USAGE
 # /bin/sh check_setup_ubuntu.sh <home>
 
-. "$(dirname ${0})/decoration.sh"
+. "${ZARUBA_HOME}/scripts/util/sh/_include.sh"
 
 if [ ! -w /var/lib/apt/lists ]
 then

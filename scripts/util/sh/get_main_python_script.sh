@@ -1,7 +1,7 @@
-#!/bin/sh
-
 # USAGE
 # /bin/sh get_main_python_script.sh
+
+. "${ZARUBA_HOME}/scripts/util/sh/_include.sh"
 
 if [ -f __main__.py ]
 then

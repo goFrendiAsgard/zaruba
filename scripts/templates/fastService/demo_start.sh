@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # USAGE:
 #   /bin/sh demo_start.sh
 

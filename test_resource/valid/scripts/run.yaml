@@ -3,7 +3,7 @@ tasks:
   core.runShellScript:
     private: true
     config:
-      cmd: sh      
+      cmd: sh
       evalParam: "-c"
       script: 'echo "hello world"'
     start:

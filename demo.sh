@@ -1,4 +1,4 @@
-#!/bin/sh
+
 set -ex
 go build
 ZARUBA_HOME=$(realpath $(pwd))

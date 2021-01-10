@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -141,4 +142,12 @@ func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
 		return nil, fmt.Errorf("Task %s is not exist", taskName)
 	}
 	return NewTaskData(task), nil
+}
+
+// GetDefaultShell get default shell
+func (td *TaskData) GetDefaultShell() (shell string) {
+	if _, err := os.Stat("/usr/bin/bash"); !os.IsNotExist(err) {
+		return "bash"
+	}
+	return "sh"
 }
