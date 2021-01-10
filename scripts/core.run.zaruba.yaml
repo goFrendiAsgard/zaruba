@@ -99,7 +99,7 @@ tasks:
         . "${BOOTSTRAP_SCRIPT}"
         if echo "$PATH" | grep -Fqe ".local/bin"
         then
-          echo "${HOME}/.local/bin is already in the PATH"
+          echo "{{ $d.Faint }}${HOME}/.local/bin is already in the PATH{{ $d.Normal }}"
         else
           . "${ZARUBA_HOME}/scripts/util/sh/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"

@@ -2,7 +2,7 @@
 zaruba_donation:
   message: |
     Hello Human, 
-    Did 💀 Zaruba help you saving your keystroke?
+    Did 💀 Zaruba help you saving your keystrokes?
 
             ,---,---,---,---,---,---,---,---,---,---,---,---,---,-------,
             |1/2| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | + | ' | <-    |
@@ -20,20 +20,6 @@ zaruba_donation:
       * Follow our twitter account at: 🐤 @zarubastalchmst 
       * Openning pull request/issue at: https://github.com/state-alchemists/zaruba
       * and donating ☕ to: https://paypal.me/gofrendi
-
-
-today_wiki:
-  message: |
-    (\    Hello world 🌎🌍🌏👍 
-    \'\       Many things have been happened,  
-     \'\     __________  and I hope you are doing well today. 
-     / '|   ()_________)
-     \ '/    \ ~~~~~~~~ \
-       \       \ ~~~~~~   \
-       ==).      \__________\
-      (__)       ()__________)
-
-    https://en.wikipedia.org/wiki/Wikipedia:On_this_day/Today
 
 
 happy_new_year:

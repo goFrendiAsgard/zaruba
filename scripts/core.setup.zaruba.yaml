@@ -31,6 +31,11 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     config:
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install essential packages for ubuntu/mint/debian. Root privilege is required."
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
@@ -64,6 +69,11 @@ tasks:
     timeout: 1h
     config:
       pythonVersion: '{{ if .GetKwarg "pythonVersion" }}{{ .GetKwarg "pythonVersion" }}{{ else }}3.8.6{{ end }}'
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install pyenv and pipenv in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
@@ -111,6 +121,11 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     config:
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install nvm, typescript, and node-gyp in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
@@ -154,6 +169,11 @@ tasks:
     config:
       cmd: /bin/bash
       javaVersion: '{{ if .GetKwarg "javaVersion" }}{{ .GetKwarg "javaVersion" }}{{ else }}8.0.275.open-adpt{{ end }}'
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install sdkman, java, and scala in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
@@ -198,6 +218,11 @@ tasks:
     timeout: 1h
     config:
       cmd: /bin/bash
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install spark and hadoop in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
