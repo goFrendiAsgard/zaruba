@@ -313,6 +313,7 @@ tasks:
       USAGE:
         zaruba please initProject
     extend: core.runCoreScript
+    logless: true
     dependencies:
     - core.isNotProject
     config:
