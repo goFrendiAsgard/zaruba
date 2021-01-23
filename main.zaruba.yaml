@@ -10,6 +10,7 @@ tasks:
     extend: core.runShellScript
     dependencies:
     - clearLog
+    - testZarubaCore
     config:
       start: |
         set -e
