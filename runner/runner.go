@@ -259,7 +259,11 @@ func (r *Runner) run(ch chan error) {
 	d := logger.NewDecoration()
 	logger.PrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	logger.PrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
-	if r.Conf.Kwargs["onComplete"] == "stop" {
+	autostop, autostopDefined := r.Conf.Kwargs["autostop"]
+	if autostopDefined {
+		if autostopDuration, parseErr := time.ParseDuration(autostop); parseErr != nil {
+			r.sleep(autostopDuration)
+		}
 		ch <- nil
 	}
 	// wait until no cmd left

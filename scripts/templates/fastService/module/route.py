@@ -2,6 +2,7 @@ from typing import List
 from fastapi import FastAPI, HTTPException
 from module import schema
 
+import traceback
 import transport
 
 # 💡 HINT: 

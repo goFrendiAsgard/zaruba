@@ -2,6 +2,7 @@ from typing import Any, List, Mapping
 from sqlalchemy.orm import sessionmaker, Session
 from module import schema, crud
 
+import traceback
 import database, transport
 
 # 💡 HINT: 

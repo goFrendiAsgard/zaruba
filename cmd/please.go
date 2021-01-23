@@ -51,7 +51,7 @@ var pleaseCmd = &cobra.Command{
 			_, argIsTask := conf.Tasks[arg]
 			if !argIsTask {
 				if arg == "autostop" {
-					conf.AddKwargs("onComplete=stop")
+					conf.AddKwargs("autostop=true")
 					continue
 				}
 			}

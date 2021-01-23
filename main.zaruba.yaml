@@ -8,21 +8,37 @@ tasks:
     icon: 🚧
     location: ./
     extend: core.runShellScript
+    dependencies:
+    - clearLog
     config:
-      start: go build
+      start: |
+        set -e
+        rm -f zaruba
+        go build
 
 
-  test:
+  testZarubaCore:
     icon: 💉
     location: ./
     extend: core.runShellScript
+    dependencies:
+    - clearLog
     config:
       start: |
+        set -e
         ZARUBA_HOME=""
         mkdir -p ./coverage
         rm -f ./test_resource/alchemy/alembic.txt
         go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
+  
+
+  test:
+    icon: 💉
+    dependencies:
+    - clearLog
+    - testZarubaCore
+    - testGeneratedService
 
 
   serveCoverage:
@@ -30,13 +46,15 @@ tasks:
     location: ./coverage
     extend: serveHttp
     dependencies:
-      - test
+    - clearLog
+    - testZarubaCore
   
 
   buildZarubaImage:
     icon: 🐳
     extend: core.buildDockerImage
     dependencies:
+    - clearLog
     - buildDevboxImage
     - test
     location: ./
@@ -46,6 +64,8 @@ tasks:
   buildDevboxImage:
     icon: 🐳
     extend: core.buildDockerImage
+    dependencies:
+    - clearLog
     location: ./devbox
     timeout: 1h
 
@@ -53,6 +73,7 @@ tasks:
   buildDocker:
     icon: 🚧
     dependencies:
+    - clearLog
     - buildZarubaImage
     - buildDevboxImage
 
@@ -62,6 +83,7 @@ tasks:
     location: ./
     extend: core.startDockerContainer
     dependencies:
+    - clearLog
     - buildZarubaImage
     config:
       port::2810: 2810
@@ -75,6 +97,7 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
+    - clearLog
     - buildZarubaImage
     location: ./
     timeout: 1h
@@ -84,6 +107,7 @@ tasks:
     icon: 🐳
     extend: core.buildDockerImage
     dependencies:
+    - clearLog
     - buildDevboxImage
     location: ./devbox
     timeout: 1h
@@ -92,8 +116,9 @@ tasks:
   pushDocker:
     icon: 🔼
     dependencies:
-      - pushZarubaImage
-      - pushDevboxImage
+    - clearLog
+    - pushZarubaImage
+    - pushDevboxImage
 
 
   pushRepo:
@@ -101,7 +126,8 @@ tasks:
     location: ./
     extend: core.runShellScript
     dependencies:
-      - test
+    - clearLog
+    - test
     config:
       start: |
         git add . -A
@@ -112,13 +138,219 @@ tasks:
   push:
     icon: 🔼
     dependencies:
-      - pushDocker
-      - pushRepo
+    - clearLog
+    - pushDocker
+    - pushRepo
 
 
   install:
     icon: 🔨
     location: ./
     extend: core.runShellScript
+    dependencies:
+    - clearLog
     config:
       start: ./install.sh
+  
+
+  preparePlayground:
+    icon: 🔨
+    location: ./
+    extend: core.runShellScript
+    dependencies:
+    - clearLog
+    config:
+      start: |
+        if [ -d playground ]
+        then
+          chmod 777 -R playground
+        fi
+        rm -Rf playground
+        mkdir -p playground
+  
+
+  testSetupPyenv:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please setupPyenv
+
+
+  testCommon:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    - testSetupPyenv
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba sorry
+        zaruba thanks
+        zaruba please showVersion
+        zaruba please setupPyenv
+        zaruba please setupNvm
+        zaruba please setupSdkman
+        zaruba please setupSpark
+        zaruba please setupKubeClient
+        zaruba please explain start
+  
+
+  testGenerator:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - build
+    - preparePlayground
+    - testSetupPyenv
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please initProject
+        ../zaruba please setKwarg key=dockerRepo value=stalchmst
+        echo "Create subrepo"
+        ../zaruba please addSubrepo url="https://github.com/state-alchemists/fibonacci-clock" prefix="fibo"
+        ../zaruba please initSubrepos
+        ../zaruba please pullSubrepos
+        echo "Create tasks"
+        ../zaruba please makeServiceTask location=fibo
+        ../zaruba please makeDockerTask image=rabbitmq
+        echo "Create FastService"
+        ../zaruba please makeFastService location=myservice
+        ../zaruba please makeFastModule location=myservice module=mymodule
+        ../zaruba please makeFastRoute location=myservice module=mymodule url=/hello
+        ../zaruba please makeFastEventHandler location=myservice module=mymodule event=myEvent
+        ../zaruba please makeFastRPCHandler location=myservice module=mymodule event=myRPC
+        ../zaruba please makeFastCRUD location=myservice module=mymodule entity=book fields=title,author,synopsis
+        echo "Update env"
+        ../zaruba please updateEnv
+        ../zaruba please run autostop
+
+  testLogging:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - build
+    - testGenerator
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please showLog task=myservice
+        ../zaruba please clearLog
+  
+
+  testBuildImage:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - build
+    - testGenerator
+    extend: core.runShellScript
+    timeout: 1h
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please runContainer autostop
+        ../zaruba please removeContainer
+        git add . -A && git commit -m 'first commit'
+        ../zaruba please buildImage
+        git tag -a v0.0.0 -m 'version 0.0.0'
+        ../zaruba please buildImage
+        ../zaruba please pushImage
+  
+
+  runPlayground:
+    icon: 🔨
+    location: ./playground
+    dependencies:
+    - clearLog
+    - build
+    - testGenerator
+    - testLogging
+    - testBuildImage
+    - testCommon
+    extend: core.startService
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please run autostop=10s
+    lconfig:
+      ports: [3000, 8080, 15672]
+
+
+  testGeneratedService:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runPlayground
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        echo "Create new book"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          exit 1
+        fi
+        echo "Get first book"
+        RESPONSE="$(curl "http://localhost:3000/books/1")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          exit 1
+        fi
+        echo "Update book"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request PUT --data '{"title":"Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/1")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          exit 1
+        fi
+        echo "Get all books"
+        RESPONSE="$(curl "http://localhost:3000/books/")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '[{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}]' ]
+        then
+          echo "Unexpected response"
+          exit 1
+        fi
+        echo "Delete book"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request DELETE "http://localhost:3000/books/1")"
+        if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          exit 1
+        fi
+        echo "Get all books"
+        RESPONSE="$(curl "http://localhost:3000/books/")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '[]' ]
+        then
+          echo "Unexpected response"
+          exit 1
+        fi

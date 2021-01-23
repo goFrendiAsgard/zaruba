@@ -8,84 +8,130 @@ import os, re, sys, traceback
 
 route_template = '''
 
+    # {entity} CRUD Route
+
     @app.get('/{entity}s/', response_model=List[schema.{entity_caption}])
     def crud_list_{entity}(skip: int = 0, limit: int = 100):
-        db_{entity}_list = mb.call_rpc('list_{entity}', skip, limit)
-        return [schema.{entity_caption}.parse_obj(db_{entity}) for db_{entity} in db_{entity}_list]
+        try:
+            db_{entity}_list = mb.call_rpc('list_{entity}', skip, limit)
+            return [schema.{entity_caption}.parse_obj(db_{entity}) for db_{entity} in db_{entity}_list]
+        except Exception:
+            print(traceback.format_exc())
+            raise HTTPException(status_code=500, detail='Internal server error')
 
     @app.get('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_get_{entity}({entity}_id: int):
-        db_{entity} = mb.call_rpc('get_{entity}', {entity}_id)
-        if db_{entity} is None:
-            raise HTTPException(status_code=404, detail='{entity_caption} not found')
-        return schema.{entity_caption}.parse_obj(db_{entity})
+        try:
+            db_{entity} = mb.call_rpc('get_{entity}', {entity}_id)
+            if db_{entity} is None:
+                raise HTTPException(status_code=404, detail='{entity_caption} not found')
+            return schema.{entity_caption}.parse_obj(db_{entity})
+        except Exception:
+            print(traceback.format_exc())
+            raise HTTPException(status_code=500, detail='Internal server error')
 
     @app.post('/{entity}s/', response_model=schema.{entity_caption})
     def crud_create_{entity}({entity}_data: schema.{entity_caption}Create):
-        db_{entity} = mb.call_rpc('create_{entity}', {entity}_data.dict())
-        if db_{entity} is None:
-            raise HTTPException(status_code=404, detail='{entity_caption} not found')
-        return schema.{entity_caption}.parse_obj(db_{entity})
+        try:
+            db_{entity} = mb.call_rpc('create_{entity}', {entity}_data.dict())
+            if db_{entity} is None:
+                raise HTTPException(status_code=404, detail='{entity_caption} not created')
+            return schema.{entity_caption}.parse_obj(db_{entity})
+        except Exception:
+            print(traceback.format_exc())
+            raise HTTPException(status_code=500, detail='Internal server error')
 
     @app.put('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_create_{entity}({entity}_id: int, {entity}_data: schema.{entity_caption}Create):
-        db_{entity} = mb.call_rpc('update_{entity}', {entity}_id, {entity}_data.dict())
-        if db_{entity} is None:
-            raise HTTPException(status_code=404, detail='{entity_caption} not found')
-        return schema.{entity_caption}.parse_obj(db_{entity})
+        try:
+            db_{entity} = mb.call_rpc('update_{entity}', {entity}_id, {entity}_data.dict())
+            if db_{entity} is None:
+                raise HTTPException(status_code=404, detail='{entity_caption} not found')
+            return schema.{entity_caption}.parse_obj(db_{entity})
+        except Exception:
+            print(traceback.format_exc())
+            raise HTTPException(status_code=500, detail='Internal server error')
 
     @app.delete('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_get_{entity}({entity}_id: int):
-        db_{entity} = mb.call_rpc('delete_{entity}', {entity}_id)
-        if db_{entity} is None:
-            raise HTTPException(status_code=404, detail='{entity_caption} not found')
-        return schema.{entity_caption}.parse_obj(db_{entity})
+        try:
+            db_{entity} = mb.call_rpc('delete_{entity}', {entity}_id)
+            if db_{entity} is None:
+                raise HTTPException(status_code=404, detail='{entity_caption} not found')
+            return schema.{entity_caption}.parse_obj(db_{entity})
+        except Exception:
+            print(traceback.format_exc())
+            raise HTTPException(status_code=500, detail='Internal server error')
 
 '''
 
 event_template = '''
 
+    # {entity} CRUD RPC Handler
+
     @transport.handle_rpc(mb, 'list_{entity}')
     @database.handle(DBSession)
     def crud_rpc_list_{entity}(db: Session, skip: int = 0, limit: int = 100) -> List[Mapping[str, Any]]:
-        db_{entity}_list = crud.list_{entity}(db, skip = skip, limit = limit)
-        return [schema.{entity_class}.from_orm(db_{entity}).dict() for db_{entity} in db_{entity}_list]
+        try:
+            db_{entity}_list = crud.list_{entity}(db, skip = skip, limit = limit)
+            return [schema.{entity_class}.from_orm(db_{entity}).dict() for db_{entity} in db_{entity}_list]
+        except Exception:
+            print(traceback.format_exc())
+            raise
 
     @transport.handle_rpc(mb, 'get_{entity}')
     @database.handle(DBSession)
     def crud_rpc_get_{entity}(db: Session, {entity}_id: int) -> Mapping[str, Any]:
-        db_{entity} = crud.get_{entity}(db, {entity}_id = {entity}_id)
-        if db_{entity} is None:
-            return None
-        return schema.{entity_class}.from_orm(db_{entity}).dict()
+        try:
+            db_{entity} = crud.get_{entity}(db, {entity}_id = {entity}_id)
+            if db_{entity} is None:
+                return None
+            return schema.{entity_class}.from_orm(db_{entity}).dict()
+        except Exception:
+            print(traceback.format_exc())
+            raise
 
     @transport.handle_rpc(mb, 'create_{entity}')
     @database.handle(DBSession)
     def crud_rpc_create_{entity}(db: Session, {entity}_dict: Mapping[str, Any]) -> Mapping[str, Any]:
-        db_{entity} = crud.create_{entity}(db, {entity}_data = schema.{entity_class}Create.parse_obj({entity}_dict))
-        if db_{entity} is None:
-            return None
-        return schema.{entity_class}.from_orm(db_{entity}).dict()
+        try:
+            db_{entity} = crud.create_{entity}(db, {entity}_data = schema.{entity_class}Create.parse_obj({entity}_dict))
+            if db_{entity} is None:
+                return None
+            return schema.{entity_class}.from_orm(db_{entity}).dict()
+        except Exception:
+            print(traceback.format_exc())
+            raise
 
     @transport.handle_rpc(mb, 'update_{entity}')
     @database.handle(DBSession)
     def crud_rpc_update_{entity}(db: Session, {entity}_id: int, {entity}_dict: Mapping[str, Any]) -> Mapping[str, Any]:
-        db_{entity} = crud.update_{entity}(db, {entity}_id = {entity}_id, {entity}_data = schema.{entity_class}Update.parse_obj({entity}_dict))
-        if db_{entity} is None:
-            return None
-        return schema.{entity_class}.from_orm(db_{entity}).dict()
+        try:
+            db_{entity} = crud.update_{entity}(db, {entity}_id = {entity}_id, {entity}_data = schema.{entity_class}Update.parse_obj({entity}_dict))
+            if db_{entity} is None:
+                return None
+            return schema.{entity_class}.from_orm(db_{entity}).dict()
+        except Exception:
+            print(traceback.format_exc())
+            raise
 
     @transport.handle_rpc(mb, 'delete_{entity}')
     @database.handle(DBSession)
     def crud_rpc_delete_{entity}(db: Session, {entity}_id: int) -> Mapping[str, Any]:
-        db_{entity} = crud.delete_{entity}(db, {entity}_id = {entity}_id)
-        if db_{entity} is None:
-            return None
-        return schema.{entity_class}.from_orm(db_{entity}).dict()
+        try:
+            db_{entity} = crud.delete_{entity}(db, {entity}_id = {entity}_id)
+            if db_{entity} is None:
+                return None
+            return schema.{entity_class}.from_orm(db_{entity}).dict()
+        except Exception:
+            print(traceback.format_exc())
+            raise
 
 '''
 
 crud_template = '''
+
+# {entity} CRUD
 
 def list_{entity}(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.{entity_class}).offset(skip).limit(limit).all()
@@ -96,7 +142,7 @@ def get_{entity}(db: Session, {entity}_id: int):
 def create_{entity}(db: Session, {entity}_data: schema.{entity_class}Create):
     db_{entity} = model.{entity_class}({init_property})
     if db_{entity} is None:
-        return None
+        raise Error('Cannot create {entity}')
     db.add(db_{entity})
     db.commit()
     db.refresh(db_{entity})
@@ -124,6 +170,8 @@ def delete_{entity}(db: Session, {entity}_id: int):
 
 model_template = '''
 
+# {entity} model
+
 class {entity_class}(Base):
     __tablename__ = '{entity}s'
     id = Column(Integer, primary_key=True, index=True)
@@ -132,6 +180,8 @@ class {entity_class}(Base):
 '''
 
 schema_template = '''
+
+# {entity} schema
 
 class {entity_class}Base(BaseModel):
     {schema_field_declaration}
@@ -175,7 +225,7 @@ def create_fast_crud(location: str, module: str, entity: str, fields: List[str])
         for field in fields
     ])
     # create files
-    create_schema(location, module, entity_class, schema_field_declaration)
+    create_schema(location, module, entity_class, entity, schema_field_declaration)
     create_model(location, module, entity_class, entity, model_field_declaration)
     create_crud(location, module, entity_class, entity, init_property, update_property)
     create_route(location, module, entity, entity_caption)
@@ -227,12 +277,13 @@ def create_route(location: str, module: str, entity: str, entity_caption: str):
     f_write.close()
 
 
-def create_schema(location: str, module: str, entity_class: str, schema_field_declaration=str):
+def create_schema(location: str, module: str, entity_class: str, entity: str, schema_field_declaration=str):
     # create schema
     file_name = os.path.abspath(os.path.join(location, module, 'schema.py'))
     f_write = open(file_name, 'a')
     f_write.write(schema_template.format(
         entity_class=entity_class, 
+        entity=entity,
         schema_field_declaration=schema_field_declaration
     ))
     f_write.close()

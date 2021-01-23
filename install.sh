@@ -1,5 +1,3 @@
-
-
 set +e
 echo 💀 Remove old Zaruba 
 go clean -i github.com/state-alchemists/zaruba

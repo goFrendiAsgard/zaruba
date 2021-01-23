@@ -108,7 +108,7 @@ Perfect !!!
 
 Now you can run micro-services (dockerized or not) in a single computer.
 
-> **💡NOTE** You can add `onComplete=stop` argument in case of you want zaruba to kill all processes once the task is finished. E.g: `zaruba please testMyApp onComplete=stop`
+> **💡NOTE** You can add `autostop=true` argument in case of you want zaruba to kill all processes once the task is finished. E.g: `zaruba please testMyApp autostop=true`
 
 # 🐳 Zaruba In Docker
 
