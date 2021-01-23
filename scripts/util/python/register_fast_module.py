@@ -8,8 +8,10 @@ import os, sys, traceback
 init_module_template = '''
 # init {module}
 {module}.model.Base.metadata.create_all(bind=engine)
-{module}.event.init(mb, DBSession)
-{module}.route.init(app, mb)
+if enable_event_handler:
+    {module}.event.init(mb, DBSession)
+if enable_route_handler:
+    {module}.route.init(app, mb)
 
 '''
 

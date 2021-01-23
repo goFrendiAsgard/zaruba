@@ -8,8 +8,8 @@ import os, re, sys, traceback
 
 route_template = '''
 
-    # {entity} CRUD Route
 
+    # List {entity} route
     @app.get('/{entity}s/', response_model=List[schema.{entity_caption}])
     def crud_list_{entity}(skip: int = 0, limit: int = 100):
         try:
@@ -19,6 +19,8 @@ route_template = '''
             print(traceback.format_exc())
             raise HTTPException(status_code=500, detail='Internal server error')
 
+
+    # Get {entity} route
     @app.get('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_get_{entity}({entity}_id: int):
         try:
@@ -30,6 +32,8 @@ route_template = '''
             print(traceback.format_exc())
             raise HTTPException(status_code=500, detail='Internal server error')
 
+
+    # Create {entity} route
     @app.post('/{entity}s/', response_model=schema.{entity_caption})
     def crud_create_{entity}({entity}_data: schema.{entity_caption}Create):
         try:
@@ -41,8 +45,10 @@ route_template = '''
             print(traceback.format_exc())
             raise HTTPException(status_code=500, detail='Internal server error')
 
+
+    # Uupdate {entity} route
     @app.put('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
-    def crud_create_{entity}({entity}_id: int, {entity}_data: schema.{entity_caption}Create):
+    def crud_update_{entity}({entity}_id: int, {entity}_data: schema.{entity_caption}Update):
         try:
             db_{entity} = mb.call_rpc('update_{entity}', {entity}_id, {entity}_data.dict())
             if db_{entity} is None:
@@ -52,6 +58,8 @@ route_template = '''
             print(traceback.format_exc())
             raise HTTPException(status_code=500, detail='Internal server error')
 
+
+    # Delete {entity} route
     @app.delete('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_get_{entity}({entity}_id: int):
         try:
@@ -67,8 +75,8 @@ route_template = '''
 
 event_template = '''
 
-    # {entity} CRUD RPC Handler
 
+    # List {entity} message handler
     @transport.handle_rpc(mb, 'list_{entity}')
     @database.handle(DBSession)
     def crud_rpc_list_{entity}(db: Session, skip: int = 0, limit: int = 100) -> List[Mapping[str, Any]]:
@@ -79,6 +87,8 @@ event_template = '''
             print(traceback.format_exc())
             raise
 
+
+    # Get {entity} message handler
     @transport.handle_rpc(mb, 'get_{entity}')
     @database.handle(DBSession)
     def crud_rpc_get_{entity}(db: Session, {entity}_id: int) -> Mapping[str, Any]:
@@ -91,6 +101,8 @@ event_template = '''
             print(traceback.format_exc())
             raise
 
+
+    # Create {entity} message handler
     @transport.handle_rpc(mb, 'create_{entity}')
     @database.handle(DBSession)
     def crud_rpc_create_{entity}(db: Session, {entity}_dict: Mapping[str, Any]) -> Mapping[str, Any]:
@@ -103,6 +115,8 @@ event_template = '''
             print(traceback.format_exc())
             raise
 
+
+    # Update {entity} message handler
     @transport.handle_rpc(mb, 'update_{entity}')
     @database.handle(DBSession)
     def crud_rpc_update_{entity}(db: Session, {entity}_id: int, {entity}_dict: Mapping[str, Any]) -> Mapping[str, Any]:
@@ -115,6 +129,8 @@ event_template = '''
             print(traceback.format_exc())
             raise
 
+
+    # Delete {entity} message handler
     @transport.handle_rpc(mb, 'delete_{entity}')
     @database.handle(DBSession)
     def crud_rpc_delete_{entity}(db: Session, {entity}_id: int) -> Mapping[str, Any]:
@@ -131,14 +147,18 @@ event_template = '''
 
 crud_template = '''
 
-# {entity} CRUD
 
+# List {entity}
 def list_{entity}(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.{entity_class}).offset(skip).limit(limit).all()
 
+
+# Get {entity}
 def get_{entity}(db: Session, {entity}_id: int):
     return db.query(model.{entity_class}).filter(model.{entity_class}.id == {entity}_id).first()
 
+
+# Create {entity}
 def create_{entity}(db: Session, {entity}_data: schema.{entity_class}Create):
     db_{entity} = model.{entity_class}({init_property})
     if db_{entity} is None:
@@ -148,6 +168,8 @@ def create_{entity}(db: Session, {entity}_data: schema.{entity_class}Create):
     db.refresh(db_{entity})
     return db_{entity}
 
+
+# Update {entity}
 def update_{entity}(db: Session, {entity}_id: int, {entity}_data: schema.{entity_class}Update):
     db_{entity} = get_{entity}(db, {entity}_id)
     if db_{entity} is None:
@@ -158,6 +180,8 @@ def update_{entity}(db: Session, {entity}_id: int, {entity}_data: schema.{entity
     db.refresh(db_{entity})
     return db_{entity}
 
+
+# Delete {entity}
 def delete_{entity}(db: Session, {entity}_id: int):
     db_{entity} = get_{entity}(db, {entity}_id)
     if db_{entity} is None:
@@ -171,7 +195,6 @@ def delete_{entity}(db: Session, {entity}_id: int):
 model_template = '''
 
 # {entity} model
-
 class {entity_class}(Base):
     __tablename__ = '{entity}s'
     id = Column(Integer, primary_key=True, index=True)

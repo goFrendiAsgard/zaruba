@@ -118,10 +118,13 @@ tasks:
         copy_and_create_link "${FAST_TEMPLATE}/transport" "shared-libs/python/transport" "${LOCATION}/transport"
         copy_and_create_link "${FAST_TEMPLATE}/database" "shared-libs/python/database" "${LOCATION}/database"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
-        . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK_NAME}" "${ENV_PREFIX}_HTTP_PORT"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task ${TASK_NAME} created{{ $d.Normal }}"
+        if [ -d "./zaruba-tasks" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
+          . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK_NAME}" "${ENV_PREFIX}_HTTP_PORT"
+          echo 🎉🎉🎉
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Service task ${TASK_NAME} created{{ $d.Normal }}"
+        fi
   
 
   makeFastModule:
