@@ -17,7 +17,7 @@ tasks:
     extend: core.runShellScript
     location: zarubaTaskLocation
     timeout: 1h
-    config:
-      start: go test -v ./... --race -count=1
     env:
       <<: *zarubaServiceNameEnv
+    config:
+      start: go test -v ./... --race -count=1

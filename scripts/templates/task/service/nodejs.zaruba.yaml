@@ -21,10 +21,10 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     timeout: 1h
-    config:
-      start: npm test
     env:
       <<: *zarubaServiceNameEnv
+    config:
+      start: npm test
 
   
   prepareZarubaServiceName:
@@ -32,11 +32,11 @@ tasks:
     extend: core.runShellScript
     location: zarubaTaskLocation
     timeout: 1h
+    env:
+      <<: *zarubaServiceNameEnv
     config:
       start: |
         npm install
         npm install --save-dev
         tsc
-    env:
-      <<: *zarubaServiceNameEnv
     

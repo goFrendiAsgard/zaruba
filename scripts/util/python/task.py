@@ -69,6 +69,9 @@ class Task():
         elif 'extend' in self._dict:
             del self._dict['extend']
         return self
+    
+    def get_extend(self) -> str:
+        return self._dict.get('extend', '')
 
     def set_description(self, description: str) -> Task:
         if description:
@@ -183,7 +186,6 @@ class Task():
                 if int(val) in [80, 443] or int(val) >= 3000:
                     ports.append(key)
         return ports
-
 
     def as_dict(self) -> TaskDict:
         return self._dict

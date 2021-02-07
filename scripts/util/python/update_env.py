@@ -23,7 +23,7 @@ def update_env(project_dir:str):
             print('{yellow}Update tasks in "{file_name}"{normal}'.format(yellow=yellow, normal=normal, file_name=file_name))
             for task_name, task_dict in config['tasks'].items():
                 task = Task(task_dict)
-                if dir_name != project_dir:
+                if dir_name != project_dir and task.get_extend() != 'core.buildDockerImage':
                     task = update_task_env(task, file_name)
                 write_task_env(project_dir, task)
                 config['tasks'][task_name] = task.as_dict()

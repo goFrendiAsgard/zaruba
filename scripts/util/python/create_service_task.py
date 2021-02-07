@@ -57,7 +57,6 @@ service_containerization_tasks = '''
     icon: 🐳
     description: Push zarubaServiceName image
     extend: core.pushDockerImage
-    location: zarubaTaskLocation
     dependencies:
     - zarubaBuildImageTask
     timeout: 1h

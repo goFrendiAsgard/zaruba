@@ -24,7 +24,7 @@ tasks:
     extend: core.runShellScript
     location: zarubaTaskLocation
     timeout: 1h
-    config:
-      start: pipenv install
     env:
       <<: *zarubaServiceNameEnv
+    config:
+      start: pipenv install
