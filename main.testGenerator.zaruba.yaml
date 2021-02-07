@@ -1,0 +1,333 @@
+tasks:
+
+
+  testGenerateProject:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - build
+    - preparePlayground
+    - testSetupPyenv
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please initProject
+        ../zaruba please setKwarg key=dockerImagePrefix::default value=localhost:9999
+  
+
+  testGenerateSubrepo:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateProject
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please addSubrepo url="https://github.com/state-alchemists/fibonacci-clock" prefix="fibo"
+        ../zaruba please initSubrepos
+        ../zaruba please pullSubrepos
+
+
+  testGenerateTasks:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateSubrepo
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeServiceTask location=fibo
+        ../zaruba please makeDockerTask image=rabbitmq
+
+
+  testGenerateFastAPIProject:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateTasks
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeFastService location=myservice
+        
+
+  testGenerateFastAPIModule:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateFastAPIProject
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeFastModule location=myservice module=mymodule
+
+
+  testGenerateFastAPIRoute:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateFastAPIModule
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeFastRoute location=myservice module=mymodule url=/hello
+
+
+  testGenerateFastAPIEventHandler:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateFastAPIRoute
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeFastEventHandler location=myservice module=mymodule event=myEvent
+
+
+  testGenerateFastAPIRPCHandler:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateFastAPIEventHandler
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeFastRPCHandler location=myservice module=mymodule event=myRPC
+
+
+  testGenerateFastAPICRUD:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateFastAPIRPCHandler
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeFastCRUD location=myservice module=mymodule entity=book fields=title,author,synopsis
+  
+
+  testGeneratorUpdateEnv:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateFastAPICRUD
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please updateEnv
+
+
+  testGeneratorRun:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGeneratorUpdateEnv
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please run autostop
+
+
+  testGeneratorRunContainer:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGeneratorRun
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please removeContainer
+        ../zaruba please runContainer autostop
+        ../zaruba please removeContainer
+
+
+  testGeneratorBuildImage:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGeneratorRunContainer
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        git add . -A && git commit -m 'first commit'
+        git tag -a v0.0.0 -m 'version 0.0.0'
+        ../zaruba please buildImage
+
+
+  testGenerator:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateProject
+    - testGenerateSubrepo
+    - testGenerateTasks
+    - testGenerateFastAPIProject
+    - testGenerateFastAPIModule
+    - testGenerateFastAPIRoute
+    - testGenerateFastAPIEventHandler
+    - testGenerateFastAPIRPCHandler
+    - testGenerateFastAPICRUD
+    - testGeneratorUpdateEnv
+    - testGeneratorRun
+    - testGeneratorRunContainer
+    - testGeneratorBuildImage
+
+
+  testLogging:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerator
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please showLog task=myservice
+        ../zaruba please clearLog
+  
+
+  runContainerRegistry:
+    icon: 🐳
+    location: ./
+    extend: core.startDockerContainer
+    dependencies:
+    - clearLog
+    config:
+      port::9999: 5000
+      localhost: host.docker.internal
+      imageName: registry:2
+      containerName: containerRegistry
+
+
+  testPushImage:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runContainerRegistry
+    - testGenerator
+    extend: core.runShellScript
+    timeout: 1h
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please pushImage
+        docker stop containerRegistry
+  
+
+  runPlayground:
+    icon: 🔨
+    location: ./playground
+    dependencies:
+    - clearLog
+    - build
+    - testGenerator
+    extend: core.startService
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please removeContainer
+        ../zaruba please runContainer
+      afterCheck: |
+        sleep 3
+    lconfig:
+      ports: [3000, 8080, 15672]
+
+
+  testGeneratedService:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runPlayground
+    extend: core.runShellScript
+    config:
+      start: |
+        ZARUBA_HOME="$(realpath "..")"
+        stopService() {
+          docker stop rabbitmq myservice fibo
+        }
+        echo "Create new book"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          stopService
+          exit 1
+        fi
+        echo "Get first book"
+        RESPONSE="$(curl "http://localhost:3000/books/1")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          stopService
+          exit 1
+        fi
+        echo "Update book"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request PUT --data '{"title":"Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/1")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          stopService
+          exit 1
+        fi
+        echo "Get all books"
+        RESPONSE="$(curl "http://localhost:3000/books/")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '[{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}]' ]
+        then
+          echo "Unexpected response"
+          stopService
+          exit 1
+        fi
+        echo "Delete book"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request DELETE "http://localhost:3000/books/1")"
+        if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
+        then
+          echo "Unexpected response"
+          stopService
+          exit 1
+        fi
+        echo "Get all books"
+        RESPONSE="$(curl "http://localhost:3000/books/")"
+        echo $RESPONSE
+        if [ "$RESPONSE" != '[]' ]
+        then
+          echo "Unexpected response"
+          stopService
+          exit 1
+        fi
+        stopService

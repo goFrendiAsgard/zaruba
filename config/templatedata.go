@@ -93,9 +93,9 @@ func (td *TaskData) GetKwargSubKeys(keys ...string) (subKeys []string) {
 	return getSubKeys(td.task.Project.Kwargs, keys)
 }
 
-// GetAllKwargs get all environment
-func (td *TaskData) GetAllKwargs() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllKwargs(td)
+// GetAllKwarg get all keyword arguments
+func (td *TaskData) GetAllKwarg() (parsedEnv map[string]string, err error) {
+	return td.task.GetAllKwarg(td)
 }
 
 // GetEnv get environment

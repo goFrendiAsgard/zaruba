@@ -98,7 +98,7 @@ func TestTerminateRunnerLongProcessBeforeComplete(t *testing.T) {
 		t.Errorf("Error expected")
 	}
 	elapsed := time.Since(startTime)
-	if elapsed > 8*time.Second {
+	if elapsed > 9*time.Second {
 		t.Errorf("Process should be ended in approximately 6 second, but currently it need %s", elapsed)
 	}
 }
@@ -121,7 +121,7 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 		t.Error(err)
 	}
 	elapsed := time.Since(startTime)
-	if elapsed > 13*time.Second {
+	if elapsed > 14*time.Second {
 		t.Errorf("Process should be ended in approximately 11 second, but currently it need %s", elapsed)
 	}
 }

@@ -64,8 +64,8 @@ func (task *Task) GetKwarg(taskData *TaskData, keys ...string) (val string, err 
 	return task.getParsedPattern(taskData, templateName, pattern)
 }
 
-// GetAllKwargs getting all parsed env
-func (task *Task) GetAllKwargs(taskData *TaskData) (parsedKwarg map[string]string, err error) {
+// GetAllKwarg getting all parsed env
+func (task *Task) GetAllKwarg(taskData *TaskData) (parsedKwarg map[string]string, err error) {
 	parsedKwarg = map[string]string{}
 	for key := range taskData.task.Project.Kwargs {
 		parsedKwarg[key], err = task.GetKwarg(taskData, key)

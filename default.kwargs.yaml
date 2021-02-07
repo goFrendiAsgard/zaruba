@@ -1,1 +1,1 @@
-dockerRepo: stalchmst
+dockerImagePrefix::default: stalchmst

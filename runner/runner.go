@@ -261,16 +261,23 @@ func (r *Runner) run(ch chan error) {
 	logger.PrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	autostop, autostopDefined := r.Conf.Kwargs["autostop"]
 	if autostopDefined {
-		if autostopDuration, parseErr := time.ParseDuration(autostop); parseErr != nil {
+		if autostop != "" && autostop != "true" {
+			autostopDuration, parseErr := time.ParseDuration(autostop)
+			if parseErr != nil {
+				ch <- parseErr
+				logger.PrintfError("Cannot parse autostop duration %s", autostop)
+				return
+			}
 			r.sleep(autostopDuration)
 		}
 		ch <- nil
+		return
 	}
 	// wait until no cmd left
 	for {
 		r.sleep(1 * time.Microsecond)
 		if r.getKilledSignal() {
-			ch <- fmt.Errorf("Teriminated")
+			ch <- fmt.Errorf("Terminated")
 			return
 		}
 		processExist := false

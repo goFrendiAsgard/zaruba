@@ -1,0 +1,187 @@
+tasks:
+
+
+  testZarubaCore:
+    icon: 💉
+    location: ./
+    extend: core.runShellScript
+    dependencies:
+    - clearLog
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME=""
+        mkdir -p ./coverage
+        rm -f ./test_resource/alchemy/alembic.txt
+        rm -f ./test-resource/log.zaruba.csv
+        go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
+        go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
+  
+
+  test:
+    icon: 💉
+    dependencies:
+    - clearLog
+    - testZarubaCore
+    - testCommon
+    - testGeneratedService
+    - testPushImage
+
+
+  preparePlayground:
+    icon: 🔨
+    location: ./
+    extend: core.runShellScript
+    dependencies:
+    - clearLog
+    config:
+      start: |
+        if [ -d playground ]
+        then
+          chmod 777 -R playground
+        fi
+        rm -Rf playground
+        mkdir -p playground
+  
+
+  testSetupPyenv:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please setupPyenv
+
+
+  testSetupNvm:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please setupNvm
+
+
+  testSetupSdkman:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please setupSdkman
+
+
+  testSetupSpark:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please setupSpark
+
+
+  testSetupKubeClient:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please setupKubeClient
+
+
+  testThanks:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba thanks
+
+
+  testSorry:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba sorry
+  
+
+  testShowVersion:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please showVersion
+
+
+  testExplain:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runShellScript
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath ".")"
+        zaruba please explain start
+  
+
+  testCommon:
+    icon: 💉
+    location: ./
+    dependencies:
+    - clearLog
+    - build
+    - testThanks
+    - testSorry
+    - testShowVersion
+    - testExplain
+    - testSetupPyenv
+    - testSetupNvm
+    - testSetupSdkman
+    - testSetupSpark
+    - testSetupKubeClient

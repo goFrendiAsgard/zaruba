@@ -18,9 +18,11 @@ tasks:
           - {{ .GetEnv "HTTP_PORT" }}
       ```
     private: true
-    extend: core.runCoreScript
+    extend: core.runScript
     dependencies:
     - updateLinks
+    - core.checkThirdParties
+    - core.checkBootstrap
     config:
       check: |
         {{- $d := .Decoration -}}
@@ -29,8 +31,8 @@ tasks:
           . "${UTIL}/wait_port.sh" "localhost" "{{ $port }}"
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end -}}
-      startFooter: ""
-      checkFooter: |
+      completeStart: ""
+      completeCheck: |
         {{- $d := .Decoration -}}
         echo 🎉🎉🎉
         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
@@ -44,7 +46,7 @@ tasks:
         {{ .GetConfig "beforeStart" }}
         {{ .GetConfig "start" }}
         {{ .GetConfig "afterStart" }}
-        {{ .GetConfig "startFooter" }}
+        {{ .GetConfig "completeStart" }}
     check:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
@@ -55,7 +57,7 @@ tasks:
         {{ .GetConfig "beforeCheck" }}
         {{ .GetConfig "check" }}
         {{ .GetConfig "afterCheck" }}
-        {{ .GetConfig "checkFooter" }}
+        {{ .GetConfig "completeCheck" }}
 
 
   core.startDockerContainer:
@@ -120,7 +122,7 @@ tasks:
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
           {{ end -}}
         {{ end -}}
-      checkFooter: |
+      completeCheck: |
         {{- $d := .Decoration -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is ready{{ $d.Normal }}"
@@ -166,7 +168,7 @@ tasks:
             {{ end -}}
             -d "${IMAGE_NAME}"
         fi
-      startFooter: |
+      completeStart: |
         {{ $d := .Decoration -}}
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
@@ -215,6 +217,6 @@ tasks:
           done
           sleep {{ .GetConfig "interval" }}
         done
-      checkFooter: |
+      completeCheck: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started{{ $d.Normal }}"

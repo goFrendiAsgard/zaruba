@@ -1,1 +1,2 @@
 defaultBranch: master
+dockerImagePrefix::default: local

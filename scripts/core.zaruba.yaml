@@ -440,9 +440,12 @@ tasks:
         config:
           # Service name, if not provided will be derived from location
           service: myService
+          # Docker env. default to 'default'
+          dockerEnv: default
       ```
       ARGUMENTS:
-        dockerRepo:   Docker repository. (optional, default to 'local')
+        dockerImagePrefix::<dockerEnv>: image prefix
+        dockerEnv: dockerEnv, if not provided will be taken from config
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -451,7 +454,16 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         . "${UTIL}/should_be_file.sh" "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        DOCKER_REPO="{{ if .GetKwarg "dockerRepo" }}{{ .GetKwarg "dockerRepo" }}{{ else }}local{{ end }}"
+        {{ if .GetKwarg "dockerEnv" -}}
+          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else if .GetConfig "dockerEnv" -}}
+          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else -}}
+          {{ $dockerEnv := "default" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ end -}}
         SERVICE="{{ if .GetConfig "service" }}{{ .GetConfig "service" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(. "${UTIL}/get_latest_git_commit.sh")"
         . "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
@@ -462,15 +474,15 @@ tasks:
           TAG_COMMIT="$(. "${UTIL}/get_latest_git_tag_commit.sh")"
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_REPO}/${SERVICE}:latest, ${DOCKER_REPO}/${SERVICE}:${TAG}, and ${DOCKER_REPO}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
-            docker build -t "local/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${TAG}" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest, ${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}, and ${DOCKER_IMAGE_PREFIX}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
+            docker build -t "local/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}" .
             echo 🎉🎉🎉
             echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
             exit 0
           fi
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_REPO}/${SERVICE}:latest and ${DOCKER_REPO}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
-        docker build -t "local/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:latest" -t "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}" .
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest and ${DOCKER_IMAGE_PREFIX}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
+        docker build -t "local/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
 
@@ -487,9 +499,12 @@ tasks:
         config:
           # Service name, if not provided will be derived from location
           service: myService
+          # Docker env. default to 'default'
+          dockerEnv: default
       ```
       ARGUMENTS:
-        dockerRepo:   Docker repository. (required)
+        dockerImagePrefix::<dockerEnv>: image prefix
+        dockerEnv: dockerEnv, if not provided will be taken from config
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -497,8 +512,16 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DOCKER_REPO="{{ .GetKwarg "dockerRepo" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${DOCKER_REPO}" "{{ $d.Bold }}{{ $d.Red }}'dockerRepo' is required{{ $d.Normal }}"
+        {{ if .GetKwarg "dockerEnv" -}}
+          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else if .GetConfig "dockerEnv" -}}
+          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else -}}
+          {{ $dockerEnv := "default" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ end -}}
         SERVICE="{{ if .GetConfig "service" }}{{ .GetConfig "service" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(. "${UTIL}/get_latest_git_commit.sh")"
         . "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
@@ -509,14 +532,14 @@ tasks:
           TAG_COMMIT="$(. "${UTIL}/get_latest_git_tag_commit.sh")"
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_REPO}/${SERVICE}:${TAG}{{ $d.Normal }}"
-            docker push "${DOCKER_REPO}/${SERVICE}:${TAG}"
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}{{ $d.Normal }}"
+            docker push "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}"
           fi
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_REPO}/${SERVICE}:latest{{ $d.Normal }}"
-        docker push "${DOCKER_REPO}/${SERVICE}:latest"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}{{ $d.Normal }}"
-        docker push "${DOCKER_REPO}/${SERVICE}:${SHORT_COMMIT}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest{{ $d.Normal }}"
+        docker push "${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}{{ $d.Normal }}"
+        docker push "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
     
@@ -534,8 +557,6 @@ tasks:
           # container name, if not provided will be derived from location
           containerName: myContainer
       ```
-      ARGUMENTS:
-        dockerRepo:   Docker repository. (required)
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil

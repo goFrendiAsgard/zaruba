@@ -129,11 +129,11 @@ func TestTaskDataGetKwarg(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetAllKwargs(t *testing.T) {
+func TestTaskDataGetAllKwarg(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	if _, err := td.GetAllKwargs(); err != nil {
+	if _, err := td.GetAllKwarg(); err != nil {
 		t.Error(err)
 	}
 }

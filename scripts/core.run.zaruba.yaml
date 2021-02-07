@@ -54,6 +54,9 @@ tasks:
       ```
     private: true
     extend: core.runShellScript
+    dependencies:
+    - core.checkThirdParties
+    - core.checkBootstrap
     config:
       setup: |
         {{ $task := .GetTask "core.runShellScript" -}}
@@ -64,32 +67,29 @@ tasks:
       start: echo "No script defined"
 
 
-  core.runShellScript:
+  core.checkThirdParties:
     icon: 🐚
-    description: |
-      Run shell script
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runShellScript
-        config:
-          # Start script. (default: "echo hello world")
-          start: echo hello world
-      ```
     private: true
     extend: core.runScript
     config:
-      setup: |
-        {{ $d := .Decoration -}}
-        alias sh=.
-        CURRENT_USER="$(. "${ZARUBA_HOME}/scripts/util/sh/get_current_user.sh")"
+      start: |
         THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
-        BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         if [ ! -d "${THIRD_PARTIES}" ]
         then
           mkdir -p "${THIRD_PARTIES}"
           chown "${CURRENT_USER}" "${THIRD_PARTIES}"
         fi
+  
+
+  core.checkBootstrap:
+    icon: 🐚
+    private: true
+    extend: core.runScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        CURRENT_USER="$(. "${ZARUBA_HOME}/scripts/util/sh/get_current_user.sh")"
+        BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         if [ ! -f "${BOOTSTRAP_SCRIPT}" ]
         then
           touch "${BOOTSTRAP_SCRIPT}"
@@ -106,6 +106,31 @@ tasks:
         fi
         . "${ZARUBA_HOME}/scripts/util/sh/inject_bootstrap.sh" "${HOME}/.bashrc"
         . "${ZARUBA_HOME}/scripts/util/sh/inject_bootstrap.sh" "${HOME}/.zshrc"
+ 
+
+  core.runShellScript:
+    icon: 🐚
+    description: |
+      Run shell script
+      USAGE:
+      ```yaml
+      runTask:
+        extend: core.runShellScript
+        config:
+          # Start script. (default: "echo hello world")
+          start: echo hello world
+      ```
+    private: true
+    extend: core.runScript
+    dependencies:
+    - core.checkThirdParties
+    - core.checkBootstrap
+    config:
+      setup: |
+        alias sh=.
+        THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
+        BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+        . "${BOOTSTRAP_SCRIPT}"
       start: "echo hello world"
 
 
