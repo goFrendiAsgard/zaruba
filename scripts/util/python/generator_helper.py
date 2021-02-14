@@ -36,23 +36,23 @@ def register_task(file_name: str, task_name: str, main_task_name: str, default_t
     write_config(main_file_name, main_config)
 
 
-def register_run_task(file_name: str, task_name: str) -> bool:
+def register_run_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'run', Task({}).set_icon('🚅').set_description('Run everything at once'))
 
 
-def register_build_image_task(file_name: str, task_name: str) -> bool:
+def register_build_image_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'buildImage', Task({}).set_icon('🐳').set_description('Build docker images'))
 
 
-def register_push_image_task(file_name: str, task_name: str) -> bool:
+def register_push_image_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'pushImage', Task({}).set_icon('🐳').set_description('Push docker images'))
 
 
-def register_run_container_task(file_name: str, task_name: str) -> bool:
+def register_run_container_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'runContainer', Task({}).set_icon('🚅').set_description('Run everything at once (containerized)'))
 
 
-def register_remove_container_task(file_name: str, task_name: str) -> bool:
+def register_remove_container_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'removeContainer', Task({}).set_icon('🐳').set_description('Remove container'))
 
 

@@ -1,0 +1,16 @@
+tasks:
+
+  testHelmApply:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateHelmCharts
+    - testGeneratedService
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please helmApply
+        ../zaruba please helmDestroy
+    

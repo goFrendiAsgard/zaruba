@@ -5,21 +5,24 @@ app:
     imagePrefix: {{ .Values | get "commonImagePrefix" "local" }}
     imageTag: {{ .Values | get "commonImageTag" "latest" }}
     image: myservice
-    port: 8080
     env:
-    - key: MYSERVICE_HTTP_PORT
+    - name: MYSERVICE_HTTP_PORT
       value: 8080
-    - key: MYSERVICE_MESSAGE_BUS_TYPE
+    - name: MYSERVICE_MESSAGE_BUS_TYPE
       value: local
-    - key: MYSERVICE_RABBITMQ_USER
+    - name: MYSERVICE_RABBITMQ_USER
       value: root
-    - key: MYSERVICE_RABBITMQ_PASS
+    - name: MYSERVICE_RABBITMQ_PASS
       value: toor
-    - key: MYSERVICE_RABBITMQ_VHOST
+    - name: MYSERVICE_RABBITMQ_VHOST
       value: /
-    - key: MYSERVICE_SQLALCHEMY_DATABASE_URL
+    - name: MYSERVICE_SQLALCHEMY_DATABASE_URL
       value: sqlite:///./database.db
-    - key: MYSERVICE_ENABLE_ROUTE_HANDLER
+    - name: MYSERVICE_ENABLE_ROUTE_HANDLER
       value: 1
-    - key: MYSERVICE_ENABLE_EVENT_HANDLER
+    - name: MYSERVICE_ENABLE_EVENT_HANDLER
       value: 1
+  ports:
+  - containerPort: 8080
+    servicePort: 8080
+    name: http

@@ -9,5 +9,9 @@ spec:
   selector:             
     app: {{ .Values.app.name }}
   ports:
-  - port: {{ .Values.app.service.port }}       
-    targetPort: {{ .Values.app.container.port }} 
+  {{- range .Values.app.ports }}
+  {{- if .servicePort }}
+  - port: {{ .servicePort }}       
+    targetPort: {{ .containerPort }} 
+  {{- end }}
+  {{- end }}

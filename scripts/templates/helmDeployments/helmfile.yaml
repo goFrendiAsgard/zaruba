@@ -26,11 +26,11 @@ releases:
   - ./values/ingress.yaml.gotmpl
 
 #####################################################################
-# HINT: Copy-paste/uncomment and modify the following section
+# HINT: Modify the following section
 # to add your services
 #####################################################################
-# - name: myservice
-#   chart: ./charts/app
-#   values:
-#   - ./values/myservice.yaml.gotmpl
+- name: hello-world
+  chart: ./charts/app
+  values:
+  - ./values/hello-world.yaml.gotmpl
 #####################################################################

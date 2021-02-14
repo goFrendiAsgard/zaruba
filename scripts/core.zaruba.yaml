@@ -569,3 +569,51 @@ tasks:
         . "${UTIL}/stop_and_remove_container.sh" "${CONTAINER}" 
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container removed{{ $d.Normal }}"
+  
+
+  core.helmApply:
+    icon: 🚢
+    private: true
+    description: |
+      Deploy helm charts by using helmfile
+      USAGE:
+      ```yaml
+      applyHelm:
+        location: helm-deployments 
+      ```
+      ARGUMENTS:
+        dockerImagePrefix::<dockerEnv>: image prefix
+        dockerEnv: dockerEnv, if not provided will be taken from config
+        helmEnv: helmEnv, default value is 'default'
+    extend: core.runScript
+    config:
+      start: |
+        {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
+        DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
+        helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" sync
+
+
+  core.helmDestroy:
+    icon: 🚢
+    private: true
+    description: |
+      Deploy helm charts by using helmfile
+      USAGE:
+      ```yaml
+      applyHelm:
+        location: helm-deployments 
+      ```
+      ARGUMENTS:
+        dockerImagePrefix::<dockerEnv>: image prefix
+        dockerEnv: dockerEnv, if not provided will be taken from config
+        helmEnv: helmEnv, default value is 'default'
+    extend: core.runScript
+    config:
+      start: |
+        {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
+        {{ $helmEnv := .GetKwarg "helmEnv" -}}
+        DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
+        helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" destroy
+

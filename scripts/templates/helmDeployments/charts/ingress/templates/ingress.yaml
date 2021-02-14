@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.ingress.name }}
@@ -14,8 +14,11 @@ spec:
       paths:
       {{- range .paths }}
       - path: {{ .path }}
+        pathType: {{ .pathType }}
         backend:
-          serviceName: {{ .backend.serviceName }}
-          servicePort: {{ .backend.servicePort }}
+          service:
+            name: {{ .backend.service.name}}
+            port:
+              number: {{ .backend.service.port.number }}
       {{- end }}
   {{- end }}

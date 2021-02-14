@@ -18,16 +18,21 @@ spec:
     spec:
       containers:
       - name: {{ .Values.app.name }}
-        image: {{ .Values.app.container.imagePrefix }}/{{ .Values.app.container.image }}:{{ .Values.app.container.imageTag }}
+        image: "{{ if .Values.app.container.imagePrefix }}{{ .Values.app.container.imagePrefix }}/{{ end }}{{ .Values.app.container.image }}{{ if .Values.app.container.imageTag }}:{{ .Values.app.container.imageTag }}{{ end }}"
         ports:
-        - containerPort: {{ .Values.app.container.port }}
+        {{- range .Values.app.ports }}
+        - containerPort: {{ .containerPort }}
+          {{- if .name }}
+          name: {{ .name }}
+          {{- end }}
+        {{- end }}
         envFrom:
         {{- range .Values.app.container.config }}
         - configMapRef:
           name: {{ .name }}
-        {{- end}}
+        {{- end }}
         env:
         {{- range .Values.app.container.env }}
-        - name: {{ .key }}
+        - name: {{ .name }}
           value: {{ .value | quote }}
-        {{- end}}
+        {{- end }}

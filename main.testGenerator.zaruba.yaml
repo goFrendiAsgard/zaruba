@@ -18,6 +18,19 @@ tasks:
         ../zaruba please setKwarg key=dockerImagePrefix::default value=localhost:9999
   
 
+  testGenerateHelmCharts:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testGenerateProject
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeHelmCharts
+
+
   testGenerateSubrepo:
     icon: 💉
     location: ./playground
@@ -38,6 +51,7 @@ tasks:
     location: ./playground
     dependencies:
     - testGenerateSubrepo
+    - testGenerateHelmCharts
     extend: core.runShellScript 
     config:
       start: |

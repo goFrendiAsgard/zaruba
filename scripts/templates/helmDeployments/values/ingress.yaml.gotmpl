@@ -6,10 +6,13 @@ ingress:
     # HINT: Copy-paste/uncomment and modify the following section
     # to expose your service
     #####################################################################
-    # - host: {{ .Values | get "host" "localhost" }}>
-    #   paths:
-    #   - path: /
-    #     backend:
-    #       serviceName: <your-service-name (e.g: myservice)>
-    #       servicePort: 8080
+    - host: {{ .Values | get "host" "localhost" }}
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-world
+            port:
+              number: 8080
     #####################################################################

@@ -1,0 +1,10 @@
+app:
+  name: hello-world
+  group: example
+  container:
+    imageTag: 1.19.6
+    image: nginx
+  ports:
+  - containerPort: 80
+    servicePort: 8080
+    name: http
