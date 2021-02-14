@@ -32,14 +32,35 @@ tasks:
           . "${UTIL}/link_resource.sh" "${2}" "${3}"
         }
 
+  
+  makeHelmCharts:
+    icon: 🚢
+    description: |
+      Add helm charts to the project to make deployment easier.
+      USAGE:
+        zaruba please makeHelmCharts
+    extend: core.generate
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        HELM_DEPLOYMENT_TEMPLATE="{{ .DirPath }}/templates/helmDeployments"
+        LOCATION=helm-deployments
+        mkdir -p "${LOCATION}"
+        cp -r "${HELM_DEPLOYMENT_TEMPLATE}/helmfile.yaml" "${LOCATION}/helmfile.yaml"
+        cp -r "${HELM_DEPLOYMENT_TEMPLATE}/charts" "${LOCATION}/charts"
+        cp -r "${HELM_DEPLOYMENT_TEMPLATE}/values" "${LOCATION}/values"
+        . "${PY_UTIL}" create_helm_task
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
+
 
   makeDockerTask:
     icon: 🐳
     description: |
       Add docker task to the project.
       USAGE:
-        zaruba please addDocker image=nginx
-        zaruba please addDocker image=nginx container=myNginx task=runMyNginx templates=./templates
+        zaruba please makeDockerTask image=nginx
+        zaruba please makeDockerTask image=nginx container=myNginx task=runMyNginx templates=./templates
       ARGUMENTS:
         image:      Docker image. (required)
         container:  Container name. (optional, if not provided, will be inferred from `image`)
@@ -62,8 +83,8 @@ tasks:
     description: |
       Add service task to the project.
       USAGE:
-        zaruba please addService location=fibo
-        zaruba please addService location=fibo type=default task=runFibo templates=./templates
+        zaruba please makeServiceTask location=fibo
+        zaruba please makeServiceTask location=fibo type=default task=runFibo templates=./templates
       ARGUMENTS:
         location:   Service location. (required)
         type:       Service type. (optional, default to 'default')

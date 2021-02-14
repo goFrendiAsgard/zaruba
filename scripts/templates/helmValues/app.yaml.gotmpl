@@ -1,0 +1,28 @@
+app:
+  name: myservice
+  group: db
+  container:
+    imagePrefix: {{ .Values | get "commonImagePrefix" "local" }}
+    imageTag: {{ .Values | get "commonImageTag" "latest" }}
+    image: myservice
+    env:
+    - name: MYSERVICE_HTTP_PORT
+      value: 8080
+    - name: MYSERVICE_MESSAGE_BUS_TYPE
+      value: local
+    - name: MYSERVICE_RABBITMQ_USER
+      value: root
+    - name: MYSERVICE_RABBITMQ_PASS
+      value: toor
+    - name: MYSERVICE_RABBITMQ_VHOST
+      value: /
+    - name: MYSERVICE_SQLALCHEMY_DATABASE_URL
+      value: sqlite:///./database.db
+    - name: MYSERVICE_ENABLE_ROUTE_HANDLER
+      value: 1
+    - name: MYSERVICE_ENABLE_EVENT_HANDLER
+      value: 1
+  ports:
+  - containerPort: 8080
+    servicePort: 8080
+    name: http
