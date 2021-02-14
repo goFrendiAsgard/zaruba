@@ -1,0 +1,16 @@
+app:
+  name: app
+  group: app
+  replicaCount: 1
+  container:
+    imagePrefix: add-imagePrefix-here
+    image: add-image-here
+    imageTag: add-image-imageTag-here
+    port: 8080
+    config: []
+    env:
+    - key: key
+      value: value
+  service:
+    type: ClusterIP
+    port: 8080
