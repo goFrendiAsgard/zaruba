@@ -3,6 +3,8 @@ from generator_helper import read_config, write_config
 
 import os, sys, traceback
 
+# USAGE
+# python create_helm_task.py
 
 def create_helm_task():
     main_file_name = 'main.zaruba.yaml'

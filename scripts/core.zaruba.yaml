@@ -295,6 +295,17 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
 
 
+  core.isContainHelmCharts:
+    icon: 🔎
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        . "${UTIL}/should_be_dir.sh" "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory contains helm deployments{{ $d.Normal }}"
+
+
   core.isNotProject:
     icon: 🔎
     private: true
@@ -304,6 +315,17 @@ tasks:
         {{ $d := .Decoration -}}
         . "${UTIL}/should_not_be_file.sh" "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
+
+
+  core.isNotContainHelmCharts:
+    icon: 🔎
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        . "${UTIL}/should_not_be_dir.sh" "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory does not contain helm deployments{{ $d.Normal }}"
 
 
   initProject:

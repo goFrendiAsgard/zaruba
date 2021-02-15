@@ -127,7 +127,7 @@ if __name__ == '__main__':
         location = get_argv(2)
         service_type = get_argv(3)
         run_task_name = get_argv(4)
-        raw_ports = get_argv(5).split(':')
+        raw_ports = get_argv(5).split(',')
         ports=[port for port in raw_ports if port != '']
         create_service_task(template_path_list, location, service_type, run_task_name, ports)
     except Exception as e:

@@ -11,6 +11,8 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeServiceDeployment location=fibo
+        ../zaruba please makeServiceDeployment location=myservice
         ../zaruba please helmApply
         ../zaruba please helmDestroy
     

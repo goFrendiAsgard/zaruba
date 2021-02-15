@@ -56,22 +56,30 @@ def register_remove_container_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'removeContainer', Task({}).set_icon('🐳').set_description('Remove container'))
 
 
-def update_task_env(task: Task, task_file_name: str) -> Task:
-    location = task.get_location() 
-    if not os.path.isabs(location):
-        location = os.path.join(os.path.dirname(task_file_name), task.get_location())
+def get_env_in_location(location: str) -> Mapping[str, str]:
+    env_dict: Mapping[str, str] = {}
     for env_file in ('sample.env', 'template.env', 'env.template', '.env'):
         env_path = os.path.join(location, env_file)
         if not os.path.isfile(env_path):
             continue
         local_env: Mapping[str, str] = dotenv_values(env_path)
         for env_key, env_value in local_env.items():
-            env = task.get_env(env_key)
-            if not env.get_from():
-                env.set_from(get_task_env_name(location, env_key))
-            if not env.get_default():
-                env.set_default(env_value)
-            task.set_env(env_key, env, env_value)
+            env_dict[env_key] = env_value
+    return env_dict
+
+
+def update_task_env(task: Task, task_file_name: str) -> Task:
+    location = task.get_location() 
+    if not os.path.isabs(location):
+        location = os.path.join(os.path.dirname(task_file_name), task.get_location())
+    env_dict = get_env_in_location(location)
+    for env_key, env_value in env_dict.items():
+        env = task.get_env(env_key)
+        if not env.get_from():
+            env.set_from(get_task_env_name(location, env_key))
+        if not env.get_default():
+            env.set_default(env_value)
+        task.set_env(env_key, env, env_value)
     return task
 
 
