@@ -1,7 +1,8 @@
 from typing import Any, List, Mapping
 from ruamel.yaml import YAML
 from common_helper import get_argv
-from generator_helper import get_service_name, get_env_in_location, write_config
+from generator_helper import get_service_name, get_env_in_location, read_config, write_config
+from port_helper import get_possible_ports_env
 
 import os, sys, traceback
 
@@ -23,6 +24,17 @@ def read_value_template_dict() -> Mapping[str, Mapping[str, Any]]:
     return value_dict
 
 
+def register_helmfile(service_name: str):
+    helmfile_location = os.path.join('helm-deployments', 'helmfile.yaml')
+    helmfile_dict = read_config(helmfile_location)
+    helmfile_dict['releases'].append({
+        'name': service_name,
+        'chart': './charts/app',
+        'values': ['./values/{}.yaml.gotmpl'.format(service_name)]
+    })
+    write_config(helmfile_location, helmfile_dict)
+
+
 def create_service_deployment(location: str, ports: List[str]):
     location = location if location != '' else '.'
     service_name = get_service_name(location)
@@ -30,22 +42,24 @@ def create_service_deployment(location: str, ports: List[str]):
     value_dict = read_value_template_dict()
     value_dict['app']['name'] = service_name
     value_dict['app']['container']['image'] = service_name
+    # add env
     env_dict = get_env_in_location(location)
     for env_key, env_value in env_dict.items():
         value_dict['app']['container']['env'].append({
             'name': env_key,
             'value': env_value,
         })
-    # TODO: get possible ports if ports keyword in not available (sementara pake if gini dulu)
+    # add ports
     if len(ports) == 0:
-        ports = ['8080']
+        possible_ports_env = get_possible_ports_env(env_dict)
+        ports = list(possible_ports_env.values())
     for port in ports:
         value_dict['app']['ports'].append({
             'containerPort': port,
             'servicePort': port
         })
     write_config(value_file_name, value_dict)
-    # TODO: register values to helmfile
+    register_helmfile(service_name)
 
 
 if __name__ == '__main__':

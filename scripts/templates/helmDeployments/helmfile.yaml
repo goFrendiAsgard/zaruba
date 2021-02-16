@@ -1,12 +1,12 @@
 environments:
   default:
     values:
-    - commonImagePrefix: {{ env "IMAGE_PREFIX" | default "local" }}
+    - commonImagePrefix: '{{ env "IMAGE_PREFIX" | default "local" }}'
     - commonImageTag: latest
     - host: localhost
   stable:
     values:
-    - commonImagePrefix: {{ env "IMAGE_PREFIX" | default "local" }}
+    - commonImagePrefix: '{{ env "IMAGE_PREFIX" | default "local" }}'
     - commonImageTag: v0.0.0
     - host: localhost
 
@@ -33,4 +33,3 @@ releases:
   chart: ./charts/app
   values:
   - ./values/hello-world.yaml.gotmpl
-#####################################################################

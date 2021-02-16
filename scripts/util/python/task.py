@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import List, Mapping, TypedDict
 from dotenv import dotenv_values
+from port_helper import get_service_possible_ports_env
 import os
 
 EnvDict = TypedDict('envDict', {'from': str, 'default': str}, total=False)
@@ -177,15 +178,11 @@ class Task():
         return ''
 
     def get_possible_ports(self) -> List[str]:
-        ports: List[str] = []
-        for key, env in self.get_all_env().items():
-            val = env.get_default()
-            if val.isnumeric():
-                if int(val) in [3306, 5432, 5672, 15672, 27017, 6379, 9200, 9300, 7001, 7199, 9042, 9160]:
-                    continue
-                if int(val) in [80, 443] or int(val) >= 3000:
-                    ports.append(key)
-        return ports
+        env_dict = {}
+        for env_key, env in self.get_all_env().items():
+            env_dict[env_key] = env.get_default()
+        possible_ports_env = get_service_possible_ports_env(env_dict)
+        return list(possible_ports_env.keys())
 
     def as_dict(self) -> TaskDict:
         return self._dict
