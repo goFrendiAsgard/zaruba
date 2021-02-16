@@ -432,8 +432,8 @@ tasks:
       USAGE:
         zaruba please setKwarg key="key" value="value"
       ARGUMENTS:
-        key:    Key. (required)
-        value:  Value. (required)
+        key   : Key. (required)
+        value : Value. (required)
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -466,8 +466,8 @@ tasks:
           dockerEnv: default
       ```
       ARGUMENTS:
-        dockerImagePrefix::<dockerEnv>: image prefix
-        dockerEnv: dockerEnv, if not provided will be taken from config
+        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerEnv                      : dockerEnv, if not provided will be taken from config
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -525,8 +525,8 @@ tasks:
           dockerEnv: default
       ```
       ARGUMENTS:
-        dockerImagePrefix::<dockerEnv>: image prefix
-        dockerEnv: dockerEnv, if not provided will be taken from config
+        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerEnv                      : dockerEnv, if not provided will be taken from config
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -604,15 +604,22 @@ tasks:
         location: helm-deployments 
       ```
       ARGUMENTS:
-        dockerImagePrefix::<dockerEnv>: image prefix
-        dockerEnv: dockerEnv, if not provided will be taken from config
-        helmEnv: helmEnv, default value is 'default'
+        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerEnv                      : dockerEnv, if not provided will be taken from config
+        helmEnv                        : helmEnv, default value is 'default'
     extend: core.runScript
     config:
       start: |
-        {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
-        DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
+        {{ if .GetKwarg "dockerEnv" -}}
+          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
+          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else if .GetConfig "dockerEnv" -}}
+          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
+          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else -}}
+          {{ $dockerEnv := "default" -}}
+          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ end -}}
         helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" sync
 
 
@@ -627,15 +634,21 @@ tasks:
         location: helm-deployments 
       ```
       ARGUMENTS:
-        dockerImagePrefix::<dockerEnv>: image prefix
-        dockerEnv: dockerEnv, if not provided will be taken from config
-        helmEnv: helmEnv, default value is 'default'
+        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerEnv                      : dockerEnv, if not provided will be taken from config
+        helmEnv                        : helmEnv, default value is 'default'
     extend: core.runScript
     config:
       start: |
-        {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
-        {{ $helmEnv := .GetKwarg "helmEnv" -}}
-        DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
+        {{ if .GetKwarg "dockerEnv" -}}
+          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
+          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else if .GetConfig "dockerEnv" -}}
+          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
+          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else -}}
+          {{ $dockerEnv := "default" -}}
+          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ end -}}
         helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" destroy
 
