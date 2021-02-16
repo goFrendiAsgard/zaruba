@@ -27,6 +27,8 @@ tasks:
     - testGeneratedService
     - testPushImage
     - testHelmApply
+    - testHelmDestroy
+    - stopContainerRegistry
 
 
   preparePlayground:

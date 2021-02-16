@@ -4,8 +4,9 @@ tasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateHelmCharts
+    - testMakeHelmCharts
     - testGeneratedService
+    - runContainerRegistry
     extend: core.runShellScript 
     config:
       start: |
@@ -14,5 +15,32 @@ tasks:
         ../zaruba please makeServiceDeployment location=fibo
         ../zaruba please makeServiceDeployment location=myservice
         ../zaruba please helmApply
+
+
+  testHelmDestroy:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testHelmApply
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please helmDestroy
+
+
+  stopContainerRegistry:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testPushImage
+    - testHelmApply
+    extend: core.runShellScript
+    timeout: 1h
+    config:
+      start: |
+        set -e
+        docker stop containerRegistry
+  
     

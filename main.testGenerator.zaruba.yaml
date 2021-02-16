@@ -1,7 +1,7 @@
 tasks:
 
 
-  testGenerateProject:
+  testMakeProject:
     icon: 💉
     location: ./playground
     dependencies:
@@ -18,11 +18,11 @@ tasks:
         ../zaruba please setKwarg key=dockerImagePrefix::default value=localhost:9999
   
 
-  testGenerateHelmCharts:
+  testMakeHelmCharts:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateProject
+    - testMakeProject
     extend: core.runShellScript 
     config:
       start: |
@@ -31,11 +31,11 @@ tasks:
         ../zaruba please makeHelmCharts
 
 
-  testGenerateSubrepo:
+  testMakeSubrepo:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateProject
+    - testMakeProject
     extend: core.runShellScript 
     config:
       start: |
@@ -46,12 +46,12 @@ tasks:
         ../zaruba please pullSubrepos
 
 
-  testGenerateTasks:
+  testMakeTasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateSubrepo
-    - testGenerateHelmCharts
+    - testMakeSubrepo
+    - testMakeHelmCharts
     extend: core.runShellScript 
     config:
       start: |
@@ -61,11 +61,11 @@ tasks:
         ../zaruba please makeDockerTask image=rabbitmq
 
 
-  testGenerateFastAPIProject:
+  testMakeFastAPIProject:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateTasks
+    - testMakeTasks
     extend: core.runShellScript 
     config:
       start: |
@@ -74,11 +74,11 @@ tasks:
         ../zaruba please makeFastService location=myservice
         
 
-  testGenerateFastAPIModule:
+  testMakeFastAPIModule:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateFastAPIProject
+    - testMakeFastAPIProject
     extend: core.runShellScript 
     config:
       start: |
@@ -87,11 +87,11 @@ tasks:
         ../zaruba please makeFastModule location=myservice module=mymodule
 
 
-  testGenerateFastAPIRoute:
+  testMakeFastAPIRoute:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateFastAPIModule
+    - testMakeFastAPIModule
     extend: core.runShellScript 
     config:
       start: |
@@ -100,11 +100,11 @@ tasks:
         ../zaruba please makeFastRoute location=myservice module=mymodule url=/hello
 
 
-  testGenerateFastAPIEventHandler:
+  testMakeFastAPIEventHandler:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateFastAPIRoute
+    - testMakeFastAPIRoute
     extend: core.runShellScript 
     config:
       start: |
@@ -113,11 +113,11 @@ tasks:
         ../zaruba please makeFastEventHandler location=myservice module=mymodule event=myEvent
 
 
-  testGenerateFastAPIRPCHandler:
+  testMakeFastAPIRPCHandler:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateFastAPIEventHandler
+    - testMakeFastAPIEventHandler
     extend: core.runShellScript 
     config:
       start: |
@@ -126,11 +126,11 @@ tasks:
         ../zaruba please makeFastRPCHandler location=myservice module=mymodule event=myRPC
 
 
-  testGenerateFastAPICRUD:
+  testMakeFastAPICRUD:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateFastAPIRPCHandler
+    - testMakeFastAPIRPCHandler
     extend: core.runShellScript 
     config:
       start: |
@@ -139,11 +139,11 @@ tasks:
         ../zaruba please makeFastCRUD location=myservice module=mymodule entity=book fields=title,author,synopsis
   
 
-  testGeneratorUpdateEnv:
+  testUpdateEnv:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateFastAPICRUD
+    - testMakeFastAPICRUD
     extend: core.runShellScript
     config:
       start: |
@@ -152,11 +152,11 @@ tasks:
         ../zaruba please updateEnv
 
 
-  testGeneratorRun:
+  testRun:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGeneratorUpdateEnv
+    - testUpdateEnv
     extend: core.runShellScript
     config:
       start: |
@@ -165,11 +165,11 @@ tasks:
         ../zaruba please run autostop
 
 
-  testGeneratorRunContainer:
+  testRunContainer:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGeneratorRun
+    - testRun
     extend: core.runShellScript
     config:
       start: |
@@ -180,11 +180,11 @@ tasks:
         ../zaruba please removeContainer
 
 
-  testGeneratorBuildImage:
+  testBuildImage:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGeneratorRunContainer
+    - testRunContainer
     extend: core.runShellScript
     config:
       start: |
@@ -199,19 +199,19 @@ tasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testGenerateProject
-    - testGenerateSubrepo
-    - testGenerateTasks
-    - testGenerateFastAPIProject
-    - testGenerateFastAPIModule
-    - testGenerateFastAPIRoute
-    - testGenerateFastAPIEventHandler
-    - testGenerateFastAPIRPCHandler
-    - testGenerateFastAPICRUD
-    - testGeneratorUpdateEnv
-    - testGeneratorRun
-    - testGeneratorRunContainer
-    - testGeneratorBuildImage
+    - testMakeProject
+    - testMakeSubrepo
+    - testMakeTasks
+    - testMakeFastAPIProject
+    - testMakeFastAPIModule
+    - testMakeFastAPIRoute
+    - testMakeFastAPIEventHandler
+    - testMakeFastAPIRPCHandler
+    - testMakeFastAPICRUD
+    - testUpdateEnv
+    - testRun
+    - testRunContainer
+    - testBuildImage
 
 
   testLogging:
@@ -255,7 +255,6 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please pushImage
-        docker stop containerRegistry
   
 
   runPlayground:
