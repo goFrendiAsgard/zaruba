@@ -58,7 +58,7 @@ tasks:
       Run static web server from your working directory.
       USAGE: zaruba please serveHttp [port=port]
       ARGUMENTS:
-        port: HTTP Port, default to 8000
+        port  : HTTP Port, default to 8000
     extend: core.startService
     lconfig:
       ports: ['{{ if .GetKwarg "port" }}{{ .GetKwarg "port" }}{{ else }}8000{{ end }}']
@@ -89,7 +89,7 @@ tasks:
         zaruba please showLog
         zaruba please showLog task="test.*"
       ARGUMENTS:
-        task: task regex pattern, default to '.*'
+        task  : task regex pattern, default to '.*'
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -129,9 +129,9 @@ tasks:
         zaruba please initSubrepos
         zaruba please initSubrepos "subrepo::fibo::url=https://github.com/therealvasanth/fibonacci-clock"
       ARGUMENTS:
-        subrepo::<name>::prefix: Prefix (directory name) of the subrepo
-        subrepo::<name>::url:    Remote url of the subrepo
-        subrepo::<name>::name:   Origin name of the subrepo
+        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
+        subrepo::<name>::url      : Remote url of the subrepo
+        subrepo::<name>::name     : Origin name of the subrepo
       TIPS:
         It is recommended to put `subrepo` arguments in `default.kwargs.yaml`.
         In order to do that, you can invoke `zaruba please addSubrepo <url=remote-url>`
@@ -187,9 +187,9 @@ tasks:
         zaruba please addSubrepo url=https://github.com/therealvasanth/fibonacci-clock
         zaruba please addSubrepo url=https://github.com/therealvasanth/fibonacci-clock name=fibo prefix=fibo
       ARGUMENTS:
-        url:    Remote url of the subrepo. (required)
-        prefix: Prefix (directory name) of the subrepo. (optional)
-        name:   Origin name of the subrepo. (optional)
+        url     : Remote url of the subrepo. (required)
+        prefix  : Prefix (directory name) of the subrepo. (optional)
+        name    : Origin name of the subrepo. (optional)
       TIPS:
         To init subrepositories, you should perform `zaruba please initSubrepos`
     extend: core.runCoreScript
@@ -221,8 +221,8 @@ tasks:
       USAGE:
         zaruba please pushSubrepos
       ARGUMENTS:
-        subrepo::<name>::prefix: Prefix (directory name) of the subrepo
-        subrepo::<name>::url:    Remote url of the subrepo
+        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
+        subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
     dependencies:
     - initSubrepos
@@ -257,8 +257,8 @@ tasks:
       USAGE:
         zaruba please pullSubrepos
       ARGUMENTS:
-        subrepo::<name>::prefix: Prefix (directory name) of the subrepo
-        subrepo::<name>::url:    Remote url of the subrepo
+        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
+        subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
     dependencies:
     - initSubrepos
@@ -355,7 +355,7 @@ tasks:
         zaruba please updateEnv
         zaruba please updateEnv dir=.
       ARGUMENT:
-        dir:  Directory name
+        dir  : Directory name
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -364,7 +364,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         DIR="{{ if .GetKwarg "dir" }}{{ .GetKwarg "dir" }}{{ else }}.{{ end }}"
-        . "${PY_UTIL}" update_env "${DIR}"
+        . "${PY_UTIL}" update_service_task_env "${DIR}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
@@ -378,7 +378,7 @@ tasks:
         zaruba please updateLinks "link::fibo/css=common-css"
         zaruba please updateLinks "link::app/css=common-css"
       ARGUMENTS
-        link::<destination>:  Location of the shared code
+        link::<destination> : Location of the shared code
       TIPS:
         It is recommended to put `link` arguments in `default.kwargs.yaml`.
         In order to do that, you can invoke `zaruba please addLink <from=source-location> <to=destination-location>`
@@ -406,8 +406,8 @@ tasks:
       USAGE:
         zaruba please addLink from="common-css" to="fibo/css"
       ARGUMENTS:
-        from:   Source Location. (required)
-        to:     Destination Location (required)
+        from  : Source Location. (required)
+        to    : Destination Location (required)
       TIPS:
         To update links, you should perform `zaruba please updateLinks`
     extend: core.runCoreScript
@@ -450,33 +450,35 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
 
-  core.buildDockerImage:
+  core.runDockerTask:
     icon: 🐳
     private: true
     description: |
-      Build docker image.
+      Do anything related to docker.
       USAGE:
       ```yaml
-      buildMyImage:
+      someTask:
         location: ../myLocation
+        extend: core.dockerTask
         config:
           # Service name, if not provided will be derived from location
           service: myService
+          # Docker image prefix will be the default image prefix if provided (default: empty)
+          imagePrefix: local
           # Docker env. default to 'default'
           dockerEnv: default
       ```
       ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerImagePrefix::<dockerEnv> : image prefix (in case of `imagePrefix` is not provided)
         dockerEnv                      : dockerEnv, if not provided will be taken from config
     extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
-    - updateLinks
     config:
-      start: |
-        {{ $d := .Decoration -}}
-        . "${UTIL}/should_be_file.sh" "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        {{ if .GetKwarg "dockerEnv" -}}
+      setup: |
+        {{ $task := .GetTask "core.runCoreScript" -}}
+        {{ $task.GetConfig "setup" }}
+        {{ if .GetKwarg "imagePrefix" }}
+          DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
+        {{ else if .GetKwarg "dockerEnv" -}}
           {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
           DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
         {{ else if .GetConfig "dockerEnv" -}}
@@ -486,7 +488,36 @@ tasks:
           {{ $dockerEnv := "default" -}}
           DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
         {{ end -}}
-        SERVICE="{{ if .GetConfig "service" }}{{ .GetConfig "service" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
+
+
+  core.buildDockerImage:
+    icon: 🐳
+    private: true
+    description: |
+      Build docker image.
+      USAGE:
+      ```yaml
+      buildMyImage:
+        location: ../myLocation
+        extend: core.buildDockerImage
+        config:
+          # Image name (derived from location if not provided)
+          imageName: myservice
+          # Docker env. default to 'default'
+          dockerEnv: default
+      ```
+      ARGUMENTS:
+        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerEnv                      : dockerEnv, if not provided will be taken from config
+    extend: core.runDockerTask
+    dependencies:
+    - core.setupPyUtil
+    - updateLinks
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        . "${UTIL}/should_be_file.sh" "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(. "${UTIL}/get_latest_git_commit.sh")"
         . "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
         SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
@@ -496,18 +527,18 @@ tasks:
           TAG_COMMIT="$(. "${UTIL}/get_latest_git_tag_commit.sh")"
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest, ${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}, and ${DOCKER_IMAGE_PREFIX}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
-            docker build -t "local/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}" .
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest, ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}, and ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
+            docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}" .
             echo 🎉🎉🎉
             echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
             exit 0
           fi
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest and ${DOCKER_IMAGE_PREFIX}/${SERVICE}/${SHORT_COMMIT}{{ $d.Normal }}"
-        docker build -t "local/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest" -t "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}" .
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest and ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
+        docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
-
+  
 
   core.pushDockerImage:
     icon: 🐳
@@ -518,33 +549,24 @@ tasks:
       ```yaml
       buildMyImage:
         location: ../myLocation
+        extend: core.pushDockerImage
         config:
-          # Service name, if not provided will be derived from location
-          service: myService
+          # Image name (derived from location if not provided)
+          imageName: myservice
           # Docker env. default to 'default'
           dockerEnv: default
       ```
       ARGUMENTS:
         dockerImagePrefix::<dockerEnv> : image prefix
         dockerEnv                      : dockerEnv, if not provided will be taken from config
-    extend: core.runCoreScript
+    extend: core.runDockerTask
     dependencies:
     - core.setupPyUtil
     - updateLinks
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "dockerEnv" -}}
-          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ else if .GetConfig "dockerEnv" -}}
-          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ else -}}
-          {{ $dockerEnv := "default" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ end -}}
-        SERVICE="{{ if .GetConfig "service" }}{{ .GetConfig "service" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(. "${UTIL}/get_latest_git_commit.sh")"
         . "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
         SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
@@ -554,14 +576,14 @@ tasks:
           TAG_COMMIT="$(. "${UTIL}/get_latest_git_tag_commit.sh")"
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}{{ $d.Normal }}"
-            docker push "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${TAG}"
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}{{ $d.Normal }}"
+            docker push "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}"
           fi
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest{{ $d.Normal }}"
-        docker push "${DOCKER_IMAGE_PREFIX}/${SERVICE}:latest"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}{{ $d.Normal }}"
-        docker push "${DOCKER_IMAGE_PREFIX}/${SERVICE}:${SHORT_COMMIT}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest{{ $d.Normal }}"
+        docker push "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}{{ $d.Normal }}"
+        docker push "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
     
@@ -575,6 +597,7 @@ tasks:
       ```yaml
       removeMyContainer:
         location: ../myLocation
+        extend: core.removeDockerContainer
         config:
           # container name, if not provided will be derived from location
           containerName: myContainer
@@ -602,24 +625,23 @@ tasks:
       ```yaml
       applyHelm:
         location: helm-deployments 
+        extend: core.helmApply
+        config:
+          dockerEnv: default
+          helmEnv: default
+          kubeContext: docker-desktop
       ```
       ARGUMENTS:
         dockerImagePrefix::<dockerEnv> : image prefix
         dockerEnv                      : dockerEnv, if not provided will be taken from config
         helmEnv                        : helmEnv, default value is 'default'
-    extend: core.runScript
+        kubeContext                    : kube-context, if not provided will be taken from config
+    extend: core.runDockerTask
     config:
       start: |
-        {{ if .GetKwarg "dockerEnv" -}}
-          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
-          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ else if .GetConfig "dockerEnv" -}}
-          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
-          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ else -}}
-          {{ $dockerEnv := "default" -}}
-          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ end -}}
+        KUBE_CONTEXT="{{ if .GetKwarg "kubeContext" }}{{ .GetKwarg "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        kubectl config use-context "${KUBE_CONTEXT}"
+        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
         helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" sync
 
 
@@ -632,23 +654,22 @@ tasks:
       ```yaml
       applyHelm:
         location: helm-deployments 
+        extend: core.helmDestroy
+        config:
+          dockerEnv: default
+          helmEnv: default
+          kubeContext: docker-desktop
       ```
       ARGUMENTS:
         dockerImagePrefix::<dockerEnv> : image prefix
         dockerEnv                      : dockerEnv, if not provided will be taken from config
         helmEnv                        : helmEnv, default value is 'default'
+        kubeContext                    : kube-context, if not provided will be taken from config
     extend: core.runScript
     config:
       start: |
-        {{ if .GetKwarg "dockerEnv" -}}
-          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
-          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ else if .GetConfig "dockerEnv" -}}
-          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
-          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ else -}}
-          {{ $dockerEnv := "default" -}}
-          export IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
-        {{ end -}}
+        KUBE_CONTEXT="{{ if .GetKwarg "kubeContext" }}{{ .GetKwarg "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        kubectl config use-context "${KUBE_CONTEXT}"
+        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
         helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" destroy
 

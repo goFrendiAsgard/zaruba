@@ -71,7 +71,9 @@ tasks:
           # Container name (no default)
           containerName: mysql
           # Image name (no default)
-          imageName: mysql:latest
+          imageName: mysql
+          # Image tag (no default)
+          imageTag: latest
           # Localhost mapping for environment variables (default: "localhost")
           localhost: host.docker.internal
           # Port to be exposed (default: "config.port", possible values: "config.port", "lconfig.ports")
@@ -86,6 +88,9 @@ tasks:
           # port, only taking effect if `expose` set to "lconfig.ports"
           ports: []
       ```
+      ARGUMENTS:
+        dockerImagePrefix::<dockerEnv> : image prefix
+        dockerEnv                      : dockerEnv, if not provided will be taken from config
     private: true
     extend: core.startService
     dependencies:
@@ -96,6 +101,8 @@ tasks:
       rebuild: false
       setup: |
         {{- $d := .Decoration -}}
+        {{ $task := .GetTask "core.runDockerTask" -}}
+        {{ $task.GetConfig "setup" }}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         . "${UTIL}/should_not_be_empty.sh" "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}Container name is not provided{{ $d.Normal }}"
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
@@ -129,6 +136,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
+        {{ $imageTag := .GetConfig "imageTag" -}}
         {{ if and (ne $rebuild "true") (ne $rebuild "false") }}
           echo "{{ $d.Bold }}{{ $d.Red }}'rebuild' value should be either 'true' or 'false'{{ $d.Normal }}" && exit 1
         {{ end -}}
@@ -166,7 +174,7 @@ tasks:
               {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
               -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
             {{ end -}}
-            -d "${IMAGE_NAME}"
+            -d "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}"
         fi
       completeStart: |
         {{ $d := .Decoration -}}

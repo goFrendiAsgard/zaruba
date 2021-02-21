@@ -129,6 +129,11 @@ class Task():
             self._dict['config'] = {}
         self._dict['config'][config_key] = val
         return self
+    
+    def get_config(self, config_key: str) -> str:
+        if ('config' in self._dict) and (config_key in self._dict['config']):
+            return self._dict['config'][config_key]
+        return ''
 
     def init_lconfig(self, lconfig_key: str) -> Task:
         if 'lconfig'not in self._dict:

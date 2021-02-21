@@ -11,10 +11,6 @@ import os, sys, traceback
 
 service_containerization_tasks = '''
 
-  #######################################
-  ## 🐳🐳🐳 Containerization tasks
-  #######################################
-
 
   zarubaRunContainerTask:
     icon: 🐳
@@ -28,11 +24,12 @@ service_containerization_tasks = '''
     lconfig:
       ports: *zarubaServiceNamePorts
     config:
-      localhost: host.docker.internal
-      expose: lconfig.ports
-      imageName: local/zarubaServiceName:latest
+      imageName: zarubaServiceName
+      imageTag: latest
       containerName: zarubaServiceName
       rebuild: true
+      localhost: host.docker.internal
+      expose: lconfig.ports
     
   
   zarubaRemoveContainerTask:
@@ -50,7 +47,7 @@ service_containerization_tasks = '''
     location: zarubaTaskLocation
     timeout: 1h
     config:
-      service: zarubaServiceName
+      imageName: zarubaServiceName
 
 
   zarubaPushImageTask:
@@ -61,7 +58,7 @@ service_containerization_tasks = '''
     - zarubaBuildImageTask
     timeout: 1h
     config:
-      service: zarubaServiceName
+      imageName: zarubaServiceName
 
 '''
 

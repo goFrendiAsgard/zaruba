@@ -192,7 +192,7 @@ tasks:
         ZARUBA_HOME="$(realpath "..")"
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
-        ../zaruba please buildImage
+        ../zaruba please buildImage dockerEnv=default
 
 
   testGenerator:
@@ -237,7 +237,8 @@ tasks:
     config:
       port::9999: 5000
       localhost: host.docker.internal
-      imageName: registry:2
+      imageName: registry
+      imageTag: 2
       containerName: containerRegistry
 
 
@@ -254,7 +255,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please pushImage
+        ../zaruba please pushImage dockerEnv=default
   
 
   runPlayground:

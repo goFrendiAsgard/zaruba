@@ -15,7 +15,9 @@ tasks:
         from: ES_JAVA_OPTS
         default: "-Xms512m -Xmx512m"
     config:
-      imageName: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+      imagePrefix: docker.elastic.co/elasticsearch
+      imageName: elasticsearch
+      imageTag: 7.1.1
       containerName: zarubaContainerName
       port::9200: 9200
       port::9300: 9300
