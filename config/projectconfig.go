@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -41,7 +40,7 @@ func NewConfig(configFile string) (conf *ProjectConfig, err error) {
 	if err != nil {
 		return conf, err
 	}
-	dir := filepath.Dir(configFile)
+	dir := os.ExpandEnv(filepath.Dir(configFile))
 	logFile := filepath.Join(dir, "log.zaruba.csv")
 	conf.CSVLogWriter = logger.NewCSVLogWriter(logFile)
 	conf.Kwargs = map[string]string{}
@@ -55,27 +54,15 @@ func NewConfig(configFile string) (conf *ProjectConfig, err error) {
 	return conf, err
 }
 
-func parseStr(rawStr string) (parsedStr string) {
-	parsedStr = rawStr
-	for _, environ := range os.Environ() {
-		pair := strings.SplitN(environ, "=", 2)
-		key := pair[0]
-		val := os.Getenv(pair[0])
-		parsedStr = strings.ReplaceAll(parsedStr, fmt.Sprintf("${%s}", key), val)
-		parsedStr = strings.ReplaceAll(parsedStr, fmt.Sprintf("$%s", key), val)
-	}
-	return parsedStr
-}
-
 func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
 	d := logger.NewDecoration()
-	configFile = parseStr(configFile)
-	logger.PrintfStarted("%sLoading %s%s\n", d.Faint, configFile, d.Normal)
+	parsedConfigFile := os.ExpandEnv(configFile)
+	logger.PrintfStarted("%sLoading %s%s\n", d.Faint, parsedConfigFile, d.Normal)
 	conf = &ProjectConfig{
 		Includes: []string{},
 		Tasks:    map[string]*Task{},
 	}
-	b, err := ioutil.ReadFile(configFile)
+	b, err := ioutil.ReadFile(parsedConfigFile)
 	if err != nil {
 		return conf, err
 	}
@@ -83,7 +70,7 @@ func loadConfigRecursively(configFile string) (conf *ProjectConfig, err error) {
 		return conf, err
 	}
 	conf.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
-	absConfigFile := configFile
+	absConfigFile := parsedConfigFile
 	if !filepath.IsAbs(absConfigFile) {
 		absConfigFile, err = filepath.Abs(absConfigFile)
 		if err != nil {
@@ -165,12 +152,12 @@ func (conf *ProjectConfig) Init() (err error) {
 }
 
 func (conf *ProjectConfig) loadInclusion(parentDir string) (err error) {
-	for _, include := range conf.Includes {
-		includeLocation := parseStr(include)
-		if !filepath.IsAbs(includeLocation) {
-			includeLocation = filepath.Join(parentDir, includeLocation)
+	for _, includeLocation := range conf.Includes {
+		parsedIncludeLocation := os.ExpandEnv(includeLocation)
+		if !filepath.IsAbs(parsedIncludeLocation) {
+			parsedIncludeLocation = filepath.Join(parentDir, parsedIncludeLocation)
 		}
-		includeConf, err := loadConfigRecursively(includeLocation)
+		includeConf, err := loadConfigRecursively(parsedIncludeLocation)
 		if err != nil {
 			return err
 		}
