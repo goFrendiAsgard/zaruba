@@ -29,6 +29,7 @@ def update_start_service_task_env(project_dir:str):
                 if task.get_extend() != 'core.startService':
                     continue
                 print('{yellow}Update task {task_name} in {file_name}{normal}'.format(yellow=yellow, normal=normal, task_name=task_name, file_name=task_file_name))
+                update_task_env(task, task_file_name)
                 write_task_env(project_dir, task)
                 config['tasks'][task_name] = task.as_dict()
                 write_config(task_file_name, config)
