@@ -120,17 +120,17 @@ func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {
 	return filepath.Join(absParentPath, path)
 }
 
-// GetWorkPath get workPath
+// GetWorkPath get workPath (path relative to task.location)
 func (td *TaskData) GetWorkPath(path string) (absPath string) {
 	return td.getAbsPath(td.WorkPath, path)
 }
 
-// GetBasePath get basePath
+// GetBasePath get basePath (path relative to main yaml's directory)
 func (td *TaskData) GetBasePath(path string) (absPath string) {
 	return td.getAbsPath(td.BasePath, path)
 }
 
-// GetRelativePath get basePath
+// GetRelativePath get basePath (path relateive to task's definition directory)
 func (td *TaskData) GetRelativePath(path string) (absPath string) {
 	return td.getAbsPath(td.DirPath, path)
 }
