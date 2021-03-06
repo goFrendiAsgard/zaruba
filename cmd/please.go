@@ -17,6 +17,7 @@ import (
 var pleaseEnv []string
 var pleaseValues []string
 var pleaseFile string
+var pleaseInteractive *bool
 
 // pleaseCmd represents the please command
 var pleaseCmd = &cobra.Command{
@@ -80,9 +81,24 @@ func init() {
 		defaultEnv = append(defaultEnv, defaultEnvFile)
 	}
 	// register flags
-	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "custom file")
+	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "task file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "values", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
+	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "(e.g -i true)")
+}
+
+func askInputs(project *config.Project, taskNames []string) (err error) {
+	inputs, err := project.GetInputs(taskNames)
+	for inputName, input := range inputs {
+		fmt.Println(strings.ToUpper(inputName))
+		if input.Description != "" {
+			fmt.Println(input.Description)
+		}
+		fmt.Printf("%s (Default: %s): ", inputName, input.DefaultValue)
+		userValue := ""
+		fmt.Scanf("%s", &userValue)
+	}
+	return err
 }
 
 func getProjectAndTaskNames(args []string) (project *config.Project, taskNames []string, err error) {
