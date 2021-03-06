@@ -46,7 +46,7 @@ type CmdInfo struct {
 // Runner is used to run tasks
 type Runner struct {
 	TaskNames       []string
-	Conf            *config.ProjectConfig
+	Conf            *config.Project
 	TaskStatus      map[string]*TaskStatus
 	TaskStatusMutex *sync.RWMutex
 	CmdInfo         map[string]*CmdInfo
@@ -62,10 +62,10 @@ type Runner struct {
 }
 
 // NewRunner create new runner
-func NewRunner(conf *config.ProjectConfig, taskNames []string, statusInterval time.Duration) (runner *Runner) {
+func NewRunner(project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner) {
 	return &Runner{
 		TaskNames:       taskNames,
-		Conf:            conf,
+		Conf:            project,
 		TaskStatus:      map[string]*TaskStatus{},
 		TaskStatusMutex: &sync.RWMutex{},
 		CmdInfo:         map[string]*CmdInfo{},
@@ -259,7 +259,7 @@ func (r *Runner) run(ch chan error) {
 	d := logger.NewDecoration()
 	logger.PrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	logger.PrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
-	autostop, autostopDefined := r.Conf.Kwargs["autostop"]
+	autostop, autostopDefined := r.Conf.Values["autostop"]
 	if autostopDefined {
 		if autostop != "" && autostop != "true" {
 			autostopDuration, parseErr := time.ParseDuration(autostop)

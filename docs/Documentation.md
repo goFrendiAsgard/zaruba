@@ -4,7 +4,7 @@ A typical zaruba project contains:
 
 ```
 main.zaruba.yaml        # task declaration
-default.kwargs.yaml     # kwargs declaration
+default.values.yaml     # values declaration
 ```
 
 # Zaruba Command: Please
@@ -12,7 +12,7 @@ default.kwargs.yaml     # kwargs declaration
 Run some tasks declared in `task declaration file`.
 
 ```sh
-zaruba please [tasks...] [kwarg=val] [-f task-declaration.yaml] [-k kwargs-declaration.yaml] [-e environment.env] [-e key=val]
+zaruba please [tasks...] [key=val] [-f task-declaration.yaml] [-v value-declaration.yaml] [-e environment.env] [-e key=val]
 zaruba please showTasks
 zaruba please showPublishedTasks
 zaruba please showUnpublishedTasks
@@ -25,10 +25,10 @@ You can provide as many `task` as you want.
 
 If there is no `task` provided, Zaruba will show you all available tasks instead.
 
-## Kwargs
+## Values
 
 Zaruba consider any argument containing `=` character as `keyword argument`.
-If you have multiple `keyword arguments`, you can use `kwargs declaration file` instead.
+If you have multiple `keyword arguments`, you can use `value declaration file` instead.
 
 ## Task Declaration File
 
@@ -37,9 +37,9 @@ To provide custom `task declaration file`, you can use `-f` flag. Otherwise:
 * Zaruba will try to use `main.zaruba.yaml` in the current directory.
 * If `main.zaruba.yaml` is not found, Zaruba will use `${ZARUBA_HOME}/scripts/core.zaruba.yaml`. If `${ZARUBA_HOME}` is not defined, Zaruba will used it's parent directory as `${ZARUBA_HOME}`. In most cases, you don't need to set the environment variable.
 
-### Kwargs Declaration File
+### Values Declaration File
 
-To provide custom `kwargs declaration file`, you can use `-k` flag. Otherwise, Zaruba will try to use `default.kwargs.yaml` in the current directory.
+To provide custom `value declaration file`, you can use `-k` flag. Otherwise, Zaruba will try to use `default.value.yaml` in the current directory.
 
 
 # Task Declaration
@@ -107,12 +107,12 @@ tasks:
     start:
       - jarvis
       - make-website'
-      - host={{ .Kwargs.host}}
-      - port={{ .Kwargs.port }}
+      - host={{ .GetValue "host" }}
+      - port={{ .GetValue "port" }}
     check:
       - /bin/sh
       - "-c"
-      - until nc -z {{ .Kwargs.host }} {{ .Kwargs.port }}; do sleep 1; done
+      - until nc -z {{ .GetValue "host" }} {{ .GetValue "port" }}; do sleep 1; done
     dependencies:
       - receivePayment
   
@@ -167,9 +167,9 @@ tasks:
 
 ```
 
-# Kwargs Declaration
+# Values Declaration
 
-You can think Kwargs declaration as set of `key value` pairs.
+You can think values declaration as set of `key value` pairs.
 
 If you need nested keys, you can use `::` notation:
 
@@ -209,100 +209,11 @@ You can use [Go Template](https://golang.org/pkg/text/template/) to define the f
 
 The template expose `TaskData` as `{{ . }}`.
 
-Please check `config/templatedata.go` to see `TaskData` definition. Here is a glimpse of the declaratioon:
-
-```go
-// TaskData is struct sent to template
-type TaskData struct {
-  task         *Task
-	Name         string
-	ProjectName  string
-	BasePath     string
-	WorkPath     string
-	DirPath      string
-	FileLocation string
-  Decoration   logger.Decoration
-}
-
-// GetConfig get config of task data
-func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
-	return td.task.GetConfig(td, keys...)
-}
-
-// GetAllConfig get all environment
-func (td *TaskData) GetAllConfig() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllConfig(td)
-}
-
-// GetConfigSubKeys get config subkeys
-func (td *TaskData) GetConfigSubKeys(keys ...string) (subKeys []string) {
-	return getSubKeys(td.task.Config, keys)
-}
-
-// GetLConfig get config of task data
-func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
-	return td.task.GetLConfig(td, keys...)
-}
-
-// GetAllLConfig get all environment
-func (td *TaskData) GetAllLConfig() (parsedEnv map[string][]string, err error) {
-	return td.task.GetAllLConfig(td)
-}
-
-// GetKwarg get keyword argument
-func (td *TaskData) GetKwarg(keys ...string) (val string, err error) {
-	return td.task.GetKwarg(td, keys...)
-}
-
-// GetKwargSubKeys get keyword argument subkeys
-func (td *TaskData) GetKwargSubKeys(keys ...string) (subKeys []string) {
-	return getSubKeys(td.task.Project.Kwargs, keys)
-}
-
-// GetAllKwarg get all keyword arguments
-func (td *TaskData) GetAllKwarg() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllKwarg(td)
-}
-
-// GetEnv get environment
-func (td *TaskData) GetEnv(key string) (val string, err error) {
-	return td.task.GetEnv(td, key)
-}
-
-// GetAllEnv get all environment
-func (td *TaskData) GetAllEnv() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllEnv(td)
-}
-
-// GetWorkPath get workPath
-func (td *TaskData) GetWorkPath(path string) (absPath string) {
-	return td.getAbsPath(td.WorkPath, path)
-}
-
-// GetBasePath get basePath
-func (td *TaskData) GetBasePath(path string) (absPath string) {
-	return td.getAbsPath(td.BasePath, path)
-}
-
-// GetRelativePath get basePath
-func (td *TaskData) GetRelativePath(path string) (absPath string) {
-	return td.getAbsPath(td.DirPath, path)
-}
-
-// GetTask get other task
-func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
-	task, taskFound := td.task.Project.Tasks[taskName]
-	if !taskFound {
-		return nil, fmt.Errorf("Task %s is not exist", taskName)
-	}
-	return NewTaskData(task), nil
-}
-
-```
+Please check `config/templatedata.go` to see `TaskData` definition
 
 ## Template Usage Example
 
-Suppose you have the following kwargs:
+Suppose you have the following values:
 
 ```yaml
 defaultBranch: main
@@ -317,7 +228,7 @@ subrepo::fancy::url: https://github.com/jamietanna/gittalk15
 #### Template
 
 ```
-{{ .GetKwarg "defaultBranch" }}
+{{ .GetValue "defaultBranch" }}
 ```
 
 #### Output
@@ -331,7 +242,7 @@ main
 #### Template
 
 ```
-{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}master{{ end }}
+{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}master{{ end }}
 ```
 
 #### Output
@@ -346,9 +257,9 @@ main
 
 ```
 {{ $this := .}}
-{{ $names := .GetKwargSubKeys "subrepo" -}}
+{{ $names := .GetSubValueKeys "subrepo" -}}
 {{ range $index, $name := $names -}}
-  {{ index }} {{ name }} {{ $this.GetKwarg "subrepo" $name "prefix" }}
+  {{ index }} {{ name }} {{ $this.GetValue "subrepo" $name "prefix" }}
 {{ end }}
 ```
 

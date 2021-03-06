@@ -10,7 +10,7 @@ tasks:
         extend: core.generate
         config:
           start: |
-            . ${PY_UTIL} copyAndReplace source.yaml destination.yaml ${KWARGS}
+            . ${PY_UTIL} copyAndReplace source.yaml destination.yaml ${VALUES}
       ```
     private: true
     extend: core.runCoreScript
@@ -22,7 +22,7 @@ tasks:
       setup: |
         {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
         {{ $runCoreScript.GetConfig "setup" }}
-        TEMPLATE_PATHS="{{ if .GetKwarg "templates" }}{{ .GetKwarg "templates" }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
+        TEMPLATE_PATHS="{{ if .GetValue "templates" }}{{ .GetValue "templates" }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
         # Usage: copy_and_create_link <template_path> <link_source> <link_destination>
         copy_and_create_link()
         {
@@ -71,8 +71,8 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
-        PORTS="{{ .GetKwarg "ports" }}"
+        LOCATION="{{ .GetValue "location" }}"
+        PORTS="{{ .GetValue "ports" }}"
         . "${PY_UTIL}" create_service_deployment "${LOCATION}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
@@ -94,9 +94,9 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        IMAGE="{{ .GetKwarg "image" }}"
-        CONTAINER="{{ .GetKwarg "container" }}"
-        TASK="{{ .GetKwarg "task" }}"
+        IMAGE="{{ .GetValue "image" }}"
+        CONTAINER="{{ .GetValue "container" }}"
+        TASK="{{ .GetValue "task" }}"
         . "${PY_UTIL}" create_docker_task "${TEMPLATE_PATHS}" "${IMAGE}" "${CONTAINER}" "${TASK}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
@@ -119,10 +119,10 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
-        TYPE="{{ .GetKwarg "type" }}"
-        TASK="{{ .GetKwarg "task" }}"
-        PORTS="{{ .GetKwarg "ports" }}"
+        LOCATION="{{ .GetValue "location" }}"
+        TYPE="{{ .GetValue "type" }}"
+        TASK="{{ .GetValue "task" }}"
+        PORTS="{{ .GetValue "ports" }}"
         . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
@@ -142,8 +142,8 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ if .GetKwarg "location" }}{{ .GetKwarg "location" }}{{ else }}$(. "${PY_UTIL}" get_random_name){{ end }}"
-        TASK_NAME="{{ if .GetKwarg "task" }}{{ .GetKwarg "task" }}{{ else }}$(. "${PY_UTIL}" get_run_task_name "$LOCATION"){{ end }}"
+        LOCATION="{{ if .GetValue "location" }}{{ .GetValue "location" }}{{ else }}$(. "${PY_UTIL}" get_random_name){{ end }}"
+        TASK_NAME="{{ if .GetValue "task" }}{{ .GetValue "task" }}{{ else }}$(. "${PY_UTIL}" get_run_task_name "$LOCATION"){{ end }}"
         TASK_FILE_NAME="$(. "${PY_UTIL}" get_task_file_name "${TASK_NAME}")"
         ENV_PREFIX=$(. "${PY_UTIL}" get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
@@ -185,10 +185,10 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
+        LOCATION="{{ .GetValue "location" }}"
         . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetKwarg "module" }}"
+        MODULE="{{ .GetValue "module" }}"
         . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         . "${UTIL}/should_not_be_dir.sh" "${LOCATION}/${MODULE}" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE} is already exist{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
@@ -213,13 +213,13 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
+        LOCATION="{{ .GetValue "location" }}"
         . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetKwarg "module" }}"
+        MODULE="{{ .GetValue "module" }}"
         . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/route.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/route.py should be exist{{ $d.Normal }}"
-        URL="{{ .GetKwarg "url" }}"
+        URL="{{ .GetValue "url" }}"
         . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}url is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_route "${LOCATION}" "${MODULE}" "${URL}"
@@ -241,13 +241,13 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
+        LOCATION="{{ .GetValue "location" }}"
         . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetKwarg "module" }}"
+        MODULE="{{ .GetValue "module" }}"
         . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
-        EVENT="{{ .GetKwarg "event" }}"
+        EVENT="{{ .GetValue "event" }}"
         . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_event_handler "${LOCATION}" "${MODULE}" "${EVENT}"
@@ -269,13 +269,13 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
+        LOCATION="{{ .GetValue "location" }}"
         . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetKwarg "module" }}"
+        MODULE="{{ .GetValue "module" }}"
         . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
-        EVENT="{{ .GetKwarg "event" }}"
+        EVENT="{{ .GetValue "event" }}"
         . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${EVENT}"
@@ -298,15 +298,15 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetKwarg "location" }}"
+        LOCATION="{{ .GetValue "location" }}"
         . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetKwarg "module" }}"
+        MODULE="{{ .GetValue "module" }}"
         . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
-        ENTITY="{{ .GetKwarg "entity" }}"
+        ENTITY="{{ .GetValue "entity" }}"
         . "${UTIL}/should_not_be_empty.sh" "${ENTITY}" "{{ $d.Bold }}{{ $d.Red }}entity is required.{{ $d.Normal }}"
-        FIELDS="{{ .GetKwarg "fields" }}"
+        FIELDS="{{ .GetValue "fields" }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_crud "${LOCATION}" "${MODULE}" "${ENTITY}" "${FIELDS}"
         echo 🎉🎉🎉

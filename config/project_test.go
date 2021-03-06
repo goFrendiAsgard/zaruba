@@ -7,24 +7,24 @@ import (
 	"testing"
 )
 
-var validConf *ProjectConfig
+var validConf *Project
 
 func setupValidProjectConfig(t *testing.T) (err error) {
 	if validConf != nil {
 		return err
 	}
-	validConf, err = NewConfig("../test_resource/valid/zaruba.yaml")
+	validConf, err = NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return err
 	}
 	validConf.AddGlobalEnv("../test_resource/valid/local.env")
 	validConf.AddGlobalEnv("foo=bar")
-	if err = validConf.AddKwargs("pi=3.14"); err != nil {
+	if err = validConf.AddValues("pi=3.14"); err != nil {
 		t.Error(err)
 		return err
 	}
-	if err = validConf.AddKwargs("../test_resource/valid/kwargs.yaml"); err != nil {
+	if err = validConf.AddValues("../test_resource/valid/values.yaml"); err != nil {
 		t.Error(err)
 		return err
 	}
@@ -50,14 +50,14 @@ func TestValidProjectConfigAddGlobalEnv(t *testing.T) {
 	}
 }
 
-func TestValidProjectConfigAddKwargs(t *testing.T) {
+func TestValidProjectConfigAddValues(t *testing.T) {
 	if err := setupValidProjectConfig(t); err != nil {
 		return
 	}
-	if validConf.Kwargs["pi"] != "3.14" {
+	if validConf.Values["pi"] != "3.14" {
 		t.Error("pi should be 3.14")
 	}
-	if validConf.Kwargs["g"] != "9.8" {
+	if validConf.Values["g"] != "9.8" {
 		t.Error("g should be 9.8")
 	}
 }
@@ -117,7 +117,7 @@ func TestValidProjectConfigEnvTask(t *testing.T) {
 }
 
 func TestValidProjectConfigName(t *testing.T) {
-	conf, err := NewConfig("../test_resource/named.yaml")
+	conf, err := NewProject("../test_resource/named.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -129,44 +129,44 @@ func TestValidProjectConfigName(t *testing.T) {
 	}
 }
 
-func TestInvalidProjectConfigKwargsNotExist(t *testing.T) {
-	conf, err := NewConfig("../test_resource/valid/zaruba.yaml")
+func TestInvalidProjectConfigValuesNotExist(t *testing.T) {
+	conf, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.AddKwargs("../test_resource/notExists.yaml"); err == nil {
+	if err = conf.AddValues("../test_resource/notExists.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
-func TestInvalidProjectConfigKwargsFormat(t *testing.T) {
-	conf, err := NewConfig("../test_resource/valid/zaruba.yaml")
+func TestInvalidProjectConfigValuesFormat(t *testing.T) {
+	conf, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.AddKwargs("../test_resource/invalidYaml.txt"); err == nil {
+	if err = conf.AddValues("../test_resource/invalidYaml.txt"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectConfigNotExist(t *testing.T) {
-	_, err := NewConfig("../test_resource/notExist.yaml")
+	_, err := NewProject("../test_resource/notExist.yaml")
 	if err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectConfigFormat(t *testing.T) {
-	_, err := NewConfig("../test_resource/invalidYaml.txt")
+	_, err := NewProject("../test_resource/invalidYaml.txt")
 	if err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectConfigInclusion(t *testing.T) {
-	_, err := NewConfig("../test_resource/invalidInclusion.yaml")
+	_, err := NewProject("../test_resource/invalidInclusion.yaml")
 	if err == nil {
 		t.Error("Error expected")
 	}

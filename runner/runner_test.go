@@ -9,16 +9,16 @@ import (
 	"github.com/state-alchemists/zaruba/config"
 )
 
-func createConf(t *testing.T, path string) (conf *config.ProjectConfig, err error) {
-	conf, err = config.NewConfig(path)
+func createConf(t *testing.T, path string) (project *config.Project, err error) {
+	project, err = config.NewProject(path)
 	if err != nil {
 		t.Error(err)
-		return conf, err
+		return project, err
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 	}
-	return conf, err
+	return project, err
 }
 
 func readAlembicTxt(t *testing.T) (content string, err error) {

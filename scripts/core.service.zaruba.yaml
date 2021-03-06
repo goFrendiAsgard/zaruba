@@ -123,7 +123,7 @@ tasks:
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
           {{ end -}}
         {{ else -}}
-          {{ range $index, $hostPort := .GetConfigSubKeys "port" -}}
+          {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
             . "${UTIL}/wait_port.sh" "localhost" "{{ $hostPort }}"
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
@@ -156,11 +156,11 @@ tasks:
         else
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker run --name "${CONTAINER_NAME}" {{ "" -}}
-            {{ range $key, $val := $this.GetAllEnv -}} 
+            {{ range $key, $val := $this.GetEnvs -}} 
               -e {{ $key }}="$(echo "{{ $val }}" | sed s/localhost/{{ $this.GetConfig "localhost" }}/g)" {{ "" -}}
             {{ end -}}
             {{ if eq $expose "config.port" -}}
-              {{ range $index, $hostPort := $this.GetConfigSubKeys "port" -}}
+              {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
                 {{ $containerPort := $this.GetConfig "port" $hostPort -}}
                 -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
               {{ end -}}
@@ -169,7 +169,7 @@ tasks:
                 -p "{{ $port }}:{{ $port }}" {{ "" -}}
               {{ end -}}
             {{ end -}}
-            {{ range $index, $hostVolume := $this.GetConfigSubKeys "volume" -}}
+            {{ range $index, $hostVolume := $this.GetSubConfigKeys "volume" -}}
               {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
               {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
               -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}

@@ -38,7 +38,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
         . ${UTIL}/check_setup_ubuntu.sh "${HOME}"
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
@@ -68,7 +68,7 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     config:
-      pythonVersion: '{{ if .GetKwarg "pythonVersion" }}{{ .GetKwarg "pythonVersion" }}{{ else }}3.8.6{{ end }}'
+      pythonVersion: '{{ if .GetValue "pythonVersion" }}{{ .GetValue "pythonVersion" }}{{ else }}3.8.6{{ end }}'
       beforeStart: |
         {{ $d := .Decoration -}}
         echo "This command will install pyenv and pipenv in your home directory. Root privilege is not required"
@@ -76,7 +76,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" pyenv)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
@@ -128,7 +128,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" nvm)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
@@ -168,7 +168,7 @@ tasks:
     timeout: 1h
     config:
       cmd: /bin/bash
-      javaVersion: '{{ if .GetKwarg "javaVersion" }}{{ .GetKwarg "javaVersion" }}{{ else }}8.0.275.open-adpt{{ end }}'
+      javaVersion: '{{ if .GetValue "javaVersion" }}{{ .GetValue "javaVersion" }}{{ else }}8.0.275.open-adpt{{ end }}'
       beforeStart: |
         {{ $d := .Decoration -}}
         echo "This command will install sdkman, java, and scala in your home directory. Root privilege is not required"
@@ -176,7 +176,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" sdk)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
@@ -224,7 +224,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" spark-shell)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
@@ -256,7 +256,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetKwarg "home" }}HOME="{{ .GetKwarg "home" }}"{{ end }}
+        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" kubectl)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"

@@ -15,7 +15,7 @@ tasks:
     logless: true
     config:
       start: |
-        {{ if .GetKwarg "hideAdvertisement" }}{{ else }}. "${PY_UTIL}" show_advertisement{{ end }}
+        {{ if .GetValue "hideAdvertisement" }}{{ else }}. "${PY_UTIL}" show_advertisement{{ end }}
 
 
   showVersion:
@@ -61,7 +61,7 @@ tasks:
         port  : HTTP Port, default to 8000
     extend: core.startService
     lconfig:
-      ports: ['{{ if .GetKwarg "port" }}{{ .GetKwarg "port" }}{{ else }}8000{{ end }}']
+      ports: ['{{ if .GetValue "port" }}{{ .GetValue "port" }}{{ else }}8000{{ end }}']
     start: 
     - python 
     - "-m"
@@ -98,7 +98,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         . "${UTIL}/should_be_file.sh" "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-        TASK="{{ if .GetKwarg "task" }}{{ .GetKwarg "task" }}{{ else }}.*{{ end }}"
+        TASK="{{ if .GetValue "task" }}{{ .GetValue "task" }}{{ else }}.*{{ end }}"
         . "${PY_UTIL}" show_log "log.zaruba.csv" "${TASK}"
 
 
@@ -109,11 +109,11 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
           . "${UTIL}/should_not_be_empty.sh" "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
@@ -133,7 +133,7 @@ tasks:
         subrepo::<name>::url      : Remote url of the subrepo
         subrepo::<name>::name     : Origin name of the subrepo
       TIPS:
-        It is recommended to put `subrepo` arguments in `default.kwargs.yaml`.
+        It is recommended to put `subrepo` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addSubrepo <url=remote-url>`
     extend: core.runCoreScript
     dependencies:
@@ -143,13 +143,13 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
-        BRANCH="{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}main{{ end }}"
+        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           ORIGIN_EXISTS=$(. "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
@@ -199,17 +199,17 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        URL="{{ .GetKwarg "url" }}"
+        URL="{{ .GetValue "url" }}"
         . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}"
-        {{ if .GetKwarg "prefix" }}
-          PREFIX="{{ .GetKwarg "prefix" }}"
+        {{ if .GetValue "prefix" }}
+          PREFIX="{{ .GetValue "prefix" }}"
         {{ else }}
           PREFIX=$(. "${PY_UTIL}" get_segment "${URL}" "/" "-1")
           PREFIX=$(. "${PY_UTIL}" get_segment "${PREFIX}" "." "0")
         {{ end }}
-        NAME="{{ if .GetKwarg "name" }}{{ .GetKwarg "name" }}{{ else }}${PREFIX}{{ end }}"
-        . "${PY_UTIL}" set_project_kwarg "subrepo::${NAME}::prefix" "${PREFIX}"
-        . "${PY_UTIL}" set_project_kwarg "subrepo::${NAME}::url" "${URL}"
+        NAME="{{ if .GetValue "name" }}{{ .GetValue "name" }}{{ else }}${PREFIX}{{ end }}"
+        . "${PY_UTIL}" set_project_value "subrepo::${NAME}::prefix" "${PREFIX}"
+        . "${PY_UTIL}" set_project_value "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
@@ -231,13 +231,13 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
-        BRANCH="{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}main{{ end }}"
+        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
         ORIGINS=$(git remote)
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           ORIGIN_EXISTS=$(. "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
@@ -265,13 +265,13 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        {{ $names := .GetKwargSubKeys "subrepo" -}}
+        {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         ORIGINS=$(git remote)
-        BRANCH="{{ if .GetKwarg "defaultBranch" }}{{ .GetKwarg "defaultBranch" }}{{ else }}main{{ end }}"
+        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
         {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetKwarg "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetKwarg "subrepo" $name "url" }}"
+          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
           ORIGIN_EXISTS=$(. "${PY_UTIL}" is_in_array "${NAME}" ${ORIGINS})
           if [ $ORIGIN_EXISTS = 1 ]
@@ -363,7 +363,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DIR="{{ if .GetKwarg "dir" }}{{ .GetKwarg "dir" }}{{ else }}.{{ end }}"
+        DIR="{{ if .GetValue "dir" }}{{ .GetValue "dir" }}{{ else }}.{{ end }}"
         . "${PY_UTIL}" update_service_task_env "${DIR}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
@@ -380,7 +380,7 @@ tasks:
       ARGUMENTS
         link::<destination> : Location of the shared code
       TIPS:
-        It is recommended to put `link` arguments in `default.kwargs.yaml`.
+        It is recommended to put `link` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addLink <from=source-location> <to=destination-location>`
     extend: core.runCoreScript
     config:
@@ -388,9 +388,9 @@ tasks:
         {{ $d := .Decoration -}}
         {{ $this := . -}}
         {{ $workPath := .WorkPath }}
-        {{ $destinations := .GetKwargSubKeys "link" -}}
+        {{ $destinations := .GetSubValueKeys "link" -}}
         {{ range $index, $destination := $destinations -}}
-          {{ $source := $this.GetKwarg "link" $destination -}}
+          {{ $source := $this.GetValue "link" $destination -}}
           {{ $absSource := $this.GetWorkPath $source -}}
           {{ $absDestination := $this.GetWorkPath $destination -}}
           . "${UTIL}/link_resource.sh" "{{ $absSource }}" "{{ $absDestination }}"
@@ -417,20 +417,20 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        SOURCE="{{ .GetKwarg "from" }}"
+        SOURCE="{{ .GetValue "from" }}"
         . "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}"
-        DESTINATION="{{ .GetKwarg "to" }}"
+        DESTINATION="{{ .GetValue "to" }}"
         . "${UTIL}/should_not_be_empty.sh" "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}"
-        . "${PY_UTIL}" set_project_kwarg "link::${DESTINATION)" "${SOURCE}"
+        . "${PY_UTIL}" set_project_value "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
 
-  setKwarg:
+  setProjectValue:
     icon: 🔗
     description: |
       Add link.
       USAGE:
-        zaruba please setKwarg key="key" value="value"
+        zaruba please setProjectValue key="key" value="value"
       ARGUMENTS:
         key   : Key. (required)
         value : Value. (required)
@@ -441,11 +441,11 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        KEY="{{ .GetKwarg "key" }}"
+        KEY="{{ .GetValue "key" }}"
         . "${UTIL}/should_not_be_empty.sh" "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'key' argument is not defined{{ $d.Normal }}"
-        VALUE="{{ .GetKwarg "value" }}"
+        VALUE="{{ .GetValue "value" }}"
         . "${UTIL}/should_not_be_empty.sh" "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'value' argument is not defined{{ $d.Normal }}"
-        . "${PY_UTIL}" set_project_kwarg "${KEY}" "${VALUE}"
+        . "${PY_UTIL}" set_project_value "${KEY}" "${VALUE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
@@ -476,17 +476,17 @@ tasks:
       setup: |
         {{ $task := .GetTask "core.runCoreScript" -}}
         {{ $task.GetConfig "setup" }}
-        {{ if .GetKwarg "imagePrefix" }}
+        {{ if .GetValue "imagePrefix" }}
           DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-        {{ else if .GetKwarg "dockerEnv" -}}
-          {{ $dockerEnv := .GetKwarg "dockerEnv" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+        {{ else if .GetValue "dockerEnv" -}}
+          {{ $dockerEnv := .GetValue "dockerEnv" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
         {{ else if .GetConfig "dockerEnv" -}}
           {{ $dockerEnv := .GetConfig "dockerEnv" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
         {{ else -}}
           {{ $dockerEnv := "default" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ .GetKwarg "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
         {{ end -}}
 
 
@@ -639,10 +639,10 @@ tasks:
     extend: core.runDockerTask
     config:
       start: |
-        KUBE_CONTEXT="{{ if .GetKwarg "kubeContext" }}{{ .GetKwarg "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        KUBE_CONTEXT="{{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" sync
+        helmfile --environment "{{ if .GetValue "helmEnv" }}{{ .GetValue "helmEnv" }}{{ else }}default{{ end }}" sync
 
 
   core.helmDestroy:
@@ -668,8 +668,8 @@ tasks:
     extend: core.runScript
     config:
       start: |
-        KUBE_CONTEXT="{{ if .GetKwarg "kubeContext" }}{{ .GetKwarg "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        KUBE_CONTEXT="{{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ if .GetKwarg "helmEnv" }}{{ .GetKwarg "helmEnv" }}{{ else }}default{{ end }}" destroy
+        helmfile --environment "{{ if .GetValue "helmEnv" }}{{ .GetValue "helmEnv" }}{{ else }}default{{ end }}" destroy
 

@@ -15,7 +15,7 @@ import (
 )
 
 var pleaseEnv []string
-var pleaseKwargs []string
+var pleaseValues []string
 var pleaseFile string
 
 // pleaseCmd represents the please command
@@ -25,7 +25,7 @@ var pleaseCmd = &cobra.Command{
 	Long:    "💀 Ask Zaruba to do something for you",
 	Aliases: []string{"run", "do", "invoke", "perform"},
 	Run: func(cmd *cobra.Command, args []string) {
-		conf, err := config.NewConfig(pleaseFile)
+		conf, err := config.NewProject(pleaseFile)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -34,24 +34,24 @@ var pleaseCmd = &cobra.Command{
 		for _, env := range pleaseEnv {
 			conf.AddGlobalEnv(env)
 		}
-		// process kwargs from flag
-		for _, kwarg := range pleaseKwargs {
-			if err = conf.AddKwargs(kwarg); err != nil {
+		// process values from flag
+		for _, value := range pleaseValues {
+			if err = conf.AddValues(value); err != nil {
 				fmt.Println(err)
 				return
 			}
 		}
-		//  distinguish taskNames and additional kwargs
+		//  distinguish taskNames and additional values
 		taskNames := []string{}
 		for _, arg := range args {
 			if strings.Contains(arg, "=") {
-				conf.AddKwargs(arg)
+				conf.AddValues(arg)
 				continue
 			}
 			_, argIsTask := conf.Tasks[arg]
 			if !argIsTask {
 				if arg == "autostop" {
-					conf.AddKwargs("autostop=true")
+					conf.AddValues("autostop=true")
 					continue
 				}
 			}
@@ -76,29 +76,29 @@ var pleaseCmd = &cobra.Command{
 	},
 }
 
-func handleShowTask(conf *config.ProjectConfig, taskNames []string) (handled bool) {
+func handleShowTask(project *config.Project, taskNames []string) (handled bool) {
 	d := logger.NewDecoration()
 	// special case: task is not given
 	if len(taskNames) == 0 {
 		logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
 		logger.Printf("Here are some possible tasks you can execute:\n")
-		totalMatched := showTasks(conf, true, getRegexSearchPattern(""))
+		totalMatched := showTasks(project, true, getRegexSearchPattern(""))
 		showSearchFooter(totalMatched, "")
 		return true
 	}
 	taskName, keyword := taskNames[0], strings.Join(taskNames[1:], " ")
-	_, taskDeclared := conf.Tasks[taskName]
+	_, taskDeclared := project.Tasks[taskName]
 	if taskDeclared || taskName != "explain" {
 		return false
 	}
 	r := getRegexSearchPattern(keyword)
-	published, publishExist := conf.Kwargs["published"]
+	published, publishExist := project.Values["published"]
 	totalMatched := 0
 	if !publishExist || published == "false" {
-		totalMatched += showTasks(conf, false, r)
+		totalMatched += showTasks(project, false, r)
 	}
 	if !publishExist || published == "true" {
-		totalMatched += showTasks(conf, true, r)
+		totalMatched += showTasks(project, true, r)
 	}
 	showSearchFooter(totalMatched, keyword)
 	return true
@@ -123,7 +123,7 @@ func getRegexSearchPattern(searchPattern string) (r *regexp.Regexp) {
 	return r
 }
 
-func showTasks(conf *config.ProjectConfig, showPublished bool, r *regexp.Regexp) (totalMatch int) {
+func showTasks(project *config.Project, showPublished bool, r *regexp.Regexp) (totalMatch int) {
 	d := logger.NewDecoration()
 	taskIndentation := strings.Repeat(" ", 6)
 	taskFieldIndentation := taskIndentation + strings.Repeat(" ", 5)
@@ -131,8 +131,8 @@ func showTasks(conf *config.ProjectConfig, showPublished bool, r *regexp.Regexp)
 	if showPublished {
 		taskPrefix = "zaruba please "
 	}
-	for _, taskName := range conf.SortedTaskNames {
-		task := conf.Tasks[taskName]
+	for _, taskName := range project.SortedTaskNames {
+		task := project.Tasks[taskName]
 		if (task.Private && showPublished) || (!task.Private && !showPublished) {
 			continue
 		}
@@ -190,11 +190,11 @@ func init() {
 	if _, err := os.Stat(defaultPleaseFile); os.IsNotExist(err) {
 		defaultPleaseFile = "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
 	}
-	// define defaultPleaseKwargs
-	defaultPleaseKwargs := []string{}
-	defaultKwargsFile := filepath.Join(dir, "default.kwargs.yaml")
-	if _, err := os.Stat(defaultKwargsFile); !os.IsNotExist(err) {
-		defaultPleaseKwargs = append(defaultPleaseKwargs, defaultKwargsFile)
+	// define defaultPleaseValues
+	defaultPleaseValues := []string{}
+	defaultValuesFile := filepath.Join(dir, "default.values.yaml")
+	if _, err := os.Stat(defaultValuesFile); !os.IsNotExist(err) {
+		defaultPleaseValues = append(defaultPleaseValues, defaultValuesFile)
 	}
 	// define defaultEnvFile
 	defaultEnv := []string{}
@@ -205,5 +205,5 @@ func init() {
 	// register flags
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "custom file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseKwargs, "kwargs", "k", defaultPleaseKwargs, "yaml file or pairs (e.g: '-k value.yaml' or '-k key=val')")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "values", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
 }

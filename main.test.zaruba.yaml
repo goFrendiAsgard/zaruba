@@ -58,7 +58,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please setupPyenv
+        ./zaruba please setupPyenv
 
 
   testSetupNvm:
@@ -72,7 +72,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please setupNvm
+        ./zaruba please setupNvm
 
 
   testSetupSdkman:
@@ -86,7 +86,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please setupSdkman
+        ./zaruba please setupSdkman
 
 
   testSetupSpark:
@@ -100,7 +100,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please setupSpark
+        ./zaruba please setupSpark
 
 
   testSetupKubeClient:
@@ -114,7 +114,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please setupKubeClient
+        ./zaruba please setupKubeClient
 
 
   testThanks:
@@ -128,7 +128,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba thanks
+        ./zaruba thanks
 
 
   testSorry:
@@ -142,7 +142,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba sorry
+        ./zaruba sorry
   
 
   testShowVersion:
@@ -156,7 +156,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please showVersion
+        ./zaruba please showVersion
 
 
   testExplain:
@@ -170,7 +170,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        zaruba please explain start
+        ./zaruba please explain start
   
 
   testCommon:

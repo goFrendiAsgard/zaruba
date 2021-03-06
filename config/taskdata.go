@@ -63,13 +63,13 @@ func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
 	return td.task.GetConfig(td, keys...)
 }
 
-// GetAllConfig get all environment
-func (td *TaskData) GetAllConfig() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllConfig(td)
+// GetConfigs get all environment
+func (td *TaskData) GetConfigs() (parsedEnv map[string]string, err error) {
+	return td.task.GetConfigs(td)
 }
 
-// GetConfigSubKeys get config subkeys
-func (td *TaskData) GetConfigSubKeys(keys ...string) (subKeys []string) {
+// GetSubConfigKeys get config subkeys
+func (td *TaskData) GetSubConfigKeys(keys ...string) (subKeys []string) {
 	return getSubKeys(td.task.Config, keys)
 }
 
@@ -78,24 +78,24 @@ func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
 	return td.task.GetLConfig(td, keys...)
 }
 
-// GetAllLConfig get all environment
-func (td *TaskData) GetAllLConfig() (parsedEnv map[string][]string, err error) {
-	return td.task.GetAllLConfig(td)
+// GetLConfigs get all environment
+func (td *TaskData) GetLConfigs() (parsedEnv map[string][]string, err error) {
+	return td.task.GetLConfigs(td)
 }
 
-// GetKwarg get keyword argument
-func (td *TaskData) GetKwarg(keys ...string) (val string, err error) {
-	return td.task.GetKwarg(td, keys...)
+// GetValue get keyword argument
+func (td *TaskData) GetValue(keys ...string) (val string, err error) {
+	return td.task.GetValue(td, keys...)
 }
 
-// GetKwargSubKeys get keyword argument subkeys
-func (td *TaskData) GetKwargSubKeys(keys ...string) (subKeys []string) {
-	return getSubKeys(td.task.Project.Kwargs, keys)
+// GetSubValueKeys get keyword argument subkeys
+func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string) {
+	return getSubKeys(td.task.Project.Values, keys)
 }
 
-// GetAllKwarg get all keyword arguments
-func (td *TaskData) GetAllKwarg() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllKwarg(td)
+// GetValues get all keyword arguments
+func (td *TaskData) GetValues() (parsedEnv map[string]string, err error) {
+	return td.task.GetValues(td)
 }
 
 // GetEnv get environment
@@ -103,9 +103,9 @@ func (td *TaskData) GetEnv(key string) (val string, err error) {
 	return td.task.GetEnv(td, key)
 }
 
-// GetAllEnv get all environment
-func (td *TaskData) GetAllEnv() (parsedEnv map[string]string, err error) {
-	return td.task.GetAllEnv(td)
+// GetEnvs get all environment
+func (td *TaskData) GetEnvs() (parsedEnv map[string]string, err error) {
+	return td.task.GetEnvs(td)
 }
 
 // getAbsPath of any string

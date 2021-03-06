@@ -192,7 +192,7 @@ func TestValidTaskCheckCommand(t *testing.T) {
 }
 
 func TestValidTaskDependencies(t *testing.T) {
-	conf, err := NewConfig("../test_resource/dependencies.yaml")
+	conf, err := NewProject("../test_resource/dependencies.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -213,7 +213,7 @@ func TestValidTaskDependencies(t *testing.T) {
 }
 
 func TestInvalidTaskExtension(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskExtension.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskExtension.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -224,7 +224,7 @@ func TestInvalidTaskExtension(t *testing.T) {
 }
 
 func TestInvalidTaskConfigBrokenTemplate(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskConfigBrokenTemplate.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskConfigBrokenTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -240,7 +240,7 @@ func TestInvalidTaskConfigBrokenTemplate(t *testing.T) {
 }
 
 func TestInvalidTaskConfigNonExecutableTemplate(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskConfigNonExecutableTemplate.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskConfigNonExecutableTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -256,7 +256,7 @@ func TestInvalidTaskConfigNonExecutableTemplate(t *testing.T) {
 }
 
 func TestInvalidTaskLConfigBrokenTemplate(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskLConfigBrokenTemplate.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskLConfigBrokenTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -272,7 +272,7 @@ func TestInvalidTaskLConfigBrokenTemplate(t *testing.T) {
 }
 
 func TestInvalidTaskLConfigNonExecutableTemplate(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskLConfigNonExecutableTemplate.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskLConfigNonExecutableTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -288,7 +288,7 @@ func TestInvalidTaskLConfigNonExecutableTemplate(t *testing.T) {
 }
 
 func TestInvalidTaskUndefinedCommandWithoutParent(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskUndefinedCommandWithoutParent.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskUndefinedCommandWithoutParent.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -310,7 +310,7 @@ func TestInvalidTaskUndefinedCommandWithoutParent(t *testing.T) {
 }
 
 func TestInvalidTaskBrokenCommand(t *testing.T) {
-	conf, err := NewConfig("../test_resource/invalidTaskBrokenCommand.yaml")
+	conf, err := NewProject("../test_resource/invalidTaskBrokenCommand.yaml")
 	if err != nil {
 		t.Error(err)
 		return

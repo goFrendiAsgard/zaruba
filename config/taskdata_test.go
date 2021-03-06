@@ -11,12 +11,12 @@ func setupTaskData(t *testing.T) (err error) {
 	if td != nil {
 		return err
 	}
-	tdConf, err := NewConfig("../test_resource/valid/zaruba.yaml")
+	tdConf, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return err
 	}
-	kwargs := []string{
+	values := []string{
 		"alchemist::flamel::name=Nicholas Flamel",
 		"alchemist::flamel::age=90",
 		"alchemist::dumbledore::name=Dumbledore",
@@ -24,8 +24,8 @@ func setupTaskData(t *testing.T) (err error) {
 		"barbarian::sonya::name=Sonya",
 		"alchemist::=unknown",
 	}
-	for _, kwarg := range kwargs {
-		if err = tdConf.AddKwargs(kwarg); err != nil {
+	for _, value := range values {
+		if err = tdConf.AddValues(value); err != nil {
 			return err
 		}
 	}
@@ -93,11 +93,11 @@ func TestTaskDataGetConfig(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetAllConfig(t *testing.T) {
+func TestTaskDataGetConfigs(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	if _, err := td.GetAllConfig(); err != nil {
+	if _, err := td.GetConfigs(); err != nil {
 		t.Error(err)
 	}
 }
@@ -111,29 +111,29 @@ func TestTaskDataGetLConfig(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetAllLConfig(t *testing.T) {
+func TestTaskDataGetLConfigs(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	if _, err := td.GetAllLConfig(); err != nil {
+	if _, err := td.GetLConfigs(); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestTaskDataGetKwarg(t *testing.T) {
+func TestTaskDataGetValue(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	if _, exist := td.GetKwarg("alchemist::flamel::age"); exist != nil {
-		t.Error("kwarg alchemist::flamel::age does not exist")
+	if _, exist := td.GetValue("alchemist::flamel::age"); exist != nil {
+		t.Error("value alchemist::flamel::age does not exist")
 	}
 }
 
-func TestTaskDataGetAllKwarg(t *testing.T) {
+func TestTaskDataGetValues(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	if _, err := td.GetAllKwarg(); err != nil {
+	if _, err := td.GetValues(); err != nil {
 		t.Error(err)
 	}
 }
@@ -147,20 +147,20 @@ func TestTaskDataGetEnv(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetAllEnv(t *testing.T) {
+func TestTaskDataGetEnvs(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	if _, err := td.GetAllEnv(); err != nil {
+	if _, err := td.GetEnvs(); err != nil {
 		t.Error(err)
 	}
 }
 
-func TestTaskDataKwargsGetSubKeys(t *testing.T) {
+func TestTaskDataValuesGetSubKeys(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	subkeys := td.GetKwargSubKeys("alchemist")
+	subkeys := td.GetSubValueKeys("alchemist")
 	if len(subkeys) != 2 {
 		t.Errorf("Subkeys length should be 2, but currently contains %#v", subkeys)
 	}
@@ -181,11 +181,11 @@ func TestTaskDataKwargsGetSubKeys(t *testing.T) {
 	}
 }
 
-func TestTaskDataKwargsGetValue(t *testing.T) {
+func TestTaskDataValuesGetValue(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return
 	}
-	actual, err := td.GetKwarg("alchemist", "flamel", "name")
+	actual, err := td.GetValue("alchemist", "flamel", "name")
 	if err != nil {
 		t.Error(err)
 	}

@@ -24,7 +24,7 @@ tasks:
       ```
     private: true
     config:
-      cmd: '{{ if .GetKwarg "defaultShell" }}{{ .GetKwarg "defaultShell" }}{{ else }}{{ .GetDefaultShell }}{{ end }}'
+      cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}{{ .GetDefaultShell }}{{ end }}'
       cmdArg: "-c"
     env:
       PYTHONUNBUFFERED:
