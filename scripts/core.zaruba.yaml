@@ -12,7 +12,7 @@ tasks:
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
-    logless: true
+    saveLog: false
     config:
       start: |
         {{ if .GetValue "hideAdvertisement" }}{{ else }}. "${PY_UTIL}" show_advertisement{{ end }}
@@ -93,7 +93,7 @@ tasks:
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
-    logless: true
+    saveLog: false
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -335,7 +335,7 @@ tasks:
       USAGE:
         zaruba please initProject
     extend: core.runCoreScript
-    logless: true
+    saveLog: false
     dependencies:
     - core.isNotProject
     config:

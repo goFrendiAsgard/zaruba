@@ -16,7 +16,7 @@ tasks:
       ```
     private: true
     extend: core.runCoreScript
-    logless: true
+    saveLog: false
     config:
       start: |
         . ${UTIL}/py_install.sh

@@ -14,6 +14,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/logger"
 )
 
@@ -29,9 +30,10 @@ type Task struct {
 	LConfig         map[string][]string   `yaml:"lconfig,omitempty"`
 	Env             map[string]*EnvConfig `yaml:"env,omitempty"`
 	Dependencies    []string              `yaml:"dependencies,omitempty"`
+	RequiredValues  []string              `yaml:"requiredValues,omitempty"`
 	Description     string                `yaml:"description,omitempty"`
 	Icon            string                `yaml:"icon,omitempty"`
-	Logless         bool                  `yaml:"logless,omitempty"`
+	SaveLog         string                `yaml:"saveLog,omitempty"`
 	BasePath        string                // Main yaml's location
 	FileLocation    string                // File location where this task was declared
 	Project         *Project
@@ -361,7 +363,7 @@ func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser,
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, td.task.FunkyName)
-	logless := td.task.Logless
+	saveLog := td.task.SaveLog == "" || boolean.IsTrue(td.task.SaveLog)
 	print := logger.Printf
 	if logType == "ERR" {
 		print = logger.PrintfError
@@ -370,7 +372,7 @@ func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser,
 	for buf.Scan() {
 		content := buf.Text()
 		print("%s %s\n", prefix, content)
-		if !logless {
+		if saveLog {
 			if csvWriteErr := task.Project.CSVLogWriter.Log(logType, cmdType, td.Name, content, td.task.FunkyName); csvWriteErr != nil {
 				err = csvWriteErr
 			}
