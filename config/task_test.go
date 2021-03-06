@@ -5,7 +5,7 @@ import (
 )
 
 func TestValidTaskGetEnv(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	expectation := map[string]map[string]string{
@@ -27,7 +27,7 @@ func TestValidTaskGetEnv(t *testing.T) {
 		},
 	}
 	for taskName, parsedEnvExpectation := range expectation {
-		task, exists := validConf.Tasks[taskName]
+		task, exists := validProject.Tasks[taskName]
 		if !exists {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
@@ -45,7 +45,7 @@ func TestValidTaskGetEnv(t *testing.T) {
 }
 
 func TestValidTaskGetConfig(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	expectation := map[string]map[string]string{
@@ -60,7 +60,7 @@ func TestValidTaskGetConfig(t *testing.T) {
 		},
 	}
 	for taskName, parsedConfigExpectation := range expectation {
-		task, exists := validConf.Tasks[taskName]
+		task, exists := validProject.Tasks[taskName]
 		if !exists {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
@@ -79,7 +79,7 @@ func TestValidTaskGetConfig(t *testing.T) {
 }
 
 func TestValidTaskGetLConfig(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	expectation := map[string]map[string][]string{
@@ -94,7 +94,7 @@ func TestValidTaskGetLConfig(t *testing.T) {
 		},
 	}
 	for taskName, parsedLConfigExpectation := range expectation {
-		task, exists := validConf.Tasks[taskName]
+		task, exists := validProject.Tasks[taskName]
 		if !exists {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
@@ -119,7 +119,7 @@ func TestValidTaskGetLConfig(t *testing.T) {
 }
 
 func TestValidTaskStartCommand(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	expectation := map[string][]string{
@@ -128,7 +128,7 @@ func TestValidTaskStartCommand(t *testing.T) {
 		"core.runStaticWebService": {"python", "-m", "http.server", "8080"},
 	}
 	for taskName, expectedArgs := range expectation {
-		task, exists := validConf.Tasks[taskName]
+		task, exists := validProject.Tasks[taskName]
 		if !exists {
 			t.Errorf("Task %s is not exist", taskName)
 			continue
@@ -156,7 +156,7 @@ func TestValidTaskStartCommand(t *testing.T) {
 }
 
 func TestValidTaskCheckCommand(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	expectation := map[string][]string{
@@ -164,7 +164,7 @@ func TestValidTaskCheckCommand(t *testing.T) {
 		"core.runNodeJsService": {"sh", "-c", "until nc -z localhost 3000; do sleep 1; done"},
 	}
 	for taskName, expectedArgs := range expectation {
-		task, exists := validConf.Tasks[taskName]
+		task, exists := validProject.Tasks[taskName]
 		if !exists {
 			t.Errorf("Task %s is not exist", taskName)
 			continue

@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/logger"
 	"github.com/state-alchemists/zaruba/runner"
 )
@@ -25,157 +25,34 @@ var pleaseCmd = &cobra.Command{
 	Long:    "💀 Ask Zaruba to do something for you",
 	Aliases: []string{"run", "do", "invoke", "perform"},
 	Run: func(cmd *cobra.Command, args []string) {
-		conf, err := config.NewProject(pleaseFile)
+		project, taskNames, err := getProjectAndTaskNames(args)
 		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		// process globalEnv
-		for _, env := range pleaseEnv {
-			conf.AddGlobalEnv(env)
-		}
-		// process values from flag
-		for _, value := range pleaseValues {
-			if err = conf.AddValues(value); err != nil {
-				fmt.Println(err)
-				return
-			}
-		}
-		//  distinguish taskNames and additional values
-		taskNames := []string{}
-		for _, arg := range args {
-			if strings.Contains(arg, "=") {
-				conf.AddValues(arg)
-				continue
-			}
-			_, argIsTask := conf.Tasks[arg]
-			if !argIsTask {
-				if arg == "autostop" {
-					conf.AddValues("autostop=true")
-					continue
-				}
-			}
-			taskNames = append(taskNames, arg)
+			showErrorAndExit(err)
 		}
 		// init
-		d := logger.NewDecoration()
-		if err = conf.Init(); err != nil {
-			logger.PrintfError("%s%s%s%s\n", d.Bold, d.Red, err.Error(), d.Normal)
-			os.Exit(1)
+		if err = project.Init(); err != nil {
+			showErrorAndExit(err)
 		}
-		// handle special cases
-		if handleShowTask(conf, taskNames) {
+		// no task provided
+		if len(taskNames) == 0 {
+			d := logger.NewDecoration()
+			logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
+			logger.Printf("Here are some possible tasks you can execute:\n")
+			explainer.ExplainTasks(project, "")
+			return
+		}
+		// handle "please explain"
+		if taskNames[0] == "explain" {
+			keyword := strings.Join(taskNames[1:], " ")
+			explainer.ExplainTasks(project, keyword)
 			return
 		}
 		// run
-		r := runner.NewRunner(conf, taskNames, time.Minute*5)
+		r := runner.NewRunner(project, taskNames, time.Minute*5)
 		if err := r.Run(); err != nil {
-			logger.PrintfError("%s%s%s%s\n", d.Bold, d.Red, err.Error(), d.Normal)
-			os.Exit(1)
+			showErrorAndExit(err)
 		}
 	},
-}
-
-func handleShowTask(project *config.Project, taskNames []string) (handled bool) {
-	d := logger.NewDecoration()
-	// special case: task is not given
-	if len(taskNames) == 0 {
-		logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
-		logger.Printf("Here are some possible tasks you can execute:\n")
-		totalMatched := showTasks(project, true, getRegexSearchPattern(""))
-		showSearchFooter(totalMatched, "")
-		return true
-	}
-	taskName, keyword := taskNames[0], strings.Join(taskNames[1:], " ")
-	_, taskDeclared := project.Tasks[taskName]
-	if taskDeclared || taskName != "explain" {
-		return false
-	}
-	r := getRegexSearchPattern(keyword)
-	published, publishExist := project.Values["published"]
-	totalMatched := 0
-	if !publishExist || published == "false" {
-		totalMatched += showTasks(project, false, r)
-	}
-	if !publishExist || published == "true" {
-		totalMatched += showTasks(project, true, r)
-	}
-	showSearchFooter(totalMatched, keyword)
-	return true
-}
-
-func showSearchFooter(totalMatched int, keyword string) {
-	d := logger.NewDecoration()
-	logger.Printf("%d task(s) matched '%s' keyword.\n", totalMatched, keyword)
-	logger.Printf("You can also use %s%szaruba please explain <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
-}
-
-func getRegexSearchPattern(searchPattern string) (r *regexp.Regexp) {
-	if searchPattern == "" {
-		r, _ = regexp.Compile(".*")
-		return r
-	}
-	r, err := regexp.Compile("(?i)" + searchPattern)
-	if err != nil {
-		logger.PrintfError("Invalid regex: %s\n", searchPattern)
-		r, _ = regexp.Compile(".*")
-	}
-	return r
-}
-
-func showTasks(project *config.Project, showPublished bool, r *regexp.Regexp) (totalMatch int) {
-	d := logger.NewDecoration()
-	taskIndentation := strings.Repeat(" ", 6)
-	taskFieldIndentation := taskIndentation + strings.Repeat(" ", 5)
-	taskPrefix := ""
-	if showPublished {
-		taskPrefix = "zaruba please "
-	}
-	for _, taskName := range project.SortedTaskNames {
-		task := project.Tasks[taskName]
-		if (task.Private && showPublished) || (!task.Private && !showPublished) {
-			continue
-		}
-		if !r.MatchString(taskName) {
-			continue
-		}
-		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, taskPrefix, d.Bold, task.Name, d.Normal)
-		fmt.Printf("%s%sPUBLISHED     :%s%s %t%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, !task.Private, d.Normal)
-		fmt.Printf("%s%sDECLARED ON   :%s%s %s%s\n", taskFieldIndentation, d.Blue, d.Normal, d.Faint, task.FileLocation, d.Normal)
-		showTaskDescription(task, taskFieldIndentation)
-		showTaskDependencies(task, taskFieldIndentation)
-		showTaskExtend(task, taskFieldIndentation)
-		totalMatch++
-	}
-	return totalMatch
-}
-
-func showTaskDependencies(task *config.Task, fieldIndentation string) {
-	if len(task.Dependencies) > 0 {
-		d := logger.NewDecoration()
-		fmt.Printf("%s%sDEPENDENCIES  :%s%s %s%s\n", fieldIndentation, d.Blue, d.Normal, d.Faint, strings.Join(task.Dependencies, ", "), d.Normal)
-	}
-}
-
-func showTaskExtend(task *config.Task, fieldIndentation string) {
-	if task.Extend != "" {
-		d := logger.NewDecoration()
-		fmt.Printf("%s%sEXTENDED FROM :%s%s %s%s\n", fieldIndentation, d.Blue, d.Normal, d.Faint, task.Extend, d.Normal)
-	}
-}
-
-func showTaskDescription(task *config.Task, fieldIndentation string) {
-	if task.Description != "" {
-		d := logger.NewDecoration()
-		description := strings.TrimSpace(task.Description)
-		rows := strings.Split(description, "\n")
-		for index, row := range rows {
-			if index == 0 {
-				row = fmt.Sprintf("%sDESCRIPTION   :%s %s", d.Blue, d.Normal, row)
-			}
-			fmt.Printf("%s%s\n", fieldIndentation, row)
-		}
-	}
 }
 
 func init() {
@@ -206,4 +83,48 @@ func init() {
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "custom file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "values", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
+}
+
+func getProjectAndTaskNames(args []string) (project *config.Project, taskNames []string, err error) {
+	taskNames = []string{}
+	project, err = config.NewProject(pleaseFile)
+	if err != nil {
+		fmt.Println(err)
+		return project, taskNames, err
+	}
+	// process globalEnv
+	for _, env := range pleaseEnv {
+		project.AddGlobalEnv(env)
+	}
+	// process values from flag
+	for _, value := range pleaseValues {
+		if err = project.AddValues(value); err != nil {
+			fmt.Println(err)
+			return project, taskNames, err
+		}
+	}
+	//  distinguish taskNames and additional values
+	for _, arg := range args {
+		if strings.Contains(arg, "=") {
+			project.AddValues(arg)
+			continue
+		}
+		_, argIsTask := project.Tasks[arg]
+		if !argIsTask {
+			if arg == "autostop" {
+				project.AddValues("autostop=true")
+				continue
+			}
+		}
+		taskNames = append(taskNames, arg)
+	}
+	return project, taskNames, err
+}
+
+func showErrorAndExit(err error) {
+	d := logger.NewDecoration()
+	if err != nil {
+		logger.PrintfError("%s%s%s%s\n", d.Bold, d.Red, err.Error(), d.Normal)
+		os.Exit(1)
+	}
 }

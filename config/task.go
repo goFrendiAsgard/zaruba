@@ -65,15 +65,15 @@ func (task *Task) GetValue(td *TaskData, keys ...string) (val string, err error)
 }
 
 // GetValues getting all parsed env
-func (task *Task) GetValues(td *TaskData) (parsedKwarg map[string]string, err error) {
-	parsedKwarg = map[string]string{}
+func (task *Task) GetValues(td *TaskData) (parsedValues map[string]string, err error) {
+	parsedValues = map[string]string{}
 	for key := range td.task.Project.Values {
-		parsedKwarg[key], err = task.GetValue(td, key)
+		parsedValues[key], err = task.GetValue(td, key)
 		if err != nil {
-			return parsedKwarg, err
+			return parsedValues, err
 		}
 	}
-	return parsedKwarg, nil
+	return parsedValues, nil
 }
 
 // GetConfig getting config of a task

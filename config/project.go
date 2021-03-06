@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -162,9 +163,11 @@ func (project *Project) loadInclusion(parentDir string) (err error) {
 			return err
 		}
 		for taskName, task := range includeConf.Tasks {
-			if _, exists := project.Tasks[taskName]; !exists {
-				project.Tasks[taskName] = task
+			existingTask, taskAlreadyDeclared := project.Tasks[taskName]
+			if taskAlreadyDeclared {
+				return fmt.Errorf("Cannot declare task `%s` on `%s` because the task was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.FileLocation)
 			}
+			project.Tasks[taskName] = task
 		}
 	}
 	return err

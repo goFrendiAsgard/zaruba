@@ -26,7 +26,7 @@ tasks:
     extend: serveHttp
     dependencies:
     - clearLog
-    - testZarubaCore
+    - testCore
   
 
   buildZarubaImage:

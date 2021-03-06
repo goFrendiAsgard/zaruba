@@ -1,7 +1,7 @@
 tasks:
 
 
-  testZarubaCore:
+  testCore:
     icon: 💉
     location: ./
     extend: core.runShellScript
@@ -22,7 +22,7 @@ tasks:
     icon: 💉
     dependencies:
     - clearLog
-    - testZarubaCore
+    - testCore
     - testCommon
     - testGeneratedService
     - testPushImage

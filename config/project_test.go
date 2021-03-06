@@ -7,33 +7,33 @@ import (
 	"testing"
 )
 
-var validConf *Project
+var validProject *Project
 
-func setupValidProjectConfig(t *testing.T) (err error) {
-	if validConf != nil {
+func setupValidProject(t *testing.T) (err error) {
+	if validProject != nil {
 		return err
 	}
-	validConf, err = NewProject("../test_resource/valid/zaruba.yaml")
+	validProject, err = NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return err
 	}
-	validConf.AddGlobalEnv("../test_resource/valid/local.env")
-	validConf.AddGlobalEnv("foo=bar")
-	if err = validConf.AddValues("pi=3.14"); err != nil {
+	validProject.AddGlobalEnv("../test_resource/valid/local.env")
+	validProject.AddGlobalEnv("foo=bar")
+	if err = validProject.AddValues("pi=3.14"); err != nil {
 		t.Error(err)
 		return err
 	}
-	if err = validConf.AddValues("../test_resource/valid/values.yaml"); err != nil {
+	if err = validProject.AddValues("../test_resource/valid/values.yaml"); err != nil {
 		t.Error(err)
 		return err
 	}
-	validConf.Init()
+	validProject.Init()
 	return err
 }
 
-func TestValidProjectConfigAddGlobalEnv(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+func TestValidProjectAddGlobalEnv(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	if os.Getenv("foo") != "bar" {
@@ -50,38 +50,38 @@ func TestValidProjectConfigAddGlobalEnv(t *testing.T) {
 	}
 }
 
-func TestValidProjectConfigAddValues(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+func TestValidProjectAddValues(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
-	if validConf.Values["pi"] != "3.14" {
+	if validProject.Values["pi"] != "3.14" {
 		t.Error("pi should be 3.14")
 	}
-	if validConf.Values["g"] != "9.8" {
+	if validProject.Values["g"] != "9.8" {
 		t.Error("g should be 9.8")
 	}
 }
 
-func TestValidProjectConfigInclusion(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+func TestValidProjectInclusion(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
 	for _, taskName := range []string{"core.runNodeJsService", "core.runShellScript", "core.runBashScript", "core.runPythonScript", "core.runNodeJsScript", "core.runStaticWebService", "runApiGateway", "runIntegrationTest", "serveStaticFiles", "sayPythonHello"} {
-		if _, exists := validConf.Tasks[taskName]; !exists {
+		if _, exists := validProject.Tasks[taskName]; !exists {
 			t.Errorf(fmt.Sprintf("Task %s is not exist", taskName))
 		}
 	}
 }
 
-func TestValidProjectConfigTaskDirPath(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+func TestValidProjectTaskDirPath(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
-	if _, exists := validConf.Tasks["runApiGateway"]; !exists {
+	if _, exists := validProject.Tasks["runApiGateway"]; !exists {
 		t.Errorf("Task runApiGateway is not exist")
 		return
 	}
-	actual := validConf.Tasks["runApiGateway"].BasePath
+	actual := validProject.Tasks["runApiGateway"].BasePath
 	expected, err := filepath.Abs("../test_resource/valid/api-gateway")
 	if err != nil {
 		t.Error(err)
@@ -92,22 +92,22 @@ func TestValidProjectConfigTaskDirPath(t *testing.T) {
 	}
 }
 
-func TestValidProjectConfigTaskProject(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+func TestValidProjectTaskProject(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
-	for _, task := range validConf.Tasks {
-		if task.Project != validConf {
+	for _, task := range validProject.Tasks {
+		if task.Project != validProject {
 			t.Errorf("Task's parent is not correctly set")
 		}
 	}
 }
 
-func TestValidProjectConfigEnvTask(t *testing.T) {
-	if err := setupValidProjectConfig(t); err != nil {
+func TestValidProjectEnvTask(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
 		return
 	}
-	for _, task := range validConf.Tasks {
+	for _, task := range validProject.Tasks {
 		for _, env := range task.Env {
 			if env.Task != task {
 				t.Errorf("Env's parent is not correctly set")
@@ -116,56 +116,63 @@ func TestValidProjectConfigEnvTask(t *testing.T) {
 	}
 }
 
-func TestValidProjectConfigName(t *testing.T) {
-	conf, err := NewProject("../test_resource/named.yaml")
+func TestValidProjectName(t *testing.T) {
+	project, err := NewProject("../test_resource/named.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	expected := "edward"
-	actual := conf.GetName()
+	actual := project.GetName()
 	if actual != expected {
 		t.Errorf(fmt.Sprintf("Expected: %s, Actual: %s", expected, actual))
 	}
 }
 
-func TestInvalidProjectConfigValuesNotExist(t *testing.T) {
-	conf, err := NewProject("../test_resource/valid/zaruba.yaml")
+func TestValidProjectWithNonExistValueFile(t *testing.T) {
+	project, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.AddValues("../test_resource/notExists.yaml"); err == nil {
+	if err = project.AddValues("../test_resource/notExists.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
-func TestInvalidProjectConfigValuesFormat(t *testing.T) {
-	conf, err := NewProject("../test_resource/valid/zaruba.yaml")
+func TestInvalidProjectTaskRedeclared(t *testing.T) {
+	_, err := NewProject("../test_resource/invalidTaskRedeclared/task.yaml")
+	if err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectValuesFormat(t *testing.T) {
+	project, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.AddValues("../test_resource/invalidYaml.txt"); err == nil {
+	if err = project.AddValues("../test_resource/invalidYaml.txt"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
-func TestInvalidProjectConfigNotExist(t *testing.T) {
+func TestInvalidProjectNotExist(t *testing.T) {
 	_, err := NewProject("../test_resource/notExist.yaml")
 	if err == nil {
 		t.Error("Error expected")
 	}
 }
 
-func TestInvalidProjectConfigFormat(t *testing.T) {
+func TestInvalidProjectFormat(t *testing.T) {
 	_, err := NewProject("../test_resource/invalidYaml.txt")
 	if err == nil {
 		t.Error("Error expected")
 	}
 }
 
-func TestInvalidProjectConfigInclusion(t *testing.T) {
+func TestInvalidProjectInclusion(t *testing.T) {
 	_, err := NewProject("../test_resource/invalidInclusion.yaml")
 	if err == nil {
 		t.Error("Error expected")
