@@ -30,7 +30,7 @@ type Task struct {
 	LConfig         map[string][]string   `yaml:"lconfig,omitempty"`
 	Env             map[string]*EnvConfig `yaml:"env,omitempty"`
 	Dependencies    []string              `yaml:"dependencies,omitempty"`
-	RequiredValues  []string              `yaml:"requiredValues,omitempty"`
+	Inputs          []string              `yaml:"inputs,omitempty"`
 	Description     string                `yaml:"description,omitempty"`
 	Icon            string                `yaml:"icon,omitempty"`
 	SaveLog         string                `yaml:"saveLog,omitempty"`
@@ -38,7 +38,7 @@ type Task struct {
 	FileLocation    string                // File location where this task was declared
 	Project         *Project
 	Name            string
-	FunkyName       string
+	LogPrefix       string
 	TimeoutDuration time.Duration
 }
 
@@ -191,7 +191,7 @@ func (task *Task) getParsedPattern(td *TaskData, templateName, pattern string) (
 	return result, nil
 }
 
-func (task *Task) linkEnvs() {
+func (task *Task) linkToEnvs() {
 	for _, env := range task.Env {
 		env.Task = task
 	}
@@ -209,7 +209,7 @@ func (task *Task) init() (err error) {
 		}
 	}
 	task.generateIcon()
-	task.generateFunkyName()
+	task.generateLogPrefix()
 	return nil
 }
 
@@ -220,7 +220,7 @@ func (task *Task) generateIcon() {
 	}
 }
 
-func (task *Task) generateFunkyName() {
+func (task *Task) generateLogPrefix() {
 	repeat := 2 + task.Project.MaxPublishedTaskNameLength - len(task.Name) - len(task.Icon)
 	if repeat < 0 {
 		repeat = 0
@@ -228,7 +228,7 @@ func (task *Task) generateFunkyName() {
 	paddedStr := strings.Repeat(" ", repeat)
 	d := task.Project.Decoration
 	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.Name, d.Normal, paddedStr)
-	task.FunkyName = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
+	task.LogPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
 }
 
 func (task *Task) getPath() (path string) {
@@ -362,7 +362,7 @@ func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser,
 	buf := bufio.NewScanner(pipe)
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
-	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, td.task.FunkyName)
+	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, td.task.LogPrefix)
 	saveLog := td.task.SaveLog == "" || boolean.IsTrue(td.task.SaveLog)
 	print := logger.Printf
 	if logType == "ERR" {
@@ -373,7 +373,7 @@ func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser,
 		content := buf.Text()
 		print("%s %s\n", prefix, content)
 		if saveLog {
-			if csvWriteErr := task.Project.CSVLogWriter.Log(logType, cmdType, td.Name, content, td.task.FunkyName); csvWriteErr != nil {
+			if csvWriteErr := task.Project.CSVLogWriter.Log(logType, cmdType, td.Name, content, td.task.LogPrefix); csvWriteErr != nil {
 				err = csvWriteErr
 			}
 		}

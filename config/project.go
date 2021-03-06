@@ -16,10 +16,12 @@ import (
 
 // Project is zaruba configuration
 type Project struct {
-	Includes                   []string         `yaml:"includes,omitempty"`
-	Tasks                      map[string]*Task `yaml:"tasks,omitempty"`
-	Name                       string           `yaml:"name,omitempty"`
+	Includes                   []string          `yaml:"includes,omitempty"`
+	Tasks                      map[string]*Task  `yaml:"tasks,omitempty"`
+	Name                       string            `yaml:"name,omitempty"`
+	Inputs                     map[string]*Input `yaml:"inputs,omitempty"`
 	FileLocation               string
+	BasePath                   string
 	Values                     map[string]string
 	SortedTaskNames            []string
 	MaxPublishedTaskNameLength int
@@ -44,14 +46,11 @@ func NewProject(configFile string) (project *Project, err error) {
 	dir := os.ExpandEnv(filepath.Dir(configFile))
 	logFile := filepath.Join(dir, "log.zaruba.csv")
 	project.CSVLogWriter = logger.NewCSVLogWriter(logFile)
-	project.Values = map[string]string{}
 	project.IconGenerator = iconer.NewGenerator()
 	project.Decoration = logger.NewDecoration()
-	if err != nil {
-		return project, err
-	}
 	project.setSortedTaskNames()
-	project.linkTasks()
+	project.linkToTasks()
+	project.setDefaultValues()
 	return project, err
 }
 
@@ -62,6 +61,8 @@ func loadProject(configFile string) (project *Project, err error) {
 	project = &Project{
 		Includes: []string{},
 		Tasks:    map[string]*Task{},
+		Inputs:   map[string]*Input{},
+		Values:   map[string]string{},
 	}
 	b, err := ioutil.ReadFile(parsedConfigFile)
 	if err != nil {
@@ -71,17 +72,18 @@ func loadProject(configFile string) (project *Project, err error) {
 		return project, err
 	}
 	project.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
-	absConfigFile := parsedConfigFile
-	if !filepath.IsAbs(absConfigFile) {
-		absConfigFile, err = filepath.Abs(absConfigFile)
+	project.FileLocation = parsedConfigFile
+	if !filepath.IsAbs(project.FileLocation) {
+		project.FileLocation, err = filepath.Abs(project.FileLocation)
 		if err != nil {
 			return project, err
 		}
 	}
-	project.FileLocation = absConfigFile
-	project.fillTaskFileLocationAndDirPath(absConfigFile)
-	inclusionParentDir := filepath.Dir(absConfigFile)
-	if err = project.loadInclusion(inclusionParentDir); err != nil {
+	project.BasePath = filepath.Dir(project.FileLocation)
+	project.setTaskFileLocation()
+	project.setInputFileLocation()
+	// cascade project, add inclusion's property to this project
+	if err = project.cascadeIncludes(); err != nil {
 		return project, err
 	}
 	return project, err
@@ -117,7 +119,7 @@ func (project *Project) AddGlobalEnv(pairOrFile string) {
 	godotenv.Load(pairOrFile)
 }
 
-// AddValues add global environment for a projectConfig
+// AddValues add value for a project
 func (project *Project) AddValues(pairOrFile string) (err error) {
 	pairParts := strings.SplitN(pairOrFile, "=", 2)
 	if len(pairParts) == 2 {
@@ -140,7 +142,45 @@ func (project *Project) AddValues(pairOrFile string) (err error) {
 	return nil
 }
 
-// Init parse all tasks
+// SetValue set value for a project
+func (project *Project) SetValue(key, value string) {
+	project.Values[key] = value
+}
+
+// GetInputs given task names
+func (project *Project) GetInputs(taskNames []string) (inputs map[string]*Input, err error) {
+	inputs = map[string]*Input{}
+	for _, taskName := range taskNames {
+		task, taskExist := project.Tasks[taskName]
+		if !taskExist {
+			return inputs, fmt.Errorf("Task %s is not exist", taskName)
+		}
+		// include task's dependencies and parent's inputs first
+		subTaskNames := []string{}
+		if task.Extend != "" {
+			subTaskNames = append(subTaskNames, task.Extend)
+		}
+		subTaskNames = append(subTaskNames, task.Dependencies...)
+		subInputs, err := project.GetInputs(subTaskNames)
+		if err != nil {
+			return inputs, err
+		}
+		for inputName, input := range subInputs {
+			inputs[inputName] = input
+		}
+		// include task's inputs
+		for _, inputName := range task.Inputs {
+			input, inputExist := project.Inputs[inputName]
+			if !inputExist {
+				return inputs, fmt.Errorf("Input %s is not defined", inputName)
+			}
+			inputs[inputName] = input
+		}
+	}
+	return inputs, err
+}
+
+// Init all tasks
 func (project *Project) Init() (err error) {
 	for _, taskName := range project.SortedTaskNames {
 		task := project.Tasks[taskName]
@@ -152,17 +192,44 @@ func (project *Project) Init() (err error) {
 	return err
 }
 
-func (project *Project) loadInclusion(parentDir string) (err error) {
+func (project *Project) setTaskFileLocation() {
+	for _, task := range project.Tasks {
+		task.FileLocation = project.FileLocation
+		task.BasePath = project.BasePath
+	}
+}
+
+func (project *Project) setInputFileLocation() {
+	for _, input := range project.Inputs {
+		input.FileLocation = project.FileLocation
+	}
+}
+
+func (project *Project) setDefaultValues() {
+	for inputName, input := range project.Inputs {
+		project.SetValue(inputName, input.DefaultValue)
+	}
+}
+
+func (project *Project) cascadeIncludes() (err error) {
 	for _, includeLocation := range project.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
 		if !filepath.IsAbs(parsedIncludeLocation) {
-			parsedIncludeLocation = filepath.Join(parentDir, parsedIncludeLocation)
+			parsedIncludeLocation = filepath.Join(project.BasePath, parsedIncludeLocation)
 		}
-		includeConf, err := loadProject(parsedIncludeLocation)
+		includedProject, err := loadProject(parsedIncludeLocation)
 		if err != nil {
 			return err
 		}
-		for taskName, task := range includeConf.Tasks {
+		// cascade inputs
+		for inputName, input := range includedProject.Inputs {
+			_, inputAlreadyDeclared := project.Inputs[inputName]
+			if inputAlreadyDeclared {
+				return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, parsedIncludeLocation, input.FileLocation)
+			}
+		}
+		// cascade tasks
+		for taskName, task := range includedProject.Tasks {
 			existingTask, taskAlreadyDeclared := project.Tasks[taskName]
 			if taskAlreadyDeclared {
 				return fmt.Errorf("Cannot declare task `%s` on `%s` because the task was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.FileLocation)
@@ -171,14 +238,6 @@ func (project *Project) loadInclusion(parentDir string) (err error) {
 		}
 	}
 	return err
-}
-
-func (project *Project) fillTaskFileLocationAndDirPath(absConfigFile string) {
-	absConfigDir := filepath.Dir(absConfigFile)
-	for _, task := range project.Tasks {
-		task.FileLocation = absConfigFile
-		task.BasePath = absConfigDir
-	}
 }
 
 func (project *Project) setSortedTaskNames() {
@@ -196,10 +255,10 @@ func (project *Project) setSortedTaskNames() {
 	sort.Strings(project.SortedTaskNames)
 }
 
-func (project *Project) linkTasks() {
+func (project *Project) linkToTasks() {
 	for taskName, task := range project.Tasks {
 		task.Project = project
 		task.Name = taskName
-		task.linkEnvs()
+		task.linkToEnvs()
 	}
 }
