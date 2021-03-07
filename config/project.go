@@ -169,18 +169,23 @@ func (project *Project) GetInputs(taskNames []string) (inputs map[string]*Input,
 		if err != nil {
 			return inputs, inputOrder, err
 		}
-		for inputName, input := range subInputs {
-			inputs[inputName] = input
+		for _, inputName := range subInputOrder {
+			subInput := subInputs[inputName]
+			if _, inputRegistered := inputs[inputName]; !inputRegistered {
+				inputOrder = append(inputOrder, inputName)
+				inputs[inputName] = subInput
+			}
 		}
-		inputOrder = append(inputOrder, subInputOrder...)
 		// include task's inputs
 		for _, inputName := range task.Inputs {
-			input, inputExist := project.Inputs[inputName]
-			if !inputExist {
+			input, inputDeclared := project.Inputs[inputName]
+			if !inputDeclared {
 				return inputs, inputOrder, fmt.Errorf("Input %s is not defined", inputName)
 			}
-			inputs[inputName] = input
-			inputOrder = append(inputOrder, inputName)
+			if _, inputRegistered := inputs[inputName]; !inputRegistered {
+				inputs[inputName] = input
+				inputOrder = append(inputOrder, inputName)
+			}
 		}
 	}
 	return inputs, inputOrder, err
