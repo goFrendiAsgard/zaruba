@@ -143,15 +143,6 @@ tasks:
     icon: 📦
     description: |
       Add service task to the project.
-      USAGE:
-        zaruba please makeServiceTask generator.service.location=fibo
-        zaruba please makeServiceTask generator.service.location=fibo generator.service.type=default generatedTaskName=runFibo templates=./templates
-      ARGUMENTS:
-        location:   Service location. (required)
-        type:       Service type. (optional, default to 'default')
-        task:       Task name. (optional, if not provided, will be inferred from `location`)
-        templates:  Template directories, colon separated. (optional, used to define custom template path)
-        ports:      Service ports, comma separated. (optional, will be infered from environment if not defined)
     extend: core.generate
     inputs:
     - generator.service.location
