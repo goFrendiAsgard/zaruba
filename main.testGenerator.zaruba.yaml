@@ -15,7 +15,7 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please initProject
-        ../zaruba please setProjectValue key=dockerImagePrefix::default value=localhost:9999
+        ../zaruba please setProjectValue variable.name=dockerImagePrefix::default variable.value=localhost:9999
   
 
   testMakeHelmCharts:

@@ -43,6 +43,12 @@ inputs:
 
   link.to:
     description: File/folder location to be linked to
+  
+  variable.name:
+    description: Name of the input variable.
+  
+  variable.value:
+    description: Value of the input variable.
 
 tasks:
 
@@ -440,20 +446,20 @@ tasks:
       Add link.
       USAGE:
         zaruba please setProjectValue key="key" value="value"
-      ARGUMENTS:
-        key   : Key. (required)
-        value : Value. (required)
     extend: core.runCoreScript
     dependencies:
     - core.isProject
     - core.setupPyUtil
+    inputs:
+    - variable.name
+    - variable.value
     config:
       start: |
         {{ $d := .Decoration -}}
-        KEY="{{ .GetValue "key" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'key' argument is not defined{{ $d.Normal }}"
-        VALUE="{{ .GetValue "value" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'value' argument is not defined{{ $d.Normal }}"
+        KEY="{{ .GetValue "variable.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'variable.name' argument is not defined{{ $d.Normal }}"
+        VALUE="{{ .GetValue "variable.value" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'variable.value' argument is not defined{{ $d.Normal }}"
         . "${PY_UTIL}" set_project_value "${KEY}" "${VALUE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
