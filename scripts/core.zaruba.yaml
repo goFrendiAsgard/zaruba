@@ -4,6 +4,46 @@ includes:
   - ./core.service.zaruba.yaml
   - ./core.setup.zaruba.yaml
 
+inputs:
+
+  advertisement.show:
+    default: true
+    description: Whether you want to see advertisement or not.
+  
+  log.keyword:
+    default: .*
+    description: Task name regex pattern.
+
+  server.httpPort:
+    default: 8080
+    description: HTTP port for serve static files.
+  
+  subrepo.url:
+    description: Subrepo's url
+  
+  subrepo.prefix:
+    description: Subrepo's prefix (directory's name). Left blank to automatically infer from subrepo.url
+
+  subrepo.name:
+    description: Subrepo's name. Left blank to automatically infer from subrepo.url
+
+  docker.env:
+    default: default
+    description: Docker env, will be used to choose image prefix (dockerImagePrefix::<docker.env>).
+  
+  helm.env:
+    default: default
+    description: Environment for helmfile.
+  
+  kube.context:
+    description: Kubernetes context. You can perform `kubectl config get-contexts` to see available context in your kubectl. If left blank, and kubeContext config is not provided, "docker-desktop" will be used.
+  
+  link.from:
+    description: File/folder location to be linked from
+
+  link.to:
+    description: File/folder location to be linked to
+
 tasks:
 
   core.showAdv:
@@ -13,16 +53,17 @@ tasks:
     dependencies:
     - core.setupPyUtil
     saveLog: false
+    inputs:
+    - advertisement.show
     config:
       start: |
-        {{ if .GetValue "hideAdvertisement" }}{{ else }}. "${PY_UTIL}" show_advertisement{{ end }}
+        {{ if eq (.GetValue "advertisement.show") "true" }}. "${PY_UTIL}" show_advertisement{{ end }}
 
 
   showVersion:
     icon: 🔎
     description: |
       Show zaruba's current version.
-      USAGE: zaruba please showVersion
     extend: core.runCoreScript
     config:
       start: |
@@ -35,7 +76,6 @@ tasks:
     icon: 🔄
     description: |
       Update zaruba to the latest version.
-      USAGE: zaruba please update
     extend: core.runCoreScript
     config:
       start: |
@@ -56,12 +96,9 @@ tasks:
     icon: 🌐
     description: |
       Run static web server from your working directory.
-      USAGE: zaruba please serveHttp [port=port]
-      ARGUMENTS:
-        port  : HTTP Port, default to 8000
     extend: core.startService
     lconfig:
-      ports: ['{{ if .GetValue "port" }}{{ .GetValue "port" }}{{ else }}8000{{ end }}']
+      ports: ['{{ .GetValue "server.httpPort" }}']
     start: 
     - python 
     - "-m"
@@ -85,20 +122,17 @@ tasks:
     icon: 🔎
     description: |
       Show log for all/particular tasks using regex
-      USAGE:
-        zaruba please showLog
-        zaruba please showLog task="test.*"
-      ARGUMENTS:
-        task  : task regex pattern, default to '.*'
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     saveLog: false
+    inputs:
+    - log.keyword
     config:
       start: |
         {{ $d := .Decoration -}}
         . "${UTIL}/should_be_file.sh" "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-        TASK="{{ if .GetValue "task" }}{{ .GetValue "task" }}{{ else }}.*{{ end }}"
+        TASK="{{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}"
         . "${PY_UTIL}" show_log "log.zaruba.csv" "${TASK}"
 
 
@@ -125,16 +159,13 @@ tasks:
     icon: 📦
     description: |
       Init subrepositories.
-      USAGE:
-        zaruba please initSubrepos
-        zaruba please initSubrepos "subrepo::fibo::url=https://github.com/therealvasanth/fibonacci-clock"
       ARGUMENTS:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
         subrepo::<name>::name     : Origin name of the subrepo
       TIPS:
         It is recommended to put `subrepo` arguments in `default.values.yaml`.
-        In order to do that, you can invoke `zaruba please addSubrepo <url=remote-url>`
+        In order to do that, you can invoke `zaruba please addSubrepo <subrepo.url=remote-url>`
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -183,31 +214,27 @@ tasks:
     icon: 🥂
     description: |
       Add subrepository.
-      USAGE:
-        zaruba please addSubrepo url=https://github.com/therealvasanth/fibonacci-clock
-        zaruba please addSubrepo url=https://github.com/therealvasanth/fibonacci-clock name=fibo prefix=fibo
-      ARGUMENTS:
-        url     : Remote url of the subrepo. (required)
-        prefix  : Prefix (directory name) of the subrepo. (optional)
-        name    : Origin name of the subrepo. (optional)
-      TIPS:
-        To init subrepositories, you should perform `zaruba please initSubrepos`
+      TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
     extend: core.runCoreScript
     dependencies:
     - core.isProject
     - core.setupPyUtil
+    inputs:
+    - subrepo.url
+    - subrepo.prefix
+    - subrepo.name
     config:
       start: |
         {{ $d := .Decoration -}}
-        URL="{{ .GetValue "url" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo url is not defined{{ $d.Normal }}"
-        {{ if .GetValue "prefix" }}
-          PREFIX="{{ .GetValue "prefix" }}"
+        URL="{{ .GetValue "subrepo.url" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepo.url is not defined{{ $d.Normal }}"
+        {{ if .GetValue "subrepo.prefix" }}
+          PREFIX="{{ .GetValue "subrepo.prefix" }}"
         {{ else }}
           PREFIX=$(. "${PY_UTIL}" get_segment "${URL}" "/" "-1")
           PREFIX=$(. "${PY_UTIL}" get_segment "${PREFIX}" "." "0")
         {{ end }}
-        NAME="{{ if .GetValue "name" }}{{ .GetValue "name" }}{{ else }}${PREFIX}{{ end }}"
+        NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
         . "${PY_UTIL}" set_project_value "subrepo::${NAME}::prefix" "${PREFIX}"
         . "${PY_UTIL}" set_project_value "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
@@ -218,8 +245,6 @@ tasks:
     icon: 🔼
     description: |
       Publish subrepositories.
-      USAGE:
-        zaruba please pushSubrepos
       ARGUMENTS:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
@@ -254,8 +279,6 @@ tasks:
     icon: 🔽
     description: |
       Pull subrepositories.
-      USAGE:
-        zaruba please pullSubrepos
       ARGUMENTS:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
@@ -332,8 +355,6 @@ tasks:
     icon: 🚧
     description: |
       Initiate empty zaruba project.
-      USAGE:
-        zaruba please initProject
     extend: core.runCoreScript
     saveLog: false
     dependencies:
@@ -351,11 +372,6 @@ tasks:
     icon: 🔄
     description: |
       Update environment of every task in the current project 
-      USAGE:
-        zaruba please updateEnv
-        zaruba please updateEnv dir=.
-      ARGUMENT:
-        dir  : Directory name
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -363,8 +379,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DIR="{{ if .GetValue "dir" }}{{ .GetValue "dir" }}{{ else }}.{{ end }}"
-        . "${PY_UTIL}" update_service_task_env "${DIR}"
+        . "${PY_UTIL}" update_service_task_env .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
@@ -381,7 +396,7 @@ tasks:
         link::<destination> : Location of the shared code
       TIPS:
         It is recommended to put `link` arguments in `default.values.yaml`.
-        In order to do that, you can invoke `zaruba please addLink <from=source-location> <to=destination-location>`
+        In order to do that, you can invoke `zaruba please addLink <link.from=source-location> <link.to=destination-location>`
     extend: core.runCoreScript
     config:
       start: |
@@ -403,13 +418,7 @@ tasks:
     icon: 🔗
     description: |
       Add link.
-      USAGE:
-        zaruba please addLink from="common-css" to="fibo/css"
-      ARGUMENTS:
-        from  : Source Location. (required)
-        to    : Destination Location (required)
-      TIPS:
-        To update links, you should perform `zaruba please updateLinks`
+      TIPS: To update links, you should perform `zaruba please updateLinks`
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -417,10 +426,10 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        SOURCE="{{ .GetValue "from" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'from' argument is not defined{{ $d.Normal }}"
-        DESTINATION="{{ .GetValue "to" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'to' argument is not defined{{ $d.Normal }}"
+        SOURCE="{{ .GetValue "link.from" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'link.from' argument is not defined{{ $d.Normal }}"
+        DESTINATION="{{ .GetValue "link.to" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'link.to' argument is not defined{{ $d.Normal }}"
         . "${PY_UTIL}" set_project_value "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
@@ -461,25 +470,22 @@ tasks:
         location: ../myLocation
         extend: core.dockerTask
         config:
-          # Service name, if not provided will be derived from location
-          service: myService
           # Docker image prefix will be the default image prefix if provided (default: empty)
           imagePrefix: local
           # Docker env. default to 'default'
           dockerEnv: default
       ```
-      ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix (in case of `imagePrefix` is not provided)
-        dockerEnv                      : dockerEnv, if not provided will be taken from config
     extend: core.runCoreScript
+    inputs:
+    - docker.env
     config:
       setup: |
         {{ $task := .GetTask "core.runCoreScript" -}}
         {{ $task.GetConfig "setup" }}
-        {{ if .GetValue "imagePrefix" }}
+        {{ if .GetConfig "imagePrefix" }}
           DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-        {{ else if .GetValue "dockerEnv" -}}
-          {{ $dockerEnv := .GetValue "dockerEnv" -}}
+        {{ else if .GetValue "docker.env" -}}
+          {{ $dockerEnv := .GetValue "docker.env" -}}
           DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
         {{ else if .GetConfig "dockerEnv" -}}
           {{ $dockerEnv := .GetConfig "dockerEnv" -}}
@@ -506,9 +512,6 @@ tasks:
           # Docker env. default to 'default'
           dockerEnv: default
       ```
-      ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix
-        dockerEnv                      : dockerEnv, if not provided will be taken from config
     extend: core.runDockerTask
     dependencies:
     - core.setupPyUtil
@@ -556,9 +559,6 @@ tasks:
           # Docker env. default to 'default'
           dockerEnv: default
       ```
-      ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix
-        dockerEnv                      : dockerEnv, if not provided will be taken from config
     extend: core.runDockerTask
     dependencies:
     - core.setupPyUtil
@@ -631,18 +631,16 @@ tasks:
           helmEnv: default
           kubeContext: docker-desktop
       ```
-      ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix
-        dockerEnv                      : dockerEnv, if not provided will be taken from config
-        helmEnv                        : helmEnv, default value is 'default'
-        kubeContext                    : kube-context, if not provided will be taken from config
     extend: core.runDockerTask
+    inputs:
+    - helm.env
+    - kube.context
     config:
       start: |
-        KUBE_CONTEXT="{{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ if .GetValue "helmEnv" }}{{ .GetValue "helmEnv" }}{{ else }}default{{ end }}" sync
+        helmfile --environment "{{ if .GetValue "helm.env" }}{{ .GetValue "helm.env" }}{{ else }}default{{ end }}" sync
 
 
   core.helmDestroy:
@@ -656,20 +654,17 @@ tasks:
         location: helm-deployments 
         extend: core.helmDestroy
         config:
-          dockerEnv: default
           helmEnv: default
           kubeContext: docker-desktop
       ```
-      ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix
-        dockerEnv                      : dockerEnv, if not provided will be taken from config
-        helmEnv                        : helmEnv, default value is 'default'
-        kubeContext                    : kube-context, if not provided will be taken from config
     extend: core.runScript
+    inputs:
+    - helm.env
+    - kube.context
     config:
       start: |
-        KUBE_CONTEXT="{{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ if .GetValue "helmEnv" }}{{ .GetValue "helmEnv" }}{{ else }}default{{ end }}" destroy
+        helmfile --environment "{{ if .GetValue "helm.env" }}{{ .GetValue "helm.env" }}{{ else }}default{{ end }}" destroy
 

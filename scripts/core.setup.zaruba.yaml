@@ -1,3 +1,23 @@
+inputs:
+
+  setup.initPyUtil:
+    default: true
+    description: |
+      Whether you want to setup python utility for zaruba or not.
+      If you are sure that zaruba's python utility has been set up, you can speed up the process a bit by answering "false" or "no".
+
+  setup.homeDir:
+    description: |
+      Your home directory. Leave it blank if you want the task to figure out your home directory by itself.
+  
+  setup.pythonVersion:
+    default: 3.8.6
+    description: Python version to be installed.
+  
+  setup.javaVersion:
+    default: 8.0.275.open-adpt
+    description: Java version to be installed.
+
 tasks:
 
   core.setupPyUtil:
@@ -17,9 +37,11 @@ tasks:
     private: true
     extend: core.runCoreScript
     saveLog: false
+    inputs:
+    - setup.initPyUtil
     config:
       start: |
-        . ${UTIL}/py_install.sh
+        {{ if eq (.GetValue "setup.initPyUtil") "true" }}. ${UTIL}/py_install.sh{{ end }}
   
 
   setupUbuntu:
@@ -30,6 +52,8 @@ tasks:
         sudo -E zaruba please setupUbuntu
     extend: core.runCoreScript
     timeout: 1h
+    inputs:
+    - setup.homeDir
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -38,7 +62,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
+        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
         . ${UTIL}/check_setup_ubuntu.sh "${HOME}"
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
@@ -67,8 +91,10 @@ tasks:
         zaruba please setupPyenv
     extend: core.runCoreScript
     timeout: 1h
+    inputs:
+    - setup.homeDir
+    - setup.pythonVersion
     config:
-      pythonVersion: '{{ if .GetValue "pythonVersion" }}{{ .GetValue "pythonVersion" }}{{ else }}3.8.6{{ end }}'
       beforeStart: |
         {{ $d := .Decoration -}}
         echo "This command will install pyenv and pipenv in your home directory. Root privilege is not required"
@@ -76,7 +102,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
+        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" pyenv)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
@@ -85,17 +111,17 @@ tasks:
           curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
           . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetConfig "pythonVersion" }}{{ $d.Normal }}"
-          pyenv install {{ .GetConfig "pythonVersion" }}
-          pyenv global {{ .GetConfig "pythonVersion" }}
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
+          pyenv install {{ .GetValue "setup.pythonVersion" }}
+          pyenv global {{ .GetValue "setup.pythonVersion" }}
         fi
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" python)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Python was already installed{{ $d.Normal }}"
         else
-          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetConfig "pythonVersion" }}{{ $d.Normal }}"
-          pyenv install {{ .GetConfig "pythonVersion" }}
-          pyenv global {{ .GetConfig "pythonVersion" }}
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
+          pyenv install {{ .GetValue "setup.pythonVersion" }}
+          pyenv global {{ .GetValue "setup.pythonVersion" }}
         fi
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" pipenv)" ]
         then
@@ -120,6 +146,8 @@ tasks:
         zaruba please setupNvm
     extend: core.runCoreScript
     timeout: 1h
+    inputs:
+    - setup.homeDir
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -128,7 +156,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
+        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" nvm)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
@@ -166,9 +194,11 @@ tasks:
         zaruba please setupSdkman
     extend: core.runCoreScript
     timeout: 1h
+    inputs:
+    - setup.homeDir
+    - setup.javaVersion
     config:
       cmd: /bin/bash
-      javaVersion: '{{ if .GetValue "javaVersion" }}{{ .GetValue "javaVersion" }}{{ else }}8.0.275.open-adpt{{ end }}'
       beforeStart: |
         {{ $d := .Decoration -}}
         echo "This command will install sdkman, java, and scala in your home directory. Root privilege is not required"
@@ -176,7 +206,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
+        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" sdk)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
@@ -185,8 +215,8 @@ tasks:
           curl -s "https://get.sdkman.io" | bash
           . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetConfig "javaVersion" }}{{ $d.Normal }}"
-          sdk install java {{ .GetConfig "javaVersion" }}
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
+          sdk install java {{ .GetValue "setup.javaVersion" }}
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
           sdk install scala
         fi 
@@ -194,8 +224,8 @@ tasks:
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Java was already installed{{ $d.Normal }}"
         else
-          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetConfig "javaVersion" }}{{ $d.Normal }}"
-          sdk install java {{ .GetConfig "javaVersion" }}
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
+          sdk install java {{ .GetValue "setup.javaVersion" }}
         fi
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" scala)" ]
         then
@@ -216,6 +246,8 @@ tasks:
         zaruba please setupSpark
     extend: core.runCoreScript
     timeout: 1h
+    inputs:
+    - setup.homeDir
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -224,7 +256,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
+        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" spark-shell)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
@@ -248,6 +280,8 @@ tasks:
         zaruba please setupSpark
     extend: core.runCoreScript
     timeout: 1h
+    inputs:
+    - setup.homeDir
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -256,7 +290,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "home" }}HOME="{{ .GetValue "home" }}"{{ end }}
+        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
         if [ ! -z "$(. "${UTIL}/is_command_exist.sh" kubectl)" ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"

@@ -88,9 +88,6 @@ tasks:
           # port, only taking effect if `expose` set to "lconfig.ports"
           ports: []
       ```
-      ARGUMENTS:
-        dockerImagePrefix::<dockerEnv> : image prefix
-        dockerEnv                      : dockerEnv, if not provided will be taken from config
     private: true
     extend: core.startService
     dependencies:

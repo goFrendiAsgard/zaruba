@@ -281,33 +281,25 @@ func TestInvalidProjectValuesFormat(t *testing.T) {
 }
 
 func TestInvalidProjectNotExist(t *testing.T) {
-	_, err := NewProject("../test_resource/notExist.yaml")
-	if err == nil {
+	if _, err := NewProject("../test_resource/notExist.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectUndeclaredInput(t *testing.T) {
-	project, err := NewProject("../test_resource/invalidUndefinedInput/task.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if _, _, err = project.GetInputs([]string{"myTask"}); err == nil {
+	if _, err := NewProject("../test_resource/invalidUndefinedInput/task.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectFormat(t *testing.T) {
-	_, err := NewProject("../test_resource/invalidYaml.txt")
-	if err == nil {
+	if _, err := NewProject("../test_resource/invalidYaml.txt"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectInclusion(t *testing.T) {
-	_, err := NewProject("../test_resource/invalidInclusion.yaml")
-	if err == nil {
+	if _, err := NewProject("../test_resource/invalidInclusion.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }

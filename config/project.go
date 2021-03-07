@@ -24,6 +24,7 @@ type Project struct {
 	BasePath                   string
 	Values                     map[string]string
 	SortedTaskNames            []string
+	SortedInputNames           []string
 	MaxPublishedTaskNameLength int
 	IconGenerator              *iconer.Generator
 	Decoration                 *logger.Decoration
@@ -49,8 +50,10 @@ func NewProject(configFile string) (project *Project, err error) {
 	project.IconGenerator = iconer.NewGenerator()
 	project.Decoration = logger.NewDecoration()
 	project.setSortedTaskNames()
+	project.setSortedInputNames()
 	project.linkToTasks()
 	project.setDefaultValues()
+	err = project.checkInputs()
 	return project, err
 }
 
@@ -214,6 +217,18 @@ func (project *Project) setDefaultValues() {
 	}
 }
 
+func (project *Project) checkInputs() (err error) {
+	for taskName, task := range project.Tasks {
+		for _, inputName := range task.Inputs {
+			_, inputExist := project.Inputs[inputName]
+			if !inputExist {
+				return fmt.Errorf("Input %s is required by %s but it was not declared", inputName, taskName)
+			}
+		}
+	}
+	return nil
+}
+
 func (project *Project) cascadeIncludes() (err error) {
 	for _, includeLocation := range project.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
@@ -257,6 +272,14 @@ func (project *Project) setSortedTaskNames() {
 		project.MaxPublishedTaskNameLength = 15
 	}
 	sort.Strings(project.SortedTaskNames)
+}
+
+func (project *Project) setSortedInputNames() {
+	project.SortedInputNames = []string{}
+	for inputName := range project.Inputs {
+		project.SortedInputNames = append(project.SortedInputNames, inputName)
+	}
+	sort.Strings(project.SortedInputNames)
 }
 
 func (project *Project) linkToTasks() {

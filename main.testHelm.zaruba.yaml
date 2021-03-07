@@ -12,10 +12,10 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeServiceDeployment location=fibo
-        ../zaruba please makeServiceDeployment location=myservice
+        ../zaruba please makeServiceDeployment generator.service.location=fibo
+        ../zaruba please makeServiceDeployment generator.service.location=myservice
         ../zaruba please updateEnv
-        ../zaruba please helmApply kubeContext=docker-desktop helmEnv=default dockerEnv=default
+        ../zaruba please helmApply kube.context=docker-desktop helm.env=default dockerEnv=default
 
 
   testHelmDestroy:
@@ -28,7 +28,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please helmDestroy kubeContext=docker-desktop helmEnv=default dockerEnv=default
+        ../zaruba please helmDestroy kube.context=docker-desktop helm.env=default dockerEnv=default
 
 
   stopContainerRegistry:

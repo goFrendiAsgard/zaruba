@@ -9,12 +9,41 @@ import (
 	"github.com/state-alchemists/zaruba/logger"
 )
 
-// ExplainTasks explain all private tasks matching the keyword
+// ExplainInputs explain all inputs
+func ExplainInputs(project *config.Project, keyword string) {
+	r := getRegexKeyword(keyword)
+	d := logger.NewDecoration()
+	inputIndentation := strings.Repeat(" ", 6)
+	inputFieldIndentation := inputIndentation + strings.Repeat(" ", 2)
+	totalMatch := 0
+	for _, inputName := range project.SortedInputNames {
+		if !r.MatchString(inputName) {
+			continue
+		}
+		input := project.Inputs[inputName]
+		fmt.Printf("%s%s%s%s%s\n", inputIndentation, d.Yellow, d.Bold, inputName, d.Normal)
+		if input.DefaultValue != "" {
+			showField(inputFieldIndentation, "DEFAULT", input.DefaultValue, false)
+		} else {
+			showField(inputFieldIndentation, "DEFAULT", "empty", true)
+		}
+		if input.Description != "" {
+			showField(inputFieldIndentation, "DESCRIPTION", input.Description, false)
+		}
+		totalMatch++
+	}
+	logger.Printf("%d input(s) matched '%s' keyword.\n", totalMatch, keyword)
+	logger.Printf("You can also use %s%szaruba please explain inputs <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
+}
+
+// ExplainTasks explain all tasks matching the keyword
 func ExplainTasks(project *config.Project, keyword string) {
 	r := getRegexKeyword(keyword)
+	d := logger.NewDecoration()
 	totalMatch := showTasks(project, false, r)
 	totalMatch += showTasks(project, true, r)
-	showFooter(totalMatch, keyword)
+	logger.Printf("%d task(s) matched '%s' keyword.\n", totalMatch, keyword)
+	logger.Printf("You can also use %s%szaruba please explain <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
 }
 
 func showTasks(project *config.Project, published bool, r *regexp.Regexp) (totalMatch int) {
@@ -34,8 +63,9 @@ func showTasks(project *config.Project, published bool, r *regexp.Regexp) (total
 			continue
 		}
 		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, d.Bold, taskPrefix, task.Name, d.Normal)
-		showTaskField(taskFieldIndentation, "PUBLISHED", fmt.Sprintf("%t", !task.Private))
-		showTaskField(taskFieldIndentation, "DECLARED ON", task.FileLocation)
+		showField(taskFieldIndentation, "PUBLISHED", fmt.Sprintf("%t", !task.Private), true)
+		showField(taskFieldIndentation, "DECLARED ON", task.FileLocation, true)
+		showTaskParameters(task, taskFieldIndentation)
 		showTaskDescription(task, taskFieldIndentation)
 		showTaskDependencies(task, taskFieldIndentation)
 		showTaskExtend(task, taskFieldIndentation)
@@ -44,43 +74,68 @@ func showTasks(project *config.Project, published bool, r *regexp.Regexp) (total
 	return totalMatch
 }
 
-func showTaskField(taskFieldIndentation string, fieldName string, value string) {
+func showField(fieldIndentation string, fieldName string, value string, faint bool) {
 	d := logger.NewDecoration()
 	paddedFieldName := fmt.Sprintf("%-15v", fieldName)
-	fmt.Printf("%s%s%s:%s%s %s%s\n", taskFieldIndentation, d.Blue, paddedFieldName, d.Normal, d.Faint, value, d.Normal)
+	trimmedValue := strings.Trim(value, "\n ")
+	rows := strings.Split(trimmedValue, "\n")
+	if len(rows) == 1 {
+		decoratedValue := trimmedValue
+		if faint {
+			decoratedValue = fmt.Sprintf("%s%s%s", d.Faint, trimmedValue, d.Normal)
+		}
+		fmt.Printf("%s%s%s:%s %s\n", fieldIndentation, d.Blue, paddedFieldName, d.Normal, decoratedValue)
+		return
+	}
+	fmt.Printf("%s%s%s:%s\n", fieldIndentation, d.Blue, paddedFieldName, d.Normal)
+	for _, row := range rows {
+		if faint {
+			fmt.Printf("%s  %s%s%s\n", fieldIndentation, d.Faint, row, d.Normal)
+			continue
+		}
+		fmt.Printf("%s  %s\n", fieldIndentation, row)
+	}
 }
 
 func showTaskDependencies(task *config.Task, fieldIndentation string) {
 	if len(task.Dependencies) > 0 {
-		showTaskField(fieldIndentation, "DEPENDENCIES", strings.Join(task.Dependencies, ", "))
+		showField(fieldIndentation, "DEPENDENCIES", strings.Join(task.Dependencies, ", "), true)
 	}
 }
 
 func showTaskExtend(task *config.Task, fieldIndentation string) {
 	if task.Extend != "" {
-		showTaskField(fieldIndentation, "EXTENDED FROM", task.Extend)
+		showField(fieldIndentation, "EXTENDED FROM", task.Extend, true)
+	}
+}
+
+func showTaskParameters(task *config.Task, fieldIndentation string) {
+	if len(task.Inputs) > 0 {
+		showField(fieldIndentation, "PARAMETERS", "", true)
+		d := logger.NewDecoration()
+		for _, inputName := range task.Inputs {
+			input := task.Project.Inputs[inputName]
+			inputCaption := fmt.Sprintf("- %s", inputName)
+			if input.DefaultValue != "" {
+				inputCaption = fmt.Sprintf("%s %s(default:%s %s%s%s)%s", inputCaption, d.Faint, d.Normal, d.Yellow, input.DefaultValue, d.Faint, d.Normal)
+			}
+			fmt.Printf("%s  %s\n", fieldIndentation, inputCaption)
+			if input.Description != "" {
+				description := strings.Trim(input.Description, "\n ")
+				rows := strings.Split(description, "\n")
+				for _, row := range rows {
+					decoratedRow := fmt.Sprintf("%s%s%s", d.Faint, row, d.Normal)
+					fmt.Printf("%s    %s\n", fieldIndentation, decoratedRow)
+				}
+			}
+		}
 	}
 }
 
 func showTaskDescription(task *config.Task, fieldIndentation string) {
 	if task.Description != "" {
-		description := strings.TrimSpace(task.Description)
-		rows := strings.Split(description, "\n")
-		d := logger.NewDecoration()
-		for index, row := range rows {
-			if index == 0 {
-				showTaskField(fieldIndentation, "DESCRIPTION", row)
-				continue
-			}
-			fmt.Printf("%s  %s%s%s\n", fieldIndentation, d.Faint, row, d.Normal)
-		}
+		showField(fieldIndentation, "DESCRIPTION", task.Description, false)
 	}
-}
-
-func showFooter(totalMatched int, keyword string) {
-	d := logger.NewDecoration()
-	logger.Printf("%d task(s) matched '%s' keyword.\n", totalMatched, keyword)
-	logger.Printf("You can also use %s%szaruba please explain <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
 }
 
 func getRegexKeyword(searchPattern string) (r *regexp.Regexp) {

@@ -15,7 +15,7 @@ func getSubKeys(dictionary map[string]string, parentKeys []string) (subKeys []st
 	prefixLength := len(parentKey) + len("::")
 	subKeys = []string{}
 	for key := range dictionary {
-		if !strings.HasPrefix(key, parentKey) {
+		if !strings.HasPrefix(key, parentKey+"::") {
 			continue
 		}
 		childKey := key[prefixLength:]

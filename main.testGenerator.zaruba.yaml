@@ -41,7 +41,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please addSubrepo url="https://github.com/state-alchemists/fibonacci-clock" prefix="fibo"
+        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="fibo"
         ../zaruba please initSubrepos
         ../zaruba please pullSubrepos
 
@@ -57,8 +57,8 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeServiceTask location=fibo
-        ../zaruba please makeDockerTask image=rabbitmq
+        ../zaruba please makeServiceTask generator.service.location=fibo
+        ../zaruba please makeDockerTask generator.docker.image=rabbitmq
 
 
   testMakeFastAPIProject:
@@ -71,7 +71,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastService location=myservice
+        ../zaruba please makeFastService generator.service.location=myservice
         
 
   testMakeFastAPIModule:
@@ -84,7 +84,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastModule location=myservice module=mymodule
+        ../zaruba please makeFastModule generator.service.location=myservice generator.module.name=mymodule
 
 
   testMakeFastAPIRoute:
@@ -97,7 +97,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRoute location=myservice module=mymodule url=/hello
+        ../zaruba please makeFastRoute generator.service.location=myservice generator.module.name=mymodule generator.url=/hello
 
 
   testMakeFastAPIEventHandler:
@@ -110,7 +110,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastEventHandler location=myservice module=mymodule event=myEvent
+        ../zaruba please makeFastEventHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myEvent
 
 
   testMakeFastAPIRPCHandler:
@@ -123,7 +123,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRPCHandler location=myservice module=mymodule event=myRPC
+        ../zaruba please makeFastRPCHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myRPC
 
 
   testMakeFastAPICRUD:
@@ -136,7 +136,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastCRUD location=myservice module=mymodule entity=book fields=title,author,synopsis
+        ../zaruba please makeFastCRUD generator.service.location=myservice generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis
   
 
   testUpdateEnv:
@@ -192,7 +192,7 @@ tasks:
         ZARUBA_HOME="$(realpath "..")"
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
-        ../zaruba please buildImage dockerEnv=default
+        ../zaruba please buildImage docker.env=default
 
 
   testGenerator:
@@ -224,7 +224,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please showLog task=myservice
+        ../zaruba please showLog log.keyword=myservice
         ../zaruba please clearLog
   
 
@@ -255,7 +255,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please pushImage dockerEnv=default
+        ../zaruba please pushImage docker.env=default
   
 
   runPlayground:

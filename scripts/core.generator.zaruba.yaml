@@ -1,3 +1,44 @@
+inputs:
+
+  generator.templates:
+    description: Additional templates. Use colon (:) as separator.
+
+  generator.task.name:
+    description: Generated task name. If left blank, the value will be inferred from generator.docker.container/generator.service.location.
+
+  generator.docker.image:
+    default: default
+    description: Docker image.
+
+  generator.docker.container:
+    description: Container name. If left blank, the value will be inferred from generator.docker.image
+
+  generator.service.location:
+    description: Location of the service. Required.
+
+  generator.service.type:
+    default: default
+    description: "Service type (eg: nodejs, go, python)."
+
+  generator.service.ports:
+    description: Service's port list. Use comma (,) as separator. If left blank the value will be inferred from service's environment.
+
+  generator.module.name:
+    description: Module name.
+  
+  generator.url:
+    description: URL to be handled.
+
+  generator.event.name:
+    description: Name of the event to be handled.
+  
+  generator.crud.entity:
+    description: Name of the entity to be handled.
+  
+  generator.crud.fields:
+    description: Fields of generator.entity. use comma (,) as separator.
+  
+
 tasks:
 
   core.generate:
@@ -15,14 +56,16 @@ tasks:
     private: true
     extend: core.runCoreScript
     dependencies:
-      - core.setupPyUtil
-      - core.isProject
-      - core.showAdv
+    - core.setupPyUtil
+    - core.isProject
+    - core.showAdv
+    inputs:
+    - generator.templates
     config:
       setup: |
         {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
         {{ $runCoreScript.GetConfig "setup" }}
-        TEMPLATE_PATHS="{{ if .GetValue "templates" }}{{ .GetValue "templates" }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
+        TEMPLATE_PATHS="{{ if .GetValue "generator.templates" }}{{ .GetValue "generator.templates" }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
         # Usage: copy_and_create_link <template_path> <link_source> <link_destination>
         copy_and_create_link()
         {
@@ -60,19 +103,17 @@ tasks:
     icon: 🚢
     description: |
       Add helm charts to the project to make deployment easier.
-      USAGE:
-        zaruba please makeServiceChart location=fibo
-      ARGUMENTS:
-        location:   Service location. (required)
-        ports:      Service ports, comma separated. (optional, will be infered from environment if not defined)
     extend: core.generate
     dependencies:
     - core.isContainHelmCharts
+    inputs:
+    - generator.service.location
+    - generator.service.ports
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        PORTS="{{ .GetValue "ports" }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        PORTS="{{ .GetValue "generator.service.ports" }}"
         . "${PY_UTIL}" create_service_deployment "${LOCATION}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
@@ -82,21 +123,17 @@ tasks:
     icon: 🐳
     description: |
       Add docker task to the project.
-      USAGE:
-        zaruba please makeDockerTask image=nginx
-        zaruba please makeDockerTask image=nginx container=myNginx task=runMyNginx templates=./templates
-      ARGUMENTS:
-        image:      Docker image. (required)
-        container:  Container name. (optional, if not provided, will be inferred from `image`)
-        task:       Task name. (optional, if not provided, will be inferred from `image`)
-        templates:  Template directories, colon separated. (optional, used to define custom template path)
     extend: core.generate
+    inputs:
+    - generator.docker.image
+    - generator.docker.container
+    - generator.task.name
     config:
       start: |
         {{- $d := .Decoration -}}
-        IMAGE="{{ .GetValue "image" }}"
-        CONTAINER="{{ .GetValue "container" }}"
-        TASK="{{ .GetValue "task" }}"
+        IMAGE="{{ .GetValue "generator.docker.image" }}"
+        CONTAINER="{{ .GetValue "generator.docker.container" }}"
+        TASK="{{ .GetValue "generator.task.name" }}"
         . "${PY_UTIL}" create_docker_task "${TEMPLATE_PATHS}" "${IMAGE}" "${CONTAINER}" "${TASK}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
@@ -107,8 +144,8 @@ tasks:
     description: |
       Add service task to the project.
       USAGE:
-        zaruba please makeServiceTask location=fibo
-        zaruba please makeServiceTask location=fibo type=default task=runFibo templates=./templates
+        zaruba please makeServiceTask generator.service.location=fibo
+        zaruba please makeServiceTask generator.service.location=fibo generator.service.type=default generatedTaskName=runFibo templates=./templates
       ARGUMENTS:
         location:   Service location. (required)
         type:       Service type. (optional, default to 'default')
@@ -116,13 +153,18 @@ tasks:
         templates:  Template directories, colon separated. (optional, used to define custom template path)
         ports:      Service ports, comma separated. (optional, will be infered from environment if not defined)
     extend: core.generate
+    inputs:
+    - generator.service.location
+    - generator.service.type
+    - generator.service.ports
+    - generator.task.name
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        TYPE="{{ .GetValue "type" }}"
-        TASK="{{ .GetValue "task" }}"
-        PORTS="{{ .GetValue "ports" }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        TYPE="{{ .GetValue "generator.service.type" }}"
+        TASK="{{ .GetValue "generator.task.name" }}"
+        PORTS="{{ .GetValue "generator.service.ports" }}"
         . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
@@ -132,18 +174,15 @@ tasks:
     icon: ⚡
     description: |
       Make "messagebus and RDBMS ready" FastAPI service.
-      USAGE:
-        zaruba please makeFastService location=myService
-        zaruba please makeFastService location=myService task=runMyService
-      ARGUMENTS:
-        location:   Service location. (required)
-        task:       Task name. (optional, if not provided, will be inferred from `location`)
     extend: core.generate
+    inputs:
+    - generator.service.location
+    - generator.task.name
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ if .GetValue "location" }}{{ .GetValue "location" }}{{ else }}$(. "${PY_UTIL}" get_random_name){{ end }}"
-        TASK_NAME="{{ if .GetValue "task" }}{{ .GetValue "task" }}{{ else }}$(. "${PY_UTIL}" get_run_task_name "$LOCATION"){{ end }}"
+        LOCATION="{{ if .GetValue "generator.service.location" }}{{ .GetValue "generator.service.location" }}{{ else }}$(. "${PY_UTIL}" get_random_name){{ end }}"
+        TASK_NAME="{{ if .GetValue "generator.task.name" }}{{ .GetValue "generator.task.name" }}{{ else }}$(. "${PY_UTIL}" get_run_task_name "$LOCATION"){{ end }}"
         TASK_FILE_NAME="$(. "${PY_UTIL}" get_task_file_name "${TASK_NAME}")"
         ENV_PREFIX=$(. "${PY_UTIL}" get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
@@ -175,21 +214,19 @@ tasks:
   makeFastModule:
     icon: ⚡
     description: |
-      Make module for FastService
-      USAGE:
-        zaruba please makeFastModule location=myService module=myModule
-      ARGUMENTS:
-        location:  Service location. (required)
-        module:    Module name. (required)
+      Make module for FastService.
+    inputs:
+    - generator.service.location
+    - generator.module.name
     extend: core.generate
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetValue "module" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
+        MODULE="{{ .GetValue "generator.module.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
         . "${UTIL}/should_not_be_dir.sh" "${LOCATION}/${MODULE}" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE} is already exist{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         cp -r "${FAST_TEMPLATE}/module" "${LOCATION}/${MODULE}"
@@ -202,25 +239,23 @@ tasks:
   makeFastRoute:
     icon: ⚡
     description: |
-      Make route handler in FastService's module
-      USAGE:
-        zaruba please makeFastRoute location=myService module=myModule url=url
-      ARGUMENTS:
-        location:  Service location. (required)
-        module:    Module name. (required)
-        url:       URL to be handled. (required)
+      Make route handler in FastService's module.
     extend: core.generate
+    inputs:
+    - generator.service.location
+    - generator.module.name
+    - generator.url
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetValue "module" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
+        MODULE="{{ .GetValue "generator.module.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/route.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/route.py should be exist{{ $d.Normal }}"
-        URL="{{ .GetValue "url" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}url is required.{{ $d.Normal }}"
+        URL="{{ .GetValue "generator.url" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}generator.url is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_route "${LOCATION}" "${MODULE}" "${URL}"
         echo 🎉🎉🎉
@@ -230,25 +265,23 @@ tasks:
   makeFastEventHandler:
     icon: ⚡
     description: |
-      Make event handler in FastService's module
-      USAGE:
-        zaruba please makeFastEventHandler location=myService module=myModule event=event
-      ARGUMENTS:
-        location:  Service location. (required)
-        module:    Module name. (required)
-        event:     Event to be handled. (required)
+      Make event handler in FastService's module.
     extend: core.generate
+    inputs:
+    - generator.service.location
+    - generator.module.name
+    - generator.event.name
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetValue "module" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
+        MODULE="{{ .GetValue "generator.module.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
-        EVENT="{{ .GetValue "event" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
+        EVENT="{{ .GetValue "generator.event.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}generator.event.name is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_event_handler "${LOCATION}" "${MODULE}" "${EVENT}"
         echo 🎉🎉🎉
@@ -258,25 +291,23 @@ tasks:
   makeFastRPCHandler:
     icon: ⚡
     description: |
-      Make RPC handler in FastService's module
-      USAGE:
-        zaruba please makeFastRPCHandler location=myService module=myModule event=event
-      ARGUMENTS:
-        location:  Service location. (required)
-        module:    Module name. (required)
-        event:     Event to be handled. (required)
+      Make RPC handler in FastService's module.
     extend: core.generate
+    inputs:
+    - generator.service.location
+    - generator.module.name
+    - generator.event.name
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetValue "module" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
+        MODULE="{{ .GetValue "generator.module.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
-        EVENT="{{ .GetValue "event" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}event is required.{{ $d.Normal }}"
+        EVENT="{{ .GetValue "generator.event.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}generator.event.name is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${EVENT}"
         echo 🎉🎉🎉
@@ -286,27 +317,25 @@ tasks:
   makeFastCRUD:
     icon: ⚡
     description: |
-      Make CRUD handler in FastService's module
-      USAGE:
-        zaruba please makeFastRPCHandler location=myService module=myModule entity=entity fields=field1,field2,field3
-      ARGUMENTS:
-        location:  Service location. (required)
-        module:    Module name. (required)
-        entity:    Entity name. (required)
-        fields:    Field names. (optional)
+      Make CRUD handler in FastService's module.
+    inputs:
+    - generator.service.location
+    - generator.module.name
+    - generator.crud.entity
+    - generator.crud.fields
     extend: core.generate
     config:
       start: |
         {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}location is required{{ $d.Normal }}"
+        LOCATION="{{ .GetValue "generator.service.location" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
-        MODULE="{{ .GetValue "module" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}module is required{{ $d.Normal }}"
+        MODULE="{{ .GetValue "generator.module.name" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
         . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
-        ENTITY="{{ .GetValue "entity" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${ENTITY}" "{{ $d.Bold }}{{ $d.Red }}entity is required.{{ $d.Normal }}"
-        FIELDS="{{ .GetValue "fields" }}"
+        ENTITY="{{ .GetValue "generator.crud.entity" }}"
+        . "${UTIL}/should_not_be_empty.sh" "${ENTITY}" "{{ $d.Bold }}{{ $d.Red }}generator.crud.entity is required.{{ $d.Normal }}"
+        FIELDS="{{ .GetValue "generator.crud.fields" }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         . "${PY_UTIL}" create_fast_crud "${LOCATION}" "${MODULE}" "${ENTITY}" "${FIELDS}"
         echo 🎉🎉🎉

@@ -38,8 +38,15 @@ var pleaseCmd = &cobra.Command{
 		if len(taskNames) == 0 {
 			d := logger.NewDecoration()
 			logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
-			logger.Printf("Here are some possible tasks you can execute:\n")
-			explainer.ExplainTasks(project, "")
+			logger.Printf("Here are several things you can try:\n")
+			logger.Printf("* %szaruba please explain %s%s[task-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+			logger.Printf("* %szaruba please explain inputs %s%s[input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+			return
+		}
+		// handle "please explain inputs"
+		if len(taskNames) >= 2 && taskNames[0] == "explain" && taskNames[1] == "inputs" {
+			keyword := strings.Join(taskNames[2:], " ")
+			explainer.ExplainInputs(project, keyword)
 			return
 		}
 		// handle "please explain"
@@ -92,13 +99,27 @@ func init() {
 
 func askInputs(project *config.Project, taskNames []string) (err error) {
 	inputs, inputOrder, err := project.GetInputs(taskNames)
-	for _, inputName := range inputOrder {
+	d := logger.NewDecoration()
+	inputCount := len(inputOrder)
+	if inputCount == 0 {
+		logger.Printf("%sZaruba is running in interactive mode. But no value you can set interactively.%s\n", d.Yellow, d.Normal)
+		return err
+	}
+	logger.Printf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n", d.Yellow, d.Normal)
+	logger.Printf("%sLeave blank if you want to keep current values.%s\n", d.Yellow, d.Normal)
+	for inputIndex, inputName := range inputOrder {
 		input := inputs[inputName]
-		fmt.Println(strings.ToUpper(inputName))
 		if input.Description != "" {
-			fmt.Println(input.Description)
+			fmt.Printf("\n%s%s%s%s\n", d.Bold, d.Blue, inputName, d.Normal)
+			fmt.Printf("%s\n\n", strings.Trim(input.Description, "\n "))
 		}
-		fmt.Printf("%s (Current: %s): ", inputName, project.Values[inputName])
+		decoratedValue := "empty"
+		value := project.Values[inputName]
+		if value != "" {
+			decoratedValue = fmt.Sprintf("%s%s%s", d.Yellow, value, d.Normal)
+		}
+		decoratedIndex := fmt.Sprintf("%s%d of %d)%s", d.Faint, inputIndex+1, inputCount, d.Normal)
+		fmt.Printf("%s %s (currently %s): ", decoratedIndex, inputName, decoratedValue)
 		userValue := ""
 		fmt.Scanf("%s", &userValue)
 		if userValue != "" {

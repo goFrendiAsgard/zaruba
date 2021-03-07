@@ -44,7 +44,7 @@ cd myProject
 zaruba please initProject
 
 # add external repo
-zaruba please addSubrepo url="https://github.com/state-alchemists/fibonacci-clock"
+zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock"
 zaruba please initSubrepos
 
 cd fibonacci-clock
