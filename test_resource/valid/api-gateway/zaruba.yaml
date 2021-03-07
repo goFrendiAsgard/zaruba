@@ -1,8 +1,15 @@
+inputs:
+  host:
+    default: localhost
+    description: Host
+
 tasks:
 
   runApiGateway:
     location: ./
     extend: core.runNodeJsService
+    inputs:
+    - host
     config:
       checkPort: '{{ .GetEnv "HTTP_PORT" }}'
     lconfig:

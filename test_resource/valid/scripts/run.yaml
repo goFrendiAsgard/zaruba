@@ -1,7 +1,14 @@
+inputs:
+  taskName:
+    default: myTask
+    description: Task name
+
 tasks:
 
   core.runShellScript:
     private: true
+    inputs:
+    - taskName
     config:
       cmd: sh
       evalParam: "-c"

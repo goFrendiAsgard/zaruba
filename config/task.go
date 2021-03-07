@@ -155,8 +155,8 @@ func (task *Task) GetEnv(td *TaskData, key string) (val string, err error) {
 			return val, nil
 		}
 	}
-	templateName := fmt.Sprintf("%s.env.%s", task.Name, key)
-	return task.getParsedPattern(td, templateName, envConfig.Default)
+	templateNamePrefix := fmt.Sprintf("%s.env.%s", task.Name, key)
+	return task.getParsedPattern(td, templateNamePrefix, envConfig.Default)
 }
 
 // GetEnvs getting all parsed env
@@ -171,15 +171,9 @@ func (task *Task) GetEnvs(td *TaskData) (parsedEnv map[string]string, err error)
 	return parsedEnv, nil
 }
 
-func (task *Task) getParsedPattern(td *TaskData, templateName, pattern string) (result string, err error) {
-	lines := strings.Split(pattern, "\n")
-	if len(lines) > 1 {
-		for index, line := range lines {
-			lines[index] = fmt.Sprintf("%s | %s", fmt.Sprintf("%4d", index+1), line)
-		}
-	}
-	tmplName := fmt.Sprintf("\n%s:\n%s\n", templateName, strings.Join(lines, "\n"))
-	tmpl, err := template.New(tmplName).Option("missingkey=zero").Parse(pattern)
+func (task *Task) getParsedPattern(td *TaskData, templateNamePrefix, pattern string) (result string, err error) {
+	templateName := task.getTemplateName(templateNamePrefix, pattern)
+	tmpl, err := template.New(templateName).Option("missingkey=zero").Parse(pattern)
 	if err != nil {
 		return "", err
 	}
@@ -189,6 +183,19 @@ func (task *Task) getParsedPattern(td *TaskData, templateName, pattern string) (
 	}
 	result = b.String()
 	return result, nil
+}
+
+func (task *Task) getTemplateName(templateNamePrefix, pattern string) (templateName string) {
+	lines := strings.Split(pattern, "\n")
+	if len(lines) == 2 && lines[1] == "" {
+		lines = []string{lines[0]}
+	}
+	if len(lines) > 1 {
+		for index, line := range lines {
+			lines[index] = fmt.Sprintf("%s | %s", fmt.Sprintf("%4d", index+1), line)
+		}
+	}
+	return fmt.Sprintf("\n%s:\n%s\n", templateNamePrefix, strings.Join(lines, "\n"))
 }
 
 func (task *Task) linkToEnvs() {

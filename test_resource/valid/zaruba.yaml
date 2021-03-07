@@ -3,13 +3,33 @@ includes:
   - ./scripts/run.yaml
   - ./api-gateway/zaruba.yaml
 
+inputs:
+  testName:
+    default: myTest
+    description: Test name
+  font:
+    default: cascadia
+    description: Font
+
 tasks:
 
   runIntegrationTest:
     location: ./cypress
+    inputs:
+    - testName
     start: ["npm", "start"]
     dependencies:
       - runApiGateway
+    config:
+      footer1: |
+        Footer 1.
+      footer2: |
+        Footer 2.
+        Contains 2 lines.
+      footer3: |
+        {{ .GetConfig "footer1" }}
+        {{ .GetConfig "footer2" }}
+      header: Header.
   
   serveStaticFiles:
     extend: core.runStaticWebService

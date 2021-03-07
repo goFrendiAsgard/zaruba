@@ -53,7 +53,12 @@ func TestValidTaskGetConfig(t *testing.T) {
 			"checkPort": "8080",
 			"checkHost": "localhost",
 		},
-		"runIntegrationTest": {},
+		"runIntegrationTest": {
+			"header":  "Header.",
+			"footer1": "Footer 1.\n",
+			"footer2": "Footer 2.\nContains 2 lines.\n",
+			"footer3": "Footer 1.\n\nFooter 2.\nContains 2 lines.\n\n",
+		},
 		"core.runNodeJsService": {
 			"checkPort": "3000",
 			"checkHost": "localhost",
@@ -72,7 +77,7 @@ func TestValidTaskGetConfig(t *testing.T) {
 				t.Error(err)
 			}
 			if actualVal != expectedVal {
-				t.Errorf("Expecting config %s of %s to be %s but getting %s", key, taskName, expectedVal, actualVal)
+				t.Errorf("Expecting config %s of %s to be \n%s\nbut getting \n%s", key, taskName, expectedVal, actualVal)
 			}
 		}
 	}

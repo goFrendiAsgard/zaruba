@@ -1,0 +1,4 @@
+tasks:
+  parentTask:
+    inputs:
+    - undeclaredInput

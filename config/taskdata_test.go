@@ -213,6 +213,16 @@ func TestTaskDataGetTask(t *testing.T) {
 	}
 }
 
+func TestTaskDataGetDefaultShell(t *testing.T) {
+	if err := setupTaskData(t); err != nil {
+		return
+	}
+	defaultShell := td.GetDefaultShell()
+	if defaultShell != "bash" && defaultShell != "sh" {
+		t.Errorf("bash or sh is expected, but getting %s", defaultShell)
+	}
+}
+
 func TestTaskDataGetInvalidTask(t *testing.T) {
 	if err := setupTaskData(t); err != nil {
 		return

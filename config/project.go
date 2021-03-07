@@ -227,6 +227,7 @@ func (project *Project) cascadeIncludes() (err error) {
 			if inputAlreadyDeclared {
 				return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, parsedIncludeLocation, input.FileLocation)
 			}
+			project.Inputs[inputName] = input
 		}
 		// cascade tasks
 		for taskName, task := range includedProject.Tasks {

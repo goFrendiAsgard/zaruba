@@ -1,6 +1,7 @@
 tasks:
 
   core.runNodeJsService:
+    extend: core.runShellScript
     env:
       SOME_KEY:
         default: SOME_VALUE

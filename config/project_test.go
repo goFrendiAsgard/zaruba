@@ -70,6 +70,100 @@ func TestValidProjectInclusion(t *testing.T) {
 		if _, exists := validProject.Tasks[taskName]; !exists {
 			t.Errorf(fmt.Sprintf("Task %s is not exist", taskName))
 		}
+		fmt.Println(taskName, validProject.Tasks[taskName].Extend)
+	}
+}
+
+func TestValidProjectInputs(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
+		return
+	}
+	expectedInputs := map[string]*Input{
+		"testName": {
+			DefaultValue: "myTest",
+			Description:  "Test name",
+		},
+		"taskName": {
+			DefaultValue: "myTask",
+			Description:  "Task name",
+		},
+		"host": {
+			DefaultValue: "localhost",
+			Description:  "Host",
+		},
+		"font": {
+			DefaultValue: "cascadia",
+			Description:  "Font",
+		},
+	}
+	actualInputs := validProject.Inputs
+	actualInputCount := 0
+	for inputName, actualInput := range actualInputs {
+		expectedInput, inputExist := expectedInputs[inputName]
+		if !inputExist {
+			t.Errorf(fmt.Sprintf("Input %s is not expected", inputName))
+		}
+		if actualInput.DefaultValue != expectedInput.DefaultValue {
+			t.Errorf(fmt.Sprintf("Expected default value of %s: %s, Actual: %s", inputName, expectedInput.DefaultValue, actualInput.DefaultValue))
+		}
+		if actualInput.Description != expectedInput.Description {
+			t.Errorf(fmt.Sprintf("Expected description of %s: %s, Actual: %s", inputName, expectedInput.Description, actualInput.Description))
+		}
+		actualInputCount++
+	}
+	if actualInputCount != 4 {
+		t.Errorf(fmt.Sprintf("There should be 4 inputs, currently %#v", actualInputs))
+	}
+	// expected inputs should also populate project's value
+	for inputName, input := range expectedInputs {
+		actualValue, valueExist := validProject.Values[inputName]
+		if !valueExist {
+			t.Errorf(fmt.Sprintf("Value %s is expected", inputName))
+		}
+		if actualValue != input.DefaultValue {
+			t.Errorf(fmt.Sprintf("Expected %s to contains default value from input: %s, Actual: %s", inputName, actualValue, input.DefaultValue))
+		}
+	}
+}
+
+func TestValidProjectGetInputs(t *testing.T) {
+	if err := setupValidProject(t); err != nil {
+		return
+	}
+	expectedInputs := map[string]*Input{
+		"testName": {
+			DefaultValue: "myTest",
+			Description:  "Test name",
+		},
+		"taskName": {
+			DefaultValue: "myTask",
+			Description:  "Task name",
+		},
+		"host": {
+			DefaultValue: "localhost",
+			Description:  "Host",
+		},
+	}
+	actualInputs, err := validProject.GetInputs([]string{"runIntegrationTest"})
+	if err != nil {
+		t.Error(err)
+	}
+	actualInputCount := 0
+	for inputName, actualInput := range actualInputs {
+		expectedInput, exist := expectedInputs[inputName]
+		if !exist {
+			t.Errorf(fmt.Sprintf("Input %s is not expected", inputName))
+		}
+		if actualInput.DefaultValue != expectedInput.DefaultValue {
+			t.Errorf(fmt.Sprintf("Expected default value of %s: %s, Actual: %s", inputName, expectedInput.DefaultValue, actualInput.DefaultValue))
+		}
+		if actualInput.Description != expectedInput.Description {
+			t.Errorf(fmt.Sprintf("Expected description of %s: %s, Actual: %s", inputName, expectedInput.Description, actualInput.Description))
+		}
+		actualInputCount++
+	}
+	if actualInputCount != 3 {
+		t.Errorf(fmt.Sprintf("There should be 3 inputs, currently %#v", actualInputs))
 	}
 }
 
@@ -140,9 +234,25 @@ func TestValidProjectWithNonExistValueFile(t *testing.T) {
 	}
 }
 
+func TestValidProjectGetInputsFromNonExistingTask(t *testing.T) {
+	project, err := NewProject("../test_resource/valid/zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if _, err = project.GetInputs([]string{"nonExistingTask"}); err == nil {
+		t.Error("Error expected")
+	}
+}
+
 func TestInvalidProjectTaskRedeclared(t *testing.T) {
-	_, err := NewProject("../test_resource/invalidTaskRedeclared/task.yaml")
-	if err == nil {
+	if _, err := NewProject("../test_resource/invalidTaskRedeclared/task.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectInputRedeclared(t *testing.T) {
+	if _, err := NewProject("../test_resource/invalidInputRedeclared/input.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
@@ -161,6 +271,17 @@ func TestInvalidProjectValuesFormat(t *testing.T) {
 func TestInvalidProjectNotExist(t *testing.T) {
 	_, err := NewProject("../test_resource/notExist.yaml")
 	if err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectUndeclaredInput(t *testing.T) {
+	project, err := NewProject("../test_resource/invalidUndefinedInput/task.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if _, err = project.GetInputs([]string{"myTask"}); err == nil {
 		t.Error("Error expected")
 	}
 }

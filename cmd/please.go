@@ -94,9 +94,10 @@ func askInputs(project *config.Project, taskNames []string) (err error) {
 		if input.Description != "" {
 			fmt.Println(input.Description)
 		}
-		fmt.Printf("%s (Default: %s): ", inputName, input.DefaultValue)
+		fmt.Printf("%s (Current: %s): ", inputName, project.Values[inputName])
 		userValue := ""
 		fmt.Scanf("%s", &userValue)
+		project.SetValue(inputName, userValue)
 	}
 	return err
 }
