@@ -148,12 +148,13 @@ func (project *Project) SetValue(key, value string) {
 }
 
 // GetInputs given task names
-func (project *Project) GetInputs(taskNames []string) (inputs map[string]*Input, err error) {
+func (project *Project) GetInputs(taskNames []string) (inputs map[string]*Input, inputOrder []string, err error) {
 	inputs = map[string]*Input{}
+	inputOrder = []string{}
 	for _, taskName := range taskNames {
 		task, taskExist := project.Tasks[taskName]
 		if !taskExist {
-			return inputs, fmt.Errorf("Task %s is not exist", taskName)
+			return inputs, inputOrder, fmt.Errorf("Task %s is not exist", taskName)
 		}
 		// include task's dependencies and parent's inputs first
 		subTaskNames := []string{}
@@ -161,23 +162,25 @@ func (project *Project) GetInputs(taskNames []string) (inputs map[string]*Input,
 			subTaskNames = append(subTaskNames, task.Extend)
 		}
 		subTaskNames = append(subTaskNames, task.Dependencies...)
-		subInputs, err := project.GetInputs(subTaskNames)
+		subInputs, subInputOrder, err := project.GetInputs(subTaskNames)
 		if err != nil {
-			return inputs, err
+			return inputs, inputOrder, err
 		}
 		for inputName, input := range subInputs {
 			inputs[inputName] = input
 		}
+		inputOrder = append(inputOrder, subInputOrder...)
 		// include task's inputs
 		for _, inputName := range task.Inputs {
 			input, inputExist := project.Inputs[inputName]
 			if !inputExist {
-				return inputs, fmt.Errorf("Input %s is not defined", inputName)
+				return inputs, inputOrder, fmt.Errorf("Input %s is not defined", inputName)
 			}
 			inputs[inputName] = input
+			inputOrder = append(inputOrder, inputName)
 		}
 	}
-	return inputs, err
+	return inputs, inputOrder, err
 }
 
 // Init all tasks

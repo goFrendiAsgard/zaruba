@@ -88,8 +88,9 @@ func init() {
 }
 
 func askInputs(project *config.Project, taskNames []string) (err error) {
-	inputs, err := project.GetInputs(taskNames)
-	for inputName, input := range inputs {
+	inputs, inputOrder, err := project.GetInputs(taskNames)
+	for _, inputName := range inputOrder {
+		input := inputs[inputName]
 		fmt.Println(strings.ToUpper(inputName))
 		if input.Description != "" {
 			fmt.Println(input.Description)

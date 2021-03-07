@@ -144,7 +144,8 @@ func TestValidProjectGetInputs(t *testing.T) {
 			Description:  "Host",
 		},
 	}
-	actualInputs, err := validProject.GetInputs([]string{"runIntegrationTest"})
+	expectedInputOrder := []string{"taskName", "host", "testName"}
+	actualInputs, actualInputOrder, err := validProject.GetInputs([]string{"runIntegrationTest"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -164,6 +165,17 @@ func TestValidProjectGetInputs(t *testing.T) {
 	}
 	if actualInputCount != 3 {
 		t.Errorf(fmt.Sprintf("There should be 3 inputs, currently %#v", actualInputs))
+	}
+	if len(actualInputOrder) != actualInputCount {
+		t.Errorf(fmt.Sprintf("Expected inputOrder to contains %d elements, but actualInputOrder is: %#v", actualInputCount, actualInputOrder))
+		return
+	}
+	for orderIndex := range expectedInputOrder {
+		expected := expectedInputOrder[orderIndex]
+		actual := actualInputOrder[orderIndex]
+		if expected != actual {
+			t.Errorf("Expected inputOrder[%d] to be %s, but get %s", orderIndex, expected, actual)
+		}
 	}
 }
 
@@ -240,7 +252,7 @@ func TestValidProjectGetInputsFromNonExistingTask(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if _, err = project.GetInputs([]string{"nonExistingTask"}); err == nil {
+	if _, _, err = project.GetInputs([]string{"nonExistingTask"}); err == nil {
 		t.Error("Error expected")
 	}
 }
@@ -281,7 +293,7 @@ func TestInvalidProjectUndeclaredInput(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if _, err = project.GetInputs([]string{"myTask"}); err == nil {
+	if _, _, err = project.GetInputs([]string{"myTask"}); err == nil {
 		t.Error("Error expected")
 	}
 }
