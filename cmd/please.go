@@ -48,6 +48,9 @@ var pleaseCmd = &cobra.Command{
 			explainer.ExplainTasks(project, keyword)
 			return
 		}
+		if *pleaseInteractive {
+			askInputs(project, taskNames)
+		}
 		// run
 		r := runner.NewRunner(project, taskNames, time.Minute*5)
 		if err := r.Run(); err != nil {
@@ -84,7 +87,7 @@ func init() {
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "task file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
-	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "(e.g -i true)")
+	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, zaruba will ask you to fill inputs (e.g: -i)")
 }
 
 func askInputs(project *config.Project, taskNames []string) (err error) {
@@ -98,7 +101,9 @@ func askInputs(project *config.Project, taskNames []string) (err error) {
 		fmt.Printf("%s (Current: %s): ", inputName, project.Values[inputName])
 		userValue := ""
 		fmt.Scanf("%s", &userValue)
-		project.SetValue(inputName, userValue)
+		if userValue != "" {
+			project.SetValue(inputName, userValue)
+		}
 	}
 	return err
 }
