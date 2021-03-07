@@ -20,6 +20,9 @@ func ExplainInputs(project *config.Project, keyword string) {
 		if !r.MatchString(inputName) {
 			continue
 		}
+		if totalMatch == 0 {
+			logger.Printf("%sINPUT VARIABLES:%s\n", d.Yellow, d.Normal)
+		}
 		input := project.Inputs[inputName]
 		fmt.Printf("%s%s%s%s%s\n", inputIndentation, d.Yellow, d.Bold, inputName, d.Normal)
 		if input.DefaultValue != "" {
@@ -32,18 +35,21 @@ func ExplainInputs(project *config.Project, keyword string) {
 		}
 		totalMatch++
 	}
-	logger.Printf("%d input(s) matched '%s' keyword.\n", totalMatch, keyword)
-	logger.Printf("You can also use %s%szaruba please explain inputs <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
+	logger.Printf("%d input variable(s) matched '%s' keyword.\n", totalMatch, keyword)
+	logger.Printf("You can also use %s%szaruba please explain input <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
 }
 
 // ExplainTasks explain all tasks matching the keyword
 func ExplainTasks(project *config.Project, keyword string) {
 	r := getRegexKeyword(keyword)
 	d := logger.NewDecoration()
-	totalMatch := showTasks(project, false, r)
-	totalMatch += showTasks(project, true, r)
-	logger.Printf("%d task(s) matched '%s' keyword.\n", totalMatch, keyword)
-	logger.Printf("You can also use %s%szaruba please explain <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
+	unpublishedMatch := showTasks(project, false, r)
+	publishedMatch := showTasks(project, true, r)
+	totalMatch := unpublishedMatch + publishedMatch
+	logger.Printf("%d task(s) matched '%s' keyword:\n", totalMatch, keyword)
+	logger.Printf("    %d base task(s)\n", unpublishedMatch)
+	logger.Printf("    %d published task(s)\n", publishedMatch)
+	logger.Printf("You can also use %s%szaruba please explain task <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
 }
 
 func showTasks(project *config.Project, published bool, r *regexp.Regexp) (totalMatch int) {
@@ -61,6 +67,13 @@ func showTasks(project *config.Project, published bool, r *regexp.Regexp) (total
 		}
 		if !r.MatchString(taskName) {
 			continue
+		}
+		if totalMatch == 0 {
+			if published {
+				logger.Printf("%sPUBLISHED TASKS:%s\n", d.Yellow, d.Normal)
+			} else {
+				logger.Printf("%sBASE TASKS:%s\n", d.Yellow, d.Normal)
+			}
 		}
 		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, d.Bold, taskPrefix, task.Name, d.Normal)
 		showField(taskFieldIndentation, "PUBLISHED", fmt.Sprintf("%t", !task.Private), true)

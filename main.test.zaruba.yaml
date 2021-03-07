@@ -170,7 +170,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please explain start
+        ./zaruba please explain docker
   
 
   testCommon:
