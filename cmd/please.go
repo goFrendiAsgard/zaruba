@@ -39,20 +39,28 @@ var pleaseCmd = &cobra.Command{
 			d := logger.NewDecoration()
 			logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
 			logger.Printf("Here are several things you can try:\n")
-			logger.Printf("* %szaruba please explain %s%s[task-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-			logger.Printf("* %szaruba please explain inputs %s%s[input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-			return
-		}
-		// handle "please explain inputs"
-		if len(taskNames) >= 2 && taskNames[0] == "explain" && taskNames[1] == "inputs" {
-			keyword := strings.Join(taskNames[2:], " ")
-			explainer.ExplainInputs(project, keyword)
+			logger.Printf("* %szaruba please explain task %s%s[task-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+			logger.Printf("* %szaruba please explain input %s%s[input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+			logger.Printf("* %szaruba please explain %s%s[task-or-input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
 			return
 		}
 		// handle "please explain"
-		if taskNames[0] == "explain" {
+		if len(taskNames) >= 2 && taskNames[0] == "explain" {
+			if taskNames[1] == "input" || taskNames[1] == "task" {
+				keyword := strings.Join(taskNames[2:], " ")
+				// handle "please explain input"
+				if taskNames[1] == "input" {
+					explainer.ExplainInputs(project, keyword)
+					return
+				}
+				// handle "please explain task"
+				explainer.ExplainTasks(project, keyword)
+				return
+			}
+			// handle "please explain"
 			keyword := strings.Join(taskNames[1:], " ")
 			explainer.ExplainTasks(project, keyword)
+			explainer.ExplainInputs(project, keyword)
 			return
 		}
 		if *pleaseInteractive {
