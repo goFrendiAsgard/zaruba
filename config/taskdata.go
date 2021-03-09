@@ -166,6 +166,11 @@ func (td *TaskData) IsFalse(str string) (isFalse bool) {
 	return boolean.IsFalse(str)
 }
 
+// Trim trim string
+func (td *TaskData) Trim(str, cutset string) (trimmedStr string) {
+	return strings.Trim(str, cutset)
+}
+
 // GetDockerImagePrefix get docker image prefix
 func (td *TaskData) GetDockerImagePrefix() (dockerImagePrefix string) {
 	// if useImagePrefix is false

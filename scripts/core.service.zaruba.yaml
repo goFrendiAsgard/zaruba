@@ -18,11 +18,9 @@ tasks:
           - {{ .GetEnv "HTTP_PORT" }}
       ```
     private: true
-    extend: core.runScript
+    extend: core.runCoreScript
     dependencies:
     - updateLinks
-    - core.checkThirdParties
-    - core.checkBootstrap
     config:
       check: |
         {{- $d := .Decoration -}}
@@ -40,24 +38,20 @@ tasks:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
-        {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
-        {{ $runCoreScript.GetConfig "setup" }}
-        {{ .GetConfig "setup" }}
-        {{ .GetConfig "beforeStart" }}
-        {{ .GetConfig "start" }}
-        {{ .GetConfig "afterStart" }}
-        {{ .GetConfig "completeStart" }}
+        {{ .Trim (.GetConfig "setup") "\n " }}
+        {{ .Trim (.GetConfig "beforeStart") "\n " }}
+        {{ .Trim (.GetConfig "start") "\n " }}
+        {{ .Trim (.GetConfig "afterStart") "\n " }}
+        {{ .Trim (.GetConfig "completeStart") "\n " }}
     check:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
-        {{ $runCoreScript := .GetTask "core.runCoreScript" -}}
-        {{ $runCoreScript.GetConfig "setup" }}
-        {{ .GetConfig "setup" }}
-        {{ .GetConfig "beforeCheck" }}
-        {{ .GetConfig "check" }}
-        {{ .GetConfig "afterCheck" }}
-        {{ .GetConfig "completeCheck" }}
+        {{ .Trim (.GetConfig "setup") "\n " }}
+        {{ .Trim (.GetConfig "beforeCheck") "\n " }}
+        {{ .Trim (.GetConfig "check") "\n " }}
+        {{ .Trim (.GetConfig "afterCheck") "\n " }}
+        {{ .Trim (.GetConfig "completeCheck") "\n " }}
 
 
   core.startDockerContainer:

@@ -34,10 +34,10 @@ tasks:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
-        {{ .GetConfig "setup" }}
-        {{ .GetConfig "beforeStart" }}
-        {{ .GetConfig "start" }}
-        {{ .GetConfig "afterStart" }}
+        {{ .Trim (.GetConfig "setup") "\n " }}
+        {{ .Trim (.GetConfig "beforeStart") "\n " }}
+        {{ .Trim (.GetConfig "start") "\n " }}
+        {{ .Trim (.GetConfig "afterStart") "\n " }}
 
 
   core.runCoreScript:
