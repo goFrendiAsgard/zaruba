@@ -68,6 +68,12 @@ tasks:
       ```yaml
       startContainer:
         config:
+          # Docker image prefix will be the default image prefix if provided (default: empty)
+          imagePrefix: local
+          # whether you want to use image prefix or not (default: empty, possible value: "no", "false", "off")
+          useImagePrefix: false
+          # Docker env. default to 'default'
+          dockerEnv: default
           # Container name (no default)
           containerName: mysql
           # Image name (no default)
@@ -96,10 +102,26 @@ tasks:
       localhost: localhost
       expose: config.port
       rebuild: false
+      useImagePrefix: true
       setup: |
-        {{- $d := .Decoration -}}
-        {{ $task := .GetTask "core.runDockerTask" -}}
+        {{ $d := .Decoration -}}
+        {{ $task := .GetTask "core.runCoreScript" -}}
         {{ $task.GetConfig "setup" }}
+        {{ $useImagePrefix := .GetConfig "useImagePrefix" -}}
+        {{ if .IsFalse $useImagePrefix }}
+          DOCKER_IMAGE_PREFIX=""
+        {{ else if .GetConfig "imagePrefix" }}
+          DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}/"
+        {{ else if .GetValue "docker.env" -}}
+          {{ $dockerEnv := .GetValue "docker.env" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
+        {{ else if .GetConfig "dockerEnv" -}}
+          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
+        {{ else -}}
+          {{ $dockerEnv := "default" -}}
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
+        {{ end -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         . "${UTIL}/should_not_be_empty.sh" "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}Container name is not provided{{ $d.Normal }}"
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
