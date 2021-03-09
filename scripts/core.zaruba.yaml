@@ -106,6 +106,8 @@ tasks:
     description: |
       Run static web server from your working directory.
     extend: core.startService
+    inputs:
+    - server.httpPort
     lconfig:
       ports: ['{{ .GetValue "server.httpPort" }}']
     start: 
@@ -494,21 +496,7 @@ tasks:
       setup: |
         {{ $task := .GetTask "core.runCoreScript" -}}
         {{ $task.GetConfig "setup" }}
-        {{ $useImagePrefix := .GetConfig "useImagePrefix" -}}
-        {{ if .IsFalse $useImagePrefix }}
-          DOCKER_IMAGE_PREFIX=""
-        {{ else if .GetConfig "imagePrefix" }}
-          DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}/"
-        {{ else if .GetValue "docker.env" -}}
-          {{ $dockerEnv := .GetValue "docker.env" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
-        {{ else if .GetConfig "dockerEnv" -}}
-          {{ $dockerEnv := .GetConfig "dockerEnv" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
-        {{ else -}}
-          {{ $dockerEnv := "default" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
-        {{ end -}}
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
 
 
   core.buildDockerImage:
@@ -527,13 +515,16 @@ tasks:
           # Docker env. default to 'default'
           dockerEnv: default
       ```
-    extend: core.runDockerTask
+    extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateLinks
+    inputs:
+    - docker.env
     config:
       start: |
         {{ $d := .Decoration -}}
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         . "${UTIL}/should_be_file.sh" "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(. "${UTIL}/get_latest_git_commit.sh")"
@@ -574,13 +565,16 @@ tasks:
           # Docker env. default to 'default'
           dockerEnv: default
       ```
-    extend: core.runDockerTask
+    extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateLinks
+    inputs:
+    - docker.env
     config:
       start: |
         {{ $d := .Decoration -}}
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(. "${PY_UTIL}" get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(. "${UTIL}/get_latest_git_commit.sh")"
         . "${UTIL}/should_not_be_empty.sh" "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
@@ -646,12 +640,14 @@ tasks:
           helmEnv: default
           kubeContext: docker-desktop
       ```
-    extend: core.runDockerTask
+    extend: core.runCoreScript
     inputs:
     - helm.env
     - kube.context
+    - docker.env
     config:
       start: |
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"

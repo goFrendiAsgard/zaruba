@@ -123,16 +123,17 @@ func showTaskExtend(task *config.Task, fieldIndentation string) {
 }
 
 func showTaskParameters(task *config.Task, fieldIndentation string) {
-	if len(task.Inputs) > 0 {
+	inputs, inputOrder, err := task.Project.GetInputs([]string{task.GetName()})
+	if err == nil && len(inputOrder) > 0 {
 		showField(fieldIndentation, "PARAMETERS", "", true)
 		d := logger.NewDecoration()
-		for _, inputName := range task.Inputs {
-			input := task.Project.Inputs[inputName]
+		for _, inputName := range inputOrder {
+			input := inputs[inputName]
 			inputCaption := fmt.Sprintf("- %s", inputName)
 			if input.DefaultValue != "" {
 				inputCaption = fmt.Sprintf("%s %s(default:%s %s%s%s)%s", inputCaption, d.Faint, d.Normal, d.Yellow, input.DefaultValue, d.Faint, d.Normal)
 			}
-			fmt.Printf("%s  %s\n", fieldIndentation, inputCaption)
+			fmt.Printf("%s%s\n", fieldIndentation, inputCaption)
 			if input.Description != "" {
 				description := strings.Trim(input.Description, "\n ")
 				rows := strings.Split(description, "\n")

@@ -165,3 +165,25 @@ func (td *TaskData) IsTrue(str string) (isTrue bool) {
 func (td *TaskData) IsFalse(str string) (isFalse bool) {
 	return boolean.IsFalse(str)
 }
+
+// GetDockerImagePrefix get docker image prefix
+func (td *TaskData) GetDockerImagePrefix() (dockerImagePrefix string) {
+	// if useImagePrefix is false
+	useImagePrefix, _ := td.GetConfig("useImagePrefix")
+	if useImagePrefix != "" && td.IsFalse(useImagePrefix) {
+		return ""
+	}
+	// Try to get prefix from dockerEnv config, docker.env value, or "default"
+	dockerEnvConfig, _ := td.GetConfig("dockerEnv")
+	dockerEnvValue, _ := td.GetValue("docker.env")
+	for _, dockerEnv := range []string{dockerEnvConfig, dockerEnvValue, "default"} {
+		if dockerEnv == "" {
+			continue
+		}
+		if dockerImagePrefix, _ := td.GetValue("dockerImagePrefix", dockerEnv); dockerImagePrefix != "" {
+			return fmt.Sprintf("%s/", dockerImagePrefix)
+		}
+		return "local/"
+	}
+	return ""
+}
