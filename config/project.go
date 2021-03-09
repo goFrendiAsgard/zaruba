@@ -20,15 +20,16 @@ type Project struct {
 	Tasks                      map[string]*Task  `yaml:"tasks,omitempty"`
 	Name                       string            `yaml:"name,omitempty"`
 	Inputs                     map[string]*Input `yaml:"inputs,omitempty"`
-	FileLocation               string
-	BasePath                   string
-	Values                     map[string]string
-	SortedTaskNames            []string
-	SortedInputNames           []string
-	MaxPublishedTaskNameLength int
-	IconGenerator              *iconer.Generator
-	Decoration                 *logger.Decoration
-	CSVLogWriter               *logger.CSVLogWriter
+	fileLocation               string
+	basePath                   string
+	values                     map[string]string
+	sortedTaskNames            []string
+	sortedInputNames           []string
+	maxPublishedTaskNameLength int
+	iconGenerator              *iconer.Generator
+	decoration                 *logger.Decoration
+	csvLogWriter               *logger.CSVLogWriter
+	IsInitialized              bool
 }
 
 // NewProject create new Config from Yaml File
@@ -46,13 +47,16 @@ func NewProject(configFile string) (project *Project, err error) {
 	}
 	dir := os.ExpandEnv(filepath.Dir(configFile))
 	logFile := filepath.Join(dir, "log.zaruba.csv")
-	project.CSVLogWriter = logger.NewCSVLogWriter(logFile)
-	project.IconGenerator = iconer.NewGenerator()
-	project.Decoration = logger.NewDecoration()
+	project.csvLogWriter = logger.NewCSVLogWriter(logFile)
+	project.iconGenerator = iconer.NewGenerator()
+	project.decoration = logger.NewDecoration()
 	project.setSortedTaskNames()
 	project.setSortedInputNames()
 	project.linkToTasks()
-	project.setDefaultValues()
+	project.linkToInputs()
+	if err = project.setDefaultValues(); err != nil {
+		return project, err
+	}
 	err = project.checkInputs()
 	return project, err
 }
@@ -62,10 +66,11 @@ func loadProject(configFile string) (project *Project, err error) {
 	parsedConfigFile := os.ExpandEnv(configFile)
 	logger.PrintfStarted("%sLoading %s%s\n", d.Faint, parsedConfigFile, d.Normal)
 	project = &Project{
-		Includes: []string{},
-		Tasks:    map[string]*Task{},
-		Inputs:   map[string]*Input{},
-		Values:   map[string]string{},
+		Includes:      []string{},
+		Tasks:         map[string]*Task{},
+		Inputs:        map[string]*Input{},
+		values:        map[string]string{},
+		IsInitialized: false,
 	}
 	b, err := ioutil.ReadFile(parsedConfigFile)
 	if err != nil {
@@ -75,14 +80,14 @@ func loadProject(configFile string) (project *Project, err error) {
 		return project, err
 	}
 	project.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
-	project.FileLocation = parsedConfigFile
-	if !filepath.IsAbs(project.FileLocation) {
-		project.FileLocation, err = filepath.Abs(project.FileLocation)
+	project.fileLocation = parsedConfigFile
+	if !filepath.IsAbs(project.fileLocation) {
+		project.fileLocation, err = filepath.Abs(project.fileLocation)
 		if err != nil {
 			return project, err
 		}
 	}
-	project.BasePath = filepath.Dir(project.FileLocation)
+	project.basePath = filepath.Dir(project.fileLocation)
 	project.setTaskFileLocation()
 	project.setInputFileLocation()
 	// cascade project, add inclusion's property to this project
@@ -107,28 +112,65 @@ func (project *Project) GetName() (name string) {
 	if project.Name != "" {
 		return project.Name
 	}
-	return filepath.Base(filepath.Dir(project.FileLocation))
+	return filepath.Base(filepath.Dir(project.fileLocation))
+}
+
+// GetBasePath get basePath
+func (project *Project) GetBasePath() (basePath string) {
+	return project.basePath
+}
+
+// GetSortedInputNames get sorted input names
+func (project *Project) GetSortedInputNames() (sortedInputNames []string) {
+	return project.sortedInputNames
+}
+
+// GetSortedTaskNames get sorted task names
+func (project *Project) GetSortedTaskNames() (sortedTaskNames []string) {
+	return project.sortedTaskNames
+}
+
+// GetValues get value
+func (project *Project) GetValues() (values map[string]string) {
+	return project.values
+}
+
+// GetValue get value
+func (project *Project) GetValue(key string) (value string) {
+	return project.values[key]
+}
+
+// IsValueExist is value exist
+func (project *Project) IsValueExist(key string) (exist bool) {
+	_, exist = project.values[key]
+	return exist
 }
 
 // AddGlobalEnv add global environment for a projectConfig
-func (project *Project) AddGlobalEnv(pairOrFile string) {
+func (project *Project) AddGlobalEnv(pairOrFile string) (err error) {
+	if project.IsInitialized {
+		return fmt.Errorf("Cannot AddGlobalEnv, project has been initialized")
+	}
 	pairParts := strings.SplitN(pairOrFile, "=", 2)
 	if len(pairParts) == 2 {
 		key := pairParts[0]
 		val := pairParts[1]
 		os.Setenv(key, val)
-		return
+		return nil
 	}
-	godotenv.Load(pairOrFile)
+	return godotenv.Load(pairOrFile)
 }
 
-// AddValues add value for a project
-func (project *Project) AddValues(pairOrFile string) (err error) {
+// AddValue add value for a project
+func (project *Project) AddValue(pairOrFile string) (err error) {
+	if project.IsInitialized {
+		return fmt.Errorf("Cannot AddValue, project has been initialized")
+	}
 	pairParts := strings.SplitN(pairOrFile, "=", 2)
 	if len(pairParts) == 2 {
 		key := pairParts[0]
 		val := pairParts[1]
-		project.Values[key] = val
+		project.values[key] = val
 		return nil
 	}
 	b, err := ioutil.ReadFile(pairOrFile)
@@ -140,14 +182,18 @@ func (project *Project) AddValues(pairOrFile string) (err error) {
 		return err
 	}
 	for key, val := range values {
-		project.Values[key] = val
+		project.values[key] = val
 	}
 	return nil
 }
 
 // SetValue set value for a project
-func (project *Project) SetValue(key, value string) {
-	project.Values[key] = value
+func (project *Project) SetValue(key, value string) (err error) {
+	if project.IsInitialized {
+		return fmt.Errorf("Cannot AddValue, project has been initialized")
+	}
+	project.values[key] = value
+	return nil
 }
 
 // GetInputs given task names
@@ -193,33 +239,40 @@ func (project *Project) GetInputs(taskNames []string) (inputs map[string]*Input,
 
 // Init all tasks
 func (project *Project) Init() (err error) {
-	for _, taskName := range project.SortedTaskNames {
+	for _, taskName := range project.sortedTaskNames {
 		task := project.Tasks[taskName]
 		err := task.init()
 		if err != nil {
 			return err
 		}
 	}
+	for key, value := range project.values {
+		project.values[key] = os.ExpandEnv(value)
+	}
+	project.IsInitialized = true
 	return err
 }
 
 func (project *Project) setTaskFileLocation() {
 	for _, task := range project.Tasks {
-		task.FileLocation = project.FileLocation
-		task.BasePath = project.BasePath
+		task.fileLocation = project.fileLocation
+		task.basePath = project.basePath
 	}
 }
 
 func (project *Project) setInputFileLocation() {
 	for _, input := range project.Inputs {
-		input.FileLocation = project.FileLocation
+		input.fileLocation = project.fileLocation
 	}
 }
 
-func (project *Project) setDefaultValues() {
+func (project *Project) setDefaultValues() (err error) {
 	for inputName, input := range project.Inputs {
-		project.SetValue(inputName, input.DefaultValue)
+		if err = project.SetValue(inputName, input.DefaultValue); err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
 func (project *Project) checkInputs() (err error) {
@@ -238,7 +291,7 @@ func (project *Project) cascadeIncludes() (err error) {
 	for _, includeLocation := range project.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
 		if !filepath.IsAbs(parsedIncludeLocation) {
-			parsedIncludeLocation = filepath.Join(project.BasePath, parsedIncludeLocation)
+			parsedIncludeLocation = filepath.Join(project.basePath, parsedIncludeLocation)
 		}
 		includedProject, err := loadProject(parsedIncludeLocation)
 		if err != nil {
@@ -248,7 +301,7 @@ func (project *Project) cascadeIncludes() (err error) {
 		for inputName, input := range includedProject.Inputs {
 			_, inputAlreadyDeclared := project.Inputs[inputName]
 			if inputAlreadyDeclared {
-				return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, parsedIncludeLocation, input.FileLocation)
+				return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, parsedIncludeLocation, input.fileLocation)
 			}
 			project.Inputs[inputName] = input
 		}
@@ -256,7 +309,7 @@ func (project *Project) cascadeIncludes() (err error) {
 		for taskName, task := range includedProject.Tasks {
 			existingTask, taskAlreadyDeclared := project.Tasks[taskName]
 			if taskAlreadyDeclared {
-				return fmt.Errorf("Cannot declare task `%s` on `%s` because the task was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.FileLocation)
+				return fmt.Errorf("Cannot declare task `%s` on `%s` because the task was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.GetFileLocation())
 			}
 			project.Tasks[taskName] = task
 		}
@@ -265,32 +318,39 @@ func (project *Project) cascadeIncludes() (err error) {
 }
 
 func (project *Project) setSortedTaskNames() {
-	project.SortedTaskNames = []string{}
-	project.MaxPublishedTaskNameLength = 0
+	project.sortedTaskNames = []string{}
+	project.maxPublishedTaskNameLength = 0
 	for taskName, task := range project.Tasks {
-		if !task.Private && len(taskName) > project.MaxPublishedTaskNameLength {
-			project.MaxPublishedTaskNameLength = len(taskName)
+		if !task.Private && len(taskName) > project.maxPublishedTaskNameLength {
+			project.maxPublishedTaskNameLength = len(taskName)
 		}
-		project.SortedTaskNames = append(project.SortedTaskNames, taskName)
+		project.sortedTaskNames = append(project.sortedTaskNames, taskName)
 	}
-	if project.MaxPublishedTaskNameLength > 15 {
-		project.MaxPublishedTaskNameLength = 15
+	if project.maxPublishedTaskNameLength > 15 {
+		project.maxPublishedTaskNameLength = 15
 	}
-	sort.Strings(project.SortedTaskNames)
+	sort.Strings(project.sortedTaskNames)
 }
 
 func (project *Project) setSortedInputNames() {
-	project.SortedInputNames = []string{}
+	project.sortedInputNames = []string{}
 	for inputName := range project.Inputs {
-		project.SortedInputNames = append(project.SortedInputNames, inputName)
+		project.sortedInputNames = append(project.sortedInputNames, inputName)
 	}
-	sort.Strings(project.SortedInputNames)
+	sort.Strings(project.sortedInputNames)
 }
 
 func (project *Project) linkToTasks() {
 	for taskName, task := range project.Tasks {
 		task.Project = project
-		task.Name = taskName
+		task.name = taskName
 		task.linkToEnvs()
+	}
+}
+
+func (project *Project) linkToInputs() {
+	for inputName, input := range project.Inputs {
+		input.Project = project
+		input.name = inputName
 	}
 }

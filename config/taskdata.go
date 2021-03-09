@@ -48,12 +48,12 @@ type TaskData struct {
 func NewTaskData(task *Task) (td *TaskData) {
 	return &TaskData{
 		task:         task,
-		Name:         task.Name,
+		Name:         task.GetName(),
 		ProjectName:  task.Project.GetName(),
-		BasePath:     task.BasePath,
+		BasePath:     task.GetBasePath(),
 		WorkPath:     task.GetWorkPath(),
-		DirPath:      filepath.Dir(task.FileLocation),
-		FileLocation: task.FileLocation,
+		DirPath:      filepath.Dir(task.GetFileLocation()),
+		FileLocation: task.GetFileLocation(),
 		Decoration:   *logger.NewDecoration(),
 	}
 }
@@ -90,7 +90,7 @@ func (td *TaskData) GetValue(keys ...string) (val string, err error) {
 
 // GetSubValueKeys get keyword argument subkeys
 func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string) {
-	return getSubKeys(td.task.Project.Values, keys)
+	return getSubKeys(td.task.Project.values, keys)
 }
 
 // GetValues get all keyword arguments

@@ -9,7 +9,7 @@ import (
 	"github.com/state-alchemists/zaruba/config"
 )
 
-func createConf(t *testing.T, path string) (project *config.Project, err error) {
+func createProject(t *testing.T, path string) (project *config.Project, err error) {
 	project, err = config.NewProject(path)
 	if err != nil {
 		t.Error(err)
@@ -31,13 +31,18 @@ func readAlembicTxt(t *testing.T) (content string, err error) {
 }
 
 func TestValidRunnerAlchemy(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/alchemy/zaruba.yaml")
+	project, err := createProject(t, "../test_resource/alchemy/zaruba.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"makeEverything"}, time.Second)
+	runner, err := NewRunner(project, []string{"makeEverything"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err != nil {
 		t.Error(err)
+		return
 	}
 	content, err := readAlembicTxt(t)
 	if err != nil {
@@ -58,11 +63,15 @@ func TestValidRunnerAlchemy(t *testing.T) {
 }
 
 func TestTerminateRunnerLongPreparationBeforeComplete(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/longProcess.yaml")
+	project, err := createProject(t, "../test_resource/longProcess.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
+	runner, err := NewRunner(project, []string{"longProcess"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	startTime := time.Now()
 	ch := make(chan error)
 	go func() {
@@ -81,11 +90,15 @@ func TestTerminateRunnerLongPreparationBeforeComplete(t *testing.T) {
 }
 
 func TestTerminateRunnerLongProcessBeforeComplete(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/longProcess.yaml")
+	project, err := createProject(t, "../test_resource/longProcess.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
+	runner, err := NewRunner(project, []string{"longProcess"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	startTime := time.Now()
 	ch := make(chan error)
 	go func() {
@@ -104,11 +117,15 @@ func TestTerminateRunnerLongProcessBeforeComplete(t *testing.T) {
 }
 
 func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/longProcess.yaml")
+	project, err := createProject(t, "../test_resource/longProcess.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
+	runner, err := NewRunner(project, []string{"longProcess"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	startTime := time.Now()
 	ch := make(chan error)
 	go func() {
@@ -127,110 +144,150 @@ func TestTerminateRunnerLongProcessAfterComplete(t *testing.T) {
 }
 
 func TestInvalidLongProcessErrorAfterCheck(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidLongProcessErrorAfterCheck.yaml")
+	project, err := createProject(t, "../test_resource/invalidLongProcessErrorAfterCheck.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
+	runner, err := NewRunner(project, []string{"longProcess"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidLongProcessExitedBeforeCheck(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidLongProcessExitedBeforeCheck.yaml")
+	project, err := createProject(t, "../test_resource/invalidLongProcessExitedBeforeCheck.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"longProcess"}, time.Second)
+	runner, err := NewRunner(project, []string{"longProcess"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidNonExistingTask(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/alchemy/zaruba.yaml")
+	project, err := createProject(t, "../test_resource/alchemy/zaruba.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"makeElixirOfImmortality"}, time.Second)
+	runner, err := NewRunner(project, []string{"makeElixirOfImmortality"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidBrokenCommand(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTaskCommand.yaml")
+	project, err := createProject(t, "../test_resource/invalidTaskCommand.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"brokenCommand"}, time.Second)
+	runner, err := NewRunner(project, []string{"brokenCommand"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidBrokenProcessStart(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTaskCommand.yaml")
+	project, err := createProject(t, "../test_resource/invalidTaskCommand.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"brokenProcessStart"}, time.Second)
+	runner, err := NewRunner(project, []string{"brokenProcessStart"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidBrokenProcessCheck(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTaskCommand.yaml")
+	project, err := createProject(t, "../test_resource/invalidTaskCommand.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"brokenProcessCheck"}, time.Second)
+	runner, err := NewRunner(project, []string{"brokenProcessCheck"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidNonExecutableCommand(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTaskCommand.yaml")
+	project, err := createProject(t, "../test_resource/invalidTaskCommand.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"nonExecutableCommand"}, time.Second)
+	runner, err := NewRunner(project, []string{"nonExecutableCommand"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidNonExecutableProcessStart(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTaskCommand.yaml")
+	project, err := createProject(t, "../test_resource/invalidTaskCommand.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"nonExecutableProcessStart"}, time.Second)
+	runner, err := NewRunner(project, []string{"nonExecutableProcessStart"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidNonExecutableProcessCheck(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTaskCommand.yaml")
+	project, err := createProject(t, "../test_resource/invalidTaskCommand.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"nonExecutableProcessCheck"}, time.Second)
+	runner, err := NewRunner(project, []string{"nonExecutableProcessCheck"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidTimeoutCheck(t *testing.T) {
-	conf, err := createConf(t, "../test_resource/invalidTimeout.yaml")
+	project, err := createProject(t, "../test_resource/invalidTimeout.yaml")
 	if err != nil {
 		return
 	}
-	runner := NewRunner(conf, []string{"timeoutTask"}, time.Second)
+	runner, err := NewRunner(project, []string{"timeoutTask"}, time.Second)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	if err = runner.Run(); err == nil {
 		t.Errorf("Error expected")
 	}

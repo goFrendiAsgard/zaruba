@@ -20,26 +20,46 @@ import (
 
 // Task is zaruba task
 type Task struct {
-	Start           []string              `yaml:"start,omitempty"`
-	Check           []string              `yaml:"check,omitempty"`
-	Timeout         string                `yaml:"timeout,omitempty"`
-	Private         bool                  `yaml:"private,omitempty"`
-	Extend          string                `yaml:"extend,omitempty"`
-	Location        string                `yaml:"location,omitempty"`
-	Config          map[string]string     `yaml:"config,omitempty"`
-	LConfig         map[string][]string   `yaml:"lconfig,omitempty"`
-	Env             map[string]*EnvConfig `yaml:"env,omitempty"`
-	Dependencies    []string              `yaml:"dependencies,omitempty"`
-	Inputs          []string              `yaml:"inputs,omitempty"`
-	Description     string                `yaml:"description,omitempty"`
-	Icon            string                `yaml:"icon,omitempty"`
-	SaveLog         string                `yaml:"saveLog,omitempty"`
-	BasePath        string                // Main yaml's location
-	FileLocation    string                // File location where this task was declared
+	Start           []string            `yaml:"start,omitempty"`
+	Check           []string            `yaml:"check,omitempty"`
+	Timeout         string              `yaml:"timeout,omitempty"`
+	Private         bool                `yaml:"private,omitempty"`
+	Extend          string              `yaml:"extend,omitempty"`
+	Location        string              `yaml:"location,omitempty"`
+	Config          map[string]string   `yaml:"config,omitempty"`
+	LConfig         map[string][]string `yaml:"lconfig,omitempty"`
+	Env             map[string]*Env     `yaml:"env,omitempty"`
+	Dependencies    []string            `yaml:"dependencies,omitempty"`
+	Inputs          []string            `yaml:"inputs,omitempty"`
+	Description     string              `yaml:"description,omitempty"`
+	Icon            string              `yaml:"icon,omitempty"`
+	SaveLog         string              `yaml:"saveLog,omitempty"`
+	basePath        string              // Main yaml's location
+	fileLocation    string              // File location where this task was declared
 	Project         *Project
-	Name            string
-	LogPrefix       string
-	TimeoutDuration time.Duration
+	name            string
+	logPrefix       string
+	timeoutDuration time.Duration
+}
+
+// GetName get task name
+func (task *Task) GetName() (name string) {
+	return task.name
+}
+
+// GetTimeoutDuration get timeout duration of a task
+func (task *Task) GetTimeoutDuration() time.Duration {
+	return task.timeoutDuration
+}
+
+// GetBasePath get file location of a task
+func (task *Task) GetBasePath() (basePath string) {
+	return task.basePath
+}
+
+// GetFileLocation get file location of a task
+func (task *Task) GetFileLocation() (fileLocation string) {
+	return task.fileLocation
 }
 
 // GetWorkPath get path of current task
@@ -50,7 +70,7 @@ func (task *Task) GetWorkPath() (path string) {
 	}
 	path, err := os.Getwd()
 	if err != nil {
-		return task.BasePath
+		return task.basePath
 	}
 	return path
 }
@@ -58,18 +78,18 @@ func (task *Task) GetWorkPath() (path string) {
 // GetValue getting config of a task
 func (task *Task) GetValue(td *TaskData, keys ...string) (val string, err error) {
 	key := strings.Join(keys, "::")
-	pattern, exist := task.Project.Values[key]
+	pattern, exist := task.Project.GetValue(key), task.Project.IsValueExist(key)
 	if !exist {
 		return "", nil
 	}
-	templateName := fmt.Sprintf("%s.values.%s", task.Name, key)
+	templateName := fmt.Sprintf("%s.values.%s", task.GetName(), key)
 	return task.getParsedPattern(td, templateName, pattern)
 }
 
 // GetValues getting all parsed env
 func (task *Task) GetValues(td *TaskData) (parsedValues map[string]string, err error) {
 	parsedValues = map[string]string{}
-	for key := range td.task.Project.Values {
+	for key := range td.task.Project.values {
 		parsedValues[key], err = task.GetValue(td, key)
 		if err != nil {
 			return parsedValues, err
@@ -89,7 +109,7 @@ func (task *Task) GetConfig(td *TaskData, keys ...string) (val string, err error
 		}
 		return parentTask.GetConfig(td, keys...)
 	}
-	templateName := fmt.Sprintf("%s.config.%s", task.Name, key)
+	templateName := fmt.Sprintf("%s.config.%s", task.GetName(), key)
 	return task.getParsedPattern(td, templateName, pattern)
 }
 
@@ -118,7 +138,7 @@ func (task *Task) GetLConfig(td *TaskData, keys ...string) (val []string, err er
 		return parentTask.GetLConfig(td, keys...)
 	}
 	for index, pattern := range lConfig {
-		templateName := fmt.Sprintf("%s.lconfig.%s[%d]", task.Name, key, index)
+		templateName := fmt.Sprintf("%s.lconfig.%s[%d]", task.GetName(), key, index)
 		element, err := task.getParsedPattern(td, templateName, pattern)
 		if err != nil {
 			return val, err
@@ -155,7 +175,7 @@ func (task *Task) GetEnv(td *TaskData, key string) (val string, err error) {
 			return val, nil
 		}
 	}
-	templateNamePrefix := fmt.Sprintf("%s.env.%s", task.Name, key)
+	templateNamePrefix := fmt.Sprintf("%s.env.%s", task.GetName(), key)
 	return task.getParsedPattern(td, templateNamePrefix, envConfig.Default)
 }
 
@@ -206,13 +226,13 @@ func (task *Task) linkToEnvs() {
 
 func (task *Task) init() (err error) {
 	var timeErr error
-	task.TimeoutDuration, timeErr = time.ParseDuration(task.Timeout)
-	if timeErr != nil || task.TimeoutDuration <= 0 {
-		task.TimeoutDuration = 5 * time.Minute
+	task.timeoutDuration, timeErr = time.ParseDuration(task.Timeout)
+	if timeErr != nil || task.timeoutDuration <= 0 {
+		task.timeoutDuration = 5 * time.Minute
 	}
 	if task.Extend != "" {
 		if _, exists := task.Project.Tasks[task.Extend]; !exists {
-			return fmt.Errorf("Task %s is extended from %s but task %s doesn't exist", task.Name, task.Extend, task.Extend)
+			return fmt.Errorf("Task %s is extended from %s but task %s doesn't exist", task.GetName(), task.Extend, task.Extend)
 		}
 	}
 	task.generateIcon()
@@ -222,25 +242,25 @@ func (task *Task) init() (err error) {
 
 func (task *Task) generateIcon() {
 	if task.Icon == "" {
-		icon := task.Project.IconGenerator.Create()
+		icon := task.Project.iconGenerator.Create()
 		task.Icon = icon
 	}
 }
 
 func (task *Task) generateLogPrefix() {
-	repeat := 2 + task.Project.MaxPublishedTaskNameLength - len(task.Name) - len(task.Icon)
+	repeat := 2 + task.Project.maxPublishedTaskNameLength - len(task.GetName()) - len(task.Icon)
 	if repeat < 0 {
 		repeat = 0
 	}
 	paddedStr := strings.Repeat(" ", repeat)
-	d := task.Project.Decoration
-	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.Name, d.Normal, paddedStr)
-	task.LogPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
+	d := task.Project.decoration
+	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.GetName(), d.Normal, paddedStr)
+	task.logPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
 }
 
 func (task *Task) getPath() (path string) {
 	if task.Location != "" {
-		return filepath.Join(task.BasePath, task.Location)
+		return filepath.Join(task.basePath, task.Location)
 	}
 	if parentTask, exists := task.Project.Tasks[task.Extend]; exists {
 		return parentTask.getPath()
@@ -288,7 +308,7 @@ func (task *Task) getStartCmd(td *TaskData, logDone chan error) (cmd *exec.Cmd, 
 	if len(task.Start) == 0 {
 		parentTask, exists := task.Project.Tasks[task.Extend]
 		if !exists {
-			return cmd, false, fmt.Errorf("Cannot retrieve StartCmd from %s's parent", task.Name)
+			return cmd, false, fmt.Errorf("Cannot retrieve StartCmd from %s's parent", task.GetName())
 		}
 		return parentTask.getStartCmd(td, logDone)
 	}
@@ -305,7 +325,7 @@ func (task *Task) getCheckCmd(td *TaskData, logDone chan error) (cmd *exec.Cmd, 
 	if len(task.Check) == 0 {
 		parentTask, exists := task.Project.Tasks[task.Extend]
 		if !exists {
-			return cmd, false, fmt.Errorf("Cannot retrieve CheckCmd from %s's parent", task.Name)
+			return cmd, false, fmt.Errorf("Cannot retrieve CheckCmd from %s's parent", task.GetName())
 		}
 		return parentTask.getCheckCmd(td, logDone)
 	}
@@ -315,7 +335,7 @@ func (task *Task) getCheckCmd(td *TaskData, logDone chan error) (cmd *exec.Cmd, 
 
 func (task *Task) getCmd(td *TaskData, cmdType string, commandPatternArgs []string, logDone chan error) (cmd *exec.Cmd, err error) {
 	commandArgs := []string{}
-	templateName := fmt.Sprintf("%s.%s", task.Name, strings.ToLower(cmdType))
+	templateName := fmt.Sprintf("%s.%s", task.GetName(), strings.ToLower(cmdType))
 	for _, pattern := range commandPatternArgs {
 		arg, err := task.getParsedPattern(td, templateName, pattern)
 		if err != nil {
@@ -367,9 +387,9 @@ func (task *Task) combineLogDone(outDone, errDone, logDone chan error) {
 
 func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser, logDone chan error) {
 	buf := bufio.NewScanner(pipe)
-	d := task.Project.Decoration
+	d := task.Project.decoration
 	cmdIconType := task.getCmdIconType(cmdType)
-	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, td.task.LogPrefix)
+	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, td.task.logPrefix)
 	saveLog := td.task.SaveLog == "" || boolean.IsTrue(td.task.SaveLog)
 	print := logger.Printf
 	if logType == "ERR" {
@@ -380,7 +400,7 @@ func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser,
 		content := buf.Text()
 		print("%s %s\n", prefix, content)
 		if saveLog {
-			if csvWriteErr := task.Project.CSVLogWriter.Log(logType, cmdType, td.Name, content, td.task.LogPrefix); csvWriteErr != nil {
+			if csvWriteErr := task.Project.csvLogWriter.Log(logType, cmdType, td.Name, content, td.task.logPrefix); csvWriteErr != nil {
 				err = csvWriteErr
 			}
 		}

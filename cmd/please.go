@@ -30,46 +30,30 @@ var pleaseCmd = &cobra.Command{
 		if err != nil {
 			showErrorAndExit(err)
 		}
-		// init
-		if err = project.Init(); err != nil {
-			showErrorAndExit(err)
-		}
-		d := logger.NewDecoration()
 		// no task provided
 		if len(taskNames) == 0 {
-			logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
-			logger.Printf("Here are several things you can try:\n")
-			logger.Printf("* %szaruba please explain task %s%s[task-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-			logger.Printf("* %szaruba please explain input %s%s[input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-			logger.Printf("* %szaruba please explain %s%s[task-or-input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+			showDefaultResponse()
 			return
 		}
-		// handle "please explain"
+		// handle "please explain [taskNames...]"
 		if taskNames[0] == "explain" {
-			if len(taskNames) >= 2 {
-				if taskNames[1] == "input" || taskNames[1] == "task" {
-					keyword := strings.Join(taskNames[2:], " ")
-					// handle "please explain input"
-					if taskNames[1] == "input" {
-						explainer.ExplainInputs(project, keyword)
-						return
-					}
-					// handle "please explain task"
-					explainer.ExplainTasks(project, keyword)
-					return
-				}
+			if err = explain(project, taskNames); err != nil {
+				showErrorAndExit(err)
 			}
-			// handle "please explain"
-			keyword := strings.Join(taskNames[1:], " ")
-			explainer.ExplainTasks(project, keyword)
-			explainer.ExplainInputs(project, keyword)
 			return
 		}
+		// handle "--interactive" flag
 		if *pleaseInteractive {
 			askInputs(project, taskNames)
 		}
-		// run
-		r := runner.NewRunner(project, taskNames, time.Minute*5)
+		if err = project.Init(); err != nil {
+			showErrorAndExit(err)
+		}
+		// handle "please explain [taskNames...]"
+		r, err := runner.NewRunner(project, taskNames, time.Minute*5)
+		if err != nil {
+			showErrorAndExit(err)
+		}
 		if err := r.Run(); err != nil {
 			showErrorAndExit(err)
 		}
@@ -107,6 +91,39 @@ func init() {
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, zaruba will ask you to fill inputs (e.g: -i)")
 }
 
+func showDefaultResponse() {
+	d := logger.NewDecoration()
+	logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
+	logger.Printf("Here are several things you can try:\n")
+	logger.Printf("* %szaruba please explain task %s%s[task-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+	logger.Printf("* %szaruba please explain input %s%s[input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+	logger.Printf("* %szaruba please explain %s%s[task-or-input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
+}
+
+func explain(project *config.Project, taskNames []string) (err error) {
+	if err = project.Init(); err != nil {
+		return err
+	}
+	if len(taskNames) >= 2 {
+		if taskNames[1] == "input" || taskNames[1] == "task" {
+			keyword := strings.Join(taskNames[2:], " ")
+			// handle "please explain input"
+			if taskNames[1] == "input" {
+				explainer.ExplainInputs(project, keyword)
+				return nil
+			}
+			// handle "please explain task"
+			explainer.ExplainTasks(project, keyword)
+			return nil
+		}
+	}
+	// handle "please explain"
+	keyword := strings.Join(taskNames[1:], " ")
+	explainer.ExplainTasks(project, keyword)
+	explainer.ExplainInputs(project, keyword)
+	return nil
+}
+
 func askInputs(project *config.Project, taskNames []string) (err error) {
 	inputs, inputOrder, err := project.GetInputs(taskNames)
 	d := logger.NewDecoration()
@@ -119,54 +136,73 @@ func askInputs(project *config.Project, taskNames []string) (err error) {
 	logger.Printf("%sLeave blank if you want to keep current values.%s\n", d.Yellow, d.Normal)
 	for inputIndex, inputName := range inputOrder {
 		input := inputs[inputName]
-		if input.Description != "" {
-			fmt.Printf("\n%s%s%s%s\n", d.Bold, d.Blue, inputName, d.Normal)
-			fmt.Printf("%s\n\n", strings.Trim(input.Description, "\n "))
-		}
-		decoratedValue := "empty"
-		value := project.Values[inputName]
-		if value != "" {
-			decoratedValue = fmt.Sprintf("%s%s%s", d.Yellow, value, d.Normal)
-		}
+		// show number
 		decoratedIndex := fmt.Sprintf("%s%d of %d)%s", d.Faint, inputIndex+1, inputCount, d.Normal)
-		fmt.Printf("%s %s (currently %s): ", decoratedIndex, inputName, decoratedValue)
+		fmt.Println(decoratedIndex)
+		if input.Description != "" {
+			showInputDescription(input)
+		}
+		// show current value
+		decoratedCurrentValue := "empty"
+		currentValue := project.GetValue(inputName)
+		if currentValue != "" {
+			decoratedCurrentValue = fmt.Sprintf("%s%s%s", d.Yellow, currentValue, d.Normal)
+		}
+		fmt.Printf("%s (currently %s): ", inputName, decoratedCurrentValue)
+		// handle user input
 		userValue := ""
 		fmt.Scanf("%s", &userValue)
 		if userValue != "" {
 			project.SetValue(inputName, userValue)
 		}
+		fmt.Println()
 	}
 	return err
+}
+
+func showInputDescription(input *config.Input) {
+	d := logger.NewDecoration()
+	decoratedInputName := fmt.Sprintf("%s%s%s%s", d.Bold, d.Blue, input.GetName(), d.Normal)
+	indentation := "  "
+	fmt.Printf("%s%s\n", indentation, decoratedInputName)
+	descriptionRows := strings.Split(strings.Trim(input.Description, "\n "), "\n")
+	for _, row := range descriptionRows {
+		fmt.Printf("%s%s%s%s\n", indentation, d.Faint, row, d.Normal)
+	}
 }
 
 func getProjectAndTaskNames(args []string) (project *config.Project, taskNames []string, err error) {
 	taskNames = []string{}
 	project, err = config.NewProject(pleaseFile)
 	if err != nil {
-		fmt.Println(err)
 		return project, taskNames, err
 	}
 	// process globalEnv
 	for _, env := range pleaseEnv {
-		project.AddGlobalEnv(env)
+		if err = project.AddGlobalEnv(env); err != nil {
+			return project, taskNames, err
+		}
 	}
 	// process values from flag
 	for _, value := range pleaseValues {
-		if err = project.AddValues(value); err != nil {
-			fmt.Println(err)
+		if err = project.AddValue(value); err != nil {
 			return project, taskNames, err
 		}
 	}
 	//  distinguish taskNames and additional values
 	for _, arg := range args {
 		if strings.Contains(arg, "=") {
-			project.AddValues(arg)
+			if err = project.AddValue(arg); err != nil {
+				return project, taskNames, err
+			}
 			continue
 		}
 		_, argIsTask := project.Tasks[arg]
 		if !argIsTask {
 			if arg == "autostop" {
-				project.AddValues("autostop=true")
+				if err = project.AddValue("autostop=true"); err != nil {
+					return project, taskNames, err
+				}
 				continue
 			}
 		}

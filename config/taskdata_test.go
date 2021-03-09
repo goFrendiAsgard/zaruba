@@ -25,7 +25,7 @@ func setupTaskData(t *testing.T) (err error) {
 		"alchemist::=unknown",
 	}
 	for _, value := range values {
-		if err = tdConf.AddValues(value); err != nil {
+		if err = tdConf.AddValue(value); err != nil {
 			return err
 		}
 	}

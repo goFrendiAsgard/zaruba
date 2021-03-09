@@ -206,13 +206,13 @@ func TestValidTaskDependencies(t *testing.T) {
 	expectedDependencies := []string{"driveCar", "haveMoney"}
 	actualDependencies := task.GetDependencies()
 	if len(actualDependencies) != len(expectedDependencies) {
-		t.Errorf("Expecting dependencies of %s to contains %d element but getting %d element", task.Name, len(expectedDependencies), len(actualDependencies))
+		t.Errorf("Expecting dependencies of %s to contains %d element but getting %d element", task.GetName(), len(expectedDependencies), len(actualDependencies))
 		return
 	}
 	for index, expectedDependency := range expectedDependencies {
 		actualDependency := actualDependencies[index]
 		if actualDependency != expectedDependency {
-			t.Errorf("Expecting Dependencies[%d] of %s to be %s but getting %s", index, task.Name, expectedDependency, actualDependency)
+			t.Errorf("Expecting Dependencies[%d] of %s to be %s but getting %s", index, task.GetName(), expectedDependency, actualDependency)
 		}
 	}
 }

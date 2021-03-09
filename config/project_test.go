@@ -18,13 +18,19 @@ func setupValidProject(t *testing.T) (err error) {
 		t.Error(err)
 		return err
 	}
-	validProject.AddGlobalEnv("../test_resource/valid/local.env")
-	validProject.AddGlobalEnv("foo=bar")
-	if err = validProject.AddValues("pi=3.14"); err != nil {
+	if err = validProject.AddGlobalEnv("../test_resource/valid/local.env"); err != nil {
 		t.Error(err)
 		return err
 	}
-	if err = validProject.AddValues("../test_resource/valid/values.yaml"); err != nil {
+	if err = validProject.AddGlobalEnv("foo=bar"); err != nil {
+		t.Error(err)
+		return err
+	}
+	if err = validProject.AddValue("pi=3.14"); err != nil {
+		t.Error(err)
+		return err
+	}
+	if err = validProject.AddValue("../test_resource/valid/values.yaml"); err != nil {
 		t.Error(err)
 		return err
 	}
@@ -54,10 +60,10 @@ func TestValidProjectAddValues(t *testing.T) {
 	if err := setupValidProject(t); err != nil {
 		return
 	}
-	if validProject.Values["pi"] != "3.14" {
+	if validProject.GetValue("pi") != "3.14" {
 		t.Error("pi should be 3.14")
 	}
-	if validProject.Values["g"] != "9.8" {
+	if validProject.GetValue("g") != "9.8" {
 		t.Error("g should be 9.8")
 	}
 }
@@ -116,7 +122,7 @@ func TestValidProjectInputs(t *testing.T) {
 	}
 	// expected inputs should also populate project's value
 	for inputName, input := range expectedInputs {
-		actualValue, valueExist := validProject.Values[inputName]
+		actualValue, valueExist := validProject.GetValue(inputName), validProject.IsValueExist(inputName)
 		if !valueExist {
 			t.Errorf(fmt.Sprintf("Value %s is expected", inputName))
 		}
@@ -187,7 +193,7 @@ func TestValidProjectTaskDirPath(t *testing.T) {
 		t.Errorf("Task runApiGateway is not exist")
 		return
 	}
-	actual := validProject.Tasks["runApiGateway"].BasePath
+	actual := validProject.Tasks["runApiGateway"].basePath
 	expected, err := filepath.Abs("../test_resource/valid/api-gateway")
 	if err != nil {
 		t.Error(err)
@@ -241,7 +247,7 @@ func TestValidProjectWithNonExistValueFile(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = project.AddValues("../test_resource/notExists.yaml"); err == nil {
+	if err = project.AddValue("../test_resource/notExists.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
@@ -275,7 +281,7 @@ func TestInvalidProjectValuesFormat(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = project.AddValues("../test_resource/invalidYaml.txt"); err == nil {
+	if err = project.AddValue("../test_resource/invalidYaml.txt"); err == nil {
 		t.Error("Error expected")
 	}
 }

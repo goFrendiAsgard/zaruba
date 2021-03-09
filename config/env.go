@@ -1,7 +1,7 @@
 package config
 
-// EnvConfig is task environment
-type EnvConfig struct {
+// Env is task environment
+type Env struct {
 	From    string `yaml:"from"`
 	Default string `yaml:"default"`
 	Task    *Task

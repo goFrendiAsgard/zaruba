@@ -16,7 +16,7 @@ func ExplainInputs(project *config.Project, keyword string) {
 	inputIndentation := strings.Repeat(" ", 6)
 	inputFieldIndentation := inputIndentation + strings.Repeat(" ", 2)
 	totalMatch := 0
-	for _, inputName := range project.SortedInputNames {
+	for _, inputName := range project.GetSortedInputNames() {
 		if !r.MatchString(inputName) {
 			continue
 		}
@@ -60,7 +60,7 @@ func showTasks(project *config.Project, published bool, r *regexp.Regexp) (total
 	if published {
 		taskPrefix = "zaruba please "
 	}
-	for _, taskName := range project.SortedTaskNames {
+	for _, taskName := range project.GetSortedTaskNames() {
 		task := project.Tasks[taskName]
 		if (task.Private && published) || (!task.Private && !published) {
 			continue
@@ -75,9 +75,9 @@ func showTasks(project *config.Project, published bool, r *regexp.Regexp) (total
 				logger.Printf("%sBASE TASKS:%s\n", d.Yellow, d.Normal)
 			}
 		}
-		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, d.Bold, taskPrefix, task.Name, d.Normal)
+		fmt.Printf("%s%s %s%s%s%s%s\n", taskIndentation, task.Icon, d.Yellow, d.Bold, taskPrefix, task.GetName(), d.Normal)
 		showField(taskFieldIndentation, "PUBLISHED", fmt.Sprintf("%t", !task.Private), true)
-		showField(taskFieldIndentation, "DECLARED ON", task.FileLocation, true)
+		showField(taskFieldIndentation, "DECLARED ON", task.GetFileLocation(), true)
 		showTaskParameters(task, taskFieldIndentation)
 		showTaskDescription(task, taskFieldIndentation)
 		showTaskDependencies(task, taskFieldIndentation)

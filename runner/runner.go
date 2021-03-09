@@ -46,7 +46,7 @@ type CmdInfo struct {
 // Runner is used to run tasks
 type Runner struct {
 	TaskNames       []string
-	Conf            *config.Project
+	Project         *config.Project
 	TaskStatus      map[string]*TaskStatus
 	TaskStatusMutex *sync.RWMutex
 	CmdInfo         map[string]*CmdInfo
@@ -62,10 +62,13 @@ type Runner struct {
 }
 
 // NewRunner create new runner
-func NewRunner(project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner) {
+func NewRunner(project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner, err error) {
+	if !project.IsInitialized {
+		return &Runner{}, fmt.Errorf("Cannot create runner because project was not initialize")
+	}
 	return &Runner{
 		TaskNames:       taskNames,
-		Conf:            project,
+		Project:         project,
 		TaskStatus:      map[string]*TaskStatus{},
 		TaskStatusMutex: &sync.RWMutex{},
 		CmdInfo:         map[string]*CmdInfo{},
@@ -77,7 +80,7 @@ func NewRunner(project *config.Project, taskNames []string, statusInterval time.
 		StatusInterval:  statusInterval,
 		Spaces:          "     ",
 		StartTimeMutex:  &sync.RWMutex{},
-	}
+	}, nil
 }
 
 // Run Tasks
@@ -259,7 +262,7 @@ func (r *Runner) run(ch chan error) {
 	d := logger.NewDecoration()
 	logger.PrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	logger.PrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
-	autostop, autostopDefined := r.Conf.Values["autostop"]
+	autostop, autostopDefined := r.Project.GetValue("autostop"), r.Project.IsValueExist("autostop")
 	if autostopDefined {
 		if autostop != "" && autostop != "true" {
 			autostopDuration, parseErr := time.ParseDuration(autostop)
@@ -297,7 +300,7 @@ func (r *Runner) run(ch chan error) {
 func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 	tasks := []*config.Task{}
 	for _, taskName := range taskNames {
-		task, exists := r.Conf.Tasks[taskName]
+		task, exists := r.Project.Tasks[taskName]
 		if !exists {
 			return fmt.Errorf("Task %s is not exist", taskName)
 		}
@@ -317,8 +320,8 @@ func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 }
 
 func (r *Runner) runTask(task *config.Task, ch chan error) {
-	if !r.registerTask(task.Name) {
-		ch <- r.waitTaskFinished(task.Name)
+	if !r.registerTask(task.GetName()) {
+		ch <- r.waitTaskFinished(task.GetName())
 		return
 	}
 	if err := r.runTaskByNames(task.GetDependencies()); err != nil {
@@ -328,8 +331,8 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 	startLogDone := make(chan error)
 	startCmd, startExist, startErr := task.GetStartCmd(startLogDone)
 	if !startExist {
-		logger.PrintfSuccess("Reach %s '%s' wrapper\n", task.Icon, task.Name)
-		r.finishTask(task.Name, nil)
+		logger.PrintfSuccess("Reach %s '%s' wrapper\n", task.Icon, task.GetName())
+		r.finishTask(task.GetName(), nil)
 		ch <- nil
 		return
 	}
@@ -341,7 +344,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 	checkCmd, checkExist, checkErr := task.GetCheckCmd(checkLogDone)
 	if !checkExist {
 		err := r.runCommandTask(task, startCmd, startLogDone)
-		r.finishTask(task.Name, err)
+		r.finishTask(task.GetName(), err)
 		ch <- err
 		return
 	}
@@ -350,23 +353,23 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 		return
 	}
 	err := r.runServiceTask(task, startCmd, checkCmd, checkLogDone)
-	r.finishTask(task.Name, err)
+	r.finishTask(task.GetName(), err)
 	ch <- err
 }
 
 func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd, startLogDone chan error) (err error) {
-	logger.PrintfStarted("Run %s '%s' command on %s\n", task.Icon, task.Name, startCmd.Dir)
+	logger.PrintfStarted("Run %s '%s' command on %s\n", task.Icon, task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
 		err = startCmd.Start()
 	}
 	if err != nil {
-		logger.PrintfError("Error running command %s '%s':\n%s\n", task.Icon, task.Name, r.sprintfCmdArgs(startCmd))
+		logger.PrintfError("Error running command %s '%s':\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd))
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("%s '%s' command", task.Icon, task.Name)
-	r.registerCommandCmd(startCmdLabel, task.Name, startCmd, startStdinPipe)
+	startCmdLabel := fmt.Sprintf("%s '%s' command", task.Icon, task.GetName())
+	r.registerCommandCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
 	err = r.waitTaskCmd(task, startCmd, startCmdLabel, startLogDone)
 	r.unregisterCmd(startCmdLabel)
 	return err
@@ -381,34 +384,34 @@ func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd 
 }
 
 func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err error) {
-	logger.PrintfStarted("Run %s '%s' service on %s\n", task.Icon, task.Name, startCmd.Dir)
+	logger.PrintfStarted("Run %s '%s' service on %s\n", task.Icon, task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
 		err = startCmd.Start()
 	}
 	if err != nil {
-		logger.PrintfError("Error running service %s '%s':\n%s\n", task.Icon, task.Name, r.sprintfCmdArgs(startCmd))
+		logger.PrintfError("Error running service %s '%s':\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd))
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("%s '%s' service", task.Icon, task.Name)
-	r.registerProcessCmd(startCmdLabel, task.Name, startCmd, startStdinPipe)
+	startCmdLabel := fmt.Sprintf("%s '%s' service", task.Icon, task.GetName())
+	r.registerProcessCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
 	return err
 }
 
 func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd, checkLogDone chan error) (err error) {
-	logger.PrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.Name, checkCmd.Dir)
+	logger.PrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.GetName(), checkCmd.Dir)
 	checkStdinPipe, err := checkCmd.StdinPipe()
 	if err == nil {
 		err = checkCmd.Start()
 	}
 	if err != nil {
-		logger.PrintfError("Error checking service %s '%s' readiness:\n%s\n", task.Icon, task.Name, r.sprintfCmdArgs(checkCmd))
+		logger.PrintfError("Error checking service %s '%s' readiness:\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(checkCmd))
 		fmt.Println(r.Spaces, err)
 		return err
 	}
-	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", task.Icon, task.Name)
-	r.registerCommandCmd(checkCmdLabel, task.Name, checkCmd, checkStdinPipe)
+	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", task.Icon, task.GetName())
+	r.registerCommandCmd(checkCmdLabel, task.GetName(), checkCmd, checkStdinPipe)
 	err = r.waitTaskCmd(task, checkCmd, checkCmdLabel, checkLogDone)
 	r.unregisterCmd(checkCmdLabel)
 	return err
@@ -436,7 +439,7 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 		return
 	}()
 	go func() {
-		r.sleep(task.TimeoutDuration)
+		r.sleep(task.GetTimeoutDuration())
 		if executed {
 			return
 		}
