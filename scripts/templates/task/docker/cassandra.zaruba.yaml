@@ -11,6 +11,7 @@ tasks:
     config:
       useImagePrefix: false
       imageName: cassandra
+      imageTag: 3.11.4
       containerName: zarubaContainerName
       port::7001: 7001
       port::7199: 7199
