@@ -9,6 +9,7 @@ tasks:
         from: CASSANDRA_JVM_OPTS
         default: "-Xms512m -Xmx512m"
     config:
+      useImagePrefix: false
       imageName: cassandra
       containerName: zarubaContainerName
       port::7001: 7001

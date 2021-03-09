@@ -128,12 +128,12 @@ def get_task_env_name(location: str, env_name: str) -> str:
 
 
 def get_service_name(location: str) -> str:
-    capital_service_name =  get_alphanum_basename(location).capitalize().replace(' ', '')
+    capital_service_name =  get_alphanum_basename(location).capitalize().replace(' ', '').replace('/', '-')
     return capital_service_name[0].lower() + capital_service_name[1:]
 
 
 def get_container_name(image_name: str) -> str:
-    capital_container_name =  get_alphanum_basename(image_name).capitalize().replace(' ', '')
+    capital_container_name =  get_alphanum_basename(image_name).capitalize().replace(' ', '').replace('/', '-')
     return capital_container_name[0].lower() + capital_container_name[1:]
 
 

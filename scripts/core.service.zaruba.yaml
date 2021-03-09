@@ -171,7 +171,7 @@ tasks:
               {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
               -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
             {{ end -}}
-            -d "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}"
+            -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}"
         fi
       completeStart: |
         {{ $d := .Decoration -}}

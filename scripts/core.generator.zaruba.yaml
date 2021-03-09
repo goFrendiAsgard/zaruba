@@ -1,7 +1,10 @@
 inputs:
 
   generator.templates:
-    description: Additional templates. Use colon (:) as separator.
+    description: |
+      Additional template locations.
+      Use colon (:) as separator.
+      Leave blank if you don't have any additional template
 
   generator.task.name:
     description: Generated task name. If left blank, the value will be inferred from generator.docker.container/generator.service.location.

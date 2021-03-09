@@ -12,6 +12,7 @@ tasks:
         from: RABITMQ_DEFAULT_PASS
         default: toor
     config:
+      useImagePrefix: false
       imageName: rabbitmq
       imageTag: 3-management
       containerName: zarubaContainerName

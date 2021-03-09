@@ -4,7 +4,8 @@ inputs:
     default: true
     description: |
       Whether you want to setup python utility for zaruba or not.
-      If you are sure that zaruba's python utility has been set up, you can speed up the process a bit by answering "false" or "no".
+      Possible values are: "true", "yes", "on", "false", "no", or "off".
+      If you are sure that zaruba's python utility has been set up, you can speed up the process a bit by answering "false", "no" or "off".
 
   setup.homeDir:
     description: |

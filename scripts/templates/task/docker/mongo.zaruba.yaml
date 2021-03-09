@@ -12,6 +12,7 @@ tasks:
         from: MONGO_INITDB_ROOT_PASSWORD
         default: toor
     config:
+      useImagePrefix: false
       imageName: mongo
       containerName: zarubaContainerName
       port::27017: 27017

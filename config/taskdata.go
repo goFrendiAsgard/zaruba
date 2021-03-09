@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/logger"
 )
 
@@ -153,4 +154,14 @@ func (td *TaskData) GetDefaultShell() (shell string) {
 		return "bash"
 	}
 	return "sh"
+}
+
+// IsTrue check if string represent "true"
+func (td *TaskData) IsTrue(str string) (isTrue bool) {
+	return boolean.IsTrue(str)
+}
+
+// IsFalse check if string represent "false"
+func (td *TaskData) IsFalse(str string) (isFalse bool) {
+	return boolean.IsFalse(str)
 }

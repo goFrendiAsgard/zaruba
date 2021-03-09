@@ -8,7 +8,9 @@ inputs:
 
   advertisement.show:
     default: true
-    description: Whether you want to see advertisement or not.
+    description: |
+      Whether you want to see advertisement or not.
+      Possible values are: "true", "yes", "on", "false", "no", or "off"
   
   log.keyword:
     default: .*
@@ -63,7 +65,8 @@ tasks:
     - advertisement.show
     config:
       start: |
-        {{ if eq (.GetValue "advertisement.show") "true" }}. "${PY_UTIL}" show_advertisement{{ end }}
+        {{ $showAdvertisement := .GetValue "advertisement.show" -}}
+        {{ if .IsTrue $showAdvertisement }}. "${PY_UTIL}" show_advertisement{{ end }}
 
 
   showVersion:
@@ -478,6 +481,8 @@ tasks:
         config:
           # Docker image prefix will be the default image prefix if provided (default: empty)
           imagePrefix: local
+          # whether you want to use image prefix or not (default: empty, possible value: "no", "false", "off")
+          useImagePrefix: false
           # Docker env. default to 'default'
           dockerEnv: default
       ```
@@ -485,20 +490,24 @@ tasks:
     inputs:
     - docker.env
     config:
+      useImagePrefix: true
       setup: |
         {{ $task := .GetTask "core.runCoreScript" -}}
         {{ $task.GetConfig "setup" }}
-        {{ if .GetConfig "imagePrefix" }}
-          DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
+        {{ $useImagePrefix := .GetConfig "useImagePrefix" -}}
+        {{ if .IsFalse $useImagePrefix }}
+          DOCKER_IMAGE_PREFIX=""
+        {{ else if .GetConfig "imagePrefix" }}
+          DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}/"
         {{ else if .GetValue "docker.env" -}}
           {{ $dockerEnv := .GetValue "docker.env" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
         {{ else if .GetConfig "dockerEnv" -}}
           {{ $dockerEnv := .GetConfig "dockerEnv" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
         {{ else -}}
           {{ $dockerEnv := "default" -}}
-          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}"
+          DOCKER_IMAGE_PREFIX="{{ if .GetValue "dockerImagePrefix" $dockerEnv }}{{ .GetValue "dockerImagePrefix" $dockerEnv }}{{ else }}local{{ end }}/"
         {{ end -}}
 
 
@@ -536,15 +545,15 @@ tasks:
           TAG_COMMIT="$(. "${UTIL}/get_latest_git_tag_commit.sh")"
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest, ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}, and ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
-            docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}" .
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest, ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}, and ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
+            docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
             echo 🎉🎉🎉
             echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
             exit 0
           fi
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest and ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
-        docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}" .
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest and ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
+        docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
   
@@ -582,14 +591,14 @@ tasks:
           TAG_COMMIT="$(. "${UTIL}/get_latest_git_tag_commit.sh")"
           if [ "${TAG_COMMIT}" = "${COMMIT}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}{{ $d.Normal }}"
-            docker push "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${TAG}"
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}{{ $d.Normal }}"
+            docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
           fi
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest{{ $d.Normal }}"
-        docker push "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:latest"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}{{ $d.Normal }}"
-        docker push "${DOCKER_IMAGE_PREFIX}/${IMAGE_NAME}:${SHORT_COMMIT}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest{{ $d.Normal }}"
+        docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}{{ $d.Normal }}"
+        docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
     
