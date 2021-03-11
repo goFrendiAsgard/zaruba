@@ -58,6 +58,7 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please makeServiceTask generator.service.location=fibo
+        ../zaruba please makeServiceTask generator.service.location=myservice generator.service.type=fastapi
         ../zaruba please makeDockerTask generator.docker.image=rabbitmq
 
 

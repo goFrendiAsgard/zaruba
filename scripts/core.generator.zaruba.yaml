@@ -190,6 +190,7 @@ tasks:
         cp "${FAST_TEMPLATE}/Pipfile" "${LOCATION}/Pipfile"
         cp "${FAST_TEMPLATE}/Pipfile.lock" "${LOCATION}/Pipfile.lock"
         cp "${FAST_TEMPLATE}/start.sh" "${LOCATION}/start.sh"
+        chmod 755 "${LOCATION}/start.sh"
         cp "${FAST_TEMPLATE}/template.env" "${LOCATION}/template.env"
         cp -r "${FAST_TEMPLATE}/schema" "${LOCATION}/schema"
         . "${PY_UTIL}" replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
