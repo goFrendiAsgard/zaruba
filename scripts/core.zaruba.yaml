@@ -647,7 +647,7 @@ tasks:
     - docker.env
     config:
       start: |
-        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
+        DOCKER_IMAGE_PREFIX="{{ .Trim (.GetDockerImagePrefix) "/" }}"
         KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
@@ -674,6 +674,7 @@ tasks:
     - kube.context
     config:
       start: |
+        DOCKER_IMAGE_PREFIX="{{ .Trim (.GetDockerImagePrefix) "/" }}"
         KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
