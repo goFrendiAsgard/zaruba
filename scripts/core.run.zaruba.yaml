@@ -59,9 +59,9 @@ tasks:
     - core.checkBootstrap
     config:
       setup: |
+        set -e
         {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
-        set -e
       start: echo "No script defined"
 
 
@@ -154,7 +154,9 @@ tasks:
           exit 1
         fi
         {{ end -}}
-      setup: '{{ .GetConfig "loadBootstrapScript" }}'
+      setup: |
+        set -e
+        {{ .GetConfig "loadBootstrapScript" }}
       start: "echo hello world"
 
 
