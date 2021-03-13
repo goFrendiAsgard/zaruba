@@ -177,7 +177,7 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
         else
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.. | sh
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
           . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           nvm install node
