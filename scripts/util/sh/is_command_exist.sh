@@ -1,7 +1,7 @@
 # USAGE
 # sh is_command_exist.sh <command>
 # EXAMPLE
-# if [ -z "$(sh "is_command_exist.sh" java)" ]
+# if [ "$(sh "is_command_exist.sh" java)" = 0 ]
 # then
 #   echo "Java is not exist"
 # fi
@@ -11,10 +11,12 @@
 (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
 set +e
 
-command -v "${1}"
-if [ "$?" = 0 ]
+$@ >> /dev/null
+if [ "$?" = 127 ]
 then
-    echo "ok"
+    echo 0
+else
+    echo 1
 fi
 
 set "${_OLD_STATE}"

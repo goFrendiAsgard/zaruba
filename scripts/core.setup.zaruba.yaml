@@ -118,7 +118,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" pyenv)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" pyenv --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
         else
@@ -130,7 +130,7 @@ tasks:
           pyenv install {{ .GetValue "setup.pythonVersion" }}
           pyenv global {{ .GetValue "setup.pythonVersion" }}
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" python)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" python --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Python was already installed{{ $d.Normal }}"
         else
@@ -138,7 +138,7 @@ tasks:
           pyenv install {{ .GetValue "setup.pythonVersion" }}
           pyenv global {{ .GetValue "setup.pythonVersion" }}
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" pipenv)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" pipenv --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         else
@@ -172,7 +172,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" nvm)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" nvm --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
         else
@@ -183,14 +183,14 @@ tasks:
           nvm install node
           . "${BOOTSTRAP_SCRIPT}"
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" node-gyp)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" node-gyp --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Node-gyp was already installed{{ $d.Normal }}"
         else 
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install node-gyp{{ $d.Normal }}"
           npm install -g node-gyp
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" tsc)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" tsc --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
         else
@@ -222,7 +222,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" sdk)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" sdk version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
         else
@@ -235,14 +235,14 @@ tasks:
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
           sdk install scala
         fi 
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" java)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" java -version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Java was already installed{{ $d.Normal }}"
         else
           echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
           sdk install java {{ .GetValue "setup.javaVersion" }}
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" scala)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" scala -version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Scala was already installed{{ $d.Normal }}"
         else
@@ -272,7 +272,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" spark-shell)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" spark-shell --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
         else
@@ -306,7 +306,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" kubectl)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" kubectl version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"
         else
@@ -316,7 +316,7 @@ tasks:
           mkdir -p "${HOME}/.local/bin"
           mv kubectl "${HOME}/.local/bin"
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" helm)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" helm version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helm was already installed{{ $d.Normal }}"
         else
@@ -327,7 +327,7 @@ tasks:
           ./get_helm.sh --no-sudo
           rm ./get_helm.sh
         fi
-        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" helmfile)" ]
+        if [ "$(. "${UTIL}/is_command_exist.sh" helmfile --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helmfile was already installed{{ $d.Normal }}"
         else
