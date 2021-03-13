@@ -8,17 +8,17 @@ import os, re, shutil, sys, traceback
 def read_config(file_name: str) -> Mapping[str, Any]:
     yaml=YAML()
     f = open(file_name, 'r')
-    template_obj = yaml.load(f)
+    config = yaml.load(f)
     f.close()
-    if template_obj is None:
-        template_obj = {}
-    return template_obj
+    if config is None:
+        config = {}
+    return config
 
 
-def write_config(file_name: str, dictionary: Mapping[str, Any]):
+def write_config(file_name: str, config: Mapping[str, Any]):
     yaml=YAML()
     f = open(file_name, 'w')
-    yaml.dump(dictionary, f)
+    yaml.dump(config, f)
     f.close()
 
 
