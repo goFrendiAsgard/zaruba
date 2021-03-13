@@ -58,7 +58,7 @@ tasks:
       shouldTscCompile: true
       start: |
         {{ .GetConfig "loadNvmScript" }}
-        {{ if .isTrue (.GetValue "zarubaServiceName.removeNodeModules") }}rm -Rf node_modules{{ end }}
+        {{ if .IsTrue (.GetValue "zarubaServiceName.removeNodeModules") }}rm -Rf node_modules{{ end }}
         npm install
-        {{ if .isTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}
+        {{ if .IsTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}
         {{ .GetConfig "tscCompileScript" }}
