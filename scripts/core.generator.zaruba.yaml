@@ -6,37 +6,55 @@ inputs:
       Use colon (:) as separator.
       Leave blank if you don't have any additional template
 
-  generator.docker.image:
+  generator.docker.image.prefix:
+    description: Docker image prefix. Can be left blank.
+
+  generator.docker.image.tag:
+    description: Docker image tag. Can be left blank.
+
+  generator.docker.image.name:
     default: default
-    description: Docker image.
+    description: Docker image. Can be left blank.
 
   generator.docker.container:
-    description: Container name. If left blank, the value will be inferred from generator.docker.image
+    description: | 
+      Container name. 
+      Will be inferred from generator.docker.image.name if left blank.
+  
+  generator.service.name:
+    description: |
+      Service name.
+      Will be inferred from generator.docker.container or generator.service.location if letf blank.
 
   generator.service.location:
     description: Location of the service. Required.
 
   generator.service.type:
     default: default
-    description: "Service type (eg: nodejs, go, python)."
+    description: |
+      Service type (eg: nodejs, go, python, fastapi, or default).
 
   generator.service.ports:
-    description: Service's port list. Use comma (,) as separator. If left blank the value will be inferred from service's environment.
+    description: |
+      Service's port list. Use comma (,) as separator.
+      Will be inferred from service's environment if left blank.
 
   generator.module.name:
-    description: Module name.
+    description: Module name. Required.
   
   generator.url:
-    description: URL to be handled.
+    description: URL to be handled. Required.
 
   generator.event.name:
-    description: Name of the event to be handled.
+    description: Name of the event to be handled. Required.
   
   generator.crud.entity:
-    description: Name of the entity to be handled.
+    description: Name of the entity to be handled. Required.
   
   generator.crud.fields:
-    description: Fields of generator.entity. use comma (,) as separator.
+    description: |
+      Fields of generator.entity.
+      Use comma (,) as separator.
   
 
 tasks:
@@ -126,14 +144,20 @@ tasks:
       Add docker task to the project.
     extend: core.generate
     inputs:
-    - generator.docker.image
+    - generator.docker.image.name
+    - generator.docker.image.prefix
+    - generator.docker.image.tag
     - generator.docker.container
+    - generator.service.name
     config:
       start: |
         {{- $d := .Decoration -}}
-        IMAGE="{{ .GetValue "generator.docker.image" }}"
-        CONTAINER="{{ .GetValue "generator.docker.container" }}"
-        PY_UTIL create_docker_task "${TEMPLATE_PATHS}" "${IMAGE}" "${CONTAINER}"
+        IMAGE_NAME="{{ .GetValue "generator.docker.image.name" }}"
+        IMAGE_PREFIX="{{ .GetValue "generator.docker.image.prefix" }}"
+        IMAGE_TAG="{{ .GetValue "generator.docker.image.tag" }}"
+        CONTAINER_NAME="{{ .GetValue "generator.docker.container" }}"
+        SERVICE_NAME="{{ .GetValue "generator.docker.service.name" }}"
+        PY_UTIL create_docker_task "${TEMPLATE_PATHS}" "${IMAGE_NAME}" "${IMAGE_PREFIX}" "${IMAGE_TAG}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -145,6 +169,7 @@ tasks:
     extend: core.generate
     inputs:
     - generator.service.location
+    - generator.service.name
     - generator.service.type
     - generator.service.ports
     config:
@@ -152,9 +177,10 @@ tasks:
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
         . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        TYPE="{{ .GetValue "generator.service.type" }}"
-        PORTS="{{ .GetValue "generator.service.ports" }}"
-        PY_UTIL create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${TYPE}" "${PORTS}"
+        SERVICE_TYPE="{{ .GetValue "generator.service.type" }}"
+        SERVICE_PORTS="{{ .GetValue "generator.service.ports" }}"
+        SERVICE_NAME="{{ .GetValue "generator.docker.service.name" }}"
+        PY_UTIL create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 

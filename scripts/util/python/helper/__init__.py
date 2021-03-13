@@ -3,8 +3,9 @@ import sys, traceback
 def cli(fn):
     args = []
     kwargs = {}
-    for index, argv in enumerate(sys.argv[1:]):
-        if argv == '' and ''.join(argv[index:]) == '':
+    arguments = sys.argv[1:]
+    for index, argv in enumerate(arguments):
+        if argv == '' and ''.join(arguments[index:]) == '':
             break
         pair = argv.split('=')
         if len(pair) < 2:
@@ -19,6 +20,7 @@ def cli(fn):
             return fn(*args, **kwargs)
         except Exception as e:
             print(e)
+            print({"args": args, "kwargs": kwargs})
             traceback.print_exc()
             sys.exit(1)
     return wrapped_fn

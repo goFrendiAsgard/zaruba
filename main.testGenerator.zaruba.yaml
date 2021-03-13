@@ -42,37 +42,37 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="fibo"
+        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="other-fibo"
         ../zaruba please initSubrepos
         ../zaruba please pullSubrepos
-
-
-  testMakeTasks:
-    icon: 💉
-    location: ./playground
-    dependencies:
-    - testMakeSubrepo
-    - testMakeHelmCharts
-    extend: core.runShellScript 
-    config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeServiceTask generator.service.location=fibo
-        ../zaruba please makeServiceTask generator.service.location=myservice generator.service.type=fastapi
-        ../zaruba please makeDockerTask generator.docker.image=rabbitmq
 
 
   testMakeFastAPIProject:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeTasks
+    - testMakeSubrepo
     extend: core.runShellScript 
     config:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastService generator.service.location=myservice
+        ../zaruba please makeFastService generator.service.location=myservice advertisement.show=no setupInitPyUtil=no
+
+
+  testMakeTasks:
+    icon: 💉
+    location: ./playground
+    dependencies:
+    - testMakeFastAPIProject
+    extend: core.runShellScript 
+    config:
+      start: |
+        set -e
+        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please makeServiceTask generator.service.location=fibo
+        ../zaruba please makeServiceTask generator.service.location=myservice generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeDockerTask generator.docker.image.name=rabbitmq advertisement.show=no setupInitPyUtil=no
         
 
   testMakeFastAPIModule:
@@ -85,7 +85,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastModule generator.service.location=myservice generator.module.name=mymodule
+        ../zaruba please makeFastModule generator.service.location=myservice generator.module.name=mymodule advertisement.show=no setupInitPyUtil=no
 
 
   testMakeFastAPIRoute:
@@ -98,7 +98,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRoute generator.service.location=myservice generator.module.name=mymodule generator.url=/hello
+        ../zaruba please makeFastRoute generator.service.location=myservice generator.module.name=mymodule generator.url=/hello advertisement.show=no setupInitPyUtil=no
 
 
   testMakeFastAPIEventHandler:
@@ -111,7 +111,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastEventHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myEvent
+        ../zaruba please makeFastEventHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myEvent advertisement.show=no setupInitPyUtil=no
 
 
   testMakeFastAPIRPCHandler:
@@ -124,7 +124,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRPCHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myRPC
+        ../zaruba please makeFastRPCHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myRPC advertisement.show=no setupInitPyUtil=no
 
 
   testMakeFastAPICRUD:
@@ -137,7 +137,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastCRUD generator.service.location=myservice generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis
+        ../zaruba please makeFastCRUD generator.service.location=myservice generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis advertisement.show=no setupInitPyUtil=no
   
 
   testUpdateEnv:
@@ -145,6 +145,7 @@ tasks:
     location: ./playground
     dependencies:
     - testMakeFastAPICRUD
+    - testMakeHelmCharts
     extend: core.runShellScript
     config:
       start: |

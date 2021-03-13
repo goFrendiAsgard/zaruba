@@ -59,15 +59,15 @@ service_containerization_tasks = '''
 '''
 
 @cli
-def create_service_task(templates: str = '', location: str = '.', service_type: str = '', ports: str = ''):
+def create_service_task(templates: str = '', location: str = '.', service_name: str = '', service_type: str = '', ports: str = ''):
     template_path_list = templates.split(':')
     service_ports=[service_port for service_port in ports.split(',') if service_port != '']
     location = location if location != '' else '.'
     service_type = service_type if service_type != '' else 'default'
-    run_task_name = generator.get_run_task_name(location)
+    service_name = service_name if service_name != '' else generator.get_service_name(location)
+    run_task_name = generator.get_run_task_name(service_name)
     task_file_name = generator.get_task_file_name(run_task_name)
     task_location = location if os.path.isabs(location) else os.path.join('..', location)
-    service_name = generator.get_service_name(location)
     build_image_task_name = generator.get_build_image_task_name(service_name)
     push_image_task_name = generator.get_push_image_task_name(service_name)
     run_container_task_name = generator.get_run_container_task_name(service_name)
