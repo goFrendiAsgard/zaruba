@@ -6,9 +6,6 @@ inputs:
       Use colon (:) as separator.
       Leave blank if you don't have any additional template
 
-  generator.task.name:
-    description: Generated task name. If left blank, the value will be inferred from generator.docker.container/generator.service.location.
-
   generator.docker.image:
     default: default
     description: Docker image.
@@ -130,14 +127,12 @@ tasks:
     inputs:
     - generator.docker.image
     - generator.docker.container
-    - generator.task.name
     config:
       start: |
         {{- $d := .Decoration -}}
         IMAGE="{{ .GetValue "generator.docker.image" }}"
         CONTAINER="{{ .GetValue "generator.docker.container" }}"
-        TASK="{{ .GetValue "generator.task.name" }}"
-        . "${PY_UTIL}" create_docker_task "${TEMPLATE_PATHS}" "${IMAGE}" "${CONTAINER}" "${TASK}"
+        . "${PY_UTIL}" create_docker_task "${TEMPLATE_PATHS}" "${IMAGE}" "${CONTAINER}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -151,15 +146,13 @@ tasks:
     - generator.service.location
     - generator.service.type
     - generator.service.ports
-    - generator.task.name
     config:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
         TYPE="{{ .GetValue "generator.service.type" }}"
-        TASK="{{ .GetValue "generator.task.name" }}"
         PORTS="{{ .GetValue "generator.service.ports" }}"
-        . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${TYPE}" "${TASK}" "${PORTS}"
+        . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${TYPE}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -171,13 +164,10 @@ tasks:
     extend: core.generate
     inputs:
     - generator.service.location
-    - generator.task.name
     config:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ if .GetValue "generator.service.location" }}{{ .GetValue "generator.service.location" }}{{ else }}$(. "${PY_UTIL}" get_random_name){{ end }}"
-        TASK_NAME="{{ if .GetValue "generator.task.name" }}{{ .GetValue "generator.task.name" }}{{ else }}$(. "${PY_UTIL}" get_run_task_name "$LOCATION"){{ end }}"
-        TASK_FILE_NAME="$(. "${PY_UTIL}" get_task_file_name "${TASK_NAME}")"
         ENV_PREFIX=$(. "${PY_UTIL}" get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         echo "{{ $d.Yellow }}Creating directory on ${LOCATION}{{ $d.Normal }}"
@@ -197,14 +187,7 @@ tasks:
         copy_and_create_link "${FAST_TEMPLATE}/transport" "shared-libs/python/transport" "${LOCATION}/transport"
         copy_and_create_link "${FAST_TEMPLATE}/database" "shared-libs/python/database" "${LOCATION}/database"
         echo 🎉🎉🎉
-        if [ -d "./zaruba-tasks" ]
-        then
-          echo "{{ $d.Bold }}{{ $d.Yellow }}Service created on ${LOCATION}{{ $d.Normal }}"
-          . "${PY_UTIL}" create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "fastapi" "${TASK_NAME}" "${ENV_PREFIX}_HTTP_PORT"
-          echo 🎉🎉🎉
-          echo "{{ $d.Bold }}{{ $d.Yellow }}Service task ${TASK_NAME} created{{ $d.Normal }}"
-        fi
-  
+        
 
   makeFastModule:
     icon: ⚡

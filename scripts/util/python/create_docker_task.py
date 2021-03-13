@@ -17,11 +17,11 @@ def get_docker_task_template(template_path_list: List[str], image_name:str) -> s
     return get_docker_task_template(template_path_list, 'default')
     
 
-def create_docker_task(template_path_list: List[str], image_name: str, container_name: str, run_task_name: str):
+def create_docker_task(template_path_list: List[str], image_name: str, container_name: str):
     template = get_docker_task_template(template_path_list, image_name)
     image_name = image_name if image_name != '' else 'nginx'
     container_name = container_name if container_name != '' else get_container_name(image_name)
-    run_task_name = run_task_name if run_task_name != '' else get_run_task_name(container_name)
+    run_task_name = get_run_task_name(container_name)
     task_file_name = get_task_file_name(run_task_name)
     copy(template, task_file_name)
     replace_all(task_file_name, {
@@ -42,8 +42,7 @@ if __name__ == '__main__':
         template_path_list = get_argv(1).split(':')
         image_name = get_argv(2)
         container_name = get_argv(3)
-        run_task_name = get_argv(4)
-        create_docker_task(template_path_list, image_name, container_name, run_task_name)
+        create_docker_task(template_path_list, image_name, container_name)
     except Exception as e:
         print(e)
         traceback.print_exc()

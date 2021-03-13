@@ -76,10 +76,10 @@ def add_containerization_tasks(file_name: str):
     f.close()
 
 
-def create_service_task(template_path_list: List[str], location: str, service_type: str, run_task_name: str, ports: List[str]):
+def create_service_task(template_path_list: List[str], location: str, service_type: str, ports: List[str]):
     location = location if location != '' else '.'
     service_type = service_type if service_type != '' else 'default'
-    run_task_name = run_task_name if run_task_name != '' else get_run_task_name(location)
+    run_task_name = get_run_task_name(location)
     task_file_name = get_task_file_name(run_task_name)
     task_location = location if os.path.isabs(location) else os.path.join('..', location)
     service_name = get_service_name(location)
@@ -123,10 +123,9 @@ if __name__ == '__main__':
         template_path_list = get_argv(1).split(':')
         location = get_argv(2)
         service_type = get_argv(3)
-        run_task_name = get_argv(4)
         raw_ports = get_argv(5).split(',')
         ports=[port for port in raw_ports if port != '']
-        create_service_task(template_path_list, location, service_type, run_task_name, ports)
+        create_service_task(template_path_list, location, service_type, ports)
     except Exception as e:
         print(e)
         traceback.print_exc()
