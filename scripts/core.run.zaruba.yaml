@@ -58,17 +58,9 @@ tasks:
     - core.checkThirdParties
     - core.checkBootstrap
     config:
-      loadUtil: |
-        UTIL="${ZARUBA_HOME}/scripts/util/sh"
-        PY_UTIL() {
-          export PIPENV_IGNORE_VIRTUALENVS=1
-          export PIPENV_DONT_LOAD_ENV=1
-          export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
-          pipenv run python "${ZARUBA_HOME}/scripts/util/python/${1}.py" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
-        }
       setup: |
-        {{ .Trim (.GetConfig "loadBootstrap") "\n" }} 
-        {{ .Trim (.GetConfig "loadUtil") "\n" }} 
+        {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
         set -e
       start: echo "No script defined"
 
@@ -132,11 +124,36 @@ tasks:
     - core.checkThirdParties
     - core.checkBootstrap
     config:
-      loadBootstrap: |
+      loadBootstrapScript: |
         THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
         BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         . "${BOOTSTRAP_SCRIPT}"
-      setup: '{{ .GetConfig "loadBootstrap" }}'
+      loadUtilScript: |
+        UTIL="${ZARUBA_HOME}/scripts/util/sh"
+        PY_UTIL() {
+          export PIPENV_IGNORE_VIRTUALENVS=1
+          export PIPENV_DONT_LOAD_ENV=1
+          export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
+          pipenv run python "${ZARUBA_HOME}/scripts/util/python/${1}.py" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
+        }
+      loadNvmScript: |
+        if [ ! -z "$(. "${UTIL}/is_command_exist.sh" nvm)" ]
+        then
+          nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}lts{{ end }}"
+        fi
+      tscCompileScript: |
+        {{ if .IsTrue (.GetConfig "shouldTscCompile") -}}
+        if [ -f "./node_modules/.bin/tsc" ]
+        then
+          ./node_modules/.bin/tsc
+        else if [ ! -z "$(. "${UTIL}/is_command_exist.sh" tsc)" ]
+          tsc
+        else
+          echo "{{ $d.Bold }}{{ $d.Red }}Typescript is not installed{{ $d.Normal }}"
+          exit 1
+        fi
+        {{ end -}}
+      setup: '{{ .GetConfig "loadBootstrapScript" }}'
       start: "echo hello world"
 
 

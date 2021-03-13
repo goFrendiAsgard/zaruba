@@ -66,16 +66,14 @@ def create_service_task(templates: str = '', location: str = '.', service_name: 
     service_type = service_type if service_type != '' else 'default'
     service_name = service_name if service_name != '' else generator.get_service_name(location)
     run_task_name = generator.get_run_task_name(service_name)
-    task_file_name = generator.get_task_file_name(run_task_name)
     task_location = location if os.path.isabs(location) else os.path.join('..', location)
     build_image_task_name = generator.get_build_image_task_name(service_name)
     push_image_task_name = generator.get_push_image_task_name(service_name)
     run_container_task_name = generator.get_run_container_task_name(service_name)
     remove_container_task_name = generator.get_remove_container_task_name(service_name)
-    template = get_service_task_template(template_path_list, service_type)
-    generator.copy(template, task_file_name)
-    add_containerization_tasks(task_file_name)
-    generator.replace_all(task_file_name, {
+    task_template = get_service_task_template(template_path_list, service_type)
+    task_file_name = generator.get_task_file_name(run_task_name)
+    task_file_content = generator.replace_str(generator.read_text(task_template) + service_containerization_tasks, {
         'zarubaRunTask': run_task_name,
         'zarubaBuildImageTask': build_image_task_name,
         'zarubaPushImageTask': push_image_task_name,
@@ -86,6 +84,7 @@ def create_service_task(templates: str = '', location: str = '.', service_name: 
         'ZarubaServiceName': service_name.capitalize(),
         'ZARUBA_ENV_PREFIX': generator.get_env_prefix(location),
     })
+    generator.write_text(task_file_name, task_file_content)
     config = generator.read_config(task_file_name)
     service_task = task.Task(config['tasks'][run_task_name])
     generator.update_task_env(service_task, task_file_name)
@@ -109,12 +108,6 @@ def get_service_task_template(template_path_list: List[str], service_type:str) -
         if os.path.isfile(template):
             return template
     return get_service_task_template(template_path_list, 'default')
-
-
-def add_containerization_tasks(file_name: str):
-    f = open(file_name, 'a')
-    f.write(service_containerization_tasks)
-    f.close()
 
 
 if __name__ == '__main__':

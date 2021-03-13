@@ -498,8 +498,8 @@ tasks:
     config:
       useImagePrefix: true
       setup: |
-        {{ .Trim (.GetConfig "loadBootstrap") "\n" }} 
-        {{ .Trim (.GetConfig "loadUtil") "\n" }} 
+        {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
         DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         set -e
 

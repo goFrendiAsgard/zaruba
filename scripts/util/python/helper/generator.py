@@ -16,6 +16,7 @@ def read_config(file_name: str) -> Mapping[str, Any]:
 
 
 def write_config(file_name: str, config: Mapping[str, Any]):
+    create_file_parent_dir(file_name)
     yaml=YAML()
     f = open(file_name, 'w')
     yaml.dump(config, f)
@@ -30,6 +31,7 @@ def read_text(file_name: str) -> str:
 
 
 def write_text(file_name: str, text: str):
+    create_file_parent_dir(file_name)
     f_write = open(file_name, 'w')
     f_write.write(text)
     f_write.close()
@@ -43,6 +45,7 @@ def read_lines(file_name: str) -> List[str]:
 
 
 def write_lines(file_name: str, lines: List[str]):
+    create_file_parent_dir(file_name)
     f_write = open(file_name, 'w')
     f_write.writelines(lines)
     f_write.close()
@@ -210,13 +213,18 @@ def replace_all(location: str, replace_dict: Mapping[str, str]):
             replace_in_file(os.path.join(root, file_name), replace_dict)
 
 
+def create_file_parent_dir(destination: str):
+    destination = os.path.abspath(destination)
+    destination_dir = os.path.dirname(destination)
+    if not os.path.exists(destination_dir):
+        os.makedirs(destination_dir)
+
+
 def copy(source: str, destination: str):
     source = os.path.abspath(source)
     destination = os.path.abspath(destination)
     # create destination's parent in case of it doesn't exist
-    destination_dir = os.path.dirname(destination)
-    if not os.path.exists(destination_dir):
-        os.makedirs(destination_dir)
+    create_file_parent_dir(destination)
     # the source is a file
     if os.path.isfile(source):
         shutil.copy(source, destination)

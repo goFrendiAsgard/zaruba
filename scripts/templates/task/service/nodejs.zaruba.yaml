@@ -1,42 +1,64 @@
+inputs:
+
+  zarubaServiceName.npmRebuild:
+    default: false
+    description: Should `npm rebuild` performed?
+  
+  zarubaServiceName.removeNodeModules:
+    default: false
+    description: Should node_modules removed before performing npm install?
+
 tasks:
 
   zarubaRunTask:
     icon: 🐸
     description: Run zarubaServiceName
     extend: core.startService
-    location: zarubaTaskLocation
+    location: &zarubaServiceNameLocation zarubaTaskLocation
     dependencies:
       - prepareZarubaServiceName
     env: &zarubaServiceNameEnv {}
     lconfig:
       ports: &zarubaServiceNamePorts []
     config:
-      start: npm start
+      nodeVersion: &zarubaServiceNameNodeVersion latest
+      start: |
+        {{ .GetConfig "loadNvmScript" }}
+        npm start
   
 
   testZarubaServiceName:
     icon: 🐸
-    extend: core.runShellScript
-    location: zarubaTaskLocation
+    extend: core.runCoreScript
+    location: *zarubaServiceNameLocation
     dependencies:
       - prepareZarubaServiceName
     timeout: 1h
     env:
       <<: *zarubaServiceNameEnv
     config:
-      start: npm test
+      nodeVersion: *zarubaServiceNameNodeVersion
+      start: |
+        {{ .GetConfig "loadNvmScript" }}
+        npm test
 
   
   prepareZarubaServiceName:
     icon: 🐸
-    extend: core.runShellScript
-    location: zarubaTaskLocation
+    extend: core.runCoreScript
+    location: *zarubaServiceNameLocation
     timeout: 1h
     env:
       <<: *zarubaServiceNameEnv
+    inputs:
+    - zarubaServiceName.npmRebuild
+    - zarubaServiceName.removeNodeModules
     config:
+      nodeVersion: *zarubaServiceNameNodeVersion
+      shouldTscCompile: true
       start: |
+        {{ .GetConfig "loadNvmScript" }}
+        {{ if .isTrue (.GetValue "zarubaServiceName.removeNodeModules") }}rm -Rf node_modules{{ end }}
         npm install
-        npm install --save-dev
-        tsc
-    
+        {{ if .isTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}
+        {{ .GetConfig "tscCompileScript" }}

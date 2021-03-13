@@ -27,5 +27,5 @@ tasks:
     env:
       <<: *zarubaServiceNameEnv
     config:
-      start: pipenv install
+      start: pipenv sync
     
