@@ -142,6 +142,7 @@ tasks:
           nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}lts{{ end }}"
         fi
       tscCompileScript: |
+        {{ $d := .Decoration -}}
         {{ if .IsTrue (.GetConfig "shouldTscCompile") -}}
         if [ -f "./node_modules/.bin/tsc" ]
         then
