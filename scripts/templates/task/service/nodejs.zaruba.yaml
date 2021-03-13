@@ -21,7 +21,7 @@ tasks:
     lconfig:
       ports: &zarubaServiceNamePorts []
     config:
-      nodeVersion: &zarubaServiceNameNodeVersion latest
+      nodeVersion: &zarubaServiceNameNodeVersion node
       start: |
         {{ .GetConfig "loadNvmScript" }}
         npm start
