@@ -147,7 +147,7 @@ tasks:
         if [ -f "./node_modules/.bin/tsc" ]
         then
           ./node_modules/.bin/tsc
-        else if [ ! -z "$(. "${UTIL}/is_command_exist.sh" tsc)" ]
+        elif [ ! -z "$(. "${UTIL}/is_command_exist.sh" tsc)" ]
           tsc
         else
           echo "{{ $d.Bold }}{{ $d.Red }}Typescript is not installed{{ $d.Normal }}"
