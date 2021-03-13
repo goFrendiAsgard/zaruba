@@ -1,13 +1,10 @@
 from typing import List
-from common_helper import get_argv
+from helper import cli
+import helper.generator as generator
 
-import os, re, sys, traceback
-
-# USAGE
-# python create_fast_crud <location> <module> <entity> <fields>
+import os, re
 
 route_template = '''
-
 
     # List {entity} route
     @app.get('/{entity}s/', response_model=List[schema.{entity_caption}])
@@ -46,7 +43,7 @@ route_template = '''
             raise HTTPException(status_code=500, detail='Internal server error')
 
 
-    # Uupdate {entity} route
+    # Update {entity} route
     @app.put('/{entity}s/{{{entity}_id}}', response_model=schema.{entity_caption})
     def crud_update_{entity}({entity}_id: int, {entity}_data: schema.{entity_caption}Update):
         try:
@@ -74,7 +71,6 @@ route_template = '''
 '''
 
 event_template = '''
-
 
     # List {entity} message handler
     @transport.handle_rpc(mb, 'list_{entity}')
@@ -146,7 +142,6 @@ event_template = '''
 '''
 
 crud_template = '''
-
 
 # List {entity}
 def list_{entity}(db: Session, skip: int = 0, limit: int = 100):
@@ -222,7 +217,9 @@ class {entity_class}({entity_class}Base):
 
 '''
 
-def create_fast_crud(location: str, module: str, entity: str, fields: List[str]):
+@cli
+def create_fast_crud(location: str, module: str, entity: str, str_fields: str):
+    fields = str_fields.split(',') if str_fields != '' else []
     # declare substitutions
     indentation = '    '
     indented_new_line = '\n' + indentation
@@ -257,9 +254,7 @@ def create_fast_crud(location: str, module: str, entity: str, fields: List[str])
 
 def create_event(location: str, module: str, entity_class: str, entity: str):
     file_name = os.path.abspath(os.path.join(location, module, 'event.py'))
-    f_read = open(file_name, 'r')
-    lines = f_read.readlines()
-    f_read.close()
+    lines = generator.read_lines(file_name)
     # look for line with 'def init(' prefix
     insert_index = -1
     for index, line in enumerate(lines):
@@ -273,16 +268,12 @@ def create_event(location: str, module: str, entity_class: str, entity: str):
         entity_class=entity_class,
         entity=entity
     ))
-    f_write = open(file_name, 'w')
-    f_write.writelines(lines)
-    f_write.close()
+    generator.write_lines(file_name, lines)
 
 
 def create_route(location: str, module: str, entity: str, entity_caption: str):
     file_name = os.path.abspath(os.path.join(location, module, 'route.py'))
-    f_read = open(file_name, 'r')
-    lines = f_read.readlines()
-    f_read.close()
+    lines = generator.read_lines(file_name)
     # look for line with 'def init(' prefix
     insert_index = -1
     for index, line in enumerate(lines):
@@ -295,55 +286,43 @@ def create_route(location: str, module: str, entity: str, entity_caption: str):
         entity=entity,
         entity_caption=entity_caption
     ))
-    f_write = open(file_name, 'w')
-    f_write.writelines(lines)
-    f_write.close()
+    generator.write_lines(file_name, lines)
 
 
 def create_schema(location: str, module: str, entity_class: str, entity: str, schema_field_declaration=str):
     # create schema
     file_name = os.path.abspath(os.path.join(location, module, 'schema.py'))
-    f_write = open(file_name, 'a')
-    f_write.write(schema_template.format(
+    text = generator.read_text(file_name)
+    text += schema_template.format(
         entity_class=entity_class, 
         entity=entity,
         schema_field_declaration=schema_field_declaration
-    ))
-    f_write.close()
+    )
+    generator.write_text(file_name, text)
 
 
 def create_model(location: str, module: str, entity_class: str, entity: str, model_field_declaration: str):
     file_name = os.path.abspath(os.path.join(location, module, 'model.py'))
-    f_write = open(file_name, 'a')
-    f_write.write(model_template.format(
+    text = generator.read_text(file_name)
+    text += model_template.format(
         entity_class=entity_class,
         entity=entity,
         model_field_declaration=model_field_declaration
-    ))
-    f_write.close()
+    )
+    generator.write_text(file_name, text)
 
 
 def create_crud(location: str, module: str, entity_class: str, entity: str, init_property: str, update_property: str):
     file_name = os.path.abspath(os.path.join(location, module, 'crud.py'))
-    f_write = open(file_name, 'a')
-    f_write.write(crud_template.format(
+    text = generator.read_text(file_name)
+    text += crud_template.format(
         entity_class=entity_class,
         entity=entity,
         init_property=init_property,
         update_property=update_property
-    ))
-    f_write.close()
+    )
+    generator.write_text(file_name, text)
 
 
 if __name__ == '__main__':
-    location = get_argv(1)
-    module = get_argv(2)
-    entity = get_argv(3)
-    str_fields = get_argv(4)
-    fields = str_fields.split(',') if str_fields != '' else []
-    try:
-        create_fast_crud(location, module, entity, fields)
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
-        sys.exit(1)
+    create_fast_crud()

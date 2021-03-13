@@ -37,10 +37,11 @@ func (ts *TaskStatus) Finish(err error) {
 
 // CmdInfo represent information of Cmd
 type CmdInfo struct {
-	Cmd       *exec.Cmd
-	IsProcess bool
-	StdInPipe io.WriteCloser
-	TaskName  string
+	Cmd                   *exec.Cmd
+	IsProcess             bool
+	IsKilledIntentionally bool
+	StdInPipe             io.WriteCloser
+	TaskName              string
 }
 
 // Runner is used to run tasks

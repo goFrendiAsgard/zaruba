@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List, Mapping, TypedDict
 from dotenv import dotenv_values
-from port_helper import get_service_possible_ports_env
+from .port import get_service_possible_ports_env
 import os
 
 EnvDict = TypedDict('envDict', {'from': str, 'default': str}, total=False)

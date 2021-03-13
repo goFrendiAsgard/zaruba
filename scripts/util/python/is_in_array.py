@@ -1,17 +1,13 @@
-from common_helper import get_argv
-import sys, traceback
+from typing import List
+from helper import cli
 
-# USAGE
-# python is_in_array.py <needle> <haystack> [separator=\n]
+
+@cli
+def show_is_in_array(needle: str, separator: str, haystacks: str = ''):
+    haystack_list = [haystack.strip() for haystack in haystacks.split(separator)]
+    is_in_array = 1 if needle in haystack_list else 0
+    print(is_in_array)
+
 
 if __name__ == '__main__':
-    try:
-        needle = get_argv(1)
-        haystack = get_argv(2)
-        separator = get_argv(3, '\n')
-        in_array = 1 if needle in haystack else 0
-        print(in_array)
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
-        sys.exit(1)
+    show_is_in_array()

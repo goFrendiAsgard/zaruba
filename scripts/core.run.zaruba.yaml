@@ -58,12 +58,18 @@ tasks:
     - core.checkThirdParties
     - core.checkBootstrap
     config:
-      setup: |
-        {{ $task := .GetTask "core.runShellScript" -}}
-        {{ $task.GetConfig "setup" }}
-        set -e
+      loadUtil: |
         UTIL="${ZARUBA_HOME}/scripts/util/sh"
-        PY_UTIL="${UTIL}/py_util.sh"
+        PY_UTIL() {
+          export PIPENV_IGNORE_VIRTUALENVS=1
+          export PIPENV_DONT_LOAD_ENV=1
+          export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
+          pipenv run python "${ZARUBA_HOME}/scripts/util/python/${1}.py" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
+        }
+      setup: |
+        {{ .Trim (.GetConfig "loadBootstrap") "\n" }} 
+        {{ .Trim (.GetConfig "loadUtil") "\n" }} 
+        set -e
       start: echo "No script defined"
 
 
@@ -126,11 +132,11 @@ tasks:
     - core.checkThirdParties
     - core.checkBootstrap
     config:
-      setup: |
-        alias sh=.
+      loadBootstrap: |
         THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
         BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         . "${BOOTSTRAP_SCRIPT}"
+      setup: '{{ .GetConfig "loadBootstrap" }}'
       start: "echo hello world"
 
 

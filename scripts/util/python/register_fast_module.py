@@ -1,6 +1,7 @@
-from common_helper import get_argv
+from helper import cli
+import helper.generator as generator
 
-import os, sys, traceback
+import os
 
 # USAGE
 # python register_fast_module <location> <module>
@@ -15,11 +16,10 @@ if enable_route_handler:
 
 '''
 
+@cli
 def register_fast_module(location: str, module: str):
     file_name = os.path.abspath(os.path.join(location, 'main.py'))
-    f_read = open(file_name, 'r')
-    lines = f_read.readlines()
-    f_read.close()
+    lines = generator.read_lines(file_name)
     # look for last line with 'import' prefix
     import_found = False
     insert_index = 0
@@ -31,17 +31,8 @@ def register_fast_module(location: str, module: str):
             break
     lines.insert(insert_index, 'import {}'.format(module))
     lines.append(init_module_template.format(module=module))
-    f_write = open(file_name, 'w')
-    f_write.writelines(lines)
-    f_write.close()
+    generator.write_lines(file_name, lines)
 
 
 if __name__ == '__main__':
-    location = get_argv(1)
-    module = get_argv(2)
-    try:
-        register_fast_module(location, module)
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
-        sys.exit(1)
+    register_fast_module()

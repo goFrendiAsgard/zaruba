@@ -1,24 +1,13 @@
-from common_helper import get_argv
-from generator_helper import read_config, write_config
-from decoration import yellow, normal
-from ruamel.yaml import YAML
+from helper import cli
+import helper.generator as generator
+import helper.decoration as decoration
 
-import sys, traceback
-
-# USAGE
-# python add_link.py <source> <destination> [file]
+@cli
+def add_link(source: str, destination: str, file_name='./default.values.yaml'):
+    config = generator.read_config(file_name)
+    print('{yellow}Add link from "{source}" to "{destination}" on "{file_name}"{normal}'.format(yellow=decoration.yellow, normal=decoration.normal, source=source, destination=destination, file_name=file_name))
+    config['link::{}'.format(destination)] = source
+    generator.write_config(file_name, config)
 
 if __name__ == '__main__':
-    try:
-        source = get_argv(1)
-        destination = get_argv(2)
-        file_name = get_argv(3, './default.values.yaml')
-        config = read_config(file_name)
-        print('{yellow}Add link from "{source}" to "{destination}" on "{file_name}"{normal}'.format(yellow=yellow, normal=normal, source=source, destination=destination, file_name=file_name))
-        config['link::{}'.format(destination)] = source
-        write_config(file_name, config)
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
-        sys.exit(1)
-
+    add_link()

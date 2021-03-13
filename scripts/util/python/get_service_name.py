@@ -1,16 +1,10 @@
-from common_helper import get_argv, get_kwargs
-from generator_helper import get_service_name
+from helper import cli
+import helper.generator as generator
 
-import os, sys, traceback
 
-# USAGE
-# python get_service_name.py <location>
+@cli
+def show_service_name(service_location: str):
+    print(generator.get_service_name(service_location))
 
 if __name__ == '__main__':
-    location = get_argv(1)
-    try:
-        print(get_service_name(location))
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
-        sys.exit(1)
+    show_service_name()

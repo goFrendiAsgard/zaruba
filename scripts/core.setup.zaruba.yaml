@@ -42,7 +42,21 @@ tasks:
     - setup.initPyUtil
     config:
       start: |
-        {{ if eq (.GetValue "setup.initPyUtil") "true" }}. ${UTIL}/py_install.sh{{ end }}
+        {{ if eq (.GetValue "setup.initPyUtil") "true" }}
+        {{ $d := .Decoration -}}
+        if [ -z "$(pipenv --version)" ]
+        then
+            echo "{{ $d.Bold }}{{ $d.Red }}Pipenv is not installed{{ $d.Normal }}"
+            echo "Please perform:"
+            echo "* 'zaruba please setupPyenv' (recommended) or"
+            echo "* 'pip install pipenv' (if you don't want to install pyenv)"
+            exit 1
+        fi
+        export PIPENV_IGNORE_VIRTUALENVS=1
+        export PIPENV_DONT_LOAD_ENV=1
+        export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
+        pipenv sync
+        {{ end }}
   
 
   setupUbuntu:

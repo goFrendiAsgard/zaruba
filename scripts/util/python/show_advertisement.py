@@ -1,7 +1,8 @@
 from typing import List, Mapping
+from helper import cli
 from ruamel.yaml import YAML
+import helper.decoration as d
 import os, random, re, time
-import decoration as d
 
 # USAGE
 # python show_advertisement.py
@@ -16,6 +17,15 @@ default_advertisement='''
                 ||----w |
                 ||     ||
 '''
+
+@cli
+def show_advertisement():
+    try:
+        message = get_random_advertisement_message()
+        print(decorate_message(message))
+    except:
+        print(decorate_message(default_advertisement))
+
 
 def read_advertisement_dict() -> Mapping[str, Mapping[str, str]]:
     yaml = YAML()
@@ -80,8 +90,4 @@ def decorate_message(message: str) -> str:
 
 
 if __name__ == '__main__':
-    try:
-        message = get_random_advertisement_message()
-        print(decorate_message(message))
-    except:
-        print(decorate_message(default_advertisement))
+    show_advertisement()

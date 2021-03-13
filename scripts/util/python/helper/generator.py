@@ -1,17 +1,17 @@
 from typing import Mapping, Any, List
 from dotenv import dotenv_values
-from task import Task
+from .task import Task
 from ruamel.yaml import YAML
 
 import os, re, shutil, sys, traceback
-
-main_file_name = 'main.zaruba.yaml'
 
 def read_config(file_name: str) -> Mapping[str, Any]:
     yaml=YAML()
     f = open(file_name, 'r')
     template_obj = yaml.load(f)
     f.close()
+    if template_obj is None:
+        template_obj = {}
     return template_obj
 
 
@@ -22,7 +22,34 @@ def write_config(file_name: str, dictionary: Mapping[str, Any]):
     f.close()
 
 
+def read_text(file_name: str) -> str:
+    f_read = open(file_name, 'r')
+    text = f_read.read()
+    f_read.close()
+    return text
+
+
+def write_text(file_name: str, text: str):
+    f_write = open(file_name, 'w')
+    f_write.write(text)
+    f_write.close()
+
+
+def read_lines(file_name: str) -> List[str]:
+    f_read = open(file_name, 'r')
+    lines = f_read.readlines()
+    f_read.close()
+    return lines
+
+
+def write_lines(file_name: str, lines: List[str]):
+    f_write = open(file_name, 'w')
+    f_write.writelines(lines)
+    f_write.close()
+
+
 def register_task(file_name: str, task_name: str, main_task_name: str, default_task: Task):
+    main_file_name = 'main.zaruba.yaml'
     main_config = read_config(main_file_name)
     if 'includes' not in main_config:
         main_config['includes'] = []
@@ -116,7 +143,7 @@ def get_alphanum_basename(location: str) -> str:
 
 
 def get_env_prefix(location: str) -> str:
-    return get_alphanum_basename(location).upper().replace(' ', '_')
+    return get_alphanum_basename(location).upper().replace(' ', '_').replace('/', '_')
 
 
 def get_task_env_name(location: str, env_name: str) -> str:
@@ -167,15 +194,11 @@ def replace_str(string: str, replace_dict: Mapping[str, str]):
 def replace_in_file(file_name: str, replace_dict: Mapping[str, str]):
     if not replace_dict:
         return
-    f_read = open(file_name, 'r')
-    content = f_read.read()
-    f_read.close()
+    content = read_text(file_name)
     new_content = replace_str(content, replace_dict)
     if new_content == content:
         return
-    f_write = open(file_name, 'w')
-    f_write.write(new_content)
-    f_write.close()
+    write_text(file_name, new_content)
 
 
 def replace_all(location: str, replace_dict: Mapping[str, str]):

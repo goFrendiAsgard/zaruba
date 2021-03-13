@@ -101,13 +101,14 @@ tasks:
       useImagePrefix: true
       setup: |
         {{ $d := .Decoration -}}
-        {{ $task := .GetTask "core.runCoreScript" -}}
-        {{ $task.GetConfig "setup" }}
+        {{ .Trim (.GetConfig "loadBootstrap") "\n" }} 
+        {{ .Trim (.GetConfig "loadUtil") "\n" }} 
         DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         . "${UTIL}/should_not_be_empty.sh" "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
         . "${UTIL}/should_not_be_empty.sh" "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+        set -e
       check: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
