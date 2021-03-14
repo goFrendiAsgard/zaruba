@@ -102,17 +102,17 @@ tasks:
         BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         . "${BOOTSTRAP_SCRIPT}"
       loadUtilScript: |
-        invoke_py() {
+        invoke_core_py() {
           export PIPENV_IGNORE_VIRTUALENVS=1
           export PIPENV_DONT_LOAD_ENV=1
           export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
           pipenv run python "${ZARUBA_HOME}/scripts/util/python/${1}.py" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
         }
-        invoke_sh() {
+        invoke_core_sh() {
           . "${ZARUBA_HOME}/scripts/util/sh/${1}.sh" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
         }
       loadNvmScript: |
-        if [ "$(invoke_sh is_command_exist nvm)" = 1 ]
+        if [ "$(invoke_core_sh is_command_exist nvm)" = 1 ]
         then
           nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}lts{{ end }}"
         fi
@@ -122,7 +122,7 @@ tasks:
         if [ -f "./node_modules/.bin/tsc" ]
         then
           ./node_modules/.bin/tsc
-        elif [ "$(invoke_sh is_command_exist tsc)" = 1 ]
+        elif [ "$(invoke_core_sh is_command_exist tsc)" = 1 ]
           tsc
         else
           echo "{{ $d.Bold }}{{ $d.Red }}Typescript is not installed{{ $d.Normal }}"

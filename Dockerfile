@@ -14,7 +14,8 @@ COPY go.mod go.sum /.zaruba/
 RUN cd /.zaruba && go mod download
 COPY . /.zaruba/
 RUN cd /.zaruba && go build
-RUN cd /.zaruba
+RUN cd /.zaruba && zaruba please setupUbuntu setup.allowRoot=true
+RUN cd /.zaruba && zaruba please setupPyenv setupNvm setupKubeClient
 
 RUN mkdir -p /project
 WORKDIR /project

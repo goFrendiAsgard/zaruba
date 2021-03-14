@@ -26,7 +26,7 @@ tasks:
         {{- $d := .Decoration -}}
         {{ range $index, $port := .GetLConfig "ports" -}}
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-          invoke_sh wait_port "localhost" "{{ $port }}"
+          invoke_core_sh wait_port "localhost" "{{ $port }}"
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end -}}
       completeStart: ""
@@ -105,14 +105,14 @@ tasks:
         {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
         DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        invoke_sh should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+        invoke_core_sh should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
-        invoke_sh should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+        invoke_core_sh should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
         set -e
       check: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-        until [ "$(invoke_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        until [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
           sleep 1
         done
@@ -121,13 +121,13 @@ tasks:
         {{ if eq $expose "lconfig.ports" -}}
           {{ range $index, $hostPort := .GetLConfig "ports" -}}
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-            invoke_sh wait_port "localhost" "{{ $hostPort }}"
+            invoke_core_sh wait_port "localhost" "{{ $hostPort }}"
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
           {{ end -}}
         {{ else -}}
           {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-            invoke_sh wait_port "localhost" "{{ $hostPort }}"
+            invoke_core_sh wait_port "localhost" "{{ $hostPort }}"
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
           {{ end -}}
         {{ end -}}
@@ -147,11 +147,11 @@ tasks:
           echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
         {{ end -}}
         {{ $this := . -}}
-        {{ if eq $rebuild "true" }}invoke_sh stop_and_remove_container "${CONTAINER_NAME}"{{ end }}
-        if [ "$(invoke_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        {{ if eq $rebuild "true" }}invoke_core_sh stop_and_remove_container "${CONTAINER_NAME}"{{ end }}
+        if [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
-        elif [ ! -z $(invoke_sh inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
+        elif [ ! -z $(invoke_core_sh inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker start "${CONTAINER_NAME}"
