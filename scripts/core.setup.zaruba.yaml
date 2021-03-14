@@ -49,7 +49,8 @@ tasks:
         then
           echo "{{ $d.Faint }}${HOME}/.local/bin is already in the PATH{{ $d.Normal }}"
         else
-          . "${ZARUBA_HOME}/scripts/util/sh/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")" "${BOOTSTRAP_SCRIPT}"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")"
+          . "${ZARUBA_HOME}/scripts/util/sh/append_if_exist.sh" "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
         {{ if .IsTrue (.GetValue "setup.injectBootstrap") }}
@@ -70,7 +71,7 @@ tasks:
         - core.setupPyUtil
         config:
           start: |
-            . ${PY_UTIL} "show_log"
+            . ${invoke_py} "show_log"
       ```
     private: true
     extend: core.runCoreScript
@@ -115,7 +116,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        . ${UTIL}/check_setup_ubuntu.sh "${HOME}"
+        invoke_sh check_setup_ubuntu "${HOME}"
         echo "📡 {{ $d.Bold }}{{ $d.Yellow }}Update repository{{ $d.Normal }}"
         apt-get update
         apt-get upgrade -y
@@ -155,19 +156,20 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ "$(. "${UTIL}/is_command_exist.sh" pyenv --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist pyenv --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
         else
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
           curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
-          . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")" "${BOOTSTRAP_SCRIPT}"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv")"
+          invoke_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
           pyenv install {{ .GetValue "setup.pythonVersion" }}
           pyenv global {{ .GetValue "setup.pythonVersion" }}
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" python --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist python --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Python was already installed{{ $d.Normal }}"
         else
@@ -175,7 +177,7 @@ tasks:
           pyenv install {{ .GetValue "setup.pythonVersion" }}
           pyenv global {{ .GetValue "setup.pythonVersion" }}
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" pipenv --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist pipenv --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
         else
@@ -209,25 +211,26 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ "$(. "${UTIL}/is_command_exist.sh" nvm --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist nvm --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
         else
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
-          . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")" "${BOOTSTRAP_SCRIPT}"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm")"
+          invoke_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           nvm install node
           . "${BOOTSTRAP_SCRIPT}"
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" node-gyp --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist node-gyp --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Node-gyp was already installed{{ $d.Normal }}"
         else 
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install node-gyp{{ $d.Normal }}"
           npm install -g node-gyp
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" tsc --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist tsc --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Typescript was already installed{{ $d.Normal }}"
         else
@@ -259,27 +262,28 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ "$(. "${UTIL}/is_command_exist.sh" sdk version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist sdk version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
         else
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
           curl -s "https://get.sdkman.io" | bash
-          . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")" "${BOOTSTRAP_SCRIPT}"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman")"
+          invoke_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
           sdk install java {{ .GetValue "setup.javaVersion" }}
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
           sdk install scala
         fi 
-        if [ "$(. "${UTIL}/is_command_exist.sh" java -version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist java -version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Java was already installed{{ $d.Normal }}"
         else
           echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
           sdk install java {{ .GetValue "setup.javaVersion" }}
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" scala -version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist scala -version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Scala was already installed{{ $d.Normal }}"
         else
@@ -309,7 +313,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ "$(. "${UTIL}/is_command_exist.sh" spark-shell --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist spark-shell --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
         else
@@ -317,7 +321,8 @@ tasks:
           wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark-3.0.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
-          . "${UTIL}/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")" "${BOOTSTRAP_SCRIPT}"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark")"
+          invoke_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
         echo 🎉🎉🎉
@@ -343,7 +348,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        if [ "$(. "${UTIL}/is_command_exist.sh" kubectl version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist kubectl version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"
         else
@@ -353,7 +358,7 @@ tasks:
           mkdir -p "${HOME}/.local/bin"
           mv kubectl "${HOME}/.local/bin"
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" helm version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist helm version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helm was already installed{{ $d.Normal }}"
         else
@@ -364,7 +369,7 @@ tasks:
           ./get_helm.sh --no-sudo
           rm ./get_helm.sh
         fi
-        if [ "$(. "${UTIL}/is_command_exist.sh" helmfile --version)" = 1 ]
+        if [ "$(invoke_sh is_command_exist helmfile --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helmfile was already installed{{ $d.Normal }}"
         else

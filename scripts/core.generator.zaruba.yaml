@@ -69,7 +69,7 @@ tasks:
         extend: core.generate
         config:
           start: |
-            . ${PY_UTIL} copyAndReplace source.yaml destination.yaml ${VALUES}
+            . ${invoke_py} copyAndReplace source.yaml destination.yaml ${VALUES}
       ```
     private: true
     extend: core.runCoreScript
@@ -89,8 +89,8 @@ tasks:
         {
           mkdir -p "${2}"
           cp -rnT "${1}" "${2}"
-          PY_UTIL add_link "${2}" "${3}"
-          . "${UTIL}/link_resource.sh" "${2}" "${3}"
+          invoke_py add_link "${2}" "${3}"
+          invoke_sh link_resource "${2}" "${3}"
         }
         set -e
 
@@ -113,7 +113,7 @@ tasks:
         cp -r "${HELM_DEPLOYMENT_TEMPLATE}/helmfile.yaml" "${LOCATION}/helmfile.yaml"
         cp -r "${HELM_DEPLOYMENT_TEMPLATE}/charts" "${LOCATION}/charts"
         cp -r "${HELM_DEPLOYMENT_TEMPLATE}/values" "${LOCATION}/values"
-        PY_UTIL create_helm_task
+        invoke_py create_helm_task
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
 
@@ -133,7 +133,7 @@ tasks:
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
         PORTS="{{ .GetValue "generator.service.ports" }}"
-        PY_UTIL create_service_deployment "${LOCATION}" "${PORTS}"
+        invoke_py create_service_deployment "${LOCATION}" "${PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
 
@@ -157,7 +157,7 @@ tasks:
         IMAGE_TAG="{{ .GetValue "generator.docker.image.tag" }}"
         CONTAINER_NAME="{{ .GetValue "generator.docker.container" }}"
         SERVICE_NAME="{{ .GetValue "generator.docker.service.name" }}"
-        PY_UTIL create_docker_task "${TEMPLATE_PATHS}" "${IMAGE_NAME}" "${IMAGE_PREFIX}" "${IMAGE_TAG}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
+        invoke_py create_docker_task "${TEMPLATE_PATHS}" "${IMAGE_NAME}" "${IMAGE_PREFIX}" "${IMAGE_TAG}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -176,11 +176,11 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         SERVICE_TYPE="{{ .GetValue "generator.service.type" }}"
         SERVICE_PORTS="{{ .GetValue "generator.service.ports" }}"
         SERVICE_NAME="{{ .GetValue "generator.docker.service.name" }}"
-        PY_UTIL create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}"
+        invoke_py create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -196,8 +196,8 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        ENV_PREFIX=$(PY_UTIL get_env_prefix "${LOCATION}")
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        ENV_PREFIX=$(invoke_py get_env_prefix "${LOCATION}")
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         echo "{{ $d.Yellow }}Creating directory on ${LOCATION}{{ $d.Normal }}"
         mkdir -p "${LOCATION}"
@@ -212,7 +212,7 @@ tasks:
         chmod 755 "${LOCATION}/start.sh"
         cp "${FAST_TEMPLATE}/template.env" "${LOCATION}/template.env"
         cp -r "${FAST_TEMPLATE}/schema" "${LOCATION}/schema"
-        PY_UTIL replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
+        invoke_py replace_all "${LOCATION}" "ZARUBA_ENV_PREFIX=${ENV_PREFIX}"
         copy_and_create_link "${FAST_TEMPLATE}/transport" "shared-libs/python/transport" "${LOCATION}/transport"
         copy_and_create_link "${FAST_TEMPLATE}/database" "shared-libs/python/database" "${LOCATION}/database"
         echo 🎉🎉🎉
@@ -230,15 +230,15 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ .GetValue "generator.module.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
-        . "${UTIL}/should_not_be_dir.sh" "${LOCATION}/${MODULE}" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE} is already exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
+        invoke_sh should_not_be_dir "${LOCATION}/${MODULE}" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE} is already exist{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
         cp -r "${FAST_TEMPLATE}/module" "${LOCATION}/${MODULE}"
-        PY_UTIL replace_all "${LOCATION}/${MODULE}" "module=${MODULE}"
-        PY_UTIL register_fast_module "${LOCATION}" "${MODULE}"
+        invoke_py replace_all "${LOCATION}/${MODULE}" "module=${MODULE}"
+        invoke_py register_fast_module "${LOCATION}" "${MODULE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Module ${LOCATION}/${MODULE} created {{ $d.Normal }}"
 
@@ -256,15 +256,15 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ .GetValue "generator.module.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/route.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/route.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/${MODULE}/route.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/route.py should be exist{{ $d.Normal }}"
         URL="{{ .GetValue "generator.url" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${URL}" "{{ $d.Bold }}{{ $d.Red }}generator.url is required.{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}generator.url is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        PY_UTIL create_fast_route "${LOCATION}" "${MODULE}" "${URL}"
+        invoke_py create_fast_route "${LOCATION}" "${MODULE}" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Route for ${URL} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"
 
@@ -282,15 +282,15 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ .GetValue "generator.module.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
         EVENT="{{ .GetValue "generator.event.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}generator.event.name is required.{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}generator.event.name is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        PY_UTIL create_fast_event_handler "${LOCATION}" "${MODULE}" "${EVENT}"
+        invoke_py create_fast_event_handler "${LOCATION}" "${MODULE}" "${EVENT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Event handler for ${EVENT} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"
 
@@ -308,15 +308,15 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ .GetValue "generator.module.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
         EVENT="{{ .GetValue "generator.event.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}generator.event.name is required.{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${EVENT}" "{{ $d.Bold }}{{ $d.Red }}generator.event.name is required.{{ $d.Normal }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        PY_UTIL create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${EVENT}"
+        invoke_py create_fast_rpc_handler "${LOCATION}" "${MODULE}" "${EVENT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}RPC handler for ${EVENT} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"
 
@@ -335,15 +335,15 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/main.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/main.py should be exist{{ $d.Normal }}"
         MODULE="{{ .GetValue "generator.module.name" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
-        . "${UTIL}/should_be_file.sh" "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${MODULE}" "{{ $d.Bold }}{{ $d.Red }}generator.module.name is required{{ $d.Normal }}"
+        invoke_sh should_be_file "${LOCATION}/${MODULE}/event.py" "{{ $d.Bold }}{{ $d.Red }}${LOCATION}/${MODULE}/event.py should be exist{{ $d.Normal }}"
         ENTITY="{{ .GetValue "generator.crud.entity" }}"
-        . "${UTIL}/should_not_be_empty.sh" "${ENTITY}" "{{ $d.Bold }}{{ $d.Red }}generator.crud.entity is required.{{ $d.Normal }}"
+        invoke_sh should_not_be_empty "${ENTITY}" "{{ $d.Bold }}{{ $d.Red }}generator.crud.entity is required.{{ $d.Normal }}"
         FIELDS="{{ .GetValue "generator.crud.fields" }}"
         FAST_TEMPLATE="{{ .DirPath }}/templates/fastService"
-        PY_UTIL create_fast_crud "${LOCATION}" "${MODULE}" "${ENTITY}" "${FIELDS}"
+        invoke_py create_fast_crud "${LOCATION}" "${MODULE}" "${ENTITY}" "${FIELDS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}CRUD for ${ENTITY} created on ${LOCATION}/${MODULE}{{ $d.Normal }}"

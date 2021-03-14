@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -246,8 +247,15 @@ func (project *Project) Init() (err error) {
 			return err
 		}
 	}
+	r, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return err
+	}
 	for key, value := range project.values {
-		project.values[key] = os.ExpandEnv(value)
+		parsedValue := os.ExpandEnv(value)
+		project.values[key] = parsedValue
+		inputEnvKey := "ZARUBA_INPUT_" + string(r.ReplaceAll([]byte(strings.ToUpper(key)), []byte("_")))
+		os.Setenv(inputEnvKey, parsedValue)
 	}
 	project.IsInitialized = true
 	return err

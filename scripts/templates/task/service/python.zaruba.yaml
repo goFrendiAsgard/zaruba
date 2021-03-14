@@ -15,7 +15,7 @@ tasks:
       ports: &zarubaServiceNamePorts []
     config:
       start: |
-        MAIN_SCRIPT=$(. "${UTIL}/get_main_python_script.sh")
+        MAIN_SCRIPT=$(invoke_sh get_main_python_script)
         pipenv run python ${MAIN_SCRIPT}
 
     
