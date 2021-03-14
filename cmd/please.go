@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -10,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/explainer"
+	"github.com/state-alchemists/zaruba/inputer"
 	"github.com/state-alchemists/zaruba/logger"
 	"github.com/state-alchemists/zaruba/runner"
 )
@@ -37,6 +37,9 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle "please explain [taskNames...]"
 		if taskNames[0] == "explain" {
+			if err = project.Init(); err != nil {
+				showErrorAndExit(err)
+			}
 			if err = explain(project, taskNames); err != nil {
 				showErrorAndExit(err)
 			}
@@ -44,7 +47,9 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
-			askInputs(project, taskNames)
+			if err = inputer.Ask(project, taskNames); err != nil {
+				showErrorAndExit(err)
+			}
 		}
 		if err = project.Init(); err != nil {
 			showErrorAndExit(err)
@@ -101,9 +106,6 @@ func showDefaultResponse() {
 }
 
 func explain(project *config.Project, taskNames []string) (err error) {
-	if err = project.Init(); err != nil {
-		return err
-	}
 	if len(taskNames) >= 2 {
 		if taskNames[1] == "input" || taskNames[1] == "task" {
 			keyword := strings.Join(taskNames[2:], " ")
@@ -122,53 +124,6 @@ func explain(project *config.Project, taskNames []string) (err error) {
 	explainer.ExplainTasks(project, keyword)
 	explainer.ExplainInputs(project, keyword)
 	return nil
-}
-
-func askInputs(project *config.Project, taskNames []string) (err error) {
-	inputs, inputOrder, err := project.GetInputs(taskNames)
-	d := logger.NewDecoration()
-	inputCount := len(inputOrder)
-	if inputCount == 0 {
-		logger.Printf("%sZaruba is running in interactive mode. But no value you can set interactively.%s\n", d.Yellow, d.Normal)
-		return err
-	}
-	logger.Printf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n", d.Yellow, d.Normal)
-	logger.Printf("%sLeave blank if you want to keep current values.%s\n", d.Yellow, d.Normal)
-	for inputIndex, inputName := range inputOrder {
-		input := inputs[inputName]
-		// show number
-		decoratedIndex := fmt.Sprintf("%s%d of %d)%s", d.Faint, inputIndex+1, inputCount, d.Normal)
-		fmt.Println(decoratedIndex)
-		if input.Description != "" {
-			showInputDescription(input)
-		}
-		// show current value
-		decoratedCurrentValue := "empty"
-		currentValue := project.GetValue(inputName)
-		if currentValue != "" {
-			decoratedCurrentValue = fmt.Sprintf("%s%s%s", d.Yellow, currentValue, d.Normal)
-		}
-		fmt.Printf("%s (currently %s): ", inputName, decoratedCurrentValue)
-		// handle user input
-		userValue := ""
-		fmt.Scanf("%s", &userValue)
-		if userValue != "" {
-			project.SetValue(inputName, userValue)
-		}
-		fmt.Println()
-	}
-	return err
-}
-
-func showInputDescription(input *config.Input) {
-	d := logger.NewDecoration()
-	decoratedInputName := fmt.Sprintf("%s%s%s%s", d.Bold, d.Blue, input.GetName(), d.Normal)
-	indentation := "  "
-	fmt.Printf("%s%s\n", indentation, decoratedInputName)
-	descriptionRows := strings.Split(strings.Trim(input.Description, "\n "), "\n")
-	for _, row := range descriptionRows {
-		fmt.Printf("%s%s%s%s\n", indentation, d.Faint, row, d.Normal)
-	}
 }
 
 func getProjectAndTaskNames(args []string) (project *config.Project, taskNames []string, err error) {

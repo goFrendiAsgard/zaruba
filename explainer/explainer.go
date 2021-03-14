@@ -10,7 +10,10 @@ import (
 )
 
 // ExplainInputs explain all inputs
-func ExplainInputs(project *config.Project, keyword string) {
+func ExplainInputs(project *config.Project, keyword string) (err error) {
+	if !project.IsInitialized {
+		return fmt.Errorf("Cannot explain inputs because project was not initialize")
+	}
 	r := getRegexKeyword(keyword)
 	d := logger.NewDecoration()
 	inputIndentation := strings.Repeat(" ", 6)
@@ -37,10 +40,14 @@ func ExplainInputs(project *config.Project, keyword string) {
 	}
 	logger.Printf("%d input variable(s) matched '%s' keyword.\n", totalMatch, keyword)
 	logger.Printf("You can also use %s%szaruba please explain input <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
+	return nil
 }
 
 // ExplainTasks explain all tasks matching the keyword
-func ExplainTasks(project *config.Project, keyword string) {
+func ExplainTasks(project *config.Project, keyword string) (err error) {
+	if !project.IsInitialized {
+		return fmt.Errorf("Cannot explain tasks because project was not initialize")
+	}
 	r := getRegexKeyword(keyword)
 	d := logger.NewDecoration()
 	unpublishedMatch := showTasks(project, false, r)
@@ -50,6 +57,7 @@ func ExplainTasks(project *config.Project, keyword string) {
 	logger.Printf("    %d base task(s)\n", unpublishedMatch)
 	logger.Printf("    %d published task(s)\n", publishedMatch)
 	logger.Printf("You can also use %s%szaruba please explain task <keyword>%s to refine the result.\n", d.Bold, d.Yellow, d.Normal)
+	return nil
 }
 
 func showTasks(project *config.Project, published bool, r *regexp.Regexp) (totalMatch int) {
