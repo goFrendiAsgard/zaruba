@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install ubuntu packages
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install -y ncat make wget curl git golang
+RUN apt-get install -y git golang --fix-missing
 
 # Clean up package
 RUN apt-get clean

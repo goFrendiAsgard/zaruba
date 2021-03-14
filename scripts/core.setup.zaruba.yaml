@@ -128,21 +128,21 @@ tasks:
         {{ $d := .Decoration -}}
         if [ $(whoami) = "root" ]
         then
-          if echo "${1}" | grep -q "/root$"
-          then
-            {{ if .IsFalse (.GetValue "setup.allowRoot") }}
-              echo "{{ $d.Bold}}{{ $d.Red }}Your home directory seems to be '/root'. If this is intentional please set 'setup.allowRoot' to 'true'. Otherwise re-run this task with 'sudo -E'{{ $d.Normal}}"
-              exit 1
-            {{ end }}
-          fi
+          {{ if .IsFalse (.GetValue "setup.allowRoot") }}
+            if echo "${1}" | grep -q "/root$"
+            then
+                echo "{{ $d.Bold}}{{ $d.Red }}Your home directory seems to be '/root'. If this is intentional please set 'setup.allowRoot' to 'true'. Otherwise re-run this task with 'sudo -E'{{ $d.Normal}}"
+                exit 1
+            fi
+          {{ end }}
           . "${ZARUBA_HOME}/scripts/util/sh/setup_ubuntu.sh"
         else
-          {{ if .GetValue "setup.userPassword" -}}
+          {{ if .GetValue "setup.userPassword" }}
             echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S "${ZARUBA_HOME}/scripts/util/sh/setup_ubuntu.sh"
-          {{ else -}}
+          {{ else }}
             echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setup.userPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
             exit 1
-          {{ end -}}
+          {{ end }}
         fi
 
 
@@ -173,7 +173,7 @@ tasks:
         else
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
           curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
-          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv")"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
@@ -228,7 +228,7 @@ tasks:
         else
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
-          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm")"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           nvm install node
@@ -279,7 +279,7 @@ tasks:
         else
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
           curl -s "https://get.sdkman.io" | bash
-          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman")"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
@@ -332,7 +332,7 @@ tasks:
           wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark-3.0.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
-          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark")"
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
