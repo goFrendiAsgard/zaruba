@@ -26,4 +26,4 @@ WORKDIR /project
 
 EXPOSE 2810
 
-CMD ["bash", "-c", ". /.zaruba/scripts/bootstrap.sh && cat"]
+CMD ["cat"]
