@@ -26,4 +26,4 @@ WORKDIR /project
 
 EXPOSE 2810
 
-CMD ["cat"]
+CMD ["sleep", "infinity"]
