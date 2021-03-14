@@ -14,8 +14,8 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please initProject
-        ../zaruba please setProjectValue variable.name=dockerImagePrefix::default variable.value=localhost:9999
+        ../zaruba please initProject setup.injectBootstrap=false
+        ../zaruba please setProjectValue variable.name=dockerImagePrefix::default variable.value=localhost:9999 setup.injectBootstrap=false
   
 
   testMakeHelmCharts:
@@ -28,7 +28,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeHelmCharts
+        ../zaruba please makeHelmCharts setup.injectBootstrap=false
 
 
   testMakeSubrepo:
@@ -41,10 +41,10 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="fibo"
-        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="other-fibo"
-        ../zaruba please initSubrepos
-        ../zaruba please pullSubrepos
+        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="fibo" setup.injectBootstrap=false
+        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="other-fibo" setup.injectBootstrap=false
+        ../zaruba please initSubrepos setup.injectBootstrap=false
+        ../zaruba please pullSubrepos setup.injectBootstrap=false
 
 
   testMakeFastAPIProject:
@@ -57,7 +57,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastService generator.service.location=myservice advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeFastService generator.service.location=myservice advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
   testMakeTasks:
@@ -70,9 +70,9 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeServiceTask generator.service.location=fibo
-        ../zaruba please makeServiceTask generator.service.location=myservice generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no
-        ../zaruba please makeDockerTask generator.docker.image.name=rabbitmq advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeServiceTask generator.service.location=fibo setup.injectBootstrap=false
+        ../zaruba please makeServiceTask generator.service.location=myservice generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeDockerTask generator.docker.image.name=rabbitmq advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
         
 
   testMakeFastAPIModule:
@@ -85,7 +85,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastModule generator.service.location=myservice generator.module.name=mymodule advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeFastModule generator.service.location=myservice generator.module.name=mymodule advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
   testMakeFastAPIRoute:
@@ -98,7 +98,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRoute generator.service.location=myservice generator.module.name=mymodule generator.url=/hello advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeFastRoute generator.service.location=myservice generator.module.name=mymodule generator.url=/hello advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
   testMakeFastAPIEventHandler:
@@ -111,7 +111,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastEventHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myEvent advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeFastEventHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myEvent advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
   testMakeFastAPIRPCHandler:
@@ -124,7 +124,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRPCHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myRPC advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeFastRPCHandler generator.service.location=myservice generator.module.name=mymodule generator.event.name=myRPC advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
   testMakeFastAPICRUD:
@@ -137,7 +137,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastCRUD generator.service.location=myservice generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis advertisement.show=no setupInitPyUtil=no
+        ../zaruba please makeFastCRUD generator.service.location=myservice generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
   
 
   testUpdateEnv:
@@ -151,7 +151,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please updateEnv
+        ../zaruba please updateEnv setup.injectBootstrap=false
 
 
   testRun:
@@ -164,7 +164,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please run autostop
+        ../zaruba please run autostop setup.injectBootstrap=false
 
 
   testRunContainer:
@@ -177,9 +177,9 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please removeContainer
-        ../zaruba please runContainer autostop
-        ../zaruba please removeContainer
+        ../zaruba please removeContainer setup.injectBootstrap=false
+        ../zaruba please runContainer autostop setup.injectBootstrap=false
+        ../zaruba please removeContainer setup.injectBootstrap=false
 
 
   testBuildImage:
@@ -194,7 +194,7 @@ tasks:
         ZARUBA_HOME="$(realpath "..")"
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
-        ../zaruba please buildImage docker.env=default
+        ../zaruba please buildImage docker.env=default setup.injectBootstrap=false
 
 
   testGenerator:
@@ -226,8 +226,8 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please showLog log.keyword=myservice
-        ../zaruba please clearLog
+        ../zaruba please showLog log.keyword=myservice setup.injectBootstrap=false
+        ../zaruba please clearLog setup.injectBootstrap=false
   
 
   runContainerRegistry:
@@ -257,7 +257,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please pushImage docker.env=default
+        ../zaruba please pushImage docker.env=default setup.injectBootstrap=false
   
 
   runPlayground:
@@ -272,8 +272,8 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please removeContainer
-        ../zaruba please runContainer
+        ../zaruba please removeContainer setup.injectBootstrap=false
+        ../zaruba please runContainer setup.injectBootstrap=false
       afterCheck: |
         sleep 5
     lconfig:

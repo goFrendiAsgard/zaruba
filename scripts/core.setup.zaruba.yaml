@@ -19,7 +19,44 @@ inputs:
     default: 8.0.275.open-adpt
     description: Java version to be installed.
 
+  setup.injectBootstrap:
+    default: true
+    description: |
+      Either you want to inject zaruba's bootstrap to .zshrc/bashrc or not.
+      Possible values are: "true", "yes", "on", "false", "no", or "off".
+
 tasks:
+
+  core.checkBootstrap:
+    icon: 🐚
+    private: true
+    extend: core.runScript
+    inputs:
+    - setup.injectBootstrap
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        CURRENT_USER="$(. "${ZARUBA_HOME}/scripts/util/sh/get_current_user.sh")"
+        BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+        if [ ! -f "${BOOTSTRAP_SCRIPT}" ]
+        then
+          touch "${BOOTSTRAP_SCRIPT}"
+          chmod 755 "${BOOTSTRAP_SCRIPT}"
+          chown "${CURRENT_USER}" "${BOOTSTRAP_SCRIPT}"
+        fi
+        . "${BOOTSTRAP_SCRIPT}"
+        if echo "$PATH" | grep -Fqe ".local/bin"
+        then
+          echo "{{ $d.Faint }}${HOME}/.local/bin is already in the PATH{{ $d.Normal }}"
+        else
+          . "${ZARUBA_HOME}/scripts/util/sh/append_if_exist.sh" "$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")" "${BOOTSTRAP_SCRIPT}"
+          . "${BOOTSTRAP_SCRIPT}"
+        fi
+        {{ if .IsTrue (.GetValue "setup.injectBootstrap") }}
+        . "${ZARUBA_HOME}/scripts/util/sh/inject_bootstrap.sh" "${HOME}/.bashrc"
+        . "${ZARUBA_HOME}/scripts/util/sh/inject_bootstrap.sh" "${HOME}/.zshrc"
+        {{ end }}
+ 
 
   core.setupPyUtil:
     icon: 🐍

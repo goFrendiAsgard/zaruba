@@ -58,7 +58,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupPyenv
+        ./zaruba please setupPyenv setup.injectBootstrap=false
 
 
   testSetupNvm:
@@ -72,7 +72,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupNvm
+        ./zaruba please setupNvm setup.injectBootstrap=false
 
 
   testSetupSdkman:
@@ -86,7 +86,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupSdkman
+        ./zaruba please setupSdkman setup.injectBootstrap=false
 
 
   testSetupSpark:
@@ -100,7 +100,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupSpark
+        ./zaruba please setupSpark setup.injectBootstrap=false
 
 
   testSetupKubeClient:
@@ -114,7 +114,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupKubeClient
+        ./zaruba please setupKubeClient setup.injectBootstrap=false
 
 
   testThanks:
@@ -156,7 +156,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please showVersion
+        ./zaruba please showVersion setup.injectBootstrap=false
 
 
   testExplain:
@@ -170,7 +170,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please explain docker
+        ./zaruba please explain docker setup.injectBootstrap=false
   
 
   testCommon:

@@ -5,7 +5,7 @@
 
 if [ -f "${1}" ]
 then
-    if cat "${1}" | grep -Fqe "/scripts/bootstrap.sh"
+    if cat "${1}" | grep -Fqe "${ZARUBA_HOME}/scripts/bootstrap.sh"
     then
         echo -e "${Faint}Bootstrap script ${ZARUBA_HOME}/scripts/bootstrap.sh is already loaded in ${1}${Normal}"
     else
