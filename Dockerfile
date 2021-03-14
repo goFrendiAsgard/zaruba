@@ -16,15 +16,15 @@ COPY . /.zaruba/
 RUN cd /.zaruba && go build
 
 # setup ubuntu
-RUN cd /.zaruba && zaruba please setupUbuntu setup.allowRoot=true
+RUN zaruba please setupUbuntu setup.allowRoot=true
 RUN apt-get clean
 
 # setup pyenv, nvm, and kube
-RUN cd /.zaruba && zaruba please setupPyenv setupNvm setupKubeClient
+RUN zaruba please setupPyenv setupNvm setupKubeClient
 
 RUN mkdir -p /project
 WORKDIR /project
 
 EXPOSE 2810
 
-CMD ["sh", "-c", "zaruba please serveHttp port=${ZARUBA_HTTP_PORT}"]
+CMD ["bash", "-c", "zaruba please serveHttp port=${ZARUBA_HTTP_PORT}"]
