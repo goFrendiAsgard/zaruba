@@ -78,7 +78,7 @@ tasks:
       showVersionCommand: |
         {{ $d := .Decoration -}}
         cd ${ZARUBA_HOME}
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(invoke_core_sh get_latest_git_tag) - $(invoke_core_sh get_latest_commit){{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(invoke_core_sh get_latest_git_tag) - $(invoke_core_sh get_latest_git_commit){{ $d.Normal }}"
       start: '{{ .GetConfig "showVersionCommand" }}'
 
 
