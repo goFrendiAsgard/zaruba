@@ -6,3 +6,8 @@ playground
 scripts/bootstrap.sh
 scripts/thirdparties
 test_resource/alchemy/alembic.txt
+
+devbox
+Dockerfile
+*.md
+docs

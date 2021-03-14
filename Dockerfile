@@ -3,7 +3,6 @@ FROM stalchmst/devbox:latest
 # preparing environments
 
 ENV PATH="${PATH}:/.zaruba"
-ENV ZARUBA_HTTP_PORT=2810
 
 # building zaruba
 
@@ -27,4 +26,4 @@ WORKDIR /project
 
 EXPOSE 2810
 
-CMD ["bash", "-c", ". /.zaruba/scripts/bootstrap.sh && zaruba please serveHttp server.httpPort=${ZARUBA_HTTP_PORT}"]
+CMD ["bash", "-c", ". /.zaruba/scripts/bootstrap.sh && cat"]
