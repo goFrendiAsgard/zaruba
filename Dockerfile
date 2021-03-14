@@ -27,4 +27,4 @@ WORKDIR /project
 
 EXPOSE 2810
 
-CMD ["bash", "-c", ". /.zaruba/scripts/bootstrap.sh && zaruba please serveHttp port=${ZARUBA_HTTP_PORT}"]
+CMD ["bash", "-c", ". /.zaruba/scripts/bootstrap.sh && zaruba please serveHttp server.httpPort=${ZARUBA_HTTP_PORT}"]
