@@ -123,6 +123,7 @@ tasks:
         then
           ./node_modules/.bin/tsc
         elif [ "$(invoke_core_sh is_command_exist tsc)" = 1 ]
+        then
           tsc
         else
           echo "{{ $d.Bold }}{{ $d.Red }}Typescript is not installed{{ $d.Normal }}"
