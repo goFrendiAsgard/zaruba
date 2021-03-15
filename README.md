@@ -72,7 +72,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/ma
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
-# 📜 Zaruba Script
+# 📜 Brief Introduction to Zaruba Script
 
 You might already familiar with terraform's HCL, gitlab-ci, or github action. Don't worry if you are not. Those seemingly alien scripts are used to define tasks for automation. Most of those script (except for terraform's HCL) are written in YAML. YAML is like JSON, but it use indentation instead of curly-braces.
 

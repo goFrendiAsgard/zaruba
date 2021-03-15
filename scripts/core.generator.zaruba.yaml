@@ -156,7 +156,7 @@ tasks:
         IMAGE_PREFIX="{{ .GetValue "generator.docker.image.prefix" }}"
         IMAGE_TAG="{{ .GetValue "generator.docker.image.tag" }}"
         CONTAINER_NAME="{{ .GetValue "generator.docker.container" }}"
-        SERVICE_NAME="{{ .GetValue "generator.docker.service.name" }}"
+        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
         invoke_core_py create_docker_task "${TEMPLATE_PATHS}" "${IMAGE_NAME}" "${IMAGE_PREFIX}" "${IMAGE_TAG}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
@@ -179,7 +179,7 @@ tasks:
         invoke_core_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         SERVICE_TYPE="{{ .GetValue "generator.service.type" }}"
         SERVICE_PORTS="{{ .GetValue "generator.service.ports" }}"
-        SERVICE_NAME="{{ .GetValue "generator.docker.service.name" }}"
+        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
         invoke_core_py create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
