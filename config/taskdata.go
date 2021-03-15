@@ -178,6 +178,9 @@ func (td *TaskData) GetDockerImagePrefix() (dockerImagePrefix string) {
 	if useImagePrefix != "" && td.IsFalse(useImagePrefix) {
 		return ""
 	}
+	if dockerImagePrefix, _ = td.GetConfig("imagePrefix"); dockerImagePrefix != "" {
+		return fmt.Sprintf("%s/", dockerImagePrefix)
+	}
 	// Try to get prefix from dockerEnv config, docker.env value, or "default"
 	dockerEnvConfig, _ := td.GetConfig("dockerEnv")
 	dockerEnvValue, _ := td.GetValue("docker.env")
