@@ -201,8 +201,7 @@ func (task *Task) getParsedPattern(td *TaskData, templateNamePrefix, pattern str
 	if err = tmpl.Execute(&b, td); err != nil {
 		return "", err
 	}
-	result = b.String()
-	return result, nil
+	return b.String(), nil
 }
 
 func (task *Task) getTemplateName(templateNamePrefix, pattern string) (templateName string) {

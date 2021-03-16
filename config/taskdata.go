@@ -1,10 +1,13 @@
 package config
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/logger"
@@ -194,4 +197,24 @@ func (td *TaskData) GetDockerImagePrefix() (dockerImagePrefix string) {
 		return "local/"
 	}
 	return ""
+}
+
+// ParseFile parse file
+func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
+	absFilePath := td.GetWorkPath(filePath)
+	fileContent, err := ioutil.ReadFile(absFilePath)
+	if err != nil {
+		return "", err
+	}
+	pattern := string(fileContent)
+	templateName := fmt.Sprintf("File: %s", absFilePath)
+	tmpl, err := template.New(templateName).Option("missingkey=zero").Parse(pattern)
+	if err != nil {
+		return "", err
+	}
+	var b bytes.Buffer
+	if err = tmpl.Execute(&b, td); err != nil {
+		return "", err
+	}
+	return b.String(), nil
 }
