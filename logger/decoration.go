@@ -73,12 +73,18 @@ func NewDecoration() (d *Decoration) {
 		index:       0,
 	}
 	d.colorList = []string{
-		d.Red,
 		d.Green,
 		d.Yellow,
 		d.Blue,
 		d.Magenta,
 		d.Cyan,
+		d.Red,
+		d.Bold + d.Green,
+		d.Bold + d.Yellow,
+		d.Bold + d.Blue,
+		d.Bold + d.Magenta,
+		d.Bold + d.Cyan,
+		d.Bold + d.Red,
 	}
 	return d
 }
