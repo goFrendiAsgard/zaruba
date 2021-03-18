@@ -231,7 +231,7 @@ tasks:
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          nvm install lts
+          nvm install node
           . "${BOOTSTRAP_SCRIPT}"
         fi
         if [ "$(invoke_core_sh is_command_exist node-gyp --version)" = 1 ]

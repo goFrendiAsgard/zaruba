@@ -114,11 +114,11 @@ tasks:
       loadNvmScript: |
         if [ "$(invoke_core_sh is_command_exist nvm)" = 1 ]
         then
-          if [ "$(invoke_core_sh is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}lts{{ end }}" )" ]
+          if [ "$(invoke_core_sh is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
           then
-            nvm install "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}lts{{ end }}"
+            nvm install "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
           else
-            nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}lts{{ end }}"
+            nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
           fi
         fi
       tscCompileScript: |
