@@ -84,6 +84,8 @@ tasks:
           volume::myData: /var/data 
           # Rebuild (default: false, possible values: "true", "false")
           rebuild: true
+          # Command used to run docker
+          command: node start
         lconfig:
           # port, only taking effect if `expose` set to "lconfig.ports"
           ports: []
@@ -180,7 +182,7 @@ tasks:
               {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
               -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
             {{ end -}}
-            -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}"
+            -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ $this.GetConfig "command" }}
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker logs --since 0m --follow "${CONTAINER_NAME}"
         fi
