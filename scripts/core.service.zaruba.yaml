@@ -159,7 +159,8 @@ tasks:
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker run --name "${CONTAINER_NAME}" {{ "" -}}
             {{ range $key, $val := $this.GetEnvs -}} 
-              -e {{ $key }}="$(echo "{{ $val }}" | sed s/localhost/{{ $this.GetConfig "localhost" }}/g)" {{ "" -}}
+              {{ $configLocalhost := $this.GetConfig "localhost" -}}
+              -e "{{ $key }}={{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" $configLocalhost }}" {{ "" -}}
             {{ end -}}
             {{ if eq $expose "config.port" -}}
               {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
