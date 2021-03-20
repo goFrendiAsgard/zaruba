@@ -113,8 +113,8 @@ def update_task_env(task: Task, task_file_name: str) -> Task:
     return task
 
 
-def get_task_file_name(task_name: str) -> str:
-    generated_task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(task_name))
+def get_task_file_name(service_name: str) -> str:
+    generated_task_file_name = os.path.join('.', 'zaruba-tasks', '{}.zaruba.yaml'.format(service_name))
     return generated_task_file_name
 
 
@@ -145,8 +145,12 @@ def get_alphanum_basename(location: str) -> str:
     return re.sub(r'[^A-Za-z0-9]+', ' ', base_name)
 
 
+def capitalize(text: str) -> str:
+    return ' '.join(sub[:1].upper() + sub[1:] for sub in text.split(' '))
+
+
 def get_env_prefix(location: str) -> str:
-    return get_alphanum_basename(location).upper().replace(' ', '_').replace('/', '_')
+    return get_alphanum_basename(location).upper().replace(' ', '_')
 
 
 def get_task_env_name(location: str, env_name: str) -> str:
@@ -158,33 +162,33 @@ def get_task_env_name(location: str, env_name: str) -> str:
 
 
 def get_service_name(location: str) -> str:
-    capital_service_name =  get_alphanum_basename(location).capitalize().replace(' ', '').replace('/', '-')
+    capital_service_name = capitalize(get_alphanum_basename(location)).replace(' ', '')
     return capital_service_name[0].lower() + capital_service_name[1:]
 
 
 def get_container_name(image_name: str) -> str:
-    capital_container_name =  get_alphanum_basename(image_name).capitalize().replace(' ', '').replace('/', '-')
+    capital_container_name =  capitalize(get_alphanum_basename(image_name)).replace(' ', '')
     return capital_container_name[0].lower() + capital_container_name[1:]
 
 
 def get_run_task_name(service_or_container: str) -> str:
-    return 'run{}'.format(service_or_container.capitalize())
+    return 'run{}'.format(capitalize(service_or_container))
 
 
 def get_build_image_task_name(service_name: str) -> str:
-    return 'build{}Image'.format(service_name.capitalize())
+    return 'build{}Image'.format(capitalize(service_name))
 
 
 def get_push_image_task_name(service_name: str) -> str:
-    return 'push{}Image'.format(service_name.capitalize())
+    return 'push{}Image'.format(capitalize(service_name))
 
 
 def get_run_container_task_name(service_name: str) -> str:
-    return 'run{}Container'.format(service_name.capitalize())
+    return 'run{}Container'.format(capitalize(service_name))
 
 
 def get_remove_container_task_name(service_name: str) -> str:
-    return 'remove{}Container'.format(service_name.capitalize())
+    return 'remove{}Container'.format(capitalize(service_name))
 
 
 def replace_str(string: str, replace_dict: Mapping[str, str]):

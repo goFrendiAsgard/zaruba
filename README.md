@@ -11,12 +11,12 @@ cd myProject
 zaruba please initProject
 
 # Create FastAPI service, module, and book CRUD
-zaruba please makeFastService generator.service.location=myservice
-zaruba please makeFastModule generator.service.location=myservice generator.module.name=mymodule
-zaruba please makeFastCRUD generator.service.location=myservice generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis
+zaruba please makeFastService generator.service.location=myService
+zaruba please makeFastModule generator.service.location=myService generator.module.name=mymodule
+zaruba please makeFastCRUD generator.service.location=myService generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis
 
 # Create task to start zaruba
-zaruba please makeServiceTask generator.service.location=myservice generator.service.type=fastapi
+zaruba please makeServiceTask generator.service.location=myService generator.service.type=fastapi
 
 # Run service locally
 zaruba please run
@@ -27,8 +27,8 @@ zaruba please runContainer
 # Create helm chart
 zaruba please makeHelmCharts
 
-# Create helm deployment for myservice
-zaruba please makeServiceDeployment generator.service.location=myservice
+# Create helm deployment for myService
+zaruba please makeServiceDeployment generator.service.location=myService
 
 # Helm apply
 zaruba please helmApply kube.context=docker-desktop

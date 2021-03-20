@@ -13,7 +13,7 @@ import os
 def create_service_deployment(service_location: str = '', ports: str = ''):
     service_location = service_location if service_location != '' else '.'
     service_ports=[service_port for service_port in ports.split(',') if service_port != '']
-    service_name = generator.get_service_name(service_location)
+    service_name = generator.get_service_name(service_location).lower()
     value_file_name = os.path.join('helm-deployments', 'values', '{}.yaml.gotmpl'.format(service_name))
     value_dict = read_value_template_dict()
     value_dict['app']['name'] = service_name

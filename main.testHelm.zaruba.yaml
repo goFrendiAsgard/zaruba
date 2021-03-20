@@ -13,7 +13,7 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please makeServiceDeployment generator.service.location=fibo setup.injectBootstrap=false
-        ../zaruba please makeServiceDeployment generator.service.location=myservice setup.injectBootstrap=false
+        ../zaruba please makeServiceDeployment generator.service.location=myService setup.injectBootstrap=false
         ../zaruba please updateEnv setup.injectBootstrap=false
         ../zaruba please helmApply kube.context=docker-desktop helm.env=default dockerEnv=default setup.injectBootstrap=false
 

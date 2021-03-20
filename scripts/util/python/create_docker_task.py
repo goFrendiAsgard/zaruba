@@ -12,8 +12,9 @@ def create_docker_task(templates: str = '', image_name: str = '', image_prefix: 
     task_template = get_docker_task_template(template_path_list, image_name)
     image_name = image_name if image_name != '' else 'nginx'
     container_name = container_name if container_name != '' else generator.get_container_name(image_name)
+    service_name = service_name if service_name != '' else container_name
     run_task_name = 'run' + service_name.capitalize() if service_name != '' else generator.get_run_task_name(container_name)
-    task_file_name = generator.get_task_file_name(run_task_name)
+    task_file_name = generator.get_task_file_name(service_name)
     task_file_content = generator.replace_str(generator.read_text(task_template), {
         'zarubaRunTask': run_task_name,
         'zarubaImageName': image_name,

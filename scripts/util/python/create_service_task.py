@@ -20,9 +20,9 @@ service_containerization_tasks = '''
     lconfig:
       ports: *zarubaServiceNamePorts
     config:
-      imageName: zarubaServiceName
+      imageName: &zarubaServiceNameImage zarubaImageName
       imageTag: latest
-      containerName: zarubaServiceName
+      containerName: &zarubaServiceNameContainer zarubaContainerName
       rebuild: true
       localhost: host.docker.internal
       expose: lconfig.ports
@@ -30,31 +30,31 @@ service_containerization_tasks = '''
   
   zarubaRemoveContainerTask:
     icon: 🐳
-    description: Remove container for zarubaServiceName
+    description: Remove zarubaServiceName's container
     extend: core.removeDockerContainer 
     config:
-      containerName: zarubaServiceName
+      containerName: *zarubaServiceNameContainer
   
 
   zarubaBuildImageTask:
     icon: 🐳
-    description: Build image for zarubaServiceName
+    description: Build zarubaServiceName's image
     extend: core.buildDockerImage
     location: zarubaTaskLocation
     timeout: 1h
     config:
-      imageName: zarubaServiceName
+      imageName: *zarubaServiceNameImage
 
 
   zarubaPushImageTask:
     icon: 🐳
-    description: Push zarubaServiceName image
+    description: Push zarubaServiceName's image
     extend: core.pushDockerImage
     dependencies:
     - zarubaBuildImageTask
     timeout: 1h
     config:
-      imageName: zarubaServiceName
+      imageName: *zarubaServiceNameImage
 
 '''
 
@@ -64,7 +64,11 @@ def create_service_task(templates: str = '', location: str = '.', service_name: 
     service_ports=[service_port for service_port in ports.split(',') if service_port != '']
     location = location if location != '' else '.'
     service_type = service_type if service_type != '' else 'default'
+    print('SERVICE NAME AWAL', service_name)
     service_name = service_name if service_name != '' else generator.get_service_name(location)
+    print('SERVICE NAME AKHIR', service_name)
+    container_name = service_name
+    image_name = container_name.lower()
     run_task_name = generator.get_run_task_name(service_name)
     task_location = location if os.path.isabs(location) else os.path.join('..', location)
     build_image_task_name = generator.get_build_image_task_name(service_name)
@@ -72,7 +76,7 @@ def create_service_task(templates: str = '', location: str = '.', service_name: 
     run_container_task_name = generator.get_run_container_task_name(service_name)
     remove_container_task_name = generator.get_remove_container_task_name(service_name)
     task_template = get_service_task_template(template_path_list, service_type)
-    task_file_name = generator.get_task_file_name(run_task_name)
+    task_file_name = generator.get_task_file_name(service_name)
     task_file_content = generator.replace_str(generator.read_text(task_template) + service_containerization_tasks, {
         'zarubaRunTask': run_task_name,
         'zarubaBuildImageTask': build_image_task_name,
@@ -80,6 +84,8 @@ def create_service_task(templates: str = '', location: str = '.', service_name: 
         'zarubaRunContainerTask': run_container_task_name,
         'zarubaRemoveContainerTask': remove_container_task_name,
         'zarubaServiceName': service_name,
+        'zarubaContainerName': container_name,
+        'zarubaImageName': image_name,
         'zarubaTaskLocation': task_location,
         'ZarubaServiceName': service_name.capitalize(),
         'ZARUBA_ENV_PREFIX': generator.get_env_prefix(location),
