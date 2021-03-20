@@ -331,7 +331,7 @@ tasks:
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
           wget https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
           mkdir -p "${HOME}/.spark"
-          tar -xvzf spark-3.0.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
+          tar -xvzf spark-3.1.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
