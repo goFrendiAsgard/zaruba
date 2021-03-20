@@ -35,7 +35,6 @@ tasks:
     dependencies:
     - clearLog
     - buildDevboxImage
-    - test
     location: ./
     timeout: 1h
 
@@ -78,6 +77,7 @@ tasks:
     dependencies:
     - clearLog
     - buildZarubaImage
+    - test
     location: ./
     timeout: 1h
 
