@@ -237,11 +237,12 @@ tasks:
     dependencies:
     - clearLog
     config:
-      port::9999: 5000
-      localhost: host.docker.internal
+      useImagePrefix: false
       imageName: registry
       imageTag: 2
       containerName: containerRegistry
+      localhost: host.docker.internal
+      port::9999: 5000
 
 
   testPushImage:
