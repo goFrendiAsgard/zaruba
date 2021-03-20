@@ -285,6 +285,7 @@ tasks:
         ../zaruba please removeContainer setup.injectBootstrap=false
         ../zaruba please runContainer setup.injectBootstrap=false
       afterCheck: |
+        sleep 1
         echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
         sleep {{ .GetValue "runPlaygroundDelay" }}
     lconfig:
