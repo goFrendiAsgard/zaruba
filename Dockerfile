@@ -3,8 +3,8 @@ FROM stalchmst/devbox:latest
 # preparing environments
 
 ENV PATH="${PATH}:/.zaruba"
-ENV HOST_DOCKER_INTERNAL="host.docker.internal"
-ENV DOCKER_HOST="tcp://${HOST_DOCKER_INTERNAL}:2375"
+ENV ZARUBA_HOST_DOCKER_INTERNAL="host.docker.internal"
+ENV DOCKER_HOST="tcp://${ZARUBA_HOST_DOCKER_INTERNAL}:2375"
 
 # building zaruba
 

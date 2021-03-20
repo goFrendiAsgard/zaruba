@@ -74,7 +74,8 @@ tasks:
           imageName: mysql
           # Image tag (no default)
           imageTag: latest
-          # Localhost mapping for environment variables (default: "localhost")
+          # Localhost mapping for environment variables.
+          # If set other than localhost, then every environment containing "localhost", "0.0.0.0" or "127.0.0.1" will be overwritten (default: "localhost")
           localhost: host.docker.internal
           # Port to be exposed (default: "config.port", possible values: "config.port", "lconfig.ports")
           expose: lconfig.ports
@@ -97,6 +98,7 @@ tasks:
     inputs:
     - docker.env
     config:
+      hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "HOST_DOCKER_ENV" }}{{ else }}host.docker.internal{{ end }}'
       localhost: localhost
       expose: config.port
       rebuild: false
@@ -163,26 +165,26 @@ tasks:
         else
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker run --name "${CONTAINER_NAME}" {{ "" -}}
-            {{ range $key, $val := $this.GetEnvs -}} 
-              {{ $configLocalhost := $this.GetConfig "localhost" -}}
-              -e "{{ $key }}={{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" $configLocalhost }}" {{ "" -}}
+          {{ range $key, $val := $this.GetEnvs -}} 
+            -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}$val{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" "host.docker.internal" }}{{ end }}" {{ "" -}}
+          {{ end -}}
+          {{ if eq $expose "config.port" -}}
+            {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
+              {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+              -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
             {{ end -}}
-            {{ if eq $expose "config.port" -}}
-              {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
-                {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
-              {{ end -}}
-            {{ else if eq $expose "lconfig.ports" -}}
-              {{ range $index, $port := $this.GetLConfig "ports" -}}
-                -p "{{ $port }}:{{ $port }}" {{ "" -}}
-              {{ end -}}
+          {{ else if eq $expose "lconfig.ports" -}}
+            {{ range $index, $port := $this.GetLConfig "ports" -}}
+              -p "{{ $port }}:{{ $port }}" {{ "" -}}
             {{ end -}}
-            {{ range $index, $hostVolume := $this.GetSubConfigKeys "volume" -}}
-              {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
-              {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
-              -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
-            {{ end -}}
-            -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ $this.GetConfig "command" }}
+          {{ end -}}
+          {{ range $index, $hostVolume := $this.GetSubConfigKeys "volume" -}}
+            {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
+            {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
+            -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
+          {{ end -}}
+          {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
+          -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ $this.GetConfig "command" }}
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker logs --since 0m --follow "${CONTAINER_NAME}"
         fi
