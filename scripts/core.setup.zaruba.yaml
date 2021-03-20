@@ -329,7 +329,7 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
         else
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
-          wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz
+          wget https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark-3.0.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")"
@@ -345,7 +345,7 @@ tasks:
     description: |
       Install kubectl and helm.
       USAGE:
-        zaruba please setupSpark
+        zaruba please setupKubeClient
     extend: core.runCoreScript
     timeout: 1h
     inputs:
