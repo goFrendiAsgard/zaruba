@@ -294,7 +294,7 @@ tasks:
         stopService() {
           docker stop rabbitmq myservice fibo
         }
-        sleep 3
+        sleep 5
         echo "Create new book"
         RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/")"
         echo $RESPONSE
