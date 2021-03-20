@@ -9,6 +9,7 @@ git clone --depth 1 https://github.com/state-alchemists/zaruba "${HOME}/.zaruba"
 
 echo 💀 Build Zaruba 
 cd "${HOME}/.zaruba"
+git fetch --tags
 go build
 
 
