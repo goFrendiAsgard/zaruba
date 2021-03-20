@@ -98,6 +98,10 @@ tasks:
     - core.checkBootstrap
     config:
       loadBootstrapScript: |
+        if [ -f "${HOME}/.bashrc" ]
+        then
+          . "${HOME}/.bashrc"
+        fi
         THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
         BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         . "${BOOTSTRAP_SCRIPT}"
