@@ -127,13 +127,17 @@ tasks:
     - core.isContainHelmCharts
     inputs:
     - generator.service.location
+    - generator.service.name
     - generator.service.ports
+    - generator.docker.image.name
     config:
       start: |
         {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
+        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
         PORTS="{{ .GetValue "generator.service.ports" }}"
-        invoke_core_py create_service_deployment "${LOCATION}" "${PORTS}"
+        IMAGE_NAME="{{ .GetValue "generator.docker.image.name" }}"
+        invoke_core_py create_helm_service_deployment "${LOCATION}" "${SERVICE_NAME}" "${PORTS}" "${IMAGE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
 
@@ -172,6 +176,7 @@ tasks:
     - generator.service.name
     - generator.service.type
     - generator.service.ports
+    - generator.docker.image.name
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -180,7 +185,8 @@ tasks:
         SERVICE_TYPE="{{ .GetValue "generator.service.type" }}"
         SERVICE_PORTS="{{ .GetValue "generator.service.ports" }}"
         SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
-        invoke_core_py create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}"
+        IMAGE_NAME="{{ .GetValue "generator.docker.image.name" }}"
+        invoke_core_py create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}" "${IMAGE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 

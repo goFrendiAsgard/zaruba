@@ -10,14 +10,15 @@ import os
 # python create_service_deployment.py
 
 @cli
-def create_service_deployment(service_location: str = '', ports: str = ''):
+def create_service_deployment(service_location: str = '', service_name: str = '', ports: str = '', image_name: str = ''):
     service_location = service_location if service_location != '' else '.'
+    service_name = service_name if service_name != '' else generator.get_service_name(service_location).lower()
+    image_name = image_name if image_name != '' else service_name.lower()
     service_ports=[service_port for service_port in ports.split(',') if service_port != '']
-    service_name = generator.get_service_name(service_location).lower()
     value_file_name = os.path.join('helm-deployments', 'values', '{}.yaml.gotmpl'.format(service_name))
     value_dict = read_value_template_dict()
     value_dict['app']['name'] = service_name
-    value_dict['app']['container']['image'] = service_name
+    value_dict['app']['container']['image'] = image_name
     # add env
     env_dict = generator.get_env_in_location(service_location)
     for env_key, env_value in env_dict.items():

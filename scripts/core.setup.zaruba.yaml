@@ -7,33 +7,70 @@ inputs:
       Possible values are: "true", "yes", "on", "false", "no", or "off".
       If you are sure that zaruba's python utility has been set up, you can speed up the process a bit by answering "false", "no" or "off".
 
+
   setup.homeDir:
     description: |
       Your home directory. Leave it blank if you want the task to figure out your home directory by itself.
+
   
   setup.userPassword:
     description: |
       Your user password. Leave blank if you already run the task with "sudo"
     secret: true
+
   
   setup.allowRoot:
     default: false
+    description: Allow to run task as root.
+
+
+  setup.nodeVersion:
+    default: node
     description: |
-      Allow to run task as root.
+      Node version to be installed along with nvm.
+      If you already have nvm installed, please use nvm instead (i.e: nvm install <version>).
+
   
   setup.pythonVersion:
     default: 3.8.6
-    description: Python version to be installed.
+    description: |
+      Python version to be installed along with pyenv.
+      If you already have pyenv installed, please use pyenv instead (i.e: pyenv install <version>).
+
   
   setup.javaVersion:
     default: 8.0.275.open-adpt
-    description: Java version to be installed.
+    description: |
+      Java version to be installed along with sdkman.
+      If you already have sdkman installed, please use sdkman instead (i.e: sdk install java <version>).
+
+    
+  setup.sparkVersion:
+    default: 3.1.1
+    description: Spark version to be installed.
+
+
+  setup.hadoopVersion:
+    default: 2.7
+    description: Hadoop version to be installed along with spark.
+
+  
+  setup.sparkDownloadUrl:
+    default: https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
+    description: URL to download spark
+
+  
+  setup.helmfileVersion:
+    default: v0.138.2
+    description: Helmfile version to be installed.
+
 
   setup.injectBootstrap:
     default: true
     description: |
       Either you want to inject zaruba's bootstrap to .zshrc/bashrc or not.
       Possible values are: "true", "yes", "on", "false", "no", or "off".
+
 
 tasks:
 
@@ -213,6 +250,7 @@ tasks:
     timeout: 1h
     inputs:
     - setup.homeDir
+    - setup.nodeVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -231,7 +269,7 @@ tasks:
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          nvm install node
+          nvm install "{{ .GetValue "setup.nodeVersion" }}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
         if [ "$(invoke_core_sh is_command_exist node-gyp --version)" = 1 ]
@@ -315,6 +353,9 @@ tasks:
     timeout: 1h
     inputs:
     - setup.homeDir
+    - setup.sparkDownloadUrl
+    - setup.sparkVersion
+    - setup.hadoopVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -329,11 +370,11 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
         else
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
-          wget https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
+          wget -O spark.tgz "{{ .GetValue "setup.sparkDownloadUrl" }}"
           mkdir -p "${HOME}/.spark"
-          tar -xvzf spark-3.1.1-bin-hadoop2.7.tgz -C "${HOME}/.spark"
-          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/spark.sh")"
-          invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          tar -xvzf spark.tgz -C "${HOME}/.spark"
+          invoke_core_sh append_if_exist 'export SPARK_HOME="${HOME}/.spark/spark-{{ .GetValue "setup.sparkVersion" }}-bin-hadoop-{{ .GetValue "setup.hadoopVersion" }}"' "${BOOTSTRAP_SCRIPT}"
+          invoke_core_sh append_if_exist 'export PATH="$PATH:$SPARK_HOME/bin"' "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
         echo 🎉🎉🎉
@@ -350,6 +391,7 @@ tasks:
     timeout: 1h
     inputs:
     - setup.homeDir
+    - setup.helmfileVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -385,7 +427,7 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helmfile was already installed{{ $d.Normal }}"
         else
           echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install helmfile{{ $d.Normal }}"
-          wget https://github.com/roboll/helmfile/releases/download/v0.138.2/helmfile_linux_amd64
+          wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "helmfileVersion" }}/helmfile_linux_amd64
           chmod 755 ./helmfile_linux_amd64
           mkdir -p "${HOME}/.local/bin"
           mv ./helmfile_linux_amd64 "${HOME}/.local/bin/helmfile"
