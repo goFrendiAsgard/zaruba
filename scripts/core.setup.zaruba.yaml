@@ -427,7 +427,7 @@ tasks:
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helmfile was already installed{{ $d.Normal }}"
         else
           echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install helmfile{{ $d.Normal }}"
-          wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "helmfileVersion" }}/helmfile_linux_amd64
+          wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "setup.helmfileVersion" }}/helmfile_linux_amd64
           chmod 755 ./helmfile_linux_amd64
           mkdir -p "${HOME}/.local/bin"
           mv ./helmfile_linux_amd64 "${HOME}/.local/bin/helmfile"
