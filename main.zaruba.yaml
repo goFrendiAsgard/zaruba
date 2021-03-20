@@ -77,7 +77,6 @@ tasks:
     dependencies:
     - clearLog
     - buildZarubaImage
-    - test
     location: ./
     timeout: 1h
 
@@ -106,7 +105,6 @@ tasks:
     extend: core.runShellScript
     dependencies:
     - clearLog
-    - test
     config:
       start: |
         git add . -A
