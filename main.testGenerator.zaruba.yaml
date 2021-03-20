@@ -1,7 +1,7 @@
 inputs:
 
   runPlaygroundDelay:
-    default: 5
+    default: 10
     description: Delay after run playground
   
 
@@ -285,6 +285,7 @@ tasks:
         ../zaruba please removeContainer setup.injectBootstrap=false
         ../zaruba please runContainer setup.injectBootstrap=false
       afterCheck: |
+        echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
         sleep {{ .GetValue "runPlaygroundDelay" }}
     lconfig:
       ports: [3000, 8080, 15672, 5672]
@@ -304,7 +305,7 @@ tasks:
           docker stop rabbitmq myservice fibo
         }
         echo "Create new book"
-        RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/")"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "localhost:3000/books/")"
         echo $RESPONSE
         if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
         then
@@ -313,7 +314,7 @@ tasks:
           exit 1
         fi
         echo "Get first book"
-        RESPONSE="$(curl "http://localhost:3000/books/1")"
+        RESPONSE="$(curl "localhost:3000/books/1")"
         echo $RESPONSE
         if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
         then
@@ -322,7 +323,7 @@ tasks:
           exit 1
         fi
         echo "Update book"
-        RESPONSE="$(curl --header "Content-Type: application/json" --request PUT --data '{"title":"Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/1")"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request PUT --data '{"title":"Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "localhost:3000/books/1")"
         echo $RESPONSE
         if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
         then
@@ -331,7 +332,7 @@ tasks:
           exit 1
         fi
         echo "Get all books"
-        RESPONSE="$(curl "http://localhost:3000/books/")"
+        RESPONSE="$(curl "localhost:3000/books/")"
         echo $RESPONSE
         if [ "$RESPONSE" != '[{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}]' ]
         then
@@ -340,7 +341,7 @@ tasks:
           exit 1
         fi
         echo "Delete book"
-        RESPONSE="$(curl --header "Content-Type: application/json" --request DELETE "http://localhost:3000/books/1")"
+        RESPONSE="$(curl --header "Content-Type: application/json" --request DELETE "localhost:3000/books/1")"
         if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
         then
           echo "Unexpected response"
@@ -348,7 +349,7 @@ tasks:
           exit 1
         fi
         echo "Get all books"
-        RESPONSE="$(curl "http://localhost:3000/books/")"
+        RESPONSE="$(curl "localhost:3000/books/")"
         echo $RESPONSE
         if [ "$RESPONSE" != '[]' ]
         then
