@@ -1,3 +1,10 @@
+inputs:
+
+  runPlaygroundDelay:
+    default: 5
+    description: Delay after run playground
+  
+
 tasks:
 
 
@@ -264,6 +271,8 @@ tasks:
   runPlayground:
     icon: 🔨
     location: ./playground
+    inputs:
+    - runPlaygroundDelay
     dependencies:
     - clearLog
     - build
@@ -276,7 +285,7 @@ tasks:
         ../zaruba please removeContainer setup.injectBootstrap=false
         ../zaruba please runContainer setup.injectBootstrap=false
       afterCheck: |
-        sleep 5
+        sleep {{ .GetValue "runPlaygroundDelay" }}
     lconfig:
       ports: [3000, 8080, 15672, 5672]
 
@@ -294,8 +303,6 @@ tasks:
         stopService() {
           docker stop rabbitmq myservice fibo
         }
-        echo 'Waiting for server to be fully started'
-        sleep 5
         echo "Create new book"
         RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "http://localhost:3000/books/")"
         echo $RESPONSE
