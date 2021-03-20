@@ -376,6 +376,7 @@ tasks:
           invoke_core_sh append_if_exist 'export SPARK_HOME="${HOME}/.spark/spark-{{ .GetValue "setup.sparkVersion" }}-bin-hadoop-{{ .GetValue "setup.hadoopVersion" }}"' "${BOOTSTRAP_SCRIPT}"
           invoke_core_sh append_if_exist 'export PATH="$PATH:$SPARK_HOME/bin"' "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
+          rm spark.tgz
         fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
