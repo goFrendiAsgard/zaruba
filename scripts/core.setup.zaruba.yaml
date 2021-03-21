@@ -183,6 +183,44 @@ tasks:
         fi
 
 
+  setupTmux:
+    icon: 🔨
+    description: |
+      Setup tmux.
+      USAGE:
+        zaruba please setupTmux
+    extend: core.runCoreScript
+    timeout: 1h
+    config:
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will setup tmux. Tmux should be installed first"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
+      start: |
+        {{ $d := .Decoration -}}
+        if [ "$(invoke_core_sh is_command_exist tmux -V)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Tmux was already installed{{ $d.Normal }}"
+        else
+          echo "{{ $d.Bold }}{{ $d.Red }}Tmux was not installed. Please install tmux first{{ $d.Normal }}"
+          exit 1
+        fi
+        if [ -d "${HOME}/.tmux/plugins/tpm" ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Tmux plugin was already installed{{ $d.Normal }}"
+        else
+          git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+        fi
+        if [ -f "${HOME}/.tmux.conf" ]
+        then
+          mv "${HOME}/.tmux.conf" "${HOME}/.tmux.bak.conf"
+        fi
+        cp "${ZARUBA_HOME}/scripts/templates/tmux.conf" "${HOME}/.tmux.conf"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+
+
   setupPyenv:
     icon: 🔨
     description: |
@@ -373,8 +411,8 @@ tasks:
           wget -O spark.tgz "{{ .GetValue "setup.sparkDownloadUrl" }}"
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark.tgz -C "${HOME}/.spark"
-          TEMPLATE='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'
-          invoke_core_sh append_if_exist "${TEMPLATE}" "${BOOTSTRAP_SCRIPT}"
+          TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'
+          invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           rm spark.tgz
         fi
