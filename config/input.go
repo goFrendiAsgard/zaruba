@@ -4,6 +4,7 @@ package config
 type Input struct {
 	DefaultValue string `yaml:"default,omitempty"`
 	Description  string `yaml:"description,omitempty"`
+	Secret       bool   `yaml:"secret,omitempty"`
 	Project      *Project
 	fileLocation string
 	name         string

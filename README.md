@@ -1,3 +1,4 @@
+![zaruba-logo](arts/zaruba-250.png)
 # 💀 Zaruba 
 
 Zaruba is a declarative Task Runner Framework. It helps you to define and orchestrate tasks. In zaruba, a task might extend or depends on each other.

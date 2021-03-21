@@ -2,10 +2,12 @@ package inputer
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/logger"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func Ask(project *config.Project, taskNames []string) (err error) {
@@ -40,9 +42,16 @@ func Ask(project *config.Project, taskNames []string) (err error) {
 			decoratedCurrentValue = fmt.Sprintf("%s%s%s", d.Yellow, currentValue, d.Normal)
 		}
 		fmt.Printf("%s (currently %s): ", decoratedInputName, decoratedCurrentValue)
-		// handle user input
 		userValue := ""
-		fmt.Scanf("%s", &userValue)
+		if input.Secret {
+			userValue, err = getPassword()
+			if err != nil {
+				return err
+			}
+		} else {
+			// handle user input
+			fmt.Scanf("%s", &userValue)
+		}
 		if userValue != "" {
 			project.SetValue(inputName, userValue)
 		}
@@ -57,4 +66,15 @@ func showInputDescription(input *config.Input) {
 	for _, row := range descriptionRows {
 		fmt.Printf("%s%s\n", indentation, row)
 	}
+}
+
+func getPassword() (passwd string, err error) {
+	// https://godoc.org/golang.org/x/crypto/ssh/terminal#ReadPassword
+	// terminal.ReadPassword accepts file descriptor as argument, returns byte slice and error.
+	passwdB, err := terminal.ReadPassword(int(os.Stdin.Fd()))
+	if err != nil {
+		return "", err
+	}
+	// Type cast byte slice to string.
+	return string(passwdB), err
 }
