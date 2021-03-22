@@ -13,7 +13,6 @@ inputs:
     description: Docker image tag. Can be left blank.
 
   generator.docker.image.name:
-    default: default
     description: Docker image. Can be left blank.
 
   generator.docker.container:
