@@ -232,3 +232,11 @@ func (td *TaskData) ReplaceAllWith(s string, replacements ...string) (result str
 	}
 	return result
 }
+
+// EscapeString
+func (td *TaskData) EscapeString(s string) (result string) {
+	backSlashEscapedStr := td.ReplaceAllWith(s, "\\", "\\\\")
+	quoteEscapedStr := td.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
+	newLineEscapedStr := td.ReplaceAllWith(quoteEscapedStr, "\n", "\\n")
+	return newLineEscapedStr
+}

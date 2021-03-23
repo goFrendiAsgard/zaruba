@@ -139,6 +139,7 @@ tasks:
           exit 1
         fi
         {{ end -}}
+      playBellScript: echo $'\a'
       setup: |
         set -e
         {{ .GetConfig "loadBootstrapScript" }}
