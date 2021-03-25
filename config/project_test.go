@@ -7,39 +7,35 @@ import (
 	"testing"
 )
 
-var validProject *Project
-
-func setupValidProject(t *testing.T) (err error) {
-	if validProject != nil {
-		return err
-	}
+func getValidProject(t *testing.T) (validProject *Project, err error) {
 	validProject, err = NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
-		return err
+		return validProject, err
 	}
 	if err = validProject.AddGlobalEnv("../test_resource/valid/local.env"); err != nil {
 		t.Error(err)
-		return err
+		return validProject, err
 	}
 	if err = validProject.AddGlobalEnv("foo=bar"); err != nil {
 		t.Error(err)
-		return err
+		return validProject, err
 	}
 	if err = validProject.AddValue("pi=3.14"); err != nil {
 		t.Error(err)
-		return err
+		return validProject, err
 	}
 	if err = validProject.AddValue("../test_resource/valid/values.yaml"); err != nil {
 		t.Error(err)
-		return err
+		return validProject, err
 	}
 	validProject.Init()
-	return err
+	return validProject, err
 }
 
 func TestValidProjectAddGlobalEnv(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	_, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	if os.Getenv("foo") != "bar" {
@@ -57,7 +53,8 @@ func TestValidProjectAddGlobalEnv(t *testing.T) {
 }
 
 func TestValidProjectAddValues(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	if validProject.GetValue("pi") != "3.14" {
@@ -69,7 +66,8 @@ func TestValidProjectAddValues(t *testing.T) {
 }
 
 func TestValidProjectInclusion(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	for _, taskName := range []string{"core.runNodeJsService", "core.runShellScript", "core.runBashScript", "core.runPythonScript", "core.runNodeJsScript", "core.runStaticWebService", "runApiGateway", "runIntegrationTest", "serveStaticFiles", "sayPythonHello"} {
@@ -81,7 +79,8 @@ func TestValidProjectInclusion(t *testing.T) {
 }
 
 func TestValidProjectInputs(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectedInputs := map[string]*Input{
@@ -133,7 +132,8 @@ func TestValidProjectInputs(t *testing.T) {
 }
 
 func TestValidProjectGetInputs(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectedInputs := map[string]*Input{
@@ -186,7 +186,8 @@ func TestValidProjectGetInputs(t *testing.T) {
 }
 
 func TestValidProjectTaskDirPath(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	if _, exists := validProject.Tasks["runApiGateway"]; !exists {
@@ -205,7 +206,8 @@ func TestValidProjectTaskDirPath(t *testing.T) {
 }
 
 func TestValidProjectTaskProject(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	for _, task := range validProject.Tasks {
@@ -216,7 +218,8 @@ func TestValidProjectTaskProject(t *testing.T) {
 }
 
 func TestValidProjectEnvTask(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	for _, task := range validProject.Tasks {

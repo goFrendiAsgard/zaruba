@@ -199,14 +199,37 @@ func (td *TaskData) GetDockerImagePrefix() (dockerImagePrefix string) {
 	return ""
 }
 
-// ParseFile parse file
-func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
+// ReadFile file
+func (td *TaskData) ReadFile(filePath string) (fileContent string, err error) {
 	absFilePath := td.GetWorkPath(filePath)
-	fileContent, err := ioutil.ReadFile(absFilePath)
+	fileContentB, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		return "", err
 	}
-	pattern := string(fileContent)
+	return string(fileContentB), err
+}
+
+// ListDir directory
+func (td *TaskData) ListDir(dirPath string) (fileNames []string, err error) {
+	absDirPath := td.GetWorkPath(dirPath)
+	fileNames = []string{}
+	files, err := ioutil.ReadDir(absDirPath)
+	if err != nil {
+		return fileNames, err
+	}
+	for _, f := range files {
+		fileNames = append(fileNames, f.Name())
+	}
+	return fileNames, nil
+}
+
+// ParseFile parse file
+func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
+	absFilePath := td.GetWorkPath(filePath)
+	pattern, err := td.ReadFile(absFilePath)
+	if err != nil {
+		return "", err
+	}
 	templateName := fmt.Sprintf("File: %s", absFilePath)
 	tmpl, err := template.New(templateName).Option("missingkey=zero").Parse(pattern)
 	if err != nil {
@@ -233,10 +256,11 @@ func (td *TaskData) ReplaceAllWith(s string, replacements ...string) (result str
 	return result
 }
 
-// EscapeString
-func (td *TaskData) EscapeString(s string) (result string) {
-	backSlashEscapedStr := td.ReplaceAllWith(s, "\\", "\\\\")
-	quoteEscapedStr := td.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
-	newLineEscapedStr := td.ReplaceAllWith(quoteEscapedStr, "\n", "\\n")
+// EscapeShellValue
+func (td *TaskData) EscapeShellValue(s string) (result string) {
+	backSlashEscapedStr := td.ReplaceAllWith(s, "\\", "\\\\\\\\")
+	doubleQuoteEscapedStr := td.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
+	backTickEscapedStr := td.ReplaceAllWith(doubleQuoteEscapedStr, "`", "\\`")
+	newLineEscapedStr := td.ReplaceAllWith(backTickEscapedStr, "\n", "\\n")
 	return newLineEscapedStr
 }

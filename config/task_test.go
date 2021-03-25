@@ -5,7 +5,8 @@ import (
 )
 
 func TestValidTaskGetEnv(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectation := map[string]map[string]string{
@@ -45,7 +46,8 @@ func TestValidTaskGetEnv(t *testing.T) {
 }
 
 func TestValidTaskGetConfig(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectation := map[string]map[string]string{
@@ -84,7 +86,8 @@ func TestValidTaskGetConfig(t *testing.T) {
 }
 
 func TestValidTaskGetLConfig(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectation := map[string]map[string][]string{
@@ -124,7 +127,8 @@ func TestValidTaskGetLConfig(t *testing.T) {
 }
 
 func TestValidTaskStartCommand(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectation := map[string][]string{
@@ -161,7 +165,8 @@ func TestValidTaskStartCommand(t *testing.T) {
 }
 
 func TestValidTaskCheckCommand(t *testing.T) {
-	if err := setupValidProject(t); err != nil {
+	validProject, err := getValidProject(t)
+	if err != nil {
 		return
 	}
 	expectation := map[string][]string{

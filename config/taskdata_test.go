@@ -7,14 +7,11 @@ import (
 
 var td *TaskData
 
-func setupTaskData(t *testing.T) (err error) {
-	if td != nil {
-		return err
-	}
-	tdConf, err := NewProject("../test_resource/valid/zaruba.yaml")
+func setupTaskData(t *testing.T) (td *TaskData, err error) {
+	project, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
-		return err
+		return td, err
 	}
 	values := []string{
 		"alchemist::flamel::name=Nicholas Flamel",
@@ -25,16 +22,17 @@ func setupTaskData(t *testing.T) (err error) {
 		"alchemist::=unknown",
 	}
 	for _, value := range values {
-		if err = tdConf.AddValue(value); err != nil {
-			return err
+		if err = project.AddValue(value); err != nil {
+			return td, err
 		}
 	}
-	td = NewTaskData(tdConf.Tasks["runApiGateway"])
-	return err
+	td = NewTaskData(project.Tasks["runApiGateway"])
+	return td, err
 }
 
 func TestTaskDataGetWorkPath(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	workPath := td.WorkPath
@@ -51,7 +49,8 @@ func TestTaskDataGetWorkPath(t *testing.T) {
 }
 
 func TestTaskDataGetBasePath(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	basePath := td.BasePath
@@ -68,7 +67,8 @@ func TestTaskDataGetBasePath(t *testing.T) {
 }
 
 func TestTaskDataGetRelativePath(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	basePath := td.BasePath
@@ -85,7 +85,8 @@ func TestTaskDataGetRelativePath(t *testing.T) {
 }
 
 func TestTaskDataGetConfig(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, err := td.GetConfig("checkPort"); err != nil {
@@ -94,7 +95,8 @@ func TestTaskDataGetConfig(t *testing.T) {
 }
 
 func TestTaskDataGetConfigs(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, err := td.GetConfigs(); err != nil {
@@ -103,7 +105,8 @@ func TestTaskDataGetConfigs(t *testing.T) {
 }
 
 func TestTaskDataGetLConfig(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, exist := td.GetLConfig("tags"); exist != nil {
@@ -112,7 +115,8 @@ func TestTaskDataGetLConfig(t *testing.T) {
 }
 
 func TestTaskDataGetLConfigs(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, err := td.GetLConfigs(); err != nil {
@@ -121,7 +125,8 @@ func TestTaskDataGetLConfigs(t *testing.T) {
 }
 
 func TestTaskDataGetValue(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, exist := td.GetValue("alchemist::flamel::age"); exist != nil {
@@ -130,7 +135,8 @@ func TestTaskDataGetValue(t *testing.T) {
 }
 
 func TestTaskDataGetValues(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, err := td.GetValues(); err != nil {
@@ -139,7 +145,8 @@ func TestTaskDataGetValues(t *testing.T) {
 }
 
 func TestTaskDataGetEnv(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, exist := td.GetEnv("HTTP_PORT"); exist != nil {
@@ -148,7 +155,8 @@ func TestTaskDataGetEnv(t *testing.T) {
 }
 
 func TestTaskDataGetEnvs(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	if _, err := td.GetEnvs(); err != nil {
@@ -157,7 +165,8 @@ func TestTaskDataGetEnvs(t *testing.T) {
 }
 
 func TestTaskDataValuesGetSubKeys(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	subkeys := td.GetSubValueKeys("alchemist")
@@ -182,7 +191,8 @@ func TestTaskDataValuesGetSubKeys(t *testing.T) {
 }
 
 func TestTaskDataValuesGetValue(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	actual, err := td.GetValue("alchemist", "flamel", "name")
@@ -196,7 +206,8 @@ func TestTaskDataValuesGetValue(t *testing.T) {
 }
 
 func TestTaskDataGetTask(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	expected := "9000"
@@ -214,7 +225,8 @@ func TestTaskDataGetTask(t *testing.T) {
 }
 
 func TestTaskDataGetDefaultShell(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
 	defaultShell := td.GetDefaultShell()
@@ -224,11 +236,63 @@ func TestTaskDataGetDefaultShell(t *testing.T) {
 }
 
 func TestTaskDataGetInvalidTask(t *testing.T) {
-	if err := setupTaskData(t); err != nil {
+	td, err := setupTaskData(t)
+	if err != nil {
 		return
 	}
-	_, err := td.GetTask("invalidTask")
+	_, err = td.GetTask("invalidTask")
 	if err == nil {
 		t.Error("Error expected, but no error found")
+	}
+}
+
+func TestTaskDataReadFile(t *testing.T) {
+	td, err := setupTaskData(t)
+	if err != nil {
+		return
+	}
+	content, err := td.ReadFile("../resources/a.txt")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	expected := "{{ .GetEnv \"HTTP_PORT\" }}"
+	if content != expected {
+		t.Errorf("%s is expected, but getting %s", expected, content)
+	}
+}
+
+func TestTaskDataListDir(t *testing.T) {
+	td, err := setupTaskData(t)
+	if err != nil {
+		return
+	}
+	directoryList, err := td.ListDir("../resources")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(directoryList) != 2 {
+		t.Errorf("directorryList should contain two item, currently it is %#v", directoryList)
+	}
+}
+
+func TestTaskDataParseFile(t *testing.T) {
+	td, err := setupTaskData(t)
+	if err != nil {
+		return
+	}
+	content, err := td.ParseFile("../resources/a.txt")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	expected, err := td.GetEnv("HTTP_PORT")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if content != expected {
+		t.Errorf("%s is expected, but getting %s", expected, content)
 	}
 }
