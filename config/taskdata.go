@@ -13,29 +13,6 @@ import (
 	"github.com/state-alchemists/zaruba/str"
 )
 
-func getSubKeys(dictionary map[string]string, parentKeys []string) (subKeys []string) {
-	seen := map[string]bool{}
-	parentKey := strings.Join(parentKeys, "::")
-	prefixLength := len(parentKey) + len("::")
-	subKeys = []string{}
-	for key := range dictionary {
-		if !strings.HasPrefix(key, parentKey+"::") {
-			continue
-		}
-		childKey := key[prefixLength:]
-		if childKey == "" {
-			continue
-		}
-		childKeyParts := strings.SplitN(childKey, "::", 2)
-		subkey := childKeyParts[0]
-		seen[subkey] = true
-	}
-	for key := range seen {
-		subKeys = append(subKeys, key)
-	}
-	return subKeys
-}
-
 // TaskData is struct sent to template
 type TaskData struct {
 	task         *Task
@@ -74,7 +51,7 @@ func (td *TaskData) GetConfigs() (parsedEnv map[string]string, err error) {
 
 // GetSubConfigKeys get config subkeys
 func (td *TaskData) GetSubConfigKeys(keys ...string) (subKeys []string) {
-	return getSubKeys(td.task.Config, keys)
+	return str.GetSubKeys(td.task.Config, keys)
 }
 
 // GetLConfig get config of task data
@@ -94,7 +71,7 @@ func (td *TaskData) GetValue(keys ...string) (val string, err error) {
 
 // GetSubValueKeys get keyword argument subkeys
 func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string) {
-	return getSubKeys(td.task.Project.values, keys)
+	return str.GetSubKeys(td.task.Project.values, keys)
 }
 
 // GetValues get all keyword arguments
