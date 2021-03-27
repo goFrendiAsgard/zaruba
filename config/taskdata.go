@@ -4,13 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/str"
 )
 
 func getSubKeys(dictionary map[string]string, parentKeys []string) (subKeys []string) {
@@ -148,17 +148,6 @@ func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
 	return NewTaskData(task), nil
 }
 
-// GetDefaultShell get default shell
-func (td *TaskData) GetDefaultShell() (shell string) {
-	if _, err := os.Stat("/usr/bin/bash"); !os.IsNotExist(err) {
-		return "bash"
-	}
-	if _, err := os.Stat("/bin/bash"); !os.IsNotExist(err) {
-		return "bash"
-	}
-	return "sh"
-}
-
 // IsTrue check if string represent "true"
 func (td *TaskData) IsTrue(str string) (isTrue bool) {
 	return boolean.IsTrue(str)
@@ -172,31 +161,6 @@ func (td *TaskData) IsFalse(str string) (isFalse bool) {
 // Trim trim string
 func (td *TaskData) Trim(str, cutset string) (trimmedStr string) {
 	return strings.Trim(str, cutset)
-}
-
-// GetDockerImagePrefix get docker image prefix
-func (td *TaskData) GetDockerImagePrefix() (dockerImagePrefix string) {
-	// if useImagePrefix is false
-	useImagePrefix, _ := td.GetConfig("useImagePrefix")
-	if useImagePrefix != "" && td.IsFalse(useImagePrefix) {
-		return ""
-	}
-	if dockerImagePrefix, _ = td.GetConfig("imagePrefix"); dockerImagePrefix != "" {
-		return fmt.Sprintf("%s/", dockerImagePrefix)
-	}
-	// Try to get prefix from dockerEnv config, docker.env value, or "default"
-	dockerEnvConfig, _ := td.GetConfig("dockerEnv")
-	dockerEnvValue, _ := td.GetValue("docker.env")
-	for _, dockerEnv := range []string{dockerEnvConfig, dockerEnvValue, "default"} {
-		if dockerEnv == "" {
-			continue
-		}
-		if dockerImagePrefix, _ := td.GetValue("dockerImagePrefix", dockerEnv); dockerImagePrefix != "" {
-			return fmt.Sprintf("%s/", dockerImagePrefix)
-		}
-		return "local/"
-	}
-	return ""
 }
 
 // ReadFile file
@@ -244,23 +208,14 @@ func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 
 // ReplaceAllWith
 func (td *TaskData) ReplaceAllWith(s string, replacements ...string) (result string) {
-	if len(replacements) < 2 {
-		return s
-	}
-	result = s
-	new := replacements[len(replacements)-1]
-	olds := replacements[:len(replacements)-1]
-	for _, old := range olds {
-		result = strings.ReplaceAll(result, old, new)
-	}
-	return result
+	return str.ReplaceAllWith(s, replacements...)
 }
 
 // EscapeShellValue
 func (td *TaskData) EscapeShellValue(s string) (result string) {
-	backSlashEscapedStr := td.ReplaceAllWith(s, "\\", "\\\\\\\\")
-	doubleQuoteEscapedStr := td.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
-	backTickEscapedStr := td.ReplaceAllWith(doubleQuoteEscapedStr, "`", "\\`")
-	newLineEscapedStr := td.ReplaceAllWith(backTickEscapedStr, "\n", "\\n")
+	backSlashEscapedStr := str.ReplaceAllWith(s, "\\", "\\\\\\\\")
+	doubleQuoteEscapedStr := str.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
+	backTickEscapedStr := str.ReplaceAllWith(doubleQuoteEscapedStr, "`", "\\`")
+	newLineEscapedStr := str.ReplaceAllWith(backTickEscapedStr, "\n", "\\n")
 	return newLineEscapedStr
 }

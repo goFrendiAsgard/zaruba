@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-var td *TaskData
-
 func setupTaskData(t *testing.T) (td *TaskData, err error) {
 	project, err := NewProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
@@ -221,17 +219,6 @@ func TestTaskDataGetTask(t *testing.T) {
 	}
 	if actual != expected {
 		t.Errorf("%s expected, but getting %s", expected, actual)
-	}
-}
-
-func TestTaskDataGetDefaultShell(t *testing.T) {
-	td, err := setupTaskData(t)
-	if err != nil {
-		return
-	}
-	defaultShell := td.GetDefaultShell()
-	if defaultShell != "bash" && defaultShell != "sh" {
-		t.Errorf("bash or sh is expected, but getting %s", defaultShell)
 	}
 }
 

@@ -80,8 +80,8 @@ tasks:
     - generator.templates
     config:
       setup: |
-        {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
-        {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         TEMPLATE_PATHS="{{ if .GetValue "generator.templates" }}{{ .GetValue "generator.templates" }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
         # Usage: copy_and_create_link <template_path> <link_source> <link_destination>
         copy_and_create_link()

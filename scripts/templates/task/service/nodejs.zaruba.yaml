@@ -23,7 +23,7 @@ tasks:
     config:
       nodeVersion: &zarubaServiceNameNodeVersion node
       start: |
-        {{ .GetConfig "loadNvmScript" }}
+        {{ .GetConfig "includeNvmScript" }}
         npm start
   
 
@@ -39,7 +39,7 @@ tasks:
     config:
       nodeVersion: *zarubaServiceNameNodeVersion
       start: |
-        {{ .GetConfig "loadNvmScript" }}
+        {{ .GetConfig "includeNvmScript" }}
         npm test
 
   
@@ -57,7 +57,7 @@ tasks:
       nodeVersion: *zarubaServiceNameNodeVersion
       shouldTscCompile: true
       start: |
-        {{ .GetConfig "loadNvmScript" }}
+        {{ .GetConfig "includeNvmScript" }}
         {{ if .IsTrue (.GetValue "zarubaServiceName.removeNodeModules") }}rm -Rf node_modules{{ end }}
         npm install
         {{ if .IsTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}

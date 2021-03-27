@@ -105,9 +105,14 @@ tasks:
       useImagePrefix: true
       setup: |
         {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
-        {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
-        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
+        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
+        then
+          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
+        fi
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         invoke_core_sh should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
         IMAGE_NAME="{{ .GetConfig "imageName" }}"

@@ -24,7 +24,7 @@ tasks:
       ```
     private: true
     config:
-      cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}{{ .GetDefaultShell }}{{ end }}'
+      cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
       cmdArg: "-c"
     env:
       PYTHONUNBUFFERED:
@@ -60,8 +60,8 @@ tasks:
     config:
       setup: |
         set -e
-        {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
-        {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
       start: echo "No script defined"
 
 
@@ -97,7 +97,7 @@ tasks:
     - core.checkThirdParties
     - core.checkBootstrap
     config:
-      loadBootstrapScript: |
+      includeBootstrapScript: |
         if [ -f "${HOME}/.bashrc" ]
         then
           . "${HOME}/.bashrc"
@@ -105,7 +105,7 @@ tasks:
         THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
         BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
         . "${BOOTSTRAP_SCRIPT}"
-      loadUtilScript: |
+      includeUtilScript: |
         invoke_core_py() {
           export PIPENV_IGNORE_VIRTUALENVS=1
           export PIPENV_DONT_LOAD_ENV=1
@@ -115,7 +115,7 @@ tasks:
         invoke_core_sh() {
           . "${ZARUBA_HOME}/scripts/util/sh/${1}.sh" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
         }
-      loadNvmScript: |
+      includeNvmScript: |
         if [ "$(invoke_core_sh is_command_exist nvm)" = 1 ]
         then
           if [ "$(invoke_core_sh is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
@@ -139,10 +139,26 @@ tasks:
           exit 1
         fi
         {{ end -}}
+      includeDockerScript: |
+        getDockerImagePrefix() {
+        {{ if and (.GetConfig "useImagePrefix") (.IsFalse (.GetConfig "useImagePrefix")) -}}
+          echo ""
+        {{ else if .GetConfig "dockerImagePrefix" -}}
+          echo "{{ .GetConfig "dockerImagePrefix" }}"
+        {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
+          echo "{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
+        {{ else if and (.GetValue "docker.env") (.GetValue "dockerImagePrefix" (.GetValue "docker.env")) -}}
+          echo "{{ .GetValue "dockerImagePrefix" (.GetValue "docker.env") }}"
+        {{ else if .GetValue "dockerImagePrefix" "default" -}}
+          echo "{{ .GetValue "dockerImagePrefix" "default" }}"
+        {{ else }}
+          echo "local"
+        {{ end -}}
+        }
       playBellScript: echo $'\a'
       setup: |
         set -e
-        {{ .GetConfig "loadBootstrapScript" }}
+        {{ .GetConfig "includeBootstrapScript" }}
       start: "echo hello world"
 
 

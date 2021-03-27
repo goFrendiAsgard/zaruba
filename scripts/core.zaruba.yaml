@@ -474,36 +474,6 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
 
-  core.runDockerTask:
-    icon: 🐳
-    private: true
-    description: |
-      Do anything related to docker.
-      USAGE:
-      ```yaml
-      someTask:
-        location: ../myLocation
-        extend: core.dockerTask
-        config:
-          # Docker image prefix will be the default image prefix if provided (default: empty)
-          imagePrefix: local
-          # whether you want to use image prefix or not (default: empty, possible value: "no", "false", "off")
-          useImagePrefix: false
-          # Docker env. default to 'default'
-          dockerEnv: default
-      ```
-    extend: core.runCoreScript
-    inputs:
-    - docker.env
-    config:
-      useImagePrefix: true
-      setup: |
-        {{ .Trim (.GetConfig "loadBootstrapScript") "\n" }} 
-        {{ .Trim (.GetConfig "loadUtilScript") "\n" }} 
-        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
-        set -e
-
-
   core.buildDockerImage:
     icon: 🐳
     private: true
@@ -529,7 +499,12 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
+        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
+        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
+        then
+          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
+        fi
         invoke_core_sh should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(invoke_core_sh get_latest_git_commit)"
@@ -579,7 +554,12 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
+        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
+        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
+        then
+          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
+        fi
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(invoke_core_sh get_latest_git_commit)"
         invoke_core_sh should_not_be_empty "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
@@ -652,7 +632,8 @@ tasks:
     - docker.env
     config:
       start: |
-        DOCKER_IMAGE_PREFIX="{{ .Trim (.GetDockerImagePrefix) "/" }}"
+        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
         KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
@@ -679,7 +660,8 @@ tasks:
     - kube.context
     config:
       start: |
-        DOCKER_IMAGE_PREFIX="{{ .Trim (.GetDockerImagePrefix) "/" }}"
+        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
         KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
