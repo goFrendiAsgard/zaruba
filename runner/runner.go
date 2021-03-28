@@ -161,9 +161,9 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				err := currentCmd.Wait()
 				if err != nil {
 					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-						logger.PrintfError("%s exited with error:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+						logger.PrintfError("%s exited:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
 					} else {
-						logger.PrintfError("%s exited with error:\n", currentLabel)
+						logger.PrintfError("%s exited:\n", currentLabel)
 					}
 					fmt.Println(err)
 					r.unregisterCmd(currentLabel)
