@@ -160,8 +160,10 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 			go func() {
 				err := currentCmd.Wait()
 				if err != nil {
-					if !r.getKilledSignal() {
+					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
 						logger.PrintfError("%s exited with error:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					} else {
+						logger.PrintfError("%s exited with error:\n", currentLabel)
 					}
 					fmt.Println(err)
 					r.unregisterCmd(currentLabel)
@@ -170,7 +172,11 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 					return
 				}
 				if !r.isTaskFinished(currentTaskName) {
-					logger.PrintfError("%s stopped before ready:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+						logger.PrintfError("%s stopped before ready:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+					} else {
+						logger.PrintfError("%s stopped before ready:\n", currentLabel)
+					}
 					r.unregisterCmd(currentLabel)
 					r.setSurpressWaitErrorSignal()
 					ch <- fmt.Errorf("%s stopped before ready", currentLabel)
@@ -355,7 +361,11 @@ func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd, startLogD
 		err = startCmd.Start()
 	}
 	if err != nil {
-		logger.PrintfError("Error running command %s '%s':\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd))
+		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+			logger.PrintfError("Error running command %s '%s':\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd))
+		} else {
+			logger.PrintfError("Error running command %s '%s':\n", task.Icon, task.GetName())
+		}
 		fmt.Println(r.Spaces, err)
 		return err
 	}
@@ -381,7 +391,11 @@ func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err
 		err = startCmd.Start()
 	}
 	if err != nil {
-		logger.PrintfError("Error starting service %s '%s':\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd))
+		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+			logger.PrintfError("Error starting service %s '%s':\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd))
+		} else {
+			logger.PrintfError("Error starting service %s '%s':\n", task.Icon, task.GetName())
+		}
 		fmt.Println(r.Spaces, err)
 		return err
 	}
@@ -397,7 +411,11 @@ func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd, chec
 		err = checkCmd.Start()
 	}
 	if err != nil {
-		logger.PrintfError("Error checking service %s '%s' readiness:\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(checkCmd))
+		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+			logger.PrintfError("Error checking service %s '%s' readiness:\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(checkCmd))
+		} else {
+			logger.PrintfError("Error checking service %s '%s' readiness:\n", task.Icon, task.GetName())
+		}
 		fmt.Println(r.Spaces, err)
 		return err
 	}
@@ -413,8 +431,12 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 	ch := make(chan error)
 	go func() {
 		waitErr := cmd.Wait()
-		if waitErr != nil && !r.getSurpressWaitErrorSignal() {
-			logger.PrintfError("Error running %s:\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd))
+		if waitErr != nil {
+			if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+				logger.PrintfError("Error running %s:\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd))
+			} else {
+				logger.PrintfError("Error running %s:\n", cmdLabel)
+			}
 			fmt.Println(r.Spaces, waitErr)
 			ch <- waitErr
 			return

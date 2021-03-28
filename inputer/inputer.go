@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/logger"
 	"golang.org/x/crypto/ssh/terminal"
@@ -25,43 +26,69 @@ func Ask(project *config.Project, taskNames []string) (err error) {
 		return nil
 	}
 	logger.Printf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n", d.Yellow, d.Normal)
-	logger.Printf("%sLeave blank if you want to keep current values.%s\n\n", d.Yellow, d.Normal)
-	for inputIndex, inputName := range inputOrder {
-		input := inputs[inputName]
-		decoratedIndex := fmt.Sprintf("%s%s%d of %d)%s", d.Bold, d.Blue, inputIndex+1, inputCount, d.Normal)
-		decoratedInputName := fmt.Sprintf("%s%s%s%s", d.Bold, d.Yellow, input.GetName(), d.Normal)
-		// show number and input title
-		fmt.Printf("%s %s\n", decoratedIndex, decoratedInputName)
-		if input.Description != "" {
-			showInputDescription(input)
+	for inputIndex, _ := range inputOrder {
+		if err = ask(project, inputs, inputOrder, inputIndex); err != nil {
+			return err
 		}
-		// show current value
-		decoratedCurrentValue := fmt.Sprintf("%sempty%s", d.Faint, d.Normal)
-		currentValue := project.GetValue(inputName)
-		if currentValue != "" {
-			decoratedCurrentValue = fmt.Sprintf("%s%s%s", d.Yellow, currentValue, d.Normal)
-		}
-		fmt.Printf("%s (currently %s): ", decoratedInputName, decoratedCurrentValue)
-		userValue := ""
-		if input.Secret {
-			userValue, err = getPassword()
-			if err != nil {
-				return err
-			}
-		} else {
-			// handle user input
-			fmt.Scanf("%s", &userValue)
-		}
-		if userValue != "" {
-			project.SetValue(inputName, userValue)
-		}
-		fmt.Println()
 	}
 	return nil
 }
 
+func ask(project *config.Project, inputs map[string]*config.Input, inputOrder []string, inputIndex int) (err error) {
+	inputCount := len(inputOrder)
+	inputName := inputOrder[inputIndex]
+	input := inputs[inputName]
+	d := logger.NewDecoration()
+	decoratedIndex := fmt.Sprintf("%s%d of %d)%s", d.Blue, inputIndex+1, inputCount, d.Normal)
+	decoratedInputName := fmt.Sprintf("%s%s%s", d.Yellow, input.GetName(), d.Normal)
+	currentValue := project.GetValue(inputName)
+	decoratedCurrentValue := fmt.Sprintf("%sempty%s", d.Faint, d.Normal)
+	if currentValue != "" {
+		decoratedCurrentValue = fmt.Sprintf("%s%s%s", d.Yellow, currentValue, d.Normal)
+	}
+	// show number and input title
+	fmt.Printf("%s %s\n", decoratedIndex, decoratedInputName)
+	if input.Description != "" {
+		showInputDescription(input)
+	}
+	userValue := ""
+	if input.Secret {
+		fmt.Printf("💀 Please enter new value for %s: ", decoratedInputName)
+		userValue, err = getPassword()
+		if err != nil {
+			return err
+		}
+		fmt.Println()
+	} else {
+		// handle user input
+		if !getUserOverwriteConfirmation(decoratedInputName, decoratedCurrentValue) {
+			userValue = currentValue
+		} else {
+			fmt.Printf("💀 Please enter new value for %s: ", decoratedInputName)
+			fmt.Scanf("%s", &userValue)
+		}
+	}
+	project.SetValue(inputName, userValue)
+	fmt.Println()
+	return nil
+}
+
+func getUserOverwriteConfirmation(decoratedInputName, decoratedCurrentValue string) bool {
+	userConfirmation := ""
+	d := logger.NewDecoration()
+	for !boolean.IsTrue(userConfirmation) && !boolean.IsFalse(userConfirmation) {
+		fmt.Printf("   Current value for %s is %s\n", decoratedInputName, decoratedCurrentValue)
+		fmt.Printf("💀 Do you want to %soverwrite%s it (Y/n)? ", d.Bold, d.Normal)
+		fmt.Scanf("%s", &userConfirmation)
+		if userConfirmation == "" {
+			userConfirmation = "n"
+		}
+	}
+	return boolean.IsTrue(userConfirmation)
+}
+
 func showInputDescription(input *config.Input) {
-	indentation := "  "
+	indentation := "     "
 	descriptionRows := strings.Split(strings.Trim(input.Description, "\n "), "\n")
 	for _, row := range descriptionRows {
 		fmt.Printf("%s%s\n", indentation, row)
