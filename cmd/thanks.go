@@ -16,7 +16,7 @@ var thanksCmd = &cobra.Command{
 		logger.Printf("%s%sYour welcome 😊%s\n", d.Bold, d.Yellow, d.Normal)
 		logger.Printf("Please consider donating ☕☕☕ to:\n")
 		logger.Printf("%shttps://paypal.me/gofrendi%s\n", d.Yellow, d.Normal)
-		logger.Printf("Also, follow Zaruba at 🐤 @zarubastalchmst\n")
+		logger.Printf("Also, follow Zaruba at 🐤 https://twitter.com/zarubastalchmst\n")
 	},
 }
 
