@@ -117,6 +117,17 @@ tasks:
     - '{{ $ports := .GetLConfig "ports" }}{{ index $ports 0 }}'
 
 
+  clearPreviousValues:
+    icon: 🔥
+    description: |
+      Clear log
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        rm -Rf .previous.values.zaruba.yaml
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
+
   clearLog:
     icon: 🔥
     description: |

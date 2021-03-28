@@ -9,6 +9,26 @@ import (
 	"github.com/state-alchemists/zaruba/logger"
 )
 
+// Explain explain inputs or tasks exclusively if the first element of the keywords is either "input" or "task". Otherwise, both inputs and tasks will be explained
+func Explain(project *config.Project, keywords []string) (err error) {
+	// first element of "keywords" is "input", only show explain inputs
+	if len(keywords) >= 1 && keywords[0] == "input" {
+		keyword := strings.Join(keywords[1:], " ")
+		return ExplainInputs(project, keyword)
+	}
+	// first element of "keywords" is "task", only show explain tasks
+	if len(keywords) >= 1 && keywords[0] == "task" {
+		keyword := strings.Join(keywords[1:], " ")
+		return ExplainTasks(project, keyword)
+	}
+	// explain tasks and inputs
+	keyword := strings.Join(keywords, " ")
+	if err = ExplainTasks(project, keyword); err != nil {
+		return err
+	}
+	return ExplainInputs(project, keyword)
+}
+
 // ExplainInputs explain all inputs
 func ExplainInputs(project *config.Project, keyword string) (err error) {
 	if !project.IsInitialized {

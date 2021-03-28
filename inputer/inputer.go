@@ -25,70 +25,94 @@ func Ask(project *config.Project, taskNames []string) (err error) {
 		logger.Printf("%sZaruba is running in interactive mode. But no value you can set interactively.%s\n", d.Yellow, d.Normal)
 		return nil
 	}
-	logger.Printf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n", d.Yellow, d.Normal)
+	logger.Printf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n\n", d.Yellow, d.Normal)
 	for inputIndex, _ := range inputOrder {
-		if err = ask(project, inputs, inputOrder, inputIndex); err != nil {
+		if err = askInputByIndex(project, inputs, inputOrder, inputIndex); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func ask(project *config.Project, inputs map[string]*config.Input, inputOrder []string, inputIndex int) (err error) {
+func askInputByIndex(project *config.Project, inputs map[string]*config.Input, inputOrder []string, inputIndex int) (err error) {
 	inputCount := len(inputOrder)
 	inputName := inputOrder[inputIndex]
 	input := inputs[inputName]
-	d := logger.NewDecoration()
-	decoratedIndex := fmt.Sprintf("%s%d of %d)%s", d.Blue, inputIndex+1, inputCount, d.Normal)
-	decoratedInputName := fmt.Sprintf("%s%s%s", d.Yellow, input.GetName(), d.Normal)
-	currentValue := project.GetValue(inputName)
-	decoratedCurrentValue := fmt.Sprintf("%sempty%s", d.Faint, d.Normal)
-	if currentValue != "" {
-		decoratedCurrentValue = fmt.Sprintf("%s%s%s", d.Yellow, currentValue, d.Normal)
-	}
-	// show number and input title
-	fmt.Printf("%s %s\n", decoratedIndex, decoratedInputName)
+	// show input title
+	fmt.Println(getInputTitleText(input, inputIndex, inputCount))
 	if input.Description != "" {
 		showInputDescription(input)
 	}
 	userValue := ""
 	if input.Secret {
-		fmt.Printf("💀 Please enter new value for %s: ", decoratedInputName)
+		fmt.Print(getEnterNewValueText(input))
 		userValue, err = getPassword()
 		if err != nil {
 			return err
 		}
+		project.SetValue(inputName, userValue)
 		fmt.Println()
-	} else {
-		// handle user input
-		if !getUserOverwriteConfirmation(decoratedInputName, decoratedCurrentValue) {
-			userValue = currentValue
-		} else {
-			fmt.Printf("💀 Please enter new value for %s: ", decoratedInputName)
-			fmt.Scanf("%s", &userValue)
-		}
+		fmt.Println()
+		return nil
 	}
-	project.SetValue(inputName, userValue)
+	if !getKeepValueConfirmation(project, input) {
+		fmt.Print(getEnterNewValueText(input))
+		fmt.Scanf("%s", &userValue)
+		project.SetValue(inputName, userValue)
+	}
 	fmt.Println()
 	return nil
 }
 
-func getUserOverwriteConfirmation(decoratedInputName, decoratedCurrentValue string) bool {
-	userConfirmation := ""
+func getInputTitleText(input *config.Input, inputIndex int, inputCount int) string {
 	d := logger.NewDecoration()
+	inputNumber := fmt.Sprintf("%d of %d)", inputIndex+1, inputCount)
+	return fmt.Sprintf("💀 %s%s%s %s%s", d.Bold, d.Yellow, inputNumber, input.GetName(), d.Normal)
+}
+
+func getEnterNewValueText(input *config.Input) string {
+	decoratedInputName := getDecoratedInputName(input)
+	return fmt.Sprintf("💀 Please enter new value for %s: ", decoratedInputName)
+}
+
+func getDecoratedInputName(input *config.Input) string {
+	d := logger.NewDecoration()
+	return fmt.Sprintf("%s%s%s", d.Yellow, input.GetName(), d.Normal)
+}
+
+func getDecoratedValue(value string) string {
+	d := logger.NewDecoration()
+	if value != "" {
+		return fmt.Sprintf("%s%s%s", d.Yellow, value, d.Normal)
+	}
+	return fmt.Sprintf("%sempty%s", d.Faint, d.Normal)
+}
+
+func getKeepValueConfirmation(project *config.Project, input *config.Input) bool {
+	decoratedInputName := getDecoratedInputName(input)
+	currentValue := project.GetValue(input.GetName())
+	decoratedCurrentValue := getDecoratedValue(currentValue)
+	defaultValue := input.DefaultValue
+	decoratedDefaultValue := getDecoratedValue(defaultValue)
+	userConfirmation := ""
 	for !boolean.IsTrue(userConfirmation) && !boolean.IsFalse(userConfirmation) {
-		fmt.Printf("   Current value for %s is %s\n", decoratedInputName, decoratedCurrentValue)
-		fmt.Printf("💀 Do you want to %soverwrite%s it (Y/n)? ", d.Bold, d.Normal)
+		if defaultValue == currentValue {
+			fmt.Printf("   Default/Current value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
+		} else {
+			fmt.Printf("   Default value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
+			fmt.Printf("   Current value for %s is %s\n", decoratedInputName, decoratedCurrentValue)
+		}
+		fmt.Printf("💀 Do you want to keep it %s (Y/n)? ", decoratedCurrentValue)
 		fmt.Scanf("%s", &userConfirmation)
 		if userConfirmation == "" {
-			userConfirmation = "n"
+			userConfirmation = "y"
 		}
 	}
 	return boolean.IsTrue(userConfirmation)
 }
 
 func showInputDescription(input *config.Input) {
-	indentation := "     "
+	indentation := "      "
 	descriptionRows := strings.Split(strings.Trim(input.Description, "\n "), "\n")
 	for _, row := range descriptionRows {
 		fmt.Printf("%s%s\n", indentation, row)

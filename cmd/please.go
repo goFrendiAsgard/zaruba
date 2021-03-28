@@ -11,6 +11,7 @@ import (
 	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/inputer"
 	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/previousval"
 	"github.com/state-alchemists/zaruba/runner"
 )
 
@@ -18,6 +19,8 @@ var pleaseEnv []string
 var pleaseValues []string
 var pleaseFile string
 var pleaseInteractive *bool
+var pleaseUsePreviousValues *bool
+var pleaseResetPreviousValues *bool
 
 // pleaseCmd represents the please command
 var pleaseCmd = &cobra.Command{
@@ -26,10 +29,7 @@ var pleaseCmd = &cobra.Command{
 	Long:    "💀 Ask Zaruba to do something for you",
 	Aliases: []string{"run", "do", "invoke", "perform"},
 	Run: func(cmd *cobra.Command, args []string) {
-		project, taskNames, err := getProjectAndTaskNames(args)
-		if err != nil {
-			showErrorAndExit(err)
-		}
+		project, taskNames := extractArgsOrExit(args)
 		// no task provided
 		if len(taskNames) == 0 {
 			showDefaultResponse()
@@ -37,23 +37,26 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle "please explain [taskNames...]"
 		if taskNames[0] == "explain" {
-			if err = project.Init(); err != nil {
-				showErrorAndExit(err)
-			}
-			if err = explain(project, taskNames); err != nil {
-				showErrorAndExit(err)
-			}
+			initProjectOrExit(project)
+			explainOrExit(project, taskNames[1:])
 			return
+		}
+		// handle "--previous"
+		previousValueFile := ".previous.values.zaruba.yaml"
+		if *pleaseUsePreviousValues {
+			if err := previousval.Load(project, previousValueFile); err != nil {
+				showErrorAndExit(err)
+			}
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
-			if err = inputer.Ask(project, taskNames); err != nil {
+			err := inputer.Ask(project, taskNames)
+			if err != nil {
 				showErrorAndExit(err)
 			}
 		}
-		if err = project.Init(); err != nil {
-			showErrorAndExit(err)
-		}
+		previousval.Save(project, previousValueFile)
+		initProjectOrExit(project)
 		// handle "please explain [taskNames...]"
 		r, err := runner.NewRunner(project, taskNames, time.Minute*5)
 		if err != nil {
@@ -93,7 +96,14 @@ func init() {
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "task file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
-	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, zaruba will ask you to fill inputs (e.g: -i)")
+	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively (e.g: -i)")
+	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded (e.g: -p)")
+}
+
+func initProjectOrExit(project *config.Project) {
+	if err := project.Init(); err != nil {
+		showErrorAndExit(err)
+	}
 }
 
 func showDefaultResponse() {
@@ -105,28 +115,15 @@ func showDefaultResponse() {
 	logger.Printf("* %szaruba please explain %s%s[task-or-input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
 }
 
-func explain(project *config.Project, taskNames []string) (err error) {
-	if len(taskNames) >= 2 {
-		if taskNames[1] == "input" || taskNames[1] == "task" {
-			keyword := strings.Join(taskNames[2:], " ")
-			// handle "please explain input"
-			if taskNames[1] == "input" {
-				explainer.ExplainInputs(project, keyword)
-				return nil
-			}
-			// handle "please explain task"
-			explainer.ExplainTasks(project, keyword)
-			return nil
-		}
+func extractArgsOrExit(args []string) (project *config.Project, taskNames []string) {
+	project, taskNames, err := extractArgs(args)
+	if err != nil {
+		showErrorAndExit(err)
 	}
-	// handle "please explain"
-	keyword := strings.Join(taskNames[1:], " ")
-	explainer.ExplainTasks(project, keyword)
-	explainer.ExplainInputs(project, keyword)
-	return nil
+	return project, taskNames
 }
 
-func getProjectAndTaskNames(args []string) (project *config.Project, taskNames []string, err error) {
+func extractArgs(args []string) (project *config.Project, taskNames []string, err error) {
 	taskNames = []string{}
 	project, err = config.NewProject(pleaseFile)
 	if err != nil {
@@ -164,6 +161,12 @@ func getProjectAndTaskNames(args []string) (project *config.Project, taskNames [
 		taskNames = append(taskNames, arg)
 	}
 	return project, taskNames, err
+}
+
+func explainOrExit(project *config.Project, keywords []string) {
+	if err := explainer.Explain(project, keywords); err != nil {
+		showErrorAndExit(err)
+	}
 }
 
 func showErrorAndExit(err error) {
