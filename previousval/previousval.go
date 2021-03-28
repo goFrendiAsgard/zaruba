@@ -38,11 +38,3 @@ func Save(project *config.Project, fileName string) (err error) {
 	_, err = f.Write(b)
 	return err
 }
-
-// Reset remove previous value file
-func Reset(fileName string) (err error) {
-	if _, statErr := os.Stat(fileName); os.IsNotExist(statErr) {
-		return nil
-	}
-	return os.Remove(fileName)
-}
