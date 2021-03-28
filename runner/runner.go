@@ -161,11 +161,10 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				err := currentCmd.Wait()
 				if err != nil {
 					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-						logger.PrintfError("%s exited:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+						logger.PrintfError("%s exited:\n%s\n\n%s", currentLabel, r.sprintfCmdArgs(currentCmd), err)
 					} else {
-						logger.PrintfError("%s exited:\n", currentLabel)
+						logger.PrintfError("%s exited: %s", currentLabel, err)
 					}
-					fmt.Println(err)
 					r.unregisterCmd(currentLabel)
 					r.setSurpressWaitErrorSignal()
 					ch <- err
@@ -175,7 +174,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
 						logger.PrintfError("%s stopped before ready:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
 					} else {
-						logger.PrintfError("%s stopped before ready:\n", currentLabel)
+						logger.PrintfError("%s stopped before ready\n", currentLabel)
 					}
 					r.unregisterCmd(currentLabel)
 					r.setSurpressWaitErrorSignal()
