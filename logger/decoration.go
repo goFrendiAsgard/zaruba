@@ -78,7 +78,6 @@ func NewDecoration() (d *Decoration) {
 		d.Blue,
 		d.Magenta,
 		d.Cyan,
-		d.White,
 		d.Bold + d.Green,
 		d.Bold + d.Yellow,
 		d.Bold + d.Blue,
