@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -23,13 +22,10 @@ Try:
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		d := logger.NewDecoration()
-		logger.PrintfError("Do you mean %s%szaruba please%s?\n", d.Bold, d.Yellow, d.Normal)
+		decoration := monitor.NewDecoration()
+		logger := monitor.NewConsoleLogger(decoration)
+		logger.Println(err)
+		logger.DPrintfError("Do you mean %s%szaruba please%s?\n", decoration.Bold, decoration.Yellow, decoration.Normal)
 		os.Exit(1)
 	}
-}
-
-func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -9,7 +9,7 @@ import (
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/boolean"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/str"
 )
 
@@ -22,7 +22,7 @@ type TaskData struct {
 	WorkPath     string
 	DirPath      string
 	FileLocation string
-	Decoration   logger.Decoration
+	Decoration   *monitor.Decoration
 }
 
 // NewTaskData create new task data
@@ -35,7 +35,7 @@ func NewTaskData(task *Task) (td *TaskData) {
 		WorkPath:     task.GetWorkPath(),
 		DirPath:      filepath.Dir(task.GetFileLocation()),
 		FileLocation: task.GetFileLocation(),
-		Decoration:   *logger.NewDecoration(),
+		Decoration:   task.Project.decoration,
 	}
 }
 

@@ -1,4 +1,4 @@
-package logger
+package monitor
 
 // Decoration is decorator for terminal
 type Decoration struct {
@@ -32,8 +32,10 @@ type Decoration struct {
 	NoUnderline string
 	NoInverse   string
 	NoColor     string
-	index       int
+	colorIndex  int
 	colorList   []string
+	iconIndex   int
+	iconList    []string
 }
 
 // NewDecoration Create New Decoration
@@ -70,7 +72,11 @@ func NewDecoration() (d *Decoration) {
 		NoUnderline: "\x1b[24m",
 		NoInverse:   "\x1b[27m",
 		NoColor:     "\x1b[39m",
-		index:       0,
+		colorIndex:  0,
+		iconIndex:   0,
+		iconList: []string{
+			"🍏", "🍎", "🍌", "🍉", "🍇", "🍐", "🍊", "🍋", "🍓", "🍈", "🍒", "🍑", "🍍", "🥝", "🍅", "🍆", "🥑",
+		},
 	}
 	d.colorList = []string{
 		d.Green,
@@ -87,12 +93,22 @@ func NewDecoration() (d *Decoration) {
 	return d
 }
 
-// GenerateColor new icon
+// GenerateColor new color
 func (d *Decoration) GenerateColor() string {
-	if d.index >= len(d.colorList) {
-		d.index = 0
+	if d.colorIndex >= len(d.colorList) {
+		d.colorIndex = 0
 	}
-	color := d.colorList[d.index]
-	d.index++
+	color := d.colorList[d.colorIndex]
+	d.colorIndex++
 	return color
+}
+
+// GenerateIcon new icon
+func (d *Decoration) GenerateIcon() string {
+	if d.iconIndex >= len(d.iconList) {
+		d.iconIndex = 0
+	}
+	icon := d.iconList[d.iconIndex]
+	d.iconIndex++
+	return icon
 }

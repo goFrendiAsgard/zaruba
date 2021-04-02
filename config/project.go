@@ -10,8 +10,7 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
-	"github.com/state-alchemists/zaruba/iconer"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -27,14 +26,14 @@ type Project struct {
 	sortedTaskNames            []string
 	sortedInputNames           []string
 	maxPublishedTaskNameLength int
-	iconGenerator              *iconer.Generator
-	decoration                 *logger.Decoration
-	csvLogWriter               *logger.CSVLogWriter
+	decoration                 *monitor.Decoration
+	logger                     monitor.Logger
+	dataLogger                 monitor.RecordLogger
 	IsInitialized              bool
 }
 
 // NewProject create new Config from Yaml File
-func NewProject(configFile string) (project *Project, err error) {
+func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decoration *monitor.Decoration, configFile string) (project *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, err := os.Executable()
 		if err != nil {
@@ -42,15 +41,13 @@ func NewProject(configFile string) (project *Project, err error) {
 		}
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
 	}
-	project, err = loadProject(configFile)
+	project, err = loadProject(logger, decoration, configFile)
 	if err != nil {
 		return project, err
 	}
-	dir := os.ExpandEnv(filepath.Dir(configFile))
-	logFile := filepath.Join(dir, "log.zaruba.csv")
-	project.csvLogWriter = logger.NewCSVLogWriter(logFile)
-	project.iconGenerator = iconer.NewGenerator()
-	project.decoration = logger.NewDecoration()
+	project.logger = logger
+	project.dataLogger = dataLogger
+	project.decoration = decoration
 	project.setSortedTaskNames()
 	project.setSortedInputNames()
 	project.linkToTasks()
@@ -62,10 +59,9 @@ func NewProject(configFile string) (project *Project, err error) {
 	return project, err
 }
 
-func loadProject(configFile string) (project *Project, err error) {
-	d := logger.NewDecoration()
+func loadProject(logger monitor.Logger, d *monitor.Decoration, configFile string) (project *Project, err error) {
 	parsedConfigFile := os.ExpandEnv(configFile)
-	logger.PrintfStarted("%sLoading %s%s\n", d.Faint, parsedConfigFile, d.Normal)
+	logger.DPrintfStarted("%sLoading %s%s\n", d.Faint, parsedConfigFile, d.Normal)
 	project = &Project{
 		Includes:      []string{},
 		Tasks:         map[string]*Task{},
@@ -92,7 +88,7 @@ func loadProject(configFile string) (project *Project, err error) {
 	project.setTaskFileLocation()
 	project.setInputFileLocation()
 	// cascade project, add inclusion's property to this project
-	if err = project.cascadeIncludes(); err != nil {
+	if err = project.cascadeIncludes(logger, d); err != nil {
 		return project, err
 	}
 	return project, err
@@ -295,13 +291,13 @@ func (project *Project) checkInputs() (err error) {
 	return nil
 }
 
-func (project *Project) cascadeIncludes() (err error) {
+func (project *Project) cascadeIncludes(logger monitor.Logger, d *monitor.Decoration) (err error) {
 	for _, includeLocation := range project.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
 		if !filepath.IsAbs(parsedIncludeLocation) {
 			parsedIncludeLocation = filepath.Join(project.basePath, parsedIncludeLocation)
 		}
-		includedProject, err := loadProject(parsedIncludeLocation)
+		includedProject, err := loadProject(logger, d, parsedIncludeLocation)
 		if err != nil {
 			return err
 		}

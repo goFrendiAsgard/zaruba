@@ -6,7 +6,7 @@ import (
 )
 
 func setupTaskData(t *testing.T) (td *TaskData, err error) {
-	project, err := NewProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return td, err

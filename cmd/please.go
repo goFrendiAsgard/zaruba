@@ -10,8 +10,9 @@ import (
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/inputer"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/previousval"
+	"github.com/state-alchemists/zaruba/response"
 	"github.com/state-alchemists/zaruba/runner"
 )
 
@@ -20,50 +21,55 @@ var pleaseValues []string
 var pleaseFile string
 var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
-var pleaseResetPreviousValues *bool
+var pleaseTerminate *bool
+var pleaseWait string
 
 // pleaseCmd represents the please command
 var pleaseCmd = &cobra.Command{
 	Use:     "please",
 	Short:   "Ask Zaruba to do something for you",
 	Long:    "💀 Ask Zaruba to do something for you",
-	Aliases: []string{"run", "do", "invoke", "perform"},
+	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
-		project, taskNames := extractArgsOrExit(args)
+		decoration := monitor.NewDecoration()
+		logger := monitor.NewConsoleLogger(decoration)
+		project, taskNames := getProjectOrExit(logger, decoration, args)
 		// no task provided
 		if len(taskNames) == 0 {
-			showDefaultResponse()
+			response.ShowPleaseResponse(logger, decoration)
 			return
 		}
 		// handle "please explain [taskNames...]"
 		if taskNames[0] == "explain" {
-			initProjectOrExit(project)
-			explainOrExit(project, taskNames[1:])
+			initProjectOrExit(logger, decoration, project)
+			explainOrExit(logger, decoration, project, taskNames[1:])
 			return
 		}
 		// handle "--previous"
-		previousValueFile := ".previous.values.zaruba.yaml"
+		previousValueFile := ".previous.values.yaml"
 		if *pleaseUsePreviousValues {
 			if err := previousval.Load(project, previousValueFile); err != nil {
-				showErrorAndExit(err)
+				showErrorAndExit(logger, decoration, err)
 			}
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
-			err := inputer.Ask(project, taskNames)
+			err := inputer.Ask(logger, decoration, project, taskNames)
 			if err != nil {
-				showErrorAndExit(err)
+				showErrorAndExit(logger, decoration, err)
 			}
 		}
 		previousval.Save(project, previousValueFile)
-		initProjectOrExit(project)
-		// handle "please explain [taskNames...]"
-		r, err := runner.NewRunner(project, taskNames, time.Minute*5)
+		initProjectOrExit(logger, decoration, project)
+		r, err := runner.NewRunner(logger, decoration, project, taskNames, time.Minute*5)
+		if *pleaseTerminate {
+			r.SetTerminationDelay(pleaseWait)
+		}
 		if err != nil {
-			showErrorAndExit(err)
+			showErrorAndExit(logger, decoration, err)
 		}
 		if err := r.Run(); err != nil {
-			showErrorAndExit(err)
+			showErrorAndExit(logger, decoration, err)
 		}
 	},
 }
@@ -93,39 +99,35 @@ func init() {
 		defaultEnv = append(defaultEnv, defaultEnvFile)
 	}
 	// register flags
-	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "task file")
+	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "main zaruba script file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
-	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively (e.g: -i)")
-	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded (e.g: -p)")
+	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively")
+	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded")
+	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "if set, tasks will be terminated after complete")
+	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
 }
 
-func initProjectOrExit(project *config.Project) {
+func initProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) {
 	if err := project.Init(); err != nil {
-		showErrorAndExit(err)
+		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func showDefaultResponse() {
-	d := logger.NewDecoration()
-	logger.Printf("%sPlease what?%s\n", d.Bold, d.Normal)
-	logger.Printf("Here are several things you can try:\n")
-	logger.Printf("* %szaruba please explain task %s%s[task-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-	logger.Printf("* %szaruba please explain input %s%s[input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-	logger.Printf("* %szaruba please explain %s%s[task-or-input-keyword]%s\n", d.Yellow, d.Normal, d.Blue, d.Normal)
-}
-
-func extractArgsOrExit(args []string) (project *config.Project, taskNames []string) {
-	project, taskNames, err := extractArgs(args)
+func getProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, args []string) (project *config.Project, taskNames []string) {
+	project, taskNames, err := getProject(logger, decoration, args)
 	if err != nil {
-		showErrorAndExit(err)
+		showErrorAndExit(logger, decoration, err)
 	}
 	return project, taskNames
 }
 
-func extractArgs(args []string) (project *config.Project, taskNames []string, err error) {
+func getProject(logger monitor.Logger, decoration *monitor.Decoration, args []string) (project *config.Project, taskNames []string, err error) {
 	taskNames = []string{}
-	project, err = config.NewProject(pleaseFile)
+	dir := os.ExpandEnv(filepath.Dir(pleaseFile))
+	logFile := filepath.Join(dir, "log.zaruba.csv")
+	csvLogger := monitor.NewCSVLogWriter(logFile)
+	project, err = config.NewProject(logger, csvLogger, decoration, pleaseFile)
 	if err != nil {
 		return project, taskNames, err
 	}
@@ -149,30 +151,20 @@ func extractArgs(args []string) (project *config.Project, taskNames []string, er
 			}
 			continue
 		}
-		_, argIsTask := project.Tasks[arg]
-		if !argIsTask {
-			if arg == "autostop" {
-				if err = project.AddValue("autostop=true"); err != nil {
-					return project, taskNames, err
-				}
-				continue
-			}
-		}
 		taskNames = append(taskNames, arg)
 	}
 	return project, taskNames, err
 }
 
-func explainOrExit(project *config.Project, keywords []string) {
-	if err := explainer.Explain(project, keywords); err != nil {
-		showErrorAndExit(err)
+func explainOrExit(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, keywords []string) {
+	if err := explainer.Explain(logger, decoration, project, keywords); err != nil {
+		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func showErrorAndExit(err error) {
-	d := logger.NewDecoration()
+func showErrorAndExit(logger monitor.Logger, decoration *monitor.Decoration, err error) {
 	if err != nil {
-		logger.PrintfError("%s%s%s%s\n", d.Bold, d.Red, err.Error(), d.Normal)
+		logger.DPrintfError("%s%s%s%s\n", decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
 		os.Exit(1)
 	}
 }

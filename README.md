@@ -1,9 +1,11 @@
 ![zaruba-logo](arts/zaruba-250.png)
 # 💀 Zaruba 
 
-Zaruba is a declarative Task Runner Framework. It helps you to define and orchestrate tasks. In zaruba, a task might extend or depends on each other.
+Zaruba is a declarative Task Runner Framework. It helps you to define and orchestrate tasks. 
 
-Several tasks are already included and can be extended as necessary. You can even build a full-fledge FastAPI application and having it deployed to your kubernetes cluster by using helm by performing this:
+In zaruba, a task might extends or depends on each other. This make developing tasks with zaruba is more flexible than creating bunch of shell scripts.
+
+To speed up your development, several tasks has been already included and can be extended accordingly. You can even build a full-fledge FastAPI application and having it deployed to your kubernetes cluster by performing this (no coding required):
 
 ```sh
 # Init project
@@ -49,7 +51,7 @@ Using docker is probably the quickest way to setup zaruba, especially if you nee
 
 For more information about zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
 
-> **⚠️NOTE** There will be some limitations if you run zaruba container by using docker-desktop for mac/windows. Docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
+> **⚠️NOTE** There will be some limitations if you run zaruba container using docker-desktop for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
 ## From source
 
@@ -75,13 +77,15 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # 📜 Brief Introduction to Zaruba Script
 
-You might already familiar with terraform's HCL, gitlab-ci, or github action. Don't worry if you are not. Those seemingly alien scripts are used to define tasks for automation. Most of those script (except for terraform's HCL) are written in YAML. YAML is like JSON, but it use indentation instead of curly-braces.
+You might already familiar with terraform's HCL, gitlab-ci, or github action script.
 
-Zaruba's script are simply a YAML to define your tasks.
+Don't worry if you are not. Those seemingly alien scripts are basically how people define tasks for automation. Most of those script (except for terraform's HCL) are written in YAML. YAML is like JSON, but it use indentation instead of curly-braces.
 
-Although you don't need to worry about the script since zaruba can also generate the script for you, it is always better to know what's going on.
+Zaruba's script are simply a YAML file to define your automation tasks.
 
-Zaruba tasks usually contains 3 keys: `includes`, `inputs` and `tasks`:
+In some cases, you don't even need to worry about this script since zaruba can even generate the script for you. But if you want to define your own tasks or go any deeper, then here is a brief introduction to zaruba script:
+
+Zaruba script usually contains 3 keys: `includes`, `inputs` and `tasks`. We will discuss about the keys later, but first here is an example:
 
 ```yaml
 includes:
@@ -91,9 +95,9 @@ includes:
 
 inputs:
 
-  withApple:
+  showApple:
     default: no    
-    description: also show apple
+    description: Show apple
 
 tasks:
 
@@ -105,7 +109,7 @@ tasks:
     - runFibo
     - runRabbitmq
     inputs:
-    - withApple
+    - showApple
     config:
       start: |
         {{ if eq (.GetValue "withApple") "true" }}
@@ -130,13 +134,17 @@ tasks:
 
 ## includes
 
-This section is pretty straight forward. You can include as many other zaruba script as you need. Several useful scripts are available under `${ZARUBA_HOME}/scripts/core.zaruba.yaml`, so you might want to include it on every zaruba script you create.
+This section is pretty straight forward. You should use `includes` if you want to include other zaruba scripts into yours. This one is pretty useful because some zaruba tasks might depends on common script.
+
+You can include as many zaruba script as you need. Several useful scripts are available under `${ZARUBA_HOME}/scripts/core.zaruba.yaml`, so you might want to include it on every zaruba script you create.
 
 ## inputs
 
 This section contains possible input for all zaruba tasks. Some tasks might share the same inputs. For example, creating docker container and removing docker container both require `docker.containerName`.
 
-An input might has `default` value and `description`.
+An input might has `default` value and `description`. You can also define an input as `secret` if you need to get sensitive credentials.
+
+If you run zaruba interactively (i.e: not as part of CI/CD), it is probably useful to add `-i` or `--interactive` flag (i.e: `zaruba please runMyTask -i`). Using interactive flag will let zaruba to parse necessary inputs from every tasks (including dependencies/parent task) and let you input the values manually. 
 
 ## tasks
 
@@ -157,13 +165,15 @@ zaruba please <task-names> --interactive
 
 # 📁 Technical Documentation
 
-For more comprehensive explanation, please read the [documentation](docs/Documentation.md).
+For more comprehensive explanation, please read the [documentation](docs/documentation.md).
 
 # 🗺️ Roadmap
 
+
 ## Doing
 
-* Secret input (i.e: user password, token, etc)
+* Refactor
+* Technical Documentation
 
 ## To do
 

@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"github.com/state-alchemists/zaruba/boolean"
-	"github.com/state-alchemists/zaruba/logger"
 )
 
 // Task is zaruba task
@@ -241,8 +240,7 @@ func (task *Task) init() (err error) {
 
 func (task *Task) generateIcon() {
 	if task.Icon == "" {
-		icon := task.Project.iconGenerator.Create()
-		task.Icon = icon
+		task.Icon = task.Project.decoration.GenerateIcon()
 	}
 }
 
@@ -390,16 +388,16 @@ func (task *Task) log(td *TaskData, cmdType, logType string, pipe io.ReadCloser,
 	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, td.task.logPrefix)
 	saveLog := td.task.SaveLog == "" || boolean.IsTrue(td.task.SaveLog)
-	print := logger.Printf
+	print := task.Project.logger.DPrintf
 	if logType == "ERR" {
-		print = logger.PrintfError
+		print = task.Project.logger.DPrintfError
 	}
 	var err error = nil
 	for buf.Scan() {
 		content := buf.Text()
 		print("%s %s\n", prefix, content)
 		if saveLog {
-			if csvWriteErr := task.Project.csvLogWriter.Log(logType, cmdType, td.Name, content, td.task.logPrefix); csvWriteErr != nil {
+			if csvWriteErr := task.Project.dataLogger.Log(logType, cmdType, td.Name, content, td.task.logPrefix); csvWriteErr != nil {
 				err = csvWriteErr
 			}
 		}

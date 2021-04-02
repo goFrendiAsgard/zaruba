@@ -5,10 +5,21 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/state-alchemists/zaruba/monitor"
 )
 
+func getProject(configFile string) (project *Project, err error) {
+	decoration := monitor.NewDecoration()
+	logger := monitor.NewConsoleLogger(decoration)
+	dir := os.ExpandEnv(filepath.Dir(configFile))
+	logFile := filepath.Join(dir, "log.zaruba.csv")
+	csvLogger := monitor.NewCSVLogWriter(logFile)
+	return NewProject(logger, csvLogger, decoration, configFile)
+}
+
 func getValidProject(t *testing.T) (validProject *Project, err error) {
-	validProject, err = NewProject("../test_resource/valid/zaruba.yaml")
+	validProject, err = getProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return validProject, err
@@ -232,7 +243,7 @@ func TestValidProjectEnvTask(t *testing.T) {
 }
 
 func TestValidProjectName(t *testing.T) {
-	project, err := NewProject("../test_resource/named.yaml")
+	project, err := getProject("../test_resource/named.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -245,7 +256,7 @@ func TestValidProjectName(t *testing.T) {
 }
 
 func TestValidProjectWithNonExistValueFile(t *testing.T) {
-	project, err := NewProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -256,7 +267,7 @@ func TestValidProjectWithNonExistValueFile(t *testing.T) {
 }
 
 func TestValidProjectGetInputsFromNonExistingTask(t *testing.T) {
-	project, err := NewProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -267,19 +278,19 @@ func TestValidProjectGetInputsFromNonExistingTask(t *testing.T) {
 }
 
 func TestInvalidProjectTaskRedeclared(t *testing.T) {
-	if _, err := NewProject("../test_resource/invalidTaskRedeclared/task.yaml"); err == nil {
+	if _, err := getProject("../test_resource/invalidTaskRedeclared/task.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectInputRedeclared(t *testing.T) {
-	if _, err := NewProject("../test_resource/invalidInputRedeclared/input.yaml"); err == nil {
+	if _, err := getProject("../test_resource/invalidInputRedeclared/input.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectValuesFormat(t *testing.T) {
-	project, err := NewProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -290,25 +301,25 @@ func TestInvalidProjectValuesFormat(t *testing.T) {
 }
 
 func TestInvalidProjectNotExist(t *testing.T) {
-	if _, err := NewProject("../test_resource/notExist.yaml"); err == nil {
+	if _, err := getProject("../test_resource/notExist.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectUndeclaredInput(t *testing.T) {
-	if _, err := NewProject("../test_resource/invalidUndefinedInput/task.yaml"); err == nil {
+	if _, err := getProject("../test_resource/invalidUndefinedInput/task.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectFormat(t *testing.T) {
-	if _, err := NewProject("../test_resource/invalidYaml.txt"); err == nil {
+	if _, err := getProject("../test_resource/invalidYaml.txt"); err == nil {
 		t.Error("Error expected")
 	}
 }
 
 func TestInvalidProjectInclusion(t *testing.T) {
-	if _, err := NewProject("../test_resource/invalidInclusion.yaml"); err == nil {
+	if _, err := getProject("../test_resource/invalidInclusion.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }

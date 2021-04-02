@@ -1,4 +1,4 @@
-package logger
+package monitor
 
 import (
 	"encoding/csv"
@@ -7,15 +7,19 @@ import (
 	"time"
 )
 
-// CSVLogWriter is a thread safe csv writer
-type CSVLogWriter struct {
+type RecordLogger interface {
+	Log(data ...string) (err error)
+}
+
+// CSVLogger is a thread safe csv writer
+type CSVLogger struct {
 	Mutex    *sync.Mutex
 	FileName string
 }
 
 // NewCSVLogWriter create new CSV Log Writer
-func NewCSVLogWriter(fileName string) (c *CSVLogWriter) {
-	c = &CSVLogWriter{
+func NewCSVLogWriter(fileName string) (c *CSVLogger) {
+	c = &CSVLogger{
 		Mutex:    &sync.Mutex{},
 		FileName: fileName,
 	}
@@ -23,7 +27,7 @@ func NewCSVLogWriter(fileName string) (c *CSVLogWriter) {
 }
 
 // Log will log array of string
-func (c *CSVLogWriter) Log(data ...string) (err error) {
+func (c *CSVLogger) Log(data ...string) (err error) {
 	record := []string{time.Now().String()}
 	record = append(record, data...)
 	c.Mutex.Lock()

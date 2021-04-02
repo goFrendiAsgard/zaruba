@@ -171,7 +171,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please run autostop setup.injectBootstrap=false
+        ../zaruba please run setup.injectBootstrap=false -t
 
 
   testRunContainer:
@@ -185,7 +185,7 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please removeContainer setup.injectBootstrap=false
-        ../zaruba please runContainer autostop setup.injectBootstrap=false
+        ../zaruba please runContainer setup.injectBootstrap=false -t
         ../zaruba please removeContainer setup.injectBootstrap=false
 
 

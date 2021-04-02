@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/response"
 )
 
 // thanksCmd represents the thanks command
@@ -12,11 +13,9 @@ var thanksCmd = &cobra.Command{
 	Long:    "💀 Say thank you to Zaruba",
 	Aliases: []string{"thankYou", "thankyou"},
 	Run: func(cmd *cobra.Command, args []string) {
-		d := logger.NewDecoration()
-		logger.Printf("%s%sYour welcome 😊%s\n", d.Bold, d.Yellow, d.Normal)
-		logger.Printf("Please consider donating ☕☕☕ to:\n")
-		logger.Printf("%shttps://paypal.me/gofrendi%s\n", d.Yellow, d.Normal)
-		logger.Printf("Also, follow Zaruba at 🐤 https://twitter.com/zarubastalchmst\n")
+		decoration := monitor.NewDecoration()
+		logger := monitor.NewConsoleLogger(decoration)
+		response.ShowThanksResponse(logger, decoration)
 	},
 }
 

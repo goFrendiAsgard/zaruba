@@ -7,11 +7,11 @@ import (
 
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
-func Ask(project *config.Project, taskNames []string) (err error) {
+func Ask(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string) (err error) {
 	if project.IsInitialized {
 		return fmt.Errorf("Cannot ask for input because project has been initialized")
 	}
@@ -19,90 +19,86 @@ func Ask(project *config.Project, taskNames []string) (err error) {
 	if err != nil {
 		return err
 	}
-	d := logger.NewDecoration()
 	inputCount := len(inputOrder)
 	if inputCount == 0 {
-		logger.Printf("%sZaruba is running in interactive mode. But no value you can set interactively.%s\n", d.Yellow, d.Normal)
+		logger.DPrintf("%sZaruba is running in interactive mode. But no value you can set interactively.%s\n", decoration.Yellow, decoration.Normal)
 		return nil
 	}
-	logger.Printf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n\n", d.Yellow, d.Normal)
+	logger.DPrintf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n\n", decoration.Yellow, decoration.Normal)
 	for inputIndex, _ := range inputOrder {
-		if err = askInputByIndex(project, inputs, inputOrder, inputIndex); err != nil {
+		if err = askInputByIndex(logger, decoration, project, inputs, inputOrder, inputIndex); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func askInputByIndex(project *config.Project, inputs map[string]*config.Input, inputOrder []string, inputIndex int) (err error) {
+func askInputByIndex(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, inputs map[string]*config.Input, inputOrder []string, inputIndex int) (err error) {
 	inputCount := len(inputOrder)
 	inputName := inputOrder[inputIndex]
 	input := inputs[inputName]
 	// show input title
-	fmt.Println(getInputTitleText(input, inputIndex, inputCount))
+	logger.Println(getInputTitleText(decoration, input, inputIndex, inputCount))
 	if input.Description != "" {
-		showInputDescription(input)
+		showInputDescription(logger, decoration, input)
 	}
 	userValue := ""
 	if input.Secret {
-		fmt.Print(getEnterNewValueText(input))
+		logger.Print(getEnterNewValueText(decoration, input))
 		userValue, err = getPassword()
 		if err != nil {
 			return err
 		}
 		project.SetValue(inputName, userValue)
-		fmt.Println()
-		fmt.Println()
+		logger.Println()
+		logger.Println()
 		return nil
 	}
-	if !getKeepValueConfirmation(project, input) {
-		fmt.Print(getEnterNewValueText(input))
+	if !getKeepValueConfirmation(logger, decoration, project, input) {
+		logger.Print(getEnterNewValueText(decoration, input))
 		fmt.Scanf("%s", &userValue)
 		project.SetValue(inputName, userValue)
 	}
-	fmt.Println()
+	logger.Println()
 	return nil
 }
 
-func getInputTitleText(input *config.Input, inputIndex int, inputCount int) string {
-	d := logger.NewDecoration()
+func getInputTitleText(decoration *monitor.Decoration, input *config.Input, inputIndex int, inputCount int) string {
 	inputNumber := fmt.Sprintf("%d of %d)", inputIndex+1, inputCount)
-	return fmt.Sprintf("💀 %s%s%s %s%s", d.Bold, d.Yellow, inputNumber, input.GetName(), d.Normal)
+	return fmt.Sprintf("💀 %s%s%s %s%s", decoration.Bold, decoration.Yellow, inputNumber, input.GetName(), decoration.Normal)
 }
 
-func getEnterNewValueText(input *config.Input) string {
-	decoratedInputName := getDecoratedInputName(input)
+func getEnterNewValueText(decoration *monitor.Decoration, input *config.Input) string {
+	decoratedInputName := getDecoratedInputName(decoration, input)
 	return fmt.Sprintf("💀 Please enter new value for %s: ", decoratedInputName)
 }
 
-func getDecoratedInputName(input *config.Input) string {
-	d := logger.NewDecoration()
-	return fmt.Sprintf("%s%s%s", d.Yellow, input.GetName(), d.Normal)
+func getDecoratedInputName(decoration *monitor.Decoration, input *config.Input) string {
+	return fmt.Sprintf("%s%s%s", decoration.Yellow, input.GetName(), decoration.Normal)
 }
 
-func getDecoratedValue(value string) string {
-	d := logger.NewDecoration()
+func getDecoratedValue(d *monitor.Decoration, value string) string {
 	if value != "" {
 		return fmt.Sprintf("%s%s%s", d.Yellow, value, d.Normal)
 	}
 	return fmt.Sprintf("%sempty%s", d.Faint, d.Normal)
 }
 
-func getKeepValueConfirmation(project *config.Project, input *config.Input) bool {
-	decoratedInputName := getDecoratedInputName(input)
+func getKeepValueConfirmation(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, input *config.Input) bool {
+	decoratedInputName := getDecoratedInputName(decoration, input)
 	currentValue := project.GetValue(input.GetName())
-	decoratedCurrentValue := getDecoratedValue(currentValue)
+	decoratedCurrentValue := getDecoratedValue(decoration, currentValue)
 	defaultValue := input.DefaultValue
-	decoratedDefaultValue := getDecoratedValue(defaultValue)
+	decoratedDefaultValue := getDecoratedValue(decoration, defaultValue)
 	userConfirmation := ""
 	for !boolean.IsTrue(userConfirmation) && !boolean.IsFalse(userConfirmation) {
 		if defaultValue == currentValue {
-			fmt.Printf("   Default/Current value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
+			logger.Printf("   Default/Current value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
 		} else {
-			fmt.Printf("   Default value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
-			fmt.Printf("   Current value for %s is %s\n", decoratedInputName, decoratedCurrentValue)
+			logger.Printf("   Default value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
+			logger.Printf("   Current value for %s is %s\n", decoratedInputName, decoratedCurrentValue)
 		}
-		fmt.Printf("💀 Do you want to keep it %s (Y/n)? ", decoratedCurrentValue)
+		logger.Printf("💀 Do you want to keep it %s (Y/n)? ", decoratedCurrentValue)
 		fmt.Scanf("%s", &userConfirmation)
 		if userConfirmation == "" {
 			userConfirmation = "y"
@@ -111,17 +107,15 @@ func getKeepValueConfirmation(project *config.Project, input *config.Input) bool
 	return boolean.IsTrue(userConfirmation)
 }
 
-func showInputDescription(input *config.Input) {
+func showInputDescription(logger monitor.Logger, decoration *monitor.Decoration, input *config.Input) {
 	indentation := "      "
 	descriptionRows := strings.Split(strings.Trim(input.Description, "\n "), "\n")
 	for _, row := range descriptionRows {
-		fmt.Printf("%s%s\n", indentation, row)
+		logger.Printf("%s%s\n", indentation, row)
 	}
 }
 
 func getPassword() (passwd string, err error) {
-	// https://godoc.org/golang.org/x/crypto/ssh/terminal#ReadPassword
-	// terminal.ReadPassword accepts file descriptor as argument, returns byte slice and error.
 	passwdB, err := terminal.ReadPassword(int(os.Stdin.Fd()))
 	if err != nil {
 		return "", err

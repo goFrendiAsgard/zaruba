@@ -12,84 +12,64 @@ import (
 	"time"
 
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/logger"
+	"github.com/state-alchemists/zaruba/monitor"
 )
-
-// TaskStatus represent task status
-type TaskStatus struct {
-	Finished bool
-	Error    error
-}
-
-// NewTaskStatus create new task status
-func NewTaskStatus() (ts *TaskStatus) {
-	return &TaskStatus{
-		Finished: false,
-		Error:    nil,
-	}
-}
-
-// Finish task status
-func (ts *TaskStatus) Finish(err error) {
-	ts.Finished = true
-	ts.Error = err
-}
-
-// CmdInfo represent information of Cmd
-type CmdInfo struct {
-	Cmd       *exec.Cmd
-	IsProcess bool
-	StdInPipe io.WriteCloser
-	TaskName  string
-}
 
 // Runner is used to run tasks
 type Runner struct {
-	TaskNames              []string
-	Project                *config.Project
-	TaskStatus             map[string]*TaskStatus
-	TaskStatusMutex        *sync.RWMutex
-	CmdInfo                map[string]*CmdInfo
-	CmdInfoMutex           *sync.RWMutex
-	Killed                 bool
-	KilledMutex            *sync.RWMutex
-	Done                   bool
-	DoneMutex              *sync.RWMutex
-	StatusInterval         time.Duration
-	StartTimeMutex         *sync.RWMutex
-	StartTime              time.Time
-	Spaces                 string
-	SurpressWaitError      bool
-	SurpressWaitErrorMutex *sync.RWMutex
+	taskNames                  []string
+	project                    *config.Project
+	taskStatus                 map[string]*TaskStatus
+	taskStatusMutex            *sync.RWMutex
+	cmdInfo                    map[string]*CmdInfo
+	cmdInfoMutex               *sync.RWMutex
+	killed                     bool
+	killedMutex                *sync.RWMutex
+	done                       bool
+	doneMutex                  *sync.RWMutex
+	statusInterval             time.Duration
+	startTimeMutex             *sync.RWMutex
+	startTime                  time.Time
+	spaces                     string
+	surpressWaitError          bool
+	surpressWaitErrorMutex     *sync.RWMutex
+	logger                     monitor.Logger
+	decoration                 *monitor.Decoration
+	autoTerminate              bool
+	autoTerminateDelayInterval string
 }
 
 // NewRunner create new runner
-func NewRunner(project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner, err error) {
+func NewRunner(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner, err error) {
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("Cannot create runner because project was not initialize")
 	}
 	return &Runner{
-		TaskNames:              taskNames,
-		Project:                project,
-		TaskStatus:             map[string]*TaskStatus{},
-		TaskStatusMutex:        &sync.RWMutex{},
-		CmdInfo:                map[string]*CmdInfo{},
-		CmdInfoMutex:           &sync.RWMutex{},
-		Killed:                 false,
-		KilledMutex:            &sync.RWMutex{},
-		Done:                   false,
-		DoneMutex:              &sync.RWMutex{},
-		StatusInterval:         statusInterval,
-		StartTimeMutex:         &sync.RWMutex{},
-		Spaces:                 "     ",
-		SurpressWaitError:      false,
-		SurpressWaitErrorMutex: &sync.RWMutex{},
+		taskNames:                  taskNames,
+		project:                    project,
+		taskStatus:                 map[string]*TaskStatus{},
+		taskStatusMutex:            &sync.RWMutex{},
+		cmdInfo:                    map[string]*CmdInfo{},
+		cmdInfoMutex:               &sync.RWMutex{},
+		killed:                     false,
+		killedMutex:                &sync.RWMutex{},
+		done:                       false,
+		doneMutex:                  &sync.RWMutex{},
+		statusInterval:             statusInterval,
+		startTimeMutex:             &sync.RWMutex{},
+		spaces:                     "     ",
+		surpressWaitError:          false,
+		surpressWaitErrorMutex:     &sync.RWMutex{},
+		logger:                     logger,
+		decoration:                 decoration,
+		autoTerminate:              false,
+		autoTerminateDelayInterval: "0s",
 	}, nil
 }
 
 // Run Tasks
 func (r *Runner) Run() (err error) {
-	r.StartTime = time.Now()
+	r.startTime = time.Now()
 	r.showStatus()
 	ch := make(chan error)
 	go r.handleTerminationSignal(ch)
@@ -110,29 +90,35 @@ func (r *Runner) Run() (err error) {
 
 // Terminate all processes
 func (r *Runner) Terminate() {
-	logger.PrintfError("Terminating\n")
+	r.logger.DPrintfError("Terminating\n")
 	r.setKilledSignal()
 	// kill unfinished commands
-	r.CmdInfoMutex.Lock()
+	r.cmdInfoMutex.Lock()
 	killedCh := map[string]chan error{}
-	for label, cmdInfo := range r.CmdInfo {
+	for label, cmdInfo := range r.cmdInfo {
 		killedCh[label] = make(chan error)
 		cmd := cmdInfo.Cmd
-		logger.PrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
+		r.logger.DPrintfKill("Kill %s (PID=%d)\n", label, cmd.Process.Pid)
 		go r.killByPid(-cmd.Process.Pid, killedCh[label])
 	}
-	for label := range r.CmdInfo {
+	for label := range r.cmdInfo {
 		if err := <-killedCh[label]; err != nil {
-			fmt.Println(r.Spaces, err)
+			r.logger.Println(r.spaces, err)
 		}
-		delete(r.CmdInfo, label)
+		delete(r.cmdInfo, label)
 	}
-	r.CmdInfoMutex.Unlock()
+	r.cmdInfoMutex.Unlock()
+}
+
+// SetTerminationDelay set termination delay
+func (r *Runner) SetTerminationDelay(terminationDelayInterval string) {
+	r.autoTerminate = true
+	r.autoTerminateDelayInterval = terminationDelayInterval
 }
 
 func (r *Runner) showStatusByInterval() {
 	for {
-		r.sleep(r.StatusInterval)
+		r.sleep(r.statusInterval)
 		if r.getKilledSignal() {
 			return
 		}
@@ -148,8 +134,8 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 			ch <- fmt.Errorf("Terminated")
 			return
 		}
-		r.CmdInfoMutex.Lock()
-		for label, cmdInfo := range r.CmdInfo {
+		r.cmdInfoMutex.Lock()
+		for label, cmdInfo := range r.cmdInfo {
 			if _, exist := seen[label]; exist || !cmdInfo.IsProcess {
 				continue
 			}
@@ -161,9 +147,9 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				err := currentCmd.Wait()
 				if err != nil {
 					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-						logger.PrintfError("%s exited:\n%s\n\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd), err)
+						r.logger.DPrintfError("%s exited:\n%s\n\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd), err)
 					} else {
-						logger.PrintfError("%s exited: %s\n", currentLabel, err)
+						r.logger.DPrintfError("%s exited: %s\n", currentLabel, err)
 					}
 					r.unregisterCmd(currentLabel)
 					r.setSurpressWaitErrorSignal()
@@ -172,9 +158,9 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				}
 				if !r.isTaskFinished(currentTaskName) {
 					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-						logger.PrintfError("%s stopped before ready:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
+						r.logger.DPrintfError("%s stopped before ready:\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd))
 					} else {
-						logger.PrintfError("%s stopped before ready\n", currentLabel)
+						r.logger.DPrintfError("%s stopped before ready\n", currentLabel)
 					}
 					r.unregisterCmd(currentLabel)
 					r.setSurpressWaitErrorSignal()
@@ -182,10 +168,10 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 					return
 				}
 				r.unregisterCmd(currentLabel)
-				logger.PrintfError("%s exited without any error message\n", currentLabel)
+				r.logger.DPrintfError("%s exited without any error message\n", currentLabel)
 			}()
 		}
-		r.CmdInfoMutex.Unlock()
+		r.cmdInfoMutex.Unlock()
 	}
 }
 
@@ -204,71 +190,68 @@ func (r *Runner) handleTerminationSignal(ch chan error) {
 	default:
 		errorMsg = "Receiving termination signal"
 	}
-	fmt.Println()
-	logger.PrintfError("%s\n", errorMsg)
+	r.logger.Println()
+	r.logger.DPrintfError("%s\n", errorMsg)
 	ch <- fmt.Errorf(errorMsg)
 }
 
 func (r *Runner) setSurpressWaitErrorSignal() {
-	r.SurpressWaitErrorMutex.Lock()
-	r.SurpressWaitError = true
-	r.SurpressWaitErrorMutex.Unlock()
+	r.surpressWaitErrorMutex.Lock()
+	r.surpressWaitError = true
+	r.surpressWaitErrorMutex.Unlock()
 }
 
 func (r *Runner) getSurpressWaitErrorSignal() (isSurpressWaitError bool) {
-	r.SurpressWaitErrorMutex.RLock()
-	isSurpressWaitError = r.SurpressWaitError
-	r.SurpressWaitErrorMutex.RUnlock()
+	r.surpressWaitErrorMutex.RLock()
+	isSurpressWaitError = r.surpressWaitError
+	r.surpressWaitErrorMutex.RUnlock()
 	return isSurpressWaitError
 }
 
 func (r *Runner) setDoneSignal() {
-	r.DoneMutex.Lock()
-	r.Done = true
-	r.DoneMutex.Unlock()
+	r.doneMutex.Lock()
+	r.done = true
+	r.doneMutex.Unlock()
 }
 
 func (r *Runner) getDoneSignal() (isDone bool) {
-	r.DoneMutex.RLock()
-	isDone = r.Done
-	r.DoneMutex.RUnlock()
+	r.doneMutex.RLock()
+	isDone = r.done
+	r.doneMutex.RUnlock()
 	return isDone
 }
 
 func (r *Runner) setKilledSignal() {
-	r.KilledMutex.Lock()
-	r.Killed = true
-	r.KilledMutex.Unlock()
+	r.killedMutex.Lock()
+	r.killed = true
+	r.killedMutex.Unlock()
 }
 
 func (r *Runner) getKilledSignal() (isKilled bool) {
-	r.KilledMutex.RLock()
-	isKilled = r.Killed
-	r.KilledMutex.RUnlock()
+	r.killedMutex.RLock()
+	isKilled = r.killed
+	r.killedMutex.RUnlock()
 	return isKilled
 }
 
 func (r *Runner) run(ch chan error) {
-	if err := r.runTaskByNames(r.TaskNames); err != nil {
+	if err := r.runTaskByNames(r.taskNames); err != nil {
 		ch <- err
 		return
 	}
 	r.setDoneSignal()
 	r.showStatus()
-	d := logger.NewDecoration()
-	logger.PrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
-	logger.PrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
-	autostop, autostopDefined := r.Project.GetValue("autostop"), r.Project.IsValueExist("autostop")
-	if autostopDefined {
-		if autostop != "" && autostop != "true" {
-			autostopDuration, parseErr := time.ParseDuration(autostop)
-			if parseErr != nil {
-				ch <- parseErr
-				logger.PrintfError("Cannot parse autostop duration %s", autostop)
-				return
-			}
-			r.sleep(autostopDuration)
+	d := r.decoration
+	r.logger.DPrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
+	r.logger.DPrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
+	if r.autoTerminate {
+		autoTerminateDuration, parseErr := time.ParseDuration(r.autoTerminateDelayInterval)
+		if parseErr != nil {
+			ch <- parseErr
+			r.logger.DPrintfError("Cannot parse autoterminate delay interval %s", r.autoTerminateDelayInterval)
+			return
 		}
+		r.sleep(autoTerminateDuration)
 		ch <- nil
 		return
 	}
@@ -280,12 +263,12 @@ func (r *Runner) run(ch chan error) {
 			return
 		}
 		processExist := false
-		r.CmdInfoMutex.RLock()
-		for range r.CmdInfo {
+		r.cmdInfoMutex.RLock()
+		for range r.cmdInfo {
 			processExist = true
 			break
 		}
-		r.CmdInfoMutex.RUnlock()
+		r.cmdInfoMutex.RUnlock()
 		if !processExist {
 			ch <- nil
 			return
@@ -296,7 +279,7 @@ func (r *Runner) run(ch chan error) {
 func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 	tasks := []*config.Task{}
 	for _, taskName := range taskNames {
-		task, exists := r.Project.Tasks[taskName]
+		task, exists := r.project.Tasks[taskName]
 		if !exists {
 			return fmt.Errorf("Task %s is not exist", taskName)
 		}
@@ -327,7 +310,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 	startLogDone := make(chan error)
 	startCmd, startExist, startErr := task.GetStartCmd(startLogDone)
 	if !startExist {
-		logger.PrintfSuccess("Reach %s '%s' wrapper\n", task.Icon, task.GetName())
+		r.logger.DPrintfSuccess("Reach %s '%s' wrapper\n", task.Icon, task.GetName())
 		r.finishTask(task.GetName(), nil)
 		ch <- nil
 		return
@@ -354,16 +337,16 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 }
 
 func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd, startLogDone chan error) (err error) {
-	logger.PrintfStarted("Run %s '%s' command on %s\n", task.Icon, task.GetName(), startCmd.Dir)
+	r.logger.DPrintfStarted("Run %s '%s' command on %s\n", task.Icon, task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
 		err = startCmd.Start()
 	}
 	if err != nil {
 		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			logger.PrintfError("Error running command %s '%s':\n%s\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd), err)
+			r.logger.DPrintfError("Error running command %s '%s':\n%s\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd), err)
 		} else {
-			logger.PrintfError("Error running command %s '%s': %s\n", task.Icon, task.GetName(), err)
+			r.logger.DPrintfError("Error running command %s '%s': %s\n", task.Icon, task.GetName(), err)
 		}
 		return err
 	}
@@ -383,16 +366,16 @@ func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd 
 }
 
 func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err error) {
-	logger.PrintfStarted("Run %s '%s' service on %s\n", task.Icon, task.GetName(), startCmd.Dir)
+	r.logger.DPrintfStarted("Run %s '%s' service on %s\n", task.Icon, task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
 		err = startCmd.Start()
 	}
 	if err != nil {
 		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			logger.PrintfError("Error starting service %s '%s':\n%s\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd), err)
+			r.logger.DPrintfError("Error starting service %s '%s':\n%s\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd), err)
 		} else {
-			logger.PrintfError("Error starting service %s '%s': %s\n", task.Icon, task.GetName(), err)
+			r.logger.DPrintfError("Error starting service %s '%s': %s\n", task.Icon, task.GetName(), err)
 		}
 		return err
 	}
@@ -402,16 +385,16 @@ func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err
 }
 
 func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd, checkLogDone chan error) (err error) {
-	logger.PrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.GetName(), checkCmd.Dir)
+	r.logger.DPrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.GetName(), checkCmd.Dir)
 	checkStdinPipe, err := checkCmd.StdinPipe()
 	if err == nil {
 		err = checkCmd.Start()
 	}
 	if err != nil {
 		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			logger.PrintfError("Error checking service %s '%s' readiness:\n%s\n\n%s", task.Icon, task.GetName(), r.sprintfCmdArgs(checkCmd), err)
+			r.logger.DPrintfError("Error checking service %s '%s' readiness:\n%s\n\n%s", task.Icon, task.GetName(), r.sprintfCmdArgs(checkCmd), err)
 		} else {
-			logger.PrintfError("Error checking service %s '%s' readiness: %s\n", task.Icon, task.GetName(), err)
+			r.logger.DPrintfError("Error checking service %s '%s' readiness: %s\n", task.Icon, task.GetName(), err)
 		}
 		return err
 	}
@@ -429,19 +412,19 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 		waitErr := cmd.Wait()
 		if waitErr != nil {
 			if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-				logger.PrintfError("Error running %s:\n%s\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd), waitErr)
+				r.logger.DPrintfError("Error running %s:\n%s\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd), waitErr)
 			} else {
-				logger.PrintfError("Error running %s: %s\n", cmdLabel, waitErr)
+				r.logger.DPrintfError("Error running %s: %s\n", cmdLabel, waitErr)
 			}
 			ch <- waitErr
 			return
 		}
 		executed = true
-		logger.PrintfSuccess("Successfully running %s\n", cmdLabel)
+		r.logger.DPrintfSuccess("Successfully running %s\n", cmdLabel)
 		if logErr := <-logDone; logErr != nil {
-			logger.PrintfError("Error logging %s: %s\n", cmdLabel, logErr)
+			r.logger.DPrintfError("Error logging %s: %s\n", cmdLabel, logErr)
 		} else {
-			logger.PrintfSuccess("Successfully logging %s\n", cmdLabel)
+			r.logger.DPrintfSuccess("Successfully logging %s\n", cmdLabel)
 		}
 		ch <- nil
 		return
@@ -452,7 +435,7 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 			return
 		}
 		timeoutMessage := fmt.Sprintf("Getting timeout while running %s", cmdLabel)
-		logger.PrintfError("%s\n", timeoutMessage)
+		r.logger.DPrintfError("%s\n", timeoutMessage)
 		ch <- fmt.Errorf(timeoutMessage)
 		return
 	}()
@@ -469,52 +452,52 @@ func (r *Runner) registerProcessCmd(label, taskName string, cmd *exec.Cmd, stdin
 }
 
 func (r *Runner) registerCmd(label, taskName string, cmd *exec.Cmd, stdinPipe io.WriteCloser, isProcess bool) {
-	r.CmdInfoMutex.Lock()
-	r.CmdInfo[label] = &CmdInfo{
+	r.cmdInfoMutex.Lock()
+	r.cmdInfo[label] = &CmdInfo{
 		Cmd:       cmd,
 		IsProcess: isProcess,
 		StdInPipe: stdinPipe,
 		TaskName:  taskName,
 	}
-	r.CmdInfoMutex.Unlock()
+	r.cmdInfoMutex.Unlock()
 }
 
 func (r *Runner) unregisterCmd(label string) {
-	r.CmdInfoMutex.Lock()
-	delete(r.CmdInfo, label)
-	r.CmdInfoMutex.Unlock()
+	r.cmdInfoMutex.Lock()
+	delete(r.cmdInfo, label)
+	r.cmdInfoMutex.Unlock()
 }
 
 func (r *Runner) registerTask(taskName string) (success bool) {
-	r.TaskStatusMutex.Lock()
-	_, isStarted := r.TaskStatus[taskName]
+	r.taskStatusMutex.Lock()
+	_, isStarted := r.taskStatus[taskName]
 	if isStarted {
 		success = false
 	} else {
-		r.TaskStatus[taskName] = NewTaskStatus()
+		r.taskStatus[taskName] = NewTaskStatus()
 		success = true
 	}
-	r.TaskStatusMutex.Unlock()
+	r.taskStatusMutex.Unlock()
 	return success
 }
 
 func (r *Runner) finishTask(taskName string, err error) {
-	r.TaskStatusMutex.Lock()
-	r.TaskStatus[taskName].Finish(err)
-	r.TaskStatusMutex.Unlock()
+	r.taskStatusMutex.Lock()
+	r.taskStatus[taskName].Finish(err)
+	r.taskStatusMutex.Unlock()
 }
 
 func (r *Runner) isTaskFinished(taskName string) (isFinished bool) {
-	r.TaskStatusMutex.RLock()
-	isFinished = r.TaskStatus[taskName].Finished
-	r.TaskStatusMutex.RUnlock()
+	r.taskStatusMutex.RLock()
+	isFinished = r.taskStatus[taskName].Finished
+	r.taskStatusMutex.RUnlock()
 	return isFinished
 }
 
 func (r *Runner) isTaskError(taskName string) (err error) {
-	r.TaskStatusMutex.RLock()
-	err = r.TaskStatus[taskName].Error
-	r.TaskStatusMutex.RUnlock()
+	r.taskStatusMutex.RLock()
+	err = r.taskStatus[taskName].Error
+	r.taskStatusMutex.RUnlock()
 	return err
 }
 
@@ -531,7 +514,7 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 }
 
 func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
-	d := logger.NewDecoration()
+	d := r.decoration
 	formattedArgs := []string{}
 	for _, arg := range cmd.Args {
 		rows := strings.Split(arg, "\n")
@@ -543,7 +526,7 @@ func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
 			if len(rows) > 1 {
 				prefix += fmt.Sprintf("%s%4d |%s ", d.Yellow, index+1, d.NoColor)
 			}
-			row = fmt.Sprintf("%s   %s%s%s%s", r.Spaces, d.Faint, prefix, row, d.Normal)
+			row = fmt.Sprintf("%s   %s%s%s%s", r.spaces, d.Faint, prefix, row, d.Normal)
 			rows[index] = row
 		}
 		formattedArg := strings.Join(rows, "\n")
@@ -565,27 +548,27 @@ func (r *Runner) sleep(duration time.Duration) {
 }
 
 func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
-	d := logger.NewDecoration()
+	d := r.decoration
 	return fmt.Sprintf("%s* (PID=%d) %s%s", d.Faint, cmd.Process.Pid, label, d.Normal)
 }
 
 func (r *Runner) showStatus() {
-	d := logger.NewDecoration()
-	descriptionPrefix := r.Spaces + "    "
-	processPrefix := r.Spaces + r.Spaces + " "
+	d := r.decoration
+	descriptionPrefix := r.spaces + "    "
+	processPrefix := r.spaces + r.spaces + " "
 	processRows := []string{}
-	r.CmdInfoMutex.Lock()
-	for label, cmdInfo := range r.CmdInfo {
+	r.cmdInfoMutex.Lock()
+	for label, cmdInfo := range r.cmdInfo {
 		cmd := cmdInfo.Cmd
 		processRow := r.getProcessRow(label, cmd)
 		processRows = append(processRows, processRow)
 	}
-	r.CmdInfoMutex.Unlock()
+	r.cmdInfoMutex.Unlock()
 	statusCaption := r.getStatusCaption()
-	r.StartTimeMutex.RLock()
-	elapsedTime := time.Since(r.StartTime)
+	r.startTimeMutex.RLock()
+	elapsedTime := time.Since(r.startTime)
 	elapsedTimeCaption := fmt.Sprintf("%s%sElapsed Time: %s%s\n", descriptionPrefix, d.Faint, elapsedTime, d.Normal)
-	r.StartTimeMutex.RUnlock()
+	r.startTimeMutex.RUnlock()
 	currentTime := time.Now()
 	currentTimeString := currentTime.Format("15:04:05")
 	currentTimeCaption := fmt.Sprintf("%s%sCurrent Time: %s%s\n", descriptionPrefix, d.Faint, currentTimeString, d.Normal)
@@ -595,11 +578,11 @@ func (r *Runner) showStatus() {
 		activeProcessLabel = fmt.Sprintf("%s%sActive Process:%s\n", descriptionPrefix, d.Faint, d.Normal)
 		processCaption = processPrefix + strings.Join(processRows, "\n"+processPrefix) + "\n"
 	}
-	logger.PrintfInspect("%s%s%s%s%s", statusCaption, elapsedTimeCaption, currentTimeCaption, activeProcessLabel, processCaption)
+	r.logger.DPrintfInspect("%s%s%s%s%s", statusCaption, elapsedTimeCaption, currentTimeCaption, activeProcessLabel, processCaption)
 }
 
 func (r *Runner) getStatusCaption() (statusCaption string) {
-	d := logger.NewDecoration()
+	d := r.decoration
 	if killed := r.getKilledSignal(); killed {
 		return fmt.Sprintf("%sJob Ended...%s\n", d.Bold, d.Normal)
 	}
