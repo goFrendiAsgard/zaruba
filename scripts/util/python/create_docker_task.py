@@ -41,7 +41,7 @@ def get_docker_task_template(template_path_list: List[str], image_name:str) -> s
         template = '{template_path}/task/docker/{image_name}.zaruba.yaml'.format(template_path=template_path, image_name=image_name)
         if os.path.isfile(template):
             return template
-    return generator.get_docker_task_template(template_path_list, 'default')
+    return get_docker_task_template(template_path_list, 'default')
     
 
 if __name__ == '__main__':
