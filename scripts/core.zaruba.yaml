@@ -460,6 +460,7 @@ tasks:
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
 
+
   setProjectValue:
     icon: 🔗
     description: |
@@ -593,6 +594,34 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
     
 
+  core.stopDockerContainer:
+    icon: 🐳
+    private: true
+    description: |
+      Stop docker container.
+      USAGE:
+      ```yaml
+      stopMyContainer:
+        location: ../myLocation
+        extend: core.stopDockerContainer
+        config:
+          # container name, if not provided will be derived from location
+          containerName: myContainer
+      ```
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateLinks
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+        invoke_core_sh stop_container "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container stopped{{ $d.Normal }}"
+  
+
   core.removeDockerContainer:
     icon: 🐳
     private: true
@@ -615,8 +644,10 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+        invoke_core_sh stop_container "${CONTAINER}" 
         echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
-        invoke_core_sh stop_and_remove_container "${CONTAINER}" 
+        invoke_core_sh remove_container "${CONTAINER}" 
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container removed{{ $d.Normal }}"
   

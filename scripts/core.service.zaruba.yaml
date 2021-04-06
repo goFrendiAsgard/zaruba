@@ -153,7 +153,10 @@ tasks:
           echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
         {{ end -}}
         {{ $this := . -}}
-        {{ if .IsTrue $rebuild }}invoke_core_sh stop_and_remove_container "${CONTAINER_NAME}"{{ end }}
+        {{ if .IsTrue $rebuild -}}
+          invoke_core_sh stop_container "${CONTAINER_NAME}"
+          invoke_core_sh remove_container "${CONTAINER_NAME}"
+        {{ end -}}
         if [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
