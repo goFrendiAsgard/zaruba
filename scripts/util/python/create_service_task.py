@@ -1,62 +1,11 @@
 from typing import List
 from helper import cli
+
 import helper.generator as generator
 import helper.task as task
+import template.service_task_container as service_task_container
 
 import os, sys, traceback
-
-
-service_containerization_tasks = '''
-
-  zarubaRunContainerTask:
-    icon: 🐳
-    description: Run zarubaServiceName (containerized)
-    extend: core.startDockerContainer
-    dependencies:
-    - zarubaBuildImageTask
-    timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
-    lconfig:
-      ports: *zarubaServiceNamePorts
-    config:
-      imageName: &zarubaServiceNameImage zarubaImageName
-      imageTag: latest
-      containerName: &zarubaServiceNameContainer zarubaContainerName
-      rebuild: true
-      localhost: host.docker.internal
-      expose: lconfig.ports
-    
-  
-  zarubaRemoveContainerTask:
-    icon: 🐳
-    description: Remove zarubaServiceName's container
-    extend: core.removeDockerContainer 
-    config:
-      containerName: *zarubaServiceNameContainer
-  
-
-  zarubaBuildImageTask:
-    icon: 🐳
-    description: Build zarubaServiceName's image
-    extend: core.buildDockerImage
-    location: zarubaTaskLocation
-    timeout: 1h
-    config:
-      imageName: *zarubaServiceNameImage
-
-
-  zarubaPushImageTask:
-    icon: 🐳
-    description: Push zarubaServiceName's image
-    extend: core.pushDockerImage
-    dependencies:
-    - zarubaBuildImageTask
-    timeout: 1h
-    config:
-      imageName: *zarubaServiceNameImage
-
-'''
 
 @cli
 def create_service_task(templates: str = '', location: str = '.', service_name: str = '', service_type: str = '', ports: str = '', image_name: str = ''):
@@ -77,7 +26,7 @@ def create_service_task(templates: str = '', location: str = '.', service_name: 
     remove_container_task_name = generator.get_remove_container_task_name(service_name)
     task_template = get_service_task_template(template_path_list, service_type)
     task_file_name = generator.get_task_file_name(service_name)
-    task_file_content = generator.replace_str(generator.read_text(task_template) + service_containerization_tasks, {
+    task_file_content = generator.replace_str(generator.read_text(task_template) + '\n' + service_task_container.get_script(), {
         'zarubaRunTask': run_task_name,
         'zarubaBuildImageTask': build_image_task_name,
         'zarubaPushImageTask': push_image_task_name,
