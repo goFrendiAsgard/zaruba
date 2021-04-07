@@ -1,15 +1,8 @@
 from helper import cli
 import helper.generator as generator
+import template.fastapi_route_handler as fastapi_route_handler
 
 import os, re
-
-
-handle_route_template = '''
-    @app.get('{url}')
-    def {handler}():
-        return 'response of {url}'
-
-'''
 
 @cli
 def create_fast_route(location: str, module: str, url: str):
@@ -23,10 +16,7 @@ def create_fast_route(location: str, module: str, url: str):
             break
     if insert_index == -1:
         raise Exception('init function not found in {}'.format(file_name))
-    lines.insert(insert_index, handle_route_template.format(
-        url=url,
-        handler='handle_route_{}'.format(re.sub(r'[^A-Za-z0-9_]+', '_', url).lower())
-    ))
+    lines.insert(insert_index, fastapi_route_handler.get_script(url=url) + '\n')
     generator.write_lines(file_name, lines)
 
 

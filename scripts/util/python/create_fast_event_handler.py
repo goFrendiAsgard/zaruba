@@ -1,15 +1,8 @@
 from helper import cli
 import helper.generator as generator
+import template.fastapi_event_handler as fastapi_event_handler
 
-import os, re
-
-
-handle_event_template = '''
-    @transport.handle(mb, '{event}')
-    def {handler}(msg: Any):
-        print('Getting message from {event}', msg)
-
-'''
+import os
 
 @cli
 def create_fast_event_handler(location: str, module: str, event: str):
@@ -23,10 +16,7 @@ def create_fast_event_handler(location: str, module: str, event: str):
             break
     if insert_index == -1:
         raise Exception('init function not found in {}'.format(file_name))
-    lines.insert(insert_index, handle_event_template.format(
-        event=event,
-        handler='handle_event_{}'.format(re.sub(r'[^A-Za-z0-9_]+', '_', event).lower())
-    ))
+    lines.insert(insert_index, fastapi_event_handler.get_script(event=event) + '\n')
     generator.write_lines(file_name, lines)
 
 
