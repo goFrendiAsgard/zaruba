@@ -19,6 +19,14 @@ script_template = '''
       expose: lconfig.ports
     
   
+  zarubaStopContainerTask:
+    icon: 🐳
+    description: Stop zarubaServiceName's container
+    extend: core.stopDockerContainer 
+    config:
+      containerName: *zarubaServiceNameContainer
+
+
   zarubaRemoveContainerTask:
     icon: 🐳
     description: Remove zarubaServiceName's container
@@ -48,5 +56,5 @@ script_template = '''
       imageName: *zarubaServiceNameImage
 '''
 
-def get_script() -> str:
+def get_script_template() -> str:
     return script_template

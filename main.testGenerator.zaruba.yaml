@@ -303,7 +303,7 @@ tasks:
       start: |
         ZARUBA_HOME="$(realpath "..")"
         stopService() {
-          docker stop rabbitmq myService fibo
+          zaruba please stopContainer
         }
         echo "Create new book"
         RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "localhost:3000/books/")"

@@ -86,6 +86,10 @@ def register_remove_container_task(file_name: str, task_name: str):
     register_task(file_name, task_name, 'removeContainer', Task({}).set_icon('🐳').set_description('Remove container'))
 
 
+def register_stop_container_task(file_name: str, task_name: str):
+    register_task(file_name, task_name, 'stopContainer', Task({}).set_icon('🐳').set_description('Stop container'))
+
+
 def get_env_in_location(location: str) -> Mapping[str, str]:
     env_dict: Mapping[str, str] = {}
     for env_file in ('sample.env', 'template.env', 'env.template', '.env'):
@@ -175,6 +179,10 @@ def get_run_task_name(service_or_container: str) -> str:
     return 'run{}'.format(capitalize(service_or_container))
 
 
+def get_stop_task_name(service_or_container: str) -> str:
+    return 'stop{}'.format(capitalize(service_or_container))
+
+
 def get_build_image_task_name(service_name: str) -> str:
     return 'build{}Image'.format(capitalize(service_name))
 
@@ -189,6 +197,10 @@ def get_run_container_task_name(service_name: str) -> str:
 
 def get_remove_container_task_name(service_name: str) -> str:
     return 'remove{}Container'.format(capitalize(service_name))
+
+
+def get_stop_container_task_name(service_name: str) -> str:
+    return 'stop{}Container'.format(capitalize(service_name))
 
 
 def replace_str(string: str, replace_dict: Mapping[str, str]):
