@@ -8,12 +8,13 @@ inputs:
 
   advertisement.show:
     default: true
+    options: [true, false]
     description: |
       Whether you want to see advertisement or not.
       Possible values are: "true", "yes", "on", "false", "no", or "off"
   
   log.keyword:
-    default: .*
+    default: 
     description: Task name regex pattern.
 
   server.httpPort:
@@ -444,6 +445,9 @@ tasks:
       Add link.
       TIPS: To update links, you should perform `zaruba please updateLinks`
     extend: core.runCoreScript
+    inputs:
+    - link.from
+    - link.to
     dependencies:
     - core.isProject
     - core.setupPyUtil

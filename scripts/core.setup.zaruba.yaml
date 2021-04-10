@@ -1,17 +1,18 @@
 inputs:
 
   setup.initPyUtil:
-    default: true
-    options: [true, false]
+    default: yes
+    options: [yes, no]
+    prompt: Do you want to init Pyenv for zaruba util?
     description: |
       Whether you want to setup python utility for zaruba or not.
-      Possible values are: "true", "yes", "on", "false", "no", or "off".
-      If you are sure that zaruba's python utility has been set up, you can speed up the process a bit by answering "false", "no" or "off".
+      If you are sure that zaruba's python utility has been set up, you can speed up the process a bit by set this to "no".
 
 
   setup.homeDir:
     description: |
       Your home directory. Leave it blank if you want the task to figure out your home directory by itself.
+    prompt: Home directory (leave blank to use default)
 
   
   setup.userPassword:
@@ -24,57 +25,67 @@ inputs:
   setup.allowRoot:
     default: false
     options: [true, false]
-    prompt: Allow to run task as root?
     allowCustom: false
     description: Allow to run task as root.
+    prompt: Allow to run task as root?
 
 
   setup.nodeVersion:
     default: node
+    options: [node, stable, unstable]
     description: |
       Node version to be installed along with nvm.
       If you already have nvm installed, please use nvm instead (i.e: nvm install <version>).
+    prompt: Node version to be installed along with nvm
 
   
   setup.pythonVersion:
     default: 3.8.6
+    options: [3.7, 3.8, 3.9]
     description: |
       Python version to be installed along with pyenv.
       If you already have pyenv installed, please use pyenv instead (i.e: pyenv install <version>).
+    prompt: Python version to be installed along with pyenv
 
   
   setup.javaVersion:
     default: 8.0.275.open-adpt
+    options: [8.0.282.j9-adpt, 11.0.10.j9-adpt, 16.0.0.j9-adpt]
     description: |
       Java version to be installed along with sdkman.
       If you already have sdkman installed, please use sdkman instead (i.e: sdk install java <version>).
+    prompt: Java version to be installed along with sdkman
 
     
   setup.sparkVersion:
     default: 3.1.1
     description: Spark version to be installed.
+    prompt: Spark version to be installed
 
 
   setup.hadoopVersion:
     default: 2.7
     description: Hadoop version to be installed along with spark.
+    prompt: Hadoop version to be installed
 
   
   setup.sparkDownloadUrl:
     default: https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
     description: URL to download spark
+    prompt: Spark download url
 
   
   setup.helmfileVersion:
     default: v0.138.2
     description: Helmfile version to be installed.
+    prompt: Helm version to be installed
 
 
   setup.injectBootstrap:
     default: true
-    description: |
-      Either you want to inject zaruba's bootstrap to .zshrc/bashrc or not.
-      Possible values are: "true", "yes", "on", "false", "no", or "off".
+    options: [true, false]
+    description: Either you want to inject zaruba's bootstrap to .zshrc/bashrc or not.
+    prompt: Inject bootstrap
 
 
 tasks:
