@@ -1,0 +1,10 @@
+lconfigs:
+  myLconfig:
+    key: [val1, val2, val3]
+    
+
+tasks:
+
+  invalidTask:
+    lconfigRef: myLconfig
+    lconfigRefs: [myLconfig]

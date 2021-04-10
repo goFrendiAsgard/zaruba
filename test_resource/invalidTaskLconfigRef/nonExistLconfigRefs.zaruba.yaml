@@ -1,0 +1,4 @@
+tasks:
+
+  invalidTask:
+    lconfigRefs: [nonExistLconfigs]

@@ -43,6 +43,32 @@ func getValidTaskData(t *testing.T) (td *TaskData, err error) {
 	return td, err
 }
 
+func TestTaskDataIsTrue(t *testing.T) {
+	td, err := getValidTaskData(t)
+	if err != nil {
+		return
+	}
+	if !td.IsTrue("y") {
+		t.Errorf("y should be true")
+	}
+	if td.IsTrue("n") {
+		t.Errorf("n should not be true")
+	}
+}
+
+func TestTaskDataIsFalse(t *testing.T) {
+	td, err := getValidTaskData(t)
+	if err != nil {
+		return
+	}
+	if !td.IsFalse("n") {
+		t.Errorf("n should be false")
+	}
+	if td.IsFalse("y") {
+		t.Errorf("y should not be false")
+	}
+}
+
 func TestTaskDataGetWorkPath(t *testing.T) {
 	td, err := getValidTaskData(t)
 	if err != nil {

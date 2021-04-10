@@ -1,0 +1,6 @@
+includes:
+- common.zaruba.yaml
+
+configs:
+  myConfig:
+    key: val

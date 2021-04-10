@@ -1,0 +1,10 @@
+configs:
+  myConfig:
+    key: val
+    
+
+tasks:
+
+  invalidTask:
+    configRef: myConfig
+    configRefs: [myConfig]

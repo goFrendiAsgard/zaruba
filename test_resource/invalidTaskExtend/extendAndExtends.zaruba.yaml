@@ -1,0 +1,7 @@
+tasks:
+
+  parentTask: {}
+
+  invalidTask:
+    extend: parentTask
+    extends: [parentTask]

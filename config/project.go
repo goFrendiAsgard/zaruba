@@ -236,10 +236,7 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Input, input
 		}
 		// include task's inputs
 		for _, inputName := range task.Inputs {
-			input, inputDeclared := p.Inputs[inputName]
-			if !inputDeclared {
-				return inputs, inputOrder, fmt.Errorf("Input %s is not defined", inputName)
-			}
+			input := p.Inputs[inputName]
 			if _, inputRegistered := inputs[inputName]; !inputRegistered {
 				inputs[inputName] = input
 				inputOrder = append(inputOrder, inputName)
@@ -376,7 +373,7 @@ func (p *Project) validateTaskInputs() (err error) {
 func (p *Project) validateTaskBaseEnv() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.EnvRefs) > 0 && task.EnvRef != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `baseEnv` and `baseEnvs`", taskName)
+			return fmt.Errorf("Redundant declaration. %s has both `envRef` and `envRefs`", taskName)
 		}
 		if task.EnvRef != "" {
 			if _, baseEnvExist := p.baseEnv[task.EnvRef]; !baseEnvExist {
@@ -396,7 +393,7 @@ func (p *Project) validateTaskBaseEnv() (err error) {
 func (p *Project) validateTaskBaseConfig() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.ConfigRefs) > 0 && task.ConfigRef != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `baseConfig` and `baseConfigs`", taskName)
+			return fmt.Errorf("Redundant declaration. %s has both `configRef` and `configRefs`", taskName)
 		}
 		if task.ConfigRef != "" {
 			if _, baseConfigExist := p.baseConfig[task.ConfigRef]; !baseConfigExist {
@@ -416,7 +413,7 @@ func (p *Project) validateTaskBaseConfig() (err error) {
 func (p *Project) validateTaskBaseLConfig() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.LConfigRefs) > 0 && task.LConfigRef != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `baseLConfig` and `baseLConfigs`", taskName)
+			return fmt.Errorf("Redundant declaration. %s has both `lconfigRef` and `lconfigRefs`", taskName)
 		}
 		if task.LConfigRef != "" {
 			if _, baseLConfigExist := p.baseLConfig[task.LConfigRef]; !baseLConfigExist {
@@ -477,7 +474,7 @@ func (p *Project) cascadeTasks(parsedIncludeLocation string, includedProject *Pr
 	for taskName, task := range includedProject.Tasks {
 		existingTask, taskAlreadyDeclared := p.Tasks[taskName]
 		if taskAlreadyDeclared {
-			return fmt.Errorf("Cannot declare task `%s` on `%s` because the task was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.GetFileLocation())
+			return fmt.Errorf("Cannot declare task `%s` on `%s` because it was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.GetFileLocation())
 		}
 		p.Tasks[taskName] = task
 	}
@@ -488,7 +485,7 @@ func (p *Project) cascadeBaseEnv(parsedIncludeLocation string, includedProject *
 	for baseEnvName, baseEnv := range includedProject.baseEnv {
 		existingBaseEnv, baseEnvAlreadyDeclared := p.baseEnv[baseEnvName]
 		if baseEnvAlreadyDeclared {
-			return fmt.Errorf("Cannot declare env `%s` on `%s` because the env was already declared on `%s`", baseEnvName, parsedIncludeLocation, existingBaseEnv.fileLocation)
+			return fmt.Errorf("Cannot declare project env `%s` on `%s` because it was already declared on `%s`", baseEnvName, parsedIncludeLocation, existingBaseEnv.fileLocation)
 		}
 		p.baseEnv[baseEnvName] = baseEnv
 	}
@@ -499,7 +496,7 @@ func (p *Project) cascadeBaseConfig(parsedIncludeLocation string, includedProjec
 	for baseConfigName, baseConfig := range includedProject.baseConfig {
 		existingBaseConfig, baseConfigAlreadyDeclared := p.baseConfig[baseConfigName]
 		if baseConfigAlreadyDeclared {
-			return fmt.Errorf("Cannot declare config `%s` on `%s` because the config was already declared on `%s`", baseConfigName, parsedIncludeLocation, existingBaseConfig.fileLocation)
+			return fmt.Errorf("Cannot declare project config `%s` on `%s` because it was already declared on `%s`", baseConfigName, parsedIncludeLocation, existingBaseConfig.fileLocation)
 		}
 		p.baseConfig[baseConfigName] = baseConfig
 	}
@@ -510,7 +507,7 @@ func (p *Project) cascadeBaseLConfig(parsedIncludeLocation string, includedProje
 	for baseLConfigName, baseLConfig := range includedProject.baseLConfig {
 		existingBaseLConfig, baseLConfigAlreadyDeclared := p.baseLConfig[baseLConfigName]
 		if baseLConfigAlreadyDeclared {
-			return fmt.Errorf("Cannot declare lconfig `%s` on `%s` because the lconfig was already declared on `%s`", baseLConfigName, parsedIncludeLocation, existingBaseLConfig.fileLocation)
+			return fmt.Errorf("Cannot declare project lconfig `%s` on `%s` because it was already declared on `%s`", baseLConfigName, parsedIncludeLocation, existingBaseLConfig.fileLocation)
 		}
 		p.baseLConfig[baseLConfigName] = baseLConfig
 	}

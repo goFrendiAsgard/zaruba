@@ -308,11 +308,6 @@ func (task *Task) init() (err error) {
 	if timeErr != nil || task.timeoutDuration <= 0 {
 		task.timeoutDuration = 5 * time.Minute
 	}
-	if task.Extend != "" {
-		if _, exists := task.Project.Tasks[task.Extend]; !exists {
-			return fmt.Errorf("Task %s is extended from %s but task %s doesn't exist", task.GetName(), task.Extend, task.Extend)
-		}
-	}
 	task.generateIcon()
 	task.generateLogPrefix()
 	return nil

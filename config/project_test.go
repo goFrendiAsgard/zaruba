@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/state-alchemists/zaruba/monitor"
@@ -18,7 +19,7 @@ func getProject(projectFile string) (project *Project, err error) {
 	return NewProject(logger, csvLogger, decoration, projectFile)
 }
 
-func getValidInitiatedProject(t *testing.T) (validProject *Project, err error) {
+func getValidProject(t *testing.T) (validProject *Project, err error) {
 	validProject, err = getProject("../test_resource/valid/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
@@ -36,15 +37,95 @@ func getValidInitiatedProject(t *testing.T) (validProject *Project, err error) {
 		t.Error(err)
 		return validProject, err
 	}
+	if err = validProject.AddValue("sheldon=42"); err != nil {
+		t.Error(err)
+		return validProject, err
+	}
+	if err = validProject.SetValue("sheldon", "73"); err != nil {
+		t.Error(err)
+		return validProject, err
+	}
 	if err = validProject.AddValue("../test_resource/valid/values.yaml"); err != nil {
 		t.Error(err)
 		return validProject, err
 	}
-	validProject.Init()
-	return validProject, err
+	return validProject, nil
 }
 
-func TestValidProjectAddGlobalEnv(t *testing.T) {
+func getValidInitiatedProject(t *testing.T) (validProject *Project, err error) {
+	validProject, err = getValidProject(t)
+	if err != nil {
+		return validProject, err
+	}
+	if err = validProject.Init(); err != nil {
+		t.Error(err)
+		return validProject, err
+	}
+	return validProject, nil
+}
+
+func TestValidProjectGetBasePath(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	basePath := validProject.GetBasePath()
+	if !strings.HasSuffix(basePath, "test_resource/valid") {
+		t.Errorf("basePath should has 'test_resource/valid' as suffix, but %s found", basePath)
+	}
+}
+
+func TestValidProjectGetSortedInputNames(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	expectedSortedInputNames := []string{"font", "host", "taskName", "testName"}
+	sortedInputNames := validProject.GetSortedInputNames()
+	if len(sortedInputNames) != len(expectedSortedInputNames) {
+		t.Errorf("sortedInputNames should contains %d elements. Current sortedInputNames: %#v", len(expectedSortedInputNames), sortedInputNames)
+	}
+	for index, actual := range sortedInputNames {
+		expected := expectedSortedInputNames[index]
+		if actual != expected {
+			t.Errorf("sortedInputNames[%d], expected: %s, actual: %s", index, expected, actual)
+		}
+	}
+}
+
+func TestValidProjectGetSortedTaskNames(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	expectedSortedTaskNames := []string{"core.runBashScript", "core.runNodeJsScript", "core.runNodeJsService", "core.runPythonScript", "core.runShellScript", "core.runStaticWebService", "runApiGateway", "runIntegrationTest", "sayPythonHello", "serveStaticFiles"}
+	sortedTaskNames := validProject.GetSortedTaskNames()
+	if len(sortedTaskNames) != len(expectedSortedTaskNames) {
+		t.Errorf("sortedTaskNames should contains %d elements. Current sortedTaskNames: %#v", len(expectedSortedTaskNames), sortedTaskNames)
+	}
+	for index, actual := range sortedTaskNames {
+		expected := expectedSortedTaskNames[index]
+		if actual != expected {
+			t.Errorf("sortedTaskNames[%d], expected: %s, actual: %s", index, expected, actual)
+		}
+	}
+}
+
+func TestValidProjectGetValues(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	actualValues := validProject.GetValues()
+	expectedValues := map[string]string{"g": "9.8", "pi": "3.14", "sheldon": "73"}
+	for expectedKey, expectedVal := range expectedValues {
+		if actualVal, exist := actualValues[expectedKey]; !exist || actualVal != expectedVal {
+			t.Errorf("values[%s], expected: %s, actual: %s", expectedKey, expectedVal, actualVal)
+		}
+	}
+}
+
+func TestValidProjectAddGlobalEnvBeforeInit(t *testing.T) {
 	_, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
@@ -63,7 +144,17 @@ func TestValidProjectAddGlobalEnv(t *testing.T) {
 	}
 }
 
-func TestValidProjectAddValues(t *testing.T) {
+func TestValidProjectAddGlobalEnvAfterInit(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	if err = validProject.AddGlobalEnv("randomKey=randomValue"); err == nil {
+		t.Errorf("Error expected")
+	}
+}
+
+func TestValidProjectAddValueBeforeInit(t *testing.T) {
 	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
@@ -73,6 +164,36 @@ func TestValidProjectAddValues(t *testing.T) {
 	}
 	if validProject.GetValue("g") != "9.8" {
 		t.Error("g should be 9.8")
+	}
+}
+
+func TestValidProjectAddValueAfterInit(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	if err = validProject.AddValue("randomKey=randomValue"); err == nil {
+		t.Errorf("Error expected")
+	}
+}
+
+func TestValidProjectSetValuesBeforeInit(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	if validProject.GetValue("sheldon") != "73" {
+		t.Error("sheldon should be 73")
+	}
+}
+
+func TestValidProjectSetValueAfterInit(t *testing.T) {
+	validProject, err := getValidInitiatedProject(t)
+	if err != nil {
+		return
+	}
+	if err = validProject.SetValue("randomKey", "randomValue"); err == nil {
+		t.Errorf("Error expected")
 	}
 }
 
@@ -320,6 +441,96 @@ func TestInvalidProjectFormat(t *testing.T) {
 
 func TestInvalidProjectInclusion(t *testing.T) {
 	if _, err := getProject("../test_resource/invalidInclusion.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectRedundantEnv(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidRedundantDeclaration/redundantEnv.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectRedundantConfig(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidRedundantDeclaration/redundantConfig.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectRedundantLConfig(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidRedundantDeclaration/redundantLconfig.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskExtend(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskExtend/nonExistExtend.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskExtends(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskExtend/nonExistExtends.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectTaskHasExtendAndExtends(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskExtend/extendAndExtends.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskEnvRef(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskEnvRef/nonExistEnvRef.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskEnvRefs(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskEnvRef/nonExistEnvRefs.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectTaskHasEnvAndEnvRefs(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskEnvRef/envRefAndEnvRefs.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskConfigRef(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskConfigRef/nonExistConfigRef.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskConfigRefs(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskConfigRef/nonExistConfigRefs.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectTaskHasConfigAndConfigRefs(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskConfigRef/configRefAndConfigRefs.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskLconfigRef(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskLconfigRef/nonExistLconfigRef.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectNonExistTaskLconfigRefs(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskLconfigRef/nonExistLconfigRefs.zaruba.yaml"); err == nil {
+		t.Error("Error expected")
+	}
+}
+
+func TestInvalidProjectTaskHasLconfigAndLconfigRefs(t *testing.T) {
+	if _, err := getProject("../test_resource/invalidTaskLconfigRef/lconfigRefAndLconfigRefs.zaruba.yaml"); err == nil {
 		t.Error("Error expected")
 	}
 }

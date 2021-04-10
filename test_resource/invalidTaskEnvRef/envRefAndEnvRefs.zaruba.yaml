@@ -1,0 +1,11 @@
+envs:
+  myEnv:
+    KEY:
+      from: MY_KEY
+      default: VAL
+
+tasks:
+
+  invalidTask:
+    envRef: myEnv
+    envRefs: [myEnv]
