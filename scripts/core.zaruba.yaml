@@ -61,8 +61,6 @@ tasks:
     dependencies:
     - core.setupPyUtil
     saveLog: false
-    inputs:
-    - advertisement.show
     config:
       start: |
         {{ $showAdvertisement := .GetValue "advertisement.show" -}}

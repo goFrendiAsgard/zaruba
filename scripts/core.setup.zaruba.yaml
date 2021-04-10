@@ -78,8 +78,6 @@ tasks:
     icon: 🐚
     private: true
     extend: core.runScript
-    inputs:
-    - setup.injectBootstrap
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -123,8 +121,6 @@ tasks:
     private: true
     extend: core.runCoreScript
     saveLog: false
-    inputs:
-    - setup.initPyUtil
     config:
       start: |
         {{ if eq (.GetValue "setup.initPyUtil") "true" }}
