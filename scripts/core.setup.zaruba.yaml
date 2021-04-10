@@ -2,6 +2,7 @@ inputs:
 
   setup.initPyUtil:
     default: true
+    options: [true, false]
     description: |
       Whether you want to setup python utility for zaruba or not.
       Possible values are: "true", "yes", "on", "false", "no", or "off".
@@ -17,10 +18,14 @@ inputs:
     description: |
       Your user password. Leave blank if you already run the task with "sudo"
     secret: true
+    prompt: User password
 
   
   setup.allowRoot:
     default: false
+    options: [true, false]
+    prompt: Allow to run task as root?
+    allowCustom: false
     description: Allow to run task as root.
 
 

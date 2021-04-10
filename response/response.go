@@ -12,11 +12,3 @@ func ShowThanksResponse(logger monitor.Logger, decoration *monitor.Decoration) {
 	logger.DPrintf("%shttps://paypal.me/gofrendi%s\n", decoration.Yellow, decoration.Normal)
 	logger.DPrintf("Also, follow Zaruba at 🐤 %shttps://twitter.com/zarubastalchmst%s\n", decoration.Yellow, decoration.Normal)
 }
-
-func ShowPleaseResponse(logger monitor.Logger, decoration *monitor.Decoration) {
-	logger.DPrintf("%sPlease what?%s\n", decoration.Bold, decoration.Normal)
-	logger.DPrintf("Here are several things you can try:\n")
-	logger.DPrintf("* %szaruba please explain task %s%s[task-keyword]%s\n", decoration.Yellow, decoration.Normal, decoration.Blue, decoration.Normal)
-	logger.DPrintf("* %szaruba please explain input %s%s[input-keyword]%s\n", decoration.Yellow, decoration.Normal, decoration.Blue, decoration.Normal)
-	logger.DPrintf("* %szaruba please explain %s%s[task-or-input-keyword]%s\n", decoration.Yellow, decoration.Normal, decoration.Blue, decoration.Normal)
-}

@@ -12,7 +12,6 @@ import (
 	"github.com/state-alchemists/zaruba/inputer"
 	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/previousval"
-	"github.com/state-alchemists/zaruba/response"
 	"github.com/state-alchemists/zaruba/runner"
 )
 
@@ -34,16 +33,27 @@ var pleaseCmd = &cobra.Command{
 		decoration := monitor.NewDecoration()
 		logger := monitor.NewConsoleLogger(decoration)
 		project, taskNames := getProjectOrExit(logger, decoration, args)
+		prompter := inputer.NewPrompter(logger, decoration, project)
 		// no task provided
 		if len(taskNames) == 0 {
-			response.ShowPleaseResponse(logger, decoration)
-			return
-		}
-		// handle "please explain [taskNames...]"
-		if taskNames[0] == "explain" {
-			initProjectOrExit(logger, decoration, project)
-			explainOrExit(logger, decoration, project, taskNames[1:])
-			return
+			taskName, err := prompter.GetTaskName()
+			if err != nil {
+				showErrorAndExit(logger, decoration, err)
+			}
+			taskNames = []string{taskName}
+			action, err := prompter.GetAction(taskName)
+			if err != nil {
+				showErrorAndExit(logger, decoration, err)
+			}
+			if action.Explain {
+				initProjectOrExit(logger, decoration, project)
+				exp := explainer.NewExplainer(logger, decoration, project)
+				exp.Explain(taskName)
+				return
+			}
+			if action.RunInteractive {
+				*pleaseInteractive = true
+			}
 		}
 		// handle "--previous"
 		previousValueFile := ".previous.values.yaml"
@@ -54,8 +64,7 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
-			err := inputer.Ask(logger, decoration, project, taskNames)
-			if err != nil {
+			if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
 				showErrorAndExit(logger, decoration, err)
 			}
 		}
@@ -154,12 +163,6 @@ func getProject(logger monitor.Logger, decoration *monitor.Decoration, args []st
 		taskNames = append(taskNames, arg)
 	}
 	return project, taskNames, err
-}
-
-func explainOrExit(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, keywords []string) {
-	if err := explainer.Explain(logger, decoration, project, keywords); err != nil {
-		showErrorAndExit(logger, decoration, err)
-	}
 }
 
 func showErrorAndExit(logger monitor.Logger, decoration *monitor.Decoration, err error) {

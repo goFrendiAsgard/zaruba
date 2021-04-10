@@ -36,6 +36,7 @@ type Decoration struct {
 	colorList   []string
 	iconIndex   int
 	iconList    []string
+	Skull       string
 }
 
 // NewDecoration Create New Decoration
@@ -72,6 +73,7 @@ func NewDecoration() (d *Decoration) {
 		NoUnderline: "\x1b[24m",
 		NoInverse:   "\x1b[27m",
 		NoColor:     "\x1b[39m",
+		Skull:       "💀",
 		colorIndex:  0,
 		iconIndex:   0,
 		iconList: []string{

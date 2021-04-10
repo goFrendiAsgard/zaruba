@@ -2,124 +2,151 @@ package inputer
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
+	"github.com/manifoldco/promptui"
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/monitor"
-	"golang.org/x/crypto/ssh/terminal"
 )
 
-func Ask(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string) (err error) {
-	if project.IsInitialized {
-		return fmt.Errorf("Cannot ask for input because project has been initialized")
+type Action struct {
+	Explain        bool
+	RunInteractive bool
+	Run            bool
+}
+
+type Prompter struct {
+	logger  monitor.Logger
+	d       *monitor.Decoration
+	project *config.Project
+}
+
+func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) *Prompter {
+	return &Prompter{
+		logger:  logger,
+		d:       decoration,
+		project: project,
 	}
-	inputs, inputOrder, err := project.GetInputs(taskNames)
+}
+
+func (prompter *Prompter) GetAction(taskName string) (action *Action, err error) {
+	options := []string{"Run Interactively", "Just Run", "Explain"}
+	prompt := promptui.Select{
+		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
+		Items:             options,
+		Size:              3,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(input string, index int) bool {
+			option := options[index]
+			return strings.Contains(strings.ToLower(option), strings.ToLower(input))
+		},
+	}
+	action = &Action{Run: false, RunInteractive: false, Explain: false}
+	_, chosenItem, err := prompt.Run()
+	if err != nil {
+		return action, err
+	}
+	switch chosenItem {
+	case options[0]:
+		action.RunInteractive = true
+	case options[1]:
+		action.Run = true
+	case options[2]:
+		action.Explain = true
+	}
+	return action, nil
+}
+
+func (prompter *Prompter) GetTaskName() (taskName string, err error) {
+	sortedTaskNames := prompter.project.GetSortedTaskNames()
+	publishedTaskNames := []string{}
+	for _, taskName := range sortedTaskNames {
+		if task := prompter.project.Tasks[taskName]; !task.Private {
+			publishedTaskNames = append(publishedTaskNames, taskName)
+		}
+	}
+	prompt := promptui.Select{
+		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
+		Items:             publishedTaskNames,
+		Size:              10,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(input string, index int) bool {
+			taskName := publishedTaskNames[index]
+			return strings.Contains(strings.ToLower(taskName), strings.ToLower(input))
+		},
+	}
+	_, taskName, err = prompt.Run()
+	return taskName, err
+}
+
+func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error) {
+	if prompter.project.IsInitialized {
+		return fmt.Errorf("Project is not initialized")
+	}
+	inputs, inputOrder, err := prompter.project.GetInputs(taskNames)
 	if err != nil {
 		return err
 	}
 	inputCount := len(inputOrder)
-	if inputCount == 0 {
-		logger.DPrintf("%sZaruba is running in interactive mode. But no value you can set interactively.%s\n", decoration.Yellow, decoration.Normal)
-		return nil
-	}
-	logger.DPrintf("%sZaruba is running in interactive mode. You will be able to set some values interactively.%s\n\n", decoration.Yellow, decoration.Normal)
-	for inputIndex, _ := range inputOrder {
-		if err = askInputByIndex(logger, decoration, project, inputs, inputOrder, inputIndex); err != nil {
-			return err
+	for index, inputName := range inputOrder {
+		input := inputs[inputName]
+		inputPrompt := inputName
+		if input.Prompt != "" {
+			inputPrompt = input.Prompt
 		}
-	}
-	return nil
-}
-
-func askInputByIndex(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, inputs map[string]*config.Input, inputOrder []string, inputIndex int) (err error) {
-	inputCount := len(inputOrder)
-	inputName := inputOrder[inputIndex]
-	input := inputs[inputName]
-	// show input title
-	logger.Println(getInputTitleText(decoration, input, inputIndex, inputCount))
-	if input.Description != "" {
-		showInputDescription(logger, decoration, input)
-	}
-	userValue := ""
-	if input.Secret {
-		logger.Print(getEnterNewValueText(decoration, input))
-		userValue, err = getPassword()
+		label := fmt.Sprintf("%s %d of %d) %s", prompter.d.Skull, index+1, inputCount, inputPrompt)
+		oldValue := prompter.project.GetValue(inputName)
+		newValue := ""
+		if input.Secret {
+			newValue, err = prompter.askPassword(label)
+		} else {
+			newValue, err = prompter.askInput(label, input, oldValue)
+		}
 		if err != nil {
 			return err
 		}
-		project.SetValue(inputName, userValue)
-		logger.Println()
-		logger.Println()
-		return nil
+		prompter.project.SetValue(inputName, newValue)
 	}
-	if !getKeepValueConfirmation(logger, decoration, project, input) {
-		logger.Print(getEnterNewValueText(decoration, input))
-		fmt.Scanf("%s", &userValue)
-		project.SetValue(inputName, userValue)
-	}
-	logger.Println()
 	return nil
 }
 
-func getInputTitleText(decoration *monitor.Decoration, input *config.Input, inputIndex int, inputCount int) string {
-	inputNumber := fmt.Sprintf("%d of %d)", inputIndex+1, inputCount)
-	return fmt.Sprintf("💀 %s%s%s %s%s", decoration.Bold, decoration.Yellow, inputNumber, input.GetName(), decoration.Normal)
-}
-
-func getEnterNewValueText(decoration *monitor.Decoration, input *config.Input) string {
-	decoratedInputName := getDecoratedInputName(decoration, input)
-	return fmt.Sprintf("💀 Please enter new value for %s: ", decoratedInputName)
-}
-
-func getDecoratedInputName(decoration *monitor.Decoration, input *config.Input) string {
-	return fmt.Sprintf("%s%s%s", decoration.Yellow, input.GetName(), decoration.Normal)
-}
-
-func getDecoratedValue(d *monitor.Decoration, value string) string {
-	if value != "" {
-		return fmt.Sprintf("%s%s%s", d.Yellow, value, d.Normal)
+func (prompter *Prompter) askPassword(label string) (value string, err error) {
+	prompt := promptui.Prompt{
+		Label: label,
+		Mask:  '*',
 	}
-	return fmt.Sprintf("%sempty%s", d.Faint, d.Normal)
+	return prompt.Run()
 }
 
-func getKeepValueConfirmation(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, input *config.Input) bool {
-	decoratedInputName := getDecoratedInputName(decoration, input)
-	currentValue := project.GetValue(input.GetName())
-	decoratedCurrentValue := getDecoratedValue(decoration, currentValue)
-	defaultValue := input.DefaultValue
-	decoratedDefaultValue := getDecoratedValue(decoration, defaultValue)
-	userConfirmation := ""
-	for !boolean.IsTrue(userConfirmation) && !boolean.IsFalse(userConfirmation) {
-		if defaultValue == currentValue {
-			logger.Printf("   Default/Current value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
-		} else {
-			logger.Printf("   Default value for %s is %s\n", decoratedInputName, decoratedDefaultValue)
-			logger.Printf("   Current value for %s is %s\n", decoratedInputName, decoratedCurrentValue)
-		}
-		logger.Printf("💀 Do you want to keep it %s (Y/n)? ", decoratedCurrentValue)
-		fmt.Scanf("%s", &userConfirmation)
-		if userConfirmation == "" {
-			userConfirmation = "y"
+func (prompter *Prompter) askInput(label string, input *config.Input, oldValue string) (value string, err error) {
+	alternatives := []string{oldValue}
+	if input.DefaultValue != oldValue {
+		alternatives = append(alternatives, input.DefaultValue)
+	}
+	for _, option := range input.Options {
+		if option != oldValue && option != input.DefaultValue {
+			alternatives = append(alternatives, option)
 		}
 	}
-	return boolean.IsTrue(userConfirmation)
-}
-
-func showInputDescription(logger monitor.Logger, decoration *monitor.Decoration, input *config.Input) {
-	indentation := "      "
-	descriptionRows := strings.Split(strings.Trim(input.Description, "\n "), "\n")
-	for _, row := range descriptionRows {
-		logger.Printf("%s%s\n", indentation, row)
+	if !boolean.IsFalse(input.AllowCustom) {
+		alternatives = append(alternatives, fmt.Sprintf("%sLet me type by myself%s", prompter.d.Green, prompter.d.Normal))
 	}
-}
-
-func getPassword() (passwd string, err error) {
-	passwdB, err := terminal.ReadPassword(int(os.Stdin.Fd()))
-	if err != nil {
-		return "", err
+	selectPrompt := promptui.Select{
+		Label:  label,
+		Items:  alternatives,
+		Stdout: &bellSkipper{},
 	}
-	// Type cast byte slice to string.
-	return string(passwdB), err
+	_, value, err = selectPrompt.Run()
+	if !boolean.IsFalse(input.AllowCustom) {
+		if value == alternatives[len(alternatives)-1] {
+			prompt := promptui.Prompt{
+				Label: label,
+			}
+			value, err = prompt.Run()
+		}
+	}
+	return value, err
 }

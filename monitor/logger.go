@@ -15,13 +15,13 @@ type Logger interface {
 }
 
 type ConsoleLogger struct {
-	decoration *Decoration
+	d *Decoration
 }
 
 // NewConsoleLogger create new monitor
-func NewConsoleLogger(d *Decoration) *ConsoleLogger {
+func NewConsoleLogger(decoration *Decoration) *ConsoleLogger {
 	return &ConsoleLogger{
-		decoration: d,
+		d: decoration,
 	}
 }
 
@@ -41,7 +41,7 @@ func (l *ConsoleLogger) Printf(template string, args ...interface{}) (n int, err
 }
 
 func (l *ConsoleLogger) dPrintf(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s💀%s %s", l.decoration.Faint, l.decoration.Normal, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.Skull, template)
 	return fmt.Printf(pTemplate, args...)
 }
 

@@ -159,20 +159,6 @@ tasks:
         ./zaruba please showVersion setup.injectBootstrap=false
 
 
-  testExplain:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please explain docker setup.injectBootstrap=false
-  
-
   testCommon:
     icon: 💉
     location: ./
@@ -182,7 +168,6 @@ tasks:
     - testThanks
     - testSorry
     - testShowVersion
-    - testExplain
     - testSetupPyenv
     - testSetupNvm
     - testSetupSdkman
