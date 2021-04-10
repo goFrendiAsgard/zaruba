@@ -2,6 +2,7 @@ package inputer
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -131,19 +132,40 @@ func (prompter *Prompter) askInput(label string, input *config.Input, oldValue s
 			alternatives = append(alternatives, option)
 		}
 	}
-	if !boolean.IsFalse(input.AllowCustom) {
+	allowCustom := !boolean.IsFalse(input.AllowCustom)
+	if allowCustom {
 		alternatives = append(alternatives, fmt.Sprintf("%sLet me type by myself%s", prompter.d.Green, prompter.d.Normal))
 	}
 	selectPrompt := promptui.Select{
-		Label:  label,
-		Items:  alternatives,
-		Stdout: &bellSkipper{},
+		Label:             label,
+		Items:             alternatives,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(userInput string, index int) bool {
+			if allowCustom && index == len(alternatives)-1 {
+				return true
+			}
+			option := alternatives[index]
+			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+		},
 	}
 	_, value, err = selectPrompt.Run()
-	if !boolean.IsFalse(input.AllowCustom) {
+	if allowCustom {
 		if value == alternatives[len(alternatives)-1] {
 			prompt := promptui.Prompt{
 				Label: label,
+				Validate: func(userInput string) error {
+					if input.Validation != "" {
+						matched, err := regexp.Match(input.Validation, []byte(userInput))
+						if err != nil {
+							return err
+						}
+						if !matched {
+							return fmt.Errorf("%s does not match %s", userInput, input.Validation)
+						}
+					}
+					return nil
+				},
 			}
 			value, err = prompt.Run()
 		}
