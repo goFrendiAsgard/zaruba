@@ -171,7 +171,7 @@ tasks:
           . "${ZARUBA_HOME}/scripts/util/sh/setup_ubuntu.sh"
         else
           {{ if .GetValue "setup.userPassword" }}
-            echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S "${ZARUBA_HOME}/scripts/util/sh/setup_ubuntu.sh"
+            echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S bash "${ZARUBA_HOME}/scripts/util/sh/setup_ubuntu.sh"
           {{ else }}
             echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setup.userPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
             exit 1
