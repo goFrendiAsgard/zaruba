@@ -24,9 +24,16 @@ type Task struct {
 	Timeout         string              `yaml:"timeout,omitempty"`
 	Private         bool                `yaml:"private,omitempty"`
 	Extend          string              `yaml:"extend,omitempty"`
+	Extends         []string            `yaml:"extends,omitempty"`
 	Location        string              `yaml:"location,omitempty"`
+	ConfigRef       string              `yaml:"configRef,omitempty"`
+	ConfigRefs      []string            `yaml:"configRefs,omitempty"`
 	Config          map[string]string   `yaml:"config,omitempty"`
+	LConfigRef      string              `yaml:"lconfigRef,omitempty"`
+	LConfigRefs     []string            `yaml:"lconfigRefs,omitempty"`
 	LConfig         map[string][]string `yaml:"lconfig,omitempty"`
+	EnvRef          string              `yaml:"envRef,omitempty"`
+	EnvRefs         []string            `yaml:"envRefs,omitempty"`
 	Env             map[string]*Env     `yaml:"env,omitempty"`
 	Dependencies    []string            `yaml:"dependencies,omitempty"`
 	Inputs          []string            `yaml:"inputs,omitempty"`
@@ -74,17 +81,6 @@ func (task *Task) GetWorkPath() (path string) {
 	return path
 }
 
-// GetValue getting config of a task
-func (task *Task) GetValue(td *TaskData, keys ...string) (val string, err error) {
-	key := strings.Join(keys, "::")
-	pattern, exist := task.Project.GetValue(key), task.Project.IsValueExist(key)
-	if !exist {
-		return "", nil
-	}
-	templateName := fmt.Sprintf("%s.values.%s", task.GetName(), key)
-	return task.getParsedPattern(td, templateName, pattern)
-}
-
 // GetValues getting all parsed env
 func (task *Task) GetValues(td *TaskData) (parsedValues map[string]string, err error) {
 	parsedValues = map[string]string{}
@@ -97,18 +93,14 @@ func (task *Task) GetValues(td *TaskData) (parsedValues map[string]string, err e
 	return parsedValues, nil
 }
 
-// GetConfig getting config of a task
-func (task *Task) GetConfig(td *TaskData, keys ...string) (val string, err error) {
+// GetValue getting config of a task
+func (task *Task) GetValue(td *TaskData, keys ...string) (val string, err error) {
 	key := strings.Join(keys, "::")
-	pattern, exist := task.Config[key]
+	pattern, exist := task.Project.GetValue(key), task.Project.IsValueExist(key)
 	if !exist {
-		parentTask, exists := task.Project.Tasks[task.Extend]
-		if !exists {
-			return "", nil
-		}
-		return parentTask.GetConfig(td, keys...)
+		return "", nil
 	}
-	templateName := fmt.Sprintf("%s.config.%s", task.GetName(), key)
+	templateName := fmt.Sprintf("%s.values.%s", task.GetName(), key)
 	return task.getParsedPattern(td, templateName, pattern)
 }
 
@@ -124,27 +116,34 @@ func (task *Task) GetConfigs(td *TaskData) (parsedConfig map[string]string, err 
 	return parsedConfig, nil
 }
 
-// GetLConfig getting lconfig of a task
-func (task *Task) GetLConfig(td *TaskData, keys ...string) (val []string, err error) {
+// GetConfig getting config of a task
+func (task *Task) GetConfig(td *TaskData, keys ...string) (val string, err error) {
 	key := strings.Join(keys, "::")
-	val = []string{}
-	lConfig, exist := task.LConfig[key]
-	if !exist {
-		parentTask, exists := task.Project.Tasks[task.Extend]
-		if !exists {
-			return []string{}, nil
-		}
-		return parentTask.GetLConfig(td, keys...)
+	if pattern, declared := task.getConfigPattern(key); declared {
+		templateName := fmt.Sprintf("%s.config.%s", task.GetName(), key)
+		return task.getParsedPattern(td, templateName, pattern)
 	}
-	for index, pattern := range lConfig {
-		templateName := fmt.Sprintf("%s.lconfig.%s[%d]", task.GetName(), key, index)
-		element, err := task.getParsedPattern(td, templateName, pattern)
-		if err != nil {
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		val, err := parentTask.GetConfig(td, keys...)
+		if err != nil || val != "" {
 			return val, err
 		}
-		val = append(val, element)
 	}
-	return val, err
+	return "", nil
+}
+
+func (task *Task) getConfigPattern(key string) (pattern string, declared bool) {
+	if pattern, declared = task.Config[key]; declared {
+		return pattern, true
+	}
+	for _, baseConfigKey := range task.getBaseConfigKeys() {
+		projectBaseConfig := task.Project.baseConfig[baseConfigKey]
+		if pattern, declared = projectBaseConfig.BaseConfigMap[key]; declared {
+			return pattern, true
+		}
+	}
+	return "", false
 }
 
 // GetLConfigs getting all lConfig
@@ -159,23 +158,42 @@ func (task *Task) GetLConfigs(td *TaskData) (parsedLConfig map[string][]string, 
 	return parsedLConfig, nil
 }
 
-// GetEnv getting env of a task
-func (task *Task) GetEnv(td *TaskData, key string) (val string, err error) {
-	envConfig, exist := task.Env[key]
-	if !exist {
-		parentTask, exists := task.Project.Tasks[task.Extend]
-		if !exists {
-			return os.Getenv(key), nil
+// GetLConfig getting lconfig of a task
+func (task *Task) GetLConfig(td *TaskData, keys ...string) (vals []string, err error) {
+	key := strings.Join(keys, "::")
+	vals = []string{}
+	if patterns, declared := task.getLConfigPatterns(key); declared {
+		for index, pattern := range patterns {
+			templateName := fmt.Sprintf("%s.lconfig.%s[%d]", task.GetName(), key, index)
+			element, err := task.getParsedPattern(td, templateName, pattern)
+			if err != nil {
+				return vals, err
+			}
+			vals = append(vals, element)
 		}
-		return parentTask.GetEnv(td, key)
+		return vals, nil
 	}
-	if envConfig.From != "" {
-		if val = os.Getenv(envConfig.From); val != "" {
-			return val, nil
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		vals, err := parentTask.GetLConfig(td, keys...)
+		if err != nil || len(vals) > 0 {
+			return vals, err
 		}
 	}
-	templateNamePrefix := fmt.Sprintf("%s.env.%s", task.GetName(), key)
-	return task.getParsedPattern(td, templateNamePrefix, envConfig.Default)
+	return []string{}, nil
+}
+
+func (task *Task) getLConfigPatterns(key string) (patterns []string, declared bool) {
+	if patterns, declared = task.LConfig[key]; declared {
+		return patterns, true
+	}
+	for _, baseLConfigKey := range task.getBaseLConfigKeys() {
+		projectBaseLConfig := task.Project.baseLConfig[baseLConfigKey]
+		if patterns, declared = projectBaseLConfig.BaseLConfigMap[key]; declared {
+			return patterns, true
+		}
+	}
+	return []string{}, false
 }
 
 // GetEnvs getting all parsed env
@@ -188,6 +206,68 @@ func (task *Task) GetEnvs(td *TaskData) (parsedEnv map[string]string, err error)
 		}
 	}
 	return parsedEnv, nil
+}
+
+// GetEnv getting env of a task
+func (task *Task) GetEnv(td *TaskData, key string) (val string, err error) {
+	if env, declared := task.getEnv(key); declared {
+		if env.From != "" {
+			if val = os.Getenv(env.From); val != "" {
+				return val, nil
+			}
+		}
+		templateNamePrefix := fmt.Sprintf("%s.env.%s", task.GetName(), key)
+		return task.getParsedPattern(td, templateNamePrefix, env.Default)
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		val, err := parentTask.GetEnv(td, key)
+		if err != nil || val != "" {
+			return val, err
+		}
+	}
+	return os.Getenv(key), nil
+}
+
+func (task *Task) getEnv(key string) (env *Env, declared bool) {
+	if env, declared = task.Env[key]; declared {
+		return env, declared
+	}
+	for _, baseEnvKey := range task.getBaseEnvKeys() {
+		projectBaseEnv := task.Project.baseEnv[baseEnvKey]
+		if baseEnv, declared := projectBaseEnv.BaseEnvMap[key]; declared {
+			return &Env{From: baseEnv.From, Default: baseEnv.Default}, true
+		}
+	}
+	return nil, false
+}
+
+func (task *Task) getParentTaskNames() (parentTaskNames []string) {
+	if task.Extend != "" {
+		return []string{task.Extend}
+	}
+	return task.Extends
+}
+
+func (task *Task) getBaseConfigKeys() (parentTaskNames []string) {
+	if task.ConfigRef != "" {
+		return []string{task.ConfigRef}
+	}
+	return task.ConfigRefs
+}
+
+func (task *Task) getBaseLConfigKeys() (parentTaskNames []string) {
+	if task.LConfigRef != "" {
+		return []string{task.LConfigRef}
+	}
+	return task.LConfigRefs
+}
+
+func (task *Task) getBaseEnvKeys() (parentTaskNames []string) {
+	if task.EnvRef != "" {
+		return []string{task.EnvRef}
+	}
+	return task.EnvRefs
 }
 
 func (task *Task) getParsedPattern(td *TaskData, templateNamePrefix, pattern string) (result string, err error) {

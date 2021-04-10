@@ -1,35 +1,50 @@
 package config
 
 import (
+	"fmt"
 	"path/filepath"
 	"testing"
 )
 
-func setupTaskData(t *testing.T) (td *TaskData, err error) {
-	project, err := getProject("../test_resource/valid/zaruba.yaml")
+func getTaskData(projectFile string, taskName string, values []string) (td *TaskData, err error) {
+	project, err := getProject(projectFile)
 	if err != nil {
-		t.Error(err)
 		return td, err
-	}
-	values := []string{
-		"alchemist::flamel::name=Nicholas Flamel",
-		"alchemist::flamel::age=90",
-		"alchemist::dumbledore::name=Dumbledore",
-		"alchemist::dumbledore::age=90",
-		"barbarian::sonya::name=Sonya",
-		"alchemist::=unknown",
 	}
 	for _, value := range values {
 		if err = project.AddValue(value); err != nil {
 			return td, err
 		}
 	}
-	td = NewTaskData(project.Tasks["runApiGateway"])
+	task, taskDeclared := project.Tasks[taskName]
+	if !taskDeclared {
+		return td, fmt.Errorf("Task %s was not declared", taskName)
+	}
+	td = NewTaskData(task)
+	return td, err
+}
+
+func getValidTaskData(t *testing.T) (td *TaskData, err error) {
+	td, err = getTaskData(
+		"../test_resource/valid/main.zaruba.yaml",
+		"runApiGateway",
+		[]string{
+			"alchemist::flamel::name=Nicholas Flamel",
+			"alchemist::flamel::age=90",
+			"alchemist::dumbledore::name=Dumbledore",
+			"alchemist::dumbledore::age=90",
+			"barbarian::sonya::name=Sonya",
+			"alchemist::=unknown",
+		},
+	)
+	if err != nil {
+		t.Error(err)
+	}
 	return td, err
 }
 
 func TestTaskDataGetWorkPath(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -47,7 +62,7 @@ func TestTaskDataGetWorkPath(t *testing.T) {
 }
 
 func TestTaskDataGetBasePath(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -65,7 +80,7 @@ func TestTaskDataGetBasePath(t *testing.T) {
 }
 
 func TestTaskDataGetRelativePath(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -83,7 +98,7 @@ func TestTaskDataGetRelativePath(t *testing.T) {
 }
 
 func TestTaskDataGetConfig(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -93,7 +108,7 @@ func TestTaskDataGetConfig(t *testing.T) {
 }
 
 func TestTaskDataGetConfigs(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -103,7 +118,7 @@ func TestTaskDataGetConfigs(t *testing.T) {
 }
 
 func TestTaskDataGetLConfig(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -113,7 +128,7 @@ func TestTaskDataGetLConfig(t *testing.T) {
 }
 
 func TestTaskDataGetLConfigs(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -123,7 +138,7 @@ func TestTaskDataGetLConfigs(t *testing.T) {
 }
 
 func TestTaskDataGetValue(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -133,7 +148,7 @@ func TestTaskDataGetValue(t *testing.T) {
 }
 
 func TestTaskDataGetValues(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -143,7 +158,7 @@ func TestTaskDataGetValues(t *testing.T) {
 }
 
 func TestTaskDataGetEnv(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -153,7 +168,7 @@ func TestTaskDataGetEnv(t *testing.T) {
 }
 
 func TestTaskDataGetEnvs(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -163,7 +178,7 @@ func TestTaskDataGetEnvs(t *testing.T) {
 }
 
 func TestTaskDataValuesGetSubKeys(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -189,7 +204,7 @@ func TestTaskDataValuesGetSubKeys(t *testing.T) {
 }
 
 func TestTaskDataValuesGetValue(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -204,7 +219,7 @@ func TestTaskDataValuesGetValue(t *testing.T) {
 }
 
 func TestTaskDataGetTask(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -223,7 +238,7 @@ func TestTaskDataGetTask(t *testing.T) {
 }
 
 func TestTaskDataGetInvalidTask(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -234,7 +249,7 @@ func TestTaskDataGetInvalidTask(t *testing.T) {
 }
 
 func TestTaskDataReadFile(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -250,7 +265,7 @@ func TestTaskDataReadFile(t *testing.T) {
 }
 
 func TestTaskDataListDir(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}
@@ -260,12 +275,12 @@ func TestTaskDataListDir(t *testing.T) {
 		return
 	}
 	if len(directoryList) != 2 {
-		t.Errorf("directorryList should contain two item, currently it is %#v", directoryList)
+		t.Errorf("directoryList should contain two item, currently it is %#v", directoryList)
 	}
 }
 
 func TestTaskDataParseFile(t *testing.T) {
-	td, err := setupTaskData(t)
+	td, err := getValidTaskData(t)
 	if err != nil {
 		return
 	}

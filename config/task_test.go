@@ -5,7 +5,7 @@ import (
 )
 
 func TestValidTaskGetEnv(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -46,7 +46,7 @@ func TestValidTaskGetEnv(t *testing.T) {
 }
 
 func TestValidTaskGetConfig(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -86,7 +86,7 @@ func TestValidTaskGetConfig(t *testing.T) {
 }
 
 func TestValidTaskGetLConfig(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -127,7 +127,7 @@ func TestValidTaskGetLConfig(t *testing.T) {
 }
 
 func TestValidTaskStartCommand(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -165,7 +165,7 @@ func TestValidTaskStartCommand(t *testing.T) {
 }
 
 func TestValidTaskCheckCommand(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -223,12 +223,7 @@ func TestValidTaskDependencies(t *testing.T) {
 }
 
 func TestInvalidTaskExtension(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskExtension.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if err = conf.Init(); err == nil {
+	if _, err := getProject("../test_resource/invalidTaskExtension.yaml"); err == nil {
 		t.Errorf("Error expected")
 	}
 }

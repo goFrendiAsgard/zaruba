@@ -9,17 +9,17 @@ import (
 	"github.com/state-alchemists/zaruba/monitor"
 )
 
-func getProject(configFile string) (project *Project, err error) {
+func getProject(projectFile string) (project *Project, err error) {
 	decoration := monitor.NewDecoration()
 	logger := monitor.NewConsoleLogger(decoration)
-	dir := os.ExpandEnv(filepath.Dir(configFile))
+	dir := os.ExpandEnv(filepath.Dir(projectFile))
 	logFile := filepath.Join(dir, "log.zaruba.csv")
 	csvLogger := monitor.NewCSVLogWriter(logFile)
-	return NewProject(logger, csvLogger, decoration, configFile)
+	return NewProject(logger, csvLogger, decoration, projectFile)
 }
 
-func getValidProject(t *testing.T) (validProject *Project, err error) {
-	validProject, err = getProject("../test_resource/valid/zaruba.yaml")
+func getValidInitiatedProject(t *testing.T) (validProject *Project, err error) {
+	validProject, err = getProject("../test_resource/valid/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return validProject, err
@@ -45,7 +45,7 @@ func getValidProject(t *testing.T) (validProject *Project, err error) {
 }
 
 func TestValidProjectAddGlobalEnv(t *testing.T) {
-	_, err := getValidProject(t)
+	_, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func TestValidProjectAddGlobalEnv(t *testing.T) {
 }
 
 func TestValidProjectAddValues(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -77,7 +77,7 @@ func TestValidProjectAddValues(t *testing.T) {
 }
 
 func TestValidProjectInclusion(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -90,7 +90,7 @@ func TestValidProjectInclusion(t *testing.T) {
 }
 
 func TestValidProjectInputs(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -143,7 +143,7 @@ func TestValidProjectInputs(t *testing.T) {
 }
 
 func TestValidProjectGetInputs(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -197,7 +197,7 @@ func TestValidProjectGetInputs(t *testing.T) {
 }
 
 func TestValidProjectTaskDirPath(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -217,7 +217,7 @@ func TestValidProjectTaskDirPath(t *testing.T) {
 }
 
 func TestValidProjectTaskProject(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -229,7 +229,7 @@ func TestValidProjectTaskProject(t *testing.T) {
 }
 
 func TestValidProjectEnvTask(t *testing.T) {
-	validProject, err := getValidProject(t)
+	validProject, err := getValidInitiatedProject(t)
 	if err != nil {
 		return
 	}
@@ -256,7 +256,7 @@ func TestValidProjectName(t *testing.T) {
 }
 
 func TestValidProjectWithNonExistValueFile(t *testing.T) {
-	project, err := getProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -267,7 +267,7 @@ func TestValidProjectWithNonExistValueFile(t *testing.T) {
 }
 
 func TestValidProjectGetInputsFromNonExistingTask(t *testing.T) {
-	project, err := getProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -290,7 +290,7 @@ func TestInvalidProjectInputRedeclared(t *testing.T) {
 }
 
 func TestInvalidProjectValuesFormat(t *testing.T) {
-	project, err := getProject("../test_resource/valid/zaruba.yaml")
+	project, err := getProject("../test_resource/valid/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
