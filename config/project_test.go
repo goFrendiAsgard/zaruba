@@ -215,7 +215,7 @@ func TestValidProjectInputs(t *testing.T) {
 	if err != nil {
 		return
 	}
-	expectedInputs := map[string]*Input{
+	expectedInputs := map[string]*Variable{
 		"testName": {
 			DefaultValue: "myTest",
 			Description:  "Test name",
@@ -268,7 +268,7 @@ func TestValidProjectGetInputs(t *testing.T) {
 	if err != nil {
 		return
 	}
-	expectedInputs := map[string]*Input{
+	expectedInputs := map[string]*Variable{
 		"testName": {
 			DefaultValue: "myTest",
 			Description:  "Test name",

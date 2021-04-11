@@ -1,1 +1,2 @@
 dockerImagePrefix::default: stalchmst
+setup.injectBootstrap: false

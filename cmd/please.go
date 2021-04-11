@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/explainer"
-	"github.com/state-alchemists/zaruba/inputer"
+	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/previousval"
 	"github.com/state-alchemists/zaruba/runner"
@@ -33,7 +33,7 @@ var pleaseCmd = &cobra.Command{
 		decoration := monitor.NewDecoration()
 		logger := monitor.NewConsoleLogger(decoration)
 		project, taskNames := getProjectOrExit(logger, decoration, args)
-		prompter := inputer.NewPrompter(logger, decoration, project)
+		prompter := input.NewPrompter(logger, decoration, project)
 		// no task provided
 		if len(taskNames) == 0 {
 			taskName, err := prompter.GetTaskName()

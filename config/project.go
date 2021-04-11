@@ -19,7 +19,7 @@ type Project struct {
 	Includes                   []string                       `yaml:"includes,omitempty"`
 	Tasks                      map[string]*Task               `yaml:"tasks,omitempty"`
 	Name                       string                         `yaml:"name,omitempty"`
-	Inputs                     map[string]*Input              `yaml:"inputs,omitempty"`
+	Inputs                     map[string]*Variable           `yaml:"inputs,omitempty"`
 	RawBaseEnv                 map[string]map[string]BaseEnv  `yaml:"envs,omitempty"`
 	RawBaseConfig              map[string]map[string]string   `yaml:"configs,omitempty"`
 	RawBaseLConfig             map[string]map[string][]string `yaml:"lconfigs,omitempty"`
@@ -74,7 +74,7 @@ func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile strin
 		RawBaseConfig:  map[string]map[string]string{},
 		RawBaseLConfig: map[string]map[string][]string{},
 		Tasks:          map[string]*Task{},
-		Inputs:         map[string]*Input{},
+		Inputs:         map[string]*Variable{},
 		values:         map[string]string{},
 		baseEnv:        map[string]ProjectBaseEnv{},
 		baseConfig:     map[string]ProjectBaseConfig{},
@@ -209,8 +209,8 @@ func (p *Project) SetValue(key, value string) (err error) {
 }
 
 // GetInputs given task names
-func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Input, inputOrder []string, err error) {
-	inputs = map[string]*Input{}
+func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, inputOrder []string, err error) {
+	inputs = map[string]*Variable{}
 	inputOrder = []string{}
 	for _, taskName := range taskNames {
 		task, taskExist := p.Tasks[taskName]
@@ -261,6 +261,13 @@ func (p *Project) Init() (err error) {
 	}
 	for key, value := range p.values {
 		parsedValue := os.ExpandEnv(value)
+		// validate
+		if input, inputExist := p.Inputs[key]; inputExist {
+			if err = input.Validate(parsedValue); err != nil {
+				return err
+			}
+		}
+		// inject envvars
 		p.values[key] = parsedValue
 		inputEnvKey := "ZARUBA_INPUT_" + string(r.ReplaceAll([]byte(strings.ToUpper(key)), []byte("_")))
 		os.Setenv(inputEnvKey, parsedValue)

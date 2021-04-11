@@ -1,8 +1,8 @@
-package inputer
+package input
 
 import (
 	"fmt"
-	"regexp"
+	"os"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -32,7 +32,15 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 }
 
 func (prompter *Prompter) GetAction(taskName string) (action *Action, err error) {
-	options := []string{"Run Interactively", "Just Run", "Explain"}
+	caption_interactive := "Run Interactively"
+	caption_run := "Just Run"
+	caption_explain := "Explain"
+	action_map := map[string]*Action{
+		caption_interactive: {Run: false, RunInteractive: true, Explain: false},
+		caption_run:         {Run: true, RunInteractive: false, Explain: false},
+		caption_explain:     {Run: false, RunInteractive: false, Explain: true},
+	}
+	options := []string{caption_interactive, caption_run, caption_explain}
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
 		Items:             options,
@@ -44,20 +52,11 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 			return strings.Contains(strings.ToLower(option), strings.ToLower(input))
 		},
 	}
-	action = &Action{Run: false, RunInteractive: false, Explain: false}
 	_, chosenItem, err := prompt.Run()
 	if err != nil {
-		return action, err
+		return nil, err
 	}
-	switch chosenItem {
-	case options[0]:
-		action.RunInteractive = true
-	case options[1]:
-		action.Run = true
-	case options[2]:
-		action.Explain = true
-	}
-	return action, nil
+	return action_map[chosenItem], nil
 }
 
 func (prompter *Prompter) GetTaskName() (taskName string, err error) {
@@ -122,16 +121,8 @@ func (prompter *Prompter) askPassword(label string) (value string, err error) {
 	return prompt.Run()
 }
 
-func (prompter *Prompter) askInput(label string, input *config.Input, oldValue string) (value string, err error) {
-	alternatives := []string{oldValue}
-	if input.DefaultValue != oldValue {
-		alternatives = append(alternatives, input.DefaultValue)
-	}
-	for _, option := range input.Options {
-		if option != oldValue && option != input.DefaultValue {
-			alternatives = append(alternatives, option)
-		}
-	}
+func (prompter *Prompter) askInput(label string, input *config.Variable, oldValue string) (value string, err error) {
+	alternatives := prompter.getInputOptions(input, oldValue)
 	allowCustom := !boolean.IsFalse(input.AllowCustom)
 	if allowCustom {
 		alternatives = append(alternatives, fmt.Sprintf("%sLet me type by myself%s", prompter.d.Green, prompter.d.Normal))
@@ -155,20 +146,30 @@ func (prompter *Prompter) askInput(label string, input *config.Input, oldValue s
 			prompt := promptui.Prompt{
 				Label: label,
 				Validate: func(userInput string) error {
-					if input.Validation != "" {
-						matched, err := regexp.Match(input.Validation, []byte(userInput))
-						if err != nil {
-							return err
-						}
-						if !matched {
-							return fmt.Errorf("%s does not match %s", userInput, input.Validation)
-						}
-					}
-					return nil
+					return input.Validate(os.ExpandEnv(userInput))
 				},
 			}
 			value, err = prompt.Run()
 		}
 	}
 	return value, err
+}
+
+func (prompter *Prompter) getInputOptions(input *config.Variable, oldValue string) []string {
+	options := []string{}
+	if err := input.Validate(os.ExpandEnv(oldValue)); err == nil {
+		options = append(options, oldValue)
+	}
+	if err := input.Validate(os.ExpandEnv(input.DefaultValue)); err == nil {
+		options = append(options, input.DefaultValue)
+	}
+	for _, option := range input.Options {
+		if option == oldValue && option == input.DefaultValue {
+			continue
+		}
+		if err := input.Validate(os.ExpandEnv(option)); err == nil {
+			options = append(options, option)
+		}
+	}
+	return options
 }

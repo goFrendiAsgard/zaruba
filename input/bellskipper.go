@@ -1,4 +1,4 @@
-package inputer
+package input
 
 import "os"
 
