@@ -160,11 +160,13 @@ func (prompter *Prompter) getInputOptions(input *config.Variable, oldValue strin
 	if err := input.Validate(os.ExpandEnv(oldValue)); err == nil {
 		options = append(options, oldValue)
 	}
-	if err := input.Validate(os.ExpandEnv(input.DefaultValue)); err == nil {
-		options = append(options, input.DefaultValue)
+	if oldValue != input.DefaultValue {
+		if err := input.Validate(os.ExpandEnv(input.DefaultValue)); err == nil {
+			options = append(options, input.DefaultValue)
+		}
 	}
 	for _, option := range input.Options {
-		if option == oldValue && option == input.DefaultValue {
+		if option == oldValue || option == input.DefaultValue {
 			continue
 		}
 		if err := input.Validate(os.ExpandEnv(option)); err == nil {
