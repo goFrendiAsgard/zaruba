@@ -40,7 +40,10 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 		caption_run:         {Run: true, RunInteractive: false, Explain: false},
 		caption_explain:     {Run: false, RunInteractive: false, Explain: true},
 	}
-	options := []string{caption_interactive, caption_run, caption_explain}
+	options := []string{caption_run, caption_explain}
+	if len(prompter.project.Tasks[taskName].Inputs) > 0 {
+		options = []string{caption_interactive, caption_run, caption_explain}
+	}
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
 		Items:             options,
