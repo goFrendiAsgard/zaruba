@@ -32,15 +32,15 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 }
 
 func (prompter *Prompter) GetAction(taskName string) (action *Action, err error) {
-	caption_interactive := "Run Interactively"
-	caption_run := "Just Run"
-	caption_explain := "Explain"
+	caption_run := "🏁 Run"
+	caption_interactive := "🏁 Set values and run"
+	caption_explain := "🔍 Explain"
 	action_map := map[string]*Action{
 		caption_interactive: {Run: false, RunInteractive: true, Explain: false},
 		caption_run:         {Run: true, RunInteractive: false, Explain: false},
 		caption_explain:     {Run: false, RunInteractive: false, Explain: true},
 	}
-	options := []string{caption_interactive, caption_run, caption_explain}
+	options := []string{caption_run, caption_interactive, caption_explain}
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
 		Items:             options,
@@ -125,7 +125,7 @@ func (prompter *Prompter) askInput(label string, input *config.Variable, oldValu
 	alternatives := prompter.getInputOptions(input, oldValue)
 	allowCustom := !boolean.IsFalse(input.AllowCustom)
 	if allowCustom {
-		alternatives = append(alternatives, fmt.Sprintf("%sLet me type by myself%s", prompter.d.Green, prompter.d.Normal))
+		alternatives = append(alternatives, fmt.Sprintf("%s⌨️ Let me type it!%s", prompter.d.Green, prompter.d.Normal))
 	}
 	selectPrompt := promptui.Select{
 		Label:             label,
