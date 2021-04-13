@@ -32,15 +32,15 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 }
 
 func (prompter *Prompter) GetAction(taskName string) (action *Action, err error) {
+	caption_interactive := "🏁 Run interactively"
 	caption_run := "🏁 Run"
-	caption_interactive := "🏁 Set values and run"
 	caption_explain := "🔍 Explain"
 	action_map := map[string]*Action{
 		caption_interactive: {Run: false, RunInteractive: true, Explain: false},
 		caption_run:         {Run: true, RunInteractive: false, Explain: false},
 		caption_explain:     {Run: false, RunInteractive: false, Explain: true},
 	}
-	options := []string{caption_run, caption_interactive, caption_explain}
+	options := []string{caption_interactive, caption_run, caption_explain}
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
 		Items:             options,
@@ -61,20 +61,20 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 
 func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	sortedTaskNames := prompter.project.GetSortedTaskNames()
-	publishedTaskNames := []string{}
+	options := []string{}
 	for _, taskName := range sortedTaskNames {
 		if task := prompter.project.Tasks[taskName]; !task.Private {
-			publishedTaskNames = append(publishedTaskNames, taskName)
+			options = append(options, taskName)
 		}
 	}
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
-		Items:             publishedTaskNames,
+		Items:             options,
 		Size:              10,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
 		Searcher: func(input string, index int) bool {
-			taskName := publishedTaskNames[index]
+			taskName := options[index]
 			return strings.Contains(strings.ToLower(taskName), strings.ToLower(input))
 		},
 	}
@@ -122,27 +122,27 @@ func (prompter *Prompter) askPassword(label string) (value string, err error) {
 }
 
 func (prompter *Prompter) askInput(label string, input *config.Variable, oldValue string) (value string, err error) {
-	alternatives := prompter.getInputOptions(input, oldValue)
+	options := prompter.getInputOptions(input, oldValue)
 	allowCustom := !boolean.IsFalse(input.AllowCustom)
 	if allowCustom {
-		alternatives = append(alternatives, fmt.Sprintf("%s⌨️ Let me type it!%s", prompter.d.Green, prompter.d.Normal))
+		options = append(options, fmt.Sprintf("%s⌨️ Let me type it!%s", prompter.d.Green, prompter.d.Normal))
 	}
 	selectPrompt := promptui.Select{
 		Label:             label,
-		Items:             alternatives,
+		Items:             options,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
 		Searcher: func(userInput string, index int) bool {
-			if allowCustom && index == len(alternatives)-1 {
+			if allowCustom && index == len(options)-1 {
 				return true
 			}
-			option := alternatives[index]
+			option := options[index]
 			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
 		},
 	}
 	_, value, err = selectPrompt.Run()
 	if allowCustom {
-		if value == alternatives[len(alternatives)-1] {
+		if value == options[len(options)-1] {
 			prompt := promptui.Prompt{
 				Label: label,
 				Validate: func(userInput string) error {
