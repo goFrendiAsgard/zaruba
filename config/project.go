@@ -332,6 +332,9 @@ func (p *Project) validate() (err error) {
 	if err = p.validateTaskExtend(); err != nil {
 		return err
 	}
+	if err = p.validateTaskDependencies(); err != nil {
+		return err
+	}
 	if err = p.validateTaskInputs(); err != nil {
 		return err
 	}
@@ -347,19 +350,30 @@ func (p *Project) validate() (err error) {
 	return nil
 }
 
+func (p *Project) validateTaskDependencies() (err error) {
+	for taskName, task := range p.Tasks {
+		for index, dependencyTaskName := range task.Dependencies {
+			if _, dependencyTaskExist := p.Tasks[dependencyTaskName]; !dependencyTaskExist {
+				return fmt.Errorf("%s: Task %s is required at %s.dependencies[%d] but it was not declared", task.GetFileLocation(), dependencyTaskName, taskName, index)
+			}
+		}
+	}
+	return nil
+}
+
 func (p *Project) validateTaskExtend() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.Extends) > 0 && task.Extend != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `extend` and `extends`", taskName)
+			return fmt.Errorf("%s: Redundant declaration. %s has both `extend` and `extends`", task.GetFileLocation(), taskName)
 		}
 		if task.Extend != "" {
 			if _, parentTaskExist := p.Tasks[task.Extend]; !parentTaskExist {
-				return fmt.Errorf("Task %s is required at %s.extend but it was not declared", task.Extend, taskName)
+				return fmt.Errorf("%s: Task %s is required at %s.extend but it was not declared", task.GetFileLocation(), task.Extend, taskName)
 			}
 		}
 		for index, parentTaskName := range task.Extends {
 			if _, parentTaskExist := p.Tasks[parentTaskName]; !parentTaskExist {
-				return fmt.Errorf("Task %s is required at %s.extends[%d] but it was not declared", parentTaskName, taskName, index)
+				return fmt.Errorf("%s: Task %s is required at %s.extends[%d] but it was not declared", task.GetFileLocation(), parentTaskName, taskName, index)
 			}
 		}
 	}
@@ -370,7 +384,7 @@ func (p *Project) validateTaskInputs() (err error) {
 	for taskName, task := range p.Tasks {
 		for index, inputName := range task.Inputs {
 			if _, inputExist := p.Inputs[inputName]; !inputExist {
-				return fmt.Errorf("Input %s is required for %s.inputs[%d] but it was not declared", inputName, taskName, index)
+				return fmt.Errorf("%s: Input %s is required for %s.inputs[%d] but it was not declared", task.GetFileLocation(), inputName, taskName, index)
 			}
 		}
 	}
@@ -380,17 +394,17 @@ func (p *Project) validateTaskInputs() (err error) {
 func (p *Project) validateTaskBaseEnv() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.EnvRefs) > 0 && task.EnvRef != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `envRef` and `envRefs`", taskName)
+			return fmt.Errorf("%s: Redundant declaration. %s has both `envRef` and `envRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.EnvRef != "" {
 			if _, baseEnvExist := p.baseEnv[task.EnvRef]; !baseEnvExist {
-				return fmt.Errorf("Env %s is required at %s.envRef but it was not declared", task.EnvRef, taskName)
+				return fmt.Errorf("%s: Env %s is required at %s.envRef but it was not declared", task.GetFileLocation(), task.EnvRef, taskName)
 			}
 			return nil
 		}
 		for index, baseEnvKey := range task.EnvRefs {
 			if _, baseEnvExist := p.baseEnv[baseEnvKey]; !baseEnvExist {
-				return fmt.Errorf("Env %s is required at %s.envRefs[%d] but it was not declared", baseEnvKey, taskName, index)
+				return fmt.Errorf("%s: Env %s is required at %s.envRefs[%d] but it was not declared", task.GetFileLocation(), baseEnvKey, taskName, index)
 			}
 		}
 	}
@@ -400,17 +414,17 @@ func (p *Project) validateTaskBaseEnv() (err error) {
 func (p *Project) validateTaskBaseConfig() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.ConfigRefs) > 0 && task.ConfigRef != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `configRef` and `configRefs`", taskName)
+			return fmt.Errorf("%s: Redundant declaration. %s has both `configRef` and `configRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.ConfigRef != "" {
 			if _, baseConfigExist := p.baseConfig[task.ConfigRef]; !baseConfigExist {
-				return fmt.Errorf("Config %s is required at %s.configRef but it was not declared", task.ConfigRef, taskName)
+				return fmt.Errorf("%s: Config %s is required at %s.configRef but it was not declared", task.GetFileLocation(), task.ConfigRef, taskName)
 			}
 			return nil
 		}
 		for index, baseConfigKey := range task.ConfigRefs {
 			if _, baseConfigExist := p.baseConfig[baseConfigKey]; !baseConfigExist {
-				return fmt.Errorf("Config %s is required at %s.configRefs[%d] but it was not declared", baseConfigKey, taskName, index)
+				return fmt.Errorf("%s: Config %s is required at %s.configRefs[%d] but it was not declared", task.GetFileLocation(), baseConfigKey, taskName, index)
 			}
 		}
 	}
@@ -420,17 +434,17 @@ func (p *Project) validateTaskBaseConfig() (err error) {
 func (p *Project) validateTaskBaseLConfig() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.LConfigRefs) > 0 && task.LConfigRef != "" {
-			return fmt.Errorf("Redundant declaration. %s has both `lconfigRef` and `lconfigRefs`", taskName)
+			return fmt.Errorf("%s: Redundant declaration. %s has both `lconfigRef` and `lconfigRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.LConfigRef != "" {
 			if _, baseLConfigExist := p.baseLConfig[task.LConfigRef]; !baseLConfigExist {
-				return fmt.Errorf("LConfig %s is required at %s.lconfigRef but it was not declared", task.LConfigRef, taskName)
+				return fmt.Errorf("%s: LConfig %s is required at %s.lconfigRef but it was not declared", task.GetFileLocation(), task.LConfigRef, taskName)
 			}
 			return nil
 		}
 		for index, baseLConfigKey := range task.LConfigRefs {
 			if _, baseLConfigExist := p.baseLConfig[baseLConfigKey]; !baseLConfigExist {
-				return fmt.Errorf("LConfig %s is required at %s.lconfigRefs[%d] but it was not declared", baseLConfigKey, taskName, index)
+				return fmt.Errorf("%s: LConfig %s is required at %s.lconfigRefs[%d] but it was not declared", task.GetFileLocation(), baseLConfigKey, taskName, index)
 			}
 		}
 	}
