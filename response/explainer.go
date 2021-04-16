@@ -1,4 +1,4 @@
-package explainer
+package response
 
 import (
 	"fmt"
@@ -64,4 +64,25 @@ func (e *Explainer) Explain(taskName string) {
 	e.printField("INPUTS      ", inputString, indentation)
 	e.printField("DEPENDENCIES", strings.Join(task.Dependencies, ", "), indentation)
 	e.printField("PARENT TASKS", strings.Join(parentTasks, ", "), indentation)
+}
+
+func (e *Explainer) GetCommand(taskNames []string) (command string) {
+	command = fmt.Sprintf("zaruba please %s", strings.Join(taskNames, " "))
+	inputArgs := []string{}
+	for _, taskName := range taskNames {
+		task := e.project.Tasks[taskName]
+		for _, inputName := range task.Inputs {
+			inputValue := ""
+			if input := e.project.Inputs[inputName]; input.Secret {
+				inputValue = "[HIDDEN_VALUE]"
+			} else {
+				inputValue = e.project.GetValue(inputName)
+			}
+			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, inputValue))
+		}
+	}
+	if len(inputArgs) != 0 {
+		command = fmt.Sprintf("%s %s", command, strings.Join(inputArgs, " "))
+	}
+	return command
 }

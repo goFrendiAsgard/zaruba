@@ -8,10 +8,10 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/previousval"
+	"github.com/state-alchemists/zaruba/response"
 	"github.com/state-alchemists/zaruba/runner"
 )
 
@@ -34,21 +34,15 @@ var pleaseCmd = &cobra.Command{
 		logger := monitor.NewConsoleLogger(decoration)
 		project, taskNames := getProjectOrExit(logger, decoration, args)
 		prompter := input.NewPrompter(logger, decoration, project)
+		explainer := response.NewExplainer(logger, decoration, project)
 		// no task provided
 		if len(taskNames) == 0 {
-			taskName, err := prompter.GetTaskName()
-			if err != nil {
-				showErrorAndExit(logger, decoration, err)
-			}
+			taskName := getTaskNameInteractivelyOrExit(logger, decoration, prompter)
 			taskNames = []string{taskName}
-			action, err := prompter.GetAction(taskName)
-			if err != nil {
-				showErrorAndExit(logger, decoration, err)
-			}
+			action := getActionOrExit(logger, decoration, prompter, taskName)
 			if action.Explain {
 				initProjectOrExit(logger, decoration, project)
-				exp := explainer.NewExplainer(logger, decoration, project)
-				exp.Explain(taskName)
+				explainer.Explain(taskName)
 				return
 			}
 			if action.RunInteractive {
@@ -58,28 +52,25 @@ var pleaseCmd = &cobra.Command{
 		// handle "--previous"
 		previousValueFile := ".previous.values.yaml"
 		if *pleaseUsePreviousValues {
-			if err := previousval.Load(project, previousValueFile); err != nil {
-				showErrorAndExit(logger, decoration, err)
-			}
+			loadPreviousValuesOrExit(logger, decoration, project, previousValueFile)
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
-			if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
-				showErrorAndExit(logger, decoration, err)
-			}
+			askProjectValuesOrExit(logger, decoration, prompter, taskNames)
 		}
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(logger, decoration, project)
 		r, err := runner.NewRunner(logger, decoration, project, taskNames, time.Minute*5)
-		if *pleaseTerminate {
-			r.SetTerminationDelay(pleaseWait)
-		}
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
+		}
+		if *pleaseTerminate {
+			r.SetTerminationDelay(pleaseWait)
 		}
 		if err := r.Run(); err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
+		logger.DPrintf("%sLast command:%s %s\n", decoration.Yellow, decoration.Normal, explainer.GetCommand(taskNames))
 	},
 }
 
@@ -115,6 +106,34 @@ func init() {
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "if set, tasks will be terminated after complete")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
+}
+
+func getTaskNameInteractivelyOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter) (taskName string) {
+	taskName, err := prompter.GetTaskName()
+	if err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
+	return taskName
+}
+
+func getActionOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskName string) (action *input.Action) {
+	action, err := prompter.GetAction(taskName)
+	if err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
+	return action
+}
+
+func loadPreviousValuesOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, project *config.Project, previousValueFile string) {
+	if err := previousval.Load(project, previousValueFile); err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
+}
+
+func askProjectValuesOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) {
+	if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
 }
 
 func initProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) {
