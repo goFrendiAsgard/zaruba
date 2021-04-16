@@ -128,7 +128,7 @@ func (prompter *Prompter) askInput(label string, input *config.Variable, oldValu
 	options := prompter.getInputOptions(input, oldValue)
 	allowCustom := !boolean.IsFalse(input.AllowCustom)
 	if allowCustom {
-		options = append(options, fmt.Sprintf("%s⌨️ Let me type it!%s", prompter.d.Green, prompter.d.Normal))
+		options = append(options, fmt.Sprintf("%s✏️ Let me type it!%s", prompter.d.Green, prompter.d.Normal))
 	}
 	selectPrompt := promptui.Select{
 		Label:             label,
