@@ -1,0 +1,12 @@
+includes: []
+
+tasks:
+  runZarubaServiceName:
+    location: zarubaTaskLocation
+
+configs:
+  zarubaServiceName:
+    start: node main.js
+
+lconfigs:
+  zarubaServiceName: {}
