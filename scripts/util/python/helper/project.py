@@ -148,7 +148,7 @@ class TaskProject(Project):
             self.location = self.get(['tasks', run_task_name, 'location'])
 
 
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
         file_name = self._get_file_name(dir_name, service_name)
         self.main_project.load(dir_name)
         self._set_service_name(service_name)
@@ -156,10 +156,11 @@ class TaskProject(Project):
         self.replacement_dict = {
             'zarubaServiceName': self.service_name,
             'ZarubaServiceName': self.capital_service_name,
+            'ZARUBA_SERVICE_NAME': self.service_name.upper().replace(' ', '_'),
             'zarubaContainerName': container_name,
             'zarubaImageName': image_name,
-            'zarubaTaskLocation': location,
-            'ZARUBA_ENV_PREFIX': self.service_name.upper().replace(' ', '_')
+            'zarubaServiceLocation': location,
+            'zarubaStartCommand': start_command,
         }
         super().generate(file_name)
         self.main_project.include(os.path.join('zaruba-tasks', '{}.zaruba.yaml'.format(service_name)))
@@ -177,18 +178,9 @@ class ServiceProject(TaskProject):
         self.set_default(['lconfigs', 'zarubaServiceNameContainer'], {})
         # run
         self.set_default(['tasks', 'runZarubaServiceName', 'extend'], 'core.startService')
-        # buildImage
-        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'extend'], 'core.buildDockerImage')
-        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'timeout'], '1h')
-        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
-        # pushImage
-        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'extend'], 'core.pushDockerImage')
-        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'dependencies'], ['buildZarubaServiceNameImage'])
-        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'timeout'], '1h')
-        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         # runContainer
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'extend'], 'core.startDockerContainer')
-        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'dependencies'], ['buildZarubaServiceNamelmage'])
+        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'dependencies'], ['buildZarubaServiceNameImage'])
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'lconfigRef'], 'zarubaServiceNameContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'envRef'], 'zarubaServiceName')
@@ -198,7 +190,16 @@ class ServiceProject(TaskProject):
         # removeContainer
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'extend'], 'core.removeDockerContainer')
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
-
+        # buildImage
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'extend'], 'core.buildDockerImage')
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'timeout'], '1h')
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
+        # pushImage
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'extend'], 'core.pushDockerImage')
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'dependencies'], ['buildZarubaServiceNameImage'])
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'timeout'], '1h')
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
+        
     
     def _get_env_dict(self, location: str) -> Mapping[str, str]:
         env_dict: Mapping[str, str] = {}
@@ -248,8 +249,8 @@ class ServiceProject(TaskProject):
             self.set_default(['envs', service_name, key, 'default'], val)
 
     
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, ports: List[str]):
-        self.load_env(location, 'zarubaServiceName', 'ZARUBA_ENV_PREFIX')
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, ports: List[str]):
+        self.load_env(location, 'zarubaServiceName', 'ZARUBA_SERVICE_NAME')
         if not os.path.isabs(location):
             location = os.path.join('..', location)
         if container_name == '':
@@ -270,7 +271,7 @@ class ServiceProject(TaskProject):
         self.main_project.register_build_image_task('build{}Image'.format(self.capital_service_name))
         self.main_project.register_push_image_task('push{}Image'.format(self.capital_service_name))
         self.main_project.save(dir_name)
-        super().generate(dir_name, service_name, image_name, container_name, location)
+        super().generate(dir_name, service_name, image_name, container_name, location, start_command)
         
 
 
@@ -289,7 +290,7 @@ class DockerProject(TaskProject):
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'configRef'], 'zarubaServiceName')
 
  
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
         if service_name == '':
             service_name = container_name
         self._set_service_name(service_name)
@@ -299,7 +300,7 @@ class DockerProject(TaskProject):
         self.main_project.register_stop_container_task('stop{}Container'.format(self.capital_service_name))
         self.main_project.register_remove_container_task('remove{}Container'.format(self.capital_service_name))
         self.main_project.save(dir_name)
-        super().generate(dir_name, service_name, image_name, container_name, location)
+        super().generate(dir_name, service_name, image_name, container_name, location, start_command)
         
 
        

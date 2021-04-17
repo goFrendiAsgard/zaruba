@@ -18,19 +18,6 @@ tasks:
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
   
 
-  test:
-    icon: 💉
-    dependencies:
-    - clearLog
-    - testCore
-    - testCommon
-    - testGeneratedService
-    - testPushImage
-    - testHelmApply
-    - testHelmDestroy
-    - stopContainerRegistry
-
-
   preparePlayground:
     icon: 🔨
     location: ./
@@ -157,9 +144,20 @@ tasks:
         set -e
         ZARUBA_HOME="$(realpath ".")"
         ./zaruba please showVersion setup.injectBootstrap=false
+  
+
+  testPythonUtil:
+    icon: 💉
+    location: ./scripts/util/python
+    dependencies:
+    - clearLog
+    - build
+    extend: core.runCoreScript
+    config:
+      start: pipenv run pytest -v --cov="$(pwd)" --cov-report html  
 
 
-  testCommon:
+  testCommonTask:
     icon: 💉
     location: ./
     dependencies:
@@ -173,3 +171,17 @@ tasks:
     - testSetupSdkman
     - testSetupSpark
     - testSetupKubeClient
+  
+
+  test:
+    icon: 💉
+    dependencies:
+    - clearLog
+    - testCore
+    - testCommonTask
+    - testGeneratedService
+    - testPushImage
+    - testHelmApply
+    - testHelmDestroy
+    - stopContainerRegistry
+    - testPythonUtil

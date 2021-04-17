@@ -2,11 +2,11 @@ includes: []
 
 tasks:
   runZarubaServiceName:
-    location: zarubaTaskLocation
+    location: zarubaServiceLocation
 
 configs:
   zarubaServiceName:
-    start: node main.js
+    start: zarubaStartCommand
 
 lconfigs:
   zarubaServiceName: {}

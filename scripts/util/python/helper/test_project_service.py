@@ -12,7 +12,7 @@ def test_service_project_generate():
     # generate service project
     service_project = ServiceProject()
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
-    service_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer', location='./test_resources/app', ports=[])
+    service_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', ports=[])
     # reload
     generated_project = ServiceProject()
     generated_project.load(dir_name=dir_name, service_name='myService')
@@ -25,10 +25,29 @@ def test_service_project_generate():
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'lconfRef']) == 'myService'
-    # buildMyService
+    # runMyServiceContainer
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'extend']) == 'core.startDockerContainer'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRef']) == 'myServiceContainer'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'lconfigRef']) == 'myServiceContainer'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'envRef']) == 'myService'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'dependencies', 0]) == 'buildMyServiceImage'
+    # stopMyServiceContainer
+    assert generated_project.get(['tasks', 'stopMyServiceContainer', 'extend']) == 'core.stopDockerContainer'
+    assert generated_project.get(['tasks', 'stopMyServiceContainer', 'configRef']) == 'myServiceContainer'
+    # removeMyServiceContainer
+    assert generated_project.get(['tasks', 'removeMyServiceContainer', 'extend']) == 'core.removeDockerContainer'
+    assert generated_project.get(['tasks', 'removeMyServiceContainer', 'configRef']) == 'myServiceContainer'
+    # buildMyServiceContainer
     assert generated_project.get(['tasks', 'buildMyServiceImage', 'extend']) == 'core.buildDockerImage'
+    assert generated_project.get(['tasks', 'buildMyServiceImage', 'timeout']) == '1h'
     assert generated_project.get(['tasks', 'buildMyServiceImage', 'configRef']) == 'myServiceContainer'
+    # pushMyServiceImage
+    assert generated_project.get(['tasks', 'pushMyServiceImage', 'extend']) == 'core.pushDockerImage'
+    assert generated_project.get(['tasks', 'pushMyServiceImage', 'timeout']) == '1h'
+    assert generated_project.get(['tasks', 'pushMyServiceImage', 'configRef']) == 'myServiceContainer'
+    assert generated_project.get(['tasks', 'pushMyServiceImage', 'dependencies', 0]) == 'buildMyServiceImage'
     # config
+    assert generated_project.get(['configs', 'myService', 'start']) == 'node main.js'
     assert generated_project.get(['configs', 'myServiceContainer', 'containerName']) == 'myContainer'
     assert generated_project.get(['configs', 'myServiceContainer', 'imageName']) == 'myimage'
     # lconfig
