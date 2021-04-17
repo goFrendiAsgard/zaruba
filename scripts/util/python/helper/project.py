@@ -229,6 +229,15 @@ class ServiceProject(TaskProject):
 
 
     def load_env(self, location: str, service_name: str, env_prefix: str=''):
+        self._set_service_name(service_name)
+        if location == '':
+            task_name = 'run{}'.format(self.capital_service_name)
+            if self.exist(['tasks', task_name, 'location']):
+                task_location = self.get(['tasks', task_name, 'location'])
+                if os.path.isabs(task_location):
+                    location = task_location
+                else:
+                    location = os.path.join('zaruba_tasks', task_location)
         env_dict = self._get_env_dict(location)
         if env_prefix == '':
             env_prefix = service_name.upper().replace(' ', '_')
