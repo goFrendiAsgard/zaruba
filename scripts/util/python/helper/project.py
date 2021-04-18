@@ -3,8 +3,18 @@ from typing import List, Mapping, Any
 from ruamel.yaml import YAML
 from io import StringIO
 from .config import YamlConfig
+from .decoration import generate_icon
 
 import os
+import shutil
+
+
+def get_env_file_names(location: str) -> List[str]:
+    abs_location = os.path.abspath(location)
+    env_file_names = [os.path.join(abs_location, f) for f in os.listdir(abs_location) if os.path.isfile(os.path.join(abs_location, f)) and (f.endswith('.env') or f.endswith('env.template'))]
+    env_file_names.sort(key=lambda s: len(s))
+    return env_file_names
+
 
 class Project(YamlConfig):
 
@@ -17,12 +27,6 @@ class Project(YamlConfig):
     
     def _set_default_properties(self):
         pass
-
-
-    def include(self, file_name: str):
-        if self.exist(['includes']) and file_name in self.get(['includes']):
-            return
-        self.append(['includes'], file_name) 
 
 
     def generate(self, file_name: str):
@@ -51,17 +55,20 @@ class MainProject(Project):
 
 
     def _set_default_properties(self):
-        self.include('${ZARUBA_HOME}/scripts/core.zaruba.yaml')
+        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
+        self.set_default(['tasks', 'run', 'icon'], generate_icon())
         self.set_default(['tasks', 'run', 'dependencies'], [])
+        self.set_default(['tasks', 'runContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'runContainer', 'dependencies'], [])
+        self.set_default(['tasks', 'stopContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'stopContainer', 'dependencies'], [])
+        self.set_default(['tasks', 'removeContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'removeContainer', 'dependencies'], [])
+        self.set_default(['tasks', 'buildImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'buildImage', 'dependencies'], [])
+        self.set_default(['tasks', 'pushImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'pushImage', 'dependencies'], [])
-        self.set_default(['tasks', 'helmApply', 'extend'], 'core.helmApply')
-        self.set_default(['tasks', 'helmApply', 'location'], 'helm-deployments')
-        self.set_default(['tasks', 'helmDestroy', 'extend'], 'core.helmDestroy')
-        self.set_default(['tasks', 'helmDestroy', 'location'], 'helm-deployments')
+        
 
 
     def _get_file_name(self, dir_name: str) -> str:
@@ -110,14 +117,13 @@ class TaskProject(Project):
         super().__init__()
         self.service_name = ''
         self.capital_service_name = ''
-        self.location = ''
         self.main_project: MainProject = MainProject()
 
 
     def _set_default_properties(self):
         service_name = 'zarubaServiceName'
         run_task_name = 'runZarubaServiceName'
-        self.include('${ZARUBA_HOME}/scripts/core.zaruba.yaml')
+        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['envs', service_name], {})
         self.set_default(['configs', service_name], {})
         self.set_default(['lconfigs', service_name], {})
@@ -144,15 +150,17 @@ class TaskProject(Project):
         self.main_project.load(dir_name)
         super().load(file_name)
         run_task_name = 'run{}'.format(self.service_name)
-        if self.exist(['tasks', run_task_name, 'location']):
-            self.location = self.get(['tasks', run_task_name, 'location'])
+
+
+    def save(self, dir_name: str, service_name: str):
+        file_name = self._get_file_name(dir_name, service_name)
+        super().save(self._get_file_name(file_name))
 
 
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
         file_name = self._get_file_name(dir_name, service_name)
         self.main_project.load(dir_name)
         self._set_service_name(service_name)
-        self.location = location
         self.replacement_dict = {
             'zarubaServiceName': self.service_name,
             'ZarubaServiceName': self.capital_service_name,
@@ -163,8 +171,9 @@ class TaskProject(Project):
             'zarubaStartCommand': start_command,
         }
         super().generate(file_name)
-        self.main_project.include(os.path.join('zaruba-tasks', '{}.zaruba.yaml'.format(service_name)))
+        self.main_project.append_if_not_exist(['includes'], os.path.join('zaruba-tasks', '{}.zaruba.yaml'.format(service_name)))
         self.main_project.save(dir_name)
+        self.load(dir_name, service_name)
 
 
 class ServiceProject(TaskProject):
@@ -177,24 +186,30 @@ class ServiceProject(TaskProject):
         self.set_default(['configs', 'zarubaServiceNameContainer', 'imageName'], 'zarubaImageName')
         self.set_default(['lconfigs', 'zarubaServiceNameContainer'], {})
         # run
+        self.set_default(['tasks', 'runZarubaServiceName', 'icon'], generate_icon())
         self.set_default(['tasks', 'runZarubaServiceName', 'extend'], 'core.startService')
         # runContainer
+        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'extend'], 'core.startDockerContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'dependencies'], ['buildZarubaServiceNameImage'])
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'lconfigRef'], 'zarubaServiceNameContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'envRef'], 'zarubaServiceName')
         # stopContainer
+        self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'extend'], 'core.stopDockerContainer')
         self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
         # removeContainer
+        self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'extend'], 'core.removeDockerContainer')
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
         # buildImage
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'extend'], 'core.buildDockerImage')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'timeout'], '1h')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         # pushImage
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'extend'], 'core.pushDockerImage')
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'dependencies'], ['buildZarubaServiceNameImage'])
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'timeout'], '1h')
@@ -203,7 +218,7 @@ class ServiceProject(TaskProject):
     
     def _get_env_dict(self, location: str) -> Mapping[str, str]:
         env_dict: Mapping[str, str] = {}
-        for env_file in ('sample.env', 'template.env', 'env.template', '.env'):
+        for env_file in get_env_file_names(location):
             env_path = os.path.abspath(os.path.join(location, env_file))
             if not os.path.isfile(env_path):
                 continue
@@ -229,16 +244,7 @@ class ServiceProject(TaskProject):
         return ports
 
 
-    def load_env(self, location: str, service_name: str, env_prefix: str=''):
-        self._set_service_name(service_name)
-        if location == '':
-            task_name = 'run{}'.format(self.capital_service_name)
-            if self.exist(['tasks', task_name, 'location']):
-                task_location = self.get(['tasks', task_name, 'location'])
-                if os.path.isabs(task_location):
-                    location = task_location
-                else:
-                    location = os.path.join('zaruba_tasks', task_location)
+    def _load_env(self, service_name: str, location: str='', env_prefix: str=''):
         env_dict = self._get_env_dict(location)
         if env_prefix == '':
             env_prefix = service_name.upper().replace(' ', '_')
@@ -248,11 +254,45 @@ class ServiceProject(TaskProject):
             self.set_default(['envs', service_name, key, 'from'], '{}_{}'.format(env_prefix, key))
             self.set_default(['envs', service_name, key, 'default'], val)
 
+
+    def load(self, dir_name: str, service_name: str):
+        super().load(dir_name, service_name)
+        self._set_service_name(service_name)
+        task_name = 'run{}'.format(self.capital_service_name)
+        if not self.exist(['tasks', task_name, 'location']):
+            return
+        task_location = self.get(['tasks', task_name, 'location'])
+        if not os.path.isabs(task_location):
+            task_location = os.path.abspath(os.path.join(dir_name, 'zaruba_tasks', task_location))
+        self._load_env(service_name, task_location)
+    
+
+    def save_env(self, dir_name: str, service_name: str):
+        env_file_names = get_env_file_names(dir_name)
+        default_env_file_name = os.path.join(dir_name, 'template.env')
+        if default_env_file_name not in env_file_names:
+            env_file_names.append(default_env_file_name)
+        for file_name in env_file_names:
+            existing_envvars: Mapping[str, str] = dotenv_values(file_name) if os.path.isfile(file_name) else {}
+            is_first_writing = True
+            f_write = open(file_name, 'a')
+            env_map: Mapping[str, Mapping[str, str]] = self.get(['envs', service_name]) if self.exist(['envs', service_name]) else {}
+            for env_key, env in env_map.items():
+                env_from = env.get('from')
+                if env_from == '' or env_from in existing_envvars:
+                    continue
+                if is_first_writing:
+                    is_first_writing = False
+                    f_write.write('\n# {}\n'.format(service_name))
+                env_value = env.get('default', '')
+                f_write.write('{}={}\n'.format(env_from, env_value))
+            f_write.close()
+
     
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, ports: List[str]):
-        self.load_env(location, 'zarubaServiceName', 'ZARUBA_SERVICE_NAME')
+        self._load_env('zarubaServiceName', location=location, env_prefix='ZARUBA_SERVICE_NAME')
         if not os.path.isabs(location):
-            location = os.path.join('..', location)
+            location = os.path.relpath(os.path.abspath(location), os.path.abspath(os.path.join(dir_name, 'zaruba-tasks')))
         if container_name == '':
             container_name = service_name
         if image_name == '':
@@ -274,18 +314,23 @@ class ServiceProject(TaskProject):
         super().generate(dir_name, service_name, image_name, container_name, location, start_command)
         
 
-
 class DockerProject(TaskProject):
 
     def _set_default_properties(self):
         super()._set_default_properties()
         # container related settings
-        self.set_default(['configs', 'zarubaServiceName', 'containerName'], 'zarubaContainerName')
+        self.set_default(['configs', 'zarubaServiceName', 'useImagePrefix'], False)
         self.set_default(['configs', 'zarubaServiceName', 'imageName'], 'zarubaImageName')
+        self.set_default(['configs', 'zarubaServiceName', 'containerName'], 'zarubaContainerName')
+        # run
+        self.set_default(['tasks', 'runZarubaServiceName', 'icon'], generate_icon())
+        self.set_default(['tasks', 'runZarubaServiceName', 'extend'], 'core.startDockerService')
         # stopContainer
+        self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'extend'], 'core.stopDockerContainer')
         self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'configRef'], 'zarubaServiceName')
         # removeContainer
+        self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'extend'], 'core.removeDockerContainer')
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'configRef'], 'zarubaServiceName')
 
@@ -293,6 +338,7 @@ class DockerProject(TaskProject):
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
         if service_name == '':
             service_name = container_name
+        image_name = image_name.lower()
         self._set_service_name(service_name)
         self.main_project.load(dir_name)
         self.main_project.register_run_task('run{}'.format(self.capital_service_name))
@@ -303,4 +349,86 @@ class DockerProject(TaskProject):
         super().generate(dir_name, service_name, image_name, container_name, location, start_command)
         
 
-       
+class HelmProject(Project):
+
+    def __init__(self):
+        super().__init__()
+        self.main_project: MainProject = MainProject()
+
+    def _get_file_name(self, dir_name: str) -> str:
+        return os.path.join(dir_name, 'helm-deployments', 'helmfile.yaml')
+
+
+    def load(self, dir_name: str):
+        super().load(self._get_file_name(dir_name))
+        self.main_project.load(dir_name)
+
+
+    def save(self, dir_name: str):
+        super().save(self._get_file_name(dir_name))
+
+
+    def generate(self, dir_name: str):
+        script_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        helm_template_dir = os.path.join(script_path, 'templates', 'helmDeployments')
+        shutil.copytree(helm_template_dir, os.path.join(dir_name, 'helm-deployments'))
+        # copy helm deployments
+        self.main_project.load(dir_name)
+        self.main_project.set_default(['tasks', 'helmApply', 'icon'], generate_icon())
+        self.main_project.set_default(['tasks', 'helmApply', 'extend'], 'core.helmApply')
+        self.main_project.set_default(['tasks', 'helmApply', 'location'], 'helm-deployments')
+        self.main_project.set_default(['tasks', 'helmDestroy', 'icon'], generate_icon())
+        self.main_project.set_default(['tasks', 'helmDestroy', 'extend'], 'core.helmDestroy')
+        self.main_project.set_default(['tasks', 'helmDestroy', 'location'], 'helm-deployments')
+        self.main_project.save(dir_name)
+        self.load(dir_name)
+
+
+class HelmServiceProject(Project):
+
+    def __init__(self):
+        super().__init__()
+        self.service_name = ''
+        self.capital_service_name = ''
+        self.service_project: ServiceProject = ServiceProject()
+        self.helm_project: HelmProject = HelmProject()
+
+
+    def _get_file_name(self, dir_name: str, service_name: str) -> str:
+        return os.path.join(dir_name, 'helm-deployments', 'values', '{}.yaml.gotmpl'.format(service_name))
+
+
+    def _set_service_name(self, service_name):
+        self.service_name = service_name
+        self.capital_service_name = self.service_name[0].upper() + self.service_name[1:]
+    
+
+    def load_env(self):
+        pass
+
+
+    def load(self, dir_name: str, service_name: str):
+        super().load(self._get_file_name(dir_name))
+        self.helm_project.load(dir_name)
+        self.service_project.load(dir_name, service_name)
+
+
+    def save(self, dir_name: str, service_name: str):
+        super().save(self._get_file_name(dir_name))
+
+
+    def generate(self, dir_name: str, service_name: str):
+        self.helm_project.load(dir_name)
+        self.service_project.load(dir_name, service_name)
+        self.load_env()
+        self._set_service_name(service_name)
+        service_container_config: Mapping[str, str] = self.service_project.get(['configs', service_name]) if self.service_project.exist(['configs', service_name]) else {}
+        self.replacement_dict = {
+            'zarubaServiceName': self.service_name,
+            'ZarubaServiceName': self.capital_service_name,
+            'ZARUBA_SERVICE_NAME': self.service_name.upper().replace(' ', '_'),
+            'zarubaContainerName': service_container_config.get('containerName', service_name),
+            'zarubaImageName': service_container_config.get('imageName', service_name),
+        }
+        file_name = self._get_file_name(dir_name, service_name)
+        super().generate(file_name)

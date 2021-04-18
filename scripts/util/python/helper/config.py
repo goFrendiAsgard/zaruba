@@ -67,6 +67,14 @@ class YamlConfig:
             self.set(keys, [])
         values = self.get(keys)
         values.append(new_value)
+
+    
+    def append_if_not_exist(self, keys: List[str], new_value: str):
+        if not self.exist(keys):
+            self.set(keys, [])
+        values = self.get(keys)
+        if new_value not in values:
+            values.append(new_value)
     
 
     def exist(self, keys: List[str]) -> bool:

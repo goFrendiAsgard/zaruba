@@ -1,0 +1,11 @@
+includes: []
+
+tasks:
+  runZarubaServiceName: {}
+
+configs:
+  zarubaServiceName:
+    port::3306: 3306
+
+lconfigs:
+  zarubaServiceName: {}

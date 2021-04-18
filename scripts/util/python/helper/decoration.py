@@ -1,3 +1,5 @@
+import random
+
 normal="\033[0m"
 bold="\033[1m"
 faint="\033[2m"
@@ -28,3 +30,9 @@ noStyle="\033[0m"
 noUnderline="\033[24m"
 noInverse="\033[27m"
 noColor="\033[39m"
+
+
+def generate_icon() -> str:
+    icon_list = ['🥜', '🍄', '🌰', '🍞', '🥐', '🥖', '🥞', '🧀', '🍖', '🍗', '🥓', '🍔', '🍟', '🍕', '🌭', '🌮', '🌯', '🥙', '🍲', '🥗', '🍿']
+    index = random.randrange(0, len(icon_list))
+    return icon_list[index]

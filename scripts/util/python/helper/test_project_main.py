@@ -1,10 +1,10 @@
 from .project import MainProject
-import os
+import shutil
 
 def test_main_project_generate():
     dir_name = './playground/main_project'
     try:
-        os.removedirs(dir_name)
+        shutil.rmtree(dir_name)
     except OSError:
         pass
     main_project = MainProject()
@@ -19,5 +19,3 @@ def test_main_project_generate():
     assert generated_main_project.exist(['tasks', 'removeContainer'])
     assert generated_main_project.exist(['tasks', 'buildImage'])
     assert generated_main_project.exist(['tasks', 'pushImage'])
-    assert generated_main_project.exist(['tasks', 'helmApply'])
-    assert generated_main_project.exist(['tasks', 'helmDestroy'])

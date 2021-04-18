@@ -1,27 +1,35 @@
+from dotenv import dotenv_values
 from .project import MainProject, ServiceProject
+
 import os
+import shutil
 
 def test_service_project_generate():
     dir_name = './playground/service_project'
     try:
-        os.removedirs(dir_name)
+        shutil.rmtree(dir_name)
     except OSError:
         pass
     main_project = MainProject()
     main_project.generate(dir_name)
+    service_name = 'myService'
     # generate service project
     service_project = ServiceProject()
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
-    service_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', ports=[])
+    service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', ports=[])
+    # assert env
+    service_project.save_env(dir_name, service_name)
+    envs: Mapping[str, str] = dotenv_values(os.path.join(dir_name, 'template.env'))
+    assert envs['MYSERVICE_PORT'] == '3000'
     # reload
     generated_project = ServiceProject()
-    generated_project.load(dir_name=dir_name, service_name='myService')
+    generated_project.load(dir_name=dir_name, service_name=service_name)
     # assert generated project
     assert len(generated_project.get(['includes'])) == 1
     assert generated_project.get(['includes', 0]) == '${ZARUBA_HOME}/scripts/core.zaruba.yaml'
     # runMyService
     assert generated_project.get(['tasks', 'runMyService', 'extend']) == 'core.startService'
-    assert generated_project.get(['tasks', 'runMyService', 'location']) == '.././test_resources/app'
+    assert generated_project.get(['tasks', 'runMyService', 'location']) == '../../../test_resources/app'
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'lconfRef']) == 'myService'
