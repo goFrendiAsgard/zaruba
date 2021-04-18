@@ -1,7 +1,9 @@
+from dotenv import dotenv_values
 from .project import MainProject, ServiceProject, HelmProject, HelmServiceProject
 
 import os
 import shutil
+
 
 def test_main_project_generate():
     dir_name = './playground/main_project'
@@ -32,18 +34,19 @@ def test_main_project_update_env():
     main_project = MainProject()
     main_project.generate(dir_name)
     # prepare app_location
-    app_location = os.path.join(dir_name, 'app')
+    service_name = 'app'
+    app_location = os.path.join(dir_name, service_name)
     shutil.copytree('./test_resources/app', app_location)
     # generate service project
     service_project = ServiceProject()
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
-    service_project.generate(dir_name=dir_name, service_name='app', image_name='myImage', container_name='myContainer', location=app_location, start_command='node main.js', ports=[])
+    service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location=app_location, start_command='node main.js', ports=[])
     # generate helm project
     helm_project = HelmProject()
     helm_project.generate(dir_name=dir_name)
     # generate helm service project
     helm_service_project = HelmServiceProject()
-    helm_service_project.generate(dir_name, 'app')
+    helm_service_project.generate(dir_name, service_name)
     # update env file
     f_write = open(os.path.join(app_location, 'template.env'), 'a')
     f_write.write('\nFOO=BAR\n')
@@ -51,3 +54,21 @@ def test_main_project_update_env():
     # reload main project and update env
     main_project.load(dir_name)
     main_project.update_env(dir_name)
+    # assert env
+    service_project.save_env(dir_name, service_name)
+    envs: Mapping[str, str] = dotenv_values(os.path.join(dir_name, 'template.env'))
+    assert envs['APP_PORT'] == '3000'
+    assert envs['APP_FOO'] == 'BAR'
+    # assert service project
+    service_project.load(dir_name, service_name)
+    assert service_project.get(['envs', 'app', 'PORT', 'from']) == 'APP_PORT'
+    assert service_project.get(['envs', 'app', 'PORT', 'default']) == '3000'
+    assert service_project.get(['envs', 'app', 'FOO', 'from']) == 'APP_FOO'
+    assert service_project.get(['envs', 'app', 'FOO', 'default']) == 'BAR'
+    # assert helm service project
+    helm_service_project.load(dir_name, service_name)
+    assert helm_service_project.get(['app', 'container', 'env', 0, 'name']) == 'PORT'
+    assert helm_service_project.get(['app', 'container', 'env', 0, 'value']) == '3000'
+    assert helm_service_project.get(['app', 'container', 'env', 1, 'name']) == 'FOO'
+    assert helm_service_project.get(['app', 'container', 'env', 1, 'value']) == 'BAR'
+
