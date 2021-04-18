@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
   zarubaServiceName:
     icon: 🐬 
@@ -21,7 +19,7 @@ configs:
     imageName: mysql
     containerName: zarubaContainerName
     port::3306: 3306
-    
+    expose: config.port
 
 envs:
   zarubaServiceName:

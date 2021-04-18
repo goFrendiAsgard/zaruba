@@ -107,7 +107,7 @@ func (task *Task) GetValue(td *TaskData, keys ...string) (val string, err error)
 // GetConfigs getting all parsed env
 func (task *Task) GetConfigs(td *TaskData) (parsedConfig map[string]string, err error) {
 	parsedConfig = map[string]string{}
-	for key := range td.task.Config {
+	for _, key := range task.getConfigKeys() {
 		parsedConfig[key], err = task.GetConfig(td, key)
 		if err != nil {
 			return parsedConfig, err
@@ -133,6 +133,19 @@ func (task *Task) GetConfig(td *TaskData, keys ...string) (val string, err error
 	return "", nil
 }
 
+func (task *Task) getConfigKeys() (keys []string) {
+	keys = []string{}
+	for key := range task.Config {
+		keys = append(keys, key)
+	}
+	for _, baseConfigKey := range task.getBaseConfigKeys() {
+		for key := range task.Project.baseConfig[baseConfigKey].BaseConfigMap {
+			keys = append(keys, key)
+		}
+	}
+	return keys
+}
+
 func (task *Task) getConfigPattern(key string) (pattern string, declared bool) {
 	if pattern, declared = task.Config[key]; declared {
 		return pattern, true
@@ -149,7 +162,7 @@ func (task *Task) getConfigPattern(key string) (pattern string, declared bool) {
 // GetLConfigs getting all lConfig
 func (task *Task) GetLConfigs(td *TaskData) (parsedLConfig map[string][]string, err error) {
 	parsedLConfig = map[string][]string{}
-	for key := range td.task.LConfig {
+	for _, key := range td.task.getLConfigKeys() {
 		parsedLConfig[key], err = task.GetLConfig(td, key)
 		if err != nil {
 			return parsedLConfig, err
@@ -183,6 +196,19 @@ func (task *Task) GetLConfig(td *TaskData, keys ...string) (vals []string, err e
 	return []string{}, nil
 }
 
+func (task *Task) getLConfigKeys() (keys []string) {
+	keys = []string{}
+	for key := range task.LConfig {
+		keys = append(keys, key)
+	}
+	for _, baseLConfigKey := range task.getBaseLConfigKeys() {
+		for key := range task.Project.baseLConfig[baseLConfigKey].BaseLConfigMap {
+			keys = append(keys, key)
+		}
+	}
+	return keys
+}
+
 func (task *Task) getLConfigPatterns(key string) (patterns []string, declared bool) {
 	if patterns, declared = task.LConfig[key]; declared {
 		return patterns, true
@@ -199,7 +225,7 @@ func (task *Task) getLConfigPatterns(key string) (patterns []string, declared bo
 // GetEnvs getting all parsed env
 func (task *Task) GetEnvs(td *TaskData) (parsedEnv map[string]string, err error) {
 	parsedEnv = map[string]string{}
-	for key := range td.task.Env {
+	for _, key := range td.task.getEnvKeys() {
 		parsedEnv[key], err = task.GetEnv(td, key)
 		if err != nil {
 			return parsedEnv, err
@@ -227,6 +253,19 @@ func (task *Task) GetEnv(td *TaskData, key string) (val string, err error) {
 		}
 	}
 	return os.Getenv(key), nil
+}
+
+func (task *Task) getEnvKeys() (keys []string) {
+	keys = []string{}
+	for key := range task.Env {
+		keys = append(keys, key)
+	}
+	for _, baseEnvKey := range task.getBaseEnvKeys() {
+		for key := range task.Project.baseEnv[baseEnvKey].BaseEnvMap {
+			keys = append(keys, key)
+		}
+	}
+	return keys
 }
 
 func (task *Task) getEnv(key string) (env *Env, declared bool) {

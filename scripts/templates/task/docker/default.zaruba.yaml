@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
   runZarubaServiceName:
     icon: 🐳
@@ -11,3 +9,4 @@ configs:
     useImagePrefix: false
     imageName: zarubaImageName
     containerName: zarubaContainerName
+    expose: lconfig.ports

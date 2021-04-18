@@ -24,9 +24,6 @@ def test_service_project_generate():
     # reload
     generated_project = ServiceProject()
     generated_project.load(dir_name=dir_name, service_name=service_name)
-    # assert generated project
-    assert len(generated_project.get(['includes'])) == 1
-    assert generated_project.get(['includes', 0]) == '${ZARUBA_HOME}/scripts/core.zaruba.yaml'
     # runMyService
     assert generated_project.get(['tasks', 'runMyService', 'extend']) == 'core.startService'
     assert generated_project.get(['tasks', 'runMyService', 'location']) == '../../../test_resources/app'
@@ -36,7 +33,7 @@ def test_service_project_generate():
     # runMyServiceContainer
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'extend']) == 'core.startDockerContainer'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRef']) == 'myServiceContainer'
-    assert generated_project.get(['tasks', 'runMyServiceContainer', 'lconfigRef']) == 'myServiceContainer'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'lconfigRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'dependencies', 0]) == 'buildMyServiceImage'
     # stopMyServiceContainer

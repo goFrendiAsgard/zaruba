@@ -25,7 +25,7 @@ tasks:
         ../zaruba please setProjectValue variable.name=dockerImagePrefix::default variable.value=localhost:9999 setup.injectBootstrap=false
   
 
-  testMakeHelmCharts:
+  testInitHelm:
     icon: 💉
     location: ./playground
     dependencies:
@@ -152,7 +152,7 @@ tasks:
     location: ./playground
     dependencies:
     - testMakeFastAPICRUD
-    - testMakeHelmCharts
+    - testInitHelm
     extend: core.runShellScript
     config:
       start: |

@@ -149,7 +149,6 @@ class TaskProject(Project):
     def _set_default_properties(self):
         service_name = 'zarubaServiceName'
         run_task_name = 'runZarubaServiceName'
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['envs', service_name], {})
         self.set_default(['configs', service_name], {})
         self.set_default(['lconfigs', service_name], {})
@@ -190,6 +189,7 @@ class TaskProject(Project):
         self._set_service_name(service_name)
         self.replacement_dict = {
             'zarubaServiceName': self.service_name,
+            'zarubaservicename': self.service_name.lower(),
             'ZarubaServiceName': self.capital_service_name,
             'ZARUBA_SERVICE_NAME': self.snake_upper_service_name,
             'zarubaContainerName': container_name,
@@ -211,16 +211,17 @@ class ServiceProject(TaskProject):
         # container related settings
         self.set_default(['configs', 'zarubaServiceNameContainer', 'containerName'], 'zarubaContainerName')
         self.set_default(['configs', 'zarubaServiceNameContainer', 'imageName'], 'zarubaImageName')
-        self.set_default(['lconfigs', 'zarubaServiceNameContainer'], {})
+        self.set_default(['configs', 'zarubaServiceNameContainer', 'expose'], 'lconfig.ports')
         # run
         self.set_default(['tasks', 'runZarubaServiceName', 'icon'], generate_icon())
         self.set_default(['tasks', 'runZarubaServiceName', 'extend'], 'core.startService')
+        self.set_default(['tasks', 'runZarubaServiceName', 'location'], 'zarubaServiceLocation')
         # runContainer
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'extend'], 'core.startDockerContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'dependencies'], ['buildZarubaServiceNameImage'])
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
-        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'lconfigRef'], 'zarubaServiceNameContainer')
+        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'lconfigRef'], 'zarubaServiceName')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'envRef'], 'zarubaServiceName')
         # stopContainer
         self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'icon'], generate_icon())
@@ -233,6 +234,7 @@ class ServiceProject(TaskProject):
         # buildImage
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'extend'], 'core.buildDockerImage')
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'location'], 'zarubaServiceLocation')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'timeout'], '1h')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         # pushImage
@@ -262,7 +264,7 @@ class ServiceProject(TaskProject):
         for env_key in self.get(['envs', service_name]):
             if not self.exist(['envs', service_name, env_key, 'default']):
                 continue
-            env_val = self.get(['envs', service_name, env_key, 'default'])
+            env_val = str(self.get(['envs', service_name, env_key, 'default']))
             if not env_val.isnumeric():
                 continue
             env_val_int = int(env_val)
@@ -278,7 +280,8 @@ class ServiceProject(TaskProject):
         for key, val in env_dict.items():
             if self.exist(['envs', service_name, key]):
                 continue
-            self.set_default(['envs', service_name, key, 'from'], '{}_{}'.format(env_prefix, key))
+            env_key = key if key.startswith(env_prefix + '_') else '{}_{}'.format(env_prefix, key)
+            self.set_default(['envs', service_name, key, 'from'], env_key)
             self.set_default(['envs', service_name, key, 'default'], val)
 
 
@@ -321,6 +324,9 @@ class ServiceProject(TaskProject):
         self._load_env('zarubaServiceName', location=location, env_prefix='ZARUBA_SERVICE_NAME')
         if not os.path.isabs(location):
             location = os.path.relpath(os.path.abspath(location), os.path.abspath(os.path.join(dir_name, 'zaruba-tasks')))
+        if service_name == '':
+            service_name = os.path.basename(location)
+            service_name = re.sub(r'[^a-zA-Z0-9]', '', service_name)
         if container_name == '':
             container_name = service_name
         if image_name == '':
@@ -350,6 +356,7 @@ class DockerProject(TaskProject):
         self.set_default(['configs', 'zarubaServiceName', 'useImagePrefix'], False)
         self.set_default(['configs', 'zarubaServiceName', 'imageName'], 'zarubaImageName')
         self.set_default(['configs', 'zarubaServiceName', 'containerName'], 'zarubaContainerName')
+        self.set_default(['configs', 'zarubaServiceName', 'expose'], 'config.port')
         # run
         self.set_default(['tasks', 'runZarubaServiceName', 'icon'], generate_icon())
         self.set_default(['tasks', 'runZarubaServiceName', 'extend'], 'core.startDockerService')
@@ -364,6 +371,8 @@ class DockerProject(TaskProject):
 
  
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str):
+        if container_name == '':
+            container_name = image_name
         if service_name == '':
             service_name = container_name
         image_name = image_name.lower()
@@ -419,7 +428,7 @@ class HelmProject(Project):
         # check whethere service already registered or not
         registered = False
         for release in releases:
-            if release['name'] == service_name:
+            if release['name'] == service_name.lower():
                 registered = True
                 break
         # do nothing if service already registered
@@ -427,8 +436,8 @@ class HelmProject(Project):
             return
         # register new release
         self.append(['releases'], {
-            'name': service_name,
-            'chart': './chart/app',
+            'name': service_name.lower(),
+            'chart': './charts/app',
             'values': ['./values/{}.yaml.gotmpl'.format(service_name)],
         })
 
@@ -456,11 +465,11 @@ class HelmServiceProject(Project):
 
     def _set_default_properties(self):
         super()._set_default_properties()
-        self.set_default(['app', 'name'], 'zarubaServiceName')
+        self.set_default(['app', 'name'], 'zarubaservicename')
         self.set_default(['app', 'group'], 'db')
         self.set_default(['app', 'container', 'imagePrefix'], '{{ .Values | get "commonImagePrefix" "local" }}')
         self.set_default(['app', 'container', 'imageTag'], '{{ .Values | get "commonImagePrefix" "latest" }}')
-        self.set_default(['app', 'container', 'image'], 'zarubaServiceName')
+        self.set_default(['app', 'container', 'image'], 'zarubaservicename')
         self.set_default(['app', 'container', 'env'], [])
         self.set_default(['app', 'ports'], [])
         
@@ -546,6 +555,7 @@ class HelmServiceProject(Project):
         service_container_config: Mapping[str, str] = self.service_project.get(['configs', service_name]) if self.service_project.exist(['configs', service_name]) else {}
         self.replacement_dict = {
             'zarubaServiceName': self.service_name,
+            'zarubaservicename': self.service_name.lower(),
             'ZarubaServiceName': self.capital_service_name,
             'ZARUBA_SERVICE_NAME': self.snake_upper_service_name,
             'zarubaContainerName': service_container_config.get('containerName', service_name),

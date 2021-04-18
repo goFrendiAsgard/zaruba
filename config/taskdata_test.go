@@ -208,7 +208,10 @@ func TestTaskDataValuesGetSubKeys(t *testing.T) {
 	if err != nil {
 		return
 	}
-	subkeys := td.GetSubValueKeys("alchemist")
+	subkeys, err := td.GetSubValueKeys("alchemist")
+	if err != nil {
+		return
+	}
 	if len(subkeys) != 2 {
 		t.Errorf("Subkeys length should be 2, but currently contains %#v", subkeys)
 	}

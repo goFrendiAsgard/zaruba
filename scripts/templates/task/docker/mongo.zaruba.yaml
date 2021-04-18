@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
   zarubaRunTask:
     icon: 🍃
@@ -12,6 +10,7 @@ configs:
     imageName: mongo
     containerName: zarubaContainerName
     port::27017: 27017
+    expose: config.port
 
 envs:
   zarubaServiceName:

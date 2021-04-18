@@ -41,22 +41,22 @@ inputs:
   generator.module.name:
     description: Module name
     prompt: Module Name (Required).
-    validation: ^[a-zA-Z0-9_]+$
+    validation: ^[a-zA-Z0-9_]*$
   
   generator.url:
     description: URL to be handled
     prompt: URL (Required).
-    validation: ^[a-zA-Z0-9_\-/]+$
+    validation: ^[a-zA-Z0-9_\-/]*$
 
   generator.event.name:
     description: Event name
     prompt: Event name (Required).
-    validation: ^[a-zA-Z0-9_\-\.]+$
+    validation: ^[a-zA-Z0-9_\-\.]*$
   
   generator.crud.entity:
     description: Entity name.
     prompt: Entity (Required).
-    validation: ^[a-zA-Z0-9_]+$
+    validation: ^[a-zA-Z0-9_]*$
   
   generator.crud.fields:
     description: Field names.

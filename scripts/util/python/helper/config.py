@@ -33,8 +33,6 @@ class YamlConfig:
                 prev_level = self._get_indentation_level(prev_line)
                 if (level < prev_level and (level == 0 or level == 2)) or (level == 2 and (prev_level == 0 or (line.startswith('-') and not prev_line.startswith('-')))):
                     non_empty_lines.append('')
-                if level == 0 and prev_level != 0:
-                    non_empty_lines.append('')
             non_empty_lines.append(line)
             prev_line = line
         return '\n'.join(non_empty_lines)

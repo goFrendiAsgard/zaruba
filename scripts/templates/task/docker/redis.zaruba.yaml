@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
   runZarubaServicename:
     icon: 🧰
@@ -12,4 +10,4 @@ configs:
     imageName: redis
     containerName: zarubaContainerName
     port::6379: 6379
-      
+    expose: config.port

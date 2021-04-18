@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
   runZarubaServiceName:
     icon: 🍝
@@ -16,6 +14,7 @@ configs:
     containerName: zarubaContainerName
     port::9200: 9200
     port::9300: 9300
+    expose: config.port
 
 envs:
   zarubaServiceName:

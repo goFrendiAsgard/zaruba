@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
   runZarubaServiceName:
     icon: 📜

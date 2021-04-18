@@ -174,7 +174,7 @@ tasks:
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker run --name "${CONTAINER_NAME}" {{ "" -}}
           {{ range $key, $val := $this.GetEnvs -}} 
-            -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}$val{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" "host.docker.internal" }}{{ end }}" {{ "" -}}
+            -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}{{ $val }}{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" "host.docker.internal" }}{{ end }}" {{ "" -}}
           {{ end -}}
           {{ if eq $expose "config.port" -}}
             {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}

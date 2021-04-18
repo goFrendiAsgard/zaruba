@@ -16,9 +16,6 @@ def test_docker_project_generate():
     # reload
     generated_project = DockerProject()
     generated_project.load(dir_name=dir_name, service_name='myService')
-    # assert generated project
-    assert len(generated_project.get(['includes'])) == 1
-    assert generated_project.get(['includes', 0]) == '${ZARUBA_HOME}/scripts/core.zaruba.yaml'
     # runMyService
     assert generated_project.get(['tasks', 'runMyService', 'extend']) == 'core.startDockerService'
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'

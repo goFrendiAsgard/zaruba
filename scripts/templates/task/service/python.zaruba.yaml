@@ -1,5 +1,3 @@
-includes: []
-
 tasks:
     
   prepareZarubaServiceName:
@@ -23,7 +21,7 @@ tasks:
     envRef: zarubaServiceName
     configRef: zarubaServiceName
     config:
-      pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+      start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
     lconfigRef: zarubaServiceName
 
   runZarubaServiceName:

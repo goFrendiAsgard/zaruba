@@ -1,9 +1,7 @@
-includes: []
-
 tasks:
   runZarubaServiceName:
     icon: 📜
-    extend: core.startService
+    extend: serveHttp
     location: zarubaServiceLocation
     config:
       start: zarubaStartCommand

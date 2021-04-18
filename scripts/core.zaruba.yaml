@@ -420,7 +420,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_py update_service_task_env .
+        invoke_core_py update_env
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 

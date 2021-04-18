@@ -154,7 +154,7 @@ def capitalize(text: str) -> str:
 
 
 def get_env_prefix(location: str) -> str:
-    return get_alphanum_basename(location).upper().replace(' ', '_')
+    return ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in get_alphanum_basename(location)]).lstrip('_').upper()
 
 
 def get_task_env_name(location: str, env_name: str) -> str:

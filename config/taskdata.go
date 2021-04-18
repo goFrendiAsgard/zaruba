@@ -50,8 +50,12 @@ func (td *TaskData) GetConfigs() (parsedEnv map[string]string, err error) {
 }
 
 // GetSubConfigKeys get config subkeys
-func (td *TaskData) GetSubConfigKeys(keys ...string) (subKeys []string) {
-	return str.GetSubKeys(td.task.Config, keys)
+func (td *TaskData) GetSubConfigKeys(keys ...string) (subKeys []string, err error) {
+	configs, err := td.GetConfigs()
+	if err != nil {
+		return subKeys, err
+	}
+	return str.GetSubKeys(configs, keys), nil
 }
 
 // GetLConfig get config of task data
@@ -69,14 +73,18 @@ func (td *TaskData) GetValue(keys ...string) (val string, err error) {
 	return td.task.GetValue(td, keys...)
 }
 
-// GetSubValueKeys get keyword argument subkeys
-func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string) {
-	return str.GetSubKeys(td.task.Project.values, keys)
-}
-
 // GetValues get all keyword arguments
 func (td *TaskData) GetValues() (parsedEnv map[string]string, err error) {
 	return td.task.GetValues(td)
+}
+
+// GetSubValueKeys get keyword argument subkeys
+func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string, err error) {
+	values, err := td.GetValues()
+	if err != nil {
+		return subKeys, err
+	}
+	return str.GetSubKeys(values, keys), err
 }
 
 // GetEnv get environment

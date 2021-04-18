@@ -1,11 +1,18 @@
-includes: []
-
 tasks:
 
   runZarubaServiceName:
     icon: 🐇
     extend: core.startDockerContainer
     timeout: 1h
+    config:
+      afterCheck: |
+        set +e
+        docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
+        until [ "$?" = "0" ]
+        do
+          docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
+          sleep 3
+        done
 
 configs:
   zarubaServiceName:
@@ -15,14 +22,7 @@ configs:
     containerName: zarubaContainerName
     port::5672: 5672
     port::15672: 15672
-    afterCheck: |
-      set +e
-      docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
-      until [ "$?" = "0" ]
-      do
-        docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
-        sleep 3
-      done
+    expose: config.port
 
 envs:
   zarubaServiceName:
