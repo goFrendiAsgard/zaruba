@@ -3,6 +3,8 @@ from helper.project import ServiceProject
 
 @cli
 def create_service_task(template_location: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str='', ports_str: str=''):
+    if location == '':
+        raise 'Service location should be given'
     ports = ports_str.split(',') if ports_str != '' else []
     dir_name = '.'
     service_project = ServiceProject()

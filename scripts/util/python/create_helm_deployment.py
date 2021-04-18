@@ -8,7 +8,7 @@ from helper.project import HelmServiceProject
 def create_service_deployment(service_name: str):
     dir_name = '.'
     if service_name == '':
-        raise 'Service name cannot be empty'
+        raise 'Service name should be given'
     helm_service_project = HelmServiceProject()
     helm_service_project.generate(dir_name, service_name)
 

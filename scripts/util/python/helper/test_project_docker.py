@@ -17,7 +17,7 @@ def test_docker_project_generate():
     generated_project = DockerProject()
     generated_project.load(dir_name=dir_name, service_name='myService')
     # runMyService
-    assert generated_project.get(['tasks', 'runMyService', 'extend']) == 'core.startDockerService'
+    assert generated_project.get(['tasks', 'runMyService', 'extend']) == 'core.startDockerContainer'
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'lconfRef']) == 'myService'
