@@ -6,8 +6,8 @@ import os
 class YamlConfig:
 
 
-    def __init__(self, data: Mapping[str, Any]):
-        self.data: Mapping[str, Any] = data
+    def __init__(self):
+        self.data: Mapping[str, Any] = {}
     
 
     def _create_dir_if_not_exist(self, file_name: str):

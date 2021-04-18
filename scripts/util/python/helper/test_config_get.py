@@ -2,7 +2,7 @@ from .config import YamlConfig
 
 
 def get_yaml_config() -> YamlConfig:
-    yaml_config = YamlConfig({})
+    yaml_config = YamlConfig()
     yaml_config.load('./test_resources/yaml_config.yaml')
     return yaml_config
 

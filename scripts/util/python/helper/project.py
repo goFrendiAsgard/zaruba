@@ -21,7 +21,7 @@ class Project(YamlConfig):
 
 
     def __init__(self):
-        super().__init__({})
+        super().__init__()
         self.replacement_dict: Mapping[str, str] = {}
         self.file_name: str = ''
 
