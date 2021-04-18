@@ -1,30 +1,56 @@
+includes: []
+
 tasks:
 
-  zarubaRunTask:
+  prepareZarubaServiceName:
     icon: 🐍
-    description: Run zarubaServiceName
-    extend: core.startService
-    location: zarubaTaskLocation
+    extend: core.runShellScript
+    location: zarubaServiceLocation
+    timeout: 1h
+    envRef: zarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      start: pipenv sync
+    lconfigRef: zarubaServiceName
+ 
+  testZarubaServiceName:
+    icon: 🐍
+    extend: core.runShellScript
+    location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
-    env: &zarubaServiceNameEnv
-      PIPENV_DONT_LOAD_ENV:
-        from: ZARUBA_ENV_PREFIX_PIPENV_DONT_LOAD_ENV
-        default: 1
-    lconfig:
-      ports: &zarubaServiceNamePorts
-      - '{{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
+    timeout: 1h
+    envRef: zarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+    lconfigRef: zarubaServiceName
+
+  runZarubaServiceName:
+    icon: 🐍
+    extend: core.startService
+    location: zarubaServiceLocation
+    dependencies:
+      - prepareZarubaServiceName
     config:
       start: |
         pipenv run uvicorn main:app --reload --port={{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
 
-    
-  prepareZarubaServiceName:
-    icon: 🐍
-    extend: core.runShellScript
-    location: zarubaTaskLocation
-    timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
-    config:
-      start: pipenv install
+
+configs:
+  zarubaServiceName: {} 
+   
+configs:
+  zarubaServiceName: {}
+
+lconfigs:
+  zarubaServiceName:
+    ports:
+    - '{{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
+
+envs:
+  zarubaServiceName:
+    PIPENV_DONT_LOAD_ENV:
+      from: ZARUBA_SERVICE_NAME_PIPENV_DONT_LOAD_ENV
+      default: 1
+   

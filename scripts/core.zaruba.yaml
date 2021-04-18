@@ -392,6 +392,22 @@ tasks:
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
 
+ 
+  initHelm:
+    icon: 🚢
+    description: |
+      Create helm deployment artifacts.
+    extend: core.generate
+    dependencies:
+    - core.isProject
+    - core.isNotContainHelmCharts
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        invoke_core_py create_helm_task
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
+
 
   updateEnv:
     icon: 🔄

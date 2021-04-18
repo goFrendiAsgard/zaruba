@@ -1,11 +1,13 @@
-tasks:
+includes: []
 
-  zarubaRunTask:
+tasks:
+  runZarubaServiceName:
     icon: 🐳
     extend: core.startDockerContainer
     timeout: 1h
-    env: {}
-    config:
-      useImagePrefix: false
-      imageName: zarubaImageName
-      containerName: zarubaContainerName
+
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: zarubaImageName
+    containerName: zarubaContainerName

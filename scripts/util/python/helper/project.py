@@ -363,7 +363,7 @@ class DockerProject(TaskProject):
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'configRef'], 'zarubaServiceName')
 
  
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str):
         if service_name == '':
             service_name = container_name
         image_name = image_name.lower()
@@ -374,7 +374,7 @@ class DockerProject(TaskProject):
         self.main_project.register_stop_container_task('stop{}Container'.format(self.capital_service_name))
         self.main_project.register_remove_container_task('remove{}Container'.format(self.capital_service_name))
         self.main_project.save(dir_name)
-        super().generate(dir_name, service_name, image_name, container_name, location, start_command)
+        super().generate(dir_name, service_name, image_name, container_name, location='', start_command='')
         
 
 class HelmProject(Project):

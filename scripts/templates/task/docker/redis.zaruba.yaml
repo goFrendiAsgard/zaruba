@@ -1,12 +1,15 @@
-tasks:
+includes: []
 
-  zarubaRunTask:
+tasks:
+  runZarubaServicename:
     icon: 🧰
     extend: core.startDockerContainer
     timeout: 1h
-    config:
-      useImagePrefix: false
-      imageName: redis
-      containerName: zarubaContainerName
-      port::6379: 6379
+
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: redis
+    containerName: zarubaContainerName
+    port::6379: 6379
       

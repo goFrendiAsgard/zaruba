@@ -1,60 +1,32 @@
+includes: []
+
 inputs:
 
   zarubaServiceName.npmRebuild:
-    default: false
-    description: Should `npm rebuild` performed?
+    default: no
+    options: [yes, no]
+    prompt: Do you want to perform npm rebuild on zarubaServiceName?
+    description: npm rebuild on zarubaServiceName
   
   zarubaServiceName.removeNodeModules:
-    default: false
-    description: Should node_modules removed before performing npm install?
+    default: no
+    options: [yes, no]
+    prompt: Do you want to delete node_modules on zarubaServiceName?
+    description: Delete node_modules on zarubaServiceName
 
 tasks:
-
-  zarubaRunTask:
-    icon: 🐸
-    description: Run zarubaServiceName
-    extend: core.startService
-    location: &zarubaServiceNameLocation zarubaTaskLocation
-    dependencies:
-      - prepareZarubaServiceName
-    env: &zarubaServiceNameEnv {}
-    lconfig:
-      ports: &zarubaServiceNamePorts []
-    config:
-      nodeVersion: &zarubaServiceNameNodeVersion node
-      start: |
-        {{ .GetConfig "includeNvmScript" }}
-        npm start
-  
-
-  testZarubaServiceName:
-    icon: 🐸
-    extend: core.runCoreScript
-    location: *zarubaServiceNameLocation
-    dependencies:
-      - prepareZarubaServiceName
-    timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
-    config:
-      nodeVersion: *zarubaServiceNameNodeVersion
-      start: |
-        {{ .GetConfig "includeNvmScript" }}
-        npm test
-
   
   prepareZarubaServiceName:
     icon: 🐸
     extend: core.runCoreScript
-    location: *zarubaServiceNameLocation
-    timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
+    location: zarubaServiceLocation
     inputs:
     - zarubaServiceName.npmRebuild
     - zarubaServiceName.removeNodeModules
+    timeout: 1h
+    envRef: zarubaServiceName
+    configRef: zarubaServiceName
     config:
-      nodeVersion: *zarubaServiceNameNodeVersion
       shouldTscCompile: true
       start: |
         {{ .GetConfig "includeNvmScript" }}
@@ -62,3 +34,45 @@ tasks:
         npm install
         {{ if .IsTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}
         {{ .GetConfig "tscCompileScript" }}
+    lconfigRef: zarubaServiceName
+
+  testZarubaServiceName:
+    icon: 🐸
+    extend: core.runCoreScript
+    location: zarubaServiceLocation
+    dependencies:
+      - prepareZarubaServiceName
+    timeout: 1h
+    envRef: zarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      start: |
+        {{ .GetConfig "includeNvmScript" }}
+        npm test
+    lconfigRef: zarubaServiceName
+
+  runZarubaServiceName:
+    icon: 🐸
+    extend: core.startService
+    location: zarubaServiceLocation
+    dependencies:
+      - prepareZarubaServiceName
+    envRef: zarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      start: |
+        {{ .GetConfig "includeNvmScript" }}
+        npm start
+    lconfigRef: zarubaServiceName
+
+
+configs:
+  zarubaServiceName:
+    nodeVersion: node
+   
+configs:
+  zarubaServiceName: {}
+
+lconfigs:
+  zarubaServiceName: {}
+

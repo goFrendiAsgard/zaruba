@@ -1,20 +1,24 @@
-tasks:
+includes: []
 
-  zarubaRunTask:
+tasks:
+  runZarubaServiceName:
     icon: 👀
     extend: core.startDockerContainer
     timeout: 1h
-    env:
-      JVM_OPTS:
-        from: CASSANDRA_JVM_OPTS
-        default: "-Xms512m -Xmx512m"
-    config:
-      useImagePrefix: false
-      imageName: cassandra
-      imageTag: 3.11.4
-      containerName: zarubaContainerName
-      port::7001: 7001
-      port::7199: 7199
-      port::9042: 9042
-      port::9160: 9160
-      
+
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: cassandra
+    imageTag: 3.11.4
+    containerName: zarubaContainerName
+    port::7001: 7001
+    port::7199: 7199
+    port::9042: 9042
+    port::9160: 9160
+
+envs:
+  zarubaServiceName:
+    JVM_OPTS:
+      from: CASSANDRA_JVM_OPTS
+      default: "-Xms512m -Xmx512m"

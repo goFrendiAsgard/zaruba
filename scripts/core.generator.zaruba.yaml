@@ -1,89 +1,262 @@
 inputs:
 
-  generator.templates:
-    description: |
-      Additional template locations.
-      Use colon (:) as separator.
-      Leave blank if you don't have any additional template
-
-  generator.docker.image.prefix:
-    description: Docker image prefix. Can be left blank.
-
-  generator.docker.image.tag:
-    description: Docker image tag. Can be left blank.
-
   generator.docker.image.name:
-    description: Docker image. Can be left blank.
+    description: Docker image name
+    prompt: Docker image name
+    validation: ^[a-z0-9_]*$
 
-  generator.docker.container:
-    description: | 
-      Container name. 
-      Will be inferred from generator.docker.image.name if left blank.
+  generator.docker.container.name:
+    description: Docker container name 
+    prompt: Docker container name
+    validation: ^[a-zA-Z0-9_]*$
   
   generator.service.name:
-    description: |
-      Service name.
-      Will be inferred from generator.docker.container or generator.service.location if letf blank.
-
-  generator.service.location:
-    description: Location of the service. Required.
-
-  generator.service.type:
-    default: default
-    description: |
-      Service type (eg: nodejs, go, python, fastapi, or default).
+    description: Service name
+    prompt: Service name
+    validation: ^[a-zA-Z0-9_]*$
 
   generator.service.ports:
-    description: |
-      Service's port list. Use comma (,) as separator.
-      Will be inferred from service's environment if left blank.
+    description: Service ports (comma separated)
+    prompt: Service ports (comma separated)
+    validation: ^[a-zA-Z0-9_,]*$
 
+  generator.service.startCommand:
+    description: Service start command
+    prompt: Command to run the service
+
+  generator.service.location:
+    description: service location
+    prompt: Service location (relative to current directory)
+
+  generator.service.docker.image.name:
+    description: Docker image name for service
+    prompt: Docker image name for your service
+    validation: ^[a-z0-9_]*$
+
+  generator.service.docker.container.name:
+    description: Docker container name  for service
+    prompt: Docker container name for your service
+    validation: ^[a-zA-Z0-9_]*$
+ 
   generator.module.name:
-    description: Module name. Required.
+    description: Module name
+    prompt: Module Name (Required).
+    validation: ^[a-zA-Z0-9_]+$
   
   generator.url:
-    description: URL to be handled. Required.
+    description: URL to be handled
+    prompt: URL (Required).
+    validation: ^[a-zA-Z0-9_\-/]+$
 
   generator.event.name:
-    description: Name of the event to be handled. Required.
+    description: Event name
+    prompt: Event name (Required).
+    validation: ^[a-zA-Z0-9_\-\.]+$
   
   generator.crud.entity:
-    description: Name of the entity to be handled. Required.
+    description: Entity name.
+    prompt: Entity (Required).
+    validation: ^[a-zA-Z0-9_]+$
   
   generator.crud.fields:
-    description: |
-      Fields of generator.entity.
-      Use comma (,) as separator.
+    description: Field names.
+    prompt: Field names (comma separated).
+    validation: ^[a-zA-Z0-9_,]*$
   
 
 tasks:
 
-  core.generate:
-    icon: 🏭
-    description: |
-      Base task to generate something.
-      USAGE:
-      ```yaml
-      addTask:
-        extend: core.generate
-        config:
-          start: |
-            . ${invoke_core_py} copyAndReplace source.yaml destination.yaml ${VALUES}
-      ```
+  core.makeDockerTask:
+    extend: core.runCoreScript
     private: true
+    dependencies:
+    - core.showAdv
+    config:
+      imageName: '{{ .GetValue "generator.docker.image.name" }}'
+      containerName: '{{ .GetValue "generator.docker.container.name" }}'
+      serviceName: '{{ .GetValue "generator.service.name" }}'
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml'
+      start: |
+        {{- $d := .Decoration -}}
+        TEMPLATE_LOCATION="{{ .GetConfig "templateLocation" }}"
+        IMAGE_NAME="{{ .GetConfig "imageName" }}"
+        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        SERVICE_NAME="{{ .GetConfig "serviceName" }}"
+        invoke_core_py create_docker_task "${TEMPLATE_LOCATION}" "${IMAGE_NAME}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+
+ 
+  core.makePresetDockerTask:
+    extend: core.makeDockerTask
+    private: true
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
+    config:
+      template: ''
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/{{ .GetConfig "template" }}.zaruba.yaml'
+
+
+  core.makeServiceTask:
+    extend: core.runCoreScript
+    private: true
+    dependencies:
+    - core.showAdv
+    config:
+      imageName: '{{ .GetValue "generator.service.docker.image.name" }}'
+      containerName: '{{ .GetValue "generator.service.docker.container.name" }}'
+      serviceName: '{{ .GetValue "generator.service.name" }}'
+      servicePorts: '{{ .GetValue "generator.service.ports" }}'
+      serviceLocation: '{{ .GetValue "generator.service.location" }}'
+      serviceStartCommand: '{{ .GetValue "generator.service.startCommand" }}'
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
+      start: |
+        {{- $d := .Decoration -}}
+        TEMPLATE_LOCATION="{{ .GetConfig "templateLocation" }}"
+        IMAGE_NAME="{{ .GetConfig "imageName" }}"
+        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        SERVICE_NAME="{{ .GetConfig "serviceName" }}"
+        SERVICE_PORTS="{{ .GetConfig "servicePorts" }}"
+        SERVICE_LOCATION="{{ .GetConfig "serviceLocation" }}"
+        SERVICE_START_COMMAND="{{ .GetConfig "serviceStartCommand" }}"
+        invoke_core_py create_service_task "${TEMPLATE_LOCATION}" "${SERVICE_NAME}" "${IMAGE_NAME}" "${CONTAINER_NAME}" "${SERVICE_LOCATION}" "${SERVICE_START_COMMAND}" "${SERVICE_PORTS}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+
+ 
+  core.makePresetServiceTask:
+    extend: core.makeServiceTask
+    private: true
+    inputs:
+    - generator.service.name
+    - generator.service.location
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
+    config:
+      template: ''
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/{{ .GetConfig "template" }}.zaruba.yaml'
+
+    
+  makeDockerTask:
+    icon: 🐳
+    extend: core.makeDockerTask
+    inputs:
+    - generator.docker.image.name
+    - generator.docker.container.name
+    - generator.service.name
+  
+
+  makeMysqlDockerTask:
+    extend: core.makePresetDockerTask
+    config:
+      template: mysql
+
+
+  makeRabbitmqDockerTask:
+    extend: core.makePresetDockerTask
+    config:
+      template: rabbitmq
+
+
+  makeElasticSearchDockerTask:
+    extend: core.makePresetDockerTask
+    config:
+      template: elasticsearch
+
+
+  makeCassandraDockerTask:
+    extend: core.makePresetDockerTask
+    config:
+      template: cassandra
+
+
+  makeRedisDockerTask:
+    extend: core.makePresetDockerTask
+    config:
+      template: redis
+
+
+  makeMongoDockerTask:
+    extend: core.makePresetDockerTask
+    config:
+      template: mongo
+
+
+  makeServiceTask:
+    icon: 📜
+    extend: core.makeServiceTask
+    inputs:
+    - generator.service.name
+    - generator.service.location
+    - generator.service.startCommand
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
+
+  
+  makeFastApiServiceTask:
+    extend: core.makePresetServiceTask
+    config:
+      template: fastapi
+
+  
+  makeGoServiceTask:
+    extend: core.makePresetServiceTask
+    config:
+      template: go
+
+ 
+  makeNodeJsServiceTask:
+    extend: core.makePresetServiceTask
+    config:
+      template: nodejs
+
+ 
+  makePythonServiceTask:
+    extend: core.makePresetServiceTask
+    config:
+      template: python
+
+
+  makeStaticServiceTask:
+    extend: core.makePresetServiceTask
+    config:
+      template: static
+
+ 
+  makeHelmDeployment:
+    icon: 🚢
+    description: |
+      Add helm charts to the project to make deployment easier.
     extend: core.runCoreScript
     dependencies:
-    - core.setupPyUtil
-    - core.isProject
+    - core.isContainHelmCharts
     - core.showAdv
     inputs:
-    - generator.templates
+    - generator.service.name
     config:
-      setup: |
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
-        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        TEMPLATE_PATHS="{{ if .GetValue "generator.templates" }}{{ .GetValue "generator.templates" }}:{{ end }}${ZARUBA_HOME}/scripts/templates"
-        # Usage: copy_and_create_link <template_path> <link_source> <link_destination>
+      start: |
+        {{- $d := .Decoration -}}
+        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
+        invoke_core_py create_helm_deployment "${SERVICE_NAME}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
+  
+
+  makeFastService:
+    icon: ⚡
+    description: |
+      Make "messagebus and RDBMS ready" FastAPI service.
+    extend: core.runCoreScript
+    dependencies:
+    - core.showAdv
+    inputs:
+    - generator.service.location
+    config:
+      start: |
+        {{- $d := .Decoration -}}
         copy_and_create_link()
         {
           mkdir -p "${2}"
@@ -91,115 +264,6 @@ tasks:
           invoke_core_py add_link "${2}" "${3}"
           invoke_core_sh link_resource "${2}" "${3}"
         }
-        set -e
-
-  
-  makeHelmCharts:
-    icon: 🚢
-    description: |
-      Add helm charts to the project to make deployment easier.
-      USAGE:
-        zaruba please makeHelmCharts
-    extend: core.generate
-    dependencies:
-    - core.isNotContainHelmCharts
-    config:
-      start: |
-        {{- $d := .Decoration -}}
-        HELM_DEPLOYMENT_TEMPLATE="{{ .DirPath }}/templates/helmDeployments"
-        LOCATION=helm-deployments
-        mkdir -p "${LOCATION}"
-        cp -r "${HELM_DEPLOYMENT_TEMPLATE}/helmfile.yaml" "${LOCATION}/helmfile.yaml"
-        cp -r "${HELM_DEPLOYMENT_TEMPLATE}/charts" "${LOCATION}/charts"
-        cp -r "${HELM_DEPLOYMENT_TEMPLATE}/values" "${LOCATION}/values"
-        invoke_core_py create_helm_task
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
-
- 
-  makeServiceDeployment:
-    icon: 🚢
-    description: |
-      Add helm charts to the project to make deployment easier.
-    extend: core.generate
-    dependencies:
-    - core.isContainHelmCharts
-    inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.ports
-    - generator.docker.image.name
-    config:
-      start: |
-        {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "generator.service.location" }}"
-        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
-        PORTS="{{ .GetValue "generator.service.ports" }}"
-        IMAGE_NAME="{{ .GetValue "generator.docker.image.name" }}"
-        invoke_core_py create_helm_service_deployment "${LOCATION}" "${SERVICE_NAME}" "${PORTS}" "${IMAGE_NAME}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
-
-
-  makeDockerTask:
-    icon: 🐳
-    description: |
-      Add docker task to the project.
-    extend: core.generate
-    inputs:
-    - generator.docker.image.name
-    - generator.docker.image.prefix
-    - generator.docker.image.tag
-    - generator.docker.container
-    - generator.service.name
-    config:
-      start: |
-        {{- $d := .Decoration -}}
-        IMAGE_NAME="{{ .GetValue "generator.docker.image.name" }}"
-        IMAGE_PREFIX="{{ .GetValue "generator.docker.image.prefix" }}"
-        IMAGE_TAG="{{ .GetValue "generator.docker.image.tag" }}"
-        CONTAINER_NAME="{{ .GetValue "generator.docker.container" }}"
-        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
-        invoke_core_py create_docker_task "${TEMPLATE_PATHS}" "${IMAGE_NAME}" "${IMAGE_PREFIX}" "${IMAGE_TAG}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
-
-
-  makeServiceTask:
-    icon: 📦
-    description: |
-      Add service task to the project.
-    extend: core.generate
-    inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.type
-    - generator.service.ports
-    - generator.docker.image.name
-    config:
-      start: |
-        {{- $d := .Decoration -}}
-        LOCATION="{{ .GetValue "generator.service.location" }}"
-        invoke_core_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
-        SERVICE_TYPE="{{ .GetValue "generator.service.type" }}"
-        SERVICE_PORTS="{{ .GetValue "generator.service.ports" }}"
-        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
-        IMAGE_NAME="{{ .GetValue "generator.docker.image.name" }}"
-        invoke_core_py create_service_task "${TEMPLATE_PATHS}" "${LOCATION}" "${SERVICE_NAME}" "${SERVICE_TYPE}" "${SERVICE_PORTS}" "${IMAGE_NAME}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
-
-
-  makeFastService:
-    icon: ⚡
-    description: |
-      Make "messagebus and RDBMS ready" FastAPI service.
-    extend: core.generate
-    inputs:
-    - generator.service.location
-    config:
-      start: |
-        {{- $d := .Decoration -}}
         LOCATION="{{ .GetValue "generator.service.location" }}"
         invoke_core_sh should_not_be_empty "${LOCATION}" "{{ $d.Bold }}{{ $d.Red }}generator.service.location is required{{ $d.Normal }}"
         ENV_PREFIX=$(invoke_core_py get_env_prefix "${LOCATION}")
@@ -230,7 +294,9 @@ tasks:
     inputs:
     - generator.service.location
     - generator.module.name
-    extend: core.generate
+    extend: core.runCoreScript
+    dependencies:
+    - core.showAdv
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -252,11 +318,13 @@ tasks:
     icon: ⚡
     description: |
       Make route handler in FastService's module.
-    extend: core.generate
+    extend: core.runCoreScript
     inputs:
     - generator.service.location
     - generator.module.name
     - generator.url
+    dependencies:
+    - core.showAdv
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -278,11 +346,13 @@ tasks:
     icon: ⚡
     description: |
       Make event handler in FastService's module.
-    extend: core.generate
+    extend: core.runCoreScript
     inputs:
     - generator.service.location
     - generator.module.name
     - generator.event.name
+    dependencies:
+    - core.showAdv
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -304,11 +374,13 @@ tasks:
     icon: ⚡
     description: |
       Make RPC handler in FastService's module.
-    extend: core.generate
+    extend: core.runCoreScript
     inputs:
     - generator.service.location
     - generator.module.name
     - generator.event.name
+    dependencies:
+    - core.showAdv
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -335,7 +407,9 @@ tasks:
     - generator.module.name
     - generator.crud.entity
     - generator.crud.fields
-    extend: core.generate
+    dependencies:
+    - core.showAdv
+    extend: core.runCoreScript
     config:
       start: |
         {{- $d := .Decoration -}}

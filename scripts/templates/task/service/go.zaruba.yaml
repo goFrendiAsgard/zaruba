@@ -1,23 +1,32 @@
+includes: []
+
 tasks:
-
-  zarubaRunTask:
-    icon: 🐹
-    description: Run zarubaServiceName
-    extend: core.startService
-    location: zarubaTaskLocation
-    env: &zarubaServiceNameEnv {}
-    lconfig:
-      ports: &zarubaServiceNamePorts []
-    config:
-      start: go run .
-
 
   testZarubaServiceName:
     icon: 🐹
     extend: core.runShellScript
-    location: zarubaTaskLocation
+    location: zarubaServiceLocation
     timeout: 1h
-    env:
-      <<: *zarubaServiceNameEnv
+    lconfigRef: zarubaServiceName
+    envRef: zarubaServiceName
+    configRef: zarubaServiceName
     config:
       start: go test -v ./... --race -count=1
+
+  runZarubaServiceName:
+    icon: 🐹
+    extend: core.startService
+    location: zarubaServiceLocation
+    config:
+      start: go run .
+
+
+configs:
+  zarubaServiceName: {}
+
+lconfigs:
+  zarubaServiceName: {}
+
+envs:
+  zarubaServiceName: {}
+  

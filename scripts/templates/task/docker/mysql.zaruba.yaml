@@ -1,32 +1,39 @@
-tasks:
+includes: []
 
-  zarubaRunTask:
+tasks:
+  zarubaServiceName:
     icon: 🐬 
     extend: core.startDockerContainer
     timeout: 1h
-    env:
-      MYSQL_USER:
-        from: MYSQL_USER
-        default: mysql
-      MYSQL_PASSWORD:
-        from: MYSQL_PASSWORD
-        default: mysql
-      MYSQL_ROOT_PASSWORD:
-        from: MYSQL_ROOT_PASSWORD
-        default: toor
-      MYSQL_DATABASE:
-        from: MYSQL_DATABASE
-        default: sample
     config:
-      useImagePrefix: false
-      imageName: mysql
-      containerName: zarubaContainerName
-      port::3306: 3306
       afterCheck: |
         set +e
-        docker exec "$CONTAINER_NAME" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
+        docker exec "{{ .GetConfig "containerName" }}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
         until [ "$?" = "0" ]
         do
-          docker exec "$CONTAINER_NAME" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
+          docker exec "{{ .GetConfig "containerName" }}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
           sleep 3
         done
+
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: mysql
+    containerName: zarubaContainerName
+    port::3306: 3306
+    
+
+envs:
+  zarubaServiceName:
+    MYSQL_USER:
+      from: MYSQL_USER
+      default: mysql
+    MYSQL_PASSWORD:
+      from: MYSQL_PASSWORD
+      default: mysql
+    MYSQL_ROOT_PASSWORD:
+      from: MYSQL_ROOT_PASSWORD
+      default: toor
+    MYSQL_DATABASE:
+      from: MYSQL_DATABASE
+      default: sample

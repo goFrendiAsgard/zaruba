@@ -1,18 +1,23 @@
-tasks:
+includes: []
 
+tasks:
   zarubaRunTask:
     icon: 🍃
     extend: core.startDockerContainer
     timeout: 1h
-    env:
-      MONGO_INITDB_ROOT_USERNAME:
-        from: MONGO_INITDB_ROOT_USERNAME
-        default: root
-      MONGO_INITDB_ROOT_PASSWORD:
-        from: MONGO_INITDB_ROOT_PASSWORD
-        default: toor
-    config:
-      useImagePrefix: false
-      imageName: mongo
-      containerName: zarubaContainerName
-      port::27017: 27017
+
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: mongo
+    containerName: zarubaContainerName
+    port::27017: 27017
+
+envs:
+  zarubaServiceName:
+    MONGO_INITDB_ROOT_USERNAME:
+      from: MONGO_INITDB_ROOT_USERNAME
+      default: root
+    MONGO_INITDB_ROOT_PASSWORD:
+      from: MONGO_INITDB_ROOT_PASSWORD
+      default: toor

@@ -1,24 +1,31 @@
-tasks:
+includes: []
 
-  zarubaRunTask:
+tasks:
+  runZarubaServiceName:
     icon: 🍝
     extend: core.startDockerContainer
     timeout: 1h
-    env:
-      discovery.type:
-        from: ES_DISCOVER_TYPE
-        default: single-node
-      bootstrap.memory_lock:
-        from: ES_BOOTSTRAP_MEMORY_LOCK
-        default: true
-      ES_JAVA_OPTS:
-        from: ES_JAVA_OPTS
-        default: "-Xms512m -Xmx512m"
     config:
-      imagePrefix: docker.elastic.co/elasticsearch
-      imageName: elasticsearch
-      imageTag: 7.1.1
-      containerName: zarubaContainerName
-      port::9200: 9200
-      port::9300: 9300
-      
+      afterCheck: sleep 15
+
+configs:
+  zarubaServiceName:
+    imagePrefix: docker.elastic.co/elasticsearch
+    imageName: elasticsearch
+    imageTag: 7.1.1
+    containerName: zarubaContainerName
+    port::9200: 9200
+    port::9300: 9300
+
+envs:
+  zarubaServiceName:
+    discovery.type:
+      from: ES_DISCOVER_TYPE
+      default: single-node
+    bootstrap.memory_lock:
+      from: ES_BOOTSTRAP_MEMORY_LOCK
+      default: true
+    ES_JAVA_OPTS:
+      from: ES_JAVA_OPTS
+      default: "-Xms512m -Xmx512m"
+        
