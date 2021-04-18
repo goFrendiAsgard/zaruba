@@ -397,7 +397,7 @@ tasks:
     icon: 🚢
     description: |
       Create helm deployment artifacts.
-    extend: core.generate
+    extend: core.runCoreScript
     dependencies:
     - core.isProject
     - core.isNotContainHelmCharts
