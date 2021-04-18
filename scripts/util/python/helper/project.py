@@ -6,6 +6,7 @@ from .config import YamlConfig
 from .decoration import generate_icon
 
 import os
+import re
 import shutil
 
 
@@ -68,7 +69,6 @@ class MainProject(Project):
         self.set_default(['tasks', 'buildImage', 'dependencies'], [])
         self.set_default(['tasks', 'pushImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'pushImage', 'dependencies'], [])
-        
 
 
     def _get_file_name(self, dir_name: str) -> str:
@@ -87,28 +87,53 @@ class MainProject(Project):
         super().generate(self._get_file_name(dir_name))
 
     
-    def register_run_task(self, task_name):
+    def register_run_task(self, task_name: str):
         self.append(['tasks', 'run', 'dependencies'], task_name)
 
     
-    def register_run_container_task(self, task_name):
+    def register_run_container_task(self, task_name: str):
         self.append(['tasks', 'runContainer', 'dependencies'], task_name)
 
     
-    def register_stop_container_task(self, task_name):
+    def register_stop_container_task(self, task_name: str):
         self.append(['tasks', 'stopContainer', 'dependencies'], task_name)
 
     
-    def register_remove_container_task(self, task_name):
+    def register_remove_container_task(self, task_name: str):
         self.append(['tasks', 'removeContainer', 'dependencies'], task_name)
 
     
-    def register_build_image_task(self, task_name):
+    def register_build_image_task(self, task_name: str):
         self.append(['tasks', 'buildImage', 'dependencies'], task_name) 
 
     
-    def register_push_image_task(self, task_name):
+    def register_push_image_task(self, task_name: str):
         self.append(['tasks', 'pushImage', 'dependencies'], task_name) 
+
+
+    def update_env(self, dir_name: str):
+        includes = self.get(['includes']) if self.exist(['includes']) else []
+        for include in includes:
+            match = re.findall(r'^(\./)?zaruba-tasks/([a-zA-Z0-9_]+).zaruba.yaml$', include)
+            if len(match) == 0:
+                continue
+            service_name = match[0][1]
+            capital_service_name = service_name[0].upper() + service_name[1:]
+            task_name = 'run{}'.format(capital_service_name)
+            service_project = ServiceProject()
+            service_project.load(dir_name, service_name)
+            if not service_project.exist(['tasks', task_name, 'location']):
+                continue
+            # service task found
+            service_project.load(dir_name, service_name, reload_env=True)
+            service_project.save(dir_name, service_name)
+            service_project.save_env(dir_name, service_name)
+            # update helm service if file exist
+            helm_service_project = HelmServiceProject()
+            if not helm_service_project.file_exist(dir_name, service_name):
+                continue
+            helm_service_project.load(dir_name, service_name, reload_env=True)
+            helm_service_project.save(dir_name, service_name)
 
 
 class TaskProject(Project):
@@ -117,6 +142,7 @@ class TaskProject(Project):
         super().__init__()
         self.service_name = ''
         self.capital_service_name = ''
+        self.snake_upper_service_name = ''
         self.main_project: MainProject = MainProject()
 
 
@@ -135,6 +161,7 @@ class TaskProject(Project):
     def _set_service_name(self, service_name):
         self.service_name = service_name
         self.capital_service_name = self.service_name[0].upper() + self.service_name[1:]
+        self.snake_upper_service_name = ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in service_name]).lstrip('_').upper()
     
 
     def _get_file_name(self, dir_name: str, service_name: str):
@@ -154,7 +181,7 @@ class TaskProject(Project):
 
     def save(self, dir_name: str, service_name: str):
         file_name = self._get_file_name(dir_name, service_name)
-        super().save(self._get_file_name(file_name))
+        super().save(file_name)
 
 
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
@@ -164,7 +191,7 @@ class TaskProject(Project):
         self.replacement_dict = {
             'zarubaServiceName': self.service_name,
             'ZarubaServiceName': self.capital_service_name,
-            'ZARUBA_SERVICE_NAME': self.service_name.upper().replace(' ', '_'),
+            'ZARUBA_SERVICE_NAME': self.snake_upper_service_name,
             'zarubaContainerName': container_name,
             'zarubaImageName': image_name,
             'zarubaServiceLocation': location,
@@ -255,7 +282,7 @@ class ServiceProject(TaskProject):
             self.set_default(['envs', service_name, key, 'default'], val)
 
 
-    def load(self, dir_name: str, service_name: str):
+    def load(self, dir_name: str, service_name: str, reload_env: bool=False):
         super().load(dir_name, service_name)
         self._set_service_name(service_name)
         task_name = 'run{}'.format(self.capital_service_name)
@@ -264,7 +291,8 @@ class ServiceProject(TaskProject):
         task_location = self.get(['tasks', task_name, 'location'])
         if not os.path.isabs(task_location):
             task_location = os.path.abspath(os.path.join(dir_name, 'zaruba_tasks', task_location))
-        self._load_env(service_name, task_location)
+        if reload_env:
+            self._load_env(service_name, task_location)
     
 
     def save_env(self, dir_name: str, service_name: str):
@@ -382,6 +410,27 @@ class HelmProject(Project):
         self.main_project.set_default(['tasks', 'helmDestroy', 'location'], 'helm-deployments')
         self.main_project.save(dir_name)
         self.load(dir_name)
+    
+ 
+    def register_release(self, service_name: str):
+        if not self.exist(['releases']):
+            self.set(['releases'], [])
+        releases: List[Mapping[str, str]] = self.get(['releases'])
+        # check whethere service already registered or not
+        registered = False
+        for release in releases:
+            if release['name'] == service_name:
+                registered = True
+                break
+        # do nothing if service already registered
+        if registered:
+            return
+        # register new release
+        self.append(['releases'], {
+            'name': service_name,
+            'chart': './chart/app',
+            'values': ['./values/{}.yaml.gotmpl'.format(service_name)],
+        })
 
 
 class HelmServiceProject(Project):
@@ -390,6 +439,7 @@ class HelmServiceProject(Project):
         super().__init__()
         self.service_name = ''
         self.capital_service_name = ''
+        self.snake_upper_service_name = ''
         self.service_project: ServiceProject = ServiceProject()
         self.helm_project: HelmProject = HelmProject()
 
@@ -401,34 +451,110 @@ class HelmServiceProject(Project):
     def _set_service_name(self, service_name):
         self.service_name = service_name
         self.capital_service_name = self.service_name[0].upper() + self.service_name[1:]
+        self.snake_upper_service_name = ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in service_name]).lstrip('_').upper()
+
+
+    def _set_default_properties(self):
+        super()._set_default_properties()
+        self.set_default(['app', 'name'], 'zarubaServiceName')
+        self.set_default(['app', 'group'], 'db')
+        self.set_default(['app', 'container', 'imagePrefix'], '{{ .Values | get "commonImagePrefix" "local" }}')
+        self.set_default(['app', 'container', 'imageTag'], '{{ .Values | get "commonImagePrefix" "latest" }}')
+        self.set_default(['app', 'container', 'image'], 'zarubaServiceName')
+        self.set_default(['app', 'container', 'env'], [])
+        self.set_default(['app', 'ports'], [])
+        
+
+    def _load_env(self, service_name: str):
+        self.set_default(['app', 'container', 'env'], [])
+        # get env from service
+        service_envs: Mapping[str, Mapping[str, str]] = self.service_project.get(['envs', service_name]) if self.service_project.exist(['envs', service_name]) else {}
+        # get current container env
+        current_container_envs: List[Mapping[str, str]] = self.get(['app', 'container', 'env'])
+        for env_key, env_map in service_envs.items():
+            # check whether env is already registered or not
+            env_registered = False
+            for current_container_env in current_container_envs:
+                current_container_env_name = current_container_env.get('name')
+                if current_container_env_name == env_key:
+                    env_registered = True
+                    break
+            # if env is already registered, do nothing
+            if env_registered:
+                continue
+            # register
+            self.append(['app', 'container', 'env'], {
+                'name': env_key,
+                'value': env_map.get('default', '')
+            })
     
 
-    def load_env(self):
-        pass
+    def _append_port(self, port: str):
+        self.set_default(['app', 'ports'], [])
+        self.append(['app', 'ports'], {
+            'containerPort': port,
+            'servicePort': port,
+        })
+    
+
+    def _assign_ports(self, service_name: str):
+        # get port from service
+        service_ports: List[str] = self.service_project.get(['lconfigs', service_name, 'ports']) if self.service_project.exist(['lconfigs', service_name, 'ports']) else []
+        # get env from service
+        service_envs: Mapping[str, Mapping[str, str]] = self.service_project.get(['envs', service_name]) if self.service_project.exist(['envs', service_name]) else {}
+        # service port
+        for port in service_ports:
+            if port.isnumeric():
+                self._append_port(port)
+                continue
+            # port is not numeric, probably go template
+            match = re.findall(r'^\{\{ \.GetEnv "(.*)" \}\}$', port)
+            if len(match) < 1:
+                continue
+            # env key found, assign default value as port
+            env_key = match[0]
+            if 'default' in service_envs[env_key]:
+                self._append_port(service_envs[env_key]['default'])
 
 
-    def load(self, dir_name: str, service_name: str):
-        super().load(self._get_file_name(dir_name))
+    def file_exist(self, dir_name: str, service_name: str) -> bool:
+        file_name = self._get_file_name(dir_name, service_name)
+        return os.path.isfile(file_name)
+
+
+    def load(self, dir_name: str, service_name: str, reload_env: bool=True):
+        file_name = self._get_file_name(dir_name, service_name)
+        super().load(file_name)
         self.helm_project.load(dir_name)
         self.service_project.load(dir_name, service_name)
+        if reload_env:
+            self._load_env(service_name)
 
 
     def save(self, dir_name: str, service_name: str):
-        super().save(self._get_file_name(dir_name))
+        file_name = self._get_file_name(dir_name, service_name)
+        super().save(file_name)
 
 
     def generate(self, dir_name: str, service_name: str):
         self.helm_project.load(dir_name)
         self.service_project.load(dir_name, service_name)
-        self.load_env()
+        self._set_default_properties()
+        self._load_env(service_name)
+        self._assign_ports(service_name)
         self._set_service_name(service_name)
         service_container_config: Mapping[str, str] = self.service_project.get(['configs', service_name]) if self.service_project.exist(['configs', service_name]) else {}
         self.replacement_dict = {
             'zarubaServiceName': self.service_name,
             'ZarubaServiceName': self.capital_service_name,
-            'ZARUBA_SERVICE_NAME': self.service_name.upper().replace(' ', '_'),
+            'ZARUBA_SERVICE_NAME': self.snake_upper_service_name,
             'zarubaContainerName': service_container_config.get('containerName', service_name),
             'zarubaImageName': service_container_config.get('imageName', service_name),
         }
+        # register service to helm deployment
+        self.helm_project.register_release(service_name)
+        self.helm_project.save(dir_name)
+        # generate deployment
         file_name = self._get_file_name(dir_name, service_name)
         super().generate(file_name)
+        self.load(dir_name, service_name)

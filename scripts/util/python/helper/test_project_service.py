@@ -20,7 +20,7 @@ def test_service_project_generate():
     # assert env
     service_project.save_env(dir_name, service_name)
     envs: Mapping[str, str] = dotenv_values(os.path.join(dir_name, 'template.env'))
-    assert envs['MYSERVICE_PORT'] == '3000'
+    assert envs['MY_SERVICE_PORT'] == '3000'
     # reload
     generated_project = ServiceProject()
     generated_project.load(dir_name=dir_name, service_name=service_name)
@@ -61,7 +61,7 @@ def test_service_project_generate():
     # lconfig
     assert generated_project.get(['lconfigs', 'myService', 'ports', 0]) == '{{ .GetEnv "PORT" }}'
     # envs
-    assert generated_project.get(['envs', 'myService', 'PORT', 'from']) == 'MYSERVICE_PORT'
+    assert generated_project.get(['envs', 'myService', 'PORT', 'from']) == 'MY_SERVICE_PORT'
     assert generated_project.get(['envs', 'myService', 'PORT', 'default']) == '3000'
     # assert main project
     main_project = generated_project.main_project
