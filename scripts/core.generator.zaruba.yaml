@@ -90,9 +90,6 @@ tasks:
   core.makePresetDockerTask:
     extend: core.makeDockerTask
     private: true
-    inputs:
-    - generator.docker.container.name
-    - generator.service.name
     config:
       template: ''
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/{{ .GetConfig "template" }}.zaruba.yaml'
@@ -128,12 +125,6 @@ tasks:
   core.makePresetServiceTask:
     extend: core.makeServiceTask
     private: true
-    inputs:
-    - generator.service.name
-    - generator.service.location
-    - generator.service.ports
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
     config:
       template: ''
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/{{ .GetConfig "template" }}.zaruba.yaml'
@@ -150,36 +141,54 @@ tasks:
 
   makeMysqlDockerTask:
     extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
     config:
       template: mysql
 
 
   makeRabbitmqDockerTask:
     extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
     config:
       template: rabbitmq
 
 
   makeElasticSearchDockerTask:
     extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
     config:
       template: elasticsearch
 
 
   makeCassandraDockerTask:
     extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
     config:
       template: cassandra
 
 
   makeRedisDockerTask:
     extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
     config:
       template: redis
 
 
   makeMongoDockerTask:
     extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
     config:
       template: mongo
 
