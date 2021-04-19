@@ -125,14 +125,19 @@ func (prompter *Prompter) askPassword(label string) (value string, err error) {
 }
 
 func (prompter *Prompter) askInput(label string, input *config.Variable, oldValue string) (value string, err error) {
-	options := prompter.getInputOptions(input, oldValue)
+	options, captions := prompter.getInputOptions(input, oldValue)
 	allowCustom := !boolean.IsFalse(input.AllowCustom)
 	if allowCustom {
-		options = append(options, fmt.Sprintf("%s✏️ Let me type it!%s", prompter.d.Green, prompter.d.Normal))
+		// Directly ask user input in case ofno available option
+		if len(options) == 0 {
+			return prompter.askUserInput(label, input)
+		}
+		options = append(options, "")
+		captions = append(captions, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 	}
 	selectPrompt := promptui.Select{
 		Label:             label,
-		Items:             options,
+		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
 		Searcher: func(userInput string, index int) bool {
@@ -143,29 +148,36 @@ func (prompter *Prompter) askInput(label string, input *config.Variable, oldValu
 			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
 		},
 	}
-	_, value, err = selectPrompt.Run()
-	if allowCustom {
-		if value == options[len(options)-1] {
-			prompt := promptui.Prompt{
-				Label: label,
-				Validate: func(userInput string) error {
-					return input.Validate(os.ExpandEnv(userInput))
-				},
-			}
-			value, err = prompt.Run()
-		}
+	selectedIndex, _, err := selectPrompt.Run()
+	if allowCustom && selectedIndex == len(options)-1 {
+		value, err = prompter.askUserInput(label, input)
+	} else {
+		value = options[selectedIndex]
 	}
 	return value, err
 }
 
-func (prompter *Prompter) getInputOptions(input *config.Variable, oldValue string) []string {
-	options := []string{}
+func (prompter *Prompter) askUserInput(label string, input *config.Variable) (value string, err error) {
+	prompt := promptui.Prompt{
+		Label: label,
+		Validate: func(userInput string) error {
+			return input.Validate(os.ExpandEnv(userInput))
+		},
+	}
+	return prompt.Run()
+}
+
+func (prompter *Prompter) getInputOptions(input *config.Variable, oldValue string) (options []string, captions []string) {
+	options = []string{}
+	captions = []string{}
 	if err := input.Validate(os.ExpandEnv(oldValue)); err == nil {
 		options = append(options, oldValue)
+		captions = append(captions, prompter.getOptionCaption(oldValue))
 	}
 	if oldValue != input.DefaultValue {
 		if err := input.Validate(os.ExpandEnv(input.DefaultValue)); err == nil {
 			options = append(options, input.DefaultValue)
+			captions = append(captions, prompter.getOptionCaption(input.DefaultValue))
 		}
 	}
 	for _, option := range input.Options {
@@ -174,7 +186,15 @@ func (prompter *Prompter) getInputOptions(input *config.Variable, oldValue strin
 		}
 		if err := input.Validate(os.ExpandEnv(option)); err == nil {
 			options = append(options, option)
+			captions = append(captions, prompter.getOptionCaption(option))
 		}
 	}
-	return options
+	return options, captions
+}
+
+func (prompter *Prompter) getOptionCaption(option string) (caption string) {
+	if option == "" {
+		return fmt.Sprintf("%sBlank%s", prompter.d.Green, prompter.d.Normal)
+	}
+	return option
 }

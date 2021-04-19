@@ -2,12 +2,12 @@ inputs:
 
   generator.docker.image.name:
     description: Docker image name
-    prompt: Docker image name
+    prompt: Docker image name (Required)
     validation: ^[a-z0-9_]+$
 
   generator.docker.container.name:
     description: Docker container name 
-    prompt: Docker container name
+    prompt: Docker container name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
   
   generator.service.name:
@@ -16,8 +16,8 @@ inputs:
     validation: ^[a-zA-Z0-9_]*$
 
   generator.service.ports:
-    description: Service ports (comma separated)
-    prompt: Service ports (comma separated)
+    description: Service ports, comma separated
+    prompt: Service ports, comma separated (Can be blank)
     validation: ^[a-zA-Z0-9_,]*$
 
   generator.service.startCommand:
@@ -26,18 +26,18 @@ inputs:
     validation: ^.+$
 
   generator.service.location:
-    description: service location
-    prompt: Service location (relative to current directory)
+    description: service location, relative to current directory
+    prompt: Service location, relative to current directory (Required)
     validation: ^.+$
 
   generator.service.docker.image.name:
-    description: Docker image name for service
-    prompt: Docker image name for your service
+    description: Service's docker image name
+    prompt: Service's Docker image name (Can be blank)
     validation: ^[a-z0-9_]*$
 
   generator.service.docker.container.name:
-    description: Docker container name  for service
-    prompt: Docker container name for your service
+    description: Service's docker container name
+    prompt: Service's docker container name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
  
   generator.module.name:
@@ -47,7 +47,7 @@ inputs:
   
   generator.url:
     description: URL to be handled
-    prompt: URL (Required)
+    prompt: URL to be handled (Required)
     validation: ^[a-zA-Z0-9_\-/]+$
 
   generator.event.name:
