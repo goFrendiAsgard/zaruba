@@ -44,6 +44,9 @@ func NewRunner(logger monitor.Logger, decoration *monitor.Decoration, project *c
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("Cannot create runner because project was not initialize")
 	}
+	if err = project.ValidateByTaskNames(taskNames); err != nil {
+		return &Runner{}, err
+	}
 	return &Runner{
 		taskNames:                  taskNames,
 		project:                    project,
@@ -248,7 +251,7 @@ func (r *Runner) run(ch chan error) {
 		autoTerminateDuration, parseErr := time.ParseDuration(r.autoTerminateDelayInterval)
 		if parseErr != nil {
 			ch <- parseErr
-			r.logger.DPrintfError("Cannot parse autoterminate delay interval %s", r.autoTerminateDelayInterval)
+			r.logger.DPrintfError("Cannot parse autoterminate delay interval %s\n", r.autoTerminateDelayInterval)
 			return
 		}
 		r.sleep(autoTerminateDuration)

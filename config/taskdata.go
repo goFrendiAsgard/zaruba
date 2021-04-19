@@ -9,6 +9,7 @@ import (
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/boolean"
+	"github.com/state-alchemists/zaruba/conversion"
 	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/str"
 )
@@ -55,7 +56,7 @@ func (td *TaskData) GetSubConfigKeys(keys ...string) (subKeys []string, err erro
 	if err != nil {
 		return subKeys, err
 	}
-	return str.GetSubKeys(configs, keys), nil
+	return str.GetSubKeys(conversion.NormalizeMapStringValue(configs), keys), nil
 }
 
 // GetLConfig get config of task data
@@ -66,6 +67,15 @@ func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
 // GetLConfigs get all environment
 func (td *TaskData) GetLConfigs() (parsedEnv map[string][]string, err error) {
 	return td.task.GetLConfigs(td)
+}
+
+// GetSubLConfigKeys get config subkeys
+func (td *TaskData) GetSubLConfigKeys(keys ...string) (subKeys []string, err error) {
+	lConfigs, err := td.GetLConfigs()
+	if err != nil {
+		return subKeys, err
+	}
+	return str.GetSubKeys(conversion.NormalizeMapListStringValue(lConfigs), keys), nil
 }
 
 // GetValue get keyword argument
@@ -84,7 +94,7 @@ func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string, err error
 	if err != nil {
 		return subKeys, err
 	}
-	return str.GetSubKeys(values, keys), err
+	return str.GetSubKeys(conversion.NormalizeMapStringValue(values), keys), err
 }
 
 // GetEnv get environment

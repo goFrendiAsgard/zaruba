@@ -3,7 +3,7 @@ inputs:
   generator.docker.image.name:
     description: Docker image name
     prompt: Docker image name
-    validation: ^[a-z0-9_]*$
+    validation: ^[a-z0-9_]+$
 
   generator.docker.container.name:
     description: Docker container name 
@@ -22,11 +22,13 @@ inputs:
 
   generator.service.startCommand:
     description: Service start command
-    prompt: Command to run the service
+    prompt: Command to run the service (Required)
+    validation: ^.+$
 
   generator.service.location:
     description: service location
     prompt: Service location (relative to current directory)
+    validation: ^.+$
 
   generator.service.docker.image.name:
     description: Docker image name for service
@@ -40,27 +42,27 @@ inputs:
  
   generator.module.name:
     description: Module name
-    prompt: Module Name (Required).
-    validation: ^[a-zA-Z0-9_]*$
+    prompt: Module Name (Required)
+    validation: ^[a-zA-Z0-9_]+$
   
   generator.url:
     description: URL to be handled
-    prompt: URL (Required).
-    validation: ^[a-zA-Z0-9_\-/]*$
+    prompt: URL (Required)
+    validation: ^[a-zA-Z0-9_\-/]+$
 
   generator.event.name:
     description: Event name
-    prompt: Event name (Required).
-    validation: ^[a-zA-Z0-9_\-\.]*$
+    prompt: Event name (Required)
+    validation: ^[a-zA-Z0-9_\-\.]+$
   
   generator.crud.entity:
     description: Entity name.
-    prompt: Entity (Required).
-    validation: ^[a-zA-Z0-9_]*$
+    prompt: Entity (Required)
+    validation: ^[a-zA-Z0-9_]+$
   
   generator.crud.fields:
     description: Field names.
-    prompt: Field names (comma separated).
+    prompt: Field names (comma separated)
     validation: ^[a-zA-Z0-9_,]*$
   
 
@@ -197,8 +199,8 @@ tasks:
     icon: 📜
     extend: core.makeServiceTask
     inputs:
-    - generator.service.name
     - generator.service.location
+    - generator.service.name
     - generator.service.startCommand
     - generator.service.ports
     - generator.service.docker.image.name
@@ -207,30 +209,60 @@ tasks:
   
   makeFastApiServiceTask:
     extend: core.makePresetServiceTask
+    inputs:
+    - generator.service.location
+    - generator.service.name
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
     config:
       template: fastapi
 
   
   makeGoServiceTask:
     extend: core.makePresetServiceTask
+    inputs:
+    - generator.service.location
+    - generator.service.name
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
     config:
       template: go
 
  
   makeNodeJsServiceTask:
     extend: core.makePresetServiceTask
+    inputs:
+    - generator.service.location
+    - generator.service.name
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
     config:
       template: nodejs
 
  
   makePythonServiceTask:
     extend: core.makePresetServiceTask
+    inputs:
+    - generator.service.location
+    - generator.service.name
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
     config:
       template: python
 
 
   makeStaticServiceTask:
     extend: core.makePresetServiceTask
+    inputs:
+    - generator.service.location
+    - generator.service.name
+    - generator.service.ports
+    - generator.service.docker.image.name
+    - generator.service.docker.container.name
     config:
       template: static
 

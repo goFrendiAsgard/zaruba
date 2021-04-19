@@ -160,12 +160,8 @@ func TestInvalidLongProcessExitedBeforeCheck(t *testing.T) {
 }
 
 func TestInvalidNonExistingTask(t *testing.T) {
-	runner, err := getRunner(t, "../test_resource/alchemy/zaruba.yaml", []string{"makeElixirOfImmortality"}, time.Second)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if err = runner.Run(); err == nil {
+	_, err := getRunner(t, "../test_resource/alchemy/zaruba.yaml", []string{"makeElixirOfImmortality"}, time.Second)
+	if err == nil {
 		t.Errorf("Error expected")
 	}
 }

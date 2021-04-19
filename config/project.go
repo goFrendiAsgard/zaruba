@@ -261,19 +261,40 @@ func (p *Project) Init() (err error) {
 	}
 	for key, value := range p.values {
 		parsedValue := os.ExpandEnv(value)
-		// validate
-		if input, inputExist := p.Inputs[key]; inputExist {
-			if err = input.Validate(parsedValue); err != nil {
-				return err
+		// validate (allow empty value, but throw error if value is set and invalid)
+		if parsedValue != "" {
+			if input, inputExist := p.Inputs[key]; inputExist {
+				if err = input.Validate(parsedValue); err != nil {
+					return err
+				}
 			}
 		}
-		// inject envvars
+		// inject envvars (useful for secret inputs)
 		p.values[key] = parsedValue
 		inputEnvKey := "ZARUBA_INPUT_" + string(r.ReplaceAll([]byte(strings.ToUpper(key)), []byte("_")))
 		os.Setenv(inputEnvKey, parsedValue)
 	}
 	p.IsInitialized = true
 	return err
+}
+
+// ValidateByTaskNames validate by task names and throw error if invalid
+func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
+	for _, taskName := range taskNames {
+		task, taskExist := p.Tasks[taskName]
+		if !taskExist {
+			return fmt.Errorf("Task %s is not exist", taskName)
+		}
+		for _, inputName := range task.Inputs {
+			value := p.values[inputName]
+			if input, inputExist := p.Inputs[inputName]; inputExist {
+				if err = input.Validate(value); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
 }
 
 func (p *Project) setProjectBaseEnv() {

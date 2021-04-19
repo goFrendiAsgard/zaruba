@@ -7,51 +7,72 @@ includes:
 inputs:
 
   advertisement.show:
-    default: true
-    options: [true, false]
-    description: |
-      Whether you want to see advertisement or not.
-      Possible values are: "true", "yes", "on", "false", "no", or "off"
+    default: yes
+    options: [yes, no]
+    allowCustom: false
+    description: Show advertisement
+    prompt: Show advertisement
   
   log.keyword:
-    default: 
-    description: Task name regex pattern.
+    description: Task regex pattern
+    prompt: Task regex pattern
 
   server.httpPort:
     default: 8080
-    description: HTTP port for serve static files.
+    options: [8080, 8000, 3000, 5000]
+    validation: ^[0-9]+$
+    description: HTTP port to be used
+    prompt: HTTP port to be used
   
   subrepo.url:
-    description: Subrepo's url
+    validation: ^.+$
+    description: Subrepo url
+    prompt: Subrepo url (Required)
   
   subrepo.prefix:
-    description: Subrepo's prefix (directory's name). Left blank to automatically infer from subrepo.url
+    description: Subrepo directory name
+    prompt: Subrepo directory name (Can be blank)
 
   subrepo.name:
-    description: Subrepo's name. Left blank to automatically infer from subrepo.url
+    description: Subrepo name
+    prompt: Subrepo name (Can be blank)
 
   docker.env:
     default: default
-    description: Docker env, will be used to choose image prefix (dockerImagePrefix::<docker.env>).
+    validation: ^.+$
+    description: Docker env for getting image prefix
+    prompt: Docker env for getting image prefix (Required)
   
   helm.env:
     default: default
-    description: Environment for helmfile.
+    validation: ^.+$
+    description: Helm env
+    prompt: Helm env (Required)
   
   kube.context:
-    description: Kubernetes context. You can perform `kubectl config get-contexts` to see available context in your kubectl. If left blank, and kubeContext config is not provided, "docker-desktop" will be used.
+    validation: ^.+$
+    description: Kube context
+    prompt: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
   
   link.from:
-    description: File/folder location to be linked from
+    validation: ^.+$
+    description: Link source
+    prompt: Link source (Required)
 
   link.to:
-    description: File/folder location to be linked to
+    validation: ^.+$
+    description: Link source
+    prompt: Link destination (Required)
   
   variable.name:
-    description: Name of the input variable.
+    validation: ^.+$
+    description: Variable name
+    prompt: Variable name (Required)
   
   variable.value:
-    description: Value of the input variable.
+    validation: ^.+$
+    description: Variable value
+    prompt: Variable value (Required)
 
 tasks:
 
@@ -718,6 +739,7 @@ tasks:
     inputs:
     - helm.env
     - kube.context
+    - docker.env
     config:
       start: |
         {{ .Trim (.GetConfig "includeDockerScript") "\n" }}

@@ -17,12 +17,12 @@ func ReplaceAllWith(s string, replacements ...string) (result string) {
 }
 
 // GetSubKeys get sub keys from dictionary
-func GetSubKeys(dictionary map[string]string, parentKeys []string) (subKeys []string) {
+func GetSubKeys(genericMap map[string]interface{}, parentKeys []string) (subKeys []string) {
 	seen := map[string]bool{}
 	parentKey := strings.Join(parentKeys, "::")
 	prefixLength := len(parentKey) + len("::")
 	subKeys = []string{}
-	for key := range dictionary {
+	for key := range genericMap {
 		if !strings.HasPrefix(key, parentKey+"::") {
 			continue
 		}

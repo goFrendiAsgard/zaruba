@@ -31,7 +31,7 @@ zaruba please runContainer
 zaruba please makeHelmCharts
 
 # Create helm deployment for myService
-zaruba please makeServiceDeployment generator.service.location=myService
+zaruba please makeHelmDeployment generator.service.name=myService
 
 # Helm apply
 zaruba please helmApply kube.context=docker-desktop
