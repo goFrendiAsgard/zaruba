@@ -1,5 +1,4 @@
 tasks:
-
   runZarubaServiceName:
     icon: 🐇
     extend: core.startDockerContainer
