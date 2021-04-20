@@ -159,7 +159,7 @@ tasks:
       template: rabbitmq
 
 
-  makeElasticSearchDockerTask:
+  makeElasticsearchDockerTask:
     extend: core.makePresetDockerTask
     inputs:
     - generator.docker.container.name
