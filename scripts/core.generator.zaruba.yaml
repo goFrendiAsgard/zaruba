@@ -73,6 +73,7 @@ tasks:
     private: true
     dependencies:
     - core.showAdv
+    - core.isProject
     config:
       imageName: '{{ .GetValue "generator.docker.image.name" }}'
       containerName: '{{ .GetValue "generator.docker.container.name" }}'
@@ -102,6 +103,7 @@ tasks:
     private: true
     dependencies:
     - core.showAdv
+    - core.isProject
     config:
       imageName: '{{ .GetValue "generator.service.docker.image.name" }}'
       containerName: '{{ .GetValue "generator.service.docker.container.name" }}'
