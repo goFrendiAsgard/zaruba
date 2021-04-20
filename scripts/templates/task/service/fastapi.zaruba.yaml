@@ -32,7 +32,7 @@ tasks:
       - prepareZarubaServiceName
     config:
       start: |
-        pipenv run uvicorn main:app --reload --port={{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
+        pipenv run uvicorn main:app --reload --port={{ if .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
 
    
 configs:
@@ -41,7 +41,7 @@ configs:
 lconfigs:
   zarubaServiceName:
     ports:
-    - '{{ if .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ .GetEnv "ZARUBA_ENV_PREFIX_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
+    - '{{ if .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
 
 envs:
   zarubaServiceName:
