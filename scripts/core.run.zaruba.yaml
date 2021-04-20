@@ -83,7 +83,7 @@ tasks:
     private: true
     extend: core.runShellScript
     config:
-      start: {{ .GetConfig "playBellScript" }}
+      start: '{{ .GetConfig "playBellScript" }}'
   
 
   core.runShellScript:
