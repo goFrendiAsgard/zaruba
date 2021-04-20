@@ -454,13 +454,16 @@ func (task *Task) getCmd(td *TaskData, cmdType string, commandPatternArgs []stri
 		}
 		commandArgs = append(commandArgs, arg)
 	}
-	name := commandArgs[0]
-	args := commandArgs[1:]
+	name, args := commandArgs[0], commandArgs[1:]
 	cmd = exec.Command(name, args...)
+	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	cmd.Dir = td.task.GetWorkPath()
 	cmd.Env = os.Environ()
-	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-	for key := range td.task.Env {
+	envs, err := td.GetEnvs()
+	if err != nil {
+		return cmd, err
+	}
+	for key := range envs {
 		val, err := td.GetEnv(key)
 		if err != nil {
 			return cmd, err
