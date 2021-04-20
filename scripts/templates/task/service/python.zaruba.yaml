@@ -37,9 +37,6 @@ tasks:
   
    
 configs:
-  zarubaServiceName: {} 
-   
-configs:
   zarubaServiceName: {}
 
 lconfigs:

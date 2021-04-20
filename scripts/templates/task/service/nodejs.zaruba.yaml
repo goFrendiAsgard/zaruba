@@ -68,9 +68,9 @@ configs:
   zarubaServiceName:
     nodeVersion: node
    
-configs:
+lconfigs:
   zarubaServiceName: {}
 
-lconfigs:
+envs:
   zarubaServiceName: {}
 
