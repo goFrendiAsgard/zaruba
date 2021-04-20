@@ -87,6 +87,7 @@ class MainProject(Project):
 
     def load(self, dir_name: str):
         super().load(self._get_file_name(dir_name))
+        self._set_default_properties()
 
 
     def save(self, dir_name: str):
