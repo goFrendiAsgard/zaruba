@@ -79,6 +79,13 @@ tasks:
         fi
   
 
+  core.wrapper:
+    private: true
+    extend: core.runShellScript
+    config:
+      start: {{ .GetConfig "playBellScript" }}
+  
+
   core.runShellScript:
     icon: 🐚
     description: |
