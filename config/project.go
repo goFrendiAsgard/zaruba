@@ -505,10 +505,10 @@ func (p *Project) cascadeInputs(parsedIncludeLocation string, includedProject *P
 	for inputName, input := range includedProject.Inputs {
 		existingInput, inputAlreadyDeclared := p.Inputs[inputName]
 		if inputAlreadyDeclared {
-			if parsedIncludeLocation == existingInput.fileLocation {
+			if input.fileLocation == existingInput.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, parsedIncludeLocation, existingInput.fileLocation)
+			return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, input.fileLocation, existingInput.fileLocation)
 		}
 		p.Inputs[inputName] = input
 	}
@@ -519,10 +519,10 @@ func (p *Project) cascadeTasks(parsedIncludeLocation string, includedProject *Pr
 	for taskName, task := range includedProject.Tasks {
 		existingTask, taskAlreadyDeclared := p.Tasks[taskName]
 		if taskAlreadyDeclared {
-			if parsedIncludeLocation == existingTask.fileLocation {
+			if task.fileLocation == existingTask.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare task `%s` on `%s` because it was already declared on `%s`", taskName, parsedIncludeLocation, existingTask.GetFileLocation())
+			return fmt.Errorf("Cannot declare task `%s` on `%s` because it was already declared on `%s`", taskName, task.fileLocation, existingTask.fileLocation)
 		}
 		p.Tasks[taskName] = task
 	}
@@ -533,10 +533,10 @@ func (p *Project) cascadeBaseEnv(parsedIncludeLocation string, includedProject *
 	for baseEnvName, baseEnv := range includedProject.baseEnv {
 		existingBaseEnv, baseEnvAlreadyDeclared := p.baseEnv[baseEnvName]
 		if baseEnvAlreadyDeclared {
-			if parsedIncludeLocation == existingBaseEnv.fileLocation {
+			if baseEnv.fileLocation == existingBaseEnv.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare project env `%s` on `%s` because it was already declared on `%s`", baseEnvName, parsedIncludeLocation, existingBaseEnv.fileLocation)
+			return fmt.Errorf("Cannot declare project env `%s` on `%s` because it was already declared on `%s`", baseEnvName, baseEnv.fileLocation, existingBaseEnv.fileLocation)
 		}
 		p.baseEnv[baseEnvName] = baseEnv
 	}
@@ -547,10 +547,10 @@ func (p *Project) cascadeBaseConfig(parsedIncludeLocation string, includedProjec
 	for baseConfigName, baseConfig := range includedProject.baseConfig {
 		existingBaseConfig, baseConfigAlreadyDeclared := p.baseConfig[baseConfigName]
 		if baseConfigAlreadyDeclared {
-			if parsedIncludeLocation == existingBaseConfig.fileLocation {
+			if baseConfig.fileLocation == existingBaseConfig.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare project config `%s` on `%s` because it was already declared on `%s`", baseConfigName, parsedIncludeLocation, existingBaseConfig.fileLocation)
+			return fmt.Errorf("Cannot declare project config `%s` on `%s` because it was already declared on `%s`", baseConfigName, baseConfig.fileLocation, existingBaseConfig.fileLocation)
 		}
 		p.baseConfig[baseConfigName] = baseConfig
 	}
@@ -561,10 +561,10 @@ func (p *Project) cascadeBaseLConfig(parsedIncludeLocation string, includedProje
 	for baseLConfigName, baseLConfig := range includedProject.baseLConfig {
 		existingBaseLConfig, baseLConfigAlreadyDeclared := p.baseLConfig[baseLConfigName]
 		if baseLConfigAlreadyDeclared {
-			if parsedIncludeLocation == existingBaseLConfig.fileLocation {
+			if baseLConfig.fileLocation == existingBaseLConfig.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare project lconfig `%s` on `%s` because it was already declared on `%s`", baseLConfigName, parsedIncludeLocation, existingBaseLConfig.fileLocation)
+			return fmt.Errorf("Cannot declare project lconfig `%s` on `%s` because it was already declared on `%s`", baseLConfigName, baseLConfig.fileLocation, existingBaseLConfig.fileLocation)
 		}
 		p.baseLConfig[baseLConfigName] = baseLConfig
 	}
