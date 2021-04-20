@@ -32,6 +32,7 @@ tasks:
         npm install
         {{ if .IsTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}
         {{ .GetConfig "tscCompileScript" }}
+        npm start
     lconfigRef: zarubaServiceName
 
   testZarubaServiceName:
