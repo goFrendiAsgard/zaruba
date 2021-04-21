@@ -59,6 +59,19 @@ tasks:
         {{ .Trim (.GetConfig "check") "\n " }}
         {{ .Trim (.GetConfig "afterCheck") "\n " }}
         {{ .Trim (.GetConfig "completeCheck") "\n " }}
+  
+
+  core.startNvmService:
+    icon: 🐸
+    private: true
+    extend: core.startService
+    configRef: core.nvm
+    config:
+      setup: |
+        set -e
+        {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
 
 
   core.startDockerContainer:
@@ -91,6 +104,7 @@ tasks:
     - updateLinks
     inputs:
     - docker.env
+    configRef: core.docker
     config:
       containerName: ""
       imagePrefix: ""
@@ -170,39 +184,44 @@ tasks:
         {{ $d := .Decoration -}}
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
-      start.runContainer: |
-        {{ $d := .Decoration -}}
-        {{ $imageTag := .GetConfig "imageTag" -}}
-        {{ $expose := .GetConfig "expose" -}}
+      start.runContainer.env: |
         {{ $this := . -}}
-        docker run --name "${CONTAINER_NAME}" {{ "" -}}
         {{ range $key, $val := $this.GetEnvs -}} 
           -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}{{ $val }}{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" ($this.GetConfig "localhost") }}{{ end }}" {{ "" -}}
         {{ end -}}
-        {{ if eq $expose "config.port" -}}
+      start.runContainer.port: |
+        {{ $this := . -}}
+        {{ if eq (.GetConfig "expose") "config.port" -}}
           {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
             {{ $containerPort := $this.GetConfig "port" $hostPort -}}
             -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
           {{ end -}}
-        {{ else if eq $expose "lconfig.ports" -}}
+        {{ else if eq (.GetConfig "expose") "lconfig.ports" -}}
           {{ range $index, $port := $this.GetLConfig "ports" -}}
             -p "{{ $port }}:{{ $port }}" {{ "" -}}
           {{ end -}}
         {{ end -}}
+      start.runContainer.volume: |
+        {{ $this := . -}}
         {{ range $index, $hostVolume := $this.GetSubConfigKeys "volume" -}}
           {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
           {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
           -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
         {{ end -}}
+      start.runContainer: |
+        {{ $d := .Decoration -}}
+        {{ $imageTag := .GetConfig "imageTag" -}}
+        {{ $this := . -}}
+        docker run --name "${CONTAINER_NAME}" {{ "" -}}
+        {{ .GetConfig "start.runContainer.env" -}}
+        {{ .GetConfig "start.runContainer.port" -}}
+        {{ .GetConfig "start.runContainer.volume" -}}
         {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
-        -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ $this.GetConfig "command" }}
+        -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
       start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
-        {{ $this := . -}}
-        {{ if .IsTrue $rebuild -}}
-          {{ .GetConfig "start.rebuildContainer" }}
-        {{ end -}}
+        {{ if .IsTrue $rebuild }}{{ .GetConfig "start.rebuildContainer" }}{{ end }}
         if [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"

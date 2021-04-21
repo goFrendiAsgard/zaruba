@@ -3,6 +3,7 @@ includes:
   - ./core.run.zaruba.yaml
   - ./core.service.zaruba.yaml
   - ./core.setup.zaruba.yaml
+  - ./core.config.zaruba.yaml
 
 inputs:
 
@@ -547,6 +548,7 @@ tasks:
     - updateLinks
     inputs:
     - docker.env
+    configRef: core.docker
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -602,6 +604,7 @@ tasks:
     - updateLinks
     inputs:
     - docker.env
+    configRef: core.docker
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -711,6 +714,7 @@ tasks:
     - helm.env
     - kube.context
     - docker.env
+    configRef: core.docker
     config:
       start: |
         {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
@@ -740,6 +744,7 @@ tasks:
     - helm.env
     - kube.context
     - docker.env
+    configRef: core.docker
     config:
       start: |
         {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
