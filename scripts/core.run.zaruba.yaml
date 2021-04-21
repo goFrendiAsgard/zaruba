@@ -36,42 +36,82 @@ tasks:
         {{ .Trim (.GetConfig "completeStart") "\n " }}
 
 
+  core.runShellScript:
+    icon: 🐚
+    description: |
+      Run shell script
+      Common config:
+        start : Start script
+    private: true
+    extend: core.runScript
+    dependencies:
+    - core.checkBootstrap
+    configRefs:
+    - core.shell
+    config:
+      setup: |
+        set -e
+        {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+      start: "echo hello world"
+
+
   core.runCoreScript:
     icon: 📔
     description: |
       Run script for core tasks
       Common config:
-        setup         : Setup script
-        beforeStart   : Before start script
-        start         : Start script
-        afterStart    : After start script
-        completeStart : Complete start script
+        start : Start script
     private: true
     extend: core.runShellScript
     dependencies:
-    - core.checkThirdParties
     - core.checkBootstrap
     config:
       setup: |
         set -e
+        {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
       start: echo "No script defined"
 
-
-  core.checkThirdParties:
-    icon: 🐚
-    private: true
-    extend: core.runScript
-    config:
-      start: |
-        THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
-        if [ ! -d "${THIRD_PARTIES}" ]
-        then
-          mkdir -p "${THIRD_PARTIES}"
-          chown "${CURRENT_USER}" "${THIRD_PARTIES}"
-        fi
   
+  core.runNvmScript:
+    icon: 🐸
+    description: |
+      Run shell script under nvm
+    private: true
+    extend: core.runShellScript
+    configRefs:
+    - core.shell
+    - core.nvm
+    config:
+      setup: |
+        set -e
+        {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
+      start: "echo hello world"
+
+  
+  core.prepareNodeJsApp:
+    icon: 🐸
+    description: |
+      Prepare NodeJs Application
+    private: true
+    extend: core.runNvmScript
+    config:
+      setup: |
+        set -e
+        {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
+        {{ .Trim (.GetConfig "removeNodeModuleScript") "\n" }} 
+        npm install
+        {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
+        {{ .Trim (.GetConfig "typeScriptInstallScript") "\n" }} 
+        {{ .Trim (.GetConfig "typeScriptCompileScript") "\n" }} 
+      start: "echo hello world"
+
 
   core.wrapper:
     private: true
@@ -80,88 +120,12 @@ tasks:
       start: '{{ .GetConfig "playBellScript" }}'
   
 
-  core.runShellScript:
-    icon: 🐚
-    description: |
-      Run shell script
-    private: true
-    extend: core.runScript
-    dependencies:
-    - core.checkThirdParties
-    - core.checkBootstrap
-    config:
-      nodeVersion: node
-      shouldTscCompile: false
-      dockerEnv: default
-      includeBootstrapScript: |
-        if [ -f "${HOME}/.bashrc" ]
-        then
-          . "${HOME}/.bashrc"
-        fi
-        THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
-        BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
-        . "${BOOTSTRAP_SCRIPT}"
-      includeUtilScript: |
-        invoke_core_py() {
-          export PIPENV_IGNORE_VIRTUALENVS=1
-          export PIPENV_DONT_LOAD_ENV=1
-          export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
-          pipenv run python "${ZARUBA_HOME}/scripts/util/python/${1}.py" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
-        }
-        invoke_core_sh() {
-          . "${ZARUBA_HOME}/scripts/util/sh/${1}.sh" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
-        }
-      includeNvmScript: |
-        if [ "$(invoke_core_sh is_command_exist nvm)" = 1 ]
-        then
-          if [ "$(invoke_core_sh is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
-          then
-            nvm install "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
-          else
-            nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
-          fi
-        fi
-      tscCompileScript: |
-        {{ $d := .Decoration -}}
-        {{ if .IsTrue (.GetConfig "shouldTscCompile") -}}
-        if [ -f "./node_modules/.bin/tsc" ]
-        then
-          ./node_modules/.bin/tsc
-        elif [ "$(invoke_core_sh is_command_exist tsc)" = 1 ]
-        then
-          tsc
-        else
-          echo "{{ $d.Bold }}{{ $d.Red }}Typescript is not installed{{ $d.Normal }}"
-          exit 1
-        fi
-        {{ end -}}
-      includeDockerScript: |
-        getDockerImagePrefix() {
-        {{ if and (.GetConfig "useImagePrefix") (.IsFalse (.GetConfig "useImagePrefix")) -}}
-          echo ""
-        {{ else if .GetConfig "imagePrefix" -}}
-          echo "{{ .GetConfig "imagePrefix" }}"
-        {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-          echo "{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-        {{ else if and (.GetValue "docker.env") (.GetValue "dockerImagePrefix" (.GetValue "docker.env")) -}}
-          echo "{{ .GetValue "dockerImagePrefix" (.GetValue "docker.env") }}"
-        {{ else if .GetValue "dockerImagePrefix" "default" -}}
-          echo "{{ .GetValue "dockerImagePrefix" "default" }}"
-        {{ else }}
-          echo "local"
-        {{ end -}}
-        }
-      playBellScript: echo $'\a'
-      setup: |
-        set -e
-        {{ .GetConfig "includeBootstrapScript" }}
-      start: "echo hello world"
-
-
   core.runPythonScript:
     icon: 🐍
     description: |
       Run python script
+      Common config:
+        start : Start script
     private: true
     extend: core.runScript
     config:
@@ -173,6 +137,8 @@ tasks:
     icon: 🐸
     description: |
       Run Node.Js script
+      Common config:
+        start : Start script
     private: true
     extend: core.runScript
     config:

@@ -16,7 +16,7 @@ tasks:
   
   prepareZarubaServiceName:
     icon: 🐸
-    extend: core.runCoreScript
+    extend: core.prepareNodeJsApp
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceName.npmRebuild
@@ -25,18 +25,15 @@ tasks:
     envRef: zarubaServiceName
     configRef: zarubaServiceName
     config:
-      shouldTscCompile: true
-      start: |
-        {{ .GetConfig "includeNvmScript" }}
-        {{ if .IsTrue (.GetValue "zarubaServiceName.removeNodeModules") }}rm -Rf node_modules{{ end }}
-        npm install
-        {{ if .IsTrue (.GetValue "zarubaServiceName.npmRebuild") }}npm rebuild{{ end }}
-        {{ .GetConfig "tscCompileScript" }}
+      installTypeScript: false
+      compileTypeScript: false
+      removeNodeModules: '{{ .GetValue "zarubaServiceName.removeNodeModules }}'
+      npmRebuild: '{{ .GetValue "zarubaServiceName.npmRebuild }}'
     lconfigRef: zarubaServiceName
 
   testZarubaServiceName:
     icon: 🐸
-    extend: core.runCoreScript
+    extend: core.runNvmScript
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
@@ -44,23 +41,19 @@ tasks:
     envRef: zarubaServiceName
     configRef: zarubaServiceName
     config:
-      start: |
-        {{ .GetConfig "includeNvmScript" }}
-        npm test
+      start: npm test
     lconfigRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐸
-    extend: core.startService
+    extend: core.startNvmService
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
     envRef: zarubaServiceName
     configRef: zarubaServiceName
     config:
-      start: |
-        {{ .GetConfig "includeNvmScript" }}
-        npm start
+      start: npm start
     lconfigRef: zarubaServiceName
 
 

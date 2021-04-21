@@ -59,6 +59,19 @@ tasks:
         {{ .Trim (.GetConfig "check") "\n " }}
         {{ .Trim (.GetConfig "afterCheck") "\n " }}
         {{ .Trim (.GetConfig "completeCheck") "\n " }}
+  
+
+  core.startNvmService:
+    icon: 🐸
+    private: true
+    extend: core.startService
+    configRef: core.nvm
+    config:
+      setup: |
+        set -e
+        {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
 
 
   core.startDockerContainer:
@@ -91,6 +104,7 @@ tasks:
     - updateLinks
     inputs:
     - docker.env
+    configRef: core.docker
     config:
       containerName: ""
       imagePrefix: ""
