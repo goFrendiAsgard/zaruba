@@ -71,6 +71,7 @@ tasks:
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
 
 
