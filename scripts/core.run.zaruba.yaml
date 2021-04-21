@@ -89,6 +89,7 @@ tasks:
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
       start: "echo hello world"
 
@@ -104,6 +105,7 @@ tasks:
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
         {{ .Trim (.GetConfig "removeNodeModuleScript") "\n" }} 
         npm install
