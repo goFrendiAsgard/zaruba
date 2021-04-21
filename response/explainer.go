@@ -2,6 +2,7 @@ package response
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/state-alchemists/zaruba/config"
@@ -22,6 +23,36 @@ func NewExplainer(logger monitor.Logger, decoration *monitor.Decoration, project
 	}
 }
 
+func (e *Explainer) listToStr(list []string) string {
+	if len(list) == 0 {
+		return ""
+	}
+	separator := fmt.Sprintf("%s,%s ", e.d.Blue, e.d.Normal)
+	return fmt.Sprintf("%s[ %s%s%s ]%s", e.d.Blue, e.d.Normal, strings.Join(list, separator), e.d.Blue, e.d.Normal)
+}
+
+func (e *Explainer) getStrOrBlank(str string) string {
+	if str == "" {
+		return fmt.Sprintf("%sBlank%s", e.d.Blue, e.d.Normal)
+	}
+	return str
+}
+
+func (e *Explainer) getFieldKeys(list []string) (keys []string) {
+	keys = []string{}
+	maxLength := 0
+	for _, key := range list {
+		if len(key) > maxLength {
+			maxLength = len(key)
+		}
+	}
+	for _, key := range list {
+		fieldKey := key + strings.Repeat(" ", maxLength-len(key))
+		keys = append(keys, fieldKey)
+	}
+	return keys
+}
+
 func (e *Explainer) Explain(taskName string) {
 	task := e.project.Tasks[taskName]
 	indentation := strings.Repeat(" ", 21)
@@ -32,54 +63,110 @@ func (e *Explainer) Explain(taskName string) {
 	e.printField("TASK NAME   ", taskName, indentation)
 	e.printField("LOCATION    ", task.GetFileLocation(), indentation)
 	e.printField("DESCRIPTION ", task.Description, indentation)
+	e.printField("DEPENDENCIES", e.listToStr(task.Dependencies), indentation)
+	e.printField("PARENT TASKS", e.listToStr(parentTasks), indentation)
 	e.printField("INPUTS      ", e.getInputString(task), indentation)
-	e.printField("DEPENDENCIES", strings.Join(task.Dependencies, ", "), indentation)
-	e.printField("PARENT TASKS", strings.Join(parentTasks, ", "), indentation)
+	e.printField("CONFIG      ", e.getConfigString(task), indentation)
+	e.printField("LCONFIG     ", e.getLConfigString(task), indentation)
+	e.printField("ENVIRONMENTS", e.getEnvString(task), indentation)
 }
 
 func (e *Explainer) getInputString(task *config.Task) (inputString string) {
 	inputNames := task.Inputs
 	inputCount := len(inputNames)
-	if inputCount > 0 {
-		paramIndentation := strings.Repeat(" ", 2)
-		for _, inputName := range inputNames {
-			input := e.project.Inputs[inputName]
-			rawInputLines := []string{
-				fmt.Sprintf("- %s", inputName),
-				e.getInputFieldString("DESCRIPTION", input.Description, paramIndentation),
-				e.getInputFieldString("PROMPT     ", input.Prompt, paramIndentation),
-				e.getInputFieldString("OPTIONS    ", strings.Join(input.Options, ", "), paramIndentation),
-				e.getInputFieldString("DEFAULT    ", input.DefaultValue, paramIndentation),
-				e.getInputFieldString("VALIDATION ", input.Validation, paramIndentation),
-			}
-			inputLines := []string{}
-			for _, inputLine := range rawInputLines {
-				if inputLine != "" {
-					inputLines = append(inputLines, inputLine)
-				}
-			}
-			inputString += "\n" + strings.Trim(strings.Join(inputLines, "\n"), "\n")
+	if inputCount == 0 {
+		return ""
+	}
+	for _, inputName := range inputNames {
+		input := e.project.Inputs[inputName]
+		rawInputLines := []string{
+			inputName,
+			e.getSubFieldString("DESCRIPTION", input.Description),
+			e.getSubFieldString("PROMPT     ", input.Prompt),
+			e.getSubFieldString("OPTIONS    ", e.listToStr(input.Options)),
+			e.getSubFieldString("DEFAULT    ", input.DefaultValue),
+			e.getSubFieldString("VALIDATION ", input.Validation),
 		}
+		inputLines := []string{}
+		for _, inputLine := range rawInputLines {
+			if inputLine != "" {
+				inputLines = append(inputLines, inputLine)
+			}
+		}
+		inputString += strings.Trim(strings.Join(inputLines, "\n"), "\n") + "\n"
 	}
 	return inputString
 }
 
-func (e *Explainer) getInputFieldString(inputFieldName string, inputFieldValue string, paramIndentation string) (inputFieldString string) {
-	inputFieldValue = strings.Trim(inputFieldValue, "\n")
-	if inputFieldValue == "" {
+func (e *Explainer) getEnvString(task *config.Task) (envString string) {
+	keys := task.GetEnvKeys()
+	sort.Strings(keys)
+	for _, key := range keys {
+		env, _ := task.GetEnvObject(key)
+		rawEnvLines := []string{
+			key,
+			e.getSubFieldString("FROM   ", env.From),
+			e.getSubFieldString("DEFAULT", env.Default),
+		}
+		envLines := []string{}
+		for _, envLine := range rawEnvLines {
+			if envLine != "" {
+				envLines = append(envLines, envLine)
+			}
+		}
+		envString += strings.Trim(strings.Join(envLines, "\n"), "\n") + "\n"
+	}
+	return envString
+}
+
+func (e *Explainer) getConfigString(task *config.Task) (configStr string) {
+	keys := task.GetConfigKeys()
+	sort.Strings(keys)
+	fieldKeys := e.getFieldKeys(keys)
+	lines := []string{}
+	for index, key := range keys {
+		fieldKey := fieldKeys[index]
+		val, _ := task.GetConfigPattern(key)
+		fieldVal := e.getStrOrBlank(val)
+		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal))
+	}
+	return strings.Join(lines, "\n")
+}
+
+func (e *Explainer) getLConfigString(task *config.Task) (configStr string) {
+	keys := task.GetLConfigKeys()
+	sort.Strings(keys)
+	fieldKeys := e.getFieldKeys(keys)
+	lines := []string{}
+	for index, key := range keys {
+		vals, _ := task.GetLConfigPatterns(key)
+		fieldKey := fieldKeys[index]
+		fieldVal := e.listToStr(vals)
+		if fieldVal == "" {
+			fieldVal = fmt.Sprintf("%s[]%s", e.d.Blue, e.d.Normal)
+		}
+		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal))
+	}
+	return strings.Join(lines, "\n")
+}
+
+func (e *Explainer) getSubFieldString(subFieldName string, subFieldValue string) (subFieldStr string) {
+	subFieldIndentation := strings.Repeat(" ", 2)
+	subFieldValue = strings.Trim(subFieldValue, "\n")
+	if subFieldValue == "" {
 		return ""
 	}
-	paramFieldIndentation := paramIndentation + strings.Repeat(" ", 12)
-	inputFieldLines := strings.Split(strings.Trim(inputFieldValue, "\n"), "\n")
-	inputFieldValueStr := strings.Join(inputFieldLines, "\n  "+paramFieldIndentation)
-	return fmt.Sprintf("%s%s%s :%s %s", paramIndentation, e.d.Yellow, inputFieldName, e.d.Normal, inputFieldValueStr)
+	subFieldValueIndentation := subFieldIndentation + strings.Repeat(" ", len(subFieldName)+1)
+	subFieldLines := strings.Split(strings.Trim(subFieldValue, "\n"), "\n")
+	subFieldValueStr := strings.Join(subFieldLines, "\n  "+subFieldValueIndentation)
+	return fmt.Sprintf("%s%s%s :%s %s", subFieldIndentation, e.d.Yellow, subFieldName, e.d.Normal, subFieldValueStr)
 }
 
 func (e *Explainer) printField(fieldName string, value string, indentation string) {
-	if value == "" {
+	trimmedValue := strings.TrimRight(value, "\n ")
+	if trimmedValue == "" {
 		return
 	}
-	trimmedValue := strings.Trim(value, "\n ")
 	valueLines := strings.Split(trimmedValue, "\n")
 	indentedValue := strings.Join(valueLines, "\n"+indentation)
 	e.logger.DPrintf("%s%s :%s %s\n", e.d.Yellow, fieldName, e.d.Normal, indentedValue)

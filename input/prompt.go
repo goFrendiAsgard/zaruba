@@ -40,9 +40,14 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 		caption_run:         {Run: true, RunInteractive: false, Explain: false},
 		caption_explain:     {Run: false, RunInteractive: false, Explain: true},
 	}
-	options := []string{caption_run, caption_explain}
-	if len(prompter.project.Tasks[taskName].Inputs) > 0 {
+	task := prompter.project.Tasks[taskName]
+	options := []string{}
+	if task.Private {
+		options = []string{caption_explain}
+	} else if len(prompter.project.Tasks[taskName].Inputs) > 0 {
 		options = []string{caption_interactive, caption_run, caption_explain}
+	} else {
+		options = []string{caption_run, caption_explain}
 	}
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
@@ -64,12 +69,17 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 
 func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	sortedTaskNames := prompter.project.GetSortedTaskNames()
-	options := []string{}
+	publicTasks := []string{}
+	privateTasks := []string{}
 	for _, taskName := range sortedTaskNames {
-		if task := prompter.project.Tasks[taskName]; !task.Private {
-			options = append(options, taskName)
+		task := prompter.project.Tasks[taskName]
+		if task.Private {
+			privateTasks = append(privateTasks, taskName)
+			continue
 		}
+		publicTasks = append(publicTasks, taskName)
 	}
+	options := append(publicTasks, privateTasks...)
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
 		Items:             options,

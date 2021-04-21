@@ -202,12 +202,12 @@ func TestValidTaskCheckCommand(t *testing.T) {
 }
 
 func TestValidTaskDependencies(t *testing.T) {
-	conf, err := getProject("../test_resource/dependencies.yaml")
+	project, err := getProject("../test_resource/dependencies.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := conf.Tasks["buyMilk"]
+	task := project.Tasks["buyMilk"]
 	expectedDependencies := []string{"driveCar", "haveMoney"}
 	actualDependencies := task.GetDependencies()
 	if len(actualDependencies) != len(expectedDependencies) {
@@ -229,79 +229,79 @@ func TestInvalidTaskExtension(t *testing.T) {
 }
 
 func TestInvalidTaskConfigBrokenTemplate(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskConfigBrokenTemplate.yaml")
+	project, err := getProject("../test_resource/invalidTaskConfigBrokenTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 		return
 	}
-	task := conf.Tasks["job"]
+	task := project.Tasks["job"]
 	if _, parseError := task.GetConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidTaskConfigNonExecutableTemplate(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskConfigNonExecutableTemplate.yaml")
+	project, err := getProject("../test_resource/invalidTaskConfigNonExecutableTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 		return
 	}
-	task := conf.Tasks["job"]
+	task := project.Tasks["job"]
 	if _, parseError := task.GetConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidTaskLConfigBrokenTemplate(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskLConfigBrokenTemplate.yaml")
+	project, err := getProject("../test_resource/invalidTaskLConfigBrokenTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 		return
 	}
-	task := conf.Tasks["job"]
+	task := project.Tasks["job"]
 	if _, parseError := task.GetLConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidTaskLConfigNonExecutableTemplate(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskLConfigNonExecutableTemplate.yaml")
+	project, err := getProject("../test_resource/invalidTaskLConfigNonExecutableTemplate.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 		return
 	}
-	task := conf.Tasks["job"]
+	task := project.Tasks["job"]
 	if _, parseError := task.GetLConfig(NewTaskData(task), "someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
 
 func TestInvalidTaskUndefinedCommandWithoutParent(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskUndefinedCommandWithoutParent.yaml")
+	project, err := getProject("../test_resource/invalidTaskUndefinedCommandWithoutParent.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 	}
-	task, exists := conf.Tasks["doSomething"]
+	task, exists := project.Tasks["doSomething"]
 	if !exists {
 		t.Errorf("Task not found")
 		return
@@ -315,15 +315,15 @@ func TestInvalidTaskUndefinedCommandWithoutParent(t *testing.T) {
 }
 
 func TestInvalidTaskBrokenCommand(t *testing.T) {
-	conf, err := getProject("../test_resource/invalidTaskBrokenCommand.yaml")
+	project, err := getProject("../test_resource/invalidTaskBrokenCommand.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = conf.Init(); err != nil {
+	if err = project.Init(); err != nil {
 		t.Error(err)
 	}
-	task, exists := conf.Tasks["doSomething"]
+	task, exists := project.Tasks["doSomething"]
 	if !exists {
 		t.Errorf("Task not found")
 		return

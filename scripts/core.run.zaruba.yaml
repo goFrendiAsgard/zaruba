@@ -3,29 +3,24 @@ tasks:
   core.runScript:
     icon: 📔
     description: |
-      Run script
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runScript
-        config:
-          # Executable. (default: sh)
-          cmd: sh
-          # Executable argument to run script. (default: -c)
-          cmdArg: -c
-          # Before start script. (no default)
-          beforeStart: ""
-          # Start script. (no default)
-          start: ""
-          # After start script. (no default)
-          afterStart: ""
-          # Executed even before "BeforeStart". (no default)
-          setup: ""
-      ```
+      Run script.
+      Common config:
+        cmd           : Executable shell name
+        cmdArg        : Executable shell argument
+        setup         : Setup script
+        beforeStart   : Before start script
+        start         : Start script
+        afterStart    : After start script
+        completeStart : Complete start script
     private: true
     config:
       cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
       cmdArg: "-c"
+      setup: ''
+      beforeStart: ''
+      start: ''
+      afterStart: ''
+      completeStart: ''
     env:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED
@@ -38,20 +33,19 @@ tasks:
         {{ .Trim (.GetConfig "beforeStart") "\n " }}
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
+        {{ .Trim (.GetConfig "completeStart") "\n " }}
 
 
   core.runCoreScript:
     icon: 📔
     description: |
       Run script for core tasks
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runCoreScript
-        config:
-          # Start script. (default: "echo No script defined")
-          start: "echo No script defined"
-      ```
+      Common config:
+        setup         : Setup script
+        beforeStart   : Before start script
+        start         : Start script
+        afterStart    : After start script
+        completeStart : Complete start script
     private: true
     extend: core.runShellScript
     dependencies:
@@ -90,20 +84,15 @@ tasks:
     icon: 🐚
     description: |
       Run shell script
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runShellScript
-        config:
-          # Start script. (default: "echo hello world")
-          start: echo hello world
-      ```
     private: true
     extend: core.runScript
     dependencies:
     - core.checkThirdParties
     - core.checkBootstrap
     config:
+      nodeVersion: node
+      shouldTscCompile: false
+      dockerEnv: default
       includeBootstrapScript: |
         if [ -f "${HOME}/.bashrc" ]
         then
@@ -173,14 +162,6 @@ tasks:
     icon: 🐍
     description: |
       Run python script
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runPythonScript
-        config:
-          # Start script. (default: "print('hello world')")
-          start: print('hello world')
-      ```
     private: true
     extend: core.runScript
     config:
@@ -192,14 +173,6 @@ tasks:
     icon: 🐸
     description: |
       Run Node.Js script
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runNodeJsScript
-        config:
-          # Start script. (default: "console.log('hello world')")
-          start: console.log('hello world')
-      ```
     private: true
     extend: core.runScript
     config:
