@@ -522,8 +522,13 @@ class HelmServiceProject(Project):
             })
     
 
-    def _append_port(self, port: str):
+    def _append_port(self, port_str: str):
         self.set_default(['app', 'ports'], [])
+        port: int = 0
+        try:
+            port = int(port_str)
+        except:
+            port = 80
         self.append(['app', 'ports'], {
             'containerPort': port,
             'servicePort': port,

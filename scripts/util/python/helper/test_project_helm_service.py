@@ -26,8 +26,8 @@ def test_helm_service_project_generate():
     # assert generated project
     generated_project = HelmServiceProject()
     generated_project.load(dir_name, service_name)
-    assert generated_project.get(['app', 'ports', 0, 'containerPort']) == '3000'
-    assert generated_project.get(['app', 'ports', 0, 'servicePort']) == '3000'
+    assert generated_project.get(['app', 'ports', 0, 'containerPort']) == 3000
+    assert generated_project.get(['app', 'ports', 0, 'servicePort']) == 3000
     assert generated_project.get(['app', 'name']) == 'myservice'
     assert generated_project.get(['app', 'container', 'image']) == 'myservice'
     assert generated_project.get(['app', 'container', 'env', 0, 'name']) == 'PORT'

@@ -11,7 +11,7 @@ tasks:
         beforeStart   : Before start script
         start         : Start script
         afterStart    : After start script
-        completeStart : Complete start script
+        finish        : Finish script
     private: true
     config:
       cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
@@ -20,7 +20,8 @@ tasks:
       beforeStart: ''
       start: ''
       afterStart: ''
-      completeStart: ''
+      finish: ''
+      _setup: ''
     env:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED
@@ -29,11 +30,12 @@ tasks:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
+        {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeStart") "\n " }}
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
-        {{ .Trim (.GetConfig "completeStart") "\n " }}
+        {{ .Trim (.GetConfig "finish") "\n " }}
 
 
   core.runShellScript:
@@ -49,7 +51,7 @@ tasks:
     configRefs:
     - core.shell
     config:
-      setup: |
+      _setup: |
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
@@ -67,7 +69,7 @@ tasks:
     dependencies:
     - core.checkBootstrap
     config:
-      setup: |
+      _setup: |
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
@@ -85,7 +87,7 @@ tasks:
     - core.shell
     - core.nvm
     config:
-      setup: |
+      _setup: |
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
@@ -101,7 +103,7 @@ tasks:
     private: true
     extend: core.runNvmScript
     config:
-      setup: |
+      _setup: |
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
