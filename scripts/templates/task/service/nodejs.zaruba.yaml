@@ -27,8 +27,8 @@ tasks:
     config:
       installTypeScript: false
       compileTypeScript: false
-      removeNodeModules: '{{ .GetValue "zarubaServiceName.removeNodeModules }}'
-      npmRebuild: '{{ .GetValue "zarubaServiceName.npmRebuild }}'
+      removeNodeModules: '{{ .GetValue "zarubaServiceName.removeNodeModules" }}'
+      npmRebuild: '{{ .GetValue "zarubaServiceName.npmRebuild" }}'
     lconfigRef: zarubaServiceName
 
   testZarubaServiceName:
