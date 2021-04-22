@@ -1,6 +1,8 @@
 from helper import cli
 from helper.project import DockerProject
 
+import os
+
 @cli
 def create_docker_task(template_location: str, image_name: str = '', container_name: str = '', service_name: str = ''):
     if image_name == '' and container_name == '':
