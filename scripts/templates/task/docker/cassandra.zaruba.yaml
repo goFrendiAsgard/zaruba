@@ -3,6 +3,15 @@ tasks:
     icon: 👀
     extend: core.startDockerContainer
     timeout: 1h
+    config:
+      afterCheck: |
+        set +e
+        docker exec "${CONTAINER_NAME}" cqlsh -e "describe keyspaces"
+        until [ "$?" = "0" ]
+        do
+          docker exec "${CONTAINER_NAME}" cqlsh -e "describe keyspaces"
+          sleep 3
+        done
 
 configs:
   zarubaServiceName:

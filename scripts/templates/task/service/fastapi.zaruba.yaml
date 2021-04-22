@@ -31,17 +31,17 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     config:
-      start: |
-        pipenv run uvicorn main:app --reload --port={{ if .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}
+      start: pipenv run uvicorn main:app --reload --port={{ .GetConfig "fastApiPort" }}
 
    
 configs:
-  zarubaServiceName: {}
+  zarubaServiceName:
+    fastApiPort: '{{ if .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
 
 lconfigs:
   zarubaServiceName:
     ports:
-    - '{{ if .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
+    - '{{ .GetConfig "fastApiPort" }}'
 
 envs:
   zarubaServiceName:

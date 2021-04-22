@@ -6,10 +6,10 @@ tasks:
     config:
       afterCheck: |
         set +e
-        docker exec "{{ .GetConfig "containerName" }}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
+        docker exec "${CONTAINER_NAME}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
         until [ "$?" = "0" ]
         do
-          docker exec "{{ .GetConfig "containerName" }}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
+          docker exec "${CONTAINER_NAME}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
           sleep 3
         done
 

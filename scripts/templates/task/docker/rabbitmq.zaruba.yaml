@@ -6,10 +6,10 @@ tasks:
     config:
       afterCheck: |
         set +e
-        docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
+        docker exec "${CONTAINER_NAME}" rabbitmqctl await_startup
         until [ "$?" = "0" ]
         do
-          docker exec "$CONTAINER_NAME" rabbitmqctl await_startup
+          docker exec "${CONTAINER_NAME}" rabbitmqctl await_startup
           sleep 3
         done
 
