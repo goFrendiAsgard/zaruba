@@ -21,9 +21,6 @@ envs:
     discovery.type:
       from: ES_DISCOVER_TYPE
       default: single-node
-    bootstrap.memory_lock:
-      from: ES_BOOTSTRAP_MEMORY_LOCK
-      default: true
     ES_JAVA_OPTS:
       from: ES_JAVA_OPTS
       default: "-Xms512m -Xmx512m"
