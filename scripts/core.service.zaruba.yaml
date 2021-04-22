@@ -5,12 +5,13 @@ tasks:
     description: |
       Start service and check it's readiness.
       Common config:
+        setup       : Script to be executed before start service or check service readiness.
         start       : Script to start the service (e.g: python -m http.server 9000).
-        setup       : Script to be executed before start service/check service readiness.
         beforeStart : Script to be executed before start service.
         afterStart  : Script to be executed after start service.
         beforeCheck : Script to be executed before check service readiness.
         afterCheck  : Script to be executed before check service readiness.
+        finish      : Script to be executed after start service or check service readiness.
       Common lconfig:
         ports: Port to be checked to confirm service readiness (e.g: [9000])
     private: true
@@ -18,14 +19,9 @@ tasks:
     dependencies:
     - updateLinks
     config:
-      setup: ""
       beforeStart: ""
       start: ""
       afterStart: ""
-      completeStart: |
-        {{- $d := .Decoration -}}
-        echo 🎉🎉🎉
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
       beforeCheck: ""
       check: |
         {{- $d := .Decoration -}}
@@ -35,39 +31,55 @@ tasks:
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end -}}
       afterCheck: ""
-      completeCheck: |
-        {{- $d := .Decoration -}}
-        echo 🎉🎉🎉
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
     lconfig:
       ports: []
     start:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
+        {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeStart") "\n " }}
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
-        {{ .Trim (.GetConfig "completeStart") "\n " }}
+        {{ .Trim (.GetConfig "finish") "\n " }}
+        {{- $d := .Decoration -}}
+        echo 🎉🎉🎉
+        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
     check:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
+        {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeCheck") "\n " }}
         {{ .Trim (.GetConfig "check") "\n " }}
         {{ .Trim (.GetConfig "afterCheck") "\n " }}
-        {{ .Trim (.GetConfig "completeCheck") "\n " }}
+        {{ .Trim (.GetConfig "finish") "\n " }}
+        {{- $d := .Decoration -}}
+        echo 🎉🎉🎉
+        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   
 
   core.startNvmService:
     icon: 🐸
+    description: |
+      Start service and check it's readiness.
+      Common config:
+        setup       : Script to be executed before start service or check service readiness.
+        start       : Script to start the service (e.g: python -m http.server 9000).
+        beforeStart : Script to be executed before start service.
+        afterStart  : Script to be executed after start service.
+        beforeCheck : Script to be executed before check service readiness.
+        afterCheck  : Script to be executed before check service readiness.
+        finish      : Script to be executed after start service or check service readiness.
+      Common lconfig:
+        ports: Port to be checked to confirm service readiness (e.g: [9000])
     private: true
     extend: core.startService
     configRef: core.nvm
     config:
-      setup: |
+      _setup: |
         set -e
         {{ .Trim (.GetConfig "initThirdPartiesScript") "\n" }} 
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
@@ -83,6 +95,12 @@ tasks:
       If container is exist but not started, it will be started.
       If container is not exist, it will be created and started.
       Common config:
+        setup                 : Script to be executed before start service or check service readiness.
+        beforeStart           : Script to be executed before start service.
+        afterStart            : Script to be executed after start service.
+        beforeCheck           : Script to be executed before check service readiness.
+        afterCheck            : Script to be executed before check service readiness.
+        finish                : Script to be executed after start service or check service readiness.
         useImagePrefix        : Whether image prefix should be used or not
         imagePrefix           : Image prefix
         imageName             : Image name
@@ -117,36 +135,35 @@ tasks:
       localhost: localhost
       expose: config.port
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
-      setup.dockerImagePrefix: |
+      _setup.dockerImagePrefix: |
         DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
         if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
         then
           DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
         fi
-      setup.containerName: |
+      _setup.containerName: |
         {{ $d := .Decoration -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         invoke_core_sh should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
-      setup.imageName: |
+      _setup.imageName: |
         {{ $d := .Decoration -}}
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
         invoke_core_sh should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
-      setup.validateExpose: |
+      _setup.validateExpose: |
         {{ $d := .Decoration -}}
         {{ $expose := .GetConfig "expose" -}}
         {{ if and (ne $expose "config.port") (ne $expose "lconfig.ports") -}}
           echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
         {{ end -}}
-      setup: |
-        {{ $d := .Decoration -}}
+      _setup: |
+        set -e
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        {{ .Trim (.GetConfig "setup.dockerImagePrefix") "\n" }} 
-        {{ .Trim (.GetConfig "setup.containerName") "\n" }} 
-        {{ .Trim (.GetConfig "setup.imageName") "\n" }} 
-        {{ .Trim (.GetConfig "setup.validateExpose") "\n" }} 
-        set -e
+        {{ .Trim (.GetConfig "_setup.dockerImagePrefix") "\n" }} 
+        {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
+        {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
+        {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 
       check.containerState: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
