@@ -11,7 +11,7 @@ default_event_map = RmqEventMap({})
 class RMQMessageBus(MessageBus):
 
     def __init__(self, rmq_host: str, rmq_user: str, rmq_pass: str, rmq_vhost: str, rmq_event_map: RmqEventMap = default_event_map):
-        rmq_param = pika.ConnectionParameters(
+        self.rmq_param = pika.ConnectionParameters(
             host=rmq_host,
             credentials=pika.PlainCredentials(rmq_user, rmq_pass),
             virtual_host=rmq_vhost,
@@ -19,17 +19,24 @@ class RMQMessageBus(MessageBus):
         )
         self.should_check_connection = True
         self.event_map = rmq_event_map
-        self.connection: BlockingConnection = pika.BlockingConnection(rmq_param)
+        self._connect()
+
+    
+    def _connect(self):
+        self.connection: BlockingConnection = pika.BlockingConnection(self.rmq_param)
         self.connection.add_callback_threadsafe(self._callback)
         self.connection.process_data_events()
 
 
     def _process_data_events(self):
         while True:
-            time.sleep(1)
+            time.sleep(3)
             if not self.should_check_connection:
                 break
-            self.connection.process_data_events()
+            try:
+                self.connection.process_data_events()
+            except:
+                self._connect()
 
 
     def _callback(self):
