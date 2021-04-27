@@ -85,7 +85,7 @@ configs:
         fi
       {{ end -}}
     removeNodeModulesScript: |
-      {{ if .IsTrue (.GetConfig "removeNodeModules ") }}
+      {{ if .IsTrue (.GetConfig "removeNodeModules") }}
         rm -Rf node_modules
       {{ end}}
     npmRebuildScript: |
