@@ -83,10 +83,10 @@ func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile strin
 	}
 	b, err := ioutil.ReadFile(parsedProjectFile)
 	if err != nil {
-		return p, err
+		return p, fmt.Errorf("error reading file '%s': %s", parsedProjectFile, err)
 	}
 	if err = yaml.Unmarshal(b, p); err != nil {
-		return p, err
+		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
 	}
 	p.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
 	p.fileLocation = parsedProjectFile
@@ -161,7 +161,7 @@ func (p *Project) IsValueExist(key string) (exist bool) {
 // AddGlobalEnv add global environment for a projectConfig
 func (p *Project) AddGlobalEnv(pairOrFile string) (err error) {
 	if p.IsInitialized {
-		return fmt.Errorf("Cannot AddGlobalEnv, project has been initialized")
+		return fmt.Errorf("cannot AddGlobalEnv, project has been initialized")
 	}
 	pairParts := strings.SplitN(pairOrFile, "=", 2)
 	if len(pairParts) == 2 {
@@ -176,7 +176,7 @@ func (p *Project) AddGlobalEnv(pairOrFile string) (err error) {
 // AddValue add value for a project
 func (p *Project) AddValue(pairOrFile string) (err error) {
 	if p.IsInitialized {
-		return fmt.Errorf("Cannot AddValue, project has been initialized")
+		return fmt.Errorf("cannot AddValue, project has been initialized")
 	}
 	pairParts := strings.SplitN(pairOrFile, "=", 2)
 	if len(pairParts) == 2 {
@@ -202,7 +202,7 @@ func (p *Project) AddValue(pairOrFile string) (err error) {
 // SetValue set value for a project
 func (p *Project) SetValue(key, value string) (err error) {
 	if p.IsInitialized {
-		return fmt.Errorf("Cannot SetValue, project has been initialized")
+		return fmt.Errorf("cannot SetValue, project has been initialized")
 	}
 	p.values[key] = value
 	return nil
@@ -215,7 +215,7 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 	for _, taskName := range taskNames {
 		task, taskExist := p.Tasks[taskName]
 		if !taskExist {
-			return inputs, inputOrder, fmt.Errorf("Task %s is not exist", taskName)
+			return inputs, inputOrder, fmt.Errorf("task '%s' is not exist", taskName)
 		}
 		// include task's dependencies and parent's inputs first
 		subTaskNames := []string{}
@@ -283,7 +283,7 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 	for _, taskName := range taskNames {
 		task, taskExist := p.Tasks[taskName]
 		if !taskExist {
-			return fmt.Errorf("Task %s is not exist", taskName)
+			return fmt.Errorf("task '%s' is not exist", taskName)
 		}
 		for _, inputName := range task.Inputs {
 			value := p.values[inputName]
@@ -375,7 +375,7 @@ func (p *Project) validateTaskDependencies() (err error) {
 	for taskName, task := range p.Tasks {
 		for index, dependencyTaskName := range task.Dependencies {
 			if _, dependencyTaskExist := p.Tasks[dependencyTaskName]; !dependencyTaskExist {
-				return fmt.Errorf("%s: Task %s is required at %s.dependencies[%d] but it was not declared", task.GetFileLocation(), dependencyTaskName, taskName, index)
+				return fmt.Errorf("undeclared task dependency on '%s': Task '%s' is required at %s.dependencies[%d]", task.GetFileLocation(), dependencyTaskName, taskName, index)
 			}
 		}
 	}
@@ -385,16 +385,16 @@ func (p *Project) validateTaskDependencies() (err error) {
 func (p *Project) validateTaskExtend() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.Extends) > 0 && task.Extend != "" {
-			return fmt.Errorf("%s: Redundant declaration. %s has both `extend` and `extends`", task.GetFileLocation(), taskName)
+			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `extend` and `extends`", task.GetFileLocation(), taskName)
 		}
 		if task.Extend != "" {
 			if _, parentTaskExist := p.Tasks[task.Extend]; !parentTaskExist {
-				return fmt.Errorf("%s: Task %s is required at %s.extend but it was not declared", task.GetFileLocation(), task.Extend, taskName)
+				return fmt.Errorf("undeclared parent task on '%s': Task '%s' is required at %s.extend", task.GetFileLocation(), task.Extend, taskName)
 			}
 		}
 		for index, parentTaskName := range task.Extends {
 			if _, parentTaskExist := p.Tasks[parentTaskName]; !parentTaskExist {
-				return fmt.Errorf("%s: Task %s is required at %s.extends[%d] but it was not declared", task.GetFileLocation(), parentTaskName, taskName, index)
+				return fmt.Errorf("undeclared parent task on '%s': Task '%s' is required at %s.extends[%d]", task.GetFileLocation(), parentTaskName, taskName, index)
 			}
 		}
 	}
@@ -405,7 +405,7 @@ func (p *Project) validateTaskInputs() (err error) {
 	for taskName, task := range p.Tasks {
 		for index, inputName := range task.Inputs {
 			if _, inputExist := p.Inputs[inputName]; !inputExist {
-				return fmt.Errorf("%s: Input %s is required for %s.inputs[%d] but it was not declared", task.GetFileLocation(), inputName, taskName, index)
+				return fmt.Errorf("undeclared input task on '%s': Input '%s' is required at %s.inputs[%d]", task.GetFileLocation(), inputName, taskName, index)
 			}
 		}
 	}
@@ -415,17 +415,17 @@ func (p *Project) validateTaskInputs() (err error) {
 func (p *Project) validateTaskBaseEnv() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.EnvRefs) > 0 && task.EnvRef != "" {
-			return fmt.Errorf("%s: Redundant declaration. %s has both `envRef` and `envRefs`", task.GetFileLocation(), taskName)
+			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `envRef` and `envRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.EnvRef != "" {
 			if _, baseEnvExist := p.baseEnv[task.EnvRef]; !baseEnvExist {
-				return fmt.Errorf("%s: Env %s is required at %s.envRef but it was not declared", task.GetFileLocation(), task.EnvRef, taskName)
+				return fmt.Errorf("undeclared env on '%s': Env '%s' is required at %s.envRef", task.GetFileLocation(), task.EnvRef, taskName)
 			}
 			return nil
 		}
 		for index, baseEnvKey := range task.EnvRefs {
 			if _, baseEnvExist := p.baseEnv[baseEnvKey]; !baseEnvExist {
-				return fmt.Errorf("%s: Env %s is required at %s.envRefs[%d] but it was not declared", task.GetFileLocation(), baseEnvKey, taskName, index)
+				return fmt.Errorf("undeclared env on '%s': Env '%s' is required at %s.envRefs[%d]", task.GetFileLocation(), baseEnvKey, taskName, index)
 			}
 		}
 	}
@@ -435,17 +435,17 @@ func (p *Project) validateTaskBaseEnv() (err error) {
 func (p *Project) validateTaskBaseConfig() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.ConfigRefs) > 0 && task.ConfigRef != "" {
-			return fmt.Errorf("%s: Redundant declaration. %s has both `configRef` and `configRefs`", task.GetFileLocation(), taskName)
+			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `config` and `configRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.ConfigRef != "" {
 			if _, baseConfigExist := p.baseConfig[task.ConfigRef]; !baseConfigExist {
-				return fmt.Errorf("%s: Config %s is required at %s.configRef but it was not declared", task.GetFileLocation(), task.ConfigRef, taskName)
+				return fmt.Errorf("undeclared config on '%s': Config '%s' is required at %s.configRef", task.GetFileLocation(), task.ConfigRef, taskName)
 			}
 			return nil
 		}
 		for index, baseConfigKey := range task.ConfigRefs {
 			if _, baseConfigExist := p.baseConfig[baseConfigKey]; !baseConfigExist {
-				return fmt.Errorf("%s: Config %s is required at %s.configRefs[%d] but it was not declared", task.GetFileLocation(), baseConfigKey, taskName, index)
+				return fmt.Errorf("undeclared config on '%s': Config '%s' is required at %s.configRef[%d]", task.GetFileLocation(), baseConfigKey, taskName, index)
 			}
 		}
 	}
@@ -455,17 +455,17 @@ func (p *Project) validateTaskBaseConfig() (err error) {
 func (p *Project) validateTaskBaseLConfig() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.LConfigRefs) > 0 && task.LConfigRef != "" {
-			return fmt.Errorf("%s: Redundant declaration. %s has both `lconfigRef` and `lconfigRefs`", task.GetFileLocation(), taskName)
+			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `lconfig` and `lconfigRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.LConfigRef != "" {
 			if _, baseLConfigExist := p.baseLConfig[task.LConfigRef]; !baseLConfigExist {
-				return fmt.Errorf("%s: LConfig %s is required at %s.lconfigRef but it was not declared", task.GetFileLocation(), task.LConfigRef, taskName)
+				return fmt.Errorf("undeclared lconfig on '%s': Lconfig '%s' is required at %s.lconfigRef", task.GetFileLocation(), task.LConfigRef, taskName)
 			}
 			return nil
 		}
 		for index, baseLConfigKey := range task.LConfigRefs {
 			if _, baseLConfigExist := p.baseLConfig[baseLConfigKey]; !baseLConfigExist {
-				return fmt.Errorf("%s: LConfig %s is required at %s.lconfigRefs[%d] but it was not declared", task.GetFileLocation(), baseLConfigKey, taskName, index)
+				return fmt.Errorf("undeclared lconfig on '%s': Lconfig '%s' is required at %s.lconfigRef[%d]", task.GetFileLocation(), baseLConfigKey, taskName, index)
 			}
 		}
 	}
@@ -508,7 +508,7 @@ func (p *Project) cascadeInputs(parsedIncludeLocation string, includedProject *P
 			if input.fileLocation == existingInput.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare input `%s` on `%s` because the input was already declared on `%s`", inputName, input.fileLocation, existingInput.fileLocation)
+			return fmt.Errorf("redundant input declaration on '%s': Input '%s' was already declared on '%s'", input.fileLocation, inputName, existingInput.fileLocation)
 		}
 		p.Inputs[inputName] = input
 	}
@@ -522,7 +522,7 @@ func (p *Project) cascadeTasks(parsedIncludeLocation string, includedProject *Pr
 			if task.fileLocation == existingTask.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare task `%s` on `%s` because it was already declared on `%s`", taskName, task.fileLocation, existingTask.fileLocation)
+			return fmt.Errorf("redundant task declaration on '%s': Task '%s' was already declared on '%s'", task.fileLocation, taskName, existingTask.fileLocation)
 		}
 		p.Tasks[taskName] = task
 	}
@@ -536,7 +536,7 @@ func (p *Project) cascadeBaseEnv(parsedIncludeLocation string, includedProject *
 			if baseEnv.fileLocation == existingBaseEnv.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare project env `%s` on `%s` because it was already declared on `%s`", baseEnvName, baseEnv.fileLocation, existingBaseEnv.fileLocation)
+			return fmt.Errorf("redundant env declaration on '%s': Task '%s' was already declared on '%s'", baseEnv.fileLocation, baseEnvName, existingBaseEnv.fileLocation)
 		}
 		p.baseEnv[baseEnvName] = baseEnv
 	}
@@ -550,7 +550,7 @@ func (p *Project) cascadeBaseConfig(parsedIncludeLocation string, includedProjec
 			if baseConfig.fileLocation == existingBaseConfig.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare project config `%s` on `%s` because it was already declared on `%s`", baseConfigName, baseConfig.fileLocation, existingBaseConfig.fileLocation)
+			return fmt.Errorf("redundant config declaration on '%s': Config '%s' was already declared '%s'", baseConfig.fileLocation, baseConfigName, existingBaseConfig.fileLocation)
 		}
 		p.baseConfig[baseConfigName] = baseConfig
 	}
@@ -564,7 +564,7 @@ func (p *Project) cascadeBaseLConfig(parsedIncludeLocation string, includedProje
 			if baseLConfig.fileLocation == existingBaseLConfig.fileLocation {
 				continue
 			}
-			return fmt.Errorf("Cannot declare project lconfig `%s` on `%s` because it was already declared on `%s`", baseLConfigName, baseLConfig.fileLocation, existingBaseLConfig.fileLocation)
+			return fmt.Errorf("redundant lconfig declaration on '%s': Lconfig '%s' was already declared '%s'", baseLConfig.fileLocation, baseLConfigName, existingBaseLConfig.fileLocation)
 		}
 		p.baseLConfig[baseLConfigName] = baseLConfig
 	}

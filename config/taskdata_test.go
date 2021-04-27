@@ -18,7 +18,7 @@ func getTaskData(projectFile string, taskName string, values []string) (td *Task
 	}
 	task, taskDeclared := project.Tasks[taskName]
 	if !taskDeclared {
-		return td, fmt.Errorf("Task %s was not declared", taskName)
+		return td, fmt.Errorf("task '%s' is not declared", taskName)
 	}
 	td = NewTaskData(task)
 	return td, err

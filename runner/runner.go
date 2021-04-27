@@ -42,7 +42,7 @@ type Runner struct {
 // NewRunner create new runner
 func NewRunner(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner, err error) {
 	if !project.IsInitialized {
-		return &Runner{}, fmt.Errorf("Cannot create runner because project was not initialize")
+		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialize")
 	}
 	if err = project.ValidateByTaskNames(taskNames); err != nil {
 		return &Runner{}, err
@@ -82,7 +82,7 @@ func (r *Runner) Run() (err error) {
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
-		return fmt.Errorf("Terminated")
+		return fmt.Errorf("terminated")
 	}
 	if !r.getKilledSignal() {
 		r.Terminate()
@@ -134,7 +134,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 	for {
 		r.sleep(1 * time.Millisecond)
 		if r.getKilledSignal() {
-			ch <- fmt.Errorf("Terminated")
+			ch <- fmt.Errorf("terminated")
 			return
 		}
 		r.cmdInfoMutex.Lock()
@@ -251,7 +251,7 @@ func (r *Runner) run(ch chan error) {
 		autoTerminateDuration, parseErr := time.ParseDuration(r.autoTerminateDelayInterval)
 		if parseErr != nil {
 			ch <- parseErr
-			r.logger.DPrintfError("Cannot parse autoterminate delay interval %s\n", r.autoTerminateDelayInterval)
+			r.logger.DPrintfError("Cannot parse auto-terminate delay interval %s\n", r.autoTerminateDelayInterval)
 			return
 		}
 		r.sleep(autoTerminateDuration)
@@ -262,7 +262,7 @@ func (r *Runner) run(ch chan error) {
 	for {
 		r.sleep(1 * time.Millisecond)
 		if r.getKilledSignal() {
-			ch <- fmt.Errorf("Terminated")
+			ch <- fmt.Errorf("terminated")
 			return
 		}
 		processExist := false
@@ -284,7 +284,7 @@ func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 	for _, taskName := range taskNames {
 		task, exists := r.project.Tasks[taskName]
 		if !exists {
-			return fmt.Errorf("Task %s is not exist", taskName)
+			return fmt.Errorf("task '%s' is not exist", taskName)
 		}
 		tasks = append(tasks, task)
 	}
@@ -511,7 +511,7 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 			return r.isTaskError(taskName)
 		}
 		if r.getKilledSignal() {
-			return fmt.Errorf("Terminated")
+			return fmt.Errorf("terminated")
 		}
 	}
 }

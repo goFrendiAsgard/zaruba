@@ -34,7 +34,7 @@ func (input *Variable) Validate(value string) (err error) {
 		return err
 	}
 	if !valid {
-		return fmt.Errorf("Value of variable %s does not match %s: %s", input.name, input.Validation, value)
+		return fmt.Errorf("value of input variable '%s' does not match '%s': %s", input.name, input.Validation, value)
 	}
 	return nil
 }
