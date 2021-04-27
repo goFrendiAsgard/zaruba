@@ -113,11 +113,11 @@ tasks:
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
       _start: |
         {{ .Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
-        npm install
+        {{ .Trim (.GetConfig "npmInstallScript") "\n" }} 
         {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
         {{ .Trim (.GetConfig "typeScriptInstallScript") "\n" }} 
         {{ .Trim (.GetConfig "typeScriptCompileScript") "\n" }} 
-      start: "echo hello world"
+      start: "echo Prepare NodeJs App"
 
 
   core.wrapper:

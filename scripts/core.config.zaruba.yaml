@@ -92,3 +92,13 @@ configs:
       {{ if .IsTrue (.GetConfig "npmRebuild") }}
         npm rebuild
       {{ end }}
+    npmInstallScript: |
+      if [ ! -d "node_modules" ]
+      then
+        if [ -f "package-lock.json" ]
+        then
+          npm ci
+        else
+          npm install
+        fi
+      fi
