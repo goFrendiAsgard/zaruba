@@ -97,7 +97,7 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 
 func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error) {
 	if prompter.project.IsInitialized {
-		return fmt.Errorf("Project is not initialized")
+		return fmt.Errorf("project is not initialized")
 	}
 	inputs, inputOrder, err := prompter.project.GetInputs(taskNames)
 	if err != nil {

@@ -330,6 +330,8 @@ class ServiceProject(TaskProject):
             f_write = open(file_name, 'a')
             env_map: Mapping[str, Mapping[str, str]] = self.get(['envs', service_name]) if self.exist(['envs', service_name]) else {}
             for env_key, env in env_map.items():
+                if 'from' not in env:
+                    continue
                 env_from = env.get('from')
                 if env_from == '' or env_from in existing_envvars:
                     continue

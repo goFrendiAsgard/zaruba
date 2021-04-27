@@ -417,11 +417,13 @@ func (task *Task) GetStartCmd(logDone chan error) (cmd *exec.Cmd, exist bool, er
 
 func (task *Task) getStartCmd(td *TaskData, logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
 	if len(task.Start) == 0 {
-		parentTask, exists := task.Project.Tasks[task.Extend]
-		if !exists {
-			return cmd, false, fmt.Errorf("Cannot retrieve StartCmd from %s's parent", task.GetName())
+		for _, parentTaskName := range task.getParentTaskNames() {
+			parentTask := task.Project.Tasks[parentTaskName]
+			if parentCmd, parentCmdExist, parentCmdErr := parentTask.getStartCmd(td, logDone); parentCmdExist {
+				return parentCmd, parentCmdExist, parentCmdErr
+			}
 		}
-		return parentTask.getStartCmd(td, logDone)
+		return cmd, false, fmt.Errorf("cannot retrieve StartCmd from parent task of '%s'", task.GetName())
 	}
 	cmd, err = task.getCmd(td, "START", task.Start, logDone)
 	return cmd, true, err
@@ -434,11 +436,13 @@ func (task *Task) GetCheckCmd(logDone chan error) (cmd *exec.Cmd, exist bool, er
 
 func (task *Task) getCheckCmd(td *TaskData, logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
 	if len(task.Check) == 0 {
-		parentTask, exists := task.Project.Tasks[task.Extend]
-		if !exists {
-			return cmd, false, fmt.Errorf("Cannot retrieve CheckCmd from %s's parent", task.GetName())
+		for _, parentTaskName := range task.getParentTaskNames() {
+			parentTask := task.Project.Tasks[parentTaskName]
+			if parentCmd, parentCmdExist, parentCmdErr := parentTask.getCheckCmd(td, logDone); parentCmdExist {
+				return parentCmd, parentCmdExist, parentCmdErr
+			}
 		}
-		return parentTask.getCheckCmd(td, logDone)
+		return cmd, false, fmt.Errorf("cannot retrieve CheckCmd from parent task of '%s'", task.GetName())
 	}
 	cmd, err = task.getCmd(td, "CHECK", task.Check, logDone)
 	return cmd, true, err

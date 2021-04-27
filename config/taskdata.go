@@ -138,7 +138,7 @@ func (td *TaskData) GetRelativePath(path string) (absPath string) {
 func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
 	task, taskFound := td.task.Project.Tasks[taskName]
 	if !taskFound {
-		return nil, fmt.Errorf("Task %s is not exist", taskName)
+		return nil, fmt.Errorf("task '%s' is not exist", taskName)
 	}
 	return NewTaskData(task), nil
 }
