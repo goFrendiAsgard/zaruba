@@ -112,7 +112,7 @@ tasks:
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
       _start: |
-        {{ .Trim (.GetConfig "removeNodeModuleScript") "\n" }} 
+        {{ .Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
         npm install
         {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
         {{ .Trim (.GetConfig "typeScriptInstallScript") "\n" }} 
