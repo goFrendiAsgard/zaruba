@@ -22,6 +22,7 @@ tasks:
       afterStart: ''
       finish: ''
       _setup: ''
+      _start: ''
     env:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED
@@ -33,6 +34,7 @@ tasks:
         {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeStart") "\n " }}
+        {{ .Trim (.GetConfig "_start") "\n " }}
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
@@ -109,6 +111,7 @@ tasks:
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
+      _start: |
         {{ .Trim (.GetConfig "removeNodeModuleScript") "\n" }} 
         npm install
         {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
