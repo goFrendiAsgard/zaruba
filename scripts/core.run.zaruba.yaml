@@ -81,8 +81,7 @@ tasks:
   
   core.runNvmScript:
     icon: 🐸
-    description: |
-      Run shell script under nvm
+    description: Run shell script under nvm
     private: true
     extend: core.runShellScript
     configRefs:
@@ -100,8 +99,7 @@ tasks:
   
   core.prepareNodeJsApp:
     icon: 🐸
-    description: |
-      Prepare NodeJs Application
+    description: Prepare NodeJs Application
     private: true
     extend: core.runNvmScript
     config:
@@ -113,11 +111,28 @@ tasks:
         {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
       _start: |
         {{ .Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
+        {{ .Trim (.GetConfig "npmCleanCacheScript") "\n" }} 
         {{ .Trim (.GetConfig "npmInstallScript") "\n" }} 
         {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
         {{ .Trim (.GetConfig "typeScriptInstallScript") "\n" }} 
         {{ .Trim (.GetConfig "typeScriptCompileScript") "\n" }} 
       start: "echo Prepare NodeJs App"
+  
+
+  core.preparePythonApp:
+    icon: 🐍
+    description: Prepare Python App
+    private: true
+    extend: core.runShellScript
+    config:
+      _start: |
+        if [ -f Pipfile "Pipfile.lock" ]
+        then
+          pipenv sync
+        else
+          pipenv install
+        fi
+      start: "echo Prepare Python App"
 
 
   core.wrapper:

@@ -1,16 +1,22 @@
 inputs:
-
-  zarubaServiceName.npmRebuild:
-    default: no
-    options: [yes, no]
-    prompt: Do you want to perform npm rebuild on zarubaServiceName?
-    description: npm rebuild on zarubaServiceName
   
   zarubaServiceName.removeNodeModules:
     default: no
     options: [yes, no]
     prompt: Do you want to delete node_modules on zarubaServiceName?
     description: Delete node_modules on zarubaServiceName
+ 
+  zarubaServiceName.npmCleanCache:
+    default: no
+    options: [yes, no]
+    prompt: Do you want to clean npm cache on zarubaServiceName?
+    description: Clean npm cache on zarubaServiceName
+
+  zarubaServiceName.npmRebuild:
+    default: no
+    options: [yes, no]
+    prompt: Do you want to perform npm rebuild on zarubaServiceName?
+    description: npm rebuild on zarubaServiceName
 
 tasks:
   
@@ -19,8 +25,9 @@ tasks:
     extend: core.prepareNodeJsApp
     location: zarubaServiceLocation
     inputs:
-    - zarubaServiceName.npmRebuild
     - zarubaServiceName.removeNodeModules
+    - zarubaServiceName.npmCleanCache
+    - zarubaServiceName.npmRebuild
     timeout: 1h
     envRef: zarubaServiceName
     configRef: zarubaServiceName
@@ -28,6 +35,7 @@ tasks:
       installTypeScript: false
       compileTypeScript: false
       removeNodeModules: '{{ .GetValue "zarubaServiceName.removeNodeModules" }}'
+      npmCleanCache: '{{ .GetValue "zarubaServiceName.npmCleanCache" }}'
       npmRebuild: '{{ .GetValue "zarubaServiceName.npmRebuild" }}'
     lconfigRef: zarubaServiceName
 

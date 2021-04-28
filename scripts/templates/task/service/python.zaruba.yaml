@@ -2,13 +2,11 @@ tasks:
     
   prepareZarubaServiceName:
     icon: 🐍
-    extend: core.runShellScript
+    extend: core.preparePythonApp
     location: zarubaServiceLocation
     timeout: 1h
     envRef: zarubaServiceName
     configRef: zarubaServiceName
-    config:
-      start: pipenv sync
     lconfigRef: zarubaServiceName
   
   testZarubaServiceName:

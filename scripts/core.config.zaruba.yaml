@@ -55,6 +55,7 @@ configs:
     compileTypeScript: false
     typeScriptVersion: ""
     removeNodeModules: false
+    npmCleanCache: false
     npmRebuild: false
     includeNvmScript: |
       if [ "$(invoke_core_sh is_command_exist nvm)" = 1 ]
@@ -67,14 +68,14 @@ configs:
         fi
       fi
     typeScriptInstallScript: |
-      {{ if or (.IsTrue (.GetConfig "compileTypeScript")) (.IsTrue (.GetConfig "installTypeScript")) -}}
+      {{ if .IsTrue (.GetConfig "installTypeScript") -}}
         if [ -f "./node_modules/.bin/tsc" ] || [ "$(invoke_core_sh is_command_exist tsc)" = 1 ]
         then
           echo "Typescript is already installed"
         else
           npm install -g typescript{{ if .GetConfig "typeScriptVersion" }}@{{ .GetConfig "typeScriptVersion" }}{{ end }}
         fi
-      {{ end }}
+      {{ end -}}
     typeScriptCompileScript: |
       {{ if .IsTrue (.GetConfig "compileTypeScript") -}}
         if [ -f "./node_modules/.bin/tsc" ]
@@ -85,13 +86,13 @@ configs:
         fi
       {{ end -}}
     removeNodeModulesScript: |
-      {{ if .IsTrue (.GetConfig "removeNodeModules") }}
+      {{ if .IsTrue (.GetConfig "removeNodeModules") -}}
         rm -Rf node_modules
-      {{ end}}
+      {{ end -}}
     npmRebuildScript: |
-      {{ if .IsTrue (.GetConfig "npmRebuild") }}
+      {{ if .IsTrue (.GetConfig "npmRebuild") -}}
         npm rebuild
-      {{ end }}
+      {{ end -}}
     npmInstallScript: |
       if [ ! -d "node_modules" ]
       then
@@ -102,3 +103,7 @@ configs:
           npm install
         fi
       fi
+    npmCleanCacheScript: |
+      {{ if .IsTrue (.GetConfig "npmCleanCache") -}}
+        npm cache clean --force
+      {{ end -}}
