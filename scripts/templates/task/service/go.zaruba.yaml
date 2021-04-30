@@ -16,8 +16,7 @@ tasks:
     extend: core.startService
     location: zarubaServiceLocation
     config:
-      start: go run .
-
+      start: zarubaStartCommand
 
 configs:
   zarubaServiceName: {}

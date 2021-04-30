@@ -205,7 +205,7 @@ class TaskProject(Project):
         super().save(file_name)
 
 
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, runner_version: str):
         file_name = self._get_file_name(dir_name, service_name)
         self.main_project.load(dir_name)
         self._set_service_name(service_name)
@@ -218,6 +218,7 @@ class TaskProject(Project):
             'zarubaImageName': image_name,
             'zarubaServiceLocation': location,
             'zarubaStartCommand': start_command,
+            'zarubaRunnerVersion': runner_version,
         }
         super().generate(file_name)
         self.main_project.append_if_not_exist(['includes'], os.path.join('zaruba-tasks', '{}.zaruba.yaml'.format(service_name)))
@@ -343,7 +344,7 @@ class ServiceProject(TaskProject):
             f_write.close()
 
     
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, ports: List[str]):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, ports: List[str], runner_version: str):
         #self._load_env('zarubaServiceName', service_location, env_prefix='ZARUBA_SERVICE_NAME')
         service_location = location
         if not os.path.isabs(location):
@@ -370,7 +371,7 @@ class ServiceProject(TaskProject):
         self.main_project.register_build_image_task('build{}Image'.format(self.capital_service_name))
         self.main_project.register_push_image_task('push{}Image'.format(self.capital_service_name))
         self.main_project.save(dir_name)
-        super().generate(dir_name, service_name, image_name, container_name, location, start_command)
+        super().generate(dir_name, service_name, image_name, container_name, location, start_command, runner_version=runner_version)
         
 
 class DockerProject(TaskProject):
@@ -408,7 +409,7 @@ class DockerProject(TaskProject):
         self.main_project.register_stop_container_task('stop{}Container'.format(self.capital_service_name))
         self.main_project.register_remove_container_task('remove{}Container'.format(self.capital_service_name))
         self.main_project.save(dir_name)
-        super().generate(dir_name, service_name, image_name, container_name, location='', start_command='')
+        super().generate(dir_name, service_name, image_name, container_name, location='', start_command='', runner_version='')
         
 
 class HelmProject(Project):

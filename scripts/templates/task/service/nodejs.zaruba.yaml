@@ -61,7 +61,7 @@ tasks:
     envRef: zarubaServiceName
     configRef: zarubaServiceName
     config:
-      start: npm start
+      start: zarubaStartCommand
     lconfigRef: zarubaServiceName
 
 

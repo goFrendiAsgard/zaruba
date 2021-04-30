@@ -31,7 +31,8 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     config:
-      start: pipenv run uvicorn main:app --reload --port={{ .GetConfig "fastApiPort" }}
+      beforeStart: _FAST_API_PORT="{{ .GetConfig "fastApiPort" }}"
+      start: zarubaStartCommand
 
    
 configs:

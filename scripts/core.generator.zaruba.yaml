@@ -20,11 +20,6 @@ inputs:
     prompt: Service ports, comma separated (Can be blank)
     validation: ^[a-zA-Z0-9_,]*$
 
-  generator.service.startCommand:
-    description: Service start command
-    prompt: Command to run the service (Required)
-    validation: ^.+$
-
   generator.service.location:
     description: service location, relative to current directory
     prompt: Service location, relative to current directory (Required)
@@ -39,6 +34,50 @@ inputs:
     description: Service's docker container name
     prompt: Service's docker container name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
+
+  generator.service.startCommand:
+    description: Service start command
+    prompt: Command to run the service (Required)
+    validation: ^.+$
+
+  generator.fastApiService.startCommand:
+    description: Service start command
+    prompt: Command to run the service (Required)
+    option:
+    - pipenv run uvicorn main:app --reload --port=$_FAST_API_PORT
+    default: pipenv run uvicorn main:app --reload --port=$_FAST_API_PORT
+    validation: ^.+$
+
+  generator.goService.startCommand:
+    description: Service start command
+    prompt: Command to run the service (Required)
+    option:
+    - go run .
+    default: go run .
+    validation: ^.+$
+
+  generator.nodeJsService.startCommand:
+    description: Service start command
+    prompt: Command to run the service (Required)
+    option:
+    - npm start
+    default: npm start
+    validation: ^.+$
+
+  generator.nodeJsService.runnerVersion:
+    description: NodeJs version
+    prompt: NodeJs version to run the service (Required)
+    option: [node, 16, 15, 14, 13, 12, 11, 10]
+    default: node
+    validation: ^.+$
+   
+  generator.pythonService.startCommand:
+    description: Service start command
+    prompt: Command to run the service (Required)
+    option:
+    - pipenv run python $(invoke_core_sh get_main_python_script)
+    default: pipenv run python $(invoke_core_sh get_main_python_script)
+    validation: ^.+$
  
   generator.module.name:
     description: Module name
@@ -81,11 +120,11 @@ tasks:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml'
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION="{{ .GetConfig "templateLocation" }}"
-        IMAGE_NAME="{{ .GetConfig "imageName" }}"
-        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        SERVICE_NAME="{{ .GetConfig "serviceName" }}"
-        invoke_core_py create_docker_task "${TEMPLATE_LOCATION}" "${IMAGE_NAME}" "${CONTAINER_NAME}" "${SERVICE_NAME}"
+        TEMPLATE_LOCATION="{{ .EscapeShellValue (.GetConfig "templateLocation") }}"
+        IMAGE_NAME="{{ .EscapeShellValue (.GetConfig "imageName") }}"
+        CONTAINER_NAME="{{ .EscapeShellValue (.GetConfig "containerName") }}"
+        SERVICE_NAME="{{ .EscapeShellValue (.GetConfig "serviceName") }}"
+        invoke_core_py create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -112,16 +151,18 @@ tasks:
       serviceLocation: '{{ .GetValue "generator.service.location" }}'
       serviceStartCommand: '{{ .GetValue "generator.service.startCommand" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
+      runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION="{{ .GetConfig "templateLocation" }}"
-        IMAGE_NAME="{{ .GetConfig "imageName" }}"
-        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        SERVICE_NAME="{{ .GetConfig "serviceName" }}"
-        SERVICE_PORTS="{{ .GetConfig "servicePorts" }}"
-        SERVICE_LOCATION="{{ .GetConfig "serviceLocation" }}"
-        SERVICE_START_COMMAND="{{ .GetConfig "serviceStartCommand" }}"
-        invoke_core_py create_service_task "${TEMPLATE_LOCATION}" "${SERVICE_NAME}" "${IMAGE_NAME}" "${CONTAINER_NAME}" "${SERVICE_LOCATION}" "${SERVICE_START_COMMAND}" "${SERVICE_PORTS}"
+        TEMPLATE_LOCATION="{{ .EscapeShellValue (.GetConfig "templateLocation") }}"
+        IMAGE_NAME="{{ .EscapeShellValue (.GetConfig "imageName") }}"
+        CONTAINER_NAME="{{ .EscapeShellValue (.GetConfig "containerName") }}"
+        SERVICE_NAME="{{ .EscapeShellValue (.GetConfig "serviceName") }}"
+        SERVICE_PORTS="{{ .EscapeShellValue (.GetConfig "servicePorts") }}"
+        SERVICE_LOCATION="{{ .EscapeShellValue (.GetConfig "serviceLocation") }}"
+        SERVICE_START_COMMAND="{{ .EscapeShellValue (.GetConfig "serviceStartCommand") }}"
+        RUNNER_VERSION="{{ .EscapeShellValue (.GetConfig "runnerVersion") }}"
+        invoke_core_py create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports_str=${SERVICE_PORTS}" "runner_version=${RUNNER_VERSION}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -217,7 +258,9 @@ tasks:
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.fastApiService.startCommand
     config:
+      serviceStartCommand: '{{ .GetValue "generator.fastApiService.startCommand" }}'
       template: fastapi
 
   
@@ -227,9 +270,11 @@ tasks:
     - generator.service.location
     - generator.service.name
     - generator.service.ports
+    - generator.goService.startCommand
     - generator.service.docker.image.name
     - generator.service.docker.container.name
     config:
+      serviceStartCommand: '{{ .GetValue "generator.goService.startCommand" }}'
       template: go
 
  
@@ -239,9 +284,13 @@ tasks:
     - generator.service.location
     - generator.service.name
     - generator.service.ports
+    - generator.nodeJsService.startCommand
+    - generator.nodeJsService.runnerVersion
     - generator.service.docker.image.name
     - generator.service.docker.container.name
     config:
+      serviceStartCommand: '{{ .GetValue "generator.nodeJsService.startCommand" }}'
+      runnerVersion: '{{ .GetValue "generator.nodeJsService.runnerVersion" }}'
       template: nodejs
 
  
@@ -251,9 +300,11 @@ tasks:
     - generator.service.location
     - generator.service.name
     - generator.service.ports
+    - generator.pythonService.startCommand
     - generator.service.docker.image.name
     - generator.service.docker.container.name
     config:
+      serviceStartCommand: '{{ .GetValue "generator.pythonService.startCommand" }}'
       template: python
 
 

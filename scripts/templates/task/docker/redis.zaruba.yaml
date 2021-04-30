@@ -1,8 +1,19 @@
 tasks:
+
   runZarubaServiceName:
     icon: 🧰
     extend: core.startDockerContainer
     timeout: 1h
+ 
+  flushZarubaServiceName:
+    icon: 🐇
+    extend: core.runShellScript
+    dependencies:
+    - runZarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      start: |
+        docker exec {{ .GetConfig "containerName" }} redis-cli flushall
 
 configs:
   zarubaServiceName:

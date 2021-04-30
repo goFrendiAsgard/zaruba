@@ -29,9 +29,7 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     config:
-      start: |
-        MAIN_SCRIPT=$(invoke_core_sh get_main_python_script)
-        pipenv run python ${MAIN_SCRIPT}
+      start: zarubaStartCommand
   
    
 configs:

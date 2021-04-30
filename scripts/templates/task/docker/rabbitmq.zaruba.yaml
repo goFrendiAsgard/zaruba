@@ -1,4 +1,5 @@
 tasks:
+
   runZarubaServiceName:
     icon: 🐇
     extend: core.startDockerContainer
@@ -12,6 +13,18 @@ tasks:
           docker exec "${CONTAINER_NAME}" rabbitmqctl await_startup
           sleep 3
         done
+  
+  resetZarubaServiceName:
+    icon: 🐇
+    extend: core.runShellScript
+    dependencies:
+    - runZarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      start: |
+        docker exec {{ .GetConfig "containerName" }} rabbitmqctl stop_app
+        docker exec {{ .GetConfig "containerName" }} rabbitmqctl reset
+        docker exec {{ .GetConfig "containerName" }} rabbitmqctl start_app
 
 configs:
   zarubaServiceName:
