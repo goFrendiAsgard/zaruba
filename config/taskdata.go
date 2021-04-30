@@ -207,10 +207,29 @@ func (td *TaskData) ReplaceAllWith(s string, replacements ...string) (result str
 }
 
 // EscapeShellValue
-func (td *TaskData) EscapeShellValue(s string) (result string) {
+func (td *TaskData) EscapeShellValue(s string, quoteList ...string) (result string) {
+	quote := "\""
+	if len(quoteList) > 0 {
+		quote = quoteList[0]
+	}
 	backSlashEscapedStr := str.ReplaceAllWith(s, "\\", "\\\\\\\\")
-	doubleQuoteEscapedStr := str.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
-	backTickEscapedStr := str.ReplaceAllWith(doubleQuoteEscapedStr, "`", "\\`")
+	quoteEscapedStr := backSlashEscapedStr
+	if quote == "\"" {
+		quoteEscapedStr = str.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
+	} else if quote == "'" {
+		quoteEscapedStr = str.ReplaceAllWith(backSlashEscapedStr, "'", "\\'")
+	}
+	backTickEscapedStr := str.ReplaceAllWith(quoteEscapedStr, "`", "\\`")
 	newLineEscapedStr := str.ReplaceAllWith(backTickEscapedStr, "\n", "\\n")
 	return newLineEscapedStr
+}
+
+// DoubleQuoteShellValue
+func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
+	return fmt.Sprintf("\"%s\"", td.EscapeShellValue(s, "\""))
+}
+
+// SingleQuoteShellValue
+func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
+	return fmt.Sprintf("'%s'", td.EscapeShellValue(s, "'"))
 }

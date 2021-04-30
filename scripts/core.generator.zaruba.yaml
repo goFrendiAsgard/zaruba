@@ -40,27 +40,20 @@ inputs:
     prompt: Command to run the service (Required)
     validation: ^.+$
 
-  generator.fastApiService.startCommand:
-    description: Service start command
-    prompt: Command to run the service (Required)
-    option:
-    - pipenv run uvicorn main:app --reload --port=$_FAST_API_PORT
-    default: pipenv run uvicorn main:app --reload --port=$_FAST_API_PORT
-    validation: ^.+$
-
   generator.goService.startCommand:
     description: Service start command
     prompt: Command to run the service (Required)
-    option:
-    - go run .
     default: go run .
     validation: ^.+$
 
   generator.nodeJsService.startCommand:
     description: Service start command
     prompt: Command to run the service (Required)
-    option:
+    options:
     - npm start
+    - node start
+    - node main
+    - node index
     default: npm start
     validation: ^.+$
 
@@ -74,9 +67,11 @@ inputs:
   generator.pythonService.startCommand:
     description: Service start command
     prompt: Command to run the service (Required)
-    option:
-    - pipenv run python $(invoke_core_sh get_main_python_script)
-    default: pipenv run python $(invoke_core_sh get_main_python_script)
+    options:
+    - pipenv run python start.py
+    - pipenv run python main.py
+    - pipenv run python index.py
+    default: pipenv run python start.py
     validation: ^.+$
  
   generator.module.name:
@@ -120,10 +115,10 @@ tasks:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml'
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION="{{ .EscapeShellValue (.GetConfig "templateLocation") }}"
-        IMAGE_NAME="{{ .EscapeShellValue (.GetConfig "imageName") }}"
-        CONTAINER_NAME="{{ .EscapeShellValue (.GetConfig "containerName") }}"
-        SERVICE_NAME="{{ .EscapeShellValue (.GetConfig "serviceName") }}"
+        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
+        IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
+        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         invoke_core_py create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
@@ -154,14 +149,14 @@ tasks:
       runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION="{{ .EscapeShellValue (.GetConfig "templateLocation") }}"
-        IMAGE_NAME="{{ .EscapeShellValue (.GetConfig "imageName") }}"
-        CONTAINER_NAME="{{ .EscapeShellValue (.GetConfig "containerName") }}"
-        SERVICE_NAME="{{ .EscapeShellValue (.GetConfig "serviceName") }}"
-        SERVICE_PORTS="{{ .EscapeShellValue (.GetConfig "servicePorts") }}"
-        SERVICE_LOCATION="{{ .EscapeShellValue (.GetConfig "serviceLocation") }}"
-        SERVICE_START_COMMAND="{{ .EscapeShellValue (.GetConfig "serviceStartCommand") }}"
-        RUNNER_VERSION="{{ .EscapeShellValue (.GetConfig "runnerVersion") }}"
+        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
+        IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
+        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
+        SERVICE_PORTS={{ .SingleQuoteShellValue (.GetConfig "servicePorts") }}
+        SERVICE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "serviceLocation") }}
+        SERVICE_START_COMMAND={{ .SingleQuoteShellValue (.GetConfig "serviceStartCommand") }}
+        RUNNER_VERSION={{ .SingleQuoteShellValue (.GetConfig "runnerVersion") }}
         invoke_core_py create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports_str=${SERVICE_PORTS}" "runner_version=${RUNNER_VERSION}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
@@ -258,9 +253,7 @@ tasks:
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name
-    - generator.fastApiService.startCommand
     config:
-      serviceStartCommand: '{{ .GetValue "generator.fastApiService.startCommand" }}'
       template: fastapi
 
   

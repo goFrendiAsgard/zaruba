@@ -81,9 +81,10 @@ func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile strin
 		baseLConfig:    map[string]ProjectBaseLConfig{},
 		IsInitialized:  false,
 	}
-	b, err := ioutil.ReadFile(parsedProjectFile)
+	keyValidator := NewKeyValidator(parsedProjectFile)
+	b, err := keyValidator.Validate()
 	if err != nil {
-		return p, fmt.Errorf("error reading file '%s': %s", parsedProjectFile, err)
+		return p, err
 	}
 	if err = yaml.Unmarshal(b, p); err != nil {
 		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
