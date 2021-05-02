@@ -18,7 +18,7 @@ def snake(txt: str) -> str:
     return ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in txt]).lstrip('_')
 
 
-def add_python_indentation(self, text: str, level: int) -> str:
+def add_python_indentation(text: str, level: int) -> str:
     spaces = (level * 4) * ' '
     indented_lines = [spaces + line for line in text.split('\n')]
     return '\n'.join(indented_lines)

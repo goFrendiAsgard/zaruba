@@ -82,7 +82,6 @@ class CodeGen():
         self.save(dir_name)
 
 
-
 class FastApiService(CodeGen):
 
     def __init__(self, service_name: str):
@@ -159,7 +158,7 @@ class FastApiModule(CodeGen):
 
     def add_route(self, dir_name: str, http_method: str, url: str):
         handle_route_script = self.replace_text(
-            self.add_python_indentation(self.handle_route_partial, 2), 
+            add_python_indentation(self.handle_route_partial, 2), 
             {
                 'zarubaHttpMethod': http_method,
                 'zarubaUrl': url,
@@ -172,11 +171,11 @@ class FastApiModule(CodeGen):
         controller_script_lines = controller_file_content.split('\n')
         insert_index = -1
         for line_index, line in enumerate(controller_script_lines):
-            if line.startswith(self.add_python_indentation('def handle_route', 1)):
+            if line.startswith(add_python_indentation('def handle_route', 1)):
                 insert_index = line_index + 1
                 break
         if insert_index == -1:
-            raise ValueError('handle_event method not found')
+            raise ValueError('Cannot find handle_route method in {}'.format(controller_file_name))
         controller_script_lines.insert(insert_index, handle_route_script)
         controller_file_content = '\n'.join(controller_script_lines)
         self.write_file_to_disk(controller_file_name, controller_file_content)
@@ -184,7 +183,7 @@ class FastApiModule(CodeGen):
 
     def add_event_handler(self, dir_name: str, event_name: str):
         handle_event_script = self.replace_text(
-            self.add_python_indentation(self.handle_event_partial, 2), 
+            add_python_indentation(self.handle_event_partial, 2), 
             {
                 'zarubaEventName': event_name,
                 'zaruba_event_name': snake(event_name),
@@ -196,11 +195,11 @@ class FastApiModule(CodeGen):
         controller_script_lines = controller_file_content.split('\n')
         insert_index = -1
         for line_index, line in enumerate(controller_script_lines):
-            if line.startswith(self.add_python_indentation('def handle_event', 1)):
+            if line.startswith(add_python_indentation('def handle_event', 1)):
                 insert_index = line_index + 1
                 break
         if insert_index == -1:
-            raise ValueError('handle_event method not found')
+            raise ValueError('Cannot find handle_event method in {}'.format(controller_file_name))
         controller_script_lines.insert(insert_index, handle_event_script)
         controller_file_content = '\n'.join(controller_script_lines)
         self.write_file_to_disk(controller_file_name, controller_file_content)
@@ -208,7 +207,7 @@ class FastApiModule(CodeGen):
 
     def add_rpc_handler(self, dir_name: str, event_name: str):
         handle_rpc_script = self.replace_text(
-            self.add_python_indentation(self.handle_rpc_partial, 2), 
+            add_python_indentation(self.handle_rpc_partial, 2), 
             {
                 'zarubaEventName': event_name,
                 'zaruba_event_name': snake(event_name),
@@ -220,11 +219,11 @@ class FastApiModule(CodeGen):
         controller_script_lines = controller_file_content.split('\n')
         insert_index = -1
         for line_index, line in enumerate(controller_script_lines):
-            if line.startswith(self.add_python_indentation('def handle_event', 1)):
+            if line.startswith(add_python_indentation('def handle_event', 1)):
                 insert_index = line_index + 1
                 break
         if insert_index == -1:
-            raise ValueError('handle_event method not found')
+            raise ValueError('Cannot find handle_event method {}'.format(controller_file_name))
         controller_script_lines.insert(insert_index, handle_rpc_script)
         controller_file_content = '\n'.join(controller_script_lines)
         self.write_file_to_disk(controller_file_name, controller_file_content)
@@ -297,12 +296,12 @@ class FastApiCrud(CodeGen):
         self.field_names = field_names
         self.controller_handle_event_partial = ''
         self.controller_import_partial = ''
-        self.field_declaration_partial = ''
-        self.field_update_partial = ''
+        self.repo_field_declaration_partial = ''
+        self.repo_field_update_partial = ''
+        self.repo_field_insert_partial = ''
         self.init_repo_partial = ''
         self.controller_handle_route_partial = ''
         self.controller_init_property_partial = ''
-        self.field_insert_partial = ''
         self.import_repo_partial = ''
         self.schema_field_declaration_partial = ''
 
@@ -319,12 +318,12 @@ class FastApiCrud(CodeGen):
         partial_path = os.path.join(os.path.abspath(template_dir_name), 'partials')
         self.controller_handle_event_partial = self.read_file_from_disk(os.path.join(partial_path, 'controller_handle_event.py'))
         self.controller_import_partial = self.read_file_from_disk(os.path.join(partial_path, 'controller_import.py'))
-        self.field_declaration_partial = self.read_file_from_disk(os.path.join(partial_path, 'field_declaration.py'))
-        self.field_update_partial = self.read_file_from_disk(os.path.join(partial_path, 'field_update.py'))
+        self.repo_field_declaration_partial = self.read_file_from_disk(os.path.join(partial_path, 'repo_field_declaration.py'))
+        self.repo_field_update_partial = self.read_file_from_disk(os.path.join(partial_path, 'repo_field_update.py'))
+        self.repo_field_insert_partial = self.read_file_from_disk(os.path.join(partial_path, 'repo_field_insert.py'))
         self.init_repo_partial = self.read_file_from_disk(os.path.join(partial_path, 'init_repo.py'))
         self.controller_handle_route_partial = self.read_file_from_disk(os.path.join(partial_path, 'controller_handle_route.py'))
         self.controller_init_property_partial = self.read_file_from_disk(os.path.join(partial_path, 'controller_init_property.py'))
-        self.field_insert_partial = self.read_file_from_disk(os.path.join(partial_path, 'field_insert.py'))
         self.import_repo_partial = self.read_file_from_disk(os.path.join(partial_path, 'import_repo.py'))
         self.schema_field_declaration_partial = self.read_file_from_disk(os.path.join(partial_path, 'schema_field_declaration.py'))
 
@@ -335,12 +334,206 @@ class FastApiCrud(CodeGen):
             'zarubaModuleName': self.module_name,
             'zarubaEntityName': self.entity_name,
             'ZarubaEntityName': capitalize(self.entity_name),
-            'zaruba_entity_name': snake(self.entity_name)
+            'zaruba_entity_name': snake(self.entity_name),
+            'zaruba_field_name': self.field_names[0] if len(self.field_names) > 0 else 'id',
         }
+        self._complete_repo()
         self._complete_schema()
         super().generate(dir_name)
+        self._register_handler(dir_name)
     
 
+    def _register_handler(self, dir_name: str):
+        module = FastApiModule(self.service_name, self.module_name)
+        module.load(dir_name)
+        controller_file_name = '{}/{}/controller.py'.format(self.service_name, self.module_name)
+        self._insert_controller_import(module, controller_file_name)
+        module.save(dir_name)
+
+
+    def _insert_controller_import(self, module: FastApiModule, controller_file_name: str):
+        import_script = self.replace_text(
+            self.controller_import_partial,
+            {
+                'zarubaModuleName': self.module_name,
+                'zarubaEntityName': self.entity_name,
+                'ZarubaEntityName': capitalize(self.entity_name),
+                'zaruba_entity_name': snake(self.entity_name),
+            }
+        ).strip()
+        controller_script = module.get_content(controller_file_name)
+        controller_script_lines = controller_script.split('\n')
+        insert_index = 0
+        for line_index, line in enumerate(controller_script_lines):
+            if not line.startswith('from '):
+                insert_index = line_index
+                break
+        controller_script_lines.insert(insert_index, import_script)
+        controller_script = '\n'.join(controller_script_lines)
+        module.set_content(controller_file_name, controller_script)
+
+    
+    def _complete_repo(self):
+        if len(self.field_names) == 0:
+            return
+        self._complete_repo_field_declaration()
+        self._complete_repo_field_insert()
+        self._complete_repo_field_update()
+
+
+    def _complete_repo_field_declaration(self):
+        # get field declaration
+        field_declaration_lines = []
+        for field_name in self.field_names:
+            new_line = self.replace_text(
+                self.repo_field_declaration_partial,
+                {
+                    'zaruba_field_name': snake(field_name),
+                }
+            )
+            new_line = add_python_indentation(new_line.strip('\n'), 1)
+            field_declaration_lines.append(new_line)
+        field_declaration_script = '\n'.join(field_declaration_lines)
+        # get db repo script
+        db_repo_file_name = 'zarubaServiceName/repos/dbZarubaEntityName.py'
+        db_repo_script = self.get_content(db_repo_file_name)
+        db_repo_lines = db_repo_script.split('\n')
+        # look for insert index
+        entity_class_index = -1
+        insert_index = -1
+        table_name_index = -1
+        for line_index, line in enumerate(db_repo_lines):
+            if line.startswith('class DBZarubaEntityNameEntity'):
+                entity_class_index = line_index
+            if entity_class_index != -1 and line.startswith(add_python_indentation('__tablename__', 1)):
+                table_name_index = line_index
+            if entity_class_index != -1 and line.startswith(add_python_indentation('id = Column(', 1)):
+                insert_index = line_index + 1
+                break
+        if insert_index == -1 and table_name_index != -1:
+            insert_index = table_name_index + 1
+        if insert_index == -1 and entity_class_index != -1:
+            insert_index = entity_class_index + 1
+        if insert_index == -1:
+            raise ValueError('Cannot find DBZarubaEntityNameEntity class in {}'.fomrat(db_repo_file_name))
+        # insert new line
+        db_repo_lines.insert(insert_index, field_declaration_script)
+        db_repo_script = '\n'.join(db_repo_lines)
+        self.set_content(db_repo_file_name, db_repo_script)
+
+
+    def _complete_repo_field_insert(self):
+        # get field insert
+        field_insert_lines = []
+        for field_name in self.field_names:
+            new_line = self.replace_text(
+                self.repo_field_insert_partial,
+                {
+                    'zaruba_field_name': snake(field_name),
+                }
+            )
+            new_line = add_python_indentation(new_line.strip('\n'), 4)
+            field_insert_lines.append(new_line)
+        field_insert_script = '\n'.join(field_insert_lines)
+        # get db repo script
+        db_repo_file_name = 'zarubaServiceName/repos/dbZarubaEntityName.py'
+        db_repo_script = self.get_content(db_repo_file_name)
+        db_repo_lines = db_repo_script.split('\n')
+        # look for insert index
+        repo_class_index = -1
+        method_index = -1
+        instance_index = -1
+        insert_index = -1
+        for line_index, line in enumerate(db_repo_lines):
+            if line.startswith('class DBZarubaEntityNameRepo'):
+                repo_class_index = line_index
+            if repo_class_index != -1 and line.startswith(add_python_indentation('def insert(self,', 1)):
+                method_index = line_index
+            if method_index != -1 and line.startswith(add_python_indentation('db_entity = DBZarubaEntityNameEntity', 3)):
+                instance_index = line_index
+            if instance_index != -1 and line.startswith(add_python_indentation('id=str(', 4)):
+                insert_index = line_index + 1
+                break
+        if insert_index == -1 and instance_index != -1:
+            insert_index = instance_index + 1
+        if insert_index == -1:
+            raise ValueError('Cannot find data-insert on DBZarubaEntityNameRepo.insert in {}'.fomrat(db_repo_file_name))
+        # insert new line
+        db_repo_lines.insert(insert_index, field_insert_script)
+        db_repo_script = '\n'.join(db_repo_lines)
+        self.set_content(db_repo_file_name, db_repo_script)
+
+
+    def _complete_repo_field_update(self):
+        # get field update
+        field_update_lines = []
+        for field_name in self.field_names:
+            new_line = self.replace_text(
+                self.repo_field_update_partial,
+                {
+                    'zaruba_field_name': snake(field_name),
+                    'zaruba_entity_name': snake(self.entity_name),
+                }
+            )
+            new_line = add_python_indentation(new_line.strip('\n'), 3)
+            field_update_lines.append(new_line)
+        field_update_script = '\n'.join(field_update_lines)
+        # get db repo script
+        db_repo_file_name = 'zarubaServiceName/repos/dbZarubaEntityName.py'
+        db_repo_script = self.get_content(db_repo_file_name)
+        db_repo_lines = db_repo_script.split('\n')
+        # look for update index
+        repo_class_index = -1
+        method_index = -1
+        insert_index = -1
+        for line_index, line in enumerate(db_repo_lines):
+            if line.startswith('class DBZarubaEntityNameRepo'):
+                repo_class_index = line_index
+            if repo_class_index != -1 and line.startswith(add_python_indentation('def update(self,', 1)):
+                method_index = line_index
+            if method_index != -1 and line.startswith(add_python_indentation('db_entity.updated_at', 3)):
+                insert_index = line_index
+                break
+            if method_index != -1 and insert_index == -1 and line.startswith(add_python_indentation('db.add(db_entity)', 3)):
+                insert_index = line_index
+                break
+        if insert_index == -1:
+            raise ValueError('Cannot find data-update on DBZarubaEntityNameRepo.update in {}'.fomrat(db_repo_file_name))
+        # update new line
+        db_repo_lines.insert(insert_index, field_update_script)
+        db_repo_script = '\n'.join(db_repo_lines)
+        self.set_content(db_repo_file_name, db_repo_script)
+
+
     def _complete_schema(self):
-        schema_script = 'zarubaServiceName/schemas/zarubaEntityName.py'
-        pass
+        if len(self.field_names) == 0:
+            return
+        # get schema field declaration
+        schema_field_declaration_lines = []
+        for field_name in self.field_names:
+            new_line = self.replace_text(
+                self.schema_field_declaration_partial, 
+                {
+                    'zaruba_field_name': snake(field_name),
+                }
+            )
+            new_line = add_python_indentation(new_line.strip('\n'), 1)
+            schema_field_declaration_lines.append(new_line)
+        schema_field_declaration = '\n'.join(schema_field_declaration_lines)
+        # get schema script
+        schema_script_file_name = 'zarubaServiceName/schemas/zarubaEntityName.py'
+        schema_script = self.get_content(schema_script_file_name)
+        schema_script_lines = schema_script.split('\n')
+        # insert schema field declaration to schema script
+        insert_index = -1
+        for line_index, line in enumerate(schema_script_lines):
+            if line.startswith('class ZarubaEntityNameData('):
+                insert_index = line_index + 1
+                if schema_script_lines[insert_index] == add_python_indentation('pass', 1):
+                    schema_script_lines.pop(insert_index)
+                break
+        if insert_index == -1:
+            raise ValueError('Cannot find ZarubaEntityNameData class in {}'.format(schema_script_file_name))
+        schema_script_lines.insert(insert_index, schema_field_declaration)
+        schema_script = '\n'.join(schema_script_lines)
+        self.set_content(schema_script_file_name, schema_script)
