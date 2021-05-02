@@ -1,5 +1,6 @@
 from typing import List
 import os
+import re
 
 def get_env_file_names(location: str) -> List[str]:
     abs_location = os.path.abspath(location)
@@ -16,6 +17,16 @@ def capitalize(txt: str) -> str:
 
 def snake(txt: str) -> str:
     return ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in txt]).lstrip('_')
+
+
+def alphanum(txt: str) -> str:
+    return re.sub(r'[^A-Za-z0-9]+', '', txt)
+
+
+def get_service_name(location: str) -> str:
+    abs_location = os.path.abspath(location)
+    base_name = os.path.basename(abs_location)
+    return base_name
 
 
 def add_python_indentation(text: str, level: int) -> str:
