@@ -1,0 +1,1 @@
+self.handle_zaruba_entity_name_route(self.app, self.zaruba_entity_name_repo)

@@ -4,27 +4,11 @@ from ruamel.yaml import YAML
 from io import StringIO
 from .config import YamlConfig
 from .decoration import generate_icon
+from .text import get_env_file_names, capitalize, snake
 
 import os
 import re
 import shutil
-
-
-def get_env_file_names(location: str) -> List[str]:
-    abs_location = os.path.abspath(location)
-    env_file_names = [os.path.join(abs_location, f) for f in os.listdir(abs_location) if os.path.isfile(os.path.join(abs_location, f)) and (f.endswith('.env') or f.endswith('env.template'))]
-    env_file_names.sort(key=lambda s: len(s))
-    return env_file_names
-
-
-def capitalize(txt: str) -> str:
-    if len(txt) < 2:
-        return txt.upper()
-    return txt[0].upper() + txt[1:]
-
-
-def upper_snake(txt: str) -> str:
-    return ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in txt]).lstrip('_').upper()
 
 
 class Project(YamlConfig):
@@ -182,7 +166,7 @@ class TaskProject(Project):
     def _set_service_name(self, service_name):
         self.service_name = service_name
         self.capital_service_name = capitalize(service_name)
-        self.snake_upper_service_name = upper_snake(service_name)
+        self.snake_upper_service_name = snake(service_name).upper()
     
 
     def _get_file_name(self, dir_name: str, service_name: str):
@@ -357,7 +341,7 @@ class ServiceProject(TaskProject):
         if image_name == '':
             image_name = container_name
         image_name = image_name.lower()
-        self._load_env('zarubaServiceName', service_location, upper_snake(service_name))
+        self._load_env('zarubaServiceName', service_location, snake(service_name).upper())
         # handle ports
         if len(ports) == 0:
             ports = self._get_possible_ports_env('zarubaServiceName')
@@ -487,7 +471,7 @@ class HelmServiceProject(Project):
     def _set_service_name(self, service_name):
         self.service_name = service_name
         self.capital_service_name = capitalize(service_name)
-        self.snake_upper_service_name = upper_snake(service_name)
+        self.snake_upper_service_name = snake(service_name).upper()
 
 
     def _set_default_properties(self):

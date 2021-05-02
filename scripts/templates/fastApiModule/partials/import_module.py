@@ -1,0 +1,1 @@
+from zarubaModuleName.controller import Controller as ZarubaModuleNameController

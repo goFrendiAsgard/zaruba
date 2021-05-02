@@ -1,0 +1,1 @@
+self.zaruba_entity_name_repo = zaruba_entity_name_repo
