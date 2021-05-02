@@ -458,7 +458,7 @@ class HelmServiceProject(Project):
         self.set_default(['app', 'name'], 'zaruba-service-name')
         self.set_default(['app', 'group'], 'db')
         self.set_default(['app', 'container', 'imagePrefix'], '{{ .Values | get "commonImagePrefix" "local" }}')
-        self.set_default(['app', 'container', 'imageTag'], '{{ .Values | get "commonImagePrefix" "latest" }}')
+        self.set_default(['app', 'container', 'imageTag'], '{{ .Values | get "commonImageTag" "latest" }}')
         self.set_default(['app', 'container', 'image'], 'zarubaImageName')
         self.set_default(['app', 'container', 'env'], [])
         self.set_default(['app', 'ports'], [])
