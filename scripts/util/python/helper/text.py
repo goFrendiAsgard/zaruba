@@ -20,13 +20,14 @@ def snake(txt: str) -> str:
 
 
 def alphanum(txt: str) -> str:
-    return re.sub(r'[^A-Za-z0-9]+', '', txt)
+    return 
 
 
 def get_service_name(location: str) -> str:
     abs_location = os.path.abspath(location)
     base_name = os.path.basename(abs_location)
-    return base_name
+    base_name_title = re.sub(r'[^A-Za-z0-9]+', ' ', txt).title()
+    return base_name.replace(' ', '')
 
 
 def add_python_indentation(text: str, level: int) -> str:
