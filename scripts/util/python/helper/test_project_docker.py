@@ -31,7 +31,7 @@ def test_docker_project_generate():
     assert generated_project.get(['configs', 'myService', 'port::3306']) == 3306
     assert generated_project.get(['configs', 'myService', 'useImagePrefix']) == False
     assert generated_project.get(['configs', 'myService', 'containerName']) == 'myContainer'
-    assert generated_project.get(['configs', 'myService', 'imageName']) == 'myimage'
+    assert generated_project.get(['configs', 'myService', 'imageName']) == 'my-image'
     # assert main project
     main_project = generated_project.main_project
     assert len(main_project.get(['includes'])) == 2

@@ -28,12 +28,12 @@ def test_helm_service_project_generate():
     generated_project.load(dir_name, service_name)
     assert generated_project.get(['app', 'ports', 0, 'containerPort']) == 3000
     assert generated_project.get(['app', 'ports', 0, 'servicePort']) == 3000
-    assert generated_project.get(['app', 'name']) == 'myservice'
-    assert generated_project.get(['app', 'container', 'image']) == 'myservice'
+    assert generated_project.get(['app', 'name']) == 'my-service'
+    assert generated_project.get(['app', 'container', 'image']) == 'my-image'
     assert generated_project.get(['app', 'container', 'env', 0, 'name']) == 'PORT'
     assert generated_project.get(['app', 'container', 'env', 0, 'value']) == '3000'
     # assert helm project
     helm_project = generated_project.helm_project
-    assert helm_project.get(['releases', 3, 'name']) == 'myservice'
+    assert helm_project.get(['releases', 3, 'name']) == 'my-service'
     assert helm_project.get(['releases', 3, 'chart']) == './charts/app'
-    assert helm_project.get(['releases', 3, 'values', 0]) == './values/myService.yaml.gotmpl'
+    assert helm_project.get(['releases', 3, 'values', 0]) == './values/my-service.yaml.gotmpl'

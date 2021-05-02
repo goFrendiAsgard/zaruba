@@ -1,9 +1,0 @@
-app:
-  name: serviceName
-  group: db
-  container:
-    imagePrefix: '{{ .Values | get "commonImagePrefix" "local" }}'
-    imageTag: '{{ .Values | get "commonImageTag" "latest" }}'
-    image: serviceName
-    env: []
-  ports: []

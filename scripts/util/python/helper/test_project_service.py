@@ -54,7 +54,7 @@ def test_service_project_generate():
     # config
     assert generated_project.get(['configs', 'myService', 'start']) == 'node main.js'
     assert generated_project.get(['configs', 'myServiceContainer', 'containerName']) == 'myContainer'
-    assert generated_project.get(['configs', 'myServiceContainer', 'imageName']) == 'myimage'
+    assert generated_project.get(['configs', 'myServiceContainer', 'imageName']) == 'my-image'
     # lconfig
     assert generated_project.get(['lconfigs', 'myService', 'ports', 0]) == '{{ .GetEnv "PORT" }}'
     # envs

@@ -4,7 +4,7 @@ from ruamel.yaml import YAML
 from io import StringIO
 from .config import YamlConfig
 from .decoration import generate_icon
-from .text import get_env_file_names, capitalize, snake
+from .text import get_env_file_names, capitalize, snake, dash
 
 import os
 import re
@@ -146,9 +146,6 @@ class TaskProject(Project):
 
     def __init__(self):
         super().__init__()
-        self.service_name = ''
-        self.capital_service_name = ''
-        self.snake_upper_service_name = ''
         self.main_project: MainProject = MainProject()
 
 
@@ -163,12 +160,6 @@ class TaskProject(Project):
         self.set_default(['tasks', run_task_name, 'lconfRef'], service_name)
     
 
-    def _set_service_name(self, service_name):
-        self.service_name = service_name
-        self.capital_service_name = capitalize(service_name)
-        self.snake_upper_service_name = snake(service_name).upper()
-    
-
     def _get_file_name(self, dir_name: str, service_name: str):
         return os.path.join(dir_name, 'zaruba-tasks', '{}.zaruba.yaml'.format(service_name))
     
@@ -181,7 +172,6 @@ class TaskProject(Project):
         file_name = self._get_file_name(dir_name, service_name)
         self.main_project.load(dir_name)
         super().load(file_name)
-        run_task_name = 'run{}'.format(self.service_name)
 
 
     def save(self, dir_name: str, service_name: str):
@@ -192,12 +182,11 @@ class TaskProject(Project):
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, runner_version: str):
         file_name = self._get_file_name(dir_name, service_name)
         self.main_project.load(dir_name)
-        self._set_service_name(service_name)
         self.replacement_dict = {
-            'zarubaServiceName': self.service_name,
-            'zarubaservicename': self.service_name.lower(),
-            'ZarubaServiceName': self.capital_service_name,
-            'ZARUBA_SERVICE_NAME': self.snake_upper_service_name,
+            'zarubaServiceName': service_name,
+            'zarubaservicename': service_name.lower(),
+            'ZarubaServiceName': capitalize(service_name),
+            'ZARUBA_SERVICE_NAME': snake(service_name).upper(),
             'zarubaContainerName': container_name,
             'zarubaImageName': image_name,
             'zarubaServiceLocation': location,
@@ -293,15 +282,14 @@ class ServiceProject(TaskProject):
 
     def load(self, dir_name: str, service_name: str, reload_env: bool=False):
         super().load(dir_name, service_name)
-        self._set_service_name(service_name)
-        task_name = 'run{}'.format(self.capital_service_name)
+        task_name = 'run{}'.format(capitalize(service_name))
         if not self.exist(['tasks', task_name, 'location']):
             return
         service_location = self.get(['tasks', task_name, 'location'])
         if not os.path.isabs(service_location):
             service_location = os.path.abspath(os.path.join(dir_name, 'zaruba_tasks', service_location))
         if reload_env:
-            self._load_env(service_name, service_location, self.snake_upper_service_name)
+            self._load_env(service_name, service_location, snake(service_name).upper())
     
 
     def save_env(self, dir_name: str, service_name: str):
@@ -340,20 +328,20 @@ class ServiceProject(TaskProject):
             container_name = service_name
         if image_name == '':
             image_name = container_name
-        image_name = image_name.lower()
+        image_name = dash(image_name)
         self._load_env('zarubaServiceName', service_location, snake(service_name).upper())
         # handle ports
         if len(ports) == 0:
             ports = self._get_possible_ports_env('zarubaServiceName')
         self.set(['lconfigs', 'zarubaServiceName', 'ports'], ports)
-        self._set_service_name(service_name)
+        capital_service_name = capitalize(service_name)
         self.main_project.load(dir_name)
-        self.main_project.register_run_task('run{}'.format(self.capital_service_name))
-        self.main_project.register_run_container_task('run{}Container'.format(self.capital_service_name))
-        self.main_project.register_stop_container_task('stop{}Container'.format(self.capital_service_name))
-        self.main_project.register_remove_container_task('remove{}Container'.format(self.capital_service_name))
-        self.main_project.register_build_image_task('build{}Image'.format(self.capital_service_name))
-        self.main_project.register_push_image_task('push{}Image'.format(self.capital_service_name))
+        self.main_project.register_run_task('run{}'.format(capital_service_name))
+        self.main_project.register_run_container_task('run{}Container'.format(capital_service_name))
+        self.main_project.register_stop_container_task('stop{}Container'.format(capital_service_name))
+        self.main_project.register_remove_container_task('remove{}Container'.format(capital_service_name))
+        self.main_project.register_build_image_task('build{}Image'.format(capital_service_name))
+        self.main_project.register_push_image_task('push{}Image'.format(capital_service_name))
         self.main_project.save(dir_name)
         super().generate(dir_name, service_name, image_name, container_name, location, start_command, runner_version=runner_version)
         
@@ -385,13 +373,13 @@ class DockerProject(TaskProject):
             container_name = image_name
         if service_name == '':
             service_name = container_name
-        image_name = image_name.lower()
-        self._set_service_name(service_name)
+        image_name = dash(image_name)
+        capital_service_name = capitalize(service_name)
         self.main_project.load(dir_name)
-        self.main_project.register_run_task('run{}'.format(self.capital_service_name))
-        self.main_project.register_run_container_task('run{}'.format(self.capital_service_name))
-        self.main_project.register_stop_container_task('stop{}Container'.format(self.capital_service_name))
-        self.main_project.register_remove_container_task('remove{}Container'.format(self.capital_service_name))
+        self.main_project.register_run_task('run{}'.format(capital_service_name))
+        self.main_project.register_run_container_task('run{}'.format(capital_service_name))
+        self.main_project.register_stop_container_task('stop{}Container'.format(capital_service_name))
+        self.main_project.register_remove_container_task('remove{}Container'.format(capital_service_name))
         self.main_project.save(dir_name)
         super().generate(dir_name, service_name, image_name, container_name, location='', start_command='', runner_version='')
         
@@ -439,7 +427,7 @@ class HelmProject(Project):
         # check whethere service already registered or not
         registered = False
         for release in releases:
-            if release['name'] == service_name.lower():
+            if release['name'] == dash(service_name):
                 registered = True
                 break
         # do nothing if service already registered
@@ -447,9 +435,9 @@ class HelmProject(Project):
             return
         # register new release
         self.append(['releases'], {
-            'name': service_name.lower(),
+            'name': dash(service_name),
             'chart': './charts/app',
-            'values': ['./values/{}.yaml.gotmpl'.format(service_name)],
+            'values': ['./values/{}.yaml.gotmpl'.format(dash(service_name))],
         })
 
 
@@ -457,30 +445,21 @@ class HelmServiceProject(Project):
 
     def __init__(self):
         super().__init__()
-        self.service_name = ''
-        self.capital_service_name = ''
-        self.snake_upper_service_name = ''
         self.service_project: ServiceProject = ServiceProject()
         self.helm_project: HelmProject = HelmProject()
 
 
     def _get_file_name(self, dir_name: str, service_name: str) -> str:
-        return os.path.join(dir_name, 'helm-deployments', 'values', '{}.yaml.gotmpl'.format(service_name))
-
-
-    def _set_service_name(self, service_name):
-        self.service_name = service_name
-        self.capital_service_name = capitalize(service_name)
-        self.snake_upper_service_name = snake(service_name).upper()
+        return os.path.join(dir_name, 'helm-deployments', 'values', '{}.yaml.gotmpl'.format(dash(service_name)))
 
 
     def _set_default_properties(self):
         super()._set_default_properties()
-        self.set_default(['app', 'name'], 'zarubaservicename')
+        self.set_default(['app', 'name'], 'zaruba-service-name')
         self.set_default(['app', 'group'], 'db')
         self.set_default(['app', 'container', 'imagePrefix'], '{{ .Values | get "commonImagePrefix" "local" }}')
         self.set_default(['app', 'container', 'imageTag'], '{{ .Values | get "commonImagePrefix" "latest" }}')
-        self.set_default(['app', 'container', 'image'], 'zarubaservicename')
+        self.set_default(['app', 'container', 'image'], 'zarubaImageName')
         self.set_default(['app', 'container', 'env'], [])
         self.set_default(['app', 'ports'], [])
         
@@ -567,15 +546,12 @@ class HelmServiceProject(Project):
         self._set_default_properties()
         self._load_env(service_name)
         self._assign_ports(service_name)
-        self._set_service_name(service_name)
-        service_container_config: Mapping[str, str] = self.service_project.get(['configs', service_name]) if self.service_project.exist(['configs', service_name]) else {}
+        service_image_name_key = ['configs', '{}Container'.format(service_name), 'imageName']
+        image_name = self.service_project.get(service_image_name_key) if self.service_project.exist(service_image_name_key) else service_name
         self.replacement_dict = {
-            'zarubaServiceName': self.service_name,
-            'zarubaservicename': self.service_name.lower(),
-            'ZarubaServiceName': self.capital_service_name,
-            'ZARUBA_SERVICE_NAME': self.snake_upper_service_name,
-            'zarubaContainerName': service_container_config.get('containerName', service_name),
-            'zarubaImageName': service_container_config.get('imageName', service_name),
+            'zarubaServiceName': service_name,
+            'zaruba-service-name': dash(service_name),
+            'zarubaImageName': image_name,
         }
         # register service to helm deployment
         self.helm_project.register_release(service_name)

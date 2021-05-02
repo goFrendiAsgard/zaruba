@@ -19,6 +19,10 @@ def snake(txt: str) -> str:
     return ''.join(['_' + ch.lower() if ch.isupper() else ch for ch in txt]).lstrip('_')
 
 
+def dash(txt: str) -> str:
+    return ''.join(['-' + ch.lower() if ch.isupper() else ch for ch in txt]).lstrip('-')
+
+
 def get_service_name(location: str) -> str:
     abs_location = os.path.abspath(location)
     base_name = os.path.basename(abs_location)
