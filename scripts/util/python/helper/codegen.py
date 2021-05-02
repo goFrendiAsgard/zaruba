@@ -304,6 +304,17 @@ class FastApiCrud(CodeGen):
         self.controller_init_property_partial = ''
         self.import_repo_partial = ''
         self.schema_field_declaration_partial = ''
+    
+
+    def load(self, dir_name: str):
+        self.file_content_dict = {
+            '{}/repos/db{}.py'.format(self.service_name, capitalize(self.entity_name)): '',
+            '{}/repos/{}.py'.format(self.service_name, self.entity_name): '',
+            '{}/schemas/{}.py'.format(self.service_name, self.entity_name): '',
+            '{}/{}/handle{}Event.py'.format(self.service_name, self.module_name, capitalize(self.entity_name)): '',
+            '{}/{}/handle{}Route.py'.format(self.service_name, self.module_name, capitalize(self.entity_name)): '',
+        }
+        super().load(dir_name)
 
 
     def load_from_template(self, template_dir_name: str):
@@ -341,6 +352,51 @@ class FastApiCrud(CodeGen):
         self._complete_schema()
         super().generate(dir_name)
         self._register_handler(dir_name)
+        self._adjust_service(dir_name)
+
+    
+    def _adjust_service(self, dir_name: str):
+        replace_dict = {
+            'zarubaEntityName': self.entity_name,
+            'ZarubaEntityName': capitalize(self.entity_name),
+            'zaruba_entity_name': snake(self.entity_name),
+        }
+        # get import script
+        import_script = self.replace_text(self.import_repo_partial, replace_dict).strip()
+        init_script = self.replace_text(self.init_repo_partial, replace_dict).strip()
+        # load service
+        service = FastApiService(self.service_name)
+        service.load(dir_name)
+        main_file_name = '{}/main.py'.format(self.service_name)
+        main_script = service.get_content(main_file_name)
+        main_lines = main_script.split('\n')
+        # add import
+        insert_import_index = 0
+        for line_index, line in enumerate(main_lines):
+            if not line.startswith('from '):
+                insert_import_index = line_index
+                break
+        main_lines.insert(insert_import_index, import_script)
+        # adjust init script
+        controller_declaration_index = -1
+        for line_index, line in enumerate(main_lines):
+            if line.startswith('{}_controller ='.format(snake(self.module_name))):
+                controller_declaration_index = line_index
+                break
+        if controller_declaration_index == -1:
+            raise ValueError('Cannot find {}_controller declaration {}'.format(snake(self.module_name), main_file_name))
+        # adjust controller declaration
+        controller_declaration_line = main_lines[controller_declaration_index]
+        controller_declaration_line = controller_declaration_line.replace(')', ', {entity_repo}={entity_repo})'.format(
+            entity_repo = '{}_repo'.format(snake(self.entity_name)),
+        ))
+        main_lines[controller_declaration_index] = controller_declaration_line
+        # add repo init
+        main_lines.insert(controller_declaration_index, init_script)
+        # save changes
+        main_script = '\n'.join(main_lines)
+        service.set_content(main_file_name, main_script)
+        service.save(dir_name)
     
 
     def _register_handler(self, dir_name: str):
@@ -348,6 +404,9 @@ class FastApiCrud(CodeGen):
         module.load(dir_name)
         controller_file_name = '{}/{}/controller.py'.format(self.service_name, self.module_name)
         self._insert_controller_import(module, controller_file_name)
+        self._adjust_controller_constructor(module, controller_file_name)
+        self._add_controller_event_handler(module, controller_file_name)
+        self._add_controller_route_handler(module, controller_file_name)
         module.save(dir_name)
 
 
@@ -371,7 +430,121 @@ class FastApiCrud(CodeGen):
         controller_script_lines.insert(insert_index, import_script)
         controller_script = '\n'.join(controller_script_lines)
         module.set_content(controller_file_name, controller_script)
+    
 
+    def _adjust_controller_constructor(self, module: FastApiModule, controller_file_name: str):
+        init_property_script = self.replace_text(
+            self.controller_init_property_partial,
+            {
+                'zaruba_entity_name': snake(self.entity_name),
+            }
+        ).strip()
+        init_property_script = add_python_indentation(init_property_script, 2)
+        controller_script = module.get_content(controller_file_name)
+        controller_script_lines = controller_script.split('\n')
+        controller_class_index = -1
+        constructor_index = -1
+        insert_index = -1
+        for line_index, line in enumerate(controller_script_lines):
+            if line.startswith('class Controller('):
+                controller_class_index = line_index
+                continue
+            if controller_class_index > -1 and line.startswith(add_python_indentation('def __init__(', 1)):
+                constructor_index = line_index
+                insert_index = line_index + 1
+                continue
+            if constructor_index > -1 and line.startswith(add_python_indentation('self.enable_event', 2)):
+                insert_index = line_index + 1
+                break
+            if constructor_index > -1 and not line.startswith(add_python_indentation('', 2)):
+                break 
+        if insert_index == -1:
+            raise ValueError('Cannot find Controller constructor in {}'.format(controller_file_name))
+        # update constructor 
+        constructor_line = controller_script_lines[constructor_index]
+        constructor_line = constructor_line.replace('):', ', {entity_name}_repo: {EntityName}Repo):'.format(
+            entity_name = snake(self.entity_name),
+            EntityName = capitalize(self.entity_name)
+        ))
+        controller_script_lines[constructor_index] = constructor_line
+        # insert
+        controller_script_lines.insert(insert_index, init_property_script)
+        controller_script = '\n'.join(controller_script_lines)
+        module.set_content(controller_file_name, controller_script)
+    
+    
+    def _add_controller_event_handler(self, module: FastApiModule, controller_file_name: str):
+        handler_script = self.replace_text(
+            self.controller_handle_event_partial,
+            {
+                'zaruba_entity_name': snake(self.entity_name),
+            }
+        ).strip()
+        handler_script = add_python_indentation(handler_script, 3)
+        controller_script = module.get_content(controller_file_name)
+        controller_script_lines = controller_script.split('\n')
+        controller_class_index = -1
+        controller_start_index = -1
+        for line_index, line in enumerate(controller_script_lines):
+            if line.startswith('class Controller('):
+                controller_class_index = line_index
+                continue
+            if controller_class_index > -1 and line.startswith(add_python_indentation('def start(', 1)):
+                controller_start_index = line_index
+                insert_index = line_index + 1
+                continue
+            if controller_start_index > -1 and line.startswith(add_python_indentation('if self.enable_event', 2)):
+                insert_index = line_index + 1
+                break
+            if controller_start_index > -1 and not line.startswith(add_python_indentation('', 2)):
+                break 
+        if insert_index == -1:
+            raise ValueError('Cannot find Controller constructor in {}'.format(controller_file_name))
+        # insert
+        controller_script_lines.insert(insert_index, handler_script)
+        controller_script = '\n'.join(controller_script_lines)
+        module.set_content(controller_file_name, controller_script)
+
+ 
+    def _add_controller_route_handler(self, module: FastApiModule, controller_file_name: str):
+        handler_script = self.replace_text(
+            self.controller_handle_route_partial,
+            {
+                'zaruba_entity_name': snake(self.entity_name),
+            }
+        ).strip()
+        handler_script = add_python_indentation(handler_script, 3)
+        controller_script = module.get_content(controller_file_name)
+        controller_script_lines = controller_script.split('\n')
+        controller_class_index = -1
+        controller_start_index = -1
+        for line_index, line in enumerate(controller_script_lines):
+            if line.startswith('class Controller('):
+                controller_class_index = line_index
+                continue
+            if controller_class_index > -1 and line.startswith(add_python_indentation('def start(', 1)):
+                controller_start_index = line_index
+                insert_index = line_index + 1
+                continue
+            if controller_start_index > -1 and line.startswith(add_python_indentation('if self.enable_route', 2)):
+                insert_index = line_index + 1
+                break
+            if controller_start_index > -1 and not line.startswith(add_python_indentation('', 2)):
+                break 
+        if insert_index == -1:
+            raise ValueError('Cannot find Controller constructor in {}'.format(controller_file_name))
+        # insert
+        controller_script_lines.insert(insert_index, handler_script)
+        controller_script = '\n'.join(controller_script_lines)
+        module.set_content(controller_file_name, controller_script)
+ 
+    
+    def _complete_repo(self):
+        if len(self.field_names) == 0:
+            return
+        self._complete_repo_field_declaration()
+        self._complete_repo_field_insert()
+        self._complete_repo_field_update() 
     
     def _complete_repo(self):
         if len(self.field_names) == 0:
