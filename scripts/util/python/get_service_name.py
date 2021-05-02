@@ -1,5 +1,5 @@
 from helper import cli
-import helper.text as get_service_name
+from helper.text import get_service_name
 
 
 @cli
