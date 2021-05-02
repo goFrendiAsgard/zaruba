@@ -14,9 +14,9 @@ cd myProject
 zaruba please initProject
 
 # Create FastAPI service, module, and book CRUD
-zaruba please makeFastService generator.service.location=myService
-zaruba please makeFastModule generator.service.location=myService generator.module.name=mymodule
-zaruba please makeFastCRUD generator.service.location=myService generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis
+zaruba please makeFastApiService generator.fastApi.service.name=myService
+zaruba please makeFastApiModule generator.fastApi.service.name=myService generator.fastApi.module.name=myModule
+zaruba please makeFastApiCrud generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.crud.entity=book generator.fastApi.crud.fields=title,author,synopsis
 
 # Create task to start zaruba
 zaruba please makeServiceTask generator.service.location=myService generator.service.type=fastapi

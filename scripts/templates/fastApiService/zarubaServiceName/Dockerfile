@@ -1,4 +1,3 @@
-
 FROM python:3.8-slim
 
 # define environments
@@ -16,4 +15,5 @@ RUN pipenv install --system --deploy
 COPY . .
 
 EXPOSE 3000
+RUN chmod 755 ./start.sh
 CMD ./start.sh

@@ -150,7 +150,7 @@ class RMQMessageBus(MessageBus):
         caller = RMQRPCCaller(self)
         return caller.call(event_name, *args)
 
-    def handle(self, event_name: str) -> Callable[..., Any]:
+    def handle_event(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
             exchange = self.event_map.get_exchange_name(event_name)
             queue = self.event_map.get_queue_name(event_name)

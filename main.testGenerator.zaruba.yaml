@@ -1,12 +1,19 @@
+configs:
+
+  playgroundTest:
+    beforeStart:
+      set -e
+      ZARUBA_HOME="$(realpath "..")"
+
+
 inputs:
 
   runPlaygroundDelay:
     default: 10
     description: Delay after run playground
-  
+
 
 tasks:
-
 
   testMakeProject:
     icon: 💉
@@ -17,10 +24,9 @@ tasks:
     - preparePlayground
     - testSetupPyenv
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please initProject setup.injectBootstrap=false
         ../zaruba please setProjectValue variable.name=dockerImagePrefix::default variable.value=localhost:9999 setup.injectBootstrap=false
   
@@ -31,11 +37,9 @@ tasks:
     dependencies:
     - testMakeProject
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please initHelm setup.injectBootstrap=false
+      start: ../zaruba please initHelm setup.injectBootstrap=false
 
 
   testMakeSubrepo:
@@ -44,121 +48,105 @@ tasks:
     dependencies:
     - testMakeProject
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="fibo" setup.injectBootstrap=false
         ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="other-fibo" setup.injectBootstrap=false
         ../zaruba please initSubrepos setup.injectBootstrap=false
         ../zaruba please pullSubrepos setup.injectBootstrap=false
 
 
-  testMakeFastAPIProject:
+  testMakeFastApiService:
     icon: 💉
     location: ./playground
     dependencies:
     - testMakeSubrepo
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastService generator.service.location=myService advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+      start: ../zaruba please makeFastApiService generator.fastApi.service.name=myService advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
   testMakeTasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPIProject
+    - testMakeFastApiService
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please makeStaticServiceTask generator.service.location=fibo setup.injectBootstrap=false
-        ../zaruba please makeFastApiServiceTask generator.service.location=myService generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeFastApiApiServiceTask generator.service.location=myService generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
         ../zaruba please makeRabbitmqDockerTask generator.docker.image.name=rabbitmq advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
         
 
-  testMakeFastAPIModule:
+  testMakeFastApiModule:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPIProject
+    - testMakeTasks
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastModule generator.service.location=myService generator.module.name=mymodule advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+      start: ../zaruba please makeFastApiModule generator.fastApi.service.name=myService generator.fastApi.module.name=myModule advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
-  testMakeFastAPIRoute:
+  testMakeFastApiRoute:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPIModule
+    - testMakeFastApiModule
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRoute generator.service.location=myService generator.module.name=mymodule generator.url=/hello advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+      start: ../zaruba please makeFastApiRoute generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.url=/hello advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
-  testMakeFastAPIEventHandler:
+  testMakeFastApiEventHandler:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPIRoute
+    - testMakeFastApiRoute
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastEventHandler generator.service.location=myService generator.module.name=mymodule generator.event.name=myEvent advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+      start: ../zaruba please makeFastApiEventHandler generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.event.name=myEvent advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
-  testMakeFastAPIRPCHandler:
+  testMakeFastApiRpcHandler:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPIEventHandler
+    - testMakeFastApiEventHandler
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastRPCHandler generator.service.location=myService generator.module.name=mymodule generator.event.name=myRPC advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+      start: ../zaruba please makeFastApiRpcHandler generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.rpc.name=myRpc advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
 
-  testMakeFastAPICRUD:
+  testMakeFastApiCrud:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPIRPCHandler
+    - testMakeFastApiRpcHandler
     extend: core.runShellScript 
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeFastCRUD generator.service.location=myService generator.module.name=mymodule generator.crud.entity=book generator.crud.fields=title,author,synopsis advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+      start: ../zaruba please makeFastApiCrud generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.crud.entity=book generator.fastApi.crud.fields=title,author,synopsis advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
   
 
   testUpdateEnv:
     icon: 💉
     location: ./playground
     dependencies:
-    - testMakeFastAPICRUD
+    - testMakeFastApiCrud
     - testInitHelm
     extend: core.runShellScript
+    configRef: playgroundTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please updateEnv setup.injectBootstrap=false
+      start: ../zaruba please updateEnv setup.injectBootstrap=false
 
 
   testRun:
@@ -167,10 +155,10 @@ tasks:
     dependencies:
     - testUpdateEnv
     extend: core.runShellScript
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
+        ../zaruba please stopContainer
         ../zaruba please run setup.injectBootstrap=false -t
 
 
@@ -180,10 +168,9 @@ tasks:
     dependencies:
     - testRun
     extend: core.runShellScript
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please removeContainer setup.injectBootstrap=false
         ../zaruba please runContainer setup.injectBootstrap=false -t
         ../zaruba please removeContainer setup.injectBootstrap=false
@@ -195,10 +182,9 @@ tasks:
     dependencies:
     - testRunContainer
     extend: core.runShellScript
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
         ../zaruba please buildImage docker.env=default setup.injectBootstrap=false
@@ -211,12 +197,12 @@ tasks:
     - testMakeProject
     - testMakeSubrepo
     - testMakeTasks
-    - testMakeFastAPIProject
-    - testMakeFastAPIModule
-    - testMakeFastAPIRoute
-    - testMakeFastAPIEventHandler
-    - testMakeFastAPIRPCHandler
-    - testMakeFastAPICRUD
+    - testMakeFastApiService
+    - testMakeFastApiModule
+    - testMakeFastApiRoute
+    - testMakeFastApiEventHandler
+    - testMakeFastApiRpcHandler
+    - testMakeFastApiCrud
     - testUpdateEnv
     - testRun
     - testRunContainer
@@ -229,10 +215,9 @@ tasks:
     dependencies:
     - testGenerator
     extend: core.runShellScript
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please showLog log.keyword=myService setup.injectBootstrap=false
         ../zaruba please clearLog setup.injectBootstrap=false
   
@@ -261,10 +246,9 @@ tasks:
     - testGenerator
     extend: core.runShellScript
     timeout: 1h
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please pushImage docker.env=default setup.injectBootstrap=false
   
 
@@ -278,12 +262,11 @@ tasks:
     - build
     - testGenerator
     extend: core.startService
+    configRef: playgroundTest
     config:
       start: |
-        set -e
-        ZARUBA_HOME="$(realpath "..")"
         ../zaruba please removeContainer setup.injectBootstrap=false
-        ../zaruba please runContainer setup.injectBootstrap=false
+        ../zaruba please runContainer setup.injectBootstrap=false -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
       afterCheck: |
         sleep 1
         echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
@@ -299,63 +282,9 @@ tasks:
     - clearLog
     - runPlayground
     extend: core.runShellScript
+    configRef: playgroundTest
     config:
       start: |
-        ZARUBA_HOME="$(realpath "..")"
-        stopService() {
-          ../zaruba please stopContainer
-        }
-        echo "Create new book"
-        RESPONSE="$(curl --header "Content-Type: application/json" --request POST --data '{"title":"Homo Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "localhost:3000/books/")"
-        echo $RESPONSE
-        if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
-        then
-          echo "Unexpected response"
-          stopService
-          exit 1
-        fi
-        echo "Get first book"
-        RESPONSE="$(curl "localhost:3000/books/1")"
-        echo $RESPONSE
-        if [ "$RESPONSE" != '{"title":"Homo Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
-        then
-          echo "Unexpected response"
-          stopService
-          exit 1
-        fi
-        echo "Update book"
-        RESPONSE="$(curl --header "Content-Type: application/json" --request PUT --data '{"title":"Sapiens", "author":"Yuval Noah Harari", "synopsis":"A brief history of mankind"}' "localhost:3000/books/1")"
-        echo $RESPONSE
-        if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
-        then
-          echo "Unexpected response"
-          stopService
-          exit 1
-        fi
-        echo "Get all books"
-        RESPONSE="$(curl "localhost:3000/books/")"
-        echo $RESPONSE
-        if [ "$RESPONSE" != '[{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}]' ]
-        then
-          echo "Unexpected response"
-          stopService
-          exit 1
-        fi
-        echo "Delete book"
-        RESPONSE="$(curl --header "Content-Type: application/json" --request DELETE "localhost:3000/books/1")"
-        if [ "$RESPONSE" != '{"title":"Sapiens","author":"Yuval Noah Harari","synopsis":"A brief history of mankind","id":1}' ]
-        then
-          echo "Unexpected response"
-          stopService
-          exit 1
-        fi
-        echo "Get all books"
-        RESPONSE="$(curl "localhost:3000/books/")"
-        echo $RESPONSE
-        if [ "$RESPONSE" != '[]' ]
-        then
-          echo "Unexpected response"
-          stopService
-          exit 1
-        fi
-        stopService
+        python ../test_generated_service.py
+        ../zaruba please stopContainer
+        

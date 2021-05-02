@@ -12,7 +12,7 @@ class MessageBus(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def handle(self, event_name: str) -> Callable[..., Any]:
+    def handle_event(self, event_name: str) -> Callable[..., Any]:
         pass
 
     @abc.abstractmethod

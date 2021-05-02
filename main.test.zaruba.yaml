@@ -1,5 +1,11 @@
-tasks:
+configs:
+  mainTest:
+    beforeStart:
+      set -e
+      ZARUBA_HOME="$(realpath ".")"
 
+
+tasks:
 
   testCore:
     icon: 💉
@@ -7,9 +13,9 @@ tasks:
     extend: core.runShellScript
     dependencies:
     - clearLog
+    configRef: mainTest
     config:
       start: |
-        set -e
         ZARUBA_HOME=""
         mkdir -p ./coverage
         rm -f ./test_resource/alchemy/alembic.txt
@@ -42,11 +48,9 @@ tasks:
     - build
     extend: core.runShellScript
     timeout: 1h
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupPyenv setup.injectBootstrap=false
+      start: ./zaruba please setupPyenv setup.injectBootstrap=false
 
 
   testSetupNvm:
@@ -57,11 +61,9 @@ tasks:
     - build
     extend: core.runShellScript
     timeout: 1h
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupNvm setup.injectBootstrap=false
+      start: ./zaruba please setupNvm setup.injectBootstrap=false
 
 
   testSetupSdkman:
@@ -72,11 +74,9 @@ tasks:
     - build
     extend: core.runShellScript
     timeout: 1h
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupSdkman setup.injectBootstrap=false
+      start: ./zaruba please setupSdkman setup.injectBootstrap=false
 
 
   testSetupSpark:
@@ -87,11 +87,9 @@ tasks:
     - build
     extend: core.runShellScript
     timeout: 1h
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupSpark setup.injectBootstrap=false
+      start: ./zaruba please setupSpark setup.injectBootstrap=false
 
 
   testSetupKubeClient:
@@ -102,11 +100,9 @@ tasks:
     - build
     extend: core.runShellScript
     timeout: 1h
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please setupKubeClient setup.injectBootstrap=false
+      start: ./zaruba please setupKubeClient setup.injectBootstrap=false
 
 
   testThanks:
@@ -116,11 +112,9 @@ tasks:
     - clearLog
     - build
     extend: core.runShellScript
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba thanks
+      start: ./zaruba thanks
 
 
   testSorry:
@@ -130,11 +124,9 @@ tasks:
     - clearLog
     - build
     extend: core.runShellScript
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba sorry
+      start: ./zaruba sorry
   
 
   testShowVersion:
@@ -144,11 +136,9 @@ tasks:
     - clearLog
     - build
     extend: core.runShellScript
+    configRef: mainTest
     config:
-      start: |
-        set -e
-        ZARUBA_HOME="$(realpath ".")"
-        ./zaruba please showVersion setup.injectBootstrap=false
+      start: ./zaruba please showVersion setup.injectBootstrap=false
   
 
   testPythonUtil:

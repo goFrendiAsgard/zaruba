@@ -1,7 +1,9 @@
+from typing import Any, List, Mapping
+from helpers.transport import MessageBus
 from fastapi import FastAPI, HTTPException
 from schemas.zarubaEntityName import ZarubaEntityName, ZarubaEntityNameData
 
-def handle_route(app: FastAPI):
+def handle_route(app: FastAPI, mb: MessageBus):
 
     @app.get('/zaruba_entity_name/', response_model=List[ZarubaEntityName])
     def find_zaruba_entity_name(keyword: str='', limit: int=100, offset: int=0):
@@ -13,6 +15,7 @@ def handle_route(app: FastAPI):
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
+
 
     @app.get('/zaruba_entity_name/{id}', response_model=ZarubaEntityName)
     def find_zaruba_entity_name_by_id(id: str):
@@ -27,6 +30,7 @@ def handle_route(app: FastAPI):
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
 
+
     @app.post('/zaruba_entity_name/', response_model=ZarubaEntityName)
     def insert_zaruba_entity_name(data: ZarubaEntityNameData):
         try:
@@ -39,6 +43,7 @@ def handle_route(app: FastAPI):
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
+
 
     @app.put('/zaruba_entity_name/{id}', response_model=ZarubaEntityName)
     def update_zaruba_entity_name(id: str, data: ZarubaEntityNameData):
@@ -53,6 +58,7 @@ def handle_route(app: FastAPI):
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
 
+
     @app.delete('/zaruba_entity_name/{id}')
     def delete_zaruba_entity_name(id: str):
         try:
@@ -65,3 +71,6 @@ def handle_route(app: FastAPI):
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
+
+
+    print('Handle route for zarubaEntityName')

@@ -64,11 +64,11 @@ def test_fastapi_crud_generate():
     assert controller_content.find('from modulo.handleEntoRoute import handle_route as handle_ento_route') > -1
     assert controller_content.find('from modulo.handleEntoEvent import handle_event as handle_ento_event') > -1
     assert controller_content.find('handle_ento_event(self.mb, self.ento_repo') > -1
-    assert controller_content.find('handle_ento_route(self.app, self.ento_repo)') > -1
+    assert controller_content.find('handle_ento_route(self.app, self.mb)') > -1
     # load service
     generated_service = FastApiService(service_name)
     generated_service.load(dir_name)
     main_content = generated_service.get_content('servo/main.py')
-    assert main_content.find('from repos.ento import DBEntoRepo') > -1
+    assert main_content.find('from repos.dbEnto import DBEntoRepo') > -1
     assert main_content.find('ento_repo = DBEntoRepo(engine=engine, create_all=True)') > -1
     assert main_content.find('modulo_controller = ModuloController(app=app, mb=mb, enable_route=enable_route, enable_event=enable_event, ento_repo=ento_repo)') > -1

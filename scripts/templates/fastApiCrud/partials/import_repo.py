@@ -1,1 +1,1 @@
-from repos.zarubaEntityName import DBZarubaEntityNameRepo
+from repos.dbZarubaEntityName import DBZarubaEntityNameRepo

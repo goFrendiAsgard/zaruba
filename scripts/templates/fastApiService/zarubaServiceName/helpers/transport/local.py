@@ -23,7 +23,7 @@ class LocalMessageBus(MessageBus):
         print({'action': 'get_local_rpc_reply', 'event_name': event_name, 'args': args, 'result': result})
         return result
 
-    def handle(self, event_name: str) -> Callable[..., Any]:
+    def handle_event(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
             self.event_handler[event_name] = event_handler
         return register_event_handler
