@@ -78,7 +78,7 @@ tasks:
     config:
       start: |
         ../zaruba please makeStaticServiceTask generator.service.location=fibo setup.injectBootstrap=false
-        ../zaruba please makeFastApiApiServiceTask generator.service.location=myService generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeFastApiServiceTask generator.service.location=myService generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
         ../zaruba please makeRabbitmqDockerTask generator.docker.image.name=rabbitmq advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
         
 

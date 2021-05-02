@@ -263,7 +263,7 @@ tasks:
     - generator.service.docker.container.name
 
   
-  makeFastApiApiServiceTask:
+  makeFastApiServiceTask:
     extend: core.makePresetServiceTask
     inputs:
     - generator.service.location
