@@ -22,7 +22,7 @@ def snake(txt: str) -> str:
 def get_service_name(location: str) -> str:
     abs_location = os.path.abspath(location)
     base_name = os.path.basename(abs_location)
-    base_name_title = re.sub(r'[^A-Za-z0-9]+', ' ', txt).title()
+    base_name_title = re.sub(r'[^A-Za-z0-9]+', ' ', base_name).title()
     return base_name.replace(' ', '')
 
 
