@@ -80,8 +80,8 @@ inputs:
     validation: ^[a-zA-Z0-9_]+$
 
   generator.fastApi.module.name:
-    description: Service name
-    prompt: Service name (Required)
+    description: Module name
+    prompt: Module name (Required)
     validation: ^[a-zA-Z0-9_]+$
 
   generator.fastApi.url:
@@ -377,8 +377,8 @@ tasks:
           then
             mkdir -p "./shared-libs/python/helpers"
             cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
-            create_link "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
           fi
+          create_link "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
         fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API service created: ${SERVICE_NAME}{{ $d.Normal }}"
