@@ -60,7 +60,7 @@ inputs:
   generator.nodeJsService.runnerVersion:
     description: NodeJs version
     prompt: NodeJs version to run the service (Required)
-    option: [node, 16, 15, 14, 13, 12, 11, 10]
+    options: [node, 16, 15, 14, 13, 12, 11, 10]
     default: node
     validation: ^.+$
    
