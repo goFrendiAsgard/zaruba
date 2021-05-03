@@ -1,5 +1,12 @@
 configs:
 
+  core.showVersion:
+    showVersionScript: |
+      {{ $d := .Decoration -}}
+      cd ${ZARUBA_HOME}
+      echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(invoke_core_sh get_latest_git_tag) - $(invoke_core_sh get_latest_git_commit){{ $d.Normal }}"
+
+
   core.shell:
     playBellScript: echo $'\a'
     initThirdPartiesScript: |
@@ -30,7 +37,7 @@ configs:
 
 
   core.docker:
-    dockerEnv: default
+    dockerEnv: '{{ .GetValue "docker.env" }}'
     includeDockerScript: |
       getDockerImagePrefix() {
       {{ if and (.GetConfig "useImagePrefix") (.IsFalse (.GetConfig "useImagePrefix")) -}}
@@ -39,8 +46,6 @@ configs:
         echo "{{ .GetConfig "imagePrefix" }}"
       {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
         echo "{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-      {{ else if and (.GetValue "docker.env") (.GetValue "dockerImagePrefix" (.GetValue "docker.env")) -}}
-        echo "{{ .GetValue "dockerImagePrefix" (.GetValue "docker.env") }}"
       {{ else if .GetValue "dockerImagePrefix" "default" -}}
         echo "{{ .GetValue "dockerImagePrefix" "default" }}"
       {{ else }}
