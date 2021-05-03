@@ -3,6 +3,8 @@ from helpers.transport import MessageBus
 from fastapi import FastAPI, HTTPException
 from schemas.zarubaEntityName import ZarubaEntityName, ZarubaEntityNameData
 
+import traceback
+
 def handle_route(app: FastAPI, mb: MessageBus):
 
     @app.get('/zaruba_entity_name/', response_model=List[ZarubaEntityName])
