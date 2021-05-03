@@ -23,6 +23,10 @@ type EnvKeyCheckData struct {
 	baseEnv map[string]map[string]interface{} `yaml:"envs,omitempty"`
 }
 
+type InputKeyCheckData struct {
+	variables map[string]map[string]interface{} `yaml:"inputs,omitempty"`
+}
+
 // KeyValidator structure validator
 type KeyValidator struct {
 	fileName                string
@@ -30,6 +34,7 @@ type KeyValidator struct {
 	envKeyCheckData         EnvKeyCheckData
 	taskKeyCheckData        TaskKeyCheckData
 	taskWithEnvKeyCheckData TaskWithEnvKeyCheckData
+	inputKeyCheckData       InputKeyCheckData
 }
 
 func NewKeyValidator(fileName string) (sv *KeyValidator) {
@@ -38,6 +43,9 @@ func NewKeyValidator(fileName string) (sv *KeyValidator) {
 		rawData:  map[string]interface{}{},
 		envKeyCheckData: EnvKeyCheckData{
 			baseEnv: map[string]map[string]interface{}{},
+		},
+		inputKeyCheckData: InputKeyCheckData{
+			variables: map[string]map[string]interface{}{},
 		},
 		taskKeyCheckData: TaskKeyCheckData{
 			tasks: map[string]map[string]interface{}{},
@@ -59,6 +67,9 @@ func (kv *KeyValidator) Validate() (b []byte, err error) {
 	if err = yaml.Unmarshal(b, &kv.envKeyCheckData); err != nil {
 		return b, fmt.Errorf("error parsing YAML '%s': %s", kv.fileName, err)
 	}
+	if err = yaml.Unmarshal(b, &kv.inputKeyCheckData); err != nil {
+		return b, fmt.Errorf("error parsing YAML '%s': %s", kv.fileName, err)
+	}
 	if err = yaml.Unmarshal(b, &kv.taskKeyCheckData); err != nil {
 		return b, fmt.Errorf("error parsing YAML '%s': %s", kv.fileName, err)
 	}
@@ -68,10 +79,13 @@ func (kv *KeyValidator) Validate() (b []byte, err error) {
 	if err = kv.checkProjectValidKeys(); err != nil {
 		return b, err
 	}
-	if err = kv.checkTaskValidKeys(); err != nil {
+	if err = kv.checkEnvValidKeys(); err != nil {
 		return b, err
 	}
-	if err = kv.checkEnvValidKeys(); err != nil {
+	if err = kv.checkInputValidKeys(); err != nil {
+		return b, err
+	}
+	if err = kv.checkTaskValidKeys(); err != nil {
 		return b, err
 	}
 	if err = kv.checkTaskEnvValidKeys(); err != nil {
@@ -120,6 +134,25 @@ func (kv *KeyValidator) checkEnvValidKeys() (err error) {
 	for envRefName, env := range kv.envKeyCheckData.baseEnv {
 		if err = kv.checkEnvMapValidKeys(env, fmt.Sprintf("envs.%s", envRefName)); err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+func (kv *KeyValidator) checkInputValidKeys() (err error) {
+	validKeys := []string{"default", "description", "secret", "validation", "options", "prompt", "allowCustom"}
+	for inputName, input := range kv.inputKeyCheckData.variables {
+		for key := range input {
+			valid := false
+			for _, validKey := range validKeys {
+				if key == validKey {
+					valid = true
+					break
+				}
+			}
+			if !valid {
+				return fmt.Errorf("invalid key on '%s': inputs.%s.%s", kv.fileName, inputName, key)
+			}
 		}
 	}
 	return nil
