@@ -51,6 +51,7 @@ inputs:
     prompt: Helm env (Required)
   
   kube.context:
+    default: docker-desktop
     validation: ^.+$
     description: Kube context
     prompt: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
@@ -501,10 +502,7 @@ tasks:
 
   setProjectValue:
     icon: 🔗
-    description: |
-      Add link.
-      USAGE:
-        zaruba please setProjectValue key="key" value="value"
+    description: Set project value.
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -529,23 +527,13 @@ tasks:
     private: true
     description: |
       Build docker image.
-      USAGE:
-      ```yaml
-      buildMyImage:
-        location: ../myLocation
-        extend: core.buildDockerImage
-        config:
-          # Image name (derived from location if not provided)
-          imageName: myservice
-          # Docker env. default to 'default'
-          dockerEnv: default
-      ```
+      Common config:
+        dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+        imageName : Image name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateLinks
-    inputs:
-    - docker.env
     configRef: core.docker
     config:
       start: |
@@ -560,23 +548,25 @@ tasks:
         invoke_core_sh should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(invoke_core_sh get_latest_git_commit)"
-        invoke_core_sh should_not_be_empty "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
-        SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-        TAG="$(invoke_core_sh get_latest_git_tag)"
-        if [ ! -z "${TAG}" ]
+        if [ ! -z "${COMMIT}" ]
         then
-          TAG_COMMIT="$(invoke_core_sh get_latest_git_tag_commit)"
-          if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+          SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
+          TAG="$(invoke_core_sh get_latest_git_tag)"
+          if [ ! -z "${TAG}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest, ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}, and ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
-            docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-            echo 🎉🎉🎉
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
-            exit 0
+            TAG_COMMIT="$(invoke_core_sh get_latest_git_tag_commit)"
+            if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+            then
+              docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}.${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
+            else
+              docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}.${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
+            fi
+          else
+            docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
           fi
+        else
+          docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" .
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Build ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest and ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}/${SHORT_COMMIT}{{ $d.Normal }}"
-        docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
   
@@ -586,23 +576,13 @@ tasks:
     private: true
     description: |
       Build docker image.
-      USAGE:
-      ```yaml
-      buildMyImage:
-        location: ../myLocation
-        extend: core.pushDockerImage
-        config:
-          # Image name (derived from location if not provided)
-          imageName: myservice
-          # Docker env. default to 'default'
-          dockerEnv: default
-      ```
+      Common config:
+        dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+        imageName : Image name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateLinks
-    inputs:
-    - docker.env
     configRef: core.docker
     config:
       start: |
@@ -615,22 +595,21 @@ tasks:
         fi
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(invoke_core_sh get_latest_git_commit)"
-        invoke_core_sh should_not_be_empty "${COMMIT}" "{{ $d.Bold }}{{ $d.Red }}No commit found{{ $d.Normal }}"
-        SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-        TAG="$(invoke_core_sh get_latest_git_tag)"
-        if [ ! -z "${TAG}" ]
+        if [ ! -z "${COMMIT}" ]
         then
-          TAG_COMMIT="$(invoke_core_sh get_latest_git_tag_commit)"
-          if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+          SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
+          TAG="$(invoke_core_sh get_latest_git_tag)"
+          if [ ! -z "${TAG}" ]
           then
-            echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}{{ $d.Normal }}"
-            docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
+            if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+            then
+              docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
+            fi
+            docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}.${SHORT_COMMIT}"
           fi
+          docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}"
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest{{ $d.Normal }}"
         docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Push ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}{{ $d.Normal }}"
-        docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
     
@@ -640,15 +619,8 @@ tasks:
     private: true
     description: |
       Stop docker container.
-      USAGE:
-      ```yaml
-      stopMyContainer:
-        location: ../myLocation
-        extend: core.stopDockerContainer
-        config:
-          # container name, if not provided will be derived from location
-          containerName: myContainer
-      ```
+      Common config:
+        containerName : Container's name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -668,15 +640,8 @@ tasks:
     private: true
     description: |
       Remove docker container.
-      USAGE:
-      ```yaml
-      removeMyContainer:
-        location: ../myLocation
-        extend: core.removeDockerContainer
-        config:
-          # container name, if not provided will be derived from location
-          containerName: myContainer
-      ```
+      Common config:
+        containerName : Container's name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
@@ -697,59 +662,40 @@ tasks:
     icon: 🚢
     private: true
     description: |
-      Deploy helm charts by using helmfile
-      USAGE:
-      ```yaml
-      applyHelm:
-        location: helm-deployments 
-        extend: core.helmApply
-        config:
-          dockerEnv: default
-          helmEnv: default
-          kubeContext: docker-desktop
-      ```
+      Apply helm charts by using helmfile.
+      Common config:
+        helmEnv     : helm environment key (default: '{{ .GetValue "helm.env" }}')
+        dockerEnv   : docker environment key (default: '{{ .GetValue "docker.env" }}')
+        kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
     extend: core.runCoreScript
-    inputs:
-    - helm.env
-    - kube.context
-    - docker.env
     configRef: core.docker
     config:
       start: |
         {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
         DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
-        KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ if .GetValue "helm.env" }}{{ .GetValue "helm.env" }}{{ else }}default{{ end }}" sync
+        helmfile --environment "{{ .GetConfig "helmEnv" }}" sync
 
 
   core.helmDestroy:
     icon: 🚢
     private: true
     description: |
-      Deploy helm charts by using helmfile
-      USAGE:
-      ```yaml
-      applyHelm:
-        location: helm-deployments 
-        extend: core.helmDestroy
-        config:
-          helmEnv: default
-          kubeContext: docker-desktop
-      ```
+      Destroy helm deployments by using helmfile....
+      Common config:
+        helmEnv     : helm environment key (default: '{{ .GetValue "helm.env" }}')
+        dockerEnv   : docker environment key (default: '{{ .GetValue "docker.env" }}')
+        kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
     extend: core.runScript
-    inputs:
-    - helm.env
-    - kube.context
-    - docker.env
     configRef: core.docker
     config:
       start: |
         {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
         DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
-        KUBE_CONTEXT="{{ if .GetValue "kube.context" }}{{ .GetValue "kube.context" }}{{ else if .GetConfig "kubeContext" }}{{ .GetConfig "kubeContext" }}{{ else }}docker-desktop{{ end }}"
+        KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ if .GetValue "helm.env" }}{{ .GetValue "helm.env" }}{{ else }}default{{ end }}" destroy
+        helmfile --environment "{{ .GetConfig "helmDestroy" }}" sync
 

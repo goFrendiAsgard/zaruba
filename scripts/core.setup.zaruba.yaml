@@ -120,18 +120,7 @@ tasks:
 
   core.setupPyUtil:
     icon: 🐍
-    description: |
-      Setup python helper utitities.
-      USAGE:
-      ```yaml
-      runTask:
-        extend: core.runCoreScript
-        dependencies: 
-        - core.setupPyUtil
-        config:
-          start: |
-            . ${invoke_core_py} "show_log"
-      ```
+    description: Setup zaruba's python util.
     private: true
     extend: core.runCoreScript
     saveLog: false
@@ -156,10 +145,7 @@ tasks:
 
   setupUbuntu:
     icon: 🔨
-    description: |
-      Install essential packages for ubuntu/mint/debian. Root privilege is required
-      USAGE:
-        sudo -E zaruba please setupUbuntu
+    description: Setup ubuntu
     extend: core.runCoreScript
     timeout: 1h
     inputs:
@@ -195,10 +181,7 @@ tasks:
 
   setupTmux:
     icon: 🔨
-    description: |
-      Setup tmux.
-      USAGE:
-        zaruba please setupTmux
+    description: setup tmux (tmux should be already installed before running this task)
     extend: core.runCoreScript
     timeout: 1h
     inputs:
@@ -236,11 +219,7 @@ tasks:
 
   setupPyenv:
     icon: 🔨
-    description: |
-      Install Pyenv and pipenv. Useful if you are going to start with Python.
-      Some zaruba tasks required python and pipenv to be installed, so you likely going to run this anyway.
-      USAGE:
-        zaruba please setupPyenv
+    description: Install pyenv and pipenv
     extend: core.runCoreScript
     timeout: 1h
     inputs:
@@ -293,10 +272,7 @@ tasks:
 
   setupNvm:
     icon: 🔨
-    description: |
-      Install NVM for Node.js development.
-      USAGE:
-        zaruba please setupNvm
+    description: Install NVM and Node.Js (Including node-gyp and typescript)
     extend: core.runCoreScript
     timeout: 1h
     inputs:
@@ -343,10 +319,7 @@ tasks:
 
   setupSdkman:
     icon: 🔨
-    description: |
-      Install SDKMan for Java/Scala development.
-      USAGE:
-        zaruba please setupSdkman
+    description: Install SDKMan for Java/Scala development.
     extend: core.runCoreScript
     timeout: 1h
     inputs:
@@ -396,10 +369,7 @@ tasks:
   
   setupSpark:
     icon: 🔨
-    description: |
-      Install Spark and hadoop.
-      USAGE:
-        zaruba please setupSpark
+    description: Install spark and hadoop.
     extend: core.runCoreScript
     timeout: 1h
     inputs:
@@ -435,10 +405,7 @@ tasks:
   
   setupKubeClient:
     icon: 🔨
-    description: |
-      Install kubectl and helm.
-      USAGE:
-        zaruba please setupKubeClient
+    description: Install kubectl, helm, and helmfile
     extend: core.runCoreScript
     timeout: 1h
     inputs:

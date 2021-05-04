@@ -38,6 +38,8 @@ configs:
 
   core.docker:
     dockerEnv: '{{ .GetValue "docker.env" }}'
+    helmEnv: '{{ .GetValue "helm.env" }}'
+    kubeContext: '{{ .GetValue "kube.context" }}'
     includeDockerScript: |
       getDockerImagePrefix() {
       {{ if and (.GetConfig "useImagePrefix") (.IsFalse (.GetConfig "useImagePrefix")) -}}

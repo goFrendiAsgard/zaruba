@@ -232,12 +232,14 @@ class ServiceProject(TaskProject):
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'extend'], 'core.buildDockerImage')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'location'], 'zarubaServiceLocation')
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'inputs'], ['docker.env'])
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'timeout'], '1h')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         # pushImage
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'extend'], 'core.pushDockerImage')
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'dependencies'], ['buildZarubaServiceNameImage'])
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'inputs'], ['docker.env'])
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'timeout'], '1h')
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         
@@ -413,9 +415,11 @@ class HelmProject(Project):
         self.main_project.set_default(['tasks', 'helmApply', 'icon'], generate_icon())
         self.main_project.set_default(['tasks', 'helmApply', 'extend'], 'core.helmApply')
         self.main_project.set_default(['tasks', 'helmApply', 'location'], 'helm-deployments')
+        self.main_project.set_default(['tasks', 'helmApply', 'inputs'], ['helm.env', 'kube.context', 'docker.env'])
         self.main_project.set_default(['tasks', 'helmDestroy', 'icon'], generate_icon())
         self.main_project.set_default(['tasks', 'helmDestroy', 'extend'], 'core.helmDestroy')
         self.main_project.set_default(['tasks', 'helmDestroy', 'location'], 'helm-deployments')
+        self.main_project.set_default(['tasks', 'helmDestroy', 'inputs'], ['helm.env', 'kube.context', 'docker.env'])
         self.main_project.save(dir_name)
         self.load(dir_name)
     
