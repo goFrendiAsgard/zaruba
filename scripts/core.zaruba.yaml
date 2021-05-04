@@ -603,6 +603,7 @@ tasks:
           TAG="$(invoke_core_sh get_latest_git_tag)"
           if [ ! -z "${TAG}" ]
           then
+            TAG_COMMIT="$(invoke_core_sh get_latest_git_tag_commit)"
             if [ "${TAG_COMMIT}" = "${COMMIT}" ]
             then
               docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
