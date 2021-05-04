@@ -98,7 +98,9 @@ tasks:
     extend: core.runCoreScript
     configRef: core.showVersion
     config:
-      start: '{{ .GetConfig "showVersionCommand" }}'
+      start: |
+        cd ${ZARUBA_HOME}
+        {{ .GetConfig "showVersionScript" }}
 
 
   update:
@@ -118,7 +120,7 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        {{ .GetConfig "showVersionCommand" }}
+        {{ .GetConfig "showVersionScript" }}
 
 
   serveHttp:

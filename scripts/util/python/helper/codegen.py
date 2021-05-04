@@ -162,7 +162,7 @@ class FastApiModule(CodeGen):
             {
                 'zarubaHttpMethod': http_method,
                 'zarubaUrl': url,
-                'zaruba_url': snake(url.replace('/', '')),
+                'zaruba_url': snake(url.replace('/', '_').replace('-', '_')).strip('_'),
             }
         )
         handle_route_script = '\n{}\n'.format(handle_route_script)
