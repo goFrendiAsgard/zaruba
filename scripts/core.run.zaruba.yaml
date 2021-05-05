@@ -183,7 +183,7 @@ tasks:
       _start: |
         {{ $this := . -}}
         {{ range $index, $command := .GetLConfig "commands" -}}
-          docker exec "{{ $this.GetConfig "containerName" }}" $command
+          docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
         {{ end -}}
 
       
