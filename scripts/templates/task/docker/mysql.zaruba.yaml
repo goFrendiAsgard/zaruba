@@ -9,14 +9,14 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐬 
-    extend: core.mySql.startDockerContainer
+    extend: core.mysql.startDockerContainer
     timeout: 1h
     config:
       afterCheck: sleep 3
 
   zarubaServiceNameExecSql:
     icon: 🐬 
-    extend: core.mySql.execSql
+    extend: core.mysql.execSql
     dependencies:
     - runZarubaServiceName
     configRef: zarubaServiceName

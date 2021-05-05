@@ -597,7 +597,12 @@ tasks:
         fi
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-        invoke_core_sh pull_image "${IMAGE_NAME}:${IMAGE_TAG}"
+        if [ ! -z "${IMAGE_TAG}" ]
+        then
+          invoke_core_sh pull_image "${IMAGE_NAME}:${IMAGE_TAG}"
+        else
+          invoke_core_sh pull_image "${IMAGE_NAME}"
+        fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pulled{{ $d.Normal }}"
 

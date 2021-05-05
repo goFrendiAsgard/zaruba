@@ -324,7 +324,7 @@ tasks:
       ports: [8080]
     
 
-  core.mySql.startDockerContainer:
+  core.mysql.startDockerContainer:
     icon: 🐬 
     private: true
     extend: core.startDockerContainer

@@ -186,7 +186,7 @@ tasks:
         {{ end -}}
 
       
-  core.mySql.execSql:
+  core.mysql.execSql:
     icon: 🐬 
     private: true
     extend: core.runCoreScript
