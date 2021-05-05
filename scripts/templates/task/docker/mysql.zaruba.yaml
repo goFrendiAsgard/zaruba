@@ -3,7 +3,7 @@ inputs:
   zarubaServiceName.sql:
     validation: ^.+$
     prompt: single line SQL to be executed (Required)
-    prompt: single line SQL to be executed
+    description: single line SQL to be executed
 
 tasks:
 

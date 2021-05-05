@@ -3,7 +3,7 @@ inputs:
   zarubaServiceName.cql:
     validation: ^.+$
     prompt: single line CQL to be executed (Required)
-    prompt: single line CQL to be executed
+    description: single line CQL to be executed
 
 tasks:
 
