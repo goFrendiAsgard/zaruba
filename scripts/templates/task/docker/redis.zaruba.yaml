@@ -1,8 +1,12 @@
 tasks:
 
+  pullZarubaServiceNameImage: {}
+
   runZarubaServiceName:
     icon: 🧰
     extend: core.startDockerContainer
+    dependencies:
+    - pullZarubaServiceNameImage
     timeout: 1h
  
   flushZarubaServiceName:

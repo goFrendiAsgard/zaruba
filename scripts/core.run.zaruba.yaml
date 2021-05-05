@@ -198,8 +198,9 @@ tasks:
       password: '{{ .GetEnv "MYSQL_ROOT_PASSWORD" }}'
       database: '{{ .GetEnv "MYSQL_DATABASE" }}'
       _start: |
+        {{ $this := . -}}
         {{ range $index, $query := .GetLConfig "queries" -}}
-          docker exec "{{ .GetConfig "containerName" }}" mysql -u {{ .GetConfig "user" }} -p{{ .GetConfig "password" }} -e {{ .SingleQuoteShellValue $query }}
+          docker exec "{{ $this.GetConfig "containerName" }}" mysql -u {{ $this.GetConfig "user" }} -p{{ $this.GetConfig "password" }} -e {{ $this.SingleQuoteShellValue $query }}
         {{ end -}}
 
      
@@ -213,6 +214,7 @@ tasks:
     config:
       keyspace:  sample
       _start: |
+        {{ $this := . -}}
         {{ range $index, $query := .GetLConfig "queries" -}}
-          docker exec "{{ .GetConfig "containerName" }}" cql -e {{ .ReplaceAllWith (.SingleQuoteShellValue $query) "\\n" "" }}
+          docker exec "{{ $this.GetConfig "containerName" }}" cql -e {{ $this.ReplaceAllWith ($this.SingleQuoteShellValue $query) "\\n" "" }}
         {{ end -}}

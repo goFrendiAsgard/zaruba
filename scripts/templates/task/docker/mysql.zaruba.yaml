@@ -7,9 +7,13 @@ inputs:
 
 tasks:
 
+  pullZarubaServiceNameImage: {}
+
   runZarubaServiceName:
     icon: 🐬 
     extend: core.mysql.startDockerContainer
+    dependencies:
+    - pullZarubaServiceNameImage
     timeout: 1h
     config:
       afterCheck: sleep 3
@@ -19,6 +23,8 @@ tasks:
     extend: core.mysql.execSql
     dependencies:
     - runZarubaServiceName
+    inputs:
+    - zarubaServiceName.sql
     configRef: zarubaServiceName
     lconfig:
       queries:

@@ -56,17 +56,19 @@ tasks:
 
   testMakeFastApiService:
     location: ./playground
-    dependencies:
-    - testMakeSubrepo
     extend: core.runShellScript 
+    dependencies:
+    - testMakeProject
     configRef: playgroundTest
     config:
       start: ../zaruba please makeFastApiService generator.fastApi.service.name=myService advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+
 
   testMakeServiceTasks:
     location: ./playground
     dependencies:
     - testMakeFastApiService
+    - testMakeSubrepo
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -94,7 +96,7 @@ tasks:
   testMakeFastApiModule:
     location: ./playground
     dependencies:
-    - testMakeServiceTasks
+    - testMakeFastApiService
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -146,6 +148,8 @@ tasks:
     dependencies:
     - testMakeFastApiCrud
     - testInitHelm
+    - testMakeDockerTasks
+    - testMakeServiceTasks
     extend: core.runShellScript
     configRef: playgroundTest
     config:

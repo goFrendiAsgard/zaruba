@@ -7,18 +7,24 @@ inputs:
 
 tasks:
 
+  pullZarubaServiceNameImage: {}
+
   runZarubaServiceName:
     icon: 👀
     extend: core.cassandra.startDockerContainer
+    dependencies:
+    - pullZarubaServiceNameImage
     timeout: 1h
     config:
       afterCheck: sleep 3
   
-  zarubaServiceNameExecSql:
-    icon: 🐬 
+  zarubaServiceNameExecCql:
+    icon: 👀
     extend: core.cassandra.execCql
     dependencies:
     - runZarubaServiceName
+    inputs:
+    - zarubaServiceName.cql
     configRef: zarubaServiceName
     lconfig:
       queries:
