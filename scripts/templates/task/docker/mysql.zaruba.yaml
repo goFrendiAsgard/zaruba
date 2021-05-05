@@ -1,17 +1,28 @@
+inputs:
+
+  zarubaServiceName.sql:
+    validation: ^.+$
+    prompt: single line SQL to be executed (Required)
+    prompt: single line SQL to be executed
+
 tasks:
+
   runZarubaServiceName:
     icon: 🐬 
-    extend: core.startDockerContainer
+    extend: core.mySql.startDockerContainer
     timeout: 1h
     config:
-      afterCheck: |
-        set +e
-        docker exec "${CONTAINER_NAME}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
-        until [ "$?" = "0" ]
-        do
-          docker exec "${CONTAINER_NAME}" mysql -u root -p{{ .GetEnv "MYSQL_ROOT_PASSWORD"}} -e "SELECT VERSION()"
-          sleep 3
-        done
+      afterCheck: sleep 3
+
+  zarubaServiceNameExecSql:
+    icon: 🐬 
+    extend: core.mySql.execSql
+    dependencies:
+    - runZarubaServiceName
+    configRef: zarubaServiceName
+    lconfig:
+      queries:
+      - '{{ .GetValue "zarubaServiceName.sql" }}'
 
 configs:
   zarubaServiceName:

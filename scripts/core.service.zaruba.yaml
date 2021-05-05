@@ -114,7 +114,11 @@ tasks:
                                 Only applicable if expose is set to config.port
         volume::<host-volume> : Map <host-volume> to file/directory inside the container
         rebuild               : Should container be rebuild (This will not rebuild the image)
-        command               : Command to be used. Leave blank to use container's CMD
+        command               : Command to be used (Single Line).
+                                Leave blank to use container's CMD.
+                                The command will be executed from inside the container.
+        checkCommand          : Command to check container readiness (Single Line).
+                                The command will be executed from inside the container.
         localhost             : Localhost mapping (e.g: host.docker.container)
       Common lconfig:
         ports : Ports to be exposed. Only taking effect if expose is set to lconfig.ports.
@@ -132,6 +136,7 @@ tasks:
       imageTag: ""
       useImagePrefix: true
       command: ""
+      checkCommand: ""
       rebuild: false
       localhost: localhost
       expose: config.port
@@ -167,11 +172,28 @@ tasks:
         {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 
       _check.containerState: |
         {{ $d := .Decoration -}}
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
         until [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
           sleep 1
         done
+        while [ "$(invoke_core_sh inspect_docker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
+        do
+          sleep 1
+        done
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
+      _check.checkCommand: |
+        {{ $d := .Decoration -}}
+        {{ if .GetConfig "checkCommand" -}}
+        (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+        set +e
+        docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
+        until [ "$?" = "0" ]
+        do
+          docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
+          sleep 3
+        done
+        set "${_OLD_STATE}"
+        {{ end -}}
       _check.lConfigPorts: |
         {{ $d := .Decoration -}}
         {{ range $index, $hostPort := .GetLConfig "ports" -}}
@@ -189,13 +211,13 @@ tasks:
       _check: |
         {{ $d := .Decoration -}}
         {{ .GetConfig "_check.containerState" }}
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
         {{ $expose := .GetConfig "expose" -}}
         {{ if eq $expose "lconfig.ports" -}}
           {{ .GetConfig "_check.lConfigPorts" }}
         {{ else -}}
           {{ .GetConfig "_check.configPorts" }}
         {{ end -}}
+        {{ .GetConfig "_check.checkCommand" }}
         sleep 1
       _start.rebuildContainer: |
         invoke_core_sh stop_container "${CONTAINER_NAME}"
@@ -300,3 +322,20 @@ tasks:
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
     lconfig:
       ports: [8080]
+    
+
+  core.mySql.startDockerContainer:
+    icon: 🐬 
+    private: true
+    extend: core.startDockerContainer
+    config:
+      checkCommand: mysqladmin -u "root" -p{{ .GetEnv "MYSQL_PASSWORD" }} status
+  
+
+  core.cassandra.startDockerContainer:
+    icon: 👀
+    private: true
+    extend: core.startDockerContainer
+    config:
+      checkCommand: cqlsh -e "describe keyspaces"
+  

@@ -163,3 +163,56 @@ tasks:
       cmd: node
       cmdArg: "-p"
       start: "console.log('hello world')"
+
+
+  core.runInContainer:
+    icon: 🐳
+    description: |
+      Run command from inside the container
+      Common config:
+        containerName : Name of the container
+      Common lconfig:
+        commands      : list of command to be executed
+                        (each command should be in single line)
+    private: true
+    extend: core.runCoreScript
+    configRef: core.docker
+    lconfig:
+      commands: []
+    config:
+      _start: |
+        {{ range $index, $command := .GetLConfig "commands" -}}
+          docker exec "{{ .GetConfig "containerName" }}" $command
+        {{ end -}}
+
+      
+  core.mySql.execSql:
+    icon: 🐬 
+    private: true
+    extend: core.runCoreScript
+    lconfig:
+      queries: []
+    configRef: core.docker
+    config:
+      user: root
+      password: '{{ .GetEnv "MYSQL_ROOT_PASSWORD" }}'
+      database: '{{ .GetEnv "MYSQL_DATABASE" }}'
+      _start: |
+        {{ range $index, $query := .GetLConfig "queries" -}}
+          docker exec "{{ .GetConfig "containerName" }}" mysql -u {{ .GetConfig "user" }} -p{{ .GetConfig "password" }} -e {{ .SingleQuoteShellValue $query }}
+        {{ end -}}
+
+     
+  core.cassandra.execCql:
+    icon: 👀
+    private: true
+    extend: core.runCoreScript
+    lconfig:
+      queries: []
+    configRef: core.docker
+    config:
+      keyspace:  sample
+      _start: |
+        {{ range $index, $query := .GetLConfig "queries" -}}
+          docker exec "{{ .GetConfig "containerName" }}" cql -e {{ .ReplaceAllWith (.SingleQuoteShellValue $query) "\\n" "" }}
+        {{ end -}}

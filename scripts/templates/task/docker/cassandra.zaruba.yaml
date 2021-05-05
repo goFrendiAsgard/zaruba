@@ -1,17 +1,28 @@
+inputs:
+
+  zarubaServiceName.cql:
+    validation: ^.+$
+    prompt: single line CQL to be executed (Required)
+    prompt: single line CQL to be executed
+
 tasks:
+
   runZarubaServiceName:
     icon: 👀
-    extend: core.startDockerContainer
+    extend: core.cassandra.startDockerContainer
     timeout: 1h
     config:
-      afterCheck: |
-        set +e
-        docker exec "${CONTAINER_NAME}" cqlsh -e "describe keyspaces"
-        until [ "$?" = "0" ]
-        do
-          docker exec "${CONTAINER_NAME}" cqlsh -e "describe keyspaces"
-          sleep 3
-        done
+      afterCheck: sleep 3
+  
+  zarubaServiceNameExecSql:
+    icon: 🐬 
+    extend: core.cassandra.execCql
+    dependencies:
+    - runZarubaServiceName
+    configRef: zarubaServiceName
+    lconfig:
+      queries:
+      - '{{ .GetValue "zarubaServiceName.cql" }}'
 
 configs:
   zarubaServiceName:
