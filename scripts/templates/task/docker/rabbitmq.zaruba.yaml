@@ -20,9 +20,9 @@ tasks:
     configRef: zarubaServiceName
     lconfig:
       commands:
-      - rabbitmqctl stop app
-      - rabbitmqctl stop reset
-      - rabbitmqctl stop start_app
+      - rabbitmqctl stop_app
+      - rabbitmqctl reset
+      - rabbitmqctl start_app
 
 configs:
   zarubaServiceName:
