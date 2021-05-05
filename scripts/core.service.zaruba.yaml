@@ -40,6 +40,7 @@ tasks:
         {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeStart") "\n " }}
+        {{ .Trim (.GetConfig "_start") "\n " }}
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
@@ -53,6 +54,7 @@ tasks:
         {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeCheck") "\n " }}
+        {{ .Trim (.GetConfig "_check") "\n " }}
         {{ .Trim (.GetConfig "check") "\n " }}
         {{ .Trim (.GetConfig "afterCheck") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
@@ -164,50 +166,51 @@ tasks:
         {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 
-      check.containerState: |
+      _check.containerState: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting container '${CONTAINER_NAME}'{{ $d.Normal }}"
         until [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
           sleep 1
         done
-      check.lConfigPorts: |
+      _check.lConfigPorts: |
         {{ $d := .Decoration -}}
         {{ range $index, $hostPort := .GetLConfig "ports" -}}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
           invoke_core_sh wait_port "localhost" "{{ $hostPort }}"
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
         {{ end -}}
-      check.configPorts: |
+      _check.configPorts: |
         {{ $d := .Decoration -}}
         {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
           invoke_core_sh wait_port "localhost" "{{ $hostPort }}"
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
         {{ end -}}
-      check: |
+      _check: |
         {{ $d := .Decoration -}}
-        {{ .GetConfig "check.containerState" }}
+        {{ .GetConfig "_check.containerState" }}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
         {{ $expose := .GetConfig "expose" -}}
         {{ if eq $expose "lconfig.ports" -}}
-          {{ .GetConfig "check.lConfigPorts" }}
+          {{ .GetConfig "_check.lConfigPorts" }}
         {{ else -}}
-          {{ .GetConfig "check.configPorts" }}
+          {{ .GetConfig "_check.configPorts" }}
         {{ end -}}
-      start.rebuildContainer: |
+        sleep 1
+      _start.rebuildContainer: |
         invoke_core_sh stop_container "${CONTAINER_NAME}"
         invoke_core_sh remove_container "${CONTAINER_NAME}"
-      start.logContainer: |
+      _start.logContainer: |
         {{ $d := .Decoration -}}
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
-      start.runContainer.env: |
+      _start.runContainer.env: |
         {{ $this := . -}}
         {{ range $key, $val := $this.GetEnvs -}} 
           -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}{{ $val }}{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" ($this.GetConfig "localhost") }}{{ end }}" {{ "" -}}
         {{ end -}}
-      start.runContainer.port: |
+      _start.runContainer.port: |
         {{ $this := . -}}
         {{ if eq (.GetConfig "expose") "config.port" -}}
           {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
@@ -219,42 +222,43 @@ tasks:
             -p "{{ $port }}:{{ $port }}" {{ "" -}}
           {{ end -}}
         {{ end -}}
-      start.runContainer.volume: |
+      _start.runContainer.volume: |
         {{ $this := . -}}
         {{ range $index, $hostVolume := $this.GetSubConfigKeys "volume" -}}
           {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
           {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
           -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
         {{ end -}}
-      start.runContainer: |
+      _start.runContainer: |
         {{ $d := .Decoration -}}
         {{ $imageTag := .GetConfig "imageTag" -}}
         {{ $this := . -}}
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
-        {{ .GetConfig "start.runContainer.env" -}}
-        {{ .GetConfig "start.runContainer.port" -}}
-        {{ .GetConfig "start.runContainer.volume" -}}
+        {{ .GetConfig "_start.runContainer.env" -}}
+        {{ .GetConfig "_start.runContainer.port" -}}
+        {{ .GetConfig "_start.runContainer.volume" -}}
         {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
         -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
-      start: |
+      _start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
-        {{ if .IsTrue $rebuild }}{{ .GetConfig "start.rebuildContainer" }}{{ end }}
+        {{ if .IsTrue $rebuild }}{{ .GetConfig "_start.rebuildContainer" }}{{ end }}
         if [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
-          {{ .GetConfig "start.logContainer" }}
+          {{ .GetConfig "_start.logContainer" }}
         elif [ ! -z $(invoke_core_sh inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Retrieve previous log of '${CONTAINER_NAME}'{{ $d.Normal }}"
+          sleep 1
           docker logs --tail 20 "${CONTAINER_NAME}"
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker start "${CONTAINER_NAME}"
-          {{ .GetConfig "start.logContainer" }}
+          {{ .GetConfig "_start.logContainer" }}
         else
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-          {{ .GetConfig "start.runContainer" }}
-          {{ .GetConfig "start.logContainer" }}
+          {{ .GetConfig "_start.runContainer" }}
+          {{ .GetConfig "_start.logContainer" }}
         fi
 
 
@@ -268,13 +272,13 @@ tasks:
     extend: core.startService
     config:
       interval: 1
-      setup.ports: |
+      _setup.ports: |
         PORTS=""
         {{ range $index, $port := .GetLConfig "ports" -}}
           PORTS="${PORTS} {{ $port }}"
         {{ end -}}
-      setup: '{{ .GetConfig "setup.ports" }}'
-      start.checkPorts: |
+      _setup: '{{ .GetConfig "_setup.ports" }}'
+      _start.checkPorts: |
         {{ $d := .Decoration -}}
         for PORT in ${PORTS}
         do
@@ -285,14 +289,14 @@ tasks:
           echo "🔎 {{ $d.Bold }}{{ $d.Red }}Port '${PORT}' is not listening{{ $d.Normal }}"
           exit 1
         done
-      start: |
+      _start: |
         {{ $d := .Decoration -}}
         while true
         do
-          {{ .GetConfig "start.checkPorts" }}
+          {{ .GetConfig "_start.checkPorts" }}
           sleep {{ .GetConfig "interval" }}
         done
-      check: |
+      _check: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
     lconfig:

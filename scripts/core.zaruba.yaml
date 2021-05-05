@@ -700,5 +700,5 @@ tasks:
         KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ .GetConfig "helmDestroy" }}" sync
+        helmfile --environment "{{ .GetConfig "helmDestroy" }}" destroy
 
