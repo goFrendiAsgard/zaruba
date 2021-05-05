@@ -217,5 +217,5 @@ tasks:
       _start: |
         {{ $this := . -}}
         {{ range $index, $query := .GetLConfig "queries" -}}
-          docker exec "{{ $this.GetConfig "containerName" }}" cql -e {{ $this.ReplaceAllWith ($this.SingleQuoteShellValue $query) "\\n" "" }}
+          docker exec "{{ $this.GetConfig "containerName" }}" cqlsh -e {{ $this.ReplaceAllWith ($this.SingleQuoteShellValue $query) "\\n" "" }}
         {{ end -}}

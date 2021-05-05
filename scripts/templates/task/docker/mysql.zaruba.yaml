@@ -25,6 +25,7 @@ tasks:
     - runZarubaServiceName
     inputs:
     - zarubaServiceName.sql
+    envRef: zarubaServiceName
     configRef: zarubaServiceName
     lconfig:
       queries:
