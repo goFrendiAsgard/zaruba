@@ -16,7 +16,6 @@ inputs:
 tasks:
 
   testMakeProject:
-    icon: 💉
     location: ./playground
     dependencies:
     - clearLog
@@ -32,7 +31,6 @@ tasks:
   
 
   testInitHelm:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeProject
@@ -43,7 +41,6 @@ tasks:
 
 
   testMakeSubrepo:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeProject
@@ -58,7 +55,6 @@ tasks:
 
 
   testMakeFastApiService:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeSubrepo
@@ -67,9 +63,7 @@ tasks:
     config:
       start: ../zaruba please makeFastApiService generator.fastApi.service.name=myService advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
 
-
-  testMakeTasks:
-    icon: 💉
+  testMakeServiceTasks:
     location: ./playground
     dependencies:
     - testMakeFastApiService
@@ -79,14 +73,28 @@ tasks:
       start: |
         ../zaruba please makeStaticServiceTask generator.service.location=fibo setup.injectBootstrap=false
         ../zaruba please makeFastApiServiceTask generator.service.location=myService generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
-        ../zaruba please makeRabbitmqDockerTask generator.docker.image.name=rabbitmq advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+
+
+  testMakeDockerTasks:
+    location: ./playground
+    dependencies:
+    - testMakeServiceTasks
+    extend: core.runShellScript 
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please makeRabbitmqDockerTask generator.docker.container.name=testRabbitMq advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeMysqlDockerTask generator.docker.container.name=testMySql advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeCassandraDockerTask generator.docker.container.name=testCassandra advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeElasticsearchDockerTask generator.docker.container.name=testElasticSearch advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeMongoDockerTask generator.docker.container.name=testMongo advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
+        ../zaruba please makeRedisDockerTask generator.docker.container.name=testRedis advertisement.show=no setupInitPyUtil=no setup.injectBootstrap=false
         
 
   testMakeFastApiModule:
-    icon: 💉
     location: ./playground
     dependencies:
-    - testMakeTasks
+    - testMakeServiceTasks
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -94,7 +102,6 @@ tasks:
 
 
   testMakeFastApiRoute:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeFastApiModule
@@ -105,7 +112,6 @@ tasks:
 
 
   testMakeFastApiEventHandler:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeFastApiRoute
@@ -116,7 +122,6 @@ tasks:
 
 
   testMakeFastApiRpcHandler:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeFastApiEventHandler
@@ -127,7 +132,6 @@ tasks:
 
 
   testMakeFastApiCrud:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeFastApiRpcHandler
@@ -138,7 +142,6 @@ tasks:
   
 
   testUpdateEnv:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeFastApiCrud
@@ -150,7 +153,6 @@ tasks:
 
 
   testRun:
-    icon: 💉
     location: ./playground
     dependencies:
     - testUpdateEnv
@@ -163,7 +165,6 @@ tasks:
 
 
   testRunContainer:
-    icon: 💉
     location: ./playground
     dependencies:
     - testRun
@@ -177,7 +178,6 @@ tasks:
 
 
   testBuildImage:
-    icon: 💉
     location: ./playground
     dependencies:
     - testRunContainer
@@ -191,12 +191,12 @@ tasks:
 
 
   testGenerator:
-    icon: 💉
     location: ./playground
     dependencies:
     - testMakeProject
     - testMakeSubrepo
-    - testMakeTasks
+    - testMakeDockerTasks
+    - testMakeServiceTasks
     - testMakeFastApiService
     - testMakeFastApiModule
     - testMakeFastApiRoute
@@ -210,7 +210,6 @@ tasks:
 
 
   testLogging:
-    icon: 💉
     location: ./playground
     dependencies:
     - testGenerator
@@ -238,7 +237,6 @@ tasks:
 
 
   testPushImage:
-    icon: 💉
     location: ./playground
     dependencies:
     - clearLog
@@ -253,7 +251,6 @@ tasks:
   
 
   runPlayground:
-    icon: 🔨
     location: ./playground
     inputs:
     - runPlaygroundDelay
@@ -276,7 +273,6 @@ tasks:
 
 
   testGeneratedService:
-    icon: 💉
     location: ./playground
     dependencies:
     - clearLog
