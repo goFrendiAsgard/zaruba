@@ -571,13 +571,42 @@ tasks:
         fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
+
   
+  core.pullDockerImage:
+    icon: 🐳
+    private: true
+    description: |
+      Pull docker image.
+      Common config:
+        dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+        imageName : Image name
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateLinks
+    configRef: core.docker
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
+        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
+        then
+          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
+        fi
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
+        IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+        invoke_core_sh pull_image "${IMAGE_NAME}:${IMAGE_TAG}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pulled{{ $d.Normal }}"
+
 
   core.pushDockerImage:
     icon: 🐳
     private: true
     description: |
-      Build docker image.
+      Push docker image.
       Common config:
         dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
         imageName : Image name
@@ -614,7 +643,7 @@ tasks:
         fi
         docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image pushed{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pushed{{ $d.Normal }}"
     
 
   core.stopDockerContainer:
@@ -635,7 +664,7 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         invoke_core_sh stop_container "${CONTAINER}" 
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container stopped{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
   
 
   core.removeDockerContainer:
@@ -658,7 +687,7 @@ tasks:
         echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
         invoke_core_sh remove_container "${CONTAINER}" 
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container removed{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
   
 
   core.helmApply:

@@ -5,7 +5,6 @@ log.zaruba.csv
 zaruba
 playground
 scripts/bootstrap.sh
-scripts/thirdparties
 scripts/util/python/.pytest_cache
 scripts/util/python/.coverage
 scripts/util/python/htmlcov

@@ -9,19 +9,11 @@ configs:
 
   core.shell:
     playBellScript: echo $'\a'
-    initThirdPartiesScript: |
-      THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
-      if [ ! -d "${THIRD_PARTIES}" ]
-      then
-        mkdir -p "${THIRD_PARTIES}"
-        chown "${CURRENT_USER}" "${THIRD_PARTIES}"
-      fi
     includeBootstrapScript: |
       if [ -f "${HOME}/.bashrc" ]
       then
         . "${HOME}/.bashrc"
       fi
-      THIRD_PARTIES="${ZARUBA_HOME}/scripts/thirdparties"
       BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
       . "${BOOTSTRAP_SCRIPT}"
     includeUtilScript: |
