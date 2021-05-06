@@ -33,7 +33,7 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 
 func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
 	options := []string{"no", "yes"}
-	prompt := promptui.Select{
+	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Do you want to terminate tasks on complete?", prompter.d.Skull),
 		Items:             options,
 		Stdout:            &bellSkipper{},
@@ -43,7 +43,7 @@ func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bo
 			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
 		},
 	}
-	_, selectedOption, err := prompt.Run()
+	_, selectedOption, err := selectPrompt.Run()
 	if err == nil {
 		return boolean.IsTrue(selectedOption), nil
 	}
@@ -177,11 +177,11 @@ func (prompter *Prompter) askInput(label string, input *config.Variable, oldValu
 			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
 		},
 	}
-	selectedIndex, value, err := selectPrompt.Run()
+	selectedIndex, _, err := selectPrompt.Run()
 	if err == nil && allowCustom && selectedIndex == len(options)-1 {
 		return prompter.askUserInput(label, input)
 	}
-	return value, err
+	return options[selectedIndex], err
 }
 
 func (prompter *Prompter) askUserInput(label string, input *config.Variable) (value string, err error) {
