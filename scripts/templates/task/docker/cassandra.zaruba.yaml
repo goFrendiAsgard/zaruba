@@ -16,7 +16,7 @@ tasks:
     - pullZarubaServiceNameImage
     timeout: 1h
     config:
-      afterCheck: sleep 3
+      afterCheck: sleep 15
   
   zarubaServiceNameExecCql:
     icon: 👀
