@@ -32,10 +32,11 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 }
 
 func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
+	captions := []string{"🏁 No, this is a long-running process", "🔪 Yes, this is a simple command"}
 	options := []string{"no", "yes"}
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Do you want to terminate tasks on complete?", prompter.d.Skull),
-		Items:             options,
+		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
 		Searcher: func(userInput string, index int) bool {
@@ -43,7 +44,8 @@ func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bo
 			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
 		},
 	}
-	_, selectedOption, err := selectPrompt.Run()
+	optionIndex, _, err := selectPrompt.Run()
+	selectedOption := options[optionIndex]
 	if err == nil {
 		return boolean.IsTrue(selectedOption), nil
 	}
@@ -88,20 +90,26 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 
 func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	sortedTaskNames := prompter.project.GetSortedTaskNames()
-	publicTasks := []string{}
-	privateTasks := []string{}
+	publicTaskOptions := []string{}
+	privateTaskOptions := []string{}
+	publicTaskCaptions := []string{}
+	privateTaskCaptions := []string{}
 	for _, taskName := range sortedTaskNames {
 		task := prompter.project.Tasks[taskName]
+		taskCaption := fmt.Sprintf("%s %s", task.Icon, taskName)
 		if task.Private {
-			privateTasks = append(privateTasks, taskName)
+			privateTaskOptions = append(privateTaskOptions, taskName)
+			privateTaskCaptions = append(privateTaskCaptions, taskCaption)
 			continue
 		}
-		publicTasks = append(publicTasks, taskName)
+		publicTaskOptions = append(publicTaskOptions, taskName)
+		publicTaskCaptions = append(publicTaskCaptions, taskCaption)
 	}
-	options := append(publicTasks, privateTasks...)
+	options := append(publicTaskOptions, privateTaskOptions...)
+	captions := append(publicTaskCaptions, privateTaskCaptions...)
 	prompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
-		Items:             options,
+		Items:             captions,
 		Size:              10,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
@@ -110,8 +118,8 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 			return strings.Contains(strings.ToLower(taskName), strings.ToLower(input))
 		},
 	}
-	_, taskName, err = prompt.Run()
-	return taskName, err
+	optionIndex, _, err := prompt.Run()
+	return options[optionIndex], err
 }
 
 func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error) {
