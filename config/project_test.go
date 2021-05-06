@@ -269,20 +269,16 @@ func TestValidProjectGetInputs(t *testing.T) {
 		return
 	}
 	expectedInputs := map[string]*Variable{
-		"testName": {
-			DefaultValue: "myTest",
-			Description:  "Test name",
-		},
-		"taskName": {
-			DefaultValue: "myTask",
-			Description:  "Task name",
-		},
 		"host": {
 			DefaultValue: "localhost",
 			Description:  "Host",
 		},
+		"testName": {
+			DefaultValue: "myTest",
+			Description:  "Test name",
+		},
 	}
-	expectedInputOrder := []string{"taskName", "host", "testName"}
+	expectedInputOrder := []string{"host", "testName"}
 	actualInputs, actualInputOrder, err := validProject.GetInputs([]string{"runIntegrationTest"})
 	if err != nil {
 		t.Error(err)
@@ -301,8 +297,8 @@ func TestValidProjectGetInputs(t *testing.T) {
 		}
 		actualInputCount++
 	}
-	if actualInputCount != 3 {
-		t.Errorf(fmt.Sprintf("There should be 3 inputs, currently %#v", actualInputs))
+	if actualInputCount != 2 {
+		t.Errorf(fmt.Sprintf("There should be 2 inputs, currently %#v", actualInputs))
 	}
 	if len(actualInputOrder) != actualInputCount {
 		t.Errorf(fmt.Sprintf("Expected inputOrder to contains %d elements, but actualInputOrder is: %#v", actualInputCount, actualInputOrder))

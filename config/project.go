@@ -220,9 +220,6 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 		}
 		// include task's dependencies and parent's inputs first
 		subTaskNames := []string{}
-		if task.Extend != "" {
-			subTaskNames = append(subTaskNames, task.Extend)
-		}
 		subTaskNames = append(subTaskNames, task.Dependencies...)
 		subInputs, subInputOrder, err := p.GetInputs(subTaskNames)
 		if err != nil {
@@ -239,8 +236,8 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 		for _, inputName := range task.Inputs {
 			input := p.Inputs[inputName]
 			if _, inputRegistered := inputs[inputName]; !inputRegistered {
-				inputs[inputName] = input
 				inputOrder = append(inputOrder, inputName)
+				inputs[inputName] = input
 			}
 		}
 	}
