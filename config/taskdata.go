@@ -212,24 +212,15 @@ func (td *TaskData) EscapeShellValue(s string, quoteList ...string) (result stri
 	if len(quoteList) > 0 {
 		quote = quoteList[0]
 	}
-	backSlashEscapedStr := str.ReplaceAllWith(s, "\\", "\\\\\\\\")
-	quoteEscapedStr := backSlashEscapedStr
-	if quote == "\"" {
-		quoteEscapedStr = str.ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
-	} else if quote == "'" {
-		quoteEscapedStr = str.ReplaceAllWith(backSlashEscapedStr, "'", "\\'")
-	}
-	backTickEscapedStr := str.ReplaceAllWith(quoteEscapedStr, "`", "\\`")
-	newLineEscapedStr := str.ReplaceAllWith(backTickEscapedStr, "\n", "\\n")
-	return newLineEscapedStr
+	return str.EscapeShellValue(s, quote)
 }
 
 // DoubleQuoteShellValue
 func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("\"%s\"", td.EscapeShellValue(s, "\""))
+	return str.DoubleQuoteShellValue(s)
 }
 
 // SingleQuoteShellValue
 func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("'%s'", td.EscapeShellValue(s, "'"))
+	return str.SingleQuoteShellValue(s)
 }

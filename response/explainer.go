@@ -7,6 +7,7 @@ import (
 
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/str"
 )
 
 type Explainer struct {
@@ -184,7 +185,7 @@ func (e *Explainer) GetCommand(taskNames []string) (command string) {
 			} else {
 				inputValue = e.project.GetValue(inputName)
 			}
-			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, inputValue))
+			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, str.DoubleQuoteShellValue(inputValue)))
 		}
 	}
 	if len(inputArgs) != 0 {
