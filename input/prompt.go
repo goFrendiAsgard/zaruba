@@ -34,7 +34,7 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
 	options := []string{"no", "yes"}
 	prompt := promptui.Select{
-		Label:             fmt.Sprintf("%s Do you want to erminate tasks on complete?", prompter.d.Skull),
+		Label:             fmt.Sprintf("%s Do you want to terminate tasks on complete?", prompter.d.Skull),
 		Items:             options,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,

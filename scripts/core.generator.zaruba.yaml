@@ -12,7 +12,7 @@ inputs:
   
   generator.service.name:
     description: Service name
-    prompt: Service name
+    prompt: Service name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
 
   generator.service.ports:
