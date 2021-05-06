@@ -34,6 +34,7 @@ var pleaseCmd = &cobra.Command{
 		project, taskNames := getProjectOrExit(logger, decoration, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := response.NewExplainer(logger, decoration, project)
+		isFallbackInteraction := false
 		// no task provided
 		if len(taskNames) == 0 {
 			taskName := getTaskNameInteractivelyOrExit(logger, decoration, prompter)
@@ -47,6 +48,7 @@ var pleaseCmd = &cobra.Command{
 			if action.RunInteractive {
 				*pleaseInteractive = true
 			}
+			isFallbackInteraction = true
 		}
 		// handle "--previous"
 		previousValueFile := ".previous.values.yaml"
@@ -56,9 +58,9 @@ var pleaseCmd = &cobra.Command{
 		// handle "--interactive" flag
 		if *pleaseInteractive {
 			askProjectValuesOrExit(logger, decoration, prompter, taskNames)
-			if !*pleaseTerminate {
-				*pleaseTerminate = askAutoTerminateOrExit(logger, decoration, prompter, taskNames)
-			}
+		}
+		if isFallbackInteraction && !*pleaseTerminate {
+			*pleaseTerminate = askAutoTerminateOrExit(logger, decoration, prompter, taskNames)
 		}
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(logger, decoration, project)
