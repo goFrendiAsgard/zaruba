@@ -61,7 +61,16 @@ func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decorati
 	if err = p.setDefaultValues(); err != nil {
 		return p, err
 	}
-	err = p.validateTask()
+	if err = p.validateTask(); err != nil {
+		return p, err
+	}
+	for _, taskName := range p.sortedTaskNames {
+		task := p.Tasks[taskName]
+		err := task.init()
+		if err != nil {
+			return p, err
+		}
+	}
 	return p, err
 }
 
@@ -246,13 +255,6 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 
 // Init all tasks
 func (p *Project) Init() (err error) {
-	for _, taskName := range p.sortedTaskNames {
-		task := p.Tasks[taskName]
-		err := task.init()
-		if err != nil {
-			return err
-		}
-	}
 	r, err := regexp.Compile("[^a-zA-Z0-9]+")
 	if err != nil {
 		return err
