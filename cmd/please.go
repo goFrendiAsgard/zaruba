@@ -4,7 +4,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
@@ -57,15 +56,15 @@ var pleaseCmd = &cobra.Command{
 		// handle "--interactive" flag
 		if *pleaseInteractive {
 			askProjectValuesOrExit(logger, decoration, prompter, taskNames)
+			if !*pleaseTerminate {
+				*pleaseTerminate = askAutoTerminateOrExit(logger, decoration, prompter, taskNames)
+			}
 		}
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(logger, decoration, project)
-		r, err := runner.NewRunner(logger, decoration, project, taskNames, time.Minute*5)
+		r, err := runner.NewRunner(logger, decoration, project, taskNames, "5m", *pleaseTerminate, pleaseWait)
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
-		}
-		if *pleaseTerminate {
-			r.SetTerminationDelay(pleaseWait)
 		}
 		if err := r.Run(); err != nil {
 			showErrorAndExit(logger, decoration, err)
@@ -134,6 +133,14 @@ func askProjectValuesOrExit(logger *monitor.ConsoleLogger, decoration *monitor.D
 	if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
+}
+
+func askAutoTerminateOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) (autoTerminate bool) {
+	autoTerminate, err := prompter.GetAutoTerminate(taskNames)
+	if err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
+	return autoTerminate
 }
 
 func initProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) {

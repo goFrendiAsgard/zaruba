@@ -81,6 +81,34 @@ func (task *Task) GetWorkPath() (path string) {
 	return path
 }
 
+// HaveStartCmd return whether task has start command or not
+func (task *Task) HaveStartCmd() bool {
+	if len(task.Start) > 0 {
+		return true
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		if parentTask.HaveStartCmd() {
+			return true
+		}
+	}
+	return false
+}
+
+// HaveCheckCmd return whether task has check command or not
+func (task *Task) HaveCheckCmd() bool {
+	if len(task.Check) > 0 {
+		return true
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		if parentTask.HaveCheckCmd() {
+			return true
+		}
+	}
+	return false
+}
+
 // GetValues getting all parsed env
 func (task *Task) GetValues(td *TaskData) (parsedValues map[string]string, err error) {
 	parsedValues = map[string]string{}

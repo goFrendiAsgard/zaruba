@@ -287,8 +287,8 @@ tasks:
       start: |
         python ../test_generated_service.py
         ../zaruba please resetTestRabbitMq -t
-        ../zaruba please flushAllTestRedis -t
-        ../zaruba please cassandraExecSql testCassandra.cql="describe keyspaces;" -t
-        ../zaruba please mySqlExecSql testMySql.sql="show schemas;" -t
+        ../zaruba please flushTestRedis -t
+        ../zaruba please testCassandraExecCql testCassandra.cql="describe keyspaces;" -t
+        ../zaruba please testMySqlExecSql testMySql.sql="show schemas;" -t
         ../zaruba please stopContainer
         

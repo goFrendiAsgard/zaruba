@@ -36,16 +36,27 @@ type Runner struct {
 	logger                     monitor.Logger
 	decoration                 *monitor.Decoration
 	autoTerminate              bool
-	autoTerminateDelayInterval string
+	autoTerminateDelayInterval time.Duration
 }
 
 // NewRunner create new runner
-func NewRunner(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string, statusInterval time.Duration) (runner *Runner, err error) {
+func NewRunner(
+	logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string,
+	statusIntervalStr string, autoTerminate bool, autoTerminateDelayIntervalStr string,
+) (runner *Runner, err error) {
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialize")
 	}
 	if err = project.ValidateByTaskNames(taskNames); err != nil {
 		return &Runner{}, err
+	}
+	statusInterval, err := time.ParseDuration(statusIntervalStr)
+	if err != nil {
+		return &Runner{}, fmt.Errorf("cannot parse statusIntervalStr '%s': %s", statusIntervalStr, err)
+	}
+	autoTerminateDelayInterval, err := time.ParseDuration(autoTerminateDelayIntervalStr)
+	if err != nil {
+		return &Runner{}, fmt.Errorf("cannot parse statusIntervalStr '%s': %s", autoTerminateDelayIntervalStr, err)
 	}
 	return &Runner{
 		taskNames:                  taskNames,
@@ -65,8 +76,8 @@ func NewRunner(logger monitor.Logger, decoration *monitor.Decoration, project *c
 		surpressWaitErrorMutex:     &sync.RWMutex{},
 		logger:                     logger,
 		decoration:                 decoration,
-		autoTerminate:              false,
-		autoTerminateDelayInterval: "0s",
+		autoTerminate:              autoTerminate,
+		autoTerminateDelayInterval: autoTerminateDelayInterval,
 	}, nil
 }
 
@@ -111,12 +122,6 @@ func (r *Runner) Terminate() {
 		delete(r.cmdInfo, label)
 	}
 	r.cmdInfoMutex.Unlock()
-}
-
-// SetTerminationDelay set termination delay
-func (r *Runner) SetTerminationDelay(terminationDelayInterval string) {
-	r.autoTerminate = true
-	r.autoTerminateDelayInterval = terminationDelayInterval
 }
 
 func (r *Runner) showStatusByInterval() {
@@ -248,13 +253,7 @@ func (r *Runner) run(ch chan error) {
 	r.logger.DPrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	r.logger.DPrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	if r.autoTerminate {
-		autoTerminateDuration, parseErr := time.ParseDuration(r.autoTerminateDelayInterval)
-		if parseErr != nil {
-			ch <- parseErr
-			r.logger.DPrintfError("Cannot parse auto-terminate delay interval %s\n", r.autoTerminateDelayInterval)
-			return
-		}
-		r.sleep(autoTerminateDuration)
+		r.sleep(r.autoTerminateDelayInterval)
 		ch <- nil
 		return
 	}
@@ -282,10 +281,7 @@ func (r *Runner) run(ch chan error) {
 func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 	tasks := []*config.Task{}
 	for _, taskName := range taskNames {
-		task, exists := r.project.Tasks[taskName]
-		if !exists {
-			return fmt.Errorf("task '%s' is not exist", taskName)
-		}
+		task := r.project.Tasks[taskName]
 		tasks = append(tasks, task)
 	}
 	ch := make(chan error)

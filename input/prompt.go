@@ -31,6 +31,25 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 	}
 }
 
+func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
+	options := []string{"no", "yes"}
+	prompt := promptui.Select{
+		Label:             fmt.Sprintf("%s Do you want to erminate tasks on complete?", prompter.d.Skull),
+		Items:             options,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(userInput string, index int) bool {
+			option := options[index]
+			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+		},
+	}
+	_, selectedOption, err := prompt.Run()
+	if err == nil {
+		return boolean.IsTrue(selectedOption), nil
+	}
+	return false, err
+}
+
 func (prompter *Prompter) GetAction(taskName string) (action *Action, err error) {
 	caption_interactive := "🏁 Run interactively"
 	caption_run := "🏁 Run"
@@ -158,11 +177,9 @@ func (prompter *Prompter) askInput(label string, input *config.Variable, oldValu
 			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
 		},
 	}
-	selectedIndex, _, err := selectPrompt.Run()
-	if allowCustom && selectedIndex == len(options)-1 {
-		value, err = prompter.askUserInput(label, input)
-	} else {
-		value = options[selectedIndex]
+	selectedIndex, value, err := selectPrompt.Run()
+	if err == nil && allowCustom && selectedIndex == len(options)-1 {
+		return prompter.askUserInput(label, input)
 	}
 	return value, err
 }
