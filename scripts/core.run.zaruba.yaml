@@ -122,7 +122,7 @@ tasks:
     extend: core.runShellScript
     config:
       _start: |
-        if [ -f Pipfile "Pipfile.lock" ]
+        if [ -f "Pipfile.lock" ]
         then
           pipenv sync
         else
