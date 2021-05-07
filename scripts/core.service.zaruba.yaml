@@ -186,11 +186,13 @@ tasks:
         {{ if .GetConfig "checkCommand" -}}
         (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
         set +e
+        sleep 3
         docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
         until [ "$?" = "0" ]
         do
+          sleep 2
           docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
-          sleep 3
+          sleep 1
         done
         set "${_OLD_STATE}"
         {{ end -}}
