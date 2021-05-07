@@ -190,9 +190,8 @@ tasks:
         docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
         until [ "$?" = "0" ]
         do
-          sleep 2
+          sleep 3
           docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
-          sleep 1
         done
         set "${_OLD_STATE}"
         {{ end -}}
