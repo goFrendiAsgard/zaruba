@@ -330,7 +330,7 @@ tasks:
     private: true
     extend: core.startDockerContainer
     config:
-      checkCommand: mysql -u "root" -p{{ .GetEnv "MYSQL_PASSWORD" }} -e "SHOW SCHEMAS"
+      checkCommand: mysql -u "root" -p{{ .GetEnv "MYSQL_ROOT_PASSWORD" }} -e "SHOW SCHEMAS"
   
 
   core.cassandra.startDockerContainer:
