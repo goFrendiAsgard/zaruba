@@ -65,11 +65,24 @@ func GetSubKeys(genericMap map[string]interface{}, parentKeys []string) (subKeys
 }
 
 // InArray whether arr in element or not
-func InArray(arr []string, element string) bool {
+func InArray(arr []string, element string) (inElement bool) {
 	for _, arrElement := range arr {
 		if element == arrElement {
 			return false
 		}
 	}
 	return true
+}
+
+func GetUniqueElements(arr []string) (result []string) {
+	result = []string{}
+	seen := map[string]bool{}
+	for _, element := range arr {
+		if _, exist := seen[element]; exist {
+			continue
+		}
+		result = append(result, element)
+		seen[element] = true
+	}
+	return result
 }

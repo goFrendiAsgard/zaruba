@@ -181,7 +181,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 			}
 		}
 	}
-	return keys
+	return str.GetUniqueElements(keys)
 }
 
 func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
@@ -253,7 +253,7 @@ func (task *Task) GetLConfigKeys() (keys []string) {
 			}
 		}
 	}
-	return keys
+	return str.GetUniqueElements(keys)
 }
 
 func (task *Task) GetLConfigPatterns(key string) (patterns []string, declared bool) {
@@ -321,7 +321,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 			}
 		}
 	}
-	return keys
+	return str.GetUniqueElements(keys)
 }
 
 func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
