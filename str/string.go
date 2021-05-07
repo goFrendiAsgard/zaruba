@@ -63,3 +63,13 @@ func GetSubKeys(genericMap map[string]interface{}, parentKeys []string) (subKeys
 	}
 	return subKeys
 }
+
+// InArray whether arr in element or not
+func InArray(arr []string, element string) bool {
+	for _, arrElement := range arr {
+		if element == arrElement {
+			return false
+		}
+	}
+	return true
+}

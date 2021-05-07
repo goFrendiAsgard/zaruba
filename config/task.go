@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/state-alchemists/zaruba/boolean"
+	"github.com/state-alchemists/zaruba/str"
 )
 
 // Task is zaruba task
@@ -171,6 +172,15 @@ func (task *Task) GetConfigKeys() (keys []string) {
 			keys = append(keys, key)
 		}
 	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentKeys := parentTask.GetConfigKeys()
+		for _, key := range parentKeys {
+			if !str.InArray(keys, key) {
+				keys = append(keys, key)
+			}
+		}
+	}
 	return keys
 }
 
@@ -234,6 +244,15 @@ func (task *Task) GetLConfigKeys() (keys []string) {
 			keys = append(keys, key)
 		}
 	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentKeys := parentTask.GetLConfigKeys()
+		for _, key := range parentKeys {
+			if !str.InArray(keys, key) {
+				keys = append(keys, key)
+			}
+		}
+	}
 	return keys
 }
 
@@ -291,6 +310,15 @@ func (task *Task) GetEnvKeys() (keys []string) {
 	for _, baseEnvKey := range task.getBaseEnvKeys() {
 		for key := range task.Project.baseEnv[baseEnvKey].BaseEnvMap {
 			keys = append(keys, key)
+		}
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentKeys := parentTask.GetEnvKeys()
+		for _, key := range parentKeys {
+			if !str.InArray(keys, key) {
+				keys = append(keys, key)
+			}
 		}
 	}
 	return keys
