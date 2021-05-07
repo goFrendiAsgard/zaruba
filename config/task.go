@@ -175,11 +175,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 	for _, parentTaskName := range task.getParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		parentKeys := parentTask.GetConfigKeys()
-		for _, key := range parentKeys {
-			if !str.InArray(keys, key) {
-				keys = append(keys, key)
-			}
-		}
+		keys = append(keys, parentKeys...)
 	}
 	return str.GetUniqueElements(keys)
 }
@@ -247,11 +243,7 @@ func (task *Task) GetLConfigKeys() (keys []string) {
 	for _, parentTaskName := range task.getParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		parentKeys := parentTask.GetLConfigKeys()
-		for _, key := range parentKeys {
-			if !str.InArray(keys, key) {
-				keys = append(keys, key)
-			}
-		}
+		keys = append(keys, parentKeys...)
 	}
 	return str.GetUniqueElements(keys)
 }
@@ -315,11 +307,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 	for _, parentTaskName := range task.getParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		parentKeys := parentTask.GetEnvKeys()
-		for _, key := range parentKeys {
-			if !str.InArray(keys, key) {
-				keys = append(keys, key)
-			}
-		}
+		keys = append(keys, parentKeys...)
 	}
 	return str.GetUniqueElements(keys)
 }
