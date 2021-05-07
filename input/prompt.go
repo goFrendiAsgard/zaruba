@@ -32,10 +32,10 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 }
 
 func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
-	captions := []string{"🏁 No, this is a long-running process", "🔪 Yes, this is a simple command"}
+	captions := []string{"🏁 No", "🔪 Yes"}
 	options := []string{"no", "yes"}
 	selectPrompt := promptui.Select{
-		Label:             fmt.Sprintf("%s Do you want to terminate tasks on complete?", prompter.d.Skull),
+		Label:             fmt.Sprintf("%s Do you want to terminate tasks once completed?", prompter.d.Skull),
 		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,

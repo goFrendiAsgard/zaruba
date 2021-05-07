@@ -173,7 +173,7 @@ func (e *Explainer) printField(fieldName string, value string, indentation strin
 	e.logger.DPrintf("%s%s :%s %s\n", e.d.Yellow, fieldName, e.d.Normal, indentedValue)
 }
 
-func (e *Explainer) GetCommand(taskNames []string) (command string) {
+func (e *Explainer) GetZarubaCommand(taskNames []string, autoTerminate bool, autoTerminateDelayInterval string) (command string) {
 	command = fmt.Sprintf("zaruba please %s", strings.Join(taskNames, " "))
 	inputArgs := []string{}
 	for _, taskName := range taskNames {
@@ -190,6 +190,9 @@ func (e *Explainer) GetCommand(taskNames []string) (command string) {
 	}
 	if len(inputArgs) != 0 {
 		command = fmt.Sprintf("%s %s", command, strings.Join(inputArgs, " "))
+	}
+	if autoTerminate {
+		command = fmt.Sprintf("%s -t -w %s", command, autoTerminateDelayInterval)
 	}
 	return command
 }
