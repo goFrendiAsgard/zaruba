@@ -16,13 +16,6 @@ RUN cd /.zaruba && go mod download
 COPY . /.zaruba/
 RUN cd /.zaruba && go build
 
-# setup ubuntu
-RUN zaruba please setupUbuntu setup.allowRoot=true
-RUN apt-get clean
-
-# setup pyenv, nvm, and kube
-RUN zaruba please setupPyenv setupNvm setupKubeClient
-
 RUN mkdir -p /project
 WORKDIR /project
 

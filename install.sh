@@ -25,6 +25,7 @@ sudo ln -s ${HOME}/.zaruba/zaruba /usr/bin/zaruba
 
 if [ "$?" = 0 ]
 then
+    set -e
     echo 💀 '/usr/bin/zaruba' symlink created
 else
     set -e
@@ -51,3 +52,24 @@ else
 fi
 
 echo 💀 Installation success 
+
+read -p "💀 Do you want to setup ubuntu? (y/N): "  CONFIRMATION
+if [ "${CONFIRMATION}" = "y" ]
+then
+    zaruba please setupUbuntu -i
+    echo 💀 Ubuntu setup success 
+fi
+
+read -p "💀 Do you want to setup pyenv? (y/N): "  CONFIRMATION
+if [ "${CONFIRMATION}" = "y" ]
+then
+    zaruba please setupPyenv -i
+    echo 💀 Pyenv setup success 
+fi
+
+read -p "💀 Do you want to setup nvm? (y/N): "  CONFIRMATION
+if [ "${CONFIRMATION}" = "y" ]
+then
+    zaruba please setupNvm -i
+    echo 💀 Nvm setup success 
+fi
