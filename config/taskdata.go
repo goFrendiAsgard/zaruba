@@ -9,7 +9,6 @@ import (
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/boolean"
-	"github.com/state-alchemists/zaruba/conversion"
 	"github.com/state-alchemists/zaruba/monitor"
 	"github.com/state-alchemists/zaruba/str"
 )
@@ -42,69 +41,60 @@ func NewTaskData(task *Task) (td *TaskData) {
 
 // GetConfig get config of task data
 func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
-	return td.task.GetConfig(td, keys...)
+	return td.task.GetConfig(keys...)
 }
 
 // GetConfigs get all environment
 func (td *TaskData) GetConfigs() (parsedEnv map[string]string, err error) {
-	return td.task.GetConfigs(td)
+	return td.task.GetConfigs()
 }
 
 // GetSubConfigKeys get config subkeys
-func (td *TaskData) GetSubConfigKeys(keys ...string) (subKeys []string, err error) {
-	configs, err := td.GetConfigs()
-	if err != nil {
-		return subKeys, err
-	}
-	return str.GetSubKeys(conversion.NormalizeMapStringValue(configs), keys), nil
+func (td *TaskData) GetSubConfigKeys(parentKeys ...string) (subKeys []string) {
+	configKeys := td.task.GetConfigKeys()
+	return str.GetSubKeys(configKeys, parentKeys)
 }
 
 // GetLConfig get config of task data
 func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
-	return td.task.GetLConfig(td, keys...)
+	return td.task.GetLConfig(keys...)
 }
 
 // GetLConfigs get all environment
 func (td *TaskData) GetLConfigs() (parsedEnv map[string][]string, err error) {
-	return td.task.GetLConfigs(td)
+	return td.task.GetLConfigs()
 }
 
 // GetSubLConfigKeys get config subkeys
-func (td *TaskData) GetSubLConfigKeys(keys ...string) (subKeys []string, err error) {
-	lConfigs, err := td.GetLConfigs()
-	if err != nil {
-		return subKeys, err
-	}
-	return str.GetSubKeys(conversion.NormalizeMapListStringValue(lConfigs), keys), nil
+func (td *TaskData) GetSubLConfigKeys(parentKeys ...string) (subKeys []string) {
+	lConfigKeys := td.task.GetConfigKeys()
+	return str.GetSubKeys(lConfigKeys, parentKeys)
 }
 
 // GetValue get keyword argument
 func (td *TaskData) GetValue(keys ...string) (val string, err error) {
-	return td.task.GetValue(td, keys...)
+	return td.task.GetValue(keys...)
 }
 
 // GetValues get all keyword arguments
 func (td *TaskData) GetValues() (parsedEnv map[string]string, err error) {
-	return td.task.GetValues(td)
+	return td.task.GetValues()
 }
 
 // GetSubValueKeys get keyword argument subkeys
-func (td *TaskData) GetSubValueKeys(keys ...string) (subKeys []string, err error) {
-	values, err := td.GetValues()
-	if err != nil {
-		return subKeys, err
-	}
-	return str.GetSubKeys(conversion.NormalizeMapStringValue(values), keys), err
+func (td *TaskData) GetSubValueKeys(parentKeys ...string) (subKeys []string) {
+	valueKeys := td.task.GetValueKeys()
+	return str.GetSubKeys(valueKeys, parentKeys)
 }
 
 // GetEnv get environment
 func (td *TaskData) GetEnv(key string) (val string, err error) {
-	return td.task.GetEnv(td, key)
+	return td.task.GetEnv(key)
 }
 
 // GetEnvs get all environment
 func (td *TaskData) GetEnvs() (parsedEnv map[string]string, err error) {
-	return td.task.GetEnvs(td)
+	return td.task.GetEnvs()
 }
 
 // getAbsPath of any string

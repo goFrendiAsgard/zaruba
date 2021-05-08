@@ -41,12 +41,12 @@ func SingleQuoteShellValue(s string) (result string) {
 }
 
 // GetSubKeys get sub keys from dictionary
-func GetSubKeys(genericMap map[string]interface{}, parentKeys []string) (subKeys []string) {
+func GetSubKeys(keys []string, parentKeys []string) (subKeys []string) {
 	seen := map[string]bool{}
 	parentKey := strings.Join(parentKeys, "::")
 	prefixLength := len(parentKey) + len("::")
 	subKeys = []string{}
-	for key := range genericMap {
+	for _, key := range keys {
 		if !strings.HasPrefix(key, parentKey+"::") {
 			continue
 		}

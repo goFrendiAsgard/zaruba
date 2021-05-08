@@ -34,7 +34,7 @@ func TestValidTaskGetEnv(t *testing.T) {
 			continue
 		}
 		for key, expectedVal := range parsedEnvExpectation {
-			actualVal, err := task.GetEnv(NewTaskData(task), key)
+			actualVal, err := task.GetEnv(key)
 			if err != nil {
 				t.Error(err)
 			}
@@ -74,7 +74,7 @@ func TestValidTaskGetConfig(t *testing.T) {
 		}
 		for key := range parsedConfigExpectation {
 			expectedVal := parsedConfigExpectation[key]
-			actualVal, err := task.GetConfig(NewTaskData(task), key)
+			actualVal, err := task.GetConfig(key)
 			if err != nil {
 				t.Error(err)
 			}
@@ -108,7 +108,7 @@ func TestValidTaskGetLConfig(t *testing.T) {
 			continue
 		}
 		for key, expectedVals := range parsedLConfigExpectation {
-			actualVals, err := task.GetLConfig(NewTaskData(task), key)
+			actualVals, err := task.GetLConfig(key)
 			if err != nil {
 				t.Error(err)
 			}
@@ -239,7 +239,7 @@ func TestInvalidTaskConfigBrokenTemplate(t *testing.T) {
 		return
 	}
 	task := project.Tasks["job"]
-	if _, parseError := task.GetConfig(NewTaskData(task), "someKey"); parseError == nil {
+	if _, parseError := task.GetConfig("someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -255,7 +255,7 @@ func TestInvalidTaskConfigNonExecutableTemplate(t *testing.T) {
 		return
 	}
 	task := project.Tasks["job"]
-	if _, parseError := task.GetConfig(NewTaskData(task), "someKey"); parseError == nil {
+	if _, parseError := task.GetConfig("someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -271,7 +271,7 @@ func TestInvalidTaskLConfigBrokenTemplate(t *testing.T) {
 		return
 	}
 	task := project.Tasks["job"]
-	if _, parseError := task.GetLConfig(NewTaskData(task), "someKey"); parseError == nil {
+	if _, parseError := task.GetLConfig("someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
@@ -287,7 +287,7 @@ func TestInvalidTaskLConfigNonExecutableTemplate(t *testing.T) {
 		return
 	}
 	task := project.Tasks["job"]
-	if _, parseError := task.GetLConfig(NewTaskData(task), "someKey"); parseError == nil {
+	if _, parseError := task.GetLConfig("someKey"); parseError == nil {
 		t.Errorf("Error expected")
 	}
 }
