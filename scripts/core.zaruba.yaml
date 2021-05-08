@@ -89,6 +89,19 @@ tasks:
       start: |
         {{ $showAdvertisement := .GetValue "advertisement.show" -}}
         {{ if .IsTrue $showAdvertisement }}invoke_core_py show_advertisement{{ end }}
+  
+
+  injectBootstrap:
+    icon: 💉
+    extend: core.runCoreScript
+    saveLog: false
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        invoke_core_sh inject_bootstrap "${HOME}/.bashrc"
+        invoke_core_sh inject_bootstrap "${HOME}/.zshrc"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Close and reopen terminal to apply changes{{ $d.Normal }}"
 
 
   showVersion:
