@@ -24,6 +24,19 @@ func NewExplainer(logger monitor.Logger, decoration *monitor.Decoration, project
 	}
 }
 
+func (e *Explainer) listToMultiLineStr(list []string) string {
+	if len(list) == 0 {
+		return ""
+	}
+	lines := []string{}
+	for _, line := range list {
+		subLines := strings.Split(line, "\n")
+		line = strings.Join(subLines, "\n  ")
+		lines = append(lines, fmt.Sprintf("- %s", line))
+	}
+	return strings.Join(lines, "\n")
+}
+
 func (e *Explainer) listToStr(list []string) string {
 	if len(list) == 0 {
 		return ""
@@ -61,15 +74,31 @@ func (e *Explainer) Explain(taskName string) {
 	if len(parentTasks) == 0 && task.Extend != "" {
 		parentTasks = []string{task.Extend}
 	}
+	start, check, taskType := e.getCmdPatterns(task)
 	e.printField("TASK NAME   ", taskName, indentation)
 	e.printField("LOCATION    ", task.GetFileLocation(), indentation)
 	e.printField("DESCRIPTION ", task.Description, indentation)
-	e.printField("DEPENDENCIES", e.listToStr(task.Dependencies), indentation)
+	e.printField("TASK TYPE   ", taskType, indentation)
 	e.printField("PARENT TASKS", e.listToStr(parentTasks), indentation)
+	e.printField("DEPENDENCIES", e.listToStr(task.Dependencies), indentation)
+	e.printField("START       ", e.listToMultiLineStr(start), indentation)
+	e.printField("CHECK       ", e.listToMultiLineStr(check), indentation)
 	e.printField("INPUTS      ", e.getInputString(task), indentation)
 	e.printField("CONFIG      ", e.getConfigString(task), indentation)
 	e.printField("LCONFIG     ", e.getLConfigString(task), indentation)
 	e.printField("ENVIRONMENTS", e.getEnvString(task), indentation)
+}
+
+func (e *Explainer) getCmdPatterns(task *config.Task) (start []string, check []string, taskType string) {
+	start, startExist, _ := task.GetStartCmdPatterns()
+	check, checkExist, _ := task.GetCheckCmdPatterns()
+	if startExist && checkExist {
+		return start, check, "Service Task"
+	}
+	if startExist {
+		return start, check, "Command Task"
+	}
+	return start, check, "Wrapper Task"
 }
 
 func (e *Explainer) getInputString(task *config.Task) (inputString string) {

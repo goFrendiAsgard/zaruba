@@ -428,7 +428,7 @@ func (task *Task) getDependencies() (dependencies []string) {
 
 // GetStartCmd get start command of a task
 func (task *Task) GetStartCmd(logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
-	cmdPatterns, exist, err := task.getStartCmdPatterns()
+	cmdPatterns, exist, err := task.GetStartCmdPatterns()
 	if err != nil || !exist {
 		return cmd, exist, err
 	}
@@ -436,13 +436,13 @@ func (task *Task) GetStartCmd(logDone chan error) (cmd *exec.Cmd, exist bool, er
 	return cmd, exist, err
 }
 
-func (task *Task) getStartCmdPatterns() (cmdPatterns []string, exist bool, err error) {
+func (task *Task) GetStartCmdPatterns() (cmdPatterns []string, exist bool, err error) {
 	if len(task.Start) > 0 {
 		return task.Start, true, nil
 	}
 	for _, parentTaskName := range task.getParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
-		cmdPatterns, exist, err = parentTask.getStartCmdPatterns()
+		cmdPatterns, exist, err = parentTask.GetStartCmdPatterns()
 		if err != nil || exist {
 			return cmdPatterns, exist, err
 		}
@@ -452,7 +452,7 @@ func (task *Task) getStartCmdPatterns() (cmdPatterns []string, exist bool, err e
 
 // GetCheckCmd get check command of a task
 func (task *Task) GetCheckCmd(logDone chan error) (cmd *exec.Cmd, exist bool, err error) {
-	cmdPatterns, exist, err := task.getCheckCmdPatterns()
+	cmdPatterns, exist, err := task.GetCheckCmdPatterns()
 	if err != nil || !exist {
 		return cmd, exist, err
 	}
@@ -460,13 +460,13 @@ func (task *Task) GetCheckCmd(logDone chan error) (cmd *exec.Cmd, exist bool, er
 	return cmd, exist, err
 }
 
-func (task *Task) getCheckCmdPatterns() (cmdPatterns []string, exist bool, err error) {
+func (task *Task) GetCheckCmdPatterns() (cmdPatterns []string, exist bool, err error) {
 	if len(task.Check) > 0 {
 		return task.Check, true, nil
 	}
 	for _, parentTaskName := range task.getParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
-		cmdPatterns, exist, err = parentTask.getCheckCmdPatterns()
+		cmdPatterns, exist, err = parentTask.GetCheckCmdPatterns()
 		if err != nil || exist {
 			return cmdPatterns, exist, err
 		}
