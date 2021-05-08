@@ -79,13 +79,6 @@ inputs:
     prompt: Helmfile version to be installed
 
 
-  setup.injectBootstrap:
-    default: true
-    options: [true, false]
-    description: Inject bootstrap script to .zsh and .bashrc
-    prompt: Inject bootstrap script to .zsh and .bashrc
-
-
 tasks:
 
   core.checkBootstrap:
@@ -112,10 +105,6 @@ tasks:
           . "${ZARUBA_HOME}/scripts/util/sh/append_if_exist.sh" "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
-        {{ if .IsTrue (.GetValue "setup.injectBootstrap") }}
-        . "${ZARUBA_HOME}/scripts/util/sh/inject_bootstrap.sh" "${HOME}/.bashrc"
-        . "${ZARUBA_HOME}/scripts/util/sh/inject_bootstrap.sh" "${HOME}/.zshrc"
-        {{ end }}
  
 
   core.setupPyUtil:

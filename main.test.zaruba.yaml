@@ -50,7 +50,7 @@ tasks:
     timeout: 1h
     configRef: mainTest
     config:
-      start: ./zaruba please setupPyenv setup.injectBootstrap=false
+      start: ./zaruba please setupPyenv 
 
 
   testSetupNvm:
@@ -63,7 +63,7 @@ tasks:
     timeout: 1h
     configRef: mainTest
     config:
-      start: ./zaruba please setupNvm setup.injectBootstrap=false
+      start: ./zaruba please setupNvm 
 
 
   testSetupSdkman:
@@ -76,7 +76,7 @@ tasks:
     timeout: 1h
     configRef: mainTest
     config:
-      start: ./zaruba please setupSdkman setup.injectBootstrap=false
+      start: ./zaruba please setupSdkman 
 
 
   testSetupSpark:
@@ -89,7 +89,7 @@ tasks:
     timeout: 1h
     configRef: mainTest
     config:
-      start: ./zaruba please setupSpark setup.injectBootstrap=false
+      start: ./zaruba please setupSpark 
 
 
   testSetupKubeClient:
@@ -102,7 +102,7 @@ tasks:
     timeout: 1h
     configRef: mainTest
     config:
-      start: ./zaruba please setupKubeClient setup.injectBootstrap=false
+      start: ./zaruba please setupKubeClient 
 
 
   testThanks:
@@ -138,7 +138,7 @@ tasks:
     extend: core.runShellScript
     configRef: mainTest
     config:
-      start: ./zaruba please showVersion setup.injectBootstrap=false
+      start: ./zaruba please showVersion 
   
 
   testPythonUtil:
