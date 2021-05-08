@@ -235,6 +235,7 @@ tasks:
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
           pyenv install {{ .GetValue "setup.pythonVersion" }}
           pyenv global {{ .GetValue "setup.pythonVersion" }}
+          . "${BOOTSTRAP_SCRIPT}"
         fi
         if [ "$(invoke_core_sh is_command_exist python --version)" = 1 ]
         then
