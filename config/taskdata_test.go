@@ -133,16 +133,6 @@ func TestTaskDataGetConfig(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetConfigs(t *testing.T) {
-	td, err := getValidTaskData(t)
-	if err != nil {
-		return
-	}
-	if _, err := td.GetConfigs(); err != nil {
-		t.Error(err)
-	}
-}
-
 func TestTaskDataGetLConfig(t *testing.T) {
 	td, err := getValidTaskData(t)
 	if err != nil {
@@ -153,16 +143,6 @@ func TestTaskDataGetLConfig(t *testing.T) {
 	}
 }
 
-func TestTaskDataGetLConfigs(t *testing.T) {
-	td, err := getValidTaskData(t)
-	if err != nil {
-		return
-	}
-	if _, err := td.GetLConfigs(); err != nil {
-		t.Error(err)
-	}
-}
-
 func TestTaskDataGetValue(t *testing.T) {
 	td, err := getValidTaskData(t)
 	if err != nil {
@@ -170,16 +150,6 @@ func TestTaskDataGetValue(t *testing.T) {
 	}
 	if _, exist := td.GetValue("alchemist::flamel::age"); exist != nil {
 		t.Error("value alchemist::flamel::age does not exist")
-	}
-}
-
-func TestTaskDataGetValues(t *testing.T) {
-	td, err := getValidTaskData(t)
-	if err != nil {
-		return
-	}
-	if _, err := td.GetValues(); err != nil {
-		t.Error(err)
 	}
 }
 

@@ -111,18 +111,6 @@ func (task *Task) HaveCheckCmd() bool {
 	return false
 }
 
-// GetValues getting all parsed env
-func (task *Task) GetValues() (parsedValues map[string]string, err error) {
-	parsedValues = map[string]string{}
-	for key := range task.Project.values {
-		parsedValues[key], err = task.GetValue(key)
-		if err != nil {
-			return parsedValues, err
-		}
-	}
-	return parsedValues, nil
-}
-
 // GetValue getting config of a task
 func (task *Task) GetValue(keys ...string) (val string, err error) {
 	key := strings.Join(keys, "::")
@@ -140,18 +128,6 @@ func (task *Task) GetValueKeys() (keys []string) {
 		keys = append(keys, key)
 	}
 	return keys
-}
-
-// GetConfigs getting all parsed env
-func (task *Task) GetConfigs() (parsedConfig map[string]string, err error) {
-	parsedConfig = map[string]string{}
-	for _, key := range task.GetConfigKeys() {
-		parsedConfig[key], err = task.GetConfig(key)
-		if err != nil {
-			return parsedConfig, err
-		}
-	}
-	return parsedConfig, nil
 }
 
 // GetConfig getting config of a task
@@ -199,18 +175,6 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 		}
 	}
 	return "", false
-}
-
-// GetLConfigs getting all lConfig
-func (task *Task) GetLConfigs() (parsedLConfig map[string][]string, err error) {
-	parsedLConfig = map[string][]string{}
-	for _, key := range task.GetLConfigKeys() {
-		parsedLConfig[key], err = task.GetLConfig(key)
-		if err != nil {
-			return parsedLConfig, err
-		}
-	}
-	return parsedLConfig, nil
 }
 
 // GetLConfig getting lconfig of a task

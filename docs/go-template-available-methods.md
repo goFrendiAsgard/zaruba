@@ -90,31 +90,6 @@ tasks:
       {{ end }}
 ```
 
-# GetLConfigs
-
-Get all LConfig values of current task as map of list.
-
-```yaml
-tasks:
-  MY_TASK:
-    lconfig:
-      ports:
-      - 5672
-      - 15672
-      virtue:
-      - courage
-      - friendship
-    start:
-    - bash
-    - '-c'
-    - |
-      {{ $key, $valList := range .GetLConfigs }}
-        {{ $index, $val := range $valList }}
-          echo "{{ $key }} {{ $index }}: {{ $val }}"
-        {{ end }}
-      {{ end }}
-```
-
 # GetValue
 
 Get values of current task. A configuration might be nested. For example, a `person` might have `name`, `age`, and `job` as subKeys:
@@ -129,23 +104,6 @@ tasks:
       echo {{ .GetValue "madorin" }}
       echo {{ .GetValue "person" "name" }}
       echo {{ .GetValue "person::name" }} 
-```
-
-# GetValues
-
-Get all configs of current task as map.
-
-```yaml
-tasks:
-  MY_TASK:
-    start:
-    - bash
-    - '-c'
-    - |
-      {{ $map := .GetValues }} # getting all values
-      {{ range $key, $val := $map }}
-        echo "Key: {{ $key }}, Val: {{ $val }}"
-      {{ end }}
 ```
 
 # GetSubValueKeys

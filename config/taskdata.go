@@ -44,11 +44,6 @@ func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
 	return td.task.GetConfig(keys...)
 }
 
-// GetConfigs get all environment
-func (td *TaskData) GetConfigs() (parsedEnv map[string]string, err error) {
-	return td.task.GetConfigs()
-}
-
 // GetSubConfigKeys get config subkeys
 func (td *TaskData) GetSubConfigKeys(parentKeys ...string) (subKeys []string) {
 	configKeys := td.task.GetConfigKeys()
@@ -60,11 +55,6 @@ func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
 	return td.task.GetLConfig(keys...)
 }
 
-// GetLConfigs get all environment
-func (td *TaskData) GetLConfigs() (parsedEnv map[string][]string, err error) {
-	return td.task.GetLConfigs()
-}
-
 // GetSubLConfigKeys get config subkeys
 func (td *TaskData) GetSubLConfigKeys(parentKeys ...string) (subKeys []string) {
 	lConfigKeys := td.task.GetConfigKeys()
@@ -74,11 +64,6 @@ func (td *TaskData) GetSubLConfigKeys(parentKeys ...string) (subKeys []string) {
 // GetValue get keyword argument
 func (td *TaskData) GetValue(keys ...string) (val string, err error) {
 	return td.task.GetValue(keys...)
-}
-
-// GetValues get all keyword arguments
-func (td *TaskData) GetValues() (parsedEnv map[string]string, err error) {
-	return td.task.GetValues()
 }
 
 // GetSubValueKeys get keyword argument subkeys

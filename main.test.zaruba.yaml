@@ -174,7 +174,7 @@ tasks:
     - clearLog
     - testCore
     - testCommonTask
-    - testGeneratedService
+    - testPlayground
     - testPushImage
     - testHelmApply
     - testHelmDestroy

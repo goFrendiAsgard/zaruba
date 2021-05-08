@@ -5,7 +5,7 @@ tasks:
     location: ./playground
     dependencies:
     - testInitHelm
-    - testGeneratedService
+    - testPlayground
     - runContainerRegistry
     extend: core.runShellScript 
     config:

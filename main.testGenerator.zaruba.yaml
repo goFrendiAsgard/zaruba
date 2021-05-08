@@ -274,7 +274,7 @@ tasks:
         sleep {{ .GetValue "runPlaygroundDelay" }}
     lconfig:
       ports: [3000, 8080, 15672, 5672]
-
+  
 
   testGeneratedService:
     location: ./playground
@@ -284,11 +284,62 @@ tasks:
     extend: core.runShellScript
     configRef: playgroundTest
     config:
-      start: |
-        python ../test_generated_service.py
-        ../zaruba please resetTestRabbitMq -t
-        ../zaruba please flushTestRedis -t
-        ../zaruba please testCassandraExecCql testCassandra.cql="describe keyspaces;" -t
-        ../zaruba please testMySqlExecSql testMySql.sql="show schemas;" -t
-        ../zaruba please stopContainer
-        
+      start: python ../test_generated_service.py
+
+
+  testGeneratedRabbitMq:
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please resetTestRabbitMq -t
+
+
+  testGeneratedRedis:
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please flushTestRedis -t
+
+
+  testGeneratedCassandra:
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please testCassandraExecCql testCassandra.cql="describe keyspaces;" -t
+   
+
+  testGeneratedMySql:
+    location: ./playground
+    dependencies:
+    - clearLog
+    - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please testMySqlExecSql testMySql.sql="show schemas;" -t
+   
+
+  testPlayground:
+    location: ./playground
+    dependencies:
+    - testGeneratedService
+    - testGeneratedRabbitMq
+    - testGeneratedRedis
+    - testGeneratedCassandra
+    - testGeneratedMySql
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please stopContainer
