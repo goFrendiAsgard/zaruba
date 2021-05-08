@@ -5,7 +5,7 @@ ENV DOCKER_HOST="tcp://host.docker.internal:2375"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install ubuntu packages
-RUN apt-get update
+RUN apt-get update --fix-missing
 RUN apt-get upgrade -y
 
 # Install common tools
