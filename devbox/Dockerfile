@@ -17,14 +17,4 @@ RUN apt-get install -y cowsay figlet lolcat
 # Install pyenv dependencies
 RUN apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
-# install pyenv
-RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
-RUN pyenv install 3.8.6
-RUN pyenv global 3.8.6
-RUN pip install pipenv
-
-# install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
-RUN npm install -g node-gyp typescript
-
 RUN apt-get clean
