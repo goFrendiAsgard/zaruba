@@ -19,10 +19,9 @@ RUN cd /.zaruba && go build
 RUN zaruba please setupPyenv
 RUN zaruba please setupNvm
 RUN zaruba please setupKubeClient
+RUN zaruba please injectBootstrap
 
 RUN mkdir -p /project
 WORKDIR /project
-
-EXPOSE 2810
 
 CMD ["sleep", "infinity"]
