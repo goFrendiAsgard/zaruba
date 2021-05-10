@@ -12,6 +12,7 @@ tasks:
         beforeCheck : Script to be executed before check service readiness.
         afterCheck  : Script to be executed before check service readiness.
         finish      : Script to be executed after start service or check service readiness.
+        runLocally  : Run service locally or not
       Common lconfig:
         ports: Port to be checked to confirm service readiness (e.g: [9000])
     private: true
@@ -31,12 +32,19 @@ tasks:
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end -}}
       afterCheck: ""
+      runLocally: true
     lconfig:
       ports: []
     start:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
+        {{- $d := .Decoration -}}
+        {{ if .IsFalse (.GetConfig "runLocally") -}}
+          echo 🎉🎉🎉
+          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
+          sleep infinity
+        {{ end -}}
         {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeStart") "\n " }}
@@ -44,13 +52,18 @@ tasks:
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
-        {{- $d := .Decoration -}}
         echo 🎉🎉🎉
         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
     check:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
+        {{- $d := .Decoration -}}
+        {{ if .IsFalse (.GetConfig "runLocally") -}}
+          echo 🎉🎉🎉
+          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+          exit 0
+        {{ end -}}
         {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeCheck") "\n " }}
@@ -58,7 +71,6 @@ tasks:
         {{ .Trim (.GetConfig "check") "\n " }}
         {{ .Trim (.GetConfig "afterCheck") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
-        {{- $d := .Decoration -}}
         echo 🎉🎉🎉
         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   

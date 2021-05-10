@@ -1,8 +1,14 @@
+inputs:
+
+  zarubaServiceName.runLocally: {}
+
 tasks:
   runZarubaServiceName:
     icon: 📜
     extend: core.serveHttp
     location: zarubaServiceLocation
+    inputs:
+    - zarubaServiceName.runLocally
     config:
       start: zarubaStartCommand
 

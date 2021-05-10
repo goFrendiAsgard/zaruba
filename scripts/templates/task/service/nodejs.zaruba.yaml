@@ -1,4 +1,6 @@
 inputs:
+
+  zarubaServiceName.runLocally: {}
   
   zarubaServiceName.removeNodeModules:
     default: no
@@ -58,6 +60,8 @@ tasks:
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
+    inputs:
+    - zarubaServiceName.runLocally
     envRef: zarubaServiceName
     configRef: zarubaServiceName
     config:

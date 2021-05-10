@@ -152,11 +152,19 @@ class TaskProject(Project):
     def _set_default_properties(self):
         service_name = 'zarubaServiceName'
         run_task_name = 'runZarubaServiceName'
+        run_locally_input_name = '{}.runLocally'.format(service_name)
+        self.set_default(['inputs', run_locally_input_name, 'default'], 'yes')
+        self.set_default(['inputs', run_locally_input_name, 'options'], ['yes', 'no'])
+        self.set_default(['inputs', run_locally_input_name, 'allowCustom'], 'false')
+        self.set_default(['inputs', run_locally_input_name, 'description'], 'Whether run {} locally or not'.format(service_name))
+        self.set_default(['inputs', run_locally_input_name, 'prompt'], 'Run {} locally?'.format(service_name))
         self.set_default(['envs', service_name], {})
         self.set_default(['configs', service_name], {})
         self.set_default(['lconfigs', service_name], {})
         self.set_default(['tasks', run_task_name, 'configRef'], service_name)
         self.set_default(['tasks', run_task_name, 'envRef'], service_name)
+        self.set_default(['tasks', run_task_name, 'inputs'], [run_locally_input_name])
+        self.set_default(['tasks', run_task_name, 'config', 'runLocally'], '{{ .GetValue "' + run_locally_input_name + '" }}')
         self.set_default(['tasks', run_task_name, 'lconfRef'], service_name)
     
 
