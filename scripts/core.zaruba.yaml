@@ -120,7 +120,7 @@ tasks:
     icon: 🔄
     description: |
       Update zaruba to the latest version.
-    estend: core.runCoreScript
+    extend: core.runCoreScript
     config:
       start: |
         {{ $d := .Decoration -}}

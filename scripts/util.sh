@@ -440,7 +440,7 @@ should_not_be_empty() {
 
 show_version() {
     cd ${ZARUBA_HOME}
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(get_latest_git_tag) - $(get_latest_git_commit){{ $d.Normal }}"
+    echo "${Bold}${Yellow}Current version: $(get_latest_git_tag) - $(get_latest_git_commit)${Normal}"
 }
 
 
