@@ -20,34 +20,49 @@ import (
 
 // Task is zaruba task
 type Task struct {
-	Start           []string            `yaml:"start,omitempty"`
-	Check           []string            `yaml:"check,omitempty"`
-	Timeout         string              `yaml:"timeout,omitempty"`
-	Private         bool                `yaml:"private,omitempty"`
-	Extend          string              `yaml:"extend,omitempty"`
-	Extends         []string            `yaml:"extends,omitempty"`
-	Location        string              `yaml:"location,omitempty"`
-	ConfigRef       string              `yaml:"configRef,omitempty"`
-	ConfigRefs      []string            `yaml:"configRefs,omitempty"`
-	Config          map[string]string   `yaml:"config,omitempty"`
-	LConfigRef      string              `yaml:"lconfigRef,omitempty"`
-	LConfigRefs     []string            `yaml:"lconfigRefs,omitempty"`
-	LConfig         map[string][]string `yaml:"lconfig,omitempty"`
-	EnvRef          string              `yaml:"envRef,omitempty"`
-	EnvRefs         []string            `yaml:"envRefs,omitempty"`
-	Env             map[string]*Env     `yaml:"env,omitempty"`
-	Dependencies    []string            `yaml:"dependencies,omitempty"`
-	Inputs          []string            `yaml:"inputs,omitempty"`
-	Description     string              `yaml:"description,omitempty"`
-	Icon            string              `yaml:"icon,omitempty"`
-	SaveLog         string              `yaml:"saveLog,omitempty"`
-	basePath        string              // Main yaml's location
-	fileLocation    string              // File location where this task was declared
-	Project         *Project
-	name            string
-	logPrefix       string
-	timeoutDuration time.Duration
-	td              *TaskData
+	Start                 []string            `yaml:"start,omitempty"`
+	Check                 []string            `yaml:"check,omitempty"`
+	Timeout               string              `yaml:"timeout,omitempty"`
+	Private               bool                `yaml:"private,omitempty"`
+	Extend                string              `yaml:"extend,omitempty"`
+	Extends               []string            `yaml:"extends,omitempty"`
+	Location              string              `yaml:"location,omitempty"`
+	ConfigRef             string              `yaml:"configRef,omitempty"`
+	ConfigRefs            []string            `yaml:"configRefs,omitempty"`
+	Config                map[string]string   `yaml:"config,omitempty"`
+	LConfigRef            string              `yaml:"lconfigRef,omitempty"`
+	LConfigRefs           []string            `yaml:"lconfigRefs,omitempty"`
+	LConfig               map[string][]string `yaml:"lconfig,omitempty"`
+	EnvRef                string              `yaml:"envRef,omitempty"`
+	EnvRefs               []string            `yaml:"envRefs,omitempty"`
+	Env                   map[string]*Env     `yaml:"env,omitempty"`
+	Dependencies          []string            `yaml:"dependencies,omitempty"`
+	Inputs                []string            `yaml:"inputs,omitempty"`
+	Description           string              `yaml:"description,omitempty"`
+	Icon                  string              `yaml:"icon,omitempty"`
+	SaveLog               string              `yaml:"saveLog,omitempty"`
+	basePath              string              // Main yaml's location
+	fileLocation          string              // File location where this task was declared
+	Project               *Project
+	name                  string
+	logPrefix             string
+	timeoutDuration       time.Duration
+	td                    *TaskData
+	maxRecursiveLevel     int
+	currentRecursiveLevel int
+}
+
+func (task *Task) init() (err error) {
+	task.maxRecursiveLevel = 100
+	task.currentRecursiveLevel = 0
+	var timeErr error
+	task.timeoutDuration, timeErr = time.ParseDuration(task.Timeout)
+	if timeErr != nil || task.timeoutDuration <= 0 {
+		task.timeoutDuration = 5 * time.Minute
+	}
+	task.generateIcon()
+	task.generateLogPrefix()
+	return nil
 }
 
 // GetName get task name
@@ -324,6 +339,12 @@ func (task *Task) getEnvRefKeys() (parentTaskNames []string) {
 }
 
 func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result string, err error) {
+	if task.currentRecursiveLevel >= task.maxRecursiveLevel {
+		return "", fmt.Errorf("max recursive parsing on %s: %s", templateNamePrefix, pattern)
+	}
+	if task.td == nil {
+		task.td = NewTaskData(task)
+	}
 	templateName := task.getTemplateName(templateNamePrefix, pattern)
 	tmpl, err := template.New(templateName).Option("missingkey=zero").Parse(pattern)
 	if err != nil {
@@ -354,18 +375,6 @@ func (task *Task) linkToEnvs() {
 	for _, env := range task.Env {
 		env.Task = task
 	}
-}
-
-func (task *Task) init() (err error) {
-	var timeErr error
-	task.timeoutDuration, timeErr = time.ParseDuration(task.Timeout)
-	if timeErr != nil || task.timeoutDuration <= 0 {
-		task.timeoutDuration = 5 * time.Minute
-	}
-	task.generateIcon()
-	task.generateLogPrefix()
-	task.td = NewTaskData(task)
-	return nil
 }
 
 func (task *Task) generateIcon() {

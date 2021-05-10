@@ -42,14 +42,6 @@ inputs:
     description: Python version to be installed when install pyenv
     prompt: Python version to be installed when install pyenv
 
-  
-  setup.javaVersion:
-    default: 8.0.275.open-adpt
-    options: [8.0.282.j9-adpt, 11.0.10.j9-adpt, 16.0.0.j9-adpt]
-    validation: ^.+$
-    description: Java version to be installed when install sdkman
-    prompt: Java version to be installed when install sdkman
-
     
   setup.sparkVersion:
     default: 3.1.1
@@ -314,7 +306,6 @@ tasks:
     timeout: 1h
     inputs:
     - setup.homeDir
-    - setup.javaVersion
     config:
       cmd: /bin/bash
       beforeStart: |
@@ -334,8 +325,8 @@ tasks:
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")"
           invoke_core_sh append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
-          sdk install java {{ .GetValue "setup.javaVersion" }}
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
+          sdk install java
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
           sdk install scala
         fi 
@@ -343,8 +334,8 @@ tasks:
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Java was already installed{{ $d.Normal }}"
         else
-          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java {{ .GetValue "setup.javaVersion" }}{{ $d.Normal }}"
-          sdk install java {{ .GetValue "setup.javaVersion" }}
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
+          sdk install java
         fi
         if [ "$(invoke_core_sh is_command_exist scala -version)" = 1 ]
         then

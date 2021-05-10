@@ -100,6 +100,7 @@ tasks:
         {{ $d := .Decoration -}}
         invoke_core_sh inject_bootstrap "${HOME}/.bashrc"
         invoke_core_sh inject_bootstrap "${HOME}/.zshrc"
+        invoke_core_sh inject_bootstrap "${HOME}/.profile"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Close and reopen terminal to apply changes{{ $d.Normal }}"
 
@@ -551,15 +552,11 @@ tasks:
     - updateLinks
     configRef: core.docker
     config:
+      imagePrefixTrailingSlash: true
       start: |
         set -e
         {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
-        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-        then
-          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-        fi
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         invoke_core_sh should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(invoke_core_sh get_latest_git_commit)"
@@ -600,14 +597,10 @@ tasks:
     - updateLinks
     configRef: core.docker
     config:
+      imagePrefixTrailingSlash: true
       start: |
         {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
-        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-        then
-          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-        fi
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         if [ ! -z "${IMAGE_TAG}" ]
@@ -634,14 +627,10 @@ tasks:
     - updateLinks
     configRef: core.docker
     config:
+      imagePrefixTrailingSlash: true
       start: |
         {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
-        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-        then
-          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-        fi
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
         COMMIT="$(invoke_core_sh get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
@@ -721,8 +710,7 @@ tasks:
     configRef: core.docker
     config:
       start: |
-        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
@@ -742,8 +730,7 @@ tasks:
     configRef: core.docker
     config:
       start: |
-        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
         kubectl config use-context "${KUBE_CONTEXT}"
         export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"

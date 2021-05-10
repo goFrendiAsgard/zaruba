@@ -14,6 +14,6 @@ then
     chmod 777 -R "${_DST}"
     rm -Rf "${_DST}"
 fi
-cp -r "${_SRC}" "${_DST}"
+cp -rnT "${_SRC}" "${_DST}"
 chmod 555 -R "${_DST}"
 set "${_OLD_STATE}"

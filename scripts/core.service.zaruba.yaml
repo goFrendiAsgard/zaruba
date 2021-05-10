@@ -85,7 +85,7 @@ tasks:
         set -e
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        {{ .Trim (.GetConfig "includeNvmScript") "\n" }} 
+        {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
 
 
   core.startDockerContainer:
@@ -140,13 +140,8 @@ tasks:
       rebuild: false
       localhost: localhost
       expose: config.port
+      imagePrefixTrailingSlash: true
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
-      _setup.dockerImagePrefix: |
-        DOCKER_IMAGE_PREFIX="$(getDockerImagePrefix)"
-        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-        then
-          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-        fi
       _setup.containerName: |
         {{ $d := .Decoration -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
@@ -165,8 +160,7 @@ tasks:
         set -e
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        {{ .Trim (.GetConfig "includeDockerScript") "\n" }}
-        {{ .Trim (.GetConfig "_setup.dockerImagePrefix") "\n" }} 
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 

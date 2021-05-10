@@ -27,8 +27,10 @@ type TaskData struct {
 
 // NewTaskData create new task data
 func NewTaskData(task *Task) (td *TaskData) {
+	nextTask := *task
+	nextTask.currentRecursiveLevel++
 	return &TaskData{
-		task:         task,
+		task:         &nextTask,
 		Name:         task.GetName(),
 		ProjectName:  task.Project.GetName(),
 		BasePath:     task.GetBasePath(),
