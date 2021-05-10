@@ -5,9 +5,9 @@ log.zaruba.csv
 zaruba
 playground
 scripts/bootstrap.sh
-scripts/util/python/.pytest_cache
-scripts/util/python/.coverage
-scripts/util/python/htmlcov
+scripts/python/.pytest_cache
+scripts/python/.coverage
+scripts/python/htmlcov
 test_resource/alchemy/alembic.txt
 
 arts
