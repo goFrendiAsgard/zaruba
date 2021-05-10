@@ -27,7 +27,7 @@ tasks:
         {{- $d := .Decoration -}}
         {{ range $index, $port := .GetLConfig "ports" -}}
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-          invoke_core_sh wait_port "localhost" "{{ $port }}"
+          wait_port "localhost" "{{ $port }}"
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end -}}
       afterCheck: ""
@@ -83,8 +83,8 @@ tasks:
     config:
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
-        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
         {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
 
 
@@ -145,11 +145,11 @@ tasks:
       _setup.containerName: |
         {{ $d := .Decoration -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        invoke_core_sh should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+        should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
       _setup.imageName: |
         {{ $d := .Decoration -}}
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
-        invoke_core_sh should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+        should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
       _setup.validateExpose: |
         {{ $d := .Decoration -}}
         {{ $expose := .GetConfig "expose" -}}
@@ -166,11 +166,11 @@ tasks:
         {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 
       _check.containerState: |
         {{ $d := .Decoration -}}
-        until [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        until [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
           sleep 1
         done
-        while [ "$(invoke_core_sh inspect_docker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
+        while [ "$(inspect_docker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
         do
           sleep 1
         done
@@ -193,14 +193,14 @@ tasks:
         {{ $d := .Decoration -}}
         {{ range $index, $hostPort := .GetLConfig "ports" -}}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-          invoke_core_sh wait_port "localhost" "{{ $hostPort }}"
+          wait_port "localhost" "{{ $hostPort }}"
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
         {{ end -}}
       _check.configPorts: |
         {{ $d := .Decoration -}}
         {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-          invoke_core_sh wait_port "localhost" "{{ $hostPort }}"
+          wait_port "localhost" "{{ $hostPort }}"
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
         {{ end -}}
       _check: |
@@ -215,8 +215,8 @@ tasks:
         {{ .GetConfig "_check.checkCommand" }}
         sleep 1
       _start.rebuildContainer: |
-        invoke_core_sh stop_container "${CONTAINER_NAME}"
-        invoke_core_sh remove_container "${CONTAINER_NAME}"
+        stop_container "${CONTAINER_NAME}"
+        remove_container "${CONTAINER_NAME}"
       _start.logContainer: |
         {{ $d := .Decoration -}}
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
@@ -259,11 +259,11 @@ tasks:
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
         {{ if .IsTrue $rebuild }}{{ .GetConfig "_start.rebuildContainer" }}{{ end }}
-        if [ "$(invoke_core_sh inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        if [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
           {{ .GetConfig "_start.logContainer" }}
-        elif [ ! -z $(invoke_core_sh inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
+        elif [ ! -z $(inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Retrieve previous log of '${CONTAINER_NAME}'{{ $d.Normal }}"
           sleep 1

@@ -88,7 +88,7 @@ tasks:
     config:
       start: |
         {{ $showAdvertisement := .GetValue "advertisement.show" -}}
-        {{ if .IsTrue $showAdvertisement }}invoke_core_py show_advertisement{{ end }}
+        {{ if .IsTrue $showAdvertisement }}show_advertisement{{ end }}
   
 
   injectBootstrap:
@@ -98,9 +98,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_sh inject_bootstrap "${HOME}/.bashrc"
-        invoke_core_sh inject_bootstrap "${HOME}/.zshrc"
-        invoke_core_sh inject_bootstrap "${HOME}/.profile"
+        inject_bootstrap "${HOME}/.bashrc"
+        inject_bootstrap "${HOME}/.zshrc"
+        inject_bootstrap "${HOME}/.profile"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Close and reopen terminal to apply changes{{ $d.Normal }}"
 
@@ -110,19 +110,17 @@ tasks:
     description: |
       Show zaruba's current version.
     extend: core.runCoreScript
-    configRef: core.showVersion
     config:
       start: |
         cd ${ZARUBA_HOME}
-        {{ .GetConfig "showVersionScript" }}
+        show_version
 
 
   update:
     icon: 🔄
     description: |
       Update zaruba to the latest version.
-    extend: showVersion
-    configRef: core.showVersion
+    estend: core.runCoreScript
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -134,7 +132,7 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        {{ .GetConfig "showVersionScript" }}
+        show_version
 
 
   serveHttp:
@@ -189,9 +187,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_sh should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
+        should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
         TASK="{{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}"
-        invoke_core_py show_log "log.zaruba.csv" "${TASK}"
+        show_log "log.zaruba.csv" "${TASK}"
 
 
   core.isValidSubrepos:
@@ -207,8 +205,8 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          invoke_core_sh should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
-          invoke_core_sh should_not_be_empty "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
+          should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
+          should_not_be_empty "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
         {{ end }}
         echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
 
@@ -241,27 +239,27 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(invoke_core_py is_in_array "${NAME}", "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$(is_in_array "${NAME}", "\n" "${ORIGINS}")
           if [ "$ORIGIN_EXISTS" = "1" ]
           then
             git remote set-url "${NAME}" "${URL}"
           elif [ "$ORIGIN_EXISTS" = "0" ]
           then
             echo "$NAME origin is not exist"
-            invoke_core_sh git_save "Save works before pulling from ${URL}"
+            git_save "Save works before pulling from ${URL}"
             PREFIX_EXISTS=0
             if [ -d "$PREFIX" ]
             then
               PREFIX_EXISTS=1
               mv "${PREFIX}" "${PREFIX}.bak"
-              invoke_core_sh git_save "Temporarily move ${PREFIX}"
+              git_save "Temporarily move ${PREFIX}"
             fi
-            invoke_core_sh git_init_subrepo "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
+            git_init_subrepo "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
             if [ "$PREFIX_EXISTS" = "1" ]
             then
               rm -Rf "${PREFIX}"
               mv "${PREFIX}.bak" "${PREFIX}"
-              invoke_core_sh git_save "Restore ${PREFIX}"
+              git_save "Restore ${PREFIX}"
             fi
           fi
         {{ end -}}
@@ -287,16 +285,16 @@ tasks:
         set -e
         {{ $d := .Decoration -}}
         URL="{{ .GetValue "subrepo.url" }}"
-        invoke_core_sh should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepo.url is not defined{{ $d.Normal }}"
+        should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepo.url is not defined{{ $d.Normal }}"
         {{ if .GetValue "subrepo.prefix" }}
           PREFIX="{{ .GetValue "subrepo.prefix" }}"
         {{ else }}
-          PREFIX=$(invoke_core_py get_segment "${URL}" "/" "-1")
-          PREFIX=$(invoke_core_py get_segment "${PREFIX}" "." "0")
+          PREFIX=$(get_segment "${URL}" "/" "-1")
+          PREFIX=$(get_segment "${PREFIX}" "." "0")
         {{ end }}
         NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
-        invoke_core_py set_project_value "subrepo::${NAME}::prefix" "${PREFIX}"
-        invoke_core_py set_project_value "subrepo::${NAME}::url" "${URL}"
+        set_project_value "subrepo::${NAME}::prefix" "${PREFIX}"
+        set_project_value "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
@@ -325,10 +323,10 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(invoke_core_py is_in_array "${NAME}" "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$(is_in_array "${NAME}" "\n" "${ORIGINS}")
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            invoke_core_sh git_save.sh" "Save works before p
+            git_save.sh" "Save works before p
             git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
@@ -358,10 +356,10 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(invoke_core_py is_in_array "${NAME}" "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$(is_in_array "${NAME}" "\n" "${ORIGINS}")
           if [ $ORIGIN_EXISTS = 1 ]
           then
-            invoke_core_sh git_save "Save works before pull"
+            git_save "Save works before pull"
             git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
           fi
         {{ end -}}
@@ -376,7 +374,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_sh should_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+        should_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
 
 
@@ -387,7 +385,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_sh should_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+        should_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory contains helm deployments{{ $d.Normal }}"
 
 
@@ -398,7 +396,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_sh should_not_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
+        should_not_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
 
 
@@ -409,7 +407,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_sh should_not_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+        should_not_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory does not contain helm deployments{{ $d.Normal }}"
 
 
@@ -441,7 +439,7 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        invoke_core_py create_helm_task
+        create_helm_task
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
 
@@ -457,7 +455,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        invoke_core_py update_env
+        update_env
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
@@ -486,7 +484,7 @@ tasks:
           {{ $source := $this.GetValue "link" $destination -}}
           {{ $absSource := $this.GetWorkPath $source -}}
           {{ $absDestination := $this.GetWorkPath $destination -}}
-          invoke_core_sh link_resource "{{ $absSource }}" "{{ $absDestination }}"
+          link_resource "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
@@ -508,10 +506,10 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         SOURCE="{{ .GetValue "link.from" }}"
-        invoke_core_sh should_not_be_empty "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'link.from' argument is not defined{{ $d.Normal }}"
+        should_not_be_empty "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'link.from' argument is not defined{{ $d.Normal }}"
         DESTINATION="{{ .GetValue "link.to" }}"
-        invoke_core_sh should_not_be_empty "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'link.to' argument is not defined{{ $d.Normal }}"
-        invoke_core_py set_project_value "link::${DESTINATION)" "${SOURCE}"
+        should_not_be_empty "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'link.to' argument is not defined{{ $d.Normal }}"
+        set_project_value "link::${DESTINATION)" "${SOURCE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
 
@@ -530,10 +528,10 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         KEY="{{ .GetValue "variable.name" }}"
-        invoke_core_sh should_not_be_empty "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'variable.name' argument is not defined{{ $d.Normal }}"
+        should_not_be_empty "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'variable.name' argument is not defined{{ $d.Normal }}"
         VALUE="{{ .GetValue "variable.value" }}"
-        invoke_core_sh should_not_be_empty "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'variable.value' argument is not defined{{ $d.Normal }}"
-        invoke_core_py set_project_value "${KEY}" "${VALUE}"
+        should_not_be_empty "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'variable.value' argument is not defined{{ $d.Normal }}"
+        set_project_value "${KEY}" "${VALUE}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
@@ -557,16 +555,16 @@ tasks:
         set -e
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        invoke_core_sh should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
-        COMMIT="$(invoke_core_sh get_latest_git_commit)"
+        should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
           SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-          TAG="$(invoke_core_sh get_latest_git_tag)"
+          TAG="$(get_latest_git_tag)"
           if [ ! -z "${TAG}" ]
           then
-            TAG_COMMIT="$(invoke_core_sh get_latest_git_tag_commit)"
+            TAG_COMMIT="$(get_latest_git_tag_commit)"
             if [ "${TAG_COMMIT}" = "${COMMIT}" ]
             then
               docker build -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
@@ -601,13 +599,13 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
         IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         if [ ! -z "${IMAGE_TAG}" ]
         then
-          invoke_core_sh pull_image "${IMAGE_NAME}:${IMAGE_TAG}"
+          pull_image "${IMAGE_NAME}:${IMAGE_TAG}"
         else
-          invoke_core_sh pull_image "${IMAGE_NAME}"
+          pull_image "${IMAGE_NAME}"
         fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pulled{{ $d.Normal }}"
@@ -631,15 +629,15 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
-        COMMIT="$(invoke_core_sh get_latest_git_commit)"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
           SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-          TAG="$(invoke_core_sh get_latest_git_tag)"
+          TAG="$(get_latest_git_tag)"
           if [ ! -z "${TAG}" ]
           then
-            TAG_COMMIT="$(invoke_core_sh get_latest_git_tag_commit)"
+            TAG_COMMIT="$(get_latest_git_tag_commit)"
             if [ "${TAG_COMMIT}" = "${COMMIT}" ]
             then
               docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
@@ -667,9 +665,9 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
-        invoke_core_sh stop_container "${CONTAINER}" 
+        stop_container "${CONTAINER}" 
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
   
@@ -688,11 +686,11 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(invoke_core_py get_service_name "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
-        invoke_core_sh stop_container "${CONTAINER}" 
+        stop_container "${CONTAINER}" 
         echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
-        invoke_core_sh remove_container "${CONTAINER}" 
+        remove_container "${CONTAINER}" 
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
   

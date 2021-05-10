@@ -137,7 +137,7 @@ tasks:
         IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
         CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        invoke_core_py create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}"
+        create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -175,7 +175,7 @@ tasks:
         SERVICE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "serviceLocation") }}
         SERVICE_START_COMMAND={{ .SingleQuoteShellValue (.GetConfig "serviceStartCommand") }}
         RUNNER_VERSION={{ .SingleQuoteShellValue (.GetConfig "runnerVersion") }}
-        invoke_core_py create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "runner_version=${RUNNER_VERSION}"
+        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "runner_version=${RUNNER_VERSION}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -345,7 +345,7 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
-        invoke_core_py create_helm_deployment "${SERVICE_NAME}"
+        create_helm_deployment "${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
   
@@ -365,12 +365,12 @@ tasks:
         {{- $d := .Decoration -}}
         create_link()
         {
-          invoke_core_py add_link "${1}" "${2}"
-          invoke_core_sh link_resource "${1}" "${2}"
+          add_link "${1}" "${2}"
+          link_resource "${1}" "${2}"
         }
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        invoke_core_py create_fast_service "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
+        create_fast_service "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
         if [ -f "./main.zaruba.yaml" ]
         then
           if [ ! -d "./shared-libs/python/helpers" ]
@@ -402,8 +402,8 @@ tasks:
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        invoke_core_sh should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
-        invoke_core_py create_fast_module "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
+        should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
+        create_fast_module "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         
@@ -432,8 +432,8 @@ tasks:
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
         URL={{ .SingleQuoteShellValue (.GetConfig "url") }}
         HTTP_METHOD={{ .SingleQuoteShellValue (.GetConfig "httpMethod") }}
-        invoke_core_sh should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-        invoke_core_py create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
+        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
+        create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API Route handler created: ${HTTP_METHOD} ${URL} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
     
@@ -459,8 +459,8 @@ tasks:
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
         EVENT_NAME={{ .SingleQuoteShellValue (.GetConfig "eventName") }}
-        invoke_core_sh should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-        invoke_core_py create_fast_event_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
+        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
+        create_fast_event_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API event handler created: ${EVENT_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
 
@@ -486,8 +486,8 @@ tasks:
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
         EVENT_NAME={{ .SingleQuoteShellValue (.GetConfig "eventName") }}
-        invoke_core_sh should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-        invoke_core_py create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
+        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
+        create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${EVENT_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
 
@@ -516,7 +516,7 @@ tasks:
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
         ENTITY_NAME={{ .SingleQuoteShellValue (.GetConfig "entityName") }}
         FIELD_NAMES={{ .SingleQuoteShellValue (.GetConfig "fieldNames") }}
-        invoke_core_sh should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
-        invoke_core_py create_fast_crud "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "entity_name=${ENTITY_NAME}" "field_names=${FIELD_NAMES}"
+        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
+        create_fast_crud "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "entity_name=${ENTITY_NAME}" "field_names=${FIELD_NAMES}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"

@@ -1,35 +1,20 @@
 configs:
 
-  core.showVersion:
-    showVersionScript: |
-      {{ $d := .Decoration -}}
-      cd ${ZARUBA_HOME}
-      echo "{{ $d.Bold }}{{ $d.Yellow }}Current version: $(invoke_core_sh get_latest_git_tag) - $(invoke_core_sh get_latest_git_commit){{ $d.Normal }}"
-
 
   core.shell:
     playBellScript: echo $'\a'
+    includeUtilScript: . ${ZARUBA_HOME}/scripts/util.sh
     includeBootstrapScript: |
       if [ -f "${HOME}/.profile" ]
       then
-        . "${HOME}/.profile"
+          . "${HOME}/.profile"
       fi
       if [ -f "${HOME}/.bashrc" ]
       then
-        . "${HOME}/.bashrc"
+          . "${HOME}/.bashrc"
       fi
       BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
       . "${BOOTSTRAP_SCRIPT}"
-    includeUtilScript: |
-      invoke_core_py() {
-        export PIPENV_IGNORE_VIRTUALENVS=1
-        export PIPENV_DONT_LOAD_ENV=1
-        export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
-        pipenv run python "${ZARUBA_HOME}/scripts/util/python/${1}.py" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
-      }
-      invoke_core_sh() {
-        . "${ZARUBA_HOME}/scripts/util/sh/${1}.sh" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}" "${11}" "${12}" "${13}" "${14}" "${15}" "${16}"
-      }
 
 
   core.docker:
@@ -68,9 +53,9 @@ configs:
     npmCleanCache: false
     npmRebuild: false
     useNvmScript: |
-      if [ "$(invoke_core_sh is_command_exist nvm)" = 1 ]
+      if [ "$(is_command_exist nvm)" = 1 ]
       then
-        if [ "$(invoke_core_sh is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
+        if [ "$(is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
         then
           nvm install "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
         else
@@ -79,7 +64,7 @@ configs:
       fi
     tsInstallScript: |
       {{ if .IsTrue (.GetConfig "installTypeScript") -}}
-        if [ -f "./node_modules/.bin/tsc" ] || [ "$(invoke_core_sh is_command_exist tsc)" = 1 ]
+        if [ -f "./node_modules/.bin/tsc" ] || [ "$(is_command_exist tsc)" = 1 ]
         then
           echo "Typescript is already installed"
         else

@@ -143,13 +143,15 @@ tasks:
 
   testPythonUtil:
     icon: 💉
-    location: ./scripts/util/python
+    location: ./scripts/python
     dependencies:
     - clearLog
     - build
-    extend: core.runCoreScript
+    extend: core.runShellScript
     config:
-      start: pipenv run pytest -v --cov="$(pwd)" --cov-report html  
+      start: |
+        pipenv install --dev
+        pipenv run pytest -v --cov="$(pwd)" --cov-report html  
 
 
   testCommonTask:

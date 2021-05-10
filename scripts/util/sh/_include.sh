@@ -1,1 +1,0 @@
-. "${ZARUBA_HOME}/scripts/util/sh/_decoration.sh"
