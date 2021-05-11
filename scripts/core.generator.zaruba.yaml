@@ -5,46 +5,61 @@ inputs:
     prompt: Docker image name (Required)
     validation: ^[a-z0-9_]+$
 
+
   generator.docker.container.name:
     description: Docker container name 
     prompt: Docker container name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
+
   
   generator.service.name:
     description: Service name
     prompt: Service name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
 
+
   generator.service.ports:
     description: Service ports, comma separated
     prompt: Service ports, comma separated (Can be blank)
     validation: ^[a-zA-Z0-9_,]*$
+  
+
+  generator.service.envs:
+    description: Service environments, comma separated
+    prompt: 'Service environments, comma separated. e.g: "PORT=80,DB_USER=root"  (Can be blank)'
+    validation: ^[a-zA-Z0-9_,]*$
+
 
   generator.service.location:
     description: service location, relative to current directory
     prompt: Service location, relative to current directory (Required)
     validation: ^.+$
 
+
   generator.service.docker.image.name:
     description: Service's docker image name
     prompt: Service's Docker image name (Can be blank)
     validation: ^[a-z0-9_]*$
+
 
   generator.service.docker.container.name:
     description: Service's docker container name
     prompt: Service's docker container name (Can be blank)
     validation: ^[a-zA-Z0-9_]*$
 
+
   generator.service.startCommand:
     description: Service start command
     prompt: Command to run the service (Required)
     validation: ^.+$
+
 
   generator.goService.startCommand:
     description: Service start command
     prompt: Command to run the service (Required)
     default: go run .
     validation: ^.+$
+
 
   generator.nodeJsService.startCommand:
     description: Service start command
@@ -57,12 +72,14 @@ inputs:
     default: npm start
     validation: ^.+$
 
+
   generator.nodeJsService.runnerVersion:
     description: NodeJs version
     prompt: NodeJs version to run the service (Required)
     options: [node, 16, 15, 14, 13, 12, 11, 10]
     default: node
     validation: ^.+$
+
    
   generator.pythonService.startCommand:
     description: Service start command
@@ -73,21 +90,25 @@ inputs:
     - pipenv run python index.py
     default: pipenv run python start.py
     validation: ^.+$
+
   
   generator.fastApi.service.name:
     description: Service name
     prompt: Service name (Required)
     validation: ^[a-zA-Z0-9_]+$
 
+
   generator.fastApi.module.name:
     description: Module name
     prompt: Module name (Required)
     validation: ^[a-zA-Z0-9_]+$
 
+
   generator.fastApi.url:
     description: URL to be handled
     prompt: URL to be handled (Required)
     validation: ^[a-zA-Z0-9_\-/]+$
+
 
   generator.fastApi.httpMethod:
     description: HTTP Method
@@ -97,20 +118,24 @@ inputs:
     validation: ^[a-z]+$
     allowCustom: false
 
+
   generator.fastApi.event.name:
     description: Event name
     prompt: Event name (Required)
     validation: ^[a-zA-Z0-9_\-\.]+$
 
+
   generator.fastApi.rpc.name:
     description: RPC name
     prompt: RPC name (Required)
     validation: ^[a-zA-Z0-9_\-\.]+$
+
  
   generator.fastApi.crud.entity:
     description: Entity name.
     prompt: Entity (Required)
     validation: ^[a-zA-Z0-9_]+$
+
   
   generator.fastApi.crud.fields:
     description: Field names.
@@ -131,13 +156,15 @@ tasks:
       containerName: '{{ .GetValue "generator.docker.container.name" }}'
       serviceName: '{{ .GetValue "generator.service.name" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml'
+      serviceEnvs: '{{ .GetValue "generator.service.envs" }}'
       start: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
         CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}"
+        SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
+        create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}" "envs=${SERVICE_ENVS}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -164,6 +191,7 @@ tasks:
       serviceLocation: '{{ .GetValue "generator.service.location" }}'
       serviceStartCommand: '{{ .GetValue "generator.service.startCommand" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
+      serviceEnvs: '{{ .GetValue "generator.service.envs" }}'
       runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
@@ -175,7 +203,8 @@ tasks:
         SERVICE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "serviceLocation") }}
         SERVICE_START_COMMAND={{ .SingleQuoteShellValue (.GetConfig "serviceStartCommand") }}
         RUNNER_VERSION={{ .SingleQuoteShellValue (.GetConfig "runnerVersion") }}
-        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "runner_version=${RUNNER_VERSION}"
+        SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
+        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "runner_version=${RUNNER_VERSION}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -195,6 +224,7 @@ tasks:
     - generator.docker.image.name
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
   
 
   makeMysqlDockerTask:
@@ -202,6 +232,7 @@ tasks:
     inputs:
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
     config:
       template: mysql
 
@@ -211,6 +242,7 @@ tasks:
     inputs:
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
     config:
       template: rabbitmq
 
@@ -220,6 +252,7 @@ tasks:
     inputs:
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
     config:
       template: elasticsearch
 
@@ -229,6 +262,7 @@ tasks:
     inputs:
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
     config:
       template: cassandra
 
@@ -238,6 +272,7 @@ tasks:
     inputs:
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
     config:
       template: redis
 
@@ -247,6 +282,7 @@ tasks:
     inputs:
     - generator.docker.container.name
     - generator.service.name
+    - generator.service.envs
     config:
       template: mongo
 
@@ -257,6 +293,7 @@ tasks:
     inputs:
     - generator.service.location
     - generator.service.name
+    - generator.service.envs
     - generator.service.startCommand
     - generator.service.ports
     - generator.service.docker.image.name
@@ -268,6 +305,7 @@ tasks:
     inputs:
     - generator.service.location
     - generator.service.name
+    - generator.service.envs
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name
@@ -280,6 +318,7 @@ tasks:
     inputs:
     - generator.service.location
     - generator.service.name
+    - generator.service.envs
     - generator.service.ports
     - generator.goService.startCommand
     - generator.service.docker.image.name
@@ -294,6 +333,7 @@ tasks:
     inputs:
     - generator.service.location
     - generator.service.name
+    - generator.service.envs
     - generator.service.ports
     - generator.nodeJsService.startCommand
     - generator.nodeJsService.runnerVersion
@@ -310,6 +350,7 @@ tasks:
     inputs:
     - generator.service.location
     - generator.service.name
+    - generator.service.envs
     - generator.service.ports
     - generator.pythonService.startCommand
     - generator.service.docker.image.name
@@ -324,6 +365,7 @@ tasks:
     inputs:
     - generator.service.location
     - generator.service.name
+    - generator.service.envs
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name

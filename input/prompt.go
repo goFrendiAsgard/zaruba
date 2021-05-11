@@ -143,7 +143,7 @@ func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
 }
 
 func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (err error) {
-	captions := []string{"🏁 No", "📝 Yes, from file", "📝 Yes, manually"}
+	captions := []string{"🏁 No", "📝 Yes, from file", "⚙️ Yes, manually"}
 	options := []string{"no", "file", "manual"}
 	selectPrompt := promptui.Select{
 		Label:             label,

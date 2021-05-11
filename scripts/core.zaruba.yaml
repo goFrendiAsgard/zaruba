@@ -13,10 +13,12 @@ inputs:
     allowCustom: false
     description: Show advertisement
     prompt: Show advertisement
+
   
   log.keyword:
     description: Task regex pattern
     prompt: Task regex pattern
+
 
   server.httpPort:
     default: 8080
@@ -24,57 +26,68 @@ inputs:
     validation: ^[0-9]+$
     description: HTTP port to be used
     prompt: HTTP port to be used
+
   
   subrepo.url:
     validation: ^.+$
     description: Subrepo url
     prompt: Subrepo url (Required)
+
   
   subrepo.prefix:
     description: Subrepo directory name
     prompt: Subrepo directory name (Can be blank)
 
+
   subrepo.name:
     description: Subrepo name
     prompt: Subrepo name (Can be blank)
+
 
   docker.env:
     default: default
     validation: ^.+$
     description: Docker env for getting image prefix
     prompt: Docker env for getting image prefix (Required)
+
   
   helm.env:
     default: default
     validation: ^.+$
     description: Helm env
     prompt: Helm env (Required)
+
   
   kube.context:
     default: docker-desktop
     validation: ^.+$
     description: Kube context
     prompt: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
+
   
   link.from:
     validation: ^.+$
     description: Link source
     prompt: Link source (Required)
 
+
   link.to:
     validation: ^.+$
     description: Link source
     prompt: Link destination (Required)
+
   
   variable.name:
     validation: ^.+$
     description: Variable name
     prompt: Variable name (Required)
+
   
   variable.value:
     validation: ^.+$
     description: Variable value
     prompt: Variable value (Required)
+
 
 tasks:
 
@@ -161,6 +174,7 @@ tasks:
         {{ $d := .Decoration -}}
         rm -Rf .previous.values.yaml
         echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
+
 
   clearLog:
     icon: 🔥

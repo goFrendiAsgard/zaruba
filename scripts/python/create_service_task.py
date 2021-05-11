@@ -2,10 +2,11 @@ from helper import cli
 from helper.project import ServiceProject
 
 @cli
-def create_service_task(template_location: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str='', ports: str='', runner_version: str=''):
+def create_service_task(template_location: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str='', ports: str='', envs: str='', runner_version: str=''):
     if location == '':
         raise 'Service location should be given'
     port_list = ports.split(',') if ports != '' else []
+    env_list = envs.split(',') if envs != '' else []
     dir_name = '.'
     service_project = ServiceProject()
     service_project.load_from_template(template_location)
