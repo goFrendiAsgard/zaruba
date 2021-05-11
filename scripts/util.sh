@@ -86,7 +86,7 @@ create_helm_deployment() {
 
 # USAGE create_helm_task
 create_helm_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_helm_task.py"
+    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_helm_task.py" "${1}"
 }
 
 
@@ -280,11 +280,9 @@ link_resource() {
     echo "${Yellow}Link \"${_SRC}\" into \"${_DST}\"${Normal}"
     if [ -e "${_DST}" ]
     then
-        chmod 777 -R "${_DST}"
-        rm -Rf "${_DST}"
+        chmod 777 -R "${_DST}" && rm -Rf "${_DST}" && cp -rnT "${_SRC}" "${_DST}" && chmod 555 -R "${_DST}"
     fi
-    cp -rnT "${_SRC}" "${_DST}"
-    chmod 555 -R "${_DST}"
+    cp -rnT "${_SRC}" "${_DST}" && chmod 555 -R "${_DST}"
     set "${_OLD_STATE}"
 }
 

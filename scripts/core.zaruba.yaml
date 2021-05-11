@@ -453,7 +453,7 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        create_helm_task
+        create_helm_task "${ZARUBA_HOME}/scripts/templates/helmDeployments"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
 

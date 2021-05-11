@@ -26,6 +26,7 @@ def test_main_project_generate():
 
 
 def test_main_project_update_env():
+    helm_template_location = '../templates/helmDeployments'
     dir_name = './playground/main_project_update_env'
     try:
         shutil.rmtree(dir_name)
@@ -42,7 +43,7 @@ def test_main_project_update_env():
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
     service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location=app_location, start_command='node main.js', ports=[], runner_version='')
     # generate helm project
-    helm_project = HelmProject()
+    helm_project = HelmProject(helm_template_location)
     helm_project.generate(dir_name=dir_name)
     # generate helm service project
     helm_service_project = HelmServiceProject()

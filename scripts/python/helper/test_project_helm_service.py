@@ -5,6 +5,7 @@ import os
 import shutil
 
 def test_helm_service_project_generate():
+    helm_template_location = '../templates/helmDeployments'
     dir_name = './playground/helm_deployment_project'
     try:
         shutil.rmtree(dir_name)
@@ -18,7 +19,7 @@ def test_helm_service_project_generate():
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
     service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', ports=[], runner_version='')
     # generate helm project
-    helm_project = HelmProject()
+    helm_project = HelmProject(helm_template_location)
     helm_project.generate(dir_name=dir_name)
     # generate helm service project
     helm_service_project = HelmServiceProject()

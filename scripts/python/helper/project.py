@@ -327,7 +327,6 @@ class ServiceProject(TaskProject):
 
     
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, ports: List[str], runner_version: str):
-        #self._load_env('zarubaServiceName', service_location, env_prefix='ZARUBA_SERVICE_NAME')
         service_location = location
         if not os.path.isabs(location):
             location = os.path.relpath(os.path.abspath(location), os.path.abspath(os.path.join(dir_name, 'zaruba-tasks')))
@@ -401,9 +400,10 @@ class DockerProject(TaskProject):
 
 class HelmProject(Project):
 
-    def __init__(self):
+    def __init__(self, template_location: str):
         super().__init__()
         self.main_project: MainProject = MainProject()
+        self.template_location = template_location
 
     def _get_file_name(self, dir_name: str) -> str:
         return os.path.join(dir_name, 'helm-deployments', 'helmfile.yaml')
@@ -420,8 +420,8 @@ class HelmProject(Project):
 
     def generate(self, dir_name: str):
         script_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        helm_template_dir = os.path.join(script_path, 'templates', 'helmDeployments')
-        shutil.copytree(helm_template_dir, os.path.join(dir_name, 'helm-deployments'))
+        # helm_template_dir = os.path.join(script_path, 'templates', 'helmDeployments')
+        shutil.copytree(self.template_location, os.path.join(dir_name, 'helm-deployments'))
         # copy helm deployments
         self.main_project.load(dir_name)
         self.main_project.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
@@ -463,7 +463,7 @@ class HelmServiceProject(Project):
     def __init__(self):
         super().__init__()
         self.service_project: ServiceProject = ServiceProject()
-        self.helm_project: HelmProject = HelmProject()
+        self.helm_project: HelmProject = HelmProject('')
 
 
     def _get_file_name(self, dir_name: str, service_name: str) -> str:

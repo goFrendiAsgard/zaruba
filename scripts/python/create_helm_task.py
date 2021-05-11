@@ -3,9 +3,9 @@ from helper.project import HelmProject
 
 
 @cli
-def create_helm_task():
+def create_helm_task(template_location: str):
     dir_name = '.'
-    helm_project = HelmProject()
+    helm_project = HelmProject(template_location)
     helm_project.generate(dir_name)
 
 

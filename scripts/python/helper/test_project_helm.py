@@ -2,6 +2,7 @@ from .project import MainProject, HelmProject
 import shutil
 
 def test_helm_project_generate():
+    helm_template_location = '../templates/helmDeployments'
     dir_name = './playground/helm_deployment_project'
     try:
         shutil.rmtree(dir_name)
@@ -10,10 +11,10 @@ def test_helm_project_generate():
     main_project = MainProject()
     main_project.generate(dir_name)
     # generate service project
-    helm_project = HelmProject()
+    helm_project = HelmProject(helm_template_location)
     helm_project.generate(dir_name=dir_name)
     # reload
-    generated_project = HelmProject()
+    generated_project = HelmProject(helm_template_location)
     generated_project.load(dir_name=dir_name)
     # assert generated project
     assert generated_project.exist(['environments', 'default'])
