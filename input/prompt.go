@@ -47,10 +47,14 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 }
 
 func (prompter *Prompter) GetAdditionalValue() (err error) {
+	return prompter.getAdditionalValue("Do you want to load additional value file?")
+}
+
+func (prompter *Prompter) getAdditionalValue(label string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes"}
 	options := []string{"no", "file"}
 	selectPrompt := promptui.Select{
-		Label:             "Do you want to load additional value file?",
+		Label:             label,
 		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
@@ -72,7 +76,7 @@ func (prompter *Prompter) GetAdditionalValue() (err error) {
 			return err
 		}
 	}
-	return prompter.GetAdditionalValue()
+	return prompter.getAdditionalValue("Do you want to load another value file?")
 }
 
 func (prompter *Prompter) getAdditionalFileValue() (err error) {
@@ -135,10 +139,14 @@ func (prompter *Prompter) getValueFileList() (valueFileList []string, err error)
 }
 
 func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
+	return prompter.getAdditionalEnv("Do you want to load additional env?", taskNames)
+}
+
+func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes, from file", "📝 Yes, manually"}
 	options := []string{"no", "file", "manual"}
 	selectPrompt := promptui.Select{
-		Label:             "Do you want to load additional env",
+		Label:             label,
 		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
@@ -164,7 +172,7 @@ func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
 			return err
 		}
 	}
-	return prompter.GetAdditionalEnv(taskNames)
+	return prompter.getAdditionalEnv("Do you want to load another env?", taskNames)
 }
 
 func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
