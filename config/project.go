@@ -20,12 +20,12 @@ type Project struct {
 	Tasks                      map[string]*Task               `yaml:"tasks,omitempty"`
 	Name                       string                         `yaml:"name,omitempty"`
 	Inputs                     map[string]*Variable           `yaml:"inputs,omitempty"`
-	RawEnvRefMap               map[string]map[string]BaseEnv  `yaml:"envs,omitempty"`
+	RawEnvRefMap               map[string]map[string]Env      `yaml:"envs,omitempty"`
 	RawConfigRefMap            map[string]map[string]string   `yaml:"configs,omitempty"`
 	RawLConfigRefMap           map[string]map[string][]string `yaml:"lconfigs,omitempty"`
-	EnvRefMap                  map[string]ProjectBaseEnv
-	ConfigRefMap               map[string]ProjectBaseConfig
-	LConfigRefMap              map[string]ProjectBaseLConfig
+	EnvRefMap                  map[string]EnvRef
+	ConfigRefMap               map[string]ConfigRef
+	LConfigRefMap              map[string]LConfigRef
 	fileLocation               string
 	basePath                   string
 	values                     map[string]string
@@ -79,15 +79,15 @@ func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile strin
 	logger.DPrintfStarted("%sLoading %s%s\n", d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
 		Includes:         []string{},
-		RawEnvRefMap:     map[string]map[string]BaseEnv{},
+		RawEnvRefMap:     map[string]map[string]Env{},
 		RawConfigRefMap:  map[string]map[string]string{},
 		RawLConfigRefMap: map[string]map[string][]string{},
 		Tasks:            map[string]*Task{},
 		Inputs:           map[string]*Variable{},
 		values:           map[string]string{},
-		EnvRefMap:        map[string]ProjectBaseEnv{},
-		ConfigRefMap:     map[string]ProjectBaseConfig{},
-		LConfigRefMap:    map[string]ProjectBaseLConfig{},
+		EnvRefMap:        map[string]EnvRef{},
+		ConfigRefMap:     map[string]ConfigRef{},
+		LConfigRefMap:    map[string]LConfigRef{},
 		IsInitialized:    false,
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
@@ -299,7 +299,7 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 
 func (p *Project) setProjectBaseEnv() {
 	for baseEnvName, baseEnvMap := range p.RawEnvRefMap {
-		p.EnvRefMap[baseEnvName] = ProjectBaseEnv{
+		p.EnvRefMap[baseEnvName] = EnvRef{
 			fileLocation: p.fileLocation,
 			name:         baseEnvName,
 			BaseEnvMap:   baseEnvMap,
@@ -309,17 +309,17 @@ func (p *Project) setProjectBaseEnv() {
 
 func (p *Project) setProjectBaseConfig() {
 	for baseConfigName, baseConfigMap := range p.RawConfigRefMap {
-		p.ConfigRefMap[baseConfigName] = ProjectBaseConfig{
-			fileLocation:  p.fileLocation,
-			name:          baseConfigName,
-			BaseConfigMap: baseConfigMap,
+		p.ConfigRefMap[baseConfigName] = ConfigRef{
+			fileLocation: p.fileLocation,
+			name:         baseConfigName,
+			ConfigRefMap: baseConfigMap,
 		}
 	}
 }
 
 func (p *Project) setProjectBaseLConfig() {
 	for baseLConfigName, baseLConfigMap := range p.RawLConfigRefMap {
-		p.LConfigRefMap[baseLConfigName] = ProjectBaseLConfig{
+		p.LConfigRefMap[baseLConfigName] = LConfigRef{
 			fileLocation:   p.fileLocation,
 			name:           baseLConfigName,
 			BaseLConfigMap: baseLConfigMap,

@@ -20,7 +20,7 @@ type TaskKeyCheckData struct {
 }
 
 type EnvKeyCheckData struct {
-	baseEnv map[string]map[string]interface{} `yaml:"envs,omitempty"`
+	env map[string]map[string]interface{} `yaml:"envs,omitempty"`
 }
 
 type InputKeyCheckData struct {
@@ -42,7 +42,7 @@ func NewKeyValidator(fileName string) (sv *KeyValidator) {
 		fileName: fileName,
 		rawData:  map[string]interface{}{},
 		envKeyCheckData: EnvKeyCheckData{
-			baseEnv: map[string]map[string]interface{}{},
+			env: map[string]map[string]interface{}{},
 		},
 		inputKeyCheckData: InputKeyCheckData{
 			variables: map[string]map[string]interface{}{},
@@ -131,7 +131,7 @@ func (kv *KeyValidator) checkTaskValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkEnvValidKeys() (err error) {
-	for envRefName, env := range kv.envKeyCheckData.baseEnv {
+	for envRefName, env := range kv.envKeyCheckData.env {
 		if err = kv.checkEnvMapValidKeys(env, fmt.Sprintf("envs.%s", envRefName)); err != nil {
 			return err
 		}

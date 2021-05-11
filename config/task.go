@@ -161,7 +161,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 		keys = append(keys, key)
 	}
 	for _, baseConfigKey := range task.getConfigRefKeys() {
-		for key := range task.Project.ConfigRefMap[baseConfigKey].BaseConfigMap {
+		for key := range task.Project.ConfigRefMap[baseConfigKey].ConfigRefMap {
 			keys = append(keys, key)
 		}
 	}
@@ -179,7 +179,7 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 	}
 	for _, baseConfigKey := range task.getConfigRefKeys() {
 		projectBaseConfig := task.Project.ConfigRefMap[baseConfigKey]
-		if pattern, declared = projectBaseConfig.BaseConfigMap[key]; declared {
+		if pattern, declared = projectBaseConfig.ConfigRefMap[key]; declared {
 			return pattern, true
 		}
 	}

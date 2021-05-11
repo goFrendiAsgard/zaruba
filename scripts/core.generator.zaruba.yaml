@@ -20,18 +20,18 @@ inputs:
 
   generator.service.ports:
     description: Service ports, comma separated
-    prompt: Service ports, comma separated (Can be blank)
+    prompt: "Service ports (e.g: '3000,PORT')"
     validation: ^[a-zA-Z0-9_,]*$
   
 
   generator.service.envs:
     description: Service environments, comma separated
-    prompt: Service environments, comma separated (Can be blank)
+    prompt: "Service environments (e.g: 'PORT=3000,WRITE=1')"
 
 
   generator.service.location:
-    description: service location, relative to current directory
-    prompt: Service location, relative to current directory (Required)
+    description: Service location, relative to this directory
+    prompt: "Service location (Relative to this directory)"
     validation: ^.+$
 
 
