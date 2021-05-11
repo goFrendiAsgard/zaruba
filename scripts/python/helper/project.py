@@ -201,7 +201,7 @@ class TaskProject(Project):
         for env_pair in env_list:
             env_pair_parts = env_pair.split('=')
             env_key, env_val = env_pair_parts[0], '='.join(env_pair_parts[1:])
-            env_dict[env_key, env_val]
+            env_dict[env_key] = env_val
         return env_dict
 
 
