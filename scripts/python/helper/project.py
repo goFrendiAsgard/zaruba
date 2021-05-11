@@ -294,7 +294,7 @@ class ServiceProject(TaskProject):
                 continue
             env_val_int = int(env_val)
             if env_val_int in [21, 22, 23, 25, 53, 80, 443] or (env_val_int >=3000 and env_val_int not in [3306, 5432, 5672, 15672, 27017, 6379, 9200, 9300, 7001, 7199, 9042, 9160]):
-                ports.append('{{ .GetEnv "' + env_key +'" }}')
+                ports.append(env_key)
         return ports
 
 
@@ -353,6 +353,7 @@ class ServiceProject(TaskProject):
         # handle ports
         if len(port_list) == 0:
             port_list = self._get_possible_ports_env('zarubaServiceName')
+        port_list = [port if port.isnumeric() else '{{ .GetEnv "' + port + '" }}' for port in port_list]
         self.set(['lconfigs', 'zarubaServiceName', 'ports'], port_list)
         capital_service_name = capitalize(service_name)
         self.main_project.load(dir_name)
