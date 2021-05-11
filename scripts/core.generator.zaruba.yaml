@@ -26,8 +26,7 @@ inputs:
 
   generator.service.envs:
     description: Service environments, comma separated
-    prompt: 'Service environments, comma separated. e.g: "PORT=80,DB_USER=root"  (Can be blank)'
-    validation: ^[a-zA-Z0-9_,]*$
+    prompt: Service environments, comma separated (Can be blank)
 
 
   generator.service.location:
