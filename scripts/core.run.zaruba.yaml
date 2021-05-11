@@ -121,13 +121,7 @@ tasks:
     private: true
     extend: core.runShellScript
     config:
-      _start: |
-        if [ -f "Pipfile.lock" ]
-        then
-          pipenv sync
-        else
-          pipenv install
-        fi
+      _start: pipenv install
       start: "echo Prepare Python App"
 
 

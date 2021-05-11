@@ -105,7 +105,7 @@ tasks:
           export PIPENV_IGNORE_VIRTUALENVS=1
           export PIPENV_DONT_LOAD_ENV=1
           export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
-          pipenv sync
+          pipenv install
         {{ end }}
   
 
