@@ -194,6 +194,15 @@ class TaskProject(Project):
             env_key = key if key.startswith(env_prefix + '_') else '{}_{}'.format(env_prefix, key)
             self.set_default(['envs', service_name, key, 'from'], env_key)
             self.set_default(['envs', service_name, key, 'default'], val)
+    
+
+    def _get_env_dict_from_list(self, env_list: List[str]) -> Mapping[str, str]:
+        env_dict: Mapping[str, str] = {}
+        for env_pair in env_list:
+            env_pair_parts = env_pair.split('=')
+            env_key, env_val = env_pair[0], '='.join(env_pair[1:])
+            env_dict[env_key, env_val]
+        return env_dict
 
 
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, runner_version: str):
@@ -261,7 +270,7 @@ class ServiceProject(TaskProject):
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         
     
-    def _get_env_dict(self, location: str) -> Mapping[str, str]:
+    def _get_env_dict_by_location(self, location: str) -> Mapping[str, str]:
         env_dict: Mapping[str, str] = {}
         for env_file in get_env_file_names(location):
             env_path = os.path.abspath(os.path.join(location, env_file))
@@ -298,7 +307,7 @@ class ServiceProject(TaskProject):
         if not os.path.isabs(service_location):
             service_location = os.path.abspath(os.path.join(dir_name, 'zaruba_tasks', service_location))
         if reload_env:
-            env_dict = self._get_env_dict(service_location)
+            env_dict = self._get_env_dict_by_location(service_location)
             self._load_env(env_dict, service_name, snake(service_name).upper())
     
 
@@ -338,7 +347,8 @@ class ServiceProject(TaskProject):
         if image_name == '':
             image_name = container_name
         image_name = dash(image_name)
-        env_dict = self._get_env_dict(service_location)
+        env_dict = self._get_env_dict_by_location(service_location)
+        env_dict.update(self._get_env_dict_from_list(env_list))
         self._load_env(env_dict, 'zarubaServiceName', snake(service_name).upper())
         # handle ports
         if len(port_list) == 0:
@@ -390,6 +400,8 @@ class DockerProject(TaskProject):
             service_name = container_name
         image_name = dash(image_name)
         capital_service_name = capitalize(service_name)
+        env_dict = self._get_env_dict_from_list(env_list)
+        self._load_env(env_dict, 'zarubaServiceName', snake(service_name).upper())
         self.main_project.load(dir_name)
         self.main_project.register_run_task('run{}'.format(capital_service_name))
         self.main_project.register_run_container_task('run{}'.format(capital_service_name))
