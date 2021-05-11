@@ -29,7 +29,7 @@ def test_service_project_generate():
     assert generated_project.get(['tasks', 'runMyService', 'location']) == '../../../test_resources/app'
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
-    assert generated_project.get(['tasks', 'runMyService', 'lconfRef']) == 'myService'
+    assert generated_project.get(['tasks', 'runMyService', 'lconfigRef']) == 'myService'
     # runMyServiceContainer
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'extend']) == 'core.startDockerContainer'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRef']) == 'myServiceContainer'

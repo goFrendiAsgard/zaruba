@@ -165,7 +165,7 @@ class TaskProject(Project):
         self.set_default(['tasks', run_task_name, 'envRef'], service_name)
         self.set_default(['tasks', run_task_name, 'inputs'], [run_locally_input_name])
         self.set_default(['tasks', run_task_name, 'config', 'runLocally'], '{{ .GetValue "' + run_locally_input_name + '" }}')
-        self.set_default(['tasks', run_task_name, 'lconfRef'], service_name)
+        self.set_default(['tasks', run_task_name, 'lconfigRef'], service_name)
     
 
     def _get_file_name(self, dir_name: str, service_name: str):

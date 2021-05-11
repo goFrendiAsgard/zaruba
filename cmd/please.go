@@ -57,7 +57,11 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
-			askProjectValuesOrExit(logger, decoration, prompter, taskNames)
+			if !*pleaseUsePreviousValues {
+				askProjectValueOrExit(logger, decoration, prompter)
+			}
+			askProjectEnvOrExit(logger, decoration, prompter, taskNames)
+			askProjectValuesByTasksOrExit(logger, decoration, prompter, taskNames)
 		}
 		if isFallbackInteraction && !*pleaseTerminate {
 			*pleaseTerminate = askAutoTerminateOrExit(logger, decoration, prompter, taskNames)
@@ -131,8 +135,20 @@ func loadPreviousValuesOrExit(logger *monitor.ConsoleLogger, decoration *monitor
 	}
 }
 
-func askProjectValuesOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) {
+func askProjectValuesByTasksOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
+}
+
+func askProjectEnvOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) {
+	if err := prompter.GetAdditionalEnv(taskNames); err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
+}
+
+func askProjectValueOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter) {
+	if err := prompter.GetAdditionalValue(); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
 }

@@ -148,7 +148,7 @@ tasks:
     - python 
     - "-m"
     - http.server
-    - '{{ $ports := .GetLConfig "ports" }}{{ index $ports 0 }}'
+    - '{{ index (.GetLConfig "ports") 0 }}'
 
 
   clearPreviousValues:

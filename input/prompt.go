@@ -3,6 +3,7 @@ package input
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -10,6 +11,20 @@ import (
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/monitor"
 )
+
+func fileMustExist(filePath string) (err error) {
+	absFilePath := filePath
+	if !filepath.IsAbs(absFilePath) {
+		absFilePath, err = filepath.Abs(absFilePath)
+		if err != nil {
+			return nil
+		}
+	}
+	if _, err = os.Stat(absFilePath); err != nil {
+		return err
+	}
+	return nil
+}
 
 type Action struct {
 	Explain        bool
@@ -29,6 +44,243 @@ func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project 
 		d:       decoration,
 		project: project,
 	}
+}
+
+func (prompter *Prompter) GetAdditionalValue() (err error) {
+	captions := []string{"🏁 No", "📝 Yes"}
+	options := []string{"no", "file"}
+	selectPrompt := promptui.Select{
+		Label:             "Do you want to load additional value file?",
+		Items:             captions,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(userInput string, index int) bool {
+			option := captions[index]
+			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+		},
+	}
+	optionIndex, _, err := selectPrompt.Run()
+	if err != nil {
+		return err
+	}
+	selectedOption := options[optionIndex]
+	switch selectedOption {
+	case "no":
+		return nil
+	case "file":
+		if err = prompter.getAdditionalFileValue(); err != nil {
+			return err
+		}
+	}
+	return prompter.GetAdditionalValue()
+}
+
+func (prompter *Prompter) getAdditionalFileValue() (err error) {
+	valueFileList, err := prompter.getValueFileList()
+	if err != nil {
+		return err
+	}
+	if len(valueFileList) > 0 {
+		// input by options
+		captions := append(valueFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
+		options := append(valueFileList, "")
+		selectPrompt := promptui.Select{
+			Label:             fmt.Sprintf("%s Value file", prompter.d.Skull),
+			Items:             captions,
+			Stdout:            &bellSkipper{},
+			StartInSearchMode: true,
+			Searcher: func(userInput string, index int) bool {
+				option := options[index]
+				return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+			},
+		}
+		optionIndex, _, err := selectPrompt.Run()
+		if err != nil {
+			return err
+		}
+		if optionIndex < len(options)-1 {
+			value := options[optionIndex]
+			return prompter.project.AddValue(value)
+		}
+	}
+	// manual input
+	prompt := promptui.Prompt{
+		Label:    fmt.Sprintf("%s Value file", prompter.d.Skull),
+		Validate: fileMustExist,
+	}
+	value, err := prompt.Run()
+	if err != nil {
+		return err
+	}
+	return prompter.project.AddValue(value)
+}
+
+func (prompter *Prompter) getValueFileList() (valueFileList []string, err error) {
+	dir, err := os.Open(".")
+	if err != nil {
+		return valueFileList, err
+	}
+	defer dir.Close()
+	fileList, err := dir.Readdirnames(0)
+	if err != nil {
+		return valueFileList, err
+	}
+	valueFileList = []string{}
+	for _, fileName := range fileList {
+		if strings.HasSuffix(fileName, ".values.yaml") && fileName != "default.values.yaml" && fileName != ".previous.values.yaml" {
+			valueFileList = append(valueFileList, fileName)
+		}
+	}
+	return valueFileList, err
+}
+
+func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
+	captions := []string{"🏁 No", "📝 Yes, from file", "📝 Yes, manually"}
+	options := []string{"no", "file", "manual"}
+	selectPrompt := promptui.Select{
+		Label:             "Do you want to load additional env",
+		Items:             captions,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(userInput string, index int) bool {
+			option := captions[index]
+			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+		},
+	}
+	optionIndex, _, err := selectPrompt.Run()
+	if err != nil {
+		return err
+	}
+	selectedOption := options[optionIndex]
+	switch selectedOption {
+	case "no":
+		return nil
+	case "file":
+		if err = prompter.getAdditionalFileEnv(taskNames); err != nil {
+			return err
+		}
+	case "manual":
+		if err = prompter.getAdditionalManualEnv(taskNames); err != nil {
+			return err
+		}
+	}
+	return prompter.GetAdditionalEnv(taskNames)
+}
+
+func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
+	envFileList, err := prompter.getEnvFileList()
+	if err != nil {
+		return err
+	}
+	if len(envFileList) > 0 {
+		// input by options
+		captions := append(envFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
+		options := append(envFileList, "")
+		selectPrompt := promptui.Select{
+			Label:             fmt.Sprintf("%s Environment file", prompter.d.Skull),
+			Items:             captions,
+			Stdout:            &bellSkipper{},
+			StartInSearchMode: true,
+			Searcher: func(userInput string, index int) bool {
+				option := options[index]
+				return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+			},
+		}
+		optionIndex, _, err := selectPrompt.Run()
+		if err != nil {
+			return err
+		}
+		if optionIndex < len(options)-1 {
+			value := options[optionIndex]
+			return prompter.project.AddGlobalEnv(value)
+		}
+	}
+	// manual input
+	prompt := promptui.Prompt{
+		Label:    fmt.Sprintf("%s Environment file", prompter.d.Skull),
+		Validate: fileMustExist,
+	}
+	value, err := prompt.Run()
+	if err != nil {
+		return err
+	}
+	return prompter.project.AddGlobalEnv(value)
+}
+
+func (prompter *Prompter) getEnvFileList() (envFileList []string, err error) {
+	dir, err := os.Open(".")
+	if err != nil {
+		return envFileList, err
+	}
+	defer dir.Close()
+	fileList, err := dir.Readdirnames(0)
+	if err != nil {
+		return envFileList, err
+	}
+	envFileList = []string{}
+	for _, fileName := range fileList {
+		if strings.HasSuffix(fileName, ".env") && fileName != ".env" {
+			envFileList = append(envFileList, fileName)
+		}
+	}
+	return envFileList, err
+}
+
+func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error) {
+	envMap, err := prompter.getEnvMap(taskNames)
+	if err != nil {
+		return err
+	}
+	options := []string{}
+	captions := []string{}
+	for envName := range envMap {
+		options = append(options, envName)
+		captions = append(captions, fmt.Sprintf("%s (current value: %s)", envName, envMap[envName]))
+	}
+	selectPrompt := promptui.Select{
+		Label:             fmt.Sprintf("%s Environment variable name", prompter.d.Skull),
+		Items:             captions,
+		Stdout:            &bellSkipper{},
+		StartInSearchMode: true,
+		Searcher: func(userInput string, index int) bool {
+			option := options[index]
+			return strings.Contains(strings.ToLower(option), strings.ToLower(userInput))
+		},
+	}
+	selectedIndex, _, err := selectPrompt.Run()
+	if err != nil {
+		return err
+	}
+	prompt := promptui.Prompt{
+		Label: fmt.Sprintf("New value for %s", captions[selectedIndex]),
+	}
+	value, err := prompt.Run()
+	if err != nil {
+		return err
+	}
+	selectedOption := options[selectedIndex]
+	return prompter.project.AddGlobalEnv(fmt.Sprintf("%s=%s", selectedOption, value))
+}
+
+func (prompter *Prompter) getEnvMap(taskNames []string) (envMap map[string]string, err error) {
+	envMap = map[string]string{}
+	for _, taskName := range taskNames {
+		task := prompter.project.Tasks[taskName]
+		envKeys := task.GetEnvKeys()
+		for _, envKey := range envKeys {
+			env, declared := task.GetEnvObject(envKey)
+			if !declared {
+				continue
+			}
+			from := env.From
+			value, err := task.GetEnv(envKey)
+			if err != nil {
+				return envMap, err
+			}
+			envMap[from] = value
+		}
+	}
+	return envMap, nil
 }
 
 func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
@@ -70,7 +322,7 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 	} else {
 		options = []string{caption_run, caption_explain}
 	}
-	prompt := promptui.Select{
+	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
 		Items:             options,
 		Size:              3,
@@ -81,7 +333,7 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 			return strings.Contains(strings.ToLower(option), strings.ToLower(input))
 		},
 	}
-	_, chosenItem, err := prompt.Run()
+	_, chosenItem, err := selectPrompt.Run()
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +359,7 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	}
 	options := append(publicTaskOptions, privateTaskOptions...)
 	captions := append(publicTaskCaptions, privateTaskCaptions...)
-	prompt := promptui.Select{
+	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
 		Items:             captions,
 		Size:              10,
@@ -118,7 +370,7 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 			return strings.Contains(strings.ToLower(taskName), strings.ToLower(input))
 		},
 	}
-	optionIndex, _, err := prompt.Run()
+	optionIndex, _, err := selectPrompt.Run()
 	return options[optionIndex], err
 }
 
