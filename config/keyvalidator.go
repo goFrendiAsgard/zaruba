@@ -8,23 +8,23 @@ import (
 )
 
 type TaskEnvKeyCheckData struct {
-	env map[string]interface{} `yaml:"env,omitempty"`
+	Env map[string]interface{} `yaml:"env,omitempty"`
 }
 
 type TaskWithEnvKeyCheckData struct {
-	tasks map[string]TaskEnvKeyCheckData `yaml:"tasks,omitempty"`
+	Tasks map[string]TaskEnvKeyCheckData `yaml:"tasks,omitempty"`
 }
 
 type TaskKeyCheckData struct {
-	tasks map[string]map[string]interface{} `yaml:"tasks,omitempty"`
+	Tasks map[string]map[string]interface{} `yaml:"tasks,omitempty"`
 }
 
 type EnvKeyCheckData struct {
-	env map[string]map[string]interface{} `yaml:"envs,omitempty"`
+	Envs map[string]map[string]interface{} `yaml:"envs,omitempty"`
 }
 
 type InputKeyCheckData struct {
-	variables map[string]map[string]interface{} `yaml:"inputs,omitempty"`
+	Variables map[string]map[string]interface{} `yaml:"inputs,omitempty"`
 }
 
 // KeyValidator structure validator
@@ -42,16 +42,16 @@ func NewKeyValidator(fileName string) (sv *KeyValidator) {
 		fileName: fileName,
 		rawData:  map[string]interface{}{},
 		envKeyCheckData: EnvKeyCheckData{
-			env: map[string]map[string]interface{}{},
+			Envs: map[string]map[string]interface{}{},
 		},
 		inputKeyCheckData: InputKeyCheckData{
-			variables: map[string]map[string]interface{}{},
+			Variables: map[string]map[string]interface{}{},
 		},
 		taskKeyCheckData: TaskKeyCheckData{
-			tasks: map[string]map[string]interface{}{},
+			Tasks: map[string]map[string]interface{}{},
 		},
 		taskWithEnvKeyCheckData: TaskWithEnvKeyCheckData{
-			tasks: map[string]TaskEnvKeyCheckData{},
+			Tasks: map[string]TaskEnvKeyCheckData{},
 		},
 	}
 }
@@ -113,7 +113,7 @@ func (kv *KeyValidator) checkProjectValidKeys() (err error) {
 
 func (kv *KeyValidator) checkTaskValidKeys() (err error) {
 	validKeys := []string{"start", "check", "timeout", "private", "extend", "extends", "location", "configRef", "configRefs", "config", "lconfigRef", "lconfigRefs", "lconfig", "envRef", "envRefs", "env", "dependencies", "inputs", "description", "icon", "saveLog"}
-	for taskName, task := range kv.taskKeyCheckData.tasks {
+	for taskName, task := range kv.taskKeyCheckData.Tasks {
 		for key := range task {
 			valid := false
 			for _, validKey := range validKeys {
@@ -131,7 +131,7 @@ func (kv *KeyValidator) checkTaskValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkEnvValidKeys() (err error) {
-	for envRefName, env := range kv.envKeyCheckData.env {
+	for envRefName, env := range kv.envKeyCheckData.Envs {
 		if err = kv.checkEnvMapValidKeys(env, fmt.Sprintf("envs.%s", envRefName)); err != nil {
 			return err
 		}
@@ -141,7 +141,7 @@ func (kv *KeyValidator) checkEnvValidKeys() (err error) {
 
 func (kv *KeyValidator) checkInputValidKeys() (err error) {
 	validKeys := []string{"default", "description", "secret", "validation", "options", "prompt", "allowCustom"}
-	for inputName, input := range kv.inputKeyCheckData.variables {
+	for inputName, input := range kv.inputKeyCheckData.Variables {
 		for key := range input {
 			valid := false
 			for _, validKey := range validKeys {
@@ -159,8 +159,8 @@ func (kv *KeyValidator) checkInputValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkTaskEnvValidKeys() (err error) {
-	for taskName, task := range kv.taskWithEnvKeyCheckData.tasks {
-		if err = kv.checkEnvMapValidKeys(task.env, fmt.Sprintf("tasks.%s.env", taskName)); err != nil {
+	for taskName, task := range kv.taskWithEnvKeyCheckData.Tasks {
+		if err = kv.checkEnvMapValidKeys(task.Env, fmt.Sprintf("tasks.%s.env", taskName)); err != nil {
 			return err
 		}
 	}
