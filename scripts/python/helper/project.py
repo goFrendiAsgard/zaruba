@@ -187,6 +187,15 @@ class TaskProject(Project):
         super().save(file_name)
 
 
+    def _load_env(self, env_dict: Mapping[str, str], service_name: str, env_prefix: str):
+        for key, val in env_dict.items():
+            if self.exist(['envs', service_name, key]):
+                continue
+            env_key = key if key.startswith(env_prefix + '_') else '{}_{}'.format(env_prefix, key)
+            self.set_default(['envs', service_name, key, 'from'], env_key)
+            self.set_default(['envs', service_name, key, 'default'], val)
+
+
     def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, runner_version: str):
         file_name = self._get_file_name(dir_name, service_name)
         self.main_project.load(dir_name)
@@ -280,16 +289,6 @@ class ServiceProject(TaskProject):
         return ports
 
 
-    def _load_env(self, service_name: str, service_location: str, env_prefix: str):
-        env_dict = self._get_env_dict(service_location)
-        for key, val in env_dict.items():
-            if self.exist(['envs', service_name, key]):
-                continue
-            env_key = key if key.startswith(env_prefix + '_') else '{}_{}'.format(env_prefix, key)
-            self.set_default(['envs', service_name, key, 'from'], env_key)
-            self.set_default(['envs', service_name, key, 'default'], val)
-
-
     def load(self, dir_name: str, service_name: str, reload_env: bool=False):
         super().load(dir_name, service_name)
         task_name = 'run{}'.format(capitalize(service_name))
@@ -299,7 +298,8 @@ class ServiceProject(TaskProject):
         if not os.path.isabs(service_location):
             service_location = os.path.abspath(os.path.join(dir_name, 'zaruba_tasks', service_location))
         if reload_env:
-            self._load_env(service_name, service_location, snake(service_name).upper())
+            env_dict = self._get_env_dict(service_location)
+            self._load_env(env_dict, service_name, snake(service_name).upper())
     
 
     def save_env(self, dir_name: str, service_name: str):
@@ -326,7 +326,7 @@ class ServiceProject(TaskProject):
             f_write.close()
 
     
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, ports: List[str], runner_version: str):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, location: str, start_command: str, port_list: List[str], env_list: List[str], runner_version: str):
         service_location = location
         if not os.path.isabs(location):
             location = os.path.relpath(os.path.abspath(location), os.path.abspath(os.path.join(dir_name, 'zaruba-tasks')))
@@ -338,11 +338,12 @@ class ServiceProject(TaskProject):
         if image_name == '':
             image_name = container_name
         image_name = dash(image_name)
-        self._load_env('zarubaServiceName', service_location, snake(service_name).upper())
+        env_dict = self._get_env_dict(service_location)
+        self._load_env(env_dict, 'zarubaServiceName', snake(service_name).upper())
         # handle ports
-        if len(ports) == 0:
-            ports = self._get_possible_ports_env('zarubaServiceName')
-        self.set(['lconfigs', 'zarubaServiceName', 'ports'], ports)
+        if len(port_list) == 0:
+            port_list = self._get_possible_ports_env('zarubaServiceName')
+        self.set(['lconfigs', 'zarubaServiceName', 'ports'], port_list)
         capital_service_name = capitalize(service_name)
         self.main_project.load(dir_name)
         self.main_project.register_run_task('run{}'.format(capital_service_name))
@@ -382,7 +383,7 @@ class DockerProject(TaskProject):
         self.set_default(['tasks', 'removeZarubaServiceNameContainer', 'configRef'], 'zarubaServiceName')
 
  
-    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str):
+    def generate(self, dir_name: str, service_name: str, image_name: str, container_name: str, env_list: List[str]):
         if container_name == '':
             container_name = image_name
         if service_name == '':

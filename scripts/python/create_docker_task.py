@@ -12,7 +12,7 @@ def create_docker_task(template_location: str, image_name: str = '', container_n
     dir_name = '.'
     docker_project = DockerProject()
     docker_project.load_from_template(template_location)
-    docker_project.generate(dir_name=dir_name, service_name=service_name, image_name=image_name, container_name=container_name)
+    docker_project.generate(dir_name=dir_name, service_name=service_name, image_name=image_name, container_name=container_name, env_list=env_list)
 
 if __name__ == '__main__':
     create_docker_task()

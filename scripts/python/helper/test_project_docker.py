@@ -12,7 +12,7 @@ def test_docker_project_generate():
     # generate service project
     docker_project = DockerProject()
     docker_project.load_from_template('./test_resources/docker.zaruba.yaml')
-    docker_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer')
+    docker_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer', env_list=[])
     # reload
     generated_project = DockerProject()
     generated_project.load(dir_name=dir_name, service_name='myService')
