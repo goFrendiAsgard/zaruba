@@ -1,0 +1,18 @@
+tasks:
+
+  parentTaskName:
+    lconfig:
+      parentKey: ['{{ index (.GetLConfig "key") 0 }}']
+  
+
+  taskName:
+    extend: parentTaskName
+    lconfigRef: lconfigRefName
+    lconfig:
+      key: [value]
+
+
+lconfigs:
+
+  lconfigRefName:
+    refKey: [refValue]

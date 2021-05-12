@@ -52,7 +52,7 @@ type Task struct {
 	currentRecursiveLevel int
 }
 
-func (task *Task) init() (err error) {
+func (task *Task) init() {
 	task.maxRecursiveLevel = 100
 	task.currentRecursiveLevel = 0
 	var timeErr error
@@ -62,7 +62,6 @@ func (task *Task) init() (err error) {
 	}
 	task.generateIcon()
 	task.generateLogPrefix()
-	return nil
 }
 
 // GetName get task name

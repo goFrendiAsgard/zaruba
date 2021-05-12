@@ -348,3 +348,190 @@ func TestTaskGetConfig(t *testing.T) {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
+
+func TestTaskGetConfigBrokenTemplate(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getConfigBrokenTemplate.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	if _, err = task.GetConfig("key"); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+	errorMessage := err.Error()
+	if !strings.HasPrefix(errorMessage, "template:") {
+		t.Errorf("invalid error message: %s", errorMessage)
+	}
+}
+
+func TestTaskGetLConfigKeys(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getLConfig.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	expectedKeys := []string{"key", "refKey", "parentKey"}
+	actualKeys := task.GetLConfigKeys()
+	if len(actualKeys) != len(expectedKeys) {
+		t.Errorf("expected: %#v, actual %#v", expectedKeys, actualKeys)
+		return
+	}
+	for index, expected := range expectedKeys {
+		actual := actualKeys[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+}
+
+func TestTaskGetLConfigPattern(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getLConfig.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	expectedList := []string{"value"}
+	actualList, declared := task.GetLConfigPatterns("key")
+	if !declared {
+		t.Error("declared is false")
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+	// refKey
+	expectedList = []string{"refValue"}
+	actualList, declared = task.GetLConfigPatterns("refKey")
+	if !declared {
+		t.Error("declared is false")
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+	// parentKey
+	expectedList = []string{"{{ index (.GetLConfig \"key\") 0 }}"}
+	actualList, declared = task.GetLConfigPatterns("parentKey")
+	if !declared {
+		t.Error("declared is false")
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+	// nonExistKey
+	expectedList = []string{}
+	actualList, declared = task.GetLConfigPatterns("nonExistKey")
+	if declared {
+		t.Error("declared is true")
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+}
+
+func TestTaskGetLConfig(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getLConfig.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	expectedList := []string{"value"}
+	actualList, err := task.GetLConfig("key")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+	// refKey
+	expectedList = []string{"refValue"}
+	actualList, err = task.GetLConfig("refKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+	// parentKey
+	expectedList = []string{"value"}
+	actualList, err = task.GetLConfig("parentKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+	// nonExistKey
+	expectedList = []string{}
+	actualList, err = task.GetLConfig("nonExistKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
+	}
+}
+
+func TestTaskGetLConfigBrokenTemplate(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getLConfigBrokenTemplate.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	if _, err = task.GetLConfig("key"); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+	errorMessage := err.Error()
+	if !strings.HasPrefix(errorMessage, "template:") {
+		t.Errorf("invalid error message: %s", errorMessage)
+	}
+}

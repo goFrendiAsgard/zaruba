@@ -1,0 +1,5 @@
+tasks:
+
+  taskName:
+    config:
+      key: '{{ invalid }}'

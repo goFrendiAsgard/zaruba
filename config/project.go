@@ -41,10 +41,7 @@ type Project struct {
 // NewProject create new Config from Yaml File
 func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decoration *monitor.Decoration, configFile string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
-		executable, err := os.Executable()
-		if err != nil {
-			return p, err
-		}
+		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
 	}
 	p, err = loadProject(logger, decoration, configFile)
@@ -64,10 +61,7 @@ func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decorati
 	}
 	for _, taskName := range p.sortedTaskNames {
 		task := p.Tasks[taskName]
-		err := task.init()
-		if err != nil {
-			return p, err
-		}
+		task.init()
 	}
 	return p, err
 }
