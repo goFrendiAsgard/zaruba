@@ -398,7 +398,10 @@ func (task *Task) getPath() (path string) {
 	if task.Location != "" {
 		return filepath.Join(task.basePath, task.Location)
 	}
-	if parentTask, exists := task.Project.Tasks[task.Extend]; exists {
+	parentTaskNames := task.getParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
 		return parentTask.getPath()
 	}
 	return ""
@@ -421,16 +424,16 @@ func (task *Task) getDependencies() (dependencies []string) {
 		seen[dependency] = true
 		dependencies = append(dependencies, dependency)
 	}
-	if task.Extend == "" {
-		return dependencies
-	}
-	// get parent's
-	for _, dependency := range task.Project.Tasks[task.Extend].getDependencies() {
-		if _, exist := seen[dependency]; exist {
-			continue
+	parentTaskNames := task.getParentTaskNames()
+	for _, parentTaskName := range parentTaskNames {
+		// get parent's
+		for _, dependency := range task.Project.Tasks[parentTaskName].getDependencies() {
+			if _, exist := seen[dependency]; exist {
+				continue
+			}
+			seen[dependency] = true
+			dependencies = append(dependencies, dependency)
 		}
-		seen[dependency] = true
-		dependencies = append(dependencies, dependency)
 	}
 	return dependencies
 }

@@ -15,3 +15,12 @@ func getProject(projectFile string) (project *Project, err error) {
 	csvLogger := monitor.NewCSVLogWriter(logFile)
 	return NewProject(logger, csvLogger, decoration, projectFile)
 }
+
+func getProjectAndInit(projectFile string) (project *Project, err error) {
+	project, err = getProject(projectFile)
+	if err != nil {
+		return project, err
+	}
+	err = project.Init()
+	return project, err
+}

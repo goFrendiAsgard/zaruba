@@ -1,0 +1,3 @@
+tasks:
+  taskName:
+    timeout: 1h
