@@ -1,0 +1,9 @@
+tasks:
+  taskName:
+    envRef: envRef1
+    envRefs:
+    - envRef2
+
+envs:
+  envRef1: {}
+  envRef2: {}

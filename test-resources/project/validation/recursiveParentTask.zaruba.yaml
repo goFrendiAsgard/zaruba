@@ -1,0 +1,10 @@
+tasks:
+
+  parentTaskName1:
+    extend: taskName
+  
+  parentTaskName2:
+    extend: parentTaskName1
+  
+  taskName:
+    extend: parentTaskName2

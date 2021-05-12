@@ -1,0 +1,3 @@
+tasks:
+  taskName:
+    lconfigRef: inexistLConfigRef

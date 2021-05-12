@@ -1,0 +1,9 @@
+tasks:
+  taskName:
+    configRef: configRef1
+    configRefs:
+    - configRef2
+
+configs:
+  configRef1: {}
+  configRef2: {}

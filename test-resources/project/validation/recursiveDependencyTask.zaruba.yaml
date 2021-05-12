@@ -1,0 +1,13 @@
+tasks:
+
+  dependencyTaskName1:
+    dependencies:
+    - taskName
+  
+  dependencyTaskName2:
+    dependencies:
+    - dependencyTaskName1
+  
+  taskName:
+    dependencies:
+    - dependencyTaskName2
