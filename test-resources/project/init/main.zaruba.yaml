@@ -1,0 +1,4 @@
+inputs:
+
+  input1:
+    validation: ^[a-z]+$

@@ -1,0 +1,26 @@
+inputs:
+
+  input1: {}
+  input2: {}
+  input3: {}
+  input4: {}
+  input5: {}
+  input6: {}
+
+tasks:
+
+  task:
+    inputs:
+    - input3
+    - input1
+    dependencies:
+    - dependencyTask
+
+  dependencyTask:
+    inputs:
+    - input4
+    - input2
+  
+  otherTask:
+    inputs:
+    - input5

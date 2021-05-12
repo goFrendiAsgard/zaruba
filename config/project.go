@@ -219,15 +219,12 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 		if !taskExist {
 			return inputs, inputOrder, fmt.Errorf("task '%s' is not exist", taskName)
 		}
-		// include task's dependencies and parent's inputs first
-		subTaskNames := []string{}
-		subTaskNames = append(subTaskNames, task.Dependencies...)
-		subInputs, subInputOrder, err := p.GetInputs(subTaskNames)
-		if err != nil {
-			return inputs, inputOrder, err
-		}
-		for _, inputName := range subInputOrder {
-			subInput := subInputs[inputName]
+		// include task's dependencies
+		dependencyTaskNames := []string{}
+		dependencyTaskNames = append(dependencyTaskNames, task.Dependencies...)
+		dependencyInputs, dependencyInputOrder, _ := p.GetInputs(dependencyTaskNames)
+		for _, inputName := range dependencyInputOrder {
+			subInput := dependencyInputs[inputName]
 			if _, inputRegistered := inputs[inputName]; !inputRegistered {
 				inputOrder = append(inputOrder, inputName)
 				inputs[inputName] = subInput

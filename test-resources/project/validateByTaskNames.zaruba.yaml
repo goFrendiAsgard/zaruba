@@ -1,0 +1,10 @@
+inputs:
+
+  input:
+    validation: ^[0-9]+$
+
+tasks:
+
+  task:
+    inputs:
+    - input
