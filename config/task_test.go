@@ -233,3 +233,118 @@ func TestTaskGetValue(t *testing.T) {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
+
+func TestTaskGetConfigKeys(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	expectedKeys := []string{"key", "refKey", "parentKey"}
+	actualKeys := task.GetConfigKeys()
+	if len(actualKeys) != len(expectedKeys) {
+		t.Errorf("expected: %#v, actual %#v", expectedKeys, actualKeys)
+		return
+	}
+	for index, expected := range expectedKeys {
+		actual := actualKeys[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+}
+
+func TestTaskGetConfigPattern(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	expected := "value"
+	actual, declared := task.GetConfigPattern("key")
+	if !declared {
+		t.Error("declared is false")
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// refKey
+	expected = "refValue"
+	actual, declared = task.GetConfigPattern("refKey")
+	if !declared {
+		t.Error("declared is false")
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// parentKey
+	expected = "{{ .GetConfig \"key\" }}"
+	actual, declared = task.GetConfigPattern("parentKey")
+	if !declared {
+		t.Error("declared is false")
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// nonExistKey
+	expected = ""
+	actual, declared = task.GetConfigPattern("nonExistKey")
+	if declared {
+		t.Error("declared is true")
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestTaskGetConfig(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	expected := "value"
+	actual, err := task.GetConfig("key")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// refKey
+	expected = "refValue"
+	actual, err = task.GetConfig("refKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// parentKey
+	expected = "value"
+	actual, err = task.GetConfig("parentKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// nonExistKey
+	expected = ""
+	actual, err = task.GetConfig("nonExistKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}

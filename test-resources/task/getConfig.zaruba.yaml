@@ -1,0 +1,18 @@
+tasks:
+
+  parentTaskName:
+    config:
+      parentKey: '{{ .GetConfig "key" }}'
+  
+
+  taskName:
+    extend: parentTaskName
+    configRef: configRefName
+    config:
+      key: value
+
+
+configs:
+
+  configRefName:
+    refKey: refValue
