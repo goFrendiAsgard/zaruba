@@ -1,7 +1,0 @@
-tasks:
-  job:
-    extend: parentJob
-  parentJob:
-    lconfig: 
-      someKey: 
-        - "{{ .Something.not.exist }}"

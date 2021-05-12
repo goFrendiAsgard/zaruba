@@ -1,4 +1,0 @@
-tasks:
-  timeoutTask:
-    start: ["sleep", "10"]
-    timeout: 1s

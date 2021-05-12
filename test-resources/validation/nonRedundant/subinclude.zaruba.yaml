@@ -1,0 +1,14 @@
+inputs:
+  otherInputName2: {}
+
+tasks:
+  otherTaskName2: {}
+
+envs:
+  otherEnvRefName2: {}
+
+configs:
+  otherConfigName2: {}
+
+lconfigs:
+  otherLconfigName2: {}

@@ -1,0 +1,2 @@
+invalidString
+key: value

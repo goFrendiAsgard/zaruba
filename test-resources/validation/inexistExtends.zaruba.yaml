@@ -1,0 +1,4 @@
+tasks:
+  taskName:
+    extends:
+    - inexistParentName

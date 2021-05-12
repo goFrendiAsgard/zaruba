@@ -1,5 +1,0 @@
-tasks:
-
-  longProcess:
-    start: ["sleep", "1"]
-    check: ["sh", "-c", "echo Check process && sleep 5"]

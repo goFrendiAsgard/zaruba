@@ -1,8 +1,0 @@
-includes:
-- common.zaruba.yaml
-
-envs:
-  myEnv:
-    TEST:
-      from: MY_TEST
-      default: OK

@@ -1,6 +1,0 @@
-includes:
-- ./parent.yaml
-
-tasks:
-  myTask:
-    extend: parentTask

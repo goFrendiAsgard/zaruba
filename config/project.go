@@ -58,9 +58,7 @@ func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decorati
 	p.setSortedInputNames()
 	p.linkToTasks()
 	p.linkToInputs()
-	if err = p.setDefaultValues(); err != nil {
-		return p, err
-	}
+	p.setDefaultValues()
 	if err = p.validateTask(); err != nil {
 		return p, err
 	}
@@ -75,7 +73,7 @@ func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decorati
 }
 
 func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile string) (p *Project, err error) {
-	parsedProjectFile := os.ExpandEnv(projectFile)
+	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	logger.DPrintfStarted("%sLoading %s%s\n", d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
 		Includes:         []string{},
@@ -100,12 +98,6 @@ func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile strin
 	}
 	p.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
 	p.fileLocation = parsedProjectFile
-	if !filepath.IsAbs(p.fileLocation) {
-		p.fileLocation, err = filepath.Abs(p.fileLocation)
-		if err != nil {
-			return p, err
-		}
-	}
 	p.basePath = filepath.Dir(p.fileLocation)
 	p.setTaskFileLocation()
 	p.setInputFileLocation()
@@ -340,13 +332,10 @@ func (p *Project) setInputFileLocation() {
 	}
 }
 
-func (p *Project) setDefaultValues() (err error) {
+func (p *Project) setDefaultValues() {
 	for inputName, input := range p.Inputs {
-		if err = p.SetValue(inputName, input.DefaultValue); err != nil {
-			return err
-		}
+		p.SetValue(inputName, input.DefaultValue)
 	}
-	return nil
 }
 
 func (p *Project) validateTask() (err error) {
@@ -362,13 +351,13 @@ func (p *Project) validateTask() (err error) {
 	if err = p.validateTaskInputs(); err != nil {
 		return err
 	}
-	if err = p.validateTaskBaseEnv(); err != nil {
+	if err = p.validateTaskEnvRef(); err != nil {
 		return err
 	}
-	if err = p.validateTaskBaseConfig(); err != nil {
+	if err = p.validateTaskConfigRef(); err != nil {
 		return err
 	}
-	if err = p.validateTaskBaseLConfig(); err != nil {
+	if err = p.validateTaskLConfigRef(); err != nil {
 		return err
 	}
 	return nil
@@ -451,7 +440,7 @@ func (p *Project) validateTaskInputs() (err error) {
 	return nil
 }
 
-func (p *Project) validateTaskBaseEnv() (err error) {
+func (p *Project) validateTaskEnvRef() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.EnvRefs) > 0 && task.EnvRef != "" {
 			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `envRef` and `envRefs`", task.GetFileLocation(), taskName)
@@ -471,7 +460,7 @@ func (p *Project) validateTaskBaseEnv() (err error) {
 	return nil
 }
 
-func (p *Project) validateTaskBaseConfig() (err error) {
+func (p *Project) validateTaskConfigRef() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.ConfigRefs) > 0 && task.ConfigRef != "" {
 			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `config` and `configRefs`", task.GetFileLocation(), taskName)
@@ -491,7 +480,7 @@ func (p *Project) validateTaskBaseConfig() (err error) {
 	return nil
 }
 
-func (p *Project) validateTaskBaseLConfig() (err error) {
+func (p *Project) validateTaskLConfigRef() (err error) {
 	for taskName, task := range p.Tasks {
 		if len(task.LConfigRefs) > 0 && task.LConfigRef != "" {
 			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `lconfig` and `lconfigRefs`", task.GetFileLocation(), taskName)
@@ -527,13 +516,13 @@ func (p *Project) cascadeIncludes(logger monitor.Logger, d *monitor.Decoration) 
 		if err = p.cascadeTasks(parsedIncludeLocation, includedProject); err != nil {
 			return err
 		}
-		if err = p.cascadeBaseEnv(parsedIncludeLocation, includedProject); err != nil {
+		if err = p.cascadeEnvRef(parsedIncludeLocation, includedProject); err != nil {
 			return err
 		}
-		if err = p.cascadeBaseConfig(parsedIncludeLocation, includedProject); err != nil {
+		if err = p.cascadeConfigRef(parsedIncludeLocation, includedProject); err != nil {
 			return err
 		}
-		if err = p.cascadeBaseLConfig(parsedIncludeLocation, includedProject); err != nil {
+		if err = p.cascadeLConfigRef(parsedIncludeLocation, includedProject); err != nil {
 			return err
 		}
 	}
@@ -568,44 +557,44 @@ func (p *Project) cascadeTasks(parsedIncludeLocation string, includedProject *Pr
 	return nil
 }
 
-func (p *Project) cascadeBaseEnv(parsedIncludeLocation string, includedProject *Project) (err error) {
-	for baseEnvName, baseEnv := range includedProject.EnvRefMap {
-		existingBaseEnv, baseEnvAlreadyDeclared := p.EnvRefMap[baseEnvName]
+func (p *Project) cascadeEnvRef(parsedIncludeLocation string, includedProject *Project) (err error) {
+	for envRefName, envRef := range includedProject.EnvRefMap {
+		existingBaseEnv, baseEnvAlreadyDeclared := p.EnvRefMap[envRefName]
 		if baseEnvAlreadyDeclared {
-			if baseEnv.fileLocation == existingBaseEnv.fileLocation {
+			if envRef.fileLocation == existingBaseEnv.fileLocation {
 				continue
 			}
-			return fmt.Errorf("redundant env declaration on '%s': Task '%s' was already declared on '%s'", baseEnv.fileLocation, baseEnvName, existingBaseEnv.fileLocation)
+			return fmt.Errorf("redundant envs declaration on '%s': Env ref '%s' was already declared on '%s'", envRef.fileLocation, envRefName, existingBaseEnv.fileLocation)
 		}
-		p.EnvRefMap[baseEnvName] = baseEnv
+		p.EnvRefMap[envRefName] = envRef
 	}
 	return nil
 }
 
-func (p *Project) cascadeBaseConfig(parsedIncludeLocation string, includedProject *Project) (err error) {
-	for baseConfigName, baseConfig := range includedProject.ConfigRefMap {
-		existingBaseConfig, baseConfigAlreadyDeclared := p.ConfigRefMap[baseConfigName]
+func (p *Project) cascadeConfigRef(parsedIncludeLocation string, includedProject *Project) (err error) {
+	for configRefName, configRef := range includedProject.ConfigRefMap {
+		existingBaseConfig, baseConfigAlreadyDeclared := p.ConfigRefMap[configRefName]
 		if baseConfigAlreadyDeclared {
-			if baseConfig.fileLocation == existingBaseConfig.fileLocation {
+			if configRef.fileLocation == existingBaseConfig.fileLocation {
 				continue
 			}
-			return fmt.Errorf("redundant config declaration on '%s': Config '%s' was already declared '%s'", baseConfig.fileLocation, baseConfigName, existingBaseConfig.fileLocation)
+			return fmt.Errorf("redundant configs declaration on '%s': Config ref '%s' was already declared '%s'", configRef.fileLocation, configRefName, existingBaseConfig.fileLocation)
 		}
-		p.ConfigRefMap[baseConfigName] = baseConfig
+		p.ConfigRefMap[configRefName] = configRef
 	}
 	return nil
 }
 
-func (p *Project) cascadeBaseLConfig(parsedIncludeLocation string, includedProject *Project) (err error) {
-	for baseLConfigName, baseLConfig := range includedProject.LConfigRefMap {
-		existingBaseLConfig, baseLConfigAlreadyDeclared := p.LConfigRefMap[baseLConfigName]
+func (p *Project) cascadeLConfigRef(parsedIncludeLocation string, includedProject *Project) (err error) {
+	for lConfigRefName, lConfigRef := range includedProject.LConfigRefMap {
+		existingBaseLConfig, baseLConfigAlreadyDeclared := p.LConfigRefMap[lConfigRefName]
 		if baseLConfigAlreadyDeclared {
-			if baseLConfig.fileLocation == existingBaseLConfig.fileLocation {
+			if lConfigRef.fileLocation == existingBaseLConfig.fileLocation {
 				continue
 			}
-			return fmt.Errorf("redundant lconfig declaration on '%s': Lconfig '%s' was already declared '%s'", baseLConfig.fileLocation, baseLConfigName, existingBaseLConfig.fileLocation)
+			return fmt.Errorf("redundant lconfigs declaration on '%s': Lconfig ref '%s' was already declared '%s'", lConfigRef.fileLocation, lConfigRefName, existingBaseLConfig.fileLocation)
 		}
-		p.LConfigRefMap[baseLConfigName] = baseLConfig
+		p.LConfigRefMap[lConfigRefName] = lConfigRef
 	}
 	return nil
 }

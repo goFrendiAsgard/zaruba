@@ -1,0 +1,6 @@
+includes:
+- ./include.zaruba.yaml
+
+inputs:
+  inputName:
+    default: value

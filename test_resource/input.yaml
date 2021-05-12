@@ -1,7 +1,0 @@
-inputs:
-
-  noValidation: {}
-
-  goodValidation:
-    validation: ^[0-9]+$
-  

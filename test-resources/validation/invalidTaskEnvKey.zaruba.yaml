@@ -1,0 +1,5 @@
+tasks:
+  task:
+    env:
+      envName:
+        invalidKey: value

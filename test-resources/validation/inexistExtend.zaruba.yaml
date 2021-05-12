@@ -1,0 +1,3 @@
+tasks:
+  taskName:
+    extend: inexistParentName

@@ -1,0 +1,17 @@
+includes:
+- ./subinclude.zaruba.yaml
+
+inputs:
+  otherInputName1: {}
+
+tasks:
+  otherTaskName1: {}
+
+envs:
+  otherEnvRefName1: {}
+
+configs:
+  otherConfigName1: {}
+
+lconfigs:
+  otherLconfigName1: {}

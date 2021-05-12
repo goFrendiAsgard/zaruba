@@ -1,0 +1,55 @@
+inputs:
+
+  inputName:
+    default: default
+    options: [option1, option2]
+    prompt: prompt
+    description: description
+    validation: .*
+
+tasks:
+
+  dependencyTaskName: {}
+  parentTaskName: {}
+
+  taskName:
+    inputs:
+    - inputName
+    extend: parentTaskName
+    private: true
+    timeout: 1h
+    description: description
+    saveLog: true
+    dependencies:
+    - dependencyTaskName
+    configRef: configRefName
+    config:
+      configName: value
+    lconfigRef: lconfigRefName
+    lconfig:
+      lconfigName: [value1, value2]
+    envRef: envRefName
+    env:
+      envName:
+        from: from
+        default: default
+    start: []
+    check: []
+
+configs:
+
+  configRefName:
+    configName: value
+
+lconfigs:
+
+  lconfigRefName:
+    lconfigName: [value1, value2]
+
+envs:
+
+  envRefName:
+    envName:
+      from: from
+      default: default
+      

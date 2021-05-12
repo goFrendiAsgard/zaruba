@@ -1,4 +1,0 @@
-tasks:
-
-  invalidTask:
-    extend: nonExistTask
