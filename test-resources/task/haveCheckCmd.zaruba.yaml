@@ -1,0 +1,4 @@
+tasks:
+
+  taskName:
+    check: ["check"]

@@ -1,0 +1,7 @@
+tasks:
+
+  parentTask:
+    location: ./someLocation
+
+  taskName:
+    extend: parentTask

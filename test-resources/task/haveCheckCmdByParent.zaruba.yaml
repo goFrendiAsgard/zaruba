@@ -1,0 +1,7 @@
+tasks:
+
+  parentTaskName:
+    check: ["check"]
+
+  taskName:
+    extend: parentTaskName

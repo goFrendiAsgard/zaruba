@@ -86,16 +86,13 @@ func (task *Task) GetFileLocation() (fileLocation string) {
 }
 
 // GetWorkPath get path of current task
-func (task *Task) GetWorkPath() (path string) {
-	path = task.getPath()
-	if path != "" {
-		return path
+func (task *Task) GetWorkPath() (workPath string) {
+	workPath = task.getPath()
+	if workPath != "" {
+		return workPath
 	}
-	path, err := os.Getwd()
-	if err != nil {
-		return task.basePath
-	}
-	return path
+	workPath, _ = os.Getwd()
+	return workPath
 }
 
 // HaveStartCmd return whether task has start command or not
@@ -133,7 +130,7 @@ func (task *Task) GetValue(keys ...string) (val string, err error) {
 	if !exist {
 		return "", nil
 	}
-	templateName := fmt.Sprintf("%s.values.%s", task.GetName(), key)
+	templateName := fmt.Sprintf("%s[values][%s]", task.GetName(), key)
 	return task.getParsedPattern(templateName, pattern)
 }
 
@@ -149,7 +146,7 @@ func (task *Task) GetValueKeys() (keys []string) {
 func (task *Task) GetConfig(keys ...string) (val string, err error) {
 	key := strings.Join(keys, "::")
 	if pattern, declared := task.GetConfigPattern(key); declared {
-		templateName := fmt.Sprintf("%s.config.%s", task.GetName(), key)
+		templateName := fmt.Sprintf("%s[config][%s]", task.GetName(), key)
 		return task.getParsedPattern(templateName, pattern)
 	}
 	return "", nil
@@ -267,7 +264,7 @@ func (task *Task) GetEnv(key string) (val string, err error) {
 				return val, nil
 			}
 		}
-		templateNamePrefix := fmt.Sprintf("%s.env.%s", task.GetName(), key)
+		templateNamePrefix := fmt.Sprintf("%s[env][%s]", task.GetName(), key)
 		return task.getParsedPattern(templateNamePrefix, env.Default)
 	}
 	return os.Getenv(key), nil
@@ -488,7 +485,7 @@ func (task *Task) GetCheckCmdPatterns() (cmdPatterns []string, exist bool, err e
 
 func (task *Task) getCmd(cmdType string, commandPatternArgs []string, logDone chan error) (cmd *exec.Cmd, err error) {
 	commandArgs := []string{}
-	templateNamePrefix := fmt.Sprintf("%s.%s", task.GetName(), strings.ToLower(cmdType))
+	templateNamePrefix := fmt.Sprintf("%s[%s]", task.GetName(), strings.ToLower(cmdType))
 	for _, pattern := range commandPatternArgs {
 		arg, err := task.getParsedPattern(templateNamePrefix, pattern)
 		if err != nil {

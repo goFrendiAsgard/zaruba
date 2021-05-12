@@ -1,0 +1,7 @@
+tasks:
+
+  parentTaskName:
+    start: ["start"]
+
+  taskName:
+    extend: parentTaskName
