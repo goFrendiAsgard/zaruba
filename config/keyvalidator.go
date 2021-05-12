@@ -8,7 +8,7 @@ import (
 )
 
 type TaskEnvKeyCheckData struct {
-	Env map[string]interface{} `yaml:"env,omitempty"`
+	Env map[string]map[string]interface{} `yaml:"env,omitempty"`
 }
 
 type TaskWithEnvKeyCheckData struct {
@@ -20,7 +20,7 @@ type TaskKeyCheckData struct {
 }
 
 type EnvKeyCheckData struct {
-	Envs map[string]map[string]interface{} `yaml:"envs,omitempty"`
+	Envs map[string]map[string]map[string]interface{} `yaml:"envs,omitempty"`
 }
 
 type InputKeyCheckData struct {
@@ -42,7 +42,7 @@ func NewKeyValidator(fileName string) (sv *KeyValidator) {
 		fileName: fileName,
 		rawData:  map[string]interface{}{},
 		envKeyCheckData: EnvKeyCheckData{
-			Envs: map[string]map[string]interface{}{},
+			Envs: map[string]map[string]map[string]interface{}{},
 		},
 		inputKeyCheckData: InputKeyCheckData{
 			Variables: map[string]map[string]interface{}{},
@@ -123,7 +123,7 @@ func (kv *KeyValidator) checkTaskValidKeys() (err error) {
 				}
 			}
 			if !valid {
-				return fmt.Errorf("invalid key on '%s': tasks.%s.%s", kv.fileName, taskName, key)
+				return fmt.Errorf("invalid key on '%s': tasks[%s][%s]", kv.fileName, taskName, key)
 			}
 		}
 	}
@@ -132,7 +132,7 @@ func (kv *KeyValidator) checkTaskValidKeys() (err error) {
 
 func (kv *KeyValidator) checkEnvValidKeys() (err error) {
 	for envRefName, env := range kv.envKeyCheckData.Envs {
-		if err = kv.checkEnvMapValidKeys(env, fmt.Sprintf("envs.%s", envRefName)); err != nil {
+		if err = kv.checkEnvMapValidKeys(env, fmt.Sprintf("envs[%s]", envRefName)); err != nil {
 			return err
 		}
 	}
@@ -151,7 +151,7 @@ func (kv *KeyValidator) checkInputValidKeys() (err error) {
 				}
 			}
 			if !valid {
-				return fmt.Errorf("invalid key on '%s': inputs.%s.%s", kv.fileName, inputName, key)
+				return fmt.Errorf("invalid key on '%s': inputs[%s][%s]", kv.fileName, inputName, key)
 			}
 		}
 	}
@@ -160,25 +160,27 @@ func (kv *KeyValidator) checkInputValidKeys() (err error) {
 
 func (kv *KeyValidator) checkTaskEnvValidKeys() (err error) {
 	for taskName, task := range kv.taskWithEnvKeyCheckData.Tasks {
-		if err = kv.checkEnvMapValidKeys(task.Env, fmt.Sprintf("tasks.%s.env", taskName)); err != nil {
+		if err = kv.checkEnvMapValidKeys(task.Env, fmt.Sprintf("tasks[%s][env]", taskName)); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (kv *KeyValidator) checkEnvMapValidKeys(envMap map[string]interface{}, errorKeyPrefix string) (err error) {
+func (kv *KeyValidator) checkEnvMapValidKeys(envMap map[string]map[string]interface{}, errorKeyPrefix string) (err error) {
 	validKeys := []string{"from", "default"}
-	for key := range envMap {
-		valid := false
-		for _, validKey := range validKeys {
-			if key == validKey {
-				valid = true
-				break
+	for envName := range envMap {
+		for key := range envMap[envName] {
+			valid := false
+			for _, validKey := range validKeys {
+				if key == validKey {
+					valid = true
+					break
+				}
 			}
-		}
-		if !valid {
-			return fmt.Errorf("invalid key on '%s': %s.%s", kv.fileName, errorKeyPrefix, key)
+			if !valid {
+				return fmt.Errorf("invalid key on '%s': %s[%s][%s]", kv.fileName, errorKeyPrefix, envName, key)
+			}
 		}
 	}
 	return nil

@@ -356,6 +356,9 @@ func (p *Project) validateTask() (err error) {
 	if err = p.validateTaskDependencies(); err != nil {
 		return err
 	}
+	if err = p.validateTaskAcyclic(); err != nil {
+		return err
+	}
 	if err = p.validateTaskInputs(); err != nil {
 		return err
 	}
@@ -371,11 +374,47 @@ func (p *Project) validateTask() (err error) {
 	return nil
 }
 
+func (p *Project) validateTaskAcyclic() (err error) {
+	for _, task := range p.Tasks {
+		isRecursive, recursiveTask, _ := p.isTaskRecursive(task)
+		if isRecursive {
+			return fmt.Errorf("recursive task on '%s': Task '%s' is recursively need itself", recursiveTask.GetFileLocation(), recursiveTask.GetName())
+		}
+	}
+	return nil
+}
+
+func (p *Project) isTaskRecursive(task *Task) (isRecursive bool, recursiveTask *Task, requirementTaskNames []string) {
+	requirementTaskNames = []string{}
+	for _, dependencyTaskName := range task.Dependencies {
+		subTask := p.Tasks[dependencyTaskName]
+		subIsRecursive, subRecursiveTask, subRequirementTaskNames := p.isTaskRecursive(subTask)
+		if subIsRecursive {
+			return subIsRecursive, subRecursiveTask, subRequirementTaskNames
+		}
+		requirementTaskNames = append(requirementTaskNames, subRequirementTaskNames...)
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		subTask := p.Tasks[parentTaskName]
+		subIsRecursive, subRecursiveTask, subRequirementTaskNames := p.isTaskRecursive(subTask)
+		if subIsRecursive {
+			return subIsRecursive, subRecursiveTask, subRequirementTaskNames
+		}
+		requirementTaskNames = append(requirementTaskNames, subRequirementTaskNames...)
+	}
+	for _, requirementTaskName := range requirementTaskNames {
+		if requirementTaskName == task.GetName() {
+			return true, task, requirementTaskNames
+		}
+	}
+	return false, task, requirementTaskNames
+}
+
 func (p *Project) validateTaskDependencies() (err error) {
 	for taskName, task := range p.Tasks {
 		for index, dependencyTaskName := range task.Dependencies {
 			if _, dependencyTaskExist := p.Tasks[dependencyTaskName]; !dependencyTaskExist {
-				return fmt.Errorf("undeclared task dependency on '%s': Task '%s' is required at %s.dependencies[%d]", task.GetFileLocation(), dependencyTaskName, taskName, index)
+				return fmt.Errorf("undeclared task dependency on '%s': Task '%s' is required at %s[dependencies][%d]", task.GetFileLocation(), dependencyTaskName, taskName, index)
 			}
 		}
 	}
@@ -389,12 +428,12 @@ func (p *Project) validateTaskExtend() (err error) {
 		}
 		if task.Extend != "" {
 			if _, parentTaskExist := p.Tasks[task.Extend]; !parentTaskExist {
-				return fmt.Errorf("undeclared parent task on '%s': Task '%s' is required at %s.extend", task.GetFileLocation(), task.Extend, taskName)
+				return fmt.Errorf("undeclared parent task on '%s': Task '%s' is required at %s[extend]", task.GetFileLocation(), task.Extend, taskName)
 			}
 		}
 		for index, parentTaskName := range task.Extends {
 			if _, parentTaskExist := p.Tasks[parentTaskName]; !parentTaskExist {
-				return fmt.Errorf("undeclared parent task on '%s': Task '%s' is required at %s.extends[%d]", task.GetFileLocation(), parentTaskName, taskName, index)
+				return fmt.Errorf("undeclared parent task on '%s': Task '%s' is required at %s[extends][%d]", task.GetFileLocation(), parentTaskName, taskName, index)
 			}
 		}
 	}
@@ -405,7 +444,7 @@ func (p *Project) validateTaskInputs() (err error) {
 	for taskName, task := range p.Tasks {
 		for index, inputName := range task.Inputs {
 			if _, inputExist := p.Inputs[inputName]; !inputExist {
-				return fmt.Errorf("undeclared input task on '%s': Input '%s' is required at %s.inputs[%d]", task.GetFileLocation(), inputName, taskName, index)
+				return fmt.Errorf("undeclared input task on '%s': Input '%s' is required at %s[inputs][%d]", task.GetFileLocation(), inputName, taskName, index)
 			}
 		}
 	}
@@ -419,13 +458,13 @@ func (p *Project) validateTaskBaseEnv() (err error) {
 		}
 		if task.EnvRef != "" {
 			if _, baseEnvExist := p.EnvRefMap[task.EnvRef]; !baseEnvExist {
-				return fmt.Errorf("undeclared env on '%s': Env '%s' is required at %s.envRef", task.GetFileLocation(), task.EnvRef, taskName)
+				return fmt.Errorf("undeclared env on '%s': Env '%s' is required at %s[envRef]", task.GetFileLocation(), task.EnvRef, taskName)
 			}
 			return nil
 		}
 		for index, baseEnvKey := range task.EnvRefs {
 			if _, baseEnvExist := p.EnvRefMap[baseEnvKey]; !baseEnvExist {
-				return fmt.Errorf("undeclared env on '%s': Env '%s' is required at %s.envRefs[%d]", task.GetFileLocation(), baseEnvKey, taskName, index)
+				return fmt.Errorf("undeclared env on '%s': Env '%s' is required at %s[envRefs][%d]", task.GetFileLocation(), baseEnvKey, taskName, index)
 			}
 		}
 	}
@@ -439,13 +478,13 @@ func (p *Project) validateTaskBaseConfig() (err error) {
 		}
 		if task.ConfigRef != "" {
 			if _, baseConfigExist := p.ConfigRefMap[task.ConfigRef]; !baseConfigExist {
-				return fmt.Errorf("undeclared config on '%s': Config '%s' is required at %s.configRef", task.GetFileLocation(), task.ConfigRef, taskName)
+				return fmt.Errorf("undeclared config on '%s': Config '%s' is required at %s[configRef]", task.GetFileLocation(), task.ConfigRef, taskName)
 			}
 			return nil
 		}
 		for index, baseConfigKey := range task.ConfigRefs {
 			if _, baseConfigExist := p.ConfigRefMap[baseConfigKey]; !baseConfigExist {
-				return fmt.Errorf("undeclared config on '%s': Config '%s' is required at %s.configRef[%d]", task.GetFileLocation(), baseConfigKey, taskName, index)
+				return fmt.Errorf("undeclared config on '%s': Config '%s' is required at %s[configRef][%d]", task.GetFileLocation(), baseConfigKey, taskName, index)
 			}
 		}
 	}
@@ -459,13 +498,13 @@ func (p *Project) validateTaskBaseLConfig() (err error) {
 		}
 		if task.LConfigRef != "" {
 			if _, baseLConfigExist := p.LConfigRefMap[task.LConfigRef]; !baseLConfigExist {
-				return fmt.Errorf("undeclared lconfig on '%s': Lconfig '%s' is required at %s.lconfigRef", task.GetFileLocation(), task.LConfigRef, taskName)
+				return fmt.Errorf("undeclared lconfig on '%s': Lconfig '%s' is required at %s[lconfigRef]", task.GetFileLocation(), task.LConfigRef, taskName)
 			}
 			return nil
 		}
 		for index, baseLConfigKey := range task.LConfigRefs {
 			if _, baseLConfigExist := p.LConfigRefMap[baseLConfigKey]; !baseLConfigExist {
-				return fmt.Errorf("undeclared lconfig on '%s': Lconfig '%s' is required at %s.lconfigRef[%d]", task.GetFileLocation(), baseLConfigKey, taskName, index)
+				return fmt.Errorf("undeclared lconfig on '%s': Lconfig '%s' is required at %s[lconfigRef][%d]", task.GetFileLocation(), baseLConfigKey, taskName, index)
 			}
 		}
 	}
