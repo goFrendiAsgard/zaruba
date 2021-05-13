@@ -18,16 +18,43 @@ func NewMockLoggerData(args ...interface{}) MockLoggerData {
 	return MockLoggerData{Str: strings.Join(strArgs, "")}
 }
 
+type MockLoggerTrigger func()
+
 type MockLogger struct {
-	Data  []MockLoggerData
-	Mutex *sync.Mutex
+	Data     []MockLoggerData
+	Mutex    *sync.Mutex
+	Triggers map[string]MockLoggerTrigger
 }
 
 func NewMockLogger() *MockLogger {
 	return &MockLogger{
-		Data:  []MockLoggerData{},
-		Mutex: &sync.Mutex{},
+		Data:     []MockLoggerData{},
+		Mutex:    &sync.Mutex{},
+		Triggers: map[string]MockLoggerTrigger{},
 	}
+}
+
+func (m *MockLogger) RegisterTrigger(subStr string, trigger MockLoggerTrigger) {
+	m.Triggers[subStr] = trigger
+}
+
+func (m *MockLogger) GetOutput() (output string) {
+	lines := []string{}
+	for _, data := range m.Data {
+		lines = append(lines, strings.Trim(data.Str, "\n"))
+	}
+	return strings.Join(lines, "\n")
+}
+
+func (m *MockLogger) GetLineIndex(subStr string) (index int) {
+	m.Mutex.Lock()
+	defer m.Mutex.Unlock()
+	for index, data := range m.Data {
+		if strings.Contains(data.Str, subStr) {
+			return index
+		}
+	}
+	return -1
 }
 
 func (m *MockLogger) Print(args ...interface{}) (n int, err error) {
@@ -73,8 +100,13 @@ func (m *MockLogger) printf(template string, args ...interface{}) (n int, err er
 
 func (m *MockLogger) print(args ...interface{}) (n int, err error) {
 	m.Mutex.Lock()
-	defer m.Mutex.Unlock()
 	data := NewMockLoggerData(args...)
 	m.Data = append(m.Data, data)
+	m.Mutex.Unlock()
+	for subStr, trigger := range m.Triggers {
+		if strings.Contains(data.Str, subStr) {
+			trigger()
+		}
+	}
 	return 0, nil
 }

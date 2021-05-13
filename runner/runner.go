@@ -17,67 +17,67 @@ import (
 
 // Runner is used to run tasks
 type Runner struct {
-	taskNames                  []string
-	project                    *config.Project
-	taskStatus                 map[string]*TaskStatus
-	taskStatusMutex            *sync.RWMutex
-	cmdInfo                    map[string]*CmdInfo
-	cmdInfoMutex               *sync.RWMutex
-	killed                     bool
-	killedMutex                *sync.RWMutex
-	done                       bool
-	doneMutex                  *sync.RWMutex
-	statusInterval             time.Duration
-	startTimeMutex             *sync.RWMutex
-	startTime                  time.Time
-	spaces                     string
-	surpressWaitError          bool
-	surpressWaitErrorMutex     *sync.RWMutex
-	logger                     output.Logger
-	decoration                 *output.Decoration
-	autoTerminate              bool
-	autoTerminateDelayInterval time.Duration
+	taskNames              []string
+	project                *config.Project
+	taskStatus             map[string]*TaskStatus
+	taskStatusMutex        *sync.RWMutex
+	cmdInfo                map[string]*CmdInfo
+	cmdInfoMutex           *sync.RWMutex
+	killed                 bool
+	killedMutex            *sync.RWMutex
+	done                   bool
+	doneMutex              *sync.RWMutex
+	statusInterval         time.Duration
+	startTimeMutex         *sync.RWMutex
+	startTime              time.Time
+	spaces                 string
+	surpressWaitError      bool
+	surpressWaitErrorMutex *sync.RWMutex
+	logger                 output.Logger
+	decoration             *output.Decoration
+	autoTerminate          bool
+	autoTerminateDelay     time.Duration
 }
 
 // NewRunner create new runner
 func NewRunner(
 	logger output.Logger, decoration *output.Decoration, project *config.Project, taskNames []string,
-	statusIntervalStr string, autoTerminate bool, autoTerminateDelayIntervalStr string,
+	statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string,
 ) (runner *Runner, err error) {
 	if !project.IsInitialized {
-		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialize")
+		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialized")
 	}
 	if err = project.ValidateByTaskNames(taskNames); err != nil {
 		return &Runner{}, err
 	}
 	statusInterval, err := time.ParseDuration(statusIntervalStr)
 	if err != nil {
-		return &Runner{}, fmt.Errorf("cannot parse statusIntervalStr '%s': %s", statusIntervalStr, err)
+		return &Runner{}, fmt.Errorf("cannot parse statusInterval '%s': %s", statusIntervalStr, err)
 	}
-	autoTerminateDelayInterval, err := time.ParseDuration(autoTerminateDelayIntervalStr)
+	autoTerminateDelayInterval, err := time.ParseDuration(autoTerminateDelayStr)
 	if err != nil {
-		return &Runner{}, fmt.Errorf("cannot parse statusIntervalStr '%s': %s", autoTerminateDelayIntervalStr, err)
+		return &Runner{}, fmt.Errorf("cannot parse autoTerminateDelay '%s': %s", autoTerminateDelayStr, err)
 	}
 	return &Runner{
-		taskNames:                  taskNames,
-		project:                    project,
-		taskStatus:                 map[string]*TaskStatus{},
-		taskStatusMutex:            &sync.RWMutex{},
-		cmdInfo:                    map[string]*CmdInfo{},
-		cmdInfoMutex:               &sync.RWMutex{},
-		killed:                     false,
-		killedMutex:                &sync.RWMutex{},
-		done:                       false,
-		doneMutex:                  &sync.RWMutex{},
-		statusInterval:             statusInterval,
-		startTimeMutex:             &sync.RWMutex{},
-		spaces:                     "     ",
-		surpressWaitError:          false,
-		surpressWaitErrorMutex:     &sync.RWMutex{},
-		logger:                     logger,
-		decoration:                 decoration,
-		autoTerminate:              autoTerminate,
-		autoTerminateDelayInterval: autoTerminateDelayInterval,
+		taskNames:              taskNames,
+		project:                project,
+		taskStatus:             map[string]*TaskStatus{},
+		taskStatusMutex:        &sync.RWMutex{},
+		cmdInfo:                map[string]*CmdInfo{},
+		cmdInfoMutex:           &sync.RWMutex{},
+		killed:                 false,
+		killedMutex:            &sync.RWMutex{},
+		done:                   false,
+		doneMutex:              &sync.RWMutex{},
+		statusInterval:         statusInterval,
+		startTimeMutex:         &sync.RWMutex{},
+		spaces:                 "     ",
+		surpressWaitError:      false,
+		surpressWaitErrorMutex: &sync.RWMutex{},
+		logger:                 logger,
+		decoration:             decoration,
+		autoTerminate:          autoTerminate,
+		autoTerminateDelay:     autoTerminateDelayInterval,
 	}, nil
 }
 
@@ -253,7 +253,7 @@ func (r *Runner) run(ch chan error) {
 	r.logger.DPrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	r.logger.DPrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
 	if r.autoTerminate {
-		r.sleep(r.autoTerminateDelayInterval)
+		r.sleep(r.autoTerminateDelay)
 		ch <- nil
 		return
 	}

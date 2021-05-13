@@ -4,7 +4,7 @@ tasks:
     config:
       flask1: empty
       flast2: empty
-    start: [echo, '{{ .GetConfig "flask1 }}{{ .GetConfig "flask2" }}']
+    start: [echo, 'making {{ .GetConfig "flask1" }}{{ .GetConfig "flask2" }}']
 
   
   makeNaOH:
@@ -41,17 +41,40 @@ tasks:
       flask2: O
   
 
-  makeAll:
+  makeSalineWater:
     dependencies:
     - makeNaCl
     - makeH2O
   
 
   makeEther:
-    start:
-    - bash
-    - '-c'
-    - |
-      echo "try making ether"
-      exit 1
+    start: [bash, -c, 'echo making ether && exit 1']
+
+  
+  makeAll:
+    dependencies:
+    - makeSalineWater
+    - makeEther
+  
+
+  serveSalineWater:
+    dependencies:
+    - makeSalineWater
+    start: [bash, -c, 'echo serve saline water && sleep 3']
+    check: [bash, -c, 'exit 0']
+
+
+  serveSalineWaterFailBeforeCheck:
+    dependencies:
+    - makeSalineWater
+    start: [bash, -c, 'echo serve saline water && exit 1']
+    check: [bash, -c, 'sleep 3 && exit 0']
+
+
+  serveSalineWaterFailAfterCheck:
+    dependencies:
+    - makeSalineWater
+    start: [bash, -c, 'echo serve saline water && sleep 3 && exit 1']
+    check: [bash, -c, 'exit 0']
+  
   
