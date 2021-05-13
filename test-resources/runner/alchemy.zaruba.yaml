@@ -1,0 +1,57 @@
+tasks:
+
+  combine:
+    config:
+      flask1: empty
+      flast2: empty
+    start: [echo, '{{ .GetConfig "flask1 }}{{ .GetConfig "flask2" }}']
+
+  
+  makeNaOH:
+    extend: combine
+    config:
+      flask1: Na
+      flask2: OH
+  
+
+  makeHCl:
+    extend: combine
+    config:
+      flask1: H
+      flask2: Cl
+  
+
+  makeNaCl:
+    dependencies:
+    - makeNaOH
+    - makeHCl
+    extend: combine
+    config:
+      flask1: Na
+      flask2: Cl
+
+
+  makeH2O:
+    dependencies:
+    - makeNaOH
+    - makeHCl
+    extend: combine
+    config:
+      flask1: H2
+      flask2: O
+  
+
+  makeAll:
+    dependencies:
+    - makeNaCl
+    - makeH2O
+  
+
+  makeEther:
+    start:
+    - bash
+    - '-c'
+    - |
+      echo "try making ether"
+      exit 1
+  
