@@ -2,139 +2,139 @@ package boolean
 
 import "testing"
 
-func TestIsTrueLowerYes(t *testing.T) {
+func TestBooleanIsTrueLowerYes(t *testing.T) {
 	if !IsTrue("yes") {
 		t.Errorf("yes should be true")
 	}
 }
 
-func TestIsTrueUpperYes(t *testing.T) {
+func TestBooleanIsTrueUpperYes(t *testing.T) {
 	if !IsTrue("YES") {
 		t.Errorf("YES should be true")
 	}
 }
 
-func TestIsTrueCapitalYes(t *testing.T) {
+func TestBooleanIsTrueCapitalYes(t *testing.T) {
 	if !IsTrue("Yes") {
 		t.Errorf("Yes should be true")
 	}
 }
 
-func TestIsTrueLowerY(t *testing.T) {
+func TestBooleanIsTrueLowerY(t *testing.T) {
 	if !IsTrue("y") {
 		t.Errorf("y should be true")
 	}
 }
 
-func TestIsTrueUpperY(t *testing.T) {
+func TestBooleanIsTrueUpperY(t *testing.T) {
 	if !IsTrue("Y") {
 		t.Errorf("Y should be true")
 	}
 }
 
-func TestIsTrueLowerTrue(t *testing.T) {
+func TestBooleanIsTrueLowerTrue(t *testing.T) {
 	if !IsTrue("true") {
 		t.Errorf("true should be true")
 	}
 }
 
-func TestIsTrueUpperTrue(t *testing.T) {
+func TestBooleanIsTrueUpperTrue(t *testing.T) {
 	if !IsTrue("TRUE") {
 		t.Errorf("TRUE should be true")
 	}
 }
 
-func TestIsTrueCapitalTrue(t *testing.T) {
+func TestBooleanIsTrueCapitalTrue(t *testing.T) {
 	if !IsTrue("True") {
 		t.Errorf("True should be true")
 	}
 }
 
-func TestIsTrueLowerOn(t *testing.T) {
+func TestBooleanIsTrueLowerOn(t *testing.T) {
 	if !IsTrue("on") {
 		t.Errorf("on should be true")
 	}
 }
 
-func TestIsTrueUpperOn(t *testing.T) {
+func TestBooleanIsTrueUpperOn(t *testing.T) {
 	if !IsTrue("ON") {
 		t.Errorf("ON should be true")
 	}
 }
 
-func TestIsTrueCapitalOn(t *testing.T) {
+func TestBooleanIsTrueCapitalOn(t *testing.T) {
 	if !IsTrue("On") {
 		t.Errorf("On should be true")
 	}
 }
 
-func TestIsTrueLowerNo(t *testing.T) {
+func TestBooleanIsTrueLowerNo(t *testing.T) {
 	if IsTrue("no") {
 		t.Errorf("no should not be true")
 	}
 }
 
-func TestIsTrueUpperNo(t *testing.T) {
+func TestBooleanIsTrueUpperNo(t *testing.T) {
 	if IsTrue("NO") {
 		t.Errorf("NO should not be true")
 	}
 }
 
-func TestIsTrueCapitalNo(t *testing.T) {
+func TestBooleanIsTrueCapitalNo(t *testing.T) {
 	if IsTrue("No") {
 		t.Errorf("No should not be true")
 	}
 }
 
-func TestIsTrueLowerN(t *testing.T) {
+func TestBooleanIsTrueLowerN(t *testing.T) {
 	if IsTrue("n") {
 		t.Errorf("n should not be true")
 	}
 }
 
-func TestIsTrueUpperN(t *testing.T) {
+func TestBooleanIsTrueUpperN(t *testing.T) {
 	if IsTrue("N") {
 		t.Errorf("N should not be true")
 	}
 }
 
-func TestIsTrueLowerFalse(t *testing.T) {
+func TestBooleanIsTrueLowerFalse(t *testing.T) {
 	if IsTrue("false") {
 		t.Errorf("false should not be true")
 	}
 }
 
-func TestIsTrueUpperFalse(t *testing.T) {
+func TestBooleanIsTrueUpperFalse(t *testing.T) {
 	if IsTrue("FALSE") {
 		t.Errorf("FALSE should not be true")
 	}
 }
 
-func TestIsTrueCapitalFalse(t *testing.T) {
+func TestBooleanIsTrueCapitalFalse(t *testing.T) {
 	if IsTrue("False") {
 		t.Errorf("False should not be true")
 	}
 }
 
-func TestIsTrueLowerOff(t *testing.T) {
+func TestBooleanIsTrueLowerOff(t *testing.T) {
 	if IsTrue("off") {
 		t.Errorf("off should not be true")
 	}
 }
 
-func TestIsTrueUpperOff(t *testing.T) {
+func TestBooleanIsTrueUpperOff(t *testing.T) {
 	if IsTrue("OFF") {
 		t.Errorf("OFF should not be true")
 	}
 }
 
-func TestIsTrueCapitalOff(t *testing.T) {
+func TestBooleanIsTrueCapitalOff(t *testing.T) {
 	if IsTrue("Off") {
 		t.Errorf("Off should not be true")
 	}
 }
 
-func TestIsTrueOther(t *testing.T) {
+func TestBooleanIsTrueOther(t *testing.T) {
 	if IsTrue("Other") {
 		t.Errorf("Other should not not be true")
 	}
