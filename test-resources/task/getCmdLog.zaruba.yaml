@@ -1,0 +1,8 @@
+tasks:
+
+  taskName:
+    start:
+    - bash
+    - '-c'
+    - |
+      echo hello world

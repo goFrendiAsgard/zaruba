@@ -59,7 +59,7 @@ func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
 
 // GetSubLConfigKeys get config subkeys
 func (td *TaskData) GetSubLConfigKeys(parentKeys ...string) (subKeys []string) {
-	lConfigKeys := td.task.GetConfigKeys()
+	lConfigKeys := td.task.GetLConfigKeys()
 	return str.GetSubKeys(lConfigKeys, parentKeys)
 }
 

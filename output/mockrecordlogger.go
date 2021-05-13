@@ -1,6 +1,9 @@
 package output
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type MockRecordLogger struct {
 	Mutex *sync.Mutex
@@ -19,4 +22,14 @@ func (m *MockRecordLogger) Log(data ...string) (err error) {
 	defer m.Mutex.Unlock()
 	m.Data = append(m.Data, data)
 	return nil
+}
+
+type MockInvalidRecordLogger struct{}
+
+func NewMockInvalidRecordLogger() *MockInvalidRecordLogger {
+	return &MockInvalidRecordLogger{}
+}
+
+func (mi *MockInvalidRecordLogger) Log(data ...string) (err error) {
+	return fmt.Errorf("cannot write")
 }

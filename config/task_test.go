@@ -187,10 +187,16 @@ func TestTaskGetValueKeys(t *testing.T) {
 	if len(actualKeys) != len(expectedKeys) {
 		t.Errorf("expected: %#v, actual %#v", expectedKeys, actualKeys)
 	}
-	for index, expected := range expectedKeys {
-		actual := actualKeys[index]
-		if actual != expected {
-			t.Errorf("expected: %s, actual: %s", expected, actual)
+	for _, expected := range expectedKeys {
+		keyFound := false
+		for _, actual := range actualKeys {
+			if actual == expected {
+				keyFound = true
+				break
+			}
+		}
+		if !keyFound {
+			t.Errorf("key not found: %s, keys: %#v", expected, actualKeys)
 		}
 	}
 }
