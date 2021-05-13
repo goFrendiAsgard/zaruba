@@ -288,3 +288,101 @@ func TestTdListDirInexist(t *testing.T) {
 		return
 	}
 }
+
+func TestTdReadFile(t *testing.T) {
+	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	td := NewTaskData(task)
+	expected := "value1"
+	actual, err := td.ReadFile("./file1")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestTdReadFileInexist(t *testing.T) {
+	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	td := NewTaskData(task)
+	_, err = td.ReadFile("./inexist/file1")
+	if err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
+
+func TestTdParseFile(t *testing.T) {
+	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	td := NewTaskData(task)
+	expected := "value"
+	actual, err := td.ParseFile("../gotmpl/good.gotmpl")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestTdParseFileInvalid(t *testing.T) {
+	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	td := NewTaskData(task)
+	_, err = td.ParseFile("../gotmpl/invalid.gotmpl")
+	if err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
+
+func TestTdParseFileError(t *testing.T) {
+	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	td := NewTaskData(task)
+	_, err = td.ParseFile("../gotmpl/error.gotmpl")
+	if err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
+
+func TestTdParseFileInexist(t *testing.T) {
+	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	td := NewTaskData(task)
+	_, err = td.ParseFile("../gotmpl/inexist.gotmpl")
+	if err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
