@@ -201,9 +201,18 @@ func TestTaskGetValue(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	project.SetValue("key::subKey1", "value1")
-	project.SetValue("key::subKey2", "value2")
-	project.Init()
+	if err = project.SetValue("key::subKey1", "value1"); err != nil {
+		t.Error(err)
+		return
+	}
+	if err = project.SetValue("key::subKey2", "value2"); err != nil {
+		t.Error(err)
+		return
+	}
+	if err = project.Init(); err != nil {
+		t.Error(err)
+		return
+	}
 	task := project.Tasks["taskName"]
 	expected := "value1"
 	actual, err := task.GetValue("key", "subKey1")
@@ -289,9 +298,9 @@ func TestTaskGetConfigPattern(t *testing.T) {
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
-	// nonExistKey
+	// inExistKey
 	expected = ""
-	actual, declared = task.GetConfigPattern("nonExistKey")
+	actual, declared = task.GetConfigPattern("inExistKey")
 	if declared {
 		t.Error("declared is true")
 	}
@@ -337,9 +346,9 @@ func TestTaskGetConfig(t *testing.T) {
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
-	// nonExistKey
+	// inExistKey
 	expected = ""
-	actual, err = task.GetConfig("nonExistKey")
+	actual, err = task.GetConfig("inExistKey")
 	if err != nil {
 		t.Error(err)
 		return
@@ -440,9 +449,9 @@ func TestTaskGetLConfigPattern(t *testing.T) {
 			t.Errorf("expected: %s, actual: %s", expected, actual)
 		}
 	}
-	// nonExistKey
+	// inExistKey
 	expectedList = []string{}
-	actualList, declared = task.GetLConfigPatterns("nonExistKey")
+	actualList, declared = task.GetLConfigPatterns("inExistKey")
 	if declared {
 		t.Error("declared is true")
 	}
@@ -506,9 +515,9 @@ func TestTaskGetLConfig(t *testing.T) {
 			t.Errorf("expected: %s, actual: %s", expected, actual)
 		}
 	}
-	// nonExistKey
+	// inExistKey
 	expectedList = []string{}
-	actualList, err = task.GetLConfig("nonExistKey")
+	actualList, err = task.GetLConfig("inExistKey")
 	if err != nil {
 		t.Error(err)
 		return
@@ -533,5 +542,181 @@ func TestTaskGetLConfigBrokenTemplate(t *testing.T) {
 	errorMessage := err.Error()
 	if !strings.HasPrefix(errorMessage, "template:") {
 		t.Errorf("invalid error message: %s", errorMessage)
+	}
+}
+
+func TestTaskGetEnvKeys(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getEnv.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	expectedKeys := []string{"KEY", "REF_KEY", "PARENT_KEY"}
+	actualKeys := task.GetEnvKeys()
+	if len(actualKeys) != len(expectedKeys) {
+		t.Errorf("expected: %#v, actual %#v", expectedKeys, actualKeys)
+		return
+	}
+	for index, expected := range expectedKeys {
+		actual := actualKeys[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+}
+
+func TestTaskGetEnv(t *testing.T) {
+	project, err := getProject("../test-resources/task/getEnv.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = project.AddGlobalEnv("MY_KEY=MY_VALUE"); err != nil {
+		t.Error(err)
+		return
+	}
+	if err = project.Init(); err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	expected := "MY_VALUE"
+	actual, err := task.GetEnv("KEY")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// refKey
+	expected = "REF_VALUE"
+	actual, err = task.GetEnv("REF_KEY")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// parentKey
+	expected = "PARENT_VALUE"
+	actual, err = task.GetEnv("PARENT_KEY")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// inExistKey
+	expected = ""
+	actual, err = task.GetEnv("inExistKey")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestTaskGetEnvs(t *testing.T) {
+	project, err := getProject("../test-resources/task/getEnv.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = project.AddGlobalEnv("MY_KEY=MY_VALUE"); err != nil {
+		t.Error(err)
+		return
+	}
+	if err = project.Init(); err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	expectedEnvs := map[string]string{
+		"KEY":        "MY_VALUE",
+		"REF_KEY":    "REF_VALUE",
+		"PARENT_KEY": "PARENT_VALUE",
+	}
+	actualEnvs, err := task.GetEnvs()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	for key, expected := range expectedEnvs {
+		actual := actualEnvs[key]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+}
+
+func TestTaskGetEnvBrokenTemplate(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getEnvBrokenTemplate.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	if _, err = task.GetEnvs(); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+	errorMessage := err.Error()
+	if !strings.HasPrefix(errorMessage, "template:") {
+		t.Errorf("invalid error message: %s", errorMessage)
+	}
+}
+
+func TestTaskRecursiveTemplate(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/recursiveTemplate.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// key
+	if _, err = task.GetConfig("key"); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+	errorMessage := err.Error()
+	if !strings.Contains(errorMessage, "max recursive parsing on") {
+		t.Errorf("invalid error message: %s", errorMessage)
+	}
+}
+
+func TestTaskMultiLineTemplate(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/multiLineTemplate.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	// keyTwoLine
+	expected := "value"
+	actual, err := task.GetConfig("keyTwoLine")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if strings.Trim(actual, "\n") != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+	// keyTwoLine
+	expected = "value1\nvalue2\nvalue3"
+	actual, err = task.GetConfig("keyMultiLine")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if strings.Trim(actual, "\n") != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }

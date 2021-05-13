@@ -1,0 +1,10 @@
+tasks:
+  
+  taskName:
+    config:
+      keyTwoLine: |
+        value
+      keyMultiLine: |
+        value1
+        value2
+        value3

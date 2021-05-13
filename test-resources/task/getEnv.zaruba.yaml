@@ -1,0 +1,24 @@
+tasks:
+
+  parentTaskName:
+    env:
+      PARENT_KEY:
+        from: MY_PARENT_KEY
+        default: PARENT_VALUE
+  
+
+  taskName:
+    extend: parentTaskName
+    envRef: envRefName
+    env:
+      KEY:
+        from: MY_KEY
+        default: VALUE
+
+
+envs:
+
+  envRefName:
+    REF_KEY:
+      from: MY_REF_KEY
+      default: REF_VALUE
