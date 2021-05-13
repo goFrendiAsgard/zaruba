@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -22,8 +22,8 @@ Try:
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		decoration := monitor.NewDecoration()
-		logger := monitor.NewConsoleLogger(decoration)
+		decoration := output.NewDecoration()
+		logger := output.NewConsoleLogger(decoration)
 		logger.Println(err)
 		logger.DPrintfError("Do you mean %s%szaruba please%s?\n", decoration.Bold, decoration.Yellow, decoration.Normal)
 		os.Exit(1)

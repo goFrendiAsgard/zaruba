@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 )
 
 // Runner is used to run tasks
@@ -33,15 +33,15 @@ type Runner struct {
 	spaces                     string
 	surpressWaitError          bool
 	surpressWaitErrorMutex     *sync.RWMutex
-	logger                     monitor.Logger
-	decoration                 *monitor.Decoration
+	logger                     output.Logger
+	decoration                 *output.Decoration
 	autoTerminate              bool
 	autoTerminateDelayInterval time.Duration
 }
 
 // NewRunner create new runner
 func NewRunner(
-	logger monitor.Logger, decoration *monitor.Decoration, project *config.Project, taskNames []string,
+	logger output.Logger, decoration *output.Decoration, project *config.Project, taskNames []string,
 	statusIntervalStr string, autoTerminate bool, autoTerminateDelayIntervalStr string,
 ) (runner *Runner, err error) {
 	if !project.IsInitialized {

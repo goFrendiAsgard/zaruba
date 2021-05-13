@@ -9,7 +9,7 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 )
 
 func fileMustExist(filePath string) (err error) {
@@ -33,12 +33,12 @@ type Action struct {
 }
 
 type Prompter struct {
-	logger  monitor.Logger
-	d       *monitor.Decoration
+	logger  output.Logger
+	d       *output.Decoration
 	project *config.Project
 }
 
-func NewPrompter(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) *Prompter {
+func NewPrompter(logger output.Logger, decoration *output.Decoration, project *config.Project) *Prompter {
 	return &Prompter{
 		logger:  logger,
 		d:       decoration,

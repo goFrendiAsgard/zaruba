@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/input"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/previousval"
 	"github.com/state-alchemists/zaruba/response"
 	"github.com/state-alchemists/zaruba/runner"
@@ -29,8 +29,8 @@ var pleaseCmd = &cobra.Command{
 	Long:    "💀 Ask Zaruba to do something for you",
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := monitor.NewDecoration()
-		logger := monitor.NewConsoleLogger(decoration)
+		decoration := output.NewDecoration()
+		logger := output.NewConsoleLogger(decoration)
 		project, taskNames := getProjectOrExit(logger, decoration, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := response.NewExplainer(logger, decoration, project)
@@ -113,7 +113,7 @@ func init() {
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
 }
 
-func getTaskNameInteractivelyOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter) (taskName string) {
+func getTaskNameInteractivelyOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {
 	taskName, err := prompter.GetTaskName()
 	if err != nil {
 		showErrorAndExit(logger, decoration, err)
@@ -121,7 +121,7 @@ func getTaskNameInteractivelyOrExit(logger *monitor.ConsoleLogger, decoration *m
 	return taskName
 }
 
-func getActionOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskName string) (action *input.Action) {
+func getActionOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskName string) (action *input.Action) {
 	action, err := prompter.GetAction(taskName)
 	if err != nil {
 		showErrorAndExit(logger, decoration, err)
@@ -129,31 +129,31 @@ func getActionOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decorati
 	return action
 }
 
-func loadPreviousValuesOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, project *config.Project, previousValueFile string) {
+func loadPreviousValuesOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, project *config.Project, previousValueFile string) {
 	if err := previousval.Load(project, previousValueFile); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func askProjectValuesByTasksOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) {
+func askProjectValuesByTasksOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func askProjectEnvOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) {
+func askProjectEnvOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.GetAdditionalEnv(taskNames); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func askProjectValueOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter) {
+func askProjectValueOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) {
 	if err := prompter.GetAdditionalValue(); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func askAutoTerminateOrExit(logger *monitor.ConsoleLogger, decoration *monitor.Decoration, prompter *input.Prompter, taskNames []string) (autoTerminate bool) {
+func askAutoTerminateOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) (autoTerminate bool) {
 	autoTerminate, err := prompter.GetAutoTerminate(taskNames)
 	if err != nil {
 		showErrorAndExit(logger, decoration, err)
@@ -161,13 +161,13 @@ func askAutoTerminateOrExit(logger *monitor.ConsoleLogger, decoration *monitor.D
 	return autoTerminate
 }
 
-func initProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) {
+func initProjectOrExit(logger output.Logger, decoration *output.Decoration, project *config.Project) {
 	if err := project.Init(); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
 }
 
-func getProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, args []string) (project *config.Project, taskNames []string) {
+func getProjectOrExit(logger output.Logger, decoration *output.Decoration, args []string) (project *config.Project, taskNames []string) {
 	project, taskNames, err := getProject(logger, decoration, args)
 	if err != nil {
 		showErrorAndExit(logger, decoration, err)
@@ -175,12 +175,12 @@ func getProjectOrExit(logger monitor.Logger, decoration *monitor.Decoration, arg
 	return project, taskNames
 }
 
-func getProject(logger monitor.Logger, decoration *monitor.Decoration, args []string) (project *config.Project, taskNames []string, err error) {
+func getProject(logger output.Logger, decoration *output.Decoration, args []string) (project *config.Project, taskNames []string, err error) {
 	taskNames = []string{}
 	dir := os.ExpandEnv(filepath.Dir(pleaseFile))
 	logFile := filepath.Join(dir, "log.zaruba.csv")
-	csvLogger := monitor.NewCSVLogWriter(logFile)
-	project, err = config.NewProject(logger, csvLogger, decoration, pleaseFile)
+	csvRecordLogger := output.NewCSVRecordLogger(logFile)
+	project, err = config.NewProject(logger, csvRecordLogger, decoration, pleaseFile)
 	if err != nil {
 		return project, taskNames, err
 	}
@@ -209,7 +209,7 @@ func getProject(logger monitor.Logger, decoration *monitor.Decoration, args []st
 	return project, taskNames, err
 }
 
-func showErrorAndExit(logger monitor.Logger, decoration *monitor.Decoration, err error) {
+func showErrorAndExit(logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
 		logger.DPrintfError("%s%s%s%s\n", decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
 		os.Exit(1)

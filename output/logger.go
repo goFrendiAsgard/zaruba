@@ -1,4 +1,4 @@
-package monitor
+package output
 
 import "fmt"
 
@@ -18,7 +18,7 @@ type ConsoleLogger struct {
 	d *Decoration
 }
 
-// NewConsoleLogger create new monitor
+// NewConsoleLogger create new output
 func NewConsoleLogger(decoration *Decoration) *ConsoleLogger {
 	return &ConsoleLogger{
 		d: decoration,

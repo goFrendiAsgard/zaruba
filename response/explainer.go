@@ -6,17 +6,17 @@ import (
 	"strings"
 
 	"github.com/state-alchemists/zaruba/config"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 )
 
 type Explainer struct {
-	logger  monitor.Logger
-	d       *monitor.Decoration
+	logger  output.Logger
+	d       *output.Decoration
 	project *config.Project
 }
 
-func NewExplainer(logger monitor.Logger, decoration *monitor.Decoration, project *config.Project) *Explainer {
+func NewExplainer(logger output.Logger, decoration *output.Decoration, project *config.Project) *Explainer {
 	return &Explainer{
 		logger:  logger,
 		d:       decoration,

@@ -1,26 +1,22 @@
 package config
 
 import (
-	"os"
-	"path/filepath"
-
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 )
 
-func getProject(projectFile string) (project *Project, err error) {
-	decoration := monitor.NewDecoration()
-	logger := monitor.NewConsoleLogger(decoration)
-	dir := os.ExpandEnv(filepath.Dir(projectFile))
-	logFile := filepath.Join(dir, "log.zaruba.csv")
-	csvLogger := monitor.NewCSVLogWriter(logFile)
-	return NewProject(logger, csvLogger, decoration, projectFile)
+func getProject(projectFile string) (project *Project, logger output.Logger, recordLogger output.RecordLogger, err error) {
+	decoration := output.NewDecoration()
+	logger = output.NewMockLogger()
+	recordLogger = output.NewMockRecordLogger()
+	project, err = NewProject(logger, recordLogger, decoration, projectFile)
+	return project, logger, recordLogger, err
 }
 
-func getProjectAndInit(projectFile string) (project *Project, err error) {
-	project, err = getProject(projectFile)
+func getProjectAndInit(projectFile string) (project *Project, logger output.Logger, recordLogger output.RecordLogger, err error) {
+	project, logger, recordLogger, err = getProject(projectFile)
 	if err != nil {
-		return project, err
+		return project, logger, recordLogger, err
 	}
 	err = project.Init()
-	return project, err
+	return project, logger, recordLogger, err
 }

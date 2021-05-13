@@ -9,7 +9,7 @@ import (
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/boolean"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 )
 
@@ -22,7 +22,7 @@ type TaskData struct {
 	WorkPath     string
 	DirPath      string
 	FileLocation string
-	Decoration   *monitor.Decoration
+	Decoration   *output.Decoration
 }
 
 // NewTaskData create new task data

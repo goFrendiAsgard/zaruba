@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
-	"github.com/state-alchemists/zaruba/monitor"
+	"github.com/state-alchemists/zaruba/output"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -32,14 +32,14 @@ type Project struct {
 	sortedTaskNames            []string
 	sortedInputNames           []string
 	maxPublishedTaskNameLength int
-	decoration                 *monitor.Decoration
-	logger                     monitor.Logger
-	dataLogger                 monitor.RecordLogger
+	decoration                 *output.Decoration
+	logger                     output.Logger
+	dataLogger                 output.RecordLogger
 	IsInitialized              bool
 }
 
 // NewProject create new Config from Yaml File
-func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decoration *monitor.Decoration, configFile string) (p *Project, err error) {
+func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration *output.Decoration, configFile string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
@@ -66,7 +66,7 @@ func NewProject(logger monitor.Logger, dataLogger monitor.RecordLogger, decorati
 	return p, err
 }
 
-func loadProject(logger monitor.Logger, d *monitor.Decoration, projectFile string) (p *Project, err error) {
+func loadProject(logger output.Logger, d *output.Decoration, projectFile string) (p *Project, err error) {
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	logger.DPrintfStarted("%sLoading %s%s\n", d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
@@ -486,7 +486,7 @@ func (p *Project) validateTaskLConfigRef() (err error) {
 	return nil
 }
 
-func (p *Project) cascadeIncludes(logger monitor.Logger, d *monitor.Decoration) (err error) {
+func (p *Project) cascadeIncludes(logger output.Logger, d *output.Decoration) (err error) {
 	for _, includeLocation := range p.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
 		if !filepath.IsAbs(parsedIncludeLocation) {

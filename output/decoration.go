@@ -1,4 +1,4 @@
-package monitor
+package output
 
 // Decoration is decorator for terminal
 type Decoration struct {
