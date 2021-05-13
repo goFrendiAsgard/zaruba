@@ -1,0 +1,13 @@
+tasks:
+
+  parentTask:
+    start: [sleep, 1]
+  
+  taskWithStartCmd:
+    start: [sleep, 2]
+  
+  taskWithoutStartCmd: {}
+  
+  taskWhichParentHasStartCmd:
+    extend: parentTask
+  

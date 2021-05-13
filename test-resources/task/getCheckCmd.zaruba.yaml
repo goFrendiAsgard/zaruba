@@ -1,0 +1,13 @@
+tasks:
+
+  parentTask:
+    check: [sleep, 1]
+  
+  taskWithCheckCmd:
+    check: [sleep, 2]
+  
+  taskWithoutCheckCmd: {}
+  
+  taskWhichParentHasCheckCmd:
+    extend: parentTask
+  

@@ -508,17 +508,11 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string, logDone ch
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, val))
 	}
 	// log stdout
-	outPipe, err := cmd.StdoutPipe()
-	if err != nil {
-		return cmd, err
-	}
+	outPipe, _ := cmd.StdoutPipe()
 	outDone := make(chan error)
 	go task.log(cmdType, "OUT", outPipe, outDone)
 	// log stderr
-	errPipe, err := cmd.StderrPipe()
-	if err != nil {
-		return cmd, err
-	}
+	errPipe, _ := cmd.StderrPipe()
 	errDone := make(chan error)
 	go task.log(cmdType, "ERR", errPipe, errDone)
 	// combine stdout and stderr done
@@ -546,12 +540,13 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logDone chan 
 	if logType == "ERR" {
 		print = task.Project.logger.DPrintfError
 	}
+	taskName := task.GetName()
 	var err error = nil
 	for buf.Scan() {
 		content := buf.Text()
 		print("%s %s\n", prefix, content)
 		if saveLog {
-			if csvWriteErr := task.Project.dataLogger.Log(logType, cmdType, task.GetName(), content, task.logPrefix); csvWriteErr != nil {
+			if csvWriteErr := task.Project.dataLogger.Log(logType, cmdType, taskName, content, task.logPrefix); csvWriteErr != nil {
 				err = csvWriteErr
 			}
 		}
