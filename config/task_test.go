@@ -720,3 +720,24 @@ func TestTaskMultiLineTemplate(t *testing.T) {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
+
+func TestTaskGetDependenciesTemplate(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getDependencies.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskName"]
+	expectedList := []string{"dependencyTaskName1", "dependencyTaskName2", "dependencyTaskName3"}
+	actualList := task.GetDependencies()
+	if len(actualList) != len(expectedList) {
+		t.Errorf("expected: %#v, actual %#v", expectedList, actualList)
+		return
+	}
+	for index, expected := range expectedList {
+		actual := actualList[index]
+		if actual != expected {
+			t.Errorf("expected: %s, actual: %s", expected, actual)
+		}
+	}
+}

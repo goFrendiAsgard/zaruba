@@ -411,24 +411,28 @@ func (task *Task) GetDependencies() (dependencies []string) {
 }
 
 func (task *Task) getDependencies() (dependencies []string) {
-	dependencies = []string{}
 	seen := map[string]bool{}
+	dependencies = append([]string{}, task.Dependencies...)
 	for _, dependency := range task.Dependencies {
-		if _, exist := seen[dependency]; exist {
-			continue
-		}
 		seen[dependency] = true
-		dependencies = append(dependencies, dependency)
 	}
-	parentTaskNames := task.getParentTaskNames()
-	for _, parentTaskName := range parentTaskNames {
-		// get parent's
-		for _, dependency := range task.Project.Tasks[parentTaskName].getDependencies() {
-			if _, exist := seen[dependency]; exist {
-				continue
+	dependencies = append([]string{}, task.Dependencies...)
+	for _, dependencyTaskName := range dependencies {
+		subDependencies := task.Project.Tasks[dependencyTaskName].getDependencies()
+		for _, subDependency := range subDependencies {
+			if !seen[subDependency] {
+				dependencies = append(dependencies, subDependency)
+				seen[subDependency] = true
 			}
-			seen[dependency] = true
-			dependencies = append(dependencies, dependency)
+		}
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		subDependencies := task.Project.Tasks[parentTaskName].getDependencies()
+		for _, subDependency := range subDependencies {
+			if !seen[subDependency] {
+				dependencies = append(dependencies, subDependency)
+				seen[subDependency] = true
+			}
 		}
 	}
 	return dependencies

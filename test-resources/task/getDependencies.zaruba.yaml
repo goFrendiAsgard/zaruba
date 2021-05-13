@@ -1,0 +1,17 @@
+tasks:
+
+  dependencyTaskName1: {}
+  dependencyTaskName2: {}
+  dependencyTaskName3:
+    dependencies:
+    - dependencyTaskName2
+
+  parentTaskName1:
+    dependencies:
+    - dependencyTaskName3
+
+  taskName:
+    extends:
+    - parentTaskName1
+    dependencies:
+    - dependencyTaskName1
