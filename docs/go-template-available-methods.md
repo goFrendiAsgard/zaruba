@@ -184,20 +184,6 @@ tasks:
       echo {{ .GetWorkPath "subDir" }}
 ```
 
-# GetBasePath
-
-Get path relative to `BasePath`
-
-```yaml
-tasks:
-  MY_TASK:
-    start:
-    - bash
-    - '-c'
-    - |
-      echo {{ .GetBasePath "subDir" }}
-```
-
 # GetRelativePath
 
 Get path relative to `DirPath`

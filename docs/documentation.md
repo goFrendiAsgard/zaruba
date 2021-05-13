@@ -106,9 +106,6 @@ You can use go template in every:
 Some properties you can access are
 * `{{ .Name }}` Name of current task.
 * `{{ .ProjectName }}` Name of the project.
-* `{{ .BasePath }}` Directory location of main zaruba script.
-* `{{ .WorkPath }}` Working path of current task (i.e: task's location).
-* `{{ .DirPath }}` Directory location of current task's definition script.
 * `{{ .FileLocation }}` File location of current task's definition script.
 * `{{ .Decoration }}` An object containing several output decoration. (e.g: `echo {{ .Decoration.blue }}this is blue text{{ .Decoration.Normal }}`). Please visit [monitor/decoration.go](../monitor/decoration.go) for more detail implementation.
 

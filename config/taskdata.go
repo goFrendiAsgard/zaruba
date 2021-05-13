@@ -18,7 +18,6 @@ type TaskData struct {
 	task         *Task
 	Name         string
 	ProjectName  string
-	BasePath     string
 	WorkPath     string
 	DirPath      string
 	FileLocation string
@@ -33,7 +32,6 @@ func NewTaskData(task *Task) (td *TaskData) {
 		task:         &nextTask,
 		Name:         task.GetName(),
 		ProjectName:  task.Project.GetName(),
-		BasePath:     task.GetBasePath(),
 		WorkPath:     task.GetWorkPath(),
 		DirPath:      filepath.Dir(task.GetFileLocation()),
 		FileLocation: task.GetFileLocation(),
@@ -89,21 +87,13 @@ func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {
 	if filepath.IsAbs(path) {
 		return path
 	}
-	absParentPath, err := filepath.Abs(parentPath)
-	if err != nil {
-		absParentPath = parentPath
-	}
+	absParentPath, _ := filepath.Abs(parentPath)
 	return filepath.Join(absParentPath, path)
 }
 
 // GetWorkPath get workPath (path relative to task.location)
 func (td *TaskData) GetWorkPath(path string) (absPath string) {
 	return td.getAbsPath(td.WorkPath, path)
-}
-
-// GetBasePath get basePath (path relative to main yaml's directory)
-func (td *TaskData) GetBasePath(path string) (absPath string) {
-	return td.getAbsPath(td.BasePath, path)
 }
 
 // GetRelativePath get basePath (path relateive to task's definition directory)

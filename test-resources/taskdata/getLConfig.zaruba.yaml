@@ -1,0 +1,6 @@
+tasks:
+
+  taskName:
+    lconfig:
+      key::subKey1: [value1, value2]
+      key::subKey2: [value3, value4]

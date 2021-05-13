@@ -657,7 +657,7 @@ func TestTaskGetEnvs(t *testing.T) {
 	for key, expected := range expectedEnvs {
 		actual := actualEnvs[key]
 		if actual != expected {
-			t.Errorf("expected: %s, actual: %s", expected, actual)
+			t.Errorf("key: %s, expected: %s, actual: %s", key, expected, actual)
 		}
 	}
 }

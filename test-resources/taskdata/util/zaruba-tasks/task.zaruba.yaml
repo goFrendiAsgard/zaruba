@@ -1,0 +1,6 @@
+tasks:
+
+  taskName:
+    location: ../location 
+  
+  otherTaskName: {}

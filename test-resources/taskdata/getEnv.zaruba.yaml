@@ -1,0 +1,8 @@
+tasks:
+
+  taskName:
+    env:
+      KEY1:
+        default: VALUE1
+      KEY2:
+        default: VALUE2
