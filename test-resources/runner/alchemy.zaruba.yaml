@@ -76,5 +76,8 @@ tasks:
     - makeSalineWater
     start: [bash, -c, 'echo serve saline water && sleep 3 && exit 1']
     check: [bash, -c, 'exit 0']
-  
-  
+
+
+  waitGovernmentApproval:
+    timeout: 1s
+    start: [bash, -c, 'sleep 5 && echo approved']

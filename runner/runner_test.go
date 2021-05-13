@@ -159,3 +159,71 @@ func TestRunnerServeSalineWaterForceTerminate(t *testing.T) {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }
+
+func TestRunnerMakeAll(t *testing.T) {
+	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	runner, err := NewRunner(logger, decoration, project, []string{"makeAll"}, "10s", false, "10s")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = runner.Run(); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
+
+func TestRunnerServeSalineWaterFailBeforeCheck(t *testing.T) {
+	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWater", "serveSalineWaterFailBeforeCheck"}, "10s", false, "10s")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = runner.Run(); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
+
+func TestRunnerServeSalineWaterFailAfterCheck(t *testing.T) {
+	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWaterFailAfterCheck"}, "10s", false, "10s")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = runner.Run(); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
+
+func TestRunnerWaitGovernmentApproval(t *testing.T) {
+	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	runner, err := NewRunner(logger, decoration, project, []string{"waitGovernmentApproval"}, "10s", false, "10s")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = runner.Run(); err == nil {
+		t.Errorf("error expected")
+		return
+	}
+}
