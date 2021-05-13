@@ -412,7 +412,6 @@ func (task *Task) GetDependencies() (dependencies []string) {
 
 func (task *Task) getDependencies() (dependencies []string) {
 	seen := map[string]bool{}
-	dependencies = append([]string{}, task.Dependencies...)
 	for _, dependency := range task.Dependencies {
 		seen[dependency] = true
 	}
