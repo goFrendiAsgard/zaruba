@@ -288,6 +288,7 @@ tasks:
           {{ .GetConfig "_start.runContainer" }}
           {{ .GetConfig "_start.logContainer" }}
         fi
+      check: ""
 
 
   core.monitorPorts:
