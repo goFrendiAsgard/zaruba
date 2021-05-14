@@ -4,6 +4,7 @@ coverage
 log.zaruba.csv
 zaruba
 playground
+node_modules
 scripts/bootstrap.sh
 scripts/python/.pytest_cache
 scripts/python/.coverage
@@ -15,3 +16,4 @@ devbox
 Dockerfile
 *.md
 docs
+sample
