@@ -17,7 +17,7 @@ def test_helm_service_project_generate():
     # generate service project
     service_project = ServiceProject()
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
-    service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', port_list=[], env_list=[], runner_version='')
+    service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', port_list=[], env_list=[], dependency_list=[], runner_version='')
     # generate helm project
     helm_project = HelmProject(helm_template_location)
     helm_project.generate(dir_name=dir_name)
