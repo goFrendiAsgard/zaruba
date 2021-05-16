@@ -23,8 +23,8 @@ zaruba please makeFastApiService generator.fastApi.service.name=myService
 
 ## What's next
 
-* Creating Fast API Service task
-* Creating Fast API Module
-* Creating Fast API Route
-* Creating Fast API Event handler
+* Creating Fast API service task
+* Creating Fast API module
+* Creating Fast API route
+* Creating Fast API event handler
 * Creating Fast API RPC handler

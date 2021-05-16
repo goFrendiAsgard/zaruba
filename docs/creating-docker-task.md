@@ -37,5 +37,6 @@ zaruba please makeDockerTask generator.docker.image.name=nginx generator.docker.
 
 ## What's next
 
-* Running Tasks
-* Creating Service Tasks 
+* Running tasks
+* [Creating service task](creating-service-task.md): Sometime you might need to run a service/app without containerize it. If running non-containerized service is what you want, you need to go here.
+* [Creating task manually](understanding-task.md): Do you want to understand zaruba script in detail so that you can make your own task without using any generator? Then this is going to be the right step.
