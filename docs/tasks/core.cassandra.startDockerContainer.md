@@ -1,7 +1,7 @@
 # core.cassandra.startDockerContainer
 ```
       TASK NAME    : core.cassandra.startDockerContainer
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.service.zaruba.yaml
       TASK TYPE    : Service Task
       PARENT TASKS : [ core.startDockerContainer ]
       START        : - {{ .GetConfig "cmd" }}

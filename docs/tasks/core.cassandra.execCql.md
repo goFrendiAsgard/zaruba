@@ -1,7 +1,7 @@
 # core.cassandra.execCql
 ```
       TASK NAME    : core.cassandra.execCql
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]
       START        : - {{ .GetConfig "cmd" }}

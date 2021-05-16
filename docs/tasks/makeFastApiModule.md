@@ -1,7 +1,7 @@
 # makeFastApiModule
 ```
       TASK NAME    : makeFastApiModule
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.generator.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.generator.zaruba.yaml
       DESCRIPTION  : Make FastAPI module
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

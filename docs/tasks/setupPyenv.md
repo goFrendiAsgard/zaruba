@@ -1,7 +1,7 @@
 # setupPyenv
 ```
       TASK NAME    : setupPyenv
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.setup.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.setup.zaruba.yaml
       DESCRIPTION  : Install pyenv and pipenv
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

@@ -1,7 +1,7 @@
 # clearLog
 ```
       TASK NAME    : clearLog
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Clear log
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

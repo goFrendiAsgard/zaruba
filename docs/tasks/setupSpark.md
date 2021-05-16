@@ -1,7 +1,7 @@
 # setupSpark
 ```
       TASK NAME    : setupSpark
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.setup.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.setup.zaruba.yaml
       DESCRIPTION  : Install spark and hadoop.
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

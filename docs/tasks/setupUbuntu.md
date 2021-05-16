@@ -1,7 +1,7 @@
 # setupUbuntu
 ```
       TASK NAME    : setupUbuntu
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.setup.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.setup.zaruba.yaml
       DESCRIPTION  : Setup ubuntu
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

@@ -1,7 +1,7 @@
 # makeHelmDeployment
 ```
       TASK NAME    : makeHelmDeployment
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.generator.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.generator.zaruba.yaml
       DESCRIPTION  : Add helm charts to the project to make deployment easier.
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

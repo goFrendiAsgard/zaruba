@@ -160,6 +160,7 @@ tasks:
       - core.makeServiceTask
       - core.makePresetServiceTask
       - makeDockerTask
+      - makeCassandraDockerTask
       - makeMysqlDockerTask
       - makeRabbitmqDockerTask
       - makeElasticsearchDockerTask

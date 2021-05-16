@@ -1,7 +1,7 @@
 # addLink
 ```
       TASK NAME    : addLink
-      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Add link.
                      TIPS: To update links, you should perform `zaruba please updateLinks`
       TASK TYPE    : Command Task
