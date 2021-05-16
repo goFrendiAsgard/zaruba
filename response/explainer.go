@@ -68,10 +68,10 @@ func (e *Explainer) getFieldKeys(list []string) (keys []string) {
 }
 
 func (e *Explainer) Explain(taskNames ...string) (err error) {
-	if err = e.project.ValidateByTaskNames(taskNames); err != nil {
-		return err
-	}
 	for _, taskName := range taskNames {
+		if _, exist := e.project.Tasks[taskName]; !exist {
+			return fmt.Errorf("task %s does not exist", taskName)
+		}
 		e.explainTask(taskName)
 	}
 	return nil

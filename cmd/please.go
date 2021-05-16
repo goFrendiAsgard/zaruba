@@ -56,7 +56,7 @@ var pleaseCmd = &cobra.Command{
 		// handle "--explain"
 		if *pleaseExplain {
 			initProjectOrExit(logger, decoration, project)
-			explainer.Explain(taskNames...)
+			explainOrExit(logger, decoration, explainer, taskNames)
 			return
 		}
 		// handle "--previous"
@@ -138,6 +138,12 @@ func getActionOrExit(logger *output.ConsoleLogger, decoration *output.Decoration
 		showErrorAndExit(logger, decoration, err)
 	}
 	return action
+}
+
+func explainOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, explainer *response.Explainer, taskNames []string) {
+	if err := explainer.Explain(taskNames...); err != nil {
+		showErrorAndExit(logger, decoration, err)
+	}
 }
 
 func loadPreviousValuesOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, project *config.Project, previousValueFile string) {
@@ -222,7 +228,7 @@ func getProject(logger output.Logger, decoration *output.Decoration, args []stri
 
 func showErrorAndExit(logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
-		logger.DPrintfError("%s%s%s%s\n", decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
+		logger.Fprintf(os.Stderr, "%s %s%s%s%s\n", decoration.Error, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
 		os.Exit(1)
 	}
 }
