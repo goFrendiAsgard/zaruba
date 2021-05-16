@@ -12,7 +12,7 @@ def test_docker_project_generate():
     # generate service project
     docker_project = DockerProject()
     docker_project.load_from_template('./test_resources/docker.zaruba.yaml')
-    docker_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer', env_list=[], dependency_list=[])
+    docker_project.generate(dir_name=dir_name, service_name='myService', image_name='myImage', container_name='myContainer', env_list=["SPECIAL_ENV=SPECIAL_VAL"], dependency_list=["dependencyTask"])
     # reload
     generated_project = DockerProject()
     generated_project.load(dir_name=dir_name, service_name='myService')
@@ -21,6 +21,7 @@ def test_docker_project_generate():
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'lconfigRef']) == 'myService'
+    assert 'dependencyTask' in generated_project.get(['tasks', 'runMyService', 'dependencies'])
     # stopMyServiceContainer
     assert generated_project.get(['tasks', 'stopMyServiceContainer', 'extend']) == 'core.stopDockerContainer'
     assert generated_project.get(['tasks', 'stopMyServiceContainer', 'configRef']) == 'myService'

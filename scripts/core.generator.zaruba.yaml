@@ -29,6 +29,11 @@ inputs:
     prompt: "Service environments (e.g: 'PORT=3000,WRITE=1')"
 
 
+  generator.task.dependencies:
+    description: Task dependencies
+    prompt: "Task dependencies (e.g: 'runMySql,runCassandra')"
+
+
   generator.service.location:
     description: Service location, relative to this directory
     prompt: "Service location (Relative to this directory)"
@@ -106,7 +111,7 @@ inputs:
   generator.fastApi.url:
     description: URL to be handled
     prompt: URL to be handled (Required)
-    validation: ^[a-zA-Z0-9_\-/]+$
+    validation: ^[a-zA-Z0-9_\-/\{\}]+$
 
 
   generator.fastApi.httpMethod:
@@ -156,6 +161,7 @@ tasks:
       serviceName: '{{ .GetValue "generator.service.name" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml'
       serviceEnvs: '{{ .GetValue "generator.service.envs" }}'
+      dependencies: '{{ .GetValue "generator.task.dependencies" }}'
       start: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
@@ -163,7 +169,8 @@ tasks:
         CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
-        create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}" "envs=${SERVICE_ENVS}"
+        DEPENDENCIES={{ .SingleQuoteShellValue (.GetConfig "dependencies") }}
+        create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 
@@ -191,6 +198,7 @@ tasks:
       serviceStartCommand: '{{ .GetValue "generator.service.startCommand" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
       serviceEnvs: '{{ .GetValue "generator.service.envs" }}'
+      dependencies: '{{ .GetValue "generator.task.dependencies" }}'
       runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
@@ -203,7 +211,8 @@ tasks:
         SERVICE_START_COMMAND={{ .SingleQuoteShellValue (.GetConfig "serviceStartCommand") }}
         RUNNER_VERSION={{ .SingleQuoteShellValue (.GetConfig "runnerVersion") }}
         SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
-        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "runner_version=${RUNNER_VERSION}"
+        DEPENDENCIES={{ .SingleQuoteShellValue (.GetConfig "dependencies") }}
+        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}" "runner_version=${RUNNER_VERSION}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
 
@@ -224,6 +233,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
   
 
   makeMysqlDockerTask:
@@ -232,6 +242,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
     config:
       template: mysql
 
@@ -242,6 +253,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
     config:
       template: rabbitmq
 
@@ -252,6 +264,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
     config:
       template: elasticsearch
 
@@ -262,6 +275,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
     config:
       template: cassandra
 
@@ -272,6 +286,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
     config:
       template: redis
 
@@ -282,6 +297,7 @@ tasks:
     - generator.docker.container.name
     - generator.service.name
     - generator.service.envs
+    - generator.task.dependencies
     config:
       template: mongo
 
@@ -297,6 +313,7 @@ tasks:
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.task.dependencies
 
   
   makeFastApiServiceTask:
@@ -308,6 +325,7 @@ tasks:
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.task.dependencies
     config:
       template: fastapi
 
@@ -322,6 +340,7 @@ tasks:
     - generator.goService.startCommand
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.task.dependencies
     config:
       serviceStartCommand: '{{ .GetValue "generator.goService.startCommand" }}'
       template: go
@@ -338,6 +357,7 @@ tasks:
     - generator.nodeJsService.runnerVersion
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.task.dependencies
     config:
       serviceStartCommand: '{{ .GetValue "generator.nodeJsService.startCommand" }}'
       runnerVersion: '{{ .GetValue "generator.nodeJsService.runnerVersion" }}'
@@ -354,6 +374,7 @@ tasks:
     - generator.pythonService.startCommand
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.task.dependencies
     config:
       serviceStartCommand: '{{ .GetValue "generator.pythonService.startCommand" }}'
       template: python
@@ -368,6 +389,7 @@ tasks:
     - generator.service.ports
     - generator.service.docker.image.name
     - generator.service.docker.container.name
+    - generator.task.dependencies
     config:
       template: static
 

@@ -199,8 +199,8 @@ class TaskProject(Project):
     def _load_dependency_list(self, service_name: str, dependency_list: List[str]):
         task_name = 'run{}'.format(capitalize(service_name))
         for dependency in dependency_list:
-            self.set_default([task_name, 'dependencies'], [])
-            self.append_if_not_exist([task_name, 'dependencies'], dependency)
+            self.set_default(['tasks', task_name, 'dependencies'], [])
+            self.append_if_not_exist(['tasks', task_name, 'dependencies'], dependency)
     
 
     def _get_env_dict_from_list(self, env_list: List[str]) -> Mapping[str, str]:

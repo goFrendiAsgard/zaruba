@@ -16,7 +16,7 @@ def test_service_project_generate():
     # generate service project
     service_project = ServiceProject()
     service_project.load_from_template('./test_resources/service.zaruba.yaml')
-    service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', port_list=[], env_list=[], dependency_list=[], runner_version='')
+    service_project.generate(dir_name=dir_name, service_name=service_name, image_name='myImage', container_name='myContainer', location='./test_resources/app', start_command='node main.js', port_list=[], env_list=["SPECIAL_ENV=SPECIAL_VAL"], dependency_list=["dependencyTask"], runner_version='')
     # assert env
     service_project.save_env(dir_name, service_name)
     envs: Mapping[str, str] = dotenv_values(os.path.join(dir_name, 'template.env'))
@@ -30,6 +30,7 @@ def test_service_project_generate():
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'lconfigRef']) == 'myService'
+    assert 'dependencyTask' in generated_project.get(['tasks', 'runMyService', 'dependencies'])
     # runMyServiceContainer
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'extend']) == 'core.startDockerContainer'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRef']) == 'myServiceContainer'
@@ -60,6 +61,8 @@ def test_service_project_generate():
     # envs
     assert generated_project.get(['envs', 'myService', 'PORT', 'from']) == 'MY_SERVICE_PORT'
     assert generated_project.get(['envs', 'myService', 'PORT', 'default']) == '3000'
+    assert generated_project.get(['envs', 'myService', 'SPECIAL_ENV', 'from']) == 'MY_SERVICE_SPECIAL_ENV'
+    assert generated_project.get(['envs', 'myService', 'SPECIAL_ENV', 'default']) == 'SPECIAL_VAL'
     # assert main project
     main_project = generated_project.main_project
     assert len(main_project.get(['includes'])) == 2
