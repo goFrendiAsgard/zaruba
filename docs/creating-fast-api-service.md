@@ -2,30 +2,29 @@
 
 FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints. You can visit [Fast API official website](https://fastapi.tiangolo.com/) for more information.
 
-To create a Fast API service, you can perform:
+To create a Fast API service, you can perform: `zaruba please makeFastApiService -i` and follow on screen instruction.
+
+## Example
 
 ```sh
+# run interactively
 zaruba please makeFastApiService -i
+
+# run with parameters
+zaruba please makeFastApiService generator.fastApi.service.name=myService
 ```
 
-You can then follow on screen instruction to create the service.
+## Involved Tasks
 
-Typically zaruba will ask you about several things:
-
-* Whether you want to load additional value files or not
-* Whether you want to load additional environment or not
-* Service name
-* Do you want to terminate task after complete
-
-The only thing you need to take care of is `serviceName`. Zaruba will make
+* [makeFastApiService](tasks/makeFastApiService.md)
 
 
 
 
 ## What's next
 
-* Creating Fast API service task
-* Creating Fast API module
-* Creating Fast API route
-* Creating Fast API event handler
+* Creating Fast API Service task
+* Creating Fast API Module
+* Creating Fast API Route
+* Creating Fast API Event handler
 * Creating Fast API RPC handler
