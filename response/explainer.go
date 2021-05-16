@@ -67,7 +67,17 @@ func (e *Explainer) getFieldKeys(list []string) (keys []string) {
 	return keys
 }
 
-func (e *Explainer) Explain(taskName string) {
+func (e *Explainer) Explain(taskNames ...string) (err error) {
+	if err = e.project.ValidateByTaskNames(taskNames); err != nil {
+		return err
+	}
+	for _, taskName := range taskNames {
+		e.explainTask(taskName)
+	}
+	return nil
+}
+
+func (e *Explainer) explainTask(taskName string) {
 	task := e.project.Tasks[taskName]
 	indentation := strings.Repeat(" ", 21)
 	parentTasks := task.Extends

@@ -71,34 +71,17 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/ma
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
-# 📜 Simple Use Case
+# 📜 Getting Started
 
-As software engineer you need to work with a lot of things. Some of those things are probably under your control, but in most cases you also need to deal with something beyond your control.
-
-Probably you need to do something with with legacy-code, distributed monolith, and other monstrousities. In some cases you need to run some of those legacy-codes in your computer just to figure out how things work before adding some features here and there.
-
-Sure, refactoring is probably a good idea, but not for now. Not when you don't know how things suppose to work in those hyped-driven-without-unit-tests things.
-
-To begin with, suppose you have clone two services named `bahemoth` and `leviathan`. Bahemoth was written by using Node.Js version 10, while leviathan was written by using Node.Js 14. Leviathan is somehow depends on bahemoth. You cannot run leviathan before bahemoth is running. Also, bahemoth is actually contains of two services, `bahemoth-master` and `bahemoth-worker`. But don't worry, `bahemoth-master` and `bahemoth-client` share the same code-base.
-
-Okay, to recap you have this:
+Before getting started, it is recommended to have `pyenv` and `nvm` installed. To install those pre-requisites, you can perform:
 
 ```
-# The codebase
-
-bahemoth-code (Node.Js v10)  ---runAs--> bahemoth-master
-                                |
-                                |------> bahemoth-worker
-
-leviathan-code (Node.Js v14) --runAs--> leviathan
-
-
-# Service dependencies
-
-bahemoth-master ---neededBy--> bahemoth-worker
-                   |
-                   |---------> leviathan
+zaruba please setupPyenv
+zaruba please setupNvm
 ```
+
+Now let's get started by [creating a project](docs/creating-a-project.md)
+
 
 # 🗺️ Roadmap
 

@@ -37,6 +37,58 @@ type Decoration struct {
 	iconIndex   int
 	iconList    []string
 	Skull       string
+	Success     string
+	Error       string
+	Start       string
+	Kill        string
+	Inspect     string
+	Run         string
+}
+
+func NewNoDecoration() (d *Decoration) {
+	return &Decoration{
+		Normal:      "",
+		Bold:        "",
+		Faint:       "",
+		Italic:      "",
+		Underline:   "",
+		BlinkSlow:   "",
+		BlinkRapid:  "",
+		Inverse:     "",
+		Conceal:     "",
+		CrossedOut:  "",
+		Black:       "",
+		Red:         "",
+		Green:       "",
+		Yellow:      "",
+		Blue:        "",
+		Magenta:     "",
+		Cyan:        "",
+		White:       "",
+		BgBlack:     "",
+		BgRed:       "",
+		BgGreen:     "",
+		BgYellow:    "",
+		BgBlue:      "",
+		BgMagenta:   "",
+		BgCyan:      "",
+		BgWhite:     "",
+		NoStyle:     "",
+		NoUnderline: "",
+		NoInverse:   "",
+		NoColor:     "",
+		Skull:       "  ",
+		Success:     "  ",
+		Error:       "  ",
+		Start:       "  ",
+		Kill:        "  ",
+		Inspect:     "  ",
+		Run:         "  ",
+		colorIndex:  0,
+		iconIndex:   0,
+		iconList:    []string{"  "},
+		colorList:   []string{""},
+	}
 }
 
 // NewDecoration Create New Decoration
@@ -74,6 +126,12 @@ func NewDecoration() (d *Decoration) {
 		NoInverse:   "\x1b[27m",
 		NoColor:     "\x1b[39m",
 		Skull:       "💀",
+		Success:     "🎉",
+		Error:       "🔥",
+		Start:       "🏁",
+		Kill:        "🔪",
+		Inspect:     "🔎",
+		Run:         "🚀",
 		colorIndex:  0,
 		iconIndex:   0,
 		iconList: []string{

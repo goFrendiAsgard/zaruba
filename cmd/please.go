@@ -20,6 +20,8 @@ var pleaseFile string
 var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
 var pleaseTerminate *bool
+var pleaseExplain *bool
+var pleaseNoDecor *bool
 var pleaseWait string
 
 // pleaseCmd represents the please command
@@ -30,25 +32,32 @@ var pleaseCmd = &cobra.Command{
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
+		if *pleaseNoDecor {
+			decoration = output.NewNoDecoration()
+		}
 		logger := output.NewConsoleLogger(decoration)
 		project, taskNames := getProjectOrExit(logger, decoration, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := response.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
 		// no task provided
-		if len(taskNames) == 0 {
+		if len(taskNames) == 0 && !*pleaseExplain {
 			taskName := getTaskNameInteractivelyOrExit(logger, decoration, prompter)
 			taskNames = []string{taskName}
 			action := getActionOrExit(logger, decoration, prompter, taskName)
 			if action.Explain {
-				initProjectOrExit(logger, decoration, project)
-				explainer.Explain(taskName)
-				return
+				*pleaseExplain = true
 			}
 			if action.RunInteractive {
 				*pleaseInteractive = true
 			}
 			isFallbackInteraction = true
+		}
+		// handle "--explain"
+		if *pleaseExplain {
+			initProjectOrExit(logger, decoration, project)
+			explainer.Explain(taskNames...)
+			return
 		}
 		// handle "--previous"
 		previousValueFile := ".previous.values.yaml"
@@ -108,6 +117,8 @@ func init() {
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively")
+	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "if set, the tasks will be explained instead of executed")
+	pleaseNoDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "if set, there will be no decoration")
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "if set, tasks will be terminated after complete")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")

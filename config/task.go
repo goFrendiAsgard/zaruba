@@ -556,7 +556,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logDone chan 
 
 func (task *Task) getCmdIconType(cmdType string) string {
 	if cmdType == "CHECK" {
-		return "🔎"
+		return task.Project.decoration.Inspect
 	}
-	return "🚀"
+	return task.Project.decoration.Run
 }

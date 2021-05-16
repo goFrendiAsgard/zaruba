@@ -2,6 +2,7 @@ package output
 
 import (
 	"fmt"
+	"io"
 	"strings"
 	"sync"
 )
@@ -67,6 +68,18 @@ func (m *MockLogger) Println(args ...interface{}) (n int, err error) {
 
 func (m *MockLogger) Printf(template string, args ...interface{}) (n int, err error) {
 	return m.printf(template, args...)
+}
+
+func (m *MockLogger) Fprint(w io.Writer, a ...interface{}) (n int, err error) {
+	return m.print(a...)
+}
+
+func (m *MockLogger) Fprintln(w io.Writer, a ...interface{}) (n int, err error) {
+	return m.print(a...)
+}
+
+func (m *MockLogger) Fprintf(w io.Writer, template string, a ...interface{}) (n int, err error) {
+	return m.printf(template, a...)
 }
 
 func (m *MockLogger) DPrintf(template string, args ...interface{}) (n int, err error) {
