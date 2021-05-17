@@ -12,7 +12,7 @@ cd newProject
 zaruba please initProject
 ```
 
-## Involved Tasks
+## Involved tasks
 
 * [initProject](tasks/initProject.md)
 

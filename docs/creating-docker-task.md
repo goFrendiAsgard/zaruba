@@ -24,7 +24,7 @@ zaruba please makeMySqlDockerTask -i
 zaruba please makeDockerTask generator.docker.image.name=nginx generator.docker.container.name=myNginx generator.service.name=myNginx generator.service.envs="MY_ENV=MY_VALUE" ports=80
 ```
 
-## Involved Tasks:
+## Involved tasks:
 
 * [makeDockerTask](tasks/makeDockerTask.md)
 * [makeCassandraDockerTask](tasks/makeCassandraDockerTask.md)
@@ -37,7 +37,7 @@ zaruba please makeDockerTask generator.docker.image.name=nginx generator.docker.
 
 ## What's next
 
-* [Running tasks](runnit-task.md)
+* [Running tasks](running-task.md)
 * [Creating service task](creating-service-task.md)
 * [Creating task manually](understanding-task.md)
 * [Creating Fast API service](creating-fast-api-service.md)

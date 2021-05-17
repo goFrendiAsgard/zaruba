@@ -22,7 +22,7 @@ zaruba please makeFastApiServiceTask -i
 zaruba please makeServiceTask generator.service.location=./some-directory/myService generator.service.name=myService generator.service.envs="MY_ENV=MY_VALUE" ports=3000 generator.service.docker.image.name=myService generator.service.docker.container.name=myServiceContainer
 ```
 
-## Involved Tasks:
+## Involved tasks:
 
 * [makeServiceTask](tasks/makeServiceTask.md)
 * [makeFastApiServiceTask](tasks/makeFastApiServiceTask.md)
@@ -33,7 +33,7 @@ zaruba please makeServiceTask generator.service.location=./some-directory/myServ
 
 ## What's next
 
-* [Running tasks](runnit-task.md)
+* [Running tasks](running-task.md)
 * [Creating docker task](creating-docker-task.md)
 * [Creating task manually](understanding-task.md)
 * [Creating Fast API service](creating-fast-api-service.md)

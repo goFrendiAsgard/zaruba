@@ -56,7 +56,7 @@ zaruba please runContainer -i -t -w 5s
 zaruba please runContainer -x
 ```
 
-## Involved Tasks
+## Involved tasks
 
 * [core.startService](tasks/core.startService.md) (extended)
 * [core.startDockerContainer](tasks/core.startDockerContainer.md) (extended)
