@@ -33,6 +33,7 @@ zaruba please makeServiceTask generator.service.location=./some-directory/myServ
 
 ## What's next
 
-* Running tasks
-* [Creating docker task](creating-docker-task.md): So you are working with docker? Running third party application as docker container is a good idea. If you want to add MySQL/Cassandra/RabbitMq/Redis container to your project, you need to go here.
-* [Creating task manually](understanding-task.md): Do you want to understand zaruba script in detail so that you can make your own task without using any generator? Then this is going to be the right step.
+* [Running tasks](runnit-task.md)
+* [Creating docker task](creating-docker-task.md)
+* [Creating task manually](understanding-task.md)
+* [Creating Fast API service](creating-fast-api-service.md)
