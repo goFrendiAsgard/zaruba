@@ -65,7 +65,7 @@ To create Fast API route, you can perform: `zaruba please makeFastApiRoute -i` a
 zaruba please makeFastApiRoute -i
 
 # run with parameter
-zaruba please makeFastApiRoute generator.fastApi.serviceName=myService generator.fastApi.moduleName=myModule generator.fastApi.httpMethod=get generator.fastApi.url='/hello'
+zaruba please makeFastApiRoute generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.httpMethod=get generator.fastApi.url='/hello'
 ```
 
 
@@ -76,4 +76,7 @@ zaruba please makeFastApiRoute generator.fastApi.serviceName=myService generator
 
 ## What's next
 
-TODO
+* [Creating Fast API service task](creating-fast-api-service-task.md)
+* [Creating Fast API event handler](creating-fast-api-event-handler.md)
+* [Creating Fast API RPC handler](creating-fast-api-rpc-handler.md)
+* Creating Fast API CRUD

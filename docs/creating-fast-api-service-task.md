@@ -18,4 +18,8 @@ zaruba please makeFastApiServiceTask generator.service.location=./some-directory
 
 ## What's next:
 
-TODO
+* [Creating Fast API module](creating-fast-api-module.md)
+* [Creating Fast API route](creating-fast-api-route.md)
+* [Creating Fast API event handler](creating-fast-api-event-handler.md)
+* [Creating Fast API RPC handler](creating-fast-api-rpc-handler.md)
+* Creating Fast API CRUD

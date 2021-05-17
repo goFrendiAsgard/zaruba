@@ -27,7 +27,7 @@ zaruba please makeFastApiService generator.fastApi.service.name=myService
 
 * [Creating Fast API service task](creating-fast-api-service-task.md)
 * [Creating Fast API module](creating-fast-api-module.md)
-* Creating Fast API route
-* Creating Fast API event handler
-* Creating Fast API RPC handler
+* [Creating Fast API route](creating-fast-api-route.md)
+* [Creating Fast API event handler](creating-fast-api-event-handler.md)
+* [Creating Fast API RPC handler](creating-fast-api-rpc-handler.md)
 * Creating Fast API CRUD
