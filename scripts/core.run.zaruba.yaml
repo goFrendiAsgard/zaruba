@@ -195,8 +195,10 @@ tasks:
       _start: |
         {{ $this := . -}}
         {{ range $index, $query := .GetLConfig "queries" -}}
+          echo "SQL: {{ $query }}"
           docker exec "{{ $this.GetConfig "containerName" }}" mysql -u {{ $this.GetConfig "user" }} -p{{ $this.GetConfig "password" }} -e "{{ $query }}"
         {{ end -}}
+      start: ""
 
      
   core.cassandra.execCql:
@@ -211,5 +213,7 @@ tasks:
       _start: |
         {{ $this := . -}}
         {{ range $index, $query := .GetLConfig "queries" -}}
+          echo "CQL: {{ $query }}"
           docker exec "{{ $this.GetConfig "containerName" }}" cqlsh -e "{{ $query }}"
         {{ end -}}
+      start: ""
