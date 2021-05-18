@@ -1,13 +1,13 @@
 # core.runShellScript
 ```
       TASK NAME    : core.runShellScript
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
       DESCRIPTION  : Run shell script
                      Common config:
                        start : Start script
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runScript ]
-      DEPENDENCIES : [ core.initBootstrap ]
+      DEPENDENCIES : [ core.bootstrap ]
       START        : - {{ .GetConfig "cmd" }}
                      - {{ .GetConfig "cmdArg" }}
                      - {{ .Trim (.GetConfig "_setup") "\n " }}

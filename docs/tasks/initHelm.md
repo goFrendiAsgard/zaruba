@@ -1,7 +1,7 @@
 # initHelm
 ```
       TASK NAME    : initHelm
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Create helm deployment artifacts.
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

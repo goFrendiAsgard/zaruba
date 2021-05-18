@@ -1,7 +1,7 @@
 # core.cassandra.execCql
 ```
       TASK NAME    : core.cassandra.execCql
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]
       START        : - {{ .GetConfig "cmd" }}
@@ -18,6 +18,7 @@
                                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                        _start                      : {{ $this := . -}}
                                                      {{ range $index, $query := .GetLConfig "queries" -}}
+                                                       echo "CQL: {{ $query }}"
                                                        docker exec "{{ $this.GetConfig "containerName" }}" cqlsh -e "{{ $query }}"
                                                      {{ end -}}
                        afterStart                  : Blank
@@ -61,7 +62,7 @@
                        kubeContext                 : {{ .GetValue "kube.context" }}
                        playBellScript              : echo $'\a'
                        setup                       : Blank
-                       start                       : echo "No script defined"
+                       start                       : Blank
                        useImagePrefix              : true
       LCONFIG      :   queries : []
       ENVIRONMENTS : PYTHONUNBUFFERED

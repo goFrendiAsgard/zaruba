@@ -1,7 +1,7 @@
 # initSubrepos
 ```
       TASK NAME    : initSubrepos
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Init subrepositories.
                      ARGUMENTS:
                        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo

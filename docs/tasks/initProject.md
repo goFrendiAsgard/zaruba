@@ -1,7 +1,7 @@
 # initProject
 ```
       TASK NAME    : initProject
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Initiate empty zaruba project.
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

@@ -1,7 +1,7 @@
 # setProjectValue
 ```
       TASK NAME    : setProjectValue
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Set project value.
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]

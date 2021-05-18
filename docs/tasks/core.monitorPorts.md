@@ -1,7 +1,7 @@
 # core.monitorPorts
 ```
       TASK NAME    : core.monitorPorts
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.service.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
       DESCRIPTION  : Throw error when any port is inactive
                      Common lconfig:
                        ports: Ports to be checked (e.g: [8080, 3306])

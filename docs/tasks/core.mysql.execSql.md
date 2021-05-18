@@ -1,7 +1,7 @@
 # core.mysql.execSql
 ```
       TASK NAME    : core.mysql.execSql
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runCoreScript ]
       START        : - {{ .GetConfig "cmd" }}
@@ -18,6 +18,7 @@
                                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                        _start                      : {{ $this := . -}}
                                                      {{ range $index, $query := .GetLConfig "queries" -}}
+                                                       echo "SQL: {{ $query }}"
                                                        docker exec "{{ $this.GetConfig "containerName" }}" mysql -u {{ $this.GetConfig "user" }} -p{{ $this.GetConfig "password" }} -e "{{ $query }}"
                                                      {{ end -}}
                        afterStart                  : Blank
@@ -62,7 +63,7 @@
                        password                    : {{ .GetEnv "MYSQL_ROOT_PASSWORD" }}
                        playBellScript              : echo $'\a'
                        setup                       : Blank
-                       start                       : echo "No script defined"
+                       start                       : Blank
                        useImagePrefix              : true
                        user                        : root
       LCONFIG      :   queries : []

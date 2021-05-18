@@ -1,7 +1,7 @@
 # core.prepareNodeJsApp
 ```
       TASK NAME    : core.prepareNodeJsApp
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
       DESCRIPTION  : Prepare NodeJs Application
       TASK TYPE    : Command Task
       PARENT TASKS : [ core.runNvmScript ]

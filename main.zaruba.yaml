@@ -179,7 +179,7 @@ tasks:
       - makeFastApiEventHandler
       - makeFastApiRpcHandler
       - makeFastApiCrud
-      - core.initBootstrap
+      - core.bootstrap
       - core.setupPyUtil
       - setupUbuntu
       - setupTmux

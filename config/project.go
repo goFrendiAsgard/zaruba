@@ -70,17 +70,18 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string)
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	logger.Fprintf(os.Stderr, "%s %sLoading %s%s\n", d.Start, d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
-		Includes:         []string{},
-		RawEnvRefMap:     map[string]map[string]Env{},
-		RawConfigRefMap:  map[string]map[string]string{},
-		RawLConfigRefMap: map[string]map[string][]string{},
-		Tasks:            map[string]*Task{},
-		Inputs:           map[string]*Variable{},
-		values:           map[string]string{},
-		EnvRefMap:        map[string]EnvRef{},
-		ConfigRefMap:     map[string]ConfigRef{},
-		LConfigRefMap:    map[string]LConfigRef{},
-		IsInitialized:    false,
+		Includes:                   []string{},
+		RawEnvRefMap:               map[string]map[string]Env{},
+		RawConfigRefMap:            map[string]map[string]string{},
+		RawLConfigRefMap:           map[string]map[string][]string{},
+		Tasks:                      map[string]*Task{},
+		Inputs:                     map[string]*Variable{},
+		values:                     map[string]string{},
+		EnvRefMap:                  map[string]EnvRef{},
+		ConfigRefMap:               map[string]ConfigRef{},
+		LConfigRefMap:              map[string]LConfigRef{},
+		IsInitialized:              false,
+		maxPublishedTaskNameLength: 17,
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
 	b, err := keyValidator.Validate()
@@ -587,15 +588,8 @@ func (p *Project) cascadeLConfigRef(parsedIncludeLocation string, includedProjec
 
 func (p *Project) setSortedTaskNames() {
 	p.sortedTaskNames = []string{}
-	p.maxPublishedTaskNameLength = 0
-	for taskName, task := range p.Tasks {
-		if !task.Private && len(taskName) > p.maxPublishedTaskNameLength {
-			p.maxPublishedTaskNameLength = len(taskName)
-		}
+	for taskName := range p.Tasks {
 		p.sortedTaskNames = append(p.sortedTaskNames, taskName)
-	}
-	if p.maxPublishedTaskNameLength > 15 {
-		p.maxPublishedTaskNameLength = 15
 	}
 	sort.Strings(p.sortedTaskNames)
 }

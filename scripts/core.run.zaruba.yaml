@@ -49,7 +49,7 @@ tasks:
     private: true
     extend: core.runScript
     dependencies:
-    - core.initBootstrap
+    - core.bootstrap
     configRef: core.shell
     config:
       _setup: |
@@ -67,7 +67,7 @@ tasks:
     private: true
     extend: core.runShellScript
     dependencies:
-    - core.initBootstrap
+    - core.bootstrap
     configRef: core.shell
     config:
       _setup: |

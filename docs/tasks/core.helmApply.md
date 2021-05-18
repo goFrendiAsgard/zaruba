@@ -1,7 +1,7 @@
 # core.helmApply
 ```
       TASK NAME    : core.helmApply
-      LOCATION     : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+      LOCATION     : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
       DESCRIPTION  : Apply helm charts by using helmfile.
                      Common config:
                        helmEnv     : helm environment key (default: '{{ .GetValue "helm.env" }}')
