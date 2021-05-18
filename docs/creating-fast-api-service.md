@@ -2,7 +2,7 @@
 
 FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints. You can visit [Fast API official website](https://fastapi.tiangolo.com/) for more information.
 
-When you make a Fast API service, zaruba will create a file named `main.py`. You can thing this `main.py` as dependency injection container without any magic. Thus, you need to initialize every object you are going to need in this file.
+When you make a Fast API service, zaruba will create a file named `main.py`. You can think this `main.py` as dependency injection container without any magic. Thus, you need to initialize every object you are going to need in this file.
 
 But of course, in most cases, you can just use zaruba's generator so that you don't need to touch the file at all. You can even make a fully working CRUD API without touching your text editor.
 
@@ -30,4 +30,4 @@ zaruba please makeFastApiService generator.fastApi.service.name=myService
 * [Creating Fast API route](creating-fast-api-route.md)
 * [Creating Fast API event handler](creating-fast-api-event-handler.md)
 * [Creating Fast API RPC handler](creating-fast-api-rpc-handler.md)
-* Creating Fast API CRUD
+* [Creating Fast API Crud](creating-fast-api-crud.md)

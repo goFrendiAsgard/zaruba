@@ -419,8 +419,29 @@ Furthermore, you can also override anything defined by parent task. In our case,
 
 Most of zaruba's generated tasks are extending one or more parent task.
 
-## What's next
+## Include zaruba script
 
+The more you add tasks to your project, the bigger your file become. But don't worry, you can put your tasks into separated files and load them in your `main.zaruba.yaml`.
+
+When you init a project, zaruba automatically include it's core script:
+
+```yaml
+includes:
+- ${ZARUBA_HOME}/scripts/core.zaruba.yaml
+```
+`ZARUBA_HOME` is a special environment variable. It normally points to `~/.zaruba`.
+
+You can take this further by including your custom script:
+
+```yaml
+includes:
+- ${ZARUBA_HOME}/scripts/core.zaruba.yaml
+- ./my-task.zaruba.yaml
+```
+
+You only need to include other zaruba scripts in your `main.zaruba.yaml`. The included scripts will be interconnected to each others. 
+
+## What's next
 
 * [Running tasks](running-task.md)
 * [Creating service task](creating-service-task.md)
