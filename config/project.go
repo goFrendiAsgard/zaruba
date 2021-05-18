@@ -68,7 +68,7 @@ func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration
 
 func loadProject(logger output.Logger, d *output.Decoration, projectFile string) (p *Project, err error) {
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
-	logger.Fprintf(os.Stderr, "%s %sLoading %s%s\n", d.Success, d.Faint, parsedProjectFile, d.Normal)
+	logger.Fprintf(os.Stderr, "%s %sLoading %s%s\n", d.Start, d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
 		Includes:         []string{},
 		RawEnvRefMap:     map[string]map[string]Env{},
