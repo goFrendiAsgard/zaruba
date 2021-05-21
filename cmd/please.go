@@ -7,10 +7,10 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/previousval"
-	"github.com/state-alchemists/zaruba/response"
 	"github.com/state-alchemists/zaruba/runner"
 )
 
@@ -38,7 +38,7 @@ var pleaseCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		project, taskNames := getProjectOrExit(logger, decoration, args)
 		prompter := input.NewPrompter(logger, decoration, project)
-		explainer := response.NewExplainer(logger, decoration, project)
+		explainer := explainer.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
 		// no task provided
 		if len(taskNames) == 0 && !*pleaseExplain {
@@ -140,7 +140,7 @@ func getActionOrExit(logger *output.ConsoleLogger, decoration *output.Decoration
 	return action
 }
 
-func explainOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, explainer *response.Explainer, taskNames []string) {
+func explainOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, explainer *explainer.Explainer, taskNames []string) {
 	if err := explainer.Explain(taskNames...); err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
