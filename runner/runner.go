@@ -250,8 +250,8 @@ func (r *Runner) run(ch chan error) {
 	r.setDoneSignal()
 	r.showStatus()
 	d := r.decoration
-	r.logger.DPrintfSuccess("%s%s🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
-	r.logger.DPrintfSuccess("%s%sJob Complete!!! 🎉🎉🎉%s\n", d.Bold, d.Green, d.Normal)
+	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.Success, 11))
+	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.Success, 3), d.Normal)
 	if r.autoTerminate {
 		r.sleep(r.autoTerminateDelay)
 		ch <- nil
