@@ -544,7 +544,8 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logDone chan 
 	var err error = nil
 	for buf.Scan() {
 		content := buf.Text()
-		print("%s %s\n", prefix, content)
+		now := fmt.Sprintf("%12s", time.Now().Round(time.Millisecond).Format("15:04:05.999999999"))
+		print("%s %s%s%s %s\n", prefix, d.Faint, now, d.Normal, content)
 		if saveLog {
 			if csvWriteErr := task.Project.dataLogger.Log(logType, cmdType, taskName, content, task.logPrefix); csvWriteErr != nil {
 				err = csvWriteErr

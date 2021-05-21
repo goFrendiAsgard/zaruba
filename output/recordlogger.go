@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"os"
 	"sync"
-	"time"
 )
 
 type RecordLogger interface {
@@ -27,9 +26,7 @@ func NewCSVRecordLogger(fileName string) (c *CSVRecordLogger) {
 }
 
 // Log will log array of string
-func (c *CSVRecordLogger) Log(data ...string) (err error) {
-	record := []string{time.Now().String()}
-	record = append(record, data...)
+func (c *CSVRecordLogger) Log(record ...string) (err error) {
 	c.Mutex.Lock()
 	defer c.Mutex.Unlock()
 	f, err := os.OpenFile(c.FileName, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
