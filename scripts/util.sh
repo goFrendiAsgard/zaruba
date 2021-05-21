@@ -439,7 +439,7 @@ init_bootstrap() {
     fi
     . "${_BOOTSTRAP_SCRIPT}"
     # also include .local/bin
-    if echo "$PATH" | grep -Fqe ".local/bin"
+    if echo "$PATH" | grep -Fqe "${HOME}/.local/bin"
     then
         echo "${Faint}${HOME}/.local/bin is already in the PATH${Normal}"
     else
