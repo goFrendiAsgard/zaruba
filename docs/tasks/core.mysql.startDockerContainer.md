@@ -185,7 +185,7 @@
                                                 fi
                                                 BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                                 . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript           : . ${ZARUBA_HOME}/scripts/util.sh
+                  includeUtilScript           : . "${ZARUBA_HOME}/scripts/util.sh"
                   initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
                                                   DOCKER_IMAGE_PREFIX=""
                                                 {{ else if .GetConfig "imagePrefix" -}}

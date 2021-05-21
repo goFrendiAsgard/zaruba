@@ -40,7 +40,7 @@
                                             fi
                                             BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                             . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript       : . ${ZARUBA_HOME}/scripts/util.sh
+                  includeUtilScript       : . "${ZARUBA_HOME}/scripts/util.sh"
                   installTypeScript       : false
                   nodeVersion             : node
                   npmCleanCache           : false

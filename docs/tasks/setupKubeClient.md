@@ -20,7 +20,7 @@
                   setup.helmfileVersion
                     DESCRIPTION : Helmfile version to be installed
                     PROMPT      : Helmfile version to be installed
-                    DEFAULT     : v0.138.2
+                    DEFAULT     : v0.139.6
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
@@ -44,7 +44,7 @@
                                            fi
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/util.sh
+                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
