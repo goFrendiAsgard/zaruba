@@ -534,7 +534,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logDone chan 
 	buf := bufio.NewScanner(pipe)
 	d := task.Project.decoration
 	cmdIconType := task.getCmdIconType(cmdType)
-	prefix := fmt.Sprintf("  %s%s%s %s", d.Faint, cmdIconType, d.Normal, task.logPrefix)
+	prefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
 	saveLog := task.SaveLog == "" || boolean.IsTrue(task.SaveLog)
 	print := task.Project.logger.DPrintf
 	if logType == "ERR" {

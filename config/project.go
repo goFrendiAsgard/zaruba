@@ -81,7 +81,7 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string)
 		ConfigRefMap:               map[string]ConfigRef{},
 		LConfigRefMap:              map[string]LConfigRef{},
 		IsInitialized:              false,
-		maxPublishedTaskNameLength: 17,
+		maxPublishedTaskNameLength: 19,
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
 	b, err := keyValidator.Validate()
