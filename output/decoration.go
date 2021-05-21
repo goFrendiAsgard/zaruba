@@ -44,6 +44,7 @@ type Decoration struct {
 	Inspect     string
 	Run         string
 	Empty       string
+	Icon        func(string) string
 }
 
 func NewNoDecoration() (d *Decoration) {
@@ -90,6 +91,7 @@ func NewNoDecoration() (d *Decoration) {
 		iconIndex:   0,
 		iconList:    []string{""},
 		colorList:   []string{""},
+		Icon:        func(icon string) string { return "" },
 	}
 }
 
@@ -140,6 +142,7 @@ func NewDecoration() (d *Decoration) {
 		iconList: []string{
 			"🍏", "🍎", "🍌", "🍉", "🍇", "🍐", "🍊", "🍋", "🍓", "🍈", "🍒", "🍑", "🍍", "🥝", "🍅", "🍆", "🥑",
 		},
+		Icon: func(icon string) string { return icon },
 	}
 	d.colorList = []string{
 		d.Green,
@@ -147,6 +150,7 @@ func NewDecoration() (d *Decoration) {
 		d.Blue,
 		d.Magenta,
 		d.Cyan,
+		d.Bold + d.White,
 		d.Bold + d.Green,
 		d.Bold + d.Yellow,
 		d.Bold + d.Blue,

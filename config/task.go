@@ -387,7 +387,7 @@ func (task *Task) generateLogPrefix() {
 	paddedStr := strings.Repeat(" ", repeat)
 	d := task.Project.decoration
 	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.GetName(), d.Normal, paddedStr)
-	task.logPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, task.Icon, d.Normal)
+	task.logPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, d.Icon(task.Icon), d.Normal)
 }
 
 func (task *Task) getPath() (path string) {

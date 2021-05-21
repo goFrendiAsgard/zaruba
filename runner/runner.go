@@ -309,7 +309,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 	startLogDone := make(chan error)
 	startCmd, startExist, startErr := task.GetStartCmd(startLogDone)
 	if !startExist {
-		r.logger.DPrintfSuccess("Reach %s '%s' wrapper\n", task.Icon, task.GetName())
+		r.logger.DPrintfSuccess("Reach %s '%s' wrapper\n", r.decoration.Icon(task.Icon), task.GetName())
 		r.finishTask(task.GetName(), nil)
 		ch <- nil
 		return
@@ -336,20 +336,20 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 }
 
 func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd, startLogDone chan error) (err error) {
-	r.logger.DPrintfStarted("Run %s '%s' command on %s\n", task.Icon, task.GetName(), startCmd.Dir)
+	r.logger.DPrintfStarted("Run %s '%s' command on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
 		err = startCmd.Start()
 	}
 	if err != nil {
 		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			r.logger.DPrintfError("Error running command %s '%s':\n%s\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd), err)
+			r.logger.DPrintfError("Error running command %s '%s':\n%s\n%s\n", r.decoration.Icon(task.Icon), task.GetName(), r.sprintfCmdArgs(startCmd), err)
 		} else {
-			r.logger.DPrintfError("Error running command %s '%s': %s\n", task.Icon, task.GetName(), err)
+			r.logger.DPrintfError("Error running command %s '%s': %s\n", r.decoration.Icon(task.Icon), task.GetName(), err)
 		}
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("%s '%s' command", task.Icon, task.GetName())
+	startCmdLabel := fmt.Sprintf("%s '%s' command", r.decoration.Icon(task.Icon), task.GetName())
 	r.registerCommandCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
 	err = r.waitTaskCmd(task, startCmd, startCmdLabel, startLogDone)
 	r.unregisterCmd(startCmdLabel)
@@ -365,39 +365,39 @@ func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd 
 }
 
 func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err error) {
-	r.logger.DPrintfStarted("Run %s '%s' service on %s\n", task.Icon, task.GetName(), startCmd.Dir)
+	r.logger.DPrintfStarted("Run %s '%s' service on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
 		err = startCmd.Start()
 	}
 	if err != nil {
 		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			r.logger.DPrintfError("Error starting service %s '%s':\n%s\n%s\n", task.Icon, task.GetName(), r.sprintfCmdArgs(startCmd), err)
+			r.logger.DPrintfError("Error starting service %s '%s':\n%s\n%s\n", r.decoration.Icon(task.Icon), task.GetName(), r.sprintfCmdArgs(startCmd), err)
 		} else {
-			r.logger.DPrintfError("Error starting service %s '%s': %s\n", task.Icon, task.GetName(), err)
+			r.logger.DPrintfError("Error starting service %s '%s': %s\n", r.decoration.Icon(task.Icon), task.GetName(), err)
 		}
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("%s '%s' service", task.Icon, task.GetName())
+	startCmdLabel := fmt.Sprintf("%s '%s' service", r.decoration.Icon(task.Icon), task.GetName())
 	r.registerProcessCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
 	return err
 }
 
 func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd, checkLogDone chan error) (err error) {
-	r.logger.DPrintfStarted("Check %s '%s' readiness on %s\n", task.Icon, task.GetName(), checkCmd.Dir)
+	r.logger.DPrintfStarted("Check %s '%s' readiness on %s\n", r.decoration.Icon(task.Icon), task.GetName(), checkCmd.Dir)
 	checkStdinPipe, err := checkCmd.StdinPipe()
 	if err == nil {
 		err = checkCmd.Start()
 	}
 	if err != nil {
 		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			r.logger.DPrintfError("Error checking service %s '%s' readiness:\n%s\n\n%s", task.Icon, task.GetName(), r.sprintfCmdArgs(checkCmd), err)
+			r.logger.DPrintfError("Error checking service %s '%s' readiness:\n%s\n\n%s", r.decoration.Icon(task.Icon), task.GetName(), r.sprintfCmdArgs(checkCmd), err)
 		} else {
-			r.logger.DPrintfError("Error checking service %s '%s' readiness: %s\n", task.Icon, task.GetName(), err)
+			r.logger.DPrintfError("Error checking service %s '%s' readiness: %s\n", r.decoration.Icon(task.Icon), task.GetName(), err)
 		}
 		return err
 	}
-	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", task.Icon, task.GetName())
+	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", r.decoration.Icon(task.Icon), task.GetName())
 	r.registerCommandCmd(checkCmdLabel, task.GetName(), checkCmd, checkStdinPipe)
 	err = r.waitTaskCmd(task, checkCmd, checkCmdLabel, checkLogDone)
 	r.unregisterCmd(checkCmdLabel)
