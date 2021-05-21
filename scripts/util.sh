@@ -444,7 +444,7 @@ init_bootstrap() {
         echo "${Faint}${HOME}/.local/bin is already in the PATH${Normal}"
     else
         TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")"
-        . "${ZARUBA_HOME}/scripts/util/sh/append_if_exist.sh" "${TEMPLATE_CONTENT}" "${_BOOTSTRAP_SCRIPT}"
+        append_if_exist "${TEMPLATE_CONTENT}" "${_BOOTSTRAP_SCRIPT}"
         . "${_BOOTSTRAP_SCRIPT}"
     fi    
 }
