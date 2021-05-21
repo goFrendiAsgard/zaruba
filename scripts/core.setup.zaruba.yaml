@@ -65,7 +65,7 @@ inputs:
 
   
   setup.helmfileVersion:
-    default: v0.138.2
+    default: v0.139.6
     validation: ^.+$
     description: Helmfile version to be installed
     prompt: Helmfile version to be installed
@@ -134,10 +134,10 @@ tasks:
                 exit 1
             fi
           {{ end }}
-          setup_ubuntu
+          . "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
         else
           {{ if .GetValue "setup.userPassword" }}
-            echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S setup_ubuntu
+            echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S {{ .GetConfig "cmd" }} "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
           {{ else }}
             echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setup.userPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
             exit 1

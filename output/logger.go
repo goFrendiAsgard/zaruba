@@ -65,7 +65,7 @@ func (l *ConsoleLogger) dPrintf(template string, args ...interface{}) (n int, er
 
 // DPrintf is a decorated fmt.Printf
 func (l *ConsoleLogger) DPrintf(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("   %s", template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.Empty, template)
 	return l.dPrintf(pTemplate, args...)
 }
 

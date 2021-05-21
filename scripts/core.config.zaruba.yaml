@@ -3,7 +3,7 @@ configs:
 
   core.shell:
     playBellScript: echo $'\a'
-    includeUtilScript: . ${ZARUBA_HOME}/scripts/util.sh
+    includeUtilScript: . "${ZARUBA_HOME}/scripts/util.sh"
     includeBootstrapScript: |
       if [ -f "${HOME}/.profile" ]
       then

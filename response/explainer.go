@@ -79,24 +79,24 @@ func (e *Explainer) Explain(taskNames ...string) (err error) {
 
 func (e *Explainer) explainTask(taskName string) {
 	task := e.project.Tasks[taskName]
-	indentation := strings.Repeat(" ", 21)
+	indentation := strings.Repeat(" ", 18) + strings.Repeat(e.d.Empty, 2)
 	parentTasks := task.Extends
 	if len(parentTasks) == 0 && task.Extend != "" {
 		parentTasks = []string{task.Extend}
 	}
 	start, check, taskType := e.getCmdPatterns(task)
-	e.printField("TASK NAME   ", taskName, indentation)
-	e.printField("LOCATION    ", task.GetFileLocation(), indentation)
-	e.printField("DESCRIPTION ", task.Description, indentation)
-	e.printField("TASK TYPE   ", taskType, indentation)
-	e.printField("PARENT TASKS", e.listToStr(parentTasks), indentation)
-	e.printField("DEPENDENCIES", e.listToStr(task.Dependencies), indentation)
-	e.printField("START       ", e.listToMultiLineStr(start), indentation)
-	e.printField("CHECK       ", e.listToMultiLineStr(check), indentation)
-	e.printField("INPUTS      ", e.getInputString(task), indentation)
-	e.printField("CONFIG      ", e.getConfigString(task), indentation)
-	e.printField("LCONFIG     ", e.getLConfigString(task), indentation)
-	e.printField("ENVIRONMENTS", e.getEnvString(task), indentation)
+	e.printField("TASK NAME    ", taskName, indentation)
+	e.printField("LOCATION     ", task.GetFileLocation(), indentation)
+	e.printField("DESCRIPTION  ", task.Description, indentation)
+	e.printField("TASK TYPE    ", taskType, indentation)
+	e.printField("PARENT TASKS ", e.listToStr(parentTasks), indentation)
+	e.printField("DEPENDENCIES ", e.listToStr(task.Dependencies), indentation)
+	e.printField("START        ", e.listToMultiLineStr(start), indentation)
+	e.printField("CHECK        ", e.listToMultiLineStr(check), indentation)
+	e.printField("INPUTS       ", e.getInputString(task), indentation)
+	e.printField("CONFIG       ", e.getConfigString(task), indentation)
+	e.printField("LCONFIG      ", e.getLConfigString(task), indentation)
+	e.printField("ENVIRONMENTS ", e.getEnvString(task), indentation)
 }
 
 func (e *Explainer) getCmdPatterns(task *config.Task) (start []string, check []string, taskType string) {
@@ -117,15 +117,16 @@ func (e *Explainer) getInputString(task *config.Task) (inputString string) {
 	if inputCount == 0 {
 		return ""
 	}
+	subFieldIndentation := strings.Repeat(" ", 2)
 	for _, inputName := range inputNames {
 		input := e.project.Inputs[inputName]
 		rawInputLines := []string{
 			inputName,
-			e.getSubFieldString("DESCRIPTION", input.Description),
-			e.getSubFieldString("PROMPT     ", input.Prompt),
-			e.getSubFieldString("OPTIONS    ", e.listToStr(input.Options)),
-			e.getSubFieldString("DEFAULT    ", input.DefaultValue),
-			e.getSubFieldString("VALIDATION ", input.Validation),
+			e.getSubFieldString("DESCRIPTION", input.Description, subFieldIndentation),
+			e.getSubFieldString("PROMPT     ", input.Prompt, subFieldIndentation),
+			e.getSubFieldString("OPTIONS    ", e.listToStr(input.Options), subFieldIndentation),
+			e.getSubFieldString("DEFAULT    ", input.DefaultValue, subFieldIndentation),
+			e.getSubFieldString("VALIDATION ", input.Validation, subFieldIndentation),
 		}
 		inputLines := []string{}
 		for _, inputLine := range rawInputLines {
@@ -139,14 +140,15 @@ func (e *Explainer) getInputString(task *config.Task) (inputString string) {
 }
 
 func (e *Explainer) getEnvString(task *config.Task) (envString string) {
+	subFieldIndentation := strings.Repeat(" ", 2)
 	keys := task.GetEnvKeys()
 	sort.Strings(keys)
 	for _, key := range keys {
 		env, _ := task.GetEnvObject(key)
 		rawEnvLines := []string{
 			key,
-			e.getSubFieldString("FROM   ", env.From),
-			e.getSubFieldString("DEFAULT", env.Default),
+			e.getSubFieldString("FROM   ", env.From, subFieldIndentation),
+			e.getSubFieldString("DEFAULT", env.Default, subFieldIndentation),
 		}
 		envLines := []string{}
 		for _, envLine := range rawEnvLines {
@@ -168,7 +170,7 @@ func (e *Explainer) getConfigString(task *config.Task) (configStr string) {
 		fieldKey := fieldKeys[index]
 		val, _ := task.GetConfigPattern(key)
 		fieldVal := e.getStrOrBlank(val)
-		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal))
+		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal, ""))
 	}
 	return strings.Join(lines, "\n")
 }
@@ -185,13 +187,12 @@ func (e *Explainer) getLConfigString(task *config.Task) (configStr string) {
 		if fieldVal == "" {
 			fieldVal = fmt.Sprintf("%s[]%s", e.d.Blue, e.d.Normal)
 		}
-		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal))
+		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal, ""))
 	}
 	return strings.Join(lines, "\n")
 }
 
-func (e *Explainer) getSubFieldString(subFieldName string, subFieldValue string) (subFieldStr string) {
-	subFieldIndentation := strings.Repeat(" ", 2)
+func (e *Explainer) getSubFieldString(subFieldName string, subFieldValue string, subFieldIndentation string) (subFieldStr string) {
 	subFieldValue = strings.Trim(subFieldValue, "\n")
 	if subFieldValue == "" {
 		return ""

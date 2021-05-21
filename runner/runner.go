@@ -71,7 +71,7 @@ func NewRunner(
 		doneMutex:              &sync.RWMutex{},
 		statusInterval:         statusInterval,
 		startTimeMutex:         &sync.RWMutex{},
-		spaces:                 "     ",
+		spaces:                 fmt.Sprintf("%s %s", decoration.Empty, decoration.Empty),
 		surpressWaitError:      false,
 		surpressWaitErrorMutex: &sync.RWMutex{},
 		logger:                 logger,
@@ -525,14 +525,14 @@ func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
 			if len(rows) > 1 {
 				prefix += fmt.Sprintf("%s%4d |%s ", d.Yellow, index+1, d.NoColor)
 			}
-			row = fmt.Sprintf("%s   %s%s%s%s", r.spaces, d.Faint, prefix, row, d.Normal)
+			row = fmt.Sprintf("%s%s %s%s%s%s", r.spaces, d.Empty, d.Faint, prefix, row, d.Normal)
 			rows[index] = row
 		}
 		formattedArg := strings.Join(rows, "\n")
 		formattedArgs = append(formattedArgs, formattedArg)
 	}
 	output = strings.Join(formattedArgs, "\n")
-	return fmt.Sprintf(output)
+	return output
 }
 
 func (r *Runner) sleep(duration time.Duration) {
@@ -553,7 +553,7 @@ func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
 
 func (r *Runner) showStatus() {
 	d := r.decoration
-	descriptionPrefix := r.spaces + "    "
+	descriptionPrefix := r.spaces + d.Empty + d.Empty
 	processPrefix := r.spaces + r.spaces + " "
 	processRows := []string{}
 	r.cmdInfoMutex.Lock()

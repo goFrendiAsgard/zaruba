@@ -43,6 +43,7 @@ type Decoration struct {
 	Kill        string
 	Inspect     string
 	Run         string
+	Empty       string
 }
 
 func NewNoDecoration() (d *Decoration) {
@@ -77,16 +78,17 @@ func NewNoDecoration() (d *Decoration) {
 		NoUnderline: "",
 		NoInverse:   "",
 		NoColor:     "",
-		Skull:       "  ",
-		Success:     "  ",
-		Error:       "  ",
-		Start:       "  ",
-		Kill:        "  ",
-		Inspect:     "  ",
-		Run:         "  ",
+		Skull:       "",
+		Success:     "",
+		Error:       "",
+		Start:       "",
+		Kill:        "",
+		Inspect:     "",
+		Run:         "",
+		Empty:       "",
 		colorIndex:  0,
 		iconIndex:   0,
-		iconList:    []string{"  "},
+		iconList:    []string{""},
 		colorList:   []string{""},
 	}
 }
@@ -132,6 +134,7 @@ func NewDecoration() (d *Decoration) {
 		Kill:        "🔪",
 		Inspect:     "🔎",
 		Run:         "🚀",
+		Empty:       "  ",
 		colorIndex:  0,
 		iconIndex:   0,
 		iconList: []string{
