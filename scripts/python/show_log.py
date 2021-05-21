@@ -14,12 +14,11 @@ def show_log(log_file: str = 'log.zaruba.csv', pattern: str = '.*'):
         timestamp, task_name, log = row[0][:23], row[3], row[4]
         output_type_icon = "🔥" if row[1] == "ERR" else "  "
         command_type_icon = "🚀" if row[2] == "START" else "🔎"
-        funky_name = row[5] if len(row) > 5 else task_name
-        print('{timestamp} {output_type_icon} {command_type_icon} {funky_name} {log}'.format(
-            timestamp=timestamp,
+        print('{output_type_icon} {command_type_icon} {task_name} \033[2m{timestamp}\033[0m {log}'.format(
             output_type_icon=output_type_icon,
             command_type_icon=command_type_icon,
-            funky_name=funky_name,
+            task_name=task_name.ljust(17),
+            timestamp=timestamp,
             log=log
         ))
     f.close()
