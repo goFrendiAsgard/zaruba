@@ -114,7 +114,14 @@ func (p *Project) includeScriptsFromEnv() {
 		return
 	}
 	scripts := strings.Split(envValue, ":")
-	p.Includes = append(p.Includes, scripts...)
+	for _, script := range scripts {
+		for _, currentInclude := range p.Includes {
+			if script == currentInclude {
+				continue
+			}
+		}
+		p.Includes = append(p.Includes, script)
+	}
 }
 
 // GetName get projectName
