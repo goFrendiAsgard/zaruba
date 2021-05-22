@@ -1,5 +1,4 @@
 includes:
-  - "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
   - "./main.test.zaruba.yaml"
   - "./main.testGenerator.zaruba.yaml"
   - "./main.testHelm.zaruba.yaml"

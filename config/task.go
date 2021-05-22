@@ -381,17 +381,20 @@ func (task *Task) generateIcon() {
 }
 
 func (task *Task) generateLogPrefix() {
-	repeat := 2 + task.Project.maxPublishedTaskNameLength - len(task.GetName()) - len(task.Icon)
-	if repeat < 0 {
-		repeat = 0
+	taskName := task.GetName()
+	if len(taskName) > task.Project.maxPublishedTaskNameLength {
+		strLen := task.Project.maxPublishedTaskNameLength - 3
+		taskName = taskName[:strLen] + "..."
+	} else {
+		repeat := task.Project.maxPublishedTaskNameLength - len(taskName)
+		taskName = taskName + strings.Repeat(" ", repeat)
 	}
-	paddedStr := strings.Repeat(" ", repeat)
 	d := task.Project.decoration
 	color := d.Faint
 	if !task.Private {
 		color = d.GenerateColor()
 	}
-	paddedName := fmt.Sprintf("%s%s%s%s", color, task.GetName(), d.Normal, paddedStr)
+	paddedName := fmt.Sprintf("%s%s%s", color, taskName, d.Normal)
 	task.logPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, d.Icon(task.Icon), d.Normal)
 }
 

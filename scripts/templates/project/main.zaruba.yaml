@@ -1,2 +1,1 @@
-includes:
-- "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
+includes: []
