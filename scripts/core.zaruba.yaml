@@ -107,6 +107,7 @@ tasks:
   injectBootstrap:
     icon: 💉
     extend: core.runCoreScript
+    autoTerminate: true
     saveLog: false
     config:
       start: |
@@ -123,6 +124,7 @@ tasks:
     description: |
       Show zaruba's current version.
     extend: core.runCoreScript
+    autoTerminate: true
     config:
       start: |
         cd ${ZARUBA_HOME}
@@ -134,6 +136,7 @@ tasks:
     description: |
       Update zaruba to the latest version.
     extend: core.runCoreScript
+    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -169,6 +172,7 @@ tasks:
     description: |
       Clear log
     extend: core.runCoreScript
+    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -181,6 +185,7 @@ tasks:
     description: |
       Clear log
     extend: core.runCoreScript
+    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -193,6 +198,7 @@ tasks:
     description: |
       Show log for all/particular tasks using regex
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.setupPyUtil
     saveLog: false
@@ -237,6 +243,7 @@ tasks:
         It is recommended to put `subrepo` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addSubrepo <subrepo.url=remote-url>`
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.isProject
     - core.isValidSubrepos
@@ -287,6 +294,7 @@ tasks:
       Add subrepository.
       TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.isProject
     - core.setupPyUtil
@@ -321,6 +329,7 @@ tasks:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - initSubrepos
     - updateLinks
@@ -356,6 +365,7 @@ tasks:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - initSubrepos
     config:
@@ -430,6 +440,7 @@ tasks:
     description: |
       Initiate empty zaruba project.
     extend: core.runCoreScript
+    autoTerminate: true
     saveLog: false
     dependencies:
     - core.isNotProject
@@ -447,6 +458,7 @@ tasks:
     description: |
       Create helm deployment artifacts.
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.isProject
     - core.isNotContainHelmCharts
@@ -463,6 +475,7 @@ tasks:
     description: |
       Update environment of every task in the current project 
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.isProject
     - core.setupPyUtil
@@ -488,6 +501,7 @@ tasks:
         It is recommended to put `link` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addLink <link.from=source-location> <link.to=destination-location>`
     extend: core.runCoreScript
+    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -510,6 +524,7 @@ tasks:
       Add link.
       TIPS: To update links, you should perform `zaruba please updateLinks`
     extend: core.runCoreScript
+    autoTerminate: true
     inputs:
     - link.from
     - link.to
@@ -532,6 +547,7 @@ tasks:
     icon: 🔗
     description: Set project value.
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.isProject
     - core.setupPyUtil

@@ -25,6 +25,7 @@ tasks:
   prepareZarubaServiceName:
     icon: 🐸
     extend: core.prepareNodeJsApp
+    autoTerminate: true
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceName.removeNodeModules
@@ -44,6 +45,7 @@ tasks:
   testZarubaServiceName:
     icon: 🐸
     extend: core.runNvmScript
+    autoTerminate: true
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName

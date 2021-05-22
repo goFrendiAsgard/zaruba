@@ -25,6 +25,7 @@ tasks:
   zarubaServiceNameExecCql:
     icon: 👀
     extend: core.cassandra.execCql
+    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     inputs:

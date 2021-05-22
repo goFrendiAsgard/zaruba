@@ -7,6 +7,7 @@ tasks:
   testZarubaServiceName:
     icon: 🐹
     extend: core.runShellScript
+    autoTerminate: true
     location: zarubaServiceLocation
     timeout: 1h
     lconfigRef: zarubaServiceName

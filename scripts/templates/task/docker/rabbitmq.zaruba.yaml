@@ -21,6 +21,7 @@ tasks:
   resetZarubaServiceName:
     icon: 🐇
     extend: core.runInContainer
+    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     configRef: zarubaServiceName

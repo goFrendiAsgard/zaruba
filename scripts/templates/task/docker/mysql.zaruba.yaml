@@ -25,6 +25,7 @@ tasks:
   zarubaServiceNameExecSql:
     icon: 🐬 
     extend: core.mysql.execSql
+    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     inputs:

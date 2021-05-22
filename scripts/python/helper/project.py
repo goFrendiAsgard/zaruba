@@ -155,7 +155,7 @@ class TaskProject(Project):
         run_locally_input_name = '{}.runLocally'.format(service_name)
         self.set_default(['inputs', run_locally_input_name, 'default'], 'yes')
         self.set_default(['inputs', run_locally_input_name, 'options'], ['yes', 'no'])
-        self.set_default(['inputs', run_locally_input_name, 'allowCustom'], 'false')
+        self.set_default(['inputs', run_locally_input_name, 'allowCustom'], False)
         self.set_default(['inputs', run_locally_input_name, 'description'], 'Whether run {} locally or not'.format(service_name))
         self.set_default(['inputs', run_locally_input_name, 'prompt'], 'Run {} locally?'.format(service_name))
         self.set_default(['envs', service_name], {})

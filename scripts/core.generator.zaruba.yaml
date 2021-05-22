@@ -228,6 +228,7 @@ tasks:
   makeDockerTask:
     icon: 🐳
     extend: core.makeDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.image.name
     - generator.docker.container.name
@@ -238,6 +239,7 @@ tasks:
 
   makeMysqlDockerTask:
     extend: core.makePresetDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.container.name
     - generator.service.name
@@ -249,6 +251,7 @@ tasks:
 
   makeRabbitmqDockerTask:
     extend: core.makePresetDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.container.name
     - generator.service.name
@@ -260,6 +263,7 @@ tasks:
 
   makeElasticsearchDockerTask:
     extend: core.makePresetDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.container.name
     - generator.service.name
@@ -271,6 +275,7 @@ tasks:
 
   makeCassandraDockerTask:
     extend: core.makePresetDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.container.name
     - generator.service.name
@@ -282,6 +287,7 @@ tasks:
 
   makeRedisDockerTask:
     extend: core.makePresetDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.container.name
     - generator.service.name
@@ -293,6 +299,7 @@ tasks:
 
   makeMongoDockerTask:
     extend: core.makePresetDockerTask
+    autoTerminate: true
     inputs:
     - generator.docker.container.name
     - generator.service.name
@@ -305,6 +312,7 @@ tasks:
   makeServiceTask:
     icon: 📜
     extend: core.makeServiceTask
+    autoTerminate: true
     inputs:
     - generator.service.location
     - generator.service.name
@@ -318,6 +326,7 @@ tasks:
   
   makeFastApiServiceTask:
     extend: core.makePresetServiceTask
+    autoTerminate: true
     inputs:
     - generator.service.location
     - generator.service.name
@@ -332,6 +341,7 @@ tasks:
   
   makeGoServiceTask:
     extend: core.makePresetServiceTask
+    autoTerminate: true
     inputs:
     - generator.service.location
     - generator.service.name
@@ -348,6 +358,7 @@ tasks:
  
   makeNodeJsServiceTask:
     extend: core.makePresetServiceTask
+    autoTerminate: true
     inputs:
     - generator.service.location
     - generator.service.name
@@ -366,6 +377,7 @@ tasks:
  
   makePythonServiceTask:
     extend: core.makePresetServiceTask
+    autoTerminate: true
     inputs:
     - generator.service.location
     - generator.service.name
@@ -382,6 +394,7 @@ tasks:
 
   makeStaticServiceTask:
     extend: core.makePresetServiceTask
+    autoTerminate: true
     inputs:
     - generator.service.location
     - generator.service.name
@@ -399,6 +412,7 @@ tasks:
     description: |
       Add helm charts to the project to make deployment easier.
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.isContainHelmCharts
     - core.showAdv
@@ -417,6 +431,7 @@ tasks:
     icon: ⚡
     description: Make Fast API service
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.showAdv
     inputs:
@@ -454,6 +469,7 @@ tasks:
     - generator.fastApi.service.name
     - generator.fastApi.module.name
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.showAdv
     config:
@@ -480,6 +496,7 @@ tasks:
     - generator.fastApi.httpMethod
     - generator.fastApi.url
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.showAdv
     config:
@@ -509,6 +526,7 @@ tasks:
     - generator.fastApi.module.name
     - generator.fastApi.event.name
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.showAdv
     config:
@@ -536,6 +554,7 @@ tasks:
     - generator.fastApi.module.name
     - generator.fastApi.rpc.name
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.showAdv
     config:
@@ -564,6 +583,7 @@ tasks:
     - generator.fastApi.crud.entity
     - generator.fastApi.crud.fields
     extend: core.runCoreScript
+    autoTerminate: true
     dependencies:
     - core.showAdv
     config:

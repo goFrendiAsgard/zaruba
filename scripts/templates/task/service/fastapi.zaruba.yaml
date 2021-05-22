@@ -7,6 +7,7 @@ tasks:
   prepareZarubaServiceName:
     icon: 🐍
     extend: core.runShellScript
+    autoTerminate: true
     location: zarubaServiceLocation
     timeout: 1h
     envRef: zarubaServiceName
@@ -18,6 +19,7 @@ tasks:
   testZarubaServiceName:
     icon: 🐍
     extend: core.runShellScript
+    autoTerminate: true
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
