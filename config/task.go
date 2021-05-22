@@ -24,6 +24,7 @@ type Task struct {
 	Check                 []string            `yaml:"check,omitempty"`
 	Timeout               string              `yaml:"timeout,omitempty"`
 	Private               bool                `yaml:"private,omitempty"`
+	AutoTerminate         bool                `yaml:"autoTerminate,omitempty"`
 	Extend                string              `yaml:"extend,omitempty"`
 	Extends               []string            `yaml:"extends,omitempty"`
 	Location              string              `yaml:"location,omitempty"`
@@ -386,7 +387,11 @@ func (task *Task) generateLogPrefix() {
 	}
 	paddedStr := strings.Repeat(" ", repeat)
 	d := task.Project.decoration
-	paddedName := fmt.Sprintf("%s%s%s%s", d.GenerateColor(), task.GetName(), d.Normal, paddedStr)
+	color := d.Faint
+	if !task.Private {
+		color = d.GenerateColor()
+	}
+	paddedName := fmt.Sprintf("%s%s%s%s", color, task.GetName(), d.Normal, paddedStr)
 	task.logPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, d.Icon(task.Icon), d.Normal)
 }
 

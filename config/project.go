@@ -259,6 +259,17 @@ func (p *Project) Init() (err error) {
 	return err
 }
 
+func (p *Project) GetAutoTerminate(taskNames []string) (autoTerminate bool) {
+	autoTerminate = true
+	for _, taskName := range taskNames {
+		if !p.Tasks[taskName].AutoTerminate {
+			autoTerminate = false
+			break
+		}
+	}
+	return autoTerminate
+}
+
 // ValidateByTaskNames validate by task names and throw error if invalid
 func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 	for _, taskName := range taskNames {

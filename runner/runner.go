@@ -50,6 +50,9 @@ func NewRunner(
 	if err = project.ValidateByTaskNames(taskNames); err != nil {
 		return &Runner{}, err
 	}
+	if project.GetAutoTerminate(taskNames) {
+		autoTerminate = true
+	}
 	statusInterval, err := time.ParseDuration(statusIntervalStr)
 	if err != nil {
 		return &Runner{}, fmt.Errorf("cannot parse statusInterval '%s': %s", statusIntervalStr, err)

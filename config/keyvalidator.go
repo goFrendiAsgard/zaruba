@@ -112,7 +112,7 @@ func (kv *KeyValidator) checkProjectValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkTaskValidKeys() (err error) {
-	validKeys := []string{"start", "check", "timeout", "private", "extend", "extends", "location", "configRef", "configRefs", "config", "lconfigRef", "lconfigRefs", "lconfig", "envRef", "envRefs", "env", "dependencies", "inputs", "description", "icon", "saveLog"}
+	validKeys := []string{"start", "check", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "config", "lconfigRef", "lconfigRefs", "lconfig", "envRef", "envRefs", "env", "dependencies", "inputs", "description", "icon", "saveLog"}
 	for taskName, task := range kv.taskKeyCheckData.Tasks {
 		for key := range task {
 			valid := false

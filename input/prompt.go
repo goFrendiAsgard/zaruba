@@ -292,6 +292,9 @@ func (prompter *Prompter) getEnvMap(taskNames []string) (envMap map[string]strin
 }
 
 func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bool, err error) {
+	if prompter.project.GetAutoTerminate(taskNames) {
+		return true, nil
+	}
 	captions := []string{"🏁 No", "🔪 Yes"}
 	options := []string{"no", "yes"}
 	selectPrompt := promptui.Select{
