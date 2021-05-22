@@ -394,8 +394,7 @@ func (task *Task) generateLogPrefix() {
 	if !task.Private {
 		color = d.GenerateColor()
 	}
-	paddedName := fmt.Sprintf("%s%s%s", color, taskName, d.Normal)
-	task.logPrefix = fmt.Sprintf("%s %s%s%s", paddedName, d.Faint, d.Icon(task.Icon), d.Normal)
+	task.logPrefix = fmt.Sprintf("%s%s%s %s", color, taskName, d.Normal, d.Icon(task.Icon))
 }
 
 func (task *Task) getPath() (path string) {
