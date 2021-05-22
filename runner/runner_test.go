@@ -93,13 +93,13 @@ func TestRunnerServeSalineWater(t *testing.T) {
 	makeH2OIndex := mockLogger.GetLineIndex("making H2O")
 	serveSalineWaterIndex := mockLogger.GetLineIndex("serve saline water")
 	if makeNaOHIndex >= makeNaClIndex || makeHClIndex >= makeNaClIndex {
-		t.Errorf("expect NaOH and HCL created befor NaCL, actual: \n%s", output)
+		t.Errorf("expect NaOH and HCL created before NaCL, actual: \n%s", output)
 	}
 	if makeNaOHIndex >= makeH2OIndex || makeHClIndex >= makeH2OIndex {
-		t.Errorf("expect NaOH and HCL created befor H2O, actual: \n%s", output)
+		t.Errorf("expect NaOH and HCL created before H2O, actual: \n%s", output)
 	}
 	if makeNaClIndex >= serveSalineWaterIndex || makeH2OIndex >= serveSalineWaterIndex {
-		t.Errorf("expect NaOH and HCL created befor H2O, actual: \n%s", output)
+		t.Errorf("expect NaOH and HCL created before H2O, actual: \n%s", output)
 	}
 }
 
@@ -126,13 +126,13 @@ func TestRunnerServeSalineWaterAutoTerminate(t *testing.T) {
 	makeH2OIndex := mockLogger.GetLineIndex("making H2O")
 	serveSalineWaterIndex := mockLogger.GetLineIndex("serve saline water")
 	if makeNaOHIndex >= makeNaClIndex || makeHClIndex >= makeNaClIndex {
-		t.Errorf("expect NaOH and HCL created befor NaCL, actual: \n%s", output)
+		t.Errorf("expect NaOH and HCL created before NaCL, actual: \n%s", output)
 	}
 	if makeNaOHIndex >= makeH2OIndex || makeHClIndex >= makeH2OIndex {
-		t.Errorf("expect NaOH and HCL created befor H2O, actual: \n%s", output)
+		t.Errorf("expect NaOH and HCL created before H2O, actual: \n%s", output)
 	}
 	if makeNaClIndex >= serveSalineWaterIndex || makeH2OIndex >= serveSalineWaterIndex {
-		t.Errorf("expect NaOH and HCL created befor H2O, actual: \n%s", output)
+		t.Errorf("expect NaOH and HCL created before H2O, actual: \n%s", output)
 	}
 }
 

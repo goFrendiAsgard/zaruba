@@ -550,7 +550,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logDone chan 
 	for buf.Scan() {
 		content := buf.Text()
 		now := time.Now()
-		nowRoundStr := fmt.Sprintf("%-12s", now.Round(time.Millisecond).Format("15:04:05.999999999"))
+		nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
 		print("%s %s%s%s %s\n", prefix, d.Faint, nowRoundStr, d.Normal, content)
 		if saveLog {
 			nowStr := now.String()

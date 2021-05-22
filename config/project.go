@@ -39,12 +39,12 @@ type Project struct {
 }
 
 // NewProject create new Config from Yaml File
-func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration *output.Decoration, configFile string) (p *Project, err error) {
+func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration *output.Decoration, projectFile string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
 	}
-	p, err = loadProject(logger, decoration, configFile)
+	p, err = loadProject(logger, decoration, projectFile, true)
 	if err != nil {
 		return p, err
 	}
@@ -66,7 +66,7 @@ func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration
 	return p, err
 }
 
-func loadProject(logger output.Logger, d *output.Decoration, projectFile string) (p *Project, err error) {
+func loadProject(logger output.Logger, d *output.Decoration, projectFile string, isMainProject bool) (p *Project, err error) {
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	logger.Fprintf(os.Stderr, "%s %sLoading %s%s\n", d.Start, d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
@@ -91,7 +91,9 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string)
 	if err = yaml.Unmarshal(b, p); err != nil {
 		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
 	}
-	p.reverseInclusion() // we need to reverse inclusion, so that the first include file will always be overridden by the later
+	if isMainProject {
+		p.includeScriptsFromEnv()
+	}
 	p.fileLocation = parsedProjectFile
 	p.basePath = filepath.Dir(p.fileLocation)
 	p.setTaskFileLocation()
@@ -106,14 +108,13 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string)
 	return p, err
 }
 
-func (p *Project) reverseInclusion() {
-	headIndex := 0
-	tailIndex := len(p.Includes) - 1
-	for headIndex < tailIndex {
-		p.Includes[headIndex], p.Includes[tailIndex] = p.Includes[tailIndex], p.Includes[headIndex]
-		headIndex++
-		tailIndex--
+func (p *Project) includeScriptsFromEnv() {
+	envValue := os.Getenv("ZARUBA_SCRIPTS")
+	if envValue == "" {
+		return
 	}
+	scripts := strings.Split(envValue, ":")
+	p.Includes = append(p.Includes, scripts...)
 }
 
 // GetName get projectName
@@ -504,7 +505,7 @@ func (p *Project) cascadeIncludes(logger output.Logger, d *output.Decoration) (e
 		if !filepath.IsAbs(parsedIncludeLocation) {
 			parsedIncludeLocation = filepath.Join(p.basePath, parsedIncludeLocation)
 		}
-		includedProject, err := loadProject(logger, d, parsedIncludeLocation)
+		includedProject, err := loadProject(logger, d, parsedIncludeLocation, false)
 		if err != nil {
 			return err
 		}
