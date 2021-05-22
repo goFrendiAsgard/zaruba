@@ -16,7 +16,6 @@ def test_main_project_generate():
     # load generated project
     generated_main_project = MainProject()
     generated_main_project.load(dir_name)
-    assert generated_main_project.get(['includes', 0]) == '${ZARUBA_HOME}/scripts/core.zaruba.yaml'
     assert generated_main_project.exist(['tasks', 'run'])
     assert generated_main_project.exist(['tasks', 'runContainer'])
     assert generated_main_project.exist(['tasks', 'stopContainer'])

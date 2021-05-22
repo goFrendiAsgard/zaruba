@@ -35,9 +35,8 @@ def test_docker_project_generate():
     assert generated_project.get(['configs', 'myService', 'imageName']) == 'my-image'
     # assert main project
     main_project = generated_project.main_project
-    assert len(main_project.get(['includes'])) == 2
-    assert main_project.get(['includes', 0]) == '${ZARUBA_HOME}/scripts/core.zaruba.yaml'
-    assert main_project.get(['includes', 1]) == 'zaruba-tasks/myService.zaruba.yaml'
+    assert len(main_project.get(['includes'])) == 1
+    assert main_project.get(['includes', 0]) == 'zaruba-tasks/myService.zaruba.yaml'
     assert main_project.get(['tasks', 'run', 'dependencies', 0]) == 'runMyService'
     assert main_project.get(['tasks', 'stopContainer', 'dependencies', 0]) == 'stopMyServiceContainer'
     assert main_project.get(['tasks', 'removeContainer', 'dependencies', 0]) == 'removeMyServiceContainer'

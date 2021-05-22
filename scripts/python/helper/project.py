@@ -50,7 +50,6 @@ class MainProject(Project):
 
 
     def _set_default_properties(self):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'run', 'icon'], generate_icon())
         self.set_default(['tasks', 'run', 'dependencies'], [])
         self.set_default(['tasks', 'runContainer', 'icon'], generate_icon())
@@ -82,37 +81,31 @@ class MainProject(Project):
 
     
     def register_run_task(self, task_name: str):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'run', 'icon'], generate_icon())
         self.append(['tasks', 'run', 'dependencies'], task_name)
 
     
     def register_run_container_task(self, task_name: str):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'runContainer', 'icon'], generate_icon())
         self.append(['tasks', 'runContainer', 'dependencies'], task_name)
 
     
     def register_stop_container_task(self, task_name: str):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'stopContainer', 'icon'], generate_icon())
         self.append(['tasks', 'stopContainer', 'dependencies'], task_name)
 
     
     def register_remove_container_task(self, task_name: str):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'removeContainer', 'icon'], generate_icon())
         self.append(['tasks', 'removeContainer', 'dependencies'], task_name)
 
     
     def register_build_image_task(self, task_name: str):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'buildImage', 'icon'], generate_icon())
         self.append(['tasks', 'buildImage', 'dependencies'], task_name) 
 
     
     def register_push_image_task(self, task_name: str):
-        self.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.set_default(['tasks', 'pushImage', 'icon'], generate_icon())
         self.append(['tasks', 'pushImage', 'dependencies'], task_name) 
 
@@ -447,7 +440,6 @@ class HelmProject(Project):
         shutil.copytree(self.template_location, os.path.join(dir_name, 'helm-deployments'))
         # copy helm deployments
         self.main_project.load(dir_name)
-        self.main_project.append_if_not_exist(['includes'], '${ZARUBA_HOME}/scripts/core.zaruba.yaml')
         self.main_project.set_default(['tasks', 'helmApply', 'icon'], generate_icon())
         self.main_project.set_default(['tasks', 'helmApply', 'extend'], 'core.helmApply')
         self.main_project.set_default(['tasks', 'helmApply', 'location'], 'helm-deployments')
