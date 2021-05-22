@@ -9,7 +9,7 @@ func getProject(projectFile string) (project *config.Project, logger output.Logg
 	decoration = output.NewDecoration()
 	logger = output.NewMockLogger()
 	recordLogger := output.NewMockRecordLogger()
-	project, err = config.NewProject(logger, recordLogger, decoration, projectFile)
+	project, err = config.NewProject(logger, recordLogger, decoration, projectFile, []string{})
 	return project, logger, decoration, err
 }
 

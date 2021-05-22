@@ -197,7 +197,18 @@ func getProject(logger output.Logger, decoration *output.Decoration, args []stri
 	dir := os.ExpandEnv(filepath.Dir(pleaseFile))
 	logFile := filepath.Join(dir, "log.zaruba.csv")
 	csvRecordLogger := output.NewCSVRecordLogger(logFile)
-	project, err = config.NewProject(logger, csvRecordLogger, decoration, pleaseFile)
+	if os.Getenv("ZARUBA_HOME") == "" {
+		executable, _ := os.Executable()
+		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
+	}
+	defaultIncludes := []string{"${ZARUBA_HOME}/scripts/core.zaruba.yaml"}
+	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
+		if script == "" {
+			continue
+		}
+		defaultIncludes = append(defaultIncludes, script)
+	}
+	project, err = config.NewProject(logger, csvRecordLogger, decoration, pleaseFile, defaultIncludes)
 	if err != nil {
 		return project, taskNames, err
 	}

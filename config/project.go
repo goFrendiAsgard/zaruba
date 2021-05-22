@@ -39,12 +39,12 @@ type Project struct {
 }
 
 // NewProject create new Config from Yaml File
-func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration *output.Decoration, projectFile string) (p *Project, err error) {
+func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
 	}
-	p, err = loadProject(logger, decoration, projectFile, true)
+	p, err = loadProject(logger, decoration, projectFile, defaultIncludes)
 	if err != nil {
 		return p, err
 	}
@@ -66,7 +66,7 @@ func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration
 	return p, err
 }
 
-func loadProject(logger output.Logger, d *output.Decoration, projectFile string, isMainProject bool) (p *Project, err error) {
+func loadProject(logger output.Logger, d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	logger.Fprintf(os.Stderr, "%s %sLoading %s%s\n", d.Start, d.Faint, parsedProjectFile, d.Normal)
 	p = &Project{
@@ -91,9 +91,7 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string,
 	if err = yaml.Unmarshal(b, p); err != nil {
 		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
 	}
-	if isMainProject {
-		p.includeScriptsFromEnv()
-	}
+	p.include(parsedProjectFile, defaultIncludes)
 	p.fileLocation = parsedProjectFile
 	p.basePath = filepath.Dir(p.fileLocation)
 	p.setTaskFileLocation()
@@ -108,19 +106,26 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string,
 	return p, err
 }
 
-func (p *Project) includeScriptsFromEnv() {
-	envValue := os.Getenv("ZARUBA_SCRIPTS")
-	if envValue == "" {
-		return
-	}
-	scripts := strings.Split(envValue, ":")
-	for _, script := range scripts {
+func (p *Project) include(parsedProjectFile string, defaultIncludes []string) {
+	for _, script := range defaultIncludes {
+		if strings.Trim(script, " ") == "" {
+			continue
+		}
+		parsedScript, _ := filepath.Abs(os.ExpandEnv(script))
+		if parsedScript == parsedProjectFile {
+			continue
+		}
+		shouldIncludeParsedScript := true
 		for _, currentInclude := range p.Includes {
-			if script == currentInclude {
-				continue
+			parsedCurrentInclude, _ := filepath.Abs(os.ExpandEnv(currentInclude))
+			if parsedScript == parsedCurrentInclude {
+				shouldIncludeParsedScript = false
+				break
 			}
 		}
-		p.Includes = append(p.Includes, script)
+		if shouldIncludeParsedScript {
+			p.Includes = append(p.Includes, parsedScript)
+		}
 	}
 }
 
@@ -512,7 +517,7 @@ func (p *Project) cascadeIncludes(logger output.Logger, d *output.Decoration) (e
 		if !filepath.IsAbs(parsedIncludeLocation) {
 			parsedIncludeLocation = filepath.Join(p.basePath, parsedIncludeLocation)
 		}
-		includedProject, err := loadProject(logger, d, parsedIncludeLocation, false)
+		includedProject, err := loadProject(logger, d, parsedIncludeLocation, []string{})
 		if err != nil {
 			return err
 		}

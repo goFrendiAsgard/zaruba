@@ -52,7 +52,7 @@ func TestTaskGetCmdLogWithInvalidRecordLogger(t *testing.T) {
 	decoration := output.NewDecoration()
 	mockLogger := output.NewMockLogger()
 	mockInvalidRecordLogger := output.NewMockInvalidRecordLogger()
-	project, err := NewProject(mockLogger, mockInvalidRecordLogger, decoration, "../test-resources/task/getCmdLog.zaruba.yaml")
+	project, err := NewProject(mockLogger, mockInvalidRecordLogger, decoration, "../test-resources/task/getCmdLog.zaruba.yaml", []string{})
 	if err != nil {
 		t.Error(err)
 		return
