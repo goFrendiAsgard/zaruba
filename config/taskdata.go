@@ -191,3 +191,8 @@ func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
 func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
 	return str.SingleQuoteShellValue(s)
 }
+
+// Indent
+func (td *TaskData) Indent(multiLineStr string, indentation string) (result string) {
+	return str.Indent(multiLineStr, indentation)
+}

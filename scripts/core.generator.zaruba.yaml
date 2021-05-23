@@ -436,28 +436,11 @@ tasks:
     - core.showAdv
     inputs:
     - generator.fastApi.service.name
+    configRef: generator.fastApi
     config:
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService'
-      serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
       start: |
         {{- $d := .Decoration -}}
-        create_link()
-        {
-          add_link "${1}" "${2}"
-          link_resource "${1}" "${2}"
-        }
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        create_fast_service "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
-        if [ -f "./main.zaruba.yaml" ]
-        then
-          if [ ! -d "./shared-libs/python/helpers" ]
-          then
-            mkdir -p "./shared-libs/python/helpers"
-            cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
-          fi
-          create_link "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
-        fi
+        {{ .GetConfig "createServiceScript" }}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API service created: ${SERVICE_NAME}{{ $d.Normal }}"
         
@@ -472,17 +455,11 @@ tasks:
     autoTerminate: true
     dependencies:
     - core.showAdv
+    configRef: generator.fastApi
     config:
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
-      moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
-        create_fast_module "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
+        {{ .GetConfig "createModuleScript" }}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         
@@ -499,20 +476,19 @@ tasks:
     autoTerminate: true
     dependencies:
     - core.showAdv
+    configRef: generator.fastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
-      moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
       httpMethod: '{{ .GetValue "generator.fastApi.httpMethod" }}'
       url: '{{ .GetValue "generator.fastApi.url" }}'
       start: |
         {{- $d := .Decoration -}}
+        {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
         URL={{ .SingleQuoteShellValue (.GetConfig "url") }}
         HTTP_METHOD={{ .SingleQuoteShellValue (.GetConfig "httpMethod") }}
-        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
         create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API Route handler created: ${HTTP_METHOD} ${URL} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
@@ -529,13 +505,13 @@ tasks:
     autoTerminate: true
     dependencies:
     - core.showAdv
+    configRef: generator.fastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
-      moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
       eventName: '{{ .GetValue "generator.fastApi.event.name" }}'
       start: |
         {{- $d := .Decoration -}}
+        {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
@@ -557,21 +533,21 @@ tasks:
     autoTerminate: true
     dependencies:
     - core.showAdv
+    configRef: generator.fastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
-      moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
-      eventName: '{{ .GetValue "generator.fastApi.rpc.name" }}'
+      rpcName: '{{ .GetValue "generator.fastApi.rpc.name" }}'
       start: |
         {{- $d := .Decoration -}}
+        {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        EVENT_NAME={{ .SingleQuoteShellValue (.GetConfig "eventName") }}
+        RPC_NAME={{ .SingleQuoteShellValue (.GetConfig "rpcName") }}
         should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-        create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
+        create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "rpc_name=${RPC_NAME}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${EVENT_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${RPC_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
 
 
   makeFastApiCrud:
@@ -586,14 +562,14 @@ tasks:
     autoTerminate: true
     dependencies:
     - core.showAdv
+    configRef: generator.fastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud'
-      serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
-      moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
       entityName: '{{ .GetValue "generator.fastApi.crud.entity" }}'
       fieldNames: '{{ .GetValue "generator.fastApi.crud.fields" }}'
       start: |
         {{- $d := .Decoration -}}
+        {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}

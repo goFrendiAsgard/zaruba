@@ -99,7 +99,7 @@ def test_fastapi_module_handle_rpc():
     module = FastApiModule(service_name, module_name)
     module.load_from_template(module_template_dir_name)
     module.generate(dir_name)
-    module.add_rpc_handler(dir_name, event_name='buyStock')
+    module.add_rpc_handler(dir_name, rpc_name='buyStock')
     # Load generated module
     generated_module = FastApiModule(service_name, module_name)
     generated_module.load(dir_name)

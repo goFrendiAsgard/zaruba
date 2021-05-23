@@ -205,12 +205,12 @@ class FastApiModule(CodeGen):
         self.write_file_to_disk(controller_file_name, controller_file_content)
 
 
-    def add_rpc_handler(self, dir_name: str, event_name: str):
+    def add_rpc_handler(self, dir_name: str, rpc_name: str):
         handle_rpc_script = self.replace_text(
             add_python_indentation(self.handle_rpc_partial, 2), 
             {
-                'zarubaEventName': event_name,
-                'zaruba_event_name': snake(event_name),
+                'zarubaEventName': rpc_name,
+                'zaruba_event_name': snake(rpc_name),
             }
         )
         handle_rpc_script = '\n{}\n'.format(handle_rpc_script)

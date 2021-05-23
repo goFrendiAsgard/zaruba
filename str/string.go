@@ -76,3 +76,8 @@ func GetUniqueElements(arr []string) (result []string) {
 	}
 	return result
 }
+
+func Indent(multiLineStr string, indentation string) (indentedLine string) {
+	lines := strings.Split(multiLineStr, "\n")
+	return strings.Join(lines, "\n"+indentation)
+}

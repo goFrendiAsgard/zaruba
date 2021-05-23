@@ -97,3 +97,40 @@ configs:
       {{ if .IsTrue (.GetConfig "npmCleanCache") -}}
         npm cache clean --force
       {{ end -}}
+  
+
+  generator.fastApi:
+    serviceTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService'
+    moduleTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
+    serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
+    moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
+    createServiceScript: | 
+      {{- $d := .Decoration -}}
+      if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
+      then
+        SERVICE_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "serviceTemplateLocation") }}
+        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
+        create_fast_service "template_location=${SERVICE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
+        if [ -f "./main.zaruba.yaml" ]
+        then
+          if [ ! -d "./shared-libs/python/helpers" ]
+          then
+            mkdir -p "./shared-libs/python/helpers"
+            cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
+          fi
+          add_link "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+          link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+        fi
+      fi
+    createModuleScript: |
+      {{- $d := .Decoration -}}
+      {{ .GetConfig "createServiceScript" }}
+      if [ ! -d "./{{ .GetConfig "serviceName" }}/{{ .GetConfig "moduleName" }}" ]
+      then
+        MODULE_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
+        should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
+        create_fast_module "template_location=${MODULE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
+      fi
+

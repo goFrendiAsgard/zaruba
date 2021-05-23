@@ -30,8 +30,7 @@ func (e *Explainer) listToMultiLineStr(list []string) string {
 	}
 	lines := []string{}
 	for _, line := range list {
-		subLines := strings.Split(line, "\n")
-		line = strings.Join(subLines, "\n  ")
+		line = str.Indent(line, "  ")
 		lines = append(lines, fmt.Sprintf("- %s", line))
 	}
 	return strings.Join(lines, "\n")
@@ -208,8 +207,7 @@ func (e *Explainer) printField(fieldName string, value string, indentation strin
 	if trimmedValue == "" {
 		return
 	}
-	valueLines := strings.Split(trimmedValue, "\n")
-	indentedValue := strings.Join(valueLines, "\n"+indentation)
+	indentedValue := str.Indent(trimmedValue, indentation)
 	e.logger.DPrintf("%s%s :%s %s\n", e.d.Yellow, fieldName, e.d.Normal, indentedValue)
 }
 
