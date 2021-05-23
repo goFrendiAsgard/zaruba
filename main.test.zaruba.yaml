@@ -18,7 +18,6 @@ tasks:
       start: |
         ZARUBA_HOME=""
         mkdir -p ./coverage
-        rm -f ./test_resource/alchemy/alembic.txt
         rm -f ./test-resources/log.zaruba.csv
         go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html

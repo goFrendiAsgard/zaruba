@@ -107,6 +107,11 @@ get_service_name() {
     PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/get_service_name.py" "${1}"
 }
 
+# USAGE get_uuid
+get_uuidv4() {
+    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/get_uuidv4.py"
+}
+
 
 # USAGE is_in_array <needle> <separator> <haystacks>
 is_in_array() {

@@ -348,9 +348,9 @@ tasks:
     - generator.service.envs
     - generator.service.ports
     - generator.goService.startCommand
+    - generator.task.dependencies
     - generator.service.docker.image.name
     - generator.service.docker.container.name
-    - generator.task.dependencies
     config:
       serviceStartCommand: '{{ .GetValue "generator.goService.startCommand" }}'
       template: go
@@ -366,9 +366,9 @@ tasks:
     - generator.service.ports
     - generator.nodeJsService.startCommand
     - generator.nodeJsService.runnerVersion
+    - generator.task.dependencies
     - generator.service.docker.image.name
     - generator.service.docker.container.name
-    - generator.task.dependencies
     config:
       serviceStartCommand: '{{ .GetValue "generator.nodeJsService.startCommand" }}'
       runnerVersion: '{{ .GetValue "generator.nodeJsService.runnerVersion" }}'
@@ -384,9 +384,9 @@ tasks:
     - generator.service.envs
     - generator.service.ports
     - generator.pythonService.startCommand
+    - generator.task.dependencies
     - generator.service.docker.image.name
     - generator.service.docker.container.name
-    - generator.task.dependencies
     config:
       serviceStartCommand: '{{ .GetValue "generator.pythonService.startCommand" }}'
       template: python
@@ -400,9 +400,9 @@ tasks:
     - generator.service.name
     - generator.service.envs
     - generator.service.ports
+    - generator.task.dependencies
     - generator.service.docker.image.name
     - generator.service.docker.container.name
-    - generator.task.dependencies
     config:
       template: static
 

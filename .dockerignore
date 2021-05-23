@@ -9,7 +9,6 @@ scripts/bootstrap.sh
 scripts/python/.pytest_cache
 scripts/python/.coverage
 scripts/python/htmlcov
-test_resource/alchemy/alembic.txt
 
 arts
 devbox

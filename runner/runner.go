@@ -140,7 +140,7 @@ func (r *Runner) showStatusByInterval() {
 func (r *Runner) waitAnyProcessError(ch chan error) {
 	seen := map[string]bool{}
 	for {
-		r.sleep(1 * time.Millisecond)
+		r.sleep(10 * time.Millisecond)
 		if r.getKilledSignal() {
 			ch <- fmt.Errorf("terminated")
 			return
@@ -256,13 +256,14 @@ func (r *Runner) run(ch chan error) {
 	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.Success, 11))
 	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.Success, 3), d.Normal)
 	if r.autoTerminate {
+		r.sleep(100 * time.Millisecond)
 		r.sleep(r.autoTerminateDelay)
 		ch <- nil
 		return
 	}
 	// wait until no cmd left
 	for {
-		r.sleep(1 * time.Millisecond)
+		r.sleep(10 * time.Millisecond)
 		if r.getKilledSignal() {
 			ch <- fmt.Errorf("terminated")
 			return
@@ -505,7 +506,7 @@ func (r *Runner) isTaskError(taskName string) (err error) {
 
 func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	for {
-		r.sleep(1 * time.Millisecond)
+		r.sleep(10 * time.Millisecond)
 		if r.isTaskFinished(taskName) {
 			return r.isTaskError(taskName)
 		}
