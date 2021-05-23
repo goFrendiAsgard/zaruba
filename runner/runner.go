@@ -194,10 +194,8 @@ func (r *Runner) handleTerminationSignal(ch chan error) {
 	switch sig {
 	case os.Interrupt:
 		errorMsg = "Receiving SIGINT"
-		break
 	case syscall.SIGTERM:
 		errorMsg = "Receiving SIGTERM"
-		break
 	default:
 		errorMsg = "Receiving termination signal"
 	}
@@ -423,6 +421,7 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 			return
 		}
 		executed = true
+		r.sleep(100 * time.Millisecond)
 		r.logger.DPrintfSuccess("Successfully running %s\n", cmdLabel)
 		if logErr := <-logDone; logErr != nil {
 			r.logger.DPrintfError("Error logging %s: %s\n", cmdLabel, logErr)
@@ -430,7 +429,6 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 			r.logger.DPrintfSuccess("Successfully logging %s\n", cmdLabel)
 		}
 		ch <- nil
-		return
 	}()
 	go func() {
 		r.sleep(task.GetTimeoutDuration())
@@ -440,7 +438,6 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 		timeoutMessage := fmt.Sprintf("Getting timeout while running %s", cmdLabel)
 		r.logger.DPrintfError("%s\n", timeoutMessage)
 		ch <- fmt.Errorf(timeoutMessage)
-		return
 	}()
 	err = <-ch
 	return err
