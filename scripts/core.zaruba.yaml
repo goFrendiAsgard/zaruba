@@ -24,69 +24,69 @@ inputs:
     default: 8080
     options: [8080, 8000, 3000, 5000]
     validation: ^[0-9]+$
-    description: HTTP port to be used
-    prompt: HTTP port to be used
+    description: HTTP port to serve static files
+    prompt: HTTP port
 
   
   subrepo.url:
     validation: ^.+$
-    description: Subrepo url
-    prompt: Subrepo url (Required)
+    description: Subrepo url (Required)
+    prompt: Subrepo url
 
   
   subrepo.prefix:
-    description: Subrepo directory name
-    prompt: Subrepo directory name (Can be blank)
+    description: Subrepo directory name (Can be blank)
+    prompt: Subrepo directory name
 
 
   subrepo.name:
-    description: Subrepo name
-    prompt: Subrepo name (Can be blank)
+    description: Subrepo name (Can be blank)
+    prompt: Subrepo name
 
 
   docker.env:
     default: default
     validation: ^.+$
-    description: Docker env for getting image prefix
-    prompt: Docker env for getting image prefix (Required)
+    description: Docker env for getting image prefix (Required)
+    prompt: Docker env
 
   
   helm.env:
     default: default
     validation: ^.+$
-    description: Helm env
-    prompt: Helm env (Required)
+    description: Helm env (Required)
+    prompt: Helm env
 
   
   kube.context:
     default: docker-desktop
     validation: ^.+$
-    description: Kube context
-    prompt: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
+    description: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
+    prompt: Kube context
 
   
   link.from:
     validation: ^.+$
-    description: Link source
-    prompt: Link source (Required)
+    description: Link source (Required)
+    prompt: Source
 
 
   link.to:
     validation: ^.+$
-    description: Link source
-    prompt: Link destination (Required)
+    description: Link destination (Required)
+    prompt: Destination
 
   
   variable.name:
     validation: ^.+$
-    description: Variable name
-    prompt: Variable name (Required)
+    description: Variable name (Required)
+    prompt: Name
 
   
   variable.value:
     validation: ^.+$
-    description: Variable value
-    prompt: Variable value (Required)
+    description: Variable value (Required)
+    prompt: Value
 
 
 tasks:

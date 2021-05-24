@@ -110,6 +110,8 @@ class FastApiService(CodeGen):
             'zarubaServiceName/helpers/transport/rmq.py': '',
             'zarubaServiceName/repos/__init__.py': '',
             'zarubaServiceName/schemas/__init__.py': '',
+            'zarubaServiceName/.gitignore': '',
+            'zarubaServiceName/.dockerignore': '',
         }
         super().load_from_template(template_dir_name)
 

@@ -5,17 +5,17 @@ inputs:
     options: [yes, no]
     allowCustom: false
     description: Init Pyenv for zaruba util
-    prompt: Init Pyenv for zaruba util
+    prompt: Init Pyenv
 
 
   setup.homeDir:
-    description: Home directory
-    prompt: Home directory (Can be blank)
+    description: Home directory (Can be blank)
+    prompt: Home directory
 
   
   setup.userPassword:
     secret: true
-    description: Your user password. Leave blank if you already run the task with "sudo"
+    description: User password (Can be blank if you already run the task with "sudo")
     prompt: User password
 
   
@@ -23,8 +23,8 @@ inputs:
     default: false
     options: [true, false]
     allowCustom: false
-    description: Allow to install as root user
-    prompt: Allow to install as root user (in root home directory)
+    description: Allow to install as root (using root home directory)
+    prompt: Allow to install as root
 
 
   setup.nodeVersion:
@@ -32,7 +32,7 @@ inputs:
     options: [node, stable, unstable]
     validation: ^.+$
     description: Node version to be installed when install nvm
-    prompt: Node version to be installed when install nvm
+    prompt: Node version
 
   
   setup.pythonVersion:
@@ -40,27 +40,27 @@ inputs:
     options: [3.7, 3.8, 3.9]
     validation: ^.+$
     description: Python version to be installed when install pyenv
-    prompt: Python version to be installed when install pyenv
+    prompt: Python version
 
     
   setup.sparkVersion:
     default: 3.1.1
     validation: ^.+$
     description: Spark version to be installed
-    prompt: Spark version to be installed
+    prompt: Spark version
 
 
   setup.hadoopVersion:
     default: 2.7
     validation: ^.+$
     description: Hadoop version to be installed when install spark
-    prompt: Hadoop version to be installed when install spark
+    prompt: Hadoop version
 
   
   setup.sparkDownloadUrl:
     default: https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
     validation: ^.+$
-    description: Spark download url
+    description: Spark download URL
     prompt: Spark download url
 
   
@@ -68,7 +68,7 @@ inputs:
     default: v0.139.6
     validation: ^.+$
     description: Helmfile version to be installed
-    prompt: Helmfile version to be installed
+    prompt: Helmfile version
 
 
 tasks:

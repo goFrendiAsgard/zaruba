@@ -1,73 +1,90 @@
 inputs:
 
   generator.docker.image.name:
-    description: Docker image name
-    prompt: Docker image name (Required)
+    description: Docker image name (Required)
+    prompt: Docker image name
     validation: ^[a-z0-9_]+$
 
 
   generator.docker.container.name:
-    description: Docker container name 
-    prompt: Docker container name (Can be blank)
+    description: Docker container name (Can be blank)
+    prompt: Docker container name
     validation: ^[a-zA-Z0-9_]*$
 
   
   generator.service.name:
-    description: Service name
-    prompt: Service name (Can be blank)
+    description: Service name (Can be blank)
+    prompt: Service name
     validation: ^[a-zA-Z0-9_]*$
 
 
   generator.service.ports:
-    description: Service ports, comma separated
-    prompt: "Service ports (e.g: '3000,PORT')"
+    description: |
+      Service ports (number or environment variable), comma separated.
+      E.g: 3000,HTTP_PORT,PROMETHEUS_PORT
+    prompt: "Service ports"
     validation: ^[a-zA-Z0-9_,]*$
   
 
   generator.service.envs:
-    description: Service environments, comma separated
-    prompt: "Service environments (e.g: 'PORT=3000,WRITE=1')"
+    description: |
+      Service environments, comma separated.
+      E.g: HTTP_PORT=3000,MODE=writer
+
+      Many applications rely on environment variables to configure their behavior.
+      You might need to see service's documentation or open environment files (.env, template.env, etc) to see available options.
+      If there is no documentation/environment files available, you probably need to run-through the code or ask the developer team.
+    prompt: "Service environments"
 
 
   generator.task.dependencies:
-    description: Task dependencies
-    prompt: "Task dependencies (e.g: 'runMySql,runCassandra')"
+    description: |
+      Task's dependencies, comma separated.
+      E.g: runMysql, runRedis
+
+      For example, you want to make sure that MySQL and Redis is already running before starting this task.
+
+      In that case, assuming runMySql and runRedis are tasks to run MySQL and Redis respectively, then you need to set this task's dependencies into:
+        runMysql,runRedis
+    prompt: "Task dependencies"
 
 
   generator.service.location:
     description: Service location, relative to this directory
-    prompt: "Service location (Relative to this directory)"
+    prompt: "Service location"
     validation: ^.+$
 
 
   generator.service.docker.image.name:
-    description: Service's docker image name
-    prompt: Service's Docker image name (Can be blank)
+    description: |
+      Service's docker image name (Can be blank)
+    prompt: Service's docker image name
     validation: ^[a-z0-9_]*$
 
 
   generator.service.docker.container.name:
-    description: Service's docker container name
-    prompt: Service's docker container name (Can be blank)
+    description: |
+      Service's docker container name (Can be blank)
+    prompt: Service's docker container name
     validation: ^[a-zA-Z0-9_]*$
 
 
   generator.service.startCommand:
-    description: Service start command
-    prompt: Command to run the service (Required)
+    description: Command to start the service (Required)
+    prompt: Start command
     validation: ^.+$
 
 
   generator.goService.startCommand:
-    description: Service start command
-    prompt: Command to run the service (Required)
+    description: Command to start the service (Required)
+    prompt: Start command
     default: go run .
     validation: ^.+$
 
 
   generator.nodeJsService.startCommand:
-    description: Service start command
-    prompt: Command to run the service (Required)
+    description: Command to start the service (Required)
+    prompt: Start command
     options:
     - npm start
     - node start
@@ -78,16 +95,16 @@ inputs:
 
 
   generator.nodeJsService.runnerVersion:
-    description: NodeJs version
-    prompt: NodeJs version to run the service (Required)
+    description: NodeJs version (Required)
+    prompt: NodeJs version
     options: [node, 16, 15, 14, 13, 12, 11, 10]
     default: node
     validation: ^.+$
 
    
   generator.pythonService.startCommand:
-    description: Service start command
-    prompt: Command to run the service (Required)
+    description: Command to start the service (Required)
+    prompt: Start command
     options:
     - pipenv run python start.py
     - pipenv run python main.py
@@ -97,25 +114,26 @@ inputs:
 
   
   generator.fastApi.service.name:
-    description: Service name
-    prompt: Service name (Required)
+    description: Service name (Required)
+    prompt: Service name
     validation: ^[a-zA-Z0-9_]+$
 
 
   generator.fastApi.module.name:
-    description: Module name
-    prompt: Module name (Required)
+    description: Module name (Required)
+    prompt: Module name
     validation: ^[a-zA-Z0-9_]+$
 
 
   generator.fastApi.url:
-    description: URL to be handled
-    prompt: URL to be handled (Required)
+    description: |
+      URL to be handled (Required)
+    prompt: URL to be handled
     validation: ^[a-zA-Z0-9_\-/\{\}]+$
 
 
   generator.fastApi.httpMethod:
-    description: HTTP Method
+    description: HTTP Method (Required)
     prompt: HTTP Method
     options: [get, post, put, delete]
     default: get
@@ -124,26 +142,36 @@ inputs:
 
 
   generator.fastApi.event.name:
-    description: Event name
-    prompt: Event name (Required)
+    description: |
+      Event name (Required)
+    prompt: Event name
     validation: ^[a-zA-Z0-9_\-\.]+$
 
 
   generator.fastApi.rpc.name:
-    description: RPC name
-    prompt: RPC name (Required)
+    description: |
+      RPC name (Required)
+    prompt: RPC name
     validation: ^[a-zA-Z0-9_\-\.]+$
 
  
   generator.fastApi.crud.entity:
-    description: Entity name.
-    prompt: Entity (Required)
+    description: |
+      Entity name (Required)
+      Usually plural word (e.g: books, articles)
+    prompt: Entity name
     validation: ^[a-zA-Z0-9_]+$
 
   
   generator.fastApi.crud.fields:
-    description: Field names.
-    prompt: Field names (comma separated)
+    description: |
+      Field names, comma separated.
+      E.g: name,address
+      The following fields are included by default:
+      - id
+      - created_at
+      - updated_at
+    prompt: Field names
     validation: ^[a-zA-Z0-9_,]*$
   
 
@@ -443,6 +471,8 @@ tasks:
         {{ .GetConfig "createServiceScript" }}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API service created: ${SERVICE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
         
 
   makeFastApiModule:
@@ -462,6 +492,9 @@ tasks:
         {{ .GetConfig "createModuleScript" }}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
         
 
   makeFastApiRoute:
@@ -492,6 +525,9 @@ tasks:
         create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API Route handler created: ${HTTP_METHOD} ${URL} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
     
 
   makeFastApiEventHandler:
@@ -520,6 +556,9 @@ tasks:
         create_fast_event_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API event handler created: ${EVENT_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
 
 
   makeFastApiRpcHandler:
@@ -548,6 +587,9 @@ tasks:
         create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "rpc_name=${RPC_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${RPC_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
 
 
   makeFastApiCrud:
@@ -579,3 +621,11 @@ tasks:
         create_fast_crud "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "entity_name=${ENTITY_NAME}" "field_names=${FIELD_NAMES}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/handle<Entity>Event.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/handle<Entity>Route.py"
+        echo "- ${SERVICE_NAME}/repos/<entity>.py"
+        echo "- ${SERVICE_NAME}/repos/db<Entity>.py"
+        echo "- ${SERVICE_NAME}/schemas/<entity>.py"

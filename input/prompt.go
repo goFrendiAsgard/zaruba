@@ -9,7 +9,9 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/str"
 )
 
 func fileMustExist(filePath string) (err error) {
@@ -53,6 +55,7 @@ func (prompter *Prompter) GetAdditionalValue() (err error) {
 func (prompter *Prompter) getAdditionalValue(label string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes"}
 	options := []string{"no", "file"}
+	prompter.logger.Println(fmt.Sprintf("%s Additional Value", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             label,
 		Items:             captions,
@@ -88,6 +91,7 @@ func (prompter *Prompter) getAdditionalFileValue() (err error) {
 		// input by options
 		captions := append(valueFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 		options := append(valueFileList, "")
+		prompter.logger.Println(fmt.Sprintf("%s Value File", prompter.d.Skull))
 		selectPrompt := promptui.Select{
 			Label:             fmt.Sprintf("%s Value file", prompter.d.Skull),
 			Items:             captions,
@@ -108,6 +112,7 @@ func (prompter *Prompter) getAdditionalFileValue() (err error) {
 		}
 	}
 	// manual input
+	prompter.logger.Println(fmt.Sprintf("%s Value File", prompter.d.Skull))
 	prompt := promptui.Prompt{
 		Label:    fmt.Sprintf("%s Value file", prompter.d.Skull),
 		Validate: fileMustExist,
@@ -143,8 +148,9 @@ func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
 }
 
 func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (err error) {
-	captions := []string{"🏁 No", "📝 Yes, from file", "⚙️ Yes, manually"}
+	captions := []string{"🏁 No", "📝 Yes, from file", "📝 Yes, manually"}
 	options := []string{"no", "file", "manual"}
+	prompter.logger.Println(fmt.Sprintf("%s Additional Environment", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             label,
 		Items:             captions,
@@ -184,6 +190,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		// input by options
 		captions := append(envFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 		options := append(envFileList, "")
+		prompter.logger.Println(fmt.Sprintf("%s Environment File", prompter.d.Skull))
 		selectPrompt := promptui.Select{
 			Label:             fmt.Sprintf("%s Environment file", prompter.d.Skull),
 			Items:             captions,
@@ -204,6 +211,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		}
 	}
 	// manual input
+	prompter.logger.Println(fmt.Sprintf("%s Environment File", prompter.d.Skull))
 	prompt := promptui.Prompt{
 		Label:    fmt.Sprintf("%s Environment file", prompter.d.Skull),
 		Validate: fileMustExist,
@@ -216,22 +224,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 }
 
 func (prompter *Prompter) getEnvFileList() (envFileList []string, err error) {
-	dir, err := os.Open(".")
-	if err != nil {
-		return envFileList, err
-	}
-	defer dir.Close()
-	fileList, err := dir.Readdirnames(0)
-	if err != nil {
-		return envFileList, err
-	}
-	envFileList = []string{}
-	for _, fileName := range fileList {
-		if strings.HasSuffix(fileName, ".env") && fileName != ".env" {
-			envFileList = append(envFileList, fileName)
-		}
-	}
-	return envFileList, err
+	return env.GetEnvFileList(".")
 }
 
 func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error) {
@@ -245,6 +238,7 @@ func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error)
 		options = append(options, envName)
 		captions = append(captions, fmt.Sprintf("%s (current value: %s)", envName, envMap[envName]))
 	}
+	prompter.logger.Println(fmt.Sprintf("%s Environment Variable", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Environment variable name", prompter.d.Skull),
 		Items:             captions,
@@ -259,6 +253,7 @@ func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error)
 	if err != nil {
 		return err
 	}
+	prompter.logger.Println(fmt.Sprintf("%s %s", prompter.d.Skull, options[selectedIndex]))
 	prompt := promptui.Prompt{
 		Label: fmt.Sprintf("New value for %s", captions[selectedIndex]),
 	}
@@ -297,6 +292,7 @@ func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bo
 	}
 	captions := []string{"🏁 No", "🔪 Yes"}
 	options := []string{"no", "yes"}
+	prompter.logger.Println(fmt.Sprintf("%s Auto Terminate", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Do you want to terminate tasks once completed?", prompter.d.Skull),
 		Items:             captions,
@@ -333,6 +329,7 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 	} else {
 		options = []string{caption_run, caption_explain}
 	}
+	prompter.logger.Println(fmt.Sprintf("%s Action", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
 		Items:             options,
@@ -370,6 +367,7 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	}
 	options := append(publicTaskOptions, privateTaskOptions...)
 	captions := append(publicTaskCaptions, privateTaskCaptions...)
+	prompter.logger.Println(fmt.Sprintf("%s Task Name", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
 		Items:             captions,
@@ -400,13 +398,17 @@ func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error)
 		if input.Prompt != "" {
 			inputPrompt = input.Prompt
 		}
-		label := fmt.Sprintf("%s %d of %d) %s", prompter.d.Skull, index+1, inputCount, inputPrompt)
 		oldValue := prompter.project.GetValue(inputName)
 		newValue := ""
+		prompter.logger.Println(fmt.Sprintf("%s %d of %d) %s", prompter.d.Skull, index+1, inputCount, inputName))
+		if input.Description != "" {
+			indentation := prompter.d.Empty + " "
+			prompter.logger.Println(indentation + str.Indent(input.Description, indentation))
+		}
 		if input.Secret {
-			newValue, err = prompter.askPassword(label)
+			newValue, err = prompter.askPassword(inputPrompt)
 		} else {
-			newValue, err = prompter.askInput(label, input, oldValue)
+			newValue, err = prompter.askInput(inputPrompt, input, oldValue)
 		}
 		if err != nil {
 			return err
@@ -416,27 +418,27 @@ func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error)
 	return nil
 }
 
-func (prompter *Prompter) askPassword(label string) (value string, err error) {
+func (prompter *Prompter) askPassword(inputPrompt string) (value string, err error) {
 	prompt := promptui.Prompt{
-		Label: label,
+		Label: inputPrompt,
 		Mask:  '*',
 	}
 	return prompt.Run()
 }
 
-func (prompter *Prompter) askInput(label string, input *config.Variable, oldValue string) (value string, err error) {
+func (prompter *Prompter) askInput(inputPrompt string, input *config.Variable, oldValue string) (value string, err error) {
 	options, captions := prompter.getInputOptions(input, oldValue)
 	allowCustom := !boolean.IsFalse(input.AllowCustom)
 	if allowCustom {
-		// Directly ask user input in case ofno available option
+		// Directly ask user input in case of no available option
 		if len(options) == 0 {
-			return prompter.askUserInput(label, input)
+			return prompter.askUserInput(inputPrompt, input)
 		}
 		options = append(options, "")
 		captions = append(captions, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 	}
 	selectPrompt := promptui.Select{
-		Label:             label,
+		Label:             inputPrompt,
 		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
@@ -450,14 +452,14 @@ func (prompter *Prompter) askInput(label string, input *config.Variable, oldValu
 	}
 	selectedIndex, _, err := selectPrompt.Run()
 	if err == nil && allowCustom && selectedIndex == len(options)-1 {
-		return prompter.askUserInput(label, input)
+		return prompter.askUserInput(inputPrompt, input)
 	}
 	return options[selectedIndex], err
 }
 
-func (prompter *Prompter) askUserInput(label string, input *config.Variable) (value string, err error) {
+func (prompter *Prompter) askUserInput(inputPrompt string, input *config.Variable) (value string, err error) {
 	prompt := promptui.Prompt{
-		Label: label,
+		Label: inputPrompt,
 		Validate: func(userInput string) error {
 			return input.Validate(os.ExpandEnv(userInput))
 		},
