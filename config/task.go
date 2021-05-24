@@ -95,6 +95,20 @@ func (task *Task) GetWorkPath() (workPath string) {
 	return workPath
 }
 
+// GetAutoTerminate
+func (task *Task) GetAutoTerminate() (autoTerminate bool) {
+	if task.AutoTerminate {
+		return true
+	}
+	for _, parentTaskName := range task.getParentTaskNames() {
+		parentTask := task.Project.Tasks[parentTaskName]
+		if parentTask.GetAutoTerminate() {
+			return true
+		}
+	}
+	return false
+}
+
 // HaveStartCmd return whether task has start command or not
 func (task *Task) HaveStartCmd() bool {
 	if len(task.Start) > 0 {
