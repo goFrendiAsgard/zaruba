@@ -24,7 +24,7 @@ type Task struct {
 	Check                 []string            `yaml:"check,omitempty"`
 	Timeout               string              `yaml:"timeout,omitempty"`
 	Private               bool                `yaml:"private,omitempty"`
-	AutoTerminate         bool                `yaml:"autoTerminate,omitempty"`
+	AutoTerminate         string              `yaml:"autoTerminate,omitempty"`
 	Extend                string              `yaml:"extend,omitempty"`
 	Extends               []string            `yaml:"extends,omitempty"`
 	Location              string              `yaml:"location,omitempty"`
@@ -97,8 +97,11 @@ func (task *Task) GetWorkPath() (workPath string) {
 
 // GetAutoTerminate
 func (task *Task) GetAutoTerminate() (autoTerminate bool) {
-	if task.AutoTerminate {
+	if boolean.IsTrue(task.AutoTerminate) {
 		return true
+	}
+	if boolean.IsFalse(task.AutoTerminate) {
+		return false
 	}
 	for _, parentTaskName := range task.getParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
