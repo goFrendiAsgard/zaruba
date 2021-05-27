@@ -36,4 +36,4 @@ zaruba please makeServiceTask generator.service.location=./some-directory/myServ
 * [Running tasks](running-task.md)
 * [Creating docker task](creating-docker-task.md)
 * [Creating Fast API service](creating-fast-api-service.md)
-* [Understanding task](understanding-task.md)
+* [Understanding the concept](concept.md)

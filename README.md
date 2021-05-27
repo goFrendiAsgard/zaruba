@@ -1,11 +1,13 @@
 ![zaruba-logo](arts/zaruba-250.png)
 # 💀 Zaruba 
 
-Zaruba is a declarative Task Runner Framework. It helps you to define and orchestrate tasks. 
+Zaruba is a declarative Task Runner Framework. It helps you to define and orchestrate tasks in a fun way. 
 
-In zaruba, a task might extends or depends on each other. This make developing tasks with zaruba is more flexible than creating bunch of shell scripts.
+Zaruba allows you to declare configurable task that extends/depends on each other. You will find it better than writing a bunch of spaghetti shell scripts.
 
-To speed up your development, several tasks has been already included and can be extended accordingly. You can even build a full-fledge FastAPI application and having it deployed to your kubernetes cluster by performing this (no coding required):
+You will find several pre-defined tasks. Some of them are useful to speed up your development by providing scaffolding.
+
+You can even build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing this (no coding required 😉):
 
 ```sh
 # Init project
@@ -37,23 +39,23 @@ zaruba please makeHelmDeployment generator.service.name=myService
 zaruba please helmApply kube.context=docker-desktop
 ```
 
-> 💡 __TIPS:__ Execute task with `--interactive` flag is probably a good idea if you don't want to memorize the parameters.
+> 💡 __TIPS:__ Execute tasks with `-i` or `--interactive` flag is probably a good idea if you don't want to memorize the parameters. Otherwise, you can also type `zaruba please` to select available tasks.
 
 # 👨‍💻 Installation
 
 ## Using docker
 
-Using docker is probably the quickest way to setup zaruba, especially if you need to use zaruba in your CI/CD.
+Using docker is probably the quickest way to set up Zaruba, especially if you need to use Zaruba in your CI/CD.
 
-For more information about zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
+For more information about Zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
 
-> **⚠️NOTE** There will be some limitations if you run zaruba container using docker-desktop for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
+> **⚠️NOTE** There will be some limitations if you run Zaruba container using docker-desktop for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
 ## From source
 
-Installing from source is the best way to setup zaruba for day-to-day use. Currently we don't have any plan to create `apt` or platform-specific packages for zaruba. If you are using windows, you need to install `wsl` in order to get started.
+Installing from source is the best way to setup Zaruba for day-to-day use. Currently we don't have any plan to create `apt` or platform-specific packages for Zaruba. If you are using windows, you need to install `wsl` in order to get started.
 
-In order to install zaruba from source, you need to have some prerequisites software:
+In order to install Zaruba from source, you need to have some prerequisites software:
 
 * `go 1.13` or newer (To install `go` quickly you can visit it's [official website](https://golang.org/doc/install))
 * `wget` or `curl`
@@ -61,7 +63,7 @@ In order to install zaruba from source, you need to have some prerequisites soft
 
 > **💡HINT** Ubuntu user (including ubuntu-wsl) can simply invoke `sudo apt-get install golang wget curl git` to install all prerequisites.
 
-After having the prerequisites installed you can then install zaruba by using `curl` or `wget`:
+After having the prerequisites installed you can then install Zaruba by using `curl` or `wget`:
 
 ```sh
 # Install zaruba by using curl
@@ -73,7 +75,7 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # 📜 Getting Started
 
-Before getting started, it is recommended to have `pyenv` and `nvm` installed. To install those pre-requisites, you can perform:
+Before getting started, it is recommended to have `pyenv` and `nvm` installed. To install those prerequisites, you can perform:
 
 ```
 zaruba please setupPyenv
@@ -88,12 +90,12 @@ Now let's get started by [creating a project](docs/creating-a-project.md)
 
 ## Doing
 
-* Refactor
 * Technical Documentation
+* Third party script (i.e: Install script from github repository)
 
 ## To do
 
-* Third party script (i.e: Load script from github repository)
+* UI (i.e: web server)
 * NLP (i.e: running tasks by using natural language)
 * OSX Setup
 

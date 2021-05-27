@@ -39,5 +39,5 @@ zaruba please makeDockerTask generator.docker.image.name=nginx generator.docker.
 
 * [Running tasks](running-task.md)
 * [Creating service task](creating-service-task.md)
-* [Understanding task](understanding-task.md)
 * [Creating Fast API service](creating-fast-api-service.md)
+* [Understanding the concept](concept.md)

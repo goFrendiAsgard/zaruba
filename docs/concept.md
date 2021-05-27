@@ -1,4 +1,67 @@
-# Understanding Task
+# Project
+
+Project is a container for tasks, environments, and configurations. It is a git repository containing `main.zaruba.yaml`.
+
+`main.zaruba.yaml` typically contains several optional keys:
+
+```yaml
+includes: []
+inputs: {}
+tasks: []
+configs: {}
+lconfigs: {}
+envs: {}
+```
+
+# Includes
+
+`main.zaruba.yaml` might include other project files (any file with `*.zaruba.yaml` extension). To include other project file, you can declare the following:
+
+```yaml
+includes:
+- zaruba-tasks/my-other-project-file.zaruba.yaml
+- ${HOME}/common-task.yaml
+```
+
+Using `includes` is highly recommended, since it helps you to make your project more managable.
+
+# Inputs
+
+Inputs are predefined value that can be configured interactively, by parameter, or by value file.
+
+Input declaration looks like this:
+
+```yaml
+inputs:
+
+  inputName:
+    description: |
+      Description about the input.
+      Can be multi-line
+    prompt: Single line prompt message
+    default: defaultValue
+    options: [alternativeValue, otherAlternativeValue]
+    validation: ^.*$ # regex pattern for value validation
+```
+
+
+# Tasks
+
+Your project typically has more than one tasks that extend/depend to each other. A task typically contains several optional keys:
+
+```yaml
+tasks:
+
+  taskName:
+    location: ./task-location
+    description: description of the task
+    extend: parentTaskName # or "extends"
+    inputs:
+
+```
+
+
+# Task
 
 in zaruba, everything is written in [YAML](https://yaml.org/), Here is a very basic structure of a task:
 
@@ -26,7 +89,7 @@ tasks:
 
 That's it. Save it to your `main.zaruba.yaml` (you might need to [init project](creating-a-project.md)) and run it by invoking `zaruba please sayHello`.
 
-## Long running task
+## Service task
 
 Sometime you need to run a task that keep running in the background (e.g: web server, database server, etc).
 

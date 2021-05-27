@@ -68,5 +68,5 @@ zaruba please runContainer -x
 
 * [Creating docker task](creating-docker-task.md)
 * [Creating service task](creating-service-task.md)
-* [Creating task manually](understanding-task.md)
 * [Creating fastAPI service](creating-fast-api-service.md)
+* [Understanding the concept](concept.md)

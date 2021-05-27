@@ -1,8 +1,8 @@
 # Creating a Project
 
-A zaruba project is a git repository containing at least one file: `main.zaruba.yaml`.
+A Zaruba project is a git repository containing `main.zaruba.yaml`. 
 
-In order to initialize a project, you can invoke `zaruba please initProject`
+To initialize a project, you can invoke `zaruba please initProject`
 
 ## Example
 
@@ -14,14 +14,16 @@ zaruba please initProject
 
 ## Some terminologies
 
-* `Project`: A container for tasks, environments, configurations, and probably services.
-* `Task`: Declarative definition about how to run something. A project might contains a lot of task that depends/extend to each other. A task can be executed manually by invoking `zaruba please invoke <taskName> -i`.
-* `Docker task`: Docker task is a task that run/start a docker container in your computer.
-* `Service task`: Service task is a task that run app/service in your local computer.
-* `Service`: Any long-running application is considered as service (e.g: web server, database server, etc)
-* `Legacy code`: Code that you hate so much but you need to deal with. Usually written by someone who has resign 2 years ago.
+* `Project`: A container for tasks, environments, and configurations.
+    - `Task`: A task definition. A project might contain a lot of tasks that depend/extend to each other. You can execute a task interactively by invoking `zaruba please invoke <taskName> -i`.
+        - `Command Task`: A task that will be terminated upon completion.
+        - `Service Task`: A task that might still be running after completion (i.e: long-running process). Typically this `service task` starts a service/docker container.
+            - `Docker Task`: A kind of service task that starts a docker container.
+        - `Wrapper Task`: A task that does nothing except wait for other task's completion.
+* `Service`: Any long-running application is considered a service (E.g: web server, database server, etc)
+* `Legacy code`: Code that you hate so much but you need to deal with. Probably written by someone who has resign 2 years ago.
 * `Monorepo`: A git repository contains all services and the entire universe.
-* `Multirepo`: Multiple git repositories that suppose to work and compatible with each others (but usually does not).
+* `Multirepo`: Multiple git repositories that suppose to work and compatible with each others (but probably does not).
 
 ## Involved tasks
 
@@ -33,7 +35,7 @@ zaruba please initProject
 * [Creating Fast API service](creating-fast-api-service.md)
 * [Creating docker task](creating-docker-task.md)
 * [Creating service task](creating-service-task.md)
-* [Understanding task](understanding-task.md)
+* [Understanding the concepts](concept.md)
 * [Working with legacy code](working-with-legacy-code.md)
 * [Starting a monorepo](starting-a-monorepo.md)
 * [Working with multirepo](working-with-multirepo.md)
