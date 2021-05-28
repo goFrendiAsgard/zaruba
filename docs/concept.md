@@ -13,6 +13,13 @@ lconfigs: {}
 envs: {}
 ```
 
+* `includes`: Other project files you want to include into your project.
+* `inputs`: Predefined values that can be configured interactively or by parameters.
+* `tasks`: Task definitions.
+* `configs`: Global configuration that can be shared among related tasks. The value of the configuration are `string`.
+* `lconfigs`: Global configuration that can be shared among related tasks. The value of the configuration are `list of string`.
+* `envs`: Global environments that can be shared among related tasks.
+
 # Includes
 
 `main.zaruba.yaml` might include other project files (any file with `*.zaruba.yaml` extension). To include other project file, you can declare the following:
@@ -24,6 +31,53 @@ includes:
 ```
 
 Using `includes` is highly recommended, since it helps you to make your project more managable.
+
+Take note that you only need to set `includes` value in your `main.zaruba.yaml`.
+
+# Tasks
+
+A project typically has more than one tasks that extend/depend to each other. A task typically contains several optional keys:
+
+```yaml
+tasks:
+
+  taskName:
+    location: ./task-location
+    description: task's description
+    extend: parentTaskName # use "extends" for multiple values
+    timeout: 1h
+    private: false
+    inputs: []
+    dependencies: [] # tasks's dependencies
+    envRef: envRefName # use "envRefs" for multiple values
+    env: {}
+    configRef: configRefName # use "configRefs" for multiple values
+    config: {}
+    lconfigRef: lconfigRefName # use "lconfigRefs" for multiple values
+    lconfig: {}
+    start: [] # start command
+    check: [] # check command
+```
+
+You can configure tasks by manipulating those keys
+
+* `location`: Task location, relative to your current project file path. For example, if your project file path is `~/project/zaruba-tasks/service.yaml` and you set the `location` to be `../service`, then your task location is `~/project/service`.
+* `description`: Multi line text describing the task.
+* `extend`: Parent task name.
+* `extends`: Mutually exclusive to `extend`. Indicating you have multiple parent tasks.
+* `timeout`: The duration before a task is considered timeout. It contains a possitive number and followed by any of this suffix: "ns", "us" (or "µs"), "ms", "s", "m", "h".
+* `private`: Either your task is private (cannot be accessed interactively) or not.
+* `inputs`: Inputs you want to include when running the task interactively.
+* `dependencies`: Task dependencies. You put all dependency's task name here. Zaruba will make sure that all dependencies are completed before starting a task.
+* `envRef`: environment reference. Containing keys of project's `envs`.
+* `envRefs`: Mutually exclusive to `envRef`. Indicating you have multiple environment reference
+* `env`: Task environment.
+* `configRef`: Configuration reference. Containing keys of project's `configs`.
+* `configRefs`: Mutually exclusive to `configRef`. Indicating you have multiple configuration reference
+* `config`: Task configuration
+* `lconfigRef`: List configuration reference. Containing keys of project's `lconfigs`.
+* `lconfigRefs`: Mutually exclusive to `lconfigRef`. Indicating you have multiple list configuration reference
+* `lconfig`: Task list configuration
 
 # Inputs
 
@@ -44,21 +98,67 @@ inputs:
     validation: ^.*$ # regex pattern for value validation
 ```
 
+## Getting input's value
 
-# Tasks
-
-Your project typically has more than one tasks that extend/depend to each other. A task typically contains several optional keys:
+To use input's value from your task, you can use `.GetValue` method in your task declaration. For example:
 
 ```yaml
+
+inputs:
+
+  greetings.user.name:
+    default: anonymous
+
 tasks:
 
-  taskName:
-    location: ./task-location
-    description: description of the task
-    extend: parentTaskName # or "extends"
-    inputs:
+  sayHello:
+    start:
+    - figlet
+    - '{{ .GetValue "greetings.user.name" }}'
+```
+
+You can then try to set input value using parameter like this:
+
+```sh
+zaruba please sayHello greetings.user.name=joe
+```
+
+![Assign input's value by parameter](images/concept-assign-input-value-by-parameter.png)
+
+Input values are shared among tasks. In a way it helps you to not repeating yourself by declaring different input names for every task. But this also mean that your input's name should be unique. You can help yourself by adding prefix to your input. For example, instead of `name`, you put `greetings.user.name` instead.
+
+## Using input on interactive mode
+
+Most likely users won't be able to memorize every input's name. This is why Zaruba provide interactive mode.
+
+To make your inputs available interactively, you can add them as task's input:
 
 ```
+inputs:
+
+  greetings.user.name:
+    description: User's name
+    prompt: user's name
+    default: anonymous
+
+tasks:
+
+  sayHello:
+    inputs:
+    - greetings.user.name
+    start:
+    - figlet
+    - '{{ .GetValue "greetings.user.name" }}'
+```
+
+You can then try to run the task interactively using `-i` or `--interactive` flag:
+
+```sh
+zaruba please sayHello -i
+```
+
+![Assign input's value interactively](images/concept-assign-input-value-interactively.png)
+
 
 
 # Task
@@ -69,7 +169,7 @@ in zaruba, everything is written in [YAML](https://yaml.org/), Here is a very ba
 tasks:
 
     yourTaskName:
-        dependencis: [] # List of task dependency's name
+        dependencies: [] # List of task dependency's name
         start: [] # list of argument to start a task
         check: [] # list of argument to check whether the task is ready or not
 ```
