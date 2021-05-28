@@ -79,6 +79,20 @@ You can configure tasks by manipulating those keys
 * `lconfigRefs`: Mutually exclusive to `lconfigRef`. Indicating you have multiple list configuration reference
 * `lconfig`: Task list configuration
 
+## Command Task
+
+## Service Task
+
+## Environment
+
+## Config
+
+## LConfig
+
+## Inputs
+
+## Docker Task
+
 # Inputs
 
 Inputs are predefined value that can be configured interactively, by parameter, or by value file.
