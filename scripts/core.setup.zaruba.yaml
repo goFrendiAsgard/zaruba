@@ -193,7 +193,6 @@ tasks:
     inputs:
     - setup.homeDir
     - setup.pythonVersion
-    - setup.reinstall
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
