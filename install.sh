@@ -1,11 +1,21 @@
 set +e
 echo "💀 Remove old Zaruba"
 go clean -i github.com/state-alchemists/zaruba
+if [ -f "${HOME}/.zaruba/scripts/bootstrap.sh" ]
+then
+    echo "💀 Backup bootstrap script"
+    cp "${HOME}/.zaruba/scripts/bootstrap.sh" "${HOME}/zaruba-bootstrap.sh.bak"
+fi
 rm -Rf "${HOME}/.zaruba"
 
 set -e
 echo "💀 Cloning Zaruba"
 git clone --depth 1 https://github.com/state-alchemists/zaruba "${HOME}/.zaruba"
+if [ -f "${HOME}/zaruba-bootstrap.sh.bak" ]
+then
+    echo "💀 Restore bootstrap script"
+    mv "${HOME}/zaruba-bootstrap.sh.bak" "${HOME}/.zaruba/scripts/bootstrap.sh"
+fi
 
 echo "💀 Build Zaruba"
 cd "${HOME}/.zaruba"
