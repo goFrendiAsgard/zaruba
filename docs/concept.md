@@ -59,7 +59,7 @@ tasks:
     check: [] # check command
 ```
 
-You can configure tasks by manipulating those keys
+You can configure tasks by manipulating these keys
 
 * `location`: Task location, relative to your current project file path. For example, if your project file path is `~/project/zaruba-tasks/service.yaml` and you set the `location` to be `../service`, then your task location is `~/project/service`.
 * `description`: Multi line text describing the task.
