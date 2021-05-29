@@ -1,28 +1,35 @@
 # Project
 
-Project is a container for tasks, environments, and configurations. It is a git repository containing `main.zaruba.yaml`.
+Project is a container for tasks, environments, and configurations. A project consists of several Zaruba scripts and all necessary resources.
 
-`main.zaruba.yaml` typically contains several optional keys:
+Your main Zaruba script should be located at `main.zaruba.yaml`.
+
+Every Zaruba script contains several optional keys:
 
 ```yaml
-includes: []
-inputs: {}
-tasks: []
-configs: {}
-lconfigs: {}
-envs: {}
+name: yourProjectName # optional
+includes: [] # included Zaruba scripts
+tasks: [] # task definitions
+inputs: {} # Inputs
+configs: {} # Map of configuration set
+lconfigs: {}  # Map of list-configuration set
+envs: {} # Map of environment set
 ```
 
-* `includes`: Other project files you want to include into your project.
-* `inputs`: Predefined values that can be configured interactively or by parameters.
-* `tasks`: Task definitions.
-* `configs`: Global configuration that can be shared among related tasks. The value of the configuration are `string`.
-* `lconfigs`: Global configuration that can be shared among related tasks. The value of the configuration are `list of string`.
-* `envs`: Global environments that can be shared among related tasks.
+* `includes`: List of Zaruba scripts you want to include. Every scripts included in `main.zaruba.yaml` are automatically linked to each others.
+* `tasks`: Map of task definitions.
+* `inputs`: Map of predefined values that can be configured on runtime (interactively or by parameters). Inputs can be shared among tasks (i.e: several tasks probably access the same input).
+* `configs`: Map of config set. Each config should have a single value. Several tasks probably depend on the same config set.
+* `lconfigs`: Map of lconfig set. Each lconfig might have multiple values. Serveral tasks probably depend on the same lconfig set.
+* `envs`: Map of environments. Several tasks probably depend on the same env set.
 
 # Includes
 
-`main.zaruba.yaml` might include other project files (any file with `*.zaruba.yaml` extension). To include other project file, you can declare the following:
+Some of your tasks probably need some resources from other Zaruba script.
+
+Include mechanism allows you to include other Zaruba script file into your main script. Every zaruba scripts included in your main script will be automatically linked to each other. Thus, you only need to put `includes` in your `main.zaruba.yaml`.
+
+For example you want to include resources from `./zaruba-tasks/my-other-project-file.zaruba.yaml` and `${HOME}/common-task.zaruba.yaml`. In that case, you can put this in your `main.zaruba.yaml`.
 
 ```yaml
 includes:
@@ -30,9 +37,17 @@ includes:
 - ${HOME}/common-task.yaml
 ```
 
-Using `includes` is highly recommended, since it helps you to make your project more managable.
+## Global Include
 
-Take note that you only need to set `includes` value in your `main.zaruba.yaml`.
+If you want your scripts to be available from every project in your computer, you can add them into `ZARUBA_SCRIPT` environment. Please make sure that your script paths are absolute.
+
+For example you want `${HOME}/common-task.zaruba.yaml` and `${HOME}/make-coffee.zaruba.yaml`. In that case, you can put this in your `.profile`, `.bashrc`, or `.zshrc`:
+
+```sh
+export ZARUBA_SCRIPT=${HOME}/common-task.zaruba.yaml:${HOME}/make-coffee.zaruba.yaml
+```
+
+This trick is going to be useful if you have common stateless tools like scaffolding or cofee-maker-automation that should be accessible from anywhere. Otherwise, local include (i.e: using `includes` key in your main project) is preferable.
 
 # Tasks
 
@@ -47,7 +62,7 @@ tasks:
     extend: parentTaskName # use "extends" for multiple values
     timeout: 1h
     private: false
-    inputs: []
+    inputs: [] # list of input's name
     dependencies: [] # tasks's dependencies
     envRef: envRefName # use "envRefs" for multiple values
     env: {}
@@ -59,29 +74,52 @@ tasks:
     check: [] # check command
 ```
 
-You can configure tasks by manipulating these keys
-
 * `location`: Task location, relative to your current project file path. For example, if your project file path is `~/project/zaruba-tasks/service.yaml` and you set the `location` to be `../service`, then your task location is `~/project/service`.
 * `description`: Multi line text describing the task.
-* `extend`: Parent task name.
-* `extends`: Mutually exclusive to `extend`. Indicating you have multiple parent tasks.
-* `timeout`: The duration before a task is considered timeout. It contains a possitive number and followed by any of this suffix: "ns", "us" (or "µs"), "ms", "s", "m", "h".
-* `private`: Either your task is private (cannot be accessed interactively) or not.
-* `inputs`: Inputs you want to include when running the task interactively.
-* `dependencies`: Task dependencies. You put all dependency's task name here. Zaruba will make sure that all dependencies are completed before starting a task.
-* `envRef`: environment reference. Containing keys of project's `envs`.
-* `envRefs`: Mutually exclusive to `envRef`. Indicating you have multiple environment reference
-* `env`: Task environment.
-* `configRef`: Configuration reference. Containing keys of project's `configs`.
-* `configRefs`: Mutually exclusive to `configRef`. Indicating you have multiple configuration reference
-* `config`: Task configuration
-* `lconfigRef`: List configuration reference. Containing keys of project's `lconfigs`.
-* `lconfigRefs`: Mutually exclusive to `lconfigRef`. Indicating you have multiple list configuration reference
-* `lconfig`: Task list configuration
+* `extend`: Parent task name. Mutually exclusive to `extends` (i.e: You cannot use  both simultaneously).
+* `extends`: List of parent task names. Mutually exclusive to `extend` (i.e: You cannot use both simultaneously). 
+* `timeout`: The duration before a task is considered timeout. Timeout contains a possitive number or zero and followed by any of this suffix: "ns", "us" (or "µs"), "ms", "s", "m", "h".
+* `private`: Boolean, define whether your task is private or not. Private tasks are interactively inaccessible. Usually private tasks act as template to be extended by other tasks.
+* `inputs`: List of input names you want to associate with the task.
+* `dependencies`: Task dependencies. Zaruba will make sure that all dependencies are completed before starting the task.
+* `envRef`: Environment reference to be used in the task. Mutually exclusive to `envRefs` (i.e: you cannot use both simultaneously).
+* `envRefs`: List of environment references to be used in the task. Mutually exclusive to `envRef`(i.e: you cannot use both simultaneously).
+* `env`: Task environment. This will override `envRef` or `envRefs`.
+* `configRef`: Config reference to be used in the task. Mutually exclusive to `configRefs` (i.e: you cannot use both simultaneously).
+* `configRefs`: List of configuration references to be used in the task. Mutually exclusive to `configRef`(i.e: you cannot use both simultaneously).
+* `config`: Task configuration. This will override `configRef` or `configRefs`.
+* `lconfigRef`: Lconfig reference to be used in the task. Mutually exclusive to `lconfigRefs` (i.e: you cannot use both simultaneously).
+* `lconfigRefs`: List of lconfig references to be used in the task. Mutually exclusive to `lconfigRef`(i.e: you cannot use both simultaneously).
+* `lconfig`: Task lconfig. This will override `lconfigRef` or `lconfigRefs`. Unlike `config`, a `lconfig` might contain several values (e.g: ports to be exposed, list of authors, etc).
+* `start`: Task's start command.
+* `check`: Task's check command.
 
-## Command Task
+Let's get into them, one drop at a time.
 
-## Service Task
+## Command Tasks
+
+At the very basic, a command task should contain a single `start` command. A command task is considered "completed" once the command has been executed.
+
+Please take a look at the following example:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  sayHello:
+    start:
+    - figlet
+    - hello world
+```
+
+We have `sayHello` task with single `start` command: `[figlet, hello world]`.
+
+You can run the task by invoking:
+
+```sh
+zaruba please sayHello
+```
+
 
 ## Environment
 
@@ -90,6 +128,10 @@ You can configure tasks by manipulating these keys
 ## LConfig
 
 ## Inputs
+
+## Extend
+
+## Service Task
 
 ## Docker Task
 

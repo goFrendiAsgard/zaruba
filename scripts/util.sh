@@ -253,12 +253,14 @@ is_command_error() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     $@ >> /dev/null
-    if [ "$?" = 0 ]
+    _STATUS=$?
+    if [ "$_STATUS" = 0 ]
     then
         echo 0
     else
         echo 1
     fi 
+    set "${_OLD_STATE}"
 }
 
 
@@ -267,12 +269,14 @@ is_command_exist() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     $@ >> /dev/null
-    if [ "$?" = 127 ]
+    _STATUS=$?
+    if [ "$_STATUS" = 127 ]
     then
         echo 0
     else
         echo 1
     fi 
+    set "${_OLD_STATE}"
 }
 
 
