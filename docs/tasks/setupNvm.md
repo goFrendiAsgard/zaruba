@@ -15,11 +15,11 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : setup.homeDir
-                    DESCRIPTION : Home directory
-                    PROMPT      : Home directory (Can be blank)
+                    DESCRIPTION : Home directory (Can be blank)
+                    PROMPT      : Home directory
                   setup.nodeVersion
                     DESCRIPTION : Node version to be installed when install nvm
-                    PROMPT      : Node version to be installed when install nvm
+                    PROMPT      : Node version
                     OPTIONS     : [ node, stable, unstable ]
                     DEFAULT     : node
                     VALIDATION  : ^.+$
@@ -54,6 +54,7 @@
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
                                            else
+                                             rm -Rf "${HOME}/.nvm"
                                              echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
                                              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"

@@ -15,8 +15,8 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : setup.homeDir
-                    DESCRIPTION : Home directory
-                    PROMPT      : Home directory (Can be blank)
+                    DESCRIPTION : Home directory (Can be blank)
+                    PROMPT      : Home directory
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
@@ -48,6 +48,7 @@
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
                                            else
+                                             rm -Rf "${HOME}/.sdkman"
                                              echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
                                              curl -s "https://get.sdkman.io" | bash
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")"

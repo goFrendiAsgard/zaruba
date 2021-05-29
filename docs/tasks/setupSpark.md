@@ -15,21 +15,21 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : setup.homeDir
-                    DESCRIPTION : Home directory
-                    PROMPT      : Home directory (Can be blank)
+                    DESCRIPTION : Home directory (Can be blank)
+                    PROMPT      : Home directory
                   setup.sparkDownloadUrl
-                    DESCRIPTION : Spark download url
+                    DESCRIPTION : Spark download URL
                     PROMPT      : Spark download url
                     DEFAULT     : https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
                     VALIDATION  : ^.+$
                   setup.sparkVersion
                     DESCRIPTION : Spark version to be installed
-                    PROMPT      : Spark version to be installed
+                    PROMPT      : Spark version
                     DEFAULT     : 3.1.1
                     VALIDATION  : ^.+$
                   setup.hadoopVersion
                     DESCRIPTION : Hadoop version to be installed when install spark
-                    PROMPT      : Hadoop version to be installed when install spark
+                    PROMPT      : Hadoop version
                     DEFAULT     : 2.7
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
@@ -63,6 +63,7 @@
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
                                            else
+                                             rm -Rf "${HOME}/.spark"
                                              echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
                                              wget -O spark.tgz "{{ .GetValue "setup.sparkDownloadUrl" }}"
                                              mkdir -p "${HOME}/.spark"

@@ -15,11 +15,11 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : setup.homeDir
-                    DESCRIPTION : Home directory
-                    PROMPT      : Home directory (Can be blank)
+                    DESCRIPTION : Home directory (Can be blank)
+                    PROMPT      : Home directory
                   setup.helmfileVersion
                     DESCRIPTION : Helmfile version to be installed
-                    PROMPT      : Helmfile version to be installed
+                    PROMPT      : Helmfile version
                     DEFAULT     : v0.139.6
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
@@ -53,6 +53,7 @@
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"
                                            else
+                                             rm -Rf "${HOME}/.local/bin/kubectl"
                                              echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install Kubectl{{ $d.Normal }}"
                                              wget "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
                                              chmod 755 kubectl
@@ -74,6 +75,7 @@
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Helmfile was already installed{{ $d.Normal }}"
                                            else
+                                             rm -Rf "${HOME}/.local/bin/helmfile"
                                              echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install helmfile{{ $d.Normal }}"
                                              wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "setup.helmfileVersion" }}/helmfile_linux_amd64
                                              chmod 755 ./helmfile_linux_amd64

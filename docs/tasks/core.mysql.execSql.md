@@ -16,15 +16,28 @@
   CONFIG        : _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                      : {{ $this := . -}}
+                  _start                      : USER="{{ .GetConfig "user" }}"
+                                                PASSWORD="{{ .GetConfig "password" }}"
+                                                CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                                 {{ range $index, $query := .GetLConfig "queries" -}}
-                                                  echo "SQL: {{ $query }}"
-                                                  docker exec "{{ $this.GetConfig "containerName" }}" mysql -u {{ $this.GetConfig "user" }} -p{{ $this.GetConfig "password" }} -e "{{ $query }}"
+                                                QUERY="{{ $query }}"
+                                                if [ -f "${QUERY}" ]
+                                                then
+                                                  echo "SQL FILE: ${QUERY}"
+                                                  TMP_FILE_NAME="/$(get_uuid4).sql"
+                                                  docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+                                                  docker exec "${CONTAINER_NAME}" bash -c "mysql --user=\"${USER}\" --password=\"${PASSWORD}\" < \"${TMP_FILE_NAME}\""
+                                                  docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
+                                                else
+                                                  echo "SQL SCRIPT: ${QUERY}"
+                                                  docker exec "${CONTAINER_NAME}" mysql --user="${USER}" --password="${PASSWORD}" -e "${QUERY}"
+                                                fi
                                                 {{ end -}}
                   afterStart                  : Blank
                   beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
+                  containerName               : Blank
                   database                    : {{ .GetEnv "MYSQL_DATABASE" }}
                   dockerEnv                   : {{ .GetValue "docker.env" }}
                   finish                      : Blank

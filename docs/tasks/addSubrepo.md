@@ -17,15 +17,15 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : subrepo.url
-                    DESCRIPTION : Subrepo url
-                    PROMPT      : Subrepo url (Required)
+                    DESCRIPTION : Subrepo url (Required)
+                    PROMPT      : Subrepo url
                     VALIDATION  : ^.+$
                   subrepo.prefix
-                    DESCRIPTION : Subrepo directory name
-                    PROMPT      : Subrepo directory name (Can be blank)
+                    DESCRIPTION : Subrepo directory name (Can be blank)
+                    PROMPT      : Subrepo directory name
                   subrepo.name
-                    DESCRIPTION : Subrepo name
-                    PROMPT      : Subrepo name (Can be blank)
+                    DESCRIPTION : Subrepo name (Can be blank)
+                    PROMPT      : Subrepo name
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}

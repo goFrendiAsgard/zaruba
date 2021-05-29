@@ -15,30 +15,42 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : generator.service.location
                     DESCRIPTION : Service location, relative to this directory
-                    PROMPT      : Service location (Relative to this directory)
+                    PROMPT      : Service location
                     VALIDATION  : ^.+$
                   generator.service.name
-                    DESCRIPTION : Service name
-                    PROMPT      : Service name (Can be blank)
+                    DESCRIPTION : Service name (Can be blank)
+                    PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
                   generator.service.envs
-                    DESCRIPTION : Service environments, comma separated
-                    PROMPT      : Service environments (e.g: 'PORT=3000,WRITE=1')
+                    DESCRIPTION : Service environments, comma separated.
+                                  E.g: HTTP_PORT=3000,MODE=writer
+                                  
+                                  Many applications rely on environment variables to configure their behavior.
+                                  You might need to see service's documentation or open environment files (.env, template.env, etc) to see available options.
+                                  If there is no documentation/environment files available, you probably need to run-through the code or ask the developer team.
+                    PROMPT      : Service environments
                   generator.service.ports
-                    DESCRIPTION : Service ports, comma separated
-                    PROMPT      : Service ports (e.g: '3000,PORT')
+                    DESCRIPTION : Service ports (number or environment variable), comma separated.
+                                  E.g: 3000,HTTP_PORT,PROMETHEUS_PORT
+                    PROMPT      : Service ports
                     VALIDATION  : ^[a-zA-Z0-9_,]*$
                   generator.service.docker.image.name
-                    DESCRIPTION : Service's docker image name
-                    PROMPT      : Service's Docker image name (Can be blank)
+                    DESCRIPTION : Service's docker image name (Can be blank)
+                    PROMPT      : Service's docker image name
                     VALIDATION  : ^[a-z0-9_]*$
                   generator.service.docker.container.name
-                    DESCRIPTION : Service's docker container name
-                    PROMPT      : Service's docker container name (Can be blank)
+                    DESCRIPTION : Service's docker container name (Can be blank)
+                    PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
                   generator.task.dependencies
-                    DESCRIPTION : Task dependencies
-                    PROMPT      : Task dependencies (e.g: 'runMySql,runCassandra')
+                    DESCRIPTION : Task's dependencies, comma separated.
+                                  E.g: runMysql, runRedis
+                                  
+                                  For example, you want to make sure that MySQL and Redis is already running before starting this task.
+                                  
+                                  In that case, assuming runMySql and runRedis are tasks to run MySQL and Redis respectively, then you need to set this task's dependencies into:
+                                    runMysql,runRedis
+                    PROMPT      : Task dependencies
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}

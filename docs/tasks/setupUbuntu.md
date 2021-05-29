@@ -15,13 +15,13 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : setup.userPassword
-                    DESCRIPTION : Your user password. Leave blank if you already run the task with "sudo"
+                    DESCRIPTION : User password (Can be blank if you already run the task with "sudo")
                     PROMPT      : User password
                   setup.allowRoot
-                    DESCRIPTION : Allow to install as root user
-                    PROMPT      : Allow to install as root user (in root home directory)
-                    OPTIONS     : [ true, false ]
-                    DEFAULT     : false
+                    DESCRIPTION : Allow to install as root (using root home directory)
+                    PROMPT      : Allow to install as root
+                    OPTIONS     : [ yes, no ]
+                    DEFAULT     : no
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}

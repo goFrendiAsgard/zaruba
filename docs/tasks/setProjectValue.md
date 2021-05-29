@@ -16,12 +16,12 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : variable.name
-                    DESCRIPTION : Variable name
-                    PROMPT      : Variable name (Required)
+                    DESCRIPTION : Variable name (Required)
+                    PROMPT      : Name
                     VALIDATION  : ^.+$
                   variable.value
-                    DESCRIPTION : Variable value
-                    PROMPT      : Variable value (Required)
+                    DESCRIPTION : Variable value (Required)
+                    PROMPT      : Value
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}

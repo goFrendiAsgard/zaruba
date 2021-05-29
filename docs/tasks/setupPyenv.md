@@ -15,11 +15,11 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : setup.homeDir
-                    DESCRIPTION : Home directory
-                    PROMPT      : Home directory (Can be blank)
+                    DESCRIPTION : Home directory (Can be blank)
+                    PROMPT      : Home directory
                   setup.pythonVersion
                     DESCRIPTION : Python version to be installed when install pyenv
-                    PROMPT      : Python version to be installed when install pyenv
+                    PROMPT      : Python version
                     OPTIONS     : [ 3.7, 3.8, 3.9 ]
                     DEFAULT     : 3.8.6
                     VALIDATION  : ^.+$
@@ -54,6 +54,7 @@
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
                                            else
+                                             rm -Rf "${HOME}/.pyenv"
                                              echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
                                              curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"

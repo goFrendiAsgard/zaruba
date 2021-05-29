@@ -46,10 +46,7 @@
                                                  echo "* 'pip install pipenv' (if you don't want to install pyenv)"
                                                  exit 1
                                              fi
-                                             export PIPENV_IGNORE_VIRTUALENVS=1
-                                             export PIPENV_DONT_LOAD_ENV=1
-                                             export PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile"
-                                             pipenv install
+                                             PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile" pipenv install
                                            {{ end }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

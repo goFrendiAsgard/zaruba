@@ -71,8 +71,8 @@
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   INPUTS        : docker.env
-                    DESCRIPTION : Docker env for getting image prefix
-                    PROMPT      : Docker env for getting image prefix (Required)
+                    DESCRIPTION : Docker env for getting image prefix (Required)
+                    PROMPT      : Docker env
                     DEFAULT     : default
                     VALIDATION  : ^.+$
   CONFIG        : _check                      : {{ $d := .Decoration -}}

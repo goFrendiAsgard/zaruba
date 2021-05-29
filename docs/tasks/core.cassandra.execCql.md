@@ -16,15 +16,28 @@
   CONFIG        : _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                      : {{ $this := . -}}
+                  _start                      : USER="{{ .GetConfig "user" }}"
+                                                PASSWORD="{{ .GetConfig "password" }}"
+                                                CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                                 {{ range $index, $query := .GetLConfig "queries" -}}
-                                                  echo "CQL: {{ $query }}"
-                                                  docker exec "{{ $this.GetConfig "containerName" }}" cqlsh -e "{{ $query }}"
+                                                QUERY="{{ $query }}"
+                                                if [ -f "${QUERY}" ]
+                                                then
+                                                  echo "CQL FILE: ${QUERY}"
+                                                  TMP_FILE_NAME="/$(get_uuid4).sql"
+                                                  docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+                                                  docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
+                                                  docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
+                                                else
+                                                  echo "CQL SCRIPT: ${QUERY}"
+                                                  docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
+                                                fi
                                                 {{ end -}}
                   afterStart                  : Blank
                   beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
+                  containerName               : Blank
                   dockerEnv                   : {{ .GetValue "docker.env" }}
                   finish                      : Blank
                   helmEnv                     : {{ .GetValue "helm.env" }}
@@ -60,10 +73,12 @@
                                                 {{ end -}}
                   keyspace                    : sample
                   kubeContext                 : {{ .GetValue "kube.context" }}
+                  password                    : cassandra
                   playBellScript              : echo $'\a'
                   setup                       : Blank
                   start                       : Blank
                   useImagePrefix              : true
+                  user                        : cassandra
   LCONFIG       : queries : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

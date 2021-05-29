@@ -17,12 +17,12 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : link.from
-                    DESCRIPTION : Link source
-                    PROMPT      : Link source (Required)
+                    DESCRIPTION : Link source (Required)
+                    PROMPT      : Source
                     VALIDATION  : ^.+$
                   link.to
-                    DESCRIPTION : Link source
-                    PROMPT      : Link destination (Required)
+                    DESCRIPTION : Link destination (Required)
+                    PROMPT      : Destination
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}

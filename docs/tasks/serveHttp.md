@@ -27,8 +27,8 @@
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   INPUTS        : server.httpPort
-                    DESCRIPTION : HTTP port to be used
-                    PROMPT      : HTTP port to be used
+                    DESCRIPTION : HTTP port to serve static files
+                    PROMPT      : HTTP port
                     OPTIONS     : [ 8080, 8000, 3000, 5000 ]
                     DEFAULT     : 8080
                     VALIDATION  : ^[0-9]+$

@@ -16,8 +16,8 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   INPUTS        : generator.service.name
-                    DESCRIPTION : Service name
-                    PROMPT      : Service name (Can be blank)
+                    DESCRIPTION : Service name (Can be blank)
+                    PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
