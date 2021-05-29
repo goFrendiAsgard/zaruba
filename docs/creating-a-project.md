@@ -4,7 +4,7 @@ A Zaruba project is a git repository containing `main.zaruba.yaml`.
 
 To initialize a project, you can invoke `zaruba please initProject`
 
-## Example
+# Example
 
 ```sh
 mkdir newProject
@@ -12,7 +12,7 @@ cd newProject
 zaruba please initProject
 ```
 
-## Some terminologies
+# Some terminologies
 
 * `Project`: A container for tasks, environments, and configurations.
     - `Task`: A task definition. A project might contain a lot of tasks that depend/extend to each other. You can execute a task interactively by invoking `zaruba please invoke <taskName> -i`.
@@ -25,11 +25,11 @@ zaruba please initProject
 * `Monorepo`: A git repository contains all services and the entire universe.
 * `Multirepo`: Multiple git repositories that suppose to work and compatible with each others (but probably does not).
 
-## Involved tasks
+# Involved tasks
 
 * [initProject](tasks/initProject.md)
 
-## What's next
+# What's next
 
 
 * [Creating Fast API service](creating-fast-api-service.md)

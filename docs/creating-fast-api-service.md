@@ -8,7 +8,7 @@ But of course, in most cases, you can just use zaruba's generator so that you do
 
 To create a Fast API service, you can perform: `zaruba please makeFastApiService -i` and follow the on screen instruction.
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -18,12 +18,12 @@ zaruba please makeFastApiService -i
 zaruba please makeFastApiService generator.fastApi.service.name=myService
 ```
 
-## Involved tasks
+# Involved tasks
 
 * [makeFastApiService](tasks/makeFastApiService.md)
 
 
-## What's next
+# What's next
 
 * [Creating Fast API service task](creating-fast-api-service-task.md)
 * [Creating Fast API module](creating-fast-api-module.md)

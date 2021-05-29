@@ -10,7 +10,7 @@ Zaruba also provide several preset docker-tasks, namely:
 * Python
 
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -22,7 +22,7 @@ zaruba please makeFastApiServiceTask -i
 zaruba please makeServiceTask generator.service.location=./some-directory/myService generator.service.name=myService generator.service.envs="MY_ENV=MY_VALUE" ports=3000 generator.service.docker.image.name=myService generator.service.docker.container.name=myServiceContainer
 ```
 
-## Involved tasks:
+# Involved tasks:
 
 * [makeServiceTask](tasks/makeServiceTask.md)
 * [makeFastApiServiceTask](tasks/makeFastApiServiceTask.md)
@@ -31,7 +31,7 @@ zaruba please makeServiceTask generator.service.location=./some-directory/myServ
 * [makePythonServiceTask](tasks/makePythonServiceTask.md)
 
 
-## What's next
+# What's next
 
 * [Running tasks](running-task.md)
 * [Creating docker task](creating-docker-task.md)

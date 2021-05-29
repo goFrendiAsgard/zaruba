@@ -7,7 +7,7 @@ There are several ways to run tasks:
 
 To see all available tasks and run/explain them, you can simply type `zaruba please`.
 
-## Running generated service/docker task
+# Running generated service/docker task
 
 If your task was created by using zaruba's generator (i.e: [generated docker task](creating-docker-task.md) or [generated service task](creating-service-task.md)), then your task is typically has this naming: `run-<service-name>`.
 
@@ -35,7 +35,7 @@ Aside from the auto-generated tasks, Zaruba will also add several common tasks t
 
 Plese take note that containers are not going to be stopped when you press `ctrl+c`.
 
-## Example
+# Example
 
 ```sh
 # run task interactively.
@@ -56,7 +56,7 @@ zaruba please runContainer -i -t -w 5s
 zaruba please runContainer -x
 ```
 
-## Involved tasks
+# Involved tasks
 
 * [core.startService](tasks/core.startService.md) (extended)
 * [core.startDockerContainer](tasks/core.startDockerContainer.md) (extended)
@@ -64,7 +64,7 @@ zaruba please runContainer -x
 * [core.buildDockerImage](tasks/core.buildDockerImage.md) (extended)
 * [core.pushDockerImage](tasks/core.pushDockerImage.md) (extended)
 
-## What's next
+# What's next
 
 * [Creating docker task](creating-docker-task.md)
 * [Creating service task](creating-service-task.md)

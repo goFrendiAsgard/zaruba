@@ -1,4 +1,4 @@
-# Project
+# ⚗️ Project
 
 Project is a container for tasks, environments, and configurations. A project consists of several Zaruba scripts and all necessary resources.
 
@@ -16,14 +16,14 @@ lconfigs: {}  # Map of list-configuration set
 envs: {} # Map of environment set
 ```
 
-* `includes`: List of Zaruba scripts you want to include. Every scripts included in `main.zaruba.yaml` are automatically linked to each others.
-* `tasks`: Map of task definitions.
-* `inputs`: Map of predefined values that can be configured on runtime (interactively or by parameters). Inputs can be shared among tasks (i.e: several tasks probably access the same input).
-* `configs`: Map of config set. Each config should have a single value. Several tasks probably depend on the same config set.
-* `lconfigs`: Map of lconfig set. Each lconfig might have multiple values. Serveral tasks probably depend on the same lconfig set.
-* `envs`: Map of environments. Several tasks probably depend on the same env set.
+* 🍲 `includes`: List of Zaruba scripts you want to include. Every scripts included in `main.zaruba.yaml` are automatically linked to each others.
+* ✔️ `tasks`: Map of task definitions.
+* 🔢 `inputs`: Map of predefined values that can be configured on runtime (interactively or by parameters). Inputs can be shared among tasks (i.e: several tasks probably access the same input).
+* 📕 `configs`: Map of config set. Each config should have a single value. Several tasks probably depend on the same config set.
+* 📚 `lconfigs`: Map of lconfig set. Each lconfig might have multiple values. Serveral tasks probably depend on the same lconfig set.
+* 🛤️ `envs`: Map of environments. Several tasks probably depend on the same env set.
 
-# Includes
+# 🍲 Includes
 
 Some of your tasks probably need some resources from other Zaruba script.
 
@@ -37,7 +37,7 @@ includes:
 - ${HOME}/common-task.yaml
 ```
 
-## Global Include
+## 🌍 Global Include
 
 If you want your scripts to be available from every project in your computer, you can add them into `ZARUBA_SCRIPT` environment. Please make sure that your script paths are absolute.
 
@@ -49,7 +49,7 @@ export ZARUBA_SCRIPT=${HOME}/common-task.zaruba.yaml:${HOME}/make-coffee.zaruba.
 
 This trick is going to be useful if you have common stateless tools like scaffolding or cofee-maker-automation that should be accessible from anywhere. Otherwise, local include (i.e: using `includes` key in your main project) is preferable.
 
-# Tasks
+# ✔️ Tasks
 
 A project typically has more than one tasks that extend/depend to each other. A task typically contains several optional keys:
 
@@ -74,29 +74,37 @@ tasks:
     check: [] # check command
 ```
 
-* `location`: Task location, relative to your current project file path. For example, if your project file path is `~/project/zaruba-tasks/service.yaml` and you set the `location` to be `../service`, then your task location is `~/project/service`.
-* `description`: Multi line text describing the task.
-* `extend`: Parent task name. Mutually exclusive to `extends` (i.e: You cannot use  both simultaneously).
-* `extends`: List of parent task names. Mutually exclusive to `extend` (i.e: You cannot use both simultaneously). 
-* `timeout`: The duration before a task is considered timeout. Timeout contains a possitive number or zero and followed by any of this suffix: "ns", "us" (or "µs"), "ms", "s", "m", "h".
-* `private`: Boolean, define whether your task is private or not. Private tasks are interactively inaccessible. Usually private tasks act as template to be extended by other tasks.
-* `inputs`: List of input names you want to associate with the task.
-* `dependencies`: Task dependencies. Zaruba will make sure that all dependencies are completed before starting the task.
-* `envRef`: Environment reference to be used in the task. Mutually exclusive to `envRefs` (i.e: you cannot use both simultaneously).
-* `envRefs`: List of environment references to be used in the task. Mutually exclusive to `envRef`(i.e: you cannot use both simultaneously).
-* `env`: Task environment. This will override `envRef` or `envRefs`.
-* `configRef`: Config reference to be used in the task. Mutually exclusive to `configRefs` (i.e: you cannot use both simultaneously).
-* `configRefs`: List of configuration references to be used in the task. Mutually exclusive to `configRef`(i.e: you cannot use both simultaneously).
-* `config`: Task configuration. This will override `configRef` or `configRefs`.
-* `lconfigRef`: Lconfig reference to be used in the task. Mutually exclusive to `lconfigRefs` (i.e: you cannot use both simultaneously).
-* `lconfigRefs`: List of lconfig references to be used in the task. Mutually exclusive to `lconfigRef`(i.e: you cannot use both simultaneously).
-* `lconfig`: Task lconfig. This will override `lconfigRef` or `lconfigRefs`. Unlike `config`, a `lconfig` might contain several values (e.g: ports to be exposed, list of authors, etc).
-* `start`: Task's start command.
-* `check`: Task's check command.
+* 📍 `location`: Task location, relative to your current project file path. For example, if your project file path is `~/project/zaruba-tasks/service.yaml` and you set the `location` to be `../service`, then your task location is `~/project/service`.
+* 📜 `description`: Multi line text describing the task.
+* 🔼 `extend`: Parent task name. Mutually exclusive to `extends` (i.e: You cannot use  both simultaneously).
+* 🔼 `extends`: List of parent task names. Mutually exclusive to `extend` (i.e: You cannot use both simultaneously). 
+* ⏰ `timeout`: The duration before a task is considered timeout. Timeout contains a possitive number or zero and followed by any of this suffix: "ns", "us" (or "µs"), "ms", "s", "m", "h".
+* 🔒 `private`: Boolean, define whether your task is private or not. Private tasks are interactively inaccessible. Usually private tasks act as template to be extended by other tasks.
+* 🔢 `inputs`: List of input names you want to associate with the task.
+* 🔀 `dependencies`: Task dependencies. Zaruba will make sure that all dependencies are completed before starting the task.
+* 🛤️ `envRef`: Environment reference to be used in the task. Mutually exclusive to `envRefs` (i.e: you cannot use both simultaneously).
+* 🛤️ `envRefs`: List of environment references to be used in the task. Mutually exclusive to `envRef`(i.e: you cannot use both simultaneously).
+* 🛤️ `env`: Task environment. This will override `envRef` or `envRefs`.
+* 📕 `configRef`: Config reference to be used in the task. Mutually exclusive to `configRefs` (i.e: you cannot use both simultaneously).
+* 📕 `configRefs`: List of configuration references to be used in the task. Mutually exclusive to `configRef`(i.e: you cannot use both simultaneously).
+* 📕 `config`: Task configuration. This will override `configRef` or `configRefs`.
+* 📚 `lconfigRef`: Lconfig reference to be used in the task. Mutually exclusive to `lconfigRefs` (i.e: you cannot use both simultaneously).
+* 📚 `lconfigRefs`: List of lconfig references to be used in the task. Mutually exclusive to `lconfigRef`(i.e: you cannot use both simultaneously).
+* 📚 `lconfig`: Task lconfig. This will override `lconfigRef` or `lconfigRefs`. Unlike `config`, a `lconfig` might contain several values (e.g: ports to be exposed, list of authors, etc).
+* 🚀 `start`: Task's start command.
+* 🔎 `check`: Task's check command.
 
 Let's get into them, one drop at a time.
 
-## Command Tasks
+## ☘️ Task Type
+
+There are three different task types in Zaruba:
+
+* 🚀 `Command Task`: Short command. Terminated upon completion. To make a command task, you should provide `start` command and leave `check` command empty.
+* 🏁 `Service Task`: Long running process. Keep running after completion. To make a service task, you should provide both `start` and `check` command.
+* 📦 `Wrapper Task`: A task that wrap another tasks as it's dependencies, but doing nothing on it's own (no `start` or `check` command).
+
+## 🚀 Command Task
 
 At the very basic, a command task should contain a single `start` command. A command task is considered "completed" once the command has been executed.
 
@@ -119,539 +127,270 @@ You can run the task by invoking:
 ```sh
 zaruba please sayHello
 ```
+![Simple command task](images/concept-simple-command-task.png)
 
+> __Fun fact:__ Figlet is a program for making large letters out of ordinary text. If you are using ubuntu, you can install figlet by invoking `sudo apt-get install figlet`. Visit [figlet official website](http://www.figlet.org/) for more information.
+
+## 📕 Config
+
+You can make your task more configurable by adding `config` to it. Let's see the following example:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  print:
+    config:
+      sentence: hello world
+    start:
+    - figlet
+    - '{{ .GetConfig "sentence" }}'
+```
+
+Now you can modify the sentence without touching the `start` command.
+
+You can think of `config` as `attribute` or `property` in object-oriented programming. On its own, `config` is not very useful. To see how powerful it is, you need to combine it with `extend`.
+
+To get a `config` value, you can use `{{ .GetConfig "configName" }}`.
+
+> __Note:__ You can use [go template](https://golang.org/pkg/text/template/) in every `config` value, `lconfig` value, `start` command, and `check` command.
+
+## 🔼 Extend
+
+Just like in object-oriented programming, you can use `extend` to extend your task. Let's check the following example:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  print:
+    config:
+      sentence: '<empty>'
+    start:
+    - figlet
+    - '{{ .GetConfig "sentence" }}'
+
+  
+  sayHello:
+    extend: print
+    config:
+      sentence: hello
+  
+
+  sayCheese:
+    extend: print
+    config:
+      sentence: cheese
+```
+
+Now we have `sayHello` and `sayCheese`. Just as their parent (i.e: `print`), both tasks will invoke `figlet` as well. However, since they have different `sentence` config, those two tasks will yield different results as well.
+
+```sh
+zaruba please sayHello
+zaruba please sayCheese
+```
+
+![Extend](images/concept-extend.png)
+
+Using `extend` is not only save you from writing the same parts over and over. It also allows you to change task's implementation without affecting it's children.
+
+## 🔼 Extending core.runShellScript
+
+Let's say you want to use [toilet](https://github.com/cacalabs/toilet) instead of figlet, then you can modify `print` task as follow:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  print:
+    config:
+      sentence: '<empty>'
+    start:
+    - bash
+    - '-c'
+    - toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
+```
+
+Looks good. But, before we continue any further, try to run `zaruba please core.runShellScript -x`. 
+
+![core.runShellScript explanation](images/concept-explain-core-runShellScript.png)
+
+`core.runShellScript` is part of zaruba's core tasks. Core tasks are always accessible from anywhere.
+
+Based on the explanation, you can see that `core.runShellScript` has several `config` values. You can use those configurations (i.e: `setup`, `beforeStart`, `start`, `afterStart`, `cmd`, and `cmdArg`) to configure the `start` command.
+
+In our case, we can simply extend `core.runShellScript` and override it's `start` config:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  print:
+    extend: core.runShellScript
+    config:
+      sentence: '<empty>'
+      start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
+
+  
+  sayHello:
+    extend: print
+    config:
+      sentence: hello
+  
+
+  sayCheese:
+    extend: print
+    config:
+      sentence: cheese
+```
+
+So, here is how things look like:
+
+![Extending core.runShellScript](images/concept-extend-from-core-runShellScript.png)
+
+## 🔢 Inputs
+
+Since our `print` task is configurable, you can extend it and make as many tasks as you need. However, you can also use `inputs` to let your user customize your configuration.
+
+Let's check out the following example:
+
+```yaml
+# Filename: main.zaruba.yaml
+inputs:
+
+  user.sentence:
+    default: hi
+    options: [yo, what's up]
+    prompt: Write something
+    description: |
+      User sentence, cannot be empty.
+    validation: ^.+$
+
+
+tasks:
+
+  print:
+    extend: core.runShellScript
+    inputs:
+    - user.sentence
+    config:
+      sentence: '{{ .GetValue "user.sentence" }}'
+      start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
+
+  
+  sayHello:
+    extend: print
+    config:
+      sentence: hello
+  
+
+  sayCheese:
+    extend: print
+    config:
+      sentence: cheese
+```
+
+Now you have an input named `user.sentence`. It's value cannot be blank since the [regex](http://www.regular-expressions.info/) `validation` require at least a single character (`^.+$`). By default, the input value is `hi`, but you can set it to anything. If you use `interactive` mode, then you will find `yo` and `what's up` as optional values.
+
+In order to set the value, you can run the task with `parameter` or `interactively`.
+
+> __Note__: The run task with parameters is preferable if you want to run the Zaruba task from your CI/CD or other automation tools. Meanwhile, run task interactively allows you to use lesser muscle memory.
+
+### Run with parameter
+
+```sh
+zaruba please print user.sentence=free
+```
+
+![Run task with parameter](images/concept-run-with-parameter.png)
+
+
+### Run interactively
+
+```sh
+zaruba please print -i
+```
+
+When you run a task interactively, Zaruba will ask you to set your input's value.
+
+![Run interactively (input)](images/concept-run-interactively-1.png)
+
+It will then run the task based on your input.
+
+![Run interactively (result)](images/concept-run-interactively-2.png)
+
+## 🔀 Dependencies
+
+In real life, tasks might depend on each others. For example, you cannot run a database migration before the database server is running.
+
+To declare task dependencies, you can use `dependencies` key:
+
+```yaml
+# Filename: main.zaruba.yaml
+inputs:
+
+  user.sentence:
+    default: hi
+    options: [yo, what's up]
+    prompt: Write something
+    description: |
+      User sentence, cannot be empty.
+    validation: ^.+$
+
+
+tasks:
+
+  print:
+    extend: core.runShellScript
+    inputs:
+    - user.sentence
+    config:
+      sentence: '{{ .GetValue "user.sentence" }}'
+      start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
+
+  
+  runDb:
+    extend: print
+    config:
+      sentence: runDb
+
+
+  compile:
+    extend: print
+    config:
+      sentence: compile
+  
+
+  runMigration:
+    extend: print
+    dependencies:
+    - runDb
+    - compile
+    config:
+      sentence: migrate
+```
+
+`runMigration` depends on both `runDb` and `compile`. That's mean that `runMigration` won't be started before `runDb` and `compile` are completed.
+
+When you invoke `runMigration`, Zaruba will automatically run it's dependencies tasks (`runDb` and `compile`) in parallel/concurrently.
+
+```sh
+zaruba please runMigration
+```
+
+![Dependencies](images/concept-dependencies.png)
+
+Notice that `compile` and `runDb` outputs are interlaced to each other since they run in parallel.
 
 ## Environment
 
-## Config
-
 ## LConfig
-
-## Inputs
-
-## Extend
 
 ## Service Task
 
 ## Docker Task
 
-# Inputs
-
-Inputs are predefined value that can be configured interactively, by parameter, or by value file.
-
-Input declaration looks like this:
-
-```yaml
-inputs:
-
-  inputName:
-    description: |
-      Description about the input.
-      Can be multi-line
-    prompt: Single line prompt message
-    default: defaultValue
-    options: [alternativeValue, otherAlternativeValue]
-    validation: ^.*$ # regex pattern for value validation
-```
-
-## Getting input's value
-
-To use input's value from your task, you can use `.GetValue` method in your task declaration. For example:
-
-```yaml
-
-inputs:
-
-  greetings.user.name:
-    default: anonymous
-
-tasks:
-
-  sayHello:
-    start:
-    - figlet
-    - '{{ .GetValue "greetings.user.name" }}'
-```
-
-You can then try to set input value using parameter like this:
-
-```sh
-zaruba please sayHello greetings.user.name=joe
-```
-
-![Assign input's value by parameter](images/concept-assign-input-value-by-parameter.png)
-
-Input values are shared among tasks. In a way it helps you to not repeating yourself by declaring different input names for every task. But this also mean that your input's name should be unique. You can help yourself by adding prefix to your input. For example, instead of `name`, you put `greetings.user.name` instead.
-
-## Using input on interactive mode
-
-Most likely users won't be able to memorize every input's name. This is why Zaruba provide interactive mode.
-
-To make your inputs available interactively, you can add them as task's input:
-
-```
-inputs:
-
-  greetings.user.name:
-    description: User's name
-    prompt: user's name
-    default: anonymous
-
-tasks:
-
-  sayHello:
-    inputs:
-    - greetings.user.name
-    start:
-    - figlet
-    - '{{ .GetValue "greetings.user.name" }}'
-```
-
-You can then try to run the task interactively using `-i` or `--interactive` flag:
-
-```sh
-zaruba please sayHello -i
-```
-
-![Assign input's value interactively](images/concept-assign-input-value-interactively.png)
-
-
-
-# Task
-
-in zaruba, everything is written in [YAML](https://yaml.org/), Here is a very basic structure of a task:
-
-```yaml
-tasks:
-
-    yourTaskName:
-        dependencies: [] # List of task dependency's name
-        start: [] # list of argument to start a task
-        check: [] # list of argument to check whether the task is ready or not
-```
-
-## Command task
-
-Let's start with a simple command task to show "hello world" in your screen:
-
-```yaml
-tasks:
-
-  sayHello:
-    start:
-    - echo
-    - hello world
-```
-
-That's it. Save it to your `main.zaruba.yaml` (you might need to [init project](creating-a-project.md)) and run it by invoking `zaruba please sayHello`.
-
-## Service task
-
-Sometime you need to run a task that keep running in the background (e.g: web server, database server, etc).
-
-In that case, you need to be able to determine whether the background service is ready or not.
-
-For example, you want to start a static web server by using python `http.server` utility on port 9000. Here is what you need to write:
-
-```yaml
-tasks:
-  
-  runServer:
-    start: [python, -m, http.server, 9000]
-    check:
-    - bash
-    - '-c'
-    - |
-      until nc -z localhost 9000
-      do
-          sleep 1
-      done
-```
-
-Here is how it works:
-
-* First, zaruba will start the server by running `python -m http.server 9000`
-* At the same time, zaruba will also run the check command. The check command is a loop control structure that will keep running until `localhost:9000` is ready.
-* Once the check command has been complete, zaruba will consider the task as `complete`. It will proceed with other tasks that depend on this one.
-
-That's it. Save the task to your `main.zaruba.yaml` and run it by invoking `zaruba please runServer`. Notice that task will keep running until your press `ctrl+c` to terminate it.
-
-## Task with dependencies
-
-In some cases you need to make sure that other tasks are ready/completed before running a particular task (e.g: in order to run an integration test, you need to make sure that all databases/services/migrations are ready).
-
-Let's say you want to run `curl` after `runServer` and `sayHello` is ready. Here is how you do it:
-
-```yaml
-tasks:
-
-  sayHello:
-    start:
-    - echo
-    - hello world
-
-
-  runServer:
-    start: [python, -m, http.server, 9000]
-    check:
-    - bash
-    - '-c'
-    - |
-      until nc -z localhost 9000
-      do
-          sleep 1
-      done
-  
-
-  invokeCurl:
-    dependencies:
-    - sayHello
-    - runServer
-    start: [curl, http://localhost:9000]
-```
-
-After save those tasks in your `main.zaruba.yaml`, you can run everything by invoking `zaruba please invokeCurl`.
-
-Since `invokeCurl` have `sayHello` and `runServer` as dependencies, zaruba will run the dependencies first before starting `invokeCurl`. The dependencies will be executed in parallel.
-
-For things like integration test, you probably want to automatically kill everything once the test was completed. You can do this by adding `-t` argument like this: `zaruba please invokeCurl -t`. For more information about how to run tasks, plese visit [this page](running-tasks.md)
-
-
-## Environment and configurations
-
-At some point, you probably need to make your tasks configurable. You can achieve this by using environment, config, and lconfig:
-
-```yaml
-tasks:
-
-  yourTaskName:
-    env:
-      KEY:
-        from: GLOBAL_KEY
-        default: defaultValue
-    config:
-      key: value
-    lconfig:
-      key: [value1, value2, value3]
-```
-
-In order to parse environment, config, and lconfig, you can use zaruba's built-in [go template](https://golang.org/pkg/text/template/) functions: `GetEnv`, `GetConfig`, and `GetLConfig`.
-
-You can use go-template in every config's value, lconfig's value, env's default, start's value, and check's value.
-
-Let's see the following example:
-
-```yaml
-tasks:
-
-  runServer:
-    env:
-      PORT:
-        from: SERVER_PORT
-        default: 3000
-    lconfig:
-      authors:
-      - Sheldon
-      - Howard
-    config:
-      dirPath: ./portempa
-      startScript: |
-        # composing HTML
-        HTML="<p>This page is running on port {{ .GetEnv "PORT" }}</p>"
-        AUTHORS=''
-        {{ range $index, $author := .GetLConfig "authors" }}
-          AUTHORS="${AUTHORS}{{ $author }}, "
-        {{ end }}
-        HTML="${HTML}<p>Authors: ${AUTHORS} 2021</p>"
-
-        # write HTML and save it to dir
-        mkdir -p '{{ .GetConfig "dirPath" }}'
-        echo "$HTML" > '{{ .GetConfig "dirPath" }}/index.html'
-
-        # start server
-        cd '{{ .GetConfig "dirPath" }}'
-        python -m http.server {{ .GetEnv "PORT" }}
-      checkScript: |
-        until nc -z localhost $PORT
-        do
-            sleep 1
-        done
-        echo Web server is ready at port $PORT
-    start: [bash, -c, '{{ .GetConfig "startScript" }}']
-    check: [bash, -c, '{{ .GetConfig "checkScript" }}']
-```
-
-As always, you can run the task by invoking `zaruba please runServer`
-
-Now let's dive into the example.
-
-### Env
-
-First of all, we have `env`. Environment variable is usually used to configure your application at runtime. In zaruba, you can make use of environment variable by providing `env` key.
-
-This part basically tells zaruba that we want to use an environment variable named `PORT` in our task. The value of the variable is going to be taken from `SERVER_PORT` variable if it was set. Otherwise, it will take default value `3000`.
-
-```yaml
-env:
-  PORT:
-    from: SERVER_PORT
-    default: 3000
-```
-
-### Config
-
-Config is a key-value pair that can be used to make your tasks more configurable. For example, we want to have `./portempa` as temporary directory to serve our HTML (fun fact: portempa means temporary in esperanto).
-
-Any valid string can be used as config's value, including bash script. Let's check our `startScript` config a bit.
-
-The script consists of 3 logical parts:
-
-* composing HTML
-* write HTML
-* start server
-
-The `composing HTML` part contains more logic than the others.
-
-```bash
-HTML="<p>This page is running on port {{ .GetEnv "PORT" }}</p>"
-AUTHORS=''
-{{ range $index, $author := .GetLConfig "authors" }}
-  AUTHORS="${AUTHORS}{{ $author }}, "
-{{ end }}
-HTML="${HTML}<p>Authors: ${AUTHORS} 2021</p>"
-```
-
-First of all, we initiate a variable named `HTML`. It contains a single paragraph to tell the user about the port we used to run the server. Notice the `{{ .GetEnv "PORT" }}` part. That's how you include environment value.
-
-Next, we have a go-template loop to populate `AUTHORS`. The value of the authors is taken from `authors` lconfig (which is an array).
-
-At the end of this part, we add `AUTHORS` into `HTML`.
-
-After `HTML` variable is completely set, we then try put it into `index.html` in a `dirPath`. 
-
-```bash
-mkdir -p '{{ .GetConfig "dirPath" }}'
-echo "$HTML" > '{{ .GetConfig "dirPath" }}/index.html'
-```
-
-Take note that you can get the value of other config (for example, here you try to get the value `dirPath` config and use it in your `startScript` config). This make things quite flexible, yet prone to circular recursive. In order to avoid stack overflow, zaruba will throw error once a recursive call count is passing some threshold.
-
-Finally, you need to start the server
-
-```bash
-cd '{{ .GetConfig "dirPath" }}'
-python -m http.server {{ .GetEnv "PORT" }}
-```
-
-Putting the start and check script as `config` is a good practice since it allows other to extend your task easily.
-
-### Lconfig
-
-LConfig is like config, but instead of string, it has array as it's value. In our case, we have several `authors`, so it is make sense to put the authors name on lconfig.
-
-
-## Sharing environment and configurations
-
-When your tasks starting to connect to each others, they will likely need to share environments and configurations.
-
-For example, either you run a service directly or as container, some environments are likely used by those two tasks.
-
-To share environments and configurations among tasks you can use `envRef`, `envRefs`, `configRef`, `configRefs`, `lconfigRef`, and `lconfigRefs`:
-
-```yaml
-tasks:
-
-  yourFirstTask:
-    envRef: yourEnvRef
-    configRef: yourConfigRef
-    lconfigRef: yourLConfigRef
-  
-
-  yourSecondTask:
-    envRefs: [yourEnvRef, otherEnvRef]
-    configRefs: [yourConfigRef, otherConfigRef]
-    lconfigRefs: [yourLConfigRef, otherLConfigRef]
-
-
-envs:
-
-  yourEnvRef:
-    YOUR_KEY:
-      default: yourValue
-  
-
-  otherEnvRef:
-    YOUR_OTHER_KEY:
-      default: yourOtherValue
-    SOME_OTHER_KEY:
-      default: someOtherValue
-
-  
-configs:
-
-  yourConfigRef:
-    key: value
-  
-
-  otherConfigRef:
-    otherKey: otherValue
-    someOtherKey: someOtherValue
-
-
-lconfigs:
-
-  yourLConfigRef:
-    key: [value1, value2]
-  
-
-  otherLConfigRef:
-    otherKey: [otherValue1, otherValue2]
-    someOtherKey: [someOtherValue1, someOtherValue2]
-
-```
-
-To use multiple environment reference by using `envRefs` instead of `envRef`. Similarly you can use `configRefs` instead of `configRef`, and `lconfigRefs` instead of `lconfigRef`. For the record, those key pairs are mutually exclusive (i.e: you cannot use `envRef` and `envRefs` simultaneously in a single task).
-
-Let's see an example:
-
-```yaml
-tasks:
-
-  runRedis:
-    configRefs: [redis, redisCheck]
-    config:
-      startScript: |
-        docker run --name {{ .GetConfig "containerName" }} {{ .GetConfig "imageName" }} 
-    start: [bash, -c, '{{ .GetConfig "startScript" }}']
-    check: [bash, -c, '{{ .GetConfig "checkScript" }}']
-  
-
-  startRedis:
-    configRefs: [redis, redisCheck]
-    config:
-      startScript: |
-        docker start {{ .GetConfig "containerName" }}
-    start: [bash, -c, '{{ .GetConfig "startScript" }}']
-    check: [bash, -c, '{{ .GetConfig "checkScript" }}']
-
-
-  stopRedis:
-    configRef: redis
-    config:
-      startScript: |
-        docker stop {{ .GetConfig "containerName" }}
-    start: [bash, -c, '{{ .GetConfig "startScript" }}']
-
-
-configs:
-
-  redis:
-    containerName: redis
-    imageName: redis
-  
-
-  redisCheck:
-    checkScript: |
-      until nc -z localhost 5679
-      do
-          sleep 1
-      done
-      echo "redis run"
-```
-
-You can see that `runRedis` and `startRedis` use two configRef: `redis` and `redisCheck`. Additionally, they have their own `startScript`.
-
-On the other hand, `stopRedis` only use `redis` configRef. Thus:
-
-*  `containername` and `imageName` is shared by 3 tasks, `runRedis`, `startRedis`, and `stopRedis`.
-* `checkScript` is only shared by 2 tasks, `runRedis` and `startRedis`.
-
-## Extend tasks
-
-Sometimes you need to do more than just sharing environments/configurations. Zaruba supports task inheritance just like OOP.
-
-In order to create a task that inherit from the other task, you can either use `extend` or `extends`.
-
-```yaml
-tasks:
-
-  parentTaskAlpha: {}
-  parentTaskBeta: {}
-
-  task1:
-    extend: parentTaskAlpha
-  
-  task2:
-    extends: [parentTaskAlpha, parentTaskBeta]
-```
-
-At it's core you can use inheritance to encapsulate complexity, thus providing simpler layer to fellow developers (and your future self). Let's take a look at this example
-
-```yaml
-tasks:
-
-  base.run:
-    config:
-      cmd: bash
-      cmdArg: '-c'
-      start: ""
-    start:
-    - '{{ .GetConfig "cmd" }}'
-    - '{{ .GetConfig "cmdArg" }}'
-    - |
-      set -e
-      {{ .GetConfig "start" }}
-  
-
-  runEcho:
-    extend: base.run
-    config:
-      start: echo hello world
-
-  
-  runCurl:
-    extend: base.run
-    config:
-      start: curl http://localhost:80
-  
-
-  base.nodeRun:
-    extend: base.run
-    config:
-      cmd: node
-      cmdArg: '-p'
-
-  
-  runConsoleLog:
-    extend: base.nodeRun
-    config:
-      start: console.log("hello world");
-```
-
-By defining `start` and some `config` at `base.run`, you can save yourself for writing the same thing on `runEcho` and `runCurl`. `runEcho` and `runCurl` are both extended (or inherited) from `base.run`.
-
-Furthermore, you can also override anything defined by parent task. In our case, `base.nodeRun` override `cmd` and `cmdArg`. In a more intuitive way, we can say this:
-
-* `base.nodeRun` is basically `base.run`.
-* But instead of `bash`, we have `node` as it's `cmd` config.
-* Similarly, we have `-p` instead of `-c` as it's `cmdArg`.
-
-Most of zaruba's generated tasks are extending one or more parent task.
-
-## Include zaruba script
-
-The more you add tasks to your project, the bigger your file become. But don't worry, you can put your tasks into separated files and load them in your `main.zaruba.yaml`.
-
-For example:
-
-```yaml
-includes:
-- ./my-task.zaruba.yaml
-```
-
-You only need to include other zaruba scripts in your `main.zaruba.yaml`. The included scripts will be interconnected to each others. By default, zaruba will also include `${ZARUBA_HOME}/scripts/core.zaruba.yaml`
-
-## What's next
+# What's next
 
 * [Running tasks](running-task.md)
 * [Creating service task](creating-service-task.md)

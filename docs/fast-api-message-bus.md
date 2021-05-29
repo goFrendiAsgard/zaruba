@@ -7,13 +7,13 @@ Currently zaruba's Fast API service support two kind of message bus:
 * rabbitmq
 * local
 
-## About local message bus
+# About local message bus
 
 Local message bus is basically a simple map of event and function. So when you fire up an event, a corresponding function will be called immediately. Since local and rabbitmq message bus share the same interface, you can simply swap them as needed.
 
 Local message bus will be useful when you just getting started. At the very first stage of your development, it is suggested that you go with monolith first. You can then split your monolith into microservices when it is really necessary. Thus, the best thing you can do is make your code to be as decoupled as possible.
 
-## Dependency Injection
+# Dependency Injection
 
 Dependency injection is a good solution to decouple your code. To put it simple, dependency injection allows you to inject components into your code instead of including components from your code.
 
@@ -82,7 +82,7 @@ Even if your new weapon doesn't have a `shoot` method, you can always make an ad
 
 Most programming language has `interface` to support dependency inject. But since Python doesn't support `interface`, you can use [Abstract base class](https://docs.python.org/3/library/abc.html) instead.
 
-## Local messagebus + dependency injection
+# Local messagebus + dependency injection
 
 Let's take a look again at your Fast API service's `main.py`.
 
@@ -115,7 +115,7 @@ mb = create_message_bus(mb_type)
 
 Notice that we have `create_message_bus` function that will return local or rabbitmq message bus depends on your environment variable. As long as you don't make your modules entangled to each other, separating your Fast API monolith into microservices should not require too much work.
 
-## Trade off of dependency injection
+# Trade off of dependency injection
 
 Dependency injection solve a lot of cases, and it can be used everywhere. But as anything in tech, there is no silver bullet. Dependency injection might even brings more problem to your code, especially if you never need to swap the component.
 

@@ -54,7 +54,7 @@ class Controller():
 To call an RPC, you can call `mb.call_rpc('rpc_name', *parameters)`. The function should return a result depending on what you return in the corresponding RPC handler.
 
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -64,12 +64,12 @@ zaruba please makeFastApiRpcHandler -i
 zaruba please makeFastApiRpcHandler generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.rpc.name=myRpc
 ```
 
-## Involved tasks
+# Involved tasks
 
 * [makeFastApiRpcHandler](tasks/makeFastApiRpcHandler.md)
 
 
-## What's next
+# What's next
 
 * [Creating Fast API service task](creating-fast-api-service-task.md)
 * [Creating Fast API route](creating-fast-api-route.md)

@@ -58,7 +58,7 @@ As you guess, the function to handle the route is located inside `handle_route` 
 
 To create Fast API route, you can perform: `zaruba please makeFastApiRoute -i` and follow the on screen instruction.
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -69,12 +69,12 @@ zaruba please makeFastApiRoute generator.fastApi.service.name=myService generato
 ```
 
 
-## Involved tasks
+# Involved tasks
 
 * [makeFastApiRoute](tasks/makeFastApiRoute.md)
 
 
-## What's next
+# What's next
 
 * [Creating Fast API service task](creating-fast-api-service-task.md)
 * [Creating Fast API event handler](creating-fast-api-event-handler.md)

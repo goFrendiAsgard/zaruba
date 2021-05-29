@@ -59,7 +59,7 @@ Zaruba add module as python package inside Fast API service. It also automatical
 
 To create Fast API module, you can perform: `zaruba please makeFastApiModule -i` and follow the on screen instruction.
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -69,11 +69,11 @@ zaruba please makeFastApiModule -i
 zaruba please makeFastApiModule generator.fastApi.service.name=myService generator.fastApi.module.name=myModule
 ```
 
-## Involved tasks
+# Involved tasks
 
 * [makeFastApiModule](tasks/makeFastApiModule.md)
 
-## What's next
+# What's next
 
 * [Creating Fast API service task](creating-fast-api-service-task.md)
 * [Creating Fast API route](creating-fast-api-route.md)

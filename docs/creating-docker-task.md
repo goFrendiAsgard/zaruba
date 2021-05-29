@@ -12,7 +12,7 @@ Zaruba also provide several preset docker-tasks, namely:
 * Redis
 
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -24,7 +24,7 @@ zaruba please makeMySqlDockerTask -i
 zaruba please makeDockerTask generator.docker.image.name=nginx generator.docker.container.name=myNginx generator.service.name=myNginx generator.service.envs="MY_ENV=MY_VALUE" ports=80
 ```
 
-## Involved tasks:
+# Involved tasks:
 
 * [makeDockerTask](tasks/makeDockerTask.md)
 * [makeCassandraDockerTask](tasks/makeCassandraDockerTask.md)
@@ -35,7 +35,7 @@ zaruba please makeDockerTask generator.docker.image.name=nginx generator.docker.
 * [makeRedisDockerTask](tasks/makeRedisDockerTask.md)
 
 
-## What's next
+# What's next
 
 * [Running tasks](running-task.md)
 * [Creating service task](creating-service-task.md)

@@ -51,7 +51,7 @@ class Controller():
 
 To trigger an event, you can call `mb.publish('event_name', message)`
 
-## Example
+# Example
 
 ```sh
 # run interactively
@@ -61,12 +61,12 @@ zaruba please makeFastApiEventHandler -i
 zaruba please makeFastApiEventHandler generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.event.name=myEvent
 ```
 
-## Involved tasks
+# Involved tasks
 
 * [makeFastApiEventHandler](tasks/makeFastApiEventHandler.md)
 
 
-## What's next
+# What's next
 
 * [Creating Fast API service task](creating-fast-api-service-task.md)
 * [Creating Fast API route](creating-fast-api-route.md)
