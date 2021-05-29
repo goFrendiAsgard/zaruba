@@ -258,7 +258,6 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
-        echo "EXIST: $(is_command_exist nvm --version)"
         if [ "$(is_command_exist nvm --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
