@@ -55,7 +55,7 @@ func (prompter *Prompter) GetAdditionalValue() (err error) {
 func (prompter *Prompter) getAdditionalValue(label string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes"}
 	options := []string{"no", "file"}
-	prompter.logger.Println(fmt.Sprintf("%s Additional Value", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Load additional value file", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             label,
 		Items:             captions,
@@ -91,7 +91,7 @@ func (prompter *Prompter) getAdditionalFileValue() (err error) {
 		// input by options
 		captions := append(valueFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 		options := append(valueFileList, "")
-		prompter.logger.Println(fmt.Sprintf("%s Value File", prompter.d.Skull))
+		prompter.logger.Println(fmt.Sprintf("%s Value file", prompter.d.Skull))
 		selectPrompt := promptui.Select{
 			Label:             fmt.Sprintf("%s Value file", prompter.d.Skull),
 			Items:             captions,
@@ -112,7 +112,7 @@ func (prompter *Prompter) getAdditionalFileValue() (err error) {
 		}
 	}
 	// manual input
-	prompter.logger.Println(fmt.Sprintf("%s Value File", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Value file", prompter.d.Skull))
 	prompt := promptui.Prompt{
 		Label:    fmt.Sprintf("%s Value file", prompter.d.Skull),
 		Validate: fileMustExist,
@@ -150,7 +150,7 @@ func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
 func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes, from file", "📝 Yes, manually"}
 	options := []string{"no", "file", "manual"}
-	prompter.logger.Println(fmt.Sprintf("%s Additional Environment", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Load additional env", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             label,
 		Items:             captions,
@@ -190,7 +190,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		// input by options
 		captions := append(envFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 		options := append(envFileList, "")
-		prompter.logger.Println(fmt.Sprintf("%s Environment File", prompter.d.Skull))
+		prompter.logger.Println(fmt.Sprintf("%s Environment file", prompter.d.Skull))
 		selectPrompt := promptui.Select{
 			Label:             fmt.Sprintf("%s Environment file", prompter.d.Skull),
 			Items:             captions,
@@ -211,7 +211,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		}
 	}
 	// manual input
-	prompter.logger.Println(fmt.Sprintf("%s Environment File", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Environment file", prompter.d.Skull))
 	prompt := promptui.Prompt{
 		Label:    fmt.Sprintf("%s Environment file", prompter.d.Skull),
 		Validate: fileMustExist,
@@ -238,7 +238,7 @@ func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error)
 		options = append(options, envName)
 		captions = append(captions, fmt.Sprintf("%s (current value: %s)", envName, envMap[envName]))
 	}
-	prompter.logger.Println(fmt.Sprintf("%s Environment Variable", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Environment variable", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Environment variable name", prompter.d.Skull),
 		Items:             captions,
@@ -292,7 +292,7 @@ func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bo
 	}
 	captions := []string{"🏁 No", "🔪 Yes"}
 	options := []string{"no", "yes"}
-	prompter.logger.Println(fmt.Sprintf("%s Auto Terminate", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Auto terminate", prompter.d.Skull))
 	selectPrompt := promptui.Select{
 		Label:             fmt.Sprintf("%s Do you want to terminate tasks once completed?", prompter.d.Skull),
 		Items:             captions,
