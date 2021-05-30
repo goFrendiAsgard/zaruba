@@ -428,7 +428,7 @@ show_version() {
         echo "${Bold}${Yellow}Current version : $(get_latest_git_tag) - $(get_latest_git_commit)${Normal}"
     else
         echo "${Bold}${Yellow}Current version : Dev - $(get_latest_git_commit)${Normal}"
-        echo "${Bold}${Yellow}Latest tag      : - $(get_latest_git_tag)${Normal}"
+        echo "${Bold}${Yellow}Latest tag      : $(get_latest_git_tag)${Normal}"
     fi
 }
 
