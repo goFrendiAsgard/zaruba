@@ -422,12 +422,13 @@ show_version() {
     cd ${ZARUBA_HOME}
     if [ -z "$(get_latest_git_tag)" ]
     then
-        echo "Current commit: $(get_latest_git_commit)"
+        echo "Current version : Dev - $(get_latest_git_commit)"
     elif [ "$(get_latest_git_tag_commit)" = "$(get_latest_git_commit)" ]
     then
-        echo "${Bold}${Yellow}Current version: $(get_latest_git_tag) - $(get_latest_git_commit)${Normal}"
+        echo "${Bold}${Yellow}Current version : $(get_latest_git_tag) - $(get_latest_git_commit)${Normal}"
     else
-        echo "${Bold}${Yellow}Current version: Dev - $(get_latest_git_commit)${Normal}"
+        echo "${Bold}${Yellow}Current version : Dev - $(get_latest_git_commit)${Normal}"
+        echo "${Bold}${Yellow}Latest tag      : - $(get_latest_git_tag)${Normal}"
     fi
 }
 
