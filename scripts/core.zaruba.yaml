@@ -693,6 +693,7 @@ tasks:
     - core.setupPyUtil
     - updateLinks
     config:
+      containerName: ""
       start: |
         {{ $d := .Decoration -}}
         CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
@@ -714,6 +715,7 @@ tasks:
     - core.setupPyUtil
     - updateLinks
     config:
+      containerName: ""
       start: |
         {{ $d := .Decoration -}}
         CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"

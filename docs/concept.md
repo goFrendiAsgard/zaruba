@@ -155,6 +155,44 @@ To get a `config` value, you can use `{{ .GetConfig "configName" }}`.
 
 > __Note:__ You can use [go template](https://golang.org/pkg/text/template/) in every `config` value, `lconfig` value, `start` command, and `check` command.
 
+### 🤝 Sharing Config
+
+Some of your tasks probably need to share config. In that case, you can use `configRef` or `configRefs`. For example:
+
+```yaml
+tasks:
+
+  showNatriumSymbol:
+    configRef: sodium
+    start:
+    - figlet
+    - 'Natrium: {{ .GetConfig "symbol" }}'
+  
+  showSodiumSymbol:
+    configRefs: [sodium, other]
+    start:
+    - figlet
+    - 'Sodium: {{ .GetConfig "symbol" }}'
+
+
+configRef:
+
+  sodium:
+    symbol: Na
+  
+  other:
+    commonName: sodium
+```
+
+`showNatriumSymbol` has a single config reference, `sodium`. This config reference is also shared with `showSodiumSymbol`. However, `showSodiumSymbol` also has another config reference, `other`.
+
+Thus, `showNatriumSymbol` has one config:
+* `symbol`: Na
+
+While `showSodiumSymbol` has two configs:
+* `symbol`: Na
+* `commonName`: sodium
+
 ## 🔼 Extend
 
 Just like in object-oriented programming, you can use `extend` to extend your task. Let's check the following example:
@@ -382,13 +420,316 @@ zaruba please runMigration
 
 Notice that `compile` and `runDb` outputs are interlaced to each other since they run in parallel.
 
-## Environment
+## 🛤️ Env
 
-## LConfig
+Many applications can be configured by using environment variables. Typically, people use environment variable for:
 
-## Service Task
+* activate/deactivate feature flag
+* define connection string
+* define HTTP port
+* etc
 
-## Docker Task
+You can set environment variable by performing:
+
+```sh
+ENVIRONMENT_NAME=value
+```
+
+You can also get environment variable value by using `$ENVIRONMENT_NAME`:
+
+```sh
+echo $ENVIRONMENT_NAME
+```
+
+To set/get environment variable value programmatically, you can refer to the programming language documentation.
+
+Two different applications might accidentally depend on the same variable name. Zaruba solve this by providing `from` key.
+
+Let's check this example:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  showMyName:
+    extend: core.runShellScript
+    config:
+      start: echo $NAME
+    env:
+      NAME:
+        from: MY_NAME
+        default: blank
+  
+
+  showYourName:
+    extend: core.runShellScript
+    config:
+      start: echo $NAME
+    env:
+      NAME:
+        from: YOUR_NAME
+        default: blank
+
+  
+  showEveryoneName:
+    dependencies:
+    - showMyName
+    - showYourName
+```
+
+To see how things work, you can invoke:
+
+```sh
+MY_NAME=joe YOUR_NAME=john zaruba please showEveryoneName
+```
+
+![Using env](images/concept-env.png)
+
+### 🤝 Sharing Env
+
+Just like `config`, you can share `env` among your tasks by using `envRef` or `envRefs`.
+
+
+## 📚 LConfig
+
+In some cases, you probably need a configuration that has many values. In that case, you can use `lconfig`.
+
+Here is an example:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  showAuthors:
+    extend: core.runShellScript
+    config:
+      start: |
+        {{ range $index, $name := .GetLConfig "authors" }}
+          figlet "{{ $name }}"
+        {{ end }}
+    lconfig:
+      authors:
+      - Agatha Christie
+      - Dan Brown
+```
+
+Since `lconfig` contains many values, you can [use range](https://golang.org/pkg/text/template/#hdr-Variables) to capture all the values.
+
+![Using lconfig](images/concept-lconfig.png)
+
+### 🤝 Sharing Lconfig
+
+Just like `config`, you can share `lconfig` among your tasks by using `lconfigRef` or `lconfigRefs`.
+
+## 🏁 Service Task
+
+> __Note__: Here we will create tasks manually. In real life, you can invoke `zaruba please makeServiceTask` to generate the tasks.
+
+So far we have deal with `command task` and how to configure it using `inputs`, `config`, `env`, and `lconfig`.
+
+In some cases, you probably want to run a long-running process (e.g: web server, database server, scheduler, etc). In order to do that, you need a `service task`.
+
+A `service task` is a task with both `start` command and `check` command available.
+
+Let's see at the following example:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  runServer:
+    env:
+      PYTHONUNBUFFERED:
+        default: 1
+    start:
+      - python
+      - '-m'
+      - http.server
+      - 3000
+    check:
+      - bash
+      - '-c'
+      - |
+        until nc -z localhost 3000
+        do
+          sleep 1
+        done
+        echo "check completed"
+```
+
+You can see that `runServer` has two commands:
+
+* `start`: Start a static server (using python's `http.server`) on port 3000
+* `check`: Perform `sleep 1` until localhost:3000 is accessible, then show "check completed".
+
+To start it, you can invoke:
+
+```sh
+zaruba please runServer
+```
+
+![Service task](images/concept-service-task.png)
+
+To make your task declaration shorter, you can extend from `core.startService`: 
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  runServer:
+    extend: core.startService
+    env:
+      PYTHONUNBUFFERED:
+        default: 1
+    config:
+      start: python -m http.server 3000
+    lconfig:
+      ports: [3000]
+```
+
+`core.startService` will automatically put port-checking into your `check` command for you.
+
+## 🐳 Docker Task
+
+> __Note__: Here we will create tasks manually. In real life, you can invoke `zaruba please makeDockerTask` to generate the tasks.
+
+You have see how `service task` works and how it is different from `command task`. Now let's see how you can make a `docker task` to run a container.
+
+You can make docker task by extending `core.startDockerContainer`. Also, you need to provide several `config` to configure the task:
+
+* `useImagePrefix`: Either you want to use image prefix or not. Since we want to fetch images from [dockerhub](https://hub.docker.com/), we set this to `false`.
+* `imagePrefix`: If you choose to `useImagePrefix`, you can specify the prefix here. 
+* `imageName`: Image name.
+* `imageTag`: Image tag. You can leave it blank.
+* `containerName`: Container name.
+* `port::<host-port>`: Bind host port to container port.
+* `volume::<host-path>`: Bind host path to container volume.
+* `expose`: Either `config.port` or `lconfig.ports`. If you choose `lconfig.ports`, Zaruba will check `ports` lconfig instead of `port::<host-port>` config.
+
+Now let's try to run two docker containers, redis and mysql: 
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  runRedis:
+    extend: core.startDockerContainer
+    config:
+      useImagePrefix: false
+      imageName: redis
+      containerName: redis
+      port::6379: 6379
+
+
+  runMySql:
+    extend: core.startDockerContainer
+    config:
+      useImagePrefix: false
+      imageName: mysql
+      containerName: mysql
+      port::3306: 3306
+    env:
+      MYSQL_ROOT_PASSWORD:
+        default: too
+
+
+  run:
+    dependencies:
+    - runRedis
+    - runMySql
+```
+
+You can run the tasks by invoking:
+
+```sh
+zaruba please run
+# or alternatively:
+zaruba please runRedis runMySql
+```
+
+Behind the scene, a docker task will try to:
+* Pull image in case of it is not available in your local machine
+* Create container
+* Run container
+* Check container state and it's exposed ports.
+
+You probably need to wait a little while before seeing you containers running:
+
+![Docker task](images/concept-docker-task.png)
+
+### 🐳 Stop Container
+
+When you press ctrl + c, the containers will keep running in the background. This will save you some time in case of you want to start . 
+
+To actually stop the containers you need to run `docker stop <containerName>`. Another alternative is by extending `core.stopDockerContainer` as follow:
+
+```yaml
+# Filename: main.zaruba.yaml
+tasks:
+
+  runRedis:
+    extend: core.startDockerContainer
+    configRef: redis
+
+
+  runMySql:
+    extend: core.startDockerContainer
+    configRef: mySql
+    env:
+      MYSQL_ROOT_PASSWORD:
+        default: too
+
+
+  run:
+    dependencies:
+    - runRedis
+    - runMySql
+
+
+  stopRedis:
+    extend: core.stopDockerContainer
+    configRef: redis
+
+
+  stopMySql:
+    extend: core.stopDockerContainer
+    configRef: mySql
+
+
+  stop:
+    dependencies:
+    - stopRedis
+    - stopMySql
+
+
+configs:
+
+  redis:
+    useImagePrefix: false
+    imageName: redis
+    containerName: redis
+    port::6379: 6379
+
+
+  mySql:
+    useImagePrefix: false
+    imageName: mysql
+    containerName: mysql
+    port::3306: 3306
+```
+
+Now, if you really want to stop all containers, you can simply type:
+
+```sh
+zaruba please stop
+```
+
+![Stop](images/concept-docker-stop.png)
+
+### 🐳 Remove Container
+
+Similarly, you can extend `core.removeDockerContainer` if you need to remove the container.
+
 
 # What's next
 
