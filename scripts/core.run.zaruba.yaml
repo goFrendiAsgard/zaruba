@@ -197,18 +197,18 @@ tasks:
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        {{ $this := . }}
         {{ range $index, $query := .GetLConfig "queries" -}}
-        QUERY="{{ $query }}"
-        if [ -f "${QUERY}" ]
+        if [ -f "{{ $this.GetRelativePath $query }}" ]
         then
-          echo "SQL FILE: ${QUERY}"
+          echo "SQL FILE: {{ $this.GetRelativePath $query }}"
           TMP_FILE_NAME="/$(get_uuid4).sql"
-          docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+          docker cp "{{ $query }}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
           docker exec "${CONTAINER_NAME}" bash -c "mysql --user=\"${USER}\" --password=\"${PASSWORD}\" < \"${TMP_FILE_NAME}\""
           docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
         else
-          echo "SQL SCRIPT: ${QUERY}"
-          docker exec "${CONTAINER_NAME}" mysql --user="${USER}" --password="${PASSWORD}" -e "${QUERY}"
+          echo "SQL SCRIPT: {{ $query }}"
+          docker exec "${CONTAINER_NAME}" mysql --user="${USER}" --password="${PASSWORD}" -e "{{ $query }}"
         fi
         {{ end -}}
       start: ""
@@ -230,18 +230,18 @@ tasks:
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        {{ $this := . }}
         {{ range $index, $query := .GetLConfig "queries" -}}
-        QUERY="{{ $query }}"
-        if [ -f "${QUERY}" ]
+        if [ -f "{{ $this.GetRelativePath $query }}" ]
         then
-          echo "CQL FILE: ${QUERY}"
+          echo "CQL FILE: {{ $query }}"
           TMP_FILE_NAME="/$(get_uuid4).sql"
-          docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+          docker cp "{{ $this.GetRelativePath $query }}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
           docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
           docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
         else
-          echo "CQL SCRIPT: ${QUERY}"
-          docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
+          echo "CQL SCRIPT: {{ $query }}"
+          docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "{{ $query }}"
         fi
         {{ end -}}
       start: ""

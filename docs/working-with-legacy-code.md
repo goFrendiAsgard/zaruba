@@ -34,11 +34,11 @@ if (mode == 'reader') {
     });
     app.get('/', (req, res) => {
         redisConn.get('articles', (err, redisResult) => {
-            console.log('get article request')
-            console.log('get article from redis')
+            console.log('get article request');
+            console.log('get article from redis');
             if (err || !redisResult) { 
                 // cannot get article from redis, get from mysql instead
-                console.log('get article from mysql')
+                console.log('get article from mysql');
                 return mysqlConn.query('SELECT * from articles', (error, mysqlResults, fields) => {
                     if (error) throw error;
                     redisConn.set('articles', JSON.stringify(mysqlResults), 'ex', 300); // save the results into redis
@@ -54,8 +54,8 @@ if (mode == 'reader') {
 if (mode == 'writer') {
     console.log('WRITER');
     app.post('/', (req, res) => {
-        console.log('post article request')
-        return mysqlConn.query(`INSERT INTO articles(title, content) VALUES('${req.title}', '${req.content}');`, (error) => {
+        console.log('post article request');
+        return mysqlConn.query(`INSERT INTO articles(title, content) VALUES('${req.body.title}', '${req.body.content}');`, (error) => {
             if (error) throw error;
             res.send('Article added');
         });
