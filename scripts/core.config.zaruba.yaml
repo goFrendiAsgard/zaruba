@@ -128,7 +128,7 @@ configs:
           {{ if .IsTrue (.GetConfig "createTask") -}}
           TASK_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "taskTemplateLocation") }}
           echo "{{ $d.Bold }}{{ $d.Yellow }}Creating service task for ${SERVICE_NAME}{{ $d.Normal }}"
-          create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "location=${SERVICE_NAME}" "start_command=./start.sh"
+          create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=" "container_name=" "location=${SERVICE_NAME}" "start_command=./start.sh" "ports=" "envs=" "dependencies=" "runner_version="
           {{ end -}}
         fi
       fi
