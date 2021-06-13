@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import create_engine
 from helpers.transport import MessageBus, RMQMessageBus, RMQEventMap, LocalMessageBus
 
