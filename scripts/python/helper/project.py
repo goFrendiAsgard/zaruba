@@ -9,6 +9,7 @@ from .text import get_env_file_names, capitalize, snake, dash
 import os
 import re
 import shutil
+import random
 
 
 class Project(YamlConfig):
@@ -117,7 +118,7 @@ class MainProject(Project):
             if len(match) == 0:
                 continue
             service_name = match[0][1]
-            capital_service_name = service_name[0].upper() + service_name[1:]
+            capital_service_name = capitalize(service_name)
             task_name = 'run{}'.format(capital_service_name)
             service_project = ServiceProject()
             service_project.load(dir_name, service_name)
@@ -351,14 +352,13 @@ class ServiceProject(TaskProject):
         env_dict.update(self._get_env_dict_from_list(env_list))
         self._load_env(env_dict, 'zarubaServiceName', snake(service_name).upper())
         self._load_dependency_list('zarubaServiceName', dependency_list)
-        # handle ports
-        if len(port_list) == 0:
-            port_list = self._get_possible_ports_env('zarubaServiceName')
-        port_list = [port if port.isnumeric() else '{{ .GetEnv "' + port + '" }}' for port in port_list]
-        self.set(['lconfigs', 'zarubaServiceName', 'ports'], port_list)
+        self._set_port(port_list)
         capital_service_name = capitalize(service_name)
+        run_task_name = 'run{}'.format(capital_service_name)
+        if start_command != '':
+            self.set([run_task_name, 'config', 'start'], start_command)
         self.main_project.load(dir_name)
-        self.main_project.register_run_task('run{}'.format(capital_service_name))
+        self.main_project.register_run_task(run_task_name)
         self.main_project.register_run_container_task('run{}Container'.format(capital_service_name))
         self.main_project.register_stop_container_task('stop{}Container'.format(capital_service_name))
         self.main_project.register_remove_container_task('remove{}Container'.format(capital_service_name))
@@ -366,6 +366,15 @@ class ServiceProject(TaskProject):
         self.main_project.register_push_image_task('push{}Image'.format(capital_service_name))
         self.main_project.save(dir_name)
         super().generate(dir_name, service_name, image_name, container_name, location, start_command, runner_version=runner_version)
+     
+
+    def _set_port(self, port_list: List[str]):
+        if len(port_list) == 0 and self.exist(['lconfigs', 'zarubaServiceName', 'ports', 0]):
+            return
+        if len(port_list) == 0:
+            port_list = self._get_possible_ports_env('zarubaServiceName')
+        port_list = [port if port.isnumeric() else '{{ .GetEnv "' + port + '" }}' for port in port_list]
+        self.set(['lconfigs', 'zarubaServiceName', 'ports'], port_list)
         
 
 class DockerProject(TaskProject):
@@ -498,8 +507,7 @@ class HelmServiceProject(Project):
 
     def _load_env(self, service_name: str):
         self.set_default(['app', 'container', 'env'], [])
-        # get env from service
-        service_envs: Mapping[str, Mapping[str, str]] = self.service_project.get(['envs', service_name]) if self.service_project.exist(['envs', service_name]) else {}
+        service_envs: Mapping[str, Mapping[str, str]] = self._get_service_envs(service_name)
         # get current container env
         current_container_envs: List[Mapping[str, str]] = self.get(['app', 'container', 'env'])
         for env_key, env_map in service_envs.items():
@@ -531,26 +539,46 @@ class HelmServiceProject(Project):
             'containerPort': port,
             'servicePort': port,
         })
+     
+
+    def _get_service_ports(self, service_name: str) -> List[str]:
+        task_name = 'run{}'.format(capitalize(service_name))
+        if self.service_project.exist([task_name, 'lconfig', 'ports']):
+            return self.service_project.get([task_name, 'lconfig', 'ports'])
+        if self.service_project.exist(['lconfigs', service_name, 'ports']):
+            return self.service_project.get(['lconfigs', service_name, 'ports'])
+        return []
+
+
+    def _get_service_envs(self, service_name: str) -> Mapping[str, Mapping[str, str]]:
+        task_name = 'run{}'.format(capitalize(service_name))
+        task_env = {}
+        if self.service_project.exist([task_name, 'env']):
+            task_env = self.service_project.get([task_name, 'env'])
+        task_env_from_ref = {}
+        if self.service_project.exist(['envs', service_name]):
+            task_env_from_ref = self.service_project.get(['envs', service_name])
+        return {**task_env, **task_env_from_ref}
     
 
     def _assign_ports(self, service_name: str):
-        # get port from service
-        service_ports: List[str] = self.service_project.get(['lconfigs', service_name, 'ports']) if self.service_project.exist(['lconfigs', service_name, 'ports']) else []
-        # get env from service
-        service_envs: Mapping[str, Mapping[str, str]] = self.service_project.get(['envs', service_name]) if self.service_project.exist(['envs', service_name]) else {}
-        # service port
+        service_ports: List[str] = self._get_service_ports(service_name)
+        service_envs: Mapping[str, Mapping[str, str]] = self._get_service_envs(service_name)
         for port in service_ports:
             if port.isnumeric():
                 self._append_port(port)
                 continue
             # port is not numeric, probably go template
-            match = re.findall(r'^\{\{ \.GetEnv "(.*)" \}\}$', port)
-            if len(match) < 1:
-                continue
-            # env key found, assign default value as port
-            env_key = match[0]
-            if 'default' in service_envs[env_key]:
-                self._append_port(service_envs[env_key]['default'])
+            env_port_found = False
+            matches = re.findall(r'\.GetEnv "([A-Za-z0-9_]+)"', port)
+            for env_key in matches:
+                if env_key in service_envs and 'default' in service_envs[env_key]:
+                    self._append_port(service_envs[env_key]['default'])
+                    env_port_found = True
+                    break
+            # env port not found, use random number
+            if not env_port_found:
+                self._append_port(random.randrange(3000,9000))
 
 
     def file_exist(self, dir_name: str, service_name: str) -> bool:
