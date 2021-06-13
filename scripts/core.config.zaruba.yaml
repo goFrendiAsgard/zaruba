@@ -114,6 +114,7 @@ configs:
         SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
         echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API Service: ${SERVICE_NAME}{{ $d.Normal }}"
         create_fast_service "template_location=${SERVICE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
+        chmod 755 "${SERVICE_NAME}/start.sh"
         if [ -f "./main.zaruba.yaml" ]
         then
           if [ ! -d "./shared-libs/python/helpers" ]
