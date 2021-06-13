@@ -356,7 +356,7 @@ class ServiceProject(TaskProject):
         capital_service_name = capitalize(service_name)
         run_task_name = 'run{}'.format(capital_service_name)
         if start_command != '':
-            self.set(['tasks', run_task_name, 'config', 'start'], start_command)
+            self.set(['tasks', 'runZarubaServiceName', 'config', 'start'], start_command)
         self.main_project.load(dir_name)
         self.main_project.register_run_task(run_task_name)
         self.main_project.register_run_container_task('run{}Container'.format(capital_service_name))
