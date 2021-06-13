@@ -114,8 +114,8 @@ inputs:
 
 
   generator.fastApi.createTask:
-    description: Create task if not exist
-    prompt: Create task if not exist
+    description: Create service task if not exist.
+    prompt: Create service task if not exist
     options: [yes, no]
     default: no
     allowCustom: false
