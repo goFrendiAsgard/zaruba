@@ -138,22 +138,9 @@ tasks:
     configRef: mainTest
     config:
       start: ./zaruba please showVersion 
-  
-
-  testPythonUtil:
-    icon: 💉
-    location: ./scripts/python
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    config:
-      start: |
-        pipenv install --dev
-        pipenv run pytest -v --cov="$(pwd)" --cov-report html  
 
 
-  testCommonTask:
+  testCoreTask:
     icon: 💉
     location: ./
     dependencies:
@@ -167,6 +154,20 @@ tasks:
     - testSetupSdkman
     - testSetupSpark
     - testSetupKubeClient
+
+
+  testPythonUtil:
+    icon: 💉
+    location: ./scripts/python
+    dependencies:
+    - clearLog
+    - build
+    - testCoreTask
+    extend: core.runShellScript
+    config:
+      start: |
+        pipenv install --dev
+        pipenv run pytest -v --cov="$(pwd)" --cov-report html  
   
 
   test:
@@ -174,7 +175,7 @@ tasks:
     dependencies:
     - clearLog
     - testCore
-    - testCommonTask
+    - testCoreTask
     - testPlayground
     - testPushImage
     - testHelmApply

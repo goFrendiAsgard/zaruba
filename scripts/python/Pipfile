@@ -6,9 +6,9 @@ name = "pypi"
 [packages]
 "ruamel.yaml" = "0.16.2"
 python-dotenv = "0.15.0"
-uuid = "*"
+uuid = "1.30"
 
 [dev-packages]
 pytest = "6.2.3"
 pytest-cov = "2.11.1"
-autopep8 = "*"
+autopep8 = "1.5.7"

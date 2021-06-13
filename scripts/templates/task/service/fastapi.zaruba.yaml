@@ -40,17 +40,16 @@ tasks:
     - zarubaServiceName.runLocally
     config:
       start: |
-        pipenv run uvicorn main:app --reload --port={{ .GetConfig "fastApiPort" }}
+        pipenv run uvicorn main:app --reload --port={{ index (.GetLConfig "ports") 0 }}
 
    
 configs:
-  zarubaServiceName:
-    fastApiPort: '{{ if .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ .GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT" }}{{ else if .GetEnv "HTTP_PORT" }}{{ .GetEnv "HTTP_PORT" }}{{ else }}3000{{ end }}'
+  zarubaServiceName: {}
 
 lconfigs:
   zarubaServiceName:
     ports:
-    - '{{ .GetConfig "fastApiPort" }}'
+    - '{{ or (.GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT") (.GetEnv "HTTP_PORT") "3000" }}'
 
 envs:
   zarubaServiceName:

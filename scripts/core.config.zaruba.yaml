@@ -100,10 +100,12 @@ configs:
   
 
   generator.fastApi:
+    taskTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi.zaruba.yaml'
     serviceTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService'
     moduleTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
     serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
     moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
+    createTask: '{{ .GetValue "generator.fastApi.createTask" }}'
     createServiceScript: | 
       {{- $d := .Decoration -}}
       if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
@@ -120,6 +122,10 @@ configs:
           fi
           add_link "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
           link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+          {{ if .IsTrue (.GetValue "createTask") -}}
+          TASK_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "taskTemplateLocation") }}
+          create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "location=${SERVICE_NAME}" "start_command=./start.sh"
+          {{ end -}}
         fi
       fi
     createModuleScript: |

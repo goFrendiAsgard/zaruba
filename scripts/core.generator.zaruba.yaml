@@ -112,6 +112,14 @@ inputs:
     default: pipenv run python start.py
     validation: ^.+$
 
+
+  generator.fastApi.createTask:
+    description: Create task if not exist
+    prompt: Create task if not exist
+    options: [yes, no]
+    default: no
+    allowCustom: false
+
   
   generator.fastApi.service.name:
     description: Service name (Required)
@@ -464,6 +472,7 @@ tasks:
     - core.showAdv
     inputs:
     - generator.fastApi.service.name
+    - generator.fastApi.createTask
     configRef: generator.fastApi
     config:
       start: |
@@ -480,6 +489,7 @@ tasks:
     description: Make FastAPI module
     inputs:
     - generator.fastApi.service.name
+    - generator.fastApi.createTask
     - generator.fastApi.module.name
     extend: core.runCoreScript
     autoTerminate: true
@@ -502,6 +512,7 @@ tasks:
     description: Make FastAPI route handler
     inputs:
     - generator.fastApi.service.name
+    - generator.fastApi.createTask
     - generator.fastApi.module.name
     - generator.fastApi.httpMethod
     - generator.fastApi.url
@@ -535,6 +546,7 @@ tasks:
     description: Make FastAPI event handler
     inputs:
     - generator.fastApi.service.name
+    - generator.fastApi.createTask
     - generator.fastApi.module.name
     - generator.fastApi.event.name
     extend: core.runCoreScript
@@ -566,6 +578,7 @@ tasks:
     description: Make FastAPI Route
     inputs:
     - generator.fastApi.service.name
+    - generator.fastApi.createTask
     - generator.fastApi.module.name
     - generator.fastApi.rpc.name
     extend: core.runCoreScript
@@ -597,6 +610,7 @@ tasks:
     description: Make FastAPI crud
     inputs:
     - generator.fastApi.service.name
+    - generator.fastApi.createTask
     - generator.fastApi.module.name
     - generator.fastApi.crud.entity
     - generator.fastApi.crud.fields

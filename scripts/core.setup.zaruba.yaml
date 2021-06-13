@@ -87,6 +87,7 @@ tasks:
 
   core.setupPyUtil:
     icon: 🐍
+    location: ./python
     description: Setup zaruba's python util.
     private: true
     extend: core.runCoreScript
@@ -94,7 +95,7 @@ tasks:
     saveLog: false
     config:
       start: |
-        {{ if eq (.GetValue "setup.initPyUtil") "true" }}
+        {{ if .IsTrue (.GetValue "setup.initPyUtil") }}
           {{ $d := .Decoration -}}
           if [ -z "$(pipenv --version)" ]
           then
@@ -104,7 +105,7 @@ tasks:
               echo "* 'pip install pipenv' (if you don't want to install pyenv)"
               exit 1
           fi
-          PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile" pipenv install
+          PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv install
         {{ end }}
   
 
