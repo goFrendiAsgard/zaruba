@@ -356,7 +356,7 @@ class ServiceProject(TaskProject):
         capital_service_name = capitalize(service_name)
         run_task_name = 'run{}'.format(capital_service_name)
         if start_command != '':
-            self.set([run_task_name, 'config', 'start'], start_command)
+            self.set(['tasks', run_task_name, 'config', 'start'], start_command)
         self.main_project.load(dir_name)
         self.main_project.register_run_task(run_task_name)
         self.main_project.register_run_container_task('run{}Container'.format(capital_service_name))
@@ -543,8 +543,8 @@ class HelmServiceProject(Project):
 
     def _get_service_ports(self, service_name: str) -> List[str]:
         task_name = 'run{}'.format(capitalize(service_name))
-        if self.service_project.exist([task_name, 'lconfig', 'ports']):
-            return self.service_project.get([task_name, 'lconfig', 'ports'])
+        if self.service_project.exist(['tasks', task_name, 'lconfig', 'ports']):
+            return self.service_project.get(['tasks', task_name, 'lconfig', 'ports'])
         if self.service_project.exist(['lconfigs', service_name, 'ports']):
             return self.service_project.get(['lconfigs', service_name, 'ports'])
         return []
@@ -553,8 +553,8 @@ class HelmServiceProject(Project):
     def _get_service_envs(self, service_name: str) -> Mapping[str, Mapping[str, str]]:
         task_name = 'run{}'.format(capitalize(service_name))
         task_env = {}
-        if self.service_project.exist([task_name, 'env']):
-            task_env = self.service_project.get([task_name, 'env'])
+        if self.service_project.exist(['tasks', task_name, 'env']):
+            task_env = self.service_project.get(['tasks', task_name, 'env'])
         task_env_from_ref = {}
         if self.service_project.exist(['envs', service_name]):
             task_env_from_ref = self.service_project.get(['envs', service_name])
