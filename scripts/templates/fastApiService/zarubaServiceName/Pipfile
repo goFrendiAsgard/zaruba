@@ -10,6 +10,8 @@ pika = "1.2.0"
 uuid = "1.30"
 sqlalchemy = "1.4.12"
 jsons = "1.4.2"
+aiofiles = "0.7.0"
+requests = "2.25.1"
 
 [dev-packages]
 autopep8 = "1.5.7"
