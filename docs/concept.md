@@ -567,7 +567,6 @@ You can make docker task by extending `core.startDockerContainer`. Also, you nee
 * `containerName`: Container name.
 * `port::<host-port>`: Bind host port to container port.
 * `volume::<host-path>`: Bind host path to container volume.
-* `expose`: Either `config.port` or `lconfig.ports`. If you choose `lconfig.ports`, Zaruba will check `ports` lconfig instead of `port::<host-port>` config.
 
 Now let's try to run two docker containers, redis and mysql: 
 

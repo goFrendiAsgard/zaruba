@@ -76,7 +76,7 @@
                     VALIDATION  : ^.+$
   CONFIG        : _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
-                                                {{ if eq (.Trim (.GetConfig "ports") "\n ") "" -}}
+                                                {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
                                                   {{ .GetConfig "_check.configPort" }}
                                                 {{ else -}}
                                                   {{ .GetConfig "_check.configPorts" }}
@@ -180,7 +180,7 @@
                                                   {{ end -}}
                                                 {{ end -}}
                   _start.runContainer.port    : {{ $this := . -}}
-                                                {{ if eq (.Trim (.GetConfig "ports") "\n ") "" -}}
+                                                {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
                                                   {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
                                                     {{ $containerPort := $this.GetConfig "port" $hostPort -}}
                                                     -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
