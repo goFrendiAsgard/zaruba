@@ -10,7 +10,7 @@ import (
 
 var showLogCmd = &cobra.Command{
 	Use:   "showLog",
-	Short: "Show advertisement",
+	Short: "Show log",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
