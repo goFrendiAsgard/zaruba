@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func escapeShellValue(s string, quote string) (result string) {
+func EscapeShellValue(s string, quote string) (result string) {
 	backSlashEscapedStr := strings.ReplaceAll(s, "\\", "\\\\\\\\")
 	quoteEscapedStr := backSlashEscapedStr
 	if quote == "\"" {
@@ -19,11 +19,11 @@ func escapeShellValue(s string, quote string) (result string) {
 }
 
 func DoubleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("\"%s\"", escapeShellValue(s, "\""))
+	return fmt.Sprintf("\"%s\"", EscapeShellValue(s, "\""))
 }
 
 func SingleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("'%s'", escapeShellValue(s, "'"))
+	return fmt.Sprintf("'%s'", EscapeShellValue(s, "'"))
 }
 
 // GetSubKeys get sub keys from dictionary
