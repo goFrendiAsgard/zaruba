@@ -12,7 +12,6 @@ includes: [] # included Zaruba scripts
 tasks: [] # task definitions
 inputs: {} # Inputs
 configs: {} # Map of configuration set
-lconfigs: {}  # Map of list-configuration set
 envs: {} # Map of environment set
 ```
 
@@ -20,7 +19,6 @@ envs: {} # Map of environment set
 * ✔️ `tasks`: Map of task definitions.
 * 🔢 `inputs`: Map of predefined values that can be configured on runtime (interactively or by parameters). Inputs can be shared among tasks (i.e: several tasks probably access the same input).
 * 📕 `configs`: Map of config set. Each config should have a single value. Several tasks probably depend on the same config set.
-* 📚 `lconfigs`: Map of lconfig set. Each lconfig might have multiple values. Serveral tasks probably depend on the same lconfig set.
 * 🛤️ `envs`: Map of environments. Several tasks probably depend on the same env set.
 
 # 🍲 Includes
@@ -68,8 +66,6 @@ tasks:
     env: {}
     configRef: configRefName # use "configRefs" for multiple values
     config: {}
-    lconfigRef: lconfigRefName # use "lconfigRefs" for multiple values
-    lconfig: {}
     start: [] # start command
     check: [] # check command
 ```
@@ -88,9 +84,6 @@ tasks:
 * 📕 `configRef`: Config reference to be used in the task. Mutually exclusive to `configRefs` (i.e: you cannot use both simultaneously).
 * 📕 `configRefs`: List of configuration references to be used in the task. Mutually exclusive to `configRef`(i.e: you cannot use both simultaneously).
 * 📕 `config`: Task configuration. This will override `configRef` or `configRefs`.
-* 📚 `lconfigRef`: Lconfig reference to be used in the task. Mutually exclusive to `lconfigRefs` (i.e: you cannot use both simultaneously).
-* 📚 `lconfigRefs`: List of lconfig references to be used in the task. Mutually exclusive to `lconfigRef`(i.e: you cannot use both simultaneously).
-* 📚 `lconfig`: Task lconfig. This will override `lconfigRef` or `lconfigRefs`. Unlike `config`, a `lconfig` might contain several values (e.g: ports to be exposed, list of authors, etc).
 * 🚀 `start`: Task's start command.
 * 🔎 `check`: Task's check command.
 
@@ -153,7 +146,7 @@ You can think of `config` as `attribute` or `property` in object-oriented progra
 
 To get a `config` value, you can use `{{ .GetConfig "configName" }}`.
 
-> __Note:__ You can use [go template](https://golang.org/pkg/text/template/) in every `config` value, `lconfig` value, `start` command, and `check` command.
+> __Note:__ You can use [go template](https://golang.org/pkg/text/template/) in every `config` value, `start` command, and `check` command.
 
 ### 🤝 Sharing Config
 
@@ -496,7 +489,7 @@ Just like `config`, you can share `env` among your tasks by using `envRef` or `e
 
 > __Note__: Here we will create tasks manually. In real life, you can invoke `zaruba please makeServiceTask` to generate the tasks.
 
-So far we have deal with `command task` and how to configure it using `inputs`, `config`, `env`, and `lconfig`.
+So far we have deal with `command task` and how to configure it using `inputs`, `config`, and `env`.
 
 In some cases, you probably want to run a long-running process (e.g: web server, database server, scheduler, etc). In order to do that, you need a `service task`.
 
@@ -554,8 +547,7 @@ tasks:
         default: 1
     config:
       start: python -m http.server 3000
-    lconfig:
-      ports: [3000]
+      ports: 3000
 ```
 
 `core.startService` will automatically put port-checking into your `check` command for you.
