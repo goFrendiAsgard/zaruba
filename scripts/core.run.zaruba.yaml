@@ -129,6 +129,7 @@ tasks:
   core.wrapper:
     private: true
     extend: core.runShellScript
+    autoTerminate: false
     config:
       start: '{{ .GetConfig "playBellScript" }}'
   
