@@ -1,13 +1,11 @@
 # core.runInContainer
 ```
   TASK NAME     : core.runInContainer
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
   DESCRIPTION   : Run command from inside the container
                   Common config:
                     containerName : Name of the container
-                  Common lconfig:
-                    commands      : list of command to be executed
-                                    (each command should be in single line)
+                    commands      : Command to be executed, separated by new line
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -23,13 +21,14 @@
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                      : {{ $this := . -}}
-                                                {{ range $index, $command := .GetLConfig "commands" -}}
+                                                {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
                                                   docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
                                                 {{ end -}}
                   afterStart                  : Blank
                   beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
+                  commands                    : Blank
                   dockerEnv                   : {{ .GetValue "docker.env" }}
                   finish                      : Blank
                   helmEnv                     : {{ .GetValue "helm.env" }}
@@ -68,7 +67,6 @@
                   setup                       : Blank
                   start                       : echo "No script defined"
                   useImagePrefix              : true
-  LCONFIG       : commands : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

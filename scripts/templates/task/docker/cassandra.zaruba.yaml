@@ -25,15 +25,13 @@ tasks:
   zarubaServiceNameExecCql:
     icon: 👀
     extend: core.cassandra.execCql
-    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     inputs:
     - zarubaServiceName.cql
     configRef: zarubaServiceName
-    lconfig:
-      queries:
-      - '{{ .GetValue "zarubaServiceName.cql" }}'
+    config:
+      queries: '{{ .GetValue "zarubaServiceName.cql" }}'
 
 configs:
   zarubaServiceName:

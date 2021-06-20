@@ -12,29 +12,28 @@ tasks:
         beforeCheck : Script to be executed before check service readiness.
         afterCheck  : Script to be executed before check service readiness.
         finish      : Script to be executed after start service or check service readiness.
-        runLocally  : Run service locally or not
-      Common lconfig:
-        ports: Port to be checked to confirm service readiness (e.g: [9000])
+        runLocally  : Run service locally or not.
+        ports       : Port to be checked to confirm service readiness, separated by new line.
     private: true
     extend: core.runCoreScript
     dependencies:
     - updateLinks
+    autoTerminate: false
     config:
       beforeStart: ""
       start: ""
       afterStart: ""
       beforeCheck: ""
+      ports: ""
       check: |
         {{- $d := .Decoration -}}
-        {{ range $index, $port := .GetLConfig "ports" -}}
+        {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-          wait_port "localhost" "{{ $port }}"
+          wait_port "localhost" {{ $port }}
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
         {{ end -}}
       afterCheck: ""
       runLocally: true
-    lconfig:
-      ports: []
     start:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
@@ -87,8 +86,7 @@ tasks:
         beforeCheck : Script to be executed before check service readiness.
         afterCheck  : Script to be executed before check service readiness.
         finish      : Script to be executed after start service or check service readiness.
-      Common lconfig:
-        ports: Port to be checked to confirm service readiness (e.g: [9000])
+        ports       : Port to be checked to confirm service readiness, separated by new line.
     private: true
     extend: core.startService
     configRef: core.nvm
@@ -121,9 +119,10 @@ tasks:
         containerName         : Name of the container
         dockerEnv             : Docker env to be used when useImagePrefix is true,
                                 but imagePrefix is not provided
-        expose                : Ports to be exposed. Either 'config.port' or 'lconfig.ports'
+        ports                 : Port to be checked to confirm service readiness, 
+                                separated by new line.
         port::<host-port>     : Map <host-port> to container's port.
-                                Only applicable if expose is set to config.port
+                                Only applicable if "ports" is not specified.
         volume::<host-volume> : Map <host-volume> to file/directory inside the container
         rebuild               : Should container be rebuild (This will not rebuild the image)
         command               : Command to be used (Single Line).
@@ -132,8 +131,6 @@ tasks:
         checkCommand          : Command to check container readiness (Single Line).
                                 The command will be executed from inside the container.
         localhost             : Localhost mapping (e.g: host.docker.container)
-      Common lconfig:
-        ports : Ports to be exposed. Only taking effect if expose is set to lconfig.ports.
     private: true
     extend: core.startService
     dependencies:
@@ -151,7 +148,6 @@ tasks:
       checkCommand: ""
       rebuild: false
       localhost: localhost
-      expose: config.port
       imagePrefixTrailingSlash: true
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
       _setup.containerName: |
@@ -162,12 +158,6 @@ tasks:
         {{ $d := .Decoration -}}
         IMAGE_NAME="{{ .GetConfig "imageName" }}"
         should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
-      _setup.validateExpose: |
-        {{ $d := .Decoration -}}
-        {{ $expose := .GetConfig "expose" -}}
-        {{ if and (ne $expose "config.port") (ne $expose "lconfig.ports") -}}
-          echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
-        {{ end -}}
       _setup: |
         set -e
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
@@ -175,7 +165,6 @@ tasks:
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
-        {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 
       _check.containerState: |
         {{ $d := .Decoration -}}
         until [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
@@ -201,26 +190,27 @@ tasks:
         done
         set "${_OLD_STATE}"
         {{ end -}}
-      _check.lConfigPorts: |
+      _check.ConfigPorts: |
         {{ $d := .Decoration -}}
-        {{ range $index, $hostPort := .GetLConfig "ports" -}}
-          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-          wait_port "localhost" "{{ $hostPort }}"
+        {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
+          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
+          wait_port "localhost" {{ $hostPort }}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
         {{ end -}}
-      _check.configPorts: |
+      _check.configPort: |
         {{ $d := .Decoration -}}
+        {{ $this := . -}}
         {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
-          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-          wait_port "localhost" "{{ $hostPort }}"
+          {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+          echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}' (container port: {{ $containerPort }}) {{ $d.Normal }}"
+          wait_port "localhost" {{ $hostPort }}
           echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
         {{ end -}}
       _check: |
         {{ $d := .Decoration -}}
         {{ .GetConfig "_check.containerState" }}
-        {{ $expose := .GetConfig "expose" -}}
-        {{ if eq $expose "lconfig.ports" -}}
-          {{ .GetConfig "_check.lConfigPorts" }}
+        {{ if eq (.Trim (.GetConfig "ports") "\n ") "" -}}
+          {{ .GetConfig "_check.configPort" }}
         {{ else -}}
           {{ .GetConfig "_check.configPorts" }}
         {{ end -}}
@@ -235,19 +225,28 @@ tasks:
         docker logs --since 0m --follow "${CONTAINER_NAME}"
       _start.runContainer.env: |
         {{ $this := . -}}
-        {{ range $key, $val := $this.GetEnvs -}} 
-          -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}{{ $val }}{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" ($this.GetConfig "localhost") }}{{ end }}" {{ "" -}}
+        {{ if eq (.GetConfig "localhost") "localhost" -}}
+          {{ range $key, $val := $this.GetEnvs -}}
+            -e "{{ $key}}={{ $val }}" {{ "" -}}
+          {{ end -}}
+        {{ else -}}
+          {{ range $key, $val := $this.GetEnvs -}}
+          {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
+          {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
+          {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
+            -e "{{ $key}}={{ $val }}" {{ "" -}}
+          {{ end -}}
         {{ end -}}
       _start.runContainer.port: |
         {{ $this := . -}}
-        {{ if eq (.GetConfig "expose") "config.port" -}}
+        {{ if eq (.Trim (.GetConfig "ports") "\n ") "" -}}
           {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
             {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-            -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
+            -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
           {{ end -}}
-        {{ else if eq (.GetConfig "expose") "lconfig.ports" -}}
-          {{ range $index, $port := $this.GetLConfig "ports" -}}
-            -p "{{ $port }}:{{ $port }}" {{ "" -}}
+        {{ else -}}
+          {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+            -p {{ $port }}:{{ $port }} {{ "" -}}
           {{ end -}}
         {{ end -}}
       _start.runContainer.volume: |
@@ -295,15 +294,16 @@ tasks:
     icon: 🔎
     description: |
       Throw error when any port is inactive
-      Common lconfig:
-        ports: Ports to be checked (e.g: [8080, 3306])
+      Common config:
+        ports : Port to be checked to confirm service readiness, separated by new line.
     private: true
     extend: core.startService
     config:
+      ports: 8080
       interval: 1
       _setup.ports: |
         PORTS=""
-        {{ range $index, $port := .GetLConfig "ports" -}}
+        {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
           PORTS="${PORTS} {{ $port }}"
         {{ end -}}
       _setup: '{{ .GetConfig "_setup.ports" }}'
@@ -328,8 +328,6 @@ tasks:
       _check: |
         {{ $d := .Decoration -}}
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
-    lconfig:
-      ports: [8080]
     
 
   core.mysql.startDockerContainer:

@@ -1,7 +1,7 @@
 # core.startDockerContainer
 ```
   TASK NAME     : core.startDockerContainer
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.service.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
   DESCRIPTION   : Start docker container and check it's readiness.
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.
@@ -20,9 +20,10 @@
                     containerName         : Name of the container
                     dockerEnv             : Docker env to be used when useImagePrefix is true,
                                             but imagePrefix is not provided
-                    expose                : Ports to be exposed. Either 'config.port' or 'lconfig.ports'
+                    ports                 : Port to be checked to confirm service readiness, 
+                                            separated by new line.
                     port::<host-port>     : Map <host-port> to container's port.
-                                            Only applicable if expose is set to config.port
+                                            Only applicable if "ports" is not specified.
                     volume::<host-volume> : Map <host-volume> to file/directory inside the container
                     rebuild               : Should container be rebuild (This will not rebuild the image)
                     command               : Command to be used (Single Line).
@@ -31,8 +32,6 @@
                     checkCommand          : Command to check container readiness (Single Line).
                                             The command will be executed from inside the container.
                     localhost             : Localhost mapping (e.g: host.docker.container)
-                  Common lconfig:
-                    ports : Ports to be exposed. Only taking effect if expose is set to lconfig.ports.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]
   DEPENDENCIES  : [ updateLinks ]
@@ -77,14 +76,19 @@
                     VALIDATION  : ^.+$
   CONFIG        : _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
-                                                {{ $expose := .GetConfig "expose" -}}
-                                                {{ if eq $expose "lconfig.ports" -}}
-                                                  {{ .GetConfig "_check.lConfigPorts" }}
+                                                {{ if eq (.Trim (.GetConfig "ports") "\n ") "" -}}
+                                                  {{ .GetConfig "_check.configPort" }}
                                                 {{ else -}}
                                                   {{ .GetConfig "_check.configPorts" }}
                                                 {{ end -}}
                                                 {{ .GetConfig "_check.checkCommand" }}
                                                 sleep 1
+                  _check.ConfigPorts          : {{ $d := .Decoration -}}
+                                                {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
+                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
+                                                  wait_port "localhost" {{ $hostPort }}
+                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+                                                {{ end -}}
                   _check.checkCommand         : {{ $d := .Decoration -}}
                                                 {{ if .GetConfig "checkCommand" -}}
                                                 (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -98,10 +102,12 @@
                                                 done
                                                 set "${_OLD_STATE}"
                                                 {{ end -}}
-                  _check.configPorts          : {{ $d := .Decoration -}}
+                  _check.configPort           : {{ $d := .Decoration -}}
+                                                {{ $this := . -}}
                                                 {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-                                                  wait_port "localhost" "{{ $hostPort }}"
+                                                  {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}' (container port: {{ $containerPort }}) {{ $d.Normal }}"
+                                                  wait_port "localhost" {{ $hostPort }}
                                                   echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
                                                 {{ end -}}
                   _check.containerState       : {{ $d := .Decoration -}}
@@ -114,30 +120,18 @@
                                                   sleep 1
                                                 done
                                                 echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
-                  _check.lConfigPorts         : {{ $d := .Decoration -}}
-                                                {{ range $index, $hostPort := .GetLConfig "ports" -}}
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port '{{ $hostPort }}'{{ $d.Normal }}"
-                                                  wait_port "localhost" "{{ $hostPort }}"
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
-                                                {{ end -}}
                   _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
                                                 {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
                                                 {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
-                                                {{ .Trim (.GetConfig "_setup.validateExpose") "\n" }} 
                   _setup.containerName        : {{ $d := .Decoration -}}
                                                 CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                                 should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
                   _setup.imageName            : {{ $d := .Decoration -}}
                                                 IMAGE_NAME="{{ .GetConfig "imageName" }}"
                                                 should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
-                  _setup.validateExpose       : {{ $d := .Decoration -}}
-                                                {{ $expose := .GetConfig "expose" -}}
-                                                {{ if and (ne $expose "config.port") (ne $expose "lconfig.ports") -}}
-                                                  echo "{{ $d.Bold }}{{ $d.Red }}'expose' value should be either 'config.port' or 'lconfig.ports'{{ $d.Normal }}" && exit 1
-                                                {{ end -}}
                   _start                      : {{ $d := .Decoration -}}
                                                 {{ $rebuild := .GetConfig "rebuild" -}}
                                                 {{ if .IsTrue $rebuild }}{{ .GetConfig "_start.rebuildContainer" }}{{ end }}
@@ -173,18 +167,27 @@
                                                 {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
                                                 -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
                   _start.runContainer.env     : {{ $this := . -}}
-                                                {{ range $key, $val := $this.GetEnvs -}} 
-                                                  -e "{{ $key }}={{ if eq ($this.GetConfig "localhost") "localhost" }}{{ $val }}{{ else }}{{ $this.ReplaceAllWith $val "localhost" "127.0.0.1" "0.0.0.0" ($this.GetConfig "localhost") }}{{ end }}" {{ "" -}}
+                                                {{ if eq (.GetConfig "localhost") "localhost" -}}
+                                                  {{ range $key, $val := $this.GetEnvs -}}
+                                                    -e "{{ $key}}={{ $val }}" {{ "" -}}
+                                                  {{ end -}}
+                                                {{ else -}}
+                                                  {{ range $key, $val := $this.GetEnvs -}}
+                                                  {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
+                                                  {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
+                                                  {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
+                                                    -e "{{ $key}}={{ $val }}" {{ "" -}}
+                                                  {{ end -}}
                                                 {{ end -}}
                   _start.runContainer.port    : {{ $this := . -}}
-                                                {{ if eq (.GetConfig "expose") "config.port" -}}
+                                                {{ if eq (.Trim (.GetConfig "ports") "\n ") "" -}}
                                                   {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
                                                     {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                                                    -p "{{ $hostPort }}:{{ $containerPort }}" {{ "" -}}
+                                                    -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
                                                   {{ end -}}
-                                                {{ else if eq (.GetConfig "expose") "lconfig.ports" -}}
-                                                  {{ range $index, $port := $this.GetLConfig "ports" -}}
-                                                    -p "{{ $port }}:{{ $port }}" {{ "" -}}
+                                                {{ else -}}
+                                                  {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                                    -p {{ $port }}:{{ $port }} {{ "" -}}
                                                   {{ end -}}
                                                 {{ end -}}
                   _start.runContainer.volume  : {{ $this := . -}}
@@ -204,7 +207,6 @@
                   command                     : Blank
                   containerName               : Blank
                   dockerEnv                   : {{ .GetValue "docker.env" }}
-                  expose                      : config.port
                   finish                      : Blank
                   helmEnv                     : {{ .GetValue "helm.env" }}
                   hostDockerInternal          : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
@@ -243,12 +245,12 @@
                   kubeContext                 : {{ .GetValue "kube.context" }}
                   localhost                   : localhost
                   playBellScript              : echo $'\a'
+                  ports                       : Blank
                   rebuild                     : false
                   runLocally                  : true
                   setup                       : Blank
                   start                       : Blank
                   useImagePrefix              : true
-  LCONFIG       : ports : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

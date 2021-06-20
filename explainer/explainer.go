@@ -94,7 +94,6 @@ func (e *Explainer) explainTask(taskName string) {
 	e.printField("CHECK        ", e.listToMultiLineStr(check), indentation)
 	e.printField("INPUTS       ", e.getInputString(task), indentation)
 	e.printField("CONFIG       ", e.getConfigString(task), indentation)
-	e.printField("LCONFIG      ", e.getLConfigString(task), indentation)
 	e.printField("ENVIRONMENTS ", e.getEnvString(task), indentation)
 }
 
@@ -169,23 +168,6 @@ func (e *Explainer) getConfigString(task *config.Task) (configStr string) {
 		fieldKey := fieldKeys[index]
 		val, _ := task.GetConfigPattern(key)
 		fieldVal := e.getStrOrBlank(val)
-		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal, ""))
-	}
-	return strings.Join(lines, "\n")
-}
-
-func (e *Explainer) getLConfigString(task *config.Task) (configStr string) {
-	keys := task.GetLConfigKeys()
-	sort.Strings(keys)
-	fieldKeys := e.getFieldKeys(keys)
-	lines := []string{}
-	for index, key := range keys {
-		vals, _ := task.GetLConfigPatterns(key)
-		fieldKey := fieldKeys[index]
-		fieldVal := e.listToStr(vals)
-		if fieldVal == "" {
-			fieldVal = fmt.Sprintf("%s[]%s", e.d.Blue, e.d.Normal)
-		}
 		lines = append(lines, e.getSubFieldString(fieldKey, fieldVal, ""))
 	}
 	return strings.Join(lines, "\n")

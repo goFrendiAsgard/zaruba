@@ -1,7 +1,7 @@
 # core.setupPyUtil
 ```
   TASK NAME     : core.setupPyUtil
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.setup.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.setup.zaruba.yaml
   DESCRIPTION   : Setup zaruba's python util.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -36,7 +36,7 @@
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
                   setup                  : Blank
-                  start                  : {{ if eq (.GetValue "setup.initPyUtil") "true" }}
+                  start                  : {{ if .IsTrue (.GetValue "setup.initPyUtil") }}
                                              {{ $d := .Decoration -}}
                                              if [ -z "$(pipenv --version)" ]
                                              then
@@ -46,7 +46,7 @@
                                                  echo "* 'pip install pipenv' (if you don't want to install pyenv)"
                                                  exit 1
                                              fi
-                                             PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/util/python/Pipfile" pipenv install
+                                             PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv install
                                            {{ end }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

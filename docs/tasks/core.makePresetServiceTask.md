@@ -1,7 +1,7 @@
 # core.makePresetServiceTask
 ```
   TASK NAME     : core.makePresetServiceTask
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.generator.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.generator.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

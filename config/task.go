@@ -20,30 +20,27 @@ import (
 
 // Task is zaruba task
 type Task struct {
-	Start                 []string            `yaml:"start,omitempty"`
-	Check                 []string            `yaml:"check,omitempty"`
-	Timeout               string              `yaml:"timeout,omitempty"`
-	Private               bool                `yaml:"private,omitempty"`
-	AutoTerminate         string              `yaml:"autoTerminate,omitempty"`
-	Extend                string              `yaml:"extend,omitempty"`
-	Extends               []string            `yaml:"extends,omitempty"`
-	Location              string              `yaml:"location,omitempty"`
-	ConfigRef             string              `yaml:"configRef,omitempty"`
-	ConfigRefs            []string            `yaml:"configRefs,omitempty"`
-	Config                map[string]string   `yaml:"config,omitempty"`
-	LConfigRef            string              `yaml:"lconfigRef,omitempty"`
-	LConfigRefs           []string            `yaml:"lconfigRefs,omitempty"`
-	LConfig               map[string][]string `yaml:"lconfig,omitempty"`
-	EnvRef                string              `yaml:"envRef,omitempty"`
-	EnvRefs               []string            `yaml:"envRefs,omitempty"`
-	Env                   map[string]*Env     `yaml:"env,omitempty"`
-	Dependencies          []string            `yaml:"dependencies,omitempty"`
-	Inputs                []string            `yaml:"inputs,omitempty"`
-	Description           string              `yaml:"description,omitempty"`
-	Icon                  string              `yaml:"icon,omitempty"`
-	SaveLog               string              `yaml:"saveLog,omitempty"`
-	basePath              string              // Main yaml's location
-	fileLocation          string              // File location where this task was declared
+	Start                 []string          `yaml:"start,omitempty"`
+	Check                 []string          `yaml:"check,omitempty"`
+	Timeout               string            `yaml:"timeout,omitempty"`
+	Private               bool              `yaml:"private,omitempty"`
+	AutoTerminate         string            `yaml:"autoTerminate,omitempty"`
+	Extend                string            `yaml:"extend,omitempty"`
+	Extends               []string          `yaml:"extends,omitempty"`
+	Location              string            `yaml:"location,omitempty"`
+	ConfigRef             string            `yaml:"configRef,omitempty"`
+	ConfigRefs            []string          `yaml:"configRefs,omitempty"`
+	Config                map[string]string `yaml:"config,omitempty"`
+	EnvRef                string            `yaml:"envRef,omitempty"`
+	EnvRefs               []string          `yaml:"envRefs,omitempty"`
+	Env                   map[string]*Env   `yaml:"env,omitempty"`
+	Dependencies          []string          `yaml:"dependencies,omitempty"`
+	Inputs                []string          `yaml:"inputs,omitempty"`
+	Description           string            `yaml:"description,omitempty"`
+	Icon                  string            `yaml:"icon,omitempty"`
+	SaveLog               string            `yaml:"saveLog,omitempty"`
+	basePath              string            // Main yaml's location
+	fileLocation          string            // File location where this task was declared
 	Project               *Project
 	name                  string
 	logPrefix             string
@@ -206,61 +203,6 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 	return "", false
 }
 
-// GetLConfig getting lconfig of a task
-func (task *Task) GetLConfig(keys ...string) (vals []string, err error) {
-	key := strings.Join(keys, "::")
-	vals = []string{}
-	if patterns, declared := task.GetLConfigPatterns(key); declared {
-		for index, pattern := range patterns {
-			templateName := fmt.Sprintf("%s.lconfig.%s[%d]", task.GetName(), key, index)
-			element, err := task.getParsedPattern(templateName, pattern)
-			if err != nil {
-				return vals, err
-			}
-			vals = append(vals, element)
-		}
-		return vals, nil
-	}
-	return []string{}, nil
-}
-
-func (task *Task) GetLConfigKeys() (keys []string) {
-	keys = []string{}
-	for key := range task.LConfig {
-		keys = append(keys, key)
-	}
-	for _, baseLConfigKey := range task.getLConfigRefKeys() {
-		for key := range task.Project.LConfigRefMap[baseLConfigKey].BaseLConfigMap {
-			keys = append(keys, key)
-		}
-	}
-	for _, parentTaskName := range task.getParentTaskNames() {
-		parentTask := task.Project.Tasks[parentTaskName]
-		parentKeys := parentTask.GetLConfigKeys()
-		keys = append(keys, parentKeys...)
-	}
-	return str.GetUniqueElements(keys)
-}
-
-func (task *Task) GetLConfigPatterns(key string) (patterns []string, declared bool) {
-	if patterns, declared = task.LConfig[key]; declared {
-		return patterns, true
-	}
-	for _, baseLConfigKey := range task.getLConfigRefKeys() {
-		projectBaseLConfig := task.Project.LConfigRefMap[baseLConfigKey]
-		if patterns, declared = projectBaseLConfig.BaseLConfigMap[key]; declared {
-			return patterns, true
-		}
-	}
-	for _, parentTaskName := range task.getParentTaskNames() {
-		parentTask := task.Project.Tasks[parentTaskName]
-		if patterns, declared = parentTask.GetLConfigPatterns(key); declared {
-			return patterns, true
-		}
-	}
-	return []string{}, false
-}
-
 // GetEnvs getting all parsed env
 func (task *Task) GetEnvs() (parsedEnv map[string]string, err error) {
 	parsedEnv = map[string]string{}
@@ -336,13 +278,6 @@ func (task *Task) getConfigRefKeys() (parentTaskNames []string) {
 		return []string{task.ConfigRef}
 	}
 	return task.ConfigRefs
-}
-
-func (task *Task) getLConfigRefKeys() (parentTaskNames []string) {
-	if task.LConfigRef != "" {
-		return []string{task.LConfigRef}
-	}
-	return task.LConfigRefs
 }
 
 func (task *Task) getEnvRefKeys() (parentTaskNames []string) {

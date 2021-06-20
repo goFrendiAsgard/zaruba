@@ -214,18 +214,6 @@ func TestProjectValidateRedundantConfigRef(t *testing.T) {
 	}
 }
 
-func TestProjectValidateRedundantLConfigRef(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantLConfigRef/main.zaruba.yaml")
-	if err == nil {
-		t.Errorf("error expected")
-		return
-	}
-	errorMessage := err.Error()
-	if !strings.HasPrefix(errorMessage, "redundant lconfigs declaration") {
-		t.Errorf("invalid error message: %s", errorMessage)
-	}
-}
-
 func TestProjectValidateNonRedundant(t *testing.T) {
 	_, _, _, err := getProject("../test-resources/project/validation/nonRedundant/main.zaruba.yaml")
 	if err != nil {
@@ -361,42 +349,6 @@ func TestProjectValidateInexistConfigRefs(t *testing.T) {
 	}
 	errorMessage := err.Error()
 	if !strings.HasPrefix(errorMessage, "undeclared configRefs") {
-		t.Errorf("invalid error message: %s", errorMessage)
-	}
-}
-
-func TestProjectValidateRedundantLConfigRefAndLConfigRefs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantLConfigRefAndLConfigRefs.zaruba.yaml")
-	if err == nil {
-		t.Errorf("error expected")
-		return
-	}
-	errorMessage := err.Error()
-	if !strings.HasPrefix(errorMessage, "redundant key declaration") {
-		t.Errorf("invalid error message: %s", errorMessage)
-	}
-}
-
-func TestProjectValidateInexistLConfigRef(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistLConfigRef.zaruba.yaml")
-	if err == nil {
-		t.Errorf("error expected")
-		return
-	}
-	errorMessage := err.Error()
-	if !strings.HasPrefix(errorMessage, "undeclared lconfig") {
-		t.Errorf("invalid error message: %s", errorMessage)
-	}
-}
-
-func TestProjectValidateInexistLConfigRefs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistLConfigRefs.zaruba.yaml")
-	if err == nil {
-		t.Errorf("error expected")
-		return
-	}
-	errorMessage := err.Error()
-	if !strings.HasPrefix(errorMessage, "undeclared lconfig") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }

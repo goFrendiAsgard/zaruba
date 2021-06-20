@@ -1,7 +1,7 @@
 # setProjectValue
 ```
   TASK NAME     : setProjectValue
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Set project value.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -46,13 +46,11 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           KEY="{{ .GetValue "variable.name" }}"
-                                           should_not_be_empty "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'variable.name' argument is not defined{{ $d.Normal }}"
-                                           VALUE="{{ .GetValue "variable.value" }}"
-                                           should_not_be_empty "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'variable.value' argument is not defined{{ $d.Normal }}"
-                                           set_project_value "${KEY}" "${VALUE}"
+                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
+                  variableName           : {{ .GetValue "variable.name" }}
+                  variableValue          : {{ .GetValue "variable.value" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

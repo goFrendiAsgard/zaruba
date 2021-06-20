@@ -1,7 +1,7 @@
 # setupKubeClient
 ```
   TASK NAME     : setupKubeClient
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.setup.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.setup.zaruba.yaml
   DESCRIPTION   : Install kubectl, helm, and helmfile
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

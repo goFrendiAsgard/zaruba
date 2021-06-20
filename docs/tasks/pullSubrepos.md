@@ -1,7 +1,7 @@
 # pullSubrepos
 ```
   TASK NAME     : pullSubrepos
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Pull subrepositories.
                   ARGUMENTS:
                     subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
@@ -50,7 +50,7 @@
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                              NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$(is_in_array "${NAME}" "\n" "${ORIGINS}")
+                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
                                              if [ $ORIGIN_EXISTS = 1 ]
                                              then
                                                git_save "Save works before pull"

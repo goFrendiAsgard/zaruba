@@ -29,3 +29,10 @@ func Execute() {
 		os.Exit(1)
 	}
 }
+
+func showErrorAndExit(logger output.Logger, decoration *output.Decoration, err error) {
+	if err != nil {
+		logger.Fprintf(os.Stderr, "%s %s%s%s%s\n", decoration.Error, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
+		os.Exit(1)
+	}
+}

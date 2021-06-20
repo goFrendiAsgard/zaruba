@@ -25,16 +25,14 @@ tasks:
   zarubaServiceNameExecSql:
     icon: 🐬 
     extend: core.mysql.execSql
-    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     inputs:
     - zarubaServiceName.sql
     envRef: zarubaServiceName
     configRef: zarubaServiceName
-    lconfig:
-      queries:
-      - '{{ .GetValue "zarubaServiceName.sql" }}'
+    config:
+      queries: '{{ .GetValue "zarubaServiceName.sql" }}'
 
 configs:
   zarubaServiceName:

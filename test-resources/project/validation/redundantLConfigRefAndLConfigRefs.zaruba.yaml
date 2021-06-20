@@ -1,9 +1,0 @@
-tasks:
-  taskName:
-    lconfigRef: lconfigRef1
-    lconfigRefs:
-    - lconfigRef2
-
-lconfigs:
-  lconfigRef1: {}
-  lconfigRef2: {}

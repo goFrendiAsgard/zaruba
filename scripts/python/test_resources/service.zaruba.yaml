@@ -5,6 +5,3 @@ tasks:
 configs:
   zarubaServiceName:
     start: zarubaStartCommand
-
-lconfigs:
-  zarubaServiceName: {}

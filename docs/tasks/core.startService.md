@@ -1,7 +1,7 @@
 # core.startService
 ```
   TASK NAME     : core.startService
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.service.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.
@@ -11,9 +11,8 @@
                     beforeCheck : Script to be executed before check service readiness.
                     afterCheck  : Script to be executed before check service readiness.
                     finish      : Script to be executed after start service or check service readiness.
-                    runLocally  : Run service locally or not
-                  Common lconfig:
-                    ports: Port to be checked to confirm service readiness (e.g: [9000])
+                    runLocally  : Run service locally or not.
+                    ports       : Port to be checked to confirm service readiness, separated by new line.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ updateLinks ]
@@ -60,9 +59,9 @@
                   beforeCheck            : Blank
                   beforeStart            : Blank
                   check                  : {{- $d := .Decoration -}}
-                                           {{ range $index, $port := .GetLConfig "ports" -}}
+                                           {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                             wait_port "localhost" "{{ $port }}"
+                                             wait_port "localhost" {{ $port }}
                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
                                            {{ end -}}
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -80,10 +79,10 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
+                  ports                  : Blank
                   runLocally             : true
                   setup                  : Blank
                   start                  : Blank
-  LCONFIG       : ports : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

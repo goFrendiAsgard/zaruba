@@ -1,7 +1,7 @@
 # core.cassandra.execCql
 ```
   TASK NAME     : core.cassandra.execCql
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.run.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -19,19 +19,22 @@
                   _start                      : USER="{{ .GetConfig "user" }}"
                                                 PASSWORD="{{ .GetConfig "password" }}"
                                                 CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                                {{ range $index, $query := .GetLConfig "queries" -}}
-                                                QUERY="{{ $query }}"
-                                                if [ -f "${QUERY}" ]
-                                                then
-                                                  echo "CQL FILE: ${QUERY}"
-                                                  TMP_FILE_NAME="/$(get_uuid4).sql"
-                                                  docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
-                                                  docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
-                                                  docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
-                                                else
-                                                  echo "CQL SCRIPT: ${QUERY}"
-                                                  docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
-                                                fi
+                                                {{ $this := . -}}
+                                                {{ range $index, $query := .Split (.Trim (.GetConfig "queries") " \n") "\n" -}}
+                                                  {{ if ne $query "" -}}
+                                                    QUERY="{{ $query }}"
+                                                    if [ -f "${QUERY}" ]
+                                                    then
+                                                      echo "CQL FILE: ${QUERY}"
+                                                      TMP_FILE_NAME="/{{ $this.NewUUIDString }}.sql"
+                                                      docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+                                                      docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
+                                                      docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
+                                                    else
+                                                      echo "CQL SCRIPT: ${QUERY}"
+                                                      docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
+                                                    fi
+                                                  {{ end -}}
                                                 {{ end -}}
                   afterStart                  : Blank
                   beforeStart                 : Blank
@@ -75,11 +78,11 @@
                   kubeContext                 : {{ .GetValue "kube.context" }}
                   password                    : cassandra
                   playBellScript              : echo $'\a'
+                  queries                     : Blank
                   setup                       : Blank
                   start                       : Blank
                   useImagePrefix              : true
                   user                        : cassandra
-  LCONFIG       : queries : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -1,7 +1,7 @@
 # core.buildDockerImage
 ```
   TASK NAME     : core.buildDockerImage
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Build docker image.
                   Common config:
                     dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
@@ -66,7 +66,7 @@
                                                 {{ $d := .Decoration -}}
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
                                                 should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
                                                 COMMIT="$(get_latest_git_commit)"
                                                 if [ ! -z "${COMMIT}" ]
                                                 then

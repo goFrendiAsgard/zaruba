@@ -2,38 +2,6 @@ package str
 
 import "testing"
 
-func TestStrReplaceAllWith(t *testing.T) {
-	expected := "fruit fruit fruit vegetable"
-	actual := ReplaceAllWith("strawberry grape orange vegetable", "strawberry", "grape", "orange", "fruit")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestStrReplaceAllWithSingleParameter(t *testing.T) {
-	expected := "vegetable"
-	actual := ReplaceAllWith("vegetable")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestStrEscapeShellValueSingleQuote(t *testing.T) {
-	expected := "\\\\\\\\t \\n \\`backtick\\` \\'quoted\\' \"quoted\""
-	actual := EscapeShellValue("\\t \n `backtick` 'quoted' \"quoted\"", "'")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestStrEscapeShellValueDoubleQuote(t *testing.T) {
-	expected := "\\\\\\\\t \\n \\`backtick\\` 'quoted' \\\"quoted\\\""
-	actual := EscapeShellValue("\\t \n `backtick` 'quoted' \"quoted\"", "\"")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
 func TestStrSingleQuoteShellValue(t *testing.T) {
 	expected := "'\\\\\\\\t \\n \\`backtick\\` \\'quoted\\' \"quoted\"'"
 	actual := SingleQuoteShellValue("\\t \n `backtick` 'quoted' \"quoted\"")

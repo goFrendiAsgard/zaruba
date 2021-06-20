@@ -14,9 +14,6 @@ tasks:
 configs:
   zarubaServiceName: {}
 
-lconfigs:
-  zarubaServiceName: {}
-
 envs:
   zarubaServiceName: {}
   

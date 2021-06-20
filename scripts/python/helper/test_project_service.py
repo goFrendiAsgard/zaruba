@@ -29,12 +29,11 @@ def test_service_project_generate():
     assert generated_project.get(['tasks', 'runMyService', 'location']) == '../../../test_resources/app'
     assert generated_project.get(['tasks', 'runMyService', 'configRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyService', 'envRef']) == 'myService'
-    assert generated_project.get(['tasks', 'runMyService', 'lconfigRef']) == 'myService'
     assert 'dependencyTask' in generated_project.get(['tasks', 'runMyService', 'dependencies'])
     # runMyServiceContainer
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'extend']) == 'core.startDockerContainer'
-    assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRef']) == 'myServiceContainer'
-    assert generated_project.get(['tasks', 'runMyServiceContainer', 'lconfigRef']) == 'myService'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRefs', 0]) == 'myServiceContainer'
+    assert generated_project.get(['tasks', 'runMyServiceContainer', 'configRefs', 1]) == 'myService'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'envRef']) == 'myService'
     assert generated_project.get(['tasks', 'runMyServiceContainer', 'dependencies', 0]) == 'buildMyServiceImage'
     # stopMyServiceContainer
@@ -56,8 +55,6 @@ def test_service_project_generate():
     assert generated_project.get(['configs', 'myService', 'start']) == 'node main.js'
     assert generated_project.get(['configs', 'myServiceContainer', 'containerName']) == 'myContainer'
     assert generated_project.get(['configs', 'myServiceContainer', 'imageName']) == 'my-image'
-    # lconfig
-    assert generated_project.get(['lconfigs', 'myService', 'ports', 0]) == '{{ .GetEnv "PORT" }}'
     # envs
     assert generated_project.get(['envs', 'myService', 'PORT', 'from']) == 'MY_SERVICE_PORT'
     assert generated_project.get(['envs', 'myService', 'PORT', 'default']) == '3000'

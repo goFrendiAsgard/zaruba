@@ -1,7 +1,7 @@
 # core.removeDockerContainer
 ```
   TASK NAME     : core.removeDockerContainer
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Remove docker container.
                   Common config:
                     containerName : Container's name
@@ -25,6 +25,7 @@
                   beforeStart            : Blank
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                 : -c
+                  containerName          : Blank
                   finish                 : Blank
                   includeBootstrapScript : if [ -f "${HOME}/.profile" ]
                                            then
@@ -40,7 +41,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+                                           CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
                                            stop_container "${CONTAINER}" 
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"

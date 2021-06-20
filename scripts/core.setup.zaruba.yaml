@@ -91,7 +91,6 @@ tasks:
     description: Setup zaruba's python util.
     private: true
     extend: core.runCoreScript
-    autoTerminate: true
     saveLog: false
     config:
       start: |
@@ -113,7 +112,6 @@ tasks:
     icon: 🔨
     description: Setup ubuntu
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.userPassword
@@ -150,7 +148,6 @@ tasks:
     icon: 🔨
     description: setup tmux (tmux should be already installed before running this task)
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.homeDir
@@ -189,7 +186,6 @@ tasks:
     icon: 🔨
     description: Install pyenv and pipenv
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.homeDir
@@ -245,7 +241,6 @@ tasks:
     icon: 🔨
     description: Install NVM and Node.Js (Including node-gyp and typescript)
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.homeDir
@@ -294,7 +289,6 @@ tasks:
     icon: 🔨
     description: Install SDKMan for Java/Scala development.
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.homeDir
@@ -345,7 +339,6 @@ tasks:
     icon: 🔨
     description: Install spark and hadoop.
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.homeDir
@@ -383,7 +376,6 @@ tasks:
     icon: 🔨
     description: Install kubectl, helm, and helmfile
     extend: core.runCoreScript
-    autoTerminate: true
     timeout: 1h
     inputs:
     - setup.homeDir

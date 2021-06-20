@@ -95,7 +95,7 @@ func (kv *KeyValidator) Validate() (b []byte, err error) {
 }
 
 func (kv *KeyValidator) checkProjectValidKeys() (err error) {
-	validKeys := []string{"includes", "tasks", "name", "inputs", "envs", "configs", "lconfigs"}
+	validKeys := []string{"includes", "tasks", "name", "inputs", "envs", "configs"}
 	for key := range kv.rawData {
 		isValid := false
 		for _, validKey := range validKeys {
@@ -112,7 +112,7 @@ func (kv *KeyValidator) checkProjectValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkTaskValidKeys() (err error) {
-	validKeys := []string{"start", "check", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "config", "lconfigRef", "lconfigRefs", "lconfig", "envRef", "envRefs", "env", "dependencies", "inputs", "description", "icon", "saveLog"}
+	validKeys := []string{"start", "check", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "config", "envRef", "envRefs", "env", "dependencies", "inputs", "description", "icon", "saveLog"}
 	for taskName, task := range kv.taskKeyCheckData.Tasks {
 		for key := range task {
 			valid := false

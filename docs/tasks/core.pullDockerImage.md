@@ -1,7 +1,7 @@
 # core.pullDockerImage
 ```
   TASK NAME     : core.pullDockerImage
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Pull docker image.
                   Common config:
                     dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
@@ -64,7 +64,7 @@
                   setup                       : Blank
                   start                       : {{ $d := .Decoration -}}
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
                                                 IMAGE_TAG="{{ .GetConfig "imageTag" }}"
                                                 if [ ! -z "${IMAGE_TAG}" ]
                                                 then

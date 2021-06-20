@@ -1,10 +1,10 @@
 # core.monitorPorts
 ```
   TASK NAME     : core.monitorPorts
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.service.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
   DESCRIPTION   : Throw error when any port is inactive
-                  Common lconfig:
-                    ports: Ports to be checked (e.g: [8080, 3306])
+                  Common config:
+                    ports : Port to be checked to confirm service readiness, separated by new line.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]
   START         : - {{ .GetConfig "cmd" }}
@@ -45,7 +45,7 @@
                                            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
                   _setup                 : {{ .GetConfig "_setup.ports" }}
                   _setup.ports           : PORTS=""
-                                           {{ range $index, $port := .GetLConfig "ports" -}}
+                                           {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
                                              PORTS="${PORTS} {{ $port }}"
                                            {{ end -}}
                   _start                 : {{ $d := .Decoration -}}
@@ -69,9 +69,9 @@
                   beforeCheck            : Blank
                   beforeStart            : Blank
                   check                  : {{- $d := .Decoration -}}
-                                           {{ range $index, $port := .GetLConfig "ports" -}}
+                                           {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                             wait_port "localhost" "{{ $port }}"
+                                             wait_port "localhost" {{ $port }}
                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
                                            {{ end -}}
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -90,10 +90,10 @@
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   interval               : 1
                   playBellScript         : echo $'\a'
+                  ports                  : 8080
                   runLocally             : true
                   setup                  : Blank
                   start                  : Blank
-  LCONFIG       : ports : [ 8080 ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

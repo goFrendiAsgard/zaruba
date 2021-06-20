@@ -9,6 +9,3 @@ envs:
 
 configs:
   otherConfigName2: {}
-
-lconfigs:
-  otherLconfigName2: {}

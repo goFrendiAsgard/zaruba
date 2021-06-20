@@ -4,6 +4,3 @@ tasks:
 configs:
   zarubaServiceName:
     port::3306: 3306
-
-lconfigs:
-  zarubaServiceName: {}

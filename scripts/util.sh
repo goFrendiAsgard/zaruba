@@ -29,13 +29,6 @@ NoUnderline=$'\033[24m'
 NoInverse=$'\033[27m'
 NoColor=$'\033[39m'
 
-
-# USAGE add_link <source> <destination> <file_name>
-add_link() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/add_link.py" "${1}" "${2}" "${3}"
-}
-
-
 # USAGE create_docker_task <template_location> <image_name> <container_name> <service_name>
 create_docker_task() {
     PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_docker_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}"
@@ -94,48 +87,6 @@ create_helm_task() {
 create_service_task() {
     PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_service_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
 }
-
-
-# USAGE get_segment <text> <separator> <index>
-get_segment() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/get_segment.py" "${1}" "${2}" "${3}"
-}
-
-
-# USAGE get_service_name <service_location>
-get_service_name() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/get_service_name.py" "${1}"
-}
-
-# USAGE get_uuid
-get_uuid4() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/get_uuid4.py"
-}
-
-
-# USAGE is_in_array <needle> <separator> <haystacks>
-is_in_array() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/is_in_array.py" "${1}" "${2}" "${3}"
-}
-
-
-# USAGE set_project_value <key> <value> <file_name>
-set_project_value() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/set_project_value.py" "${1}" "${2}" "${3}"
-}
-
-
-# USAGE show_advertisement
-show_advertisement() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/show_advertisement.py"
-}
-
-
-# USAGE show_log <log_file> <pattern>
-show_log() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/show_log.py" "${1}" "${2}"
-}
-
 
 # USAGE update_env
 update_env() {

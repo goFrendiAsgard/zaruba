@@ -490,36 +490,7 @@ MY_NAME=joe YOUR_NAME=john zaruba please showEveryoneName
 Just like `config`, you can share `env` among your tasks by using `envRef` or `envRefs`.
 
 
-## 📚 LConfig
 
-In some cases, you probably need a configuration that has many values. In that case, you can use `lconfig`.
-
-Here is an example:
-
-```yaml
-# Filename: main.zaruba.yaml
-tasks:
-
-  showAuthors:
-    extend: core.runShellScript
-    config:
-      start: |
-        {{ range $index, $name := .GetLConfig "authors" }}
-          figlet "{{ $name }}"
-        {{ end }}
-    lconfig:
-      authors:
-      - Agatha Christie
-      - Dan Brown
-```
-
-Since `lconfig` contains many values, you can [use range](https://golang.org/pkg/text/template/#hdr-Variables) to capture all the values.
-
-![Using lconfig](images/concept-lconfig.png)
-
-### 🤝 Sharing Lconfig
-
-Just like `config`, you can share `lconfig` among your tasks by using `lconfigRef` or `lconfigRefs`.
 
 ## 🏁 Service Task
 

@@ -1,10 +1,9 @@
 # core.showAdv
 ```
   TASK NAME     : core.showAdv
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.setupPyUtil ]
+  PARENT TASKS  : [ core.runShellScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -16,7 +15,6 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                 : set -e
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
                   afterStart             : Blank
                   beforeStart            : Blank
@@ -37,7 +35,9 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $showAdvertisement := .GetValue "advertisement.show" -}}
-                                           {{ if .IsTrue $showAdvertisement }}show_advertisement{{ end }}
+                                           {{ if .IsTrue $showAdvertisement -}}
+                                             "${ZARUBA_HOME}/zaruba" showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
+                                           {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

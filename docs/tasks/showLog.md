@@ -1,11 +1,10 @@
 # showLog
 ```
   TASK NAME     : showLog
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Show log for all/particular tasks using regex
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.setupPyUtil ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -38,12 +37,12 @@
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
+                  logKeyword             : {{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-                                           TASK="{{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}"
-                                           show_log "log.zaruba.csv" "${TASK}"
+                                           "${ZARUBA_HOME}/zaruba" showLogs "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

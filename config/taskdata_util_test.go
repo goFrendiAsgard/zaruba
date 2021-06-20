@@ -47,42 +47,6 @@ func TestTdGetRelativePath(t *testing.T) {
 	}
 }
 
-func TestTdGetTaskExist(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	otherTask, err := td.GetTask("otherTaskName")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if otherTask == nil {
-		t.Errorf("otherTask is nil")
-	}
-}
-
-func TestTdGetTaskInExist(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	otherTask, err := td.GetTask("inexistTask")
-	if err == nil {
-		t.Errorf("error expected")
-		return
-	}
-	if otherTask != nil {
-		t.Errorf("otherTask is not nil")
-	}
-}
-
 func TestTdIsTrue(t *testing.T) {
 	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
@@ -149,66 +113,6 @@ func TestTdTrim(t *testing.T) {
 	td := NewTaskData(task)
 	expected := "value"
 	actual := td.Trim("\n   value\n\n  ", " \n")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestTdReplaceAllWith(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "fruit fruit fruit vegetable"
-	actual := td.ReplaceAllWith("strawberry grape orange vegetable", "strawberry", "grape", "orange", "fruit")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestTdReplaceAllWithSingleParameter(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "vegetable"
-	actual := td.ReplaceAllWith("vegetable")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestTdEscapeShellValueSingleQuote(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "\\\\\\\\t \\n \\`backtick\\` \\'quoted\\' \"quoted\""
-	actual := td.EscapeShellValue("\\t \n `backtick` 'quoted' \"quoted\"", "'")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestTdEscapeShellValueDoubleQuote(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "\\\\\\\\t \\n \\`backtick\\` 'quoted' \\\"quoted\\\""
-	actual := td.EscapeShellValue("\\t \n `backtick` 'quoted' \"quoted\"", "\"")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}

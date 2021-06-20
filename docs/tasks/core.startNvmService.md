@@ -1,7 +1,7 @@
 # core.startNvmService
 ```
   TASK NAME     : core.startNvmService
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.service.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.
@@ -11,8 +11,7 @@
                     beforeCheck : Script to be executed before check service readiness.
                     afterCheck  : Script to be executed before check service readiness.
                     finish      : Script to be executed after start service or check service readiness.
-                  Common lconfig:
-                    ports: Port to be checked to confirm service readiness (e.g: [9000])
+                    ports       : Port to be checked to confirm service readiness, separated by new line.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]
   START         : - {{ .GetConfig "cmd" }}
@@ -59,9 +58,9 @@
                   beforeCheck             : Blank
                   beforeStart             : Blank
                   check                   : {{- $d := .Decoration -}}
-                                            {{ range $index, $port := .GetLConfig "ports" -}}
+                                            {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
                                               echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                              wait_port "localhost" "{{ $port }}"
+                                              wait_port "localhost" {{ $port }}
                                               echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
                                             {{ end -}}
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -94,6 +93,7 @@
                                               npm rebuild
                                             {{ end -}}
                   playBellScript          : echo $'\a'
+                  ports                   : Blank
                   removeNodeModules       : false
                   removeNodeModulesScript : {{ if .IsTrue (.GetConfig "removeNodeModules") -}}
                                               rm -Rf node_modules
@@ -127,7 +127,6 @@
                                                 nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
                                               fi
                                             fi
-  LCONFIG       : ports : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

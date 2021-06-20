@@ -1,7 +1,7 @@
 configs:
 
   playgroundTest:
-    beforeStart:
+    beforeStart: |
       set -e
       ZARUBA_HOME="$(realpath "..")"
 
@@ -272,8 +272,11 @@ tasks:
         sleep 1
         echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
         sleep {{ .GetValue "runPlaygroundDelay" }}
-    lconfig:
-      ports: [3000, 8080, 15672, 5672]
+      ports: |
+        3000
+        8080
+        15672
+        5672
   
 
   testGeneratedService:

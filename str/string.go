@@ -5,39 +5,25 @@ import (
 	"strings"
 )
 
-// ReplaceAllWith replace string is s with replacements. The last element of replacements is the replacer
-func ReplaceAllWith(s string, replacements ...string) (result string) {
-	if len(replacements) < 2 {
-		return s
-	}
-	result = s
-	new := replacements[len(replacements)-1]
-	olds := replacements[:len(replacements)-1]
-	for _, old := range olds {
-		result = strings.ReplaceAll(result, old, new)
-	}
-	return result
-}
-
-func EscapeShellValue(s string, quote string) (result string) {
-	backSlashEscapedStr := ReplaceAllWith(s, "\\", "\\\\\\\\")
+func escapeShellValue(s string, quote string) (result string) {
+	backSlashEscapedStr := strings.ReplaceAll(s, "\\", "\\\\\\\\")
 	quoteEscapedStr := backSlashEscapedStr
 	if quote == "\"" {
-		quoteEscapedStr = ReplaceAllWith(backSlashEscapedStr, "\"", "\\\"")
+		quoteEscapedStr = strings.ReplaceAll(backSlashEscapedStr, "\"", "\\\"")
 	} else if quote == "'" {
-		quoteEscapedStr = ReplaceAllWith(backSlashEscapedStr, "'", "\\'")
+		quoteEscapedStr = strings.ReplaceAll(backSlashEscapedStr, "'", "\\'")
 	}
-	backTickEscapedStr := ReplaceAllWith(quoteEscapedStr, "`", "\\`")
-	newLineEscapedStr := ReplaceAllWith(backTickEscapedStr, "\n", "\\n")
+	backTickEscapedStr := strings.ReplaceAll(quoteEscapedStr, "`", "\\`")
+	newLineEscapedStr := strings.ReplaceAll(backTickEscapedStr, "\n", "\\n")
 	return newLineEscapedStr
 }
 
 func DoubleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("\"%s\"", EscapeShellValue(s, "\""))
+	return fmt.Sprintf("\"%s\"", escapeShellValue(s, "\""))
 }
 
 func SingleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("'%s'", EscapeShellValue(s, "'"))
+	return fmt.Sprintf("'%s'", escapeShellValue(s, "'"))
 }
 
 // GetSubKeys get sub keys from dictionary

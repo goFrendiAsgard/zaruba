@@ -25,9 +25,6 @@ tasks:
     configRef: configRefName
     config:
       configName: value
-    lconfigRef: lconfigRefName
-    lconfig:
-      lconfigName: [value1, value2]
     envRef: envRefName
     env:
       envName:
@@ -40,11 +37,6 @@ configs:
 
   configRefName:
     configName: value
-
-lconfigs:
-
-  lconfigRefName:
-    lconfigName: [value1, value2]
 
 envs:
 

@@ -2,18 +2,21 @@ package config
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"text/template"
 
+	"github.com/google/uuid"
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
+	yaml "gopkg.in/yaml.v2"
 )
 
-// TaskData is struct sent to template
 type TaskData struct {
 	task         *Task
 	Name         string
@@ -24,7 +27,6 @@ type TaskData struct {
 	Decoration   *output.Decoration
 }
 
-// NewTaskData create new task data
 func NewTaskData(task *Task) (td *TaskData) {
 	nextTask := *task
 	nextTask.currentRecursiveLevel++
@@ -39,93 +41,102 @@ func NewTaskData(task *Task) (td *TaskData) {
 	}
 }
 
-// GetConfig get config of task data
+func (td *TaskData) GetWorkPath(path string) (absPath string) {
+	return td.getAbsPath(td.WorkPath, path)
+}
+
+func (td *TaskData) GetRelativePath(path string) (absPath string) {
+	return td.getAbsPath(td.DirPath, path)
+}
+
 func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
 	return td.task.GetConfig(keys...)
 }
 
-// GetSubConfigKeys get config subkeys
 func (td *TaskData) GetSubConfigKeys(parentKeys ...string) (subKeys []string) {
 	configKeys := td.task.GetConfigKeys()
 	return str.GetSubKeys(configKeys, parentKeys)
 }
 
-// GetLConfig get config of task data
-func (td *TaskData) GetLConfig(keys ...string) (val []string, err error) {
-	return td.task.GetLConfig(keys...)
-}
-
-// GetSubLConfigKeys get config subkeys
-func (td *TaskData) GetSubLConfigKeys(parentKeys ...string) (subKeys []string) {
-	lConfigKeys := td.task.GetLConfigKeys()
-	return str.GetSubKeys(lConfigKeys, parentKeys)
-}
-
-// GetValue get keyword argument
 func (td *TaskData) GetValue(keys ...string) (val string, err error) {
 	return td.task.GetValue(keys...)
 }
 
-// GetSubValueKeys get keyword argument subkeys
 func (td *TaskData) GetSubValueKeys(parentKeys ...string) (subKeys []string) {
 	valueKeys := td.task.GetValueKeys()
 	return str.GetSubKeys(valueKeys, parentKeys)
 }
 
-// GetEnv get environment
 func (td *TaskData) GetEnv(key string) (val string, err error) {
 	return td.task.GetEnv(key)
 }
 
-// GetEnvs get all environment
 func (td *TaskData) GetEnvs() (parsedEnv map[string]string, err error) {
 	return td.task.GetEnvs()
 }
 
-// getAbsPath of any string
-func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {
-	if filepath.IsAbs(path) {
-		return path
-	}
-	absParentPath, _ := filepath.Abs(parentPath)
-	return filepath.Join(absParentPath, path)
-}
-
-// GetWorkPath get workPath (path relative to task.location)
-func (td *TaskData) GetWorkPath(path string) (absPath string) {
-	return td.getAbsPath(td.WorkPath, path)
-}
-
-// GetRelativePath get basePath (path relateive to task's definition directory)
-func (td *TaskData) GetRelativePath(path string) (absPath string) {
-	return td.getAbsPath(td.DirPath, path)
-}
-
-// GetTask get other task
-func (td *TaskData) GetTask(taskName string) (otherTd *TaskData, err error) {
-	task, taskFound := td.task.Project.Tasks[taskName]
-	if !taskFound {
-		return nil, fmt.Errorf("task '%s' is not exist", taskName)
-	}
-	return NewTaskData(task), nil
-}
-
-// IsTrue check if string represent "true"
 func (td *TaskData) IsTrue(str string) (isTrue bool) {
 	return boolean.IsTrue(str)
 }
 
-// IsFalse check if string represent "false"
 func (td *TaskData) IsFalse(str string) (isFalse bool) {
 	return boolean.IsFalse(str)
 }
 
-// Trim trim string
+func (td *TaskData) ReplaceAll(s, old, new string) string {
+	return strings.ReplaceAll(s, old, new)
+}
+
+func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
+	return str.DoubleQuoteShellValue(s)
+}
+
+func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
+	return str.SingleQuoteShellValue(s)
+}
+
+func (td *TaskData) Indent(multiLineStr string, indentation string) (result string) {
+	return str.Indent(multiLineStr, indentation)
+}
+
+func (td *TaskData) NewUUIDString() string {
+	return uuid.NewString()
+}
+
+func (td *TaskData) Split(s, sep string) []string {
+	return strings.Split(s, sep)
+}
+
+func (td *TaskData) Join(sep string, a []string) (string, error) {
+	return strings.Join(a, sep), nil
+}
+
 func (td *TaskData) Trim(str, cutset string) (trimmedStr string) {
 	return strings.Trim(str, cutset)
 }
 
-// ReadFile file
+func (td *TaskData) ParseJSON(s string) (interface{}, error) {
+	if s == "" {
+		return make([]interface{}, 0), nil
+	}
+	var data interface{}
+	if err := json.Unmarshal([]byte(s), &data); err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (td *TaskData) ParseYAML(s string) (interface{}, error) {
+	if s == "" {
+		return make([]interface{}, 0), nil
+	}
+	var data interface{}
+	if err := yaml.Unmarshal([]byte(s), &data); err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 func (td *TaskData) ReadFile(filePath string) (fileContent string, err error) {
 	absFilePath := td.GetWorkPath(filePath)
 	fileContentB, err := ioutil.ReadFile(absFilePath)
@@ -135,7 +146,6 @@ func (td *TaskData) ReadFile(filePath string) (fileContent string, err error) {
 	return string(fileContentB), err
 }
 
-// ListDir directory
 func (td *TaskData) ListDir(dirPath string) (fileNames []string, err error) {
 	absDirPath := td.GetWorkPath(dirPath)
 	fileNames = []string{}
@@ -149,7 +159,6 @@ func (td *TaskData) ListDir(dirPath string) (fileNames []string, err error) {
 	return fileNames, nil
 }
 
-// ParseFile parse file
 func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 	absFilePath := td.GetWorkPath(filePath)
 	pattern, err := td.ReadFile(absFilePath)
@@ -168,31 +177,220 @@ func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 	return b.String(), nil
 }
 
-// ReplaceAllWith
-func (td *TaskData) ReplaceAllWith(s string, replacements ...string) (result string) {
-	return str.ReplaceAllWith(s, replacements...)
-}
+func (td *TaskData) Add(b, a interface{}) (interface{}, error) {
+	av := reflect.ValueOf(a)
+	bv := reflect.ValueOf(b)
 
-// EscapeShellValue
-func (td *TaskData) EscapeShellValue(s string, quoteList ...string) (result string) {
-	quote := "\""
-	if len(quoteList) > 0 {
-		quote = quoteList[0]
+	switch av.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Int() + bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Int() + int64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Int()) + bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("add: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return int64(av.Uint()) + bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Uint() + bv.Uint(), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Uint()) + bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("add: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Float32, reflect.Float64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Float() + float64(bv.Int()), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Float() + float64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return av.Float() + bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("add: unknown type for %q (%T)", bv, b)
+		}
+	default:
+		return nil, fmt.Errorf("add: unknown type for %q (%T)", av, a)
 	}
-	return str.EscapeShellValue(s, quote)
 }
 
-// DoubleQuoteShellValue
-func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
-	return str.DoubleQuoteShellValue(s)
+func (td *TaskData) Subtract(b, a interface{}) (interface{}, error) {
+	av := reflect.ValueOf(a)
+	bv := reflect.ValueOf(b)
+
+	switch av.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Int() - bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Int() - int64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Int()) - bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("subtract: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return int64(av.Uint()) - bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Uint() - bv.Uint(), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Uint()) - bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("subtract: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Float32, reflect.Float64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Float() - float64(bv.Int()), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Float() - float64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return av.Float() - bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("subtract: unknown type for %q (%T)", bv, b)
+		}
+	default:
+		return nil, fmt.Errorf("subtract: unknown type for %q (%T)", av, a)
+	}
 }
 
-// SingleQuoteShellValue
-func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
-	return str.SingleQuoteShellValue(s)
+func (td *TaskData) Multiply(b, a interface{}) (interface{}, error) {
+	av := reflect.ValueOf(a)
+	bv := reflect.ValueOf(b)
+
+	switch av.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Int() * bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Int() * int64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Int()) * bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("multiply: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return int64(av.Uint()) * bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Uint() * bv.Uint(), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Uint()) * bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("multiply: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Float32, reflect.Float64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Float() * float64(bv.Int()), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Float() * float64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return av.Float() * bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("multiply: unknown type for %q (%T)", bv, b)
+		}
+	default:
+		return nil, fmt.Errorf("multiply: unknown type for %q (%T)", av, a)
+	}
 }
 
-// Indent
-func (td *TaskData) Indent(multiLineStr string, indentation string) (result string) {
-	return str.Indent(multiLineStr, indentation)
+func (td *TaskData) Divide(b, a interface{}) (interface{}, error) {
+	av := reflect.ValueOf(a)
+	bv := reflect.ValueOf(b)
+
+	switch av.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Int() / bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Int() / int64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Int()) / bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("divide: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return int64(av.Uint()) / bv.Int(), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Uint() / bv.Uint(), nil
+		case reflect.Float32, reflect.Float64:
+			return float64(av.Uint()) / bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("divide: unknown type for %q (%T)", bv, b)
+		}
+	case reflect.Float32, reflect.Float64:
+		switch bv.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return av.Float() / float64(bv.Int()), nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			return av.Float() / float64(bv.Uint()), nil
+		case reflect.Float32, reflect.Float64:
+			return av.Float() / bv.Float(), nil
+		default:
+			return nil, fmt.Errorf("divide: unknown type for %q (%T)", bv, b)
+		}
+	default:
+		return nil, fmt.Errorf("divide: unknown type for %q (%T)", av, a)
+	}
+}
+
+func (td *TaskData) In(l, v interface{}) (bool, error) {
+	lv := reflect.ValueOf(l)
+	vv := reflect.ValueOf(v)
+
+	switch lv.Kind() {
+	case reflect.Array, reflect.Slice:
+		for i := 0; i < lv.Len(); i++ {
+			lvv := lv.Index(i)
+			switch lvv.Kind() {
+			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+				switch vv.Kind() {
+				case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+					if vv.Int() == lvv.Int() {
+						return true, nil
+					}
+				}
+			case reflect.Float32, reflect.Float64:
+				switch vv.Kind() {
+				case reflect.Float32, reflect.Float64:
+					if vv.Float() == lvv.Float() {
+						return true, nil
+					}
+				}
+			case reflect.String:
+				if vv.Type() == lvv.Type() && vv.String() == lvv.String() {
+					return true, nil
+				}
+			}
+		}
+	case reflect.String:
+		if vv.Type() == lv.Type() && strings.Contains(lv.String(), vv.String()) {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
+
+func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {
+	if filepath.IsAbs(path) {
+		return path
+	}
+	absParentPath, _ := filepath.Abs(parentPath)
+	return filepath.Join(absParentPath, path)
 }

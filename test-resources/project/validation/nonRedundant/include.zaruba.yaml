@@ -12,6 +12,3 @@ envs:
 
 configs:
   otherConfigName1: {}
-
-lconfigs:
-  otherLconfigName1: {}

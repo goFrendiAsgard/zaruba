@@ -21,15 +21,14 @@ tasks:
   resetZarubaServiceName:
     icon: 🐇
     extend: core.runInContainer
-    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     configRef: zarubaServiceName
-    lconfig:
-      commands:
-      - rabbitmqctl stop_app
-      - rabbitmqctl reset
-      - rabbitmqctl start_app
+    config:
+      commands: |
+        rabbitmqctl stop_app
+        rabbitmqctl reset
+        rabbitmqctl start_app
 
 configs:
   zarubaServiceName:

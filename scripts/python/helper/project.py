@@ -154,12 +154,10 @@ class TaskProject(Project):
         self.set_default(['inputs', run_locally_input_name, 'prompt'], 'Run {} locally?'.format(service_name))
         self.set_default(['envs', service_name], {})
         self.set_default(['configs', service_name], {})
-        self.set_default(['lconfigs', service_name], {})
         self.set_default(['tasks', run_task_name, 'configRef'], service_name)
         self.set_default(['tasks', run_task_name, 'envRef'], service_name)
         self.set_default(['tasks', run_task_name, 'inputs'], [run_locally_input_name])
         self.set_default(['tasks', run_task_name, 'config', 'runLocally'], '{{ .GetValue "' + run_locally_input_name + '" }}')
-        self.set_default(['tasks', run_task_name, 'lconfigRef'], service_name)
     
 
     def _get_file_name(self, dir_name: str, service_name: str):
@@ -234,7 +232,6 @@ class ServiceProject(TaskProject):
         # container related settings
         self.set_default(['configs', 'zarubaServiceNameContainer', 'containerName'], 'zarubaContainerName')
         self.set_default(['configs', 'zarubaServiceNameContainer', 'imageName'], 'zarubaImageName')
-        self.set_default(['configs', 'zarubaServiceNameContainer', 'expose'], 'lconfig.ports')
         self.set_default(['configs', 'zarubaServiceNameContainer', 'localhost'], 'host.docker.internal')
         # run
         self.set_default(['tasks', 'runZarubaServiceName', 'icon'], generate_icon())
@@ -244,8 +241,7 @@ class ServiceProject(TaskProject):
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'icon'], generate_icon())
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'extend'], 'core.startDockerContainer')
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'dependencies'], ['buildZarubaServiceNameImage'])
-        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'configRef'], 'zarubaServiceNameContainer')
-        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'lconfigRef'], 'zarubaServiceName')
+        self.set_default(['tasks', 'runZarubaServiceNameContainer', 'configRefs'], ['zarubaServiceNameContainer', 'zarubaServiceName'])
         self.set_default(['tasks', 'runZarubaServiceNameContainer', 'envRef'], 'zarubaServiceName')
         # stopContainer
         self.set_default(['tasks', 'stopZarubaServiceNameContainer', 'icon'], generate_icon())
@@ -369,12 +365,12 @@ class ServiceProject(TaskProject):
      
 
     def _set_port(self, port_list: List[str]):
-        if len(port_list) == 0 and self.exist(['lconfigs', 'zarubaServiceName', 'ports', 0]):
+        if len(port_list) == 0 and self.exist(['configs', 'zarubaServiceName', 'ports']):
             return
         if len(port_list) == 0:
             port_list = self._get_possible_ports_env('zarubaServiceName')
         port_list = [port if port.isnumeric() else '{{ .GetEnv "' + port + '" }}' for port in port_list]
-        self.set(['lconfigs', 'zarubaServiceName', 'ports'], port_list)
+        self.set(['configs', 'zarubaServiceName', 'ports'], '\n'.join(port_list))
         
 
 class DockerProject(TaskProject):
@@ -543,11 +539,12 @@ class HelmServiceProject(Project):
 
     def _get_service_ports(self, service_name: str) -> List[str]:
         task_name = 'run{}'.format(capitalize(service_name))
-        if self.service_project.exist(['tasks', task_name, 'lconfig', 'ports']):
-            return self.service_project.get(['tasks', task_name, 'lconfig', 'ports'])
-        if self.service_project.exist(['lconfigs', service_name, 'ports']):
-            return self.service_project.get(['lconfigs', service_name, 'ports'])
-        return []
+        portStr = ''
+        if self.service_project.exist(['tasks', task_name, 'configs', 'ports']):
+            portStr = self.service_project.get(['tasks', task_name, 'configs', 'ports'])
+        if self.service_project.exist(['configs', service_name, 'ports']):
+            portStr = self.service_project.get(['configs', service_name, 'ports'])
+        return [port for port in portStr.split('\n') if port != '']
 
 
     def _get_service_envs(self, service_name: str) -> Mapping[str, Mapping[str, str]]:

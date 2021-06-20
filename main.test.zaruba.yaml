@@ -104,30 +104,6 @@ tasks:
       start: ./zaruba please setupKubeClient 
 
 
-  testThanks:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    configRef: mainTest
-    config:
-      start: ./zaruba thanks
-
-
-  testSorry:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    configRef: mainTest
-    config:
-      start: ./zaruba sorry
-  
-
   testShowVersion:
     icon: 💉
     location: ./
@@ -146,8 +122,6 @@ tasks:
     dependencies:
     - clearLog
     - build
-    - testThanks
-    - testSorry
     - testShowVersion
     - testSetupPyenv
     - testSetupNvm

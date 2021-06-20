@@ -18,13 +18,11 @@ tasks:
   flushZarubaServiceName:
     icon: 🧰
     extend: core.runInContainer
-    autoTerminate: true
     dependencies:
     - runZarubaServiceName
     configRef: zarubaServiceName
-    lconfig:
-      commands:
-      - redis-cli flushall
+    config:
+      commands: redis-cli flushall
 
 configs:
   zarubaServiceName:

@@ -1,7 +1,7 @@
 # addSubrepo
 ```
   TASK NAME     : addSubrepo
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Add subrepository.
                   TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
   TASK TYPE     : Command Task
@@ -55,14 +55,20 @@
                                            {{ if .GetValue "subrepo.prefix" }}
                                              PREFIX="{{ .GetValue "subrepo.prefix" }}"
                                            {{ else }}
-                                             PREFIX=$(get_segment "${URL}" "/" "-1")
-                                             PREFIX=$(get_segment "${PREFIX}" "." "0")
+                                             {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
+                                             {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
+                                             {{ $urlLastSegment := index $urlSegment $urlSegmentLastIndex -}}
+                                             {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
+                                             PREFIX="{{ $prefix }}"
                                            {{ end }}
                                            NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
-                                           set_project_value "subrepo::${NAME}::prefix" "${PREFIX}"
-                                           set_project_value "subrepo::${NAME}::url" "${URL}"
+                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
+                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
+                  subrepoName            : {{ .GetValue "subrepo.name" }}
+                  subrepoPrefix          : {{ .GetValue "subrepo.prefix" }}
+                  subrepoUrl             : {{ .GetValue "subrepo.url" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

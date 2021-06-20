@@ -1,14 +1,14 @@
 # serveHttp
 ```
   TASK NAME     : serveHttp
-  LOCATION      : /home/gofrendi/.zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Run static web server from your working directory.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]
   START         : - python
                   - -m
                   - http.server
-                  - {{ index (.GetLConfig "ports") 0 }}
+                  - {{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
@@ -41,9 +41,9 @@
                   beforeCheck            : Blank
                   beforeStart            : Blank
                   check                  : {{- $d := .Decoration -}}
-                                           {{ range $index, $port := .GetLConfig "ports" -}}
+                                           {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                             wait_port "localhost" "{{ $port }}"
+                                             wait_port "localhost" {{ $port }}
                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
                                            {{ end -}}
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -61,10 +61,10 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
+                  ports                  : {{ .GetValue "server.httpPort" }}
                   runLocally             : true
                   setup                  : Blank
                   start                  : Blank
-  LCONFIG       : ports : [ {{ .GetValue "server.httpPort" }} ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -25,7 +25,6 @@ tasks:
   prepareZarubaServiceName:
     icon: 🐸
     extend: core.prepareNodeJsApp
-    autoTerminate: true
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceName.removeNodeModules
@@ -40,12 +39,10 @@ tasks:
       removeNodeModules: '{{ .GetValue "zarubaServiceName.removeNodeModules" }}'
       npmCleanCache: '{{ .GetValue "zarubaServiceName.npmCleanCache" }}'
       npmRebuild: '{{ .GetValue "zarubaServiceName.npmRebuild" }}'
-    lconfigRef: zarubaServiceName
 
   testZarubaServiceName:
     icon: 🐸
     extend: core.runNvmScript
-    autoTerminate: true
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
@@ -54,7 +51,6 @@ tasks:
     configRef: zarubaServiceName
     config:
       start: npm test
-    lconfigRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐸
@@ -68,15 +64,12 @@ tasks:
     configRef: zarubaServiceName
     config:
       start: zarubaStartCommand
-    lconfigRef: zarubaServiceName
 
 
 configs:
   zarubaServiceName:
     nodeVersion: node
-   
-lconfigs:
-  zarubaServiceName: {}
+  
 
 envs:
   zarubaServiceName: {}

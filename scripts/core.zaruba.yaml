@@ -94,20 +94,19 @@ tasks:
   core.showAdv:
     icon: ☕
     private: true
-    extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
+    extend: core.runShellScript
     saveLog: false
     config:
       start: |
         {{ $showAdvertisement := .GetValue "advertisement.show" -}}
-        {{ if .IsTrue $showAdvertisement }}show_advertisement{{ end }}
+        {{ if .IsTrue $showAdvertisement -}}
+          "${ZARUBA_HOME}/zaruba" showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
+        {{ end -}}
   
 
   injectBootstrap:
     icon: 💉
     extend: core.runCoreScript
-    autoTerminate: true
     saveLog: false
     config:
       start: |
@@ -124,7 +123,6 @@ tasks:
     description: |
       Show zaruba's current version.
     extend: core.runCoreScript
-    autoTerminate: true
     config:
       start: |
         cd ${ZARUBA_HOME}
@@ -136,7 +134,6 @@ tasks:
     description: |
       Update zaruba to the latest version.
     extend: core.runCoreScript
-    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -158,13 +155,13 @@ tasks:
     extend: core.startService
     inputs:
     - server.httpPort
-    lconfig:
-      ports: ['{{ .GetValue "server.httpPort" }}']
+    config:
+      ports: '{{ .GetValue "server.httpPort" }}'
     start: 
     - python 
     - "-m"
     - http.server
-    - '{{ index (.GetLConfig "ports") 0 }}'
+    - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'
 
 
   clearPreviousValues:
@@ -172,7 +169,6 @@ tasks:
     description: |
       Clear log
     extend: core.runCoreScript
-    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -185,7 +181,6 @@ tasks:
     description: |
       Clear log
     extend: core.runCoreScript
-    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -198,18 +193,15 @@ tasks:
     description: |
       Show log for all/particular tasks using regex
     extend: core.runCoreScript
-    autoTerminate: true
-    dependencies:
-    - core.setupPyUtil
     saveLog: false
     inputs:
     - log.keyword
     config:
+      logKeyword: '{{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}'
       start: |
         {{ $d := .Decoration -}}
         should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-        TASK="{{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}"
-        show_log "log.zaruba.csv" "${TASK}"
+        "${ZARUBA_HOME}/zaruba" showLogs "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
 
 
   core.isValidSubrepos:
@@ -243,7 +235,6 @@ tasks:
         It is recommended to put `subrepo` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addSubrepo <subrepo.url=remote-url>`
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - core.isProject
     - core.isValidSubrepos
@@ -260,7 +251,7 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(is_in_array "${NAME}", "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
           if [ "$ORIGIN_EXISTS" = "1" ]
           then
             git remote set-url "${NAME}" "${URL}"
@@ -294,7 +285,6 @@ tasks:
       Add subrepository.
       TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - core.isProject
     - core.setupPyUtil
@@ -303,6 +293,9 @@ tasks:
     - subrepo.prefix
     - subrepo.name
     config:
+      subrepoUrl: '{{ .GetValue "subrepo.url" }}'
+      subrepoPrefix: '{{ .GetValue "subrepo.prefix" }}'
+      subrepoName: '{{ .GetValue "subrepo.name" }}'
       start: |
         set -e
         {{ $d := .Decoration -}}
@@ -311,12 +304,15 @@ tasks:
         {{ if .GetValue "subrepo.prefix" }}
           PREFIX="{{ .GetValue "subrepo.prefix" }}"
         {{ else }}
-          PREFIX=$(get_segment "${URL}" "/" "-1")
-          PREFIX=$(get_segment "${PREFIX}" "." "0")
+          {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
+          {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
+          {{ $urlLastSegment := index $urlSegment $urlSegmentLastIndex -}}
+          {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
+          PREFIX="{{ $prefix }}"
         {{ end }}
         NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
-        set_project_value "subrepo::${NAME}::prefix" "${PREFIX}"
-        set_project_value "subrepo::${NAME}::url" "${URL}"
+        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
+        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
 
@@ -329,7 +325,6 @@ tasks:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - initSubrepos
     - updateLinks
@@ -346,7 +341,7 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(is_in_array "${NAME}" "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git_save.sh" "Save works before p
@@ -365,7 +360,6 @@ tasks:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - initSubrepos
     config:
@@ -380,7 +374,7 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$(is_in_array "${NAME}" "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git_save "Save works before pull"
@@ -440,7 +434,6 @@ tasks:
     description: |
       Initiate empty zaruba project.
     extend: core.runCoreScript
-    autoTerminate: true
     saveLog: false
     dependencies:
     - core.isNotProject
@@ -458,7 +451,6 @@ tasks:
     description: |
       Create helm deployment artifacts.
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - core.isProject
     - core.isNotContainHelmCharts
@@ -475,7 +467,6 @@ tasks:
     description: |
       Update environment of every task in the current project 
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - core.isProject
     - core.setupPyUtil
@@ -501,7 +492,6 @@ tasks:
         It is recommended to put `link` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addLink <link.from=source-location> <link.to=destination-location>`
     extend: core.runCoreScript
-    autoTerminate: true
     config:
       start: |
         {{ $d := .Decoration -}}
@@ -524,7 +514,6 @@ tasks:
       Add link.
       TIPS: To update links, you should perform `zaruba please updateLinks`
     extend: core.runCoreScript
-    autoTerminate: true
     inputs:
     - link.from
     - link.to
@@ -532,13 +521,11 @@ tasks:
     - core.isProject
     - core.setupPyUtil
     config:
+      linkFrom: '{{ .GetValue "link.from" }}'
+      linkTo: '{{ .GetValue "link.to" }}'
       start: |
         {{ $d := .Decoration -}}
-        SOURCE="{{ .GetValue "link.from" }}"
-        should_not_be_empty "${SOURCE}" "{{ $d.Bold }}{{ $d.Red }}'link.from' argument is not defined{{ $d.Normal }}"
-        DESTINATION="{{ .GetValue "link.to" }}"
-        should_not_be_empty "${DESTINATION}" "{{ $d.Bold }}{{ $d.Red }}'link.to' argument is not defined{{ $d.Normal }}"
-        set_project_value "link::${DESTINATION)" "${SOURCE}"
+        "${ZARUBA_HOME}/zaruba" addLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
 
@@ -547,7 +534,6 @@ tasks:
     icon: 🔗
     description: Set project value.
     extend: core.runCoreScript
-    autoTerminate: true
     dependencies:
     - core.isProject
     - core.setupPyUtil
@@ -555,13 +541,11 @@ tasks:
     - variable.name
     - variable.value
     config:
+      variableName: '{{ .GetValue "variable.name" }}'
+      variableValue: '{{ .GetValue "variable.value" }}'
       start: |
         {{ $d := .Decoration -}}
-        KEY="{{ .GetValue "variable.name" }}"
-        should_not_be_empty "${KEY}" "{{ $d.Bold }}{{ $d.Red }}'variable.name' argument is not defined{{ $d.Normal }}"
-        VALUE="{{ .GetValue "variable.value" }}"
-        should_not_be_empty "${VALUE}" "{{ $d.Bold }}{{ $d.Red }}'variable.value' argument is not defined{{ $d.Normal }}"
-        set_project_value "${KEY}" "${VALUE}"
+        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
@@ -586,7 +570,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
         COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
@@ -629,7 +613,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
         IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         if [ ! -z "${IMAGE_TAG}" ]
         then
@@ -659,7 +643,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
         COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
@@ -696,7 +680,7 @@ tasks:
       containerName: ""
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         stop_container "${CONTAINER}" 
         echo 🎉🎉🎉
@@ -718,7 +702,7 @@ tasks:
       containerName: ""
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(get_service_name "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         stop_container "${CONTAINER}" 
         echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"

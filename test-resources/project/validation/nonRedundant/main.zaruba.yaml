@@ -13,6 +13,3 @@ envs:
 
 configs:
   configName: {}
-
-lconfigs:
-  lconfigName: {}

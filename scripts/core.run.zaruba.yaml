@@ -13,6 +13,7 @@ tasks:
         afterStart    : After start script
         finish        : Finish script
     private: true
+    autoTerminate: true
     config:
       cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
       cmdArg: "-c"
@@ -165,18 +166,15 @@ tasks:
       Run command from inside the container
       Common config:
         containerName : Name of the container
-      Common lconfig:
-        commands      : list of command to be executed
-                        (each command should be in single line)
+        commands      : Command to be executed, separated by new line
     private: true
     extend: core.runCoreScript
     configRef: core.docker
-    lconfig:
-      commands: []
     config:
+      commands: ""
       _start: |
         {{ $this := . -}}
-        {{ range $index, $command := .GetLConfig "commands" -}}
+        {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
           docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
         {{ end -}}
 
@@ -185,31 +183,33 @@ tasks:
     icon: 🐬 
     private: true
     extend: core.runCoreScript
-    lconfig:
-      queries: []
     configRef: core.docker
     config:
       user: root
       password: '{{ .GetEnv "MYSQL_ROOT_PASSWORD" }}'
       database: '{{ .GetEnv "MYSQL_DATABASE" }}'
+      queries: ""
       containerName: ""
       _start: |
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        {{ range $index, $query := .GetLConfig "queries" -}}
-        QUERY="{{ $query }}"
-        if [ -f "${QUERY}" ]
-        then
-          echo "SQL FILE: ${QUERY}"
-          TMP_FILE_NAME="/$(get_uuid4).sql"
-          docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
-          docker exec "${CONTAINER_NAME}" bash -c "mysql --user=\"${USER}\" --password=\"${PASSWORD}\" < \"${TMP_FILE_NAME}\""
-          docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
-        else
-          echo "SQL SCRIPT: ${QUERY}"
-          docker exec "${CONTAINER_NAME}" mysql --user="${USER}" --password="${PASSWORD}" -e "${QUERY}"
-        fi
+        {{ $this := . -}}
+        {{ range $index, $query := .Split (.Trim (.GetConfig "queries") " \n") "\n" -}}
+          {{ if ne $query "" -}}
+            QUERY="{{ $query }}"
+            if [ -f "${QUERY}" ]
+            then
+              echo "SQL FILE: ${QUERY}"
+              TMP_FILE_NAME="/{{ $this.NewUUIDString }}.sql"
+              docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+              docker exec "${CONTAINER_NAME}" bash -c "mysql --user=\"${USER}\" --password=\"${PASSWORD}\" < \"${TMP_FILE_NAME}\""
+              docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
+            else
+              echo "SQL SCRIPT: ${QUERY}"
+              docker exec "${CONTAINER_NAME}" mysql --user="${USER}" --password="${PASSWORD}" -e "${QUERY}"
+            fi
+          {{ end -}}
         {{ end -}}
       start: ""
 
@@ -218,30 +218,32 @@ tasks:
     icon: 👀
     private: true
     extend: core.runCoreScript
-    lconfig:
-      queries: []
     configRef: core.docker
     config:
       user: cassandra
       password: cassandra
       keyspace: sample
+      queries: ""
       containerName: ""
       _start: |
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        {{ range $index, $query := .GetLConfig "queries" -}}
-        QUERY="{{ $query }}"
-        if [ -f "${QUERY}" ]
-        then
-          echo "CQL FILE: ${QUERY}"
-          TMP_FILE_NAME="/$(get_uuid4).sql"
-          docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
-          docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
-          docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
-        else
-          echo "CQL SCRIPT: ${QUERY}"
-          docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
-        fi
+        {{ $this := . -}}
+        {{ range $index, $query := .Split (.Trim (.GetConfig "queries") " \n") "\n" -}}
+          {{ if ne $query "" -}}
+            QUERY="{{ $query }}"
+            if [ -f "${QUERY}" ]
+            then
+              echo "CQL FILE: ${QUERY}"
+              TMP_FILE_NAME="/{{ $this.NewUUIDString }}.sql"
+              docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
+              docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
+              docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
+            else
+              echo "CQL SCRIPT: ${QUERY}"
+              docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
+            fi
+          {{ end -}}
         {{ end -}}
       start: ""
