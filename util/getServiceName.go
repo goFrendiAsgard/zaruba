@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bytes"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -16,5 +17,11 @@ func GetServiceName(location string) (serviceName string, err error) {
 	spacedBaseName := (pattern.ReplaceAllString(baseName, " "))
 	titledBaseName := strings.Title(spacedBaseName)
 	serviceName = strings.ReplaceAll(titledBaseName, " ", "")
+	if len(serviceName) > 0 {
+		bts := []byte(serviceName)
+		lc := bytes.ToLower([]byte{bts[0]})
+		rest := bts[1:]
+		serviceName = string(bytes.Join([][]byte{lc, rest}, nil))
+	}
 	return serviceName, err
 }
