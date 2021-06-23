@@ -176,7 +176,9 @@ tasks:
       _start: |
         {{ $this := . -}}
         {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
-          docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+          {{ if ne $command "" -}}
+            docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+          {{ end -}}
         {{ end -}}
 
       
