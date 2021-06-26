@@ -87,7 +87,12 @@ func (td *TaskData) ReplaceAll(s, old, new string) string {
 	return strings.ReplaceAll(s, old, new)
 }
 
+func (td *TaskData) EscapeShellArg(s string) (result string) {
+	return str.EscapeShellArg(s)
+}
+
 func (td *TaskData) EscapeShellValue(s string, quoteList ...string) (result string) {
+	// TODO: deprecate
 	quote := "\""
 	if len(quoteList) > 0 {
 		quote = quoteList[0]
@@ -96,10 +101,12 @@ func (td *TaskData) EscapeShellValue(s string, quoteList ...string) (result stri
 }
 
 func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
+	// TODO: deprecate
 	return str.DoubleQuoteShellValue(s)
 }
 
 func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
+	// TODO: deprecate
 	return str.SingleQuoteShellValue(s)
 }
 

@@ -73,6 +73,7 @@ tasks:
     config:
       _setup: |
         set -e
+        alias zaruba=${ZARUBA_HOME}/zaruba
         {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
       start: echo "No script defined"
