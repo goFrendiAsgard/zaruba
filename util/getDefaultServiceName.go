@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func GetServiceName(location string) (serviceName string, err error) {
+func GetDefaultServiceName(location string) (serviceName string, err error) {
 	absPath, err := filepath.Abs(location)
 	if err != nil {
 		return "", err

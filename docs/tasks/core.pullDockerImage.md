@@ -19,6 +19,7 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                      : set -e
+                                                alias zaruba=${ZARUBA_HOME}/zaruba
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                      : Blank
@@ -64,7 +65,7 @@
                   setup                       : Blank
                   start                       : {{ $d := .Decoration -}}
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
+                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
                                                 IMAGE_TAG="{{ .GetConfig "imageTag" }}"
                                                 if [ ! -z "${IMAGE_TAG}" ]
                                                 then

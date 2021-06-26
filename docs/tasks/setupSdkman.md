@@ -18,6 +18,7 @@
                     DESCRIPTION : Home directory (Can be blank)
                     PROMPT      : Home directory
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank

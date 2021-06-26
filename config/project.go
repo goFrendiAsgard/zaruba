@@ -25,7 +25,6 @@ type Project struct {
 	EnvRefMap                  map[string]EnvRef
 	ConfigRefMap               map[string]ConfigRef
 	fileLocation               string
-	basePath                   string
 	values                     map[string]string
 	sortedTaskNames            []string
 	sortedInputNames           []string
@@ -89,11 +88,10 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string,
 	}
 	p.include(parsedProjectFile, defaultIncludes)
 	p.fileLocation = parsedProjectFile
-	p.basePath = filepath.Dir(p.fileLocation)
 	p.setTaskFileLocation()
 	p.setInputFileLocation()
-	p.setProjectBaseEnv()
-	p.setProjectBaseConfig()
+	p.setProjectEnvRefMap()
+	p.setProjectConfigRefMap()
 	// cascade project, add inclusion's property to this project
 	if err = p.cascadeIncludes(logger, d); err != nil {
 		return p, err
@@ -130,11 +128,6 @@ func (p *Project) GetName() (name string) {
 		return p.Name
 	}
 	return filepath.Base(filepath.Dir(p.fileLocation))
-}
-
-// GetBasePath get basePath
-func (p *Project) GetBasePath() (basePath string) {
-	return p.basePath
 }
 
 // GetSortedInputNames get sorted input names
@@ -295,7 +288,7 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 	return nil
 }
 
-func (p *Project) setProjectBaseEnv() {
+func (p *Project) setProjectEnvRefMap() {
 	for baseEnvName, baseEnvMap := range p.RawEnvRefMap {
 		p.EnvRefMap[baseEnvName] = EnvRef{
 			fileLocation: p.fileLocation,
@@ -305,7 +298,7 @@ func (p *Project) setProjectBaseEnv() {
 	}
 }
 
-func (p *Project) setProjectBaseConfig() {
+func (p *Project) setProjectConfigRefMap() {
 	for baseConfigName, baseConfigMap := range p.RawConfigRefMap {
 		p.ConfigRefMap[baseConfigName] = ConfigRef{
 			fileLocation: p.fileLocation,
@@ -318,7 +311,6 @@ func (p *Project) setProjectBaseConfig() {
 func (p *Project) setTaskFileLocation() {
 	for _, task := range p.Tasks {
 		task.fileLocation = p.fileLocation
-		task.basePath = p.basePath
 	}
 }
 
@@ -489,7 +481,7 @@ func (p *Project) cascadeIncludes(logger output.Logger, d *output.Decoration) (e
 	for _, includeLocation := range p.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
 		if !filepath.IsAbs(parsedIncludeLocation) {
-			parsedIncludeLocation = filepath.Join(p.basePath, parsedIncludeLocation)
+			parsedIncludeLocation = filepath.Join(filepath.Dir(p.fileLocation), parsedIncludeLocation)
 		}
 		includedProject, err := loadProject(logger, d, parsedIncludeLocation, []string{})
 		if err != nil {

@@ -24,6 +24,7 @@
                     PROMPT      : Value
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
@@ -46,7 +47,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+                                           zaruba setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
                   variableName           : {{ .GetValue "variable.name" }}

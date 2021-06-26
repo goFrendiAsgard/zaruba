@@ -570,7 +570,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getServiceName "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
         COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
@@ -613,7 +613,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getServiceName "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
         IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         if [ ! -z "${IMAGE_TAG}" ]
         then
@@ -643,7 +643,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getServiceName "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
         COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
@@ -680,7 +680,7 @@ tasks:
       containerName: ""
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(zaruba getServiceName "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         stop_container "${CONTAINER}" 
         echo 🎉🎉🎉
@@ -702,7 +702,7 @@ tasks:
       containerName: ""
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(zaruba getServiceName "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         stop_container "${CONTAINER}" 
         echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"

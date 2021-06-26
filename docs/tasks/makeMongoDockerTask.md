@@ -39,6 +39,7 @@
                                     runMysql,runRedis
                     PROMPT      : Task dependencies
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
@@ -66,12 +67,12 @@
                   serviceName            : {{ .GetValue "generator.service.name" }}
                   setup                  : Blank
                   start                  : {{- $d := .Decoration -}}
-                                           TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-                                           IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
-                                           CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
-                                           SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-                                           SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
-                                           DEPENDENCIES={{ .SingleQuoteShellValue (.GetConfig "dependencies") }}
+                                           TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                           IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+                                           CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+                                           SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                           SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+                                           DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                            create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"

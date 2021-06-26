@@ -40,22 +40,6 @@ func TestProjectGetNameUndeclared(t *testing.T) {
 	}
 }
 
-func TestProjectGetBasePath(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getBasePath.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if err = project.Init(); err != nil {
-		t.Error(err)
-		return
-	}
-	basePath := project.GetBasePath()
-	if !strings.HasSuffix(basePath, "test-resources/project") {
-		t.Errorf("unexpected basePath: %s", basePath)
-	}
-}
-
 func TestProjectGetSortedInputNames(t *testing.T) {
 	project, _, _, err := getProject("../test-resources/project/getSortedInputNames.zaruba.yaml")
 	if err != nil {

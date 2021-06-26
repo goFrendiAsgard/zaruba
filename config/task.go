@@ -39,7 +39,6 @@ type Task struct {
 	Description           string            `yaml:"description,omitempty"`
 	Icon                  string            `yaml:"icon,omitempty"`
 	SaveLog               string            `yaml:"saveLog,omitempty"`
-	basePath              string            // Main yaml's location
 	fileLocation          string            // File location where this task was declared
 	Project               *Project
 	name                  string
@@ -70,11 +69,6 @@ func (task *Task) GetName() (name string) {
 // GetTimeoutDuration get timeout duration of a task
 func (task *Task) GetTimeoutDuration() time.Duration {
 	return task.timeoutDuration
-}
-
-// GetBasePath get file location of a task
-func (task *Task) GetBasePath() (basePath string) {
-	return task.basePath
 }
 
 // GetFileLocation get file location of a task
@@ -351,7 +345,7 @@ func (task *Task) generateLogPrefix() {
 
 func (task *Task) getPath() (path string) {
 	if task.Location != "" {
-		return filepath.Join(task.basePath, task.Location)
+		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
 	}
 	parentTaskNames := task.getParentTaskNames()
 	if len(parentTaskNames) > 0 {

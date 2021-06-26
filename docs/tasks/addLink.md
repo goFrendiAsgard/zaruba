@@ -25,6 +25,7 @@
                     PROMPT      : Destination
                     VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
@@ -49,7 +50,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           "${ZARUBA_HOME}/zaruba" addLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
+                                           zaruba addLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

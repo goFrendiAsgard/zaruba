@@ -18,6 +18,7 @@
                     DESCRIPTION : Task regex pattern
                     PROMPT      : Task regex pattern
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
@@ -42,7 +43,7 @@
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-                                           "${ZARUBA_HOME}/zaruba" showLogs "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
+                                           zaruba showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

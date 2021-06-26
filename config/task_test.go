@@ -35,19 +35,6 @@ func TestTaskGetTimeoutDuration(t *testing.T) {
 	}
 }
 
-func TestTaskGetBasePath(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getBasePath.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	basePath := task.GetBasePath()
-	if !strings.HasSuffix(basePath, "test-resources/task") {
-		t.Errorf("unexpected basepath: %s", basePath)
-	}
-}
-
 func TestTaskGetWorkPathByLocation(t *testing.T) {
 	project, _, _, err := getProjectAndInit("../test-resources/task/getWorkPathByLocation.zaruba.yaml")
 	if err != nil {
@@ -57,7 +44,7 @@ func TestTaskGetWorkPathByLocation(t *testing.T) {
 	task := project.Tasks["taskName"]
 	workPath := task.GetWorkPath()
 	if !strings.HasSuffix(workPath, "/someLocation") {
-		t.Errorf("unexpected basepath: %s", workPath)
+		t.Errorf("unexpected workPath: %s", workPath)
 	}
 }
 
@@ -70,7 +57,7 @@ func TestTaskGetWorkPathByParentLocation(t *testing.T) {
 	task := project.Tasks["taskName"]
 	workPath := task.GetWorkPath()
 	if !strings.HasSuffix(workPath, "/someLocation") {
-		t.Errorf("unexpected basepath: %s", workPath)
+		t.Errorf("unexpected workPath: %s", workPath)
 	}
 }
 
@@ -84,7 +71,7 @@ func TestTaskGetWorkPathWithoutLocation(t *testing.T) {
 	expectedWorkPath, _ := os.Getwd()
 	workPath := task.GetWorkPath()
 	if workPath != expectedWorkPath {
-		t.Errorf("unexpected basepath: %s", workPath)
+		t.Errorf("unexpected workPath: %s", workPath)
 	}
 }
 

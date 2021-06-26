@@ -27,6 +27,7 @@
                     DESCRIPTION : Subrepo name (Can be blank)
                     PROMPT      : Subrepo name
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
@@ -62,8 +63,8 @@
                                              PREFIX="{{ $prefix }}"
                                            {{ end }}
                                            NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
-                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
-                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
+                                           zaruba setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
+                                           zaruba setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
                   subrepoName            : {{ .GetValue "subrepo.name" }}
