@@ -21,7 +21,7 @@ var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
 var pleaseTerminate *bool
 var pleaseExplain *bool
-var pleaseNoDecor *bool
+var pleasePlainDecor *bool
 var pleaseWait string
 
 // pleaseCmd represents the please command
@@ -31,12 +31,10 @@ var pleaseCmd = &cobra.Command{
 	Long:    "💀 Ask Zaruba to do something for you",
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
-		if *pleaseNoDecor {
-			decoration = output.NewNoDecoration()
-		}
+		decoration := getDecoration(*pleasePlainDecor)
 		logger := output.NewConsoleLogger(decoration)
-		project, taskNames := getProjectOrExit(logger, decoration, args)
+		csvRecordLogger := getCsvRecordLogger(filepath.Dir(pleaseFile))
+		project, taskNames := getProjectAndTaskName(logger, decoration, csvRecordLogger, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := explainer.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
@@ -118,7 +116,7 @@ func init() {
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "if set, the tasks will be explained instead of executed")
-	pleaseNoDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "if set, there will be no decoration")
+	pleasePlainDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "if set, there will be no decoration")
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "if set, tasks will be terminated after complete")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
@@ -184,55 +182,32 @@ func initProjectOrExit(logger output.Logger, decoration *output.Decoration, proj
 	}
 }
 
-func getProjectOrExit(logger output.Logger, decoration *output.Decoration, args []string) (project *config.Project, taskNames []string) {
-	project, taskNames, err := getProject(logger, decoration, args)
+func getProjectAndTaskName(logger output.Logger, decoration *output.Decoration, csvRecordLogger *output.CSVRecordLogger, args []string) (project *config.Project, taskNames []string) {
+	project, err := getProject(logger, decoration, csvRecordLogger, pleaseFile)
 	if err != nil {
 		showErrorAndExit(logger, decoration, err)
 	}
-	return project, taskNames
-}
-
-func getProject(logger output.Logger, decoration *output.Decoration, args []string) (project *config.Project, taskNames []string, err error) {
-	taskNames = []string{}
-	dir := os.ExpandEnv(filepath.Dir(pleaseFile))
-	logFile := filepath.Join(dir, "log.zaruba.csv")
-	csvRecordLogger := output.NewCSVRecordLogger(logFile)
-	if os.Getenv("ZARUBA_HOME") == "" {
-		executable, _ := os.Executable()
-		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
-	}
-	defaultIncludes := []string{"${ZARUBA_HOME}/scripts/core.zaruba.yaml"}
-	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
-		if script == "" {
-			continue
-		}
-		defaultIncludes = append(defaultIncludes, script)
-	}
-	project, err = config.NewProject(logger, csvRecordLogger, decoration, pleaseFile, defaultIncludes)
-	if err != nil {
-		return project, taskNames, err
-	}
-	// process globalEnv
 	for _, env := range pleaseEnv {
 		if err = project.AddGlobalEnv(env); err != nil {
-			return project, taskNames, err
+			showErrorAndExit(logger, decoration, err)
 		}
 	}
 	// process values from flag
 	for _, value := range pleaseValues {
 		if err = project.AddValue(value); err != nil {
-			return project, taskNames, err
+			showErrorAndExit(logger, decoration, err)
 		}
 	}
+	taskNames = []string{}
 	//  distinguish taskNames and additional values
 	for _, arg := range args {
 		if strings.Contains(arg, "=") {
 			if err = project.AddValue(arg); err != nil {
-				return project, taskNames, err
+				showErrorAndExit(logger, decoration, err)
 			}
 			continue
 		}
 		taskNames = append(taskNames, arg)
 	}
-	return project, taskNames, err
+	return project, taskNames
 }
