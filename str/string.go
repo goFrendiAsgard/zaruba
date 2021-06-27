@@ -5,6 +5,51 @@ import (
 	"strings"
 )
 
+func IsUpper(s string) (result bool) {
+	return strings.ToUpper(s) == s
+}
+
+func IsLower(s string) (result bool) {
+	return strings.ToLower(s) == s
+}
+
+func Capitalize(s string) (result string) {
+	if len(s) < 2 {
+		return strings.ToUpper(s)
+	}
+	return strings.ToUpper(string(s[0])) + s[1:]
+}
+
+func Snake(s string) (result string) {
+	result = ""
+	for index, ch := range s {
+		if index == 0 {
+			result += strings.ToLower(string(ch))
+			continue
+		}
+		if IsUpper(string(ch)) {
+			result += "_"
+		}
+		result += strings.ToLower(string(ch))
+	}
+	return result
+}
+
+func Dash(s string) (result string) {
+	result = ""
+	for index, ch := range s {
+		if index == 0 {
+			result += strings.ToLower(string(ch))
+			continue
+		}
+		if IsUpper(string(ch)) {
+			result += "-"
+		}
+		result += strings.ToLower(string(ch))
+	}
+	return result
+}
+
 func EscapeShellArg(s string) (result string) {
 	backSlashEscapedStr := strings.ReplaceAll(s, "\\", "\\\\\\\\")
 	quoteEscapedStr := strings.ReplaceAll(backSlashEscapedStr, "\"", "\\\"")

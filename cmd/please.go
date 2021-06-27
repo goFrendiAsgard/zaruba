@@ -111,7 +111,7 @@ func init() {
 		defaultEnv = append(defaultEnv, defaultEnvFile)
 	}
 	// register flags
-	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "main zaruba script file")
+	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project script file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file or pairs (e.g: '-e environment.env' or '-e key=val')")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively")

@@ -9,14 +9,14 @@ import (
 	"github.com/state-alchemists/zaruba/util"
 )
 
-var getProjectServiceNamesCmd = &cobra.Command{
-	Use:   "getProjectServiceNames",
-	Short: "Get project's service names",
+var getTaskLocationCmd = &cobra.Command{
+	Use:   "getTaskLocation",
+	Short: "Get task location by service name",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for getProjectServiceNames"))
+		if len(args) < 2 {
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for getTaskLocation"))
 		}
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
@@ -27,15 +27,14 @@ var getProjectServiceNamesCmd = &cobra.Command{
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		if err = project.Init(); err != nil {
+		serviceName, err := util.GetTaskLocation(project, args[1])
+		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		for _, serviceName := range util.GetProjectServiceNames(project) {
-			fmt.Println(serviceName)
-		}
+		fmt.Println(serviceName)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getProjectServiceNamesCmd)
+	rootCmd.AddCommand(getTaskLocationCmd)
 }

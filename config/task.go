@@ -166,7 +166,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 		keys = append(keys, key)
 	}
 	for _, baseConfigKey := range task.getConfigRefKeys() {
-		for key := range task.Project.ConfigRefMap[baseConfigKey].ConfigRefMap {
+		for key := range task.Project.ConfigRefMap[baseConfigKey].Map {
 			keys = append(keys, key)
 		}
 	}
@@ -184,7 +184,7 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 	}
 	for _, baseConfigKey := range task.getConfigRefKeys() {
 		projectBaseConfig := task.Project.ConfigRefMap[baseConfigKey]
-		if pattern, declared = projectBaseConfig.ConfigRefMap[key]; declared {
+		if pattern, declared = projectBaseConfig.Map[key]; declared {
 			return pattern, true
 		}
 	}
@@ -229,7 +229,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 		keys = append(keys, key)
 	}
 	for _, baseEnvKey := range task.getEnvRefKeys() {
-		for key := range task.Project.EnvRefMap[baseEnvKey].BaseEnvMap {
+		for key := range task.Project.EnvRefMap[baseEnvKey].Map {
 			keys = append(keys, key)
 		}
 	}
@@ -247,7 +247,7 @@ func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
 	}
 	for _, baseEnvKey := range task.getEnvRefKeys() {
 		projectBaseEnv := task.Project.EnvRefMap[baseEnvKey]
-		if baseEnv, declared := projectBaseEnv.BaseEnvMap[key]; declared {
+		if baseEnv, declared := projectBaseEnv.Map[key]; declared {
 			return &Env{From: baseEnv.From, Default: baseEnv.Default}, true
 		}
 	}

@@ -13,11 +13,7 @@ func GetProjectServiceNames(project *config.Project) (serviceNames []string) {
 	serviceNames = []string{}
 	for taskName, task := range project.Tasks {
 		// taskName should be started with "run"
-		if !strings.HasPrefix(taskName, "run") {
-			continue
-		}
-		// task location cannot be empty
-		if task.Location == "" {
+		if !strings.HasPrefix(taskName, "run") || taskName == "run" {
 			continue
 		}
 		upperServiceName := strings.TrimPrefix(taskName, "run")

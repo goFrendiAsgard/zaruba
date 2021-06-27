@@ -297,7 +297,7 @@ func (p *Project) setProjectEnvRefMap() {
 		p.EnvRefMap[baseEnvName] = EnvRef{
 			fileLocation: p.fileLocation,
 			name:         baseEnvName,
-			BaseEnvMap:   baseEnvMap,
+			Map:          baseEnvMap,
 		}
 	}
 }
@@ -307,7 +307,7 @@ func (p *Project) setProjectConfigRefMap() {
 		p.ConfigRefMap[baseConfigName] = ConfigRef{
 			fileLocation: p.fileLocation,
 			name:         baseConfigName,
-			ConfigRefMap: baseConfigMap,
+			Map:          baseConfigMap,
 		}
 	}
 }
