@@ -67,7 +67,7 @@
                                                 {{ $d := .Decoration -}}
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
                                                 should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$(zaruba getDefaultServiceName "$(pwd)"){{ end }}"
+                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
                                                 COMMIT="$(get_latest_git_commit)"
                                                 if [ ! -z "${COMMIT}" ]
                                                 then

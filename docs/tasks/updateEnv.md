@@ -5,7 +5,7 @@
   DESCRIPTION   : Update environment of every task in the current project
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.setupPyUtil ]
+  DEPENDENCIES  : [ core.isProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -39,7 +39,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           update_env
+                                           update_env .
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

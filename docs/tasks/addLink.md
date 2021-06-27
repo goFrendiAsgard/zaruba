@@ -50,7 +50,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           zaruba addLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
+                                           "${ZARUBA_HOME}/zaruba" addLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

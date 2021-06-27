@@ -38,7 +38,7 @@
                   setup                  : Blank
                   start                  : {{ $showAdvertisement := .GetValue "advertisement.show" -}}
                                            {{ if .IsTrue $showAdvertisement -}}
-                                             zaruba showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
+                                             "${ZARUBA_HOME}/zaruba" showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
                                            {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

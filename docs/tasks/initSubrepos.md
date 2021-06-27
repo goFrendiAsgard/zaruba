@@ -55,7 +55,7 @@
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                              NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$(zaruba isInArray "${NAME}" "${ORIGINS}" "\n")
+                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}" "${ORIGINS}" "\n")
                                              if [ "$ORIGIN_EXISTS" = "1" ]
                                              then
                                                git remote set-url "${NAME}" "${URL}"
