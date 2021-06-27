@@ -9,7 +9,7 @@ import (
 )
 
 var snakeCmd = &cobra.Command{
-	Use:   "snake",
+	Use:   "snake <string>",
 	Short: "make snake-cased string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

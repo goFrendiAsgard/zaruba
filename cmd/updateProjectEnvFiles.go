@@ -10,8 +10,8 @@ import (
 )
 
 var updateProjectEnvFilesCmd = &cobra.Command{
-	Use:   "updateProjectEnvFiles",
-	Short: "Update project env files based on service's name",
+	Use:   "updateProjectEnvFiles <projectFile> <serviceName>",
+	Short: "Update any environment files (*.env) in project file's directory by a service name",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

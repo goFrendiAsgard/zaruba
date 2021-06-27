@@ -9,7 +9,7 @@ import (
 
 var newUUIDStringCmd = &cobra.Command{
 	Use:   "newUUIDString",
-	Short: "generate new UUID string",
+	Short: "Generate new UUID string",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(uuid.NewString())
 	},

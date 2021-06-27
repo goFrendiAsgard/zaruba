@@ -9,7 +9,7 @@ import (
 )
 
 var showAdvCmd = &cobra.Command{
-	Use:   "showAdv",
+	Use:   "showAdv <advertisementFile>",
 	Short: "Show advertisement",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

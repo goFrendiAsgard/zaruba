@@ -9,8 +9,8 @@ import (
 )
 
 var isInArrayCmd = &cobra.Command{
-	Use:   "isInArray",
-	Short: "Get service name based on location",
+	Use:   "isInArray <needle> <haystack> <separator>",
+	Short: "Check whether an array contains an element or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

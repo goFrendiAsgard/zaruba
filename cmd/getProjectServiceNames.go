@@ -10,7 +10,7 @@ import (
 )
 
 var getProjectServiceNamesCmd = &cobra.Command{
-	Use:   "getProjectServiceNames",
+	Use:   "getProjectServiceNames <projectFile>",
 	Short: "Get project's service names",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

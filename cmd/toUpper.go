@@ -9,8 +9,8 @@ import (
 )
 
 var toUpperCmd = &cobra.Command{
-	Use:   "toUpper",
-	Short: "make upper-cased string",
+	Use:   "toUpper <string>",
+	Short: "Make upper-cased string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

@@ -3,7 +3,6 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -11,42 +10,38 @@ import (
 	"github.com/state-alchemists/zaruba/util"
 )
 
-var getEnvKeysByLocationFormat string
-var getEnvKeysByLocationCmd = &cobra.Command{
-	Use:   "getEnvKeysByLocation <serviceLocation>",
-	Short: "Get environment keys by location",
+var getEnvByLocationFormat string
+var getEnvByLocationCmd = &cobra.Command{
+	Use:   "getEnvByLocation <serviceLocation>",
+	Short: "Get environment (in JSON format) by location",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for getEnvKeysByLocation"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for getEnvByLocation"))
 		}
 		envMap, err := util.GetEnvByLocation(args[0])
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		keys := []string{}
-		for key, _ := range envMap {
-			keys = append(keys, key)
-		}
-		sort.Strings(keys)
 		// output format: json
 		if strings.ToLower(getEnvByLocationFormat) == "json" {
-			keysJsonB, err := json.Marshal(keys)
+			envMapJsonB, err := json.Marshal(envMap)
 			if err != nil {
 				showErrorAndExit(logger, decoration, err)
 			}
-			fmt.Println(string(keysJsonB))
+			fmt.Println(string(envMapJsonB))
 			return
 		}
 		// output format: not specified
-		for _, key := range keys {
-			fmt.Println(key)
+		for key, val := range envMap {
+			fmt.Printf("%s=%s\n", key, val)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getEnvKeysByLocationCmd)
-	getEnvKeysByLocationCmd.Flags().StringVarP(&getEnvKeysByLocationFormat, "format", "f", "", "output format")
+	rootCmd.AddCommand(getEnvByLocationCmd)
+	getEnvByLocationCmd.Flags().StringVarP(&getEnvByLocationFormat, "format", "f", "", "output format")
+
 }

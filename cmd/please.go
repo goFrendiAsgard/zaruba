@@ -26,9 +26,8 @@ var pleaseWait string
 
 // pleaseCmd represents the please command
 var pleaseCmd = &cobra.Command{
-	Use:     "please",
-	Short:   "Ask Zaruba to do something for you",
-	Long:    "💀 Ask Zaruba to do something for you",
+	Use:     "please [taskName...]",
+	Short:   "Run Task(s)",
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := getDecoration(*pleasePlainDecor)
