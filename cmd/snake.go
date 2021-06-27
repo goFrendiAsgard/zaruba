@@ -10,7 +10,7 @@ import (
 
 var snakeCmd = &cobra.Command{
 	Use:   "snake <string>",
-	Short: "make snake-cased string",
+	Short: "Make snake-cased string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
