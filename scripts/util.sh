@@ -88,9 +88,34 @@ create_service_task() {
     PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_service_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
 }
 
-# USAGE update_env
+# USAGE update_env <projectLocation>
 update_env() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/update_env.py"
+    for _SERVICE_NAME in $("${ZARUBA_HOME}/zaruba" getProjectServiceNames "${1}/main.zaruba.yaml")
+    do
+        _TASK_NAME="$("${ZARUBA_HOME}/zaruba" getServiceTaskName "${_SERVICE_NAME}")"
+        _LOCATION="$("${ZARUBA_HOME}/zaruba" getTaskLocation "${1}/main.zaruba.yaml" "${_TASK_NAME}")"
+        _ENV_PREFIX="$("${ZARUBA_HOME}/zaruba" toUpper "$("${ZARUBA_HOME}/zaruba" snake "${_SERVICE_NAME}")")_"
+        _YAML_LOCATION="${1}/zaruba-tasks/${_SERVICE_NAME}.zaruba.yaml"
+        if [ $(realpath "${1}") = "${_LOCATION}" ]
+        then
+            echo "Skip fetching new environments for ${_TASK_NAME}"
+        else
+            echo "Fetching new environments for ${_TASK_NAME} from ${_LOCATION}"
+            for _ENV_KEY in $("${ZARUBA_HOME}/zaruba" getEnvKeysByLocation "${_LOCATION}")
+            do
+                _ENV_EXIST_IN_YAML="$(yq e ".envs.${_SERVICE_NAME} | has(\"${_ENV_KEY}\")" "${_YAML_LOCATION}")"
+                if [ "${_ENV_EXIST_IN_YAML}" = false ]
+                then
+                    _ENV_VAL="$("${ZARUBA_HOME}/zaruba" getEnvValByLocation "${_LOCATION}" "${_ENV_KEY}")"
+                    _PREFIXED_ENV_KEY="$("${ZARUBA_HOME}/zaruba" addPrefix "${_ENV_KEY}" "${_ENV_PREFIX}")"
+                    echo "Adding ${_ENV_KEY} to ${_YAML_LOCATION}"
+                    yq e ".envs.${_SERVICE_NAME}.${_ENV_KEY} = {\"from\": \"${_PREFIXED_ENV_KEY}\", \"default\": \"${ENV_VAL}\"}" "${_YAML_LOCATION}" -i
+                fi
+            done
+        fi
+        echo "Synchronizing environments for ${_TASK_NAME}"
+        $("${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "${1}/main.zaruba.yaml" "${_SERVICE_NAME}")
+    done
 }
 
 

@@ -200,12 +200,12 @@ tasks:
       dependencies: '{{ .GetValue "generator.task.dependencies" }}'
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
-        CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
-        DEPENDENCIES={{ .SingleQuoteShellValue (.GetConfig "dependencies") }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
@@ -238,16 +238,16 @@ tasks:
       runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        IMAGE_NAME={{ .SingleQuoteShellValue (.GetConfig "imageName") }}
-        CONTAINER_NAME={{ .SingleQuoteShellValue (.GetConfig "containerName") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        SERVICE_PORTS={{ .SingleQuoteShellValue (.GetConfig "servicePorts") }}
-        SERVICE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "serviceLocation") }}
-        SERVICE_START_COMMAND={{ .SingleQuoteShellValue (.GetConfig "serviceStartCommand") }}
-        RUNNER_VERSION={{ .SingleQuoteShellValue (.GetConfig "runnerVersion") }}
-        SERVICE_ENVS={{ .SingleQuoteShellValue (.GetConfig "serviceEnvs") }}
-        DEPENDENCIES={{ .SingleQuoteShellValue (.GetConfig "dependencies") }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+        SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
+        SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
+        RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "runnerVersion") }}
+        SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}" "runner_version=${RUNNER_VERSION}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
@@ -511,11 +511,11 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        URL={{ .SingleQuoteShellValue (.GetConfig "url") }}
-        HTTP_METHOD={{ .SingleQuoteShellValue (.GetConfig "httpMethod") }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        URL={{ .EscapeShellArg (.GetConfig "url") }}
+        HTTP_METHOD={{ .EscapeShellArg (.GetConfig "httpMethod") }}
         create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API Route handler created: ${HTTP_METHOD} ${URL} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
@@ -542,10 +542,10 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        EVENT_NAME={{ .SingleQuoteShellValue (.GetConfig "eventName") }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        EVENT_NAME={{ .EscapeShellArg (.GetConfig "eventName") }}
         should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
         create_fast_event_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
         echo 🎉🎉🎉
@@ -573,10 +573,10 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        RPC_NAME={{ .SingleQuoteShellValue (.GetConfig "rpcName") }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
         should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
         create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "rpc_name=${RPC_NAME}"
         echo 🎉🎉🎉
@@ -606,11 +606,11 @@ tasks:
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
-        TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-        SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-        ENTITY_NAME={{ .SingleQuoteShellValue (.GetConfig "entityName") }}
-        FIELD_NAMES={{ .SingleQuoteShellValue (.GetConfig "fieldNames") }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
+        FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
         should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
         create_fast_crud "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "entity_name=${ENTITY_NAME}" "field_names=${FIELD_NAMES}"
         echo 🎉🎉🎉

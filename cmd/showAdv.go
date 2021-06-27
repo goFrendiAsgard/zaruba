@@ -15,7 +15,7 @@ var showAdvCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for showAdv"))
 		}
 		message, err := util.GetAdv(args[0])
 		if err != nil {

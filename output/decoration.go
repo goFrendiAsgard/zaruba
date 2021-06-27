@@ -47,7 +47,7 @@ type Decoration struct {
 	Icon        func(string) string
 }
 
-func NewNoDecoration() (d *Decoration) {
+func NewPlainDecoration() (d *Decoration) {
 	return &Decoration{
 		Normal:      "",
 		Bold:        "",

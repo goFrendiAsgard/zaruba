@@ -49,9 +49,11 @@
                                                 sleep 1
                   _check.ConfigPorts          : {{ $d := .Decoration -}}
                                                 {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
-                                                  wait_port "localhost" {{ $hostPort }}
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+                                                  {{ if ne $hostPort "" -}}
+                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
+                                                    wait_port "localhost" {{ $hostPort }}
+                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+                                                  {{ end -}}
                                                 {{ end -}}
                   _check.checkCommand         : {{ $d := .Decoration -}}
                                                 {{ if .GetConfig "checkCommand" -}}
@@ -69,10 +71,12 @@
                   _check.configPort           : {{ $d := .Decoration -}}
                                                 {{ $this := . -}}
                                                 {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
-                                                  {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}' (container port: {{ $containerPort }}) {{ $d.Normal }}"
-                                                  wait_port "localhost" {{ $hostPort }}
-                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+                                                  {{ if ne $hostPort "" -}}
+                                                    {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}' (container port: {{ $containerPort }}) {{ $d.Normal }}"
+                                                    wait_port "localhost" {{ $hostPort }}
+                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+                                                  {{ end -}}
                                                 {{ end -}}
                   _check.containerState       : {{ $d := .Decoration -}}
                                                 until [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
@@ -146,12 +150,16 @@
                   _start.runContainer.port    : {{ $this := . -}}
                                                 {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
                                                   {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
-                                                    {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                                                    -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
+                                                    {{ if ne $hostPort "" -}}
+                                                      {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+                                                      -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
+                                                    {{ end -}}
                                                   {{ end -}}
                                                 {{ else -}}
                                                   {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
-                                                    -p {{ $port }}:{{ $port }} {{ "" -}}
+                                                    {{ if ne $port "" -}}
+                                                      -p {{ $port }}:{{ $port }} {{ "" -}}
+                                                    {{ end -}}
                                                   {{ end -}}
                                                 {{ end -}}
                   _start.runContainer.volume  : {{ $this := . -}}

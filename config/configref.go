@@ -1,7 +1,7 @@
 package config
 
 type ConfigRef struct {
-	ConfigRefMap map[string]string
+	Map          map[string]string
 	fileLocation string
 	name         string
 }

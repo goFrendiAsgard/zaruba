@@ -39,7 +39,6 @@ type Task struct {
 	Description           string            `yaml:"description,omitempty"`
 	Icon                  string            `yaml:"icon,omitempty"`
 	SaveLog               string            `yaml:"saveLog,omitempty"`
-	basePath              string            // Main yaml's location
 	fileLocation          string            // File location where this task was declared
 	Project               *Project
 	name                  string
@@ -70,11 +69,6 @@ func (task *Task) GetName() (name string) {
 // GetTimeoutDuration get timeout duration of a task
 func (task *Task) GetTimeoutDuration() time.Duration {
 	return task.timeoutDuration
-}
-
-// GetBasePath get file location of a task
-func (task *Task) GetBasePath() (basePath string) {
-	return task.basePath
 }
 
 // GetFileLocation get file location of a task
@@ -172,7 +166,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 		keys = append(keys, key)
 	}
 	for _, baseConfigKey := range task.getConfigRefKeys() {
-		for key := range task.Project.ConfigRefMap[baseConfigKey].ConfigRefMap {
+		for key := range task.Project.ConfigRefMap[baseConfigKey].Map {
 			keys = append(keys, key)
 		}
 	}
@@ -190,7 +184,7 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 	}
 	for _, baseConfigKey := range task.getConfigRefKeys() {
 		projectBaseConfig := task.Project.ConfigRefMap[baseConfigKey]
-		if pattern, declared = projectBaseConfig.ConfigRefMap[key]; declared {
+		if pattern, declared = projectBaseConfig.Map[key]; declared {
 			return pattern, true
 		}
 	}
@@ -235,7 +229,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 		keys = append(keys, key)
 	}
 	for _, baseEnvKey := range task.getEnvRefKeys() {
-		for key := range task.Project.EnvRefMap[baseEnvKey].BaseEnvMap {
+		for key := range task.Project.EnvRefMap[baseEnvKey].Map {
 			keys = append(keys, key)
 		}
 	}
@@ -253,7 +247,7 @@ func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
 	}
 	for _, baseEnvKey := range task.getEnvRefKeys() {
 		projectBaseEnv := task.Project.EnvRefMap[baseEnvKey]
-		if baseEnv, declared := projectBaseEnv.BaseEnvMap[key]; declared {
+		if baseEnv, declared := projectBaseEnv.Map[key]; declared {
 			return &Env{From: baseEnv.From, Default: baseEnv.Default}, true
 		}
 	}
@@ -351,7 +345,7 @@ func (task *Task) generateLogPrefix() {
 
 func (task *Task) getPath() (path string) {
 	if task.Location != "" {
-		return filepath.Join(task.basePath, task.Location)
+		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
 	}
 	parentTaskNames := task.getParentTaskNames()
 	if len(parentTaskNames) > 0 {

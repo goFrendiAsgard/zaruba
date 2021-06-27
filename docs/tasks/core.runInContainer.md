@@ -18,11 +18,14 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                      : set -e
+                                                alias zaruba=${ZARUBA_HOME}/zaruba
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                      : {{ $this := . -}}
                                                 {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
-                                                  docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+                                                  {{ if ne $command "" -}}
+                                                    docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+                                                  {{ end -}}
                                                 {{ end -}}
                   afterStart                  : Blank
                   beforeStart                 : Blank

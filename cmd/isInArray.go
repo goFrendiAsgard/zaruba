@@ -15,7 +15,7 @@ var isInArrayCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 3 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for isInArray"))
 		}
 		found := util.IsInArray(args[0], args[1], args[2])
 		if found {

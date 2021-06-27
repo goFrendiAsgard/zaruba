@@ -94,7 +94,7 @@ tasks:
   core.showAdv:
     icon: ☕
     private: true
-    extend: core.runShellScript
+    extend: core.runCoreScript
     saveLog: false
     config:
       start: |
@@ -201,7 +201,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-        "${ZARUBA_HOME}/zaruba" showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
+         showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
 
 
   core.isValidSubrepos:
@@ -251,7 +251,7 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}" "${ORIGINS}" "\n")
           if [ "$ORIGIN_EXISTS" = "1" ]
           then
             git remote set-url "${NAME}" "${URL}"
@@ -341,7 +341,7 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}" "${ORIGINS}" "\n")
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git_save.sh" "Save works before p
@@ -374,7 +374,7 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
+          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}" "${ORIGINS}" "\n")
           if [ $ORIGIN_EXISTS = 1 ]
           then
             git_save "Save works before pull"
@@ -469,11 +469,10 @@ tasks:
     extend: core.runCoreScript
     dependencies:
     - core.isProject
-    - core.setupPyUtil
     config:
       start: |
         {{ $d := .Decoration -}}
-        update_env
+        update_env .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 
@@ -570,7 +569,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
         COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
@@ -613,7 +612,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
         IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         if [ ! -z "${IMAGE_TAG}" ]
         then
@@ -643,7 +642,7 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
         COMMIT="$(get_latest_git_commit)"
         if [ ! -z "${COMMIT}" ]
         then
@@ -680,7 +679,7 @@ tasks:
       containerName: ""
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         stop_container "${CONTAINER}" 
         echo 🎉🎉🎉
@@ -702,7 +701,7 @@ tasks:
       containerName: ""
       start: |
         {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getServiceName "$(pwd)"){{ end }}"
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
         stop_container "${CONTAINER}" 
         echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"

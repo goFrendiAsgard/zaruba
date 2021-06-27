@@ -43,6 +43,7 @@
                     PROMPT      : Field names
                     VALIDATION  : ^[a-zA-Z0-9_,]*$
   CONFIG        : _setup                  : set -e
+                                            alias zaruba=${ZARUBA_HOME}/zaruba
                                             {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                  : Blank
@@ -54,9 +55,9 @@
                                             {{ .GetConfig "createServiceScript" }}
                                             if [ ! -d "./{{ .GetConfig "serviceName" }}/{{ .GetConfig "moduleName" }}" ]
                                             then
-                                              MODULE_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "moduleTemplateLocation") }}
-                                              SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-                                              MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
+                                              MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+                                              SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                              MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                               should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
                                               echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API module: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
                                               create_fast_module "template_location=${MODULE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
@@ -64,8 +65,8 @@
                   createServiceScript     : {{- $d := .Decoration -}}
                                             if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
                                             then
-                                              SERVICE_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "serviceTemplateLocation") }}
-                                              SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
+                                              SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+                                              SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                               echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API Service: ${SERVICE_NAME}{{ $d.Normal }}"
                                               create_fast_service "template_location=${SERVICE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
                                               chmod 755 "${SERVICE_NAME}/start.sh"
@@ -81,7 +82,7 @@
                                                 "${ZARUBA_HOME}/zaruba" addLink "{{ .GetWorkPath "default.values.yaml" }}" "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
                                                 link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
                                                 {{ if .IsTrue (.GetConfig "createTask") -}}
-                                                TASK_TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "taskTemplateLocation") }}
+                                                TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Creating service task for ${SERVICE_NAME}{{ $d.Normal }}"
                                                 create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=" "container_name=" "location=${SERVICE_NAME}" "start_command=./start.sh" "ports=" "envs=" "dependencies=" "runner_version="
                                                 {{ end -}}
@@ -110,11 +111,11 @@
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
                                             {{ .GetConfig "createModuleScript" }}
-                                            TEMPLATE_LOCATION={{ .SingleQuoteShellValue (.GetConfig "templateLocation") }}
-                                            SERVICE_NAME={{ .SingleQuoteShellValue (.GetConfig "serviceName") }}
-                                            MODULE_NAME={{ .SingleQuoteShellValue (.GetConfig "moduleName") }}
-                                            ENTITY_NAME={{ .SingleQuoteShellValue (.GetConfig "entityName") }}
-                                            FIELD_NAMES={{ .SingleQuoteShellValue (.GetConfig "fieldNames") }}
+                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                            SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                            MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+                                            ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
+                                            FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
                                             should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
                                             create_fast_crud "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "entity_name=${ENTITY_NAME}" "field_names=${FIELD_NAMES}"
                                             echo 🎉🎉🎉

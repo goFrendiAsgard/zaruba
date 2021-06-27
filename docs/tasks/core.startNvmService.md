@@ -59,9 +59,11 @@
                   beforeStart             : Blank
                   check                   : {{- $d := .Decoration -}}
                                             {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
-                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                              wait_port "localhost" {{ $port }}
-                                              echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+                                              {{ if ne $port "" -}}
+                                                echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
+                                                wait_port "localhost" {{ $port }}
+                                                echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+                                              {{ end -}}
                                             {{ end -}}
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                  : -c

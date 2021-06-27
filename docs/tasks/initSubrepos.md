@@ -23,6 +23,7 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
@@ -54,7 +55,7 @@
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                              NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}", "\n" "${ORIGINS}")
+                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}" "${ORIGINS}" "\n")
                                              if [ "$ORIGIN_EXISTS" = "1" ]
                                              then
                                                git remote set-url "${NAME}" "${URL}"

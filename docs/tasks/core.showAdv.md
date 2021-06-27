@@ -3,7 +3,7 @@
   TASK NAME     : core.showAdv
   LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runShellScript ]
+  PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -14,7 +14,9 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
+                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
                   afterStart             : Blank
                   beforeStart            : Blank
