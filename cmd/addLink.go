@@ -9,13 +9,13 @@ import (
 )
 
 var addLinkCmd = &cobra.Command{
-	Use:   "addLink",
+	Use:   "addLink <valueFile> <source> <destination>",
 	Short: "Add link from source to destination",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 3 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for addLink"))
 		}
 		if err := util.AddLink(args[0], args[1], args[2]); err != nil {
 			showErrorAndExit(logger, decoration, err)

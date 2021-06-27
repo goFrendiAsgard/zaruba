@@ -9,8 +9,8 @@ import (
 )
 
 var dashCmd = &cobra.Command{
-	Use:   "dash",
-	Short: "make dashed string",
+	Use:   "dash <string>",
+	Short: "Make dashed string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

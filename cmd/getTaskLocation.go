@@ -10,7 +10,7 @@ import (
 )
 
 var getTaskLocationCmd = &cobra.Command{
-	Use:   "getTaskLocation",
+	Use:   "getTaskLocation <projectFile> <taskName>",
 	Short: "Get task location by service name",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
@@ -27,11 +27,11 @@ var getTaskLocationCmd = &cobra.Command{
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		serviceName, err := util.GetTaskLocation(project, args[1])
+		taskLocation, err := util.GetTaskLocation(project, args[1])
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		fmt.Println(serviceName)
+		fmt.Println(taskLocation)
 	},
 }
 

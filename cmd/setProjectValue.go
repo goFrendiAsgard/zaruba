@@ -9,7 +9,7 @@ import (
 )
 
 var setProjectValueCmd = &cobra.Command{
-	Use:   "setProjectValue",
+	Use:   "setProjectValue <valueFile> <key> <value>",
 	Short: "Set project value",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

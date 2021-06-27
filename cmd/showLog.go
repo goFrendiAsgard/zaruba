@@ -9,7 +9,7 @@ import (
 )
 
 var showLogCmd = &cobra.Command{
-	Use:   "showLog",
+	Use:   "showLog <logFile> <serviceNamePattern>",
 	Short: "Show log",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

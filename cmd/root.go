@@ -28,7 +28,7 @@ func Execute() {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		logger.Println(err)
-		logger.DPrintfError("Do you mean %s%szaruba please%s?\n", decoration.Bold, decoration.Yellow, decoration.Normal)
+		logger.DPrintfError("To run a task you need to type %s%szaruba please <task-name>%s\n", decoration.Bold, decoration.Yellow, decoration.Normal)
 		os.Exit(1)
 	}
 }

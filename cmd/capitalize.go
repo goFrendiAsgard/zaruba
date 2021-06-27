@@ -9,7 +9,7 @@ import (
 )
 
 var capitalizeCmd = &cobra.Command{
-	Use:   "capitalize",
+	Use:   "capitalize <string>",
 	Short: "make capitalized string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

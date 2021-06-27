@@ -9,7 +9,7 @@ import (
 )
 
 var getDefaultServiceNameCmd = &cobra.Command{
-	Use:   "getDefaultServiceName",
+	Use:   "getDefaultServiceName <string>",
 	Short: "Get default service name based on location or image name",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

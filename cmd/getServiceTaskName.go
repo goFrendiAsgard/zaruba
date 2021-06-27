@@ -9,7 +9,7 @@ import (
 )
 
 var getServiceTaskNameCmd = &cobra.Command{
-	Use:   "getServiceTaskName",
+	Use:   "getServiceTaskName <serviceName>",
 	Short: "Get task name of a service",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()

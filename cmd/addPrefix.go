@@ -9,8 +9,8 @@ import (
 )
 
 var addPrefixCmd = &cobra.Command{
-	Use:   "addPrefix",
-	Short: "add prefix to string",
+	Use:   "addPrefix <string> <prefix>",
+	Short: "Add prefix to string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

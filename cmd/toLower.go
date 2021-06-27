@@ -9,8 +9,8 @@ import (
 )
 
 var toLowerCmd = &cobra.Command{
-	Use:   "toLower",
-	Short: "make lower-cased string",
+	Use:   "toLower <string>",
+	Short: "Make lower-cased string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

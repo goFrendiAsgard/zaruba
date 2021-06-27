@@ -98,22 +98,25 @@ update_env() {
         _YAML_LOCATION="${1}/zaruba-tasks/${_SERVICE_NAME}.zaruba.yaml"
         if [ $(realpath "${1}") = "${_LOCATION}" ]
         then
-            echo "Skip fetching new environments for ${_TASK_NAME}"
+            echo "Skip fetching new environments for ${Yellow}${_TASK_NAME}${Normal}"
         else
-            echo "Fetching new environments for ${_TASK_NAME} from ${_LOCATION}"
+            echo "Fetching new environments for ${Yellow}${_TASK_NAME}${Normal} from ${Yellow}${_LOCATION}${Normal}"
+            _ENV_MAP_FILE="${1}/.env-$("${ZARUBA_HOME}/zaruba" newUUIDString).json"
+            echo "$("${ZARUBA_HOME}/zaruba" getEnvByLocation "${_LOCATION}" -f "json")" > "${_ENV_MAP_FILE}"
             for _ENV_KEY in $("${ZARUBA_HOME}/zaruba" getEnvKeysByLocation "${_LOCATION}")
             do
                 _ENV_EXIST_IN_YAML="$(yq e ".envs.${_SERVICE_NAME} | has(\"${_ENV_KEY}\")" "${_YAML_LOCATION}")"
                 if [ "${_ENV_EXIST_IN_YAML}" = false ]
                 then
-                    _ENV_VAL="$("${ZARUBA_HOME}/zaruba" getEnvValByLocation "${_LOCATION}" "${_ENV_KEY}")"
+                    _ENV_VAL="$(yq e ".${_ENV_KEY}" "${_ENV_MAP_FILE}")"
                     _PREFIXED_ENV_KEY="$("${ZARUBA_HOME}/zaruba" addPrefix "${_ENV_KEY}" "${_ENV_PREFIX}")"
-                    echo "Adding ${_ENV_KEY} to ${_YAML_LOCATION}"
+                    echo "Adding ${Yellow}${_ENV_KEY}${Normal} to ${Yellow}${_YAML_LOCATION}${Normal}"
                     yq e ".envs.${_SERVICE_NAME}.${_ENV_KEY} = {\"from\": \"${_PREFIXED_ENV_KEY}\", \"default\": \"${ENV_VAL}\"}" "${_YAML_LOCATION}" -i
                 fi
             done
+            rm "${_ENV_MAP_FILE}"
         fi
-        echo "Synchronizing environments for ${_TASK_NAME}"
+        echo "Synchronizing environments for ${Yellow}${_TASK_NAME}${Normal}"
         $("${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "${1}/main.zaruba.yaml" "${_SERVICE_NAME}")
     done
 }
