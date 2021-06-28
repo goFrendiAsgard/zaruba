@@ -13,7 +13,7 @@ func Generate(templateLocation, destination string, replacementMap map[string]st
 			if err != nil {
 				return err
 			}
-			fmt.Println(path, info.Size())
+			fmt.Println(path, info.Size(), info.Mode())
 			return nil
 		})
 	if err != nil {
