@@ -22,8 +22,6 @@
                                             but imagePrefix is not provided
                     ports                 : Port to be checked to confirm service readiness, 
                                             separated by new line.
-                    port::<host-port>     : Map <host-port> to container's port.
-                                            Only applicable if "ports" is not specified.
                     volume::<host-volume> : Map <host-volume> to file/directory inside the container
                     rebuild               : Should container be rebuild (This will not rebuild the image)
                     command               : Command to be used (Single Line).
@@ -76,21 +74,9 @@
                     VALIDATION  : ^.+$
   CONFIG        : _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
-                                                {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
-                                                  {{ .GetConfig "_check.configPort" }}
-                                                {{ else -}}
-                                                  {{ .GetConfig "_check.configPorts" }}
-                                                {{ end -}}
+                                                {{ .GetConfig "_check.configPorts" }}
                                                 {{ .GetConfig "_check.checkCommand" }}
                                                 sleep 1
-                  _check.ConfigPorts          : {{ $d := .Decoration -}}
-                                                {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
-                                                  {{ if ne $hostPort "" -}}
-                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
-                                                    wait_port "localhost" {{ $hostPort }}
-                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
-                                                  {{ end -}}
-                                                {{ end -}}
                   _check.checkCommand         : {{ $d := .Decoration -}}
                                                 {{ if .GetConfig "checkCommand" -}}
                                                 (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -104,12 +90,13 @@
                                                 done
                                                 set "${_OLD_STATE}"
                                                 {{ end -}}
-                  _check.configPort           : {{ $d := .Decoration -}}
+                  _check.configPorts          : {{ $d := .Decoration -}}
                                                 {{ $this := . -}}
-                                                {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
-                                                  {{ if ne $hostPort "" -}}
-                                                    {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}' (container port: {{ $containerPort }}) {{ $d.Normal }}"
+                                                {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                                  {{ if ne $port "" -}}
+                                                    {{ $ports := $this.Split ($this.Trim $port  " ") ":" -}}
+                                                    {{ $hostPort := index $ports 0 -}}
+                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
                                                     wait_port "localhost" {{ $hostPort }}
                                                     echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
                                                   {{ end -}}
@@ -184,17 +171,15 @@
                                                   {{ end -}}
                                                 {{ end -}}
                   _start.runContainer.port    : {{ $this := . -}}
-                                                {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
-                                                  {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
-                                                    {{ if ne $hostPort "" -}}
-                                                      {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                                                      -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
-                                                    {{ end -}}
-                                                  {{ end -}}
-                                                {{ else -}}
-                                                  {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
-                                                    {{ if ne $port "" -}}
+                                                {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                                  {{ if ne $port "" -}}
+                                                    {{ $ports := $this.Split ($this.Trim $port  " ") ":" -}}
+                                                    {{ if eq (len $ports) 1 -}}
                                                       -p {{ $port }}:{{ $port }} {{ "" -}}
+                                                    {{ else -}}
+                                                      {{ $hostPort := index $ports 0 -}}
+                                                      {{ $containerPort := index $ports 1 -}}
+                                                      -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
                                                     {{ end -}}
                                                   {{ end -}}
                                                 {{ end -}}

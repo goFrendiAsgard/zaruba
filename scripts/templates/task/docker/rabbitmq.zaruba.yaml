@@ -36,9 +36,9 @@ configs:
     imageName: rabbitmq
     imageTag: 3-management
     containerName: zarubaContainerName
-    port::5672: 5672
-    port::15672: 15672
-    expose: config.port
+    ports: |
+      5672
+      15672
 
 envs:
   zarubaServiceName:

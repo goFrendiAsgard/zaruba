@@ -29,5 +29,5 @@ configs:
     useImagePrefix: false
     imageName: redis
     containerName: zarubaContainerName
-    port::6379: 6379
-    expose: config.port
+    ports: |
+      6379
