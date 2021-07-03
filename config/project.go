@@ -450,7 +450,6 @@ func (p *Project) validateTaskEnvRef() (err error) {
 			if _, envRefExist := p.EnvRefMap[task.EnvRef]; !envRefExist {
 				return fmt.Errorf("undeclared envRef on '%s': Env '%s' is required at tasks[%s][envRef]", task.GetFileLocation(), task.EnvRef, taskName)
 			}
-			return nil
 		}
 		for index, envRefName := range task.EnvRefs {
 			if _, envRefExist := p.EnvRefMap[envRefName]; !envRefExist {
@@ -470,7 +469,6 @@ func (p *Project) validateTaskConfigRef() (err error) {
 			if _, configRefExist := p.ConfigRefMap[task.ConfigRef]; !configRefExist {
 				return fmt.Errorf("undeclared configRef on '%s': Config '%s' is required at tasks[%s][configRef]", task.GetFileLocation(), task.ConfigRef, taskName)
 			}
-			return nil
 		}
 		for index, configRefName := range task.ConfigRefs {
 			if _, configRefExist := p.ConfigRefMap[configRefName]; !configRefExist {
