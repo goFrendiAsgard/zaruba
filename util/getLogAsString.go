@@ -9,7 +9,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-func GetLog(decoration *output.Decoration, logFile, pattern string) (logMessage string, err error) {
+func GetLogAsString(decoration *output.Decoration, logFile, pattern string) (logMessage string, err error) {
 	f, err := os.OpenFile(logFile, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
 	if err != nil {
 		return "", err

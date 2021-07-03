@@ -9,20 +9,21 @@ import (
 	"github.com/state-alchemists/zaruba/util"
 )
 
-var getProjectServiceNamesCmd = &cobra.Command{
-	Use:   "getProjectServiceNames <projectFile>",
-	Short: "Get project's service names",
+var updateProjectTaskEnvCmd = &cobra.Command{
+	Use:   "updateProjectTaskEnv <projectFile>",
+	Short: "Update any environment files (*.env) in project file's directory by a service name",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for getProjectServiceNames"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for updateProjectTaskEnv"))
 		}
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		csvRecordLogger := getCsvRecordLogger(filepath.Dir(projectFile))
+		projectDir := filepath.Dir(projectFile)
+		csvRecordLogger := getCsvRecordLogger(projectDir)
 		project, err := getProject(logger, decoration, csvRecordLogger, projectFile)
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
@@ -30,12 +31,12 @@ var getProjectServiceNamesCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		for _, serviceName := range util.GetProjectServiceNames(project) {
-			fmt.Println(serviceName)
+		if err = util.UpdateProjectTaskEnv(project); err != nil {
+			showErrorAndExit(logger, decoration, err)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getProjectServiceNamesCmd)
+	rootCmd.AddCommand(updateProjectTaskEnvCmd)
 }

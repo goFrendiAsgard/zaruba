@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -10,18 +9,11 @@ import (
 	"github.com/state-alchemists/zaruba/config"
 )
 
-func UpdateProjectEnvFiles(project *config.Project, serviceName string, location string) (err error) {
-	absDirPath, err := filepath.Abs(location)
+func UpdateProjectEnvFiles(project *config.Project) (err error) {
+	projectDir := filepath.Dir(project.GetFileLocation())
+	files, err := ioutil.ReadDir(projectDir)
 	if err != nil {
 		return err
-	}
-	files, err := ioutil.ReadDir(absDirPath)
-	if err != nil {
-		return err
-	}
-	envRef, envRefExist := project.EnvRefMap[serviceName]
-	if !envRefExist {
-		return fmt.Errorf("envRef %s doesn't exist", serviceName)
 	}
 	for _, file := range files {
 		isDir := file.IsDir()
@@ -32,18 +24,28 @@ func UpdateProjectEnvFiles(project *config.Project, serviceName string, location
 		if !strings.HasSuffix(fileName, ".env") && !strings.HasSuffix(fileName, ".env.template") {
 			continue
 		}
-		fileEnvMap, err := godotenv.Read(filepath.Join(absDirPath, fileName))
+		fileEnvMap, err := godotenv.Read(filepath.Join(projectDir, fileName))
 		if err != nil {
 			return err
 		}
-		for key, env := range envRef.Map {
-			if _, keyExist := fileEnvMap[key]; keyExist {
-				continue
+		for _, task := range project.Tasks {
+			for _, envKey := range task.GetEnvKeys() {
+				envObj, declared := task.GetEnvObject(envKey)
+				if !declared {
+					continue
+				}
+				envFrom := envObj.From
+				if envFrom == "" {
+					continue
+				}
+				if _, keyExist := fileEnvMap[envFrom]; keyExist {
+					continue
+				}
+				envDefault := envObj.Default
+				fileEnvMap[envFrom] = envDefault
 			}
-			envFrom, envDefault := env.From, env.Default
-			fileEnvMap[envFrom] = envDefault
 		}
-		godotenv.Write(fileEnvMap, filepath.Join(absDirPath, fileName))
+		godotenv.Write(fileEnvMap, filepath.Join(projectDir, fileName))
 	}
 	return nil
 }

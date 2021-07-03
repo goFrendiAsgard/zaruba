@@ -20,10 +20,10 @@ type Project struct {
 	Tasks                      map[string]*Task             `yaml:"tasks,omitempty"`
 	Name                       string                       `yaml:"name,omitempty"`
 	Inputs                     map[string]*Variable         `yaml:"inputs,omitempty"`
-	RawEnvRefMap               map[string]map[string]Env    `yaml:"envs,omitempty"`
+	RawEnvRefMap               map[string]map[string]*Env   `yaml:"envs,omitempty"`
 	RawConfigRefMap            map[string]map[string]string `yaml:"configs,omitempty"`
-	EnvRefMap                  map[string]EnvRef
-	ConfigRefMap               map[string]ConfigRef
+	EnvRefMap                  map[string]*EnvRef
+	ConfigRefMap               map[string]*ConfigRef
 	fileLocation               string
 	values                     map[string]string
 	sortedTaskNames            []string
@@ -67,13 +67,13 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string,
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	p = &Project{
 		Includes:                   []string{},
-		RawEnvRefMap:               map[string]map[string]Env{},
+		RawEnvRefMap:               map[string]map[string]*Env{},
 		RawConfigRefMap:            map[string]map[string]string{},
 		Tasks:                      map[string]*Task{},
 		Inputs:                     map[string]*Variable{},
 		values:                     map[string]string{},
-		EnvRefMap:                  map[string]EnvRef{},
-		ConfigRefMap:               map[string]ConfigRef{},
+		EnvRefMap:                  map[string]*EnvRef{},
+		ConfigRefMap:               map[string]*ConfigRef{},
 		IsInitialized:              false,
 		maxPublishedTaskNameLength: 17,
 	}
@@ -293,21 +293,21 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 }
 
 func (p *Project) setProjectEnvRefMap() {
-	for baseEnvName, baseEnvMap := range p.RawEnvRefMap {
-		p.EnvRefMap[baseEnvName] = EnvRef{
+	for envRefName, envRefMap := range p.RawEnvRefMap {
+		p.EnvRefMap[envRefName] = &EnvRef{
 			fileLocation: p.fileLocation,
-			name:         baseEnvName,
-			Map:          baseEnvMap,
+			name:         envRefName,
+			Map:          envRefMap,
 		}
 	}
 }
 
 func (p *Project) setProjectConfigRefMap() {
-	for baseConfigName, baseConfigMap := range p.RawConfigRefMap {
-		p.ConfigRefMap[baseConfigName] = ConfigRef{
+	for configRefName, configRefMap := range p.RawConfigRefMap {
+		p.ConfigRefMap[configRefName] = &ConfigRef{
 			fileLocation: p.fileLocation,
-			name:         baseConfigName,
-			Map:          baseConfigMap,
+			name:         configRefName,
+			Map:          configRefMap,
 		}
 	}
 }
@@ -447,14 +447,14 @@ func (p *Project) validateTaskEnvRef() (err error) {
 			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `envRef` and `envRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.EnvRef != "" {
-			if _, baseEnvExist := p.EnvRefMap[task.EnvRef]; !baseEnvExist {
+			if _, envRefExist := p.EnvRefMap[task.EnvRef]; !envRefExist {
 				return fmt.Errorf("undeclared envRef on '%s': Env '%s' is required at tasks[%s][envRef]", task.GetFileLocation(), task.EnvRef, taskName)
 			}
 			return nil
 		}
-		for index, baseEnvKey := range task.EnvRefs {
-			if _, baseEnvExist := p.EnvRefMap[baseEnvKey]; !baseEnvExist {
-				return fmt.Errorf("undeclared envRefs on '%s': Env '%s' is required at tasks[%s][envRefs][%d]", task.GetFileLocation(), baseEnvKey, taskName, index)
+		for index, envRefName := range task.EnvRefs {
+			if _, envRefExist := p.EnvRefMap[envRefName]; !envRefExist {
+				return fmt.Errorf("undeclared envRefs on '%s': Env '%s' is required at tasks[%s][envRefs][%d]", task.GetFileLocation(), envRefName, taskName, index)
 			}
 		}
 	}
@@ -467,14 +467,14 @@ func (p *Project) validateTaskConfigRef() (err error) {
 			return fmt.Errorf("redundant key declaration on '%s': Task '%s' has both `config` and `configRefs`", task.GetFileLocation(), taskName)
 		}
 		if task.ConfigRef != "" {
-			if _, baseConfigExist := p.ConfigRefMap[task.ConfigRef]; !baseConfigExist {
+			if _, configRefExist := p.ConfigRefMap[task.ConfigRef]; !configRefExist {
 				return fmt.Errorf("undeclared configRef on '%s': Config '%s' is required at tasks[%s][configRef]", task.GetFileLocation(), task.ConfigRef, taskName)
 			}
 			return nil
 		}
-		for index, baseConfigKey := range task.ConfigRefs {
-			if _, baseConfigExist := p.ConfigRefMap[baseConfigKey]; !baseConfigExist {
-				return fmt.Errorf("undeclared configRefs on '%s': Config '%s' is required at tasks[%s][configRefs][%d]", task.GetFileLocation(), baseConfigKey, taskName, index)
+		for index, configRefName := range task.ConfigRefs {
+			if _, configRefExist := p.ConfigRefMap[configRefName]; !configRefExist {
+				return fmt.Errorf("undeclared configRefs on '%s': Config '%s' is required at tasks[%s][configRefs][%d]", task.GetFileLocation(), configRefName, taskName, index)
 			}
 		}
 	}
@@ -537,12 +537,12 @@ func (p *Project) cascadeTasks(parsedIncludeLocation string, includedProject *Pr
 
 func (p *Project) cascadeEnvRef(parsedIncludeLocation string, includedProject *Project) (err error) {
 	for envRefName, envRef := range includedProject.EnvRefMap {
-		existingBaseEnv, baseEnvAlreadyDeclared := p.EnvRefMap[envRefName]
-		if baseEnvAlreadyDeclared {
-			if envRef.fileLocation == existingBaseEnv.fileLocation {
+		existingEnvRef, envRefAlreadyDeclared := p.EnvRefMap[envRefName]
+		if envRefAlreadyDeclared {
+			if envRef.fileLocation == existingEnvRef.fileLocation {
 				continue
 			}
-			return fmt.Errorf("redundant envs declaration on '%s': Env ref '%s' was already declared on '%s'", envRef.fileLocation, envRefName, existingBaseEnv.fileLocation)
+			return fmt.Errorf("redundant envs declaration on '%s': Env '%s' was already declared on '%s'", envRef.fileLocation, envRefName, existingEnvRef.fileLocation)
 		}
 		p.EnvRefMap[envRefName] = envRef
 	}
@@ -551,12 +551,12 @@ func (p *Project) cascadeEnvRef(parsedIncludeLocation string, includedProject *P
 
 func (p *Project) cascadeConfigRef(parsedIncludeLocation string, includedProject *Project) (err error) {
 	for configRefName, configRef := range includedProject.ConfigRefMap {
-		existingBaseConfig, baseConfigAlreadyDeclared := p.ConfigRefMap[configRefName]
-		if baseConfigAlreadyDeclared {
-			if configRef.fileLocation == existingBaseConfig.fileLocation {
+		existingConfigRef, configRefAlreadyDeclared := p.ConfigRefMap[configRefName]
+		if configRefAlreadyDeclared {
+			if configRef.fileLocation == existingConfigRef.fileLocation {
 				continue
 			}
-			return fmt.Errorf("redundant configs declaration on '%s': Config ref '%s' was already declared '%s'", configRef.fileLocation, configRefName, existingBaseConfig.fileLocation)
+			return fmt.Errorf("redundant configs declaration on '%s': Config '%s' was already declared '%s'", configRef.fileLocation, configRefName, existingConfigRef.fileLocation)
 		}
 		p.ConfigRefMap[configRefName] = configRef
 	}

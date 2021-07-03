@@ -17,7 +17,7 @@ var showLogCmd = &cobra.Command{
 		if len(args) < 2 {
 			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for showLog"))
 		}
-		message, err := util.GetLog(decoration, args[0], args[1])
+		message, err := util.GetLogAsString(decoration, args[0], args[1])
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}

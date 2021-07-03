@@ -76,11 +76,23 @@ func (task *Task) GetFileLocation() (fileLocation string) {
 	return task.fileLocation
 }
 
+func (task *Task) GetTaskLocation() (path string) {
+	if task.Location != "" {
+		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
+	}
+	parentTaskNames := task.getParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		return parentTask.GetTaskLocation()
+	}
+	return ""
+}
+
 // GetWorkPath get path of current task
 func (task *Task) GetWorkPath() (workPath string) {
-	workPath = task.getPath()
-	if workPath != "" {
-		return workPath
+	if taskLocation := task.GetTaskLocation(); taskLocation != "" {
+		return taskLocation
 	}
 	workPath, _ = os.Getwd()
 	return workPath
@@ -165,8 +177,8 @@ func (task *Task) GetConfigKeys() (keys []string) {
 	for key := range task.Config {
 		keys = append(keys, key)
 	}
-	for _, baseConfigKey := range task.getConfigRefKeys() {
-		for key := range task.Project.ConfigRefMap[baseConfigKey].Map {
+	for _, envRefName := range task.getConfigRefKeys() {
+		for key := range task.Project.ConfigRefMap[envRefName].Map {
 			keys = append(keys, key)
 		}
 	}
@@ -182,8 +194,8 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 	if pattern, declared = task.Config[key]; declared {
 		return pattern, true
 	}
-	for _, baseConfigKey := range task.getConfigRefKeys() {
-		projectBaseConfig := task.Project.ConfigRefMap[baseConfigKey]
+	for _, configRefName := range task.getConfigRefKeys() {
+		projectBaseConfig := task.Project.ConfigRefMap[configRefName]
 		if pattern, declared = projectBaseConfig.Map[key]; declared {
 			return pattern, true
 		}
@@ -228,8 +240,8 @@ func (task *Task) GetEnvKeys() (keys []string) {
 	for key := range task.Env {
 		keys = append(keys, key)
 	}
-	for _, baseEnvKey := range task.getEnvRefKeys() {
-		for key := range task.Project.EnvRefMap[baseEnvKey].Map {
+	for _, envRefName := range task.getEnvRefKeys() {
+		for key := range task.Project.EnvRefMap[envRefName].Map {
 			keys = append(keys, key)
 		}
 	}
@@ -245,10 +257,10 @@ func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
 	if env, declared = task.Env[key]; declared {
 		return env, declared
 	}
-	for _, baseEnvKey := range task.getEnvRefKeys() {
-		projectBaseEnv := task.Project.EnvRefMap[baseEnvKey]
-		if baseEnv, declared := projectBaseEnv.Map[key]; declared {
-			return &Env{From: baseEnv.From, Default: baseEnv.Default}, true
+	for _, envRefName := range task.getEnvRefKeys() {
+		projectBaseEnv := task.Project.EnvRefMap[envRefName]
+		if envObject, declared := projectBaseEnv.Map[key]; declared {
+			return &Env{From: envObject.From, Default: envObject.Default}, true
 		}
 	}
 	for _, parentTaskName := range task.getParentTaskNames() {
@@ -341,19 +353,6 @@ func (task *Task) generateLogPrefix() {
 		color = d.GenerateColor()
 	}
 	task.logPrefix = fmt.Sprintf("%s%s%s %s", color, taskName, d.Normal, d.Icon(task.Icon))
-}
-
-func (task *Task) getPath() (path string) {
-	if task.Location != "" {
-		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
-	}
-	parentTaskNames := task.getParentTaskNames()
-	if len(parentTaskNames) > 0 {
-		parentTaskName := parentTaskNames[0]
-		parentTask := task.Project.Tasks[parentTaskName]
-		return parentTask.getPath()
-	}
-	return ""
 }
 
 // GetDependencies get unique dependencies of a task, recursively

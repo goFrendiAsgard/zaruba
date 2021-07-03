@@ -90,35 +90,8 @@ create_service_task() {
 
 # USAGE update_env <projectLocation>
 update_env() {
-    for _SERVICE_NAME in $("${ZARUBA_HOME}/zaruba" getProjectServiceNames "${1}/main.zaruba.yaml")
-    do
-        _TASK_NAME="$("${ZARUBA_HOME}/zaruba" getServiceTaskName "${_SERVICE_NAME}")"
-        _LOCATION="$("${ZARUBA_HOME}/zaruba" getTaskLocation "${1}/main.zaruba.yaml" "${_TASK_NAME}")"
-        _ENV_PREFIX="$("${ZARUBA_HOME}/zaruba" toUpper "$("${ZARUBA_HOME}/zaruba" snake "${_SERVICE_NAME}")")_"
-        _YAML_LOCATION="${1}/zaruba-tasks/${_SERVICE_NAME}.zaruba.yaml"
-        if [ $(realpath "${1}") = "${_LOCATION}" ]
-        then
-            echo "Skip fetching new environments for ${Yellow}${_TASK_NAME}${Normal}"
-        else
-            echo "Fetching new environments for ${Yellow}${_TASK_NAME}${Normal} from ${Yellow}${_LOCATION}${Normal}"
-            _ENV_MAP_FILE="${1}/.env-$("${ZARUBA_HOME}/zaruba" newUUIDString).json"
-            echo "$("${ZARUBA_HOME}/zaruba" getEnvByLocation "${_LOCATION}" -f "json")" > "${_ENV_MAP_FILE}"
-            for _ENV_KEY in $("${ZARUBA_HOME}/zaruba" getEnvKeysByLocation "${_LOCATION}")
-            do
-                _ENV_EXIST_IN_YAML="$(yq e ".envs.${_SERVICE_NAME} | has(\"${_ENV_KEY}\")" "${_YAML_LOCATION}")"
-                if [ "${_ENV_EXIST_IN_YAML}" = false ]
-                then
-                    _ENV_VAL="$(yq e ".${_ENV_KEY}" "${_ENV_MAP_FILE}")"
-                    _PREFIXED_ENV_KEY="$("${ZARUBA_HOME}/zaruba" addPrefix "${_ENV_KEY}" "${_ENV_PREFIX}")"
-                    echo "Adding ${Yellow}${_ENV_KEY}${Normal} to ${Yellow}${_YAML_LOCATION}${Normal}"
-                    yq e ".envs.${_SERVICE_NAME}.${_ENV_KEY} = {\"from\": \"${_PREFIXED_ENV_KEY}\", \"default\": \"${ENV_VAL}\"}" "${_YAML_LOCATION}" -i
-                fi
-            done
-            rm "${_ENV_MAP_FILE}"
-        fi
-        echo "Synchronizing environments for ${Yellow}${_TASK_NAME}${Normal}"
-        $("${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "${1}/main.zaruba.yaml" "${_SERVICE_NAME}")
-    done
+    "${ZARUBA_HOME}/zaruba" updateProjectTaskEnv "${1}/main.zaruba.yaml"
+    "${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "${1}/main.zaruba.yaml"
 }
 
 
