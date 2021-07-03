@@ -565,7 +565,7 @@ You can make docker task by extending `core.startDockerContainer`. Also, you nee
 * `imageName`: Image name.
 * `imageTag`: Image tag. You can leave it blank.
 * `containerName`: Container name.
-* `volume::<host-path>`: Bind host path to container volume.
+* `volumes`: Bind host path to container volume.
 
 Now let's try to run two docker containers, redis and mysql: 
 
