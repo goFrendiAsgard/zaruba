@@ -118,7 +118,7 @@ func TestTdTrim(t *testing.T) {
 	}
 }
 
-func TestTdSingleQuoteShellValue(t *testing.T) {
+func TestTdEscapeShellArg(t *testing.T) {
 	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
@@ -126,23 +126,8 @@ func TestTdSingleQuoteShellValue(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	td := NewTaskData(task)
-	expected := "'\\\\\\\\t \\n \\`backtick\\` \\'quoted\\' \"quoted\"'"
-	actual := td.SingleQuoteShellValue("\\t \n `backtick` 'quoted' \"quoted\"")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestTdDoubleQuoteShellValue(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "\"\\\\\\\\t \\n \\`backtick\\` 'quoted' \\\"quoted\\\"\""
-	actual := td.DoubleQuoteShellValue("\\t \n `backtick` 'quoted' \"quoted\"")
+	expected := "'abc\"def\\'ghi\n'"
+	actual := td.EscapeShellArg("abc\"def'ghi\n")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}

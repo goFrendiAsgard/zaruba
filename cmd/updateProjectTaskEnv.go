@@ -11,7 +11,7 @@ import (
 
 var updateProjectTaskEnvCmd = &cobra.Command{
 	Use:   "updateProjectTaskEnv <projectFile>",
-	Short: "Update any environment files (*.env) in project file's directory by a service name",
+	Short: "Update every 'run*' task's environment in project file's directory",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

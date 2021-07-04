@@ -17,16 +17,13 @@
                                                 alias zaruba=${ZARUBA_HOME}/zaruba
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                      : USER="{{ .GetConfig "user" }}"
+                  _start                      : {{ $localTmpFile := printf "%s.tmp.sql" .NewUUIDString -}}
+                                                {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
+                                                USER="{{ .GetConfig "user" }}"
                                                 PASSWORD="{{ .GetConfig "password" }}"
                                                 CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                                LOCAL_TMP_FILE="{{ .NewUUIDString }}.tmp.sql"
+                                                LOCAL_TMP_FILE="{{ $localTmpFile }}"
                                                 CONTAINER_TMP_FILE="/{{ .NewUUIDString }}.tmp.sql"
-                                                QUERIES=$(cat << __endOfQuery__
-                                                {{ .GetConfig "queries" }}
-                                                __endOfQuery__
-                                                )
-                                                echo "${QUERIES}" > ${LOCAL_TMP_FILE}
                                                 docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
                                                 rm "${LOCAL_TMP_FILE}"
                                                 docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${CONTAINER_TMP_FILE}"
