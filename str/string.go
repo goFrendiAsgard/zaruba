@@ -52,10 +52,11 @@ func Dash(s string) (result string) {
 
 func EscapeShellArg(s string) (result string) {
 	backSlashEscapedStr := strings.ReplaceAll(s, "\\", "\\\\\\\\")
-	quoteEscapedStr := strings.ReplaceAll(backSlashEscapedStr, "\"", "\\\"")
-	backTickEscapedStr := strings.ReplaceAll(quoteEscapedStr, "`", "\\`")
-	newLineEscapedStr := strings.ReplaceAll(backTickEscapedStr, "\n", "\\n")
-	return fmt.Sprintf("\"%s\"", newLineEscapedStr)
+	quoteEscapedStr := strings.ReplaceAll(backSlashEscapedStr, "'", "\\'")
+	return fmt.Sprintf("'%s'", quoteEscapedStr)
+	// backTickEscapedStr := strings.ReplaceAll(quoteEscapedStr, "`", "\\`")
+	// newLineEscapedStr := strings.ReplaceAll(backTickEscapedStr, "\n", "\\n")
+	// return fmt.Sprintf("\"%s\"", newLineEscapedStr)
 }
 
 func EscapeShellValue(s string, quote string) (result string) {
