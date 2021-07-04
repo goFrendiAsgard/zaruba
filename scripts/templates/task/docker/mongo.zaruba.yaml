@@ -20,8 +20,8 @@ configs:
     useImagePrefix: false
     imageName: mongo
     containerName: zarubaContainerName
-    port::27017: 27017
-    expose: config.port
+    ports: |
+      27017
 
 envs:
   zarubaServiceName:

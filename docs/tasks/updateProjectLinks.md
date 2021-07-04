@@ -1,12 +1,19 @@
-# addLink
+# updateProjectLinks
 ```
-  TASK NAME     : addLink
+  TASK NAME     : updateProjectLinks
   LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
-  DESCRIPTION   : Add link.
-                  TIPS: To update links, you should perform `zaruba please updateLinks`
+  DESCRIPTION   : Update "links" in your project. Very useful if you have multiple apps sharing some parts of code
+                  USAGE:
+                    zaruba please updateProjectLinks
+                    zaruba please updateProjectLinks "link::fibo/css=common-css"
+                    zaruba please updateProjectLinks "link::app/css=common-css"
+                  ARGUMENTS
+                    link::<destination> : Location of the shared code
+                  TIPS:
+                    It is recommended to put `link` arguments in `default.values.yaml`.
+                    In order to do that, you can invoke `zaruba please addProjectLink <link.from=source-location> <link.to=destination-location>`
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.setupPyUtil ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -16,14 +23,6 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : link.from
-                    DESCRIPTION : Link source (Required)
-                    PROMPT      : Source
-                    VALIDATION  : ^.+$
-                  link.to
-                    DESCRIPTION : Link destination (Required)
-                    PROMPT      : Destination
-                    VALIDATION  : ^.+$
   CONFIG        : _setup                 : set -e
                                            alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
@@ -45,14 +44,20 @@
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  linkFrom               : {{ .GetValue "link.from" }}
-                  linkTo                 : {{ .GetValue "link.to" }}
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           "${ZARUBA_HOME}/zaruba" addLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
+                                           {{ $this := . -}}
+                                           {{ $workPath := .WorkPath }}
+                                           {{ $destinations := .GetSubValueKeys "link" -}}
+                                           {{ range $index, $destination := $destinations -}}
+                                             {{ $source := $this.GetValue "link" $destination -}}
+                                             {{ $absSource := $this.GetWorkPath $source -}}
+                                             {{ $absDestination := $this.GetWorkPath $destination -}}
+                                             link_resource "{{ $absSource }}" "{{ $absDestination }}"
+                                           {{ end -}}
                                            echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
+                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

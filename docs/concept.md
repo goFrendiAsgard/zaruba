@@ -565,8 +565,7 @@ You can make docker task by extending `core.startDockerContainer`. Also, you nee
 * `imageName`: Image name.
 * `imageTag`: Image tag. You can leave it blank.
 * `containerName`: Container name.
-* `port::<host-port>`: Bind host port to container port.
-* `volume::<host-path>`: Bind host path to container volume.
+* `volumes`: Bind host path to container volume.
 
 Now let's try to run two docker containers, redis and mysql: 
 
@@ -580,7 +579,7 @@ tasks:
       useImagePrefix: false
       imageName: redis
       containerName: redis
-      port::6379: 6379
+      ports: 6379
 
 
   runMySql:
@@ -589,7 +588,7 @@ tasks:
       useImagePrefix: false
       imageName: mysql
       containerName: mysql
-      port::3306: 3306
+      ports: 3306
     env:
       MYSQL_ROOT_PASSWORD:
         default: too
@@ -670,14 +669,14 @@ configs:
     useImagePrefix: false
     imageName: redis
     containerName: redis
-    port::6379: 6379
+    ports: 6379
 
 
   mySql:
     useImagePrefix: false
     imageName: mysql
     containerName: mysql
-    port::3306: 3306
+    ports: 3306
 ```
 
 Now, if you really want to stop all containers, you can simply type:

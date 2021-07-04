@@ -28,7 +28,7 @@ def test_docker_project_generate():
     assert generated_project.get(['tasks', 'removeMyServiceContainer', 'extend']) == 'core.removeDockerContainer'
     assert generated_project.get(['tasks', 'removeMyServiceContainer', 'configRef']) == 'myService'
     # config
-    assert generated_project.get(['configs', 'myService', 'port::3306']) == 3306
+    assert generated_project.get(['configs', 'myService', 'ports']) == '3306'
     assert generated_project.get(['configs', 'myService', 'useImagePrefix']) == False
     assert generated_project.get(['configs', 'myService', 'containerName']) == 'myContainer'
     assert generated_project.get(['configs', 'myService', 'imageName']) == 'my-image'

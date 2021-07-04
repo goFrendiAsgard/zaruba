@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func AddLink(fileName, source, destination string) (err error) {
+func AddProjectLink(fileName, source, destination string) (err error) {
 	if source == "" {
 		return fmt.Errorf("source cannot be empty")
 	}

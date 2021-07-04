@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/advertisement"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/util"
 )
 
 var showAdvCmd = &cobra.Command{
@@ -17,11 +17,12 @@ var showAdvCmd = &cobra.Command{
 		if len(args) < 1 {
 			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for showAdv"))
 		}
-		message, err := util.GetAdv(args[0])
+		advertisementFile := args[0]
+		advs, err := advertisement.NewAdvs(advertisementFile)
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		fmt.Println(message)
+		fmt.Println(advs.Get())
 	},
 }
 

@@ -40,21 +40,9 @@
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   CONFIG        : _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
-                                                {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
-                                                  {{ .GetConfig "_check.configPort" }}
-                                                {{ else -}}
-                                                  {{ .GetConfig "_check.configPorts" }}
-                                                {{ end -}}
+                                                {{ .GetConfig "_check.configPorts" }}
                                                 {{ .GetConfig "_check.checkCommand" }}
                                                 sleep 1
-                  _check.ConfigPorts          : {{ $d := .Decoration -}}
-                                                {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
-                                                  {{ if ne $hostPort "" -}}
-                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
-                                                    wait_port "localhost" {{ $hostPort }}
-                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
-                                                  {{ end -}}
-                                                {{ end -}}
                   _check.checkCommand         : {{ $d := .Decoration -}}
                                                 {{ if .GetConfig "checkCommand" -}}
                                                 (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -68,12 +56,13 @@
                                                 done
                                                 set "${_OLD_STATE}"
                                                 {{ end -}}
-                  _check.configPort           : {{ $d := .Decoration -}}
+                  _check.configPorts          : {{ $d := .Decoration -}}
                                                 {{ $this := . -}}
-                                                {{ range $index, $hostPort := .GetSubConfigKeys "port" -}}
-                                                  {{ if ne $hostPort "" -}}
-                                                    {{ $containerPort := $this.GetConfig "port" $hostPort -}}
-                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}' (container port: {{ $containerPort }}) {{ $d.Normal }}"
+                                                {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                                  {{ if ne $port "" -}}
+                                                    {{ $portParts := $this.Split ($this.Trim $port  " ") ":" -}}
+                                                    {{ $hostPort := index $portParts 0 -}}
+                                                    echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
                                                     wait_port "localhost" {{ $hostPort }}
                                                     echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
                                                   {{ end -}}
@@ -130,8 +119,8 @@
                                                 {{ $this := . -}}
                                                 docker run --name "${CONTAINER_NAME}" {{ "" -}}
                                                 {{ .GetConfig "_start.runContainer.env" -}}
-                                                {{ .GetConfig "_start.runContainer.port" -}}
-                                                {{ .GetConfig "_start.runContainer.volume" -}}
+                                                {{ .GetConfig "_start.runContainer.ports" -}}
+                                                {{ .GetConfig "_start.runContainer.volumes" -}}
                                                 {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
                                                 -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
                   _start.runContainer.env     : {{ $this := . -}}
@@ -141,32 +130,35 @@
                                                   {{ end -}}
                                                 {{ else -}}
                                                   {{ range $key, $val := $this.GetEnvs -}}
-                                                  {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
-                                                  {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
-                                                  {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
+                                                    {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
+                                                    {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
+                                                    {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
                                                     -e "{{ $key}}={{ $val }}" {{ "" -}}
                                                   {{ end -}}
                                                 {{ end -}}
-                  _start.runContainer.port    : {{ $this := . -}}
-                                                {{ if gt (len (.GetSubConfigKeys "port")) 0 -}}
-                                                  {{ range $index, $hostPort := $this.GetSubConfigKeys "port" -}}
-                                                    {{ if ne $hostPort "" -}}
-                                                      {{ $containerPort := $this.GetConfig "port" $hostPort -}}
+                  _start.runContainer.ports   : {{ $this := . -}}
+                                                {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                                  {{ if ne $port "" -}}
+                                                    {{ $portParts := $this.Split ($this.Trim $port  " ") ":" -}}
+                                                    {{ if eq (len $portParts) 1 -}}
+                                                      -p {{ $port }}:{{ $port }} {{ "" -}}
+                                                    {{ else -}}
+                                                      {{ $hostPort := index $portParts 0 -}}
+                                                      {{ $containerPort := index $portParts 1 -}}
                                                       -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
                                                     {{ end -}}
                                                   {{ end -}}
-                                                {{ else -}}
-                                                  {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
-                                                    {{ if ne $port "" -}}
-                                                      -p {{ $port }}:{{ $port }} {{ "" -}}
+                                                {{ end -}}
+                  _start.runContainer.volumes : {{ $this := . -}}
+                                                {{ range $index, $volume := .Split (.Trim (.GetConfig "volumes") "\n ") "\n" -}}
+                                                  {{ if ne $volume "" -}}
+                                                    {{ $volumeParts := $this.Split ($this.Trim $volume  " ") ":" -}}
+                                                    {{ if eq (len $volumeParts) 2 -}}
+                                                      {{ $absHostVolume := $this.GetRelativePath (index $volumeParts 0) -}}
+                                                      {{ $containerVolume := index $volumeParts 1 -}}
+                                                      -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
                                                     {{ end -}}
                                                   {{ end -}}
-                                                {{ end -}}
-                  _start.runContainer.volume  : {{ $this := . -}}
-                                                {{ range $index, $hostVolume := $this.GetSubConfigKeys "volume" -}}
-                                                  {{ $absHostVolume := $this.GetWorkPath $hostVolume -}}
-                                                  {{ $containerVolume := $this.GetConfig "volume" $hostVolume -}}
-                                                  -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
                                                 {{ end -}}
                   afterCheck                  : Blank
                   afterStart                  : Blank
@@ -223,6 +215,7 @@
                   setup                       : Blank
                   start                       : Blank
                   useImagePrefix              : true
+                  volumes                     : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -8,19 +8,19 @@ import (
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var dashCmd = &cobra.Command{
-	Use:   "dash <string>",
-	Short: "Make dashed string",
+var toSnakeCaseCmd = &cobra.Command{
+	Use:   "toSnakeCase <string>",
+	Short: "Turn string into snake_case",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for dash"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toSnakeCase"))
 		}
-		fmt.Println(str.Dash(args[0]))
+		fmt.Println(str.ToSnakeCase(args[0]))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(dashCmd)
+	rootCmd.AddCommand(toSnakeCaseCmd)
 }

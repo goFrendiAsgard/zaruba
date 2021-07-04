@@ -237,7 +237,8 @@ tasks:
       imageTag: 2
       containerName: containerRegistry
       localhost: host.docker.internal
-      port::9999: 5000
+      ports: |
+        9999: 5000
 
 
   testPushImage:

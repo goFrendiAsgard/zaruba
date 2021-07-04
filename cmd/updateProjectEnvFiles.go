@@ -10,16 +10,15 @@ import (
 )
 
 var updateProjectEnvFilesCmd = &cobra.Command{
-	Use:   "updateProjectEnvFiles <projectFile> <serviceName>",
-	Short: "Update any environment files (*.env) in project file's directory by a service name",
+	Use:   "updateProjectEnvFiles <projectFile>",
+	Short: "Update every environment files (*.env) in project file's directory based on defined tasks",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 2 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for getProjectServiceNames"))
+		if len(args) < 1 {
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for updateProjectEnvFiles"))
 		}
 		projectFile, err := filepath.Abs(args[0])
-		serviceName := args[1]
 		if err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
@@ -32,7 +31,7 @@ var updateProjectEnvFilesCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		util.UpdateProjectEnvFiles(project, serviceName, projectDir)
+		util.UpdateProjectEnvFiles(project)
 	},
 }
 

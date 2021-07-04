@@ -7,7 +7,7 @@
                     containerName : Container's name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.setupPyUtil, updateLinks ]
+  DEPENDENCIES  : [ core.setupPyUtil, updateProjectLinks ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}

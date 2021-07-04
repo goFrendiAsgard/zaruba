@@ -17,26 +17,17 @@
                                                 alias zaruba=${ZARUBA_HOME}/zaruba
                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                      : USER="{{ .GetConfig "user" }}"
+                  _start                      : {{ $localTmpFile := printf "%s.tmp.sql" .NewUUIDString -}}
+                                                {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
+                                                USER="{{ .GetConfig "user" }}"
                                                 PASSWORD="{{ .GetConfig "password" }}"
                                                 CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                                {{ $this := . -}}
-                                                {{ range $index, $query := .Split (.Trim (.GetConfig "queries") " \n") "\n" -}}
-                                                  {{ if ne $query "" -}}
-                                                    QUERY="{{ $query }}"
-                                                    if [ -f "${QUERY}" ]
-                                                    then
-                                                      echo "CQL FILE: ${QUERY}"
-                                                      TMP_FILE_NAME="/{{ $this.NewUUIDString }}.sql"
-                                                      docker cp "${QUERY}" "${CONTAINER_NAME}:${TMP_FILE_NAME}"
-                                                      docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${TMP_FILE_NAME}"
-                                                      docker exec "${CONTAINER_NAME}" rm "${TMP_FILE_NAME}"
-                                                    else
-                                                      echo "CQL SCRIPT: ${QUERY}"
-                                                      docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -e "${QUERY}"
-                                                    fi
-                                                  {{ end -}}
-                                                {{ end -}}
+                                                LOCAL_TMP_FILE="{{ $localTmpFile }}"
+                                                CONTAINER_TMP_FILE="/{{ .NewUUIDString }}.tmp.sql"
+                                                docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
+                                                rm "${LOCAL_TMP_FILE}"
+                                                docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${CONTAINER_TMP_FILE}"
+                                                docker exec "${CONTAINER_NAME}" rm "${CONTAINER_TMP_FILE}"
                   afterStart                  : Blank
                   beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}

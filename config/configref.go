@@ -5,3 +5,11 @@ type ConfigRef struct {
 	fileLocation string
 	name         string
 }
+
+func (c *ConfigRef) GetFileLocation() string {
+	return c.fileLocation
+}
+
+func (c *ConfigRef) GetName() string {
+	return c.name
+}

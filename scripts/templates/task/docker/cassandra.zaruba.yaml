@@ -39,11 +39,11 @@ configs:
     imageName: cassandra
     imageTag: 3.11.4
     containerName: zarubaContainerName
-    port::7001: 7001
-    port::7199: 7199
-    port::9042: 9042
-    port::9160: 9160
-    expose: config.port
+    ports: |
+      7001
+      7199
+      9042
+      9160
 
 envs:
   zarubaServiceName:

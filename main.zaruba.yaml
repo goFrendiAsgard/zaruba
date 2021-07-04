@@ -63,7 +63,8 @@ tasks:
     - clearLog
     - buildZarubaImage
     config:
-      port::2810: 2810
+      ports: |
+        2810
       localhost: host.docker.internal
       imageName: local/zaruba:latest
       containerName: zaruba
@@ -207,8 +208,8 @@ tasks:
         initProject
         initHelm
         updateEnv
-        updateLinks
-        addLink
+        updateProjectLinks
+        addProjectLink
         setProjectValue
         core.buildDockerImage
         core.pullDockerImage

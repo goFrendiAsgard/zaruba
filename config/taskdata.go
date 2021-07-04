@@ -91,25 +91,6 @@ func (td *TaskData) EscapeShellArg(s string) (result string) {
 	return str.EscapeShellArg(s)
 }
 
-func (td *TaskData) EscapeShellValue(s string, quoteList ...string) (result string) {
-	// TODO: deprecate
-	quote := "\""
-	if len(quoteList) > 0 {
-		quote = quoteList[0]
-	}
-	return str.EscapeShellValue(s, quote)
-}
-
-func (td *TaskData) DoubleQuoteShellValue(s string) (result string) {
-	// TODO: deprecate
-	return str.DoubleQuoteShellValue(s)
-}
-
-func (td *TaskData) SingleQuoteShellValue(s string) (result string) {
-	// TODO: deprecate
-	return str.SingleQuoteShellValue(s)
-}
-
 func (td *TaskData) Indent(multiLineStr string, indentation string) (result string) {
 	return str.Indent(multiLineStr, indentation)
 }
@@ -190,6 +171,10 @@ func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 		return "", err
 	}
 	return b.String(), nil
+}
+
+func (td *TaskData) WriteFile(filePath string, content string) (err error) {
+	return ioutil.WriteFile(filePath, []byte(content), 0755)
 }
 
 func (td *TaskData) Add(b, a interface{}) (interface{}, error) {

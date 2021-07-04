@@ -39,8 +39,8 @@ configs:
     useImagePrefix: false
     imageName: mysql
     containerName: zarubaContainerName
-    port::3306: 3306
-    expose: config.port
+    ports: |
+      3306
 
 envs:
   zarubaServiceName:
