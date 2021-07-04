@@ -8,7 +8,7 @@
                     subrepo::<name>::url      : Remote url of the subrepo
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ initSubrepos, updateLinks, core.setupPyUtil ]
+  DEPENDENCIES  : [ initSubrepos, updateProjectLinks, core.setupPyUtil ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}

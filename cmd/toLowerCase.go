@@ -8,19 +8,19 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var toLowerCmd = &cobra.Command{
-	Use:   "toLower <string>",
-	Short: "Make lower-cased string",
+var toLowerCaseCmd = &cobra.Command{
+	Use:   "toLowerCase <string>",
+	Short: "Turn string into lower case",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toLower"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toLowerCase"))
 		}
 		fmt.Println(strings.ToLower(args[0]))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(toLowerCmd)
+	rootCmd.AddCommand(toLowerCaseCmd)
 }

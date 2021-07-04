@@ -15,7 +15,7 @@
                     ports       : Port to be checked to confirm service readiness, separated by new line.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ updateLinks ]
+  DEPENDENCIES  : [ updateProjectLinks ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}

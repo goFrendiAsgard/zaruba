@@ -33,7 +33,7 @@
                     localhost      : Localhost mapping (e.g: host.docker.container)
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]
-  DEPENDENCIES  : [ updateLinks ]
+  DEPENDENCIES  : [ updateProjectLinks ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}

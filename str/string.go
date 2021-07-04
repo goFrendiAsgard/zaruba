@@ -2,6 +2,7 @@ package str
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -13,16 +14,26 @@ func IsLower(s string) (result bool) {
 	return strings.ToLower(s) == s
 }
 
-func Capitalize(s string) (result string) {
-	if len(s) < 2 {
-		return strings.ToUpper(s)
+func ToCamelCase(s string) (result string) {
+	rex := regexp.MustCompile("[^a-zA-Z0-9]+")
+	strippedStr := rex.ReplaceAllString(s, " ")
+	titledStr := strings.Title(strippedStr)
+	result = strings.ReplaceAll(titledStr, " ", "")
+	if len(result) > 0 {
+		firstLetter := strings.ToLower(string(result[0]))
+		rest := result[1:]
+		return firstLetter + rest
 	}
-	return strings.ToUpper(string(s[0])) + s[1:]
+	return result
 }
 
-func Snake(s string) (result string) {
+func ToPascalCase(s string) (result string) {
+	return strings.Title(ToCamelCase(s))
+}
+
+func ToSnakeCase(s string) (result string) {
 	result = ""
-	for index, ch := range s {
+	for index, ch := range ToCamelCase(s) {
 		if index == 0 {
 			result += strings.ToLower(string(ch))
 			continue
@@ -35,9 +46,9 @@ func Snake(s string) (result string) {
 	return result
 }
 
-func Dash(s string) (result string) {
+func ToKebabCase(s string) (result string) {
 	result = ""
-	for index, ch := range s {
+	for index, ch := range ToCamelCase(s) {
 		if index == 0 {
 			result += strings.ToLower(string(ch))
 			continue

@@ -61,7 +61,7 @@ func updateTaskEnv(task *config.Task, locationEnvMap map[string]string) (err err
 	}
 	taskName := task.GetName()
 	serviceName := GetTaskServiceName(taskName)
-	envPrefix := strings.ToUpper(str.Snake(serviceName))
+	envPrefix := strings.ToUpper(str.ToSnakeCase(serviceName))
 	yamlLocation := task.GetFileLocation()
 	b, err := ioutil.ReadFile(yamlLocation)
 	if err != nil {
@@ -137,7 +137,7 @@ func updateEnvRef(envRef *config.EnvRef, locationEnvMap map[string]string) (err 
 		return nil
 	}
 	envRefName := envRef.GetName()
-	envPrefix := strings.ToUpper(str.Snake(envRefName))
+	envPrefix := strings.ToUpper(str.ToSnakeCase(envRefName))
 	yamlLocation := envRef.GetFileLocation()
 	b, err := ioutil.ReadFile(yamlLocation)
 	if err != nil {

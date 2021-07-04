@@ -17,7 +17,7 @@ tasks:
     private: true
     extend: core.runCoreScript
     dependencies:
-    - updateLinks
+    - updateProjectLinks
     autoTerminate: false
     config:
       beforeStart: ""
@@ -135,7 +135,7 @@ tasks:
     private: true
     extend: core.startService
     dependencies:
-    - updateLinks
+    - updateProjectLinks
     inputs:
     - docker.env
     configRef: core.docker

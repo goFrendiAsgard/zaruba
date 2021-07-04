@@ -8,19 +8,19 @@ import (
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var capitalizeCmd = &cobra.Command{
-	Use:   "capitalize <string>",
-	Short: "Make capitalized string",
+var toKebabCaseCmd = &cobra.Command{
+	Use:   "toKebabCase <string>",
+	Short: "Turn string into kebab-case",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for capitalize"))
+			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toKebabCase"))
 		}
-		fmt.Println(str.Capitalize(args[0]))
+		fmt.Println(str.ToKebabCase(args[0]))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(capitalizeCmd)
+	rootCmd.AddCommand(toKebabCaseCmd)
 }

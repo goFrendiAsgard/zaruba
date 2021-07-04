@@ -79,7 +79,7 @@
                                                   cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
                                                 fi
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib link for ${SERVICE_NAME}{{ $d.Normal }}"
-                                                "${ZARUBA_HOME}/zaruba" addLink "{{ .GetWorkPath "default.values.yaml" }}" "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+                                                "${ZARUBA_HOME}/zaruba" addProjectLink "{{ .GetWorkPath "default.values.yaml" }}" "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
                                                 link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
                                                 {{ if .IsTrue (.GetConfig "createTask") -}}
                                                 TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
