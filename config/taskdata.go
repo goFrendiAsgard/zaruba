@@ -192,6 +192,10 @@ func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 	return b.String(), nil
 }
 
+func (td *TaskData) WriteFile(filePath string, content string) (err error) {
+	return ioutil.WriteFile(filePath, []byte(content), 0755)
+}
+
 func (td *TaskData) Add(b, a interface{}) (interface{}, error) {
 	av := reflect.ValueOf(a)
 	bv := reflect.ValueOf(b)
