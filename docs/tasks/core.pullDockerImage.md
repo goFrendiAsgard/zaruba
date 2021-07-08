@@ -69,12 +69,12 @@
                                                 IMAGE_TAG="{{ .GetConfig "imageTag" }}"
                                                 if [ ! -z "${IMAGE_TAG}" ]
                                                 then
-                                                  pull_image "${IMAGE_NAME}:${IMAGE_TAG}"
+                                                  pull_image "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${IMAGE_TAG}"
                                                 else
-                                                  pull_image "${IMAGE_NAME}"
+                                                  pull_image "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}"
                                                 fi
                                                 echo 🎉🎉🎉
-                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pulled{{ $d.Normal }}"
+                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME} pulled{{ $d.Normal }}"
                   useImagePrefix              : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
