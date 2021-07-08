@@ -282,6 +282,16 @@ tasks:
     config:
       template: mysql
 
+  makePostgreDockerTask:
+    extend: core.makePresetDockerTask
+    inputs:
+    - generator.docker.container.name
+    - generator.service.name
+    - generator.service.envs
+    - generator.task.dependencies
+    config:
+      template: postgre
+
 
   makeRabbitmqDockerTask:
     extend: core.makePresetDockerTask

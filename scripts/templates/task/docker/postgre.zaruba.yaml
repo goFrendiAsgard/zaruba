@@ -13,7 +13,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐬 
-    extend: core.mysql.startDockerContainer
+    extend: core.postgre.startDockerContainer
     dependencies:
     - pullZarubaServiceNameImage
     timeout: 1h
@@ -24,7 +24,7 @@ tasks:
 
   zarubaServiceNameExecSql:
     icon: 🐬 
-    extend: core.mysql.execSql
+    extend: core.postgre.execSql
     dependencies:
     - runZarubaServiceName
     inputs:
@@ -37,21 +37,19 @@ tasks:
 configs:
   zarubaServiceName:
     useImagePrefix: false
-    imageName: mysql
+    imageName: postgres
     containerName: zarubaContainerName
-    ports: 3306
+    ports: 5432
 
 envs:
   zarubaServiceName:
-    MYSQL_USER:
-      from: MYSQL_USER
-      default: mysql
-    MYSQL_PASSWORD:
-      from: MYSQL_PASSWORD
-      default: mysql
-    MYSQL_ROOT_PASSWORD:
-      from: MYSQL_ROOT_PASSWORD
+    POSTGRES_USER:
+      from: POSTGRES_USER
+      default: postgres
+    POSTGRES_PASSWORD:
+      from: POSTGRES_PASSWORD
       default: toor
-    MYSQL_DATABASE:
-      from: MYSQL_DATABASE
+    POSTGRES_DB:
+      from: POSTGRES_DB
       default: sample
+   

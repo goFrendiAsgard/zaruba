@@ -381,7 +381,6 @@ class DockerProject(TaskProject):
         self.set_default(['configs', 'zarubaServiceName', 'useImagePrefix'], False)
         self.set_default(['configs', 'zarubaServiceName', 'imageName'], 'zarubaImageName')
         self.set_default(['configs', 'zarubaServiceName', 'containerName'], 'zarubaContainerName')
-        self.set_default(['configs', 'zarubaServiceName', 'expose'], 'config.port')
         # pull
         self.set_default(['tasks', 'pullZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'pullZarubaServiceNameImage', 'extend'], 'core.pullDockerImage')
