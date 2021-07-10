@@ -149,3 +149,42 @@ func TestIndent(t *testing.T) {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
+
+func TestReplaceByMap(t *testing.T) {
+	expected := "orange, egg, grape, grape"
+	actual := ReplaceByMap("jeruk, egg, anggur, anggur", map[string]string{"jeruk": "orange", "anggur": "grape"})
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestRepeat(t *testing.T) {
+	expected := "ora umumora umumora umum"
+	actual := Repeat("ora umum", 3)
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestGetSingleIndentationNoSpaceOrTab(t *testing.T) {
+	if _, err := GetSingleIndentation("no space or tab", 3); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestGetSingleIndentationIrregularIndentation(t *testing.T) {
+	if _, err := GetSingleIndentation("\t something", 3); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestGetSingleIndentationValidIndentation(t *testing.T) {
+	expected := "  "
+	actual, err := GetSingleIndentation("      something", 3)
+	if err != nil {
+		t.Error(err)
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}

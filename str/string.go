@@ -125,7 +125,47 @@ func GetUniqueElements(arr []string) (result []string) {
 }
 
 // indent second-last lines
-func Indent(multiLineStr string, indentation string) (indented string) {
+func Indent(multiLineStr string, indentation string) (indentedStr string) {
 	lines := strings.Split(multiLineStr, "\n")
 	return strings.Join(lines, "\n"+indentation)
+}
+
+func ReplaceByMap(s string, replacementMap map[string]string) (result string) {
+	result = s
+	for key, val := range replacementMap {
+		result = strings.ReplaceAll(result, key, val)
+	}
+	return result
+}
+
+func Repeat(s string, repetition int) (result string) {
+	return repeat(s, repetition)
+}
+
+func repeat(s string, repetition int) (result string) {
+	result = ""
+	for i := 0; i < repetition; i++ {
+		result += s
+	}
+	return result
+}
+
+func GetSingleIndentation(s string, level int) (result string, err error) {
+	rex := regexp.MustCompile("^([ \t]+).*$")
+	match := rex.FindStringSubmatch(s)
+	if len(match) < 2 {
+		return "", fmt.Errorf("string is not predeeded by space or tab: '%s'", s)
+	}
+	totalIndentation := match[1]
+	indentationLength := len(totalIndentation) / level
+	result = s[:indentationLength]
+	if repeat(result, level) != totalIndentation {
+		return result, fmt.Errorf("cannot determine single %d indentation for '%s'", level, s)
+	}
+	return result, nil
+}
+
+func GetLineSubMatch(patterns ...string) (index int, subMatch []string) {
+	// TODO add logic
+	return -1, []string{}
 }
