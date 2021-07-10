@@ -1,4 +1,4 @@
-package util
+package file
 
 import (
 	"io"
@@ -8,6 +8,21 @@ import (
 
 	"github.com/state-alchemists/zaruba/str"
 )
+
+func Copy(src, dst string) (byteCount int64, err error) {
+	source, err := os.Open(src)
+	if err != nil {
+		return 0, err
+	}
+	defer source.Close()
+	destination, err := os.Create(dst)
+	if err != nil {
+		return 0, err
+	}
+	defer destination.Close()
+	nBytes, err := io.Copy(destination, source)
+	return nBytes, err
+}
 
 func Generate(sourceTemplatePath, destinationPath string, replacementMap map[string]string) (err error) {
 	absSourceTemplatePath, err := filepath.Abs(sourceTemplatePath)
@@ -37,26 +52,10 @@ func Generate(sourceTemplatePath, destinationPath string, replacementMap map[str
 			content := string(contentB)
 			newContent := str.ReplaceByMap(content, replacementMap)
 			if newContent == content {
-				_, err = copyFile(absSourceLocation, absDestinationLocation)
+				_, err = Copy(absSourceLocation, absDestinationLocation)
 				return err
 			}
 			return ioutil.WriteFile(absDestinationLocation, []byte(newContent), fileMode)
 		},
 	)
-}
-
-func copyFile(src, dst string) (byteCount int64, err error) {
-	source, err := os.Open(src)
-	if err != nil {
-		return 0, err
-	}
-	defer source.Close()
-
-	destination, err := os.Create(dst)
-	if err != nil {
-		return 0, err
-	}
-	defer destination.Close()
-	nBytes, err := io.Copy(destination, source)
-	return nBytes, err
 }

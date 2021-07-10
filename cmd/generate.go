@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/util"
 )
 
 var generateCmd = &cobra.Command{
@@ -31,7 +31,7 @@ var generateCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &replacementMap); err != nil {
 			showErrorAndExit(logger, decoration, err)
 		}
-		util.Generate(templateLocation, destination, replacementMap)
+		file.Generate(templateLocation, destination, replacementMap)
 	},
 }
 
