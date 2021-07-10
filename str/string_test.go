@@ -1,6 +1,8 @@
 package str
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestIsUpperTrue(t *testing.T) {
 	expected := false
@@ -186,5 +188,57 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 	}
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
+func TestGetLastSubmatchInvalidFirstPattern(t *testing.T) {
+	if _, _, err := GetLastSubmatch([]string{}, "[[^"); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestGetLastSubmatchInvalidNonFirstPattern(t *testing.T) {
+	lines := []string{"something", "really", "interesting", "", ""}
+	if _, _, err := GetLastSubmatch(lines, "something", "interesting", "[[^"); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestGetLastSubmatchFound(t *testing.T) {
+	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
+	actualIndex, actualSubmatch, err := GetLastSubmatch(lines, "something", "interesting", "^name: (.+)$")
+	if err != nil {
+		t.Error(err)
+	}
+	expectedIndex, expectedSubmatch := 4, []string{"name: garo", "garo"}
+	if actualIndex != expectedIndex {
+		t.Errorf("expected index: %d, actual index: %d", expectedIndex, actualIndex)
+	}
+	if len(actualSubmatch) != len(expectedSubmatch) {
+		t.Errorf("expected submatch: %#v, actual submatch: %#v", expectedSubmatch, actualSubmatch)
+		return
+	}
+	for index, expectedStr := range expectedSubmatch {
+		actualStr := actualSubmatch[index]
+		if expectedStr != actualStr {
+			t.Errorf("expected submatch: %#v, actual submatch: %#v", expectedSubmatch, actualSubmatch)
+			return
+		}
+	}
+}
+
+func TestGetLastSubmatchNotFound(t *testing.T) {
+	lines := []string{"something", "really", "interesting", "", "", ""}
+	actualIndex, actualSubmatch, err := GetLastSubmatch(lines, "something", "interesting", "^name: (.+)$")
+	if err != nil {
+		t.Error(err)
+	}
+	expectedIndex, expectedSubmatch := -1, []string{}
+	if actualIndex != expectedIndex {
+		t.Errorf("expected index: %d, actual index: %d", expectedIndex, actualIndex)
+	}
+	if len(actualSubmatch) != len(expectedSubmatch) {
+		t.Errorf("expected submatch: %#v, actual submatch: %#v", expectedSubmatch, actualSubmatch)
+		return
 	}
 }

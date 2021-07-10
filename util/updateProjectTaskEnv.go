@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"regexp"
 	"sort"
 	"strings"
 
@@ -69,56 +68,23 @@ func updateTaskEnv(task *config.Task, locationEnvMap map[string]string) (err err
 	}
 	fileContentStr := string(b)
 	lines := strings.Split(fileContentStr, "\n")
-	// look for "tasks"
-	taskLineIndex := -1
-	for lineIndex, line := range lines {
-		if strings.HasPrefix(line, "tasks:") {
-			taskLineIndex = lineIndex
-			break
-		}
-	}
-	if taskLineIndex == -1 {
-		return fmt.Errorf("no tasks found on %s", yamlLocation)
-	}
-	// Look for taskName
-	indentationStr, taskNameLineIndex := "", -1
-	rex := regexp.MustCompile(fmt.Sprintf("^( +)%s:(.*)$", taskName))
-	for lineIndex := taskLineIndex + 1; lineIndex < len(lines); lineIndex++ {
-		line := lines[lineIndex]
-		matches := rex.FindAllStringSubmatch(line, -1)
-		if len(matches) == 1 {
-			taskNameLineIndex = lineIndex
-			indentationStr = matches[0][1]
-			suffix := strings.TrimLeft(matches[0][2], " ")
-			if strings.HasPrefix(suffix, "{}") {
-				lines[lineIndex] = fmt.Sprintf("%s%s:", indentationStr, taskName)
-			}
-			break
-		}
-	}
-	if taskNameLineIndex == -1 {
-		return fmt.Errorf("task %s not found on %s", taskName, yamlLocation)
-	}
-	// Look for env
-	envLineIndex := -1
-	rex = regexp.MustCompile("^ +env:(.*)$")
-	for lineIndex := taskLineIndex + 1; lineIndex < len(lines); lineIndex++ {
-		line := lines[lineIndex]
-		matches := rex.FindAllStringSubmatch(line, -1)
-		if len(matches) == 1 {
-			envLineIndex = lineIndex
-			suffix := strings.TrimLeft(matches[0][1], " ")
-			if strings.HasPrefix(suffix, "{}") {
-				lines[lineIndex] = fmt.Sprintf("%s%senv:", indentationStr, indentationStr)
-			}
-			break
-		}
+	// look for task's env
+	taskNamePattern := fmt.Sprintf("^ +%s:.*$", taskName)
+	envLineIndex, submatch, err := str.GetLastSubmatch(lines, "tasks:.*$", taskNamePattern, "^ +env:.*$")
+	if err != nil {
+		return err
 	}
 	if envLineIndex == -1 {
 		return fmt.Errorf("env of task %s found on %s", taskName, yamlLocation)
 	}
+	// get single indentation
+	singleIndentation, err := str.GetSingleIndentation(submatch[0], 2)
+	if err != nil {
+		return err
+	}
+	lines[envLineIndex] = fmt.Sprintf("%senv:", str.Repeat(singleIndentation, 2))
 	// get additional env yaml
-	additionalEnvLines := getAdditionalEnvLines(additionalEnvMap, envPrefix, indentationStr, 1)
+	additionalEnvLines := getAdditionalYamlEnvLines(additionalEnvMap, envPrefix, singleIndentation, 2)
 	// construct new lines
 	newLines := []string{}
 	newLines = append(newLines, lines[:envLineIndex+1]...)
@@ -145,38 +111,24 @@ func updateEnvRef(envRef *config.EnvRef, locationEnvMap map[string]string) (err 
 	}
 	fileContentStr := string(b)
 	lines := strings.Split(fileContentStr, "\n")
-	// look for "envs:"
-	envLineIndex := -1
-	for lineIndex, line := range lines {
-		if strings.HasPrefix(line, "envs:") {
-			envLineIndex = lineIndex
-			break
-		}
+	// look for envRefName
+	envRefNamePattern := fmt.Sprintf("^ +%s:.*$", envRefName)
+	envRefNameLineIndex, submatch, err := str.GetLastSubmatch(lines, "^envs:.*$", envRefNamePattern)
+	if err != nil {
+		return err
 	}
-	if envLineIndex == -1 {
-		return fmt.Errorf("no envs found on %s", yamlLocation)
-	}
-	// look for envRefKey
-	indentationStr, envRefNameLineIndex := "", -1
-	rex := regexp.MustCompile(fmt.Sprintf("^( +)%s:(.*)$", envRefName))
-	for lineIndex := envLineIndex + 1; lineIndex < len(lines); lineIndex++ {
-		line := lines[lineIndex]
-		matches := rex.FindAllStringSubmatch(line, -1)
-		if len(matches) == 1 {
-			envRefNameLineIndex = lineIndex
-			indentationStr = matches[0][1]
-			suffix := strings.TrimLeft(matches[0][2], " ")
-			if strings.HasPrefix(suffix, "{}") {
-				lines[lineIndex] = fmt.Sprintf("%s%s:", indentationStr, envRefName)
-			}
-			break
-		}
-	}
-	if envLineIndex == -1 {
+	if envRefNameLineIndex == -1 {
 		return fmt.Errorf("env %s not found on %s", envRefName, yamlLocation)
 	}
+	// get single indentation
+	singleIndentation, err := str.GetSingleIndentation(submatch[0], 1)
+	if err != nil {
+		return err
+	}
+	// clean envRefName line
+	lines[envRefNameLineIndex] = fmt.Sprintf("%s%s:", singleIndentation, envRefName)
 	// get additional env yaml
-	additionalEnvLines := getAdditionalEnvLines(additionalEnvMap, envPrefix, indentationStr, 1)
+	additionalEnvLines := getAdditionalYamlEnvLines(additionalEnvMap, envPrefix, singleIndentation, 1)
 	// construct new lines
 	newLines := []string{}
 	newLines = append(newLines, lines[:envRefNameLineIndex+1]...)
@@ -189,11 +141,8 @@ func updateEnvRef(envRef *config.EnvRef, locationEnvMap map[string]string) (err 
 	return ioutil.WriteFile(yamlLocation, []byte(newFileContentStr), 0755)
 }
 
-func getAdditionalEnvLines(additionalEnvMap map[string]string, envPrefix string, indentationStr string, blockIndentationRepeat int) (envLines []string) {
-	blockIndentationStr := ""
-	for i := 0; i < blockIndentationRepeat; i++ {
-		blockIndentationStr += indentationStr
-	}
+func getAdditionalYamlEnvLines(additionalEnvMap map[string]string, envPrefix string, singleIndentation string, indentationLevel int) (envLines []string) {
+	blockIndentationStr := str.Repeat(singleIndentation, indentationLevel)
 	// sort keyList
 	envKeyList := []string{}
 	for envKey := range additionalEnvMap {
@@ -208,9 +157,9 @@ func getAdditionalEnvLines(additionalEnvMap map[string]string, envPrefix string,
 		if !strings.HasPrefix(envKey, envPrefix) {
 			envFrom = fmt.Sprintf("%s_%s", envPrefix, envKey)
 		}
-		envLines = append(envLines, fmt.Sprintf("%s%s%s:", blockIndentationStr, indentationStr, envKey))
-		envLines = append(envLines, fmt.Sprintf("%s%s%sfrom: %s", blockIndentationStr, indentationStr, indentationStr, envFrom))
-		envLines = append(envLines, fmt.Sprintf("%s%s%sdefault: %s", blockIndentationStr, indentationStr, indentationStr, envVal))
+		envLines = append(envLines, fmt.Sprintf("%s%s%s:", blockIndentationStr, singleIndentation, envKey))
+		envLines = append(envLines, fmt.Sprintf("%s%s%sfrom: %s", blockIndentationStr, singleIndentation, singleIndentation, envFrom))
+		envLines = append(envLines, fmt.Sprintf("%s%s%sdefault: %s", blockIndentationStr, singleIndentation, singleIndentation, envVal))
 	}
 	return envLines
 }

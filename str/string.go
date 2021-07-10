@@ -165,7 +165,25 @@ func GetSingleIndentation(s string, level int) (result string, err error) {
 	return result, nil
 }
 
-func GetLineSubMatch(patterns ...string) (index int, subMatch []string) {
-	// TODO add logic
-	return -1, []string{}
+func GetLastSubmatch(lines []string, patterns ...string) (index int, subMatch []string, err error) {
+	patternIndex := 0
+	rex, err := regexp.Compile(patterns[patternIndex])
+	if err != nil {
+		return -1, []string{}, err
+	}
+	for lineIndex, line := range lines {
+		match := rex.FindStringSubmatch(line)
+		if len(match) == 0 {
+			continue
+		}
+		if patternIndex == len(patterns)-1 {
+			return lineIndex, match, nil
+		}
+		patternIndex++
+		rex, err = regexp.Compile(patterns[patternIndex])
+		if err != nil {
+			return -1, []string{}, err
+		}
+	}
+	return -1, []string{}, nil
 }
