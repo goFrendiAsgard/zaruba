@@ -242,3 +242,55 @@ func TestGetLastSubmatchNotFound(t *testing.T) {
 		return
 	}
 }
+
+func TestReplaceLineNegativeIndex(t *testing.T) {
+	lines := []string{"something", "to be replaced", "is here"}
+	if _, err := ReplaceLine(lines, -1, "new"); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestReplaceLineOutOfBoundIndex(t *testing.T) {
+	lines := []string{"something", "to be replaced", "is here"}
+	if _, err := ReplaceLine(lines, 3, "new"); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestReplaceLineMiddleLine(t *testing.T) {
+	lines := []string{"something", "to be replaced", "is here"}
+	actual, err := ReplaceLine(lines, 1, "new")
+	if err != nil {
+		t.Error(err)
+	}
+	expected := []string{"something", "new", "is here"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestReplaceLineLastLine(t *testing.T) {
+	lines := []string{"something", "to be replaced"}
+	actual, err := ReplaceLine(lines, 1, "new")
+	if err != nil {
+		t.Error(err)
+	}
+	expected := []string{"something", "new"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}

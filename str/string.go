@@ -187,3 +187,16 @@ func GetLastSubmatch(lines []string, patterns ...string) (index int, subMatch []
 	}
 	return -1, []string{}, nil
 }
+
+func ReplaceLine(lines []string, index int, replacement string) (result []string, err error) {
+	if index < 0 || index >= len(lines) {
+		return []string{}, fmt.Errorf("line index out of bound: %d", index)
+	}
+	result = []string{}
+	result = append(result, lines[:index]...)
+	result = append(result, replacement)
+	if index < len(lines) {
+		result = append(result, lines[index+1:]...)
+	}
+	return result, err
+}
