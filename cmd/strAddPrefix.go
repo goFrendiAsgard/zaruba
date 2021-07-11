@@ -8,15 +8,14 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var addPrefixCmd = &cobra.Command{
-	Use:   "addPrefix <string> <prefix>",
+var strAddPrefixCmd = &cobra.Command{
+	Use:   "strAddPrefix <string> <prefix>",
 	Short: "Add prefix to string",
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 2 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for addPrefix"))
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 2)
 		if strings.HasPrefix(args[0], args[1]) {
 			fmt.Println(args[0])
 			return
@@ -26,5 +25,5 @@ var addPrefixCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(addPrefixCmd)
+	rootCmd.AddCommand(strAddPrefixCmd)
 }

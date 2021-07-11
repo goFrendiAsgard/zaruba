@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/state-alchemists/zaruba/str"
 )
@@ -22,6 +23,43 @@ func Copy(src, dst string) (byteCount int64, err error) {
 	defer destination.Close()
 	nBytes, err := io.Copy(destination, source)
 	return nBytes, err
+}
+
+func ReadText(fileName string) (text string, err error) {
+	contentB, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return "", err
+	}
+	return string(contentB), nil
+}
+
+func WriteText(fileName string, text string, fileMode os.FileMode) (err error) {
+	return ioutil.WriteFile(fileName, []byte(text), fileMode)
+}
+
+func ReadLines(fileName string) (lines []string, err error) {
+	content, err := ReadText(fileName)
+	if err != nil {
+		return []string{}, err
+	}
+	return strings.Split(content, "\n"), nil
+}
+
+func WriteLines(fileName string, lines []string, fileMode os.FileMode) (err error) {
+	content := strings.Join(lines, "\n")
+	return WriteText(fileName, content, fileMode)
+}
+
+func ListDir(dirPath string) (fileNames []string, err error) {
+	fileNames = []string{}
+	files, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		return fileNames, err
+	}
+	for _, f := range files {
+		fileNames = append(fileNames, f.Name())
+	}
+	return fileNames, nil
 }
 
 func Generate(sourceTemplatePath, destinationPath string, replacementMap map[string]string) (err error) {
@@ -45,17 +83,16 @@ func Generate(sourceTemplatePath, destinationPath string, replacementMap map[str
 				os.Mkdir(absDestinationLocation, fileMode)
 				return nil
 			}
-			contentB, err := ioutil.ReadFile(absSourceLocation)
+			content, err := ReadText(absSourceLocation)
 			if err != nil {
 				return err
 			}
-			content := string(contentB)
 			newContent := str.ReplaceByMap(content, replacementMap)
 			if newContent == content {
 				_, err = Copy(absSourceLocation, absDestinationLocation)
 				return err
 			}
-			return ioutil.WriteFile(absDestinationLocation, []byte(newContent), fileMode)
+			return WriteText(absDestinationPath, newContent, fileMode)
 		},
 	)
 }

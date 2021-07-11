@@ -191,22 +191,22 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 	}
 }
 
-func TestGetLastSubmatchInvalidFirstPattern(t *testing.T) {
-	if _, _, err := GetLastSubmatch([]string{}, "[[^"); err == nil {
+func TestGetFirstMatchInvalidFirstPattern(t *testing.T) {
+	if _, _, err := GetFirstMatch([]string{}, []string{"[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
-func TestGetLastSubmatchInvalidNonFirstPattern(t *testing.T) {
+func TestGetFirstMatchInvalidNonFirstPattern(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", ""}
-	if _, _, err := GetLastSubmatch(lines, "something", "interesting", "[[^"); err == nil {
+	if _, _, err := GetFirstMatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
-func TestGetLastSubmatchFound(t *testing.T) {
+func TestGetFirstMatchFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
-	actualIndex, actualSubmatch, err := GetLastSubmatch(lines, "something", "interesting", "^name: (.+)$")
+	actualIndex, actualSubmatch, err := GetFirstMatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -227,9 +227,9 @@ func TestGetLastSubmatchFound(t *testing.T) {
 	}
 }
 
-func TestGetLastSubmatchNotFound(t *testing.T) {
+func TestGetFirstMatchNotFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "", ""}
-	actualIndex, actualSubmatch, err := GetLastSubmatch(lines, "something", "interesting", "^name: (.+)$")
+	actualIndex, actualSubmatch, err := GetFirstMatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -245,25 +245,25 @@ func TestGetLastSubmatchNotFound(t *testing.T) {
 
 func TestReplaceLineNegativeIndex(t *testing.T) {
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := ReplaceLine(lines, -1, "new"); err == nil {
+	if _, err := ReplaceLine(lines, -1, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineOutOfBoundIndex(t *testing.T) {
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := ReplaceLine(lines, 3, "new"); err == nil {
+	if _, err := ReplaceLine(lines, 3, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
-func TestReplaceLineMiddleLine(t *testing.T) {
-	lines := []string{"something", "to be replaced", "is here"}
-	actual, err := ReplaceLine(lines, 1, "new")
+func TestReplaceLineFirst(t *testing.T) {
+	lines := []string{"something to be replaced", "is here"}
+	actual, err := ReplaceLine(lines, 0, []string{"something new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
-	expected := []string{"something", "new", "is here"}
+	expected := []string{"something new", "and interesting", "is here"}
 	if len(actual) != len(expected) {
 		t.Errorf("expected: %#v, actual: %#v", expected, actual)
 		return
@@ -276,13 +276,229 @@ func TestReplaceLineMiddleLine(t *testing.T) {
 	}
 }
 
-func TestReplaceLineLastLine(t *testing.T) {
-	lines := []string{"something", "to be replaced"}
-	actual, err := ReplaceLine(lines, 1, "new")
+func TestReplaceLineMiddle(t *testing.T) {
+	lines := []string{"something", "to be replaced", "is here"}
+	actual, err := ReplaceLine(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
-	expected := []string{"something", "new"}
+	expected := []string{"something", "new", "and interesting", "is here"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestReplaceLineLast(t *testing.T) {
+	lines := []string{"something", "to be replaced"}
+	actual, err := ReplaceLine(lines, 1, []string{"new", "and interesting"})
+	if err != nil {
+		t.Error(err)
+	}
+	expected := []string{"something", "new", "and interesting"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestInsertAfterNegativeIndex(t *testing.T) {
+	lines := []string{"something", "is here"}
+	if _, err := InsertAfter(lines, -1, []string{"new", "and interesting"}); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestInsertAfterOutOfBoundIndex(t *testing.T) {
+	lines := []string{"something", "is here"}
+	if _, err := InsertAfter(lines, 3, []string{"new", "and interesting"}); err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestInsertAfterFirst(t *testing.T) {
+	lines := []string{"something", "is here"}
+	actual, err := InsertAfter(lines, 0, []string{"new", "and interesting"})
+	if err != nil {
+		t.Error(err)
+	}
+	expected := []string{"something", "new", "and interesting", "is here"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestInsertAfterMiddle(t *testing.T) {
+	lines := []string{"we know that", "something", "is here"}
+	actual, err := InsertAfter(lines, 1, []string{"new", "and interesting"})
+	if err != nil {
+		t.Error(err)
+	}
+	expected := []string{"we know that", "something", "new", "and interesting", "is here"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestInsertAfterLast(t *testing.T) {
+	lines := []string{"here we have", "something"}
+	actual, err := InsertAfter(lines, 1, []string{"new", "and interesting"})
+	if err != nil {
+		t.Error(err)
+	}
+	expected := []string{"here we have", "something", "new", "and interesting"}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestInsertIfNotMatchDifferentPatternAndSuplementLength(t *testing.T) {
+	_, err := InsertIfNotMatch(
+		[]string{},
+		[]string{
+			"^task:(.*)$",
+		},
+		[]string{},
+	)
+	if err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestInsertIfNotMatchInvalidPattern(t *testing.T) {
+	_, err := InsertIfNotMatch(
+		[]string{},
+		[]string{
+			"[[^",
+		},
+		[]string{
+			"something",
+		},
+	)
+	if err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestInsertIfNotMatchUnmatchPattern(t *testing.T) {
+	_, err := InsertIfNotMatch(
+		[]string{},
+		[]string{
+			"ab",
+		},
+		[]string{
+			"something",
+		},
+	)
+	if err == nil {
+		t.Errorf("error expected")
+	}
+}
+
+func TestInsertIfNotMatchNoMatchAtAll(t *testing.T) {
+	actual, err := InsertIfNotMatch(
+		[]string{"includes: []"},
+		[]string{
+			"^tasks:(.*)$",
+			"^ +myTask:(.*$)",
+			"^ +config:(.*$)",
+			"^ +ports:(.*$)",
+		},
+		[]string{
+			"tasks:",
+			"  myTask:",
+			"    config:",
+			"      ports: 8080",
+		},
+	)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	expected := []string{
+		"includes: []",
+		"tasks:",
+		"  myTask:",
+		"    config:",
+		"      ports: 8080",
+	}
+	if len(actual) != len(expected) {
+		t.Errorf("expected: %#v, actual: %#v", expected, actual)
+		return
+	}
+	for i := 0; i < len(expected); i++ {
+		if actual[i] != expected[i] {
+			t.Errorf("expected: %#v, actual: %#v", expected, actual)
+			return
+		}
+	}
+}
+
+func TestInsertIfNotMatchNoMatchPartial(t *testing.T) {
+	actual, err := InsertIfNotMatch(
+		[]string{
+			"includes: []",
+			"tasks: # list of task",
+			"  someTask: {}",
+		},
+		[]string{
+			"^tasks:(.*)$",
+			"^ +myTask:(.*)$",
+			"^ +config:(.*)$",
+			"^ +ports:(.*)$",
+		},
+		[]string{
+			"tasks:",
+			"  myTask:",
+			"    config:",
+			"      ports: 8080",
+		},
+	)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	expected := []string{
+		"includes: []",
+		"tasks: # list of task",
+		"  myTask:",
+		"    config:",
+		"      ports: 8080",
+		"  someTask: {}",
+	}
 	if len(actual) != len(expected) {
 		t.Errorf("expected: %#v, actual: %#v", expected, actual)
 		return

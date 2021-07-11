@@ -50,12 +50,12 @@
                                            {{ $names := .GetSubValueKeys "subrepo" -}}
                                            {{ $this := . -}}
                                            BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-                                           ORIGINS=$(git remote)
+                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" strToList "$(git remote)")
                                            {{ range $index, $name := $names -}}
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                              NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" isInArray "${NAME}" "${ORIGINS}" "\n")
+                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" listContains "${ORIGINS}" "${NAME}")
                                              if [ "$ORIGIN_EXISTS" = "1" ]
                                              then
                                                git remote set-url "${NAME}" "${URL}"

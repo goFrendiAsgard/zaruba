@@ -12,15 +12,14 @@ var showAdvCmd = &cobra.Command{
 	Use:   "showAdv <advertisementFile>",
 	Short: "Show advertisement",
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for showAdv"))
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 1)
 		advertisementFile := args[0]
 		advs, err := advertisement.NewAdvs(advertisementFile)
 		if err != nil {
-			showErrorAndExit(logger, decoration, err)
+			exit(commandName, logger, decoration, err)
 		}
 		fmt.Println(advs.Get())
 	},

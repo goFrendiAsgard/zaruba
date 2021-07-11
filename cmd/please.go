@@ -30,18 +30,19 @@ var pleaseCmd = &cobra.Command{
 	Short:   "Run Task(s)",
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := getDecoration(*pleasePlainDecor)
 		logger := output.NewConsoleLogger(decoration)
 		csvRecordLogger := getCsvRecordLogger(filepath.Dir(pleaseFile))
-		project, taskNames := getProjectAndTaskName(logger, decoration, csvRecordLogger, args)
+		project, taskNames := getProjectAndTaskName(commandName, logger, decoration, csvRecordLogger, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := explainer.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
 		// no task provided
 		if len(taskNames) == 0 && !*pleaseExplain {
-			taskName := getTaskNameInteractivelyOrExit(logger, decoration, prompter)
+			taskName := getTaskNameInteractivelyOrExit(commandName, logger, decoration, prompter)
 			taskNames = []string{taskName}
-			action := getActionOrExit(logger, decoration, prompter, taskName)
+			action := getActionOrExit(commandName, logger, decoration, prompter, taskName)
 			if action.Explain {
 				*pleaseExplain = true
 			}
@@ -52,34 +53,34 @@ var pleaseCmd = &cobra.Command{
 		}
 		// handle "--explain"
 		if *pleaseExplain {
-			initProjectOrExit(logger, decoration, project)
-			explainOrExit(logger, decoration, explainer, taskNames)
+			initProjectOrExit(commandName, logger, decoration, project)
+			explainOrExit(commandName, logger, decoration, explainer, taskNames)
 			return
 		}
 		// handle "--previous"
 		previousValueFile := ".previous.values.yaml"
 		if *pleaseUsePreviousValues {
-			loadPreviousValuesOrExit(logger, decoration, project, previousValueFile)
+			loadPreviousValuesOrExit(commandName, logger, decoration, project, previousValueFile)
 		}
 		// handle "--interactive" flag
 		if *pleaseInteractive {
 			if !*pleaseUsePreviousValues {
-				askProjectValueOrExit(logger, decoration, prompter)
+				askProjectValueOrExit(commandName, logger, decoration, prompter)
 			}
-			askProjectEnvOrExit(logger, decoration, prompter, taskNames)
-			askProjectValuesByTasksOrExit(logger, decoration, prompter, taskNames)
+			askProjectEnvOrExit(commandName, logger, decoration, prompter, taskNames)
+			askProjectValuesByTasksOrExit(commandName, logger, decoration, prompter, taskNames)
 		}
 		if isFallbackInteraction && !*pleaseTerminate {
-			*pleaseTerminate = askAutoTerminateOrExit(logger, decoration, prompter, taskNames)
+			*pleaseTerminate = askAutoTerminateOrExit(commandName, logger, decoration, prompter, taskNames)
 		}
 		previousval.Save(project, previousValueFile)
-		initProjectOrExit(logger, decoration, project)
+		initProjectOrExit(commandName, logger, decoration, project)
 		r, err := runner.NewRunner(logger, decoration, project, taskNames, "5m", *pleaseTerminate, pleaseWait)
 		if err != nil {
-			showErrorAndExit(logger, decoration, err)
+			exit(commandName, logger, decoration, err)
 		}
 		if err := r.Run(); err != nil {
-			showErrorAndExit(logger, decoration, err)
+			exit(commandName, logger, decoration, err)
 		}
 		logger.DPrintf("%sLast command:%s %s\n", decoration.Yellow, decoration.Normal, explainer.GetZarubaCommand(taskNames, *pleaseTerminate, pleaseWait))
 	},
@@ -121,80 +122,80 @@ func init() {
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
 }
 
-func getTaskNameInteractivelyOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {
+func getTaskNameInteractivelyOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {
 	taskName, err := prompter.GetTaskName()
 	if err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 	return taskName
 }
 
-func getActionOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskName string) (action *input.Action) {
+func getActionOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskName string) (action *input.Action) {
 	action, err := prompter.GetAction(taskName)
 	if err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 	return action
 }
 
-func explainOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, explainer *explainer.Explainer, taskNames []string) {
+func explainOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, explainer *explainer.Explainer, taskNames []string) {
 	if err := explainer.Explain(taskNames...); err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 }
 
-func loadPreviousValuesOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, project *config.Project, previousValueFile string) {
+func loadPreviousValuesOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, project *config.Project, previousValueFile string) {
 	if err := previousval.Load(project, previousValueFile); err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 }
 
-func askProjectValuesByTasksOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
+func askProjectValuesByTasksOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 }
 
-func askProjectEnvOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
+func askProjectEnvOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.GetAdditionalEnv(taskNames); err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 }
 
-func askProjectValueOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) {
+func askProjectValueOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) {
 	if err := prompter.GetAdditionalValue(); err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 }
 
-func askAutoTerminateOrExit(logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) (autoTerminate bool) {
+func askAutoTerminateOrExit(commandName string, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) (autoTerminate bool) {
 	autoTerminate, err := prompter.GetAutoTerminate(taskNames)
 	if err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 	return autoTerminate
 }
 
-func initProjectOrExit(logger output.Logger, decoration *output.Decoration, project *config.Project) {
+func initProjectOrExit(commandName string, logger output.Logger, decoration *output.Decoration, project *config.Project) {
 	if err := project.Init(); err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 }
 
-func getProjectAndTaskName(logger output.Logger, decoration *output.Decoration, csvRecordLogger *output.CSVRecordLogger, args []string) (project *config.Project, taskNames []string) {
+func getProjectAndTaskName(commandName string, logger output.Logger, decoration *output.Decoration, csvRecordLogger *output.CSVRecordLogger, args []string) (project *config.Project, taskNames []string) {
 	project, err := getProject(logger, decoration, csvRecordLogger, pleaseFile)
 	if err != nil {
-		showErrorAndExit(logger, decoration, err)
+		exit(commandName, logger, decoration, err)
 	}
 	for _, env := range pleaseEnv {
 		if err = project.AddGlobalEnv(env); err != nil {
-			showErrorAndExit(logger, decoration, err)
+			exit(commandName, logger, decoration, err)
 		}
 	}
 	// process values from flag
 	for _, value := range pleaseValues {
 		if err = project.AddValue(value); err != nil {
-			showErrorAndExit(logger, decoration, err)
+			exit(commandName, logger, decoration, err)
 		}
 	}
 	taskNames = []string{}
@@ -202,7 +203,7 @@ func getProjectAndTaskName(logger output.Logger, decoration *output.Decoration, 
 	for _, arg := range args {
 		if strings.Contains(arg, "=") {
 			if err = project.AddValue(arg); err != nil {
-				showErrorAndExit(logger, decoration, err)
+				exit(commandName, logger, decoration, err)
 			}
 			continue
 		}

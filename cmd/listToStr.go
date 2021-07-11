@@ -1,29 +1,34 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var getDefaultServiceNameCmd = &cobra.Command{
-	Use:   "getDefaultServiceName <string>",
-	Short: "Get default service name based on location or image name",
+var listToStrCmd = &cobra.Command{
+	Use:   "listToStr <list> [separator]",
+	Short: "Transform JSON list into single string",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		serviceName, err := config.GetDefaultServiceName(args[0])
-		if err != nil {
+		list := []string{}
+		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		fmt.Println(serviceName)
+		separator := "\n"
+		if len(args) > 1 {
+			separator = args[1]
+		}
+		fmt.Println(strings.Join(list, separator))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getDefaultServiceNameCmd)
+	rootCmd.AddCommand(listToStrCmd)
 }

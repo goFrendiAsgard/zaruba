@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -12,6 +11,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/state-alchemists/zaruba/boolean"
+	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 	yaml "gopkg.in/yaml.v2"
@@ -135,24 +135,12 @@ func (td *TaskData) ParseYAML(s string) (interface{}, error) {
 
 func (td *TaskData) ReadFile(filePath string) (fileContent string, err error) {
 	absFilePath := td.GetWorkPath(filePath)
-	fileContentB, err := ioutil.ReadFile(absFilePath)
-	if err != nil {
-		return "", err
-	}
-	return string(fileContentB), err
+	return file.ReadText(absFilePath)
 }
 
 func (td *TaskData) ListDir(dirPath string) (fileNames []string, err error) {
 	absDirPath := td.GetWorkPath(dirPath)
-	fileNames = []string{}
-	files, err := ioutil.ReadDir(absDirPath)
-	if err != nil {
-		return fileNames, err
-	}
-	for _, f := range files {
-		fileNames = append(fileNames, f.Name())
-	}
-	return fileNames, nil
+	return file.ListDir(absDirPath)
 }
 
 func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
@@ -174,7 +162,7 @@ func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 }
 
 func (td *TaskData) WriteFile(filePath string, content string) (err error) {
-	return ioutil.WriteFile(filePath, []byte(content), 0755)
+	return file.WriteText(filePath, content, 0755)
 }
 
 func (td *TaskData) Add(b, a interface{}) (interface{}, error) {

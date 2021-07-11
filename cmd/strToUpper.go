@@ -8,19 +8,18 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var toUpperCaseCmd = &cobra.Command{
-	Use:   "toUpperCase <string>",
+var strToUpperCmd = &cobra.Command{
+	Use:   "strToUpper <string>",
 	Short: "Turn string into UPPER CASE",
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toUpperCase"))
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 1)
 		fmt.Println(strings.ToUpper(args[0]))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(toUpperCaseCmd)
+	rootCmd.AddCommand(strToUpperCmd)
 }

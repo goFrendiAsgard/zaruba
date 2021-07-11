@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -33,10 +34,17 @@ func Execute() {
 	}
 }
 
-func showErrorAndExit(logger output.Logger, decoration *output.Decoration, err error) {
+func exit(commandName string, logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
-		logger.Fprintf(os.Stderr, "%s %s%s%s%s\n", decoration.Error, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
+		logger.Fprintf(os.Stderr, "%s %s%s%s: %s%s\n", decoration.Error, decoration.Bold, decoration.Red, commandName, err.Error(), decoration.Normal)
 		os.Exit(1)
+	}
+}
+
+func checkMinArgCount(commandName string, logger output.Logger, decoration *output.Decoration, args []string, minArgCount int) {
+	if len(args) < minArgCount {
+		err := fmt.Errorf("expecting %d arguments, get %#v", minArgCount, args)
+		exit(commandName, logger, decoration, err)
 	}
 }
 

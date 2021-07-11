@@ -8,19 +8,18 @@ import (
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var toCamelCaseCmd = &cobra.Command{
-	Use:   "toCamelCase <string>",
+var strToCamelCmd = &cobra.Command{
+	Use:   "strToCamel <string>",
 	Short: "Turn string into camelCase",
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toCamelCase"))
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 1)
 		fmt.Println(str.ToCamelCase(args[0]))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(toCamelCaseCmd)
+	rootCmd.AddCommand(strToCamelCmd)
 }

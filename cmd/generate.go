@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"encoding/json"
-	"fmt"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/file"
@@ -14,24 +12,17 @@ var generateCmd = &cobra.Command{
 	Use:   "generate <templateLocation> <destination> <replacementMap>",
 	Short: "Make something based on template",
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 3 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for generate"))
-		}
-		templateLocation, err := filepath.Abs(args[0])
-		if err != nil {
-			showErrorAndExit(logger, decoration, err)
-		}
-		destination, err := filepath.Abs(args[1])
-		if err != nil {
-			showErrorAndExit(logger, decoration, err)
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 3)
+		sourceTemplatePath := args[0]
+		destinationPath := args[1]
 		replacementMap := map[string]string{}
 		if err := json.Unmarshal([]byte(args[2]), &replacementMap); err != nil {
-			showErrorAndExit(logger, decoration, err)
+			exit(commandName, logger, decoration, err)
 		}
-		file.Generate(templateLocation, destination, replacementMap)
+		file.Generate(sourceTemplatePath, destinationPath, replacementMap)
 	},
 }
 

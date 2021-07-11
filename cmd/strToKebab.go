@@ -8,19 +8,18 @@ import (
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var toPascalCaseCmd = &cobra.Command{
-	Use:   "toPascalCase <string>",
-	Short: "Turn string into PascalCase",
+var strToKebabCmd = &cobra.Command{
+	Use:   "strToKebab <string>",
+	Short: "Turn string into kebab-case",
 	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			showErrorAndExit(logger, decoration, fmt.Errorf("too few argument for toPascalCase"))
-		}
-		fmt.Println(str.ToPascalCase(args[0]))
+		checkMinArgCount(commandName, logger, decoration, args, 1)
+		fmt.Println(str.ToKebabCase(args[0]))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(toPascalCaseCmd)
+	rootCmd.AddCommand(strToKebabCmd)
 }

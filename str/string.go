@@ -139,10 +139,6 @@ func ReplaceByMap(s string, replacementMap map[string]string) (result string) {
 }
 
 func Repeat(s string, repetition int) (result string) {
-	return repeat(s, repetition)
-}
-
-func repeat(s string, repetition int) (result string) {
 	result = ""
 	for i := 0; i < repetition; i++ {
 		result += s
@@ -159,17 +155,17 @@ func GetSingleIndentation(s string, level int) (result string, err error) {
 	totalIndentation := match[1]
 	indentationLength := len(totalIndentation) / level
 	result = s[:indentationLength]
-	if repeat(result, level) != totalIndentation {
+	if Repeat(result, level) != totalIndentation {
 		return result, fmt.Errorf("cannot determine single %d indentation for '%s'", level, s)
 	}
 	return result, nil
 }
 
-func GetLastSubmatch(lines []string, patterns ...string) (index int, subMatch []string, err error) {
+func GetFirstMatch(lines, patterns []string) (matchIndex int, submatch []string, err error) {
 	patternIndex := 0
 	rex, err := regexp.Compile(patterns[patternIndex])
 	if err != nil {
-		return -1, []string{}, err
+		return -1, submatch, err
 	}
 	for lineIndex, line := range lines {
 		match := rex.FindStringSubmatch(line)
@@ -182,21 +178,77 @@ func GetLastSubmatch(lines []string, patterns ...string) (index int, subMatch []
 		patternIndex++
 		rex, err = regexp.Compile(patterns[patternIndex])
 		if err != nil {
-			return -1, []string{}, err
+			return -1, submatch, err
 		}
 	}
-	return -1, []string{}, nil
+	return -1, submatch, nil
 }
 
-func ReplaceLine(lines []string, index int, replacement string) (result []string, err error) {
+func prepareLinesForReplacement(lines []string) (preparedLines []string) {
+	if len(lines) == 0 {
+		return []string{""}
+	}
+	return lines
+}
+
+func ReplaceLine(lines []string, index int, replacements []string) (result []string, err error) {
+	lines = prepareLinesForReplacement(lines)
 	if index < 0 || index >= len(lines) {
-		return []string{}, fmt.Errorf("line index out of bound: %d", index)
+		return []string{}, fmt.Errorf("index out of bound: %d", index)
 	}
-	result = []string{}
-	result = append(result, lines[:index]...)
-	result = append(result, replacement)
+	tmpLines := []string{}
+	tmpLines = append(tmpLines, lines[:index]...)
+	tmpLines = append(tmpLines, replacements...)
 	if index < len(lines) {
-		result = append(result, lines[index+1:]...)
+		tmpLines = append(tmpLines, lines[index+1:]...)
 	}
-	return result, err
+	content := strings.Join(tmpLines, "\n")
+	result = strings.Split(content, "\n")
+	return result, nil
+}
+
+func InsertBefore(lines []string, index int, newLines []string) (result []string, err error) {
+	lines = prepareLinesForReplacement(lines)
+	if index < 0 || index >= len(lines) {
+		return []string{}, fmt.Errorf("index out of bound: %d", index)
+	}
+	replacements := append(newLines, lines[index])
+	return ReplaceLine(lines, index, replacements)
+}
+
+func InsertAfter(lines []string, index int, newLines []string) (result []string, err error) {
+	lines = prepareLinesForReplacement(lines)
+	if index < 0 || index >= len(lines) {
+		return []string{}, fmt.Errorf("index out of bound: %d", index)
+	}
+	replacements := append([]string{lines[index]}, newLines...)
+	return ReplaceLine(lines, index, replacements)
+}
+
+func InsertIfNotMatch(lines, patterns, suplements []string) (newLines []string, err error) {
+	if len(patterns) != len(suplements) {
+		return newLines, fmt.Errorf("patterns and suplements length doesn't match")
+	}
+	for index, pattern := range patterns {
+		suplement := suplements[index]
+		match, err := regexp.MatchString(pattern, suplement)
+		if err != nil {
+			return newLines, err
+		}
+		if !match {
+			return newLines, fmt.Errorf("pattern[%d], %s doesn't match %s", index, pattern, suplement)
+		}
+	}
+	newLines = append([]string{}, lines...)
+	lastMatchIndex := len(newLines) - 1
+	for index, suplement := range suplements {
+		matchIndex, _, _ := GetFirstMatch(newLines, patterns[:index+1])
+		if matchIndex > -1 {
+			lastMatchIndex = matchIndex
+			continue
+		}
+		newLines, _ = InsertAfter(newLines, lastMatchIndex, []string{suplement})
+		lastMatchIndex, _, _ = GetFirstMatch(newLines, patterns[:index+1])
+	}
+	return newLines, nil
 }
