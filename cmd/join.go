@@ -9,8 +9,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var listToStrCmd = &cobra.Command{
-	Use:   "listToStr <list> [separator]",
+var joinCmd = &cobra.Command{
+	Use:   "join <list> [separator]",
 	Short: "Transform JSON list into single string",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -30,5 +30,5 @@ var listToStrCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(listToStrCmd)
+	rootCmd.AddCommand(joinCmd)
 }

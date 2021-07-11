@@ -225,7 +225,7 @@ func InsertAfter(lines []string, index int, newLines []string) (result []string,
 	return ReplaceLine(lines, index, replacements)
 }
 
-func InsertIfNotMatch(lines, patterns, suplements []string) (newLines []string, err error) {
+func InsertIfNotFound(lines, patterns, suplements []string) (newLines []string, err error) {
 	if len(patterns) != len(suplements) {
 		return newLines, fmt.Errorf("patterns and suplements length doesn't match")
 	}

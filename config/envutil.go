@@ -118,7 +118,7 @@ func updateTaskEnv(task *Task, locationEnvMap map[string]string) (err error) {
 		fmt.Sprintf("  %s:", taskName),
 		"    env: {}",
 	}
-	lines, _ := str.InsertIfNotMatch(strings.Split(fileContentStr, "\n"), patterns, suplements)
+	lines, _ := str.InsertIfNotFound(strings.Split(fileContentStr, "\n"), patterns, suplements)
 	// look for task's env
 	envLineIndex, submatch, err := str.GetFirstMatch(lines, suplements)
 	if err != nil {
@@ -166,7 +166,7 @@ func updateEnvRef(envRef *EnvRef, locationEnvMap map[string]string) (err error) 
 		"envs:",
 		fmt.Sprintf("  %s: {}", envRefName),
 	}
-	lines, _ := str.InsertIfNotMatch(strings.Split(fileContentStr, "\n"), patterns, suplements)
+	lines, _ := str.InsertIfNotFound(strings.Split(fileContentStr, "\n"), patterns, suplements)
 	// look for envRefName
 	envRefNameLineIndex, submatch, _ := str.GetFirstMatch(lines, patterns)
 	if envRefNameLineIndex == -1 {

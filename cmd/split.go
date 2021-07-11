@@ -9,8 +9,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var strToListCmd = &cobra.Command{
-	Use:   "strToList <string> [separator]",
+var splitCmd = &cobra.Command{
+	Use:   "split <string> [separator]",
 	Short: "Split string into JSON list",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -33,5 +33,5 @@ var strToListCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(strToListCmd)
+	rootCmd.AddCommand(splitCmd)
 }

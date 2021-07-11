@@ -385,8 +385,8 @@ func TestInsertAfterLast(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotMatchDifferentPatternAndSuplementLength(t *testing.T) {
-	_, err := InsertIfNotMatch(
+func TestInsertIfNotFoundDifferentPatternAndSuplementLength(t *testing.T) {
+	_, err := InsertIfNotFound(
 		[]string{},
 		[]string{
 			"^task:(.*)$",
@@ -398,8 +398,8 @@ func TestInsertIfNotMatchDifferentPatternAndSuplementLength(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotMatchInvalidPattern(t *testing.T) {
-	_, err := InsertIfNotMatch(
+func TestInsertIfNotFoundInvalidPattern(t *testing.T) {
+	_, err := InsertIfNotFound(
 		[]string{},
 		[]string{
 			"[[^",
@@ -413,8 +413,8 @@ func TestInsertIfNotMatchInvalidPattern(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotMatchUnmatchPattern(t *testing.T) {
-	_, err := InsertIfNotMatch(
+func TestInsertIfNotFoundUnmatchPattern(t *testing.T) {
+	_, err := InsertIfNotFound(
 		[]string{},
 		[]string{
 			"ab",
@@ -428,8 +428,8 @@ func TestInsertIfNotMatchUnmatchPattern(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotMatchNoMatchAtAll(t *testing.T) {
-	actual, err := InsertIfNotMatch(
+func TestInsertIfNotFoundNoMatchAtAll(t *testing.T) {
+	actual, err := InsertIfNotFound(
 		[]string{"includes: []"},
 		[]string{
 			"^tasks:(.*)$",
@@ -467,8 +467,8 @@ func TestInsertIfNotMatchNoMatchAtAll(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotMatchNoMatchPartial(t *testing.T) {
-	actual, err := InsertIfNotMatch(
+func TestInsertIfNotFoundNoMatchPartial(t *testing.T) {
+	actual, err := InsertIfNotFound(
 		[]string{
 			"includes: []",
 			"tasks: # list of task",
