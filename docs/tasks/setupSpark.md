@@ -14,20 +14,20 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : setup.homeDir
+  INPUTS        : setupHomeDir
                     DESCRIPTION : Home directory (Can be blank)
                     PROMPT      : Home directory
-                  setup.sparkDownloadUrl
+                  setupSparkDownloadUrl
                     DESCRIPTION : Spark download URL
                     PROMPT      : Spark download url
                     DEFAULT     : https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
                     VALIDATION  : ^.+$
-                  setup.sparkVersion
+                  setupSparkVersion
                     DESCRIPTION : Spark version to be installed
                     PROMPT      : Spark version
                     DEFAULT     : 3.1.1
                     VALIDATION  : ^.+$
-                  setup.hadoopVersion
+                  setupHadoopVersion
                     DESCRIPTION : Hadoop version to be installed when install spark
                     PROMPT      : Hadoop version
                     DEFAULT     : 2.7
@@ -59,14 +59,14 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+                                           {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
                                            if [ "$(is_command_exist spark-shell --version)" = 1 ]
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
                                            else
                                              rm -Rf "${HOME}/.spark"
                                              echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
-                                             wget -O spark.tgz "{{ .GetValue "setup.sparkDownloadUrl" }}"
+                                             wget -O spark.tgz "{{ .GetValue "setupSparkDownloadUrl" }}"
                                              mkdir -p "${HOME}/.spark"
                                              tar -xvzf spark.tgz -C "${HOME}/.spark"
                                              TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'

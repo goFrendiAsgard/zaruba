@@ -51,7 +51,7 @@ tasks:
     extend: core.runScript
     dependencies:
     - core.bootstrap
-    configRef: core.shell
+    configRef: coreShell
     config:
       _setup: |
         set -e
@@ -69,7 +69,7 @@ tasks:
     extend: core.runShellScript
     dependencies:
     - core.bootstrap
-    configRef: core.shell
+    configRef: coreShell
     config:
       _setup: |
         set -e
@@ -85,8 +85,8 @@ tasks:
     private: true
     extend: core.runShellScript
     configRefs:
-    - core.nvm
-    - core.shell
+    - coreNvm
+    - coreShell
     config:
       _setup: |
         set -e
@@ -171,7 +171,7 @@ tasks:
         commands      : Command to be executed, separated by new line
     private: true
     extend: core.runCoreScript
-    configRef: core.docker
+    configRef: coreDocker
     config:
       commands: ""
       _start: |
@@ -187,7 +187,7 @@ tasks:
     icon: 🐬 
     private: true
     extend: core.runCoreScript
-    configRef: core.docker
+    configRef: coreDocker
     config:
       user: root
       password: '{{ .GetEnv "MYSQL_ROOT_PASSWORD" }}'
@@ -213,7 +213,7 @@ tasks:
     icon: 🐬 
     private: true
     extend: core.runCoreScript
-    configRef: core.docker
+    configRef: coreDocker
     config:
       user: '{{ .GetEnv "POSTGRES_USER" }}'
       password: '{{ .GetEnv "POSTGRES_PASSWORD" }}'
@@ -238,7 +238,7 @@ tasks:
     icon: 👀
     private: true
     extend: core.runCoreScript
-    configRef: core.docker
+    configRef: coreDocker
     config:
       user: cassandra
       password: cassandra

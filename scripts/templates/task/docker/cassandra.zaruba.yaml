@@ -1,6 +1,6 @@
 inputs:
 
-  zarubaServiceName.runLocally: {}
+  zarubaServiceNameRunInLocal: {}
 
   zarubaServiceName.cql:
     validation: ^.+$
@@ -18,7 +18,7 @@ tasks:
     - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
-    - zarubaServiceName.runLocally
+    - zarubaServiceNameRunInLocal
     config:
       afterCheck: sleep 15
   

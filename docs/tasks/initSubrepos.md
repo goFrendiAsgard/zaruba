@@ -9,7 +9,7 @@
                     subrepo::<name>::name     : Origin name of the subrepo
                   TIPS:
                     It is recommended to put `subrepo` arguments in `default.values.yaml`.
-                    In order to do that, you can invoke `zaruba please addSubrepo <subrepo.url=remote-url>`
+                    In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ core.isProject, core.isValidSubrepos, core.setupPyUtil ]
@@ -50,7 +50,7 @@
                                            {{ $names := .GetSubValueKeys "subrepo" -}}
                                            {{ $this := . -}}
                                            BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" strToList "$(git remote)")
+                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
                                            {{ range $index, $name := $names -}}
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"

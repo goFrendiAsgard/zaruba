@@ -12,7 +12,7 @@ tasks:
         beforeCheck : Script to be executed before check service readiness.
         afterCheck  : Script to be executed before check service readiness.
         finish      : Script to be executed after start service or check service readiness.
-        runLocally  : Run service locally or not.
+        RunInLocal  : Run service locally or not.
         ports       : Port to be checked to confirm service readiness, separated by new line.
     private: true
     extend: core.runCoreScript
@@ -35,13 +35,13 @@ tasks:
           {{ end -}}
         {{ end -}}
       afterCheck: ""
-      runLocally: true
+      RunInLocal: true
     start:
     - '{{ .GetConfig "cmd" }}'
     - '{{ .GetConfig "cmdArg" }}'
     - |
         {{- $d := .Decoration -}}
-        {{ if .IsFalse (.GetConfig "runLocally") -}}
+        {{ if .IsFalse (.GetConfig "RunInLocal") -}}
           echo 🎉🎉🎉
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
           sleep infinity
@@ -60,7 +60,7 @@ tasks:
     - '{{ .GetConfig "cmdArg" }}'
     - |
         {{- $d := .Decoration -}}
-        {{ if .IsFalse (.GetConfig "runLocally") -}}
+        {{ if .IsFalse (.GetConfig "RunInLocal") -}}
           echo 🎉🎉🎉
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
           exit 0
@@ -91,7 +91,7 @@ tasks:
         ports       : Port to be checked to confirm service readiness, separated by new line.
     private: true
     extend: core.startService
-    configRef: core.nvm
+    configRef: coreNvm
     config:
       _setup: |
         set -e
@@ -137,8 +137,8 @@ tasks:
     dependencies:
     - updateProjectLinks
     inputs:
-    - docker.env
-    configRef: core.docker
+    - dockerEnv
+    configRef: coreDocker
     config:
       containerName: ""
       imagePrefix: ""

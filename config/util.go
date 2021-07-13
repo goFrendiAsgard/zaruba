@@ -70,13 +70,3 @@ func SetProjectValue(fileName, key, value string) (err error) {
 	}
 	return ioutil.WriteFile(fileName, newFileContentB, 0755)
 }
-
-func AddProjectLink(fileName, source, destination string) (err error) {
-	if source == "" {
-		return fmt.Errorf("source cannot be empty")
-	}
-	if destination == "" {
-		return fmt.Errorf("destination cannot be empty")
-	}
-	return SetProjectValue(fileName, fmt.Sprintf("link::%s", destination), source)
-}

@@ -34,9 +34,9 @@
                   cmdArg                      : -c
                   containerName               : Blank
                   database                    : {{ .GetEnv "MYSQL_DATABASE" }}
-                  dockerEnv                   : {{ .GetValue "docker.env" }}
+                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helm.env" }}
+                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : false
                   includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
@@ -67,7 +67,7 @@
                                                     DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
                                                   fi
                                                 {{ end -}}
-                  kubeContext                 : {{ .GetValue "kube.context" }}
+                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   password                    : {{ .GetEnv "MYSQL_ROOT_PASSWORD" }}
                   playBellScript              : echo $'\a'
                   queries                     : Blank

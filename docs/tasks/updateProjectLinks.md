@@ -11,7 +11,7 @@
                     link::<destination> : Location of the shared code
                   TIPS:
                     It is recommended to put `link` arguments in `default.values.yaml`.
-                    In order to do that, you can invoke `zaruba please addProjectLink <link.from=source-location> <link.to=destination-location>`
+                    In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

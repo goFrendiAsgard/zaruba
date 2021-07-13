@@ -16,11 +16,11 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : link.from
+  INPUTS        : linkFrom
                     DESCRIPTION : Link source (Required)
                     PROMPT      : Source
                     VALIDATION  : ^.+$
-                  link.to
+                  linkTo
                     DESCRIPTION : Link destination (Required)
                     PROMPT      : Destination
                     VALIDATION  : ^.+$
@@ -45,12 +45,12 @@
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  linkFrom               : {{ .GetValue "link.from" }}
-                  linkTo                 : {{ .GetValue "link.to" }}
+                  linkFrom               : {{ .GetValue "linkFrom" }}
+                  linkTo                 : {{ .GetValue "linkTo" }}
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           "${ZARUBA_HOME}/zaruba" addProjectLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
+                                           "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

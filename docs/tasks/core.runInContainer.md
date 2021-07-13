@@ -32,9 +32,9 @@
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
                   commands                    : Blank
-                  dockerEnv                   : {{ .GetValue "docker.env" }}
+                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helm.env" }}
+                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : false
                   includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
@@ -65,7 +65,7 @@
                                                     DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
                                                   fi
                                                 {{ end -}}
-                  kubeContext                 : {{ .GetValue "kube.context" }}
+                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   playBellScript              : echo $'\a'
                   setup                       : Blank
                   start                       : echo "No script defined"

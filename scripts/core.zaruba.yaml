@@ -7,7 +7,7 @@ includes:
 
 inputs:
 
-  advertisement.show:
+  showAdvertisement:
     default: yes
     options: [yes, no]
     allowCustom: false
@@ -15,12 +15,12 @@ inputs:
     prompt: Show advertisement
 
   
-  log.keyword:
+  logKeyword:
     description: Task regex pattern
     prompt: Task regex pattern
 
 
-  server.httpPort:
+  serverHttpPort:
     default: 8080
     options: [8080, 8000, 3000, 5000]
     validation: ^[0-9]+$
@@ -28,62 +28,62 @@ inputs:
     prompt: HTTP port
 
   
-  subrepo.url:
+  subrepoUrl:
     validation: ^.+$
     description: Subrepo url (Required)
     prompt: Subrepo url
 
   
-  subrepo.prefix:
+  subrepoPrefix:
     description: Subrepo directory name (Can be blank)
     prompt: Subrepo directory name
 
 
-  subrepo.name:
+  subrepoName:
     description: Subrepo name (Can be blank)
     prompt: Subrepo name
 
 
-  docker.env:
+  dockerEnv:
     default: default
     validation: ^.+$
     description: Docker env for getting image prefix (Required)
     prompt: Docker env
 
   
-  helm.env:
+  helmEnv:
     default: default
     validation: ^.+$
     description: Helm env (Required)
     prompt: Helm env
 
   
-  kube.context:
+  kubeContext:
     default: docker-desktop
     validation: ^.+$
     description: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
     prompt: Kube context
 
   
-  link.from:
+  linkFrom:
     validation: ^.+$
     description: Link source (Required)
     prompt: Source
 
 
-  link.to:
+  linkTo:
     validation: ^.+$
     description: Link destination (Required)
     prompt: Destination
 
   
-  variable.name:
+  variableName:
     validation: ^.+$
     description: Variable name (Required)
     prompt: Name
 
   
-  variable.value:
+  variableValue:
     validation: ^.+$
     description: Variable value (Required)
     prompt: Value
@@ -98,7 +98,7 @@ tasks:
     saveLog: false
     config:
       start: |
-        {{ $showAdvertisement := .GetValue "advertisement.show" -}}
+        {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
         {{ if .IsTrue $showAdvertisement -}}
           "${ZARUBA_HOME}/zaruba" showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
         {{ end -}}
@@ -154,9 +154,9 @@ tasks:
       Run static web server from your working directory.
     extend: core.startService
     inputs:
-    - server.httpPort
+    - serverHttpPort
     config:
-      ports: '{{ .GetValue "server.httpPort" }}'
+      ports: '{{ .GetValue "serverHttpPort" }}'
     start: 
     - python 
     - "-m"
@@ -195,9 +195,9 @@ tasks:
     extend: core.runCoreScript
     saveLog: false
     inputs:
-    - log.keyword
+    - logKeyword
     config:
-      logKeyword: '{{ if .GetValue "log.keyword" }}{{ .GetValue "log.keyword" }}{{ else }}.*{{ end }}'
+      logKeyword: '{{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}'
       start: |
         {{ $d := .Decoration -}}
         should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
@@ -233,7 +233,7 @@ tasks:
         subrepo::<name>::name     : Origin name of the subrepo
       TIPS:
         It is recommended to put `subrepo` arguments in `default.values.yaml`.
-        In order to do that, you can invoke `zaruba please addSubrepo <subrepo.url=remote-url>`
+        In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
     extend: core.runCoreScript
     dependencies:
     - core.isProject
@@ -246,7 +246,7 @@ tasks:
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-        ORIGINS=$("${ZARUBA_HOME}/zaruba" strToList "$(git remote)")
+        ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
         {{ range $index, $name := $names -}}
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
@@ -289,20 +289,20 @@ tasks:
     - core.isProject
     - core.setupPyUtil
     inputs:
-    - subrepo.url
-    - subrepo.prefix
-    - subrepo.name
+    - subrepoUrl
+    - subrepoPrefix
+    - subrepoName
     config:
-      subrepoUrl: '{{ .GetValue "subrepo.url" }}'
-      subrepoPrefix: '{{ .GetValue "subrepo.prefix" }}'
-      subrepoName: '{{ .GetValue "subrepo.name" }}'
+      subrepoUrl: '{{ .GetValue "subrepoUrl" }}'
+      subrepoPrefix: '{{ .GetValue "subrepoPrefix" }}'
+      subrepoName: '{{ .GetValue "subrepoName" }}'
       start: |
         set -e
         {{ $d := .Decoration -}}
-        URL="{{ .GetValue "subrepo.url" }}"
-        should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepo.url is not defined{{ $d.Normal }}"
-        {{ if .GetValue "subrepo.prefix" }}
-          PREFIX="{{ .GetValue "subrepo.prefix" }}"
+        URL="{{ .GetValue "subrepoUrl" }}"
+        should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
+        {{ if .GetValue "subrepoPrefix" }}
+          PREFIX="{{ .GetValue "subrepoPrefix" }}"
         {{ else }}
           {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
           {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
@@ -310,7 +310,7 @@ tasks:
           {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
           PREFIX="{{ $prefix }}"
         {{ end }}
-        NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
+        NAME="{{ if .GetValue "subrepoName" }}{{ .GetValue "subrepoName" }}{{ else }}${PREFIX}{{ end }}"
         "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
         "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
@@ -336,7 +336,7 @@ tasks:
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-        ORIGINS=$("${ZARUBA_HOME}/zaruba" strToList "$(git remote)")
+        ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
         {{ range $index, $name := $names -}}
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
@@ -368,7 +368,7 @@ tasks:
         {{ $d := .Decoration -}}
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
-        ORIGINS=$("${ZARUBA_HOME}/zaruba" strToList "$(git remote)")
+        ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
         BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
         {{ range $index, $name := $names -}}
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
@@ -489,7 +489,7 @@ tasks:
         link::<destination> : Location of the shared code
       TIPS:
         It is recommended to put `link` arguments in `default.values.yaml`.
-        In order to do that, you can invoke `zaruba please addProjectLink <link.from=source-location> <link.to=destination-location>`
+        In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
     extend: core.runCoreScript
     config:
       start: |
@@ -514,17 +514,17 @@ tasks:
       TIPS: To update links, you should perform `zaruba please updateProjectLinks`
     extend: core.runCoreScript
     inputs:
-    - link.from
-    - link.to
+    - linkFrom
+    - linkTo
     dependencies:
     - core.isProject
     - core.setupPyUtil
     config:
-      linkFrom: '{{ .GetValue "link.from" }}'
-      linkTo: '{{ .GetValue "link.to" }}'
+      linkFrom: '{{ .GetValue "linkFrom" }}'
+      linkTo: '{{ .GetValue "linkTo" }}'
       start: |
         {{ $d := .Decoration -}}
-        "${ZARUBA_HOME}/zaruba" addProjectLink "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetConfig "linkTo" }}"
+        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
 
@@ -537,11 +537,11 @@ tasks:
     - core.isProject
     - core.setupPyUtil
     inputs:
-    - variable.name
-    - variable.value
+    - variableName
+    - variableValue
     config:
-      variableName: '{{ .GetValue "variable.name" }}'
-      variableValue: '{{ .GetValue "variable.value" }}'
+      variableName: '{{ .GetValue "variableName" }}'
+      variableValue: '{{ .GetValue "variableValue" }}'
       start: |
         {{ $d := .Decoration -}}
         "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
@@ -555,13 +555,13 @@ tasks:
     description: |
       Build docker image.
       Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         imageName : Image name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateProjectLinks
-    configRef: core.docker
+    configRef: coreDocker
     config:
       imagePrefixTrailingSlash: true
       buildArg: ""
@@ -607,13 +607,13 @@ tasks:
     description: |
       Pull docker image.
       Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         imageName : Image name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateProjectLinks
-    configRef: core.docker
+    configRef: coreDocker
     config:
       imagePrefixTrailingSlash: true
       start: |
@@ -637,13 +637,13 @@ tasks:
     description: |
       Push docker image.
       Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         imageName : Image name
     extend: core.runCoreScript
     dependencies:
     - core.setupPyUtil
     - updateProjectLinks
-    configRef: core.docker
+    configRef: coreDocker
     config:
       imagePrefixTrailingSlash: true
       start: |
@@ -723,11 +723,11 @@ tasks:
     description: |
       Apply helm charts by using helmfile.
       Common config:
-        helmEnv     : helm environment key (default: '{{ .GetValue "helm.env" }}')
-        dockerEnv   : docker environment key (default: '{{ .GetValue "docker.env" }}')
+        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
+        dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
     extend: core.runCoreScript
-    configRef: core.docker
+    configRef: coreDocker
     config:
       start: |
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
@@ -743,11 +743,11 @@ tasks:
     description: |
       Destroy helm deployments by using helmfile....
       Common config:
-        helmEnv     : helm environment key (default: '{{ .GetValue "helm.env" }}')
-        dockerEnv   : docker environment key (default: '{{ .GetValue "docker.env" }}')
+        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
+        dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
     extend: core.runScript
-    configRef: core.docker
+    configRef: coreDocker
     config:
       start: |
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}

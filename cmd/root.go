@@ -14,10 +14,10 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "zaruba",
-	Short: "Declarative Task Runner Framework",
-	Long: `💀 Declarative Task Runner Framework
+	Short: "Declarative task runner framework and CLI utilities",
+	Long: `Declarative task runner framework and CLI utilities
 
-Zaruba help you execute tasks faster and easier.
+Zaruba helps you declare/execute tasks to manage your projects.
 Try:
   zaruba please`,
 }

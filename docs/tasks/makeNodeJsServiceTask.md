@@ -13,15 +13,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generator.service.location
+  INPUTS        : generatorServiceLocation
                     DESCRIPTION : Service location, relative to this directory
                     PROMPT      : Service location
                     VALIDATION  : ^.+$
-                  generator.service.name
+                  generatorServiceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generator.service.envs
+                  generatorServiceEnvs
                     DESCRIPTION : Service environments, comma separated.
                                   E.g: HTTP_PORT=3000,MODE=writer
                                   
@@ -29,24 +29,24 @@
                                   You might need to see service's documentation or open environment files (.env, template.env, etc) to see available options.
                                   If there is no documentation/environment files available, you probably need to run-through the code or ask the developer team.
                     PROMPT      : Service environments
-                  generator.service.ports
+                  generatorServicePorts
                     DESCRIPTION : Service ports (number or environment variable), comma separated.
                                   E.g: 3000,HTTP_PORT,PROMETHEUS_PORT
                     PROMPT      : Service ports
                     VALIDATION  : ^[a-zA-Z0-9_,]*$
-                  generator.nodeJsService.startCommand
+                  generatorNodeJsServiceStartCommand
                     DESCRIPTION : Command to start the service (Required)
                     PROMPT      : Start command
                     OPTIONS     : [ npm start, node start, node main, node index ]
                     DEFAULT     : npm start
                     VALIDATION  : ^.+$
-                  generator.nodeJsService.runnerVersion
+                  generatorNodeJsServiceRunnerVersion
                     DESCRIPTION : NodeJs version (Required)
                     PROMPT      : NodeJs version
                     OPTIONS     : [ node, 16, 15, 14, 13, 12, 11, 10 ]
                     DEFAULT     : node
                     VALIDATION  : ^.+$
-                  generator.task.dependencies
+                  generatorTaskDependencies
                     DESCRIPTION : Task's dependencies, comma separated.
                                   E.g: runMysql, runRedis
                                   
@@ -55,11 +55,11 @@
                                   In that case, assuming runMySql and runRedis are tasks to run MySQL and Redis respectively, then you need to set this task's dependencies into:
                                     runMysql,runRedis
                     PROMPT      : Task dependencies
-                  generator.service.docker.image.name
+                  generatorServiceDockerImageName
                     DESCRIPTION : Service's docker image name (Can be blank)
                     PROMPT      : Service's docker image name
                     VALIDATION  : ^[a-z0-9_]*$
-                  generator.service.docker.container.name
+                  generatorServiceDockerContainerName
                     DESCRIPTION : Service's docker container name (Can be blank)
                     PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
@@ -72,10 +72,10 @@
                   beforeStart            : Blank
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                 : -c
-                  containerName          : {{ .GetValue "generator.service.docker.container.name" }}
-                  dependencies           : {{ .GetValue "generator.task.dependencies" }}
+                  containerName          : {{ .GetValue "generatorServiceDockerContainerName" }}
+                  dependencies           : {{ .GetValue "generatorTaskDependencies" }}
                   finish                 : Blank
-                  imageName              : {{ .GetValue "generator.service.docker.image.name" }}
+                  imageName              : {{ .GetValue "generatorServiceDockerImageName" }}
                   includeBootstrapScript : if [ -f "${HOME}/.profile" ]
                                            then
                                                . "${HOME}/.profile"
@@ -88,12 +88,12 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
-                  runnerVersion          : {{ .GetValue "generator.nodeJsService.runnerVersion" }}
-                  serviceEnvs            : {{ .GetValue "generator.service.envs" }}
-                  serviceLocation        : {{ .GetValue "generator.service.location" }}
-                  serviceName            : {{ .GetValue "generator.service.name" }}
-                  servicePorts           : {{ .GetValue "generator.service.ports" }}
-                  serviceStartCommand    : {{ .GetValue "generator.nodeJsService.startCommand" }}
+                  runnerVersion          : {{ .GetValue "generatorNodeJsServiceRunnerVersion" }}
+                  serviceEnvs            : {{ .GetValue "generatorServiceEnvs" }}
+                  serviceLocation        : {{ .GetValue "generatorServiceLocation" }}
+                  serviceName            : {{ .GetValue "generatorServiceName" }}
+                  servicePorts           : {{ .GetValue "generatorServicePorts" }}
+                  serviceStartCommand    : {{ .GetValue "generatorNodeJsServiceStartCommand" }}
                   setup                  : Blank
                   start                  : {{- $d := .Decoration -}}
                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}

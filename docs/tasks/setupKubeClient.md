@@ -14,10 +14,10 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : setup.homeDir
+  INPUTS        : setupHomeDir
                     DESCRIPTION : Home directory (Can be blank)
                     PROMPT      : Home directory
-                  setup.helmfileVersion
+                  setupHelmfileVersion
                     DESCRIPTION : Helmfile version to be installed
                     PROMPT      : Helmfile version
                     DEFAULT     : v0.139.6
@@ -49,7 +49,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+                                           {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
                                            if [ "$(is_command_exist kubectl version)" = 1 ]
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"
@@ -78,7 +78,7 @@
                                            else
                                              rm -Rf "${HOME}/.local/bin/helmfile"
                                              echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install helmfile{{ $d.Normal }}"
-                                             wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "setup.helmfileVersion" }}/helmfile_linux_amd64
+                                             wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "setupHelmfileVersion" }}/helmfile_linux_amd64
                                              chmod 755 ./helmfile_linux_amd64
                                              mkdir -p "${HOME}/.local/bin"
                                              mv ./helmfile_linux_amd64 "${HOME}/.local/bin/helmfile"

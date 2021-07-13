@@ -12,7 +12,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -26,13 +26,14 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  INPUTS        : server.httpPort
+  INPUTS        : serverHttpPort
                     DESCRIPTION : HTTP port to serve static files
                     PROMPT      : HTTP port
                     OPTIONS     : [ 8080, 8000, 3000, 5000 ]
                     DEFAULT     : 8080
                     VALIDATION  : ^[0-9]+$
-  CONFIG        : _setup                 : set -e
+  CONFIG        : RunInLocal             : true
+                  _setup                 : set -e
                                            alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
@@ -64,8 +65,7 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
-                  ports                  : {{ .GetValue "server.httpPort" }}
-                  runLocally             : true
+                  ports                  : {{ .GetValue "serverHttpPort" }}
                   setup                  : Blank
                   start                  : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED

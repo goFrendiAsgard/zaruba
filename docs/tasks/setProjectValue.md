@@ -15,11 +15,11 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : variable.name
+  INPUTS        : variableName
                     DESCRIPTION : Variable name (Required)
                     PROMPT      : Name
                     VALIDATION  : ^.+$
-                  variable.value
+                  variableValue
                     DESCRIPTION : Variable value (Required)
                     PROMPT      : Value
                     VALIDATION  : ^.+$
@@ -50,8 +50,8 @@
                                            "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
-                  variableName           : {{ .GetValue "variable.name" }}
-                  variableValue          : {{ .GetValue "variable.value" }}
+                  variableName           : {{ .GetValue "variableName" }}
+                  variableValue          : {{ .GetValue "variableValue" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

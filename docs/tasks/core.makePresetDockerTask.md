@@ -22,10 +22,10 @@
                   beforeStart            : Blank
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                 : -c
-                  containerName          : {{ .GetValue "generator.docker.container.name" }}
-                  dependencies           : {{ .GetValue "generator.task.dependencies" }}
+                  containerName          : {{ .GetValue "generatorDockerContainerName" }}
+                  dependencies           : {{ .GetValue "generatorTaskDependencies" }}
                   finish                 : Blank
-                  imageName              : {{ .GetValue "generator.docker.image.name" }}
+                  imageName              : {{ .GetValue "generatorDockerImageName" }}
                   includeBootstrapScript : if [ -f "${HOME}/.profile" ]
                                            then
                                                . "${HOME}/.profile"
@@ -38,8 +38,8 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
-                  serviceEnvs            : {{ .GetValue "generator.service.envs" }}
-                  serviceName            : {{ .GetValue "generator.service.name" }}
+                  serviceEnvs            : {{ .GetValue "generatorServiceEnvs" }}
+                  serviceName            : {{ .GetValue "generatorServiceName" }}
                   setup                  : Blank
                   start                  : {{- $d := .Decoration -}}
                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}

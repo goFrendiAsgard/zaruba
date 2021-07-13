@@ -13,19 +13,19 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generator.docker.image.name
+  INPUTS        : generatorDockerImageName
                     DESCRIPTION : Docker image name (Required)
                     PROMPT      : Docker image name
                     VALIDATION  : ^[a-z0-9_]+$
-                  generator.docker.container.name
+                  generatorDockerContainerName
                     DESCRIPTION : Docker container name (Can be blank)
                     PROMPT      : Docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generator.service.name
+                  generatorServiceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generator.service.envs
+                  generatorServiceEnvs
                     DESCRIPTION : Service environments, comma separated.
                                   E.g: HTTP_PORT=3000,MODE=writer
                                   
@@ -33,7 +33,7 @@
                                   You might need to see service's documentation or open environment files (.env, template.env, etc) to see available options.
                                   If there is no documentation/environment files available, you probably need to run-through the code or ask the developer team.
                     PROMPT      : Service environments
-                  generator.task.dependencies
+                  generatorTaskDependencies
                     DESCRIPTION : Task's dependencies, comma separated.
                                   E.g: runMysql, runRedis
                                   
@@ -51,10 +51,10 @@
                   beforeStart            : Blank
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                 : -c
-                  containerName          : {{ .GetValue "generator.docker.container.name" }}
-                  dependencies           : {{ .GetValue "generator.task.dependencies" }}
+                  containerName          : {{ .GetValue "generatorDockerContainerName" }}
+                  dependencies           : {{ .GetValue "generatorTaskDependencies" }}
                   finish                 : Blank
-                  imageName              : {{ .GetValue "generator.docker.image.name" }}
+                  imageName              : {{ .GetValue "generatorDockerImageName" }}
                   includeBootstrapScript : if [ -f "${HOME}/.profile" ]
                                            then
                                                . "${HOME}/.profile"
@@ -67,8 +67,8 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
-                  serviceEnvs            : {{ .GetValue "generator.service.envs" }}
-                  serviceName            : {{ .GetValue "generator.service.name" }}
+                  serviceEnvs            : {{ .GetValue "generatorServiceEnvs" }}
+                  serviceName            : {{ .GetValue "generatorServiceName" }}
                   setup                  : Blank
                   start                  : {{- $d := .Decoration -}}
                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}

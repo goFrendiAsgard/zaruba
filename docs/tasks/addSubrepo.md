@@ -16,14 +16,14 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : subrepo.url
+  INPUTS        : subrepoUrl
                     DESCRIPTION : Subrepo url (Required)
                     PROMPT      : Subrepo url
                     VALIDATION  : ^.+$
-                  subrepo.prefix
+                  subrepoPrefix
                     DESCRIPTION : Subrepo directory name (Can be blank)
                     PROMPT      : Subrepo directory name
-                  subrepo.name
+                  subrepoName
                     DESCRIPTION : Subrepo name (Can be blank)
                     PROMPT      : Subrepo name
   CONFIG        : _setup                 : set -e
@@ -51,10 +51,10 @@
                   setup                  : Blank
                   start                  : set -e
                                            {{ $d := .Decoration -}}
-                                           URL="{{ .GetValue "subrepo.url" }}"
-                                           should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepo.url is not defined{{ $d.Normal }}"
-                                           {{ if .GetValue "subrepo.prefix" }}
-                                             PREFIX="{{ .GetValue "subrepo.prefix" }}"
+                                           URL="{{ .GetValue "subrepoUrl" }}"
+                                           should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
+                                           {{ if .GetValue "subrepoPrefix" }}
+                                             PREFIX="{{ .GetValue "subrepoPrefix" }}"
                                            {{ else }}
                                              {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
                                              {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
@@ -62,14 +62,14 @@
                                              {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
                                              PREFIX="{{ $prefix }}"
                                            {{ end }}
-                                           NAME="{{ if .GetValue "subrepo.name" }}{{ .GetValue "subrepo.name" }}{{ else }}${PREFIX}{{ end }}"
+                                           NAME="{{ if .GetValue "subrepoName" }}{{ .GetValue "subrepoName" }}{{ else }}${PREFIX}{{ end }}"
                                            "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
                                            "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
-                  subrepoName            : {{ .GetValue "subrepo.name" }}
-                  subrepoPrefix          : {{ .GetValue "subrepo.prefix" }}
-                  subrepoUrl             : {{ .GetValue "subrepo.url" }}
+                  subrepoName            : {{ .GetValue "subrepoName" }}
+                  subrepoPrefix          : {{ .GetValue "subrepoPrefix" }}
+                  subrepoUrl             : {{ .GetValue "subrepoUrl" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

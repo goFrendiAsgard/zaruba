@@ -1,6 +1,6 @@
 inputs:
 
-  zarubaServiceName.runLocally: {}
+  zarubaServiceNameRunInLocal: {}
 
 tasks:
 
@@ -13,7 +13,7 @@ tasks:
     - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
-    - zarubaServiceName.runLocally
+    - zarubaServiceNameRunInLocal
  
   flushZarubaServiceName:
     icon: 🧰

@@ -10,7 +10,7 @@
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
@@ -27,7 +27,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -41,7 +41,8 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : _check                 : {{ $d := .Decoration -}}
+  CONFIG        : RunInLocal             : true
+                  _check                 : {{ $d := .Decoration -}}
                                            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
                   _setup                 : {{ .GetConfig "_setup.ports" }}
                   _setup.ports           : PORTS=""
@@ -95,7 +96,6 @@
                   interval               : 1
                   playBellScript         : echo $'\a'
                   ports                  : 8080
-                  runLocally             : true
                   setup                  : Blank
                   start                  : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED

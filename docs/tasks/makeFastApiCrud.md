@@ -15,25 +15,25 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generator.fastApi.service.name
+  INPUTS        : generatorFastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generator.fastApi.createTask
+                  generatorFastApiCreateTask
                     DESCRIPTION : Create service task if not exist.
                     PROMPT      : Create service task if not exist
                     OPTIONS     : [ yes, no ]
                     DEFAULT     : no
-                  generator.fastApi.module.name
+                  generatorFastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generator.fastApi.crud.entity
+                  generatorFastApiCrudEntity
                     DESCRIPTION : Entity name (Required)
                                   Usually plural word (e.g: books, articles)
                     PROMPT      : Entity name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generator.fastApi.crud.fields
+                  generatorFastApiCrudFields
                     DESCRIPTION : Field names, comma separated.
                                   E.g: name,address
                                   The following fields are included by default:
@@ -79,7 +79,7 @@
                                                   cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
                                                 fi
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib link for ${SERVICE_NAME}{{ $d.Normal }}"
-                                                "${ZARUBA_HOME}/zaruba" addProjectLink "{{ .GetWorkPath "default.values.yaml" }}" "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+                                                "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::${SERVICE_NAME}/helpers" "shared-libs/python/helpers"
                                                 link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
                                                 {{ if .IsTrue (.GetConfig "createTask") -}}
                                                 TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
@@ -88,9 +88,9 @@
                                                 {{ end -}}
                                               fi
                                             fi
-                  createTask              : {{ .GetValue "generator.fastApi.createTask" }}
-                  entityName              : {{ .GetValue "generator.fastApi.crud.entity" }}
-                  fieldNames              : {{ .GetValue "generator.fastApi.crud.fields" }}
+                  createTask              : {{ .GetValue "generatorFastApiCreateTask" }}
+                  entityName              : {{ .GetValue "generatorFastApiCrudEntity" }}
+                  fieldNames              : {{ .GetValue "generatorFastApiCrudFields" }}
                   finish                  : Blank
                   includeBootstrapScript  : if [ -f "${HOME}/.profile" ]
                                             then
@@ -103,10 +103,10 @@
                                             BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
                                             . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript       : . "${ZARUBA_HOME}/scripts/util.sh"
-                  moduleName              : {{ .GetValue "generator.fastApi.module.name" }}
+                  moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule
                   playBellScript          : echo $'\a'
-                  serviceName             : {{ .GetValue "generator.fastApi.service.name" }}
+                  serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}

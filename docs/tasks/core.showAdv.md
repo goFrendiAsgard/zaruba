@@ -36,7 +36,7 @@
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
                   setup                  : Blank
-                  start                  : {{ $showAdvertisement := .GetValue "advertisement.show" -}}
+                  start                  : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
                                            {{ if .IsTrue $showAdvertisement -}}
                                              "${ZARUBA_HOME}/zaruba" showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
                                            {{ end -}}

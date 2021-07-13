@@ -1,6 +1,6 @@
 inputs:
 
-  zarubaServiceName.runLocally: {}
+  zarubaServiceNameRunInLocal: {}
 
 tasks:
 
@@ -9,7 +9,7 @@ tasks:
     extend: serveHttp
     location: zarubaServiceLocation
     inputs:
-    - zarubaServiceName.runLocally
+    - zarubaServiceNameRunInLocal
 
 configs:
   zarubaServiceName: {}

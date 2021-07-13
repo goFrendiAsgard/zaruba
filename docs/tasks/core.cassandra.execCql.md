@@ -33,9 +33,9 @@
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
                   containerName               : Blank
-                  dockerEnv                   : {{ .GetValue "docker.env" }}
+                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helm.env" }}
+                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : false
                   includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
@@ -67,7 +67,7 @@
                                                   fi
                                                 {{ end -}}
                   keyspace                    : sample
-                  kubeContext                 : {{ .GetValue "kube.context" }}
+                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   password                    : cassandra
                   playBellScript              : echo $'\a'
                   queries                     : Blank

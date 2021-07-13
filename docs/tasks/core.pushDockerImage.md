@@ -4,7 +4,7 @@
   LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Push docker image.
                   Common config:
-                    dockerEnv : Docker environment key (default: '{{ .GetValue "docker.env" }}')
+                    dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
                     imageName : Image name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -27,9 +27,9 @@
                   beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
-                  dockerEnv                   : {{ .GetValue "docker.env" }}
+                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helm.env" }}
+                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : true
                   includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
@@ -60,7 +60,7 @@
                                                     DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
                                                   fi
                                                 {{ end -}}
-                  kubeContext                 : {{ .GetValue "kube.context" }}
+                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   playBellScript              : echo $'\a'
                   setup                       : Blank
                   start                       : {{ $d := .Decoration -}}

@@ -45,7 +45,7 @@
                                            {{ $d := .Decoration -}}
                                            {{ $names := .GetSubValueKeys "subrepo" -}}
                                            {{ $this := . -}}
-                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" strToList "$(git remote)")
+                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
                                            BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
                                            {{ range $index, $name := $names -}}
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"

@@ -4,8 +4,8 @@
   LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
   DESCRIPTION   : Apply helm charts by using helmfile.
                   Common config:
-                    helmEnv     : helm environment key (default: '{{ .GetValue "helm.env" }}')
-                    dockerEnv   : docker environment key (default: '{{ .GetValue "docker.env" }}')
+                    helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
+                    dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
                     kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -27,9 +27,9 @@
                   beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
-                  dockerEnv                   : {{ .GetValue "docker.env" }}
+                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helm.env" }}
+                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : false
                   includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
@@ -60,7 +60,7 @@
                                                     DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
                                                   fi
                                                 {{ end -}}
-                  kubeContext                 : {{ .GetValue "kube.context" }}
+                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   playBellScript              : echo $'\a'
                   setup                       : Blank
                   start                       : {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}

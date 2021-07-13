@@ -15,7 +15,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generator.service.name
+  INPUTS        : generatorServiceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
@@ -43,7 +43,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{- $d := .Decoration -}}
-                                           SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
+                                           SERVICE_NAME="{{ .GetValue "generatorServiceName" }}"
                                            create_helm_deployment "${SERVICE_NAME}"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"

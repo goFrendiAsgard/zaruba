@@ -37,7 +37,7 @@
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
                   setup                  : Blank
-                  start                  : {{ if .IsTrue (.GetValue "setup.initPyUtil") }}
+                  start                  : {{ if .IsTrue (.GetValue "setupInitPyUtil") }}
                                              {{ $d := .Decoration -}}
                                              if [ -z "$(pipenv --version)" ]
                                              then

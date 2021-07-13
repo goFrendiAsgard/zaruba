@@ -14,10 +14,10 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : setup.userPassword
+  INPUTS        : setupUserPassword
                     DESCRIPTION : User password (Can be blank if you already run the task with "sudo")
                     PROMPT      : User password
-                  setup.allowRoot
+                  setupAllowRoot
                     DESCRIPTION : Allow to install as root (using root home directory)
                     PROMPT      : Allow to install as root
                     OPTIONS     : [ yes, no ]
@@ -51,19 +51,19 @@
                   start                  : {{ $d := .Decoration -}}
                                            if [ $(whoami) = "root" ]
                                            then
-                                             {{ if .IsFalse (.GetValue "setup.allowRoot") }}
+                                             {{ if .IsFalse (.GetValue "setupAllowRoot") }}
                                                if echo "${1}" | grep -q "/root$"
                                                then
-                                                   echo "{{ $d.Bold}}{{ $d.Red }}Your home directory seems to be '/root'. If this is intentional please set 'setup.allowRoot' to 'true'. Otherwise re-run this task with 'sudo -E'{{ $d.Normal}}"
+                                                   echo "{{ $d.Bold}}{{ $d.Red }}Your home directory seems to be '/root'. If this is intentional please set 'setupAllowRoot' to 'true'. Otherwise re-run this task with 'sudo -E'{{ $d.Normal}}"
                                                    exit 1
                                                fi
                                              {{ end }}
                                              . "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
                                            else
-                                             {{ if .GetValue "setup.userPassword" }}
+                                             {{ if .GetValue "setupUserPassword" }}
                                                echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S {{ .GetConfig "cmd" }} "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
                                              {{ else }}
-                                               echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setup.userPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
+                                               echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setupUserPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
                                                exit 1
                                              {{ end }}
                                            fi

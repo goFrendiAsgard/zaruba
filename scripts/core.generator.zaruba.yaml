@@ -1,24 +1,24 @@
 inputs:
 
-  generator.docker.image.name:
+  generatorDockerImageName:
     description: Docker image name (Required)
     prompt: Docker image name
     validation: ^[a-z0-9_]+$
 
 
-  generator.docker.container.name:
+  generatorDockerContainerName:
     description: Docker container name (Can be blank)
     prompt: Docker container name
     validation: ^[a-zA-Z0-9_]*$
 
   
-  generator.service.name:
+  generatorServiceName:
     description: Service name (Can be blank)
     prompt: Service name
     validation: ^[a-zA-Z0-9_]*$
 
 
-  generator.service.ports:
+  generatorServicePorts:
     description: |
       Service ports (number or environment variable), comma separated.
       E.g: 3000,HTTP_PORT,PROMETHEUS_PORT
@@ -26,7 +26,7 @@ inputs:
     validation: ^[a-zA-Z0-9_,]*$
   
 
-  generator.service.envs:
+  generatorServiceEnvs:
     description: |
       Service environments, comma separated.
       E.g: HTTP_PORT=3000,MODE=writer
@@ -37,7 +37,7 @@ inputs:
     prompt: "Service environments"
 
 
-  generator.task.dependencies:
+  generatorTaskDependencies:
     description: |
       Task's dependencies, comma separated.
       E.g: runMysql, runRedis
@@ -49,40 +49,40 @@ inputs:
     prompt: "Task dependencies"
 
 
-  generator.service.location:
+  generatorServiceLocation:
     description: Service location, relative to this directory
     prompt: "Service location"
     validation: ^.+$
 
 
-  generator.service.docker.image.name:
+  generatorServiceDockerImageName:
     description: |
       Service's docker image name (Can be blank)
     prompt: Service's docker image name
     validation: ^[a-z0-9_]*$
 
 
-  generator.service.docker.container.name:
+  generatorServiceDockerContainerName:
     description: |
       Service's docker container name (Can be blank)
     prompt: Service's docker container name
     validation: ^[a-zA-Z0-9_]*$
 
 
-  generator.service.startCommand:
+  generatorServiceStartCommand:
     description: Command to start the service (Required)
     prompt: Start command
     validation: ^.+$
 
 
-  generator.goService.startCommand:
+  generatorGoServiceStartCommand:
     description: Command to start the service (Required)
     prompt: Start command
     default: go run .
     validation: ^.+$
 
 
-  generator.nodeJsService.startCommand:
+  generatorNodeJsServiceStartCommand:
     description: Command to start the service (Required)
     prompt: Start command
     options:
@@ -94,7 +94,7 @@ inputs:
     validation: ^.+$
 
 
-  generator.nodeJsService.runnerVersion:
+  generatorNodeJsServiceRunnerVersion:
     description: NodeJs version (Required)
     prompt: NodeJs version
     options: [node, 16, 15, 14, 13, 12, 11, 10]
@@ -102,7 +102,7 @@ inputs:
     validation: ^.+$
 
    
-  generator.pythonService.startCommand:
+  generatorPythonServiceStartCommand:
     description: Command to start the service (Required)
     prompt: Start command
     options:
@@ -113,7 +113,7 @@ inputs:
     validation: ^.+$
 
 
-  generator.fastApi.createTask:
+  generatorFastApiCreateTask:
     description: Create service task if not exist.
     prompt: Create service task if not exist
     options: [yes, no]
@@ -121,26 +121,26 @@ inputs:
     allowCustom: false
 
   
-  generator.fastApi.service.name:
+  generatorFastApiServiceName:
     description: Service name (Required)
     prompt: Service name
     validation: ^[a-zA-Z0-9_]+$
 
 
-  generator.fastApi.module.name:
+  generatorFastApiModuleName:
     description: Module name (Required)
     prompt: Module name
     validation: ^[a-zA-Z0-9_]+$
 
 
-  generator.fastApi.url:
+  generatorFastApiUrl:
     description: |
       URL to be handled (Required)
     prompt: URL to be handled
     validation: ^[a-zA-Z0-9_\-/\{\}]+$
 
 
-  generator.fastApi.httpMethod:
+  generatorFastApiHttpMethod:
     description: HTTP Method (Required)
     prompt: HTTP Method
     options: [get, post, put, delete]
@@ -149,21 +149,21 @@ inputs:
     allowCustom: false
 
 
-  generator.fastApi.event.name:
+  generatorFastApiEventName:
     description: |
       Event name (Required)
     prompt: Event name
     validation: ^[a-zA-Z0-9_\-\.]+$
 
 
-  generator.fastApi.rpc.name:
+  generatorFastApiRpcName:
     description: |
       RPC name (Required)
     prompt: RPC name
     validation: ^[a-zA-Z0-9_\-\.]+$
 
  
-  generator.fastApi.crud.entity:
+  generatorFastApiCrudEntity:
     description: |
       Entity name (Required)
       Usually plural word (e.g: books, articles)
@@ -171,7 +171,7 @@ inputs:
     validation: ^[a-zA-Z0-9_]+$
 
   
-  generator.fastApi.crud.fields:
+  generatorFastApiCrudFields:
     description: |
       Field names, comma separated.
       E.g: name,address
@@ -192,12 +192,12 @@ tasks:
     - core.showAdv
     - core.isProject
     config:
-      imageName: '{{ .GetValue "generator.docker.image.name" }}'
-      containerName: '{{ .GetValue "generator.docker.container.name" }}'
-      serviceName: '{{ .GetValue "generator.service.name" }}'
+      imageName: '{{ .GetValue "generatorDockerImageName" }}'
+      containerName: '{{ .GetValue "generatorDockerContainerName" }}'
+      serviceName: '{{ .GetValue "generatorServiceName" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml'
-      serviceEnvs: '{{ .GetValue "generator.service.envs" }}'
-      dependencies: '{{ .GetValue "generator.task.dependencies" }}'
+      serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
+      dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
       start: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
@@ -226,15 +226,15 @@ tasks:
     - core.showAdv
     - core.isProject
     config:
-      imageName: '{{ .GetValue "generator.service.docker.image.name" }}'
-      containerName: '{{ .GetValue "generator.service.docker.container.name" }}'
-      serviceName: '{{ .GetValue "generator.service.name" }}'
-      servicePorts: '{{ .GetValue "generator.service.ports" }}'
-      serviceLocation: '{{ .GetValue "generator.service.location" }}'
-      serviceStartCommand: '{{ .GetValue "generator.service.startCommand" }}'
+      imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'
+      containerName: '{{ .GetValue "generatorServiceDockerContainerName" }}'
+      serviceName: '{{ .GetValue "generatorServiceName" }}'
+      servicePorts: '{{ .GetValue "generatorServicePorts" }}'
+      serviceLocation: '{{ .GetValue "generatorServiceLocation" }}'
+      serviceStartCommand: '{{ .GetValue "generatorServiceStartCommand" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
-      serviceEnvs: '{{ .GetValue "generator.service.envs" }}'
-      dependencies: '{{ .GetValue "generator.task.dependencies" }}'
+      serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
+      dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
       runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
@@ -265,30 +265,30 @@ tasks:
     icon: 🐳
     extend: core.makeDockerTask
     inputs:
-    - generator.docker.image.name
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerImageName
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
   
 
   makeMysqlDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: mysql
 
   makePostgreDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: postgre
 
@@ -296,10 +296,10 @@ tasks:
   makeRabbitmqDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: rabbitmq
 
@@ -307,10 +307,10 @@ tasks:
   makeElasticsearchDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: elasticsearch
 
@@ -318,10 +318,10 @@ tasks:
   makeCassandraDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: cassandra
 
@@ -329,10 +329,10 @@ tasks:
   makeRedisDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: redis
 
@@ -340,10 +340,10 @@ tasks:
   makeMongoDockerTask:
     extend: core.makePresetDockerTask
     inputs:
-    - generator.docker.container.name
-    - generator.service.name
-    - generator.service.envs
-    - generator.task.dependencies
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
     config:
       template: mongo
 
@@ -352,26 +352,26 @@ tasks:
     icon: 📜
     extend: core.makeServiceTask
     inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.envs
-    - generator.service.startCommand
-    - generator.service.ports
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
-    - generator.task.dependencies
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServiceStartCommand
+    - generatorServicePorts
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
+    - generatorTaskDependencies
 
   
   makeFastApiServiceTask:
     extend: core.makePresetServiceTask
     inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.envs
-    - generator.service.ports
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
-    - generator.task.dependencies
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
+    - generatorTaskDependencies
     config:
       template: fastapi
 
@@ -379,63 +379,63 @@ tasks:
   makeGoServiceTask:
     extend: core.makePresetServiceTask
     inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.envs
-    - generator.service.ports
-    - generator.goService.startCommand
-    - generator.task.dependencies
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorGoServiceStartCommand
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
     config:
-      serviceStartCommand: '{{ .GetValue "generator.goService.startCommand" }}'
+      serviceStartCommand: '{{ .GetValue "generatorGoServiceStartCommand" }}'
       template: go
 
  
   makeNodeJsServiceTask:
     extend: core.makePresetServiceTask
     inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.envs
-    - generator.service.ports
-    - generator.nodeJsService.startCommand
-    - generator.nodeJsService.runnerVersion
-    - generator.task.dependencies
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorNodeJsServiceStartCommand
+    - generatorNodeJsServiceRunnerVersion
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
     config:
-      serviceStartCommand: '{{ .GetValue "generator.nodeJsService.startCommand" }}'
-      runnerVersion: '{{ .GetValue "generator.nodeJsService.runnerVersion" }}'
+      serviceStartCommand: '{{ .GetValue "generatorNodeJsServiceStartCommand" }}'
+      runnerVersion: '{{ .GetValue "generatorNodeJsServiceRunnerVersion" }}'
       template: nodejs
 
  
   makePythonServiceTask:
     extend: core.makePresetServiceTask
     inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.envs
-    - generator.service.ports
-    - generator.pythonService.startCommand
-    - generator.task.dependencies
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorPythonServiceStartCommand
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
     config:
-      serviceStartCommand: '{{ .GetValue "generator.pythonService.startCommand" }}'
+      serviceStartCommand: '{{ .GetValue "generatorPythonServiceStartCommand" }}'
       template: python
 
 
   makeStaticServiceTask:
     extend: core.makePresetServiceTask
     inputs:
-    - generator.service.location
-    - generator.service.name
-    - generator.service.envs
-    - generator.service.ports
-    - generator.task.dependencies
-    - generator.service.docker.image.name
-    - generator.service.docker.container.name
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
     config:
       template: static
 
@@ -449,11 +449,11 @@ tasks:
     - core.isContainHelmCharts
     - core.showAdv
     inputs:
-    - generator.service.name
+    - generatorServiceName
     config:
       start: |
         {{- $d := .Decoration -}}
-        SERVICE_NAME="{{ .GetValue "generator.service.name" }}"
+        SERVICE_NAME="{{ .GetValue "generatorServiceName" }}"
         create_helm_deployment "${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
@@ -466,9 +466,9 @@ tasks:
     dependencies:
     - core.showAdv
     inputs:
-    - generator.fastApi.service.name
-    - generator.fastApi.createTask
-    configRef: generator.fastApi
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    configRef: generatorFastApi
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -483,13 +483,13 @@ tasks:
     icon: ⚡
     description: Make FastAPI module
     inputs:
-    - generator.fastApi.service.name
-    - generator.fastApi.createTask
-    - generator.fastApi.module.name
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
     extend: core.runCoreScript
     dependencies:
     - core.showAdv
-    configRef: generator.fastApi
+    configRef: generatorFastApi
     config:
       start: |
         {{- $d := .Decoration -}}
@@ -505,19 +505,19 @@ tasks:
     icon: ⚡
     description: Make FastAPI route handler
     inputs:
-    - generator.fastApi.service.name
-    - generator.fastApi.createTask
-    - generator.fastApi.module.name
-    - generator.fastApi.httpMethod
-    - generator.fastApi.url
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
+    - generatorFastApiHttpMethod
+    - generatorFastApiUrl
     extend: core.runCoreScript
     dependencies:
     - core.showAdv
-    configRef: generator.fastApi
+    configRef: generatorFastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      httpMethod: '{{ .GetValue "generator.fastApi.httpMethod" }}'
-      url: '{{ .GetValue "generator.fastApi.url" }}'
+      httpMethod: '{{ .GetValue "generatorFastApiHttpMethod" }}'
+      url: '{{ .GetValue "generatorFastApiUrl" }}'
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
@@ -538,17 +538,17 @@ tasks:
     icon: ⚡
     description: Make FastAPI event handler
     inputs:
-    - generator.fastApi.service.name
-    - generator.fastApi.createTask
-    - generator.fastApi.module.name
-    - generator.fastApi.event.name
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
+    - generatorFastApiEventName
     extend: core.runCoreScript
     dependencies:
     - core.showAdv
-    configRef: generator.fastApi
+    configRef: generatorFastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      eventName: '{{ .GetValue "generator.fastApi.event.name" }}'
+      eventName: '{{ .GetValue "generatorFastApiEventName" }}'
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
@@ -569,17 +569,17 @@ tasks:
     icon: ⚡
     description: Make FastAPI Route
     inputs:
-    - generator.fastApi.service.name
-    - generator.fastApi.createTask
-    - generator.fastApi.module.name
-    - generator.fastApi.rpc.name
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
+    - generatorFastApiRpcName
     extend: core.runCoreScript
     dependencies:
     - core.showAdv
-    configRef: generator.fastApi
+    configRef: generatorFastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-      rpcName: '{{ .GetValue "generator.fastApi.rpc.name" }}'
+      rpcName: '{{ .GetValue "generatorFastApiRpcName" }}'
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}
@@ -600,19 +600,19 @@ tasks:
     icon: ⚡
     description: Make FastAPI crud
     inputs:
-    - generator.fastApi.service.name
-    - generator.fastApi.createTask
-    - generator.fastApi.module.name
-    - generator.fastApi.crud.entity
-    - generator.fastApi.crud.fields
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
+    - generatorFastApiCrudEntity
+    - generatorFastApiCrudFields
     extend: core.runCoreScript
     dependencies:
     - core.showAdv
-    configRef: generator.fastApi
+    configRef: generatorFastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud'
-      entityName: '{{ .GetValue "generator.fastApi.crud.entity" }}'
-      fieldNames: '{{ .GetValue "generator.fastApi.crud.fields" }}'
+      entityName: '{{ .GetValue "generatorFastApiCrudEntity" }}'
+      fieldNames: '{{ .GetValue "generatorFastApiCrudFields" }}'
       start: |
         {{- $d := .Decoration -}}
         {{ .GetConfig "createModuleScript" }}

@@ -1,6 +1,6 @@
 inputs:
 
-  zarubaServiceName.runLocally: {}
+  zarubaServiceNameRunInLocal: {}
 
 tasks:
     
@@ -31,7 +31,7 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     inputs:
-    - zarubaServiceName.runLocally
+    - zarubaServiceNameRunInLocal
     config:
       start: zarubaStartCommand
   

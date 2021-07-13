@@ -1,6 +1,6 @@
 inputs:
 
-  zarubaServiceName.runLocally: {}
+  zarubaServiceNameRunInLocal: {}
 
 tasks:
 
@@ -33,7 +33,7 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     inputs:
-    - zarubaServiceName.runLocally
+    - zarubaServiceNameRunInLocal
     config:
       start: |
         {{ $port := index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 -}}

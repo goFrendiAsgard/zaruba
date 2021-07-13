@@ -22,10 +22,10 @@
                   beforeStart            : Blank
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                 : -c
-                  containerName          : {{ .GetValue "generator.service.docker.container.name" }}
-                  dependencies           : {{ .GetValue "generator.task.dependencies" }}
+                  containerName          : {{ .GetValue "generatorServiceDockerContainerName" }}
+                  dependencies           : {{ .GetValue "generatorTaskDependencies" }}
                   finish                 : Blank
-                  imageName              : {{ .GetValue "generator.service.docker.image.name" }}
+                  imageName              : {{ .GetValue "generatorServiceDockerImageName" }}
                   includeBootstrapScript : if [ -f "${HOME}/.profile" ]
                                            then
                                                . "${HOME}/.profile"
@@ -39,11 +39,11 @@
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
                   runnerVersion          : Blank
-                  serviceEnvs            : {{ .GetValue "generator.service.envs" }}
-                  serviceLocation        : {{ .GetValue "generator.service.location" }}
-                  serviceName            : {{ .GetValue "generator.service.name" }}
-                  servicePorts           : {{ .GetValue "generator.service.ports" }}
-                  serviceStartCommand    : {{ .GetValue "generator.service.startCommand" }}
+                  serviceEnvs            : {{ .GetValue "generatorServiceEnvs" }}
+                  serviceLocation        : {{ .GetValue "generatorServiceLocation" }}
+                  serviceName            : {{ .GetValue "generatorServiceName" }}
+                  servicePorts           : {{ .GetValue "generatorServicePorts" }}
+                  serviceStartCommand    : {{ .GetValue "generatorServiceStartCommand" }}
                   setup                  : Blank
                   start                  : {{- $d := .Decoration -}}
                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}

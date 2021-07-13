@@ -1,7 +1,7 @@
 configs:
 
 
-  core.shell:
+  coreShell:
     playBellScript: echo $'\a'
     includeUtilScript: . "${ZARUBA_HOME}/scripts/util.sh"
     includeBootstrapScript: |
@@ -17,10 +17,10 @@ configs:
       . "${BOOTSTRAP_SCRIPT}"
 
 
-  core.docker:
-    dockerEnv: '{{ .GetValue "docker.env" }}'
-    helmEnv: '{{ .GetValue "helm.env" }}'
-    kubeContext: '{{ .GetValue "kube.context" }}'
+  coreDocker:
+    dockerEnv: '{{ .GetValue "dockerEnv" }}'
+    helmEnv: '{{ .GetValue "helmEnv" }}'
+    kubeContext: '{{ .GetValue "kubeContext" }}'
     useImagePrefix: true
     imagePrefix: ''
     imagePrefixTrailingSlash: false
@@ -44,7 +44,7 @@ configs:
       {{ end -}}
   
 
-  core.nvm:
+  coreNvm:
     nodeVersion: node
     installTypeScript: false
     compileTypeScript: false
@@ -99,13 +99,13 @@ configs:
       {{ end -}}
   
 
-  generator.fastApi:
+  generatorFastApi:
     taskTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi.zaruba.yaml'
     serviceTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService'
     moduleTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
-    serviceName: '{{ .GetValue "generator.fastApi.service.name" }}'
-    moduleName: '{{ .GetValue "generator.fastApi.module.name" }}'
-    createTask: '{{ .GetValue "generator.fastApi.createTask" }}'
+    serviceName: '{{ .GetValue "generatorFastApiServiceName" }}'
+    moduleName: '{{ .GetValue "generatorFastApiModuleName" }}'
+    createTask: '{{ .GetValue "generatorFastApiCreateTask" }}'
     createServiceScript: | 
       {{- $d := .Decoration -}}
       if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
@@ -124,7 +124,7 @@ configs:
             cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
           fi
           echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib link for ${SERVICE_NAME}{{ $d.Normal }}"
-          "${ZARUBA_HOME}/zaruba" addProjectLink "{{ .GetWorkPath "default.values.yaml" }}" "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+          "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::${SERVICE_NAME}/helpers" "shared-libs/python/helpers"
           link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
           {{ if .IsTrue (.GetConfig "createTask") -}}
           TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}

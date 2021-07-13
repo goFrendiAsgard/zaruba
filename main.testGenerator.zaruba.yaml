@@ -27,7 +27,7 @@ tasks:
     config:
       start: |
         ../zaruba please initProject 
-        ../zaruba please setProjectValue variable.name=dockerImagePrefix::default variable.value=localhost:9999 
+        ../zaruba please setProjectValue variableName=dockerImagePrefix::default variableValue=localhost:9999 
   
 
   testInitHelm:
@@ -48,8 +48,8 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="fibo" 
-        ../zaruba please addSubrepo subrepo.url="https://github.com/state-alchemists/fibonacci-clock" subrepo.prefix="other-fibo" 
+        ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="fibo" 
+        ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="other-fibo" 
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
 
@@ -61,7 +61,7 @@ tasks:
     - testMakeProject
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiService generator.fastApi.service.name=myService advertisement.show=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeServiceTasks:
@@ -73,8 +73,8 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please makeStaticServiceTask generator.service.location=fibo 
-        ../zaruba please makeFastApiServiceTask generator.service.location=myService generator.service.type=fastapi advertisement.show=no setupInitPyUtil=no 
+        ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo 
+        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generator.service.type=fastapi showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeDockerTasks:
@@ -85,12 +85,12 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please makeRabbitmqDockerTask generator.docker.container.name=testRabbitMq advertisement.show=no setupInitPyUtil=no 
-        ../zaruba please makeMysqlDockerTask generator.docker.container.name=testMySql advertisement.show=no setupInitPyUtil=no 
-        ../zaruba please makeCassandraDockerTask generator.docker.container.name=testCassandra advertisement.show=no setupInitPyUtil=no 
-        ../zaruba please makeElasticsearchDockerTask generator.docker.container.name=testElasticSearch advertisement.show=no setupInitPyUtil=no 
-        ../zaruba please makeMongoDockerTask generator.docker.container.name=testMongo advertisement.show=no setupInitPyUtil=no 
-        ../zaruba please makeRedisDockerTask generator.docker.container.name=testRedis advertisement.show=no setupInitPyUtil=no 
+        ../zaruba please makeRabbitmqDockerTask generatorDockerContainerName=testRabbitMq showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeMysqlDockerTask generatorDockerContainerName=testMySql showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeCassandraDockerTask generatorDockerContainerName=testCassandra showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeElasticsearchDockerTask generatorDockerContainerName=testElasticSearch showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeMongoDockerTask generatorDockerContainerName=testMongo showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeRedisDockerTask generatorDockerContainerName=testRedis showAdvertisement=no setupInitPyUtil=no 
         
 
   testMakeFastApiModule:
@@ -100,7 +100,7 @@ tasks:
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiModule generator.fastApi.service.name=myService generator.fastApi.module.name=myModule advertisement.show=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiModule generatorFastApiServiceName=myService generatorFastApiModuleName=myModule showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeFastApiRoute:
@@ -110,7 +110,7 @@ tasks:
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiRoute generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.url=/hello advertisement.show=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiRoute generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiUrl=/hello showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeFastApiEventHandler:
@@ -120,7 +120,7 @@ tasks:
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiEventHandler generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.event.name=myEvent advertisement.show=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiEventHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiEventName=myEvent showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeFastApiRpcHandler:
@@ -130,7 +130,7 @@ tasks:
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiRpcHandler generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.rpc.name=myRpc advertisement.show=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiRpcHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiRpcName=myRpc showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeFastApiCrud:
@@ -140,7 +140,7 @@ tasks:
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiCrud generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.crud.entity=book generator.fastApi.crud.fields=title,author,synopsis advertisement.show=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields=title,author,synopsis showAdvertisement=no setupInitPyUtil=no 
   
 
   testUpdateEnv:
@@ -191,7 +191,7 @@ tasks:
       start: |
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
-        ../zaruba please buildImage docker.env=default 
+        ../zaruba please buildImage dockerEnv=default 
 
 
   testGenerator:
@@ -221,7 +221,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please showLog log.keyword=myService 
+        ../zaruba please showLog logKeyword=myService 
         ../zaruba please clearLog 
   
 
@@ -252,7 +252,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please pushImage docker.env=default 
+        ../zaruba please pushImage dockerEnv=default 
   
 
   runPlayground:

@@ -1,6 +1,6 @@
 inputs:
 
-  setup.initPyUtil:
+  setupInitPyUtil:
     default: yes
     options: [yes, no]
     allowCustom: false
@@ -8,18 +8,18 @@ inputs:
     prompt: Init Pyenv
 
 
-  setup.homeDir:
+  setupHomeDir:
     description: Home directory (Can be blank)
     prompt: Home directory
 
   
-  setup.userPassword:
+  setupUserPassword:
     secret: true
     description: User password (Can be blank if you already run the task with "sudo")
     prompt: User password
 
   
-  setup.allowRoot:
+  setupAllowRoot:
     default: no
     options: [yes, no]
     allowCustom: no
@@ -28,7 +28,7 @@ inputs:
     prompt: Allow to install as root
   
 
-  setup.nodeVersion:
+  setupNodeVersion:
     default: node
     options: [node, stable, unstable]
     validation: ^.+$
@@ -36,7 +36,7 @@ inputs:
     prompt: Node version
 
   
-  setup.pythonVersion:
+  setupPythonVersion:
     default: 3.8.6
     options: [3.7, 3.8, 3.9]
     validation: ^.+$
@@ -44,28 +44,28 @@ inputs:
     prompt: Python version
 
     
-  setup.sparkVersion:
+  setupSparkVersion:
     default: 3.1.1
     validation: ^.+$
     description: Spark version to be installed
     prompt: Spark version
 
 
-  setup.hadoopVersion:
+  setupHadoopVersion:
     default: 2.7
     validation: ^.+$
     description: Hadoop version to be installed when install spark
     prompt: Hadoop version
 
   
-  setup.sparkDownloadUrl:
+  setupSparkDownloadUrl:
     default: https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
     validation: ^.+$
     description: Spark download URL
     prompt: Spark download url
 
   
-  setup.helmfileVersion:
+  setupHelmfileVersion:
     default: v0.139.6
     validation: ^.+$
     description: Helmfile version to be installed
@@ -78,7 +78,7 @@ tasks:
     icon: 🐚
     private: true
     extend: core.runScript
-    configRef: core.shell
+    configRef: coreShell
     config:
       start: |
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
@@ -94,7 +94,7 @@ tasks:
     saveLog: false
     config:
       start: |
-        {{ if .IsTrue (.GetValue "setup.initPyUtil") }}
+        {{ if .IsTrue (.GetValue "setupInitPyUtil") }}
           {{ $d := .Decoration -}}
           if [ -z "$(pipenv --version)" ]
           then
@@ -114,8 +114,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.userPassword
-    - setup.allowRoot
+    - setupUserPassword
+    - setupAllowRoot
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -126,19 +126,19 @@ tasks:
         {{ $d := .Decoration -}}
         if [ $(whoami) = "root" ]
         then
-          {{ if .IsFalse (.GetValue "setup.allowRoot") }}
+          {{ if .IsFalse (.GetValue "setupAllowRoot") }}
             if echo "${1}" | grep -q "/root$"
             then
-                echo "{{ $d.Bold}}{{ $d.Red }}Your home directory seems to be '/root'. If this is intentional please set 'setup.allowRoot' to 'true'. Otherwise re-run this task with 'sudo -E'{{ $d.Normal}}"
+                echo "{{ $d.Bold}}{{ $d.Red }}Your home directory seems to be '/root'. If this is intentional please set 'setupAllowRoot' to 'true'. Otherwise re-run this task with 'sudo -E'{{ $d.Normal}}"
                 exit 1
             fi
           {{ end }}
           . "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
         else
-          {{ if .GetValue "setup.userPassword" }}
+          {{ if .GetValue "setupUserPassword" }}
             echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S {{ .GetConfig "cmd" }} "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
           {{ else }}
-            echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setup.userPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
+            echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setupUserPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
             exit 1
           {{ end }}
         fi
@@ -150,7 +150,7 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.homeDir
+    - setupHomeDir
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -159,7 +159,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
         if [ "$(is_command_exist tmux -V)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Tmux was already installed{{ $d.Normal }}"
@@ -188,8 +188,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.homeDir
-    - setup.pythonVersion
+    - setupHomeDir
+    - setupPythonVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -198,7 +198,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
         if [ "$(is_command_exist pyenv --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
@@ -209,18 +209,18 @@ tasks:
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"
           append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
-          pyenv install {{ .GetValue "setup.pythonVersion" }}
-          pyenv global {{ .GetValue "setup.pythonVersion" }}
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
+          pyenv install {{ .GetValue "setupPythonVersion" }}
+          pyenv global {{ .GetValue "setupPythonVersion" }}
           . "${BOOTSTRAP_SCRIPT}"
         fi
         if [ "$(is_command_exist python --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Python was already installed{{ $d.Normal }}"
         else
-          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
-          pyenv install {{ .GetValue "setup.pythonVersion" }}
-          pyenv global {{ .GetValue "setup.pythonVersion" }}
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
+          pyenv install {{ .GetValue "setupPythonVersion" }}
+          pyenv global {{ .GetValue "setupPythonVersion" }}
         fi
         if [ "$(is_command_exist pipenv --version)" = 1 ]
         then
@@ -243,8 +243,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.homeDir
-    - setup.nodeVersion
+    - setupHomeDir
+    - setupNodeVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -253,7 +253,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
         if [ "$(is_command_exist nvm --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
@@ -264,7 +264,7 @@ tasks:
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
           append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
-          nvm install "{{ .GetValue "setup.nodeVersion" }}"
+          nvm install "{{ .GetValue "setupNodeVersion" }}"
           . "${BOOTSTRAP_SCRIPT}"
         fi
         if [ "$(is_command_exist node-gyp --version)" = 1 ]
@@ -291,7 +291,7 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.homeDir
+    - setupHomeDir
     config:
       cmd: /bin/bash
       beforeStart: |
@@ -301,7 +301,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
         if [ "$(is_command_exist sdk version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
@@ -341,10 +341,10 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.homeDir
-    - setup.sparkDownloadUrl
-    - setup.sparkVersion
-    - setup.hadoopVersion
+    - setupHomeDir
+    - setupSparkDownloadUrl
+    - setupSparkVersion
+    - setupHadoopVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -353,14 +353,14 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
         if [ "$(is_command_exist spark-shell --version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Spark was already installed{{ $d.Normal }}"
         else
           rm -Rf "${HOME}/.spark"
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install spark and hadoop{{ $d.Normal }}"
-          wget -O spark.tgz "{{ .GetValue "setup.sparkDownloadUrl" }}"
+          wget -O spark.tgz "{{ .GetValue "setupSparkDownloadUrl" }}"
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark.tgz -C "${HOME}/.spark"
           TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'
@@ -378,8 +378,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setup.homeDir
-    - setup.helmfileVersion
+    - setupHomeDir
+    - setupHelmfileVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}
@@ -388,7 +388,7 @@ tasks:
         echo "Please also specify your OS version."
       start: |
         {{ $d := .Decoration -}}
-        {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
         if [ "$(is_command_exist kubectl version)" = 1 ]
         then
           echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Kubectl was already installed{{ $d.Normal }}"
@@ -417,7 +417,7 @@ tasks:
         else
           rm -Rf "${HOME}/.local/bin/helmfile"
           echo "🎡 {{ $d.Bold }}{{ $d.Yellow }}Install helmfile{{ $d.Normal }}"
-          wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "setup.helmfileVersion" }}/helmfile_linux_amd64
+          wget https://github.com/roboll/helmfile/releases/download/{{ .GetValue "setupHelmfileVersion" }}/helmfile_linux_amd64
           chmod 755 ./helmfile_linux_amd64
           mkdir -p "${HOME}/.local/bin"
           mv ./helmfile_linux_amd64 "${HOME}/.local/bin/helmfile"

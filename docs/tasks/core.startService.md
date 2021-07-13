@@ -11,7 +11,7 @@
                     beforeCheck : Script to be executed before check service readiness.
                     afterCheck  : Script to be executed before check service readiness.
                     finish      : Script to be executed after start service or check service readiness.
-                    runLocally  : Run service locally or not.
+                    RunInLocal  : Run service locally or not.
                     ports       : Port to be checked to confirm service readiness, separated by new line.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -19,7 +19,7 @@
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
@@ -36,7 +36,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -50,7 +50,8 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : _setup                 : set -e
+  CONFIG        : RunInLocal             : true
+                  _setup                 : set -e
                                            alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
@@ -83,7 +84,6 @@
                   includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
                   playBellScript         : echo $'\a'
                   ports                  : Blank
-                  runLocally             : true
                   setup                  : Blank
                   start                  : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED

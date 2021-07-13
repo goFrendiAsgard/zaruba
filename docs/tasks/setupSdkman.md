@@ -14,7 +14,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : setup.homeDir
+  INPUTS        : setupHomeDir
                     DESCRIPTION : Home directory (Can be blank)
                     PROMPT      : Home directory
   CONFIG        : _setup                 : set -e
@@ -44,7 +44,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+                                           {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
                                            if [ "$(is_command_exist sdk version)" = 1 ]
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"

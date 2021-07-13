@@ -17,7 +17,7 @@
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
@@ -34,7 +34,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -48,7 +48,8 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : _setup                  : set -e
+  CONFIG        : RunInLocal              : true
+                  _setup                  : set -e
                                             {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                                             {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
@@ -100,7 +101,6 @@
                   removeNodeModulesScript : {{ if .IsTrue (.GetConfig "removeNodeModules") -}}
                                               rm -Rf node_modules
                                             {{ end -}}
-                  runLocally              : true
                   setup                   : Blank
                   start                   : Blank
                   tsCompileScript         : {{ if .IsTrue (.GetConfig "compileTypeScript") -}}

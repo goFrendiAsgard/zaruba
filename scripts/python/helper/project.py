@@ -146,7 +146,7 @@ class TaskProject(Project):
     def _set_default_properties(self):
         service_name = 'zarubaServiceName'
         run_task_name = 'runZarubaServiceName'
-        run_locally_input_name = '{}.runLocally'.format(service_name)
+        run_locally_input_name = '{}RunInLocal'.format(service_name)
         self.set_default(['inputs', run_locally_input_name, 'default'], 'yes')
         self.set_default(['inputs', run_locally_input_name, 'options'], ['yes', 'no'])
         self.set_default(['inputs', run_locally_input_name, 'allowCustom'], False)
@@ -157,7 +157,7 @@ class TaskProject(Project):
         self.set_default(['tasks', run_task_name, 'configRef'], service_name)
         self.set_default(['tasks', run_task_name, 'envRef'], service_name)
         self.set_default(['tasks', run_task_name, 'inputs'], [run_locally_input_name])
-        self.set_default(['tasks', run_task_name, 'config', 'runLocally'], '{{ .GetValue "' + run_locally_input_name + '" }}')
+        self.set_default(['tasks', run_task_name, 'config', 'RunInLocal'], '{{ .GetValue "' + run_locally_input_name + '" }}')
     
 
     def _get_file_name(self, dir_name: str, service_name: str):
@@ -255,14 +255,14 @@ class ServiceProject(TaskProject):
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'extend'], 'core.buildDockerImage')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'location'], 'zarubaServiceLocation')
-        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'inputs'], ['docker.env'])
+        self.set_default(['tasks', 'buildZarubaServiceNameImage', 'inputs'], ['dockerEnv'])
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'timeout'], '1h')
         self.set_default(['tasks', 'buildZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         # pushImage
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'icon'], generate_icon())
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'extend'], 'core.pushDockerImage')
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'dependencies'], ['buildZarubaServiceNameImage'])
-        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'inputs'], ['docker.env'])
+        self.set_default(['tasks', 'pushZarubaServiceNameImage', 'inputs'], ['dockerEnv'])
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'timeout'], '1h')
         self.set_default(['tasks', 'pushZarubaServiceNameImage', 'configRef'], 'zarubaServiceNameContainer')
         
@@ -447,11 +447,11 @@ class HelmProject(Project):
         self.main_project.set_default(['tasks', 'helmApply', 'icon'], generate_icon())
         self.main_project.set_default(['tasks', 'helmApply', 'extend'], 'core.helmApply')
         self.main_project.set_default(['tasks', 'helmApply', 'location'], 'helm-deployments')
-        self.main_project.set_default(['tasks', 'helmApply', 'inputs'], ['helm.env', 'kube.context', 'docker.env'])
+        self.main_project.set_default(['tasks', 'helmApply', 'inputs'], ['helmEnv', 'kubeContext', 'dockerEnv'])
         self.main_project.set_default(['tasks', 'helmDestroy', 'icon'], generate_icon())
         self.main_project.set_default(['tasks', 'helmDestroy', 'extend'], 'core.helmDestroy')
         self.main_project.set_default(['tasks', 'helmDestroy', 'location'], 'helm-deployments')
-        self.main_project.set_default(['tasks', 'helmDestroy', 'inputs'], ['helm.env', 'kube.context', 'docker.env'])
+        self.main_project.set_default(['tasks', 'helmDestroy', 'inputs'], ['helmEnv', 'kubeContext', 'dockerEnv'])
         self.main_project.save(dir_name)
         self.load(dir_name)
     

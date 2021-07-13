@@ -7,7 +7,7 @@
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
@@ -24,7 +24,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "runLocally") -}}
+                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -38,7 +38,8 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : _check                      : {{ $d := .Decoration -}}
+  CONFIG        : RunInLocal                  : true
+                  _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
                                                 {{ .GetConfig "_check.configPorts" }}
                                                 {{ .GetConfig "_check.checkCommand" }}
@@ -170,9 +171,9 @@
                   cmdArg                      : -c
                   command                     : Blank
                   containerName               : Blank
-                  dockerEnv                   : {{ .GetValue "docker.env" }}
+                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helm.env" }}
+                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   hostDockerInternal          : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
                   imageName                   : Blank
                   imagePrefix                 : Blank
@@ -206,12 +207,11 @@
                                                     DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
                                                   fi
                                                 {{ end -}}
-                  kubeContext                 : {{ .GetValue "kube.context" }}
+                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   localhost                   : localhost
                   playBellScript              : echo $'\a'
                   ports                       : Blank
                   rebuild                     : false
-                  runLocally                  : true
                   setup                       : Blank
                   start                       : Blank
                   useImagePrefix              : true

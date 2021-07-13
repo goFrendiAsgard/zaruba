@@ -14,10 +14,10 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : setup.homeDir
+  INPUTS        : setupHomeDir
                     DESCRIPTION : Home directory (Can be blank)
                     PROMPT      : Home directory
-                  setup.pythonVersion
+                  setupPythonVersion
                     DESCRIPTION : Python version to be installed when install pyenv
                     PROMPT      : Python version
                     OPTIONS     : [ 3.7, 3.8, 3.9 ]
@@ -50,7 +50,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+                                           {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
                                            if [ "$(is_command_exist pyenv --version)" = 1 ]
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
@@ -61,18 +61,18 @@
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"
                                              append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
                                              . "${BOOTSTRAP_SCRIPT}"
-                                             echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
-                                             pyenv install {{ .GetValue "setup.pythonVersion" }}
-                                             pyenv global {{ .GetValue "setup.pythonVersion" }}
+                                             echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
+                                             pyenv install {{ .GetValue "setupPythonVersion" }}
+                                             pyenv global {{ .GetValue "setupPythonVersion" }}
                                              . "${BOOTSTRAP_SCRIPT}"
                                            fi
                                            if [ "$(is_command_exist python --version)" = 1 ]
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Python was already installed{{ $d.Normal }}"
                                            else
-                                             echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setup.pythonVersion" }}{{ $d.Normal }}"
-                                             pyenv install {{ .GetValue "setup.pythonVersion" }}
-                                             pyenv global {{ .GetValue "setup.pythonVersion" }}
+                                             echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
+                                             pyenv install {{ .GetValue "setupPythonVersion" }}
+                                             pyenv global {{ .GetValue "setupPythonVersion" }}
                                            fi
                                            if [ "$(is_command_exist pipenv --version)" = 1 ]
                                            then

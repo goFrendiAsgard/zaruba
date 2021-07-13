@@ -14,10 +14,10 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : setup.homeDir
+  INPUTS        : setupHomeDir
                     DESCRIPTION : Home directory (Can be blank)
                     PROMPT      : Home directory
-                  setup.nodeVersion
+                  setupNodeVersion
                     DESCRIPTION : Node version to be installed when install nvm
                     PROMPT      : Node version
                     OPTIONS     : [ node, stable, unstable ]
@@ -50,7 +50,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           {{ if .GetValue "setup.homeDir" }}HOME="{{ .GetValue "setup.homeDir" }}"{{ end }}
+                                           {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
                                            if [ "$(is_command_exist nvm --version)" = 1 ]
                                            then
                                              echo "👏 {{ $d.Bold }}{{ $d.Yellow }}NVM was already installed{{ $d.Normal }}"
@@ -61,7 +61,7 @@
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
                                              append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
                                              . "${BOOTSTRAP_SCRIPT}"
-                                             nvm install "{{ .GetValue "setup.nodeVersion" }}"
+                                             nvm install "{{ .GetValue "setupNodeVersion" }}"
                                              . "${BOOTSTRAP_SCRIPT}"
                                            fi
                                            if [ "$(is_command_exist node-gyp --version)" = 1 ]
