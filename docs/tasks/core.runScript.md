@@ -1,7 +1,7 @@
 # core.runScript
 ```
   TASK NAME     : core.runScript
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.runScript.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.runScript.zaruba.yaml
   DESCRIPTION   : Run script.
                   Common config:
                     cmd           : Executable shell name

@@ -1,7 +1,7 @@
 # makeFastApiServiceTask
 ```
   TASK NAME     : makeFastApiServiceTask
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.makeFastApiServiceTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeFastApiServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makePresetServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

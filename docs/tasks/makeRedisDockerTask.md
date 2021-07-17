@@ -1,7 +1,7 @@
 # makeRedisDockerTask
 ```
   TASK NAME     : makeRedisDockerTask
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.makeRedisDockerTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeRedisDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makePresetDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

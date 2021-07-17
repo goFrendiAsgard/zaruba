@@ -1,7 +1,7 @@
 # addSubrepo
 ```
   TASK NAME     : addSubrepo
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.addSubrepo.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.addSubrepo.zaruba.yaml
   DESCRIPTION   : Add subrepository.
                   TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
   TASK TYPE     : Command Task

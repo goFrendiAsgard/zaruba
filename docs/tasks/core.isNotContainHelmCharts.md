@@ -1,7 +1,7 @@
 # core.isNotContainHelmCharts
 ```
   TASK NAME     : core.isNotContainHelmCharts
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.isNotContainHelmCharts.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.isNotContainHelmCharts.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

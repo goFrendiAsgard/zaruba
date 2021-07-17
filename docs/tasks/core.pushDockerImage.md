@@ -1,7 +1,7 @@
 # core.pushDockerImage
 ```
   TASK NAME     : core.pushDockerImage
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.pushDockerImage.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.pushDockerImage.zaruba.yaml
   DESCRIPTION   : Push docker image.
                   Common config:
                     dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')

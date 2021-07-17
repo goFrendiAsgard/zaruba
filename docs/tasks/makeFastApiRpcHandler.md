@@ -1,7 +1,7 @@
 # makeFastApiRpcHandler
 ```
   TASK NAME     : makeFastApiRpcHandler
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.makeFastApiRpcHandler.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeFastApiRpcHandler.zaruba.yaml
   DESCRIPTION   : Make FastAPI Route
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

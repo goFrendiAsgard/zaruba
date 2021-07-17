@@ -1,7 +1,7 @@
 # makeRabbitmqDockerTask
 ```
   TASK NAME     : makeRabbitmqDockerTask
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.makeRabbitmqDockerTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeRabbitmqDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makePresetDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

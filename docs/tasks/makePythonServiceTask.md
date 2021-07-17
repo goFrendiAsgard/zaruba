@@ -1,7 +1,7 @@
 # makePythonServiceTask
 ```
   TASK NAME     : makePythonServiceTask
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.makePythonServiceTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.makePythonServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makePresetServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

@@ -1,7 +1,7 @@
 # core.mysql.startDockerContainer
 ```
   TASK NAME     : core.mysql.startDockerContainer
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.mysql.startDockerContainer.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.mysql.startDockerContainer.zaruba.yaml
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startDockerContainer ]
   START         : - {{ .GetConfig "cmd" }}

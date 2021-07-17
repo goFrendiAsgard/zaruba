@@ -11,7 +11,7 @@ import (
 
 var listContainsCmd = &cobra.Command{
 	Use:   "listContains <list> <string>",
-	Short: "Transform JSON list into single string",
+	Short: "Find out whether list contains string or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

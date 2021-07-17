@@ -1,7 +1,7 @@
 # clearPreviousValues
 ```
   TASK NAME     : clearPreviousValues
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.clearPreviousValues.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.clearPreviousValues.zaruba.yaml
   DESCRIPTION   : Clear log
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

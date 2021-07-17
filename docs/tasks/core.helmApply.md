@@ -1,7 +1,7 @@
 # core.helmApply
 ```
   TASK NAME     : core.helmApply
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.helmApply.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.helmApply.zaruba.yaml
   DESCRIPTION   : Apply helm charts by using helmfile.
                   Common config:
                     dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')

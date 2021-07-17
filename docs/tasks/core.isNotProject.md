@@ -1,7 +1,7 @@
 # core.isNotProject
 ```
   TASK NAME     : core.isNotProject
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.isNotProject.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.isNotProject.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

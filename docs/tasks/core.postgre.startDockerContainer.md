@@ -1,39 +1,9 @@
-# core.startDockerContainer
+# core.postgre.startDockerContainer
 ```
-  TASK NAME     : core.startDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.startDockerContainer.zaruba.yaml
-  DESCRIPTION   : Start docker container and check it's readiness.
-                  If container is already started, it's stdout/stderr will be shown.
-                  If container is exist but not started, it will be started.
-                  If container is not exist, it will be created and started.
-                  Common config:
-                    setup          : Script to be executed before start service or check service readiness.
-                    beforeStart    : Script to be executed before start service.
-                    afterStart     : Script to be executed after start service.
-                    beforeCheck    : Script to be executed before check service readiness.
-                    afterCheck     : Script to be executed before check service readiness.
-                    finish         : Script to be executed after start service or check service readiness.
-                    useImagePrefix : Whether image prefix should be used or not
-                    imagePrefix    : Image prefix
-                    imageName      : Image name
-                    imageTag       : Image tag
-                    containerName  : Name of the container
-                    dockerEnv      : Docker env to be used when useImagePrefix is true,
-                                     but imagePrefix is not provided
-                    ports          : Port to be checked to confirm service readiness, 
-                                     separated by new line.
-                    volumes        : Host-container volume mappings,
-                                     separated by new line.
-                    rebuild        : Should container be rebuild (This will not rebuild the image)
-                    command        : Command to be used (Single Line).
-                                     Leave blank to use container's CMD.
-                                     The command will be executed from inside the container.
-                    checkCommand   : Command to check container readiness (Single Line).
-                                     The command will be executed from inside the container.
-                    localhost      : Localhost mapping (e.g: host.docker.container)
+  TASK NAME     : core.postgre.startDockerContainer
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.postgre.startDockerContainer.zaruba.yaml
   TASK TYPE     : Service Task
-  PARENT TASKS  : [ core.startService ]
-  DEPENDENCIES  : [ updateProjectLinks ]
+  PARENT TASKS  : [ core.startDockerContainer ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
@@ -68,11 +38,6 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  INPUTS        : dockerEnv
-                    DESCRIPTION : Docker env for getting image prefix (Required)
-                    PROMPT      : Docker env
-                    DEFAULT     : default
-                    VALIDATION  : ^.+$
   CONFIG        : RunInLocal                  : true
                   _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
@@ -201,7 +166,7 @@
                   beforeCheck                 : Blank
                   beforeStart                 : Blank
                   check                       : Blank
-                  checkCommand                : Blank
+                  checkCommand                : pg_isready -U {{ .GetEnv "POSTGRES_USER" }}
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
                   command                     : Blank

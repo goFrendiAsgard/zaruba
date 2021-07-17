@@ -1,7 +1,7 @@
 # core.isValidSubrepos
 ```
   TASK NAME     : core.isValidSubrepos
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.isValidSubrepos.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.isValidSubrepos.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

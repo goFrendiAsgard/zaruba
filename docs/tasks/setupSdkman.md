@@ -1,7 +1,7 @@
 # setupSdkman
 ```
   TASK NAME     : setupSdkman
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.setupSdkman.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.setupSdkman.zaruba.yaml
   DESCRIPTION   : Install SDKMan for Java/Scala development.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

@@ -1,7 +1,7 @@
 # core.showAdv
 ```
   TASK NAME     : core.showAdv
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.showAdv.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.showAdv.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

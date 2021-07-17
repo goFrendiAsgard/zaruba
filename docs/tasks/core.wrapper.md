@@ -1,7 +1,7 @@
 # core.wrapper
 ```
   TASK NAME     : core.wrapper
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.wrapper.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.wrapper.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runShellScript ]
   START         : - {{ .GetConfig "cmd" }}

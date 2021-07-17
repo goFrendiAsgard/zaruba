@@ -1,7 +1,7 @@
 # core.helmDestroy
 ```
   TASK NAME     : core.helmDestroy
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.helmDestroy.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.helmDestroy.zaruba.yaml
   DESCRIPTION   : Destroy helm deployments by using helmfile....
                   Common config:
                     dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')

@@ -1,7 +1,7 @@
 # core.buildDockerImage
 ```
   TASK NAME     : core.buildDockerImage
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.buildDockerImage.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.buildDockerImage.zaruba.yaml
   DESCRIPTION   : Build docker image.
                   Common config:
                     dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')

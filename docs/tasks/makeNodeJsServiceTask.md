@@ -1,7 +1,7 @@
 # makeNodeJsServiceTask
 ```
   TASK NAME     : makeNodeJsServiceTask
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.makeNodeJsServiceTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeNodeJsServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makePresetServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

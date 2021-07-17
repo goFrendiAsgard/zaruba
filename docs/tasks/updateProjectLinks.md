@@ -1,7 +1,7 @@
 # updateProjectLinks
 ```
   TASK NAME     : updateProjectLinks
-  LOCATION      : /home/gofrendi/zaruba/scripts/task.updateProjectLinks.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.updateProjectLinks.zaruba.yaml
   DESCRIPTION   : Update "links" in your project. Very useful if you have multiple apps sharing some parts of code
                   USAGE:
                     zaruba please updateProjectLinks
