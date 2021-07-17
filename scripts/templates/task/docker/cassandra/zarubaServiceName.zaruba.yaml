@@ -1,15 +1,20 @@
 inputs:
 
-  zarubaServiceNameRunInLocal: {}
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+    - yes
+    - no
+    allowCustom: false
+    prompt: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
 
   zarubaServiceName.cql:
     validation: ^.+$
-    prompt: single line CQL to be executed (Required)
-    description: single line CQL to be executed
+    prompt: CQL to be executed (Required)
+    description: CQL to be executed
 
 tasks:
-
-  pullZarubaServiceNameImage: {}
 
   runZarubaServiceName:
     icon: 👀
@@ -21,7 +26,11 @@ tasks:
     - zarubaServiceNameRunInLocal
     config:
       afterCheck: sleep 15
-  
+      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+
   zarubaServiceNameExecCql:
     icon: 👀
     extend: core.cassandra.execCql
@@ -29,9 +38,26 @@ tasks:
     - runZarubaServiceName
     inputs:
     - zarubaServiceName.cql
-    configRef: zarubaServiceName
     config:
       queries: '{{ .GetValue "zarubaServiceName.cql" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+
+  pullZarubaServiceNameImage:
+    extend: core.pullDockerImage
+    configRef: zarubaServiceName
+
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
 
 configs:
   zarubaServiceName:

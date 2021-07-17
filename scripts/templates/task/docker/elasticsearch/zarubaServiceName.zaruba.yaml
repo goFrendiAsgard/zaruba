@@ -1,0 +1,62 @@
+inputs:
+
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+    - yes
+    - no
+    allowCustom: false
+    prompt: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
+
+tasks:
+
+  runZarubaServiceName:
+    icon: 🍝
+    extend: core.startDockerContainer
+    dependencies:
+    - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+    - zarubaServiceNameRunInLocal
+    config:
+      afterCheck: sleep 15
+      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+
+  pullZarubaServiceNameImage:
+    extend: core.pullDockerImage
+    configRef: zarubaServiceName
+
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+
+configs:
+  zarubaServiceName:
+    imagePrefix: docker.elastic.co/elasticsearch
+    imageName: elasticsearch
+    imageTag: 7.1.1
+    containerName: zarubaContainerName
+    ports: |
+      9200
+      9300
+
+envs:
+  zarubaServiceName:
+    discovery.type:
+      from: ES_DISCOVER_TYPE
+      default: single-node
+    ES_JAVA_OPTS:
+      from: ES_JAVA_OPTS
+      default: "-Xms512m -Xmx512m"
+        

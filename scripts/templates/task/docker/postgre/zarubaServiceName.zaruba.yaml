@@ -1,6 +1,13 @@
 inputs:
 
-  zarubaServiceNameRunInLocal: {}
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+    - yes
+    - no
+    allowCustom: false
+    prompt: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
 
   zarubaServiceName.sql:
     validation: ^.+$
@@ -8,8 +15,6 @@ inputs:
     description: single line SQL to be executed
 
 tasks:
-
-  pullZarubaServiceNameImage: {}
 
   runZarubaServiceName:
     icon: 🐬 
@@ -21,6 +26,10 @@ tasks:
     - zarubaServiceNameRunInLocal
     config:
       afterCheck: sleep 3
+      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
 
   zarubaServiceNameExecSql:
     icon: 🐬 
@@ -29,10 +38,26 @@ tasks:
     - runZarubaServiceName
     inputs:
     - zarubaServiceName.sql
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       queries: '{{ .GetValue "zarubaServiceName.sql" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+
+  pullZarubaServiceNameImage:
+    extend: core.pullDockerImage
+    configRef: zarubaServiceName
+
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
 
 configs:
   zarubaServiceName:
