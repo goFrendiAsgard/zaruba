@@ -33,13 +33,13 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  playBellScript         : echo $'\a'
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           update_env .
+                                           "${ZARUBA_HOME}/zaruba" updateProjectTaskEnv "./main.zaruba.yaml"
+                                           "${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "./main.zaruba.yaml"
                                            echo 🎉🎉🎉
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

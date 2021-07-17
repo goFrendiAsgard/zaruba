@@ -4,6 +4,7 @@ tasks:
     private: true
     extend: core.runShellScript
     autoTerminate: false
+    configRef: playBellScript
     config:
       start: '{{ .GetConfig "playBellScript" }}'
  

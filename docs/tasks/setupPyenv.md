@@ -44,10 +44,9 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  playBellScript         : echo $'\a'
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
@@ -59,7 +58,8 @@
                                              echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
                                              curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"
-                                             append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+                                             echo "" >> "${BOOTSTRAP_SCRIPT}"
+                                             echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
                                              . "${BOOTSTRAP_SCRIPT}"
                                              echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
                                              pyenv install {{ .GetValue "setupPythonVersion" }}

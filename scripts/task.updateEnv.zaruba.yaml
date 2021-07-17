@@ -10,7 +10,8 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        update_env .
+        "${ZARUBA_HOME}/zaruba" updateProjectTaskEnv "./main.zaruba.yaml"
+        "${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "./main.zaruba.yaml"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
 

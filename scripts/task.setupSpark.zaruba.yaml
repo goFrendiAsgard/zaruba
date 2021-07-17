@@ -29,7 +29,8 @@ tasks:
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark.tgz -C "${HOME}/.spark"
           TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'
-          append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          echo "" >> "${BOOTSTRAP_SCRIPT}"
+          echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           rm spark.tgz
         fi

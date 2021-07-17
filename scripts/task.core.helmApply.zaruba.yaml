@@ -6,12 +6,14 @@ tasks:
     description: |
       Apply helm charts by using helmfile.
       Common config:
-        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
         dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
+        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
         kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
     extend: core.runCoreScript
     configRef: coreDocker
     config:
+      helmEnv: '{{ .GetValue "helmEnv" }}'
+      kubeContext: '{{ .GetValue "kubeContext" }}'
       start: |
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"

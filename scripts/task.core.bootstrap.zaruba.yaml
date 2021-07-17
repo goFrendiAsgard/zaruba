@@ -4,7 +4,7 @@ tasks:
     icon: 🐚
     private: true
     extend: core.runScript
-    configRef: coreShell
+    configRef: includeUtilScript
     config:
       start: |
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}

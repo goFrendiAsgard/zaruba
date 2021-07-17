@@ -25,7 +25,8 @@ tasks:
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
           curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"
-          append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          echo "" >> "${BOOTSTRAP_SCRIPT}"
+          echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
           pyenv install {{ .GetValue "setupPythonVersion" }}

@@ -88,35 +88,6 @@ create_service_task() {
     PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_service_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
 }
 
-# USAGE update_env <projectLocation>
-update_env() {
-    "${ZARUBA_HOME}/zaruba" updateProjectTaskEnv "${1}/main.zaruba.yaml"
-    "${ZARUBA_HOME}/zaruba" updateProjectEnvFiles "${1}/main.zaruba.yaml"
-}
-
-
-# USAGE: append_if_exist <str> <file>
-append_if_exist() {
-    if [ -f "${2}" ]
-    then
-        echo "" >> "${2}"
-        echo "${1}" >> "${2}"
-    fi
-}
-
-
-get_current_user() {
-    if [ ! -z "$SUDO_USER" ]
-    then
-        echo "$SUDO_USER"
-    elif [ ! -z "$USER" ]
-    then
-        echo "$USER"
-    else
-        id -u -n
-    fi
-}
-
 
 get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -172,15 +143,15 @@ git_save() {
 inject_bootstrap() {
     if [ -f "${1}" ]
     then
-        if cat "${1}" | grep -Fqe "${ZARUBA_HOME}/scripts/bootstrap.sh"
+        if cat "${1}" | grep -Fqe "${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
         then
-            echo -e "${Faint}Bootstrap script ${ZARUBA_HOME}/scripts/bootstrap.sh is already loaded in ${1}${Normal}"
+            echo -e "${Faint}Bootstrap script ${ZARUBA_HOME}/scripts/bash/bootstrap.sh is already loaded in ${1}${Normal}"
         else
             echo "" >> "${1}"
             echo "# Load zaruba's bootstrap" >> "${1}"
-            echo "if [ -x "${ZARUBA_HOME}/scripts/bootstrap.sh" ]" >> "${1}"
+            echo "if [ -x "${ZARUBA_HOME}/scripts/bash/bootstrap.sh" ]" >> "${1}"
             echo 'then' >> "${1}"
-            echo "    . ${ZARUBA_HOME}/scripts/bootstrap.sh" >> "${1}"
+            echo "    . ${ZARUBA_HOME}/scripts/bash/bootstrap.sh" >> "${1}"
             echo 'fi' >> "${1}"
             echo "" >> "${1}"
         fi
@@ -400,7 +371,7 @@ get_current_user() {
 
 init_bootstrap() {
     _CURRENT_USER=$(get_current_user)
-    _BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+    _BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
     if [ ! -f "${_BOOTSTRAP_SCRIPT}" ]
     then
         touch "${_BOOTSTRAP_SCRIPT}"

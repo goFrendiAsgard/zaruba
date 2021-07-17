@@ -4,8 +4,8 @@
   LOCATION      : /home/gofrendi/zaruba/scripts/task.core.helmDestroy.zaruba.yaml
   DESCRIPTION   : Destroy helm deployments by using helmfile....
                   Common config:
-                    helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
                     dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
+                    helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
                     kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runScript ]

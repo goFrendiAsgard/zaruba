@@ -38,10 +38,9 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  playBellScript         : echo $'\a'
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
@@ -53,7 +52,8 @@
                                              echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
                                              curl -s "https://get.sdkman.io" | bash
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")"
-                                             append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+                                             echo "" >> "${BOOTSTRAP_SCRIPT}"
+                                             echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
                                              . "${BOOTSTRAP_SCRIPT}"
                                              echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
                                              sdk install java

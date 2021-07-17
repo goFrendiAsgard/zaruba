@@ -13,28 +13,17 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                 : Blank
-                  _start                 : Blank
-                  afterStart             : Blank
-                  beforeStart            : Blank
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  finish                 : Blank
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  playBellScript         : echo $'\a'
-                  setup                  : Blank
-                  start                  : {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                                           init_bootstrap
+  CONFIG        : _setup            : Blank
+                  _start            : Blank
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  finish            : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  setup             : Blank
+                  start             : {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                      init_bootstrap
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

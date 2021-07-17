@@ -1,0 +1,5 @@
+configs:
+
+  includeUtilScript:
+    includeUtilScript: . ${ZARUBA_HOME}/scripts/bash/util.sh
+       

@@ -25,7 +25,8 @@ tasks:
           echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
-          append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          echo "" >> "${BOOTSTRAP_SCRIPT}"
+          echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           nvm install "{{ .GetValue "setupNodeVersion" }}"
           . "${BOOTSTRAP_SCRIPT}"

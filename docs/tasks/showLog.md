@@ -35,11 +35,10 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   logKeyword             : {{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}
-                  playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"

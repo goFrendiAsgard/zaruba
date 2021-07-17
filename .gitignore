@@ -5,7 +5,7 @@ coverage
 log.zaruba.csv
 zaruba
 playground
-scripts/bootstrap.sh
+scripts/bash/bootstrap.sh
 scripts/python/.pytest_cache
 scripts/python/.coverage
 scripts/python/htmlcov

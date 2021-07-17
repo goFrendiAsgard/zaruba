@@ -3,7 +3,6 @@ configs:
   coreDocker:
     dockerEnv: '{{ .GetValue "dockerEnv" }}'
     helmEnv: '{{ .GetValue "helmEnv" }}'
-    kubeContext: '{{ .GetValue "kubeContext" }}'
     useImagePrefix: true
     imagePrefix: ''
     imagePrefixTrailingSlash: false

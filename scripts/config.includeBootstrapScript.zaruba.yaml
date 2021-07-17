@@ -1,8 +1,6 @@
 configs:
 
-  coreShell:
-    playBellScript: echo $'\a'
-    includeUtilScript: . "${ZARUBA_HOME}/scripts/util.sh"
+  includeBootstrapScript:
     includeBootstrapScript: |
       if [ -f "${HOME}/.profile" ]
       then
@@ -12,6 +10,5 @@ configs:
       then
           . "${HOME}/.bashrc"
       fi
-      BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+      BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
       . "${BOOTSTRAP_SCRIPT}"
-

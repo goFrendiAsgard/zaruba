@@ -10,7 +10,8 @@ tasks:
     extend: core.runScript
     dependencies:
     - core.bootstrap
-    configRef: coreShell
+    configRefs:
+    - includeBootstrapScript
     config:
       _setup: |
         set -e

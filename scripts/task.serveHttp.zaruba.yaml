@@ -10,7 +10,7 @@ tasks:
     config:
       ports: '{{ .GetValue "serverHttpPort" }}'
     start: 
-    - python 
-    - "-m"
-    - http.server
+    - '{{ .GetEnv "ZARUBA_HOME" }}/zaruba'
+    - serveStatic
+    - .
     - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'

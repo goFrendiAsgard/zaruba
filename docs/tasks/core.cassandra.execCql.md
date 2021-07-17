@@ -46,9 +46,9 @@
                                                 then
                                                     . "${HOME}/.bashrc"
                                                 fi
-                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                                 . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript           : . "${ZARUBA_HOME}/scripts/util.sh"
+                  includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
                                                   DOCKER_IMAGE_PREFIX=""
                                                 {{ else if .GetConfig "imagePrefix" -}}
@@ -67,9 +67,7 @@
                                                   fi
                                                 {{ end -}}
                   keyspace                    : sample
-                  kubeContext                 : {{ .GetValue "kubeContext" }}
                   password                    : cassandra
-                  playBellScript              : echo $'\a'
                   queries                     : Blank
                   setup                       : Blank
                   start                       : Blank

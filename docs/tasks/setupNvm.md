@@ -44,10 +44,9 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  playBellScript         : echo $'\a'
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
@@ -59,7 +58,8 @@
                                              echo "🐸 {{ $d.Bold }}{{ $d.Yellow }}Install NVM{{ $d.Normal }}"
                                              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
                                              TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/nvm.sh")"
-                                             append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+                                             echo "" >> "${BOOTSTRAP_SCRIPT}"
+                                             echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
                                              . "${BOOTSTRAP_SCRIPT}"
                                              nvm install "{{ .GetValue "setupNodeVersion" }}"
                                              . "${BOOTSTRAP_SCRIPT}"

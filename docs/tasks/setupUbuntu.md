@@ -43,10 +43,9 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
-                  playBellScript         : echo $'\a'
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
                                            if [ $(whoami) = "root" ]
@@ -58,10 +57,10 @@
                                                    exit 1
                                                fi
                                              {{ end }}
-                                             . "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
+                                             . "${ZARUBA_HOME}/scripts/bash/setup_ubuntu.sh"
                                            else
                                              {{ if .GetValue "setupUserPassword" }}
-                                               echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S {{ .GetConfig "cmd" }} "${ZARUBA_HOME}/scripts/setup_ubuntu.sh"
+                                               echo "${ZARUBA_INPUT_SETUP_USERPASSWORD}" | sudo -E -S {{ .GetConfig "cmd" }} "${ZARUBA_HOME}/scripts/bash/setup_ubuntu.sh"
                                              {{ else }}
                                                echo "{{ $d.Bold}}{{ $d.Red }}You need to set 'setupUserPassword' or run this task with 'sudo -E'{{ $d.Normal}}"
                                                exit 1

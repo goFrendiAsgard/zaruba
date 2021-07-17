@@ -90,11 +90,10 @@
                                            then
                                                . "${HOME}/.bashrc"
                                            fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . "${ZARUBA_HOME}/scripts/util.sh"
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   interval               : 1
-                  playBellScript         : echo $'\a'
                   ports                  : 8080
                   setup                  : Blank
                   start                  : Blank

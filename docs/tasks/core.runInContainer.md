@@ -45,9 +45,9 @@
                                                 then
                                                     . "${HOME}/.bashrc"
                                                 fi
-                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bootstrap.sh"
+                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                                 . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript           : . "${ZARUBA_HOME}/scripts/util.sh"
+                  includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
                                                   DOCKER_IMAGE_PREFIX=""
                                                 {{ else if .GetConfig "imagePrefix" -}}
@@ -65,8 +65,6 @@
                                                     DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
                                                   fi
                                                 {{ end -}}
-                  kubeContext                 : {{ .GetValue "kubeContext" }}
-                  playBellScript              : echo $'\a'
                   setup                       : Blank
                   start                       : echo "No script defined"
                   useImagePrefix              : true

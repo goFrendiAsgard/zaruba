@@ -25,7 +25,8 @@ tasks:
           echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
           curl -s "https://get.sdkman.io" | bash
           TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")"
-          append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          echo "" >> "${BOOTSTRAP_SCRIPT}"
+          echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"
           echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
           sdk install java

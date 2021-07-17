@@ -5,6 +5,10 @@ tasks:
     description: Prepare NodeJs Application
     private: true
     extend: core.runNvmScript
+    configRefs:
+    - includeBootstrapScript
+    - includeUtilScript
+    - coreNvm
     config:
       _setup: |
         set -e
