@@ -1,0 +1,14 @@
+tasks:
+
+  injectBootstrap:
+    icon: 💉
+    extend: core.runCoreScript
+    saveLog: false
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        inject_bootstrap "${HOME}/.bashrc"
+        inject_bootstrap "${HOME}/.zshrc"
+        inject_bootstrap "${HOME}/.profile"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Close and reopen terminal to apply changes{{ $d.Normal }}"

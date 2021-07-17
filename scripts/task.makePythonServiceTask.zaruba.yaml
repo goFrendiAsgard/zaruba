@@ -1,0 +1,17 @@
+tasks: 
+ 
+  makePythonServiceTask:
+    extend: core.makePresetServiceTask
+    inputs:
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorPythonServiceStartCommand
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
+    config:
+      serviceStartCommand: '{{ .GetValue "generatorPythonServiceStartCommand" }}'
+      template: python
+

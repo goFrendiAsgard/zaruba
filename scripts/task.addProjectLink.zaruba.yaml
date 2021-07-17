@@ -1,0 +1,23 @@
+tasks:
+
+  addProjectLink:
+    icon: 🔗
+    description: |
+      Add link.
+      TIPS: To update links, you should perform `zaruba please updateProjectLinks`
+    extend: core.runCoreScript
+    inputs:
+    - linkFrom
+    - linkTo
+    dependencies:
+    - core.isProject
+    - core.setupPyUtil
+    config:
+      linkFrom: '{{ .GetValue "linkFrom" }}'
+      linkTo: '{{ .GetValue "linkTo" }}'
+      start: |
+        {{ $d := .Decoration -}}
+        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
+

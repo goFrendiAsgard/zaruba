@@ -1,0 +1,24 @@
+tasks: 
+
+  makeFastApiModule:
+    icon: ⚡
+    description: Make FastAPI module
+    inputs:
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
+    extend: core.runCoreScript
+    dependencies:
+    - core.showAdv
+    configRef: generatorFastApi
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        {{ .GetConfig "createModuleScript" }}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
+        
+

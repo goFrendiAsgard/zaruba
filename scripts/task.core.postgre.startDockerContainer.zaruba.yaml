@@ -1,0 +1,8 @@
+tasks:
+
+  core.postgre.startDockerContainer:
+    icon: 👀
+    private: true
+    extend: core.startDockerContainer
+    config:
+      checkCommand: pg_isready -U {{ .GetEnv "POSTGRES_USER" }}

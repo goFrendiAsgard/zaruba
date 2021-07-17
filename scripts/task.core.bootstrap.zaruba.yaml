@@ -1,0 +1,13 @@
+tasks:
+
+  core.bootstrap:
+    icon: 🐚
+    private: true
+    extend: core.runScript
+    configRef: coreShell
+    config:
+      start: |
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+        init_bootstrap
+ 
+

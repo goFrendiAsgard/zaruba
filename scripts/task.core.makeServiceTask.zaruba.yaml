@@ -1,0 +1,34 @@
+tasks:
+
+  core.makeServiceTask:
+    extend: core.runCoreScript
+    private: true
+    dependencies:
+    - core.showAdv
+    - core.isProject
+    config:
+      imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'
+      containerName: '{{ .GetValue "generatorServiceDockerContainerName" }}'
+      serviceName: '{{ .GetValue "generatorServiceName" }}'
+      servicePorts: '{{ .GetValue "generatorServicePorts" }}'
+      serviceLocation: '{{ .GetValue "generatorServiceLocation" }}'
+      serviceStartCommand: '{{ .GetValue "generatorServiceStartCommand" }}'
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
+      serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
+      dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
+      runnerVersion: ''
+      start: |
+        {{- $d := .Decoration -}}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+        SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
+        SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
+        RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "runnerVersion") }}
+        SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}" "runner_version=${RUNNER_VERSION}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"

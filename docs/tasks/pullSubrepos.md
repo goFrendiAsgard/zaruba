@@ -1,7 +1,7 @@
 # pullSubrepos
 ```
   TASK NAME     : pullSubrepos
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.pullSubrepos.zaruba.yaml
   DESCRIPTION   : Pull subrepositories.
                   ARGUMENTS:
                     subrepo::<name>::prefix   : Prefix (directory name) of the subrepo

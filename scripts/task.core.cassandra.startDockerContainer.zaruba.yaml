@@ -1,0 +1,9 @@
+tasks:
+
+  core.cassandra.startDockerContainer:
+    icon: 👀
+    private: true
+    extend: core.startDockerContainer
+    config:
+      checkCommand: cqlsh -e "describe keyspaces"
+ 

@@ -1,0 +1,35 @@
+tasks: 
+
+  makeFastApiRoute:
+    icon: ⚡
+    description: Make FastAPI route handler
+    inputs:
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    - generatorFastApiModuleName
+    - generatorFastApiHttpMethod
+    - generatorFastApiUrl
+    extend: core.runCoreScript
+    dependencies:
+    - core.showAdv
+    configRef: generatorFastApi
+    config:
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
+      httpMethod: '{{ .GetValue "generatorFastApiHttpMethod" }}'
+      url: '{{ .GetValue "generatorFastApiUrl" }}'
+      start: |
+        {{- $d := .Decoration -}}
+        {{ .GetConfig "createModuleScript" }}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        URL={{ .EscapeShellArg (.GetConfig "url") }}
+        HTTP_METHOD={{ .EscapeShellArg (.GetConfig "httpMethod") }}
+        create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API Route handler created: ${HTTP_METHOD} ${URL} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
+    
+

@@ -1,0 +1,15 @@
+tasks:
+
+  core.runNodeJsScript:
+    icon: 🐸
+    description: |
+      Run Node.Js script
+      Common config:
+        start : Start script
+    private: true
+    extend: core.runScript
+    config:
+      cmd: node
+      cmdArg: "-p"
+      start: "console.log('hello world')"
+

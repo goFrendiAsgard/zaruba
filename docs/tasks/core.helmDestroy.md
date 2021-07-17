@@ -1,7 +1,7 @@
 # core.helmDestroy
 ```
   TASK NAME     : core.helmDestroy
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.helmDestroy.zaruba.yaml
   DESCRIPTION   : Destroy helm deployments by using helmfile....
                   Common config:
                     helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')

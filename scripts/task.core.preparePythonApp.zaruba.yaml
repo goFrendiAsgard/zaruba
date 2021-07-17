@@ -1,0 +1,11 @@
+tasks:
+
+  core.preparePythonApp:
+    icon: 🐍
+    description: Prepare Python App
+    private: true
+    extend: core.runShellScript
+    config:
+      _start: pipenv install
+      start: "echo Prepare Python App"
+

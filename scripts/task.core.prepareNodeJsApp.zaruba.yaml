@@ -1,0 +1,22 @@
+tasks:
+  
+  core.prepareNodeJsApp:
+    icon: 🐸
+    description: Prepare NodeJs Application
+    private: true
+    extend: core.runNvmScript
+    config:
+      _setup: |
+        set -e
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+        {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
+      _start: |
+        {{ .Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
+        {{ .Trim (.GetConfig "npmCleanCacheScript") "\n" }} 
+        {{ .Trim (.GetConfig "npmInstallScript") "\n" }} 
+        {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
+        {{ .Trim (.GetConfig "tsInstallScript") "\n" }} 
+        {{ .Trim (.GetConfig "tsCompileScript") "\n" }} 
+      start: "echo Prepare NodeJs App"
+ 

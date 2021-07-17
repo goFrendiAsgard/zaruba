@@ -1,0 +1,16 @@
+tasks:
+
+  updateEnv:
+    icon: 🔄
+    description: |
+      Update environment of every task in the current project 
+    extend: core.runCoreScript
+    dependencies:
+    - core.isProject
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        update_env .
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
+

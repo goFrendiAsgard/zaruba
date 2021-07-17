@@ -1,0 +1,21 @@
+tasks:
+
+  setProjectValue:
+    icon: 🔗
+    description: Set project value.
+    extend: core.runCoreScript
+    dependencies:
+    - core.isProject
+    - core.setupPyUtil
+    inputs:
+    - variableName
+    - variableValue
+    config:
+      variableName: '{{ .GetValue "variableName" }}'
+      variableValue: '{{ .GetValue "variableValue" }}'
+      start: |
+        {{ $d := .Decoration -}}
+        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
+

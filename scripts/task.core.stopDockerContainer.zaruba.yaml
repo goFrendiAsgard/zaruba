@@ -1,0 +1,23 @@
+tasks:
+
+  core.stopDockerContainer:
+    icon: 🐳
+    private: true
+    description: |
+      Stop docker container.
+      Common config:
+        containerName : Container's name
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateProjectLinks
+    config:
+      containerName: ""
+      start: |
+        {{ $d := .Decoration -}}
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+        stop_container "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
+ 

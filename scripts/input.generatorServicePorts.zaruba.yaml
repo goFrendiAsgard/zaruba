@@ -1,0 +1,10 @@
+inputs:
+
+  generatorServicePorts:
+    description: |
+      Service ports (number or environment variable), comma separated.
+      E.g: 3000,HTTP_PORT,PROMETHEUS_PORT
+    prompt: "Service ports"
+    validation: ^[a-zA-Z0-9_,]*$
+  
+

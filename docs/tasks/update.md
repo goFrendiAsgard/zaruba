@@ -1,7 +1,7 @@
 # update
 ```
   TASK NAME     : update
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.update.zaruba.yaml
   DESCRIPTION   : Update zaruba to the latest version.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

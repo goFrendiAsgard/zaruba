@@ -1,0 +1,51 @@
+tasks:
+
+  setupSdkman:
+    icon: 🔨
+    description: Install SDKMan for Java/Scala development.
+    extend: core.runCoreScript
+    timeout: 1h
+    inputs:
+    - setupHomeDir
+    config:
+      cmd: /bin/bash
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install sdkman, java, and scala in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
+      start: |
+        {{ $d := .Decoration -}}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
+        if [ "$(is_command_exist sdk version)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Sdkman was already installed{{ $d.Normal }}"
+        else
+          rm -Rf "${HOME}/.sdkman"
+          echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install sdkman{{ $d.Normal }}"
+          curl -s "https://get.sdkman.io" | bash
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/sdkman.sh")"
+          append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          . "${BOOTSTRAP_SCRIPT}"
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
+          sdk install java
+          echo "☕ {{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
+          sdk install scala
+        fi 
+        if [ "$(is_command_exist java -version)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Java was already installed{{ $d.Normal }}"
+        else
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install java{{ $d.Normal }}"
+          sdk install java
+        fi
+        if [ "$(is_command_exist scala -version)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Scala was already installed{{ $d.Normal }}"
+        else
+          echo "☕{{ $d.Bold }}{{ $d.Yellow }}Install scala{{ $d.Normal }}"
+          sdk install scala
+        fi
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+ 

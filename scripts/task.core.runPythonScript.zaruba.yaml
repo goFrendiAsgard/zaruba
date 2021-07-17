@@ -1,0 +1,14 @@
+tasks:
+
+  core.runPythonScript:
+    icon: 🐍
+    description: |
+      Run python script
+      Common config:
+        start : Start script
+    private: true
+    extend: core.runScript
+    config:
+      cmd: python
+      start: "print('hello world')"
+

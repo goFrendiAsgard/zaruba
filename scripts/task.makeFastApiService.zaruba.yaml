@@ -1,0 +1,22 @@
+tasks: 
+
+  makeFastApiService:
+    icon: ⚡
+    description: Make Fast API service
+    extend: core.runCoreScript
+    dependencies:
+    - core.showAdv
+    inputs:
+    - generatorFastApiServiceName
+    - generatorFastApiCreateTask
+    configRef: generatorFastApi
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        {{ .GetConfig "createServiceScript" }}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API service created: ${SERVICE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        
+

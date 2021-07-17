@@ -1,7 +1,7 @@
 # core.runInContainer
 ```
   TASK NAME     : core.runInContainer
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.run.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.runInContainer.zaruba.yaml
   DESCRIPTION   : Run command from inside the container
                   Common config:
                     containerName : Name of the container

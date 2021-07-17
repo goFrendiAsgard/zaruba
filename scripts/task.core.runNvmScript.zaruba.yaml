@@ -1,0 +1,18 @@
+tasks:
+  
+  core.runNvmScript:
+    icon: 🐸
+    description: Run shell script under nvm
+    private: true
+    extend: core.runShellScript
+    configRefs:
+    - coreNvm
+    - coreShell
+    config:
+      _setup: |
+        set -e
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+        {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
+      start: "echo hello world"
+

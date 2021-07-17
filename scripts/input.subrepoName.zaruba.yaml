@@ -1,0 +1,6 @@
+inputs:
+
+  subrepoName:
+    description: Subrepo name (Can be blank)
+    prompt: Subrepo name
+

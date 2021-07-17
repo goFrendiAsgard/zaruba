@@ -1,0 +1,11 @@
+tasks:
+
+  showVersion:
+    icon: 🔎
+    description: |
+      Show zaruba's current version.
+    extend: core.runCoreScript
+    config:
+      start: |
+        cd ${ZARUBA_HOME}
+        show_version

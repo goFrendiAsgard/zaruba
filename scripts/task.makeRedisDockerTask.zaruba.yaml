@@ -1,0 +1,12 @@
+tasks: 
+
+  makeRedisDockerTask:
+    extend: core.makePresetDockerTask
+    inputs:
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
+    config:
+      template: redis
+

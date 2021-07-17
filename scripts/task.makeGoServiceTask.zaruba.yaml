@@ -1,0 +1,17 @@
+tasks: 
+  
+  makeGoServiceTask:
+    extend: core.makePresetServiceTask
+    inputs:
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorGoServiceStartCommand
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
+    config:
+      serviceStartCommand: '{{ .GetValue "generatorGoServiceStartCommand" }}'
+      template: go
+

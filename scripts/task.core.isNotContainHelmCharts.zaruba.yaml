@@ -1,0 +1,12 @@
+tasks:
+
+  core.isNotContainHelmCharts:
+    icon: 🔎
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        should_not_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory does not contain helm deployments{{ $d.Normal }}"
+

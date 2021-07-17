@@ -1,7 +1,7 @@
 # core.stopDockerContainer
 ```
   TASK NAME     : core.stopDockerContainer
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.stopDockerContainer.zaruba.yaml
   DESCRIPTION   : Stop docker container.
                   Common config:
                     containerName : Container's name

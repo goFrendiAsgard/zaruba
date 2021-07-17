@@ -1,0 +1,6 @@
+inputs:
+ 
+  variableValue:
+    validation: ^.+$
+    description: Variable value (Required)
+    prompt: Value

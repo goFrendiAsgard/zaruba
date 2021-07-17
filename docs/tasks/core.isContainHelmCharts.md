@@ -1,7 +1,7 @@
 # core.isContainHelmCharts
 ```
   TASK NAME     : core.isContainHelmCharts
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.isContainHelmCharts.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -37,7 +37,7 @@
                   playBellScript         : echo $'\a'
                   setup                  : Blank
                   start                  : {{ $d := .Decoration -}}
-                                           should_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+                                           should_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not containing helm deployments.{{ $d.Normal }}"
                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory contains helm deployments{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -1,0 +1,9 @@
+inputs:
+
+  generatorFastApiCreateTask:
+    description: Create service task if not exist.
+    prompt: Create service task if not exist
+    options: [yes, no]
+    default: no
+    allowCustom: false
+

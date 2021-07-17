@@ -1,0 +1,6 @@
+inputs:
+
+  setupHomeDir:
+    description: Home directory (Can be blank)
+    prompt: Home directory
+

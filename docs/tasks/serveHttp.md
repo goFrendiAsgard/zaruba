@@ -1,7 +1,7 @@
 # serveHttp
 ```
   TASK NAME     : serveHttp
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.serveHttp.zaruba.yaml
   DESCRIPTION   : Run static web server from your working directory.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]

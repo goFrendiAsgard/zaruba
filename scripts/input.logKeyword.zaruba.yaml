@@ -1,0 +1,6 @@
+inputs:
+ 
+  logKeyword:
+    description: Task regex pattern
+    prompt: Task regex pattern
+

@@ -1,0 +1,56 @@
+tasks:
+
+  setupPyenv:
+    icon: 🔨
+    description: Install pyenv and pipenv
+    extend: core.runCoreScript
+    timeout: 1h
+    inputs:
+    - setupHomeDir
+    - setupPythonVersion
+    config:
+      beforeStart: |
+        {{ $d := .Decoration -}}
+        echo "This command will install pyenv and pipenv in your home directory. Root privilege is not required"
+        echo "If this command doesn't run successfully, please open an issue on https://github.com/state-alcemists/zaruba."
+        echo "Please also specify your OS version."
+      start: |
+        {{ $d := .Decoration -}}
+        {{ if .GetValue "setupHomeDir" }}HOME="{{ .GetValue "setupHomeDir" }}"{{ end }}
+        if [ "$(is_command_exist pyenv --version)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pyenv was already installed{{ $d.Normal }}"
+        else
+          rm -Rf "${HOME}/.pyenv"
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pyenv{{ $d.Normal }}"
+          curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | sh
+          TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/pyenv.sh")"
+          append_if_exist "${TEMPLATE_CONTENT}" "${BOOTSTRAP_SCRIPT}"
+          . "${BOOTSTRAP_SCRIPT}"
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
+          pyenv install {{ .GetValue "setupPythonVersion" }}
+          pyenv global {{ .GetValue "setupPythonVersion" }}
+          . "${BOOTSTRAP_SCRIPT}"
+        fi
+        if [ "$(is_command_exist python --version)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Python was already installed{{ $d.Normal }}"
+        else
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install python {{ .GetValue "setupPythonVersion" }}{{ $d.Normal }}"
+          pyenv install {{ .GetValue "setupPythonVersion" }}
+          pyenv global {{ .GetValue "setupPythonVersion" }}
+        fi
+        if [ "$(is_command_exist pipenv --version)" = 1 ]
+        then
+          echo "👏 {{ $d.Bold }}{{ $d.Yellow }}Pipenv was already installed{{ $d.Normal }}"
+        else
+          echo "🐍 {{ $d.Bold }}{{ $d.Yellow }}Install pipenv{{ $d.Normal }}"
+          pip install pipenv
+          if [ -d "${HOME}/.pipenv/shims" ]
+          then
+            chmod 755 "${HOME}/.pipenv/shims"
+          fi
+        fi
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Complete !!!{{ $d.Normal }}"
+

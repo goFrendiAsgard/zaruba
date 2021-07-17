@@ -1,0 +1,20 @@
+tasks:
+
+  core.helmDestroy:
+    icon: 🚢
+    private: true
+    description: |
+      Destroy helm deployments by using helmfile....
+      Common config:
+        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
+        dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
+        kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
+    extend: core.runScript
+    configRef: coreDocker
+    config:
+      start: |
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+        KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
+        kubectl config use-context "${KUBE_CONTEXT}"
+        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
+        helmfile --environment "{{ .GetConfig "helmDestroy" }}" destroy

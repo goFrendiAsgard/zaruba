@@ -1,0 +1,9 @@
+tasks:
+
+  core.mysql.startDockerContainer:
+    icon: 🐬 
+    private: true
+    extend: core.startDockerContainer
+    config:
+      checkCommand: mysql -u "root" -p{{ .GetEnv "MYSQL_ROOT_PASSWORD" }} -e "SHOW SCHEMAS"
+ 

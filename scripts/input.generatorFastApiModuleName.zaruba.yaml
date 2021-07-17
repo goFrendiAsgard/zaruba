@@ -1,0 +1,6 @@
+inputs:
+
+  generatorFastApiModuleName:
+    description: Module name (Required)
+    prompt: Module name
+    validation: ^[a-zA-Z0-9_]+$

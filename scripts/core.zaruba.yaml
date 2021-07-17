@@ -1,758 +1,138 @@
 includes:
-  - ./core.generator.zaruba.yaml
-  - ./core.run.zaruba.yaml
-  - ./core.service.zaruba.yaml
-  - ./core.setup.zaruba.yaml
-  - ./core.config.zaruba.yaml
 
-inputs:
-
-  showAdvertisement:
-    default: yes
-    options: [yes, no]
-    allowCustom: false
-    description: Show advertisement
-    prompt: Show advertisement
-
-  
-  logKeyword:
-    description: Task regex pattern
-    prompt: Task regex pattern
-
-
-  serverHttpPort:
-    default: 8080
-    options: [8080, 8000, 3000, 5000]
-    validation: ^[0-9]+$
-    description: HTTP port to serve static files
-    prompt: HTTP port
-
-  
-  subrepoUrl:
-    validation: ^.+$
-    description: Subrepo url (Required)
-    prompt: Subrepo url
-
-  
-  subrepoPrefix:
-    description: Subrepo directory name (Can be blank)
-    prompt: Subrepo directory name
-
-
-  subrepoName:
-    description: Subrepo name (Can be blank)
-    prompt: Subrepo name
-
-
-  dockerEnv:
-    default: default
-    validation: ^.+$
-    description: Docker env for getting image prefix (Required)
-    prompt: Docker env
-
-  
-  helmEnv:
-    default: default
-    validation: ^.+$
-    description: Helm env (Required)
-    prompt: Helm env
-
-  
-  kubeContext:
-    default: docker-desktop
-    validation: ^.+$
-    description: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
-    prompt: Kube context
-
-  
-  linkFrom:
-    validation: ^.+$
-    description: Link source (Required)
-    prompt: Source
-
-
-  linkTo:
-    validation: ^.+$
-    description: Link destination (Required)
-    prompt: Destination
-
-  
-  variableName:
-    validation: ^.+$
-    description: Variable name (Required)
-    prompt: Name
-
-  
-  variableValue:
-    validation: ^.+$
-    description: Variable value (Required)
-    prompt: Value
-
-
-tasks:
-
-  core.showAdv:
-    icon: ☕
-    private: true
-    extend: core.runCoreScript
-    saveLog: false
-    config:
-      start: |
-        {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
-        {{ if .IsTrue $showAdvertisement -}}
-          "${ZARUBA_HOME}/zaruba" showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
-        {{ end -}}
-  
-
-  injectBootstrap:
-    icon: 💉
-    extend: core.runCoreScript
-    saveLog: false
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        inject_bootstrap "${HOME}/.bashrc"
-        inject_bootstrap "${HOME}/.zshrc"
-        inject_bootstrap "${HOME}/.profile"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Close and reopen terminal to apply changes{{ $d.Normal }}"
-
-
-  showVersion:
-    icon: 🔎
-    description: |
-      Show zaruba's current version.
-    extend: core.runCoreScript
-    config:
-      start: |
-        cd ${ZARUBA_HOME}
-        show_version
-
-
-  update:
-    icon: 🔄
-    description: |
-      Update zaruba to the latest version.
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        cd ${ZARUBA_HOME}
-        echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
-        git pull origin master
-        git fetch origin --tags
-        echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
-        go build
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        show_version
-
-
-  serveHttp:
-    icon: 🌐
-    description: |
-      Run static web server from your working directory.
-    extend: core.startService
-    inputs:
-    - serverHttpPort
-    config:
-      ports: '{{ .GetValue "serverHttpPort" }}'
-    start: 
-    - python 
-    - "-m"
-    - http.server
-    - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'
-
-
-  clearPreviousValues:
-    icon: 🔥
-    description: |
-      Clear log
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        rm -Rf .previous.values.yaml
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
-
-
-  clearLog:
-    icon: 🔥
-    description: |
-      Clear log
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        rm -Rf log.zaruba.csv
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
-
-
-  showLog:
-    icon: 🔎
-    description: |
-      Show log for all/particular tasks using regex
-    extend: core.runCoreScript
-    saveLog: false
-    inputs:
-    - logKeyword
-    config:
-      logKeyword: '{{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}'
-      start: |
-        {{ $d := .Decoration -}}
-        should_be_file "log.zaruba.csv" "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-        "${ZARUBA_HOME}/zaruba" showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
-
-
-  core.isValidSubrepos:
-    icon: 🔍
-    private: true
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        {{ $names := .GetSubValueKeys "subrepo" -}}
-        {{ $this := . -}}
-        {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetValue "subrepo" $name "url" }}"
-          NAME="{{ $name }}"
-          should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
-          should_not_be_empty "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
-        {{ end }}
-        echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
-
-
-  initSubrepos:
-    icon: 📦
-    description: |
-      Init subrepositories.
-      ARGUMENTS:
-        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
-        subrepo::<name>::url      : Remote url of the subrepo
-        subrepo::<name>::name     : Origin name of the subrepo
-      TIPS:
-        It is recommended to put `subrepo` arguments in `default.values.yaml`.
-        In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.isValidSubrepos
-    - core.setupPyUtil
-    config:
-      start: |
-        set -e
-        {{ $d := .Decoration -}}
-        {{ $names := .GetSubValueKeys "subrepo" -}}
-        {{ $this := . -}}
-        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-        ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
-        {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetValue "subrepo" $name "url" }}"
-          NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" listContains "${ORIGINS}" "${NAME}")
-          if [ "$ORIGIN_EXISTS" = "1" ]
-          then
-            git remote set-url "${NAME}" "${URL}"
-          elif [ "$ORIGIN_EXISTS" = "0" ]
-          then
-            echo "$NAME origin is not exist"
-            git_save "Save works before pulling from ${URL}"
-            PREFIX_EXISTS=0
-            if [ -d "$PREFIX" ]
-            then
-              PREFIX_EXISTS=1
-              mv "${PREFIX}" "${PREFIX}.bak"
-              git_save "Temporarily move ${PREFIX}"
-            fi
-            git_init_subrepo "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
-            if [ "$PREFIX_EXISTS" = "1" ]
-            then
-              rm -Rf "${PREFIX}"
-              mv "${PREFIX}.bak" "${PREFIX}"
-              git_save "Restore ${PREFIX}"
-            fi
-          fi
-        {{ end -}}
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos Initialized{{ $d.Normal }}"
-
-
-  addSubrepo:
-    icon: 🥂
-    description: |
-      Add subrepository.
-      TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.setupPyUtil
-    inputs:
-    - subrepoUrl
-    - subrepoPrefix
-    - subrepoName
-    config:
-      subrepoUrl: '{{ .GetValue "subrepoUrl" }}'
-      subrepoPrefix: '{{ .GetValue "subrepoPrefix" }}'
-      subrepoName: '{{ .GetValue "subrepoName" }}'
-      start: |
-        set -e
-        {{ $d := .Decoration -}}
-        URL="{{ .GetValue "subrepoUrl" }}"
-        should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
-        {{ if .GetValue "subrepoPrefix" }}
-          PREFIX="{{ .GetValue "subrepoPrefix" }}"
-        {{ else }}
-          {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
-          {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
-          {{ $urlLastSegment := index $urlSegment $urlSegmentLastIndex -}}
-          {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
-          PREFIX="{{ $prefix }}"
-        {{ end }}
-        NAME="{{ if .GetValue "subrepoName" }}{{ .GetValue "subrepoName" }}{{ else }}${PREFIX}{{ end }}"
-        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
-        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
-
-
-  pushSubrepos:
-    icon: 🔼
-    description: |
-      Publish subrepositories.
-      ARGUMENTS:
-        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
-        subrepo::<name>::url      : Remote url of the subrepo
-    extend: core.runCoreScript
-    dependencies:
-    - initSubrepos
-    - updateProjectLinks
-    - core.setupPyUtil
-    config:
-      start: |
-        set -e
-        {{ $d := .Decoration -}}
-        {{ $names := .GetSubValueKeys "subrepo" -}}
-        {{ $this := . -}}
-        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-        ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
-        {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetValue "subrepo" $name "url" }}"
-          NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" listContains "${ORIGINS}" "${NAME}")
-          if [ $ORIGIN_EXISTS = 1 ]
-          then
-            git_save.sh" "Save works before p
-            git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-          fi
-        {{ end -}}
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
-
-
-  pullSubrepos:
-    icon: 🔽
-    description: |
-      Pull subrepositories.
-      ARGUMENTS:
-        subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
-        subrepo::<name>::url      : Remote url of the subrepo
-    extend: core.runCoreScript
-    dependencies:
-    - initSubrepos
-    config:
-      start: |
-        set -e
-        {{ $d := .Decoration -}}
-        {{ $names := .GetSubValueKeys "subrepo" -}}
-        {{ $this := . -}}
-        ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
-        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-        {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetValue "subrepo" $name "url" }}"
-          NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" listContains "${ORIGINS}" "${NAME}")
-          if [ $ORIGIN_EXISTS = 1 ]
-          then
-            git_save "Save works before pull"
-            git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-          fi
-        {{ end -}}
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
-
-
-  core.isProject:
-    icon: 🔎
-    private: true
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        should_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
-
-
-  core.isContainHelmCharts:
-    icon: 🔎
-    private: true
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        should_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory contains helm deployments{{ $d.Normal }}"
-
-
-  core.isNotProject:
-    icon: 🔎
-    private: true
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        should_not_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
-
-
-  core.isNotContainHelmCharts:
-    icon: 🔎
-    private: true
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        should_not_be_dir "helm-deployments" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory does not contain helm deployments{{ $d.Normal }}"
-
-
-  initProject:
-    icon: 🚧
-    description: |
-      Initiate empty zaruba project.
-    extend: core.runCoreScript
-    saveLog: false
-    dependencies:
-    - core.isNotProject
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        git init
-        cp -rT "${ZARUBA_HOME}/scripts/templates/project/" .
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
-
- 
-  initHelm:
-    icon: 🚢
-    description: |
-      Create helm deployment artifacts.
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.isNotContainHelmCharts
-    config:
-      start: |
-        {{- $d := .Decoration -}}
-        create_helm_task "${ZARUBA_HOME}/scripts/templates/helmDeployments"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
-
-
-  updateEnv:
-    icon: 🔄
-    description: |
-      Update environment of every task in the current project 
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        update_env .
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
-
-
-  updateProjectLinks:
-    icon: 🔗
-    description: |
-      Update "links" in your project. Very useful if you have multiple apps sharing some parts of code
-      USAGE:
-        zaruba please updateProjectLinks
-        zaruba please updateProjectLinks "link::fibo/css=common-css"
-        zaruba please updateProjectLinks "link::app/css=common-css"
-      ARGUMENTS
-        link::<destination> : Location of the shared code
-      TIPS:
-        It is recommended to put `link` arguments in `default.values.yaml`.
-        In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
-    extend: core.runCoreScript
-    config:
-      start: |
-        {{ $d := .Decoration -}}
-        {{ $this := . -}}
-        {{ $workPath := .WorkPath }}
-        {{ $destinations := .GetSubValueKeys "link" -}}
-        {{ range $index, $destination := $destinations -}}
-          {{ $source := $this.GetValue "link" $destination -}}
-          {{ $absSource := $this.GetWorkPath $source -}}
-          {{ $absDestination := $this.GetWorkPath $destination -}}
-          link_resource "{{ $absSource }}" "{{ $absDestination }}"
-        {{ end -}}
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
-
-
-  addProjectLink:
-    icon: 🔗
-    description: |
-      Add link.
-      TIPS: To update links, you should perform `zaruba please updateProjectLinks`
-    extend: core.runCoreScript
-    inputs:
-    - linkFrom
-    - linkTo
-    dependencies:
-    - core.isProject
-    - core.setupPyUtil
-    config:
-      linkFrom: '{{ .GetValue "linkFrom" }}'
-      linkTo: '{{ .GetValue "linkTo" }}'
-      start: |
-        {{ $d := .Decoration -}}
-        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
-
-
-  setProjectValue:
-    icon: 🔗
-    description: Set project value.
-    extend: core.runCoreScript
-    dependencies:
-    - core.isProject
-    - core.setupPyUtil
-    inputs:
-    - variableName
-    - variableValue
-    config:
-      variableName: '{{ .GetValue "variableName" }}'
-      variableValue: '{{ .GetValue "variableValue" }}'
-      start: |
-        {{ $d := .Decoration -}}
-        "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
-
-
-  core.buildDockerImage:
-    icon: 🐳
-    private: true
-    description: |
-      Build docker image.
-      Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
-        imageName : Image name
-    extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
-    - updateProjectLinks
-    configRef: coreDocker
-    config:
-      imagePrefixTrailingSlash: true
-      buildArg: ""
-      start.buildDockerImage.buildArg: |
-        {{ range $index, $buildArg := .Split (.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
-          {{ if ne $buildArg "" -}}
-            --build-arg {{ $buildArg }} {{ "" -}}
-          {{ end -}}
-        {{ end -}}
-      start: |
-        set -e
-        {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
-        COMMIT="$(get_latest_git_commit)"
-        if [ ! -z "${COMMIT}" ]
-        then
-          SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-          TAG="$(get_latest_git_tag)"
-          if [ ! -z "${TAG}" ]
-          then
-            TAG_COMMIT="$(get_latest_git_tag_commit)"
-            if [ "${TAG_COMMIT}" = "${COMMIT}" ]
-            then
-              docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-            else
-              docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-            fi
-          else
-            docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-          fi
-        else
-          docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" .
-        fi
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
-
-  
-  core.pullDockerImage:
-    icon: 🐳
-    private: true
-    description: |
-      Pull docker image.
-      Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
-        imageName : Image name
-    extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
-    - updateProjectLinks
-    configRef: coreDocker
-    config:
-      imagePrefixTrailingSlash: true
-      start: |
-        {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
-        IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-        if [ ! -z "${IMAGE_TAG}" ]
-        then
-          pull_image "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${IMAGE_TAG}"
-        else
-          pull_image "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}"
-        fi
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME} pulled{{ $d.Normal }}"
-
-
-  core.pushDockerImage:
-    icon: 🐳
-    private: true
-    description: |
-      Push docker image.
-      Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
-        imageName : Image name
-    extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
-    - updateProjectLinks
-    configRef: coreDocker
-    config:
-      imagePrefixTrailingSlash: true
-      start: |
-        {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
-        COMMIT="$(get_latest_git_commit)"
-        if [ ! -z "${COMMIT}" ]
-        then
-          SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-          TAG="$(get_latest_git_tag)"
-          if [ ! -z "${TAG}" ]
-          then
-            TAG_COMMIT="$(get_latest_git_tag_commit)"
-            if [ "${TAG_COMMIT}" = "${COMMIT}" ]
-            then
-              docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
-            fi
-            docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}"
-          fi
-          docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}"
-        fi
-        docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest"
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pushed{{ $d.Normal }}"
-    
-
-  core.stopDockerContainer:
-    icon: 🐳
-    private: true
-    description: |
-      Stop docker container.
-      Common config:
-        containerName : Container's name
-    extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
-    - updateProjectLinks
-    config:
-      containerName: ""
-      start: |
-        {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
-        stop_container "${CONTAINER}" 
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
-  
-
-  core.removeDockerContainer:
-    icon: 🐳
-    private: true
-    description: |
-      Remove docker container.
-      Common config:
-        containerName : Container's name
-    extend: core.runCoreScript
-    dependencies:
-    - core.setupPyUtil
-    - updateProjectLinks
-    config:
-      containerName: ""
-      start: |
-        {{ $d := .Decoration -}}
-        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
-        stop_container "${CONTAINER}" 
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
-        remove_container "${CONTAINER}" 
-        echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
-  
-
-  core.helmApply:
-    icon: 🚢
-    private: true
-    description: |
-      Apply helm charts by using helmfile.
-      Common config:
-        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
-        dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
-        kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
-    extend: core.runCoreScript
-    configRef: coreDocker
-    config:
-      start: |
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
-        kubectl config use-context "${KUBE_CONTEXT}"
-        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ .GetConfig "helmEnv" }}" sync
-
-
-  core.helmDestroy:
-    icon: 🚢
-    private: true
-    description: |
-      Destroy helm deployments by using helmfile....
-      Common config:
-        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
-        dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
-        kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
-    extend: core.runScript
-    configRef: coreDocker
-    config:
-      start: |
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
-        kubectl config use-context "${KUBE_CONTEXT}"
-        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
-        helmfile --environment "{{ .GetConfig "helmDestroy" }}" destroy
-
+- ./config.coreDocker.zaruba.yaml
+- ./config.coreNvm.zaruba.yaml
+- ./config.coreShell.zaruba.yaml
+- ./config.generatorFastApi.zaruba.yaml
+
+- ./input.dockerEnv.zaruba.yaml
+- ./input.generatorDockerContainerName.zaruba.yaml
+- ./input.generatorDockerImageName.zaruba.yaml
+- ./input.generatorFastApiCreateTask.zaruba.yaml
+- ./input.generatorFastApiCrudEntity.zaruba.yaml
+- ./input.generatorFastApiCrudFields.zaruba.yaml
+- ./input.generatorFastApiEventName.zaruba.yaml
+- ./input.generatorFastApiHttpMethod.zaruba.yaml
+- ./input.generatorFastApiModuleName.zaruba.yaml
+- ./input.generatorFastApiRpcName.zaruba.yaml
+- ./input.generatorFastApiServiceName.zaruba.yaml
+- ./input.generatorFastApiUrl.zaruba.yaml
+- ./input.generatorGoServiceStartCommand.zaruba.yaml
+- ./input.generatorNodeJsServiceStartCommand.zaruba.yaml
+- ./input.generatorNodeJsServiceRunnerVersion.zaruba.yaml
+- ./input.generatorPythonServiceStartCommand.zaruba.yaml
+- ./input.generatorServiceDockerContainerName.zaruba.yaml
+- ./input.generatorServiceDockerImageName.zaruba.yaml
+- ./input.generatorServiceEnvs.zaruba.yaml
+- ./input.generatorServiceLocation.zaruba.yaml
+- ./input.generatorServiceName.zaruba.yaml
+- ./input.generatorServicePorts.zaruba.yaml
+- ./input.generatorServiceStartCommand.zaruba.yaml
+- ./input.generatorTaskDependencies.zaruba.yaml
+- ./input.helmEnv.zaruba.yaml
+- ./input.kubeContext.zaruba.yaml
+- ./input.linkFrom.zaruba.yaml
+- ./input.linkTo.zaruba.yaml
+- ./input.logKeyword.zaruba.yaml
+- ./input.serverHttpPort.zaruba.yaml
+- ./input.setupAllowRoot.zaruba.yaml
+- ./input.setupHadoopVersion.zaruba.yaml
+- ./input.setupHelmfileVersion.zaruba.yaml
+- ./input.setupHomeDir.zaruba.yaml
+- ./input.setupInitPyUtil.zaruba.yaml
+- ./input.setupNodeVersion.zaruba.yaml
+- ./input.setupPythonVersion.zaruba.yaml
+- ./input.setupSparkDownloadUrl.zaruba.yaml
+- ./input.setupSparkVersion.zaruba.yaml
+- ./input.setupUserPassword.zaruba.yaml
+- ./input.showAdvertisement.zaruba.yaml
+- ./input.subrepoUrl.zaruba.yaml
+- ./input.subrepoPrefix.zaruba.yaml
+- ./input.subrepoName.zaruba.yaml
+- ./input.variableName.zaruba.yaml
+- ./input.variableValue.zaruba.yaml
+
+- ./task.addProjectLink.zaruba.yaml
+- ./task.addSubrepo.zaruba.yaml
+- ./task.clearPreviousValues.zaruba.yaml
+- ./task.clearLog.zaruba.yaml
+- ./task.core.bootstrap.zaruba.yaml
+- ./task.core.buildDockerImage.zaruba.yaml
+- ./task.core.helmApply.zaruba.yaml
+- ./task.core.helmDestroy.zaruba.yaml
+- ./task.core.isContainHelmCharts.zaruba.yaml
+- ./task.core.isNotContainHelmCharts.zaruba.yaml
+- ./task.core.isNotProject.zaruba.yaml
+- ./task.core.isProject.zaruba.yaml
+- ./task.core.isValidSubrepos.zaruba.yaml
+- ./task.core.cassandra.execCql.zaruba.yaml
+- ./task.core.cassandra.startDockerContainer.zaruba.yaml
+- ./task.core.makeDockerTask.zaruba.yaml
+- ./task.core.makeServiceTask.zaruba.yaml
+- ./task.core.makePresetDockerTask.zaruba.yaml
+- ./task.core.makePresetServiceTask.zaruba.yaml
+- ./task.core.monitorPorts.zaruba.yaml
+- ./task.core.mysql.execSql.zaruba.yaml
+- ./task.core.mysql.startDockerContainer.zaruba.yaml
+- ./task.core.postgre.execSql.zaruba.yaml
+- ./task.core.postgre.startDockerContainer.zaruba.yaml
+- ./task.core.prepareNodeJsApp.zaruba.yaml
+- ./task.core.preparePythonApp.zaruba.yaml
+- ./task.core.pullDockerImage.zaruba.yaml
+- ./task.core.pushDockerImage.zaruba.yaml
+- ./task.core.removeDockerContainer.zaruba.yaml
+- ./task.core.runCoreScript.zaruba.yaml
+- ./task.core.runInContainer.zaruba.yaml
+- ./task.core.runNodeJsScript.zaruba.yaml
+- ./task.core.runNvmScript.zaruba.yaml
+- ./task.core.runPythonScript.zaruba.yaml
+- ./task.core.runScript.zaruba.yaml
+- ./task.core.runShellScript.zaruba.yaml
+- ./task.setupKubeClient.zaruba.yaml
+- ./task.setupNvm.zaruba.yaml
+- ./task.setupPyenv.zaruba.yaml
+- ./task.setupSdkman.zaruba.yaml
+- ./task.setupSpark.zaruba.yaml
+- ./task.setupTmux.zaruba.yaml
+- ./task.setupUbuntu.zaruba.yaml
+- ./task.core.setupPyUtil.zaruba.yaml
+- ./task.core.showAdv.zaruba.yaml
+- ./task.core.startService.zaruba.yaml
+- ./task.core.startNvmService.zaruba.yaml
+- ./task.core.startDockerContainer.zaruba.yaml
+- ./task.core.stopDockerContainer.zaruba.yaml
+- ./task.core.wrapper.zaruba.yaml
+- ./task.initHelm.zaruba.yaml
+- ./task.initProject.zaruba.yaml
+- ./task.initSubrepos.zaruba.yaml
+- ./task.injectBootstrap.zaruba.yaml
+- ./task.makeCassandraDockerTask.zaruba.yaml
+- ./task.makeDockerTask.zaruba.yaml
+- ./task.makeElasticsearchDockerTask.zaruba.yaml
+- ./task.makeHelmDeployment.zaruba.yaml
+- ./task.makeFastApiCrud.zaruba.yaml
+- ./task.makeFastApiEventHandler.zaruba.yaml
+- ./task.makeFastApiModule.zaruba.yaml
+- ./task.makeFastApiRoute.zaruba.yaml
+- ./task.makeFastApiRpcHandler.zaruba.yaml
+- ./task.makeFastApiService.zaruba.yaml
+- ./task.makeFastApiServiceTask.zaruba.yaml
+- ./task.makeGoServiceTask.zaruba.yaml
+- ./task.makeMongoDockerTask.zaruba.yaml
+- ./task.makeMysqlDockerTask.zaruba.yaml
+- ./task.makeNodeJsServiceTask.zaruba.yaml
+- ./task.makePostgreDockerTask.zaruba.yaml
+- ./task.makePythonServiceTask.zaruba.yaml
+- ./task.makeRabbitmqDockerTask.zaruba.yaml
+- ./task.makeRedisDockerTask.zaruba.yaml
+- ./task.makeServiceTask.zaruba.yaml
+- ./task.makeStaticServiceTask.zaruba.yaml
+- ./task.pullSubrepos.zaruba.yaml
+- ./task.pushSubrepos.zaruba.yaml
+- ./task.serveHttp.zaruba.yaml
+- ./task.setProjectValue.zaruba.yaml
+- ./task.showLog.zaruba.yaml
+- ./task.showVersion.zaruba.yaml
+- ./task.update.zaruba.yaml
+- ./task.updateEnv.zaruba.yaml
+- ./task.updateProjectLinks.zaruba.yaml

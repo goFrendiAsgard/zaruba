@@ -1,0 +1,15 @@
+tasks: 
+  
+  makeFastApiServiceTask:
+    extend: core.makePresetServiceTask
+    inputs:
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
+    - generatorTaskDependencies
+    config:
+      template: fastapi
+

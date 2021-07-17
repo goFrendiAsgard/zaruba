@@ -1,7 +1,7 @@
 # makeMysqlDockerTask
 ```
   TASK NAME     : makeMysqlDockerTask
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.generator.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.makeMysqlDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makePresetDockerTask ]
   START         : - {{ .GetConfig "cmd" }}
@@ -24,7 +24,6 @@
                   generatorServiceEnvs
                     DESCRIPTION : Service environments, comma separated.
                                   E.g: HTTP_PORT=3000,MODE=writer
-                                  
                                   Many applications rely on environment variables to configure their behavior.
                                   You might need to see service's documentation or open environment files (.env, template.env, etc) to see available options.
                                   If there is no documentation/environment files available, you probably need to run-through the code or ask the developer team.
@@ -32,9 +31,7 @@
                   generatorTaskDependencies
                     DESCRIPTION : Task's dependencies, comma separated.
                                   E.g: runMysql, runRedis
-                                  
                                   For example, you want to make sure that MySQL and Redis is already running before starting this task.
-                                  
                                   In that case, assuming runMySql and runRedis are tasks to run MySQL and Redis respectively, then you need to set this task's dependencies into:
                                     runMysql,runRedis
                     PROMPT      : Task dependencies

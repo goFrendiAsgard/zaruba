@@ -1,0 +1,21 @@
+tasks: 
+ 
+  makeHelmDeployment:
+    icon: 🚢
+    description: |
+      Add helm charts to the project to make deployment easier.
+    extend: core.runCoreScript
+    dependencies:
+    - core.isContainHelmCharts
+    - core.showAdv
+    inputs:
+    - generatorServiceName
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        SERVICE_NAME="{{ .GetValue "generatorServiceName" }}"
+        create_helm_deployment "${SERVICE_NAME}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
+  
+

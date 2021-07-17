@@ -1,0 +1,49 @@
+configs:
+
+  generatorFastApi:
+    taskTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi.zaruba.yaml'
+    serviceTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService'
+    moduleTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
+    serviceName: '{{ .GetValue "generatorFastApiServiceName" }}'
+    moduleName: '{{ .GetValue "generatorFastApiModuleName" }}'
+    createTask: '{{ .GetValue "generatorFastApiCreateTask" }}'
+    createServiceScript: | 
+      {{- $d := .Decoration -}}
+      if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
+      then
+        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API Service: ${SERVICE_NAME}{{ $d.Normal }}"
+        create_fast_service "template_location=${SERVICE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
+        chmod 755 "${SERVICE_NAME}/start.sh"
+        if [ -f "./main.zaruba.yaml" ]
+        then
+          if [ ! -d "./shared-libs/python/helpers" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib{{ $d.Normal }}"
+            mkdir -p "./shared-libs/python/helpers"
+            cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
+          fi
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib link for ${SERVICE_NAME}{{ $d.Normal }}"
+          "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::${SERVICE_NAME}/helpers" "shared-libs/python/helpers"
+          link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
+          {{ if .IsTrue (.GetConfig "createTask") -}}
+          TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+          echo "{{ $d.Bold }}{{ $d.Yellow }}Creating service task for ${SERVICE_NAME}{{ $d.Normal }}"
+          create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=" "container_name=" "location=${SERVICE_NAME}" "start_command=./start.sh" "ports=" "envs=" "dependencies=" "runner_version="
+          {{ end -}}
+        fi
+      fi
+    createModuleScript: |
+      {{- $d := .Decoration -}}
+      {{ .GetConfig "createServiceScript" }}
+      if [ ! -d "./{{ .GetConfig "serviceName" }}/{{ .GetConfig "moduleName" }}" ]
+      then
+        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API module: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        create_fast_module "template_location=${MODULE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
+      fi
+

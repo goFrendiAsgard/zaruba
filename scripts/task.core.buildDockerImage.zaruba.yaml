@@ -1,0 +1,53 @@
+tasks:
+
+  core.buildDockerImage:
+    icon: 🐳
+    private: true
+    description: |
+      Build docker image.
+      Common config:
+        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
+        imageName : Image name
+    extend: core.runCoreScript
+    dependencies:
+    - core.setupPyUtil
+    - updateProjectLinks
+    configRef: coreDocker
+    config:
+      imagePrefixTrailingSlash: true
+      buildArg: ""
+      start.buildDockerImage.buildArg: |
+        {{ range $index, $buildArg := .Split (.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
+          {{ if ne $buildArg "" -}}
+            --build-arg {{ $buildArg }} {{ "" -}}
+          {{ end -}}
+        {{ end -}}
+      start: |
+        set -e
+        {{ $d := .Decoration -}}
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+        should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
+        COMMIT="$(get_latest_git_commit)"
+        if [ ! -z "${COMMIT}" ]
+        then
+          SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
+          TAG="$(get_latest_git_tag)"
+          if [ ! -z "${TAG}" ]
+          then
+            TAG_COMMIT="$(get_latest_git_tag_commit)"
+            if [ "${TAG_COMMIT}" = "${COMMIT}" ]
+            then
+              docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
+            else
+              docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
+            fi
+          else
+            docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
+          fi
+        else
+          docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" .
+        fi
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
+

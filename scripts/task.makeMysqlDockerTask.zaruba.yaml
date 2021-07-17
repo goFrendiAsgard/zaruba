@@ -1,0 +1,12 @@
+tasks:
+
+  makeMysqlDockerTask:
+    extend: core.makePresetDockerTask
+    inputs:
+    - generatorDockerContainerName
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorTaskDependencies
+    config:
+      template: mysql
+

@@ -1,0 +1,8 @@
+inputs:
+    
+  setupSparkVersion:
+    default: 3.1.1
+    validation: ^.+$
+    description: Spark version to be installed
+    prompt: Spark version
+

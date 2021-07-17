@@ -1,0 +1,22 @@
+tasks:
+
+  core.runInContainer:
+    icon: 🐳
+    description: |
+      Run command from inside the container
+      Common config:
+        containerName : Name of the container
+        commands      : Command to be executed, separated by new line
+    private: true
+    extend: core.runCoreScript
+    configRef: coreDocker
+    config:
+      commands: ""
+      _start: |
+        {{ $this := . -}}
+        {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
+          {{ if ne $command "" -}}
+            docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+          {{ end -}}
+        {{ end -}}
+

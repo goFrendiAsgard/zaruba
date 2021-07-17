@@ -1,0 +1,19 @@
+tasks:
+
+  core.runShellScript:
+    icon: 🐚
+    description: |
+      Run shell script
+      Common config:
+        start : Start script
+    private: true
+    extend: core.runScript
+    dependencies:
+    - core.bootstrap
+    configRef: coreShell
+    config:
+      _setup: |
+        set -e
+        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
+      start: "echo hello world"
+

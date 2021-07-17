@@ -1,0 +1,12 @@
+tasks:
+
+  core.isNotProject:
+    icon: 🔎
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        should_not_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is not a zaruba project{{ $d.Normal }}"
+

@@ -1,0 +1,16 @@
+tasks:
+
+  serveHttp:
+    icon: 🌐
+    description: |
+      Run static web server from your working directory.
+    extend: core.startService
+    inputs:
+    - serverHttpPort
+    config:
+      ports: '{{ .GetValue "serverHttpPort" }}'
+    start: 
+    - python 
+    - "-m"
+    - http.server
+    - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'

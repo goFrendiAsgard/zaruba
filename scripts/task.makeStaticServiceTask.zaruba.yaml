@@ -1,0 +1,15 @@
+tasks: 
+
+  makeStaticServiceTask:
+    extend: core.makePresetServiceTask
+    inputs:
+    - generatorServiceLocation
+    - generatorServiceName
+    - generatorServiceEnvs
+    - generatorServicePorts
+    - generatorTaskDependencies
+    - generatorServiceDockerImageName
+    - generatorServiceDockerContainerName
+    config:
+      template: static
+

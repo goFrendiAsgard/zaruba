@@ -1,7 +1,7 @@
 # core.startService
 ```
   TASK NAME     : core.startService
-  LOCATION      : /home/gofrendi/zaruba/scripts/core.service.zaruba.yaml
+  LOCATION      : /home/gofrendi/zaruba/scripts/task.core.startService.zaruba.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.

@@ -1,0 +1,12 @@
+tasks:
+
+  clearPreviousValues:
+    icon: 🔥
+    description: |
+      Clear log
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        rm -Rf .previous.values.yaml
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"

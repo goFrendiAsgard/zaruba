@@ -1,0 +1,21 @@
+tasks:
+
+  core.helmApply:
+    icon: 🚢
+    private: true
+    description: |
+      Apply helm charts by using helmfile.
+      Common config:
+        helmEnv     : helm environment key (default: '{{ .GetValue "helmEnv" }}')
+        dockerEnv   : docker environment key (default: '{{ .GetValue "dockerEnv" }}')
+        kubeContext : kubernetes context (default: '{{ .GetValue "kube.content" }}')
+    extend: core.runCoreScript
+    configRef: coreDocker
+    config:
+      start: |
+        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+        KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
+        kubectl config use-context "${KUBE_CONTEXT}"
+        export IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}"
+        helmfile --environment "{{ .GetConfig "helmEnv" }}" sync
+

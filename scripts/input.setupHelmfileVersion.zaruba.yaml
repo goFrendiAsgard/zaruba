@@ -1,0 +1,8 @@
+inputs:
+  
+  setupHelmfileVersion:
+    default: v0.139.6
+    validation: ^.+$
+    description: Helmfile version to be installed
+    prompt: Helmfile version
+
