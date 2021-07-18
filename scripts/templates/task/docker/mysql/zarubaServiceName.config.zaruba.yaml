@@ -1,0 +1,6 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: mysql
+    containerName: zarubaContainerName
+    ports: 3306

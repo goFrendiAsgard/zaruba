@@ -3,15 +3,16 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var insertLineIfNotFoundCmd = &cobra.Command{
-	Use:   "insertLineIfNotFound <lines> <patterns> <suplements>",
-	Short: "Insert suplements to lines if patterns is not found",
+var replaceLineAtIndexCmd = &cobra.Command{
+	Use:   "replaceLineAtIndex <lines> <index> <replacements>",
+	Short: "Replace lines[index] with replacements",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -21,15 +22,15 @@ var insertLineIfNotFoundCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[0]), &lines); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		patterns := []string{}
-		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
+		index, err := strconv.Atoi(args[1])
+		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		suplements := []string{}
-		if err := json.Unmarshal([]byte(args[2]), &suplements); err != nil {
-			suplements = []string{args[2]}
+		replacements := []string{}
+		if err := json.Unmarshal([]byte(args[2]), &replacements); err != nil {
+			replacements = []string{args[2]}
 		}
-		result, err := str.InsertIfNotFound(lines, patterns, suplements)
+		result, err := str.ReplaceLineAtIndex(lines, index, replacements)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -42,5 +43,5 @@ var insertLineIfNotFoundCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(insertLineIfNotFoundCmd)
+	rootCmd.AddCommand(replaceLineAtIndexCmd)
 }

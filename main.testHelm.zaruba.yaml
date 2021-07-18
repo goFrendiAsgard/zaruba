@@ -14,7 +14,7 @@ tasks:
         ZARUBA_HOME="$(realpath "..")"
         ../zaruba please makeHelmDeployment generatorServiceName=fibo 
         ../zaruba please makeHelmDeployment generatorServiceName=myService 
-        ../zaruba please updateEnv 
+        ../zaruba please syncEnv 
         ../zaruba please helmApply kubeContext=docker-desktop helmEnv=default dockerEnv=default 
 
 

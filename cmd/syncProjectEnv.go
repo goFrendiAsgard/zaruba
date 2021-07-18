@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -9,16 +8,14 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var updateProjectTaskEnvCmd = &cobra.Command{
-	Use:   "updateProjectTaskEnv <projectFile>",
+var syncProjectEnvCmd = &cobra.Command{
+	Use:   "syncProjectEnv <projectFile>",
 	Short: "Update every 'run*' task's environment in project file's directory",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			exit(commandName, logger, decoration, fmt.Errorf("too few arguments"))
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 1)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(commandName, logger, decoration, err)
@@ -32,12 +29,12 @@ var updateProjectTaskEnvCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		if err = config.UpdateProjectTaskEnv(project); err != nil {
+		if err = config.SyncProjectEnv(project); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(updateProjectTaskEnvCmd)
+	rootCmd.AddCommand(syncProjectEnvCmd)
 }

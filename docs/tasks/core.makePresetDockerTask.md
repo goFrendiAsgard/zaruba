@@ -1,7 +1,7 @@
-# core.makePresetDockerTask
+# core.makeDockerTask
 ```
-  TASK NAME     : core.makePresetDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.makePresetDockerTask.zaruba.yaml
+  TASK NAME     : core.makeDockerTask
+  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.makeDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

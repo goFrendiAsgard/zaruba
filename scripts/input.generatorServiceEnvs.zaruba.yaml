@@ -2,10 +2,14 @@ inputs:
 
   generatorServiceEnvs:
     description: |
-      Service environments, comma separated.
-      E.g: HTTP_PORT=3000,MODE=writer
+      Service environments, JSON formated.
+      E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}
+
       Many applications rely on environment variables to configure their behavior.
       You might need to see service's documentation or open environment files (.env, template.env, etc) to see available options.
+
       If there is no documentation/environment files available, you probably need to run-through the code or ask the developer team.
-    prompt: "Service environments"
+    prompt: "Service environments, JSON formated. E.g: {\"HTTP_PORT\" : \"3000\", \"MODE\" : \"writer\"}"
+    validation: ^\{.*\}$
+    default: "{}"
 

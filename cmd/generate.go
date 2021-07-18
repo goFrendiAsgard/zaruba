@@ -22,7 +22,9 @@ var generateCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &replacementMap); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		file.Generate(sourceTemplatePath, destinationPath, replacementMap)
+		if err := file.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {
+			exit(commandName, logger, decoration, err)
+		}
 	},
 }
 

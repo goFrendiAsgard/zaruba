@@ -1,12 +1,12 @@
 tasks: 
 
   makeRedisDockerTask:
-    extend: core.makePresetDockerTask
+    extend: core.makeDockerTask
     inputs:
     - generatorDockerContainerName
     - generatorServiceName
     - generatorServiceEnvs
     - generatorTaskDependencies
     config:
-      template: redis
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/redis'
 

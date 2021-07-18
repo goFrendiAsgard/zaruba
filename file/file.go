@@ -92,7 +92,7 @@ func Generate(sourceTemplatePath, destinationPath string, replacementMap map[str
 				_, err = Copy(absSourceLocation, absDestinationLocation)
 				return err
 			}
-			return WriteText(absDestinationPath, newContent, fileMode)
+			return WriteText(absDestinationLocation, newContent, fileMode)
 		},
 	)
 }

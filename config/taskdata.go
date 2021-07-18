@@ -19,6 +19,7 @@ import (
 
 type TaskData struct {
 	task         *Task
+	Zaruba       string
 	Name         string
 	ProjectName  string
 	WorkPath     string
@@ -32,6 +33,7 @@ func NewTaskData(task *Task) (td *TaskData) {
 	nextTask.currentRecursiveLevel++
 	return &TaskData{
 		task:         &nextTask,
+		Zaruba:       "\"${ZARUBA_HOME}/zaruba\"",
 		Name:         task.GetName(),
 		ProjectName:  task.Project.GetName(),
 		WorkPath:     task.GetWorkPath(),

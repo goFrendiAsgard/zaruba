@@ -63,7 +63,7 @@
                   setup                       : Blank
                   start                       : {{ $d := .Decoration -}}
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
+                                                IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$({{ .Zaruba }} getServiceName "$(pwd)"){{ end }}"
                                                 COMMIT="$(get_latest_git_commit)"
                                                 if [ ! -z "${COMMIT}" ]
                                                 then

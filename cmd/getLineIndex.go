@@ -26,7 +26,7 @@ var getLineIndexCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		index, _, err := str.GetFirstMatch(list, patterns)
+		index, _, err := str.GetLineSubmatch(list, patterns)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}

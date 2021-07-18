@@ -192,21 +192,21 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 }
 
 func TestGetFirstMatchInvalidFirstPattern(t *testing.T) {
-	if _, _, err := GetFirstMatch([]string{}, []string{"[[^"}); err == nil {
+	if _, _, err := GetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchInvalidNonFirstPattern(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", ""}
-	if _, _, err := GetFirstMatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
+	if _, _, err := GetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
-	actualIndex, actualSubmatch, err := GetFirstMatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -229,7 +229,7 @@ func TestGetFirstMatchFound(t *testing.T) {
 
 func TestGetFirstMatchNotFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "", ""}
-	actualIndex, actualSubmatch, err := GetFirstMatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -245,21 +245,21 @@ func TestGetFirstMatchNotFound(t *testing.T) {
 
 func TestReplaceLineNegativeIndex(t *testing.T) {
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := ReplaceLine(lines, -1, []string{"new", "and interesting"}); err == nil {
+	if _, err := ReplaceLineAtIndex(lines, -1, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineOutOfBoundIndex(t *testing.T) {
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := ReplaceLine(lines, 3, []string{"new", "and interesting"}); err == nil {
+	if _, err := ReplaceLineAtIndex(lines, 3, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineFirst(t *testing.T) {
 	lines := []string{"something to be replaced", "is here"}
-	actual, err := ReplaceLine(lines, 0, []string{"something new", "and interesting"})
+	actual, err := ReplaceLineAtIndex(lines, 0, []string{"something new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -278,7 +278,7 @@ func TestReplaceLineFirst(t *testing.T) {
 
 func TestReplaceLineMiddle(t *testing.T) {
 	lines := []string{"something", "to be replaced", "is here"}
-	actual, err := ReplaceLine(lines, 1, []string{"new", "and interesting"})
+	actual, err := ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -297,7 +297,7 @@ func TestReplaceLineMiddle(t *testing.T) {
 
 func TestReplaceLineLast(t *testing.T) {
 	lines := []string{"something", "to be replaced"}
-	actual, err := ReplaceLine(lines, 1, []string{"new", "and interesting"})
+	actual, err := ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -314,79 +314,8 @@ func TestReplaceLineLast(t *testing.T) {
 	}
 }
 
-func TestInsertAfterNegativeIndex(t *testing.T) {
-	lines := []string{"something", "is here"}
-	if _, err := InsertAfter(lines, -1, []string{"new", "and interesting"}); err == nil {
-		t.Errorf("error expected")
-	}
-}
-
-func TestInsertAfterOutOfBoundIndex(t *testing.T) {
-	lines := []string{"something", "is here"}
-	if _, err := InsertAfter(lines, 3, []string{"new", "and interesting"}); err == nil {
-		t.Errorf("error expected")
-	}
-}
-
-func TestInsertAfterFirst(t *testing.T) {
-	lines := []string{"something", "is here"}
-	actual, err := InsertAfter(lines, 0, []string{"new", "and interesting"})
-	if err != nil {
-		t.Error(err)
-	}
-	expected := []string{"something", "new", "and interesting", "is here"}
-	if len(actual) != len(expected) {
-		t.Errorf("expected: %#v, actual: %#v", expected, actual)
-		return
-	}
-	for i := 0; i < len(expected); i++ {
-		if actual[i] != expected[i] {
-			t.Errorf("expected: %#v, actual: %#v", expected, actual)
-			return
-		}
-	}
-}
-
-func TestInsertAfterMiddle(t *testing.T) {
-	lines := []string{"we know that", "something", "is here"}
-	actual, err := InsertAfter(lines, 1, []string{"new", "and interesting"})
-	if err != nil {
-		t.Error(err)
-	}
-	expected := []string{"we know that", "something", "new", "and interesting", "is here"}
-	if len(actual) != len(expected) {
-		t.Errorf("expected: %#v, actual: %#v", expected, actual)
-		return
-	}
-	for i := 0; i < len(expected); i++ {
-		if actual[i] != expected[i] {
-			t.Errorf("expected: %#v, actual: %#v", expected, actual)
-			return
-		}
-	}
-}
-
-func TestInsertAfterLast(t *testing.T) {
-	lines := []string{"here we have", "something"}
-	actual, err := InsertAfter(lines, 1, []string{"new", "and interesting"})
-	if err != nil {
-		t.Error(err)
-	}
-	expected := []string{"here we have", "something", "new", "and interesting"}
-	if len(actual) != len(expected) {
-		t.Errorf("expected: %#v, actual: %#v", expected, actual)
-		return
-	}
-	for i := 0; i < len(expected); i++ {
-		if actual[i] != expected[i] {
-			t.Errorf("expected: %#v, actual: %#v", expected, actual)
-			return
-		}
-	}
-}
-
-func TestInsertIfNotFoundDifferentPatternAndSuplementLength(t *testing.T) {
-	_, err := InsertIfNotFound(
+func TestCompleteLinesDifferentPatternAndSuplementLength(t *testing.T) {
+	_, err := CompleteLines(
 		[]string{},
 		[]string{
 			"^task:(.*)$",
@@ -398,8 +327,8 @@ func TestInsertIfNotFoundDifferentPatternAndSuplementLength(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotFoundInvalidPattern(t *testing.T) {
-	_, err := InsertIfNotFound(
+func TestCompleteLinesInvalidPattern(t *testing.T) {
+	_, err := CompleteLines(
 		[]string{},
 		[]string{
 			"[[^",
@@ -413,8 +342,8 @@ func TestInsertIfNotFoundInvalidPattern(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotFoundUnmatchPattern(t *testing.T) {
-	_, err := InsertIfNotFound(
+func TestCompleteLinesUnmatchPattern(t *testing.T) {
+	_, err := CompleteLines(
 		[]string{},
 		[]string{
 			"ab",
@@ -428,8 +357,8 @@ func TestInsertIfNotFoundUnmatchPattern(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotFoundNoMatchAtAll(t *testing.T) {
-	actual, err := InsertIfNotFound(
+func TestCompleteLinesNoMatchAtAll(t *testing.T) {
+	actual, err := CompleteLines(
 		[]string{"includes: []"},
 		[]string{
 			"^tasks:(.*)$",
@@ -467,8 +396,8 @@ func TestInsertIfNotFoundNoMatchAtAll(t *testing.T) {
 	}
 }
 
-func TestInsertIfNotFoundNoMatchPartial(t *testing.T) {
-	actual, err := InsertIfNotFound(
+func TestCompleteLinesNoMatchPartial(t *testing.T) {
+	actual, err := CompleteLines(
 		[]string{
 			"includes: []",
 			"tasks: # list of task",

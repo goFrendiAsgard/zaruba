@@ -3,16 +3,15 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var insertLineAfterCmd = &cobra.Command{
-	Use:   "insertLineAfter <lines> <index> <newLines>",
-	Short: "Insert new lines right after lines[index]",
+var completeLinesCmd = &cobra.Command{
+	Use:   "completeLines <lines> <patterns> <suplements>",
+	Short: "Insert suplements to lines if patterns is not found",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -22,15 +21,15 @@ var insertLineAfterCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[0]), &lines); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		index, err := strconv.Atoi(args[1])
-		if err != nil {
+		patterns := []string{}
+		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		newLines := []string{}
-		if err := json.Unmarshal([]byte(args[2]), &newLines); err != nil {
-			newLines = []string{args[2]}
+		suplements := []string{}
+		if err := json.Unmarshal([]byte(args[2]), &suplements); err != nil {
+			suplements = []string{args[2]}
 		}
-		result, err := str.InsertAfter(lines, index, newLines)
+		result, err := str.CompleteLines(lines, patterns, suplements)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -43,5 +42,5 @@ var insertLineAfterCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(insertLineAfterCmd)
+	rootCmd.AddCommand(completeLinesCmd)
 }

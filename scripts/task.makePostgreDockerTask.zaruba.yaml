@@ -1,12 +1,12 @@
 tasks:
 
   makePostgreDockerTask:
-    extend: core.makePresetDockerTask
+    extend: core.makeDockerTask
     inputs:
     - generatorDockerContainerName
     - generatorServiceName
     - generatorServiceEnvs
     - generatorTaskDependencies
     config:
-      template: postgre
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/postgre'
 

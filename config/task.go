@@ -39,8 +39,8 @@ type Task struct {
 	Description           string            `yaml:"description,omitempty"`
 	Icon                  string            `yaml:"icon,omitempty"`
 	SaveLog               string            `yaml:"saveLog,omitempty"`
+	Project               *Project          `yaml:"_project,omitempty"`
 	fileLocation          string            // File location where this task was declared
-	Project               *Project
 	name                  string
 	logPrefix             string
 	timeoutDuration       time.Duration

@@ -8,6 +8,7 @@ tasks:
     - generatorDockerContainerName
     - generatorServiceName
     - generatorServiceEnvs
+    - generatorServicePorts
     - generatorTaskDependencies
   
 

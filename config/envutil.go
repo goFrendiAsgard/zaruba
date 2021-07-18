@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"sort"
 	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/env"
+	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/str"
+	yaml "gopkg.in/yaml.v2"
 )
 
-func UpdateProjectEnvFiles(project *Project) (err error) {
+func SyncProjectEnvFiles(project *Project) (err error) {
 	projectDir := filepath.Dir(project.GetFileLocation())
 	files, err := ioutil.ReadDir(projectDir)
 	if err != nil {
@@ -53,7 +54,7 @@ func UpdateProjectEnvFiles(project *Project) (err error) {
 	return nil
 }
 
-func UpdateProjectTaskEnv(project *Project) (err error) {
+func SyncProjectEnv(project *Project) (err error) {
 	projectDir := filepath.Dir(project.GetFileLocation())
 	updatedEnvRef := map[string]bool{}
 	for taskName, task := range project.Tasks {
@@ -70,7 +71,6 @@ func UpdateProjectTaskEnv(project *Project) (err error) {
 			// we won't update any task declared outside our project
 			continue
 		}
-
 		locationEnvMap, err := env.GetEnvByLocation(taskLocation)
 		if err != nil {
 			return err
@@ -78,7 +78,8 @@ func UpdateProjectTaskEnv(project *Project) (err error) {
 		envRefName := GetTaskEnvRefname(task)
 		if envRefName == "" {
 			// update taskEnv
-			if err = updateTaskEnv(task, locationEnvMap); err != nil {
+			newEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
+			if err = setTaskEnv(task, newEnvMap); err != nil {
 				return err
 			}
 			continue
@@ -88,129 +89,81 @@ func UpdateProjectTaskEnv(project *Project) (err error) {
 		}
 		updatedEnvRef[envRefName] = true
 		// update envRef
-		if err = updateEnvRef(project.EnvRefMap[envRefName], locationEnvMap); err != nil {
+		newEnvMap := getAdditionalEnvMap(project.EnvRefMap[envRefName].Map, locationEnvMap)
+		if err = setEnvRef(project.EnvRefMap[envRefName], newEnvMap); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func updateTaskEnv(task *Task, locationEnvMap map[string]string) (err error) {
-	additionalEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
-	if len(additionalEnvMap) == 0 {
+func SetTaskEnv(task *Task, envMap map[string]string) (err error) {
+	envRefName := GetTaskEnvRefname(task)
+	if envRefName == "" {
+		// update taskEnv
+		return setTaskEnv(task, envMap)
+	}
+	// update envRef
+	return setEnvRef(task.Project.EnvRefMap[envRefName], envMap)
+}
+
+func setTaskEnv(task *Task, envMap map[string]string) (err error) {
+	if len(envMap) == 0 {
 		return nil
 	}
 	taskName := task.GetName()
 	envPrefix := strings.ToUpper(str.ToSnakeCase(GetTaskServiceName(taskName)))
 	yamlLocation := task.GetFileLocation()
-	b, err := ioutil.ReadFile(yamlLocation)
+	p, err := loadRawProject(yamlLocation)
 	if err != nil {
 		return err
 	}
-	fileContentStr := string(b)
-	patterns := []string{
-		"tasks:.*$",
-		fmt.Sprintf("^ +%s:.*$", taskName),
-		"^ +env:.*$",
+	for envKey, envVal := range envMap {
+		envFrom := getEnvFrom(envKey, envPrefix)
+		if _, exist := p.Tasks[taskName].Env[envKey]; !exist {
+			p.Tasks[taskName].Env[envKey] = &Env{}
+		}
+		p.Tasks[taskName].Env[envKey].From = envFrom
+		p.Tasks[taskName].Env[envKey].Default = envVal
 	}
-	suplements := []string{
-		"tasks:",
-		fmt.Sprintf("  %s:", taskName),
-		"    env: {}",
-	}
-	lines, _ := str.InsertIfNotFound(strings.Split(fileContentStr, "\n"), patterns, suplements)
-	// look for task's env
-	envLineIndex, submatch, err := str.GetFirstMatch(lines, suplements)
+	yamlContentB, err := yaml.Marshal(p)
 	if err != nil {
 		return err
 	}
-	if envLineIndex == -1 {
-		return fmt.Errorf("env of task %s not found on %s", taskName, yamlLocation)
-	}
-	// get single indentation
-	singleIndentation, err := str.GetSingleIndentation(submatch[0], 2)
-	if err != nil {
-		return err
-	}
-	// prepare replacement
-	envLine := fmt.Sprintf("%senv:", str.Repeat(singleIndentation, 2))
-	additionalEnvLines := getAdditionalYamlEnvLines(additionalEnvMap, envPrefix, singleIndentation, 2)
-	replacement := append([]string{envLine}, additionalEnvLines...)
-	newLines, err := str.ReplaceLine(lines, envLineIndex, replacement)
-	if err != nil {
-		return err
-	}
-	// save
-	newFileContentStr := strings.Join(newLines, "\n")
-	return ioutil.WriteFile(yamlLocation, []byte(newFileContentStr), 0755)
+	return file.WriteText(yamlLocation, string(yamlContentB), 0555)
 }
 
-func updateEnvRef(envRef *EnvRef, locationEnvMap map[string]string) (err error) {
-	additionalEnvMap := getAdditionalEnvMap(envRef.Map, locationEnvMap)
-	if len(additionalEnvMap) == 0 {
+func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
+	if len(envMap) == 0 {
 		return nil
 	}
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(str.ToSnakeCase(envRefName))
 	yamlLocation := envRef.GetFileLocation()
-	b, err := ioutil.ReadFile(yamlLocation)
+	p, err := loadRawProject(yamlLocation)
 	if err != nil {
 		return err
 	}
-	fileContentStr := string(b)
-	patterns := []string{
-		"^envs:.*$",
-		fmt.Sprintf("^ +%s:.*$", envRefName),
+	for envKey, envVal := range envMap {
+		envFrom := getEnvFrom(envKey, envPrefix)
+		if _, exist := p.RawEnvRefMap[envRefName][envKey]; !exist {
+			p.RawEnvRefMap[envRefName][envKey] = &Env{}
+		}
+		p.RawEnvRefMap[envRefName][envKey].From = envFrom
+		p.RawEnvRefMap[envRefName][envKey].Default = envVal
 	}
-	suplements := []string{
-		"envs:",
-		fmt.Sprintf("  %s: {}", envRefName),
-	}
-	lines, _ := str.InsertIfNotFound(strings.Split(fileContentStr, "\n"), patterns, suplements)
-	// look for envRefName
-	envRefNameLineIndex, submatch, _ := str.GetFirstMatch(lines, patterns)
-	if envRefNameLineIndex == -1 {
-		return fmt.Errorf("env %s not found on %s", envRefName, yamlLocation)
-	}
-	// get single indentation
-	indentation, err := str.GetSingleIndentation(submatch[0], 1)
+	yamlContentB, err := yaml.Marshal(p)
 	if err != nil {
 		return err
 	}
-	// prepare replacement
-	envRefNameLine := fmt.Sprintf("%s%s:", indentation, envRefName)
-	additionalEnvLines := getAdditionalYamlEnvLines(additionalEnvMap, envPrefix, indentation, 1)
-	replacement := append([]string{envRefNameLine}, additionalEnvLines...)
-	newLines, err := str.ReplaceLine(lines, envRefNameLineIndex, replacement)
-	if err != nil {
-		return err
-	}
-	// save
-	newFileContentStr := strings.Join(newLines, "\n")
-	return ioutil.WriteFile(yamlLocation, []byte(newFileContentStr), 0755)
+	return file.WriteText(yamlLocation, string(yamlContentB), 0555)
 }
 
-func getAdditionalYamlEnvLines(additionalEnvMap map[string]string, envPrefix string, indentation string, indentationLevel int) (envLines []string) {
-	blockIndentationStr := str.Repeat(indentation, indentationLevel)
-	// sort keyList
-	envKeyList := []string{}
-	for envKey := range additionalEnvMap {
-		envKeyList = append(envKeyList, envKey)
+func getEnvFrom(envKey, envPrefix string) string {
+	if !strings.HasPrefix(envKey, envPrefix) {
+		return fmt.Sprintf("%s_%s", envPrefix, envKey)
 	}
-	sort.Strings(envKeyList)
-	envLines = []string{}
-	// loop
-	for _, envKey := range envKeyList {
-		envVal := additionalEnvMap[envKey]
-		envFrom := envKey
-		if !strings.HasPrefix(envKey, envPrefix) {
-			envFrom = fmt.Sprintf("%s_%s", envPrefix, envKey)
-		}
-		envLines = append(envLines, fmt.Sprintf("%s%s%s:", blockIndentationStr, indentation, envKey))
-		envLines = append(envLines, fmt.Sprintf("%s%s%sfrom: %s", blockIndentationStr, indentation, indentation, envFrom))
-		envLines = append(envLines, fmt.Sprintf("%s%s%sdefault: %s", blockIndentationStr, indentation, indentation, envVal))
-	}
-	return envLines
+	return envKey
 }
 
 func getAdditionalEnvMap(existingEnvMap map[string]*Env, locationEnvMap map[string]string) (additionalEnvMap map[string]string) {

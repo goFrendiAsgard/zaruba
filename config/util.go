@@ -29,6 +29,16 @@ func GetTaskEnvRefname(task *Task) (envRefName string) {
 	return ""
 }
 
+func GetTaskConfigRefname(task *Task) (configRefName string) {
+	if task.ConfigRef != "" {
+		return task.ConfigRef
+	}
+	if len(task.ConfigRefs) > 0 {
+		return task.ConfigRefs[0]
+	}
+	return ""
+}
+
 func GetDefaultServiceName(location string) (serviceName string, err error) {
 	absPath, err := filepath.Abs(location)
 	if err != nil {

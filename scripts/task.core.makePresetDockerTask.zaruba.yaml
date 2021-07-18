@@ -1,9 +1,0 @@
-tasks:
- 
-  core.makePresetDockerTask:
-    extend: core.makeDockerTask
-    private: true
-    config:
-      template: ''
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/{{ .GetConfig "template" }}.zaruba.yaml'
-

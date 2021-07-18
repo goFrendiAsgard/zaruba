@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -9,16 +8,14 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var updateProjectEnvFilesCmd = &cobra.Command{
-	Use:   "updateProjectEnvFiles <projectFile>",
-	Short: "Update every environment files (*.env) in project file's directory based on defined tasks",
+var includeFileToProjectCmd = &cobra.Command{
+	Use:   "includeFileToProject <projectFile> <fileName>",
+	Short: "Add file to project",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		if len(args) < 1 {
-			exit(commandName, logger, decoration, fmt.Errorf("too few arguments"))
-		}
+		checkMinArgCount(commandName, logger, decoration, args, 2)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(commandName, logger, decoration, err)
@@ -32,10 +29,13 @@ var updateProjectEnvFilesCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		config.UpdateProjectEnvFiles(project)
+		fileName := args[1]
+		if err = config.IncludeFileToProject(project, fileName); err != nil {
+			exit(commandName, logger, decoration, err)
+		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(updateProjectEnvFilesCmd)
+	rootCmd.AddCommand(includeFileToProjectCmd)
 }

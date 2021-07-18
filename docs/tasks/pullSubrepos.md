@@ -44,13 +44,13 @@
                                            {{ $d := .Decoration -}}
                                            {{ $names := .GetSubValueKeys "subrepo" -}}
                                            {{ $this := . -}}
-                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
+                                           ORIGINS=$({{ .Zaruba }} split "$(git remote)")
                                            BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
                                            {{ range $index, $name := $names -}}
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                              NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" listContains "${ORIGINS}" "${NAME}")
+                                             ORIGIN_EXISTS=$({{ .Zaruba }} listContains "${ORIGINS}" "${NAME}")
                                              if [ $ORIGIN_EXISTS = 1 ]
                                              then
                                                git_save "Save works before pull"

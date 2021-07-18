@@ -1,12 +1,12 @@
 tasks: 
 
   makeMongoDockerTask:
-    extend: core.makePresetDockerTask
+    extend: core.makeDockerTask
     inputs:
     - generatorDockerContainerName
     - generatorServiceName
     - generatorServiceEnvs
     - generatorTaskDependencies
     config:
-      template: mongo
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/mongo'
 

@@ -8,8 +8,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var getDefaultServiceNameCmd = &cobra.Command{
-	Use:   "getDefaultServiceName <string>",
+var getServiceNameCmd = &cobra.Command{
+	Use:   "getServiceName <string>",
 	Short: "Get default service name based on location or image name",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -25,5 +25,5 @@ var getDefaultServiceNameCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(getDefaultServiceNameCmd)
+	rootCmd.AddCommand(getServiceNameCmd)
 }

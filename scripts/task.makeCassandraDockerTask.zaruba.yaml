@@ -1,12 +1,12 @@
 tasks: 
 
   makeCassandraDockerTask:
-    extend: core.makePresetDockerTask
+    extend: core.makeDockerTask
     inputs:
     - generatorDockerContainerName
     - generatorServiceName
     - generatorServiceEnvs
     - generatorTaskDependencies
     config:
-      template: cassandra
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/cassandra'
 

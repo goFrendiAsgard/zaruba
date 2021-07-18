@@ -3,16 +3,15 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var replaceLineCmd = &cobra.Command{
-	Use:   "replaceLine <lines> <index> <replacement>",
-	Short: "Replace lines[index] with replacement",
+var replaceLineByPatternCmd = &cobra.Command{
+	Use:   "replaceLineByPattern <lines> <patterns> <replacement>",
+	Short: "Sequentially match the patterns and replace the first submatch of the last pattern with replacements",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -22,15 +21,15 @@ var replaceLineCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[0]), &lines); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		index, err := strconv.Atoi(args[1])
-		if err != nil {
+		patterns := []string{}
+		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
 		replacements := []string{}
 		if err := json.Unmarshal([]byte(args[2]), &replacements); err != nil {
 			replacements = []string{args[2]}
 		}
-		result, err := str.ReplaceLine(lines, index, replacements)
+		result, err := str.ReplaceLineByPattern(lines, patterns, replacements)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -43,5 +42,5 @@ var replaceLineCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(replaceLineCmd)
+	rootCmd.AddCommand(replaceLineByPatternCmd)
 }

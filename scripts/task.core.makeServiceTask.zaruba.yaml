@@ -7,28 +7,51 @@ tasks:
     - core.showAdv
     - core.isProject
     config:
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default'
       imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'
       containerName: '{{ .GetValue "generatorServiceDockerContainerName" }}'
       serviceName: '{{ .GetValue "generatorServiceName" }}'
       servicePorts: '{{ .GetValue "generatorServicePorts" }}'
       serviceLocation: '{{ .GetValue "generatorServiceLocation" }}'
       serviceStartCommand: '{{ .GetValue "generatorServiceStartCommand" }}'
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml'
       serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
       dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
       runnerVersion: ''
       start: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+        DESTINATION="./zaruba-tasks"
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+        IMAGE_NAME=$({{ .Zaruba }} getValue "${SERVICE_NAME}" \
+          "$({{ .Zaruba }} strToKebab "${SERVICE_NAME}")" \
+        )
+        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+        CONTAINER_NAME=$({{ .Zaruba }} getValue "${CONTAINER_NAME}" \
+          "$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")" \
+        )
         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
         SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
         RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "runnerVersion") }}
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-        create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}" "runner_version=${RUNNER_VERSION}"
+        TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
+        if [ -f "${TASK_FILE_NAME}" ]
+        then
+          echo "{{ $d.Red }}{{ $d.Bold }}file already exist: ${TASK_FILE_NAME}{{ $d.Normal }}"
+          exit 1
+        fi
+
+        REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+          "zarubaImageName" ${IMAGE_NAME} \
+          "zarubaContainerName" ${CONTAINER_NAME} \
+          "zarubaServiceName" ${SERVICE_NAME} \
+          "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
+        )
+        {{ .Zaruba }} generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "${REPLACEMENT_MAP}"
+        # TODO: continue
+
+
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"

@@ -1,12 +1,12 @@
 tasks:
 
   makeRabbitmqDockerTask:
-    extend: core.makePresetDockerTask
+    extend: core.makeDockerTask
     inputs:
     - generatorDockerContainerName
     - generatorServiceName
     - generatorServiceEnvs
     - generatorTaskDependencies
     config:
-      template: rabbitmq
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/rabbitmq'
 

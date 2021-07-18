@@ -74,7 +74,7 @@ tasks:
     config:
       start: |
         ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo 
-        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generator.service.type=fastapi showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeDockerTasks:
@@ -143,7 +143,7 @@ tasks:
       start: ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields=title,author,synopsis showAdvertisement=no setupInitPyUtil=no 
   
 
-  testUpdateEnv:
+  testSyncEnv:
     location: ./playground
     dependencies:
     - testMakeFastApiCrud
@@ -153,13 +153,13 @@ tasks:
     extend: core.runShellScript
     configRef: playgroundTest
     config:
-      start: ../zaruba please updateEnv 
+      start: ../zaruba please syncEnv 
 
 
   testRun:
     location: ./playground
     dependencies:
-    - testUpdateEnv
+    - testSyncEnv
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -207,7 +207,7 @@ tasks:
     - testMakeFastApiEventHandler
     - testMakeFastApiRpcHandler
     - testMakeFastApiCrud
-    - testUpdateEnv
+    - testSyncEnv
     - testRun
     - testRunContainer
     - testBuildImage
