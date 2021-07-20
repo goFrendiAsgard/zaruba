@@ -10,8 +10,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var addTaskDependenciesCmd = &cobra.Command{
-	Use:   "addTaskDependencies <projectFile> <taskName> <dependencyTaskNames>",
+var addTaskDependencyCmd = &cobra.Command{
+	Use:   "addTaskDependency <projectFile> <taskName> <dependencyTaskNames>",
 	Short: "Add task dependency",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -38,7 +38,7 @@ var addTaskDependenciesCmd = &cobra.Command{
 		}
 		dependencyTaskNames := []string{}
 		if err = json.Unmarshal([]byte(args[2]), &dependencyTaskNames); err != nil {
-			exit(commandName, logger, decoration, err)
+			dependencyTaskNames = []string{args[2]}
 		}
 		if err = config.AddTaskDependencies(task, dependencyTaskNames); err != nil {
 			exit(commandName, logger, decoration, err)
@@ -47,5 +47,5 @@ var addTaskDependenciesCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(addTaskDependenciesCmd)
+	rootCmd.AddCommand(addTaskDependencyCmd)
 }

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/state-alchemists/zaruba/str"
+	"gopkg.in/yaml.v3"
 )
 
 func Copy(src, dst string) (byteCount int64, err error) {
@@ -48,6 +49,38 @@ func ReadLines(fileName string) (lines []string, err error) {
 func WriteLines(fileName string, lines []string, fileMode os.FileMode) (err error) {
 	content := strings.Join(lines, "\n")
 	return WriteText(fileName, content, fileMode)
+}
+
+func ReadYaml(fileName string) (node *yaml.Node, err error) {
+	var nodeObj yaml.Node
+	node = &nodeObj
+	yamlScript, err := ReadText(fileName)
+	if err != nil {
+		return node, err
+	}
+	if err = yaml.Unmarshal([]byte(yamlScript), node); err != nil {
+		return node, err
+	}
+	// set default kind for node
+	if node.Kind == 0 {
+		node.Kind = yaml.DocumentNode
+	}
+	// set default content for mode
+	if len(node.Content) == 0 {
+		node.Content = []*yaml.Node{
+			{Kind: yaml.MappingNode, Content: []*yaml.Node{}},
+		}
+	}
+	return node, err
+}
+
+func WriteYaml(fileName string, node *yaml.Node, fileMode os.FileMode) (err error) {
+	yamlContentB, err := yaml.Marshal(node)
+	if err != nil {
+		return err
+	}
+	yamlContent := string(yamlContentB)
+	return WriteText(fileName, yamlContent, fileMode)
 }
 
 func ListDir(dirPath string) (fileNames []string, err error) {

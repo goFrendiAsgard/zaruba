@@ -11,15 +11,15 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/output"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // Project is zaruba configuration
 type Project struct {
-	Includes                   []string                     `yaml:"includes,omitempty"`
-	Tasks                      map[string]*Task             `yaml:"tasks,omitempty"`
 	Name                       string                       `yaml:"name,omitempty"`
+	Includes                   []string                     `yaml:"includes,omitempty"`
 	Inputs                     map[string]*Variable         `yaml:"inputs,omitempty"`
+	Tasks                      map[string]*Task             `yaml:"tasks,omitempty"`
 	RawEnvRefMap               map[string]map[string]*Env   `yaml:"envs,omitempty"`
 	RawConfigRefMap            map[string]map[string]string `yaml:"configs,omitempty"`
 	EnvRefMap                  map[string]*EnvRef           `yaml:"_envrefmap,omitempty"`

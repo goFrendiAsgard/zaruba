@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"path/filepath"
 
@@ -10,7 +11,7 @@ import (
 )
 
 var addTaskParentCmd = &cobra.Command{
-	Use:   "addTaskParent <projectFile> <taskName> <newParentName>",
+	Use:   "addTaskParent <projectFile> <taskName> <newParentNames>",
 	Short: "Add task parent",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -35,8 +36,11 @@ var addTaskParentCmd = &cobra.Command{
 		if !taskExist {
 			exit(commandName, logger, decoration, fmt.Errorf("task %s is not exist", taskName))
 		}
-		parentName := args[2]
-		if err = config.AddTaskParent(task, parentName); err != nil {
+		parentNames := []string{}
+		if err = json.Unmarshal([]byte(args[2]), &parentNames); err != nil {
+			parentNames = []string{args[2]}
+		}
+		if err = config.AddTaskParent(task, parentNames); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
 	},

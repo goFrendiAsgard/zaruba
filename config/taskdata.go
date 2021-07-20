@@ -14,7 +14,7 @@ import (
 	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 type TaskData struct {

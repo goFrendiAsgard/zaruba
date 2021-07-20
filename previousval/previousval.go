@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/state-alchemists/zaruba/config"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // Load load previous value

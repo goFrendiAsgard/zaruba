@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 func GetTaskServiceName(taskName string) (serviceName string) {

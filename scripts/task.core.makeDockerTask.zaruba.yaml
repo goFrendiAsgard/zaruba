@@ -32,7 +32,6 @@ tasks:
         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
-
         if [ -f "${TASK_FILE_NAME}" ]
         then
           echo "{{ $d.Red }}{{ $d.Bold }}file already exist: ${TASK_FILE_NAME}{{ $d.Normal }}"
@@ -49,17 +48,17 @@ tasks:
 
         {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "${TASK_FILE_NAME}"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "run"
-        {{ .Zaruba }} addTaskDependencies "./main.zaruba.yaml" "run" "[\"run${PASCAL_SERVICE_NAME}\"]"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "run" "[\"run${PASCAL_SERVICE_NAME}\"]"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "runContainer"
-        {{ .Zaruba }} addTaskDependencies "./main.zaruba.yaml" "runContainer" "[\"run${PASCAL_SERVICE_NAME}\"]"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "runContainer" "[\"run${PASCAL_SERVICE_NAME}\"]"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "stopContainer"
-        {{ .Zaruba }} addTaskDependencies "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
-        {{ .Zaruba }} addTaskDependencies "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
 
         if [ "$("{{ .Zaruba }}" listLength "${DEPENDENCIES}")" -gt 0 ]
         then
-          {{ .Zaruba }} addTaskDependencies ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
+          {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
         fi
         {{ .Zaruba }} setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
         if [ "$("{{ .Zaruba }}" listLength "${SERVICE_PORTS}")" -gt 0 ]
