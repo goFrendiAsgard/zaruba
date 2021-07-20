@@ -14,7 +14,7 @@ tasks:
       serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
       servicePorts: '{{ .GetValue "generatorServicePorts" }}'
       dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
-      start: |
+      start.declareVariable: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         DESTINATION="./zaruba-tasks"
@@ -29,24 +29,36 @@ tasks:
         )
         PASCAL_SERVICE_NAME="$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")"
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+        if [ "$({{ .Zaruba}} isValidMap "$SERVICE_ENVS")" -eq 0 ] {
+          echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_ENVS} is not a valid map{{ $d.Normal }}"
+          exit 1
+        }
         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+        if [ "$({{ .Zaruba}} isValidList "$SERVICE_PORTS")" -eq 0 ] {
+          echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
+          exit 1
+        }
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+        if [ "$({{ .Zaruba}} isValidList "$DEPENDENCIES")" -eq 0 ] {
+          echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
+          exit 1
+        }
         TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
         if [ -f "${TASK_FILE_NAME}" ]
         then
           echo "{{ $d.Red }}{{ $d.Bold }}file already exist: ${TASK_FILE_NAME}{{ $d.Normal }}"
           exit 1
         fi
-
+      start.createReplacementMap: |
         REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
           "zarubaImageName" ${IMAGE_NAME} \
           "zarubaContainerName" ${CONTAINER_NAME} \
           "zarubaServiceName" ${SERVICE_NAME} \
           "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
         )
-        {{ .Zaruba }} generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "${REPLACEMENT_MAP}"
-
+      start.linkToProject: |
         {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "${TASK_FILE_NAME}"
+        {{ .Zaruba }} synProjectEnvFiles "./main.zaruba.yaml"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "run"
         {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "run" "[\"run${PASCAL_SERVICE_NAME}\"]"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "runContainer"
@@ -55,19 +67,17 @@ tasks:
         {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
         {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
-
-        if [ "$("{{ .Zaruba }}" listLength "${DEPENDENCIES}")" -gt 0 ]
-        then
-          {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
-        fi
+      start: |
+        {{- $d := .Decoration -}}
+        {{ .GetConfig "start.declareVariable" }}
+        {{ .GetConfig "start.createReplacementMap" }}
+        {{ .Zaruba }} generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "${REPLACEMENT_MAP}"
+        {{ .GetConfig "start.linkToProject" }}
+        {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
         {{ .Zaruba }} setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
-        if [ "$("{{ .Zaruba }}" listLength "${SERVICE_PORTS}")" -gt 0 ]
-        then
-          PORT_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
-          PORT_CONFIG="$({{ .Zaruba }} setMap "{}" "ports" "$PORT_VALUE" )"
-          {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
-        fi
-
+        PORT_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
+        PORT_CONFIG="$({{ .Zaruba }} setMap "{}" "ports" "$PORT_VALUE" )"
+        {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
 

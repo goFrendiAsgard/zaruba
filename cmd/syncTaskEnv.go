@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -8,14 +9,14 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var syncProjectEnvFilesCmd = &cobra.Command{
-	Use:   "syncProjectEnvFiles <projectFile>",
-	Short: "Update environment files (*.env) in project file's directory",
+var syncTaskEnvCmd = &cobra.Command{
+	Use:   "syncTaskEnv <projectFile> <taskName>",
+	Short: "Update task's environment",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(commandName, logger, decoration, args, 2)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(commandName, logger, decoration, err)
@@ -29,10 +30,16 @@ var syncProjectEnvFilesCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		config.SyncProjectEnvFiles(project)
+		task, taskExist := project.Tasks[args[1]]
+		if !taskExist {
+			exit(commandName, logger, decoration, fmt.Errorf("task %s does not exist", args[1]))
+		}
+		if err = config.SyncTaskEnv(task); err != nil {
+			exit(commandName, logger, decoration, err)
+		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(syncProjectEnvFilesCmd)
+	rootCmd.AddCommand(syncTaskEnvCmd)
 }

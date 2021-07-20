@@ -10,7 +10,7 @@ import (
 
 var syncProjectEnvCmd = &cobra.Command{
 	Use:   "syncProjectEnv <projectFile>",
-	Short: "Update every 'run*' task's environment in project file's directory",
+	Short: "Update every 'run*' task's environment",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

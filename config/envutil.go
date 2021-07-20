@@ -55,52 +55,49 @@ func SyncProjectEnvFiles(project *Project) (err error) {
 }
 
 func SyncProjectEnv(project *Project) (err error) {
-	projectDir := filepath.Dir(project.GetFileLocation())
-	updatedEnvRef := map[string]bool{}
 	for taskName, task := range project.Tasks {
 		if !strings.HasPrefix(taskName, "run") {
 			continue
 		}
-		taskFileLocation := task.GetFileLocation()
-		if !strings.HasPrefix(taskFileLocation, projectDir) {
-			// we won't update any task declared outside our project
-			continue
-		}
-		taskLocation := task.GetTaskLocation()
-		if taskLocation == "" || taskLocation == projectDir {
-			// we won't update any task declared outside our project
-			continue
-		}
-		locationEnvMap, err := env.GetEnvByLocation(taskLocation)
-		if err != nil {
-			return err
-		}
-		envRefName := GetTaskEnvRefname(task)
-		if envRefName == "" {
-			// update taskEnv
-			newEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
-			if len(newEnvMap) == 0 {
-				continue
-			}
-			if err = setTaskEnv(task, newEnvMap); err != nil {
-				return err
-			}
-			continue
-		}
-		if updatedEnvRef[envRefName] {
-			continue
-		}
-		updatedEnvRef[envRefName] = true
-		// update envRef
-		newEnvMap := getAdditionalEnvMap(project.EnvRefMap[envRefName].Map, locationEnvMap)
-		if len(newEnvMap) == 0 {
-			continue
-		}
-		if err = setEnvRef(project.EnvRefMap[envRefName], newEnvMap); err != nil {
+		if err := SyncTaskEnv(task); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func SyncTaskEnv(task *Task) (err error) {
+	projectDir := filepath.Dir(task.Project.GetFileLocation())
+	taskFileLocation := task.GetFileLocation()
+	if !strings.HasPrefix(taskFileLocation, projectDir) {
+		return nil
+	}
+	taskLocation := task.GetTaskLocation()
+	if taskLocation == "" || taskLocation == projectDir {
+		return nil
+	}
+	locationEnvMap, err := env.GetEnvByLocation(taskLocation)
+	if err != nil {
+		return err
+	}
+	envRefName := GetTaskEnvRefname(task)
+	if envRefName == "" {
+		// update taskEnv
+		newEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
+		if len(newEnvMap) == 0 {
+			return nil
+		}
+		if err = setTaskEnv(task, newEnvMap); err != nil {
+			return err
+		}
+		return nil
+	}
+	// update envRef
+	newEnvMap := getAdditionalEnvMap(task.Project.EnvRefMap[envRefName].Map, locationEnvMap)
+	if len(newEnvMap) == 0 {
+		return nil
+	}
+	return setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
 }
 
 func SetTaskEnv(task *Task, envMap map[string]string) (err error) {

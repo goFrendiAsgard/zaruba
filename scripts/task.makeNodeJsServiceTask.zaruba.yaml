@@ -14,6 +14,6 @@ tasks:
     - generatorServiceDockerContainerName
     config:
       serviceStartCommand: '{{ .GetValue "generatorNodeJsServiceStartCommand" }}'
-      runnerVersion: '{{ .GetValue "generatorNodeJsServiceRunnerVersion" }}'
+      serviceRunnerVersion: '{{ .GetValue "generatorNodeJsServiceRunnerVersion" }}'
       template: nodejs
 
