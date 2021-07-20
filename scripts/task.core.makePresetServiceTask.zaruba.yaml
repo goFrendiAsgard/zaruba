@@ -1,9 +1,0 @@
-tasks:
- 
-  core.makePresetServiceTask:
-    extend: core.makeServiceTask
-    private: true
-    config:
-      template: ''
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/{{ .GetConfig "template" }}.zaruba.yaml'
-

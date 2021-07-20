@@ -1,0 +1,44 @@
+package cmd
+
+import (
+	"fmt"
+	"path/filepath"
+
+	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/output"
+)
+
+var isTaskExistCmd = &cobra.Command{
+	Use:   "isTaskExist <projectFile> <taskName>",
+	Short: "Is task exist",
+	Run: func(cmd *cobra.Command, args []string) {
+		commandName := cmd.Name()
+		decoration := output.NewDecoration()
+		logger := output.NewConsoleLogger(decoration)
+		checkMinArgCount(commandName, logger, decoration, args, 2)
+		projectFile, err := filepath.Abs(args[0])
+		if err != nil {
+			exit(commandName, logger, decoration, err)
+		}
+		projectDir := filepath.Dir(projectFile)
+		csvRecordLogger := getCsvRecordLogger(projectDir)
+		project, err := getProject(logger, decoration, csvRecordLogger, projectFile)
+		if err != nil {
+			exit(commandName, logger, decoration, err)
+		}
+		if err = project.Init(); err != nil {
+			exit(commandName, logger, decoration, err)
+		}
+		taskName := args[1]
+		_, taskExist := project.Tasks[taskName]
+		if !taskExist {
+			fmt.Println(0)
+			return
+		}
+		fmt.Println(1)
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(isTaskExistCmd)
+}

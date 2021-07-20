@@ -27,25 +27,33 @@ tasks:
     envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
-    icon: 📜
     extend: core.startService
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
     config:
       start: zarubaStartCommand
-    configRef: zarubaServiceName
+    configRefs:
+    - zarubaServiceName
+    - zarubaServiceNameContainer
     envRef: zarubaServiceName
 
-  buildZarubaServiceNameContainer:
+  buildZarubaServiceNameImage:
     extend: core.buildDockerImage
     location: zarubaServiceLocation
-    configRef: zarubaServiceName
+    timeout: 1h
+    configRef: zarubaServiceNameContainer
+  
+  pushZarubaServiceNameImage:
+    extend: core.pushDockerImage
+    location: zarubaServiceLocation
+    timeout: 1h
+    configRef: zarubaServiceNameContainer
 
   stopZarubaServiceNameContainer:
     extend: core.stopDockerContainer
-    configRef: zarubaServiceName
+    configRef: zarubaServiceNameContainer
 
   removeZarubaServiceNameContainer:
     extend: core.stopDockerContainer
-    configRef: zarubaServiceName
+    configRef: zarubaServiceNameContainer

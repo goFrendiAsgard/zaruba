@@ -1,7 +1,7 @@
 tasks: 
   
   makeFastApiServiceTask:
-    extend: core.makePresetServiceTask
+    extend: core.makeServiceTask
     inputs:
     - generatorServiceLocation
     - generatorServiceName
@@ -11,5 +11,5 @@ tasks:
     - generatorServiceDockerContainerName
     - generatorTaskDependencies
     config:
-      template: fastapi
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi'
 

@@ -1,6 +1,8 @@
 configs:
 
-  zarubaServiceName: {}
+  zarubaServiceName:
+    ports: |
+      '{{ or (.GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT") (.GetEnv "HTTP_PORT") "3000" }}'
 
   zarubaServiceNameContainer:
     containerName: zarubaContainerName

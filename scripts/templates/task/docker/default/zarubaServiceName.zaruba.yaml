@@ -30,6 +30,7 @@ tasks:
   
   pullZarubaServiceNameImage:
     extend: core.pullDockerImage
+    timeout: 1h
     configRef: zarubaServiceName
 
   stopZarubaServiceNameContainer:

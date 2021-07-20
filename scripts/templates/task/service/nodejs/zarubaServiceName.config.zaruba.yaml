@@ -1,6 +1,7 @@
 configs:
 
-  zarubaServiceName: {}
+  zarubaServiceName:
+    nodeVersion: node
 
   zarubaServiceNameContainer:
     containerName: zarubaContainerName

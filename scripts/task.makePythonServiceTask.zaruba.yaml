@@ -1,7 +1,7 @@
 tasks: 
  
   makePythonServiceTask:
-    extend: core.makePresetServiceTask
+    extend: core.makeServiceTask
     inputs:
     - generatorServiceLocation
     - generatorServiceName
@@ -13,5 +13,5 @@ tasks:
     - generatorServiceDockerContainerName
     config:
       serviceStartCommand: '{{ .GetValue "generatorPythonServiceStartCommand" }}'
-      template: python
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/python'
 

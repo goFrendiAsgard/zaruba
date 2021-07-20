@@ -71,7 +71,6 @@ includes:
 - ./task.core.cassandra.startDockerContainer.zaruba.yaml
 - ./task.core.makeDockerTask.zaruba.yaml
 - ./task.core.makeServiceTask.zaruba.yaml
-- ./task.core.makePresetServiceTask.zaruba.yaml
 - ./task.core.monitorPorts.zaruba.yaml
 - ./task.core.mysql.execSql.zaruba.yaml
 - ./task.core.mysql.startDockerContainer.zaruba.yaml

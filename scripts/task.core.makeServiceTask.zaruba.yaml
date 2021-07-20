@@ -37,21 +37,26 @@ tasks:
           "$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")" \
         )
         PASCAL_SERVICE_NAME="$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")"
+        SNAKE_SERVICE_NAME="$({{ .Zaruba }} strToSnake "${SERVICE_NAME}")"
+        UPPER_SNAKE_SERVICE_NAME="$({{ .Zaruba }} strToUpper "${SNAKE_SERVICE_NAME}")"
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-        if [ "$({{ .Zaruba}} isValidMap "$SERVICE_ENVS")" -eq 0 ] {
+        if [ "$({{ .Zaruba}} isValidMap "$SERVICE_ENVS")" -eq 0 ]
+        then
           echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_ENVS} is not a valid map{{ $d.Normal }}"
           exit 1
-        }
+        fi
         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-        if [ "$({{ .Zaruba}} isValidList "$SERVICE_PORTS")" -eq 0 ] {
+        if [ "$({{ .Zaruba}} isValidList "$SERVICE_PORTS")" -eq 0 ]
+        then
           echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
           exit 1
-        }
+        fi
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-        if [ "$({{ .Zaruba}} isValidList "$DEPENDENCIES")" -eq 0 ] {
+        if [ "$({{ .Zaruba}} isValidList "$DEPENDENCIES")" -eq 0 ]
+        then
           echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
           exit 1
-        }
+        fi
         TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
         if [ -f "${TASK_FILE_NAME}" ]
         then
@@ -64,22 +69,39 @@ tasks:
           "zarubaContainerName" ${CONTAINER_NAME} \
           "zarubaServiceName" ${SERVICE_NAME} \
           "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
+          "ZARUBA_SERVICE_NAME" "${UPPER_SNAKE_SERVICE_NAME}" \
           "zarubaStartCommand" "${SERVICE_START_COMMAND}" \
           "zarubaServiceLocation" "${SERVICE_LOCATION}" \
           "zarubaRunnerVersion" "${SERVICE_RUNNER_VERSION}" \
         ) 
       start.linkToProject: |
         {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "${TASK_FILE_NAME}"
-        {{ .Zaruba }} synTaskEnv "./main.zaruba.yaml" "run${PASCAL_SERVICE_NAME}"
-        {{ .Zaruba }} synProjectEnvFiles "./main.zaruba.yaml"
-        {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "run"
-        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "run" "[\"run${PASCAL_SERVICE_NAME}\"]"
-        {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "runContainer"
-        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "runContainer" "[\"run${PASCAL_SERVICE_NAME}Container\"]"
-        {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "stopContainer"
-        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
-        {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
-        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
+        {{ .Zaruba }} syncProjectEnvFiles "./main.zaruba.yaml"
+        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "build${PASCAL_SERVICE_NAME}")" -eq 1 ]
+        then
+          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "buildImage"
+          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pull" "[\"build${PASCAL_SERVICE_NAME}Image\"]"
+        fi
+        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "run${PASCAL_SERVICE_NAME}")" -eq 1 ]
+        then
+          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "run"
+          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "run" "[\"run${PASCAL_SERVICE_NAME}\"]"
+        fi
+        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "run${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
+        then
+          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "runContainer"
+          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "runContainer" "[\"run${PASCAL_SERVICE_NAME}Container\"]"
+        fi
+        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "stop${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
+        then
+          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "stopContainer"
+          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
+        fi
+        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "remove${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
+        then
+          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
+          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
+        fi
       start: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
