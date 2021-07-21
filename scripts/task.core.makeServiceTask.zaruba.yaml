@@ -65,9 +65,9 @@ tasks:
         fi
       start.createReplacementMap: |
         REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
-          "zarubaImageName" ${IMAGE_NAME} \
-          "zarubaContainerName" ${CONTAINER_NAME} \
-          "zarubaServiceName" ${SERVICE_NAME} \
+          "zarubaImageName" "${IMAGE_NAME}" \
+          "zarubaContainerName" "${CONTAINER_NAME}" \
+          "zarubaServiceName" "${SERVICE_NAME}" \
           "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
           "ZARUBA_SERVICE_NAME" "${UPPER_SNAKE_SERVICE_NAME}" \
           "zarubaStartCommand" "${SERVICE_START_COMMAND}" \
@@ -112,7 +112,7 @@ tasks:
         {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
         {{ .Zaruba }} setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
         PORT_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
-        PORT_CONFIG="$({{ .Zaruba }} setMap "{}" "ports" "$PORT_VALUE" )"
+        PORT_CONFIG="$({{ .Zaruba }} mapSet "{}" "ports" "$PORT_VALUE" )"
         {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
