@@ -64,7 +64,6 @@ tasks:
           exit 1
         fi
       start.createReplacementMap: |
-        # TODO: SERVICE_LOCATION should be relative, use https://ispycode.com/GO/Path-and-Filepath/Relative-path-from-basepath
         REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
           "zarubaImageName" "${IMAGE_NAME}" \
           "zarubaContainerName" "${CONTAINER_NAME}" \
@@ -72,7 +71,7 @@ tasks:
           "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
           "ZARUBA_SERVICE_NAME" "${UPPER_SNAKE_SERVICE_NAME}" \
           "zarubaStartCommand" "${SERVICE_START_COMMAND}" \
-          "zarubaServiceLocation" "${SERVICE_LOCATION}" \
+          "zarubaServiceLocation" "$({{ .Zaruba }} getRelativePath "${DESTINATION}" "${SERVICE_LOCATION}")" \
           "zarubaRunnerVersion" "${SERVICE_RUNNER_VERSION}" \
         ) 
       start.linkToProject: |
