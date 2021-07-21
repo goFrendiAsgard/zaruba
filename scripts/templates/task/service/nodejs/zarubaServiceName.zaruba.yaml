@@ -42,14 +42,14 @@ tasks:
     - zarubaServiceName.npmCleanCache
     - zarubaServiceName.npmRebuild
     timeout: 1h
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       installTypeScript: false
       compileTypeScript: false
       removeNodeModules: '{{ .GetValue "zarubaServiceName.removeNodeModules" }}'
       npmCleanCache: '{{ .GetValue "zarubaServiceName.npmCleanCache" }}'
       npmRebuild: '{{ .GetValue "zarubaServiceName.npmRebuild" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   testZarubaServiceName:
     icon: 🐸
@@ -58,10 +58,10 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     timeout: 1h
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       start: npm test
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐸
@@ -71,10 +71,10 @@ tasks:
       - prepareZarubaServiceName
     inputs:
     - zarubaServiceNameRunInLocal
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       start: zarubaStartCommand
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
     extend: core.startService

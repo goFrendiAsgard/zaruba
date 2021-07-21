@@ -20,8 +20,8 @@ tasks:
     extend: core.preparePythonApp
     location: zarubaServiceLocation
     timeout: 1h
-    envRef: zarubaServiceName
     configRef: zarubaServiceName
+    envRef: zarubaServiceName
   
   testZarubaServiceName:
     icon: 🐍
@@ -30,10 +30,10 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     timeout: 1h
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐍
@@ -45,6 +45,8 @@ tasks:
     - zarubaServiceNameRunInLocal
     config:
       start: zarubaStartCommand
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
  
   runZarubaServiceNameContainer:
     extend: core.startService

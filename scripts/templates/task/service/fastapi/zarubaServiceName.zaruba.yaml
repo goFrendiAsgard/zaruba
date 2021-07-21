@@ -20,10 +20,10 @@ tasks:
     extend: core.runShellScript
     location: zarubaServiceLocation
     timeout: 1h
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       start: pipenv install
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
  
   testZarubaServiceName:
     icon: 🐍
@@ -32,10 +32,10 @@ tasks:
     dependencies:
       - prepareZarubaServiceName
     timeout: 1h
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐍
@@ -49,6 +49,8 @@ tasks:
       start: |
         {{ $port := index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 -}}
         pipenv run uvicorn main:app --reload --port={{ $port }}
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
     extend: core.startService

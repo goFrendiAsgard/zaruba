@@ -20,10 +20,10 @@ tasks:
     extend: core.runShellScript
     location: zarubaServiceLocation
     timeout: 1h
-    envRef: zarubaServiceName
-    configRef: zarubaServiceName
     config:
       start: go test -v ./... --race -count=1
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐹
@@ -33,6 +33,8 @@ tasks:
     - zarubaServiceNameRunInLocal
     config:
       start: zarubaStartCommand
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
     extend: core.startService

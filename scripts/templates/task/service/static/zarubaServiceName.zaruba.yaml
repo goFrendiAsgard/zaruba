@@ -21,6 +21,8 @@ tasks:
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
     icon: 📜
