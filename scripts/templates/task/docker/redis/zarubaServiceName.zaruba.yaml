@@ -23,7 +23,7 @@ tasks:
     timeout: 1h
     inputs:
     - zarubaServiceNameRunInLocal
-    configs:
+    config:
       runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
     configRef: zarubaServiceName
     envRef: zarubaServiceName
