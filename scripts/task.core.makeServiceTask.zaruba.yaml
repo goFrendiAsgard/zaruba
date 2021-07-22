@@ -70,8 +70,8 @@ tasks:
         {{ .GetConfig "start.linkToProject" }}
         {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
         {{ .Zaruba }} setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
-        PORT_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
-        PORT_CONFIG="$({{ .Zaruba }} mapSet "{}" "ports" "$PORT_VALUE" )"
+        PORT_CONFIG_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
+        PORT_CONFIG="$({{ .Zaruba }} mapSet "{}" "ports" "$PORT_CONFIG_VALUE" )"
         {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
