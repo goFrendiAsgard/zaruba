@@ -47,8 +47,9 @@ tasks:
     - zarubaServiceNameRunInLocal
     config:
       start: |
-        {{ $port := index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 -}}
-        pipenv run uvicorn main:app --reload --port={{ $port }}
+        {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+        {{ $port := index $ports 0 -}}
+        pipenv run uvicorn main:app --reload --port={{ or $port "8080" }}
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
@@ -57,11 +58,9 @@ tasks:
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
-    config:
-      start: zarubaStartCommand
     configRefs:
-    - zarubaServiceName
     - zarubaServiceNameContainer
+    - zarubaServiceName
     envRef: zarubaServiceName
 
   buildZarubaServiceNameImage:

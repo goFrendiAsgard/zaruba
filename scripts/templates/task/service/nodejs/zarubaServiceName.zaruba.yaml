@@ -81,11 +81,9 @@ tasks:
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
-    config:
-      start: zarubaStartCommand
     configRefs:
-    - zarubaServiceName
     - zarubaServiceNameContainer
+    - zarubaServiceName
     envRef: zarubaServiceName
 
   buildZarubaServiceNameImage:

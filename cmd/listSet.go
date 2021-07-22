@@ -11,7 +11,7 @@ import (
 
 var listSetCmd = &cobra.Command{
 	Use:   "listSet <list> <index> <value>",
-	Short: "Set list[index] to value and return new list",
+	Short: "Set list[index] to value and return new JSON string list",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

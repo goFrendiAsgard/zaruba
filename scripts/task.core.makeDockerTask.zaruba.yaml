@@ -14,10 +14,9 @@ tasks:
       serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
       servicePorts: '{{ .GetValue "generatorServicePorts" }}'
       dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
-      start.declareVariable: |
+      start.declareVariables: |
+        {{ .GetConfig "start.declareCommonVariables" -}}
         {{- $d := .Decoration -}}
-        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-        DESTINATION="./zaruba-tasks"
         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
         CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
         CONTAINER_NAME=$({{ .Zaruba }} getValue "${CONTAINER_NAME}" \
@@ -28,24 +27,6 @@ tasks:
           "${CONTAINER_NAME}" \
         )
         PASCAL_SERVICE_NAME="$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")"
-        SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-        if [ "$({{ .Zaruba}} isValidMap "$SERVICE_ENVS")" -eq 0 ]
-        then
-          echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_ENVS} is not a valid map{{ $d.Normal }}"
-          exit 1
-        fi
-        SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-        if [ "$({{ .Zaruba}} isValidList "$SERVICE_PORTS")" -eq 0 ]
-        then
-          echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
-          exit 1
-        fi
-        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-        if [ "$({{ .Zaruba}} isValidList "$DEPENDENCIES")" -eq 0 ]
-        then
-          echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
-          exit 1
-        fi
         TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
         if [ -f "${TASK_FILE_NAME}" ]
         then
@@ -59,34 +40,9 @@ tasks:
           "zarubaServiceName" "${SERVICE_NAME}" \
           "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
         )
-      start.linkToProject: |
-        {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "${TASK_FILE_NAME}"
-        {{ .Zaruba }} syncProjectEnvFiles "./main.zaruba.yaml"
-        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "pull${PASCAL_SERVICE_NAME}")" -eq 1 ]
-        then
-          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "pullImage"
-          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pull" "[\"run${PASCAL_SERVICE_NAME}\"]"
-        fi
-        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "run${PASCAL_SERVICE_NAME}")" -eq 1 ]
-        then
-          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "run"
-          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "run" "[\"run${PASCAL_SERVICE_NAME}\"]"
-          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "runContainer"
-          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "runContainer" "[\"run${PASCAL_SERVICE_NAME}\"]"
-        fi
-        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "stop${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
-        then
-          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "stopContainer"
-          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
-        fi
-        if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "remove${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
-        then
-          {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
-          {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
-        fi
       start: |
         {{- $d := .Decoration -}}
-        {{ .GetConfig "start.declareVariable" }}
+        {{ .GetConfig "start.declareVariables" }}
         {{ .GetConfig "start.createReplacementMap" }}
         {{ .Zaruba }} generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "${REPLACEMENT_MAP}"
         {{ .GetConfig "start.linkToProject" }}
@@ -97,4 +53,5 @@ tasks:
         {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+    configRef: coreTaskGenerator
 

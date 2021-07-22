@@ -21,6 +21,11 @@ tasks:
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
+    config:
+      start: |
+        {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n") -}}
+        {{ $port := index $ports 0 -}}
+        {{ .Zaruba }} serveStatic . {{ or $port "8080" }}
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
@@ -30,11 +35,9 @@ tasks:
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
-    config:
-      start: zarubaStartCommand
     configRefs:
-    - zarubaServiceName
     - zarubaServiceNameContainer
+    - zarubaServiceName
     envRef: zarubaServiceName
 
   buildZarubaServiceNameImage:
