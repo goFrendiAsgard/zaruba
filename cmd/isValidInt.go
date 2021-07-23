@@ -1,34 +1,29 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var getEnvByLocationCmd = &cobra.Command{
-	Use:   "getEnvByLocation <location>",
-	Short: "Return JSON string map containing environment variables defined on location",
+var isValidIntCmd = &cobra.Command{
+	Use:   "isValidInt <value>",
+	Short: "Check whether valud is valid JSON string list",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		result, err := env.GetEnvByLocation(args[0])
-		if err != nil {
-			exit(commandName, logger, decoration, err)
+		if _, err := strconv.Atoi(args[0]); err != nil {
+			fmt.Println(0)
+			return
 		}
-		resultB, err := json.Marshal(result)
-		if err != nil {
-			exit(commandName, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(1)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getEnvByLocationCmd)
+	rootCmd.AddCommand(isValidIntCmd)
 }

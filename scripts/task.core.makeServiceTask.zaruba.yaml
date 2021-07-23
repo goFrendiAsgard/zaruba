@@ -50,6 +50,7 @@ tasks:
           echo "{{ $d.Red }}{{ $d.Bold }}file already exist: ${TASK_FILE_NAME}{{ $d.Normal }}"
           exit 1
         fi
+        DEFAULT_PORT_CONFIG="$({{ .Zaruba }} getPortConfigByLocation "${SERVICE_LOCATION}")"
       start.createReplacementMap: |
         REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
           "zarubaImageName" "${IMAGE_NAME}" \
@@ -60,6 +61,7 @@ tasks:
           "zarubaStartCommand" "${SERVICE_START_COMMAND}" \
           "zarubaServiceLocation" "$({{ .Zaruba }} getRelativePath "${DESTINATION}" "${SERVICE_LOCATION}")" \
           "zarubaRunnerVersion" "${SERVICE_RUNNER_VERSION}" \
+          "zarubaDefaultPortConfig" "${DEFAULT_PORT_CONFIG}" \
         ) 
       start: |
         {{- $d := .Decoration -}}
@@ -70,9 +72,12 @@ tasks:
         {{ .GetConfig "start.linkToProject" }}
         {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
         {{ .Zaruba }} setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
-        PORT_CONFIG_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
-        PORT_CONFIG="$({{ .Zaruba }} mapSet "{}" "ports" "$PORT_CONFIG_VALUE" )"
-        {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
+        if [ "$({{ .Zaruba }} listLength "${SERVICE_PORTS}")" -gt 0 ]
+        then
+          PORT_CONFIG_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
+          PORT_CONFIG="$({{ .Zaruba }} mapSet "{}" "ports" "$PORT_CONFIG_VALUE" )"
+          {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
+        fi
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
     configRef: coreTaskGenerator

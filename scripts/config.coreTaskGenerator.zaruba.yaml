@@ -26,15 +26,15 @@ configs:
     start.linkToProject: |
       {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "${TASK_FILE_NAME}"
       {{ .Zaruba }} syncProjectEnvFiles "./main.zaruba.yaml"
-      if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "build${PASCAL_SERVICE_NAME}")" -eq 1 ]
+      if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "build${PASCAL_SERVICE_NAME}Image")" -eq 1 ]
           then
             {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "buildImage"
-            {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pull" "[\"build${PASCAL_SERVICE_NAME}Image\"]"
+            {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "buildImage" "[\"build${PASCAL_SERVICE_NAME}Image\"]"
           fi
-      if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "pull${PASCAL_SERVICE_NAME}")" -eq 1 ]
+      if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "pull${PASCAL_SERVICE_NAME}Image")" -eq 1 ]
       then
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "pullImage"
-        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pull" "[\"run${PASCAL_SERVICE_NAME}\"]"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pullImage" "[\"pull${PASCAL_SERVICE_NAME}Image\"]"
       fi
       if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "run${PASCAL_SERVICE_NAME}")" -eq 1 ]
       then

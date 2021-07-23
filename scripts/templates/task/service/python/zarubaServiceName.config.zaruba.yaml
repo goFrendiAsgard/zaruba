@@ -1,6 +1,8 @@
 configs:
 
-  zarubaServiceName: {}
+  zarubaServiceName:
+    ports: |
+      zarubaDefaultPortConfig
 
   zarubaServiceNameContainer:
     containerName: zarubaContainerName

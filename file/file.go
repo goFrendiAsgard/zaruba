@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/state-alchemists/zaruba/str"
@@ -80,7 +81,16 @@ func WriteYaml(fileName string, node *yaml.Node, fileMode os.FileMode) (err erro
 		return err
 	}
 	yamlContent := string(yamlContentB)
-	return WriteText(fileName, yamlContent, fileMode)
+	yamlLines := strings.Split(yamlContent, "\n")
+	rex := regexp.MustCompile(`^(\s*)(.*)$`)
+	for lineIndex, line := range yamlLines {
+		match := rex.FindStringSubmatch(line)
+		indentation := match[1]
+		content := match[2]
+		halfIndentation := indentation[:len(indentation)/2]
+		yamlLines[lineIndex] = halfIndentation + content
+	}
+	return WriteLines(fileName, yamlLines, fileMode)
 }
 
 func ListDir(dirPath string) (fileNames []string, err error) {
