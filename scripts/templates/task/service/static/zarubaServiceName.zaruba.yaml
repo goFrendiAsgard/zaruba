@@ -31,7 +31,7 @@ tasks:
 
   runZarubaServiceNameContainer:
     icon: 📜
-    extend: core.startService
+    extend: core.startDockerContainer
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal

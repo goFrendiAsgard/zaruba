@@ -49,7 +49,7 @@ tasks:
     envRef: zarubaServiceName
  
   runZarubaServiceNameContainer:
-    extend: core.startService
+    extend: core.startDockerContainer
     location: zarubaServiceLocation
     inputs:
     - zarubaServiceNameRunInLocal
