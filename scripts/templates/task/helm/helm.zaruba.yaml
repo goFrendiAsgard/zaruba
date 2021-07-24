@@ -1,0 +1,17 @@
+tasks:
+
+  helmApply:
+    extend: core.helmApply
+    location: ../helm-deployments
+    inputs:
+      - helmEnv
+      - kubeContext
+      - dockerEnv
+
+  helmDestroy:
+    extend: core.helmDestroy
+    location: ../helm-deployments
+    inputs:
+      - helmEnv
+      - kubeContext
+      - dockerEnv

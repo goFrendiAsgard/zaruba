@@ -1,0 +1,21 @@
+tasks:
+ 
+  initHelm:
+    icon: 🚢
+    description: |
+      Create helm deployment artifacts.
+    extend: core.runCoreScript
+    dependencies:
+    - core.isProject
+    - core.isNotContainHelmCharts
+    config:
+      start: |
+        {{- $d := .Decoration -}}
+        cp -rT "${ZARUBA_HOME}/scripts/templates/helmDeployments" ./helm-deployments
+        TEMPLATE_LOCATION="{{ .GetRelativePath "../templates/task/helm" }}"
+        DESTINATION="./zaruba-tasks"
+        {{ .Zaruba }} generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "{}"
+        {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "./zaruba-tasks/helm.zaruba.yaml"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
+

@@ -28,7 +28,7 @@ tasks:
           wget -O spark.tgz "{{ .GetValue "setupSparkDownloadUrl" }}"
           mkdir -p "${HOME}/.spark"
           tar -xvzf spark.tgz -C "${HOME}/.spark"
-          TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'
+          TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "../templates/shell/spark.sh") }}'
           echo "" >> "${BOOTSTRAP_SCRIPT}"
           echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
           . "${BOOTSTRAP_SCRIPT}"

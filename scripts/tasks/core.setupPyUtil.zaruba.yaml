@@ -2,7 +2,7 @@ tasks:
 
   core.setupPyUtil:
     icon: 🐍
-    location: ./python
+    location: ../python
     description: Setup zaruba's python util.
     private: true
     extend: core.runCoreScript
