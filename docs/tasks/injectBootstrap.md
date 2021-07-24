@@ -1,7 +1,7 @@
 # injectBootstrap
 ```
   TASK NAME     : injectBootstrap
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.injectBootstrap.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/injectBootstrap.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

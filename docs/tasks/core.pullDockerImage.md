@@ -1,7 +1,7 @@
 # core.pullDockerImage
 ```
   TASK NAME     : core.pullDockerImage
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.pullDockerImage.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.pullDockerImage.zaruba.yaml
   DESCRIPTION   : Pull docker image.
                   Common config:
                     dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')

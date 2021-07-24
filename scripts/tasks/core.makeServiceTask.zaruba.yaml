@@ -36,6 +36,7 @@ tasks:
           "$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")" \
         )
         PASCAL_SERVICE_NAME="$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")"
+        KEBAB_SERVICE_NAME="$({{ .Zaruba }} strToKebab "${SERVICE_NAME}")"
         SNAKE_SERVICE_NAME="$({{ .Zaruba }} strToSnake "${SERVICE_NAME}")"
         UPPER_SNAKE_SERVICE_NAME="$({{ .Zaruba }} strToUpper "${SNAKE_SERVICE_NAME}")"
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
@@ -57,6 +58,7 @@ tasks:
           "zarubaContainerName" "${CONTAINER_NAME}" \
           "zarubaServiceName" "${SERVICE_NAME}" \
           "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
+          "zaruba-service-name" "${KEBAB_SERVICE_NAME}" \
           "ZARUBA_SERVICE_NAME" "${UPPER_SNAKE_SERVICE_NAME}" \
           "zarubaStartCommand" "${SERVICE_START_COMMAND}" \
           "zarubaServiceLocation" "$({{ .Zaruba }} getRelativePath "${DESTINATION}" "${SERVICE_LOCATION}")" \

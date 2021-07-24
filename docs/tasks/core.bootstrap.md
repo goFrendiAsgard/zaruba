@@ -1,7 +1,7 @@
 # core.bootstrap
 ```
   TASK NAME     : core.bootstrap
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.bootstrap.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.bootstrap.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runScript ]
   START         : - {{ .GetConfig "cmd" }}

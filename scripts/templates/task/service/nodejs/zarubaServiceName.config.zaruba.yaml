@@ -5,6 +5,12 @@ configs:
     ports: |
       zarubaDefaultPortConfig
 
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/app
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/app.yaml  
+
   zarubaServiceNameContainer:
     containerName: zarubaContainerName
     imageName: zarubaImageName

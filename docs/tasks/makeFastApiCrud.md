@@ -1,7 +1,7 @@
 # makeFastApiCrud
 ```
   TASK NAME     : makeFastApiCrud
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeFastApiCrud.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeFastApiCrud.zaruba.yaml
   DESCRIPTION   : Make FastAPI crud
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

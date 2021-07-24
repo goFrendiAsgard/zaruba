@@ -1,7 +1,7 @@
 # core.showAdv
 ```
   TASK NAME     : core.showAdv
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.showAdv.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.showAdv.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -37,7 +37,7 @@
                   setup                  : Blank
                   start                  : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
                                            {{ if .IsTrue $showAdvertisement -}}
-                                             {{ .Zaruba }} showAdv "{{ .GetRelativePath "advertisement.yaml" }}"
+                                             {{ .Zaruba }} showAdv "{{ .GetRelativePath "../advertisement.yaml" }}"
                                            {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

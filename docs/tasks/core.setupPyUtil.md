@@ -1,7 +1,7 @@
 # core.setupPyUtil
 ```
   TASK NAME     : core.setupPyUtil
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.setupPyUtil.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.setupPyUtil.zaruba.yaml
   DESCRIPTION   : Setup zaruba's python util.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

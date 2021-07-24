@@ -152,7 +152,7 @@ tasks:
     - testCoreTask
     - testPlayground
     - testPushImage
-    - testHelmApply
-    - testHelmDestroy
+    - testHelmInstall
+    - testHelmUninstall
     - stopContainerRegistry
     - testPythonUtil

@@ -1,7 +1,7 @@
-# updateEnv
+# syncEnv
 ```
-  TASK NAME     : updateEnv
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.updateEnv.zaruba.yaml
+  TASK NAME     : syncEnv
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/syncEnv.zaruba.yaml
   DESCRIPTION   : Update environment of every task in the current project
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

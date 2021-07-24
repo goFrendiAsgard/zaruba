@@ -1,7 +1,7 @@
 # core.postgre.execSql
 ```
   TASK NAME     : core.postgre.execSql
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.postgre.execSql.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.postgre.execSql.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

@@ -1,7 +1,7 @@
 # setupNvm
 ```
   TASK NAME     : setupNvm
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.setupNvm.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/setupNvm.zaruba.yaml
   DESCRIPTION   : Install NVM and Node.Js (Including node-gyp and typescript)
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

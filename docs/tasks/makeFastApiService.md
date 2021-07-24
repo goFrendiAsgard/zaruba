@@ -1,7 +1,7 @@
 # makeFastApiService
 ```
   TASK NAME     : makeFastApiService
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeFastApiService.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeFastApiService.zaruba.yaml
   DESCRIPTION   : Make Fast API service
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

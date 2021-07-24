@@ -1,7 +1,7 @@
 # core.startDockerContainer
 ```
   TASK NAME     : core.startDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.startDockerContainer.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.startDockerContainer.zaruba.yaml
   DESCRIPTION   : Start docker container and check it's readiness.
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.

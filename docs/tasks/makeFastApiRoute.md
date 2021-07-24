@@ -1,7 +1,7 @@
 # makeFastApiRoute
 ```
   TASK NAME     : makeFastApiRoute
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeFastApiRoute.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeFastApiRoute.zaruba.yaml
   DESCRIPTION   : Make FastAPI route handler
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

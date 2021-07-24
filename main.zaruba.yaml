@@ -148,7 +148,7 @@ tasks:
         for LINE_INDEX in $(seq 0 "${MAX_LINE_INDEX}")
         do
           LINE="$(./zaruba listGet "${LINES}" "${LINE_INDEX}")"
-          SUBMATCH="$(./zaruba strSubmatch "'""${LINE}""'" ".*\./task\.(.*)\.zaruba\.yaml.*")"
+          SUBMATCH="$(./zaruba strSubmatch "'""${LINE}""'" ".*\./tasks\/(.*)\.zaruba\.yaml.*")"
           if [ "$(./zaruba listLength "${SUBMATCH}")" = 2 ]
           then
             TASK_NAME="$(./zaruba listGet "${SUBMATCH}" 1)"

@@ -1,11 +1,9 @@
-# initHelm
+# core.helmInstall
 ```
-  TASK NAME     : initHelm
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.initHelm.zaruba.yaml
-  DESCRIPTION   : Create helm deployment artifacts.
+  TASK NAME     : core.helmInstall
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmInstall.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.isNotContainHelmCharts ]
+  PARENT TASKS  : [ core.runShellScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -16,12 +14,11 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
                   afterStart             : Blank
                   beforeStart            : Blank
+                  chart                  : Blank
                   cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                 : -c
                   finish                 : Blank
@@ -35,12 +32,18 @@
                                            fi
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  releaseName            : Blank
                   setup                  : Blank
-                  start                  : {{- $d := .Decoration -}}
-                                           create_helm_task "${ZARUBA_HOME}/scripts/templates/helmDeployments"
-                                           echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Helm charts created{{ $d.Normal }}"
+                  start                  : {{ $fileContent := .ParseFile (.GetConfig "valueTemplateFile") }}
+                                           {{ $err := .WriteFile (.GetConfig "valueFile") $fileContent -}}
+                                           if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}" ]
+                                           then
+                                             helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
+                                           else
+                                             helm upgrade "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
+                                           fi
+                  valueFile              : Blank
+                  valueTemplateFile      : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

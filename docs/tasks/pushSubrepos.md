@@ -1,7 +1,7 @@
 # pushSubrepos
 ```
   TASK NAME     : pushSubrepos
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.pushSubrepos.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/pushSubrepos.zaruba.yaml
   DESCRIPTION   : Publish subrepositories.
                   ARGUMENTS:
                     subrepo::<name>::prefix   : Prefix (directory name) of the subrepo

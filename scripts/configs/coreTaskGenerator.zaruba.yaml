@@ -63,3 +63,14 @@ configs:
         {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
         {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
       fi
+      if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "helmInstall${PASCAL_SERVICE_NAME}")" -eq 1 ]
+      then
+        {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "helmInstall"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "helmInstall" "[\"helmInstall${PASCAL_SERVICE_NAME}\"]"
+      fi
+      if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "helmUninstall${PASCAL_SERVICE_NAME}")" -eq 1 ]
+      then
+        {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "helmUninstall"
+        {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "helmUninstall" "[\"helmUninstall${PASCAL_SERVICE_NAME}\"]"
+      fi
+ 

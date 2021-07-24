@@ -30,16 +30,6 @@ tasks:
         ../zaruba please setProjectValue variableName=dockerImagePrefix::default variableValue=localhost:9999 
   
 
-  testInitHelm:
-    location: ./playground
-    dependencies:
-    - testMakeProject
-    extend: core.runShellScript 
-    configRef: playgroundTest
-    config:
-      start: ../zaruba please initHelm 
-
-
   testMakeSubrepo:
     location: ./playground
     dependencies:
@@ -147,7 +137,6 @@ tasks:
     location: ./playground
     dependencies:
     - testMakeFastApiCrud
-    - testInitHelm
     - testMakeDockerTasks
     - testMakeServiceTasks
     extend: core.runShellScript

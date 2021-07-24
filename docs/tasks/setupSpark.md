@@ -1,7 +1,7 @@
 # setupSpark
 ```
   TASK NAME     : setupSpark
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.setupSpark.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/setupSpark.zaruba.yaml
   DESCRIPTION   : Install spark and hadoop.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -68,7 +68,7 @@
                                              wget -O spark.tgz "{{ .GetValue "setupSparkDownloadUrl" }}"
                                              mkdir -p "${HOME}/.spark"
                                              tar -xvzf spark.tgz -C "${HOME}/.spark"
-                                             TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "./templates/shell/spark.sh") }}'
+                                             TEMPLATE_CONTENT='{{ .ParseFile (.GetRelativePath "../templates/shell/spark.sh") }}'
                                              echo "" >> "${BOOTSTRAP_SCRIPT}"
                                              echo "${TEMPLATE_CONTENT}" >> "${BOOTSTRAP_SCRIPT}"
                                              . "${BOOTSTRAP_SCRIPT}"

@@ -1,7 +1,7 @@
 # setupTmux
 ```
   TASK NAME     : setupTmux
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.setupTmux.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/setupTmux.zaruba.yaml
   DESCRIPTION   : setup tmux (tmux should be already installed before running this task)
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

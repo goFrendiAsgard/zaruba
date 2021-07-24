@@ -67,3 +67,20 @@ tasks:
   removeZarubaServiceNameContainer:
     extend: core.stopDockerContainer
     configRef: zarubaServiceNameContainer
+ 
+  helmInstallZarubaServiceName:
+    extend: core.helmInstall
+    location: ..
+    timeout: 1h
+    configRefs:
+    - zarubaServiceNameHelm
+    - zarubaServiceNameContainer
+    - zarubaServiceName
+    envRef: zarubaServiceName
+ 
+  helmUninstallZarubaServiceName:
+    extend: core.helmUninstall
+    location: ..
+    timeout: 1h
+    configRefs:
+    - zarubaServiceNameHelm

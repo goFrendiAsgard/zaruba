@@ -1,7 +1,7 @@
 # showLog
 ```
   TASK NAME     : showLog
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.showLog.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/showLog.zaruba.yaml
   DESCRIPTION   : Show log for all/particular tasks using regex
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

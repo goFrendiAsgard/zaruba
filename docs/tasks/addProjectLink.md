@@ -1,7 +1,7 @@
 # addProjectLink
 ```
   TASK NAME     : addProjectLink
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.addProjectLink.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/addProjectLink.zaruba.yaml
   DESCRIPTION   : Add link.
                   TIPS: To update links, you should perform `zaruba please updateProjectLinks`
   TASK TYPE     : Command Task

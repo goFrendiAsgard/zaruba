@@ -1,10 +1,9 @@
 tasks:
 
-  testHelmApply:
+  testHelmInstall:
     icon: 💉
     location: ./playground
     dependencies:
-    - testInitHelm
     - testPlayground
     - runContainerRegistry
     extend: core.runShellScript 
@@ -12,23 +11,21 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please makeHelmDeployment generatorServiceName=fibo 
-        ../zaruba please makeHelmDeployment generatorServiceName=myService 
         ../zaruba please syncEnv 
-        ../zaruba please helmApply kubeContext=docker-desktop helmEnv=default dockerEnv=default 
+        ../zaruba please helmInstall kubeContext=docker-desktop
 
 
-  testHelmDestroy:
+  testHelmUninstall:
     icon: 💉
     location: ./playground
     dependencies:
-    - testHelmApply
+    - testHelmInstall
     extend: core.runShellScript 
     config:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please helmDestroy kubeContext=docker-desktop helmEnv=default dockerEnv=default 
+        ../zaruba please helUninstall kubeContext=docker-desktop
 
 
   stopContainerRegistry:
@@ -36,7 +33,7 @@ tasks:
     location: ./playground
     dependencies:
     - testPushImage
-    - testHelmApply
+    - testHelmInstall
     extend: core.runShellScript
     timeout: 1h
     config:

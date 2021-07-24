@@ -1,7 +1,7 @@
 # core.monitorPorts
 ```
   TASK NAME     : core.monitorPorts
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.monitorPorts.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.monitorPorts.zaruba.yaml
   DESCRIPTION   : Throw error when any port is inactive
                   Common config:
                     ports : Port to be checked to confirm service readiness, separated by new line.

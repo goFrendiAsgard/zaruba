@@ -61,9 +61,9 @@ includes:
 - ./tasks/clearLog.zaruba.yaml
 - ./tasks/core.bootstrap.zaruba.yaml
 - ./tasks/core.buildDockerImage.zaruba.yaml
-- ./tasks/core.helmApply.zaruba.yaml
-- ./tasks/core.helmDestroy.zaruba.yaml
-- ./tasks/core.isContainHelmCharts.zaruba.yaml
+- ./tasks/core.helmInstall.zaruba.yaml
+- ./tasks/core.helmRepoUpdate.zaruba.yaml
+- ./tasks/core.helmUninstall.zaruba.yaml
 - ./tasks/core.isNotContainHelmCharts.zaruba.yaml
 - ./tasks/core.isNotProject.zaruba.yaml
 - ./tasks/core.isProject.zaruba.yaml
@@ -103,14 +103,12 @@ includes:
 - ./tasks/core.startDockerContainer.zaruba.yaml
 - ./tasks/core.stopDockerContainer.zaruba.yaml
 - ./tasks/core.wrapper.zaruba.yaml
-- ./tasks/initHelm.zaruba.yaml
 - ./tasks/initProject.zaruba.yaml
 - ./tasks/initSubrepos.zaruba.yaml
 - ./tasks/injectBootstrap.zaruba.yaml
 - ./tasks/makeCassandraDockerTask.zaruba.yaml
 - ./tasks/makeDockerTask.zaruba.yaml
 - ./tasks/makeElasticsearchDockerTask.zaruba.yaml
-- ./tasks/makeHelmDeployment.zaruba.yaml
 - ./tasks/makeFastApiCrud.zaruba.yaml
 - ./tasks/makeFastApiEventHandler.zaruba.yaml
 - ./tasks/makeFastApiModule.zaruba.yaml

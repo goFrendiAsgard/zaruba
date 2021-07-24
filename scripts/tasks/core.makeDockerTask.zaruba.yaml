@@ -27,6 +27,7 @@ tasks:
           "${CONTAINER_NAME}" \
         )
         PASCAL_SERVICE_NAME="$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")"
+        KEBAB_SERVICE_NAME="$({{ .Zaruba }} strToKebab "${SERVICE_NAME}")"
         TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
         if [ -f "${TASK_FILE_NAME}" ]
         then

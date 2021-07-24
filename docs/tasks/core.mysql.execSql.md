@@ -1,7 +1,7 @@
 # core.mysql.execSql
 ```
   TASK NAME     : core.mysql.execSql
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.mysql.execSql.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.mysql.execSql.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
