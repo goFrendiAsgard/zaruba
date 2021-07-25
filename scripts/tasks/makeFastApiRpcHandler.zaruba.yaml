@@ -45,6 +45,9 @@ tasks:
         HANDLE_RPC_LINES="$({{ .Zaruba }} indentLines "${HANDLE_RPC_LINES}" "    ")"
         CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_RPC_LINES}" )
 
+        # save controller
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
+
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${RPC_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"
