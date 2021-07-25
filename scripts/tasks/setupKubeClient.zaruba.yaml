@@ -6,8 +6,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setupHomeDir
-    - setupHelmfileVersion
+      - setupHomeDir
+      - setupHelmfileVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}

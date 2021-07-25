@@ -9,9 +9,9 @@ tasks:
         subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
     dependencies:
-    - initSubrepos
-    - updateProjectLinks
-    - core.setupPyUtil
+      - initSubrepos
+      - updateProjectLinks
+      - core.setupPyUtil
     config:
       start: |
         set -e

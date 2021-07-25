@@ -2,7 +2,6 @@ tasks:
 
   taskName:
     start:
-    - bash
-    - '-c'
-    - |
-      echo hello world
+      - bash
+      - '-c'
+      - echo hello world

@@ -12,7 +12,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     dependencies:
-    - clearLog
+      - clearLog
     configRef: mainTest
     config:
       start: |
@@ -28,7 +28,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     dependencies:
-    - clearLog
+      - clearLog
     config:
       start: |
         if [ -d playground ]
@@ -43,8 +43,8 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     timeout: 1h
     configRef: mainTest
@@ -56,8 +56,8 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     timeout: 1h
     configRef: mainTest
@@ -69,8 +69,8 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     timeout: 1h
     configRef: mainTest
@@ -82,8 +82,8 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     timeout: 1h
     configRef: mainTest
@@ -95,8 +95,8 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     timeout: 1h
     configRef: mainTest
@@ -108,8 +108,8 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     configRef: mainTest
     config:
@@ -120,23 +120,23 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
-    - testShowVersion
-    - testSetupPyenv
-    - testSetupNvm
-    - testSetupSdkman
-    - testSetupSpark
-    - testSetupKubeClient
+      - clearLog
+      - build
+      - testShowVersion
+      - testSetupPyenv
+      - testSetupNvm
+      - testSetupSdkman
+      - testSetupSpark
+      - testSetupKubeClient
 
 
   testPythonUtil:
     icon: 💉
     location: ./scripts/python
     dependencies:
-    - clearLog
-    - build
-    - testCoreTask
+      - clearLog
+      - build
+      - testCoreTask
     extend: core.runShellScript
     config:
       start: |
@@ -147,12 +147,12 @@ tasks:
   test:
     icon: 💉
     dependencies:
-    - clearLog
-    - testCore
-    - testCoreTask
-    - testPlayground
-    - testPushImage
-    - testHelmInstall
-    - testHelmUninstall
-    - stopContainerRegistry
-    - testPythonUtil
+      - clearLog
+      - testCore
+      - testCoreTask
+      - testPlayground
+      - testPushImage
+      - testHelmInstall
+      - testHelmUninstall
+      - stopContainerRegistry
+      - testPythonUtil

@@ -1,4 +1,4 @@
 tasks:
   taskName:
     envRefs:
-    - inexistEnvRef
+      - inexistEnvRef

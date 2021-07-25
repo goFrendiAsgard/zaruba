@@ -10,8 +10,8 @@ tasks:
         imageName : Image name
     extend: core.runCoreScript
     dependencies:
-    - core.setupPyUtil
-    - updateProjectLinks
+      - core.setupPyUtil
+      - updateProjectLinks
     configRef: coreDocker
     config:
       imagePrefixTrailingSlash: true

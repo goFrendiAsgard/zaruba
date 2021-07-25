@@ -5,9 +5,9 @@ inputs:
       Field names, comma separated.
       E.g: name,address
       The following fields are included by default:
-      - id
-      - created_at
-      - updated_at
+        - id
+        - created_at
+        - updated_at
     prompt: Field names
     validation: ^[a-zA-Z0-9_,]*$
  

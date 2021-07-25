@@ -71,24 +71,6 @@ create_fast_service() {
 }
 
 
-# USAGE create_helm_deployment <service_name>
-create_helm_deployment() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_helm_deployment.py" "${1}"
-}
-
-
-# USAGE create_helm_task
-create_helm_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_helm_task.py" "${1}"
-}
-
-
-# USAGE create_service_task <template_location> <service_name> <image_name> <container_name> <location> <start_command> <ports> <runner_version>
-create_service_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_service_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
-}
-
-
 get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e

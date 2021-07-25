@@ -2,4 +2,4 @@ tasks:
 
   taskName:
     dependencies:
-    - inexistTaskName
+      - inexistTaskName

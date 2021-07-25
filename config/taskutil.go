@@ -42,7 +42,7 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 						if taskPropKeyNode.Value == "dependencies" && taskPropValNode.ShortTag() == "!!seq" {
 							taskPropValNode.Style = yaml.LiteralStyle
 							taskPropValNode.Content = append(taskPropValNode.Content, newDependencyVals...)
-							return file.WriteYaml(yamlLocation, node, 0555)
+							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 						}
 					}
 					taskNode.Style = yaml.LiteralStyle
@@ -51,7 +51,7 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "dependencies"},
 						&yaml.Node{Kind: yaml.SequenceNode, Content: newDependencyVals},
 					)
-					return file.WriteYaml(yamlLocation, node, 0555)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 				}
 			}
 		}
@@ -114,7 +114,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 						if taskPropKeyNode.Value == "extends" && taskPropValNode.ShortTag() == "!!seq" {
 							taskPropValNode.Style = yaml.LiteralStyle
 							taskPropValNode.Content = append(taskPropValNode.Content, newParentVals...)
-							return file.WriteYaml(yamlLocation, node, 0555)
+							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 						}
 					}
 					// "extends" and "extend" not found and we only have one new parent, then we set "extend" to new parent
@@ -125,7 +125,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 							&yaml.Node{Kind: yaml.ScalarNode, Value: "extend"},
 							newParentVals[0],
 						)
-						return file.WriteYaml(yamlLocation, node, 0555)
+						return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 					}
 					// "extends" not found and we have multiple parents, then create "extends"
 					taskNode.Style = yaml.LiteralStyle
@@ -134,7 +134,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "extends"},
 						&yaml.Node{Kind: yaml.SequenceNode, Content: newParentVals},
 					)
-					return file.WriteYaml(yamlLocation, node, 0555)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 				}
 			}
 		}

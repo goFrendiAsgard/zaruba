@@ -13,9 +13,9 @@ tasks:
         In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
     extend: core.runCoreScript
     dependencies:
-    - core.isProject
-    - core.isValidSubrepos
-    - core.setupPyUtil
+      - core.isProject
+      - core.isValidSubrepos
+      - core.setupPyUtil
     config:
       start: |
         set -e

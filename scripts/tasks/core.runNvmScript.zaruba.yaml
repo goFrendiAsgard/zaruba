@@ -6,9 +6,9 @@ tasks:
     private: true
     extend: core.runShellScript
     configRefs:
-    - coreNvm
-    - includeBootstrapScript
-    - includeUtilScript
+      - coreNvm
+      - includeBootstrapScript
+      - includeUtilScript
     config:
       _setup: |
         set -e

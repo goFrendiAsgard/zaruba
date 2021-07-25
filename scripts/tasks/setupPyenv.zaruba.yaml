@@ -6,8 +6,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setupHomeDir
-    - setupPythonVersion
+      - setupHomeDir
+      - setupPythonVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}

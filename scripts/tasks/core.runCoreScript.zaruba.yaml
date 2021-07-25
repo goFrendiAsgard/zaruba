@@ -9,10 +9,10 @@ tasks:
     private: true
     extend: core.runShellScript
     dependencies:
-    - core.bootstrap
+      - core.bootstrap
     configRefs:
-    - includeBootstrapScript
-    - includeUtilScript
+      - includeBootstrapScript
+      - includeUtilScript
     config:
       _setup: |
         set -e

@@ -6,7 +6,7 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setupHomeDir
+      - setupHomeDir
     config:
       cmd: /bin/bash
       beforeStart: |

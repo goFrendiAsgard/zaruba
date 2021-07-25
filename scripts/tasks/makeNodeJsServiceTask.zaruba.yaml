@@ -3,15 +3,15 @@ tasks:
   makeNodeJsServiceTask:
     extend: core.makeServiceTask
     inputs:
-    - generatorServiceLocation
-    - generatorServiceName
-    - generatorServiceEnvs
-    - generatorServicePorts
-    - generatorNodeJsServiceStartCommand
-    - generatorNodeJsServiceRunnerVersion
-    - generatorTaskDependencies
-    - generatorServiceDockerImageName
-    - generatorServiceDockerContainerName
+      - generatorServiceLocation
+      - generatorServiceName
+      - generatorServiceEnvs
+      - generatorServicePorts
+      - generatorNodeJsServiceStartCommand
+      - generatorNodeJsServiceRunnerVersion
+      - generatorTaskDependencies
+      - generatorServiceDockerImageName
+      - generatorServiceDockerContainerName
     config:
       serviceStartCommand: '{{ .GetValue "generatorNodeJsServiceStartCommand" }}'
       serviceRunnerVersion: '{{ .GetValue "generatorNodeJsServiceRunnerVersion" }}'

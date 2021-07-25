@@ -4,8 +4,8 @@ tasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testPlayground
-    - runContainerRegistry
+      - testPlayground
+      - runContainerRegistry
     extend: core.runShellScript 
     config:
       start: |
@@ -19,7 +19,7 @@ tasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testHelmInstall
+      - testHelmInstall
     extend: core.runShellScript 
     config:
       start: |
@@ -32,8 +32,8 @@ tasks:
     icon: 💉
     location: ./playground
     dependencies:
-    - testPushImage
-    - testHelmInstall
+      - testPushImage
+      - testHelmInstall
     extend: core.runShellScript
     timeout: 1h
     config:

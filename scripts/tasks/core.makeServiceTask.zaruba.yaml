@@ -4,8 +4,8 @@ tasks:
     extend: core.runCoreScript
     private: true
     dependencies:
-    - core.showAdv
-    - core.isProject
+      - core.showAdv
+      - core.isProject
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default'
       imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'

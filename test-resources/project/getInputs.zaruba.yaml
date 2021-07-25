@@ -11,16 +11,16 @@ tasks:
 
   task:
     inputs:
-    - input3
-    - input1
+      - input3
+      - input1
     dependencies:
-    - dependencyTask
+      - dependencyTask
 
   dependencyTask:
     inputs:
-    - input4
-    - input2
+      - input4
+      - input2
   
   otherTask:
     inputs:
-    - input5
+      - input5

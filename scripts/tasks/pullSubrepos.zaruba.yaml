@@ -9,7 +9,7 @@ tasks:
         subrepo::<name>::url      : Remote url of the subrepo
     extend: core.runCoreScript
     dependencies:
-    - initSubrepos
+      - initSubrepos
     config:
       start: |
         set -e

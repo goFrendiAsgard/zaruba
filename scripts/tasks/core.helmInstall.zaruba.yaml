@@ -3,7 +3,7 @@ tasks:
     extend: core.runCoreScript
     private: true
     dependencies:
-    - core.helmRepoUpdate
+      - core.helmRepoUpdate
     config:
       chart: ''
       valueFile: ''
@@ -11,13 +11,17 @@ tasks:
       releaseName: ''
       kubeContext: '{{ .GetValue "kubeContext" }}'
       start: |
+        mkdir -p "$(dirname "{{ .GetConfig "valueFile" }}")"
+        {{ $fileContent := .ParseFile (.GetConfig "valueTemplateFile") -}}
+        {{ $err := .WriteFile (.GetConfig "valueFile") $fileContent -}}
+        {{ if ne $err nil -}}
+        echo '{{ $err }}'
+        exit 1
+        {{ end -}}
         if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
         then
           kubectl config set-context "{{ .GetConfig "kubeContext" }}"
         fi
-        {{ $fileContent := .ParseFile (.GetConfig "valueTemplateFile") }}
-        mkdir -p "$(dirname "{{ .GetConfig "valueFile" }}")"
-        {{ $err := .WriteFile (.GetConfig "valueFile") $fileContent -}}
         if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" ]
         then
           helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"

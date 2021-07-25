@@ -2,12 +2,12 @@ tasks:
 
   dependencyTaskName1:
     dependencies:
-    - taskName
+      - taskName
   
   dependencyTaskName2:
     dependencies:
-    - dependencyTaskName1
+      - dependencyTaskName1
   
   taskName:
     dependencies:
-    - dependencyTaskName2
+      - dependencyTaskName2

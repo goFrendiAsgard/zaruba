@@ -7,11 +7,11 @@ tasks:
       TIPS: To update links, you should perform `zaruba please updateProjectLinks`
     extend: core.runCoreScript
     inputs:
-    - linkFrom
-    - linkTo
+      - linkFrom
+      - linkTo
     dependencies:
-    - core.isProject
-    - core.setupPyUtil
+      - core.isProject
+      - core.setupPyUtil
     config:
       linkFrom: '{{ .GetValue "linkFrom" }}'
       linkTo: '{{ .GetValue "linkTo" }}'

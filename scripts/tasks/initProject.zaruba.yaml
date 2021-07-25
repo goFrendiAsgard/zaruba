@@ -7,7 +7,7 @@ tasks:
     extend: core.runCoreScript
     saveLog: false
     dependencies:
-    - core.isNotProject
+      - core.isNotProject
     config:
       start: |
         {{ $d := .Decoration -}}

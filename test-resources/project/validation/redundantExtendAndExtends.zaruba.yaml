@@ -4,4 +4,4 @@ tasks:
   taskName:
     extend: parentTaskName1
     extends:
-    - parentTaskName2
+      - parentTaskName2

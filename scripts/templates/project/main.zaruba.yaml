@@ -1,2 +1,47 @@
 includes: []
-tasks: {}
+tasks:
+
+  run:
+    icon: 👟
+    extend: core.wrapper
+    dependencies: []
+
+  runContainer:
+    icon: 🐳
+    extend: core.wrapper
+    dependencies: []
+
+  stopContainer:
+    icon: ✋
+    extend: core.wrapper
+    dependencies: [] 
+
+  removeContainer:
+    icon: 🔥
+    extend: core.wrapper
+    dependencies: [] 
+
+  pullImage:
+    icon: 📥
+    extend: core.wrapper
+    dependencies: [] 
+
+  pushImage:
+    icon: 📤
+    extend: core.wrapper
+    dependencies: [] 
+
+  buildImage:
+    icon: 🏭
+    extend: core.wrapper
+    dependencies: [] 
+
+  helmInstall:
+    icon: 🏭
+    extend: core.wrapper
+    dependencies: [] 
+
+  helmUninstall:
+    icon: 🔥
+    extend: core.wrapper
+    dependencies: [] 

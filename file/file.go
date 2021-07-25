@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/state-alchemists/zaruba/str"
@@ -75,20 +76,63 @@ func ReadYaml(fileName string) (node *yaml.Node, err error) {
 	return node, err
 }
 
-func WriteYaml(fileName string, node *yaml.Node, fileMode os.FileMode) (err error) {
+type YamlLinesPreprocessors func([]string) []string
+
+func YamlTwoSpace(yamlLines []string) (newYamlLines []string) {
+	newYamlLines = []string{}
+	indentationRex := regexp.MustCompile(`^(\s*)(.*)$`)
+	for _, line := range yamlLines {
+		indentationMatch := indentationRex.FindStringSubmatch(line)
+		indentation := indentationMatch[1]
+		content := indentationMatch[2]
+		halfIndentation := indentation[:len(indentation)/2]
+		newYamlLines = append(newYamlLines, halfIndentation+content)
+	}
+	return newYamlLines
+}
+
+func YamlFixEmoji(yamlLines []string) (newYamlLines []string) {
+	newYamlLines = []string{}
+	quotedEmojiRex := regexp.MustCompile(`"\\U[0-9A-F]+"`)
+	for _, line := range yamlLines {
+		contentB := []byte(line)
+		line = string(quotedEmojiRex.ReplaceAllFunc(contentB, func(sByte []byte) (resultByte []byte) {
+			result, _ := strconv.Unquote(string(sByte))
+			return []byte(result)
+		}))
+		newYamlLines = append(newYamlLines, line)
+	}
+	return newYamlLines
+}
+
+func YamlAddLineBreakForTwoSpaceIndented(yamlLines []string) (newYamlLines []string) {
+	newYamlLines = []string{}
+	indentationRex := regexp.MustCompile(`^(\s*)(.*)$`)
+	previousIndentation := ""
+	previousContent := ""
+	for _, line := range yamlLines {
+		indentationMatch := indentationRex.FindStringSubmatch(line)
+		indentation := indentationMatch[1]
+		content := indentationMatch[2]
+		if len(previousIndentation) != len(indentation) && len(indentation) <= 2 && !strings.HasPrefix(previousContent, "includes:") {
+			newYamlLines = append(newYamlLines, "")
+		}
+		previousIndentation = indentation
+		previousContent = content
+		newYamlLines = append(newYamlLines, line)
+	}
+	return newYamlLines
+}
+
+func WriteYaml(fileName string, node *yaml.Node, fileMode os.FileMode, yamlLinesPreprocessors []YamlLinesPreprocessors) (err error) {
 	yamlContentB, err := yaml.Marshal(node)
 	if err != nil {
 		return err
 	}
 	yamlContent := string(yamlContentB)
 	yamlLines := strings.Split(yamlContent, "\n")
-	rex := regexp.MustCompile(`^(\s*)(.*)$`)
-	for lineIndex, line := range yamlLines {
-		match := rex.FindStringSubmatch(line)
-		indentation := match[1]
-		content := match[2]
-		halfIndentation := indentation[:len(indentation)/2]
-		yamlLines[lineIndex] = halfIndentation + content
+	for _, preprocessor := range yamlLinesPreprocessors {
+		yamlLines = preprocessor(yamlLines)
 	}
 	return WriteLines(fileName, yamlLines, fileMode)
 }

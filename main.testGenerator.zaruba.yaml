@@ -18,10 +18,10 @@ tasks:
   testMakeProject:
     location: ./playground
     dependencies:
-    - clearLog
-    - build
-    - preparePlayground
-    - testSetupPyenv
+      - clearLog
+      - build
+      - preparePlayground
+      - testSetupPyenv
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -33,7 +33,7 @@ tasks:
   testMakeSubrepo:
     location: ./playground
     dependencies:
-    - testMakeProject
+      - testMakeProject
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -48,7 +48,7 @@ tasks:
     location: ./playground
     extend: core.runShellScript 
     dependencies:
-    - testMakeProject
+      - testMakeProject
     configRef: playgroundTest
     config:
       start: ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no setupInitPyUtil=no 
@@ -57,8 +57,8 @@ tasks:
   testMakeServiceTasks:
     location: ./playground
     dependencies:
-    - testMakeFastApiService
-    - testMakeSubrepo
+      - testMakeFastApiService
+      - testMakeSubrepo
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -70,7 +70,7 @@ tasks:
   testMakeDockerTasks:
     location: ./playground
     dependencies:
-    - testMakeServiceTasks
+      - testMakeServiceTasks
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -86,7 +86,7 @@ tasks:
   testMakeFastApiModule:
     location: ./playground
     dependencies:
-    - testMakeFastApiService
+      - testMakeFastApiService
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -96,7 +96,7 @@ tasks:
   testMakeFastApiRoute:
     location: ./playground
     dependencies:
-    - testMakeFastApiModule
+      - testMakeFastApiModule
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -106,7 +106,7 @@ tasks:
   testMakeFastApiEventHandler:
     location: ./playground
     dependencies:
-    - testMakeFastApiRoute
+      - testMakeFastApiRoute
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -116,7 +116,7 @@ tasks:
   testMakeFastApiRpcHandler:
     location: ./playground
     dependencies:
-    - testMakeFastApiEventHandler
+      - testMakeFastApiEventHandler
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -126,7 +126,7 @@ tasks:
   testMakeFastApiCrud:
     location: ./playground
     dependencies:
-    - testMakeFastApiRpcHandler
+      - testMakeFastApiRpcHandler
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -136,9 +136,9 @@ tasks:
   testSyncEnv:
     location: ./playground
     dependencies:
-    - testMakeFastApiCrud
-    - testMakeDockerTasks
-    - testMakeServiceTasks
+      - testMakeFastApiCrud
+      - testMakeDockerTasks
+      - testMakeServiceTasks
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -148,7 +148,7 @@ tasks:
   testRun:
     location: ./playground
     dependencies:
-    - testSyncEnv
+      - testSyncEnv
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -160,7 +160,7 @@ tasks:
   testRunContainer:
     location: ./playground
     dependencies:
-    - testRun
+      - testRun
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -173,7 +173,7 @@ tasks:
   testBuildImage:
     location: ./playground
     dependencies:
-    - testRunContainer
+      - testRunContainer
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -186,26 +186,26 @@ tasks:
   testGenerator:
     location: ./playground
     dependencies:
-    - testMakeProject
-    - testMakeSubrepo
-    - testMakeDockerTasks
-    - testMakeServiceTasks
-    - testMakeFastApiService
-    - testMakeFastApiModule
-    - testMakeFastApiRoute
-    - testMakeFastApiEventHandler
-    - testMakeFastApiRpcHandler
-    - testMakeFastApiCrud
-    - testSyncEnv
-    - testRun
-    - testRunContainer
-    - testBuildImage
+      - testMakeProject
+      - testMakeSubrepo
+      - testMakeDockerTasks
+      - testMakeServiceTasks
+      - testMakeFastApiService
+      - testMakeFastApiModule
+      - testMakeFastApiRoute
+      - testMakeFastApiEventHandler
+      - testMakeFastApiRpcHandler
+      - testMakeFastApiCrud
+      - testSyncEnv
+      - testRun
+      - testRunContainer
+      - testBuildImage
 
 
   testLogging:
     location: ./playground
     dependencies:
-    - testGenerator
+      - testGenerator
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -219,7 +219,7 @@ tasks:
     location: ./
     extend: core.startDockerContainer
     dependencies:
-    - clearLog
+      - clearLog
     config:
       useImagePrefix: false
       imageName: registry
@@ -233,9 +233,9 @@ tasks:
   testPushImage:
     location: ./playground
     dependencies:
-    - clearLog
-    - runContainerRegistry
-    - testGenerator
+      - clearLog
+      - runContainerRegistry
+      - testGenerator
     extend: core.runShellScript
     timeout: 1h
     configRef: playgroundTest
@@ -247,11 +247,11 @@ tasks:
   runPlayground:
     location: ./playground
     inputs:
-    - runPlaygroundDelay
+      - runPlaygroundDelay
     dependencies:
-    - clearLog
-    - build
-    - testGenerator
+      - clearLog
+      - build
+      - testGenerator
     extend: core.startService
     configRef: playgroundTest
     config:
@@ -272,8 +272,8 @@ tasks:
   testGeneratedService:
     location: ./playground
     dependencies:
-    - clearLog
-    - runPlayground
+      - clearLog
+      - runPlayground
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -283,8 +283,8 @@ tasks:
   testGeneratedContainer:
     location: ./playground
     dependencies:
-    - clearLog
-    - runPlayground
+      - clearLog
+      - runPlayground
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -294,8 +294,8 @@ tasks:
   testPlayground:
     location: ./playground
     dependencies:
-    - testGeneratedService
-    - testGeneratedContainer
+      - testGeneratedService
+      - testGeneratedContainer
     extend: core.runShellScript
     configRef: playgroundTest
     config:

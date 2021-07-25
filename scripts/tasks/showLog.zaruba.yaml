@@ -7,7 +7,7 @@ tasks:
     extend: core.runCoreScript
     saveLog: false
     inputs:
-    - logKeyword
+      - logKeyword
     config:
       logKeyword: '{{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}'
       start: |

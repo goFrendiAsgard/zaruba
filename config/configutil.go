@@ -41,7 +41,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "config" && taskPropValNode.ShortTag() == "!!map" {
 							updateConfigMapNode(taskPropValNode, configMap)
-							return file.WriteYaml(yamlLocation, node, 0555)
+							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 						}
 					}
 					// config not found
@@ -51,7 +51,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "config"},
 						createConfigMapNode(configMap),
 					)
-					return file.WriteYaml(yamlLocation, node, 0555)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 				}
 			}
 		}
@@ -76,7 +76,7 @@ func setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error)
 				configRefNode := valNode.Content[configRefNameIndex+1]
 				if configRefNameNode.Value == configRefName && configRefNode.ShortTag() == "!!map" {
 					updateConfigMapNode(configRefNode, configMap)
-					return file.WriteYaml(yamlLocation, node, 0555)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 				}
 			}
 		}

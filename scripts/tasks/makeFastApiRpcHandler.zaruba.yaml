@@ -4,13 +4,13 @@ tasks:
     icon: ⚡
     description: Make FastAPI Route
     inputs:
-    - generatorFastApiServiceName
-    - generatorFastApiCreateTask
-    - generatorFastApiModuleName
-    - generatorFastApiRpcName
+      - generatorFastApiServiceName
+      - generatorFastApiCreateTask
+      - generatorFastApiModuleName
+      - generatorFastApiRpcName
     extend: core.runCoreScript
     dependencies:
-    - core.showAdv
+      - core.showAdv
     configRef: generatorFastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'

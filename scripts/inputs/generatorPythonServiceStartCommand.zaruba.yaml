@@ -4,9 +4,9 @@ inputs:
     description: Command to start the service (Required)
     prompt: Start command
     options:
-    - pipenv run python start.py
-    - pipenv run python main.py
-    - pipenv run python index.py
+      - pipenv run python start.py
+      - pipenv run python main.py
+      - pipenv run python index.py
     default: pipenv run python start.py
     validation: ^.+$
 

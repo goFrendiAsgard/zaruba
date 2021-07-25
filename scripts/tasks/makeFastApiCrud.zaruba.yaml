@@ -4,14 +4,14 @@ tasks:
     icon: ⚡
     description: Make FastAPI crud
     inputs:
-    - generatorFastApiServiceName
-    - generatorFastApiCreateTask
-    - generatorFastApiModuleName
-    - generatorFastApiCrudEntity
-    - generatorFastApiCrudFields
+      - generatorFastApiServiceName
+      - generatorFastApiCreateTask
+      - generatorFastApiModuleName
+      - generatorFastApiCrudEntity
+      - generatorFastApiCrudFields
     extend: core.runCoreScript
     dependencies:
-    - core.showAdv
+      - core.showAdv
     configRef: generatorFastApi
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud'

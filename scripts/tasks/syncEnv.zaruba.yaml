@@ -6,7 +6,7 @@ tasks:
       Update environment of every task in the current project 
     extend: core.runCoreScript
     dependencies:
-    - core.isProject
+      - core.isProject
     config:
       start: |
         {{ $d := .Decoration -}}

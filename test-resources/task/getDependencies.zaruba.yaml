@@ -4,14 +4,14 @@ tasks:
   dependencyTaskName2: {}
   dependencyTaskName3:
     dependencies:
-    - dependencyTaskName2
+      - dependencyTaskName2
 
   parentTaskName1:
     dependencies:
-    - dependencyTaskName3
+      - dependencyTaskName3
 
   taskName:
     extends:
-    - parentTaskName1
+      - parentTaskName1
     dependencies:
-    - dependencyTaskName1
+      - dependencyTaskName1

@@ -5,10 +5,10 @@ tasks:
     description: Make Fast API service
     extend: core.runCoreScript
     dependencies:
-    - core.showAdv
+      - core.showAdv
     inputs:
-    - generatorFastApiServiceName
-    - generatorFastApiCreateTask
+      - generatorFastApiServiceName
+      - generatorFastApiCreateTask
     configRef: generatorFastApi
     config:
       start: |

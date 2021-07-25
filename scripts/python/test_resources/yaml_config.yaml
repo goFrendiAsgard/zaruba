@@ -3,6 +3,6 @@ tasks:
   hello:
     description: 'say hello world'
     start:
-      - bash
-      - '-c'
-      - echo hello world
+        - bash
+        - '-c'
+        - echo hello world

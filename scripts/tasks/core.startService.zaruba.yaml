@@ -17,7 +17,7 @@ tasks:
     private: true
     extend: core.runCoreScript
     dependencies:
-    - updateProjectLinks
+      - updateProjectLinks
     autoTerminate: false
     config:
       beforeStart: ""
@@ -37,9 +37,9 @@ tasks:
       afterCheck: ""
       RunInLocal: true
     start:
-    - '{{ .GetConfig "cmd" }}'
-    - '{{ .GetConfig "cmdArg" }}'
-    - |
+      - '{{ .GetConfig "cmd" }}'
+      - '{{ .GetConfig "cmdArg" }}'
+      - |
         {{- $d := .Decoration -}}
         {{ if .IsFalse (.GetConfig "RunInLocal") -}}
           echo 🎉🎉🎉
@@ -56,9 +56,9 @@ tasks:
         echo 🎉🎉🎉
         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
     check:
-    - '{{ .GetConfig "cmd" }}'
-    - '{{ .GetConfig "cmdArg" }}'
-    - |
+      - '{{ .GetConfig "cmd" }}'
+      - '{{ .GetConfig "cmdArg" }}'
+      - |
         {{- $d := .Decoration -}}
         {{ if .IsFalse (.GetConfig "RunInLocal") -}}
           echo 🎉🎉🎉

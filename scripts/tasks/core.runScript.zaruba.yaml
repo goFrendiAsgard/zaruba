@@ -29,9 +29,9 @@ tasks:
         from: PYTHONUNBUFFERED
         default: 1
     start:
-    - '{{ .GetConfig "cmd" }}'
-    - '{{ .GetConfig "cmdArg" }}'
-    - |
+      - '{{ .GetConfig "cmd" }}'
+      - '{{ .GetConfig "cmdArg" }}'
+      - |
         {{ .Trim (.GetConfig "_setup") "\n " }}
         {{ .Trim (.GetConfig "setup") "\n " }}
         {{ .Trim (.GetConfig "beforeStart") "\n " }}

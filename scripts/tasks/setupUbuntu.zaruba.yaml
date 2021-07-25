@@ -6,8 +6,8 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setupUserPassword
-    - setupAllowRoot
+      - setupUserPassword
+      - setupAllowRoot
     config:
       beforeStart: |
         {{ $d := .Decoration -}}

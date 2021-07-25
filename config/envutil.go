@@ -135,7 +135,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "env" && taskPropValNode.ShortTag() == "!!map" {
 							updateEnvMapNode(taskPropValNode, envMap, envPrefix)
-							return file.WriteYaml(yamlLocation, node, 0555)
+							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 						}
 					}
 					// env not found
@@ -145,7 +145,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "env"},
 						createEnvMapNode(envMap, envPrefix),
 					)
-					return file.WriteYaml(yamlLocation, node, 0555)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 				}
 			}
 		}
@@ -171,7 +171,7 @@ func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 				envRefNode := valNode.Content[envRefNameIndex+1]
 				if envRefNameNode.Value == envRefName && envRefNode.ShortTag() == "!!map" {
 					updateEnvMapNode(envRefNode, envMap, envPrefix)
-					return file.WriteYaml(yamlLocation, node, 0555)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 				}
 			}
 		}

@@ -4,12 +4,12 @@ tasks:
     icon: ⚡
     description: Make FastAPI module
     inputs:
-    - generatorFastApiServiceName
-    - generatorFastApiCreateTask
-    - generatorFastApiModuleName
+      - generatorFastApiServiceName
+      - generatorFastApiCreateTask
+      - generatorFastApiModuleName
     extend: core.runCoreScript
     dependencies:
-    - core.showAdv
+      - core.showAdv
     configRef: generatorFastApi
     config:
       start: |

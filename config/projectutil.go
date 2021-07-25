@@ -21,7 +21,7 @@ func IncludeFileToProject(mainP *Project, fileName string) (err error) {
 		if keyNode.Value == "includes" && valNode.ShortTag() == "!!seq" {
 			valNode.Style = yaml.LiteralStyle
 			valNode.Content = append(valNode.Content, newIncludeVal)
-			return file.WriteYaml(yamlLocation, node, 0555)
+			return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 		}
 	}
 	includesKey := &yaml.Node{Kind: yaml.ScalarNode, Value: "includes"}
@@ -31,7 +31,7 @@ func IncludeFileToProject(mainP *Project, fileName string) (err error) {
 		[]*yaml.Node{includesKey, includesVal},
 		docNode.Content...,
 	)
-	return file.WriteYaml(yamlLocation, node, 0555)
+	return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 }
 
 func CreateTaskIfNotExist(mainP *Project, taskName string) (err error) {
@@ -56,7 +56,7 @@ func CreateTaskIfNotExist(mainP *Project, taskName string) (err error) {
 			}
 			valNode.Style = yaml.LiteralStyle
 			valNode.Content = append(valNode.Content, newTaskName, newTask)
-			return file.WriteYaml(yamlLocation, node, 0555)
+			return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 		}
 	}
 	// "tasks" not found, add it
@@ -72,5 +72,5 @@ func CreateTaskIfNotExist(mainP *Project, taskName string) (err error) {
 		},
 		docNode.Content...,
 	)
-	return file.WriteYaml(yamlLocation, node, 0555)
+	return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 }

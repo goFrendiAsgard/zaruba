@@ -1,14 +1,14 @@
 includes:
-- ./zarubaServiceName.config.zaruba.yaml
-- ./zarubaServiceName.env.zaruba.yaml
+  - ./zarubaServiceName.config.zaruba.yaml
+  - ./zarubaServiceName.env.zaruba.yaml
 
 inputs:
 
   zarubaServiceNameRunInLocal:
     default: yes
     options:
-    - yes
-    - no
+      - yes
+      - no
     allowCustom: false
     description: Whether to run zarubaServiceName in local computer
     prompt: Run zarubaServiceName in local computer?
@@ -19,10 +19,10 @@ tasks:
     icon: 🐳
     extend: core.startDockerContainer
     dependencies:
-    - pullZarubaServiceNameImage
+      - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
-    - zarubaServiceNameRunInLocal
+      - zarubaServiceNameRunInLocal
     config:
       runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
     configRef: zarubaServiceName

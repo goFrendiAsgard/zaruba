@@ -6,10 +6,10 @@ tasks:
     extend: core.runCoreScript
     timeout: 1h
     inputs:
-    - setupHomeDir
-    - setupSparkDownloadUrl
-    - setupSparkVersion
-    - setupHadoopVersion
+      - setupHomeDir
+      - setupSparkDownloadUrl
+      - setupSparkVersion
+      - setupHadoopVersion
     config:
       beforeStart: |
         {{ $d := .Decoration -}}

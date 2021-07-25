@@ -6,11 +6,11 @@ tasks:
       Run static web server from your working directory.
     extend: core.startService
     inputs:
-    - serverHttpPort
+      - serverHttpPort
     config:
       ports: '{{ .GetValue "serverHttpPort" }}'
     start: 
-    - '{{ .GetEnv "ZARUBA_HOME" }}/zaruba'
-    - serveStatic
-    - .
-    - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'
+      - '{{ .GetEnv "ZARUBA_HOME" }}/zaruba'
+      - serveStatic
+      - .
+      - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'

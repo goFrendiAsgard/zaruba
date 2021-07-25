@@ -1,14 +1,14 @@
 includes:
-- ./zarubaServiceName.config.zaruba.yaml
-- ./zarubaServiceName.env.zaruba.yaml
+  - ./zarubaServiceName.config.zaruba.yaml
+  - ./zarubaServiceName.env.zaruba.yaml
 
 inputs:
 
   zarubaServiceNameRunInLocal:
     default: yes
     options:
-    - yes
-    - no
+      - yes
+      - no
     allowCustom: false
     description: Whether to run zarubaServiceName in local computer
     prompt: Run zarubaServiceName in local computer?
@@ -20,7 +20,7 @@ tasks:
     extend: core.startService
     location: zarubaServiceLocation
     inputs:
-    - zarubaServiceNameRunInLocal
+      - zarubaServiceNameRunInLocal
     config:
       start: zarubaStartCommand
     configRef: zarubaServiceName
@@ -30,10 +30,10 @@ tasks:
     extend: core.startDockerContainer
     location: zarubaServiceLocation
     inputs:
-    - zarubaServiceNameRunInLocal
+      - zarubaServiceNameRunInLocal
     configRefs:
-    - zarubaServiceNameContainer
-    - zarubaServiceName
+      - zarubaServiceNameContainer
+      - zarubaServiceName
     envRef: zarubaServiceName
 
   buildZarubaServiceNameImage:
@@ -61,9 +61,9 @@ tasks:
     location: ..
     timeout: 1h
     configRefs:
-    - zarubaServiceNameHelm
-    - zarubaServiceNameContainer
-    - zarubaServiceName
+      - zarubaServiceNameHelm
+      - zarubaServiceNameContainer
+      - zarubaServiceName
     envRef: zarubaServiceName
  
   helmUninstallZarubaServiceName:
@@ -71,4 +71,4 @@ tasks:
     location: ..
     timeout: 1h
     configRefs:
-    - zarubaServiceNameHelm
+      - zarubaServiceNameHelm

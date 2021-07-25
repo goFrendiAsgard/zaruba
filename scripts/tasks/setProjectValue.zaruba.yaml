@@ -5,11 +5,11 @@ tasks:
     description: Set project value.
     extend: core.runCoreScript
     dependencies:
-    - core.isProject
-    - core.setupPyUtil
+      - core.isProject
+      - core.setupPyUtil
     inputs:
-    - variableName
-    - variableValue
+      - variableName
+      - variableValue
     config:
       variableName: '{{ .GetValue "variableName" }}'
       variableValue: '{{ .GetValue "variableValue" }}'

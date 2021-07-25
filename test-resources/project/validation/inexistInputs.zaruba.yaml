@@ -1,4 +1,4 @@
 tasks:
   taskName:
     inputs:
-    - inexistInput
+      - inexistInput
