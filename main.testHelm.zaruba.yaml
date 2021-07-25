@@ -25,7 +25,7 @@ tasks:
       start: |
         set -e
         ZARUBA_HOME="$(realpath "..")"
-        ../zaruba please helUninstall kubeContext=docker-desktop
+        ../zaruba please helmUninstall kubeContext=docker-desktop
 
 
   stopContainerRegistry:

@@ -20,10 +20,34 @@ tasks:
         {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
         EVENT_NAME={{ .EscapeShellArg (.GetConfig "eventName") }}
-        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-        create_fast_event_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
+        SNAKE_EVENT_NAME=$({{ .Zaruba }} strToSnake "${EVENT_NAME}")
+        CAMEL_EVENT_NAME=$({{ .Zaruba }} strToCamel "${EVENT_NAME}")
+
+        # get controller lines
+        CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
+        PATTERNS="$({{ .Zaruba}} listAppend "[]" \
+          ".*def event_controller.*" \
+        )"
+        LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
+
+        # inject route handler
+        HANDLE_EVENT_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_event.py")
+        REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+          "zarubaEventName" "${CAMEL_EVENT_NAME}" \
+          "zaruba_event_name" "${SNAKE_EVENT_NAME}" \
+        )
+        HANDLE_EVENT_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_EVENT_PARTIAL}" "${REPLACEMENT_MAP}")
+        HANDLE_EVENT_LINES="$({{ .Zaruba }} split "${HANDLE_EVENT_PARTIAL}")"
+        HANDLE_EVENT_LINES="$({{ .Zaruba }} indentLines "${HANDLE_EVENT_LINES}" "    ")"
+        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_EVENT_LINES}" )
+
+        # save controller
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
+
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API event handler created: ${EVENT_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"

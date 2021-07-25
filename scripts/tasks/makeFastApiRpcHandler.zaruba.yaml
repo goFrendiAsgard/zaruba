@@ -20,10 +20,31 @@ tasks:
         {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
         RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
-        should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-        create_fast_rpc_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "rpc_name=${RPC_NAME}"
+        SNAKE_RPC_NAME=$({{ .Zaruba }} strToSnake "${RPC_NAME}")
+        CAMEL_RPC_NAME=$({{ .Zaruba }} strToCamel "${RPC_NAME}")
+
+        # get controller lines
+        CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
+        PATTERNS="$({{ .Zaruba}} listAppend "[]" \
+          ".*def event_controller.*" \
+        )"
+        LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
+
+        # inject route handler
+        HANDLE_RPC_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_rpc.py")
+        REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+          "zarubaRpcName" "${CAMEL_RPC_NAME}" \
+          "zaruba_rpc_name" "${SNAKE_RPC_NAME}" \
+        )
+        HANDLE_RPC_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_RPC_PARTIAL}" "${REPLACEMENT_MAP}")
+        HANDLE_RPC_LINES="$({{ .Zaruba }} split "${HANDLE_RPC_PARTIAL}")"
+        HANDLE_RPC_LINES="$({{ .Zaruba }} indentLines "${HANDLE_RPC_LINES}" "    ")"
+        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_RPC_LINES}" )
+
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${RPC_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"

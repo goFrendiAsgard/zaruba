@@ -3,7 +3,6 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import create_engine
 from helpers.transport import MessageBus, RMQMessageBus, RMQEventMap, LocalMessageBus
 
-
 import os
 
 def create_message_bus(mb_type: str) -> MessageBus:

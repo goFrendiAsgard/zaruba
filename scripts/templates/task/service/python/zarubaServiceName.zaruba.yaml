@@ -22,7 +22,7 @@ tasks:
     timeout: 1h
     configRef: zarubaServiceName
     envRef: zarubaServiceName
-  
+
   testZarubaServiceName:
     icon: 🐍
     extend: core.runShellScript
@@ -47,7 +47,7 @@ tasks:
       start: zarubaStartCommand
     configRef: zarubaServiceName
     envRef: zarubaServiceName
- 
+
   runZarubaServiceNameContainer:
     extend: core.startDockerContainer
     location: zarubaServiceLocation
@@ -63,7 +63,7 @@ tasks:
     location: zarubaServiceLocation
     timeout: 1h
     configRef: zarubaServiceNameContainer
-  
+
   pushZarubaServiceNameImage:
     extend: core.pushDockerImage
     location: zarubaServiceLocation
@@ -77,20 +77,27 @@ tasks:
   removeZarubaServiceNameContainer:
     extend: core.stopDockerContainer
     configRef: zarubaServiceNameContainer 
- 
+
   helmInstallZarubaServiceName:
     extend: core.helmInstall
     location: ..
+    dependencies:
+      - helmGenerateValueZarubaServiceName
     timeout: 1h
+    configRef: zarubaServiceNameHelm
+    envRef: zarubaServiceName
+
+  helmUninstallZarubaServiceName:
+    extend: core.helmUninstall
+    location: ..
+    timeout: 1h
+    configRef: zarubaServiceNameHelm
+
+  helmGenerateValueZarubaServiceName:
+    extend: core.helmGenerateValue
+    location: ..
     configRefs:
       - zarubaServiceNameHelm
       - zarubaServiceNameContainer
       - zarubaServiceName
     envRef: zarubaServiceName
- 
-  helmUninstallZarubaServiceName:
-    extend: core.helmUninstall
-    location: ..
-    timeout: 1h
-    configRefs:
-      - zarubaServiceNameHelm

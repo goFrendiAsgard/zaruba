@@ -130,20 +130,6 @@ tasks:
       - testSetupKubeClient
 
 
-  testPythonUtil:
-    icon: 💉
-    location: ./scripts/python
-    dependencies:
-      - clearLog
-      - build
-      - testCoreTask
-    extend: core.runShellScript
-    config:
-      start: |
-        pipenv install --dev
-        pipenv run pytest -v --cov="$(pwd)" --cov-report html  
-  
-
   test:
     icon: 💉
     dependencies:
@@ -155,4 +141,3 @@ tasks:
       - testHelmInstall
       - testHelmUninstall
       - stopContainerRegistry
-      - testPythonUtil

@@ -24,7 +24,7 @@ tasks:
       start: pipenv install
     configRef: zarubaServiceName
     envRef: zarubaServiceName
- 
+
   testZarubaServiceName:
     icon: 🐍
     extend: core.runShellScript
@@ -82,20 +82,27 @@ tasks:
   removeZarubaServiceNameContainer:
     extend: core.stopDockerContainer
     configRef: zarubaServiceNameContainer
- 
+
   helmInstallZarubaServiceName:
     extend: core.helmInstall
     location: ..
+    dependencies:
+      - helmGenerateValueZarubaServiceName
     timeout: 1h
+    configRef: zarubaServiceNameHelm
+    envRef: zarubaServiceName
+
+  helmUninstallZarubaServiceName:
+    extend: core.helmUninstall
+    location: ..
+    timeout: 1h
+    configRef: zarubaServiceNameHelm
+
+  helmGenerateValueZarubaServiceName:
+    extend: core.helmGenerateValue
+    location: ..
     configRefs:
       - zarubaServiceNameHelm
       - zarubaServiceNameContainer
       - zarubaServiceName
     envRef: zarubaServiceName
- 
-  helmUninstallZarubaServiceName:
-    extend: core.helmUninstall
-    location: ..
-    timeout: 1h
-    configRefs:
-      - zarubaServiceNameHelm

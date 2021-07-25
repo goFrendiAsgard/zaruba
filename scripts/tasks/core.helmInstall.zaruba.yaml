@@ -7,22 +7,14 @@ tasks:
     config:
       chart: ''
       valueFile: ''
-      valueTemplateFile: ''
       releaseName: ''
       kubeContext: '{{ .GetValue "kubeContext" }}'
       start: |
-        mkdir -p "$(dirname "{{ .GetConfig "valueFile" }}")"
-        {{ $fileContent := .ParseFile (.GetConfig "valueTemplateFile") -}}
-        {{ $err := .WriteFile (.GetConfig "valueFile") $fileContent -}}
-        {{ if ne $err nil -}}
-        echo '{{ $err }}'
-        exit 1
-        {{ end -}}
         if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
         then
           kubectl config set-context "{{ .GetConfig "kubeContext" }}"
         fi
-        if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" ]
+        if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
         then
           helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
         else

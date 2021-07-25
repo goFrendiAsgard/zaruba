@@ -11,4 +11,4 @@ tasks:
         then
           kubectl config set-context "{{ .GetConfig "kubeContext" }}"
         fi
-        helm uninstall "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}"
+        helm uninstall "{{ .GetConfig "releaseName" }}"

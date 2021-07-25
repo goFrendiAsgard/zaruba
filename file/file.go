@@ -37,6 +37,9 @@ func ReadText(fileName string) (text string, err error) {
 }
 
 func WriteText(fileName string, text string, fileMode os.FileMode) (err error) {
+	if err := os.MkdirAll(filepath.Dir(fileName), fileMode); err != nil {
+		return err
+	}
 	return ioutil.WriteFile(fileName, []byte(text), fileMode)
 }
 

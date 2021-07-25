@@ -1,0 +1,16 @@
+tasks:
+  core.helmGenerateValue:
+    extend: core.runCoreScript
+    private: true
+    config:
+      valueFile: ''
+      valueTemplateFile: ''
+      start: |
+        {{ $templateFile := .GetWorkPath (.GetConfig "valueTemplateFile") -}}
+        {{ $valueFile := .GetWorkPath (.GetConfig "valueFile") -}}
+        {{ $fileContent := .ParseFile $templateFile -}}
+        {{ $err := .WriteFile $valueFile $fileContent -}}
+        {{ if ne $err nil -}}
+        echo '{{ $err }}'
+        exit 1
+        {{ end -}}

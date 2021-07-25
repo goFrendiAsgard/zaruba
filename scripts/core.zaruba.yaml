@@ -61,6 +61,7 @@ includes:
   - ./tasks/clearLog.zaruba.yaml
   - ./tasks/core.bootstrap.zaruba.yaml
   - ./tasks/core.buildDockerImage.zaruba.yaml
+  - ./tasks/core.helmGenerateValue.zaruba.yaml
   - ./tasks/core.helmInstall.zaruba.yaml
   - ./tasks/core.helmRepoUpdate.zaruba.yaml
   - ./tasks/core.helmUninstall.zaruba.yaml

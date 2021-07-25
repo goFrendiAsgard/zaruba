@@ -22,10 +22,36 @@ tasks:
         {{ .GetConfig "createModuleScript" }}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
         URL={{ .EscapeShellArg (.GetConfig "url") }}
+        SNAKE_URL=$({{ .Zaruba }} strToSnake "${URL}")
         HTTP_METHOD={{ .EscapeShellArg (.GetConfig "httpMethod") }}
-        create_fast_route "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "http_method=${HTTP_METHOD}" "url=${URL}"
+        LOWER_HTTP_METHOD=$({{ .Zaruba }} strToLower "${HTTP_METHOD}")
+
+        # get controller lines
+        CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
+        PATTERNS="$({{ .Zaruba}} listAppend "[]" \
+          ".*def route_controller.*" \
+        )"
+        LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
+
+        # inject route handler
+        HANDLE_ROUTE_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_route.py")
+        REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+          "zarubaUrl" "${URL}" \
+          "zaruba_url" "${SNAKE_URL}" \
+          "zarubaHttpMethod" "${LOWER_HTTP_METHOD}" \
+        )
+        HANDLE_ROUTE_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_ROUTE_PARTIAL}" "${REPLACEMENT_MAP}")
+        HANDLE_ROUTE_LINES="$({{ .Zaruba }} split "${HANDLE_ROUTE_PARTIAL}")"
+        HANDLE_ROUTE_LINES="$({{ .Zaruba }} indentLines "${HANDLE_ROUTE_LINES}" "    ")"
+        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_ROUTE_LINES}" )
+
+        # save controller
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
+
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API Route handler created: ${HTTP_METHOD} ${URL} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"

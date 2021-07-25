@@ -191,14 +191,6 @@ func prepareLinesForReplacement(lines []string) (preparedLines []string) {
 	return lines
 }
 
-func ReplaceLineByPattern(lines []string, patterns []string, replacements []string) (result []string, err error) {
-	index, _, err := GetLineSubmatch(lines, patterns)
-	if err != nil {
-		return []string{}, err
-	}
-	return ReplaceLineAtIndex(lines, index, replacements)
-}
-
 func ReplaceLineAtIndex(lines []string, index int, replacements []string) (result []string, err error) {
 	lines = prepareLinesForReplacement(lines)
 	if index < 0 || index >= len(lines) {
