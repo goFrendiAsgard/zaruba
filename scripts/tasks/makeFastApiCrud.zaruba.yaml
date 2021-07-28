@@ -46,6 +46,11 @@ tasks:
         )
         {{ .Zaruba }} generate "${TEMPLATE_LOCATION}/zarubaServiceName" "${CAMEL_SERVICE_NAME}" "${REPLACEMENT_MAP}"
 
+        # init repo on main.py
+        INIT_REPO_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/init_repo.py")"
+        INIT_REPO_PARTIAL="$({{ .Zaruba }} strReplace "${HANDLE_EVENT_PARTIAL}" "${REPLACEMENT_MAP}" )"
+        MAIN_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/main.py" )
+
 
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
