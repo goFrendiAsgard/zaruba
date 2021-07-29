@@ -41,9 +41,8 @@ tasks:
           "zaruba_event_name" "${SNAKE_EVENT_NAME}" \
         )
         HANDLE_EVENT_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_EVENT_PARTIAL}" "${REPLACEMENT_MAP}")
-        HANDLE_EVENT_LINES="$({{ .Zaruba }} split "${HANDLE_EVENT_PARTIAL}")"
-        HANDLE_EVENT_LINES="$({{ .Zaruba }} indentLines "${HANDLE_EVENT_LINES}" "    ")"
-        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_EVENT_LINES}" )
+        HANDLE_EVENT_PARTIAL=$({{ .Zaruba }} strIndent "${HANDLE_EVENT_PARTIAL}" "    ")
+        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_EVENT_PARTIAL}" )
 
         # save controller
         {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"

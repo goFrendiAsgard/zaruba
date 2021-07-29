@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -9,32 +8,27 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var indentLinesCmd = &cobra.Command{
-	Use:   "indentLines <list> <indentation>",
-	Short: "indent lines",
+var strIndentCmd = &cobra.Command{
+	Use:   "strIndent <string> <indentation>",
+	Short: "Add prefix to string",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 2)
-		lines := []string{}
-		if err := json.Unmarshal([]byte(args[0]), &lines); err != nil {
-			exit(commandName, logger, decoration, err)
-		}
+		text := args[0]
 		indentation := args[1]
+		lines := strings.Split(text, "\n")
 		for index, line := range lines {
 			if strings.Trim(line, " ") != "" {
 				lines[index] = indentation + line
 			}
 		}
-		resultB, err := json.Marshal(lines)
-		if err != nil {
-			exit(commandName, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		indentedText := strings.Join(lines, "\n")
+		fmt.Println(indentation + indentedText)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(indentLinesCmd)
+	rootCmd.AddCommand(strIndentCmd)
 }

@@ -41,9 +41,8 @@ tasks:
           "zaruba_rpc_name" "${SNAKE_RPC_NAME}" \
         )
         HANDLE_RPC_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_RPC_PARTIAL}" "${REPLACEMENT_MAP}")
-        HANDLE_RPC_LINES="$({{ .Zaruba }} split "${HANDLE_RPC_PARTIAL}")"
-        HANDLE_RPC_LINES="$({{ .Zaruba }} indentLines "${HANDLE_RPC_LINES}" "    ")"
-        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_RPC_LINES}" )
+        HANDLE_RPC_PARTIAL="$({{ .Zaruba }} strIndent "${HANDLE_RPC_PARTIAL}" "    ")"
+        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_RPC_PARTIAL}" )
 
         # save controller
         {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"

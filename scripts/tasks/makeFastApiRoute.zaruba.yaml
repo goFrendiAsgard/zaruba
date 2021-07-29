@@ -45,9 +45,8 @@ tasks:
           "zarubaHttpMethod" "${LOWER_HTTP_METHOD}" \
         )
         HANDLE_ROUTE_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_ROUTE_PARTIAL}" "${REPLACEMENT_MAP}")
-        HANDLE_ROUTE_LINES="$({{ .Zaruba }} split "${HANDLE_ROUTE_PARTIAL}")"
-        HANDLE_ROUTE_LINES="$({{ .Zaruba }} indentLines "${HANDLE_ROUTE_LINES}" "    ")"
-        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_ROUTE_LINES}" )
+        HANDLE_ROUTE_PARTIAL=$({{ .Zaruba }} strIndent "${HANDLE_ROUTE_PARTIAL}" "    ")
+        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_ROUTE_PARTIAL}" )
 
         # save controller
         {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"

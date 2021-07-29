@@ -46,10 +46,66 @@ tasks:
         )
         {{ .Zaruba }} generate "${TEMPLATE_LOCATION}/zarubaServiceName" "${CAMEL_SERVICE_NAME}" "${REPLACEMENT_MAP}"
 
+
+        MAIN_LINES="$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/main.py" )"
+
+        # import repo
+        IMPORT_REPO_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/import_repo.py")"
+        IMPORT_REPO_PARTIAL="$({{ .Zaruba }} strReplace "${IMPORT_REPO_PARTIAL}" "${REPLACEMENT_MAP}" )"
+        MAIN_LINES="$({{ .Zaruba }} insertLineBeforeIndex "${MAIN_LINES}" 0 "${IMPORT_REPO_PARTIAL}")"
+
         # init repo on main.py
         INIT_REPO_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/init_repo.py")"
-        INIT_REPO_PARTIAL="$({{ .Zaruba }} strReplace "${HANDLE_EVENT_PARTIAL}" "${REPLACEMENT_MAP}" )"
-        MAIN_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/main.py" )
+        INIT_REPO_PARTIAL="$({{ .Zaruba }} strReplace "${INIT_REPO_PARTIAL}" "${REPLACEMENT_MAP}" )"
+        ENGINE_DECLARATION_PATTERN="$({{ .Zaruba }} listAppend "[]" "^\s*engine[\s]*=.*$")"
+        ENGINE_DECLARATION_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${MAIN_LINES}" "${ENGINE_DECLARATION_PATTERN}")"
+        MAIN_LINES="$({{ .Zaruba }} insertLineAfterIndex "${MAIN_LINES}" "${ENGINE_DECLARATION_LINE_INDEX}" "${INIT_REPO_PARTIAL}")"
+
+        # event controller call
+        EVENT_CONTROLLER_CALL_PATTERN="$({{ .Zaruba }} listAppend "[]" "^(\s*)${SNAKE_MODULE_NAME}_event_controller\((.*)\)(.*)$")"
+        EVENT_CONTROLLER_CALL_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${MAIN_LINES}" "${EVENT_CONTROLLER_CALL_PATTERN}")"
+        EVENT_CONTROLLER_CALL_SUBMATCH="$({{ .Zaruba }} getLineSubmatch "${MAIN_LINES}" "${EVENT_CONTROLLER_CALL_PATTERN}")"
+        INDENTATION="$({{ .Zaruba }} listGet "${EVENT_CONTROLLER_CALL_SUBMATCH}" 1)"
+        PARAMETERS="$({{ .Zaruba }} listGet "${EVENT_CONTROLLER_CALL_SUBMATCH}" 2)"
+        SUFFIX="$({{ .Zaruba }} listGet "${EVENT_CONTROLLER_CALL_SUBMATCH}" 3)"
+        NEW_EVENT_CONTROLLER_CALL="${INDENTATION}${SNAKE_MODULE_NAME}_event_controller(${PARAMETERS}, ${SNAKE_ENTITY_NAME}_repo)${SUFFIX}"
+        MAIN_LINES="$({{ .Zaruba }} replaceLineAtIndex "${MAIN_LINES}" "${EVENT_CONTROLLER_CALL_LINE_INDEX}" "${NEW_EVENT_CONTROLLER_CALL}")"
+
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/main.py" "${MAIN_LINES}"
+
+
+        CONTROLLER_LINES="$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )"
+
+        # import to controller
+        IMPORT_TO_CONTROLLER_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/import_to_controller.py")"
+        IMPORT_TO_CONTROLLER_PARTIAL="$({{ .Zaruba }} strReplace "${IMPORT_TO_CONTROLLER_PARTIAL}" "${REPLACEMENT_MAP}" )"
+        CONTROLLER_LINES="$({{ .Zaruba }} insertLineBeforeIndex "${CONTROLLER_LINES}" 0 "${IMPORT_TO_CONTROLLER_PARTIAL}")"
+
+        # handle route on controller.py
+        CONTROLLER_HANDLE_ROUTE_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/controller_handle_route.py")"
+        CONTROLLER_HANDLE_ROUTE_PARTIAL="$({{ .Zaruba }} strReplace "${CONTROLLER_HANDLE_ROUTE_PARTIAL}" "${REPLACEMENT_MAP}" )"
+        CONTROLLER_HANDLE_ROUTE_PARTIAL="$({{ .Zaruba }} strIndent "${CONTROLLER_HANDLE_ROUTE_PARTIAL}" "    " )"
+        ROUTE_CONTROLLER_PATTERN="$({{ .Zaruba }} listAppend "[]" "^\s*def route_controller\(.*\):.*$")"
+        ROUTE_CONTROLLER_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${ROUTE_CONTROLLER_PATTERN}")"
+        CONTROLLER_LINES="$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${ROUTE_CONTROLLER_LINE_INDEX}" "${CONTROLLER_HANDLE_ROUTE_PARTIAL}")"
+
+        # handle event on controller.py
+        CONTROLLER_HANDLE_EVENT_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/controller_handle_event.py")"
+        CONTROLLER_HANDLE_EVENT_PARTIAL="$({{ .Zaruba }} strReplace "${CONTROLLER_HANDLE_EVENT_PARTIAL}" "${REPLACEMENT_MAP}" )"
+        CONTROLLER_HANDLE_EVENT_PARTIAL="$({{ .Zaruba }} strIndent "${CONTROLLER_HANDLE_EVENT_PARTIAL}" "    " )"
+        EVENT_CONTROLLER_PATTERN="$({{ .Zaruba }} listAppend "[]" "^(\s*)def event_controller\((.*)\):(.*)$")"
+        EVENT_CONTROLLER_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${EVENT_CONTROLLER_PATTERN}")"
+        CONTROLLER_LINES="$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${EVENT_CONTROLLER_LINE_INDEX}" "${CONTROLLER_HANDLE_EVENT_PARTIAL}")"
+
+        EVENT_CONTROLLER_SUBMATCH="$({{ .Zaruba }} getLineSubmatch "${CONTROLLER_LINES}" "${EVENT_CONTROLLER_PATTERN}")"
+        INDENTATION="$({{ .Zaruba }} listGet "${EVENT_CONTROLLER_SUBMATCH}" 1)"
+        PARAMETERS="$({{ .Zaruba }} listGet "${EVENT_CONTROLLER_SUBMATCH}" 2)"
+        SUFFIX="$({{ .Zaruba }} listGet "${EVENT_CONTROLLER_SUBMATCH}" 3)"
+        NEW_EVENT_CONTROLLER="${INDENTATION}def event_controller(${PARAMETERS}, ${SNAKE_ENTITY_NAME}_repo: ${PASCAL_ENTITY_NAME}Repo):${SUFFIX}"
+        CONTROLLER_LINES="$({{ .Zaruba }} replaceLineAtIndex "${CONTROLLER_LINES}" "${EVENT_CONTROLLER_LINE_INDEX}" "${NEW_EVENT_CONTROLLER}")"
+
+
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
 
 
         echo 🎉🎉🎉
