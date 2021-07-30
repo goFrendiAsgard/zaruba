@@ -174,21 +174,25 @@
                                                  DEFAULT_PORT_CONFIG="$({{ .Zaruba }} getPortConfigByLocation "${SERVICE_LOCATION}")"
                   start.linkToProject          : {{ .Zaruba }} includeFileToProject "./main.zaruba.yaml" "${TASK_FILE_NAME}"
                                                  {{ .Zaruba }} syncProjectEnvFiles "./main.zaruba.yaml"
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "build${PASCAL_SERVICE_NAME}Image")" -eq 1 ]
-                                                     then
-                                                       {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "buildImage"
-                                                       {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "buildImage" "[\"build${PASCAL_SERVICE_NAME}Image\"]"
-                                                     fi
+                                                 then
+                                                   {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "buildImage"
+                                                   {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "buildImage" "[\"build${PASCAL_SERVICE_NAME}Image\"]"
+                                                 fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "pull${PASCAL_SERVICE_NAME}Image")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "pullImage"
                                                    {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pullImage" "[\"pull${PASCAL_SERVICE_NAME}Image\"]"
                                                  fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "push${PASCAL_SERVICE_NAME}Image")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "pushImage"
                                                    {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "pushImage" "[\"push${PASCAL_SERVICE_NAME}Image\"]"
                                                  fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "run${PASCAL_SERVICE_NAME}")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "run"
@@ -201,21 +205,25 @@
                                                      {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "runContainer" "[\"run${PASCAL_SERVICE_NAME}\"]"
                                                    fi
                                                  fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "stop${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "stopContainer"
                                                    {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "stopContainer" "[\"stop${PASCAL_SERVICE_NAME}Container\"]"
                                                  fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "remove${PASCAL_SERVICE_NAME}Container")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "removeContainer"
                                                    {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "removeContainer" "[\"remove${PASCAL_SERVICE_NAME}Container\"]"
                                                  fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "helmInstall${PASCAL_SERVICE_NAME}")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "helmInstall"
                                                    {{ .Zaruba }} addTaskDependency "./main.zaruba.yaml" "helmInstall" "[\"helmInstall${PASCAL_SERVICE_NAME}\"]"
                                                  fi
+                                                 
                                                  if [ "$({{ .Zaruba }} isTaskExist "./main.zaruba.yaml" "helmUninstall${PASCAL_SERVICE_NAME}")" -eq 1 ]
                                                  then
                                                    {{ .Zaruba }} createTaskIfNotExist "./main.zaruba.yaml" "helmUninstall"

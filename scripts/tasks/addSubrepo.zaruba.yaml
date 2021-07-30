@@ -8,7 +8,6 @@ tasks:
     extend: core.runCoreScript
     dependencies:
       - core.isProject
-      - core.setupPyUtil
     inputs:
       - subrepoUrl
       - subrepoPrefix

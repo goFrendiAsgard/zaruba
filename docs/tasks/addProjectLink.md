@@ -6,7 +6,7 @@
                   TIPS: To update links, you should perform `zaruba please updateProjectLinks`
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.setupPyUtil ]
+  DEPENDENCIES  : [ core.isProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}

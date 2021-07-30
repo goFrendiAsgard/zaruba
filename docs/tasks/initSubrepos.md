@@ -12,7 +12,7 @@
                     In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.isValidSubrepos, core.setupPyUtil ]
+  DEPENDENCIES  : [ core.isProject, core.isValidSubrepos ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}

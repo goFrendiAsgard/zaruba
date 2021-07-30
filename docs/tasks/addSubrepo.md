@@ -6,7 +6,7 @@
                   TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.setupPyUtil ]
+  DEPENDENCIES  : [ core.isProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}

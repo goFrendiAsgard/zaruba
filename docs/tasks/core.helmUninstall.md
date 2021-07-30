@@ -32,9 +32,14 @@
                                            fi
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
+                  kubeContext            : {{ .GetValue "kubeContext" }}
                   releaseName            : Blank
                   setup                  : Blank
-                  start                  : helm uninstall "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}"
+                  start                  : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+                                           then
+                                             kubectl config set-context "{{ .GetConfig "kubeContext" }}"
+                                           fi
+                                           helm uninstall "{{ .GetConfig "releaseName" }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

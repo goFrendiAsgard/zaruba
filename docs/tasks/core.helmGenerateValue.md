@@ -1,8 +1,7 @@
-# core.setupPyUtil
+# core.helmGenerateValue
 ```
-  TASK NAME     : core.setupPyUtil
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.setupPyUtil.zaruba.yaml
-  DESCRIPTION   : Setup zaruba's python util.
+  TASK NAME     : core.helmGenerateValue
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmGenerateValue.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -36,18 +35,16 @@
                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
-                  start                  : {{ if .IsTrue (.GetValue "setupInitPyUtil") }}
-                                             {{ $d := .Decoration -}}
-                                             if [ -z "$(pipenv --version)" ]
-                                             then
-                                                 echo "{{ $d.Bold }}{{ $d.Red }}Pipenv is not installed{{ $d.Normal }}"
-                                                 echo "Please perform:"
-                                                 echo "* 'zaruba please setupPyenv' (recommended) or"
-                                                 echo "* 'pip install pipenv' (if you don't want to install pyenv)"
-                                                 exit 1
-                                             fi
-                                             PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv install
-                                           {{ end }}
+                  start                  : {{ $templateFile := .GetWorkPath (.GetConfig "valueTemplateFile") -}}
+                                           {{ $valueFile := .GetWorkPath (.GetConfig "valueFile") -}}
+                                           {{ $fileContent := .ParseFile $templateFile -}}
+                                           {{ $err := .WriteFile $valueFile $fileContent -}}
+                                           {{ if ne $err nil -}}
+                                           echo '{{ $err }}'
+                                           exit 1
+                                           {{ end -}}
+                  valueFile              : Blank
+                  valueTemplateFile      : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

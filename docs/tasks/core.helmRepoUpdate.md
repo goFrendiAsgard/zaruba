@@ -1,11 +1,9 @@
-# makeHelmDeployment
+# core.helmRepoUpdate
 ```
-  TASK NAME     : makeHelmDeployment
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeHelmDeployment.zaruba.yaml
-  DESCRIPTION   : Add helm charts to the project to make deployment easier.
+  TASK NAME     : core.helmRepoUpdate
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmRepoUpdate.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isContainHelmCharts, core.showAdv ]
+  PARENT TASKS  : [ core.runShellScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -15,14 +13,8 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorServiceName
-                    DESCRIPTION : Service name (Can be blank)
-                    PROMPT      : Service name
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
                   afterStart             : Blank
                   beforeStart            : Blank
@@ -39,13 +31,8 @@
                                            fi
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                  : Blank
-                  start                  : {{- $d := .Decoration -}}
-                                           SERVICE_NAME="{{ .GetValue "generatorServiceName" }}"
-                                           create_helm_deployment "${SERVICE_NAME}"
-                                           echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Deployment created{{ $d.Normal }}"
+                  start                  : helm repo update
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

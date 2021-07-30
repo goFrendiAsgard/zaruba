@@ -50,16 +50,47 @@
                                               MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                               should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
                                               echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API module: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
-                                              create_fast_module "template_location=${MODULE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
+                                              PASCAL_SERVICE_NAME=$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")
+                                              CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
+                                              PASCAL_MODULE_NAME=$({{ .Zaruba }} strToPascal "${MODULE_NAME}")
+                                              CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
+                                              SNAKE_MODULE_NAME=$({{ .Zaruba }} strToSnake "${MODULE_NAME}")
+                                              REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                                "zarubaServiceName" "${CAMEL_SERVICE_NAME}" \
+                                                "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
+                                                "zarubaModuleName" "${CAMEL_MODULE_NAME}" \
+                                                "ZarubaModuleName" "${PASCAL_MODULE_NAME}" \
+                                                "zaruba_module_name" "${SNAKE_MODULE_NAME}" \
+                                              )
+                                              {{ .Zaruba }} generate "${MODULE_TEMPLATE_LOCATION}/zarubaServiceName" "${CAMEL_SERVICE_NAME}" "${REPLACEMENT_MAP}"
+                                              # get main.py lines
+                                              MAIN_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/main.py")
+                                              # import module
+                                              IMPORT_MODULE_PARTIAL=$(cat "${MODULE_TEMPLATE_LOCATION}/partials/import_module.py")
+                                              IMPORT_MODULE_PARTIAL=$({{ .Zaruba }} strReplace "${IMPORT_MODULE_PARTIAL}" "${REPLACEMENT_MAP}")
+                                              IMPORT_MODULE_LINES=$({{ .Zaruba }} split "${IMPORT_MODULE_PARTIAL}")
+                                              # load module
+                                              LOAD_MODULE_PARTIAL=$(cat "${MODULE_TEMPLATE_LOCATION}/partials/load_module.py")
+                                              LOAD_MODULE_PARTIAL=$({{ .Zaruba }} strReplace "${LOAD_MODULE_PARTIAL}" "${REPLACEMENT_MAP}")
+                                              LOAD_MODULE_LINES=$({{ .Zaruba }} split "${LOAD_MODULE_PARTIAL}")
+                                              # update main.py
+                                              MAIN_LINES=$({{ .Zaruba }} listMerge "${IMPORT_MODULE_LINES}" "${MAIN_LINES}" "${LOAD_MODULE_LINES}")
+                                              {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/main.py" "${MAIN_LINES}"
                                             fi
                   createServiceScript     : {{- $d := .Decoration -}}
                                             if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
                                             then
                                               SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
                                               SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                              PASCAL_SERVICE_NAME=$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")
+                                              CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
+                                              REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                                "zarubaServiceName" "${CAMEL_SERVICE_NAME}" \
+                                                "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
+                                              )
                                               echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API Service: ${SERVICE_NAME}{{ $d.Normal }}"
-                                              create_fast_service "template_location=${SERVICE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
-                                              chmod 755 "${SERVICE_NAME}/start.sh"
+                                              {{ .Zaruba }} generate "${SERVICE_TEMPLATE_LOCATION}" . "${REPLACEMENT_MAP}"
+                                              chmod 755 "${CAMEL_SERVICE_NAME}/start.sh"
                                               if [ -f "./main.zaruba.yaml" ]
                                               then
                                                 if [ ! -d "./shared-libs/python/helpers" ]
@@ -74,7 +105,7 @@
                                                 {{ if .IsTrue (.GetConfig "createTask") -}}
                                                 TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Creating service task for ${SERVICE_NAME}{{ $d.Normal }}"
-                                                create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=" "container_name=" "location=${SERVICE_NAME}" "start_command=./start.sh" "ports=" "envs=" "dependencies=" "runner_version="
+                                                {{ .Zaruba }} makeFastApiServiceTask generatorServiceName=${SERVICE_NAME}
                                                 {{ end -}}
                                               fi
                                             fi
@@ -101,10 +132,33 @@
                                             {{ .GetConfig "createModuleScript" }}
                                             TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                             SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                            CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+                                            CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
                                             EVENT_NAME={{ .EscapeShellArg (.GetConfig "eventName") }}
-                                            should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME}/${MODULE_NAME} directory should be exist{{ $d.Normal }}"
-                                            create_fast_event_handler "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "event_name=${EVENT_NAME}"
+                                            SNAKE_EVENT_NAME=$({{ .Zaruba }} strToSnake "${EVENT_NAME}")
+                                            CAMEL_EVENT_NAME=$({{ .Zaruba }} strToCamel "${EVENT_NAME}")
+                                            
+                                            # get controller lines
+                                            CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
+                                            PATTERNS="$({{ .Zaruba}} listAppend "[]" \
+                                              ".*def event_controller.*" \
+                                            )"
+                                            LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
+                                            
+                                            # inject route handler
+                                            HANDLE_EVENT_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_event.py")
+                                            REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                              "zarubaEventName" "${CAMEL_EVENT_NAME}" \
+                                              "zaruba_event_name" "${SNAKE_EVENT_NAME}" \
+                                            )
+                                            HANDLE_EVENT_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_EVENT_PARTIAL}" "${REPLACEMENT_MAP}")
+                                            HANDLE_EVENT_PARTIAL=$({{ .Zaruba }} strIndent "${HANDLE_EVENT_PARTIAL}" "    ")
+                                            CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_EVENT_PARTIAL}" )
+                                            
+                                            # save controller
+                                            {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
+                                            
                                             echo 🎉🎉🎉
                                             echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API event handler created: ${EVENT_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
                                             echo "You probably need to check the following files:"

@@ -3,7 +3,8 @@
   TASK NAME     : core.helmInstall
   LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmInstall.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runShellScript ]
+  PARENT TASKS  : [ core.runCoreScript ]
+  DEPENDENCIES  : [ core.helmRepoUpdate ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -14,7 +15,9 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                 : set -e
+                                           alias zaruba=${ZARUBA_HOME}/zaruba
                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
+                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                 : Blank
                   afterStart             : Blank
                   beforeStart            : Blank
@@ -32,18 +35,21 @@
                                            fi
                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
                                            . "${BOOTSTRAP_SCRIPT}"
+                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  kubeContext            : {{ .GetValue "kubeContext" }}
                   releaseName            : Blank
                   setup                  : Blank
-                  start                  : {{ $fileContent := .ParseFile (.GetConfig "valueTemplateFile") }}
-                                           {{ $err := .WriteFile (.GetConfig "valueFile") $fileContent -}}
-                                           if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}" ]
+                  start                  : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+                                           then
+                                             kubectl config set-context "{{ .GetConfig "kubeContext" }}"
+                                           fi
+                                           if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
                                            then
                                              helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
                                            else
                                              helm upgrade "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
                                            fi
                   valueFile              : Blank
-                  valueTemplateFile      : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -9,7 +9,6 @@ tasks:
         containerName : Container's name
     extend: core.runCoreScript
     dependencies:
-      - core.setupPyUtil
       - updateProjectLinks
     config:
       containerName: ""

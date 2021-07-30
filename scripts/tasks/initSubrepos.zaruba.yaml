@@ -15,7 +15,6 @@ tasks:
     dependencies:
       - core.isProject
       - core.isValidSubrepos
-      - core.setupPyUtil
     config:
       start: |
         set -e
