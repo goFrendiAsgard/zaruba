@@ -135,7 +135,6 @@ tasks:
 
           SCHEMA_LINES="$({{ .Zaruba }} insertLineAfterIndex "${SCHEMA_LINES}" "${SCHEMA_FIELD_LINE_INDEX}" "${SCHEMA_FIELD_DECLARATION_PARTIAL}")"
 
-
           # repo field declaration
           REPO_FIELD_DECLARATION_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/repo_field_declaration.py")"
           REPO_FIELD_DECLARATION_PARTIAL="$({{ .Zaruba }} strReplace "${REPO_FIELD_DECLARATION_PARTIAL}" "${REPLACEMENT_MAP}")"
@@ -148,7 +147,34 @@ tasks:
           REPO_FIELD_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${REPO_LINES}" "${REPO_FIELD_DECLARATION_PATTERN}")"
 
           REPO_LINES="$({{ .Zaruba }} insertLineAfterIndex "${REPO_LINES}" "${REPO_FIELD_LINE_INDEX}" "${REPO_FIELD_DECLARATION_PARTIAL}")"
- 
+
+          # repo field insert
+          REPO_FIELD_INSERT_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/repo_field_insert.py")"
+          REPO_FIELD_INSERT_PARTIAL="$({{ .Zaruba }} strReplace "${REPO_FIELD_INSERT_PARTIAL}" "${REPLACEMENT_MAP}")"
+          REPO_FIELD_INSERT_PARTIAL="$({{ .Zaruba }} strIndent "${REPO_FIELD_INSERT_PARTIAL}" "$({{ .Zaruba }} strRepeat "    " 4)")"
+
+          REPO_FIELD_INSERT_PATTERN="$({{ .Zaruba }} listAppend "[]" \
+            "^\s*class\s*DB${PASCAL_ENTITY_NAME}Repo\s*\(.*$" \
+            "^\s*def\s*insert\s*\(.*$" \
+            "^\s*db_entity\s*=.*$" \
+          )"
+          REPO_FIELD_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${REPO_LINES}" "${REPO_FIELD_INSERT_PATTERN}")"
+
+          REPO_LINES="$({{ .Zaruba }} insertLineAfterIndex "${REPO_LINES}" "${REPO_FIELD_LINE_INDEX}" "${REPO_FIELD_INSERT_PARTIAL}")"
+
+          # repo field update
+          REPO_FIELD_UPDATE_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/repo_field_update.py")"
+          REPO_FIELD_UPDATE_PARTIAL="$({{ .Zaruba }} strReplace "${REPO_FIELD_UPDATE_PARTIAL}" "${REPLACEMENT_MAP}")"
+          REPO_FIELD_UPDATE_PARTIAL="$({{ .Zaruba }} strIndent "${REPO_FIELD_UPDATE_PARTIAL}" "$({{ .Zaruba }} strRepeat "    " 3)")"
+
+          REPO_FIELD_UPDATE_PATTERN="$({{ .Zaruba }} listAppend "[]" \
+            "^\s*class\s*DB${PASCAL_ENTITY_NAME}Repo\s*\(.*$" \
+            "^\s*def\s*update\s*\(.*$" \
+            "^\s*db_entity\.updated_at\s*=.*$" \
+          )"
+          REPO_FIELD_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${REPO_LINES}" "${REPO_FIELD_UPDATE_PATTERN}")"
+
+          REPO_LINES="$({{ .Zaruba }} insertLineAfterIndex "${REPO_LINES}" "${REPO_FIELD_LINE_INDEX}" "${REPO_FIELD_UPDATE_PARTIAL}")"
           
         done
 
