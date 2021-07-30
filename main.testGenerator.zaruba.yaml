@@ -130,7 +130,7 @@ tasks:
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields=title,author,synopsis showAdvertisement=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no setupInitPyUtil=no 
   
 
   testSyncEnv:

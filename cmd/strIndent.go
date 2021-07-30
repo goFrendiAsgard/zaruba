@@ -25,7 +25,7 @@ var strIndentCmd = &cobra.Command{
 			}
 		}
 		indentedText := strings.Join(lines, "\n")
-		fmt.Println(indentation + indentedText)
+		fmt.Println(indentedText)
 	},
 }
 

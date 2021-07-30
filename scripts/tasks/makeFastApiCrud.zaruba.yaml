@@ -104,8 +104,56 @@ tasks:
         NEW_EVENT_CONTROLLER="${INDENTATION}def event_controller(${PARAMETERS}, ${SNAKE_ENTITY_NAME}_repo: ${PASCAL_ENTITY_NAME}Repo):${SUFFIX}"
         CONTROLLER_LINES="$({{ .Zaruba }} replaceLineAtIndex "${CONTROLLER_LINES}" "${EVENT_CONTROLLER_LINE_INDEX}" "${NEW_EVENT_CONTROLLER}")"
 
-
         {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
+
+
+        # per field
+        SCHEMA_LINES="$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/schemas/${CAMEL_ENTITY_NAME}.py")"
+        REPO_LINES="$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/repos/db${PASCAL_ENTITY_NAME}.py")"
+
+        FIELD_COUNT="$({{ .Zaruba}} listLength "${FIELD_NAMES}")"
+        MAX_FIELD_INDEX="$((${FIELD_COUNT}-1))"
+        for FIELD_INDEX in $(seq "${MAX_FIELD_INDEX}" -1 0)
+        do
+          FIELD_NAME="$({{ .Zaruba }} listGet "${FIELD_NAMES}" "${FIELD_INDEX}")"
+          SNAKE_FIELD_NAME="$({{ .Zaruba }} strToSnake "${FIELD_NAME}")"
+
+          REPLACEMENT_MAP="$({{ .Zaruba }} mapSet "{}" \
+            "zaruba_entity_name" "${SNAKE_ENTITY_NAME}" \
+            "zaruba_field_name" "${SNAKE_FIELD_NAME}" \
+          )"
+
+          # schema field declaration
+          SCHEMA_FIELD_DECLARATION_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/schema_field_declaration.py")"
+          SCHEMA_FIELD_DECLARATION_PARTIAL="$({{ .Zaruba }} strReplace "${SCHEMA_FIELD_DECLARATION_PARTIAL}" "${REPLACEMENT_MAP}")"
+          SCHEMA_FIELD_DECLARATION_PARTIAL="$({{ .Zaruba }} strIndent "${SCHEMA_FIELD_DECLARATION_PARTIAL}" "    ")"
+
+          SCHEMA_FIELD_DECLARATION_PATTERN="$({{ .Zaruba }} listAppend "[]" \
+            "^\s*class\s*${PASCAL_ENTITY_NAME}Data\s*\(.*$"
+          )"
+          SCHEMA_FIELD_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${SCHEMA_LINES}" "${SCHEMA_FIELD_DECLARATION_PATTERN}")"
+
+          SCHEMA_LINES="$({{ .Zaruba }} insertLineAfterIndex "${SCHEMA_LINES}" "${SCHEMA_FIELD_LINE_INDEX}" "${SCHEMA_FIELD_DECLARATION_PARTIAL}")"
+
+
+          # repo field declaration
+          REPO_FIELD_DECLARATION_PARTIAL="$(cat "${TEMPLATE_LOCATION}/partials/repo_field_declaration.py")"
+          REPO_FIELD_DECLARATION_PARTIAL="$({{ .Zaruba }} strReplace "${REPO_FIELD_DECLARATION_PARTIAL}" "${REPLACEMENT_MAP}")"
+          REPO_FIELD_DECLARATION_PARTIAL="$({{ .Zaruba }} strIndent "${REPO_FIELD_DECLARATION_PARTIAL}" "    ")"
+
+          REPO_FIELD_DECLARATION_PATTERN="$({{ .Zaruba }} listAppend "[]" \
+            "^\s*class\s*DB${PASCAL_ENTITY_NAME}Entity\s*\(.*$" \
+            "^\s*__tablename__.*$" \
+          )"
+          REPO_FIELD_LINE_INDEX="$({{ .Zaruba }} getLineIndex "${REPO_LINES}" "${REPO_FIELD_DECLARATION_PATTERN}")"
+
+          REPO_LINES="$({{ .Zaruba }} insertLineAfterIndex "${REPO_LINES}" "${REPO_FIELD_LINE_INDEX}" "${REPO_FIELD_DECLARATION_PARTIAL}")"
+ 
+          
+        done
+
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/schemas/${CAMEL_ENTITY_NAME}.py" "${SCHEMA_LINES}"
+        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/repos/db${PASCAL_ENTITY_NAME}.py" "${REPO_LINES}"
 
 
         echo 🎉🎉🎉
