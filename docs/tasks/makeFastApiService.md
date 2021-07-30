@@ -47,7 +47,7 @@
                                               PASCAL_MODULE_NAME=$({{ .Zaruba }} strToPascal "${MODULE_NAME}")
                                               CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
                                               SNAKE_MODULE_NAME=$({{ .Zaruba }} strToSnake "${MODULE_NAME}")
-                                              REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                              REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
                                                 "zarubaServiceName" "${CAMEL_SERVICE_NAME}" \
                                                 "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
                                                 "zarubaModuleName" "${CAMEL_MODULE_NAME}" \
@@ -66,7 +66,7 @@
                                               LOAD_MODULE_PARTIAL=$({{ .Zaruba }} strReplace "${LOAD_MODULE_PARTIAL}" "${REPLACEMENT_MAP}")
                                               LOAD_MODULE_LINES=$({{ .Zaruba }} split "${LOAD_MODULE_PARTIAL}")
                                               # update main.py
-                                              MAIN_LINES=$({{ .Zaruba }} listMerge "${IMPORT_MODULE_LINES}" "${MAIN_LINES}" "${LOAD_MODULE_LINES}")
+                                              MAIN_LINES=$({{ .Zaruba }} mergeList "${IMPORT_MODULE_LINES}" "${MAIN_LINES}" "${LOAD_MODULE_LINES}")
                                               {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/main.py" "${MAIN_LINES}"
                                             fi
                   createServiceScript     : {{- $d := .Decoration -}}
@@ -76,7 +76,7 @@
                                               SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                               PASCAL_SERVICE_NAME=$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")
                                               CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
-                                              REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                              REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
                                                 "zarubaServiceName" "${CAMEL_SERVICE_NAME}" \
                                                 "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
                                               )

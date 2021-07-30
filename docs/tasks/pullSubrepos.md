@@ -50,7 +50,7 @@
                                              PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                              URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                              NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$({{ $this.Zaruba }} listContains "${ORIGINS}" "${NAME}")
+                                             ORIGIN_EXISTS=$({{ $this.Zaruba }} isInList "${ORIGINS}" "${NAME}")
                                              if [ $ORIGIN_EXISTS = 1 ]
                                              then
                                                git_save "Save works before pull"

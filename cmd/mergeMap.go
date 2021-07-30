@@ -8,23 +8,27 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var listMergeCmd = &cobra.Command{
-	Use:   "listMerge <list> <otherList...>",
-	Short: "Merge JSON string lists",
+var mergeMapCmd = &cobra.Command{
+	Use:   "mergeMap <map> <otherMaps...>",
+	Short: "Merge JSON string maps",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 2)
-		newList := []string{}
+		newDict := map[string]interface{}{}
 		for _, arg := range args {
-			list := []string{}
-			if err := json.Unmarshal([]byte(arg), &list); err != nil {
+			dict := map[string]interface{}{}
+			if err := json.Unmarshal([]byte(arg), &dict); err != nil {
 				exit(commandName, logger, decoration, err)
 			}
-			newList = append(newList, list...)
+			for key, val := range dict {
+				if _, exist := newDict[key]; !exist {
+					newDict[key] = val
+				}
+			}
 		}
-		resultB, err := json.Marshal(newList)
+		resultB, err := json.Marshal(newDict)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -33,5 +37,5 @@ var listMergeCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(listMergeCmd)
+	rootCmd.AddCommand(mergeMapCmd)
 }

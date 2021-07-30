@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var newUUIDStringCmd = &cobra.Command{
-	Use:   "newUUIDString",
+var getNewUUIDCmd = &cobra.Command{
+	Use:   "getNewUUID",
 	Short: "Generate new UUID string",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(uuid.NewString())
@@ -16,5 +16,5 @@ var newUUIDStringCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(newUUIDStringCmd)
+	rootCmd.AddCommand(getNewUUIDCmd)
 }

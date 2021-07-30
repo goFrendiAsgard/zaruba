@@ -8,15 +8,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var listLengthCmd = &cobra.Command{
-	Use:   "listLength <list>",
+var getListLengthCmd = &cobra.Command{
+	Use:   "getListLength <list>",
 	Short: "Get list's length",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		list := []string{}
+		list := []interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -25,5 +25,5 @@ var listLengthCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(listLengthCmd)
+	rootCmd.AddCommand(getListLengthCmd)
 }

@@ -97,7 +97,7 @@ func (td *TaskData) Indent(multiLineStr string, indentation string) (result stri
 	return str.Indent(multiLineStr, indentation)
 }
 
-func (td *TaskData) NewUUIDString() string {
+func (td *TaskData) GetNewUUID() string {
 	return uuid.NewString()
 }
 

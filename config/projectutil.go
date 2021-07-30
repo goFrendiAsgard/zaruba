@@ -34,7 +34,7 @@ func IncludeFileToProject(mainP *Project, fileName string) (err error) {
 	return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 }
 
-func CreateTaskIfNotExist(mainP *Project, taskName string) (err error) {
+func EnsureTaskExist(mainP *Project, taskName string) (err error) {
 	yamlLocation := mainP.GetFileLocation()
 	node, err := file.ReadYaml(yamlLocation)
 	if err != nil {

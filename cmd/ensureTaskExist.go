@@ -8,8 +8,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var createTaskIfNotExistCmd = &cobra.Command{
-	Use:   "createTaskIfNotExist <projectFile> <taskName>",
+var ensureTaskExistCmd = &cobra.Command{
+	Use:   "ensureTaskExist <projectFile> <taskName>",
 	Short: "Add file to project",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -30,12 +30,12 @@ var createTaskIfNotExistCmd = &cobra.Command{
 			exit(commandName, logger, decoration, err)
 		}
 		taskName := args[1]
-		if err = config.CreateTaskIfNotExist(project, taskName); err != nil {
+		if err = config.EnsureTaskExist(project, taskName); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(createTaskIfNotExistCmd)
+	rootCmd.AddCommand(ensureTaskExistCmd)
 }

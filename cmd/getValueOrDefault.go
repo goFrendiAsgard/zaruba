@@ -1,30 +1,31 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var mapGetCmd = &cobra.Command{
-	Use:   "mapGet <map> <key>",
-	Short: "Get value from JSON string map",
+var getValueOrDefaultCmd = &cobra.Command{
+	Use:   "getValueOrDefault <value> <defaultValue>",
+	Short: "Get value or default value",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 2)
-		dict := map[string]string{}
-		if err := json.Unmarshal([]byte(args[0]), &dict); err != nil {
-			exit(commandName, logger, decoration, err)
+		value := args[0]
+		if strings.Trim(value, " ") != "" {
+			fmt.Println(value)
+			return
 		}
-		key := args[1]
-		fmt.Println(dict[key])
+		defaultValue := args[1]
+		fmt.Println(defaultValue)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(mapGetCmd)
+	rootCmd.AddCommand(getValueOrDefaultCmd)
 }

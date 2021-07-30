@@ -29,14 +29,14 @@ tasks:
 
         # get controller lines
         CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
-        PATTERNS="$({{ .Zaruba}} listAppend "[]" \
+        PATTERNS="$({{ .Zaruba}} appendToList "[]" \
           ".*def event_controller.*" \
         )"
         LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
 
         # inject route handler
         HANDLE_EVENT_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_event.py")
-        REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+        REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
           "zarubaEventName" "${CAMEL_EVENT_NAME}" \
           "zaruba_event_name" "${SNAKE_EVENT_NAME}" \
         )

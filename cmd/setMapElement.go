@@ -8,23 +8,26 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var mapSetCmd = &cobra.Command{
-	Use:   "mapSet <map> <key1> <value1> <key2> <value2>... <keyN> <valueN>",
+var setMapElementCmd = &cobra.Command{
+	Use:   "setMapElement <map> <key1> <value1> <key2> <value2>... <keyN> <valueN>",
 	Short: "Set map[key] to value",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 3)
-		dict := map[string]string{}
+		dict := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &dict); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
 		restArgs := args[1:]
 		for len(restArgs) > 1 {
 			key := restArgs[0]
-			value := restArgs[1]
-			dict[key] = value
+			var newValue interface{}
+			if err := json.Unmarshal([]byte(restArgs[1]), &newValue); err != nil {
+				newValue = restArgs[1]
+			}
+			dict[key] = newValue
 			restArgs = restArgs[2:]
 		}
 		resultB, err := json.Marshal(dict)
@@ -36,5 +39,5 @@ var mapSetCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(mapSetCmd)
+	rootCmd.AddCommand(setMapElementCmd)
 }

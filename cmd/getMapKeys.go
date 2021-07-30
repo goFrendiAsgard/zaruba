@@ -8,15 +8,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var mapKeysCmd = &cobra.Command{
-	Use:   "mapKeys <map>",
+var getMapKeysCmd = &cobra.Command{
+	Use:   "getMapKeys <map>",
 	Short: "Return JSON string list containing keys of JSON string map",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		dict := map[string]string{}
+		dict := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &dict); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -33,5 +33,5 @@ var mapKeysCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(mapKeysCmd)
+	rootCmd.AddCommand(getMapKeysCmd)
 }

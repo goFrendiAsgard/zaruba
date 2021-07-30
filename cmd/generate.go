@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/file"
@@ -18,9 +19,13 @@ var generateCmd = &cobra.Command{
 		checkMinArgCount(commandName, logger, decoration, args, 3)
 		sourceTemplatePath := args[0]
 		destinationPath := args[1]
-		replacementMap := map[string]string{}
-		if err := json.Unmarshal([]byte(args[2]), &replacementMap); err != nil {
+		rawReplacementMap := map[string]interface{}{}
+		if err := json.Unmarshal([]byte(args[2]), &rawReplacementMap); err != nil {
 			exit(commandName, logger, decoration, err)
+		}
+		replacementMap := map[string]string{}
+		for key, value := range rawReplacementMap {
+			replacementMap[key] = fmt.Sprintf("%v", value)
 		}
 		if err := file.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {
 			exit(commandName, logger, decoration, err)

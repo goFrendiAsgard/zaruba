@@ -16,7 +16,7 @@ var isValidListCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		value := []string{}
+		value := []interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &value); err != nil {
 			fmt.Println(0)
 			return

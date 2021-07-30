@@ -1,17 +1,17 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var getPortConfigByLocationCmd = &cobra.Command{
-	Use:   "getPortConfigByLocation <location>",
+var getPortConfigCmd = &cobra.Command{
+	Use:   "getPortConfig <location>",
 	Short: "Return string representing default config.ports",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -32,10 +32,14 @@ var getPortConfigByLocationCmd = &cobra.Command{
 				ports = append(ports, fmt.Sprintf("{{ .GetEnv \"%s\" }}", key))
 			}
 		}
-		fmt.Println(strings.Join(ports, "\n"))
+		resultB, err := json.Marshal(ports)
+		if err != nil {
+			exit(commandName, logger, decoration, err)
+		}
+		fmt.Println(string(resultB))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getPortConfigByLocationCmd)
+	rootCmd.AddCommand(getPortConfigCmd)
 }

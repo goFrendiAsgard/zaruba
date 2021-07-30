@@ -55,7 +55,7 @@
                                               PASCAL_MODULE_NAME=$({{ .Zaruba }} strToPascal "${MODULE_NAME}")
                                               CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
                                               SNAKE_MODULE_NAME=$({{ .Zaruba }} strToSnake "${MODULE_NAME}")
-                                              REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                              REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
                                                 "zarubaServiceName" "${CAMEL_SERVICE_NAME}" \
                                                 "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
                                                 "zarubaModuleName" "${CAMEL_MODULE_NAME}" \
@@ -74,7 +74,7 @@
                                               LOAD_MODULE_PARTIAL=$({{ .Zaruba }} strReplace "${LOAD_MODULE_PARTIAL}" "${REPLACEMENT_MAP}")
                                               LOAD_MODULE_LINES=$({{ .Zaruba }} split "${LOAD_MODULE_PARTIAL}")
                                               # update main.py
-                                              MAIN_LINES=$({{ .Zaruba }} listMerge "${IMPORT_MODULE_LINES}" "${MAIN_LINES}" "${LOAD_MODULE_LINES}")
+                                              MAIN_LINES=$({{ .Zaruba }} mergeList "${IMPORT_MODULE_LINES}" "${MAIN_LINES}" "${LOAD_MODULE_LINES}")
                                               {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/main.py" "${MAIN_LINES}"
                                             fi
                   createServiceScript     : {{- $d := .Decoration -}}
@@ -84,7 +84,7 @@
                                               SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                               PASCAL_SERVICE_NAME=$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")
                                               CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
-                                              REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                              REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
                                                 "zarubaServiceName" "${CAMEL_SERVICE_NAME}" \
                                                 "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
                                               )
@@ -141,14 +141,14 @@
                                             
                                             # get controller lines
                                             CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
-                                            PATTERNS="$({{ .Zaruba}} listAppend "[]" \
+                                            PATTERNS="$({{ .Zaruba}} appendToList "[]" \
                                               ".*def event_controller.*" \
                                             )"
                                             LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
                                             
                                             # inject route handler
                                             HANDLE_EVENT_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_event.py")
-                                            REPLACEMENT_MAP=$({{ .Zaruba }} mapSet "{}" \
+                                            REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
                                               "zarubaEventName" "${CAMEL_EVENT_NAME}" \
                                               "zaruba_event_name" "${SNAKE_EVENT_NAME}" \
                                             )
