@@ -1,8 +1,0 @@
-inputs:
-  
-  setupSparkDownloadUrl:
-    default: https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz
-    validation: ^.+$
-    description: Spark download URL
-    prompt: Spark download url
-

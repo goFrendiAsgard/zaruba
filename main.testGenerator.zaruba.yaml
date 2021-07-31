@@ -21,7 +21,6 @@ tasks:
       - clearLog
       - build
       - preparePlayground
-      - testSetupPyenv
     extend: core.runShellScript 
     configRef: playgroundTest
     config:

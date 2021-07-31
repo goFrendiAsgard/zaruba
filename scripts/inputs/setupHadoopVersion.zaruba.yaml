@@ -1,8 +1,0 @@
-inputs:
-
-  setupHadoopVersion:
-    default: 2.7
-    validation: ^.+$
-    description: Hadoop version to be installed when install spark
-    prompt: Hadoop version
-
