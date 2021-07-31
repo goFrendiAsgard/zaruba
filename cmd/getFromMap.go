@@ -10,7 +10,7 @@ import (
 
 var getFromMapCmd = &cobra.Command{
 	Use:   "getFromMap <map> <key>",
-	Short: "Get value from JSON string map",
+	Short: "Get value from JSON map",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

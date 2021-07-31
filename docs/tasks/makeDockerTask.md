@@ -64,71 +64,24 @@
                   serviceName       : {{ .GetValue "generatorServiceName" }}
                   servicePorts      : {{ .GetValue "generatorServicePorts" }}
                   setup             : Blank
-                  start             : {{ .GetConfig "start.declareCommonVariables" -}}
-                                      {{- $d := .Decoration -}}
-                                      . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  start             : {{- $d := .Decoration -}}
                                       TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                       IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-                                      DEFAULT_CONTAINER_NAME="$({{ .Zaruba }} strToCamel "${IMAGE_NAME}")"
                                       CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-                                      CONTAINER_NAME="$(get_value_or_default "${CONTAINER_NAME}" "${DEFAULT_CONTAINER_NAME}")"
-                                      
                                       SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                      SERVICE_NAME="$(get_value_or_default "${SERVICE_NAME}" "${CONTAINER_NAME}")"
-                                      
-                                      PASCAL_SERVICE_NAME="$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")"
-                                      KEBAB_SERVICE_NAME="$({{ .Zaruba }} strToKebab "${SERVICE_NAME}")"
-                                      
-                                      SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-                                      if [ "$({{ .Zaruba}} isValidMap "$SERVICE_ENVS")" -eq 0 ]
-                                      then
-                                        echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_ENVS} is not a valid map{{ $d.Normal }}"
-                                        exit 1
-                                      fi 
-                                      
                                       SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-                                      if [ "$({{ .Zaruba}} isValidList "$SERVICE_PORTS")" -eq 0 ]
-                                      then
-                                        echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
-                                        exit 1
-                                      fi
-                                      
+                                      SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
                                       DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-                                      if [ "$({{ .Zaruba}} isValidList "$DEPENDENCIES")" -eq 0 ]
-                                      then
-                                        echo "{{ $d.Red }}{{ $d.Bold }}${SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
-                                        exit 1
-                                      fi
                                       
-                                      DESTINATION="./zaruba-task"
-                                      TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
-                                      if [ -f "${TASK_FILE_NAME}" ]
-                                      then
-                                        echo "{{ $d.Red }}{{ $d.Bold }}file already exist: ${TASK_FILE_NAME}{{ $d.Normal }}"
-                                        exit 1
-                                      fi
-                                      
-                                      REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
-                                        "zarubaImageName" "${IMAGE_NAME}" \
-                                        "zarubaContainerName" "${CONTAINER_NAME}" \
-                                        "zarubaServiceName" "${SERVICE_NAME}" \
-                                        "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
-                                      )
-                                      
-                                      {{ .Zaruba }} generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "${REPLACEMENT_MAP}"
-                                      
-                                      . ${ZARUBA_HOME}/scripts/bash/register_task_file.sh
-                                      register_task_file "${TASK_FILE_NAME}" "${SERVICE_NAME}"
-                                      
-                                      {{ .Zaruba }} addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
-                                      {{ .Zaruba }} setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
-                                      
-                                      if [ "$({{ .Zaruba }} getListLength "${SERVICE_PORTS}")" -gt 0 ]
-                                      then
-                                        PORT_CONFIG_VALUE="$({{ .Zaruba }} join "${SERVICE_PORTS}" )"
-                                        PORT_CONFIG="$({{ .Zaruba }} setMapElement "{}" "ports" "$PORT_CONFIG_VALUE" )"
-                                        {{ .Zaruba }} setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
-                                      fi
+                                      . "${ZARUBA_HOME}/scripts/bash/generate_docker_task.sh"
+                                      generate_docker_task \
+                                        "${TEMPLATE_LOCATION}" \
+                                        "${IMAGE_NAME}" \
+                                        "${CONTAINER_NAME}" \
+                                        "${SERVICE_NAME}" \
+                                        "${SERVICE_PORTS}" \
+                                        "${SERVICE_ENVS}" \
+                                        "${DEPENDENCIES}"
                                       
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"

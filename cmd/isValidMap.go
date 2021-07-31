@@ -10,7 +10,7 @@ import (
 
 var isValidMapCmd = &cobra.Command{
 	Use:   "isValidMap <value>",
-	Short: "Check whether valud is valid JSON string map",
+	Short: "Check whether value is valid JSON map or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

@@ -10,7 +10,7 @@ import (
 
 var mergeMapCmd = &cobra.Command{
 	Use:   "mergeMap <map> <otherMaps...>",
-	Short: "Merge JSON string maps",
+	Short: "Merge JSON maps",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

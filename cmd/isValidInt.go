@@ -10,7 +10,7 @@ import (
 
 var isValidIntCmd = &cobra.Command{
 	Use:   "isValidInt <value>",
-	Short: "Check whether valud is valid JSON string list",
+	Short: "Check whether value is valid int or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()

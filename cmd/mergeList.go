@@ -10,7 +10,7 @@ import (
 
 var mergeListCmd = &cobra.Command{
 	Use:   "mergeList <list> <otherList...>",
-	Short: "Merge JSON string lists",
+	Short: "Merge JSON lists",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
