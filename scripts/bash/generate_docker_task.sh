@@ -20,6 +20,13 @@ generate_docker_task() {
     _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")"
     _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${_SERVICE_NAME}")"
 
+    _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
+    if [ "${_TASK_EXIST}" -eq 1 ]
+    then
+        echo "Docker task already exist: run${_PASCAL_SERVICE_NAME}"
+        return
+    fi
+
     if [ "$("${ZARUBA_HOME}/zaruba" isValidMap "${_SERVICE_ENVS}")" -eq 0 ]
     then
         echo "{{ $d.Red }}{{ $d.Bold }}${_SERVICE_ENVS} is not a valid map{{ $d.Normal }}"

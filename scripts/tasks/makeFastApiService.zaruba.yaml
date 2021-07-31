@@ -8,12 +8,18 @@ tasks:
       - core.showAdv
     inputs:
       - generatorFastApiServiceName
-      - generatorFastApiCreateTask
     configRef: generatorFastApi
     config:
       start: |
         {{- $d := .Decoration -}}
-        {{ .GetConfig "createServiceScript" }}
+        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_service.sh
+        generate_fast_api_service \
+          "${SERVICE_TEMPLATE_LOCATION}" \
+          "${TASK_TEMPLATE_LOCATION}" \
+          "${SERVICE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API service created: ${SERVICE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"

@@ -9,7 +9,6 @@ includes:
   - ./inputs/dockerEnv.zaruba.yaml
   - ./inputs/generatorDockerContainerName.zaruba.yaml
   - ./inputs/generatorDockerImageName.zaruba.yaml
-  - ./inputs/generatorFastApiCreateTask.zaruba.yaml
   - ./inputs/generatorFastApiCrudEntity.zaruba.yaml
   - ./inputs/generatorFastApiCrudFields.zaruba.yaml
   - ./inputs/generatorFastApiEventName.zaruba.yaml

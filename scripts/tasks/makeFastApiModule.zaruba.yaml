@@ -5,7 +5,6 @@ tasks:
     description: Make FastAPI module
     inputs:
       - generatorFastApiServiceName
-      - generatorFastApiCreateTask
       - generatorFastApiModuleName
     extend: core.runCoreScript
     dependencies:
@@ -14,7 +13,18 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        {{ .GetConfig "createModuleScript" }}
+        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_module.sh
+        generate_fast_api_module \
+          "${MODULE_TEMPLATE_LOCATION}" \
+          "${SERVICE_TEMPLATE_LOCATION}" \
+          "${TASK_TEMPLATE_LOCATION}" \
+          "${SERVICE_NAME}" \
+          "${MODULE_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"

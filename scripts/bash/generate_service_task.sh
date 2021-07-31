@@ -29,6 +29,13 @@ generate_service_task() {
     _SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${_SERVICE_NAME}")"
     _UPPER_SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToUpper "${_SNAKE_SERVICE_NAME}")"
 
+    _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
+    if [ "${_TASK_EXIST}" -eq 1 ]
+    then
+        echo "Service task already exist: run${_PASCAL_SERVICE_NAME}"
+        return
+    fi
+
     if [ "$("${ZARUBA_HOME}/zaruba" isValidMap "${_SERVICE_ENVS}")" -eq 0 ]
     then
         echo "${_SERVICE_ENVS} is not a valid map"

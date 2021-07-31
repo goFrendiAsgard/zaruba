@@ -5,7 +5,6 @@ tasks:
     description: Make FastAPI Route
     inputs:
       - generatorFastApiServiceName
-      - generatorFastApiCreateTask
       - generatorFastApiModuleName
       - generatorFastApiRpcName
     extend: core.runCoreScript
@@ -13,43 +12,25 @@ tasks:
       - core.showAdv
     configRef: generatorFastApi
     config:
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule'
       rpcName: '{{ .GetValue "generatorFastApiRpcName" }}'
       start: |
         {{- $d := .Decoration -}}
-        {{ .GetConfig "createModuleScript" }}
-        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-        CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
-        CAMEL_MODULE_NAME=$({{ .Zaruba }} strToCamel "${MODULE_NAME}")
         RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
-        SNAKE_RPC_NAME=$({{ .Zaruba }} strToSnake "${RPC_NAME}")
-        CAMEL_RPC_NAME=$({{ .Zaruba }} strToCamel "${RPC_NAME}")
-
-        # get controller lines
-        CONTROLLER_LINES=$({{ .Zaruba }} readLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" )
-        PATTERNS="$({{ .Zaruba}} appendToList "[]" \
-          ".*def event_controller.*" \
-        )"
-        LINE_INDEX=$({{ .Zaruba }} getLineIndex "${CONTROLLER_LINES}" "${PATTERNS}")
-
-        # inject route handler
-        HANDLE_RPC_PARTIAL=$(cat "${TEMPLATE_LOCATION}/partials/handle_rpc.py")
-        REPLACEMENT_MAP=$({{ .Zaruba }} setMapElement "{}" \
-          "zarubaRpcName" "${CAMEL_RPC_NAME}" \
-          "zaruba_rpc_name" "${SNAKE_RPC_NAME}" \
-        )
-        HANDLE_RPC_PARTIAL=$({{ .Zaruba }} strReplace "${HANDLE_RPC_PARTIAL}" "${REPLACEMENT_MAP}")
-        HANDLE_RPC_PARTIAL="$({{ .Zaruba }} strIndent "${HANDLE_RPC_PARTIAL}" "    ")"
-        CONTROLLER_LINES=$({{ .Zaruba }} insertLineAfterIndex "${CONTROLLER_LINES}" "${LINE_INDEX}" "${HANDLE_RPC_PARTIAL}" )
-
-        # save controller
-        {{ .Zaruba }} writeLines "${CAMEL_SERVICE_NAME}/${CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
-
+        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_rpc_handler.sh
+        generate_fast_api_rpc_handler \
+          "${MODULE_TEMPLATE_LOCATION}" \
+          "${SERVICE_TEMPLATE_LOCATION}" \
+          "${TASK_TEMPLATE_LOCATION}" \
+          "${SERVICE_NAME}" \
+          "${MODULE_NAME}" \
+          "${RPC_NAME}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${RPC_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
         echo "You probably need to check the following files:"
         echo "- ${SERVICE_NAME}/main.py"
         echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
-
