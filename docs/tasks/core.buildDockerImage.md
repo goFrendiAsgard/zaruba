@@ -19,7 +19,6 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                          : set -e
-                                                    alias zaruba=${ZARUBA_HOME}/zaruba
                                                     {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                          : Blank
                   afterStart                      : Blank

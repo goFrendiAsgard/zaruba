@@ -7,5 +7,6 @@ tasks:
     extend: core.runCoreScript
     config:
       start: |
+        {{ $d := .Decoration -}}
         cd ${ZARUBA_HOME}
-        show_version
+        echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"

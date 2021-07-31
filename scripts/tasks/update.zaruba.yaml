@@ -16,4 +16,4 @@ tasks:
         go build
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        show_version
+        echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"

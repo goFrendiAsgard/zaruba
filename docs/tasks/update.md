@@ -15,7 +15,6 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup            : set -e
-                                      alias zaruba=${ZARUBA_HOME}/zaruba
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank
@@ -34,7 +33,7 @@
                                       go build
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-                                      show_version
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

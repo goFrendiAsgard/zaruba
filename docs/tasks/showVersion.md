@@ -15,7 +15,6 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup            : set -e
-                                      alias zaruba=${ZARUBA_HOME}/zaruba
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank
@@ -25,8 +24,9 @@
                   finish            : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup             : Blank
-                  start             : cd ${ZARUBA_HOME}
-                                      show_version
+                  start             : {{ $d := .Decoration -}}
+                                      cd ${ZARUBA_HOME}
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

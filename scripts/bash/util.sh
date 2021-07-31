@@ -1,35 +1,3 @@
-Normal=$'\033[0m'
-Bold=$'\033[1m'
-Faint=$'\033[2m'
-Italic=$'\033[3m'
-Underline=$'\033[4m'
-BlinkSlow=$'\033[5m'
-BlinkRapid=$'\033[6m'
-Inverse=$'\033[7m'
-Conceal=$'\033[8m'
-CrossedOut=$'\033[9m'
-Black=$'\033[30m'
-Red=$'\033[31m'
-Green=$'\033[32m'
-Yellow=$'\033[33m'
-Blue=$'\033[34m'
-Magenta=$'\033[35m'
-Cyan=$'\033[36m'
-White=$'\033[37m'
-BgBlack=$'\033[40m'
-BgRed=$'\033[41m'
-BgGreen=$'\033[42m'
-BgYellow=$'\033[43m'
-BgBlue=$'\033[44m'
-BgMagenta=$'\033[45m'
-BgCyan=$'\033[46m'
-BgWhite=$'\033[47m'
-NoStyle=$'\033[0m'
-NoUnderline=$'\033[24m'
-NoInverse=$'\033[27m'
-NoColor=$'\033[39m'
-
-
 get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
@@ -51,6 +19,19 @@ get_latest_git_tag() {
     set +e
     git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags
     set "${_OLD_STATE}"
+}
+
+
+show_version() {
+    if [ -z "$(get_latest_git_tag)" ]
+    then
+        echo "Dev - $(get_latest_git_commit)"
+    elif [ "$(get_latest_git_tag_commit)" = "$(get_latest_git_commit)" ]
+    then
+        echo "$(get_latest_git_tag) - $(get_latest_git_commit)"
+    else
+        echo "Dev - $(get_latest_git_tag) - $(get_latest_git_commit)"
+    fi
 }
 
 
@@ -130,7 +111,6 @@ link_resource() {
     _DST="${2}"
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set -e
-    echo "${Yellow}Link \"${_SRC}\" into \"${_DST}\"${Normal}"
     if [ -e "${_DST}" ]
     then
         chmod 777 -R "${_DST}" && rm -Rf "${_DST}" && cp -rnT "${_SRC}" "${_DST}" && chmod 555 -R "${_DST}"
@@ -180,18 +160,3 @@ wait_port() {
         sleep 1
     done
 } 
-
-
-show_version() {
-    cd ${ZARUBA_HOME}
-    if [ -z "$(get_latest_git_tag)" ]
-    then
-        echo "Current version : Dev - $(get_latest_git_commit)"
-    elif [ "$(get_latest_git_tag_commit)" = "$(get_latest_git_commit)" ]
-    then
-        echo "${Bold}${Yellow}Current version : $(get_latest_git_tag) - $(get_latest_git_commit)${Normal}"
-    else
-        echo "${Bold}${Yellow}Current version : Dev - $(get_latest_git_commit)${Normal}"
-        echo "${Bold}${Yellow}Latest tag      : $(get_latest_git_tag)${Normal}"
-    fi
-}

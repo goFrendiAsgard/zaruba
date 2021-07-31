@@ -52,7 +52,6 @@
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   CONFIG        : RunInLocal        : true
                   _setup            : set -e
-                                      alias zaruba=${ZARUBA_HOME}/zaruba
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterCheck        : Blank
