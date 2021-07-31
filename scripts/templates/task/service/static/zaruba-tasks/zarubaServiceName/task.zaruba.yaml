@@ -1,6 +1,6 @@
 includes:
-  - ./zarubaServiceName.config.zaruba.yaml
-  - ./zarubaServiceName.env.zaruba.yaml
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
 
 inputs:
 
@@ -14,41 +14,23 @@ inputs:
     prompt: Run zarubaServiceName in local computer?
 
 tasks:
-    
-  prepareZarubaServiceName:
-    icon: 🐍
-    extend: core.preparePythonApp
-    location: zarubaServiceLocation
-    timeout: 1h
-    configRef: zarubaServiceName
-    envRef: zarubaServiceName
-
-  testZarubaServiceName:
-    icon: 🐍
-    extend: core.runShellScript
-    location: zarubaServiceLocation
-    dependencies:
-        - prepareZarubaServiceName
-    timeout: 1h
-    config:
-      start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
-    configRef: zarubaServiceName
-    envRef: zarubaServiceName
 
   runZarubaServiceName:
-    icon: 🐍
-    extend: core.startService
+    icon: 📜
+    extend: serveHttp
     location: zarubaServiceLocation
-    dependencies:
-        - prepareZarubaServiceName
     inputs:
       - zarubaServiceNameRunInLocal
     config:
-      start: zarubaStartCommand
+      start: |
+        {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n") -}}
+        {{ $port := index $ports 0 -}}
+        {{ .Zaruba }} serveStatic . {{ or $port "8080" }}
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
+    icon: 📜
     extend: core.startDockerContainer
     location: zarubaServiceLocation
     inputs:
@@ -80,7 +62,7 @@ tasks:
 
   helmInstallZarubaServiceName:
     extend: core.helmInstall
-    location: ..
+    location: ../..
     dependencies:
       - helmGenerateValueZarubaServiceName
     timeout: 1h
@@ -89,13 +71,13 @@ tasks:
 
   helmUninstallZarubaServiceName:
     extend: core.helmUninstall
-    location: ..
+    location: ../..
     timeout: 1h
     configRef: zarubaServiceNameHelm
 
   helmGenerateValueZarubaServiceName:
     extend: core.helmGenerateValue
-    location: ..
+    location: ../..
     configRefs:
       - zarubaServiceNameHelm
       - zarubaServiceNameContainer

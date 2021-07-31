@@ -17,6 +17,7 @@ tasks:
       servicePorts: '{{ .GetValue "generatorServicePorts" }}'
       serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
       dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
+      replacementMap: '{}'
       start: |
         {{- $d := .Decoration -}}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
@@ -29,6 +30,7 @@ tasks:
         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+        REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
         
         . "${ZARUBA_HOME}/scripts/bash/generate_service_task.sh"
         generate_service_task \
@@ -41,7 +43,8 @@ tasks:
           "${SERVICE_RUNENR_VERSION}" \
           "${SERVICE_PORTS}" \
           "${SERVICE_ENVS}" \
-          "${DEPENDENCIES}"
+          "${DEPENDENCIES}" \
+          "${REPLACEMENT_MAP}"
 
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"

@@ -1,89 +1,89 @@
 . ${ZARUBA_HOME}/scripts/bash/util.sh
 . ${ZARUBA_HOME}/scripts/bash/register_task_file.sh
 
-# USAGE generate_service_task <template-location> <service-location> <service-name> <image-name> <container-name> <service-start-command> <service-runner-version> <service-ports> <service-envs> <dependencies>
+# USAGE generate_service_task <template-location> <service-location> <service-name> <image-name> <container-name> <service-start-command> <service-runner-version> <service-ports> <service-envs> <dependencies> <replacement-map>
 generate_service_task() {
-    TEMPLATE_LOCATION="${1}"
-    SERVICE_LOCATION="${2}"
-    SERVICE_NAME="${3}"
-    IMAGE_NAME="${4}"
-    CONTAINER_NAME="${5}"
-    SERVICE_START_COMMAND="${6}"
-    SERVICE_RUNNER_VERSION="${7}"
-    SERVICE_PORTS="${8}"
-    SERVICE_ENVS="${9}"
-    DEPENDENCIES="${10}"
+    _TEMPLATE_LOCATION="${1}"
+    _SERVICE_LOCATION="${2}"
+    _SERVICE_NAME="${3}"
+    _IMAGE_NAME="${4}"
+    _CONTAINER_NAME="${5}"
+    _SERVICE_START_COMMAND="${6}"
+    _SERVICE_RUNNER_VERSION="${7}"
+    _SERVICE_PORTS="${8}"
+    _SERVICE_ENVS="${9}"
+    _DEPENDENCIES="${10}"
+    _REPLACEMENT_MAP="${11}"
 
-    DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" getServiceName "${SERVICE_LOCATION}")"
-    SERVICE_NAME="$(get_value_or_default "${SERVICE_NAME}" "${DEFAULT_SERVICE_NAME}")"
+    _DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" getServiceName "${_SERVICE_LOCATION}")"
+    _SERVICE_NAME="$(get_value_or_default "${_SERVICE_NAME}" "${_DEFAULT_SERVICE_NAME}")"
 
-    DEFAULT_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${SERVICE_NAME}")"
-    IMAGE_NAME="$(get_value_or_default "${IMAGE_NAME}" "${DEFAULT_IMAGE_NAME}")"
+    _DEFAULT_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${_SERVICE_NAME}")"
+    _IMAGE_NAME="$(get_value_or_default "${_IMAGE_NAME}" "${_DEFAULT_IMAGE_NAME}")"
 
-    DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" strToCamel "${SERVICE_NAME}")"
-    CONTAINER_NAME="$(get_value_or_default "${CONTAINER_NAME}" "${DEFAULT_CONTAINER_NAME}")"
+    _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" strToCamel "${_SERVICE_NAME}")"
+    _CONTAINER_NAME="$(get_value_or_default "${_CONTAINER_NAME}" "${_DEFAULT_CONTAINER_NAME}")"
 
-    PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToPascal "${SERVICE_NAME}")"
-    KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${SERVICE_NAME}")"
-    SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${SERVICE_NAME}")"
-    UPPER_SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToUpper "${SNAKE_SERVICE_NAME}")"
+    _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")"
+    _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${_SERVICE_NAME}")"
+    _SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${_SERVICE_NAME}")"
+    _UPPER_SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToUpper "${_SNAKE_SERVICE_NAME}")"
 
-    if [ "$({{ .Zaruba}} isValidMap "$SERVICE_ENVS")" -eq 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" isValidMap "${_SERVICE_ENVS}")" -eq 0 ]
     then
-        echo "${SERVICE_ENVS} is not a valid map"
+        echo "${_SERVICE_ENVS} is not a valid map"
         exit 1
     fi 
 
-    if [ "$({{ .Zaruba}} isValidList "$SERVICE_PORTS")" -eq 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_SERVICE_PORTS}")" -eq 0 ]
     then
-        echo "${SERVICE_PORTS} is not a valid port"
+        echo "${_SERVICE_PORTS} is not a valid port"
         exit 1
     fi
 
-    if [ "$({{ .Zaruba}} isValidList "$DEPENDENCIES")" -eq 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_DEPENDENCIES}")" -eq 0 ]
     then
-        echo "${SERVICE_PORTS} is not a valid port"
+        echo "${_SERVICE_PORTS} is not a valid port"
         exit 1
     fi
 
-    DESTINATION="./zaruba-task"
-    TASK_FILE_NAME="${DESTINATION}/${SERVICE_NAME}.zaruba.yaml"
-    if [ -f "${TASK_FILE_NAME}" ]
+    _DESTINATION="."
+    _TASK_FILE_NAME="${_DESTINATION}/zaruba-tasks/${_SERVICE_NAME}/task.zaruba.yaml"
+    if [ -f "${_TASK_FILE_NAME}" ]
     then
-        echo "file already exist: ${TASK_FILE_NAME}"
+        echo "file already exist: ${_TASK_FILE_NAME}"
         exit 1
     fi
 
-    DEFAULT_PORT_LIST="$("${ZARUBA_HOME}/zaruba" getPortConfig "${SERVICE_LOCATION}")"
-    DEFAULT_PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" join "${DEFAULT_PORT_LIST}" "\n")"
+    _DEFAULT_PORT_LIST="$("${ZARUBA_HOME}/zaruba" getPortConfig "${_SERVICE_LOCATION}")"
+    _DEFAULT_PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" join "${_DEFAULT_PORT_LIST}" "\n")"
 
-    REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
-        "zarubaImageName" "${IMAGE_NAME}" \
-        "zarubaContainerName" "${CONTAINER_NAME}" \
-        "zarubaServiceName" "${SERVICE_NAME}" \
-        "ZarubaServiceName" "${PASCAL_SERVICE_NAME}" \
-        "zaruba-service-name" "${KEBAB_SERVICE_NAME}" \
-        "ZARUBA_SERVICE_NAME" "${UPPER_SNAKE_SERVICE_NAME}" \
-        "zarubaStartCommand" "${SERVICE_START_COMMAND}" \
-        "zarubaServiceLocation" "$("${ZARUBA_HOME}/zaruba" getRelativePath "${DESTINATION}" "${SERVICE_LOCATION}")" \
-        "zarubaRunnerVersion" "${SERVICE_RUNNER_VERSION}" \
-        "zarubaDefaultPortConfig" "${DEFAULT_PORT_CONFIG}" \
+    _REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "${_REPLACEMENT_MAP}" \
+        "zarubaImageName" "${_IMAGE_NAME}" \
+        "zarubaContainerName" "${_CONTAINER_NAME}" \
+        "zarubaServiceName" "${_SERVICE_NAME}" \
+        "ZarubaServiceName" "${_PASCAL_SERVICE_NAME}" \
+        "zaruba-service-name" "${_KEBAB_SERVICE_NAME}" \
+        "ZARUBA_SERVICE_NAME" "${_UPPER_SNAKE_SERVICE_NAME}" \
+        "zarubaStartCommand" "${_SERVICE_START_COMMAND}" \
+        "zarubaServiceLocation" "$("${ZARUBA_HOME}/zaruba" getRelativePath "$(dirname "${_TASK_FILE_NAME}")" "${_SERVICE_LOCATION}")" \
+        "zarubaRunnerVersion" "${_SERVICE_RUNNER_VERSION}" \
+        "zarubaDefaultPortConfig" "${_DEFAULT_PORT_CONFIG}" \
     ) 
 
-    "${ZARUBA_HOME}/zaruba" generate "${TEMPLATE_LOCATION}" "${DESTINATION}" "${REPLACEMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
 
-    . ${ZARUBA_HOME}/scripts/bash/register_task_file.sh
-    register_task_file "${TASK_FILE_NAME}" "${SERVICE_NAME}"
+    register_task_file "${_TASK_FILE_NAME}" "${_SERVICE_NAME}"
 
-    "${ZARUBA_HOME}/zaruba" addTaskDependency ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${DEPENDENCIES}"
-    "${ZARUBA_HOME}/zaruba" setTaskEnv ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${SERVICE_ENVS}"
+    "${ZARUBA_HOME}/zaruba" addTaskDependency ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_DEPENDENCIES}"
+    "${ZARUBA_HOME}/zaruba" setTaskEnv ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_SERVICE_ENVS}"
 
             
-    if [ "$("${ZARUBA_HOME}/zaruba" getListLength "${SERVICE_PORTS}")" -gt 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" getListLength "${_SERVICE_PORTS}")" -gt 0 ]
     then
-        PORT_CONFIG_VALUE="$("${ZARUBA_HOME}/zaruba" join "${SERVICE_PORTS}" )"
-        PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" setMapElement "{}" "ports" "$PORT_CONFIG_VALUE" )"
-        "${ZARUBA_HOME}/zaruba" setTaskConfig ./main.zaruba.yaml "run${PASCAL_SERVICE_NAME}" "${PORT_CONFIG}"
+        _PORT_CONFIG_VALUE="$("${ZARUBA_HOME}/zaruba" join "${_SERVICE_PORTS}" )"
+        _PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" setMapElement "{}" "ports" "$_PORT_CONFIG_VALUE" )"
+        "${ZARUBA_HOME}/zaruba" setTaskConfig ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_PORT_CONFIG}"
     fi
 
 }

@@ -1,6 +1,6 @@
 includes:
-  - ./zarubaServiceName.config.zaruba.yaml
-  - ./zarubaServiceName.env.zaruba.yaml
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
 
 inputs:
 
@@ -16,7 +16,7 @@ inputs:
 tasks:
 
   runZarubaServiceName:
-    icon: 🍝
+    icon: 🍃
     extend: core.startDockerContainer
     dependencies:
       - pullZarubaServiceNameImage
@@ -24,7 +24,6 @@ tasks:
     inputs:
       - zarubaServiceNameRunInLocal
     config:
-      afterCheck: sleep 15
       runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
     configRef: zarubaServiceName
     envRef: zarubaServiceName

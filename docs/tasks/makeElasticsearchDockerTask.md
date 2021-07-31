@@ -50,6 +50,7 @@
                   finish            : Blank
                   imageName         : {{ .GetValue "generatorDockerImageName" }}
                   includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  replacementMap    : {}
                   serviceEnvs       : {{ .GetValue "generatorServiceEnvs" }}
                   serviceName       : {{ .GetValue "generatorServiceName" }}
                   servicePorts      : {{ .GetValue "generatorServicePorts" }}
@@ -62,6 +63,7 @@
                                       SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
                                       SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
                                       DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+                                      REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                                       
                                       . "${ZARUBA_HOME}/scripts/bash/generate_docker_task.sh"
                                       generate_docker_task \
@@ -71,7 +73,8 @@
                                         "${SERVICE_NAME}" \
                                         "${SERVICE_PORTS}" \
                                         "${SERVICE_ENVS}" \
-                                        "${DEPENDENCIES}"
+                                        "${DEPENDENCIES}" \
+                                        "${REPLACEMENT_MAP}"
                                       
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"

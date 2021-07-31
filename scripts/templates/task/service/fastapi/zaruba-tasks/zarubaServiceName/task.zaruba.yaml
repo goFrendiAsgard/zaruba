@@ -1,6 +1,6 @@
 includes:
-  - ./zarubaServiceName.config.zaruba.yaml
-  - ./zarubaServiceName.env.zaruba.yaml
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
 
 inputs:
 
@@ -15,22 +15,45 @@ inputs:
 
 tasks:
 
-  runZarubaServiceName:
-    icon: 📜
-    extend: serveHttp
+  prepareZarubaServiceName:
+    icon: 🐍
+    extend: core.runShellScript
     location: zarubaServiceLocation
+    timeout: 1h
+    config:
+      start: pipenv install
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  testZarubaServiceName:
+    icon: 🐍
+    extend: core.runShellScript
+    location: zarubaServiceLocation
+    dependencies:
+        - prepareZarubaServiceName
+    timeout: 1h
+    config:
+      start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  runZarubaServiceName:
+    icon: 🐍
+    extend: core.startService
+    location: zarubaServiceLocation
+    dependencies:
+        - prepareZarubaServiceName
     inputs:
       - zarubaServiceNameRunInLocal
     config:
       start: |
-        {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n") -}}
+        {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
         {{ $port := index $ports 0 -}}
-        {{ .Zaruba }} serveStatic . {{ or $port "8080" }}
+        pipenv run uvicorn main:app --reload --port={{ or $port "8080" }}
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
-    icon: 📜
     extend: core.startDockerContainer
     location: zarubaServiceLocation
     inputs:
@@ -45,7 +68,7 @@ tasks:
     location: zarubaServiceLocation
     timeout: 1h
     configRef: zarubaServiceNameContainer
-
+  
   pushZarubaServiceNameImage:
     extend: core.pushDockerImage
     location: zarubaServiceLocation
@@ -58,11 +81,11 @@ tasks:
 
   removeZarubaServiceNameContainer:
     extend: core.stopDockerContainer
-    configRef: zarubaServiceNameContainer 
+    configRef: zarubaServiceNameContainer
 
   helmInstallZarubaServiceName:
     extend: core.helmInstall
-    location: ..
+    location: ../..
     dependencies:
       - helmGenerateValueZarubaServiceName
     timeout: 1h
@@ -71,13 +94,13 @@ tasks:
 
   helmUninstallZarubaServiceName:
     extend: core.helmUninstall
-    location: ..
+    location: ../..
     timeout: 1h
     configRef: zarubaServiceNameHelm
 
   helmGenerateValueZarubaServiceName:
     extend: core.helmGenerateValue
-    location: ..
+    location: ../..
     configRefs:
       - zarubaServiceNameHelm
       - zarubaServiceNameContainer
