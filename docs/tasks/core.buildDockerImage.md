@@ -54,7 +54,11 @@
                   start                           : set -e
                                                     {{ $d := .Decoration -}}
                                                     {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-                                                    should_be_file "$(pwd)/Dockerfile" "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+                                                    if [ ! -f "$(pwd)/Dockerfile" ]
+                                                    then
+                                                      echo "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+                                                      exit 1
+                                                    fi
                                                     IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$({{ .Zaruba }} getServiceName "$(pwd)"){{ end }}"
                                                     COMMIT="$(get_latest_git_commit)"
                                                     if [ ! -z "${COMMIT}" ]

@@ -43,7 +43,10 @@
                                               MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
                                               SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                               MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
-                                              should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
+                                              if [! -d "./${SERVICE_NAME}" ]
+                                              then
+                                                echo "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
+                                              fi
                                               echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API module: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
                                               PASCAL_SERVICE_NAME=$({{ .Zaruba }} strToPascal "${SERVICE_NAME}")
                                               CAMEL_SERVICE_NAME=$({{ .Zaruba }} strToCamel "${SERVICE_NAME}")

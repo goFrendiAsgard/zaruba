@@ -5,7 +5,6 @@
   DESCRIPTION   : Initiate empty zaruba project.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isNotProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -27,6 +26,11 @@
                   includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
+                                      if [ -f "main.zaruba.yaml" ]
+                                      then
+                                        echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
+                                        exit 1
+                                      fi
                                       git init
                                       cp -rT "${ZARUBA_HOME}/scripts/templates/project/" .
                                       echo 🎉🎉🎉

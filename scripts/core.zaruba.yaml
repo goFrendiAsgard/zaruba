@@ -53,8 +53,6 @@ includes:
   - ./tasks/core.helmInstall.zaruba.yaml
   - ./tasks/core.helmRepoUpdate.zaruba.yaml
   - ./tasks/core.helmUninstall.zaruba.yaml
-  - ./tasks/core.isNotContainHelmCharts.zaruba.yaml
-  - ./tasks/core.isNotProject.zaruba.yaml
   - ./tasks/core.isProject.zaruba.yaml
   - ./tasks/core.isValidSubrepos.zaruba.yaml
   - ./tasks/core.cassandra.execCql.zaruba.yaml

@@ -13,7 +13,15 @@ tasks:
           PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
           URL="{{ $this.GetValue "subrepo" $name "url" }}"
           NAME="{{ $name }}"
-          should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
-          should_not_be_empty "${PREFIX}" "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
+          if [ -z "${URL}" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
+            exit 1
+          fi
+          if [ -z "${PREFIX}" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
+            exit 1
+          fi
         {{ end }}
         echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"

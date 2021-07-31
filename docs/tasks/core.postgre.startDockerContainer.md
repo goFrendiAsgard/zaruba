@@ -85,10 +85,18 @@
                                                 {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
                   _setup.containerName        : {{ $d := .Decoration -}}
                                                 CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                                should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+                                                if [ -z "${CONTAINER_NAME}" ]
+                                                then
+                                                  echo "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+                                                  exit 1
+                                                fi
                   _setup.imageName            : {{ $d := .Decoration -}}
                                                 IMAGE_NAME="{{ .GetConfig "imageName" }}"
-                                                should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+                                                if [ -z "${CONTAINER_NAME}" ]
+                                                then
+                                                  echo "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+                                                  exit 1
+                                                fi
                   _start                      : {{ $d := .Decoration -}}
                                                 {{ $rebuild := .GetConfig "rebuild" -}}
                                                 {{ if .IsTrue $rebuild }}{{ .GetConfig "_start.rebuildContainer" }}{{ end }}

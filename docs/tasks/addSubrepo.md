@@ -40,7 +40,11 @@
                   start             : set -e
                                       {{ $d := .Decoration -}}
                                       URL="{{ .GetValue "subrepoUrl" }}"
-                                      should_not_be_empty "${URL}" "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
+                                      if [ -z "${URL}" ]
+                                      then
+                                        echo "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
+                                        exit 1
+                                      fi
                                       {{ if .GetValue "subrepoPrefix" }}
                                         PREFIX="{{ .GetValue "subrepoPrefix" }}"
                                       {{ else }}

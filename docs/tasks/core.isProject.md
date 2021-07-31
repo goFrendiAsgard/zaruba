@@ -25,7 +25,10 @@
                   includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
-                                      should_be_file "main.zaruba.yaml" "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+                                      if [ ! -f "main.zaruba.yaml" ]
+                                      then
+                                        "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+                                      fi
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

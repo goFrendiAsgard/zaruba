@@ -182,86 +182,6 @@ wait_port() {
 } 
 
 
-# USAGE: should_be_dir <value> <error-message>
-should_be_dir() {
-    if [ ! -d "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_be_file <value> <error-message>
-should_be_file() {
-    if [ ! -f "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_be_exist <value> <error-message>
-should_be_exist() {
-    if [ ! -e "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_be_empty <value> <error-message>
-should_be_empty() {
-    if [ ! -z "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_dir <value> <error-message>
-should_not_be_dir() {
-    if [ -d "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_file <value> <error-message>
-should_not_be_file() {
-    if [ -f "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_exist <value> <error-message>
-should_not_be_exist() {
-    if [ -e "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_empty <value> <error-message>
-should_not_be_empty() {
-    if [ -z "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
 show_version() {
     cd ${ZARUBA_HOME}
     if [ -z "$(get_latest_git_tag)" ]
@@ -274,26 +194,4 @@ show_version() {
         echo "${Bold}${Yellow}Current version : Dev - $(get_latest_git_commit)${Normal}"
         echo "${Bold}${Yellow}Latest tag      : $(get_latest_git_tag)${Normal}"
     fi
-}
-
-
-init_bootstrap() {
-    _CURRENT_USER=$(get_current_user)
-    _BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-    if [ ! -f "${_BOOTSTRAP_SCRIPT}" ]
-    then
-        touch "${_BOOTSTRAP_SCRIPT}"
-        chmod 755 "${_BOOTSTRAP_SCRIPT}"
-        chown "${_CURRENT_USER}" "${_BOOTSTRAP_SCRIPT}"
-    fi
-    . "${_BOOTSTRAP_SCRIPT}"
-    # also include .local/bin
-    if echo "$PATH" | grep -Fqe "${HOME}/.local/bin"
-    then
-        echo "${Faint}${HOME}/.local/bin is already in the PATH${Normal}"
-    else
-        TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")"
-        echo "${TEMPLATE_CONTENT}" >> "${_BOOTSTRAP_SCRIPT}"
-        . "${_BOOTSTRAP_SCRIPT}"
-    fi    
 }
