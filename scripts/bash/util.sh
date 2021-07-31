@@ -29,47 +29,6 @@ NoUnderline=$'\033[24m'
 NoInverse=$'\033[27m'
 NoColor=$'\033[39m'
 
-# USAGE create_docker_task <template_location> <image_name> <container_name> <service_name>
-create_docker_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_docker_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}"
-}
-
-
-# USAGE create_fast_crud <template_location> <service_name> <module_name> <entity_name> <field_names>
-create_fast_crud() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_crud.py" "${1}" "${2}" "${3}" "${4}" "${5}"
-}
-
-
-# USAGE create_fast_event_handler <template_location> <service_name> <module_name> <event_name>
-create_fast_event_handler() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_event_handler.py" "${1}" "${2}" "${3}" "${4}"
-}
-
-
-# USAGE create_fast_module <template_location> <service_name> <module_name>
-create_fast_module() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_module.py" "${1}" "${2}" "${3}"
-}
-
-
-# USAGE create_fast_route <template_location> <service_name> <module_name> <http_method> <url>
-create_fast_route() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_route.py" "${1}" "${2}" "${3}" "${4}" "${5}"
-}
-
-
-# USAGE create_fast_rpc_handler <template_location> <service_name> <module_name> <event_name>
-create_fast_rpc_handler() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_rpc_handler.py" "${1}" "${2}" "${3}" "${4}"
-}
-
-
-# USAGE create_fast_service <template_location> <service_name>
-create_fast_service() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_service.py" "${1}" "${2}"
-}
-
 
 get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
