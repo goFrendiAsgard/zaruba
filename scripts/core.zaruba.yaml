@@ -2,7 +2,6 @@ includes:
 
   - ./configs/coreDocker.zaruba.yaml
   - ./configs/coreNvm.zaruba.yaml
-  - ./configs/coreTaskGenerator.zaruba.yaml
   - ./configs/generatorFastApi.zaruba.yaml
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml

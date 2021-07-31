@@ -1,3 +1,13 @@
+# USAGE get_value_or_default <value> <default>
+get_value_or_default() {
+    if [ -z "${1}" ]
+    then
+        echo "${2}"
+    else
+        echo "${1}"
+    fi
+}
+
 get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
@@ -20,20 +30,6 @@ get_latest_git_tag() {
     git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags
     set "${_OLD_STATE}"
 }
-
-
-show_version() {
-    if [ -z "$(get_latest_git_tag)" ]
-    then
-        echo "Dev - $(get_latest_git_commit)"
-    elif [ "$(get_latest_git_tag_commit)" = "$(get_latest_git_commit)" ]
-    then
-        echo "$(get_latest_git_tag) - $(get_latest_git_commit)"
-    else
-        echo "Dev - $(get_latest_git_tag) - $(get_latest_git_commit)"
-    fi
-}
-
 
 # USAGE: git_init_subrepo <name> <prefix> <url> <branch>
 git_init_subrepo() {

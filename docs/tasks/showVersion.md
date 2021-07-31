@@ -25,7 +25,8 @@
                   includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
-                                      cd ${ZARUBA_HOME}
+                                      cd "${ZARUBA_HOME}"
+                                      . "${ZARUBA_HOME}/scripts/bash/show_version.sh"
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

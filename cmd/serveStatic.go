@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/labstack/gommon/log"
+	"github.com/labstack/echo/middleware"
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 )
@@ -31,7 +31,7 @@ var serveStaticCmd = &cobra.Command{
 			}
 		}
 		e := echo.New()
-		e.Logger.SetLevel(log.DEBUG)
+		e.Use(middleware.Logger())
 		e.Static("/", absLocation)
 		e.Start(fmt.Sprintf(":%d", port))
 	},

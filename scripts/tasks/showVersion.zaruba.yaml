@@ -8,5 +8,6 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        cd ${ZARUBA_HOME}
+        cd "${ZARUBA_HOME}"
+        . "${ZARUBA_HOME}/scripts/bash/show_version.sh"
         echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"
