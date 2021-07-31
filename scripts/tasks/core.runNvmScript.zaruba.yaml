@@ -7,12 +7,10 @@ tasks:
     extend: core.runShellScript
     configRefs:
       - coreNvm
-      - includeBootstrapScript
       - includeUtilScript
     config:
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
         {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
       start: "echo hello world"

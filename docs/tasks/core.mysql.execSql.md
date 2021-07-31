@@ -15,7 +15,6 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                      : set -e
                                                 alias zaruba=${ZARUBA_HOME}/zaruba
-                                                {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                      : {{ $localTmpFile := printf "%s.tmp.sql" .GetNewUUID -}}
                                                 {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
@@ -39,16 +38,6 @@
                   helmEnv                     : {{ .GetValue "helmEnv" }}
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : false
-                  includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
-                                                then
-                                                    . "${HOME}/.profile"
-                                                fi
-                                                if [ -f "${HOME}/.bashrc" ]
-                                                then
-                                                    . "${HOME}/.bashrc"
-                                                fi
-                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                                . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
                                                   DOCKER_IMAGE_PREFIX=""

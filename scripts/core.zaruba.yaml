@@ -4,7 +4,6 @@ includes:
   - ./configs/coreNvm.zaruba.yaml
   - ./configs/coreTaskGenerator.zaruba.yaml
   - ./configs/generatorFastApi.zaruba.yaml
-  - ./configs/includeBootstrapScript.zaruba.yaml
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
 
@@ -49,7 +48,6 @@ includes:
   - ./tasks/addSubrepo.zaruba.yaml
   - ./tasks/clearPreviousValues.zaruba.yaml
   - ./tasks/clearLog.zaruba.yaml
-  - ./tasks/core.bootstrap.zaruba.yaml
   - ./tasks/core.buildDockerImage.zaruba.yaml
   - ./tasks/core.helmGenerateValue.zaruba.yaml
   - ./tasks/core.helmInstall.zaruba.yaml

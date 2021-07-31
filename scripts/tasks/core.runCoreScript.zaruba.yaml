@@ -8,16 +8,12 @@ tasks:
         start : Start script
     private: true
     extend: core.runShellScript
-    dependencies:
-      - core.bootstrap
     configRefs:
-      - includeBootstrapScript
       - includeUtilScript
     config:
       _setup: |
         set -e
         alias zaruba=${ZARUBA_HOME}/zaruba
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
       start: echo "No script defined"
 

@@ -15,7 +15,6 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup                  : set -e
-                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                                             {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
                   _start                  : Blank
@@ -25,16 +24,6 @@
                   cmdArg                  : -c
                   compileTypeScript       : false
                   finish                  : Blank
-                  includeBootstrapScript  : if [ -f "${HOME}/.profile" ]
-                                            then
-                                                . "${HOME}/.profile"
-                                            fi
-                                            if [ -f "${HOME}/.bashrc" ]
-                                            then
-                                                . "${HOME}/.bashrc"
-                                            fi
-                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   installTypeScript       : false
                   nodeVersion             : node

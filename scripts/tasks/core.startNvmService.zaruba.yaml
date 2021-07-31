@@ -19,7 +19,6 @@ tasks:
     config:
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
         {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
 

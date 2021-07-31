@@ -40,7 +40,6 @@
                     VALIDATION  : ^[a-zA-Z0-9_\-/\{\}]+$
   CONFIG        : _setup                  : set -e
                                             alias zaruba=${ZARUBA_HOME}/zaruba
-                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                  : Blank
                   afterStart              : Blank
@@ -118,16 +117,6 @@
                   createTask              : {{ .GetValue "generatorFastApiCreateTask" }}
                   finish                  : Blank
                   httpMethod              : {{ .GetValue "generatorFastApiHttpMethod" }}
-                  includeBootstrapScript  : if [ -f "${HOME}/.profile" ]
-                                            then
-                                                . "${HOME}/.profile"
-                                            fi
-                                            if [ -f "${HOME}/.bashrc" ]
-                                            then
-                                                . "${HOME}/.bashrc"
-                                            fi
-                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule

@@ -6,13 +6,11 @@ tasks:
     private: true
     extend: core.runNvmScript
     configRefs:
-      - includeBootstrapScript
       - includeUtilScript
       - coreNvm
     config:
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
         {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
       _start: |

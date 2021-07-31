@@ -80,26 +80,6 @@ git_save() {
 }
 
 
-# USAGE: inject_bootstrap <bashrc-path>
-inject_bootstrap() {
-    if [ -f "${1}" ]
-    then
-        if cat "${1}" | grep -Fqe "${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-        then
-            echo -e "${Faint}Bootstrap script ${ZARUBA_HOME}/scripts/bash/bootstrap.sh is already loaded in ${1}${Normal}"
-        else
-            echo "" >> "${1}"
-            echo "# Load zaruba's bootstrap" >> "${1}"
-            echo "if [ -x "${ZARUBA_HOME}/scripts/bash/bootstrap.sh" ]" >> "${1}"
-            echo 'then' >> "${1}"
-            echo "    . ${ZARUBA_HOME}/scripts/bash/bootstrap.sh" >> "${1}"
-            echo 'fi' >> "${1}"
-            echo "" >> "${1}"
-        fi
-    fi 
-}
-
-
 # USAGE: inspect_docker <object> <format> <container-name>
 inspect_docker() {
     _OBJECT="${1}"
@@ -293,19 +273,6 @@ show_version() {
     else
         echo "${Bold}${Yellow}Current version : Dev - $(get_latest_git_commit)${Normal}"
         echo "${Bold}${Yellow}Latest tag      : $(get_latest_git_tag)${Normal}"
-    fi
-}
-
-
-get_current_user() {
-    if [ ! -z "$SUDO_USER" ]
-    then
-        echo "$SUDO_USER"
-    elif [ ! -z "$USER" ]
-    then
-        echo "$USER"
-    else
-        id -u -n
     fi
 }
 

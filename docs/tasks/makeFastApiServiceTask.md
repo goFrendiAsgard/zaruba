@@ -54,7 +54,6 @@
                     VALIDATION  : ^\[.*\]$
   CONFIG        : _setup                       : set -e
                                                  alias zaruba=${ZARUBA_HOME}/zaruba
-                                                 {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                                  {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                       : Blank
                   afterStart                   : Blank
@@ -65,16 +64,6 @@
                   dependencies                 : {{ .GetValue "generatorTaskDependencies" }}
                   finish                       : Blank
                   imageName                    : {{ .GetValue "generatorServiceDockerImageName" }}
-                  includeBootstrapScript       : if [ -f "${HOME}/.profile" ]
-                                                 then
-                                                     . "${HOME}/.profile"
-                                                 fi
-                                                 if [ -f "${HOME}/.bashrc" ]
-                                                 then
-                                                     . "${HOME}/.bashrc"
-                                                 fi
-                                                 BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                                 . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript            : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   serviceEnvs                  : {{ .GetValue "generatorServiceEnvs" }}
                   serviceLocation              : {{ .GetValue "generatorServiceLocation" }}

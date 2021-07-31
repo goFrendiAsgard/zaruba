@@ -114,7 +114,6 @@
                                                 done
                                                 echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _setup                      : set -e
-                                                {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
                                                 {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
                                                 {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
@@ -214,16 +213,6 @@
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : true
                   imageTag                    : Blank
-                  includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
-                                                then
-                                                    . "${HOME}/.profile"
-                                                fi
-                                                if [ -f "${HOME}/.bashrc" ]
-                                                then
-                                                    . "${HOME}/.bashrc"
-                                                fi
-                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                                . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
                                                   DOCKER_IMAGE_PREFIX=""

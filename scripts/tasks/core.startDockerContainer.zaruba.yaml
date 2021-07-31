@@ -63,7 +63,6 @@ tasks:
         should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
         {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
         {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 

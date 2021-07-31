@@ -32,41 +32,30 @@
                     OPTIONS     : [ 8080, 8000, 3000, 5000 ]
                     DEFAULT     : 8080
                     VALIDATION  : ^[0-9]+$
-  CONFIG        : RunInLocal             : true
-                  _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
-                                           {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                 : Blank
-                  afterCheck             : Blank
-                  afterStart             : Blank
-                  beforeCheck            : Blank
-                  beforeStart            : Blank
-                  check                  : {{- $d := .Decoration -}}
-                                           {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
-                                             {{ if ne $port "" -}}
-                                               echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                               wait_port "localhost" {{ $port }}
-                                               echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
-                                             {{ end -}}
-                                           {{ end -}}
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  finish                 : Blank
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  ports                  : {{ .GetValue "serverHttpPort" }}
-                  setup                  : Blank
-                  start                  : Blank
+  CONFIG        : RunInLocal        : true
+                  _setup            : set -e
+                                      alias zaruba=${ZARUBA_HOME}/zaruba
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : Blank
+                  afterCheck        : Blank
+                  afterStart        : Blank
+                  beforeCheck       : Blank
+                  beforeStart       : Blank
+                  check             : {{- $d := .Decoration -}}
+                                      {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                        {{ if ne $port "" -}}
+                                          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
+                                          wait_port "localhost" {{ $port }}
+                                          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+                                        {{ end -}}
+                                      {{ end -}}
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  finish            : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  ports             : {{ .GetValue "serverHttpPort" }}
+                  setup             : Blank
+                  start             : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

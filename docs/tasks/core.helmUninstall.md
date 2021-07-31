@@ -13,33 +13,22 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                 : set -e
-                                           {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                  _start                 : Blank
-                  afterStart             : Blank
-                  beforeStart            : Blank
-                  chart                  : Blank
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  finish                 : Blank
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  kubeContext            : {{ .GetValue "kubeContext" }}
-                  releaseName            : Blank
-                  setup                  : Blank
-                  start                  : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
-                                           then
-                                             kubectl config set-context "{{ .GetConfig "kubeContext" }}"
-                                           fi
-                                           helm uninstall "{{ .GetConfig "releaseName" }}"
+  CONFIG        : _setup      : Blank
+                  _start      : Blank
+                  afterStart  : Blank
+                  beforeStart : Blank
+                  chart       : Blank
+                  cmd         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg      : -c
+                  finish      : Blank
+                  kubeContext : {{ .GetValue "kubeContext" }}
+                  releaseName : Blank
+                  setup       : Blank
+                  start       : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+                                then
+                                  kubectl config set-context "{{ .GetConfig "kubeContext" }}"
+                                fi
+                                helm uninstall "{{ .GetConfig "releaseName" }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
