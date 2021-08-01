@@ -2,6 +2,7 @@ tasks:
   core.helmGenerateValue:
     extend: core.runCoreScript
     private: true
+    configRef: coreDocker
     config:
       valueFile: ''
       valueTemplateFile: ''

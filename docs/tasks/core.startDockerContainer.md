@@ -108,7 +108,6 @@
                                                 echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-                                                DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
                                                 {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
                                                 {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
                   _setup.containerName        : {{ $d := .Decoration -}}
@@ -119,7 +118,7 @@
                                                   exit 1
                                                 fi
                   _setup.imageName            : {{ $d := .Decoration -}}
-                                                IMAGE_NAME="{{ .GetConfig "imageName" }}"
+                                                DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
                                                 if [ -z "${CONTAINER_NAME}" ]
                                                 then
                                                   echo "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
@@ -158,7 +157,7 @@
                                                 {{ .GetConfig "_start.runContainer.ports" -}}
                                                 {{ .GetConfig "_start.runContainer.volumes" -}}
                                                 {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
-                                                -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+                                                -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
                   _start.runContainer.env     : {{ $this := . -}}
                                                 {{ if eq (.GetConfig "localhost") "localhost" -}}
                                                   {{ range $key, $val := $this.GetEnvs -}}
@@ -210,7 +209,6 @@
                   hostDockerInternal          : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
                   imageName                   : Blank
                   imagePrefix                 : Blank
-                  imagePrefixTrailingSlash    : true
                   imageTag                    : Blank
                   includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   localhost                   : localhost

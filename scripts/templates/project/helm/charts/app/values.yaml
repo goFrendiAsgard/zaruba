@@ -39,6 +39,20 @@ securityContext: {}
 service:
   type: ClusterIP
   ports: []
+  #  - port: 80
+  #    targetPort: 80
+  #    protocol: TCP
+  #    name: port0
+
+livenessProbe:
+  enabled: false
+  path: /
+  port: port0
+
+readinessProbe:
+  enabled: false
+  path: /
+  port: port0
 
 ingress:
   enabled: false

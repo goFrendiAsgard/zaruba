@@ -4,4 +4,3 @@ configs:
     useImagePrefix: true
     imagePrefix: ''
     imageTag: ''
-    imagePrefixTrailingSlash: false

@@ -21,6 +21,8 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
+                  imagePrefix       : Blank
+                  imageTag          : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup             : Blank
                   start             : {{ $templateFile := .GetWorkPath (.GetConfig "valueTemplateFile") -}}
@@ -31,6 +33,7 @@
                                       echo '{{ $err }}'
                                       exit 1
                                       {{ end -}}
+                  useImagePrefix    : true
                   valueFile         : Blank
                   valueTemplateFile : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED

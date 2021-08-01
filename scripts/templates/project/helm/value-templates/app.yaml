@@ -7,7 +7,7 @@
 replicaCount: 1
 
 image:
-  repository: '{{ .GetDockerImagePrefix }}{{ .GetConfig "imageName" }}'
+  repository: '{{ .GetDockerImageName }}'
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: '{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}'
@@ -46,9 +46,19 @@ service:
     - port: {{ $port }}
       targetPort: {{ $port }}
       protocol: TCP
-      name: 'http{{ $index }}'
+      name: 'port{{ $index }}'
     {{- end }}
   {{- end }}
+
+livenessProbe:
+  enabled: false
+  path: /
+  port: port0
+
+readinessProbe:
+  enabled: false
+  path: /
+  port: port0
 
 ingress:
   enabled: false

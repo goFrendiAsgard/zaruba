@@ -27,25 +27,23 @@
                   cmdArg                          : -c
                   finish                          : Blank
                   imagePrefix                     : Blank
-                  imagePrefixTrailingSlash        : true
                   imageTag                        : Blank
                   includeUtilScript               : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   setup                           : Blank
                   start                           : set -e
                                                     {{ $d := .Decoration -}}
-                                                    DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
                                                     if [ ! -f "$(pwd)/Dockerfile" ]
                                                     then
                                                       echo "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
                                                       exit 1
                                                     fi
-                                                    DOCKER_IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+                                                    DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
                                                     DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
                                                     if [ ! -z "${DOCKER_IMAGE_TAG}" ]
                                                     then
-                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" -t "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:latest" .
+                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" -t "${DOCKER_IMAGE_NAME}:latest" .
                                                     else
-                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:latest" .
+                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_NAME}:latest" .
                                                     fi
                                                     echo 🎉🎉🎉
                                                     echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"

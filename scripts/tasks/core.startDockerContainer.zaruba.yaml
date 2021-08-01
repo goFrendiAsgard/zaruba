@@ -40,14 +40,12 @@ tasks:
       imagePrefix: ""
       imageName: ""
       imageTag: ""
-      useImagePrefix: true
       command: ""
       checkCommand: ""
       rebuild: false
       ports: ""
       volumes: ""
       localhost: localhost
-      imagePrefixTrailingSlash: true
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
       _setup.containerName: |
         {{ $d := .Decoration -}}
@@ -59,7 +57,7 @@ tasks:
         fi
       _setup.imageName: |
         {{ $d := .Decoration -}}
-        IMAGE_NAME="{{ .GetConfig "imageName" }}"
+        DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
         if [ -z "${CONTAINER_NAME}" ]
         then
           echo "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
@@ -68,7 +66,6 @@ tasks:
       _setup: |
         set -e
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
       _check.containerState: |
@@ -170,7 +167,7 @@ tasks:
         {{ .GetConfig "_start.runContainer.ports" -}}
         {{ .GetConfig "_start.runContainer.volumes" -}}
         {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
-        -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+        -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
       _start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}

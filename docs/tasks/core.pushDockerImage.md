@@ -17,31 +17,29 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                   : set -e
-                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                   : Blank
-                  afterStart               : Blank
-                  beforeStart              : Blank
-                  cmd                      : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                   : -c
-                  finish                   : Blank
-                  imagePrefix              : Blank
-                  imagePrefixTrailingSlash : true
-                  imageTag                 : Blank
-                  includeUtilScript        : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  setup                    : Blank
-                  start                    : {{ $d := .Decoration -}}
-                                             DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
-                                             DOCKER_IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
-                                             DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-                                             if [ ! -z "${DOCKER_IMAGE_TAG}" ]
-                                             then
-                                               docker push "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-                                             fi
-                                             docker push "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:latest"
-                                             echo 🎉🎉🎉
-                                             echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pushed{{ $d.Normal }}"
-                  useImagePrefix           : true
+  CONFIG        : _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : Blank
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  finish            : Blank
+                  imagePrefix       : Blank
+                  imageTag          : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  setup             : Blank
+                  start             : {{ $d := .Decoration -}}
+                                      DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+                                      DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+                                      if [ ! -z "${DOCKER_IMAGE_TAG}" ]
+                                      then
+                                        docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                                      fi
+                                      docker push "${DOCKER_IMAGE_NAME}:latest"
+                                      echo 🎉🎉🎉
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pushed{{ $d.Normal }}"
+                  useImagePrefix    : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

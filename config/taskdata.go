@@ -130,17 +130,17 @@ func (td *TaskData) GetNewUUID() string {
 	return uuid.NewString()
 }
 
-func (td *TaskData) GetDockerImagePrefix() string {
+func (td *TaskData) GetDockerImageName() string {
 	dockerImagePrefix := ""
 	useImagePrefix, _ := td.GetConfig("useImagePrefix")
 	if boolean.IsTrue(useImagePrefix) {
 		dockerImagePrefix, _ = td.GetConfig("imagePrefix")
 	}
-	trailingSlash, _ := td.GetConfig("imagePrefixTrailingSlash")
-	if boolean.IsTrue(trailingSlash) && dockerImagePrefix != "" {
-		return fmt.Sprintf("%s/", dockerImagePrefix)
+	dockerImageName, _ := td.GetConfig("imageName")
+	if dockerImagePrefix == "" {
+		return dockerImageName
 	}
-	return dockerImagePrefix
+	return fmt.Sprintf("%s/%s", dockerImagePrefix, dockerImageName)
 }
 
 func (td *TaskData) Split(s, sep string) []string {

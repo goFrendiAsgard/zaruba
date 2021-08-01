@@ -17,27 +17,26 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                   : set -e
-                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                   : {{ $this := . -}}
-                                             {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
-                                               {{ if ne $command "" -}}
-                                                 docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
-                                               {{ end -}}
-                                             {{ end -}}
-                  afterStart               : Blank
-                  beforeStart              : Blank
-                  cmd                      : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                   : -c
-                  commands                 : Blank
-                  finish                   : Blank
-                  imagePrefix              : Blank
-                  imagePrefixTrailingSlash : false
-                  imageTag                 : Blank
-                  includeUtilScript        : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  setup                    : Blank
-                  start                    : echo "No script defined"
-                  useImagePrefix           : true
+  CONFIG        : _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : {{ $this := . -}}
+                                      {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
+                                        {{ if ne $command "" -}}
+                                          docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+                                        {{ end -}}
+                                      {{ end -}}
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  commands          : Blank
+                  finish            : Blank
+                  imagePrefix       : Blank
+                  imageTag          : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  setup             : Blank
+                  start             : echo "No script defined"
+                  useImagePrefix    : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
