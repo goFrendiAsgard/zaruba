@@ -112,7 +112,7 @@ tasks:
       - buildDevboxImage
     configRefs:
       - commonDocker
-      - DevboxDocker
+      - devboxDocker
     location: ./devbox
     timeout: 1h
 
