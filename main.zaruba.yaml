@@ -34,6 +34,9 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
+    config:
+      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+      imageTag: '{{ .GetValue "defaultImageTag" }}'
     location: ./
     timeout: 1h
 
@@ -43,6 +46,9 @@ tasks:
     extend: core.buildDockerImage
     dependencies:
       - clearLog
+    config:
+      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+      imageTag: '{{ .GetValue "defaultImageTag" }}'
     location: ./devbox
     timeout: 1h
 
@@ -77,6 +83,9 @@ tasks:
     dependencies:
       - clearLog
       - buildZarubaImage
+    config:
+      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+      imageTag: '{{ .GetValue "defaultImageTag" }}'
     location: ./
     timeout: 1h
 
@@ -87,6 +96,9 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
+    config:
+      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+      imageTag: '{{ .GetValue "defaultImageTag" }}'
     location: ./devbox
     timeout: 1h
 

@@ -13,5 +13,7 @@ configs:
 
   zarubaServiceNameContainer:
     containerName: zarubaContainerName
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
     imageName: zarubaImageName
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal

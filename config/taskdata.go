@@ -113,12 +113,6 @@ func (td *TaskData) GetDockerImagePrefix() string {
 	useImagePrefix, _ := td.GetConfig("useImagePrefix")
 	if boolean.IsTrue(useImagePrefix) {
 		dockerImagePrefix, _ = td.GetConfig("imagePrefix")
-		if dockerImagePrefix == "" {
-			dockerImagePrefix, _ = td.GetValue("dockerImagePrefix")
-		}
-		if dockerImagePrefix == "" {
-			dockerImagePrefix = "local"
-		}
 	}
 	trailingSlash, _ := td.GetConfig("imagePrefixTrailingSlash")
 	if boolean.IsTrue(trailingSlash) && dockerImagePrefix != "" {

@@ -1,2 +1,3 @@
 defaultBranch: master
-dockerImagePrefix: local
+defaultImagePrefix: ''
+defaultImageTag: latest
