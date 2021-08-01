@@ -3,6 +3,13 @@ includes:
   - "./main.testGenerator.zaruba.yaml"
   - "./main.testHelm.zaruba.yaml"
 
+configs:
+
+  zarubaDocker:
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
+
+
 tasks:
 
 
@@ -34,9 +41,7 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRef: zarubaDocker
     location: ./
     timeout: 1h
 
@@ -46,9 +51,7 @@ tasks:
     extend: core.buildDockerImage
     dependencies:
       - clearLog
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRef: zarubaDocker
     location: ./devbox
     timeout: 1h
 
@@ -83,9 +86,7 @@ tasks:
     dependencies:
       - clearLog
       - buildZarubaImage
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRef: zarubaDocker
     location: ./
     timeout: 1h
 
@@ -96,9 +97,7 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRef: zarubaDocker
     location: ./devbox
     timeout: 1h
 
