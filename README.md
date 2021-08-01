@@ -86,11 +86,6 @@ Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, `
 * [pyenv](https://github.com/pyenv/pyenv#installation) is needed to run python services locally.
 * [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) is needed to run nodejs services locally.
 
-```
-zaruba please setupPyenv
-zaruba please setupNvm
-```
-
 Now let's get started by [creating a project](docs/creating-a-project.md)
 
 
