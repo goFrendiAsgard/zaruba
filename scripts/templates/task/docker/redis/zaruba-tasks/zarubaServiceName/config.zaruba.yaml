@@ -1,0 +1,6 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: redis
+    containerName: zarubaContainerName
+    ports: 6379

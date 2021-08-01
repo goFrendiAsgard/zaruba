@@ -1,7 +1,7 @@
 # core.startNvmService
 ```
   TASK NAME     : core.startNvmService
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.startNvmService.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.startNvmService.zaruba.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.
@@ -50,7 +50,6 @@
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   CONFIG        : RunInLocal              : true
                   _setup                  : set -e
-                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                                             {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
                   _start                  : Blank
@@ -70,16 +69,6 @@
                   cmdArg                  : -c
                   compileTypeScript       : false
                   finish                  : Blank
-                  includeBootstrapScript  : if [ -f "${HOME}/.profile" ]
-                                            then
-                                                . "${HOME}/.profile"
-                                            fi
-                                            if [ -f "${HOME}/.bashrc" ]
-                                            then
-                                                . "${HOME}/.bashrc"
-                                            fi
-                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   installTypeScript       : false
                   nodeVersion             : node

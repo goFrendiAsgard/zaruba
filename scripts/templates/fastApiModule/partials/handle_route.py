@@ -1,4 +1,5 @@
-@self.app.zarubaHttpMethod('zarubaUrl')
+
+@app.zarubaHttpMethod('zarubaUrl')
 def zarubaHttpMethod_zaruba_url():
     try:
         return 'OK'

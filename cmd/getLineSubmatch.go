@@ -11,7 +11,7 @@ import (
 
 var getLineSubmatchCmd = &cobra.Command{
 	Use:   "getLineSubmatch <list> <patterns>",
-	Short: "Sequentially match the patterns and return the first submatch of the last pattern",
+	Short: "Return submatch matching the pattern",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -26,7 +26,7 @@ var getLineSubmatchCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		index, submatch, err := str.GetFirstMatch(list, patterns)
+		index, submatch, err := str.GetLineSubmatch(list, patterns)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}

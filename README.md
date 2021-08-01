@@ -15,28 +15,31 @@ mkdir myProject
 cd myProject
 zaruba please initProject
 
-# Create FastAPI service, module, and book CRUD
-zaruba please makeFastApiService generator.fastApi.service.name=myService
-zaruba please makeFastApiModule generator.fastApi.service.name=myService generator.fastApi.module.name=myModule
-zaruba please makeFastApiCrud generator.fastApi.service.name=myService generator.fastApi.module.name=myModule generator.fastApi.crud.entity=book generator.fastApi.crud.fields=title,author,synopsis
+# Create FastAPI app with functional book CRUD
+zaruba please makeFastApiCrud \
+    generatorFastApiServiceName=myService \
+    generatorFastApiModuleName=myModule \
+    generatorFastApiCrudEntity=book \
+    generatorFastApiCrudFields='["title","author","synopsis"]'
 
-# Create task to start zaruba
-zaruba please makeServiceTask generator.service.location=myService generator.service.type=fastapi
-
-# Run service locally
+# Run the service locally 
+# To run this command, you need:
+# - pyenv
 zaruba please run
+# Ctrl+c to stop
 
-# Run service (this time containerized)
+# Run the service as docker container
+# To run this command, you need:
+# - docker
 zaruba please runContainer
+zaruba please stopContainer
 
-# Create helm chart
-zaruba please makeHelmCharts
-
-# Create helm deployment for myService
-zaruba please makeHelmDeployment generator.service.name=myService
-
-# Apply helm deployments to docker-desktop kubernetes cluster
-zaruba please helmApply kube.context=docker-desktop
+# Deploy the service to the kubernetes cluster
+# To run this command, you need:
+# - kubectl
+# - helm
+# - cloud provider or a computer that can run kubernetes locally
+zaruba please helmInstall kubeContext=docker-desktop
 ```
 
 > 💡 __TIPS:__ Execute tasks with `-i` or `--interactive` flag is probably a good idea if you don't want to memorize the parameters. Otherwise, you can also type `zaruba please` to select available tasks.
@@ -75,7 +78,13 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # 📜 Getting Started
 
-Before getting started, it is recommended to have `pyenv` and `nvm` installed. To install those prerequisites, you can perform:
+Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, `pyenv`, and `nvm` installed. To install those prerequisites, please visit their websites:
+
+* [docker](https://www.docker.com/get-started) is needed to build, pull or push image. You also need docker to run your services as container.
+* [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) is needed to access your kubernetes cluster.
+* [helm](https://helm.sh/) is needed to deploy your services.
+* [pyenv](https://github.com/pyenv/pyenv#installation) is needed to run python services locally.
+* [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) is needed to run nodejs services locally.
 
 ```
 zaruba please setupPyenv

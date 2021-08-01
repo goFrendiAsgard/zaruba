@@ -1,0 +1,6 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: postgres
+    containerName: zarubaContainerName
+    ports: 5432

@@ -1,0 +1,14 @@
+tasks:
+
+  core.showAdv:
+    icon: ☕
+    private: true
+    extend: core.runCoreScript
+    saveLog: false
+    config:
+      start: |
+        {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
+        {{ if .IsTrue $showAdvertisement -}}
+          "{{ .ZarubaBin }}" showAdv "{{ printf "%s/scripts/advertisement.yaml" .ZarubaHome }}"
+        {{ end -}}
+  

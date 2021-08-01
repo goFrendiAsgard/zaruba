@@ -1,1 +1,2 @@
-handle_zaruba_entity_name_route(self.app, self.mb)
+
+handle_zaruba_entity_name_route(app, mb)

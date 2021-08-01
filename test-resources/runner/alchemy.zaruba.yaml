@@ -23,8 +23,8 @@ tasks:
 
   makeNaCl:
     dependencies:
-    - makeNaOH
-    - makeHCl
+      - makeNaOH
+      - makeHCl
     extend: combine
     config:
       flask1: Na
@@ -33,8 +33,8 @@ tasks:
 
   makeH2O:
     dependencies:
-    - makeNaOH
-    - makeHCl
+      - makeNaOH
+      - makeHCl
     extend: combine
     config:
       flask1: H2
@@ -43,8 +43,8 @@ tasks:
 
   makeSalineWater:
     dependencies:
-    - makeNaCl
-    - makeH2O
+      - makeNaCl
+      - makeH2O
   
 
   makeEther:
@@ -53,27 +53,27 @@ tasks:
   
   makeAll:
     dependencies:
-    - makeSalineWater
-    - makeEther
+      - makeSalineWater
+      - makeEther
   
 
   serveSalineWater:
     dependencies:
-    - makeSalineWater
+      - makeSalineWater
     start: [bash, -c, 'echo serve saline water && sleep 3']
     check: [bash, -c, 'exit 0']
 
 
   serveSalineWaterFailBeforeCheck:
     dependencies:
-    - makeSalineWater
+      - makeSalineWater
     start: [bash, -c, 'echo serve saline water && exit 1']
     check: [bash, -c, 'sleep 3 && exit 0']
 
 
   serveSalineWaterFailAfterCheck:
     dependencies:
-    - makeSalineWater
+      - makeSalineWater
     start: [bash, -c, 'echo serve saline water && sleep 3 && exit 1']
     check: [bash, -c, 'exit 0']
 

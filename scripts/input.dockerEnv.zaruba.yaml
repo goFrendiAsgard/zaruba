@@ -1,8 +1,0 @@
-inputs:
-
-  dockerEnv:
-    default: default
-    validation: ^.+$
-    description: Docker env for getting image prefix (Required)
-    prompt: Docker env
-

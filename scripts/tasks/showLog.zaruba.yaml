@@ -1,0 +1,22 @@
+tasks:
+
+  showLog:
+    icon: 🔎
+    description: |
+      Show log for all/particular tasks using regex
+    extend: core.runCoreScript
+    saveLog: false
+    inputs:
+      - logKeyword
+    config:
+      logKeyword: '{{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}'
+      start: |
+        {{ $d := .Decoration -}}
+        if [ ! -f "log.zaruba.csv" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
+          exit 1
+        fi
+        "{{ .ZarubaBin }}" showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
+
+

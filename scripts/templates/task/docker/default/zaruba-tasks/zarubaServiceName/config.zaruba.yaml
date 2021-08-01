@@ -1,0 +1,6 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: zarubaImageName
+    containerName: zarubaContainerName
+    ports: ""

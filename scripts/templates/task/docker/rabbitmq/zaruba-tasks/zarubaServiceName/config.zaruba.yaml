@@ -1,0 +1,9 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: rabbitmq
+    imageTag: 3-management
+    containerName: zarubaContainerName
+    ports: |
+      5672
+      15672

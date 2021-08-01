@@ -1,0 +1,24 @@
+tasks:
+
+  core.removeDockerContainer:
+    icon: 🐳
+    private: true
+    description: |
+      Remove docker container.
+      Common config:
+        containerName : Container's name
+    extend: core.runCoreScript
+    dependencies:
+      - updateProjectLinks
+    config:
+      containerName: ""
+      start: |
+        {{ $d := .Decoration -}}
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+        stop_container "${CONTAINER}" 
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
+        remove_container "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
+ 

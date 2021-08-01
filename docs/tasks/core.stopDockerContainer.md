@@ -1,13 +1,13 @@
 # core.stopDockerContainer
 ```
   TASK NAME     : core.stopDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.stopDockerContainer.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.stopDockerContainer.zaruba.yaml
   DESCRIPTION   : Stop docker container.
                   Common config:
                     containerName : Container's name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.setupPyUtil, updateProjectLinks ]
+  DEPENDENCIES  : [ updateProjectLinks ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -17,35 +17,23 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
-                                           {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                 : Blank
-                  afterStart             : Blank
-                  beforeStart            : Blank
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  containerName          : Blank
-                  finish                 : Blank
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  setup                  : Blank
-                  start                  : {{ $d := .Decoration -}}
-                                           CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("${ZARUBA_HOME}/zaruba" getDefaultServiceName "$(pwd)"){{ end }}"
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
-                                           stop_container "${CONTAINER}" 
-                                           echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
+  CONFIG        : _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : Blank
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  containerName     : Blank
+                  finish            : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  setup             : Blank
+                  start             : {{ $d := .Decoration -}}
+                                      CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+                                      stop_container "${CONTAINER}" 
+                                      echo 🎉🎉🎉
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

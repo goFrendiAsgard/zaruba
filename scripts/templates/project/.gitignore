@@ -1,3 +1,5 @@
+helm/values
+tmp
 .env
 .env-*.json
 .previous.values.yaml

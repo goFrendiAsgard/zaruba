@@ -1,0 +1,50 @@
+tasks:
+
+  core.makeServiceTask:
+    extend: core.runCoreScript
+    private: true
+    dependencies:
+      - core.showAdv
+      - core.isProject
+    config:
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default'
+      serviceLocation: '{{ .GetValue "generatorServiceLocation" }}'
+      serviceName: '{{ .GetValue "generatorServiceName" }}'
+      imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'
+      containerName: '{{ .GetValue "generatorServiceDockerContainerName" }}'
+      serviceStartCommand: '{{ .GetValue "generatorServiceStartCommand" }}'
+      serviceRunnerVersion: ''
+      servicePorts: '{{ .GetValue "generatorServicePorts" }}'
+      serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
+      dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
+      replacementMap: '{}'
+      start: |
+        {{- $d := .Decoration -}}
+        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+        SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+        SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
+        SERVICE_RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
+        SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+        SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+        REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+        
+        . "${ZARUBA_HOME}/scripts/bash/generate_service_task.sh"
+        generate_service_task \
+          "${TEMPLATE_LOCATION}" \
+          "${SERVICE_LOCATION}" \
+          "${SERVICE_NAME}" \
+          "${IMAGE_NAME}" \
+          "${CONTAINER_NAME}" \
+          "${SERVICE_START_COMMAND}" \
+          "${SERVICE_RUNENR_VERSION}" \
+          "${SERVICE_PORTS}" \
+          "${SERVICE_ENVS}" \
+          "${DEPENDENCIES}" \
+          "${REPLACEMENT_MAP}"
+
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"

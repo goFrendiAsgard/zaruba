@@ -1,8 +1,0 @@
-inputs:
-  
-  helmEnv:
-    default: default
-    validation: ^.+$
-    description: Helm env (Required)
-    prompt: Helm env
-

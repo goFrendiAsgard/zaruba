@@ -1,9 +1,0 @@
-inputs:
-  
-  setupPythonVersion:
-    default: 3.8.6
-    options: [3.7, 3.8, 3.9]
-    validation: ^.+$
-    description: Python version to be installed when install pyenv
-    prompt: Python version
-

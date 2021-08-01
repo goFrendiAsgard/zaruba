@@ -1,9 +1,0 @@
-inputs:
-
-  setupInitPyUtil:
-    default: yes
-    options: [yes, no]
-    allowCustom: false
-    description: Init Pyenv for zaruba util
-    prompt: Init Pyenv
-

@@ -1,0 +1,56 @@
+includes:
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
+
+inputs:
+
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+      - yes
+      - no
+    allowCustom: false
+    description: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
+
+tasks:
+
+  runZarubaServiceName:
+    icon: 🐇
+    extend: core.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      checkCommand: rabbitmqctl await_startup
+      afterCheck: sleep 3
+      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+  
+  resetZarubaServiceName:
+    icon: 🐇
+    extend: core.runInContainer
+    dependencies:
+      - runZarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      commands: |
+        rabbitmqctl stop_app
+        rabbitmqctl reset
+        rabbitmqctl start_app
+
+  pullZarubaServiceNameImage:
+    extend: core.pullDockerImage
+    timeout: 1h
+    configRef: zarubaServiceName
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName

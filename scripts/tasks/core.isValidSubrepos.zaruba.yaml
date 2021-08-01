@@ -1,0 +1,27 @@
+tasks:
+
+  core.isValidSubrepos:
+    icon: 🔍
+    private: true
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        {{ $names := .GetSubValueKeys "subrepo" -}}
+        {{ $this := . -}}
+        {{ range $index, $name := $names -}}
+          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+          URL="{{ $this.GetValue "subrepo" $name "url" }}"
+          NAME="{{ $name }}"
+          if [ -z "${URL}" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
+            exit 1
+          fi
+          if [ -z "${PREFIX}" ]
+          then
+            echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
+            exit 1
+          fi
+        {{ end }}
+        echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"

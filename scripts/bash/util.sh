@@ -1,93 +1,12 @@
-Normal=$'\033[0m'
-Bold=$'\033[1m'
-Faint=$'\033[2m'
-Italic=$'\033[3m'
-Underline=$'\033[4m'
-BlinkSlow=$'\033[5m'
-BlinkRapid=$'\033[6m'
-Inverse=$'\033[7m'
-Conceal=$'\033[8m'
-CrossedOut=$'\033[9m'
-Black=$'\033[30m'
-Red=$'\033[31m'
-Green=$'\033[32m'
-Yellow=$'\033[33m'
-Blue=$'\033[34m'
-Magenta=$'\033[35m'
-Cyan=$'\033[36m'
-White=$'\033[37m'
-BgBlack=$'\033[40m'
-BgRed=$'\033[41m'
-BgGreen=$'\033[42m'
-BgYellow=$'\033[43m'
-BgBlue=$'\033[44m'
-BgMagenta=$'\033[45m'
-BgCyan=$'\033[46m'
-BgWhite=$'\033[47m'
-NoStyle=$'\033[0m'
-NoUnderline=$'\033[24m'
-NoInverse=$'\033[27m'
-NoColor=$'\033[39m'
-
-# USAGE create_docker_task <template_location> <image_name> <container_name> <service_name>
-create_docker_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_docker_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}"
+# USAGE get_value_or_default <value> <default>
+get_value_or_default() {
+    if [ -z "${1}" ]
+    then
+        echo "${2}"
+    else
+        echo "${1}"
+    fi
 }
-
-
-# USAGE create_fast_crud <template_location> <service_name> <module_name> <entity_name> <field_names>
-create_fast_crud() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_crud.py" "${1}" "${2}" "${3}" "${4}" "${5}"
-}
-
-
-# USAGE create_fast_event_handler <template_location> <service_name> <module_name> <event_name>
-create_fast_event_handler() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_event_handler.py" "${1}" "${2}" "${3}" "${4}"
-}
-
-
-# USAGE create_fast_module <template_location> <service_name> <module_name>
-create_fast_module() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_module.py" "${1}" "${2}" "${3}"
-}
-
-
-# USAGE create_fast_route <template_location> <service_name> <module_name> <http_method> <url>
-create_fast_route() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_route.py" "${1}" "${2}" "${3}" "${4}" "${5}"
-}
-
-
-# USAGE create_fast_rpc_handler <template_location> <service_name> <module_name> <event_name>
-create_fast_rpc_handler() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_rpc_handler.py" "${1}" "${2}" "${3}" "${4}"
-}
-
-
-# USAGE create_fast_service <template_location> <service_name>
-create_fast_service() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_fast_service.py" "${1}" "${2}"
-}
-
-
-# USAGE create_helm_deployment <service_name>
-create_helm_deployment() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_helm_deployment.py" "${1}"
-}
-
-
-# USAGE create_helm_task
-create_helm_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_helm_task.py" "${1}"
-}
-
-
-# USAGE create_service_task <template_location> <service_name> <image_name> <container_name> <location> <start_command> <ports> <runner_version>
-create_service_task() {
-    PIPENV_IGNORE_VIRTUAL_ENVS=1 PIPENV_DONT_LOAD_ENV=1 PIPENV_PIPFILE="${ZARUBA_HOME}/scripts/python/Pipfile" pipenv run python "${ZARUBA_HOME}/scripts/python/create_service_task.py" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}" "${7}" "${8}" "${9}" "${10}"
-}
-
 
 get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -112,7 +31,6 @@ get_latest_git_tag() {
     set "${_OLD_STATE}"
 }
 
-
 # USAGE: git_init_subrepo <name> <prefix> <url> <branch>
 git_init_subrepo() {
     _NAME="${1}"
@@ -136,26 +54,6 @@ git_save() {
     git add . -A
     git commit -m "💀 ${1}"
     set "${_OLD_STATE}"
-}
-
-
-# USAGE: inject_bootstrap <bashrc-path>
-inject_bootstrap() {
-    if [ -f "${1}" ]
-    then
-        if cat "${1}" | grep -Fqe "${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-        then
-            echo -e "${Faint}Bootstrap script ${ZARUBA_HOME}/scripts/bash/bootstrap.sh is already loaded in ${1}${Normal}"
-        else
-            echo "" >> "${1}"
-            echo "# Load zaruba's bootstrap" >> "${1}"
-            echo "if [ -x "${ZARUBA_HOME}/scripts/bash/bootstrap.sh" ]" >> "${1}"
-            echo 'then' >> "${1}"
-            echo "    . ${ZARUBA_HOME}/scripts/bash/bootstrap.sh" >> "${1}"
-            echo 'fi' >> "${1}"
-            echo "" >> "${1}"
-        fi
-    fi 
 }
 
 
@@ -209,7 +107,6 @@ link_resource() {
     _DST="${2}"
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set -e
-    echo "${Yellow}Link \"${_SRC}\" into \"${_DST}\"${Normal}"
     if [ -e "${_DST}" ]
     then
         chmod 777 -R "${_DST}" && rm -Rf "${_DST}" && cp -rnT "${_SRC}" "${_DST}" && chmod 555 -R "${_DST}"
@@ -259,133 +156,3 @@ wait_port() {
         sleep 1
     done
 } 
-
-
-# USAGE: should_be_dir <value> <error-message>
-should_be_dir() {
-    if [ ! -d "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_be_file <value> <error-message>
-should_be_file() {
-    if [ ! -f "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_be_exist <value> <error-message>
-should_be_exist() {
-    if [ ! -e "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_be_empty <value> <error-message>
-should_be_empty() {
-    if [ ! -z "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_dir <value> <error-message>
-should_not_be_dir() {
-    if [ -d "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_file <value> <error-message>
-should_not_be_file() {
-    if [ -f "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_exist <value> <error-message>
-should_not_be_exist() {
-    if [ -e "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-# USAGE: should_not_be_empty <value> <error-message>
-should_not_be_empty() {
-    if [ -z "${1}" ]
-    then
-        echo "${2}" 1>&2
-        exit 1
-    fi
-}
-
-
-show_version() {
-    cd ${ZARUBA_HOME}
-    if [ -z "$(get_latest_git_tag)" ]
-    then
-        echo "Current version : Dev - $(get_latest_git_commit)"
-    elif [ "$(get_latest_git_tag_commit)" = "$(get_latest_git_commit)" ]
-    then
-        echo "${Bold}${Yellow}Current version : $(get_latest_git_tag) - $(get_latest_git_commit)${Normal}"
-    else
-        echo "${Bold}${Yellow}Current version : Dev - $(get_latest_git_commit)${Normal}"
-        echo "${Bold}${Yellow}Latest tag      : $(get_latest_git_tag)${Normal}"
-    fi
-}
-
-
-get_current_user() {
-    if [ ! -z "$SUDO_USER" ]
-    then
-        echo "$SUDO_USER"
-    elif [ ! -z "$USER" ]
-    then
-        echo "$USER"
-    else
-        id -u -n
-    fi
-}
-
-
-init_bootstrap() {
-    _CURRENT_USER=$(get_current_user)
-    _BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-    if [ ! -f "${_BOOTSTRAP_SCRIPT}" ]
-    then
-        touch "${_BOOTSTRAP_SCRIPT}"
-        chmod 755 "${_BOOTSTRAP_SCRIPT}"
-        chown "${_CURRENT_USER}" "${_BOOTSTRAP_SCRIPT}"
-    fi
-    . "${_BOOTSTRAP_SCRIPT}"
-    # also include .local/bin
-    if echo "$PATH" | grep -Fqe "${HOME}/.local/bin"
-    then
-        echo "${Faint}${HOME}/.local/bin is already in the PATH${Normal}"
-    else
-        TEMPLATE_CONTENT="$(cat "${ZARUBA_HOME}/scripts/templates/shell/include_local_bin.sh")"
-        append_if_exist "${TEMPLATE_CONTENT}" "${_BOOTSTRAP_SCRIPT}"
-        . "${_BOOTSTRAP_SCRIPT}"
-    fi    
-}

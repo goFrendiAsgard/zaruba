@@ -14,14 +14,14 @@ tasks:
 
   taskName:
     inputs:
-    - inputName
+      - inputName
     extend: parentTaskName
     private: true
     timeout: 1h
     description: description
     saveLog: true
     dependencies:
-    - dependencyTaskName
+      - dependencyTaskName
     configRef: configRefName
     config:
       configName: value

@@ -1,7 +1,7 @@
 # core.makeDockerTask
 ```
   TASK NAME     : core.makeDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.makeDockerTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.makeDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ core.showAdv, core.isProject ]
@@ -14,44 +14,47 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
-                                           {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                 : Blank
-                  afterStart             : Blank
-                  beforeStart            : Blank
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  containerName          : {{ .GetValue "generatorDockerContainerName" }}
-                  dependencies           : {{ .GetValue "generatorTaskDependencies" }}
-                  finish                 : Blank
-                  imageName              : {{ .GetValue "generatorDockerImageName" }}
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  serviceEnvs            : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceName            : {{ .GetValue "generatorServiceName" }}
-                  setup                  : Blank
-                  start                  : {{- $d := .Decoration -}}
-                                           TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-                                           IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-                                           CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-                                           SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                           SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-                                           DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-                                           create_docker_task "template_location=${TEMPLATE_LOCATION}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "service_name=${SERVICE_NAME}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}"
-                                           echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
-                  templateLocation       : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default.zaruba.yaml
+  CONFIG        : _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : Blank
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  containerName     : {{ .GetValue "generatorDockerContainerName" }}
+                  dependencies      : {{ .GetValue "generatorTaskDependencies" }}
+                  finish            : Blank
+                  imageName         : {{ .GetValue "generatorDockerImageName" }}
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  replacementMap    : {}
+                  serviceEnvs       : {{ .GetValue "generatorServiceEnvs" }}
+                  serviceName       : {{ .GetValue "generatorServiceName" }}
+                  servicePorts      : {{ .GetValue "generatorServicePorts" }}
+                  setup             : Blank
+                  start             : {{- $d := .Decoration -}}
+                                      TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                      IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+                                      CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+                                      SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                      SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+                                      SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+                                      DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+                                      REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+                                      
+                                      . "${ZARUBA_HOME}/scripts/bash/generate_docker_task.sh"
+                                      generate_docker_task \
+                                        "${TEMPLATE_LOCATION}" \
+                                        "${IMAGE_NAME}" \
+                                        "${CONTAINER_NAME}" \
+                                        "${SERVICE_NAME}" \
+                                        "${SERVICE_PORTS}" \
+                                        "${SERVICE_ENVS}" \
+                                        "${DEPENDENCIES}" \
+                                        "${REPLACEMENT_MAP}"
+                                      
+                                      echo 🎉🎉🎉
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+                  templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/default
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

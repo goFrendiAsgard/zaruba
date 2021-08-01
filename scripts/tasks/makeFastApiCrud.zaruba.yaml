@@ -1,0 +1,48 @@
+tasks: 
+
+  makeFastApiCrud:
+    icon: ⚡
+    description: Make FastAPI crud
+    inputs:
+      - generatorFastApiServiceName
+      - generatorFastApiModuleName
+      - generatorFastApiCrudEntity
+      - generatorFastApiCrudFields
+    extend: core.runCoreScript
+    dependencies:
+      - core.showAdv
+    configRef: generatorFastApi
+    config:
+      crudTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud'
+      entityName: '{{ .GetValue "generatorFastApiCrudEntity" }}'
+      fieldNames: '{{ .GetValue "generatorFastApiCrudFields" }}'
+      start: |
+        {{- $d := .Decoration -}}
+        CRUD_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "crudTemplateLocation") }}
+        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
+        FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
+        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_crud_handler.sh
+        generate_fast_api_crud_handler \
+          "${CRUD_TEMPLATE_LOCATION}" \
+          "${MODULE_TEMPLATE_LOCATION}" \
+          "${SERVICE_TEMPLATE_LOCATION}" \
+          "${TASK_TEMPLATE_LOCATION}" \
+          "${SERVICE_NAME}" \
+          "${MODULE_NAME}" \
+          "${ENTITY_NAME}" \
+          "${FIELD_NAMES}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/handle<Entity>Event.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/handle<Entity>Route.py"
+        echo "- ${SERVICE_NAME}/repos/<entity>.py"
+        echo "- ${SERVICE_NAME}/repos/db<Entity>.py"
+        echo "- ${SERVICE_NAME}/schemas/<entity>.py"

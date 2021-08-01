@@ -1,7 +1,0 @@
-tasks:
-  runZarubaServiceName:
-    location: zarubaServiceLocation
-
-configs:
-  zarubaServiceName:
-    start: zarubaStartCommand

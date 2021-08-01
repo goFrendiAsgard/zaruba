@@ -1,0 +1,36 @@
+tasks: 
+
+  makeFastApiRpcHandler:
+    icon: ⚡
+    description: Make FastAPI Route
+    inputs:
+      - generatorFastApiServiceName
+      - generatorFastApiModuleName
+      - generatorFastApiRpcName
+    extend: core.runCoreScript
+    dependencies:
+      - core.showAdv
+    configRef: generatorFastApi
+    config:
+      rpcName: '{{ .GetValue "generatorFastApiRpcName" }}'
+      start: |
+        {{- $d := .Decoration -}}
+        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
+        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_rpc_handler.sh
+        generate_fast_api_rpc_handler \
+          "${MODULE_TEMPLATE_LOCATION}" \
+          "${SERVICE_TEMPLATE_LOCATION}" \
+          "${TASK_TEMPLATE_LOCATION}" \
+          "${SERVICE_NAME}" \
+          "${MODULE_NAME}" \
+          "${RPC_NAME}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API RPC handler created: ${RPC_NAME} on ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
+        echo "You probably need to check the following files:"
+        echo "- ${SERVICE_NAME}/main.py"
+        echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"

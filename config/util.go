@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 func GetTaskServiceName(taskName string) (serviceName string) {
@@ -25,6 +25,16 @@ func GetTaskEnvRefname(task *Task) (envRefName string) {
 	}
 	if len(task.EnvRefs) > 0 {
 		return task.EnvRefs[0]
+	}
+	return ""
+}
+
+func GetTaskConfigRefname(task *Task) (configRefName string) {
+	if task.ConfigRef != "" {
+		return task.ConfigRef
+	}
+	if len(task.ConfigRefs) > 0 {
+		return task.ConfigRefs[0]
 	}
 	return ""
 }

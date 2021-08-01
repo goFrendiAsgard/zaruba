@@ -1,4 +1,4 @@
 tasks:
   taskName:
     configRefs:
-    - inexistConfigRef
+      - inexistConfigRef

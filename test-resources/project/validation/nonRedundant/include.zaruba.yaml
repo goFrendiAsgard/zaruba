@@ -1,5 +1,5 @@
 includes:
-- ./subinclude.zaruba.yaml
+  - ./subinclude.zaruba.yaml
 
 inputs:
   otherInputName1: {}

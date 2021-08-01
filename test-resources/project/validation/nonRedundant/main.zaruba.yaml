@@ -1,6 +1,6 @@
 includes:
-- ./include.zaruba.yaml
-- ./subinclude.zaruba.yaml
+  - ./include.zaruba.yaml
+  - ./subinclude.zaruba.yaml
 
 inputs:
   inputName: {}

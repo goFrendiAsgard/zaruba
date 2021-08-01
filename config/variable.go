@@ -14,7 +14,7 @@ type Variable struct {
 	Options      []string `yaml:"options,omitempty"`
 	Prompt       string   `yaml:"prompt,omitempty"`
 	AllowCustom  string   `yaml:"allowCustom,omitempty"`
-	Project      *Project
+	Project      *Project `yaml:"_project,omitempty"`
 	fileLocation string
 	name         string
 }

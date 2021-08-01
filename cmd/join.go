@@ -17,15 +17,19 @@ var joinCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		list := []string{}
+		list := []interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
 			exit(commandName, logger, decoration, err)
+		}
+		lines := []string{}
+		for _, element := range list {
+			lines = append(lines, fmt.Sprintf("%v", element))
 		}
 		separator := "\n"
 		if len(args) > 1 {
 			separator = args[1]
 		}
-		fmt.Println(strings.Join(list, separator))
+		fmt.Println(strings.Join(lines, separator))
 	},
 }
 

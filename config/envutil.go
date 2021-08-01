@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"sort"
 	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/env"
+	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/str"
+	yaml "gopkg.in/yaml.v3"
 )
 
-func UpdateProjectEnvFiles(project *Project) (err error) {
+func SyncProjectEnvFiles(project *Project) (err error) {
 	projectDir := filepath.Dir(project.GetFileLocation())
 	files, err := ioutil.ReadDir(projectDir)
 	if err != nil {
@@ -53,164 +54,215 @@ func UpdateProjectEnvFiles(project *Project) (err error) {
 	return nil
 }
 
-func UpdateProjectTaskEnv(project *Project) (err error) {
-	projectDir := filepath.Dir(project.GetFileLocation())
-	updatedEnvRef := map[string]bool{}
+func SyncProjectEnv(project *Project) (err error) {
 	for taskName, task := range project.Tasks {
 		if !strings.HasPrefix(taskName, "run") {
 			continue
 		}
-		taskFileLocation := task.GetFileLocation()
-		if !strings.HasPrefix(taskFileLocation, projectDir) {
-			// we won't update any task declared outside our project
-			continue
-		}
-		taskLocation := task.GetTaskLocation()
-		if taskLocation == "" || taskLocation == projectDir {
-			// we won't update any task declared outside our project
-			continue
-		}
-
-		locationEnvMap, err := env.GetEnvByLocation(taskLocation)
-		if err != nil {
-			return err
-		}
-		envRefName := GetTaskEnvRefname(task)
-		if envRefName == "" {
-			// update taskEnv
-			if err = updateTaskEnv(task, locationEnvMap); err != nil {
-				return err
-			}
-			continue
-		}
-		if updatedEnvRef[envRefName] {
-			continue
-		}
-		updatedEnvRef[envRefName] = true
-		// update envRef
-		if err = updateEnvRef(project.EnvRefMap[envRefName], locationEnvMap); err != nil {
+		if err := SyncTaskEnv(task); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func updateTaskEnv(task *Task, locationEnvMap map[string]string) (err error) {
-	additionalEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
-	if len(additionalEnvMap) == 0 {
+func SyncTaskEnv(task *Task) (err error) {
+	projectDir := filepath.Dir(task.Project.GetFileLocation())
+	taskFileLocation := task.GetFileLocation()
+	if !strings.HasPrefix(taskFileLocation, projectDir) {
 		return nil
 	}
+	taskLocation := task.GetTaskLocation()
+	if taskLocation == "" || taskLocation == projectDir {
+		return nil
+	}
+	locationEnvMap, err := env.GetEnvByLocation(taskLocation)
+	if err != nil {
+		return err
+	}
+	envRefName := GetTaskEnvRefname(task)
+	if envRefName == "" {
+		// update taskEnv
+		newEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
+		if len(newEnvMap) == 0 {
+			return nil
+		}
+		if err = setTaskEnv(task, newEnvMap); err != nil {
+			return err
+		}
+		return nil
+	}
+	// update envRef
+	newEnvMap := getAdditionalEnvMap(task.Project.EnvRefMap[envRefName].Map, locationEnvMap)
+	if len(newEnvMap) == 0 {
+		return nil
+	}
+	return setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
+}
+
+func SetTaskEnv(task *Task, envMap map[string]string) (err error) {
+	if len(envMap) == 0 {
+		return nil
+	}
+	envRefName := GetTaskEnvRefname(task)
+	if envRefName == "" {
+		// update taskEnv
+		return setTaskEnv(task, envMap)
+	}
+	// update envRef
+	return setEnvRef(task.Project.EnvRefMap[envRefName], envMap)
+}
+
+func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 	taskName := task.GetName()
 	envPrefix := strings.ToUpper(str.ToSnakeCase(GetTaskServiceName(taskName)))
 	yamlLocation := task.GetFileLocation()
-	b, err := ioutil.ReadFile(yamlLocation)
+	node, err := file.ReadYaml(yamlLocation)
 	if err != nil {
 		return err
 	}
-	fileContentStr := string(b)
-	patterns := []string{
-		"tasks:.*$",
-		fmt.Sprintf("^ +%s:.*$", taskName),
-		"^ +env:.*$",
+	docNode := node.Content[0]
+	for index := 0; index < len(docNode.Content); index += 2 {
+		keyNode := docNode.Content[index]
+		valNode := docNode.Content[index+1]
+		if keyNode.Value == "tasks" && valNode.ShortTag() == "!!map" {
+			for taskNameIndex := 0; taskNameIndex < len(valNode.Content); taskNameIndex += 2 {
+				taskNameNode := valNode.Content[taskNameIndex]
+				taskNode := valNode.Content[taskNameIndex+1]
+				if taskNameNode.Value == taskName && taskNode.ShortTag() == "!!map" {
+					for taskPropKeyIndex := 0; taskPropKeyIndex < len(taskNode.Content); taskPropKeyIndex += 2 {
+						taskPropKeyNode := taskNode.Content[taskPropKeyIndex]
+						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
+						if taskPropKeyNode.Value == "env" && taskPropValNode.ShortTag() == "!!map" {
+							updateEnvMapNode(taskPropValNode, envMap, envPrefix)
+							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
+						}
+					}
+					// env not found
+					taskNode.Style = yaml.LiteralStyle
+					taskNode.Content = append(
+						taskNode.Content,
+						&yaml.Node{Kind: yaml.ScalarNode, Value: "env"},
+						createEnvMapNode(envMap, envPrefix),
+					)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
+				}
+			}
+		}
 	}
-	suplements := []string{
-		"tasks:",
-		fmt.Sprintf("  %s:", taskName),
-		"    env: {}",
-	}
-	lines, _ := str.InsertIfNotFound(strings.Split(fileContentStr, "\n"), patterns, suplements)
-	// look for task's env
-	envLineIndex, submatch, err := str.GetFirstMatch(lines, suplements)
-	if err != nil {
-		return err
-	}
-	if envLineIndex == -1 {
-		return fmt.Errorf("env of task %s not found on %s", taskName, yamlLocation)
-	}
-	// get single indentation
-	singleIndentation, err := str.GetSingleIndentation(submatch[0], 2)
-	if err != nil {
-		return err
-	}
-	// prepare replacement
-	envLine := fmt.Sprintf("%senv:", str.Repeat(singleIndentation, 2))
-	additionalEnvLines := getAdditionalYamlEnvLines(additionalEnvMap, envPrefix, singleIndentation, 2)
-	replacement := append([]string{envLine}, additionalEnvLines...)
-	newLines, err := str.ReplaceLine(lines, envLineIndex, replacement)
-	if err != nil {
-		return err
-	}
-	// save
-	newFileContentStr := strings.Join(newLines, "\n")
-	return ioutil.WriteFile(yamlLocation, []byte(newFileContentStr), 0755)
+	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
 }
 
-func updateEnvRef(envRef *EnvRef, locationEnvMap map[string]string) (err error) {
-	additionalEnvMap := getAdditionalEnvMap(envRef.Map, locationEnvMap)
-	if len(additionalEnvMap) == 0 {
-		return nil
-	}
+func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(str.ToSnakeCase(envRefName))
 	yamlLocation := envRef.GetFileLocation()
-	b, err := ioutil.ReadFile(yamlLocation)
+	node, err := file.ReadYaml(yamlLocation)
 	if err != nil {
 		return err
 	}
-	fileContentStr := string(b)
-	patterns := []string{
-		"^envs:.*$",
-		fmt.Sprintf("^ +%s:.*$", envRefName),
+	docNode := node.Content[0]
+	for index := 0; index < len(docNode.Content); index += 2 {
+		keyNode := docNode.Content[index]
+		valNode := docNode.Content[index+1]
+		if keyNode.Value == "envs" && valNode.ShortTag() == "!!map" {
+			for envRefNameIndex := 0; envRefNameIndex < len(valNode.Content); envRefNameIndex += 2 {
+				envRefNameNode := valNode.Content[envRefNameIndex]
+				envRefNode := valNode.Content[envRefNameIndex+1]
+				if envRefNameNode.Value == envRefName && envRefNode.ShortTag() == "!!map" {
+					updateEnvMapNode(envRefNode, envMap, envPrefix)
+					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
+				}
+			}
+		}
 	}
-	suplements := []string{
-		"envs:",
-		fmt.Sprintf("  %s: {}", envRefName),
-	}
-	lines, _ := str.InsertIfNotFound(strings.Split(fileContentStr, "\n"), patterns, suplements)
-	// look for envRefName
-	envRefNameLineIndex, submatch, _ := str.GetFirstMatch(lines, patterns)
-	if envRefNameLineIndex == -1 {
-		return fmt.Errorf("env %s not found on %s", envRefName, yamlLocation)
-	}
-	// get single indentation
-	indentation, err := str.GetSingleIndentation(submatch[0], 1)
-	if err != nil {
-		return err
-	}
-	// prepare replacement
-	envRefNameLine := fmt.Sprintf("%s%s:", indentation, envRefName)
-	additionalEnvLines := getAdditionalYamlEnvLines(additionalEnvMap, envPrefix, indentation, 1)
-	replacement := append([]string{envRefNameLine}, additionalEnvLines...)
-	newLines, err := str.ReplaceLine(lines, envRefNameLineIndex, replacement)
-	if err != nil {
-		return err
-	}
-	// save
-	newFileContentStr := strings.Join(newLines, "\n")
-	return ioutil.WriteFile(yamlLocation, []byte(newFileContentStr), 0755)
+	return fmt.Errorf("cannot find envRef %s in %s", envRefName, yamlLocation)
 }
 
-func getAdditionalYamlEnvLines(additionalEnvMap map[string]string, envPrefix string, indentation string, indentationLevel int) (envLines []string) {
-	blockIndentationStr := str.Repeat(indentation, indentationLevel)
-	// sort keyList
-	envKeyList := []string{}
-	for envKey := range additionalEnvMap {
-		envKeyList = append(envKeyList, envKey)
-	}
-	sort.Strings(envKeyList)
-	envLines = []string{}
-	// loop
-	for _, envKey := range envKeyList {
-		envVal := additionalEnvMap[envKey]
-		envFrom := envKey
-		if !strings.HasPrefix(envKey, envPrefix) {
-			envFrom = fmt.Sprintf("%s_%s", envPrefix, envKey)
+func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix string) {
+	envMapNode.Style = yaml.LiteralStyle
+	for envKey, envVal := range envMap {
+		envKeyFound := false
+		for envKeyIndex := 0; envKeyIndex < len(envMapNode.Content); envKeyIndex += 2 {
+			envKeyNode := envMapNode.Content[envKeyIndex]
+			envValNode := envMapNode.Content[envKeyIndex+1]
+			// "env" and envKey found, update
+			if envKeyNode.Value == envKey {
+				envFromFound, envDefaultFound := false, false
+				envFrom := getEnvFromName(envKey, envPrefix)
+				for envPropKeyIndex := 0; envPropKeyIndex < len(envValNode.Content); envPropKeyIndex += 2 {
+					envPropKeyNode := envValNode.Content[envPropKeyIndex]
+					envPropValNode := envValNode.Content[envPropKeyIndex+1]
+					switch envPropKeyNode.Value {
+					case "from":
+						envPropValNode.SetString(envFrom)
+						envFromFound = true
+					case "default":
+						envPropValNode.SetString(envVal)
+						envDefaultFound = true
+					}
+				}
+				if !envFromFound {
+					envValNode.Content = append(envValNode.Content, createEnvFromNode(envKey, envPrefix)...)
+				}
+				if !envDefaultFound {
+					envValNode.Content = append(envValNode.Content, createEnvDefaultNode(envVal)...)
+				}
+				envKeyFound = true
+				break
+			}
 		}
-		envLines = append(envLines, fmt.Sprintf("%s%s%s:", blockIndentationStr, indentation, envKey))
-		envLines = append(envLines, fmt.Sprintf("%s%s%sfrom: %s", blockIndentationStr, indentation, indentation, envFrom))
-		envLines = append(envLines, fmt.Sprintf("%s%s%sdefault: %s", blockIndentationStr, indentation, indentation, envVal))
+		// "env" found, but envKey not found, create
+		if !envKeyFound {
+			envMapNode.Content = append(envMapNode.Content, createEnvNode(envKey, envVal, envPrefix)...)
+		}
 	}
-	return envLines
+}
+
+func createEnvMapNode(envMap map[string]string, envPrefix string) *yaml.Node {
+	newEnvNodes := []*yaml.Node{}
+	for envKey, envVal := range envMap {
+		newEnvNodes = append(
+			newEnvNodes,
+			createEnvNode(envKey, envVal, envPrefix)...,
+		)
+	}
+	return &yaml.Node{Kind: yaml.MappingNode, Content: newEnvNodes}
+}
+
+func createEnvNode(envKey, envVal, envPrefix string) []*yaml.Node {
+	return []*yaml.Node{
+		{Kind: yaml.ScalarNode, Value: envKey},
+		{
+			Kind: yaml.MappingNode,
+			Content: append(
+				createEnvFromNode(envKey, envPrefix),
+				createEnvDefaultNode(envVal)...,
+			),
+		},
+	}
+}
+
+func createEnvFromNode(envKey, envPrefix string) []*yaml.Node {
+	envFrom := getEnvFromName(envKey, envPrefix)
+	return []*yaml.Node{
+		{Kind: yaml.ScalarNode, Value: "from"},
+		{Kind: yaml.ScalarNode, Value: envFrom},
+	}
+}
+
+func createEnvDefaultNode(envVal string) []*yaml.Node {
+	return []*yaml.Node{
+		{Kind: yaml.ScalarNode, Value: "default"},
+		{Kind: yaml.ScalarNode, Value: envVal},
+	}
+}
+
+func getEnvFromName(envKey, envPrefix string) string {
+	if !strings.HasPrefix(envKey, envPrefix) {
+		return fmt.Sprintf("%s_%s", envPrefix, envKey)
+	}
+	return envKey
 }
 
 func getAdditionalEnvMap(existingEnvMap map[string]*Env, locationEnvMap map[string]string) (additionalEnvMap map[string]string) {

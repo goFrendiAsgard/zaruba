@@ -1,7 +1,7 @@
 # core.cassandra.startDockerContainer
 ```
   TASK NAME     : core.cassandra.startDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.cassandra.startDockerContainer.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.cassandra.startDockerContainer.zaruba.yaml
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startDockerContainer ]
   START         : - {{ .GetConfig "cmd" }}
@@ -79,17 +79,23 @@
                                                 done
                                                 echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _setup                      : set -e
-                                                {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }} 
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-                                                {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
                                                 {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
                                                 {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
                   _setup.containerName        : {{ $d := .Decoration -}}
                                                 CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                                should_not_be_empty "${CONTAINER_NAME}" "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+                                                if [ -z "${CONTAINER_NAME}" ]
+                                                then
+                                                  echo "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+                                                  exit 1
+                                                fi
                   _setup.imageName            : {{ $d := .Decoration -}}
-                                                IMAGE_NAME="{{ .GetConfig "imageName" }}"
-                                                should_not_be_empty "${IMAGE_NAME}" "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+                                                DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+                                                if [ -z "${CONTAINER_NAME}" ]
+                                                then
+                                                  echo "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+                                                  exit 1
+                                                fi
                   _start                      : {{ $d := .Decoration -}}
                                                 {{ $rebuild := .GetConfig "rebuild" -}}
                                                 {{ if .IsTrue $rebuild }}{{ .GetConfig "_start.rebuildContainer" }}{{ end }}
@@ -123,7 +129,7 @@
                                                 {{ .GetConfig "_start.runContainer.ports" -}}
                                                 {{ .GetConfig "_start.runContainer.volumes" -}}
                                                 {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
-                                                -d "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+                                                -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
                   _start.runContainer.env     : {{ $this := . -}}
                                                 {{ if eq (.GetConfig "localhost") "localhost" -}}
                                                   {{ range $key, $val := $this.GetEnvs -}}
@@ -171,42 +177,12 @@
                   cmdArg                      : -c
                   command                     : Blank
                   containerName               : Blank
-                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   hostDockerInternal          : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
                   imageName                   : Blank
                   imagePrefix                 : Blank
-                  imagePrefixTrailingSlash    : true
                   imageTag                    : Blank
-                  includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
-                                                then
-                                                    . "${HOME}/.profile"
-                                                fi
-                                                if [ -f "${HOME}/.bashrc" ]
-                                                then
-                                                    . "${HOME}/.bashrc"
-                                                fi
-                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                                . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
-                                                  DOCKER_IMAGE_PREFIX=""
-                                                {{ else if .GetConfig "imagePrefix" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-                                                {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-                                                {{ else if .GetValue "dockerImagePrefix" "default" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" "default" }}"
-                                                {{ else -}}
-                                                  DOCKER_IMAGE_PREFIX="local"
-                                                {{ end -}}
-                                                {{ if .IsTrue (.GetConfig "imagePrefixTrailingSlash" ) -}}
-                                                  if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-                                                  then
-                                                    DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-                                                  fi
-                                                {{ end -}}
                   localhost                   : localhost
                   ports                       : Blank
                   rebuild                     : false

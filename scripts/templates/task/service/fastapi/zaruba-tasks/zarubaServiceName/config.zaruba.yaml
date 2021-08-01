@@ -1,0 +1,18 @@
+configs:
+
+  zarubaServiceName:
+    ports: |
+      '{{ or (.GetEnv "ZARUBA_SERVICE_NAME_HTTP_PORT") (.GetEnv "HTTP_PORT") "3000" }}'
+ 
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/app
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/app.yaml 
+
+  zarubaServiceNameContainer:
+    containerName: zarubaContainerName
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageName: zarubaImageName
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
+    localhost: host.docker.internal

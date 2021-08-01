@@ -12,7 +12,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     dependencies:
-    - clearLog
+      - clearLog
     configRef: mainTest
     config:
       start: |
@@ -28,7 +28,7 @@ tasks:
     location: ./
     extend: core.runShellScript
     dependencies:
-    - clearLog
+      - clearLog
     config:
       start: |
         if [ -d playground ]
@@ -37,79 +37,14 @@ tasks:
         fi
         rm -Rf playground
         mkdir -p playground
-  
-
-  testSetupPyenv:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    timeout: 1h
-    configRef: mainTest
-    config:
-      start: ./zaruba please setupPyenv 
-
-
-  testSetupNvm:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    timeout: 1h
-    configRef: mainTest
-    config:
-      start: ./zaruba please setupNvm 
-
-
-  testSetupSdkman:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    timeout: 1h
-    configRef: mainTest
-    config:
-      start: ./zaruba please setupSdkman 
-
-
-  testSetupSpark:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    timeout: 1h
-    configRef: mainTest
-    config:
-      start: ./zaruba please setupSpark 
-
-
-  testSetupKubeClient:
-    icon: 💉
-    location: ./
-    dependencies:
-    - clearLog
-    - build
-    extend: core.runShellScript
-    timeout: 1h
-    configRef: mainTest
-    config:
-      start: ./zaruba please setupKubeClient 
 
 
   testShowVersion:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
+      - clearLog
+      - build
     extend: core.runShellScript
     configRef: mainTest
     config:
@@ -120,39 +55,19 @@ tasks:
     icon: 💉
     location: ./
     dependencies:
-    - clearLog
-    - build
-    - testShowVersion
-    - testSetupPyenv
-    - testSetupNvm
-    - testSetupSdkman
-    - testSetupSpark
-    - testSetupKubeClient
+      - clearLog
+      - build
+      - testShowVersion
 
-
-  testPythonUtil:
-    icon: 💉
-    location: ./scripts/python
-    dependencies:
-    - clearLog
-    - build
-    - testCoreTask
-    extend: core.runShellScript
-    config:
-      start: |
-        pipenv install --dev
-        pipenv run pytest -v --cov="$(pwd)" --cov-report html  
-  
 
   test:
     icon: 💉
     dependencies:
-    - clearLog
-    - testCore
-    - testCoreTask
-    - testPlayground
-    - testPushImage
-    - testHelmApply
-    - testHelmDestroy
-    - stopContainerRegistry
-    - testPythonUtil
+      - clearLog
+      - testCore
+      - testCoreTask
+      - testPlayground
+      - testPushImage
+      - testHelmInstall
+      - testHelmUninstall
+      - stopContainerRegistry

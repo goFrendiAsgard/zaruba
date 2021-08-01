@@ -18,32 +18,21 @@ tasks:
   testMakeProject:
     location: ./playground
     dependencies:
-    - clearLog
-    - build
-    - preparePlayground
-    - testSetupPyenv
+      - clearLog
+      - build
+      - preparePlayground
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
       start: |
         ../zaruba please initProject 
-        ../zaruba please setProjectValue variableName=dockerImagePrefix::default variableValue=localhost:9999 
+        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
   
-
-  testInitHelm:
-    location: ./playground
-    dependencies:
-    - testMakeProject
-    extend: core.runShellScript 
-    configRef: playgroundTest
-    config:
-      start: ../zaruba please initHelm 
-
 
   testMakeSubrepo:
     location: ./playground
     dependencies:
-    - testMakeProject
+      - testMakeProject
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -58,7 +47,7 @@ tasks:
     location: ./playground
     extend: core.runShellScript 
     dependencies:
-    - testMakeProject
+      - testMakeSubrepo
     configRef: playgroundTest
     config:
       start: ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no setupInitPyUtil=no 
@@ -67,20 +56,20 @@ tasks:
   testMakeServiceTasks:
     location: ./playground
     dependencies:
-    - testMakeFastApiService
-    - testMakeSubrepo
+      - testMakeFastApiService
+      - testMakeSubrepo
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
       start: |
         ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo 
-        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generator.service.type=fastapi showAdvertisement=no setupInitPyUtil=no 
+        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no setupInitPyUtil=no 
 
 
   testMakeDockerTasks:
     location: ./playground
     dependencies:
-    - testMakeServiceTasks
+      - testMakeServiceTasks
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -96,7 +85,7 @@ tasks:
   testMakeFastApiModule:
     location: ./playground
     dependencies:
-    - testMakeFastApiService
+      - testMakeFastApiService
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -106,7 +95,7 @@ tasks:
   testMakeFastApiRoute:
     location: ./playground
     dependencies:
-    - testMakeFastApiModule
+      - testMakeFastApiModule
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -116,7 +105,7 @@ tasks:
   testMakeFastApiEventHandler:
     location: ./playground
     dependencies:
-    - testMakeFastApiRoute
+      - testMakeFastApiRoute
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -126,7 +115,7 @@ tasks:
   testMakeFastApiRpcHandler:
     location: ./playground
     dependencies:
-    - testMakeFastApiEventHandler
+      - testMakeFastApiEventHandler
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -136,30 +125,29 @@ tasks:
   testMakeFastApiCrud:
     location: ./playground
     dependencies:
-    - testMakeFastApiRpcHandler
+      - testMakeFastApiRpcHandler
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
-      start: ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields=title,author,synopsis showAdvertisement=no setupInitPyUtil=no 
+      start: ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no setupInitPyUtil=no 
   
 
-  testUpdateEnv:
+  testSyncEnv:
     location: ./playground
     dependencies:
-    - testMakeFastApiCrud
-    - testInitHelm
-    - testMakeDockerTasks
-    - testMakeServiceTasks
+      - testMakeFastApiCrud
+      - testMakeDockerTasks
+      - testMakeServiceTasks
     extend: core.runShellScript
     configRef: playgroundTest
     config:
-      start: ../zaruba please updateEnv 
+      start: ../zaruba please syncEnv 
 
 
   testRun:
     location: ./playground
     dependencies:
-    - testUpdateEnv
+      - testSyncEnv
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -171,7 +159,7 @@ tasks:
   testRunContainer:
     location: ./playground
     dependencies:
-    - testRun
+      - testRun
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -184,39 +172,39 @@ tasks:
   testBuildImage:
     location: ./playground
     dependencies:
-    - testRunContainer
+      - testRunContainer
     extend: core.runShellScript
     configRef: playgroundTest
     config:
       start: |
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
-        ../zaruba please buildImage dockerEnv=default 
+        ../zaruba please buildImage
 
 
   testGenerator:
     location: ./playground
     dependencies:
-    - testMakeProject
-    - testMakeSubrepo
-    - testMakeDockerTasks
-    - testMakeServiceTasks
-    - testMakeFastApiService
-    - testMakeFastApiModule
-    - testMakeFastApiRoute
-    - testMakeFastApiEventHandler
-    - testMakeFastApiRpcHandler
-    - testMakeFastApiCrud
-    - testUpdateEnv
-    - testRun
-    - testRunContainer
-    - testBuildImage
+      - testMakeProject
+      - testMakeSubrepo
+      - testMakeDockerTasks
+      - testMakeServiceTasks
+      - testMakeFastApiService
+      - testMakeFastApiModule
+      - testMakeFastApiRoute
+      - testMakeFastApiEventHandler
+      - testMakeFastApiRpcHandler
+      - testMakeFastApiCrud
+      - testSyncEnv
+      - testRun
+      - testRunContainer
+      - testBuildImage
 
 
   testLogging:
     location: ./playground
     dependencies:
-    - testGenerator
+      - testGenerator
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -230,7 +218,7 @@ tasks:
     location: ./
     extend: core.startDockerContainer
     dependencies:
-    - clearLog
+      - clearLog
     config:
       useImagePrefix: false
       imageName: registry
@@ -244,25 +232,25 @@ tasks:
   testPushImage:
     location: ./playground
     dependencies:
-    - clearLog
-    - runContainerRegistry
-    - testGenerator
+      - clearLog
+      - runContainerRegistry
+      - testGenerator
     extend: core.runShellScript
     timeout: 1h
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please pushImage dockerEnv=default 
+        ../zaruba please pushImage
   
 
   runPlayground:
     location: ./playground
     inputs:
-    - runPlaygroundDelay
+      - runPlaygroundDelay
     dependencies:
-    - clearLog
-    - build
-    - testGenerator
+      - clearLog
+      - build
+      - testGenerator
     extend: core.startService
     configRef: playgroundTest
     config:
@@ -283,8 +271,8 @@ tasks:
   testGeneratedService:
     location: ./playground
     dependencies:
-    - clearLog
-    - runPlayground
+      - clearLog
+      - runPlayground
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -294,8 +282,8 @@ tasks:
   testGeneratedContainer:
     location: ./playground
     dependencies:
-    - clearLog
-    - runPlayground
+      - clearLog
+      - runPlayground
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -305,8 +293,9 @@ tasks:
   testPlayground:
     location: ./playground
     dependencies:
-    - testGeneratedService
-    - testGeneratedContainer
+      - testLogging
+      - testGeneratedService
+      - testGeneratedContainer
     extend: core.runShellScript
     configRef: playgroundTest
     config:

@@ -1,0 +1,14 @@
+tasks:
+  core.helmUninstall:
+    private: true
+    extend: core.runShellScript
+    config:
+      chart: ''
+      releaseName: ''
+      kubeContext: '{{ .GetValue "kubeContext" }}'
+      start: |
+        if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+        then
+          kubectl config set-context "{{ .GetConfig "kubeContext" }}"
+        fi
+        helm uninstall "{{ .GetConfig "releaseName" }}"

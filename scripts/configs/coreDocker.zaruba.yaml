@@ -1,0 +1,6 @@
+configs:
+
+  coreDocker:
+    useImagePrefix: true
+    imagePrefix: ''
+    imageTag: ''

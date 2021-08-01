@@ -11,19 +11,20 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/output"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // Project is zaruba configuration
 type Project struct {
-	Includes                   []string                     `yaml:"includes,omitempty"`
-	Tasks                      map[string]*Task             `yaml:"tasks,omitempty"`
 	Name                       string                       `yaml:"name,omitempty"`
+	Includes                   []string                     `yaml:"includes,omitempty"`
 	Inputs                     map[string]*Variable         `yaml:"inputs,omitempty"`
+	Tasks                      map[string]*Task             `yaml:"tasks,omitempty"`
 	RawEnvRefMap               map[string]map[string]*Env   `yaml:"envs,omitempty"`
 	RawConfigRefMap            map[string]map[string]string `yaml:"configs,omitempty"`
-	EnvRefMap                  map[string]*EnvRef
-	ConfigRefMap               map[string]*ConfigRef
+	EnvRefMap                  map[string]*EnvRef           `yaml:"_envrefmap,omitempty"`
+	ConfigRefMap               map[string]*ConfigRef        `yaml:"_configrefmap,omitempty"`
+	IsInitialized              bool                         `yaml:"_isInitialized,omitempty"`
 	fileLocation               string
 	values                     map[string]string
 	sortedTaskNames            []string
@@ -32,7 +33,6 @@ type Project struct {
 	decoration                 *output.Decoration
 	logger                     output.Logger
 	dataLogger                 output.RecordLogger
-	IsInitialized              bool
 }
 
 // NewProject create new Config from Yaml File
@@ -63,7 +63,7 @@ func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration
 	return p, err
 }
 
-func loadProject(logger output.Logger, d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+func loadRawProject(projectFile string) (p *Project, err error) {
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	p = &Project{
 		Includes:                   []string{},
@@ -84,6 +84,15 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string,
 	}
 	if err = yaml.Unmarshal(b, p); err != nil {
 		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
+	}
+	return p, nil
+}
+
+func loadProject(logger output.Logger, d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
+	p, err = loadRawProject(parsedProjectFile)
+	if err != nil {
+		return p, err
 	}
 	p.include(parsedProjectFile, defaultIncludes)
 	p.fileLocation = parsedProjectFile

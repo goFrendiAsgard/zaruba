@@ -1,7 +1,7 @@
 # makeFastApiCrud
 ```
   TASK NAME     : makeFastApiCrud
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.makeFastApiCrud.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeFastApiCrud.zaruba.yaml
   DESCRIPTION   : Make FastAPI crud
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -19,11 +19,6 @@
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiCreateTask
-                    DESCRIPTION : Create service task if not exist.
-                    PROMPT      : Create service task if not exist
-                    OPTIONS     : [ yes, no ]
-                    DEFAULT     : no
                   generatorFastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
@@ -34,74 +29,22 @@
                     PROMPT      : Entity name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
                   generatorFastApiCrudFields
-                    DESCRIPTION : Field names, comma separated.
-                                  E.g: name,address
-                                  The following fields are included by default:
-                                  - id
-                                  - created_at
-                                  - updated_at
-                    PROMPT      : Field names
-                    VALIDATION  : ^[a-zA-Z0-9_,]*$
+                    DESCRIPTION : Field names, JSON formated.
+                                  E.g: ["name", "address"]
+                    PROMPT      : Field names, JSON formated. E.g: ["name", "address"]
+                    DEFAULT     : []
+                    VALIDATION  : ^\[.*\]$
   CONFIG        : _setup                  : set -e
-                                            alias zaruba=${ZARUBA_HOME}/zaruba
-                                            {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                  : Blank
                   afterStart              : Blank
                   beforeStart             : Blank
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                  : -c
-                  createModuleScript      : {{- $d := .Decoration -}}
-                                            {{ .GetConfig "createServiceScript" }}
-                                            if [ ! -d "./{{ .GetConfig "serviceName" }}/{{ .GetConfig "moduleName" }}" ]
-                                            then
-                                              MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
-                                              SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                              MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
-                                              should_be_dir "./${SERVICE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
-                                              echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API module: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
-                                              create_fast_module "template_location=${MODULE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}"
-                                            fi
-                  createServiceScript     : {{- $d := .Decoration -}}
-                                            if [ ! -d "./{{ .GetConfig "serviceName" }}" ]
-                                            then
-                                              SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
-                                              SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                              echo "{{ $d.Bold }}{{ $d.Yellow }}Creating Fast API Service: ${SERVICE_NAME}{{ $d.Normal }}"
-                                              create_fast_service "template_location=${SERVICE_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}"
-                                              chmod 755 "${SERVICE_NAME}/start.sh"
-                                              if [ -f "./main.zaruba.yaml" ]
-                                              then
-                                                if [ ! -d "./shared-libs/python/helpers" ]
-                                                then
-                                                  echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib{{ $d.Normal }}"
-                                                  mkdir -p "./shared-libs/python/helpers"
-                                                  cp -rnT "./${SERVICE_NAME}/helpers" "./shared-libs/python/helpers"
-                                                fi
-                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Creating shared-lib link for ${SERVICE_NAME}{{ $d.Normal }}"
-                                                "${ZARUBA_HOME}/zaruba" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::${SERVICE_NAME}/helpers" "shared-libs/python/helpers"
-                                                link_resource "shared-libs/python/helpers" "${SERVICE_NAME}/helpers"
-                                                {{ if .IsTrue (.GetConfig "createTask") -}}
-                                                TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
-                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Creating service task for ${SERVICE_NAME}{{ $d.Normal }}"
-                                                create_service_task "template_location=${TASK_TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=" "container_name=" "location=${SERVICE_NAME}" "start_command=./start.sh" "ports=" "envs=" "dependencies=" "runner_version="
-                                                {{ end -}}
-                                              fi
-                                            fi
-                  createTask              : {{ .GetValue "generatorFastApiCreateTask" }}
+                  crudTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud
                   entityName              : {{ .GetValue "generatorFastApiCrudEntity" }}
                   fieldNames              : {{ .GetValue "generatorFastApiCrudFields" }}
                   finish                  : Blank
-                  includeBootstrapScript  : if [ -f "${HOME}/.profile" ]
-                                            then
-                                                . "${HOME}/.profile"
-                                            fi
-                                            if [ -f "${HOME}/.bashrc" ]
-                                            then
-                                                . "${HOME}/.bashrc"
-                                            fi
-                                            BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                            . "${BOOTSTRAP_SCRIPT}"
                   includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
                   moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule
@@ -109,14 +52,24 @@
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
-                                            {{ .GetConfig "createModuleScript" }}
-                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                            CRUD_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "crudTemplateLocation") }}
+                                            MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+                                            SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+                                            TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
                                             SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
                                             FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
-                                            should_be_dir "./${SERVICE_NAME}/${MODULE_NAME}" "{{ $d.Bold }}{{ $d.Red }}${SERVICE_NAME} directory should be exist{{ $d.Normal }}"
-                                            create_fast_crud "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "module_name=${MODULE_NAME}" "entity_name=${ENTITY_NAME}" "field_names=${FIELD_NAMES}"
+                                            . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_crud_handler.sh
+                                            generate_fast_api_crud_handler \
+                                              "${CRUD_TEMPLATE_LOCATION}" \
+                                              "${MODULE_TEMPLATE_LOCATION}" \
+                                              "${SERVICE_TEMPLATE_LOCATION}" \
+                                              "${TASK_TEMPLATE_LOCATION}" \
+                                              "${SERVICE_NAME}" \
+                                              "${MODULE_NAME}" \
+                                              "${ENTITY_NAME}" \
+                                              "${FIELD_NAMES}"
                                             echo 🎉🎉🎉
                                             echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API module created: ${SERVICE_NAME}/${MODULE_NAME}{{ $d.Normal }}"
                                             echo "You probably need to check the following files:"
@@ -127,8 +80,7 @@
                                             echo "- ${SERVICE_NAME}/repos/<entity>.py"
                                             echo "- ${SERVICE_NAME}/repos/db<Entity>.py"
                                             echo "- ${SERVICE_NAME}/schemas/<entity>.py"
-                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi.zaruba.yaml
-                  templateLocation        : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud
+                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -1,0 +1,51 @@
+includes:
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
+
+inputs:
+
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+      - yes
+      - no
+    allowCustom: false
+    description: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
+
+tasks:
+
+  runZarubaServiceName:
+    icon: 🧰
+    extend: core.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+ 
+  flushZarubaServiceName:
+    icon: 🧰
+    extend: core.runInContainer
+    dependencies:
+      - runZarubaServiceName
+    configRef: zarubaServiceName
+    config:
+      commands: redis-cli flushall
+
+  pullZarubaServiceNameImage:
+    extend: core.pullDockerImage
+    timeout: 1h
+    configRef: zarubaServiceName
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName

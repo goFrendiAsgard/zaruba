@@ -1,7 +1,7 @@
 # core.makeServiceTask
 ```
   TASK NAME     : core.makeServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.makeServiceTask.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.makeServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ core.showAdv, core.isProject ]
@@ -14,52 +14,56 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
-                                           {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                 : Blank
-                  afterStart             : Blank
-                  beforeStart            : Blank
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  containerName          : {{ .GetValue "generatorServiceDockerContainerName" }}
-                  dependencies           : {{ .GetValue "generatorTaskDependencies" }}
-                  finish                 : Blank
-                  imageName              : {{ .GetValue "generatorServiceDockerImageName" }}
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  runnerVersion          : Blank
-                  serviceEnvs            : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceLocation        : {{ .GetValue "generatorServiceLocation" }}
-                  serviceName            : {{ .GetValue "generatorServiceName" }}
-                  servicePorts           : {{ .GetValue "generatorServicePorts" }}
-                  serviceStartCommand    : {{ .GetValue "generatorServiceStartCommand" }}
-                  setup                  : Blank
-                  start                  : {{- $d := .Decoration -}}
-                                           TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-                                           IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-                                           CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-                                           SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                           SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-                                           SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
-                                           SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
-                                           RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "runnerVersion") }}
-                                           SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-                                           DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-                                           create_service_task "template_location=${TEMPLATE_LOCATION}" "service_name=${SERVICE_NAME}" "image_name=${IMAGE_NAME}" "container_name=${CONTAINER_NAME}" "location=${SERVICE_LOCATION}" "start_command=${SERVICE_START_COMMAND}" "ports=${SERVICE_PORTS}" "envs=${SERVICE_ENVS}" "dependencies=${DEPENDENCIES}" "runner_version=${RUNNER_VERSION}"
-                                           echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
-                  templateLocation       : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default.zaruba.yaml
+  CONFIG        : _setup               : set -e
+                                         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start               : Blank
+                  afterStart           : Blank
+                  beforeStart          : Blank
+                  cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg               : -c
+                  containerName        : {{ .GetValue "generatorServiceDockerContainerName" }}
+                  dependencies         : {{ .GetValue "generatorTaskDependencies" }}
+                  finish               : Blank
+                  imageName            : {{ .GetValue "generatorServiceDockerImageName" }}
+                  includeUtilScript    : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  replacementMap       : {}
+                  serviceEnvs          : {{ .GetValue "generatorServiceEnvs" }}
+                  serviceLocation      : {{ .GetValue "generatorServiceLocation" }}
+                  serviceName          : {{ .GetValue "generatorServiceName" }}
+                  servicePorts         : {{ .GetValue "generatorServicePorts" }}
+                  serviceRunnerVersion : Blank
+                  serviceStartCommand  : {{ .GetValue "generatorServiceStartCommand" }}
+                  setup                : Blank
+                  start                : {{- $d := .Decoration -}}
+                                         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
+                                         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+                                         CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+                                         SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
+                                         SERVICE_RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
+                                         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+                                         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+                                         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+                                         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+                                         
+                                         . "${ZARUBA_HOME}/scripts/bash/generate_service_task.sh"
+                                         generate_service_task \
+                                           "${TEMPLATE_LOCATION}" \
+                                           "${SERVICE_LOCATION}" \
+                                           "${SERVICE_NAME}" \
+                                           "${IMAGE_NAME}" \
+                                           "${CONTAINER_NAME}" \
+                                           "${SERVICE_START_COMMAND}" \
+                                           "${SERVICE_RUNENR_VERSION}" \
+                                           "${SERVICE_PORTS}" \
+                                           "${SERVICE_ENVS}" \
+                                           "${DEPENDENCIES}" \
+                                           "${REPLACEMENT_MAP}"
+                                         
+                                         echo 🎉🎉🎉
+                                         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+                  templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

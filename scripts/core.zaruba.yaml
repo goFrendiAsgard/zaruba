@@ -1,140 +1,111 @@
 includes:
 
-- ./config.coreDocker.zaruba.yaml
-- ./config.coreNvm.zaruba.yaml
-- ./config.generatorFastApi.zaruba.yaml
-- ./config.includeBootstrapScript.zaruba.yaml
-- ./config.includeUtilScript.zaruba.yaml
-- ./config.playBellScript.zaruba.yaml
+  - ./configs/coreDocker.zaruba.yaml
+  - ./configs/coreNvm.zaruba.yaml
+  - ./configs/generatorFastApi.zaruba.yaml
+  - ./configs/includeUtilScript.zaruba.yaml
+  - ./configs/playBellScript.zaruba.yaml
 
-- ./input.dockerEnv.zaruba.yaml
-- ./input.generatorDockerContainerName.zaruba.yaml
-- ./input.generatorDockerImageName.zaruba.yaml
-- ./input.generatorFastApiCreateTask.zaruba.yaml
-- ./input.generatorFastApiCrudEntity.zaruba.yaml
-- ./input.generatorFastApiCrudFields.zaruba.yaml
-- ./input.generatorFastApiEventName.zaruba.yaml
-- ./input.generatorFastApiHttpMethod.zaruba.yaml
-- ./input.generatorFastApiModuleName.zaruba.yaml
-- ./input.generatorFastApiRpcName.zaruba.yaml
-- ./input.generatorFastApiServiceName.zaruba.yaml
-- ./input.generatorFastApiUrl.zaruba.yaml
-- ./input.generatorGoServiceStartCommand.zaruba.yaml
-- ./input.generatorNodeJsServiceStartCommand.zaruba.yaml
-- ./input.generatorNodeJsServiceRunnerVersion.zaruba.yaml
-- ./input.generatorPythonServiceStartCommand.zaruba.yaml
-- ./input.generatorServiceDockerContainerName.zaruba.yaml
-- ./input.generatorServiceDockerImageName.zaruba.yaml
-- ./input.generatorServiceEnvs.zaruba.yaml
-- ./input.generatorServiceLocation.zaruba.yaml
-- ./input.generatorServiceName.zaruba.yaml
-- ./input.generatorServicePorts.zaruba.yaml
-- ./input.generatorServiceStartCommand.zaruba.yaml
-- ./input.generatorTaskDependencies.zaruba.yaml
-- ./input.helmEnv.zaruba.yaml
-- ./input.kubeContext.zaruba.yaml
-- ./input.linkFrom.zaruba.yaml
-- ./input.linkTo.zaruba.yaml
-- ./input.logKeyword.zaruba.yaml
-- ./input.serverHttpPort.zaruba.yaml
-- ./input.setupAllowRoot.zaruba.yaml
-- ./input.setupHadoopVersion.zaruba.yaml
-- ./input.setupHelmfileVersion.zaruba.yaml
-- ./input.setupHomeDir.zaruba.yaml
-- ./input.setupInitPyUtil.zaruba.yaml
-- ./input.setupNodeVersion.zaruba.yaml
-- ./input.setupPythonVersion.zaruba.yaml
-- ./input.setupSparkDownloadUrl.zaruba.yaml
-- ./input.setupSparkVersion.zaruba.yaml
-- ./input.setupUserPassword.zaruba.yaml
-- ./input.showAdvertisement.zaruba.yaml
-- ./input.subrepoUrl.zaruba.yaml
-- ./input.subrepoPrefix.zaruba.yaml
-- ./input.subrepoName.zaruba.yaml
-- ./input.variableName.zaruba.yaml
-- ./input.variableValue.zaruba.yaml
+  - ./inputs/generatorDockerContainerName.zaruba.yaml
+  - ./inputs/generatorDockerImageName.zaruba.yaml
+  - ./inputs/generatorFastApiCrudEntity.zaruba.yaml
+  - ./inputs/generatorFastApiCrudFields.zaruba.yaml
+  - ./inputs/generatorFastApiEventName.zaruba.yaml
+  - ./inputs/generatorFastApiHttpMethod.zaruba.yaml
+  - ./inputs/generatorFastApiModuleName.zaruba.yaml
+  - ./inputs/generatorFastApiRpcName.zaruba.yaml
+  - ./inputs/generatorFastApiServiceName.zaruba.yaml
+  - ./inputs/generatorFastApiUrl.zaruba.yaml
+  - ./inputs/generatorGoServiceStartCommand.zaruba.yaml
+  - ./inputs/generatorNodeJsServiceStartCommand.zaruba.yaml
+  - ./inputs/generatorNodeJsServiceRunnerVersion.zaruba.yaml
+  - ./inputs/generatorPythonServiceStartCommand.zaruba.yaml
+  - ./inputs/generatorServiceDockerContainerName.zaruba.yaml
+  - ./inputs/generatorServiceDockerImageName.zaruba.yaml
+  - ./inputs/generatorServiceEnvs.zaruba.yaml
+  - ./inputs/generatorServiceLocation.zaruba.yaml
+  - ./inputs/generatorServiceName.zaruba.yaml
+  - ./inputs/generatorServicePorts.zaruba.yaml
+  - ./inputs/generatorServiceStartCommand.zaruba.yaml
+  - ./inputs/generatorTaskDependencies.zaruba.yaml
+  - ./inputs/kubeContext.zaruba.yaml
+  - ./inputs/linkFrom.zaruba.yaml
+  - ./inputs/linkTo.zaruba.yaml
+  - ./inputs/logKeyword.zaruba.yaml
+  - ./inputs/serverHttpPort.zaruba.yaml
+  - ./inputs/showAdvertisement.zaruba.yaml
+  - ./inputs/subrepoUrl.zaruba.yaml
+  - ./inputs/subrepoPrefix.zaruba.yaml
+  - ./inputs/subrepoName.zaruba.yaml
+  - ./inputs/variableName.zaruba.yaml
+  - ./inputs/variableValue.zaruba.yaml
 
-- ./task.addProjectLink.zaruba.yaml
-- ./task.addSubrepo.zaruba.yaml
-- ./task.clearPreviousValues.zaruba.yaml
-- ./task.clearLog.zaruba.yaml
-- ./task.core.bootstrap.zaruba.yaml
-- ./task.core.buildDockerImage.zaruba.yaml
-- ./task.core.helmApply.zaruba.yaml
-- ./task.core.helmDestroy.zaruba.yaml
-- ./task.core.isContainHelmCharts.zaruba.yaml
-- ./task.core.isNotContainHelmCharts.zaruba.yaml
-- ./task.core.isNotProject.zaruba.yaml
-- ./task.core.isProject.zaruba.yaml
-- ./task.core.isValidSubrepos.zaruba.yaml
-- ./task.core.cassandra.execCql.zaruba.yaml
-- ./task.core.cassandra.startDockerContainer.zaruba.yaml
-- ./task.core.makeDockerTask.zaruba.yaml
-- ./task.core.makeServiceTask.zaruba.yaml
-- ./task.core.makePresetDockerTask.zaruba.yaml
-- ./task.core.makePresetServiceTask.zaruba.yaml
-- ./task.core.monitorPorts.zaruba.yaml
-- ./task.core.mysql.execSql.zaruba.yaml
-- ./task.core.mysql.startDockerContainer.zaruba.yaml
-- ./task.core.postgre.execSql.zaruba.yaml
-- ./task.core.postgre.startDockerContainer.zaruba.yaml
-- ./task.core.prepareNodeJsApp.zaruba.yaml
-- ./task.core.preparePythonApp.zaruba.yaml
-- ./task.core.pullDockerImage.zaruba.yaml
-- ./task.core.pushDockerImage.zaruba.yaml
-- ./task.core.removeDockerContainer.zaruba.yaml
-- ./task.core.runCoreScript.zaruba.yaml
-- ./task.core.runInContainer.zaruba.yaml
-- ./task.core.runNodeJsScript.zaruba.yaml
-- ./task.core.runNvmScript.zaruba.yaml
-- ./task.core.runPythonScript.zaruba.yaml
-- ./task.core.runScript.zaruba.yaml
-- ./task.core.runShellScript.zaruba.yaml
-- ./task.setupKubeClient.zaruba.yaml
-- ./task.setupNvm.zaruba.yaml
-- ./task.setupPyenv.zaruba.yaml
-- ./task.setupSdkman.zaruba.yaml
-- ./task.setupSpark.zaruba.yaml
-- ./task.setupTmux.zaruba.yaml
-- ./task.setupUbuntu.zaruba.yaml
-- ./task.core.setupPyUtil.zaruba.yaml
-- ./task.core.showAdv.zaruba.yaml
-- ./task.core.startService.zaruba.yaml
-- ./task.core.startNvmService.zaruba.yaml
-- ./task.core.startDockerContainer.zaruba.yaml
-- ./task.core.stopDockerContainer.zaruba.yaml
-- ./task.core.wrapper.zaruba.yaml
-- ./task.initHelm.zaruba.yaml
-- ./task.initProject.zaruba.yaml
-- ./task.initSubrepos.zaruba.yaml
-- ./task.injectBootstrap.zaruba.yaml
-- ./task.makeCassandraDockerTask.zaruba.yaml
-- ./task.makeDockerTask.zaruba.yaml
-- ./task.makeElasticsearchDockerTask.zaruba.yaml
-- ./task.makeHelmDeployment.zaruba.yaml
-- ./task.makeFastApiCrud.zaruba.yaml
-- ./task.makeFastApiEventHandler.zaruba.yaml
-- ./task.makeFastApiModule.zaruba.yaml
-- ./task.makeFastApiRoute.zaruba.yaml
-- ./task.makeFastApiRpcHandler.zaruba.yaml
-- ./task.makeFastApiService.zaruba.yaml
-- ./task.makeFastApiServiceTask.zaruba.yaml
-- ./task.makeGoServiceTask.zaruba.yaml
-- ./task.makeMongoDockerTask.zaruba.yaml
-- ./task.makeMysqlDockerTask.zaruba.yaml
-- ./task.makeNodeJsServiceTask.zaruba.yaml
-- ./task.makePostgreDockerTask.zaruba.yaml
-- ./task.makePythonServiceTask.zaruba.yaml
-- ./task.makeRabbitmqDockerTask.zaruba.yaml
-- ./task.makeRedisDockerTask.zaruba.yaml
-- ./task.makeServiceTask.zaruba.yaml
-- ./task.makeStaticServiceTask.zaruba.yaml
-- ./task.pullSubrepos.zaruba.yaml
-- ./task.pushSubrepos.zaruba.yaml
-- ./task.serveHttp.zaruba.yaml
-- ./task.setProjectValue.zaruba.yaml
-- ./task.showLog.zaruba.yaml
-- ./task.showVersion.zaruba.yaml
-- ./task.update.zaruba.yaml
-- ./task.updateEnv.zaruba.yaml
-- ./task.updateProjectLinks.zaruba.yaml
+  - ./tasks/addProjectLink.zaruba.yaml
+  - ./tasks/addSubrepo.zaruba.yaml
+  - ./tasks/clearPreviousValues.zaruba.yaml
+  - ./tasks/clearLog.zaruba.yaml
+  - ./tasks/core.buildDockerImage.zaruba.yaml
+  - ./tasks/core.helmGenerateValue.zaruba.yaml
+  - ./tasks/core.helmInstall.zaruba.yaml
+  - ./tasks/core.helmRepoUpdate.zaruba.yaml
+  - ./tasks/core.helmUninstall.zaruba.yaml
+  - ./tasks/core.isProject.zaruba.yaml
+  - ./tasks/core.isValidSubrepos.zaruba.yaml
+  - ./tasks/core.cassandra.execCql.zaruba.yaml
+  - ./tasks/core.cassandra.startDockerContainer.zaruba.yaml
+  - ./tasks/core.makeDockerTask.zaruba.yaml
+  - ./tasks/core.makeServiceTask.zaruba.yaml
+  - ./tasks/core.monitorPorts.zaruba.yaml
+  - ./tasks/core.mysql.execSql.zaruba.yaml
+  - ./tasks/core.mysql.startDockerContainer.zaruba.yaml
+  - ./tasks/core.postgre.execSql.zaruba.yaml
+  - ./tasks/core.postgre.startDockerContainer.zaruba.yaml
+  - ./tasks/core.prepareNodeJsApp.zaruba.yaml
+  - ./tasks/core.preparePythonApp.zaruba.yaml
+  - ./tasks/core.pullDockerImage.zaruba.yaml
+  - ./tasks/core.pushDockerImage.zaruba.yaml
+  - ./tasks/core.removeDockerContainer.zaruba.yaml
+  - ./tasks/core.runCoreScript.zaruba.yaml
+  - ./tasks/core.runInContainer.zaruba.yaml
+  - ./tasks/core.runNodeJsScript.zaruba.yaml
+  - ./tasks/core.runNvmScript.zaruba.yaml
+  - ./tasks/core.runPythonScript.zaruba.yaml
+  - ./tasks/core.runScript.zaruba.yaml
+  - ./tasks/core.runShellScript.zaruba.yaml
+  - ./tasks/core.showAdv.zaruba.yaml
+  - ./tasks/core.startService.zaruba.yaml
+  - ./tasks/core.startNvmService.zaruba.yaml
+  - ./tasks/core.startDockerContainer.zaruba.yaml
+  - ./tasks/core.stopDockerContainer.zaruba.yaml
+  - ./tasks/core.wrapper.zaruba.yaml
+  - ./tasks/initProject.zaruba.yaml
+  - ./tasks/initSubrepos.zaruba.yaml
+  - ./tasks/makeCassandraDockerTask.zaruba.yaml
+  - ./tasks/makeDockerTask.zaruba.yaml
+  - ./tasks/makeElasticsearchDockerTask.zaruba.yaml
+  - ./tasks/makeFastApiCrud.zaruba.yaml
+  - ./tasks/makeFastApiEventHandler.zaruba.yaml
+  - ./tasks/makeFastApiModule.zaruba.yaml
+  - ./tasks/makeFastApiRoute.zaruba.yaml
+  - ./tasks/makeFastApiRpcHandler.zaruba.yaml
+  - ./tasks/makeFastApiService.zaruba.yaml
+  - ./tasks/makeFastApiServiceTask.zaruba.yaml
+  - ./tasks/makeGoServiceTask.zaruba.yaml
+  - ./tasks/makeMongoDockerTask.zaruba.yaml
+  - ./tasks/makeMysqlDockerTask.zaruba.yaml
+  - ./tasks/makeNodeJsServiceTask.zaruba.yaml
+  - ./tasks/makePostgreDockerTask.zaruba.yaml
+  - ./tasks/makePythonServiceTask.zaruba.yaml
+  - ./tasks/makeRabbitmqDockerTask.zaruba.yaml
+  - ./tasks/makeRedisDockerTask.zaruba.yaml
+  - ./tasks/makeServiceTask.zaruba.yaml
+  - ./tasks/makeStaticServiceTask.zaruba.yaml
+  - ./tasks/pullSubrepos.zaruba.yaml
+  - ./tasks/pushSubrepos.zaruba.yaml
+  - ./tasks/serveHttp.zaruba.yaml
+  - ./tasks/setProjectValue.zaruba.yaml
+  - ./tasks/showLog.zaruba.yaml
+  - ./tasks/showVersion.zaruba.yaml
+  - ./tasks/update.zaruba.yaml
+  - ./tasks/syncEnv.zaruba.yaml
+  - ./tasks/updateProjectLinks.zaruba.yaml

@@ -1,8 +1,0 @@
-inputs:
-
-  setupNodeVersion:
-    default: node
-    options: [node, stable, unstable]
-    validation: ^.+$
-    description: Node version to be installed when install nvm
-    prompt: Node version

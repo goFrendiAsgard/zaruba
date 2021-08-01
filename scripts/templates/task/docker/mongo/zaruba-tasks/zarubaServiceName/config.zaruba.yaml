@@ -1,0 +1,6 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: mongo
+    containerName: zarubaContainerName
+    ports: 27017

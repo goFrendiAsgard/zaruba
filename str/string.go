@@ -161,7 +161,7 @@ func GetSingleIndentation(s string, level int) (result string, err error) {
 	return result, nil
 }
 
-func GetFirstMatch(lines, patterns []string) (matchIndex int, submatch []string, err error) {
+func GetLineSubmatch(lines, patterns []string) (matchIndex int, submatch []string, err error) {
 	patternIndex := 0
 	rex, err := regexp.Compile(patterns[patternIndex])
 	if err != nil {
@@ -191,7 +191,7 @@ func prepareLinesForReplacement(lines []string) (preparedLines []string) {
 	return lines
 }
 
-func ReplaceLine(lines []string, index int, replacements []string) (result []string, err error) {
+func ReplaceLineAtIndex(lines []string, index int, replacements []string) (result []string, err error) {
 	lines = prepareLinesForReplacement(lines)
 	if index < 0 || index >= len(lines) {
 		return []string{}, fmt.Errorf("index out of bound: %d", index)
@@ -207,25 +207,7 @@ func ReplaceLine(lines []string, index int, replacements []string) (result []str
 	return result, nil
 }
 
-func InsertBefore(lines []string, index int, newLines []string) (result []string, err error) {
-	lines = prepareLinesForReplacement(lines)
-	if index < 0 || index >= len(lines) {
-		return []string{}, fmt.Errorf("index out of bound: %d", index)
-	}
-	replacements := append(newLines, lines[index])
-	return ReplaceLine(lines, index, replacements)
-}
-
-func InsertAfter(lines []string, index int, newLines []string) (result []string, err error) {
-	lines = prepareLinesForReplacement(lines)
-	if index < 0 || index >= len(lines) {
-		return []string{}, fmt.Errorf("index out of bound: %d", index)
-	}
-	replacements := append([]string{lines[index]}, newLines...)
-	return ReplaceLine(lines, index, replacements)
-}
-
-func InsertIfNotFound(lines, patterns, suplements []string) (newLines []string, err error) {
+func CompleteLines(lines, patterns, suplements []string) (newLines []string, err error) {
 	if len(patterns) != len(suplements) {
 		return newLines, fmt.Errorf("patterns and suplements length doesn't match")
 	}
@@ -242,13 +224,15 @@ func InsertIfNotFound(lines, patterns, suplements []string) (newLines []string, 
 	newLines = append([]string{}, lines...)
 	lastMatchIndex := len(newLines) - 1
 	for index, suplement := range suplements {
-		matchIndex, _, _ := GetFirstMatch(newLines, patterns[:index+1])
+		matchIndex, _, _ := GetLineSubmatch(newLines, patterns[:index+1])
 		if matchIndex > -1 {
 			lastMatchIndex = matchIndex
 			continue
 		}
-		newLines, _ = InsertAfter(newLines, lastMatchIndex, []string{suplement})
-		lastMatchIndex, _, _ = GetFirstMatch(newLines, patterns[:index+1])
+		newLines, _ = ReplaceLineAtIndex(newLines, lastMatchIndex, []string{newLines[lastMatchIndex], suplement})
+		lastMatchIndex, _, _ = GetLineSubmatch(newLines, patterns[:index+1])
 	}
+	content := strings.Join(newLines, "\n")
+	newLines = strings.Split(content, "\n")
 	return newLines, nil
 }

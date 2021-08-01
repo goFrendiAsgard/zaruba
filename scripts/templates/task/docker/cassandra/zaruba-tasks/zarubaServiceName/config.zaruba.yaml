@@ -1,0 +1,11 @@
+configs:
+  zarubaServiceName:
+    useImagePrefix: false
+    imageName: cassandra
+    imageTag: 3.11.4
+    containerName: zarubaContainerName
+    ports: |
+      7001
+      7199
+      9042
+      9160

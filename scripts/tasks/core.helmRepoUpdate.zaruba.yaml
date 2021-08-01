@@ -1,0 +1,6 @@
+tasks:
+  core.helmRepoUpdate:
+    private: true
+    extend: core.runShellScript
+    config:
+      start: helm repo update

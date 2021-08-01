@@ -1,0 +1,20 @@
+tasks:
+
+  update:
+    icon: 🔄
+    description: |
+      Update zaruba to the latest version.
+    extend: core.runCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        cd ${ZARUBA_HOME}
+        echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
+        git pull origin master
+        git fetch origin --tags
+        echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
+        go build
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
+        . "${ZARUBA_HOME}/scripts/bash/show_version.sh"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"

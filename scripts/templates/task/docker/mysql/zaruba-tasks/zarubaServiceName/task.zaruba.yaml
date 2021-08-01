@@ -1,0 +1,60 @@
+includes:
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
+
+inputs:
+
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+      - yes
+      - no
+    allowCustom: false
+    description: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
+
+  zarubaServiceName.sql:
+    validation: ^.+$
+    prompt: single line SQL to be executed (Required)
+    description: single line SQL to be executed
+
+tasks:
+
+  runZarubaServiceName:
+    icon: 🐬 
+    extend: core.mysql.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      afterCheck: sleep 3
+      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  zarubaServiceNameExecSql:
+    icon: 🐬 
+    extend: core.mysql.execSql
+    dependencies:
+      - runZarubaServiceName
+    inputs:
+      - zarubaServiceName.sql
+    config:
+      queries: '{{ .GetValue "zarubaServiceName.sql" }}'
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  pullZarubaServiceNameImage:
+    extend: core.pullDockerImage
+    timeout: 1h
+    configRef: zarubaServiceName
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceName

@@ -1,7 +1,0 @@
-tasks:
-  runZarubaServiceName: {}
-
-configs:
-  zarubaServiceName:
-    ports: |
-      3306

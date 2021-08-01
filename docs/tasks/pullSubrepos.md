@@ -1,7 +1,7 @@
 # pullSubrepos
 ```
   TASK NAME     : pullSubrepos
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.pullSubrepos.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/pullSubrepos.zaruba.yaml
   DESCRIPTION   : Pull subrepositories.
                   ARGUMENTS:
                     subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
@@ -18,47 +18,35 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                 : set -e
-                                           alias zaruba=${ZARUBA_HOME}/zaruba
-                                           {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                           {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                 : Blank
-                  afterStart             : Blank
-                  beforeStart            : Blank
-                  cmd                    : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                 : -c
-                  finish                 : Blank
-                  includeBootstrapScript : if [ -f "${HOME}/.profile" ]
-                                           then
-                                               . "${HOME}/.profile"
-                                           fi
-                                           if [ -f "${HOME}/.bashrc" ]
-                                           then
-                                               . "${HOME}/.bashrc"
-                                           fi
-                                           BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                           . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript      : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  setup                  : Blank
-                  start                  : set -e
-                                           {{ $d := .Decoration -}}
-                                           {{ $names := .GetSubValueKeys "subrepo" -}}
-                                           {{ $this := . -}}
-                                           ORIGINS=$("${ZARUBA_HOME}/zaruba" split "$(git remote)")
-                                           BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-                                           {{ range $index, $name := $names -}}
-                                             PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-                                             URL="{{ $this.GetValue "subrepo" $name "url" }}"
-                                             NAME="{{ $name }}"
-                                             ORIGIN_EXISTS=$("${ZARUBA_HOME}/zaruba" listContains "${ORIGINS}" "${NAME}")
-                                             if [ $ORIGIN_EXISTS = 1 ]
-                                             then
-                                               git_save "Save works before pull"
-                                               git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-                                             fi
-                                           {{ end -}}
-                                           echo 🎉🎉🎉
-                                           echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
+  CONFIG        : _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : Blank
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  finish            : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  setup             : Blank
+                  start             : set -e
+                                      {{ $d := .Decoration -}}
+                                      {{ $names := .GetSubValueKeys "subrepo" -}}
+                                      {{ $this := . -}}
+                                      ORIGINS=$("{{ .ZarubaBin }}" split "$(git remote)")
+                                      BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
+                                      {{ range $index, $name := $names -}}
+                                        PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+                                        URL="{{ $this.GetValue "subrepo" $name "url" }}"
+                                        NAME="{{ $name }}"
+                                        ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" isInList "${ORIGINS}" "${NAME}")
+                                        if [ $ORIGIN_EXISTS = 1 ]
+                                        then
+                                          git_save "Save works before pull"
+                                          git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+                                        fi
+                                      {{ end -}}
+                                      echo 🎉🎉🎉
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

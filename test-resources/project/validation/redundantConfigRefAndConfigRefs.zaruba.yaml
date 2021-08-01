@@ -2,7 +2,7 @@ tasks:
   taskName:
     configRef: configRef1
     configRefs:
-    - configRef2
+      - configRef2
 
 configs:
   configRef1: {}

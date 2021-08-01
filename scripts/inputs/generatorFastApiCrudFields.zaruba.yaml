@@ -1,0 +1,10 @@
+inputs:
+  
+  generatorFastApiCrudFields:
+    description: |
+      Field names, JSON formated.
+      E.g: ["name", "address"]
+    prompt: "Field names, JSON formated. E.g: [\"name\", \"address\"]"
+    validation: ^\[.*\]$
+    default: "[]"
+ 

@@ -1,0 +1,42 @@
+tasks:
+
+  addSubrepo:
+    icon: 🥂
+    description: |
+      Add subrepository.
+      TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
+    extend: core.runCoreScript
+    dependencies:
+      - core.isProject
+    inputs:
+      - subrepoUrl
+      - subrepoPrefix
+      - subrepoName
+    config:
+      subrepoUrl: '{{ .GetValue "subrepoUrl" }}'
+      subrepoPrefix: '{{ .GetValue "subrepoPrefix" }}'
+      subrepoName: '{{ .GetValue "subrepoName" }}'
+      start: |
+        set -e
+        {{ $d := .Decoration -}}
+        URL="{{ .GetValue "subrepoUrl" }}"
+        if [ -z "${URL}" ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
+          exit 1
+        fi
+        {{ if .GetValue "subrepoPrefix" }}
+          PREFIX="{{ .GetValue "subrepoPrefix" }}"
+        {{ else }}
+          {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
+          {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
+          {{ $urlLastSegment := index $urlSegment $urlSegmentLastIndex -}}
+          {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
+          PREFIX="{{ $prefix }}"
+        {{ end }}
+        NAME="{{ if .GetValue "subrepoName" }}{{ .GetValue "subrepoName" }}{{ else }}${PREFIX}{{ end }}"
+        "{{ .ZarubaBin }}" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
+        "{{ .ZarubaBin }}" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
+

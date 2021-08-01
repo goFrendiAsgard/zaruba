@@ -1,2 +1,2 @@
 includes:
-- ./zaruba-tasks/task.zaruba.yaml
+  - ./zaruba-tasks/task.zaruba.yaml

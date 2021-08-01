@@ -1,7 +1,7 @@
 # core.runInContainer
 ```
   TASK NAME     : core.runInContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/task.core.runInContainer.zaruba.yaml
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.runInContainer.zaruba.yaml
   DESCRIPTION   : Run command from inside the container
                   Common config:
                     containerName : Name of the container
@@ -17,57 +17,26 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                      : set -e
-                                                alias zaruba=${ZARUBA_HOME}/zaruba
-                                                {{ .Trim (.GetConfig "includeBootstrapScript") "\n" }}
-                                                {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start                      : {{ $this := . -}}
-                                                {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
-                                                  {{ if ne $command "" -}}
-                                                    docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
-                                                  {{ end -}}
-                                                {{ end -}}
-                  afterStart                  : Blank
-                  beforeStart                 : Blank
-                  cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                      : -c
-                  commands                    : Blank
-                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
-                  finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helmEnv" }}
-                  imagePrefix                 : Blank
-                  imagePrefixTrailingSlash    : false
-                  includeBootstrapScript      : if [ -f "${HOME}/.profile" ]
-                                                then
-                                                    . "${HOME}/.profile"
-                                                fi
-                                                if [ -f "${HOME}/.bashrc" ]
-                                                then
-                                                    . "${HOME}/.bashrc"
-                                                fi
-                                                BOOTSTRAP_SCRIPT="${ZARUBA_HOME}/scripts/bash/bootstrap.sh"
-                                                . "${BOOTSTRAP_SCRIPT}"
-                  includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
-                                                  DOCKER_IMAGE_PREFIX=""
-                                                {{ else if .GetConfig "imagePrefix" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-                                                {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-                                                {{ else if .GetValue "dockerImagePrefix" "default" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" "default" }}"
-                                                {{ else -}}
-                                                  DOCKER_IMAGE_PREFIX="local"
-                                                {{ end -}}
-                                                {{ if .IsTrue (.GetConfig "imagePrefixTrailingSlash" ) -}}
-                                                  if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-                                                  then
-                                                    DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-                                                  fi
-                                                {{ end -}}
-                  setup                       : Blank
-                  start                       : echo "No script defined"
-                  useImagePrefix              : true
+  CONFIG        : _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : {{ $this := . -}}
+                                      {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
+                                        {{ if ne $command "" -}}
+                                          docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
+                                        {{ end -}}
+                                      {{ end -}}
+                  afterStart        : Blank
+                  beforeStart       : Blank
+                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg            : -c
+                  commands          : Blank
+                  finish            : Blank
+                  imagePrefix       : Blank
+                  imageTag          : Blank
+                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  setup             : Blank
+                  start             : echo "No script defined"
+                  useImagePrefix    : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

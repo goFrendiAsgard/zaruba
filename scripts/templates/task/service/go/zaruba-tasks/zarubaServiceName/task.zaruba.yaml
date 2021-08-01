@@ -1,0 +1,93 @@
+includes:
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
+
+inputs:
+
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+      - yes
+      - no
+    allowCustom: false
+    description: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
+
+tasks:
+
+  testZarubaServiceName:
+    icon: 🐹
+    extend: core.runShellScript
+    location: zarubaServiceLocation
+    timeout: 1h
+    config:
+      start: go test -v ./... --race -count=1
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  runZarubaServiceName:
+    icon: 🐹
+    extend: core.startService
+    location: zarubaServiceLocation
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      start: zarubaStartCommand
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  runZarubaServiceNameContainer:
+    extend: core.startDockerContainer
+    location: zarubaServiceLocation
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      start: zarubaStartCommand
+    configRefs:
+      - zarubaServiceNameContainer
+      - zarubaServiceName
+    envRef: zarubaServiceName
+
+  buildZarubaServiceNameImage:
+    extend: core.buildDockerImage
+    location: zarubaServiceLocation
+    timeout: 1h
+    configRef: zarubaServiceNameContainer
+
+  pushZarubaServiceNameImage:
+    extend: core.pushDockerImage
+    location: zarubaServiceLocation
+    timeout: 1h
+    configRef: zarubaServiceNameContainer
+
+  stopZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceNameContainer
+
+  removeZarubaServiceNameContainer:
+    extend: core.stopDockerContainer
+    configRef: zarubaServiceNameContainer
+
+  helmInstallZarubaServiceName:
+    extend: core.helmInstall
+    location: ../..
+    dependencies:
+      - helmGenerateValueZarubaServiceName
+    timeout: 1h
+    configRef: zarubaServiceNameHelm
+    envRef: zarubaServiceName
+
+  helmUninstallZarubaServiceName:
+    extend: core.helmUninstall
+    location: ../..
+    timeout: 1h
+    configRef: zarubaServiceNameHelm
+
+  helmGenerateValueZarubaServiceName:
+    extend: core.helmGenerateValue
+    location: ../..
+    configRefs:
+      - zarubaServiceNameHelm
+      - zarubaServiceNameContainer
+      - zarubaServiceName
+    envRef: zarubaServiceName 

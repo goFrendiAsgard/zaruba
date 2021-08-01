@@ -11,7 +11,7 @@ import (
 
 var getLineIndexCmd = &cobra.Command{
 	Use:   "getLineIndex <list> <patterns>",
-	Short: "Sequentially match the patterns and return the index of the first line matching the last pattern",
+	Short: "Return index of matching the pattern",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -26,7 +26,7 @@ var getLineIndexCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		index, _, err := str.GetFirstMatch(list, patterns)
+		index, _, err := str.GetLineSubmatch(list, patterns)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
