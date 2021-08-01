@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+{{ $this := . -}}
+
 replicaCount: 1
 
 image:
@@ -39,10 +41,16 @@ securityContext: {}
 service:
   type: ClusterIP
   ports:
-    - port: 80
-      targetPort: 80
+    {{- range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" }}
+    {{- if ne $port "" }}
+    {{- $portParts := $this.Split ($this.Trim $port  " ") ":" }}
+    {{- $port := index $portParts 0 }}
+    - port: {{ $port }}
+      targetPort: {{ $port }}
       protocol: TCP
       name: http
+    {{- end }}
+    {{- end }}
 
 ingress:
   enabled: false
@@ -73,7 +81,12 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-env: {}
+env:
+{{- range $key, $val := $this.GetEnvs }}
+  - name: {{ $key }}
+    value: {{ $val }}
+{{- end }}
+
 
 autoscaling:
   enabled: false

@@ -38,11 +38,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: 80
-      protocol: TCP
-      name: http
+  ports: []
 
 ingress:
   enabled: false
@@ -73,7 +69,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-env: {}
+env: []
 
 autoscaling:
   enabled: false
