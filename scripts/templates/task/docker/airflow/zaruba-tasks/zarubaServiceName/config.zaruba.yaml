@@ -1,0 +1,10 @@
+# TODO: take from here, https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml
+configs:
+  zarubaServiceName:
+    useImagePrefix: true
+    imagePrefix: trinodb
+    imageName: trino
+    containerName: zarubaContainerName
+    localhost: host.docker.internal
+    volumes:
+      ../../zarubaServiceName:/etc/trino

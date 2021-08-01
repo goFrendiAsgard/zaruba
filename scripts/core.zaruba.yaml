@@ -80,6 +80,7 @@ includes:
   - ./tasks/core.wrapper.zaruba.yaml
   - ./tasks/initProject.zaruba.yaml
   - ./tasks/initSubrepos.zaruba.yaml
+  - ./tasks/makeAirflowDockerTask.zaruba.yaml
   - ./tasks/makeCassandraDockerTask.zaruba.yaml
   - ./tasks/makeDockerTask.zaruba.yaml
   - ./tasks/makeElasticsearchDockerTask.zaruba.yaml
@@ -100,6 +101,7 @@ includes:
   - ./tasks/makeRedisDockerTask.zaruba.yaml
   - ./tasks/makeServiceTask.zaruba.yaml
   - ./tasks/makeStaticServiceTask.zaruba.yaml
+  - ./tasks/makeTrinoDockerTask.zaruba.yaml
   - ./tasks/pullSubrepos.zaruba.yaml
   - ./tasks/pushSubrepos.zaruba.yaml
   - ./tasks/serveHttp.zaruba.yaml

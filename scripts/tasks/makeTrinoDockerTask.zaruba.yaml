@@ -1,0 +1,12 @@
+tasks: 
+
+  makeTrinoDockerTask:
+    extend: core.makeDockerTask
+    inputs:
+      - generatorDockerContainerName
+      - generatorServiceName
+      - generatorServiceEnvs
+      - generatorTaskDependencies
+    config:
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/trino'
+
