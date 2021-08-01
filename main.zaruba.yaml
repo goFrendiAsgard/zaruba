@@ -3,6 +3,18 @@ includes:
   - "./main.testGenerator.zaruba.yaml"
   - "./main.testHelm.zaruba.yaml"
 
+configs:
+
+  commonDocker:
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
+
+  zarubaDocker:
+    imageName: zaruba
+
+  devboxDocker:
+    imageName: devbox
+
 tasks:
 
 
@@ -34,9 +46,11 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
+    configRefs:
+      - commonDocker
+      - zarubaDocker
     config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+      imageName: zaruba
     location: ./
     timeout: 1h
 
@@ -46,9 +60,9 @@ tasks:
     extend: core.buildDockerImage
     dependencies:
       - clearLog
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRefs:
+      - commonDocker
+      - devboxDocker
     location: ./devbox
     timeout: 1h
 
@@ -83,9 +97,9 @@ tasks:
     dependencies:
       - clearLog
       - buildZarubaImage
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRefs:
+      - commonDocker
+      - zarubaDocker
     location: ./
     timeout: 1h
 
@@ -96,9 +110,9 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
-    config:
-      imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-      imageTag: '{{ .GetValue "defaultImageTag" }}'
+    configRefs:
+      - commonDocker
+      - devboxDocker
     location: ./devbox
     timeout: 1h
 

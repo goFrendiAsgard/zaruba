@@ -137,6 +137,10 @@ func (td *TaskData) GetDockerImageName() string {
 		dockerImagePrefix, _ = td.GetConfig("imagePrefix")
 	}
 	dockerImageName, _ := td.GetConfig("imageName")
+	if dockerImageName == "" {
+		defaultServiceName, _ := GetDefaultServiceName(td.DirPath)
+		dockerImageName = str.ToKebabCase(defaultServiceName)
+	}
 	if dockerImagePrefix == "" {
 		return dockerImageName
 	}
