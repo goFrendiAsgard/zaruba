@@ -5,10 +5,15 @@ includes:
 
 configs:
 
-  zarubaDocker:
+  commonDocker:
     imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
     imageTag: '{{ .GetValue "defaultImageTag" }}'
 
+  zarubaDocker:
+    imageName: zaruba
+
+  devboxDocker:
+    imageName: docker
 
 tasks:
 
@@ -41,7 +46,11 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
-    configRef: zarubaDocker
+    configRefs:
+      - commonDocker
+      - zarubaDocker
+    config:
+      imageName: zaruba
     location: ./
     timeout: 1h
 
@@ -51,7 +60,9 @@ tasks:
     extend: core.buildDockerImage
     dependencies:
       - clearLog
-    configRef: zarubaDocker
+    configRefs:
+      - commonDocker
+      - devboxDocker
     location: ./devbox
     timeout: 1h
 
@@ -86,7 +97,9 @@ tasks:
     dependencies:
       - clearLog
       - buildZarubaImage
-    configRef: zarubaDocker
+    configRefs:
+      - commonDocker
+      - zarubaDocker
     location: ./
     timeout: 1h
 
@@ -97,7 +110,9 @@ tasks:
     dependencies:
       - clearLog
       - buildDevboxImage
-    configRef: zarubaDocker
+    configRefs:
+      - commonDocker
+      - DevboxDocker
     location: ./devbox
     timeout: 1h
 
