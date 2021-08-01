@@ -4,7 +4,6 @@
   LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.buildDockerImage.zaruba.yaml
   DESCRIPTION   : Build docker image.
                   Common config:
-                    dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
                     imageName : Image name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
@@ -26,58 +25,27 @@
                   buildArg                        : Blank
                   cmd                             : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                          : -c
-                  dockerEnv                       : {{ .GetValue "dockerEnv" }}
                   finish                          : Blank
-                  helmEnv                         : {{ .GetValue "helmEnv" }}
                   imagePrefix                     : Blank
                   imagePrefixTrailingSlash        : true
+                  imageTag                        : Blank
                   includeUtilScript               : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  initDockerImagePrefixScript     : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
-                                                      DOCKER_IMAGE_PREFIX=""
-                                                    {{ else if .GetConfig "imagePrefix" -}}
-                                                      DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-                                                    {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-                                                      DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-                                                    {{ else if .GetValue "dockerImagePrefix" "default" -}}
-                                                      DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" "default" }}"
-                                                    {{ else -}}
-                                                      DOCKER_IMAGE_PREFIX="local"
-                                                    {{ end -}}
-                                                    {{ if .IsTrue (.GetConfig "imagePrefixTrailingSlash" ) -}}
-                                                      if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-                                                      then
-                                                        DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-                                                      fi
-                                                    {{ end -}}
                   setup                           : Blank
                   start                           : set -e
                                                     {{ $d := .Decoration -}}
-                                                    {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+                                                    DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
                                                     if [ ! -f "$(pwd)/Dockerfile" ]
                                                     then
                                                       echo "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
                                                       exit 1
                                                     fi
-                                                    IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$({{ .Zaruba }} getServiceName "$(pwd)"){{ end }}"
-                                                    COMMIT="$(get_latest_git_commit)"
-                                                    if [ ! -z "${COMMIT}" ]
+                                                    DOCKER_IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+                                                    DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+                                                    if [ ! -z "${DOCKER_IMAGE_TAG}" ]
                                                     then
-                                                      SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-                                                      TAG="$(get_latest_git_tag)"
-                                                      if [ ! -z "${TAG}" ]
-                                                      then
-                                                        TAG_COMMIT="$(get_latest_git_tag_commit)"
-                                                        if [ "${TAG_COMMIT}" = "${COMMIT}" ]
-                                                        then
-                                                          docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-                                                        else
-                                                          docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-                                                        fi
-                                                      else
-                                                        docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}" .
-                                                      fi
+                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" -t "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:latest" .
                                                     else
-                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "local/${IMAGE_NAME}:latest" -t "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest" .
+                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:latest" .
                                                     fi
                                                     echo 🎉🎉🎉
                                                     echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"

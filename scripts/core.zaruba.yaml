@@ -6,7 +6,6 @@ includes:
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
 
-  - ./inputs/dockerEnv.zaruba.yaml
   - ./inputs/generatorDockerContainerName.zaruba.yaml
   - ./inputs/generatorDockerImageName.zaruba.yaml
   - ./inputs/generatorFastApiCrudEntity.zaruba.yaml
@@ -29,7 +28,6 @@ includes:
   - ./inputs/generatorServicePorts.zaruba.yaml
   - ./inputs/generatorServiceStartCommand.zaruba.yaml
   - ./inputs/generatorTaskDependencies.zaruba.yaml
-  - ./inputs/helmEnv.zaruba.yaml
   - ./inputs/kubeContext.zaruba.yaml
   - ./inputs/linkFrom.zaruba.yaml
   - ./inputs/linkTo.zaruba.yaml

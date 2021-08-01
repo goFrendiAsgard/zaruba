@@ -6,7 +6,6 @@ tasks:
     description: |
       Pull docker image.
       Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         imageName : Image name
     extend: core.runCoreScript
     dependencies:
@@ -14,17 +13,18 @@ tasks:
     configRef: coreDocker
     config:
       imagePrefixTrailingSlash: true
+      imageTag: ""
       start: |
         {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$({{ .Zaruba }} getServiceName "$(pwd)"){{ end }}"
-        IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-        if [ ! -z "${IMAGE_TAG}" ]
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
+        DOCKER_IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+        DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+        if [ ! -z "${DOCKER_IMAGE_TAG}" ]
         then
-          pull_image "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${IMAGE_TAG}"
+          pull_image "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
         else
-          pull_image "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}"
+          pull_image "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}"
         fi
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_PREFIX}${IMAGE_NAME} pulled{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME} pulled{{ $d.Normal }}"
 

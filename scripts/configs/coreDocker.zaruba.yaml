@@ -1,27 +1,7 @@
 configs:
 
   coreDocker:
-    dockerEnv: '{{ .GetValue "dockerEnv" }}'
-    helmEnv: '{{ .GetValue "helmEnv" }}'
     useImagePrefix: true
     imagePrefix: ''
+    imageTag: ''
     imagePrefixTrailingSlash: false
-    initDockerImagePrefixScript: |
-      {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
-        DOCKER_IMAGE_PREFIX=""
-      {{ else if .GetConfig "imagePrefix" -}}
-        DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-      {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-        DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-      {{ else if .GetValue "dockerImagePrefix" "default" -}}
-        DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" "default" }}"
-      {{ else -}}
-        DOCKER_IMAGE_PREFIX="local"
-      {{ end -}}
-      {{ if .IsTrue (.GetConfig "imagePrefixTrailingSlash" ) -}}
-        if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-        then
-          DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-        fi
-      {{ end -}}
-  

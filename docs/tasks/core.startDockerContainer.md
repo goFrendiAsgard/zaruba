@@ -18,8 +18,6 @@
                     imageName      : Image name
                     imageTag       : Image tag
                     containerName  : Name of the container
-                    dockerEnv      : Docker env to be used when useImagePrefix is true,
-                                     but imagePrefix is not provided
                     ports          : Port to be checked to confirm service readiness, 
                                      separated by new line.
                     volumes        : Host-container volume mappings,
@@ -68,11 +66,6 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  INPUTS        : dockerEnv
-                    DESCRIPTION : Docker env for getting image prefix (Required)
-                    PROMPT      : Docker env
-                    DEFAULT     : default
-                    VALIDATION  : ^.+$
   CONFIG        : RunInLocal                  : true
                   _check                      : {{ $d := .Decoration -}}
                                                 {{ .GetConfig "_check.containerState" }}
@@ -115,7 +108,7 @@
                                                 echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-                                                {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+                                                DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
                                                 {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
                                                 {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
                   _setup.containerName        : {{ $d := .Decoration -}}
@@ -213,32 +206,13 @@
                   cmdArg                      : -c
                   command                     : Blank
                   containerName               : Blank
-                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   hostDockerInternal          : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
                   imageName                   : Blank
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : true
                   imageTag                    : Blank
                   includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
-                                                  DOCKER_IMAGE_PREFIX=""
-                                                {{ else if .GetConfig "imagePrefix" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-                                                {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-                                                {{ else if .GetValue "dockerImagePrefix" "default" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" "default" }}"
-                                                {{ else -}}
-                                                  DOCKER_IMAGE_PREFIX="local"
-                                                {{ end -}}
-                                                {{ if .IsTrue (.GetConfig "imagePrefixTrailingSlash" ) -}}
-                                                  if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-                                                  then
-                                                    DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-                                                  fi
-                                                {{ end -}}
                   localhost                   : localhost
                   ports                       : Blank
                   rebuild                     : false

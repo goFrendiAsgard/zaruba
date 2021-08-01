@@ -26,7 +26,7 @@ tasks:
     config:
       start: |
         ../zaruba please initProject 
-        ../zaruba please setProjectValue variableName=dockerImagePrefix::default variableValue=localhost:9999 
+        ../zaruba please setProjectValue variableName=dockerImagePrefix variableValue=localhost:9999 
   
 
   testMakeSubrepo:
@@ -179,7 +179,7 @@ tasks:
       start: |
         git add . -A && git commit -m 'first commit'
         git tag -a v0.0.0 -m 'version 0.0.0'
-        ../zaruba please buildImage dockerEnv=default 
+        ../zaruba please buildImage
 
 
   testGenerator:
@@ -240,7 +240,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please pushImage dockerEnv=default 
+        ../zaruba please pushImage
   
 
   runPlayground:

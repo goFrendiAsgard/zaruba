@@ -80,7 +80,7 @@
                                                 echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-                                                {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+                                                DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
                                                 {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
                                                 {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
                   _setup.containerName        : {{ $d := .Decoration -}}
@@ -178,32 +178,13 @@
                   cmdArg                      : -c
                   command                     : Blank
                   containerName               : Blank
-                  dockerEnv                   : {{ .GetValue "dockerEnv" }}
                   finish                      : Blank
-                  helmEnv                     : {{ .GetValue "helmEnv" }}
                   hostDockerInternal          : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
                   imageName                   : Blank
                   imagePrefix                 : Blank
                   imagePrefixTrailingSlash    : true
                   imageTag                    : Blank
                   includeUtilScript           : . ${ZARUBA_HOME}/scripts/bash/util.sh
-                  initDockerImagePrefixScript : {{ if .IsFalse (.GetConfig "useImagePrefix") -}}
-                                                  DOCKER_IMAGE_PREFIX=""
-                                                {{ else if .GetConfig "imagePrefix" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetConfig "imagePrefix" }}"
-                                                {{ else if and (.GetConfig "dockerEnv") (.GetValue "dockerImagePrefix" (.GetConfig "dockerEnv")) -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" (.GetConfig "dockerEnv") }}"
-                                                {{ else if .GetValue "dockerImagePrefix" "default" -}}
-                                                  DOCKER_IMAGE_PREFIX="{{ .GetValue "dockerImagePrefix" "default" }}"
-                                                {{ else -}}
-                                                  DOCKER_IMAGE_PREFIX="local"
-                                                {{ end -}}
-                                                {{ if .IsTrue (.GetConfig "imagePrefixTrailingSlash" ) -}}
-                                                  if [ ! -z "${DOCKER_IMAGE_PREFIX}" ]
-                                                  then
-                                                    DOCKER_IMAGE_PREFIX="${DOCKER_IMAGE_PREFIX}/"
-                                                  fi
-                                                {{ end -}}
                   localhost                   : localhost
                   ports                       : Blank
                   rebuild                     : false

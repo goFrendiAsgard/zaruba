@@ -19,8 +19,6 @@ tasks:
         imageName      : Image name
         imageTag       : Image tag
         containerName  : Name of the container
-        dockerEnv      : Docker env to be used when useImagePrefix is true,
-                         but imagePrefix is not provided
         ports          : Port to be checked to confirm service readiness, 
                          separated by new line.
         volumes        : Host-container volume mappings,
@@ -36,8 +34,6 @@ tasks:
     extend: core.startService
     dependencies:
       - updateProjectLinks
-    inputs:
-      - dockerEnv
     configRef: coreDocker
     config:
       containerName: ""
@@ -72,7 +68,7 @@ tasks:
       _setup: |
         set -e
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
         {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
         {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
       _check.containerState: |

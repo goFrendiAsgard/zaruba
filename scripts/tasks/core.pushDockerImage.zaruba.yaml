@@ -6,7 +6,6 @@ tasks:
     description: |
       Push docker image.
       Common config:
-        dockerEnv : Docker environment key (default: '{{ .GetValue "dockerEnv" }}')
         imageName : Image name
     extend: core.runCoreScript
     dependencies:
@@ -16,25 +15,14 @@ tasks:
       imagePrefixTrailingSlash: true
       start: |
         {{ $d := .Decoration -}}
-        {{ .Trim (.GetConfig "initDockerImagePrefixScript") "\n" }}
-        IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$({{ .Zaruba }} getServiceName "$(pwd)"){{ end }}"
-        COMMIT="$(get_latest_git_commit)"
-        if [ ! -z "${COMMIT}" ]
+        DOCKER_IMAGE_PREFIX="{{ .GetDockerImagePrefix }}"
+        DOCKER_IMAGE_NAME="{{ if .GetConfig "imageName" }}{{ .GetConfig "imageName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+        DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+        if [ ! -z "${DOCKER_IMAGE_TAG}" ]
         then
-          SHORT_COMMIT="$(echo "${COMMIT}" | cut -c1-12)"
-          TAG="$(get_latest_git_tag)"
-          if [ ! -z "${TAG}" ]
-          then
-            TAG_COMMIT="$(get_latest_git_tag_commit)"
-            if [ "${TAG_COMMIT}" = "${COMMIT}" ]
-            then
-              docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}"
-            fi
-            docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${TAG}-${SHORT_COMMIT}"
-          fi
-          docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:${SHORT_COMMIT}"
+          docker push "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
         fi
-        docker push "${DOCKER_IMAGE_PREFIX}${IMAGE_NAME}:latest"
+        docker push "${DOCKER_IMAGE_PREFIX}${DOCKER_IMAGE_NAME}:latest"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${IMAGE_NAME} pushed{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pushed{{ $d.Normal }}"
  

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -18,7 +19,8 @@ import (
 
 type TaskData struct {
 	task         *Task
-	Zaruba       string
+	ZarubaHome   string
+	ZarubaBin    string
 	Name         string
 	ProjectName  string
 	WorkPath     string
@@ -28,11 +30,17 @@ type TaskData struct {
 }
 
 func NewTaskData(task *Task) (td *TaskData) {
+	zarubaHome := os.Getenv("ZARUBA_HOME")
+	if zarubaHome == "" {
+		executable, _ := os.Executable()
+		zarubaHome = filepath.Dir(executable)
+	}
 	nextTask := *task
 	nextTask.currentRecursiveLevel++
 	return &TaskData{
 		task:         &nextTask,
-		Zaruba:       "\"${ZARUBA_HOME}/zaruba\"",
+		ZarubaHome:   zarubaHome,
+		ZarubaBin:    filepath.Join(zarubaHome, "zaruba"),
 		Name:         task.GetName(),
 		ProjectName:  task.Project.GetName(),
 		WorkPath:     task.GetWorkPath(),
@@ -98,6 +106,25 @@ func (td *TaskData) Indent(multiLineStr string, indentation string) (result stri
 
 func (td *TaskData) GetNewUUID() string {
 	return uuid.NewString()
+}
+
+func (td *TaskData) GetDockerImagePrefix() string {
+	dockerImagePrefix := ""
+	useImagePrefix, _ := td.GetConfig("useImagePrefix")
+	if boolean.IsTrue(useImagePrefix) {
+		dockerImagePrefix, _ = td.GetConfig("imagePrefix")
+		if dockerImagePrefix == "" {
+			dockerImagePrefix, _ = td.GetValue("dockerImagePrefix")
+		}
+		if dockerImagePrefix == "" {
+			dockerImagePrefix = "local"
+		}
+	}
+	trailingSlash, _ := td.GetConfig("imagePrefixTrailingSlash")
+	if boolean.IsTrue(trailingSlash) && dockerImagePrefix != "" {
+		return fmt.Sprintf("%s/", dockerImagePrefix)
+	}
+	return dockerImagePrefix
 }
 
 func (td *TaskData) Split(s, sep string) []string {
