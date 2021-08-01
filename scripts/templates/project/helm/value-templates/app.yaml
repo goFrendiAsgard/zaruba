@@ -8,10 +8,9 @@ replicaCount: 1
 
 image:
   repository: '{{ .GetDockerImagePrefix }}{{ .GetConfig "imageName" }}'
-  imageTag: '{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}'
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: '{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}'
 
 imagePullSecrets: []
 nameOverride: ""
