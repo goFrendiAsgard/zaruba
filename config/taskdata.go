@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -60,6 +61,27 @@ func (td *TaskData) GetRelativePath(path string) (absPath string) {
 
 func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
 	return td.task.GetConfig(keys...)
+}
+
+func (td *TaskData) GetPorts() []int {
+	ports := []int{}
+	portStr, _ := td.GetConfig("ports")
+	lines := strings.Split(portStr, "\n")
+	for _, line := range lines {
+		line = strings.Trim(line, " \"'")
+		if line == "" {
+			continue
+		}
+		portParts := strings.Split(line, ":")
+		if len(portParts) > 1 {
+			port, _ := strconv.Atoi(portParts[1])
+			ports = append(ports, port)
+			continue
+		}
+		port, _ := strconv.Atoi(portParts[0])
+		ports = append(ports, port)
+	}
+	return ports
 }
 
 func (td *TaskData) GetSubConfigKeys(parentKeys ...string) (subKeys []string) {

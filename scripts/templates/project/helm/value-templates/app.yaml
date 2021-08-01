@@ -7,7 +7,8 @@
 replicaCount: 1
 
 image:
-  repository: '{{ .GetDockerImagePrefix }}{{ .GetConfig "imageName" }}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }} latest{{ end }}'
+  repository: '{{ .GetDockerImagePrefix }}{{ .GetConfig "imageName" }}'
+  imageTag: '{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}'
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -40,17 +41,15 @@ securityContext: {}
 
 service:
   type: ClusterIP
+  {{- with .GetPorts }}
   ports:
-    {{- range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" }}
-    {{- if ne $port "" }}
-    {{- $portParts := $this.Split ($this.Trim $port  " ") ":" }}
-    {{- $port := index $portParts 0 }}
+    {{- range $index, $port := $this.GetPorts }}
     - port: {{ $port }}
       targetPort: {{ $port }}
       protocol: TCP
-      name: http
+      name: 'http{{ $index }}'
     {{- end }}
-    {{- end }}
+  {{- end }}
 
 ingress:
   enabled: false
@@ -60,10 +59,12 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
+        {{- range $index, $port := .GetPorts }}
         - path: /
           backend:
             serviceName: chart-example.local
-            servicePort: 80
+            servicePort: {{ $port }}
+        {{- end }}
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -84,7 +85,7 @@ resources: {}
 env:
 {{- range $key, $val := $this.GetEnvs }}
   - name: {{ $key }}
-    value: {{ $val }}
+    value: {{ $this.EscapeShellArg $val }}
 {{- end }}
 
 
