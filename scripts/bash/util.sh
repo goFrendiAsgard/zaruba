@@ -1,3 +1,13 @@
+if [ -f "${HOME}/.profile" ]
+then
+    . "${HOME}/.profile"
+fi
+
+if [ -f "${HOME}/.bashrc" ]
+then
+    . "${HOME}/.bashrc"
+fi
+
 # USAGE get_value_or_default <value> <default>
 get_value_or_default() {
     if [ -z "${1}" ]
