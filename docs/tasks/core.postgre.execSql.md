@@ -35,7 +35,7 @@
                   finish            : Blank
                   imagePrefix       : Blank
                   imageTag          : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   password          : {{ .GetEnv "POSTGRES_PASSWORD" }}
                   queries           : Blank
                   setup             : Blank

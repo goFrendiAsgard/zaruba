@@ -22,7 +22,7 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
                                       rm -Rf .previous.values.yaml

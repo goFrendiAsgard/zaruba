@@ -1,5 +1,5 @@
-. ${ZARUBA_HOME}/scripts/bash/util.sh
-. ${ZARUBA_HOME}/scripts/bash/generate_service_task.sh
+. ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/generate_service_task.sh
 
 # USAGE generate_fast_api_service <service-template-location> <task-template-location> <service-name>
 generate_fast_api_service() {

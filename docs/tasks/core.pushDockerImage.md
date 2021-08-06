@@ -27,7 +27,7 @@
                   finish            : Blank
                   imagePrefix       : Blank
                   imageTag          : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
                                       DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"

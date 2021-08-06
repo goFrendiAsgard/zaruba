@@ -1,5 +1,5 @@
-. ${ZARUBA_HOME}/scripts/bash/util.sh
-. ${ZARUBA_HOME}/scripts/bash/generate_fast_api_service.sh
+. ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/generate_fast_api_service.sh
 
 generate_fast_api_module() {
     _MODULE_TEMPLATE_LOCATION="${1}"

@@ -21,7 +21,7 @@ tasks:
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
         EVENT_NAME={{ .EscapeShellArg (.GetConfig "eventName") }}
-        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_event_handler.sh
+        . ${ZARUBA_HOME}/bash/generate_fast_api_event_handler.sh
         generate_fast_api_event_handler \
           "${MODULE_TEMPLATE_LOCATION}" \
           "${SERVICE_TEMPLATE_LOCATION}" \

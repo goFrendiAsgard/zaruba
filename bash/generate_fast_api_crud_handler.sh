@@ -1,5 +1,5 @@
-. ${ZARUBA_HOME}/scripts/bash/util.sh
-. ${ZARUBA_HOME}/scripts/bash/generate_fast_api_module.sh
+. ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/generate_fast_api_module.sh
 
 generate_fast_api_crud_handler() {
     _CRUD_TEMPLATE_LOCATION="${1}"
@@ -19,6 +19,8 @@ generate_fast_api_crud_handler() {
         "${_MODULE_NAME}"
 
     _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${SERVICE_NAME}")
+    _SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToSnake "${SERVICE_NAME}")
+    _UPPER_SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToUpper "${SERVICE_NAME}")
     _PASCAL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToPascal "${SERVICE_NAME}")
     _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${MODULE_NAME}")
     _PASCAL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToPascal "${MODULE_NAME}")
@@ -27,7 +29,9 @@ generate_fast_api_crud_handler() {
     _PASCAL_ENTITY_NAME=$("${ZARUBA_HOME}/zaruba" strToPascal "${ENTITY_NAME}")
     _SNAKE_ENTITY_NAME=$("${ZARUBA_HOME}/zaruba" strToSnake "${ENTITY_NAME}")
 
+
     _REPLACMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
+        "ZARUBA_SERVICE_NAME" "${_UPPER_SNAKE_SERVICE_NAME}" \
         "zarubaServiceName" "${_CAMEL_SERVICE_NAME}" \
         "ZarubaServiceName" "${_PASCAL_SERVICE_NAME}" \
         "zarubaModuleName" "${_CAMEL_MODULE_NAME}" \
@@ -99,21 +103,35 @@ generate_fast_api_crud_handler() {
 
     "${ZARUBA_HOME}/zaruba" writeLines "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" "${CONTROLLER_LINES}"
 
+    # field count
+    _FIELD_COUNT="$("${ZARUBA_HOME}/zaruba" getListLength "${_FIELD_NAMES}")"
+    if [ "${_FIELD_COUNT}" -eq 0 ]
+    then
+        _FIRST_FIELD_NAME="id"
+    else
+        _FIRST_FIELD_NAME="$("${ZARUBA_HOME}/zaruba" getFromList "${_FIELD_NAMES}" 0)"
+    fi
+    _SNAKE_FIRST_FIELD_NAME=$("${ZARUBA_HOME}/zaruba" strToSnake "${_FIRST_FIELD_NAME}")
+    _REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
+        "zaruba_first_field_name" "${_SNAKE_FIRST_FIELD_NAME}" \
+    )"
 
     # per field
+    # schema
     _SCHEMA_LINES="$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/schemas/${_CAMEL_ENTITY_NAME}.py")"
+    # repo
     _REPO_LINES="$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/repos/db${_PASCAL_ENTITY_NAME}.py")"
+    _REPO_LINES="$("${ZARUBA_HOME}/zaruba" strReplace "${_REPO_LINES}" "${_REPLACEMENT_MAP}")"
 
-    FIELD_COUNT="$("${ZARUBA_HOME}/zaruba" getListLength "${FIELD_NAMES}")"
-    MAX_FIELD_INDEX="$((${FIELD_COUNT}-1))"
-    for FIELD_INDEX in $(seq "${MAX_FIELD_INDEX}" -1 0)
+    _MAX_FIELD_INDEX="$((${_FIELD_COUNT}-1))"
+    for _FIELD_INDEX in $(seq "${_MAX_FIELD_INDEX}" -1 0)
     do
-        FIELD_NAME="$("${ZARUBA_HOME}/zaruba" getFromList "${FIELD_NAMES}" "${FIELD_INDEX}")"
-        _SNAKE_FIELD_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${FIELD_NAME}")"
+        _FIELD_NAME="$("${ZARUBA_HOME}/zaruba" getFromList "${_FIELD_NAMES}" "${_FIELD_INDEX}")"
+        _SNAKE_FIELD_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${_FIELD_NAME}")"
 
         _REPLACMENT_MAP="$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
-        "zaruba_entity_name" "${_SNAKE_ENTITY_NAME}" \
-        "zaruba_field_name" "${_SNAKE_FIELD_NAME}" \
+            "zaruba_entity_name" "${_SNAKE_ENTITY_NAME}" \
+            "zaruba_field_name" "${_SNAKE_FIELD_NAME}" \
         )"
 
         # schema field declaration

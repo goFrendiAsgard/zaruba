@@ -41,15 +41,15 @@
                   beforeStart             : Blank
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                  : -c
-                  crudTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiCrud
+                  crudTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiCrud
                   entityName              : {{ .GetValue "generatorFastApiCrudEntity" }}
                   fieldNames              : {{ .GetValue "generatorFastApiCrudFields" }}
                   finish                  : Blank
-                  includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
                   moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
-                  moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule
+                  moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
                   serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
-                  serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService
+                  serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
                                             CRUD_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "crudTemplateLocation") }}
@@ -60,7 +60,7 @@
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
                                             FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
-                                            . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_crud_handler.sh
+                                            . ${ZARUBA_HOME}/bash/generate_fast_api_crud_handler.sh
                                             generate_fast_api_crud_handler \
                                               "${CRUD_TEMPLATE_LOCATION}" \
                                               "${MODULE_TEMPLATE_LOCATION}" \
@@ -80,7 +80,7 @@
                                             echo "- ${SERVICE_NAME}/repos/<entity>.py"
                                             echo "- ${SERVICE_NAME}/repos/db<Entity>.py"
                                             echo "- ${SERVICE_NAME}/schemas/<entity>.py"
-                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi
+                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/fastapi
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

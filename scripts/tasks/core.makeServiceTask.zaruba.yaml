@@ -7,7 +7,7 @@ tasks:
       - core.showAdv
       - core.isProject
     config:
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/default'
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/default'
       serviceLocation: '{{ .GetValue "generatorServiceLocation" }}'
       serviceName: '{{ .GetValue "generatorServiceName" }}'
       imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'
@@ -32,7 +32,7 @@ tasks:
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
         
-        . "${ZARUBA_HOME}/scripts/bash/generate_service_task.sh"
+        . "${ZARUBA_HOME}/bash/generate_service_task.sh"
         generate_service_task \
           "${TEMPLATE_LOCATION}" \
           "${SERVICE_LOCATION}" \

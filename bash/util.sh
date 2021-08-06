@@ -1,12 +1,12 @@
-if [ -f "${HOME}/.profile" ]
-then
-    . "${HOME}/.profile"
-fi
+for FILE in "${HOME}/.bash_profile" "${HOME}/.bash_login" "${HOME}/.profile" "${HOME}/.bashrc"
+do
+    if [ -f "${FILE}" ]
+    then
+        . "${FILE}"
+    fi
+done
 
-if [ -f "${HOME}/.bashrc" ]
-then
-    . "${HOME}/.bashrc"
-fi
+PATH="${PATH}:${HOME}/.local/bin"
 
 # USAGE get_value_or_default <value> <default>
 get_value_or_default() {

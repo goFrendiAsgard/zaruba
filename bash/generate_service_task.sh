@@ -1,5 +1,5 @@
-. ${ZARUBA_HOME}/scripts/bash/util.sh
-. ${ZARUBA_HOME}/scripts/bash/register_task_file.sh
+. ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/register_task_file.sh
 
 # USAGE generate_service_task <template-location> <service-location> <service-name> <image-name> <container-name> <service-start-command> <service-runner-version> <service-ports> <service-envs> <dependencies> <replacement-map>
 generate_service_task() {

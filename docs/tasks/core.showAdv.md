@@ -21,11 +21,11 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
                                       {{ if .IsTrue $showAdvertisement -}}
-                                        "{{ .ZarubaBin }}" showAdv "{{ printf "%s/scripts/advertisement.yaml" .ZarubaHome }}"
+                                        "{{ .ZarubaBin }}" showAdv "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
                                       {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

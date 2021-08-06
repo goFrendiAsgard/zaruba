@@ -24,7 +24,7 @@
                   cmdArg                  : -c
                   compileTypeScript       : false
                   finish                  : Blank
-                  includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
                   installTypeScript       : false
                   nodeVersion             : node
                   npmCleanCache           : false

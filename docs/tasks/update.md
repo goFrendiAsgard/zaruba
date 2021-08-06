@@ -22,7 +22,7 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
                                       cd ${ZARUBA_HOME}
@@ -33,7 +33,7 @@
                                       go build
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-                                      . "${ZARUBA_HOME}/scripts/bash/show_version.sh"
+                                      . "${ZARUBA_HOME}/bash/show_version.sh"
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

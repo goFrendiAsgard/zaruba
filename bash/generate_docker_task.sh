@@ -1,5 +1,5 @@
-. ${ZARUBA_HOME}/scripts/bash/util.sh
-. ${ZARUBA_HOME}/scripts/bash/register_task_file.sh
+. ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/register_task_file.sh
 
 # USAGE generate_docker_task <template-location> <image-name> <container-name> <service-name> <service-ports> <service-envs> <dependencies> <replacement-map>
 generate_docker_task() {

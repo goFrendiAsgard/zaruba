@@ -226,7 +226,7 @@ tasks:
       containerName: containerRegistry
       localhost: host.docker.internal
       ports: |
-        9999: 5000
+        9999:5000
 
 
   testPushImage:

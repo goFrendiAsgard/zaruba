@@ -78,12 +78,12 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # 📜 Getting Started
 
-Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, `pyenv`, and `nvm` installed. To install those prerequisites, please visit their websites:
+Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, `pyenv`, `pipenv`, and `nvm` installed. To install those prerequisites, please visit their websites:
 
 * [docker](https://www.docker.com/get-started) is needed to build, pull or push image. You also need docker to run your services as container.
 * [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) is needed to access your kubernetes cluster.
 * [helm](https://helm.sh/) is needed to deploy your services.
-* [pyenv](https://github.com/pyenv/pyenv#installation) is needed to run python services locally.
+* [pyenv](https://github.com/pyenv/pyenv#installation) and [pipenv](https://pipenv.pypa.io/en/latest/install/) is needed to run python services locally.
 * [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) is needed to run nodejs services locally.
 
 Now let's get started by [creating a project](docs/creating-a-project.md)

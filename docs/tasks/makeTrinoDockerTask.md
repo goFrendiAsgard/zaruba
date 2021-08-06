@@ -1,7 +1,7 @@
-# makePostgreDockerTask
+# makeTrinoDockerTask
 ```
-  TASK NAME     : makePostgreDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makePostgreDockerTask.zaruba.yaml
+  TASK NAME     : makeTrinoDockerTask
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeTrinoDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}
@@ -78,7 +78,7 @@
                                       
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
-                  templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre
+                  templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/trino
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

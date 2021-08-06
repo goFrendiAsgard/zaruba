@@ -27,17 +27,17 @@
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                  : -c
                   finish                  : Blank
-                  includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
                   moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
-                  moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule
+                  moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
                   serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
-                  serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService
+                  serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
                                             SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
                                             TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
                                             SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                            . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_service.sh
+                                            . ${ZARUBA_HOME}/bash/generate_fast_api_service.sh
                                             generate_fast_api_service \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
                                               "${TASK_TEMPLATE_LOCATION}" \
@@ -46,7 +46,7 @@
                                             echo "{{ $d.Bold }}{{ $d.Yellow }}Fast API service created: ${SERVICE_NAME}{{ $d.Normal }}"
                                             echo "You probably need to check the following files:"
                                             echo "- ${SERVICE_NAME}/main.py"
-                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi
+                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/fastapi
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

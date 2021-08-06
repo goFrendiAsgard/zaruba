@@ -44,7 +44,7 @@ class DBZarubaEntityNameRepo(ZarubaEntityNameRepo):
         results: List[ZarubaEntityName] = []
         try:
             keyword = '%{}%'.format(keyword) if keyword != '' else '%'
-            db_results = db.query(DBZarubaEntityNameEntity).filter(DBZarubaEntityNameEntity.zaruba_field_name.like(keyword)).offset(offset).limit(limit).all()
+            db_results = db.query(DBZarubaEntityNameEntity).filter(DBZarubaEntityNameEntity.zaruba_first_field_name.like(keyword)).offset(offset).limit(limit).all()
             results = [ZarubaEntityName.from_orm(db_result) for db_result in db_results]
         finally:
             db.close()

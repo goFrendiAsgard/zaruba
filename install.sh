@@ -1,53 +1,31 @@
 set +e
-echo "💀 Remove old Zaruba"
+echo "💀 Removing old zaruba installation"
 rm -Rf "${HOME}/.zaruba"
 
 set -e
-echo "💀 Clone Zaruba"
+echo "💀 Cloning zaruba source code"
 git clone --depth 1 https://github.com/state-alchemists/zaruba "${HOME}/.zaruba"
 
-echo "💀 Build Zaruba"
+echo "💀 Building zaruba"
 cd "${HOME}/.zaruba"
 git fetch --tags
 go build
 
-
-if [ -f /usr/bin/zaruba ]
+echo "💀 Injecting zaruba to the PATH"
+if echo "${PATH}" | grep '${HOME}/.zaruba'
 then
-    echo "💀 Remove old '/usr/bin/zaruba' symlink"
-    sudo rm -Rf /usr/bin/zaruba
-fi
-
-set +e
-echo "💀 Create '/usr/bin/zaruba' symlink"
-sudo ln -s ${HOME}/.zaruba/zaruba /usr/bin/zaruba
-
-if [ "$?" = 0 ]
-then
-    set -e
-    echo "💀 '/usr/bin/zaruba' symlink created"
+    echo "💀 PATH is already containing '${HOME}/.zaruba'"
 else
-    set -e
-    echo "💀 Failed to create symlink, injecting PATH instead"
-    if echo "${PATH}" | grep "${HOME}/.zaruba"
+    echo "💀 Injecting '${HOME}/.zaruba' to PATH"
+    if [ -f "${HOME}/.profile" ]
     then
-        echo "💀 PATH is already containing '${HOME}/.zaruba'"
-    else
-        echo "💀 Injecting '${HOME}/.zaruba' to PATH"
-        PATH=$PATH:"${HOME}/.zaruba"
-        if [ -e "${HOME}/.bashrc" ]
-        then
-            echo "💀 Injecting '${HOME}/.zaruba' to .bashrc"
-            echo "" >> "${HOME}/.bashrc"
-            echo 'PATH=$PATH:"${HOME}/.zaruba"' >> "${HOME}/.bashrc"
-        fi
-        if [ -e "${HOME}/.zshrc" ]
-        then
-            echo "💀 Injecting '${HOME}/.zaruba' to .zshrc"
-            echo "" >> "${HOME}/.zshrc"
-            echo 'PATH=$PATH:"${HOME}/.zaruba"' >> "${HOME}/.zshrc"
-        fi
+        echo "💀 Injecting '${HOME}/.zaruba' to .profile"
+        echo "" >> "${HOME}/.profile"
+        echo 'PATH=$PATH:"${HOME}/.zaruba"' >> "${HOME}/.profile"
     fi
+    PATH=$PATH:"${HOME}/.zaruba"
 fi
+echo "💀 Zaruba is"
+
 
 echo "💀 Installation success"

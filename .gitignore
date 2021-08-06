@@ -1,13 +1,8 @@
 .scannerwork
 .previous.values.yaml
 __pycache__
+node_modules
 coverage
 log.zaruba.csv
 zaruba
 playground
-scripts/bash/bootstrap.sh
-scripts/python/.pytest_cache
-scripts/python/.coverage
-scripts/python/htmlcov
-
-node_modules

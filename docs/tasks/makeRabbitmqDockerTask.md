@@ -49,7 +49,7 @@
                   dependencies      : {{ .GetValue "generatorTaskDependencies" }}
                   finish            : Blank
                   imageName         : {{ .GetValue "generatorDockerImageName" }}
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   replacementMap    : {}
                   serviceEnvs       : {{ .GetValue "generatorServiceEnvs" }}
                   serviceName       : {{ .GetValue "generatorServiceName" }}
@@ -65,7 +65,7 @@
                                       DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                       REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                                       
-                                      . "${ZARUBA_HOME}/scripts/bash/generate_docker_task.sh"
+                                      . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
                                       generate_docker_task \
                                         "${TEMPLATE_LOCATION}" \
                                         "${IMAGE_NAME}" \
@@ -78,7 +78,7 @@
                                       
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
-                  templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/docker/rabbitmq
+                  templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/rabbitmq
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

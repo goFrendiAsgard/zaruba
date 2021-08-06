@@ -68,7 +68,7 @@
                   dependencies         : {{ .GetValue "generatorTaskDependencies" }}
                   finish               : Blank
                   imageName            : {{ .GetValue "generatorServiceDockerImageName" }}
-                  includeUtilScript    : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript    : . ${ZARUBA_HOME}/bash/util.sh
                   replacementMap       : {}
                   serviceEnvs          : {{ .GetValue "generatorServiceEnvs" }}
                   serviceLocation      : {{ .GetValue "generatorServiceLocation" }}
@@ -90,7 +90,7 @@
                                          DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                          REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                                          
-                                         . "${ZARUBA_HOME}/scripts/bash/generate_service_task.sh"
+                                         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
                                          generate_service_task \
                                            "${TEMPLATE_LOCATION}" \
                                            "${SERVICE_LOCATION}" \
@@ -106,7 +106,7 @@
                                          
                                          echo 🎉🎉🎉
                                          echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
-                  templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/go
+                  templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/go
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

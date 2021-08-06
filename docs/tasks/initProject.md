@@ -22,7 +22,7 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
                                       if [ -f "main.zaruba.yaml" ]
@@ -31,7 +31,7 @@
                                         exit 1
                                       fi
                                       git init
-                                      cp -rT "${ZARUBA_HOME}/scripts/templates/project/" .
+                                      cp -rT "${ZARUBA_HOME}/templates/project/" .
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

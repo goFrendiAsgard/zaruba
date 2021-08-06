@@ -42,11 +42,11 @@
                   cmdArg                  : -c
                   finish                  : Blank
                   httpMethod              : {{ .GetValue "generatorFastApiHttpMethod" }}
-                  includeUtilScript       : . ${ZARUBA_HOME}/scripts/bash/util.sh
+                  includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
                   moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
-                  moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiModule
+                  moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
                   serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
-                  serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/fastApiService
+                  serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
                                             MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
@@ -56,7 +56,7 @@
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             URL={{ .EscapeShellArg (.GetConfig "url") }}
                                             HTTP_METHOD={{ .EscapeShellArg (.GetConfig "httpMethod") }}
-                                            . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_route.sh
+                                            . ${ZARUBA_HOME}/bash/generate_fast_api_route.sh
                                             generate_fast_api_route \
                                               "${MODULE_TEMPLATE_LOCATION}" \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
@@ -70,7 +70,7 @@
                                             echo "You probably need to check the following files:"
                                             echo "- ${SERVICE_NAME}/main.py"
                                             echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
-                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/fastapi
+                  taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/fastapi
                   url                     : {{ .GetValue "generatorFastApiUrl" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

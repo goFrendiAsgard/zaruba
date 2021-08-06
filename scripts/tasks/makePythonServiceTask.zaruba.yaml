@@ -13,5 +13,5 @@ tasks:
       - generatorServiceDockerContainerName
     config:
       serviceStartCommand: '{{ .GetValue "generatorPythonServiceStartCommand" }}'
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/scripts/templates/task/service/python'
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/python'
 

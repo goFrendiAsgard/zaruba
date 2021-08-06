@@ -21,7 +21,7 @@ tasks:
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
         RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
-        . ${ZARUBA_HOME}/scripts/bash/generate_fast_api_rpc_handler.sh
+        . ${ZARUBA_HOME}/bash/generate_fast_api_rpc_handler.sh
         generate_fast_api_rpc_handler \
           "${MODULE_TEMPLATE_LOCATION}" \
           "${SERVICE_TEMPLATE_LOCATION}" \
