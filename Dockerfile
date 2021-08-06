@@ -11,6 +11,7 @@ RUN go build -o zaruba
 
 ENV ZARUBA_HOME /zaruba
 RUN chmod 755 ./bash/*.sh
+RUN chmod 755 ./write_version.sh
 RUN ./write_version.sh
 
 
