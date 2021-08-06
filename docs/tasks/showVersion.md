@@ -26,8 +26,8 @@
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
                                       cd "${ZARUBA_HOME}"
-                                      . "${ZARUBA_HOME}/bash/show_version.sh"
-                                      echo "{{ $d.Bold }}{{ $d.Yellow }}$(show_version){{ $d.Normal }}"
+                                      . "${ZARUBA_HOME}/bash/get_version.sh"
+                                      echo "{{ $d.Bold }}{{ $d.Yellow }}$(get_version){{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -9,6 +9,6 @@ RUN apt-get update --fix-missing
 RUN apt-get upgrade -y
 
 # Install common tools
-RUN apt-get install -y git golang ncat curl wget inetutils-tools docker.io
+RUN apt-get install -y git ncat curl wget inetutils-tools docker.io
 
 RUN apt-get clean

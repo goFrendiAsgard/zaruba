@@ -1,6 +1,8 @@
 . ${ZARUBA_HOME}/bash/util.sh
 
-show_version() {
+get_version() {
+    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+    set +e
     _GIT_VERSION=$(git describe --tags)
     if [ ! -z "${_GIT_VERSION}" ]
     then
@@ -11,4 +13,5 @@ show_version() {
     else
         echo "dev"
     fi
+    set "${_OLD_STATE}"
 }
