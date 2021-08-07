@@ -1,9 +1,12 @@
-if [ -f "${ZARUBA_HOME}/init.sh" ]
+if [ "${ZARUBA_INIT_SCRIPT_LOADED}" != "1" ] 
 then
-    . "${ZARUBA_HOME}/init.sh"
-elif [ -f "${ZARUBA_HOME}/templates/bash/init.sh" ]
-then
-    . "${ZARUBA_HOME}/templates/bash/init.sh"
+    if [ -f "${ZARUBA_HOME}/init.sh" ]
+    then
+        . "${ZARUBA_HOME}/init.sh"
+    elif [ -f "${ZARUBA_HOME}/templates/bash/init.sh" ]
+    then
+        . "${ZARUBA_HOME}/templates/bash/init.sh"
+    fi
 fi
 
 # USAGE get_value_or_default <value> <default>

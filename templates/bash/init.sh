@@ -1,3 +1,5 @@
+ZARUBA_INIT_SCRIPT_LOADED=1
+
 for FILE in "${HOME}/.bash_profile" "${HOME}/.bash_login" "${HOME}/.profile" "${HOME}/.bashrc"
 do
     if [ -f "${FILE}" ]

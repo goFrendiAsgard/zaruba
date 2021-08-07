@@ -6,7 +6,7 @@ OLD_SYMLINK="/usr/bin/zaruba"
 INIT_FILE="${INSTALLATION_DIR}/init.sh"
 BACKUP_INIT_FILE="${HOME}/zaruba.init.sh.bak"
 LOAD_INIT_FILE_SCRIPT='
-if [ -f "${HOME}/.zaruba/init.sh"]
+if [ "${ZARUBA_INIT_SCRIPT_LOADED}" != "1" ] && [ -f "${HOME}/.zaruba/init.sh" ]
 then
     . "${HOME}/.zaruba/init.sh"
 fi
@@ -21,7 +21,7 @@ then
 fi
 
 # Backup init file
-if [ -f "" ]
+if [ -f "${INIT_FILE}" ]
 then
     echo "💀 Backing up init.sh."
     cp "${INIT_FILE}" "${BACKUP_INIT_FILE}"
@@ -66,8 +66,13 @@ else
     do
         if [ -f "${FILE}" ]
         then
-            echo "💀 Injecting init script to ${FILE}."
-            echo "${LOAD_INIT_FILE_SCRIPT}" >> "${FILE}"
+            if cat "${FILE}" | grep ".zaruba/init.sh"
+            then
+                echo "💀 ${FILE} is already containing load init file script."
+            else
+                echo "💀 Injecting init script to ${FILE}."
+                echo "${LOAD_INIT_FILE_SCRIPT}" >> "${FILE}"
+            fi
         fi
     done
 fi
