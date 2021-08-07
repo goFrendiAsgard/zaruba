@@ -15,9 +15,12 @@ generate_fast_api_service() {
 
     _PASCAL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")
     _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${_SERVICE_NAME}")
+    _SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToSnake "${_SERVICE_NAME}")
+    _UPPER_SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToUpper "${_SNAKE_SERVICE_NAME}")
     _REPLACMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
         "zarubaServiceName" "${_CAMEL_SERVICE_NAME}" \
         "ZarubaServiceName" "${_PASCAL_SERVICE_NAME}" \
+        "ZARUBA_SERVICE_NAME" "${_UPPER_SNAKE_SERVICE_NAME}" \
     )
 
     echo "Creating Fast API Service: ${_SERVICE_NAME}"
