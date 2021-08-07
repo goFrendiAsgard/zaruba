@@ -19,6 +19,8 @@ generate_docker_task() {
 
     _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")"
     _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${_SERVICE_NAME}")"
+    _SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${_SERVICE_NAME}")"
+    _UPPER_SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToUpper "${_SNAKE_SERVICE_NAME}")"
 
     _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
     if [ "${_TASK_EXIST}" -eq 1 ]
@@ -58,6 +60,8 @@ generate_docker_task() {
         "zarubaContainerName" "${_CONTAINER_NAME}" \
         "zarubaServiceName" "${_SERVICE_NAME}" \
         "ZarubaServiceName" "${_PASCAL_SERVICE_NAME}" \
+        "zaruba-service-name" "${_KEBAB_SERVICE_NAME}" \
+        "ZARUBA_SERVICE_NAME" "${_UPPER_SNAKE_SERVICE_NAME}" \
     )
 
     "${ZARUBA_HOME}/zaruba" generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"

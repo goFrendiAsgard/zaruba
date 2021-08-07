@@ -1,22 +1,7 @@
 includes:
   - ./config.zaruba.yaml
   - ./env.zaruba.yaml
-
-inputs:
-
-  zarubaServiceNameRunInLocal:
-    default: yes
-    options:
-      - yes
-      - no
-    allowCustom: false
-    description: Whether to run zarubaServiceName in local computer
-    prompt: Run zarubaServiceName in local computer?
-
-  zarubaServiceName.cql:
-    validation: ^.+$
-    prompt: CQL to be executed (Required)
-    description: CQL to be executed
+  - ./input.zaruba.yaml
 
 tasks:
 

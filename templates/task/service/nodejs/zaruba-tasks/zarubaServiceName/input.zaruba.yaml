@@ -1,0 +1,29 @@
+inputs:
+
+  zarubaServiceNameRunInLocal:
+    default: yes
+    options:
+      - yes
+      - no
+    allowCustom: false
+    description: Whether to run zarubaServiceName in local computer
+    prompt: Run zarubaServiceName in local computer?
+
+  zarubaServiceName.removeNodeModules:
+    default: no
+    options: [yes, no]
+    prompt: Do you want to delete node_modules on zarubaServiceName?
+    description: Delete node_modules on zarubaServiceName
+
+  zarubaServiceName.npmCleanCache:
+    default: no
+    options: [yes, no]
+    prompt: Do you want to clean npm cache on zarubaServiceName?
+    description: Clean npm cache on zarubaServiceName
+
+  zarubaServiceName.npmRebuild:
+    default: no
+    options: [yes, no]
+    prompt: Do you want to perform npm rebuild on zarubaServiceName?
+    description: npm rebuild on zarubaServiceName
+
