@@ -1,0 +1,7 @@
+inputs:
+
+  airflowRedisTask:
+    description: Airflow redis task (Required)
+    prompt: Airflow redis task
+    validation: ^[a-zA-Z0-9_]+$
+

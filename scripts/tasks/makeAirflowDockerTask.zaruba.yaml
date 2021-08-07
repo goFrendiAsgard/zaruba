@@ -7,6 +7,27 @@ tasks:
       - generatorServiceName
       - generatorServiceEnvs
       - generatorTaskDependencies
+      - airflowRedisTask
+      - airflowPostgreTask
     config:
+      replacementMap: |
+        {
+          "zarubaAirflowRedisTask": "{{ .GetValue "airflowRedisTask" }}",
+          "zarubaAirflowPostgreTask": "{{ .GetValue "airflowPostgreTask" }}",
+        }
+      beforeStart: |
+        REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap" ) }}
+        REDIS_TASK="$("{{ .ZarubaBin }}" getFromMap "${REPLACEMENT_MAP}" "zarubaAirflowRedisTask" )"
+        if [ "$("{{ .ZarubaBin }}" isTaskExist ./main.zaruba.yaml "${REDIS_TASK}")" = 0 ]
+        then
+          echo "airflowRedisTask is required"
+          exit 1
+        fi
+        POSTGRE_TASK="$("{{ .ZarubaBin }}" getFromMap "${REPLACEMENT_MAP}" "zarubaAirflowPostgreTask" )"
+        if [ "$("{{ .ZarubaBin }}" isTaskExist ./main.zaruba.yaml "${POSTGRE_TASK}")" = 0 ]
+        then
+          echo "airflowPostgreTask is required"
+          exit 1
+        fi
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/airflow'
 
