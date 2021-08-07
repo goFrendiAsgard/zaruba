@@ -6,7 +6,7 @@ coverage
 log.zaruba.csv
 zaruba
 playground
-./init.sh
+init.sh
 
 ./arts
 ./devbox
