@@ -81,6 +81,7 @@ read CHOICE
 
 if [ "${CHOICE}" != "n" ] && [ "${CHOICE}" != "N" ]
 then
+    cd "${INSTALLATION_DIR}/setup"
     . "${INSTALLATION_DIR}/setup/init.sh"
 fi
 
