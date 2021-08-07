@@ -11,16 +11,16 @@ WELCOME_SCREEN='
 SETUP_PATH="$(dirname $(realpath "${0}"))"
 PROMPT='
 0. Exit
-1. Setup ubuntu
+1. Setup ubuntu and docker
 2. Setup tmux
 3. Install kubectl
 4. Install helm
 5. Install nvm
-6. Install pyenv
+6. Install pyenv and pipenv
 7. Install sdkman
 8. Install gvm
 
-💀 Type your choice, carefully:
+💀 Type your choice:
 '
 
 echo "${WELCOME_SCREEN}"

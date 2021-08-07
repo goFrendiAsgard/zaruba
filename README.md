@@ -86,6 +86,12 @@ Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, `
 * [pyenv](https://github.com/pyenv/pyenv#installation) and [pipenv](https://pipenv.pypa.io/en/latest/install/) is needed to run python services locally.
 * [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) is needed to run nodejs services locally.
 
+You should also able to install those third party packages by running zaruba's third party installer:
+
+```sh
+"${HOME}/.zaruba/setup/init.sh
+```
+
 Now let's get started by [creating a project](docs/creating-a-project.md)
 
 
