@@ -75,7 +75,13 @@ echo "💀 Starting init script."
 
 echo "🎉🎉🎉"
 echo "💀 Installation success."
-echo "💀 You can now setup/install additional packages."
+echo "💀 You can now setup/install third party packages, Do you want to proceed? (Y/n)"
+read CHOICE
 
-chmod 755 -R "${INSTALLATION_DIR}/setup"
+if [ "${CHOICE}" = "n" ] || [ "${CHOICE}" = "N" ]
+then
+    chmod 755 -R "${INSTALLATION_DIR}/setup"
+fi
 
+echo "💀 You can run the third party installer later by invoking:"
+echo "    ${INSTALLATION_DIR}/setup/init.sh"

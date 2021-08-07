@@ -1,4 +1,12 @@
 set -e
+WELCOME_SCREEN='
+ _____                _       _
+|__  /__ _ _ __ _   _| |__   / \
+  / // _` | `__| | | | `_ \ / _ \
+ / /| (_| | |  | |_| | |_) / ___ \
+/____\__,_|_|   \__,_|_.__/_/   \_\
+        3rd Party Package Installer
+'
 
 SETUP_PATH="$(dirname $(realpath "${0}"))"
 PROMPT='
@@ -14,6 +22,8 @@ PROMPT='
 
 💀 Type your choice, carefully:
 '
+
+echo "${WELCOME_SCREEN}"
 
 until [ "${CHOICE}" = "0" ]
 do

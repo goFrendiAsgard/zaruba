@@ -28,7 +28,10 @@ COPY --from=builder /zaruba/advertisement.yaml ./.zaruba/advertisement.yaml
 COPY --from=builder /zaruba/bash ./.zaruba/bash
 COPY --from=builder /zaruba/scripts ./.zaruba/scripts
 COPY --from=builder /zaruba/setup ./.zaruba/setup
+COPY --from=builder /zaruba/templates/bash/init.sh ./.zaruba/init.sh
 COPY --from=builder /zaruba/templates ./.zaruba/templates
+RUN chmod 755 ./setup/*.sh
+RUN chmod 755 ./init.sh
 
 RUN mkdir -p /project
 WORKDIR /project

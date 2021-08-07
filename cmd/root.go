@@ -15,7 +15,13 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "zaruba",
 	Short: "Declarative task runner framework and CLI utilities",
-	Long: `Declarative task runner framework and CLI utilities
+	Long: `
+ _____                _       _
+|__  /__ _ _ __ _   _| |__   / \
+  / // _  |  __| | | |  _ \ / _ \
+ / /| (_| | |  | |_| | |_) / ___ \
+/____\__,_|_|   \__,_|_.__/_/   \_\
+Declarative task runner framework and CLI utilities
 
 Zaruba helps you declare/execute tasks to manage your projects.
 Try:
