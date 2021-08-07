@@ -1,13 +1,9 @@
-for FILE in "${HOME}/.bash_profile" "${HOME}/.bash_login" "${HOME}/.profile" "${HOME}/.bashrc"
-do
-    if [ -f "${FILE}" ]
-    then
-        . "${FILE}"
-    fi
-done
 if [ -f "${ZARUBA_HOME}/init.sh" ]
 then
     . "${ZARUBA_HOME}/init.sh"
+elif [ -f "${ZARUBA_HOME}/templates/bash/init.sh" ]
+then
+    . "${ZARUBA_HOME}/templates/bash/init.sh"
 fi
 
 # USAGE get_value_or_default <value> <default>
