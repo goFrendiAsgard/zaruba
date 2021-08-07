@@ -1,4 +1,5 @@
-from typing import Any, Callable, Mapping, TypedDict, Dict
+from typing import Any, Callable, Dict, Mapping, TypedDict
+from helpers.transport.serial import create_json_byte_encoder, create_json_byte_decoder
 
 class RMQEventConfig(TypedDict):
     queue_name: str
@@ -9,6 +10,8 @@ class RMQEventConfig(TypedDict):
     ttl: int
     auto_ack: bool
     prefetch_count: int
+    encoder: Callable[[Any], str]
+    decoder: Callable[[bytes], Any]
 
 
 class RMQEventMap:
@@ -63,4 +66,13 @@ class RMQEventMap:
         if event_name in self.mapping and 'auto_ack' in self.mapping[event_name]:
             return self.mapping[event_name]['auto_ack']
         return False
-
+    
+    def get_encoder(self, event_name: str) -> Callable:
+        if event_name in self.mapping and 'encoder' in self.mapping[event_name]:
+            return self.mapping[event_name]['encoder']
+        return create_json_byte_encoder()
+ 
+    def get_decoder(self, event_name: str) -> Callable:
+        if event_name in self.mapping and 'decoder' in self.mapping[event_name]:
+            return self.mapping[event_name]['decoder']
+        return create_json_byte_decoder()

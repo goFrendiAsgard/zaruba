@@ -1,73 +1,9 @@
-from typing import Any, Callable, Mapping, TypedDict, Dict
+from typing import Any, Callable, List, Mapping, TypedDict, Dict
 from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
 from helpers.transport.interface import MessageBus
+from helpers.transport.rmq_config import RMQEventConfig, RMQEventMap
 
-import jsons, pika, time, threading, uuid
-
-class RMQEventConfig(TypedDict):
-    queue_name: str
-    exchange_name: str
-    rpc_timeout: int
-    dead_letter_exchange: str
-    dead_letter_queue: str
-    ttl: int
-    auto_ack: bool
-    prefetch_count: int
-
-
-class RMQEventMap:
-
-    def __init__(self, mapping: Mapping[str, RMQEventConfig]):
-        self.mapping = mapping
-
-    def get_exchange_name(self, event_name: str) -> str:
-        if event_name in self.mapping and 'exchange_name' in self.mapping[event_name] and self.mapping[event_name]['exchange_name'] != '':
-            return self.mapping[event_name]['exchange_name']
-        return event_name
-
-    def get_queue_name(self, event_name: str) -> str:
-        if event_name in self.mapping and 'queue_name' in self.mapping[event_name] and self.mapping[event_name]['queue_name'] != '':
-            return self.mapping[event_name]['queue_name']
-        return event_name
-
-    def get_dead_letter_exchange(self, event_name: str) -> str:
-        if event_name in self.mapping and 'dead_letter_exchange' in self.mapping[event_name] and self.mapping[event_name]['dead_letter_exchange'] != '':
-            return self.mapping[event_name]['dead_letter_exchange']
-        return '{}.dlx'.format(self.get_exchange_name(event_name))
-
-    def get_dead_letter_queue(self, event_name: str) -> str:
-        if event_name in self.mapping and 'dead_letter_queue' in self.mapping[event_name] and self.mapping[event_name]['dead_letter_queue'] != '':
-            return self.mapping[event_name]['dead_letter_queue']
-        return '{}.dlx'.format(self.get_queue_name(event_name))
-
-    def get_ttl(self, event_name: str) -> int:
-        if event_name in self.mapping and 'ttl' in self.mapping[event_name] and self.mapping[event_name]['ttl'] > 0:
-            return self.mapping[event_name]['ttl']
-        return 0
-
-    def get_queue_arguments(self, event_name: str) -> Dict:
-        args = {}
-        if self.get_ttl(event_name) <= 0:
-            return {}
-        args['x-dead-letter-exchange'] = self.get_dead_letter_exchange(event_name)
-        args['x-message-ttl'] = self.get_ttl(event_name)
-        return args
-
-    def get_rpc_timeout(self, event_name: str) -> int:
-        if event_name in self.mapping and 'rpc_timeout' in self.mapping[event_name] and self.mapping[event_name]['rpc_timeout'] > 0:
-            return self.mapping[event_name]['rpc_timeout']
-        return 5000
-    
-    def get_prefetch_count(self, event_name: str) -> int:
-        if event_name in self.mapping and 'prefetch_count' in self.mappping[event_name] and self.mapping[event_name]['prefetch_count'] > 0:
-            return self.mapping[event_name]['prefetch_count']
-        return 10
-
-    def get_auto_ack(self, event_name: str) -> bool:
-        if event_name in self.mapping and 'auto_ack' in self.mapping[event_name]:
-            return self.mapping[event_name]['auto_ack']
-        return False
-
+import pika, time, threading, uuid
 
 class RMQMessageBus(MessageBus):
 
@@ -124,27 +60,29 @@ class RMQMessageBus(MessageBus):
             ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
             ch.queue_bind(exchange=exchange, queue=queue)
             ch.basic_qos(prefetch_count=prefetch_count)
-            # create handler and start consuming
-            def on_rpc_request(ch, method, props, body):
-                try:
-                    decoded_body = body.decode()
-                    args = jsons.loads(decoded_body)
-                    print({'action': 'handle_rmq_rpc', 'event_name': event_name, 'args': args, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
-                    result = rpc_handler(*args)
-                    body = jsons.dumps(result)
-                    # send reply
-                    ch.basic_publish(
-                        exchange='',
-                        routing_key=props.reply_to,
-                        properties=pika.BasicProperties(correlation_id=props.correlation_id),
-                        body=body.encode()
-                    )
-                    print({'action': 'send_rmq_rpc_reply', 'event_name': event_name, 'args': args, 'result': result, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
-                finally:
-                    if not auto_ack:
-                        ch.basic_ack(delivery_tag=method.delivery_tag)
+            on_rpc_request = self._create_rpc_request_handler(event_name, exchange, queue, auto_ack, rpc_handler)
             ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
         return register_rpc_handler
+
+    def _create_rpc_request_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, rpc_handler: Callable[..., Any]):
+        def on_rpc_request(ch, method, props, body):
+            try:
+                args: List[Any] = self.event_map.get_decoder(event_name)(body)
+                print({'action': 'handle_rmq_rpc', 'event_name': event_name, 'args': args, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+                result = rpc_handler(*args)
+                body: Any = self.event_map.get_encoder(event_name)(result)
+                # send reply
+                ch.basic_publish(
+                    exchange='',
+                    routing_key=props.reply_to,
+                    properties=pika.BasicProperties(correlation_id=props.correlation_id),
+                    body=body
+                )
+                print({'action': 'send_rmq_rpc_reply', 'event_name': event_name, 'args': args, 'result': result, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+            finally:
+                if not auto_ack:
+                    ch.basic_ack(delivery_tag=method.delivery_tag)
+        return on_rpc_request
 
     def call_rpc(self, event_name: str, *args: Any) -> Any:
         caller = RMQRPCCaller(self)
@@ -169,29 +107,32 @@ class RMQMessageBus(MessageBus):
             ch.queue_bind(exchange=exchange, queue=queue)
             ch.basic_qos(prefetch_count=prefetch_count)
             # create handler and start consuming
-            def on_event(ch, method, props, body):
-                try:
-                    decoded_body = body.decode()
-                    message = jsons.loads(decoded_body)
-                    print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
-                    result = event_handler(message)
-                finally:
-                    if not auto_ack:
-                        ch.basic_ack(delivery_tag=method.delivery_tag)
+            on_event = self._create_rpc_handler(event_name, exchange, queue, auto_ack, event_handler)
             ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
         return register_event_handler
+    
+    def _create_rpc_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, event_handler: Callable[[Any], Any]):
+        def on_event(ch, method, props, body):
+            try:
+                message = self.event_map.get_decoder(event_name)(body)
+                print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
+                result = event_handler(message)
+            finally:
+                if not auto_ack:
+                    ch.basic_ack(delivery_tag=method.delivery_tag)
+        return on_event
 
     def publish(self, event_name: str, message: Any) -> Any:
         exchange = self.event_map.get_exchange_name(event_name)
         routing_key = self.event_map.get_queue_name(event_name)
-        body = jsons.dumps(message)
+        body = self.event_map.get_encoder(event_name)(message)
         ch = self.connection.channel()
         ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
         print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': routing_key, 'body': body})
         ch.basic_publish(
             exchange=exchange,
             routing_key=routing_key,
-            body=body.encode()
+            body=body
         )
 
 class RMQRPCCaller():
@@ -208,11 +149,11 @@ class RMQRPCCaller():
     def call(self, event_name: str, *args: Any) -> Any:
         # consume from reply queue
         reply_queue = 'reply.' + event_name + self.corr_id
-        self._consume_from_reply_queue(reply_queue)
+        self._consume_from_reply_queue(event_name, reply_queue)
         # publish message
         exchange = self.event_map.get_exchange_name(event_name)
         routing_key = self.event_map.get_queue_name(event_name)
-        body = jsons.dumps(args).encode()
+        body = self.event_map.get_encoder(event_name)(args)
         self.ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
         print({'action': 'call_rmq_rpc', 'event_name': event_name, 'args': args, 'exchange': exchange, 'routing_key': routing_key, 'correlation_id': self.corr_id, 'body': body})
         self.ch.basic_publish(
@@ -231,17 +172,20 @@ class RMQRPCCaller():
         self.ch.queue_delete(reply_queue)
         return self.result
 
-    def _consume_from_reply_queue(self, reply_queue: str):
+    def _consume_from_reply_queue(self, event_name: str, reply_queue: str):
         self.ch.queue_declare(queue=reply_queue, exclusive=True)
+        on_rpc_response = self._create_rpc_responder(event_name, reply_queue)
+        self.ch.basic_consume(queue=reply_queue, on_message_callback=on_rpc_response)
+
+    def _create_rpc_responder(self, event_name: str, reply_queue: str):
         def on_rpc_response(ch: BlockingChannel, method, props, body):
             if props.correlation_id == self.corr_id:
-                decoded_body = body.decode()
-                self.result = jsons.loads(decoded_body)
+                self.result = self.event_map.get_decoder(event_name)(body)
                 print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.result})
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)
-        self.ch.basic_consume(queue=reply_queue, on_message_callback=on_rpc_response)
-    
+        return on_rpc_response
+
     def _handle_timeout(self, event_name: str):
         rpc_timeout = self.event_map.get_rpc_timeout(event_name)
         start = time.time() * 1000
