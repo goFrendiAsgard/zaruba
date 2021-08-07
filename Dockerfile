@@ -27,6 +27,7 @@ COPY --from=builder /zaruba/.version ./.zaruba/.version
 COPY --from=builder /zaruba/advertisement.yaml ./.zaruba/advertisement.yaml
 COPY --from=builder /zaruba/bash ./.zaruba/bash
 COPY --from=builder /zaruba/scripts ./.zaruba/scripts
+COPY --from=builder /zaruba/setup ./.zaruba/setup
 COPY --from=builder /zaruba/templates ./.zaruba/templates
 
 RUN mkdir -p /project

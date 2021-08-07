@@ -5,8 +5,10 @@ do
         . "${FILE}"
     fi
 done
-
-PATH="${PATH}:${HOME}/.local/bin"
+if [ -f "${ZARUBA_HOME}/init.sh" ]
+then
+    . "${ZARUBA_HOME}/init.sh"
+fi
 
 # USAGE get_value_or_default <value> <default>
 get_value_or_default() {
@@ -22,7 +24,7 @@ get_latest_git_commit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     git rev-parse --verify HEAD
-    set "${_OLD_STATE}"    
+    set "${_OLD_STATE}"
 }
 
 
