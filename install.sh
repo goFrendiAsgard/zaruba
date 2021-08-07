@@ -58,7 +58,7 @@ fi
 
 # Inject init script to user's terminal
 echo "💀 Injecting init script."
-if echo "${PATH}" | grep '${HOME}/.zaruba'
+if echo "${PATH}" | grep -q '${HOME}/.zaruba'
 then
     echo "💀 PATH is already containing '${HOME}/.zaruba'."
 else
@@ -66,7 +66,7 @@ else
     do
         if [ -f "${FILE}" ]
         then
-            if cat "${FILE}" | grep ".zaruba/init.sh"
+            if grep -q ".zaruba/init.sh" "${FILE}"
             then
                 echo "💀 ${FILE} is already containing load init file script."
             else
@@ -76,19 +76,21 @@ else
         fi
     done
 fi
+
+# Starting init script for current session
 echo "💀 Starting init script."
 . "${INSTALLATION_DIR}/init.sh"
 
 echo "🎉🎉🎉"
 echo "💀 Installation success."
+
+# Run third party installer
 echo "💀 You can now setup/install third party packages, Do you want to proceed? (Y/n)"
 read CHOICE
-
 if [ "${CHOICE}" != "n" ] && [ "${CHOICE}" != "N" ]
 then
     cd "${INSTALLATION_DIR}/setup"
     . "${INSTALLATION_DIR}/setup/init.sh"
 fi
-
 echo "💀 You can run the third party installer later by invoking:"
 echo "    ${INSTALLATION_DIR}/setup/init.sh"
