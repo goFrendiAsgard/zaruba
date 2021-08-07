@@ -6,7 +6,7 @@ from helpers.transport import MessageBus, RMQMessageBus, RMQEventMap, LocalMessa
 import os
 
 def get_static_dir() -> str:
-    raw_static_dir = os.getenv('ZARUBA_SERVICE_NAME_STATIC_DIRECTORY')
+    raw_static_dir = os.getenv('ZARUBA_SERVICE_NAME_STATIC_DIRECTORY', '')
     return os.path.abspath(raw_static_dir) if raw_static_dir != '' else ''
 
 def create_message_bus(mb_type: str) -> MessageBus:

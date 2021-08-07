@@ -62,7 +62,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
         result = None
         try:
             result = mb.call_rpc('delete_zaruba_entity_name', id)
-        except
+        except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
         if result is None:
