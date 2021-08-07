@@ -13,6 +13,11 @@ generate_docker_task() {
     _REPLACEMENT_MAP="${8}"
 
     _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" strToCamel "${_IMAGE_NAME}")"
+    if [ -z "${_DEFAULT_CONTAINER_NAME}" ]
+    then
+        _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" getServiceName "${_TEMPLATE_LOCATION}")"
+    fi
+
     _CONTAINER_NAME="$(get_value_or_default "${_CONTAINER_NAME}" "${_DEFAULT_CONTAINER_NAME}")"
 
     _SERVICE_NAME="$(get_value_or_default "${_SERVICE_NAME}" "${_CONTAINER_NAME}")"
