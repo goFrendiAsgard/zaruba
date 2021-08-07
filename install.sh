@@ -62,13 +62,13 @@ then
     echo "💀 PATH is already containing '${HOME}/.zaruba'."
 else
     for FILE in "${HOME}/.profile" "${HOME}/.bashrc" "${HOME}/.zshrc" 
-    then
+    do
         if [ -f "${FILE}" ]
         then
             echo "💀 Injecting init script to ${FILE}."
-            echo "${LOAD_INIT_FILE_SCRIPT}" >> "${FILE}/"
+            echo "${LOAD_INIT_FILE_SCRIPT}" >> "${FILE}"
         fi
-    fi
+    done
 fi
 echo "💀 Starting init script."
 . "${INSTALLATION_DIR}/init.sh"
@@ -78,7 +78,7 @@ echo "💀 Installation success."
 echo "💀 You can now setup/install third party packages, Do you want to proceed? (Y/n)"
 read CHOICE
 
-if [ "${CHOICE}" = "n" ] || [ "${CHOICE}" = "N" ]
+if [ "${CHOICE}" != "n" ] && [ "${CHOICE}" != "N" ]
 then
     chmod 755 -R "${INSTALLATION_DIR}/setup"
 fi
