@@ -2,9 +2,11 @@
 configs:
   zarubaServiceName:
     useImagePrefix: true
-    imagePrefix: trinodb
-    imageName: trino
+    imagePrefix: apache
+    imageName: airflow
+    imageTag: master-python:3.8
     containerName: zarubaContainerName
     localhost: host.docker.internal
     volumes:
-      ../../zarubaServiceName:/etc/trino
+      ../../zarubaServiceName/dags:/opt/airflow/dags
+    runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'

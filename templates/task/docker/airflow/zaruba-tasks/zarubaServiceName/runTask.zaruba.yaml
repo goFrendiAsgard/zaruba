@@ -1,0 +1,57 @@
+tasks:
+
+  runZarubaServiceNameWebServer:
+    icon: 😃
+    extend: core.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      command: webserver
+      containerName: zarubaContainerNameWebServer
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  runZarubaServiceNameScheduler:
+    icon: ⏰
+    extend: core.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      command: scheduler
+      containerName: zarubaContainerNameScheduler
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  runZarubaServiceNameWorker:
+    icon: 👷
+    extend: core.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      command: celery worker
+      containerName: zarubaContainerNameWorker
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
+
+  runZarubaServiceNameFlower:
+    icon: 🌻
+    extend: core.startDockerContainer
+    dependencies:
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    config:
+      command: celery flower
+      containerName: zarubaContainerNameFlower
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName

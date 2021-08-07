@@ -2,30 +2,9 @@ includes:
   - ./config.zaruba.yaml
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
+  - ./containerTask.zaruba.yaml
 
 tasks:
-
-  prepareZarubaServiceName:
-    icon: 🐍
-    extend: core.runShellScript
-    location: zarubaServiceLocation
-    timeout: 1h
-    config:
-      start: pipenv install
-    configRef: zarubaServiceName
-    envRef: zarubaServiceName
-
-  testZarubaServiceName:
-    icon: 🐍
-    extend: core.runShellScript
-    location: zarubaServiceLocation
-    dependencies:
-        - prepareZarubaServiceName
-    timeout: 1h
-    config:
-      start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
-    configRef: zarubaServiceName
-    envRef: zarubaServiceName
 
   runZarubaServiceName:
     icon: 🐍
@@ -53,46 +32,24 @@ tasks:
       - zarubaServiceName
     envRef: zarubaServiceName
 
-  buildZarubaServiceNameImage:
-    extend: core.buildDockerImage
+  prepareZarubaServiceName:
+    icon: 🐍
+    extend: core.runShellScript
     location: zarubaServiceLocation
     timeout: 1h
-    configRef: zarubaServiceNameContainer
-  
-  pushZarubaServiceNameImage:
-    extend: core.pushDockerImage
-    location: zarubaServiceLocation
-    timeout: 1h
-    configRef: zarubaServiceNameContainer
-
-  stopZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
-    configRef: zarubaServiceNameContainer
-
-  removeZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
-    configRef: zarubaServiceNameContainer
-
-  helmInstallZarubaServiceName:
-    extend: core.helmInstall
-    location: ../..
-    dependencies:
-      - helmGenerateValueZarubaServiceName
-    timeout: 1h
-    configRef: zarubaServiceNameHelm
+    config:
+      start: pipenv install
+    configRef: zarubaServiceName
     envRef: zarubaServiceName
 
-  helmUninstallZarubaServiceName:
-    extend: core.helmUninstall
-    location: ../..
+  testZarubaServiceName:
+    icon: 🐍
+    extend: core.runShellScript
+    location: zarubaServiceLocation
+    dependencies:
+        - prepareZarubaServiceName
     timeout: 1h
-    configRef: zarubaServiceNameHelm
-
-  helmGenerateValueZarubaServiceName:
-    extend: core.helmGenerateValue
-    location: ../..
-    configRefs:
-      - zarubaServiceNameHelm
-      - zarubaServiceNameContainer
-      - zarubaServiceName
+    config:
+      start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+    configRef: zarubaServiceName
     envRef: zarubaServiceName

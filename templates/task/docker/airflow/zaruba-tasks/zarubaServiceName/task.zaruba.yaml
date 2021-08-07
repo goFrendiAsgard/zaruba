@@ -2,31 +2,34 @@ includes:
   - ./config.zaruba.yaml
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
+  - ./runTask.zaruba.yaml
+  - ./stopContainerTask.zaruba.yaml
+  - ./removeContainerTask.zaruba.yaml
 
 tasks:
-
-  runZarubaServiceName:
-    icon: 🐳
-    extend: core.startDockerContainer
-    dependencies:
-      - pullZarubaServiceNameImage
-    timeout: 1h
-    inputs:
-      - zarubaServiceNameRunInLocal
-    config:
-      runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
-    configRef: zarubaServiceName
-    envRef: zarubaServiceName
   
+  runZarubaServiceName:
+    dependencies:
+      - runZarubaServiceNameWebServer
+      - runZarubaServiceNameScheduler
+      - runZarubaServiceNameWorker
+      - runZarubaServiceNameFlower
+
   pullZarubaServiceNameImage:
     extend: core.pullDockerImage
     timeout: 1h
     configRef: zarubaServiceName
 
   stopZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
-    configRef: zarubaServiceName
+    dependencies:
+      - stopZarubaServiceNameWebServer
+      - stopZarubaServiceNameScheduler
+      - stopZarubaServiceNameWorker
+      - stopZarubaServiceNameFlower
 
   removeZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
-    configRef: zarubaServiceName
+    dependencies:
+      - removeZarubaServiceNameWebServer
+      - removeZarubaServiceNameScheduler
+      - removeZarubaServiceNameWorker
+      - removeZarubaServiceNameFlower

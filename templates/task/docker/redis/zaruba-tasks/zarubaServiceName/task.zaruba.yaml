@@ -37,5 +37,5 @@ tasks:
     configRef: zarubaServiceName
 
   removeZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
+    extend: core.removeDockerContainer
     configRef: zarubaServiceName

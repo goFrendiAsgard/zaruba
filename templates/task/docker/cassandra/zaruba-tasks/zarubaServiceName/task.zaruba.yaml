@@ -19,7 +19,6 @@ tasks:
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
-
   zarubaServiceNameExecCql:
     icon: 👀
     extend: core.cassandra.execCql
@@ -32,17 +31,14 @@ tasks:
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
-
   pullZarubaServiceNameImage:
     extend: core.pullDockerImage
     configRef: zarubaServiceName
-
 
   stopZarubaServiceNameContainer:
     extend: core.stopDockerContainer
     configRef: zarubaServiceName
 
-
   removeZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
+    extend: core.removeDockerContainer
     configRef: zarubaServiceName
