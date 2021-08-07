@@ -43,6 +43,7 @@ echo "💀 Building zaruba."
 cd "${INSTALLATION_DIR}"
 git fetch --tags
 go build
+chmod 755 -R "${INSTALLATION_DIR}/setup"
 
 # Restore init script or create a new one
 if [ -f "${BACKUP_INIT_FILE}" ]
@@ -80,7 +81,7 @@ read CHOICE
 
 if [ "${CHOICE}" != "n" ] && [ "${CHOICE}" != "N" ]
 then
-    chmod 755 -R "${INSTALLATION_DIR}/setup"
+    . "${INSTALLATION_DIR}/setup/init.sh"
 fi
 
 echo "💀 You can run the third party installer later by invoking:"
