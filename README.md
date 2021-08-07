@@ -1,4 +1,7 @@
 ![zaruba-logo](arts/zaruba-250.png)
+
+> ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open issue if you find any problem using Zaruba.
+
 # 💀 Zaruba 
 
 Zaruba is a declarative Task Runner Framework. It helps you to define and orchestrate tasks in a fun way. 
