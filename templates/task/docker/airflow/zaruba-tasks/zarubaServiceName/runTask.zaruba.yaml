@@ -4,9 +4,7 @@ tasks:
     icon: 😃
     extend: core.startDockerContainer
     dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPosgreTask
-      - pullZarubaServiceNameImage
+      - runZarubaServiceNameInit
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
@@ -19,9 +17,7 @@ tasks:
     icon: ⏰
     extend: core.startDockerContainer
     dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPosgreTask
-      - pullZarubaServiceNameImage
+      - runZarubaServiceNameInit
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
@@ -34,9 +30,7 @@ tasks:
     icon: 👷
     extend: core.startDockerContainer
     dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPosgreTask
-      - pullZarubaServiceNameImage
+      - runZarubaServiceNameInit
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
@@ -49,9 +43,7 @@ tasks:
     icon: 🌻
     extend: core.startDockerContainer
     dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPosgreTask
-      - pullZarubaServiceNameImage
+      - runZarubaServiceNameInit
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal

@@ -1,4 +1,3 @@
-# TODO: take from here, https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml
 configs:
 
   zarubaServiceName:
@@ -10,6 +9,19 @@ configs:
     volumes:
       ../../zarubaServiceName/dags:/opt/airflow/dags
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+  
+  zarubaServiceNameInit:
+    userName: '{{ .GetEnv "_AIRFLOW_WWW_USER_USERNAME" }}'
+    userPassword: '{{ .GetEnv "_AIRFLOW_WWW_USER_PASSWORD" }}'
+    userFirstName: 'admin'
+    userLastName: 'admin'
+    userRole: 'Admin'
+    userEmail: 'admin@admin.com'
+
+  zarubaServiceNameConfigurator:
+    containerName: zarubaContainerNameConfigurator
+    entryPoint: sleep
+    command: infinity
 
   zarubaServiceNameWebServer:
     containerName: zarubaContainerNameWebServer

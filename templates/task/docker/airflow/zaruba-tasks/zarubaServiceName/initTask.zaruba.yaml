@@ -1,0 +1,49 @@
+tasks:
+
+  createZarubaServiceNameDb:
+    extend: zarubaAirflowPostgreServiceExecSql
+    dependencies:
+      - zarubaAirflowPostgreTask
+    config:
+      queries: 'CREATE DATABASE {{ .GetEnv "DB_NAME" }}'
+    envRef: zarubaServiceNameInit
+
+  runZarubaServiceNameConfigurator:
+    icon: 🛠️
+    extend: core.startDockerContainer
+    dependencies:
+      - zarubaAirflowRedisTask
+      - zarubaAirflowPostgreTask
+      - createZarubaServiceNameDb
+      - pullZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    configRefs:
+      - zarubaServiceNameConfigurator
+      - zarubaServiceName
+    envRefs:
+      - zarubaServiceNameConfigurator
+      - zarubaServiceName
+
+  runZarubaServiceNameInit:
+    icon: 🛠️
+    extend: core.runInContainer
+    dependencies:
+      - runZarubaServiceNameConfigurator
+    config:
+      commands: |
+        airflow version
+        airflow db upgrade
+        airflow users create --username "{{ .GetConfig "userName" }}" --password "{{ .GetConfig "userPassword" }}" --firstname "{{ .GetConfig "userFirstName" }}" --lastname "{{ .GetConfig "userLastName" }}" --role "{{ .GetConfig "userRole" }}" --email "{{ .GetConfig "userEmail" }}"
+      afterStart:
+        sleep {{ .GetEnv "INIT_DELAY" }}
+    configRefs:
+      - zarubaServiceNameInit
+      - zarubaServiceNameConfigurator
+      - zarubaServiceName
+    envRefs:
+      - zarubaServiceNameInit
+      - zarubaServiceNameConfigurator
+      - zarubaServiceName
+

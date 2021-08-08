@@ -40,6 +40,7 @@ tasks:
       imagePrefix: ""
       imageName: ""
       imageTag: ""
+      entryPoint: ""
       command: ""
       checkCommand: ""
       rebuild: false
@@ -118,6 +119,10 @@ tasks:
         {{ $d := .Decoration -}}
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
+      _start.runContainer.entryPoint: |
+        {{ if .GetConfig "entryPoint" -}}
+          --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
+        {{ end -}}
       _start.runContainer.env: |
         {{ $this := . -}}
         {{ if eq (.GetConfig "localhost") "localhost" -}}
@@ -163,6 +168,7 @@ tasks:
         {{ $imageTag := .GetConfig "imageTag" -}}
         {{ $this := . -}}
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
+        {{ .GetConfig "_start.runContainer.entryPoint" -}}
         {{ .GetConfig "_start.runContainer.env" -}}
         {{ .GetConfig "_start.runContainer.ports" -}}
         {{ .GetConfig "_start.runContainer.volumes" -}}
