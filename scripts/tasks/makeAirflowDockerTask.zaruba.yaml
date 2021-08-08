@@ -13,21 +13,43 @@ tasks:
       replacementMap: |
         {
           "zarubaAirflowRedisTask": "{{ .GetValue "airflowRedisTask" }}",
-          "zarubaAirflowPostgreTask": "{{ .GetValue "airflowPostgreTask" }}",
+          "zarubaAirflowPosgreTask": "{{ .GetValue "airflowPostgreTask" }}"
         }
       beforeStart: |
+        . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
+        . "${ZARUBA_HOME}/bash/get_service_name_by_task_name.sh"
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap" ) }}
+
         REDIS_TASK="$("{{ .ZarubaBin }}" getFromMap "${REPLACEMENT_MAP}" "zarubaAirflowRedisTask" )"
-        if [ "$("{{ .ZarubaBin }}" isTaskExist ./main.zaruba.yaml "${REDIS_TASK}")" = 0 ]
+        REDIS_SERVICE="$(get_service_name_by_task_name "${REDIS_TASK}")"
+        if [ "$("{{ .ZarubaBin }}" isTaskExist ./main.zaruba.yaml "${REDIS_SERVICE}")" = 0 ]
         then
-          echo "airflowRedisTask is required"
-          exit 1
+          echo "create redis task: ${REDIS_SERVICE}"
+          generate_docker_task \
+            "${ZARUBA_HOME}/templates/task/docker/redis" \
+            "" \
+            "${REDIS_SERVICE}" \
+            "" \
+            "[]" \
+            "{}" \
+            "[]" \
+            "{}"
         fi
-        POSTGRE_TASK="$("{{ .ZarubaBin }}" getFromMap "${REPLACEMENT_MAP}" "zarubaAirflowPostgreTask" )"
-        if [ "$("{{ .ZarubaBin }}" isTaskExist ./main.zaruba.yaml "${POSTGRE_TASK}")" = 0 ]
+
+        POSTGRE_TASK="$("{{ .ZarubaBin }}" getFromMap "${REPLACEMENT_MAP}" "zarubaAirflowPosgreTask" )"
+        POSTGRE_SERVICE="$(get_service_name_by_task_name "${POSTGRE_TASK}")"
+        if [ "$("{{ .ZarubaBin }}" isTaskExist ./main.zaruba.yaml "${POSTGRE_SERVICE}")" = 0 ]
         then
-          echo "airflowPostgreTask is required"
-          exit 1
+          echo "create postgre task: ${POSTGRE_SERVICE}"
+          generate_docker_task \
+            "${ZARUBA_HOME}/templates/task/docker/postgre" \
+            "" \
+            "${POSTGRE_SERVICE}" \
+            "" \
+            "[]" \
+            "{}" \
+            "[]" \
+            "{}"
         fi
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/airflow'
 

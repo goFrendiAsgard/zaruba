@@ -3,5 +3,6 @@ inputs:
   airflowRedisTask:
     description: Airflow redis task (Required)
     prompt: Airflow redis task
-    validation: ^[a-zA-Z0-9_]+$
+    validation: ^run[a-zA-Z0-9_]+$
+    default: runRedis
 

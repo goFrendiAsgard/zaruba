@@ -4,54 +4,58 @@ tasks:
     icon: 😃
     extend: core.startDockerContainer
     dependencies:
+      - zarubaAirflowRedisTask
+      - zarubaAirflowPosgreTask
       - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
-    config:
-      command: webserver
-      containerName: zarubaContainerNameWebServer
-    configRef: zarubaServiceName
+    configRefs:
+      - zarubaServiceNameWebServer
+      - zarubaServiceName
     envRef: zarubaServiceName
 
   runZarubaServiceNameScheduler:
     icon: ⏰
     extend: core.startDockerContainer
     dependencies:
+      - zarubaAirflowRedisTask
+      - zarubaAirflowPosgreTask
       - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
-    config:
-      command: scheduler
-      containerName: zarubaContainerNameScheduler
-    configRef: zarubaServiceName
+    configRefs:
+      - zarubaServiceNameScheduler
+      - zarubaServiceName
     envRef: zarubaServiceName
 
   runZarubaServiceNameWorker:
     icon: 👷
     extend: core.startDockerContainer
     dependencies:
+      - zarubaAirflowRedisTask
+      - zarubaAirflowPosgreTask
       - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
-    config:
-      command: celery worker
-      containerName: zarubaContainerNameWorker
-    configRef: zarubaServiceName
+    configRefs:
+      - zarubaServiceNameWorker
+      - zarubaServiceName
     envRef: zarubaServiceName
 
   runZarubaServiceNameFlower:
     icon: 🌻
     extend: core.startDockerContainer
     dependencies:
+      - zarubaAirflowRedisTask
+      - zarubaAirflowPosgreTask
       - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
-    config:
-      command: celery flower
-      containerName: zarubaContainerNameFlower
-    configRef: zarubaServiceName
+    configRefs:
+      - zarubaServiceNameFlower
+      - zarubaServiceName
     envRef: zarubaServiceName

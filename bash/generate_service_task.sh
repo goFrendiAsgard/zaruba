@@ -32,26 +32,26 @@ generate_service_task() {
     _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
     if [ "${_TASK_EXIST}" -eq 1 ]
     then
-        echo "Service task already exist: run${_PASCAL_SERVICE_NAME}"
+        echo "service task already exist: run${_PASCAL_SERVICE_NAME}"
         return
     fi
 
     if [ "$("${ZARUBA_HOME}/zaruba" isValidMap "${_SERVICE_ENVS}")" -eq 0 ]
     then
-        echo "${_SERVICE_ENVS} is not a valid map"
-        exit 1
+        echo "env ${_SERVICE_ENVS} is not a valid map, apply default value"
+        _SERVICE_ENVS='{}'
     fi 
 
     if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_SERVICE_PORTS}")" -eq 0 ]
     then
-        echo "${_SERVICE_PORTS} is not a valid port"
-        exit 1
+        echo "ports ${_SERVICE_PORTS} is not a valid list, apply default value"
+        _SERVICE_PORTS='[]'
     fi
 
     if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_DEPENDENCIES}")" -eq 0 ]
     then
-        echo "${_SERVICE_PORTS} is not a valid port"
-        exit 1
+        echo "dependencies ${_DEPENDENCIES} is not a valid list, apply default value"
+        _DEPENDENCIES='[]'
     fi
 
     _DESTINATION="."

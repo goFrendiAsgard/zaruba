@@ -6,6 +6,8 @@ includes:
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
 
+  - ./inputs/airflowPostgreTask.zaruba.yaml
+  - ./inputs/airflowRedisTask.zaruba.yaml
   - ./inputs/generatorDockerContainerName.zaruba.yaml
   - ./inputs/generatorDockerImageName.zaruba.yaml
   - ./inputs/generatorFastApiCrudEntity.zaruba.yaml

@@ -30,33 +30,33 @@ generate_docker_task() {
     _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
     if [ "${_TASK_EXIST}" -eq 1 ]
     then
-        echo "Docker task already exist: run${_PASCAL_SERVICE_NAME}"
+        echo "docker task already exist: run${_PASCAL_SERVICE_NAME}"
         return
     fi
 
     if [ "$("${ZARUBA_HOME}/zaruba" isValidMap "${_SERVICE_ENVS}")" -eq 0 ]
     then
-        echo "{{ $d.Red }}{{ $d.Bold }}${_SERVICE_ENVS} is not a valid map{{ $d.Normal }}"
-        exit 1
+        echo "env ${_SERVICE_ENVS} is not a valid map, apply default value"
+        _SERVICE_ENVS='{}'
     fi 
 
     if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_SERVICE_PORTS}")" -eq 0 ]
     then
-        echo "{{ $d.Red }}{{ $d.Bold }}${_SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
-        exit 1
+        echo "ports ${_SERVICE_PORTS} is not a valid list, apply default value"
+        _SERVICE_PORTS='[]'
     fi
 
     if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_DEPENDENCIES}")" -eq 0 ]
     then
-        echo "{{ $d.Red }}{{ $d.Bold }}${_SERVICE_PORTS} is not a valid port{{ $d.Normal }}"
-        exit 1
+        echo "dependencies ${_DEPENDENCIES} is not a valid list, apply default value"
+        _DEPENDENCIES='[]'
     fi
 
     _DESTINATION="."
     _TASK_FILE_NAME="${_DESTINATION}/zaruba-tasks/${_SERVICE_NAME}/task.zaruba.yaml"
     if [ -f "${_TASK_FILE_NAME}" ]
     then
-        echo "{{ $d.Red }}{{ $d.Bold }}file already exist: ${_TASK_FILE_NAME}{{ $d.Normal }}"
+        echo "file already exist: ${_TASK_FILE_NAME}"
         exit 1
     fi
 

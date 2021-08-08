@@ -1,12 +1,32 @@
 # TODO: take from here, https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml
 configs:
+
   zarubaServiceName:
     useImagePrefix: true
     imagePrefix: apache
     imageName: airflow
     imageTag: 2.1.2
-    containerName: zarubaContainerName
     localhost: host.docker.internal
     volumes:
       ../../zarubaServiceName/dags:/opt/airflow/dags
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
+
+  zarubaServiceNameWebServer:
+    containerName: zarubaContainerNameWebServer
+    command: webserver
+    ports: |
+      8080:8080
+
+  zarubaServiceNameScheduler:
+    containerName: zarubaContainerNameScheduler
+    command: scheduler
+
+  zarubaServiceNameWorker:
+    containerName: zarubaContainerNameWorker
+    command: celery worker
+
+  zarubaServiceNameFlower:
+    containerName: zarubaContainerNameFlower
+    command: celery flower
+    ports: |
+      5555:5555
