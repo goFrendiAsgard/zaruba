@@ -1,5 +1,20 @@
 configs:
 
+  makeZarubaServiceNameInitScript:
+    envPrefix: '{{ .GetEnv "ENV_PREFIX" }}'
+
+  createZarubaServiceNameDb:
+    dbName: '{{ .GetEnv "DB_NAME" }}'
+
+  initZarubaServiceName:
+    wwwUserName: '{{ .GetEnv "WWW_USERNAME" }}'
+    wwwPassword: '{{ .GetEnv "WWW_PASSWORD" }}'
+    wwwFirstName: '{{ .GetEnv "WWW_FIRST_NAME" }}'
+    wwwLastName: '{{ .GetEnv "WWW_LAST_NAME" }}'
+    wwwRole: '{{ .GetEnv "WWW_ROLE" }}'
+    wwwEmail: '{{ .GetEnv "WWW_EMAIL" }}'
+    initDelay: '{{ .GetEnv "INIT_DELAY" }}'
+
   zarubaServiceName:
     useImagePrefix: true
     imagePrefix: apache
@@ -9,14 +24,6 @@ configs:
     volumes:
       ../../zarubaServiceName/dags:/opt/airflow/dags
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
-  
-  zarubaServiceNameInit:
-    userName: '{{ .GetEnv "_AIRFLOW_WWW_USER_USERNAME" }}'
-    userPassword: '{{ .GetEnv "_AIRFLOW_WWW_USER_PASSWORD" }}'
-    userFirstName: 'admin'
-    userLastName: 'admin'
-    userRole: 'Admin'
-    userEmail: 'admin@admin.com'
 
   zarubaServiceNameConfigurator:
     containerName: zarubaContainerNameConfigurator
