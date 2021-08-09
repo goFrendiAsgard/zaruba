@@ -34,7 +34,7 @@
                                       DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
                                       if [ ! -z "${DOCKER_IMAGE_TAG}" ]
                                       then
-                                        pull_image "${DOCKER__IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                                        pull_image "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                                       else
                                         pull_image "${DOCKER_IMAGE_NAME}"
                                       fi

@@ -1,6 +1,6 @@
 includes:
   - "./main.test.zaruba.yaml"
-  - "./main.testGenerator.zaruba.yaml"
+  - "./main.testPlayground.zaruba.yaml"
   - "./main.testHelm.zaruba.yaml"
 
 configs:

@@ -64,9 +64,7 @@
                   serviceEnvs       : {{ .GetValue "generatorServiceEnvs" }}
                   serviceName       : {{ .GetValue "generatorServiceName" }}
                   servicePorts      : {{ .GetValue "generatorServicePorts" }}
-                  setup             : Blank
-                  start             : {{- $d := .Decoration -}}
-                                      TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                  setup             : TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                       IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
                                       CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
                                       SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
@@ -74,7 +72,7 @@
                                       SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
                                       DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                       REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
-                                      
+                  start             : {{- $d := .Decoration -}}
                                       . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
                                       generate_docker_task \
                                         "${TEMPLATE_LOCATION}" \
@@ -85,7 +83,6 @@
                                         "${SERVICE_ENVS}" \
                                         "${DEPENDENCIES}" \
                                         "${REPLACEMENT_MAP}"
-                                      
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
                   templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/default

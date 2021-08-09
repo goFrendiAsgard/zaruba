@@ -13,7 +13,7 @@ init.sh
 ./Dockerfile
 ./main.zaruba.yaml
 ./main.test.zaruba.yaml
-./main.testGenerator.zaruba.yaml
+./main.testMakePlayground.zaruba.yaml
 ./main.testHelm.zaruba.yaml
 *.md
 ./docs

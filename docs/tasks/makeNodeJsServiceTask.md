@@ -83,9 +83,7 @@
                   servicePorts         : {{ .GetValue "generatorServicePorts" }}
                   serviceRunnerVersion : {{ .GetValue "generatorNodeJsServiceRunnerVersion" }}
                   serviceStartCommand  : {{ .GetValue "generatorNodeJsServiceStartCommand" }}
-                  setup                : Blank
-                  start                : {{- $d := .Decoration -}}
-                                         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                  setup                : TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                          SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
                                          SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                          IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
@@ -96,7 +94,7 @@
                                          SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
                                          DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                          REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
-                                         
+                  start                : {{- $d := .Decoration -}}
                                          . "${ZARUBA_HOME}/bash/generate_service_task.sh"
                                          generate_service_task \
                                            "${TEMPLATE_LOCATION}" \
@@ -110,7 +108,6 @@
                                            "${SERVICE_ENVS}" \
                                            "${DEPENDENCIES}" \
                                            "${REPLACEMENT_MAP}"
-                                         
                                          echo 🎉🎉🎉
                                          echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/nodejs

@@ -182,7 +182,7 @@ tasks:
         ../zaruba please buildImage
 
 
-  testGenerator:
+  testMakePlayground:
     location: ./playground
     dependencies:
       - testMakeProject
@@ -204,7 +204,7 @@ tasks:
   testLogging:
     location: ./playground
     dependencies:
-      - testGenerator
+      - testMakePlayground
     extend: core.runShellScript
     configRef: playgroundTest
     config:
@@ -234,7 +234,7 @@ tasks:
     dependencies:
       - clearLog
       - runContainerRegistry
-      - testGenerator
+      - testMakePlayground
     extend: core.runShellScript
     timeout: 1h
     configRef: playgroundTest
@@ -250,7 +250,7 @@ tasks:
     dependencies:
       - clearLog
       - build
-      - testGenerator
+      - testMakePlayground
     extend: core.startService
     configRef: playgroundTest
     config:
