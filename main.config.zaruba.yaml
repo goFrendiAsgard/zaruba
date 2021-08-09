@@ -1,0 +1,21 @@
+configs:
+
+  playgroundTest:
+    beforeStart: |
+      set -e
+      ZARUBA_HOME="$(realpath "..")"
+
+  commonDocker:
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
+
+  zarubaDocker:
+    imageName: zaruba
+
+  devboxDocker:
+    imageName: devbox
+
+  mainTest:
+    beforeStart:
+      set -e
+      ZARUBA_HOME="$(realpath ".")"

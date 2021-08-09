@@ -1,19 +1,9 @@
 includes:
-  - "./main.test.zaruba.yaml"
-  - "./main.testPlayground.zaruba.yaml"
-  - "./main.testHelm.zaruba.yaml"
-
-configs:
-
-  commonDocker:
-    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-    imageTag: '{{ .GetValue "defaultImageTag" }}'
-
-  zarubaDocker:
-    imageName: zaruba
-
-  devboxDocker:
-    imageName: devbox
+  - ./main.config.zaruba.yaml
+  - ./main.input.zaruba.yaml
+  - ./main.test.zaruba.yaml
+  - ./main.testPlayground.zaruba.yaml
+  - ./main.testHelm.zaruba.yaml
 
 tasks:
 
@@ -73,22 +63,6 @@ tasks:
       - clearLog
       - buildZarubaImage
       - buildDevboxImage
-
-
-  runAsContainer:
-    icon: 🐳
-    location: ./
-    extend: core.startDockerContainer
-    dependencies:
-      - clearLog
-      - buildZarubaImage
-    config:
-      ports: |
-        2810
-      localhost: host.docker.internal
-      imageName: local/zaruba:latest
-      containerName: zaruba
-      rebuild: true
 
 
   pushZarubaImage:

@@ -12,6 +12,8 @@ init.sh
 ./devbox
 ./Dockerfile
 ./main.zaruba.yaml
+./main.input.zaruba.yaml
+./main.config.zaruba.yaml
 ./main.test.zaruba.yaml
 ./main.testMakePlayground.zaruba.yaml
 ./main.testHelm.zaruba.yaml
