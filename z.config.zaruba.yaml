@@ -12,6 +12,12 @@ configs:
   zarubaDocker:
     imageName: zaruba
 
+  zarubaAwsDocker:
+    imageName: zaruba-aws
+
+  zarubaGcloudDocker:
+    imageName: zaruba-gcloud
+
   devboxDocker:
     imageName: devbox
 

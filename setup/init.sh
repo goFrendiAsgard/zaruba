@@ -15,10 +15,12 @@ PROMPT='
 2. Setup tmux
 3. Install kubectl
 4. Install helm
-5. Install nvm
+5. Install NVM
 6. Install pyenv and pipenv
-7. Install sdkman
-8. Install gvm
+7. Install SdkMan
+8. Install GVM
+9. install AWS CLI
+10. install Google Cloud SDK
 
 💀 Type your choice:
 '
@@ -54,6 +56,12 @@ do
         ;;
     "8")
         . "${SETUP_PATH}/install_gvm.sh"
+        ;;
+    "9")
+        . "${SETUP_PATH}/install_aws_cli.sh"
+        ;;
+    "10")
+        . "${SETUP_PATH}/install_gcloud.sh"
         ;;
     esac
 done

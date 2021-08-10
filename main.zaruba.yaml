@@ -1,12 +1,12 @@
 includes:
-  - ./main.config.zaruba.yaml
-  - ./main.input.zaruba.yaml
-  - ./main.test.zaruba.yaml
-  - ./main.testPlayground.zaruba.yaml
-  - ./main.testHelm.zaruba.yaml
+  - ./z.config.zaruba.yaml
+  - ./z.input.zaruba.yaml
+  - ./z.taskDocker.zaruba.yaml
+  - ./z.taskTest.zaruba.yaml
+  - ./z.taskTestPlayground.zaruba.yaml
+  - ./z.taskTestHelm.zaruba.yaml
 
 tasks:
-
 
   build:
     icon: 🚧
@@ -20,7 +20,6 @@ tasks:
         rm -f zaruba
         go build
 
-
   serveCoverage:
     icon: 🥗
     location: ./coverage
@@ -28,76 +27,6 @@ tasks:
     dependencies:
       - clearLog
       - testCore
-  
-
-  buildZarubaImage:
-    icon: 🐳
-    extend: core.buildDockerImage
-    dependencies:
-      - clearLog
-      - buildDevboxImage
-    configRefs:
-      - commonDocker
-      - zarubaDocker
-    config:
-      imageName: zaruba
-    location: ./
-    timeout: 1h
-
-
-  buildDevboxImage:
-    icon: 🐳
-    extend: core.buildDockerImage
-    dependencies:
-      - clearLog
-    configRefs:
-      - commonDocker
-      - devboxDocker
-    location: ./devbox
-    timeout: 1h
-
-
-  buildDocker:
-    icon: 🚧
-    dependencies:
-      - clearLog
-      - buildZarubaImage
-      - buildDevboxImage
-
-
-  pushZarubaImage:
-    icon: 🐳
-    extend: core.pushDockerImage
-    dependencies:
-      - clearLog
-      - buildZarubaImage
-    configRefs:
-      - commonDocker
-      - zarubaDocker
-    location: ./
-    timeout: 1h
-
-
-  pushDevboxImage:
-    icon: 🐳
-    extend: core.pushDockerImage
-    dependencies:
-      - clearLog
-      - buildDevboxImage
-    configRefs:
-      - commonDocker
-      - devboxDocker
-    location: ./devbox
-    timeout: 1h
-
-
-  pushDocker:
-    icon: 🔼
-    dependencies:
-      - clearLog
-      - pushZarubaImage
-      - pushDevboxImage
-
 
   pushRepo:
     icon: 🔼
@@ -111,24 +40,12 @@ tasks:
         git commit -m "Save changes before pushing"
         git push -u origin HEAD
 
-
   push:
     icon: 🔼
     dependencies:
       - clearLog
       - pushDocker
       - pushRepo
-
-
-  install:
-    icon: 🔨
-    location: ./
-    extend: core.runShellScript
-    dependencies:
-      - clearLog
-    config:
-      start: ./install.sh
-
 
   makeTaskDocs:
     location: ./
