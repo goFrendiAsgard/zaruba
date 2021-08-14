@@ -2,24 +2,20 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/str"
 )
 
-var strToLowerCmd = &cobra.Command{
-	Use:   "strToLower <string>",
-	Short: "Turn string into lower case",
+var strSnakeCmd = &cobra.Command{
+	Use:   "strToSnake <string>",
+	Short: "Turn string into snake_case",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		fmt.Println(strings.ToLower(args[0]))
+		fmt.Println(str.ToSnakeCase(args[0]))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(strToLowerCmd)
 }

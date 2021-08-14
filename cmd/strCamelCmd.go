@@ -8,18 +8,14 @@ import (
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var strToKebabCmd = &cobra.Command{
-	Use:   "strToKebab <string>",
-	Short: "Turn string into kebab-case",
+var strCamelCmd = &cobra.Command{
+	Use:   "camel <string>",
+	Short: "Turn string into camelCase",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		fmt.Println(str.ToKebabCase(args[0]))
+		fmt.Println(str.ToCamelCase(args[0]))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(strToKebabCmd)
 }

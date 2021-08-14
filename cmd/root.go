@@ -17,11 +17,7 @@ var rootCmd = &cobra.Command{
   / // _  |  __| | | |  _ \ / _ \
  / /| (_| | |  | |_| | |_) / ___ \
 /____\__,_|_|   \__,_|_.__/_/   \_\
-Declarative task runner framework and CLI utilities
-
-Zaruba helps you declare/execute tasks to manage your projects.
-Try:
-  zaruba please`,
+Declarative task runner framework and CLI utilities`,
 }
 
 var linesCmd = &cobra.Command{
@@ -69,16 +65,33 @@ func init() {
 	rootCmd.AddCommand(taskCmd)
 	rootCmd.AddCommand(utilCmd)
 
+	listCmd.AddCommand(listAppendCmd)
+	listCmd.AddCommand(listContainCmd)
+	listCmd.AddCommand(listGetCmd)
+	listCmd.AddCommand(listJoinCmd)
+	listCmd.AddCommand(listLengthCmd)
+	listCmd.AddCommand(listMergeCmd)
+	listCmd.AddCommand(listSetCmd)
+	listCmd.AddCommand(listValidateCmd)
+
 	projectCmd.AddCommand(projectIncludeCmd)
 
 	strCmd.AddCommand(strAddPrefixCmd)
+	strCmd.AddCommand(strCamelCmd)
 	strCmd.AddCommand(strGetIndentationCmd)
 	strCmd.AddCommand(strIndentCmd)
+	strCmd.AddCommand(strKebabCmd)
+	strCmd.AddCommand(strLowerCmd)
+	strCmd.AddCommand(strPascalCmd)
 	strCmd.AddCommand(strRepeatCmd)
 	strCmd.AddCommand(strReplaceCmd)
+	strCmd.AddCommand(strSnakeCmd)
+	strCmd.AddCommand(strSplitCmd)
 	strCmd.AddCommand(strSubmatchCmd)
+	strCmd.AddCommand(strUpperCmd)
 
 	taskCmd.AddCommand(taskAddDependencyCmd)
+	taskCmd.AddCommand(taskAddParentCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

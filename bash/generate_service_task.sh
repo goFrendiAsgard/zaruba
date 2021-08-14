@@ -18,16 +18,16 @@ generate_service_task() {
     _DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" getServiceName "${_SERVICE_LOCATION}")"
     _SERVICE_NAME="$(get_value_or_default "${_SERVICE_NAME}" "${_DEFAULT_SERVICE_NAME}")"
 
-    _DEFAULT_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${_SERVICE_NAME}")"
+    _DEFAULT_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" str kebab "${_SERVICE_NAME}")"
     _IMAGE_NAME="$(get_value_or_default "${_IMAGE_NAME}" "${_DEFAULT_IMAGE_NAME}")"
 
-    _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" strToCamel "${_SERVICE_NAME}")"
+    _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" str camel "${_SERVICE_NAME}")"
     _CONTAINER_NAME="$(get_value_or_default "${_CONTAINER_NAME}" "${_DEFAULT_CONTAINER_NAME}")"
 
-    _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")"
-    _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToKebab "${_SERVICE_NAME}")"
-    _SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToSnake "${_SERVICE_NAME}")"
-    _UPPER_SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToUpper "${_SNAKE_SERVICE_NAME}")"
+    _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str pascal "${_SERVICE_NAME}")"
+    _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str kebab "${_SERVICE_NAME}")"
+    _SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str snake "${_SERVICE_NAME}")"
+    _UPPER_SNAKE_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str upper "${_SNAKE_SERVICE_NAME}")"
 
     _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
     if [ "${_TASK_EXIST}" -eq 1 ]
@@ -42,13 +42,13 @@ generate_service_task() {
         _SERVICE_ENVS='{}'
     fi 
 
-    if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_SERVICE_PORTS}")" -eq 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" list validate "${_SERVICE_PORTS}")" -eq 0 ]
     then
         echo "ports ${_SERVICE_PORTS} is not a valid list, apply default value"
         _SERVICE_PORTS='[]'
     fi
 
-    if [ "$("${ZARUBA_HOME}/zaruba" isValidList "${_DEPENDENCIES}")" -eq 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" list validate "${_DEPENDENCIES}")" -eq 0 ]
     then
         echo "dependencies ${_DEPENDENCIES} is not a valid list, apply default value"
         _DEPENDENCIES='[]'
@@ -63,7 +63,7 @@ generate_service_task() {
     fi
 
     _DEFAULT_PORT_LIST="$("${ZARUBA_HOME}/zaruba" getPortConfig "${_SERVICE_LOCATION}")"
-    _DEFAULT_PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" join "${_DEFAULT_PORT_LIST}" "\n")"
+    _DEFAULT_PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" list join "${_DEFAULT_PORT_LIST}" "\n")"
 
     _REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "${_REPLACEMENT_MAP}" \
         "zarubaImageName" "${_IMAGE_NAME}" \
@@ -86,9 +86,9 @@ generate_service_task() {
     "${ZARUBA_HOME}/zaruba" setTaskEnv ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_SERVICE_ENVS}"
 
             
-    if [ "$("${ZARUBA_HOME}/zaruba" getListLength "${_SERVICE_PORTS}")" -gt 0 ]
+    if [ "$("${ZARUBA_HOME}/zaruba" list length "${_SERVICE_PORTS}")" -gt 0 ]
     then
-        _PORT_CONFIG_VALUE="$("${ZARUBA_HOME}/zaruba" join "${_SERVICE_PORTS}" )"
+        _PORT_CONFIG_VALUE="$("${ZARUBA_HOME}/zaruba" list join "${_SERVICE_PORTS}" )"
         _PORT_CONFIG="$("${ZARUBA_HOME}/zaruba" setMapElement "{}" "ports" "$_PORT_CONFIG_VALUE" )"
         "${ZARUBA_HOME}/zaruba" setTaskConfig ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_PORT_CONFIG}"
     fi

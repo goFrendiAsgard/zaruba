@@ -9,8 +9,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var setListElementCmd = &cobra.Command{
-	Use:   "setListElement <list> <index> <value>",
+var listSetCmd = &cobra.Command{
+	Use:   "set <list> <index> <value>",
 	Short: "Set list[index] to value and return new JSON list",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -39,8 +39,4 @@ var setListElementCmd = &cobra.Command{
 		}
 		fmt.Println(string(resultB))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(setListElementCmd)
 }

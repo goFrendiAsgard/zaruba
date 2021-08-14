@@ -2,7 +2,7 @@
 register_task_file() {
     _TASK_FILE_NAME="${1}"
     _SERVICE_NAME="${2}"
-    _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")" 
+    _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str pascal "${_SERVICE_NAME}")" 
 
     "${ZARUBA_HOME}/zaruba" project include "./main.zaruba.yaml" "${_TASK_FILE_NAME}"
     "${ZARUBA_HOME}/zaruba" syncProjectEnvFiles "./main.zaruba.yaml"

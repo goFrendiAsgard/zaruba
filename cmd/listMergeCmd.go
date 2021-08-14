@@ -8,8 +8,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var mergeListCmd = &cobra.Command{
-	Use:   "mergeList <list> <otherList...>",
+var listMergeCmd = &cobra.Command{
+	Use:   "merge <list> <otherList...>",
 	Short: "Merge JSON lists",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -30,8 +30,4 @@ var mergeListCmd = &cobra.Command{
 		}
 		fmt.Println(string(resultB))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(mergeListCmd)
 }

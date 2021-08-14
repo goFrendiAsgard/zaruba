@@ -8,9 +8,9 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var isInListCmd = &cobra.Command{
-	Use:   "isInList <list> <element>",
-	Short: "Find out whether list contains string or not",
+var listAppendCmd = &cobra.Command{
+	Use:   "append <list> <newValues...>",
+	Short: "Append new values to list",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -20,20 +20,18 @@ var isInListCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		var seekElement interface{}
-		if err := json.Unmarshal([]byte(args[1]), &seekElement); err != nil {
-			seekElement = args[1]
-		}
-		for _, element := range list {
-			if element == seekElement {
-				fmt.Println(1)
-				return
+		newStrValues := args[1:]
+		for _, newStrValue := range newStrValues {
+			var newValue interface{}
+			if err := json.Unmarshal([]byte(newStrValue), &newValue); err != nil {
+				newValue = newStrValue
 			}
+			list = append(list, newValue)
 		}
-		fmt.Println(0)
+		resultB, err := json.Marshal(list)
+		if err != nil {
+			exit(commandName, logger, decoration, err)
+		}
+		fmt.Println(string(resultB))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(isInListCmd)
 }

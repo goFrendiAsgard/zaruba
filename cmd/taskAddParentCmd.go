@@ -10,8 +10,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var addTaskParentCmd = &cobra.Command{
-	Use:   "addTaskParent <projectFile> <taskName> <newParentNames>",
+var taskAddParentCmd = &cobra.Command{
+	Use:   "addParent <projectFile> <taskName> <newParentNames>",
 	Short: "Add task parent",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -44,8 +44,4 @@ var addTaskParentCmd = &cobra.Command{
 			exit(commandName, logger, decoration, err)
 		}
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(addTaskParentCmd)
 }

@@ -16,14 +16,14 @@ generate_fast_api_rpc_handler() {
         "${_SERVICE_NAME}" \
         "${_MODULE_NAME}"
     
-    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${SERVICE_NAME}")
-    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${MODULE_NAME}")
-    _SNAKE_RPC_NAME=$("${ZARUBA_HOME}/zaruba" strToSnake "${RPC_NAME}")
-    _CAMEL_RPC_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${RPC_NAME}")
+    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${SERVICE_NAME}")
+    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${MODULE_NAME}")
+    _SNAKE_RPC_NAME=$("${ZARUBA_HOME}/zaruba" str snake "${RPC_NAME}")
+    _CAMEL_RPC_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${RPC_NAME}")
 
     # get controller lines
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" )
-    _PATTERNS="$("${ZARUBA_HOME}/zaruba" appendToList "[]" \
+    _PATTERNS="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         ".*def event_controller.*" \
     )"
     _LINE_INDEX=$("${ZARUBA_HOME}/zaruba" getLineIndex "${_CONTROLLER_LINES}" "${_PATTERNS}")

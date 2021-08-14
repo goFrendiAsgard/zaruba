@@ -61,22 +61,22 @@ tasks:
         REPLACEMENT_MAP="$(./zaruba setMapElement "{}" "${ZARUBA_HOME}" '${ZARUBA_HOME}')"
         LINES="$(./zaruba readLines "./scripts/core.zaruba.yaml")"
         LINE_INDEX=0
-        MAX_LINE_INDEX=$(($(./zaruba getListLength "$LINES")-1))
+        MAX_LINE_INDEX=$(($(./zaruba list length "$LINES")-1))
         for LINE_INDEX in $(seq 0 "${MAX_LINE_INDEX}")
         do
-          LINE="$(./zaruba getFromList "${LINES}" "${LINE_INDEX}")"
+          LINE="$(./zaruba list get "${LINES}" "${LINE_INDEX}")"
           SUBMATCH="$(./zaruba str submatch "'""${LINE}""'" ".*\./tasks\/(.*)\.zaruba\.yaml.*")"
-          if [ "$(./zaruba getListLength "${SUBMATCH}")" = 2 ]
+          if [ "$(./zaruba list length "${SUBMATCH}")" = 2 ]
           then
-            TASK_NAME="$(./zaruba getFromList "${SUBMATCH}" 1)"
+            TASK_NAME="$(./zaruba list get "${SUBMATCH}" 1)"
             echo ${TASK_NAME}
             TASK_EXPLANATION=$(./zaruba please "${TASK_NAME}" -x -n)
             TASK_EXPLANATION=$(./zaruba str replace "${TASK_EXPLANATION}" "${REPLACEMENT_MAP}")
-            TASK_EXPLANATION_LINES=$(./zaruba split "${TASK_EXPLANATION}")
+            TASK_EXPLANATION_LINES=$(./zaruba str split "${TASK_EXPLANATION}")
             DOCS="[]"
-            DOCS=$(./zaruba appendToList "[]" "# ${TASK_NAME}" "\`\`\`")
-            DOCS=$(./zaruba mergeList "${DOCS}" "${TASK_EXPLANATION_LINES}")
-            DOCS=$(./zaruba appendToList "${DOCS}" "\`\`\`")
+            DOCS=$(./zaruba list append "[]" "# ${TASK_NAME}" "\`\`\`")
+            DOCS=$(./zaruba list merge "${DOCS}" "${TASK_EXPLANATION_LINES}")
+            DOCS=$(./zaruba list append "${DOCS}" "\`\`\`")
             DOC_FILE="./docs/tasks/${TASK_NAME}.md"
             ./zaruba writeLines "${DOC_FILE}" "${DOCS}"
           fi

@@ -17,14 +17,14 @@ generate_fast_api_route() {
         "${_SERVICE_NAME}" \
         "${_MODULE_NAME}"
 
-    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${_SERVICE_NAME}")
-    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${_MODULE_NAME}")
-    _SNAKE_URL=$("${ZARUBA_HOME}/zaruba" strToSnake "${URL}")
-    _LOWER_HTTP_METHOD=$("${ZARUBA_HOME}/zaruba" strToLower "${HTTP_METHOD}")
+    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${_SERVICE_NAME}")
+    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${_MODULE_NAME}")
+    _SNAKE_URL=$("${ZARUBA_HOME}/zaruba" str snake "${URL}")
+    _LOWER_HTTP_METHOD=$("${ZARUBA_HOME}/zaruba" str lower "${HTTP_METHOD}")
 
     # get controller lines
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" )
-    _PATTERNS="$("${ZARUBA_HOME}/zaruba" appendToList "[]" \
+    _PATTERNS="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         ".*def route_controller.*" \
     )"
     _LINE_INDEX=$("${ZARUBA_HOME}/zaruba" getLineIndex "${_CONTROLLER_LINES}" "${_PATTERNS}")

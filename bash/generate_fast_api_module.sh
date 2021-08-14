@@ -22,11 +22,11 @@ generate_fast_api_module() {
 
 
     echo "Creating Fast API module: ${_SERVICE_NAME}/${_MODULE_NAME}"
-    _PASCAL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToPascal "${_SERVICE_NAME}")
-    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${_SERVICE_NAME}")
-    _PASCAL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToPascal "${_MODULE_NAME}")
-    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToCamel "${_MODULE_NAME}")
-    _SNAKE_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" strToSnake "${_MODULE_NAME}")
+    _PASCAL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str pascal "${_SERVICE_NAME}")
+    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${_SERVICE_NAME}")
+    _PASCAL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str pascal "${_MODULE_NAME}")
+    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${_MODULE_NAME}")
+    _SNAKE_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str snake "${_MODULE_NAME}")
     _REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
         "zarubaServiceName" "${_CAMEL_SERVICE_NAME}" \
         "ZarubaServiceName" "${_PASCAL_SERVICE_NAME}" \
@@ -42,15 +42,15 @@ generate_fast_api_module() {
     # import module
     _IMPORT_MODULE_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/import_module.py")
     _IMPORT_MODULE_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_IMPORT_MODULE_PARTIAL}" "${_REPLACEMENT_MAP}")
-    _IMPORT_MODULE_LINES=$("${ZARUBA_HOME}/zaruba" split "${_IMPORT_MODULE_PARTIAL}")
+    _IMPORT_MODULE_LINES=$("${ZARUBA_HOME}/zaruba" str split "${_IMPORT_MODULE_PARTIAL}")
 
     # load module
     _LOAD_MODULE_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/load_module.py")
     _LOAD_MODULE_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_LOAD_MODULE_PARTIAL}" "${_REPLACEMENT_MAP}")
-    _LOAD_MODULE_LINES=$("${ZARUBA_HOME}/zaruba" split "${_LOAD_MODULE_PARTIAL}")
+    _LOAD_MODULE_LINES=$("${ZARUBA_HOME}/zaruba" str split "${_LOAD_MODULE_PARTIAL}")
 
     # update main.py
-    _MAIN_LINES=$("${ZARUBA_HOME}/zaruba" mergeList "${_IMPORT_MODULE_LINES}" "${_MAIN_LINES}" "${_LOAD_MODULE_LINES}")
+    _MAIN_LINES=$("${ZARUBA_HOME}/zaruba" list merge "${_IMPORT_MODULE_LINES}" "${_MAIN_LINES}" "${_LOAD_MODULE_LINES}")
     "${ZARUBA_HOME}/zaruba" writeLines "${_CAMEL_SERVICE_NAME}/main.py" "${_MAIN_LINES}"
 
 }
