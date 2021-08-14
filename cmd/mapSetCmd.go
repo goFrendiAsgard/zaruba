@@ -9,7 +9,7 @@ import (
 )
 
 var mapSetCmd = &cobra.Command{
-	Use:   "setMapElement <map> <key1> <value1> <key2> <value2>... <keyN> <valueN>",
+	Use:   "set <map> <key1> <value1> <key2> <value2>... <keyN> <valueN>",
 	Short: "Set map[key] to value",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()

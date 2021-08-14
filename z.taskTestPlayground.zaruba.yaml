@@ -194,7 +194,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please project showLog logKeyword=myService 
+        ../zaruba please showLog logKeyword=myService 
         ../zaruba please clearLog 
   
 
