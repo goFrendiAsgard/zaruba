@@ -11,7 +11,7 @@ tasks:
     config:
       start: |
         ../zaruba please initProject 
-        ../zaruba please project setValue variableName=defaultImagePrefix variableValue=localhost:9999 
+        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
   
 
   testMakeSubrepo:
