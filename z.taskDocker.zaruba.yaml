@@ -81,7 +81,7 @@ tasks:
     extend: core.pushDockerImage
     dependencies:
       - clearLog
-      - buildZarubaAwsImage
+      - buildZarubaGcloudImage
     configRefs:
       - commonDocker
       - zarubaGcloudDocker
