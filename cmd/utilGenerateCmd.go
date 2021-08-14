@@ -25,6 +25,14 @@ var utilGenerateCmd = &cobra.Command{
 		}
 		replacementMap := map[string]string{}
 		for key, value := range rawReplacementMap {
+			if strValue, ok := value.(string); ok {
+				replacementMap[key] = strValue
+				continue
+			}
+			if valB, err := json.Marshal(value); err == nil {
+				replacementMap[key] = string(valB)
+				continue
+			}
 			replacementMap[key] = fmt.Sprintf("%v", value)
 		}
 		if err := file.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {

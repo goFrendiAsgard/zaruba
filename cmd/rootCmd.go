@@ -91,6 +91,8 @@ func init() {
 
 	advertisementCmd.AddCommand(advertisementShowCmd)
 
+	envCmd.AddCommand(envGetMapCmd)
+
 	linesCmd.AddCommand(linesFillCmd)
 	linesCmd.AddCommand(linesGetIndexCmd)
 	linesCmd.AddCommand(linesIndentCmd)

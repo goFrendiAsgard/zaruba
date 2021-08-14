@@ -3,6 +3,7 @@ package str
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -132,7 +133,13 @@ func Indent(multiLineStr string, indentation string) (indentedStr string) {
 
 func ReplaceByMap(s string, replacementMap map[string]string) (result string) {
 	result = s
-	for key, val := range replacementMap {
+	keys := []string{}
+	for key := range replacementMap {
+		keys = append(keys, key)
+	}
+	sort.Sort(ByLenDesc(keys))
+	for _, key := range keys {
+		val := replacementMap[key]
 		result = strings.ReplaceAll(result, key, val)
 	}
 	return result
