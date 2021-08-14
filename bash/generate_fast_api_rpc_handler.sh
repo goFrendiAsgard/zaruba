@@ -34,8 +34,8 @@ generate_fast_api_rpc_handler() {
         "zarubaRpcName" "${_CAMEL_RPC_NAME}" \
         "zaruba_rpc_name" "${_SNAKE_RPC_NAME}" \
     )
-    _HANDLE_RPC_PARTIAL=$("${ZARUBA_HOME}/zaruba" strReplace "${_HANDLE_RPC_PARTIAL}" "${_REPLACEMENT_MAP}")
-    _HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_HANDLE_RPC_PARTIAL}" "    ")"
+    _HANDLE_RPC_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_RPC_PARTIAL}" "${_REPLACEMENT_MAP}")
+    _HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_HANDLE_RPC_PARTIAL}" "    ")"
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" insertLineAfterIndex "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_RPC_PARTIAL}" )
 
     # save controller

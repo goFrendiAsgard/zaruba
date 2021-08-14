@@ -48,12 +48,12 @@ generate_fast_api_crud_handler() {
 
     # import repo
     _IMPORT_REPO_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/import_repo.py")"
-    _IMPORT_REPO_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_IMPORT_REPO_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _IMPORT_REPO_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_IMPORT_REPO_PARTIAL}" "${_REPLACMENT_MAP}" )"
     _MAIN_LINES="$("${ZARUBA_HOME}/zaruba" insertLineBeforeIndex "${_MAIN_LINES}" 0 "${_IMPORT_REPO_PARTIAL}")"
 
     # init repo on main.py
     _INIT_REPO_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/init_repo.py")"
-    _INIT_REPO_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_INIT_REPO_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _INIT_REPO_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_INIT_REPO_PARTIAL}" "${_REPLACMENT_MAP}" )"
     _ENGINE_DECLARATION_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" "^\s*engine[\s]*=.*$")"
     _ENGINE_DECLARATION_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" getLineIndex "${_MAIN_LINES}" "${_ENGINE_DECLARATION_PATTERN}")"
     _MAIN_LINES="$("${ZARUBA_HOME}/zaruba" insertLineAfterIndex "${_MAIN_LINES}" "${_ENGINE_DECLARATION_LINE_INDEX}" "${_INIT_REPO_PARTIAL}")"
@@ -75,21 +75,21 @@ generate_fast_api_crud_handler() {
 
     # import to controller
     _IMPORT_TO_CONTROLLER_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/import_to_controller.py")"
-    _IMPORT_TO_CONTROLLER_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_IMPORT_TO_CONTROLLER_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _IMPORT_TO_CONTROLLER_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_IMPORT_TO_CONTROLLER_PARTIAL}" "${_REPLACMENT_MAP}" )"
     _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" insertLineBeforeIndex "${_CONTROLLER_LINES}" 0 "${_IMPORT_TO_CONTROLLER_PARTIAL}")"
 
     # handle route on controller.py
     _CONTROLLER_HANDLE_ROUTE_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_route.py")"
-    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}" "${_REPLACMENT_MAP}" )"
-    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}" "    " )"
+    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}" "    " )"
     _ROUTE_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" "^\s*def route_controller\(.*\):.*$")"
     _ROUTE_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" getLineIndex "${_CONTROLLER_LINES}" "${_ROUTE_CONTROLLER_PATTERN}")"
     _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" insertLineAfterIndex "${_CONTROLLER_LINES}" "${_ROUTE_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}")"
 
     # handle event on controller.py
     _CONTROLLER_HANDLE_EVENT_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_event.py")"
-    _CONTROLLER_HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_CONTROLLER_HANDLE_EVENT_PARTIAL}" "${_REPLACMENT_MAP}" )"
-    _CONTROLLER_HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_CONTROLLER_HANDLE_EVENT_PARTIAL}" "    " )"
+    _CONTROLLER_HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_EVENT_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _CONTROLLER_HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_EVENT_PARTIAL}" "    " )"
     _EVENT_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" "^(\s*)def event_controller\((.*)\):(.*)$")"
     _EVENT_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" getLineIndex "${_CONTROLLER_LINES}" "${_EVENT_CONTROLLER_PATTERN}")"
     _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" insertLineAfterIndex "${_CONTROLLER_LINES}" "${_EVENT_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_EVENT_PARTIAL}")"
@@ -121,7 +121,7 @@ generate_fast_api_crud_handler() {
     _SCHEMA_LINES="$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/schemas/${_CAMEL_ENTITY_NAME}.py")"
     # repo
     _REPO_LINES="$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/repos/db${_PASCAL_ENTITY_NAME}.py")"
-    _REPO_LINES="$("${ZARUBA_HOME}/zaruba" strReplace "${_REPO_LINES}" "${_REPLACEMENT_MAP}")"
+    _REPO_LINES="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_LINES}" "${_REPLACEMENT_MAP}")"
 
     _MAX_FIELD_INDEX="$((${_FIELD_COUNT}-1))"
     for _FIELD_INDEX in $(seq "${_MAX_FIELD_INDEX}" -1 0)
@@ -136,8 +136,8 @@ generate_fast_api_crud_handler() {
 
         # schema field declaration
         _SCHEMA_FIELD_DECLARATION_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/schema_field_declaration.py")"
-        _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "    ")"
+        _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "${_REPLACMENT_MAP}")"
+        _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "    ")"
 
         _SCHEMA_FIELD_DECLARATION_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" \
         "^\s*class\s*${_PASCAL_ENTITY_NAME}Data\s*\(.*$"
@@ -148,8 +148,8 @@ generate_fast_api_crud_handler() {
 
         # repo field declaration
         _REPO_FIELD_DECLARATION_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/repo_field_declaration.py")"
-        _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_REPO_FIELD_DECLARATION_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_REPO_FIELD_DECLARATION_PARTIAL}" "    ")"
+        _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_FIELD_DECLARATION_PARTIAL}" "${_REPLACMENT_MAP}")"
+        _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_REPO_FIELD_DECLARATION_PARTIAL}" "    ")"
 
         _REPO_FIELD_DECLARATION_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" \
         "^\s*class\s*DB${_PASCAL_ENTITY_NAME}Entity\s*\(.*$" \
@@ -161,8 +161,8 @@ generate_fast_api_crud_handler() {
 
         # repo field insert
         _REPO_FIELD_INSERT_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/repo_field_insert.py")"
-        _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_REPO_FIELD_INSERT_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_REPO_FIELD_INSERT_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" strRepeat "    " 4)")"
+        _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_FIELD_INSERT_PARTIAL}" "${_REPLACMENT_MAP}")"
+        _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_REPO_FIELD_INSERT_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" str repeat "    " 4)")"
 
         _REPO_FIELD_INSERT_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" \
         "^\s*class\s*DB${_PASCAL_ENTITY_NAME}Repo\s*\(.*$" \
@@ -175,8 +175,8 @@ generate_fast_api_crud_handler() {
 
         # repo field update
         _REPO_FIELD_UPDATE_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/repo_field_update.py")"
-        _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" strReplace "${_REPO_FIELD_UPDATE_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" strIndent "${_REPO_FIELD_UPDATE_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" strRepeat "    " 3)")"
+        _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_FIELD_UPDATE_PARTIAL}" "${_REPLACMENT_MAP}")"
+        _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_REPO_FIELD_UPDATE_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" str repeat "    " 3)")"
 
         _REPO_FIELD_UPDATE_PATTERN="$("${ZARUBA_HOME}/zaruba" appendToList "[]" \
         "^\s*class\s*DB${_PASCAL_ENTITY_NAME}Repo\s*\(.*$" \

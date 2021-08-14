@@ -65,13 +65,13 @@ tasks:
         for LINE_INDEX in $(seq 0 "${MAX_LINE_INDEX}")
         do
           LINE="$(./zaruba getFromList "${LINES}" "${LINE_INDEX}")"
-          SUBMATCH="$(./zaruba strSubmatch "'""${LINE}""'" ".*\./tasks\/(.*)\.zaruba\.yaml.*")"
+          SUBMATCH="$(./zaruba str submatch "'""${LINE}""'" ".*\./tasks\/(.*)\.zaruba\.yaml.*")"
           if [ "$(./zaruba getListLength "${SUBMATCH}")" = 2 ]
           then
             TASK_NAME="$(./zaruba getFromList "${SUBMATCH}" 1)"
             echo ${TASK_NAME}
             TASK_EXPLANATION=$(./zaruba please "${TASK_NAME}" -x -n)
-            TASK_EXPLANATION=$(./zaruba strReplace "${TASK_EXPLANATION}" "${REPLACEMENT_MAP}")
+            TASK_EXPLANATION=$(./zaruba str replace "${TASK_EXPLANATION}" "${REPLACEMENT_MAP}")
             TASK_EXPLANATION_LINES=$(./zaruba split "${TASK_EXPLANATION}")
             DOCS="[]"
             DOCS=$(./zaruba appendToList "[]" "# ${TASK_NAME}" "\`\`\`")

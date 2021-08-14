@@ -1,13 +1,9 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -28,6 +24,63 @@ Try:
   zaruba please`,
 }
 
+var linesCmd = &cobra.Command{
+	Use:   "lines",
+	Short: "Lines manipulation utilities",
+}
+
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List manipulation utilities",
+}
+
+var mapCmd = &cobra.Command{
+	Use:   "map",
+	Short: "Map manipulation utilities",
+}
+
+var projectCmd = &cobra.Command{
+	Use:   "project",
+	Short: "Project manipulation utilities",
+}
+
+var strCmd = &cobra.Command{
+	Use:   "str",
+	Short: "String manipulation utilities",
+}
+
+var taskCmd = &cobra.Command{
+	Use:   "task",
+	Short: "Task manipulation utilities",
+}
+
+var utilCmd = &cobra.Command{
+	Use:   "util",
+	Short: "Utilities",
+}
+
+func init() {
+	rootCmd.AddCommand(linesCmd)
+	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(mapCmd)
+	rootCmd.AddCommand(pleaseCmd)
+	rootCmd.AddCommand(projectCmd)
+	rootCmd.AddCommand(strCmd)
+	rootCmd.AddCommand(taskCmd)
+	rootCmd.AddCommand(utilCmd)
+
+	projectCmd.AddCommand(projectIncludeCmd)
+
+	strCmd.AddCommand(strAddPrefixCmd)
+	strCmd.AddCommand(strGetIndentationCmd)
+	strCmd.AddCommand(strIndentCmd)
+	strCmd.AddCommand(strRepeatCmd)
+	strCmd.AddCommand(strReplaceCmd)
+	strCmd.AddCommand(strSubmatchCmd)
+
+	taskCmd.AddCommand(taskAddDependencyCmd)
+}
+
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
@@ -38,45 +91,4 @@ func Execute() {
 		logger.DPrintfError("To run a task you need to type %s%szaruba please <task-name>%s\n", decoration.Bold, decoration.Yellow, decoration.Normal)
 		os.Exit(1)
 	}
-}
-
-func exit(commandName string, logger output.Logger, decoration *output.Decoration, err error) {
-	if err != nil {
-		logger.Fprintf(os.Stderr, "%s %s%s%s: %s%s\n", decoration.Error, decoration.Bold, decoration.Red, commandName, err.Error(), decoration.Normal)
-		os.Exit(1)
-	}
-}
-
-func checkMinArgCount(commandName string, logger output.Logger, decoration *output.Decoration, args []string, minArgCount int) {
-	if len(args) < minArgCount {
-		err := fmt.Errorf("expecting %d arguments, get %#v", minArgCount, args)
-		exit(commandName, logger, decoration, err)
-	}
-}
-
-func getDecoration(plainDecor bool) (decoration *output.Decoration) {
-	if plainDecor {
-		return output.NewPlainDecoration()
-	}
-	return output.NewDecoration()
-}
-
-func getCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLogger) {
-	logFile := filepath.Join(projectDir, "log.zaruba.csv")
-	return output.NewCSVRecordLogger(logFile)
-}
-
-func getProject(logger output.Logger, decoration *output.Decoration, csvRecordLogger *output.CSVRecordLogger, pleaseFile string) (project *config.Project, err error) {
-	if os.Getenv("ZARUBA_HOME") == "" {
-		executable, _ := os.Executable()
-		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
-	}
-	defaultIncludes := []string{"${ZARUBA_HOME}/scripts/core.zaruba.yaml"}
-	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
-		if script == "" {
-			continue
-		}
-		defaultIncludes = append(defaultIncludes, script)
-	}
-	return config.NewProject(logger, csvRecordLogger, decoration, pleaseFile, defaultIncludes)
 }

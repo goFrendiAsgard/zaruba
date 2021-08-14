@@ -9,8 +9,8 @@ import (
 )
 
 var strIndentCmd = &cobra.Command{
-	Use:   "strIndent <string> <indentation>",
-	Short: "Add prefix to string",
+	Use:   "indent <string> <indentation>",
+	Short: "indent string",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -27,8 +27,4 @@ var strIndentCmd = &cobra.Command{
 		indentedText := strings.Join(lines, "\n")
 		fmt.Println(indentedText)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(strIndentCmd)
 }

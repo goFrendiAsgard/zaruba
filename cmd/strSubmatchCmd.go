@@ -10,7 +10,7 @@ import (
 )
 
 var strSubmatchCmd = &cobra.Command{
-	Use:   "strSubmatch <string> <pattern>",
+	Use:   "submatch <string> <pattern>",
 	Short: "Return submatch of string based on pattern",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -29,8 +29,4 @@ var strSubmatchCmd = &cobra.Command{
 		}
 		fmt.Println(string(resultB))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(strSubmatchCmd)
 }

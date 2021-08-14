@@ -87,7 +87,6 @@ var pleaseCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(pleaseCmd)
 	// get current working directory
 	dir, err := os.Getwd()
 	if err != nil {

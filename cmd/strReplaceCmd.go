@@ -1,31 +1,28 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/str"
 )
 
-var strRepeatCmd = &cobra.Command{
-	Use:   "strRepeat <string> <repetition>",
-	Short: "Repeat string for repetition times",
+var strReplaceCmd = &cobra.Command{
+	Use:   "replace <string> <replacementMap>",
+	Short: "Replace string by replacementMap",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 2)
 		text := args[0]
-		repetition, err := strconv.Atoi(args[1])
-		if err != nil {
+		replacementMap := map[string]string{}
+		if err := json.Unmarshal([]byte(args[1]), &replacementMap); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		fmt.Println(str.Repeat(text, repetition))
+		result := str.ReplaceByMap(text, replacementMap)
+		fmt.Println(result)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(strRepeatCmd)
 }

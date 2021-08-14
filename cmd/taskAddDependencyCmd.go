@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"encoding/json"
+	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -8,14 +10,14 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var includeFileToProjectCmd = &cobra.Command{
-	Use:   "includeFileToProject <projectFile> <fileName>",
-	Short: "Add file to project",
+var taskAddDependencyCmd = &cobra.Command{
+	Use:   "addDependency <projectFile> <taskName> <dependencyTaskNames>",
+	Short: "Add task dependency",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(commandName, logger, decoration, args, 3)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(commandName, logger, decoration, err)
@@ -29,13 +31,17 @@ var includeFileToProjectCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		fileName := args[1]
-		if err = config.IncludeFileToProject(project, fileName); err != nil {
+		taskName := args[1]
+		task, taskExist := project.Tasks[taskName]
+		if !taskExist {
+			exit(commandName, logger, decoration, fmt.Errorf("task %s is not exist", taskName))
+		}
+		dependencyTaskNames := []string{}
+		if err = json.Unmarshal([]byte(args[2]), &dependencyTaskNames); err != nil {
+			dependencyTaskNames = []string{args[2]}
+		}
+		if err = config.AddTaskDependencies(task, dependencyTaskNames); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(includeFileToProjectCmd)
 }

@@ -82,7 +82,7 @@ generate_service_task() {
 
     register_task_file "${_TASK_FILE_NAME}" "${_SERVICE_NAME}"
 
-    "${ZARUBA_HOME}/zaruba" addTaskDependency ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_DEPENDENCIES}"
+    "${ZARUBA_HOME}/zaruba" task addDependency ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_DEPENDENCIES}"
     "${ZARUBA_HOME}/zaruba" setTaskEnv ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_SERVICE_ENVS}"
 
             

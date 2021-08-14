@@ -41,12 +41,12 @@ generate_fast_api_module() {
 
     # import module
     _IMPORT_MODULE_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/import_module.py")
-    _IMPORT_MODULE_PARTIAL=$("${ZARUBA_HOME}/zaruba" strReplace "${_IMPORT_MODULE_PARTIAL}" "${_REPLACEMENT_MAP}")
+    _IMPORT_MODULE_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_IMPORT_MODULE_PARTIAL}" "${_REPLACEMENT_MAP}")
     _IMPORT_MODULE_LINES=$("${ZARUBA_HOME}/zaruba" split "${_IMPORT_MODULE_PARTIAL}")
 
     # load module
     _LOAD_MODULE_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/load_module.py")
-    _LOAD_MODULE_PARTIAL=$("${ZARUBA_HOME}/zaruba" strReplace "${_LOAD_MODULE_PARTIAL}" "${_REPLACEMENT_MAP}")
+    _LOAD_MODULE_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_LOAD_MODULE_PARTIAL}" "${_REPLACEMENT_MAP}")
     _LOAD_MODULE_LINES=$("${ZARUBA_HOME}/zaruba" split "${_LOAD_MODULE_PARTIAL}")
 
     # update main.py
