@@ -2,30 +2,24 @@ package cmd
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
 )
 
-var strGetIndentationCmd = &cobra.Command{
-	Use:   "getIndentation <string> [level=1]",
-	Short: "Get indentation of string",
+var pathGetServiceNameCmd = &cobra.Command{
+	Use:   "getServiceName <string>",
+	Short: "Get default service name based on location or image name",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(commandName, logger, decoration, args, 1)
-		text := args[0]
-		level, err := strconv.Atoi(args[1])
-		if err != nil {
-			level = 1
-		}
-		result, err := str.GetSingleIndentation(text, level)
+		serviceName, err := config.GetDefaultServiceName(args[0])
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		fmt.Println(result)
+		fmt.Println(serviceName)
 	},
 }

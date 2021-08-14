@@ -8,9 +8,9 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var projectSyncEnvFilesCmd = &cobra.Command{
-	Use:   "syncEnvFiles <projectFile>",
-	Short: "Update environment files (*.env) in project file's directory",
+var projectSyncEnvCmd = &cobra.Command{
+	Use:   "syncEnv <projectFile>",
+	Short: "Update every 'run*' task's environment",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
@@ -29,6 +29,8 @@ var projectSyncEnvFilesCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		config.SyncProjectEnvFiles(project)
+		if err = config.SyncProjectEnv(project); err != nil {
+			exit(commandName, logger, decoration, err)
+		}
 	},
 }

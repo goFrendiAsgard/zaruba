@@ -1,21 +1,21 @@
 package cmd
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var projectSyncEnvFilesCmd = &cobra.Command{
-	Use:   "syncEnvFiles <projectFile>",
-	Short: "Update environment files (*.env) in project file's directory",
+var taskIsExistCmd = &cobra.Command{
+	Use:   "isExist <projectFile> <taskName>",
+	Short: "Is task exist",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(commandName, logger, decoration, args, 2)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(commandName, logger, decoration, err)
@@ -29,6 +29,12 @@ var projectSyncEnvFilesCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		config.SyncProjectEnvFiles(project)
+		taskName := args[1]
+		_, taskExist := project.Tasks[taskName]
+		if !taskExist {
+			fmt.Println(0)
+			return
+		}
+		fmt.Println(1)
 	},
 }

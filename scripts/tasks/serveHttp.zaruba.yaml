@@ -11,6 +11,6 @@ tasks:
       ports: '{{ .GetValue "serverHttpPort" }}'
     start: 
       - '{{ .GetEnv "ZARUBA_HOME" }}/zaruba'
-      - serveStatic
+      - util serve
       - .
       - '{{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'

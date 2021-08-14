@@ -11,7 +11,7 @@ tasks:
     config:
       start: |
         ../zaruba please initProject 
-        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
+        ../zaruba please project setValue variableName=defaultImagePrefix variableValue=localhost:9999 
   
 
   testMakeSubrepo:
@@ -194,7 +194,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please showLog logKeyword=myService 
+        ../zaruba please project showLog logKeyword=myService 
         ../zaruba please clearLog 
   
 

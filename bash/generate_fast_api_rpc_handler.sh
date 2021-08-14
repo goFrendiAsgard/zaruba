@@ -16,29 +16,29 @@ generate_fast_api_rpc_handler() {
         "${_SERVICE_NAME}" \
         "${_MODULE_NAME}"
     
-    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${SERVICE_NAME}")
-    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${MODULE_NAME}")
-    _SNAKE_RPC_NAME=$("${ZARUBA_HOME}/zaruba" str snake "${RPC_NAME}")
-    _CAMEL_RPC_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${RPC_NAME}")
+    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str toCamel "${SERVICE_NAME}")
+    _CAMEL_MODULE_NAME=$("${ZARUBA_HOME}/zaruba" str toCamel "${MODULE_NAME}")
+    _SNAKE_RPC_NAME=$("${ZARUBA_HOME}/zaruba" str toSnake "${RPC_NAME}")
+    _CAMEL_RPC_NAME=$("${ZARUBA_HOME}/zaruba" str toCamel "${RPC_NAME}")
 
     # get controller lines
-    _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" readLines "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" )
+    _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines read "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" )
     _PATTERNS="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         ".*def event_controller.*" \
     )"
-    _LINE_INDEX=$("${ZARUBA_HOME}/zaruba" getLineIndex "${_CONTROLLER_LINES}" "${_PATTERNS}")
+    _LINE_INDEX=$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_PATTERNS}")
 
     # inject rpc handler
     _HANDLE_RPC_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/handle_rpc.py")
-    _REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
+    _REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" map set "{}" \
         "zarubaRpcName" "${_CAMEL_RPC_NAME}" \
         "zaruba_rpc_name" "${_SNAKE_RPC_NAME}" \
     )
     _HANDLE_RPC_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_RPC_PARTIAL}" "${_REPLACEMENT_MAP}")
     _HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_HANDLE_RPC_PARTIAL}" "    ")"
-    _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" insertLineAfterIndex "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_RPC_PARTIAL}" )
+    _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_RPC_PARTIAL}" )
 
     # save controller
-    "${ZARUBA_HOME}/zaruba" writeLines "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" "${_CONTROLLER_LINES}"
+    "${ZARUBA_HOME}/zaruba" lines write "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" "${_CONTROLLER_LINES}"
 }
 

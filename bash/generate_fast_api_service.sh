@@ -13,18 +13,18 @@ generate_fast_api_service() {
         return
     fi
 
-    _PASCAL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str pascal "${_SERVICE_NAME}")
-    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str camel "${_SERVICE_NAME}")
-    _SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str snake "${_SERVICE_NAME}")
-    _UPPER_SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str upper "${_SNAKE_SERVICE_NAME}")
-    _REPLACMENT_MAP=$("${ZARUBA_HOME}/zaruba" setMapElement "{}" \
+    _PASCAL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str toPascal "${_SERVICE_NAME}")
+    _CAMEL_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str toCamel "${_SERVICE_NAME}")
+    _SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str toSnake "${_SERVICE_NAME}")
+    _UPPER_SNAKE_SERVICE_NAME=$("${ZARUBA_HOME}/zaruba" str toUpper "${_SNAKE_SERVICE_NAME}")
+    _REPLACMENT_MAP=$("${ZARUBA_HOME}/zaruba" map set "{}" \
         "zarubaServiceName" "${_CAMEL_SERVICE_NAME}" \
         "ZarubaServiceName" "${_PASCAL_SERVICE_NAME}" \
         "ZARUBA_SERVICE_NAME" "${_UPPER_SNAKE_SERVICE_NAME}" \
     )
 
     echo "Creating Fast API Service: ${_SERVICE_NAME}"
-    "${ZARUBA_HOME}/zaruba" generate "${_SERVICE_TEMPLATE_LOCATION}" . "${_REPLACMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" util generate "${_SERVICE_TEMPLATE_LOCATION}" . "${_REPLACMENT_MAP}"
     chmod 755 "${_CAMEL_SERVICE_NAME}/start.sh"
 
     if [ ! -f "./main.zaruba.yaml" ]
@@ -41,10 +41,10 @@ generate_fast_api_service() {
     fi
 
     echo "Creating shared-lib link for ${_SERVICE_NAME}"
-    "${ZARUBA_HOME}/zaruba" setProjectValue "./default.values.yaml" "link::${_SERVICE_NAME}/helpers" "shared-libs/python/helpers"
+    "${ZARUBA_HOME}/zaruba" project setValue "./default.values.yaml" "link::${_SERVICE_NAME}/helpers" "shared-libs/python/helpers"
     link_resource "shared-libs/python/helpers" "${_SERVICE_NAME}/helpers"
 
-    _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" isTaskExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
+    _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
     if [ "${_TASK_EXIST}" -eq 1 ]
     then
         echo "Service task already exist: run${_PASCAL_SERVICE_NAME}"

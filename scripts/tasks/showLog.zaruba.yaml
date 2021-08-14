@@ -17,6 +17,6 @@ tasks:
           echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
           exit 1
         fi
-        "{{ .ZarubaBin }}" showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
+        "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
 
 
