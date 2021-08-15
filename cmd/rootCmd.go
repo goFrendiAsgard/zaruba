@@ -127,10 +127,12 @@ func init() {
 	mapCmd.AddCommand(mapMergeCmd)
 	mapCmd.AddCommand(mapRangeKeyCmd)
 	mapCmd.AddCommand(mapSetCmd)
+	mapCmd.AddCommand(mapTransformKeyCmd)
 	mapCmd.AddCommand(mapValidateCmd)
 
 	numCmd.AddCommand(numRangeCmd)
 	numCmd.AddCommand(numValidateIntCmd)
+	numCmd.AddCommand(numValidateFloatCmd)
 
 	pathCmd.AddCommand(pathGetEnvCmd)
 	pathCmd.AddCommand(pathGetPortConfigCmd)
