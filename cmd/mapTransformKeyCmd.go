@@ -29,7 +29,7 @@ var mapTransformKeyCmd = &cobra.Command{
 			newKey := fmt.Sprintf("%s%s%s", prefix, key, suffix)
 			newDict[newKey] = val
 		}
-		resultB, err := json.Marshal(dict)
+		resultB, err := json.Marshal(newDict)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
