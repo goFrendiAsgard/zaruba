@@ -27,3 +27,16 @@ By invoking the command, you will also run several containers:
 ## Add your DAG
 
 You can simply put your DAG on `dag` directory.
+
+## Setup Airflow
+
+To setup custom configuration in your airflow instance, you will need to modify:
+
+* `zarubaServiceName/initTemplates`
+* `zarubaServiceName/initiator.gotmpl.sh`
+
+Those resources will be used in order to generate `zarubaServiceName/init` directory.
+
+After generated, the directory will be copied into `zarubaServiceNameConfigurator` container.
+
+Make sure you have `init.sh` in the directory.
