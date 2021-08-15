@@ -72,7 +72,12 @@ var taskCmd = &cobra.Command{
 
 var utilCmd = &cobra.Command{
 	Use:   "util",
-	Short: "Utilities",
+	Short: "Uncategorized utilities",
+}
+
+var yamlCmd = &cobra.Command{
+	Use:   "yaml",
+	Short: "YAML utilities",
 }
 
 func init() {
@@ -88,10 +93,14 @@ func init() {
 	rootCmd.AddCommand(strCmd)
 	rootCmd.AddCommand(taskCmd)
 	rootCmd.AddCommand(utilCmd)
+	rootCmd.AddCommand(yamlCmd)
 
 	advertisementCmd.AddCommand(advertisementShowCmd)
 
-	envCmd.AddCommand(envGetMapCmd)
+	envCmd.AddCommand(envGetCmd)
+	envCmd.AddCommand(envReadCmd)
+	envCmd.AddCommand(envPrintCmd)
+	envCmd.AddCommand(envWriteCmd)
 
 	linesCmd.AddCommand(linesFillCmd)
 	linesCmd.AddCommand(linesGetIndexCmd)
@@ -109,15 +118,18 @@ func init() {
 	listCmd.AddCommand(listJoinCmd)
 	listCmd.AddCommand(listLengthCmd)
 	listCmd.AddCommand(listMergeCmd)
+	listCmd.AddCommand(listRangeIndexCmd)
 	listCmd.AddCommand(listSetCmd)
 	listCmd.AddCommand(listValidateCmd)
 
 	mapCmd.AddCommand(mapGetCmd)
 	mapCmd.AddCommand(mapGetKeysCmd)
 	mapCmd.AddCommand(mapMergeCmd)
+	mapCmd.AddCommand(mapRangeKeyCmd)
 	mapCmd.AddCommand(mapSetCmd)
 	mapCmd.AddCommand(mapValidateCmd)
 
+	numCmd.AddCommand(numRangeCmd)
 	numCmd.AddCommand(numValidateIntCmd)
 
 	pathCmd.AddCommand(pathGetEnvCmd)
@@ -156,6 +168,10 @@ func init() {
 
 	utilCmd.AddCommand(utilGenerateCmd)
 	utilCmd.AddCommand(utilServeCmd)
+
+	yamlCmd.AddCommand(yamlReadCmd)
+	yamlCmd.AddCommand(yamlPrintCmd)
+	yamlCmd.AddCommand(yamlWriteCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

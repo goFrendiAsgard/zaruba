@@ -67,27 +67,6 @@ func EscapeShellArg(s string) (result string) {
 	return fmt.Sprintf("'%s'", quoteEscapedStr)
 }
 
-func EscapeShellValue(s string, quote string) (result string) {
-	backSlashEscapedStr := strings.ReplaceAll(s, "\\", "\\\\\\\\")
-	quoteEscapedStr := backSlashEscapedStr
-	if quote == "\"" {
-		quoteEscapedStr = strings.ReplaceAll(backSlashEscapedStr, "\"", "\\\"")
-	} else if quote == "'" {
-		quoteEscapedStr = strings.ReplaceAll(backSlashEscapedStr, "'", "\\'")
-	}
-	backTickEscapedStr := strings.ReplaceAll(quoteEscapedStr, "`", "\\`")
-	newLineEscapedStr := strings.ReplaceAll(backTickEscapedStr, "\n", "\\n")
-	return newLineEscapedStr
-}
-
-func DoubleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("\"%s\"", EscapeShellValue(s, "\""))
-}
-
-func SingleQuoteShellValue(s string) (result string) {
-	return fmt.Sprintf("'%s'", EscapeShellValue(s, "'"))
-}
-
 // GetSubKeys get sub keys from dictionary
 func GetSubKeys(keys []string, parentKeys []string) (subKeys []string) {
 	seen := map[string]bool{}

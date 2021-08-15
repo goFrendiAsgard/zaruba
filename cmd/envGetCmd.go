@@ -10,31 +10,25 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var envGetMapCmd = &cobra.Command{
-	Use:   "getMap [prefix]",
-	Short: "Get environment map",
+var envGetCmd = &cobra.Command{
+	Use:   "get [prefix]",
+	Short: "Get envmap from currently loaded environment variables",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(commandName, logger, decoration, args, 0)
 		// get envMap
 		envMap := map[string]string{}
 		for _, pair := range os.Environ() {
 			pairParts := strings.SplitN(pair, "=", 2)
-			key := pairParts[0]
-			val := pairParts[1]
+			key, val := pairParts[0], pairParts[1]
 			envMap[key] = val
 		}
-		// cascade
+		// cascade prefix
 		if len(args) > 0 {
-			prefix := args[1]
-			for key := range envMap {
-				prefixedKey := fmt.Sprintf("%s_%s", prefix, key)
-				if prefixedVal, exist := envMap[prefixedKey]; exist {
-					envMap[key] = prefixedVal
-				}
-			}
+			prefix := args[0]
+			envMap = envCascadePrefix(envMap, prefix)
 		}
 		// return the map
 		resultB, err := json.Marshal(envMap)
