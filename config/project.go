@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -170,18 +171,32 @@ func (p *Project) IsValueExist(key string) (exist bool) {
 }
 
 // AddGlobalEnv add global environment for a projectConfig
-func (p *Project) AddGlobalEnv(pairOrFile string) (err error) {
+func (p *Project) AddGlobalEnv(envValue string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot AddGlobalEnv, project has been initialized")
 	}
-	pairParts := strings.SplitN(pairOrFile, "=", 2)
+	// load env from file
+	if _, err := os.Stat(envValue); !os.IsNotExist(err) {
+		return godotenv.Load(envValue)
+	}
+	// load env from json string
+	envMap := map[string]string{}
+	if err := json.Unmarshal([]byte(envValue), &envMap); err == nil {
+		for key := range envMap {
+			val := envMap[key]
+			os.Setenv(key, val)
+		}
+		return nil
+	}
+	// load env from string
+	pairParts := strings.SplitN(envValue, "=", 2)
 	if len(pairParts) == 2 {
 		key := pairParts[0]
 		val := pairParts[1]
 		os.Setenv(key, val)
 		return nil
 	}
-	return godotenv.Load(pairOrFile)
+	return fmt.Errorf("invalid env: %s", envValue)
 }
 
 // AddValue add value for a project

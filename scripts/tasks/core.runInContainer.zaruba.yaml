@@ -16,7 +16,9 @@ tasks:
         {{ $this := . -}}
         {{ range $index, $command := .Split (.Trim (.GetConfig "commands") " \n") "\n" -}}
           {{ if ne $command "" -}}
+            echo "EXECUTE: {{ $command }}"
             docker exec "{{ $this.GetConfig "containerName" }}" {{ $command }}
           {{ end -}}
         {{ end -}}
+      start: ""
 

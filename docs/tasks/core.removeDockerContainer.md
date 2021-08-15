@@ -29,7 +29,7 @@
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
-                                      CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" getServiceName "$(pwd)"){{ end }}"
+                                      CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getServiceName "$(pwd)"){{ end }}"
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
                                       stop_container "${CONTAINER}" 
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"

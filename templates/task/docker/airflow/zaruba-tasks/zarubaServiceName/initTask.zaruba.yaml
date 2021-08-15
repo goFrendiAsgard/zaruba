@@ -35,10 +35,16 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration }}
-        {{ $err := .WriteFile (.GetWorkPath "init.sh") (.ParseFile "init.template.sh" ) -}}
-        {{ if $err -}}
-          echo {{ $d.Bold }}{{ $d.Red }}fail to generate init.sh: {{ $err }}{{ $d.Normal }}
-        {{ end -}}
+        if [ -f "initiator.gotmpl.sh" ]
+        then
+          {{ .ParseFile "initiator.gotmpl.sh" }}
+        fi
+        if [ ! -f "init/init.sh" ]
+        then
+          mkdir -p "init"
+          touch init/init.sh
+        fi
+        chmod 755 -R init
     configRef: makeZarubaServiceNameInitScript
     envRef: makeZarubaServiceNameInitScript
 
@@ -52,19 +58,20 @@ tasks:
     config:
       beforeStart: |
         {{ $d := .Decoration }}
-        INIT_FILE="{{ .GetWorkPath "init.sh" }}"
-        if [ -f "${INIT_FILE}" ]
+        INIT_PATH="{{ .GetWorkPath "init" }}"
+        if [ -f "${INIT_PATH}/init.sh" ]
         then
-          docker cp "${INIT_FILE}" "{{ .GetConfig "containerName" }}:/opt/airflow/init.sh"
+          docker  exec -u root "{{ .GetConfig "containerName" }}" rm -Rf /opt/airflow/init
+          docker  cp "${INIT_PATH}" "{{ .GetConfig "containerName" }}:/opt/airflow/init"
         else
-          echo "{{ $d.Bold }}{{ $d.Red }}{{ .GetWorkPath "init.sh" }} does not exist{{ $d.Normal }}"
+          echo "{{ $d.Bold }}{{ $d.Red }}{{ .GetWorkPath "${INIT_PAT}/init.sh" }} does not exist{{ $d.Normal }}"
           exit 1
         fi
       commands: |
         airflow version
         airflow db upgrade
         airflow users create --username "{{ .GetConfig "wwwUserName" }}" --password "{{ .GetConfig "wwwPassword" }}" --firstname "{{ .GetConfig "wwwFirstName" }}" --lastname "{{ .GetConfig "wwwLastName" }}" --role "{{ .GetConfig "wwwRole" }}" --email "{{ .GetConfig "wwwEmail" }}"
-        /opt/airflow/init.sh
+        bash /opt/airflow/init/init.sh
       afterStart:
         sleep {{ .GetEnv "INIT_DELAY" }}
     configRefs:

@@ -8,8 +8,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var syncProjectEnvFilesCmd = &cobra.Command{
-	Use:   "syncProjectEnvFiles <projectFile>",
+var projectSyncEnvFilesCmd = &cobra.Command{
+	Use:   "syncEnvFiles <projectFile>",
 	Short: "Update environment files (*.env) in project file's directory",
 	Run: func(cmd *cobra.Command, args []string) {
 		commandName := cmd.Name()
@@ -31,8 +31,4 @@ var syncProjectEnvFilesCmd = &cobra.Command{
 		}
 		config.SyncProjectEnvFiles(project)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(syncProjectEnvFilesCmd)
 }

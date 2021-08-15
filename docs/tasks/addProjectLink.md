@@ -37,7 +37,7 @@
                   linkTo            : {{ .GetValue "linkTo" }}
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
-                                      "{{ .ZarubaBin }}" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
+                                      "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

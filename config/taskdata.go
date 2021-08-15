@@ -102,13 +102,6 @@ func (td *TaskData) GetEnv(key string) (val string, err error) {
 	return td.task.GetEnv(key)
 }
 
-func (td *TaskData) GetPrefixedEnv(prefix, key string) (val string, err error) {
-	if val, err := td.GetEnv(fmt.Sprintf("%s_%s", prefix, key)); val != "" {
-		return val, err
-	}
-	return td.GetEnv(key)
-}
-
 func (td *TaskData) GetEnvs() (parsedEnv map[string]string, err error) {
 	return td.task.GetEnvs()
 }

@@ -26,8 +26,8 @@
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
-                                      "{{ .ZarubaBin }}" syncProjectEnv "./main.zaruba.yaml"
-                                      "{{ .ZarubaBin }}" syncProjectEnvFiles "./main.zaruba.yaml"
+                                      "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
+                                      "{{ .ZarubaBin }}" project syncEnvFiles "./main.zaruba.yaml"
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

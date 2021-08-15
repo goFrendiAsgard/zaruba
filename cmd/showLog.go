@@ -10,7 +10,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var showLogCmd = &cobra.Command{
+var projectShowLogCmd = &cobra.Command{
 	Use:   "showLog <logFile> <taskNamePattern>",
 	Short: "Show log",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -24,10 +24,6 @@ var showLogCmd = &cobra.Command{
 		}
 		fmt.Println(message)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(showLogCmd)
 }
 
 func getLog(decoration *output.Decoration, logFile, pattern string) (logMessage string, err error) {

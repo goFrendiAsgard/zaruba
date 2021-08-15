@@ -6,7 +6,8 @@
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startService ]
   START         : - {{ .GetEnv "ZARUBA_HOME" }}/zaruba
-                  - serveStatic
+                  - util
+                  - serve
                   - .
                   - {{ index (.Split (.Trim (.GetConfig "ports") "\n ") "\n") 0 }}
   CHECK         : - {{ .GetConfig "cmd" }}

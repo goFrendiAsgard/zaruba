@@ -205,7 +205,7 @@ func (e *Explainer) GetZarubaCommand(taskNames []string, autoTerminate bool, aut
 			} else {
 				inputValue = e.project.GetValue(inputName)
 			}
-			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, str.DoubleQuoteShellValue(inputValue)))
+			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, str.EscapeShellArg(inputValue)))
 		}
 	}
 	if len(inputArgs) != 0 {

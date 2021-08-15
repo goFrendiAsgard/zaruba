@@ -25,7 +25,7 @@
                   setup             : Blank
                   start             : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
                                       {{ if .IsTrue $showAdvertisement -}}
-                                        "{{ .ZarubaBin }}" showAdv "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
+                                        "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
                                       {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -92,22 +92,6 @@ func TestEscapeShellArg(t *testing.T) {
 	}
 }
 
-func TestStrSingleQuoteShellValue(t *testing.T) {
-	expected := "'\\\\\\\\t \\n \\`backtick\\` \\'quoted\\' \"quoted\"'"
-	actual := SingleQuoteShellValue("\\t \n `backtick` 'quoted' \"quoted\"")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestStrDoubleQuoteShellValue(t *testing.T) {
-	expected := "\"\\\\\\\\t \\n \\`backtick\\` 'quoted' \\\"quoted\\\"\""
-	actual := DoubleQuoteShellValue("\\t \n `backtick` 'quoted' \"quoted\"")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
 func TestStrGetUniqueElement(t *testing.T) {
 	expectedList := []string{"a", "b", "c", "d"}
 	actualList := GetUniqueElements([]string{"a", "a", "b", "c", "b", "c", "d", "a", "d"})

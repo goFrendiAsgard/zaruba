@@ -34,7 +34,7 @@
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
-                                      "{{ .ZarubaBin }}" setProjectValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+                                      "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
                   variableName      : {{ .GetValue "variableName" }}
