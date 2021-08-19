@@ -175,10 +175,6 @@ func (p *Project) AddGlobalEnv(envValue string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot AddGlobalEnv, project has been initialized")
 	}
-	// load env from file
-	if _, err := os.Stat(envValue); !os.IsNotExist(err) {
-		return godotenv.Load(envValue)
-	}
 	// load env from json string
 	envMap := map[string]string{}
 	if err := json.Unmarshal([]byte(envValue), &envMap); err == nil {
@@ -187,6 +183,10 @@ func (p *Project) AddGlobalEnv(envValue string) (err error) {
 			os.Setenv(key, val)
 		}
 		return nil
+	}
+	// load env from file
+	if _, err := os.Stat(envValue); !os.IsNotExist(err) {
+		return godotenv.Load(envValue)
 	}
 	// load env from string
 	pairParts := strings.SplitN(envValue, "=", 2)
