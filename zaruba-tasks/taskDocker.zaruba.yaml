@@ -3,7 +3,7 @@ tasks:
   buildDocker:
     icon: 🚧
     dependencies:
-      - clearLog
+      
       - buildZarubaImage
       - buildZarubaAwsImage
       - buildZarubaGcloudImage
@@ -12,7 +12,7 @@ tasks:
   pushDocker:
     icon: 🔼
     dependencies:
-      - clearLog
+      
       - pushZarubaImage
       - pushZarubaAwsImage
       - pushZarubaGcloudImage
@@ -23,7 +23,6 @@ tasks:
     extend: core.buildDockerImage
     location: ../
     dependencies:
-      - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
@@ -35,7 +34,6 @@ tasks:
     extend: core.buildDockerImage
     location: ../
     dependencies:
-      - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
@@ -47,7 +45,6 @@ tasks:
     extend: core.buildDockerImage
     location: ../
     dependencies:
-      - clearLog
       - buildDevboxImage
     configRefs:
       - commonDocker
@@ -58,8 +55,6 @@ tasks:
     icon: 🐳
     extend: core.buildDockerImage
     location: ../
-    dependencies:
-      - clearLog
     configRefs:
       - commonDocker
       - devboxDocker
@@ -69,7 +64,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildZarubaAwsImage
     configRefs:
       - commonDocker
@@ -80,7 +74,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildZarubaGcloudImage
     configRefs:
       - commonDocker
@@ -91,7 +84,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
@@ -102,7 +94,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildDevboxImage
     configRefs:
       - commonDocker

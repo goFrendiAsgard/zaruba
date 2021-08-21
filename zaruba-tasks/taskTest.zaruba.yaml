@@ -4,8 +4,6 @@ tasks:
     icon: 💉
     location: ../
     extend: core.runShellScript
-    dependencies:
-      - clearLog
     configRef: mainTest
     config:
       start: |
@@ -20,7 +18,6 @@ tasks:
     icon: 💉
     location: ../
     dependencies:
-      - clearLog
       - build
     extend: core.runShellScript
     configRef: mainTest
@@ -32,7 +29,6 @@ tasks:
     icon: 💉
     location: ../
     dependencies:
-      - clearLog
       - build
       - testShowVersion
 
@@ -40,7 +36,6 @@ tasks:
   test:
     icon: 💉
     dependencies:
-      - clearLog
       - testCore
       - testCoreTask
       - testPlayground
