@@ -4,7 +4,6 @@ tasks:
     icon: 👀
     private: true
     extend: core.runCoreScript
-    configRef: coreDocker
     config:
       user: cassandra
       password: cassandra
@@ -12,13 +11,13 @@ tasks:
       queries: ""
       containerName: ""
       _start: |
-        {{ $localTmpFile := printf "%s.tmp.sql" .GetNewUUID -}}
+        {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sql" .GetNewUUID -}}
         {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         LOCAL_TMP_FILE="{{ $localTmpFile }}"
-        CONTAINER_TMP_FILE="/{{ .GetNewUUID }}.tmp.sql"
+        CONTAINER_TMP_FILE="/{{ .Name }}.{{ .GetNewUUID }}.tmp.sql"
         docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
         rm "${LOCAL_TMP_FILE}"
         docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${CONTAINER_TMP_FILE}"

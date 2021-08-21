@@ -15,13 +15,13 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ $localTmpFile := printf "%s.tmp.sql" .GetNewUUID -}}
+                  _start            : {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sql" .GetNewUUID -}}
                                       {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
                                       USER="{{ .GetConfig "user" }}"
                                       PASSWORD="{{ .GetConfig "password" }}"
                                       CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                       LOCAL_TMP_FILE="{{ $localTmpFile }}"
-                                      CONTAINER_TMP_FILE="/{{ .GetNewUUID }}.tmp.sql"
+                                      CONTAINER_TMP_FILE="/{{ .Name }}.{{ .GetNewUUID }}.tmp.sql"
                                       docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
                                       rm "${LOCAL_TMP_FILE}"
                                       docker exec "${CONTAINER_NAME}" bash -c "psql --user=${USER} -w --file=${CONTAINER_TMP_FILE}"
@@ -33,14 +33,11 @@
                   containerName     : Blank
                   database          : {{ .GetEnv "POSTGRES_DB" }}
                   finish            : Blank
-                  imagePrefix       : Blank
-                  imageTag          : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   password          : {{ .GetEnv "POSTGRES_PASSWORD" }}
                   queries           : Blank
                   setup             : Blank
                   start             : Blank
-                  useImagePrefix    : true
                   user              : {{ .GetEnv "POSTGRES_USER" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

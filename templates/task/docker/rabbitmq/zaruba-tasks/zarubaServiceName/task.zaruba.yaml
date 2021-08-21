@@ -22,7 +22,7 @@ tasks:
   
   resetZarubaServiceName:
     icon: 🐇
-    extend: core.runInContainer
+    extend: core.runInDockerContainer
     dependencies:
       - runZarubaServiceName
     configRef: zarubaServiceName

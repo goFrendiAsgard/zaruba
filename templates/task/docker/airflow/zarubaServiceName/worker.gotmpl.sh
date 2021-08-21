@@ -1,0 +1,1 @@
+echo "Init zarubaServiceName worker"

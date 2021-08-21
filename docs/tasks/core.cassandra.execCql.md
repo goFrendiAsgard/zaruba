@@ -15,13 +15,13 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ $localTmpFile := printf "%s.tmp.sql" .GetNewUUID -}}
+                  _start            : {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sql" .GetNewUUID -}}
                                       {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
                                       USER="{{ .GetConfig "user" }}"
                                       PASSWORD="{{ .GetConfig "password" }}"
                                       CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                       LOCAL_TMP_FILE="{{ $localTmpFile }}"
-                                      CONTAINER_TMP_FILE="/{{ .GetNewUUID }}.tmp.sql"
+                                      CONTAINER_TMP_FILE="/{{ .Name }}.{{ .GetNewUUID }}.tmp.sql"
                                       docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
                                       rm "${LOCAL_TMP_FILE}"
                                       docker exec "${CONTAINER_NAME}" cqlsh -u "${USER}" -p "${PASSWORD}" -f "${CONTAINER_TMP_FILE}"
@@ -32,15 +32,12 @@
                   cmdArg            : -c
                   containerName     : Blank
                   finish            : Blank
-                  imagePrefix       : Blank
-                  imageTag          : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   keyspace          : sample
                   password          : cassandra
                   queries           : Blank
                   setup             : Blank
                   start             : Blank
-                  useImagePrefix    : true
                   user              : cassandra
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
