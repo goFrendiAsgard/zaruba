@@ -21,48 +21,48 @@ tasks:
   buildZarubaAwsImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
       - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
       - zarubaAwsDocker
-    location: ./zarubaAws
     timeout: 1h
 
   buildZarubaGcloudImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
       - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
       - zarubaGcloudDocker
-    location: ./zarubaGcloud
     timeout: 1h
 
   buildZarubaImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
       - clearLog
       - buildDevboxImage
     configRefs:
       - commonDocker
       - zarubaDocker
-    location: ./
     timeout: 1h
 
   buildDevboxImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
       - clearLog
     configRefs:
       - commonDocker
       - devboxDocker
-    location: ./zarubaDevbox
     timeout: 1h
 
   pushZarubaAwsImage:

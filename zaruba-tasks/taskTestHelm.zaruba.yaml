@@ -2,7 +2,7 @@ tasks:
 
   testHelmInstall:
     icon: 💉
-    location: ./playground
+    location: ../playground
     dependencies:
       - testPlayground
       - runContainerRegistry
@@ -17,7 +17,7 @@ tasks:
 
   testHelmUninstall:
     icon: 💉
-    location: ./playground
+    location: ../playground
     dependencies:
       - testHelmInstall
     extend: core.runShellScript 
@@ -30,7 +30,7 @@ tasks:
 
   stopContainerRegistry:
     icon: 💉
-    location: ./playground
+    location: ../playground
     dependencies:
       - testPushImage
       - testHelmInstall

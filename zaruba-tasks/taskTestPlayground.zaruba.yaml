@@ -1,7 +1,22 @@
 tasks:
 
+  preparePlayground:
+    icon: 🔨
+    location: ../
+    extend: core.runShellScript
+    dependencies:
+      - clearLog
+    config:
+      start: |
+        if [ -d playground ]
+        then
+          chmod 777 -R playground
+        fi
+        rm -Rf playground
+        mkdir -p playground
+
   testMakeProject:
-    location: ./playground
+    location: ../playground
     dependencies:
       - clearLog
       - build
@@ -15,7 +30,7 @@ tasks:
   
 
   testMakeSubrepo:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeProject
     extend: core.runShellScript 
@@ -29,7 +44,7 @@ tasks:
 
 
   testMakeFastApiService:
-    location: ./playground
+    location: ../playground
     extend: core.runShellScript 
     dependencies:
       - testMakeSubrepo
@@ -39,7 +54,7 @@ tasks:
 
 
   testMakeServiceTasks:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiService
       - testMakeSubrepo
@@ -52,7 +67,7 @@ tasks:
 
 
   testMakeDockerTasks:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeServiceTasks
     extend: core.runShellScript 
@@ -68,7 +83,7 @@ tasks:
         
 
   testMakeFastApiModule:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiService
     extend: core.runShellScript 
@@ -78,7 +93,7 @@ tasks:
 
 
   testMakeFastApiRoute:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiModule
     extend: core.runShellScript 
@@ -88,7 +103,7 @@ tasks:
 
 
   testMakeFastApiEventHandler:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiRoute
     extend: core.runShellScript 
@@ -98,7 +113,7 @@ tasks:
 
 
   testMakeFastApiRpcHandler:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiEventHandler
     extend: core.runShellScript 
@@ -108,7 +123,7 @@ tasks:
 
 
   testMakeFastApiCrud:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiRpcHandler
     extend: core.runShellScript 
@@ -118,7 +133,7 @@ tasks:
   
 
   testSyncEnv:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeFastApiCrud
       - testMakeDockerTasks
@@ -130,7 +145,7 @@ tasks:
 
 
   testRun:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testSyncEnv
     extend: core.runShellScript
@@ -142,7 +157,7 @@ tasks:
 
 
   testRunContainer:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testRun
     extend: core.runShellScript
@@ -155,7 +170,7 @@ tasks:
 
 
   testBuildImage:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testRunContainer
     extend: core.runShellScript
@@ -168,7 +183,7 @@ tasks:
 
 
   testMakePlayground:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakeProject
       - testMakeSubrepo
@@ -187,7 +202,7 @@ tasks:
 
 
   testLogging:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testMakePlayground
     extend: core.runShellScript
@@ -200,7 +215,7 @@ tasks:
 
   runContainerRegistry:
     icon: 🐳
-    location: ./
+    location: ../
     extend: core.startDockerContainer
     dependencies:
       - clearLog
@@ -215,7 +230,7 @@ tasks:
 
 
   testPushImage:
-    location: ./playground
+    location: ../playground
     dependencies:
       - clearLog
       - runContainerRegistry
@@ -229,7 +244,7 @@ tasks:
   
 
   runPlayground:
-    location: ./playground
+    location: ../playground
     inputs:
       - runPlaygroundDelay
     dependencies:
@@ -254,7 +269,7 @@ tasks:
   
 
   testGeneratedService:
-    location: ./playground
+    location: ../playground
     dependencies:
       - clearLog
       - runPlayground
@@ -265,18 +280,21 @@ tasks:
 
 
   testGeneratedContainer:
-    location: ./playground
+    location: ../playground
     dependencies:
       - clearLog
       - runPlayground
     extend: core.runShellScript
     configRef: playgroundTest
     config:
-      start: ../zaruba please resetTestRabbitMq flushTestRedis testCassandraExecCql testMySqlExecSql testCassandra.cql="describe keyspaces;" testMySql.sql="show schemas;" -t
+      start: |
+        echo $(pwd)
+        echo $ZARUBA_HOME
+        ../zaruba please resetTestRabbitMq flushTestRedis testCassandraExecCql testMySqlExecSql testCassandra.cql="describe keyspaces;" testMySql.sql="show schemas;" -t
 
 
   testPlayground:
-    location: ./playground
+    location: ../playground
     dependencies:
       - testLogging
       - testGeneratedService
