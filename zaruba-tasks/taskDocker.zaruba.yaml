@@ -3,7 +3,7 @@ tasks:
   buildDocker:
     icon: 🚧
     dependencies:
-      - clearLog
+      
       - buildZarubaImage
       - buildZarubaAwsImage
       - buildZarubaGcloudImage
@@ -12,7 +12,7 @@ tasks:
   pushDocker:
     icon: 🔼
     dependencies:
-      - clearLog
+      
       - pushZarubaImage
       - pushZarubaAwsImage
       - pushZarubaGcloudImage
@@ -21,55 +21,49 @@ tasks:
   buildZarubaAwsImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
-      - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
       - zarubaAwsDocker
-    location: ./zarubaAws
     timeout: 1h
 
   buildZarubaGcloudImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
-      - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
       - zarubaGcloudDocker
-    location: ./zarubaGcloud
     timeout: 1h
 
   buildZarubaImage:
     icon: 🐳
     extend: core.buildDockerImage
+    location: ../
     dependencies:
-      - clearLog
       - buildDevboxImage
     configRefs:
       - commonDocker
       - zarubaDocker
-    location: ./
     timeout: 1h
 
   buildDevboxImage:
     icon: 🐳
     extend: core.buildDockerImage
-    dependencies:
-      - clearLog
+    location: ../
     configRefs:
       - commonDocker
       - devboxDocker
-    location: ./zarubaDevbox
     timeout: 1h
 
   pushZarubaAwsImage:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildZarubaAwsImage
     configRefs:
       - commonDocker
@@ -80,7 +74,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildZarubaGcloudImage
     configRefs:
       - commonDocker
@@ -91,7 +84,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildZarubaImage
     configRefs:
       - commonDocker
@@ -102,7 +94,6 @@ tasks:
     icon: 🐳
     extend: core.pushDockerImage
     dependencies:
-      - clearLog
       - buildDevboxImage
     configRefs:
       - commonDocker

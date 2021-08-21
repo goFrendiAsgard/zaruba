@@ -5,6 +5,7 @@ node_modules
 /coverage
 log.zaruba.csv
 /zaruba
+/zaruba-tasks
 /playground
 /init.sh
 

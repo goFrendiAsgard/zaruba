@@ -25,6 +25,7 @@
                   buildArg                        : Blank
                   cmd                             : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                          : -c
+                  dockerFilePath                  : Dockerfile
                   finish                          : Blank
                   imagePrefix                     : Blank
                   imageTag                        : Blank
@@ -32,19 +33,18 @@
                   setup                           : Blank
                   start                           : set -e
                                                     {{ $d := .Decoration -}}
-                                                    if [ ! -f "$(pwd)/Dockerfile" ]
+                                                    DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
+                                                    if [ ! -f "${DOCKER_FILE}" ]
                                                     then
-                                                      echo "{{ $d.Bold }}{{ $d.Red }}'Dockerfile' should be exist{{ $d.Normal }}"
+                                                      echo "{{ $d.Bold }}{{ $d.Red }}${DOCKER_FILE} should be exist{{ $d.Normal }}"
                                                       exit 1
                                                     fi
                                                     DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
                                                     DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-                                                    if [ ! -z "${DOCKER_IMAGE_TAG}" ]
-                                                    then
-                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" -t "${DOCKER_IMAGE_NAME}:latest" .
-                                                    else
-                                                      docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} -t "${DOCKER_IMAGE_NAME}:latest" .
-                                                    fi
+                                                    docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} \
+                                                      -t "${DOCKER_IMAGE_NAME}:latest" \
+                                                      {{ if .GetConfig "imageTag" }}-t "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \{{ end }}
+                                                      -f "${DOCKER_FILE}" .
                                                     echo 🎉🎉🎉
                                                     echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
                   start.buildDockerImage.buildArg : {{ range $index, $buildArg := .Split (.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}

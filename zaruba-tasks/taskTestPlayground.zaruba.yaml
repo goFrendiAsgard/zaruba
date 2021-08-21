@@ -1,0 +1,189 @@
+tasks:
+
+  preparePlayground:
+    icon: 🔨
+    location: ../
+    extend: core.runShellScript
+    config:
+      start: |
+        if [ -d playground ]
+        then
+          chmod 777 -R playground
+        fi
+        rm -Rf playground
+        mkdir -p playground
+
+  testMakePlayground:
+    location: ../playground
+    dependencies:
+      - build
+      - preparePlayground
+    extend: core.runShellScript 
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please initProject 
+        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
+        ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="fibo" 
+        ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="other-fibo" 
+        ../zaruba please initSubrepos 
+        ../zaruba please pullSubrepos 
+        ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no  
+        ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo 
+        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
+        ../zaruba please makeRabbitmqDockerTask generatorDockerContainerName=testRabbitMq showAdvertisement=no 
+        ../zaruba please makeMysqlDockerTask generatorDockerContainerName=testMySql showAdvertisement=no 
+        ../zaruba please makeCassandraDockerTask generatorDockerContainerName=testCassandra showAdvertisement=no 
+        ../zaruba please makeElasticsearchDockerTask generatorDockerContainerName=testElasticSearch showAdvertisement=no 
+        ../zaruba please makeMongoDockerTask generatorDockerContainerName=testMongo showAdvertisement=no 
+        ../zaruba please makeRedisDockerTask generatorDockerContainerName=testRedis showAdvertisement=no 
+        ../zaruba please makeFastApiModule generatorFastApiServiceName=myService generatorFastApiModuleName=myModule showAdvertisement=no 
+        ../zaruba please makeFastApiRoute generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiUrl=/hello showAdvertisement=no 
+        ../zaruba please makeFastApiEventHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiEventName=myEvent showAdvertisement=no 
+        ../zaruba please makeFastApiRpcHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiRpcName=myRpc showAdvertisement=no 
+        ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no 
+
+
+  testSyncEnv:
+    location: ../playground
+    dependencies:
+      - testMakePlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please syncEnv 
+
+
+  testRun:
+    location: ../playground
+    dependencies:
+      - testSyncEnv
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please stopContainer
+        ../zaruba please run  -t
+
+
+  testRunContainer:
+    location: ../playground
+    dependencies:
+      - testRun
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please removeContainer 
+        ../zaruba please runContainer  -t
+        ../zaruba please removeContainer 
+
+
+  testBuildImage:
+    location: ../playground
+    dependencies:
+      - testRunContainer
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: |
+        git add . -A && git commit -m 'first commit'
+        git tag -a v0.0.0 -m 'version 0.0.0'
+        ../zaruba please buildImage
+
+
+  testLogging:
+    location: ../playground
+    dependencies:
+      - testBuildImage
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please showLog logKeyword=myService 
+        ../zaruba please clearLog 
+  
+
+  runContainerRegistry:
+    icon: 🐳
+    location: ../
+    extend: core.startDockerContainer
+    config:
+      useImagePrefix: false
+      imageName: registry
+      imageTag: 2
+      containerName: containerRegistry
+      localhost: host.docker.internal
+      ports: |
+        9999:5000
+
+
+  testPushImage:
+    location: ../playground
+    dependencies:
+      - runContainerRegistry
+      - testBuildImage
+    extend: core.runShellScript
+    timeout: 1h
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please pushImage
+  
+
+  runPlayground:
+    location: ../playground
+    inputs:
+      - runPlaygroundDelay
+    dependencies:
+      - testBuildImage
+    extend: core.startService
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please removeContainer 
+        ../zaruba please runContainer  -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
+      afterCheck: |
+        sleep 1
+        echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
+        sleep {{ .GetValue "runPlaygroundDelay" }}
+      ports: |
+        3000
+        8080
+        15672
+        5672
+  
+
+  testGeneratedService:
+    location: ../playground
+    dependencies:
+      - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: python ../test_generated_service.py
+
+
+  testGeneratedContainer:
+    location: ../playground
+    dependencies:
+      - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: |
+        echo $(pwd)
+        echo $ZARUBA_HOME
+        ../zaruba please resetTestRabbitMq flushTestRedis testCassandraExecCql testMySqlExecSql testCassandra.cql="describe keyspaces;" testMySql.sql="show schemas;" -t
+
+
+  testPlayground:
+    location: ../playground
+    dependencies:
+      - testLogging
+      - testGeneratedService
+      - testGeneratedContainer
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please stopContainer

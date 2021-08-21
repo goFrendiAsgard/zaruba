@@ -1,0 +1,30 @@
+tasks:
+
+  core.runInDockerContainer:
+    icon: 🐳
+    description: |
+      Run command from inside the container
+      Common config:
+        containerName  : Name of the container
+        containerShell : Shell to run script, default to sh
+        commands       : Command to be executed, separated by new line
+    private: true
+    extend: core.runCoreScript
+    config:
+      commands: ""
+      containerShell: "sh"
+      containerName: ""
+      _start: |
+        {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sh" .GetNewUUID -}}
+        {{ $err := .WriteFile $localTmpFile (.GetConfig "commands") -}}
+        CONTAINER_SHELL="{{ .GetConfig "containerShell" }}"
+        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        LOCAL_TMP_FILE="{{ $localTmpFile }}"
+        CONTAINER_TMP_FILE="/{{ .Name }}.{{ .GetNewUUID }}.tmp.sh"
+        chmod 755 "${LOCAL_TMP_FILE}"
+        docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
+        rm "${LOCAL_TMP_FILE}"
+        docker exec "${CONTAINER_NAME}" "${CONTAINER_SHELL}" "${CONTAINER_TMP_FILE}"
+        docker exec "${CONTAINER_NAME}" rm "${CONTAINER_TMP_FILE}"
+      start: ""
+

@@ -9,73 +9,24 @@ tasks:
     configRef: createZarubaServiceNameDb
     envRef: createZarubaServiceNameDb
 
-  runZarubaServiceNameConfigurator:
-    icon: 🛠️
-    extend: core.startDockerContainer
-    dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPostgreTask
-      - createZarubaServiceNameDb
-      - pullZarubaServiceNameImage
-    timeout: 1h
-    inputs:
-      - zarubaServiceNameRunInLocal
-    configRefs:
-      - zarubaServiceNameConfigurator
-      - zarubaServiceName
-    envRefs:
-      - zarubaServiceName
-
-  makeZarubaServiceNameInitScript:
-    icon: 🛠️
-    extend: core.runShellScript
+  configureZarubaServiceName:
+    extend: core.runInDockerContainer
     location: ../../zarubaServiceName
     dependencies:
       - runZarubaServiceNameConfigurator
     config:
-      start: |
-        {{ $d := .Decoration }}
-        if [ -f "initiator.gotmpl.sh" ]
-        then
-          {{ .ParseFile "initiator.gotmpl.sh" }}
-        fi
-        if [ ! -f "init/init.sh" ]
-        then
-          mkdir -p "init"
-          touch init/init.sh
-        fi
-        chmod 755 -R init
-    configRef: makeZarubaServiceNameInitScript
-    envRef: makeZarubaServiceNameInitScript
-
-  initZarubaServiceName:
-    icon: 🛠️
-    extend: core.runInContainer
-    location: ../../zarubaServiceName
-    dependencies:
-      - makeZarubaServiceNameInitScript
-      - runZarubaServiceNameConfigurator
-    config:
-      beforeStart: |
-        {{ $d := .Decoration }}
-        INIT_PATH="{{ .GetWorkPath "init" }}"
-        if [ -f "${INIT_PATH}/init.sh" ]
-        then
-          docker  exec -u root "{{ .GetConfig "containerName" }}" rm -Rf /opt/airflow/init
-          docker  cp "${INIT_PATH}" "{{ .GetConfig "containerName" }}:/opt/airflow/init"
-        else
-          echo "{{ $d.Bold }}{{ $d.Red }}{{ .GetWorkPath "${INIT_PAT}/init.sh" }} does not exist{{ $d.Normal }}"
-          exit 1
-        fi
+      containerShell: bash
       commands: |
         airflow version
         airflow db upgrade
-        airflow users create --username "{{ .GetConfig "wwwUserName" }}" --password "{{ .GetConfig "wwwPassword" }}" --firstname "{{ .GetConfig "wwwFirstName" }}" --lastname "{{ .GetConfig "wwwLastName" }}" --role "{{ .GetConfig "wwwRole" }}" --email "{{ .GetConfig "wwwEmail" }}"
-        bash /opt/airflow/init/init.sh
-      afterStart:
-        sleep {{ .GetEnv "INIT_DELAY" }}
-    configRefs:
-      - initZarubaServiceName
-      - zarubaServiceNameConfigurator
-    envRef: initZarubaServiceName
+        airflow users create \
+          --username "{{ .GetConfig "wwwUserName" }}" \
+          --password "{{ .GetConfig "wwwPassword" }}" \
+          --firstname "{{ .GetConfig "wwwFirstName" }}" \
+          --lastname "{{ .GetConfig "wwwLastName" }}" \
+          --role "{{ .GetConfig "wwwRole" }}" \
+          --email "{{ .GetConfig "wwwEmail" }}"
+        {{ .ParseFile "configurator.gotmpl.sh"}}
+    configRef: zarubaServiceNameConfigurator
+    envRef: zarubaServiceNameConfigurator
 

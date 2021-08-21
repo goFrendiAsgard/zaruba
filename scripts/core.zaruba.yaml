@@ -68,7 +68,7 @@ includes:
   - ./tasks/core.pushDockerImage.zaruba.yaml
   - ./tasks/core.removeDockerContainer.zaruba.yaml
   - ./tasks/core.runCoreScript.zaruba.yaml
-  - ./tasks/core.runInContainer.zaruba.yaml
+  - ./tasks/core.runInDockerContainer.zaruba.yaml
   - ./tasks/core.runNodeJsScript.zaruba.yaml
   - ./tasks/core.runNvmScript.zaruba.yaml
   - ./tasks/core.runPythonScript.zaruba.yaml

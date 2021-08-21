@@ -1,4 +1,4 @@
-# only used while deploye docker
+# only used while deploy docker
 
 . ./bash/get_version.sh
 VERSION="$(get_version)"

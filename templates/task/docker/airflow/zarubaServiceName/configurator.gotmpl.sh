@@ -1,0 +1,2 @@
+
+echo "Init zarubaServiceName configurator"

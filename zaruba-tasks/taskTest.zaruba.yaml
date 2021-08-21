@@ -2,10 +2,8 @@ tasks:
 
   testCore:
     icon: 💉
-    location: ./
+    location: ../
     extend: core.runShellScript
-    dependencies:
-      - clearLog
     configRef: mainTest
     config:
       start: |
@@ -14,29 +12,12 @@ tasks:
         rm -f ./test-resources/log.zaruba.csv
         go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html
-  
-
-  preparePlayground:
-    icon: 🔨
-    location: ./
-    extend: core.runShellScript
-    dependencies:
-      - clearLog
-    config:
-      start: |
-        if [ -d playground ]
-        then
-          chmod 777 -R playground
-        fi
-        rm -Rf playground
-        mkdir -p playground
 
 
   testShowVersion:
     icon: 💉
-    location: ./
+    location: ../
     dependencies:
-      - clearLog
       - build
     extend: core.runShellScript
     configRef: mainTest
@@ -46,9 +27,8 @@ tasks:
 
   testCoreTask:
     icon: 💉
-    location: ./
+    location: ../
     dependencies:
-      - clearLog
       - build
       - testShowVersion
 
@@ -56,7 +36,6 @@ tasks:
   test:
     icon: 💉
     dependencies:
-      - clearLog
       - testCore
       - testCoreTask
       - testPlayground

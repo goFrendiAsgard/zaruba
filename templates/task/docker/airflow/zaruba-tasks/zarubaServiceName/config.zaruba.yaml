@@ -1,19 +1,7 @@
 configs:
 
-  makeZarubaServiceNameInitScript:
-    envPrefix: '{{ .GetEnv "ENV_PREFIX" }}'
-
   createZarubaServiceNameDb:
     dbName: '{{ .GetEnv "DB_NAME" }}'
-
-  initZarubaServiceName:
-    wwwUserName: '{{ .GetEnv "WWW_USERNAME" }}'
-    wwwPassword: '{{ .GetEnv "WWW_PASSWORD" }}'
-    wwwFirstName: '{{ .GetEnv "WWW_FIRST_NAME" }}'
-    wwwLastName: '{{ .GetEnv "WWW_LAST_NAME" }}'
-    wwwRole: '{{ .GetEnv "WWW_ROLE" }}'
-    wwwEmail: '{{ .GetEnv "WWW_EMAIL" }}'
-    initDelay: '{{ .GetEnv "INIT_DELAY" }}'
 
   zarubaServiceName:
     useImagePrefix: true
@@ -29,6 +17,13 @@ configs:
     containerName: zarubaContainerNameConfigurator
     entryPoint: sleep
     command: infinity
+    wwwUserName: '{{ .GetEnv "WWW_USERNAME" }}'
+    wwwPassword: '{{ .GetEnv "WWW_PASSWORD" }}'
+    wwwFirstName: '{{ .GetEnv "WWW_FIRST_NAME" }}'
+    wwwLastName: '{{ .GetEnv "WWW_LAST_NAME" }}'
+    wwwRole: '{{ .GetEnv "WWW_ROLE" }}'
+    wwwEmail: '{{ .GetEnv "WWW_EMAIL" }}'
+    initDelay: '{{ .GetEnv "INIT_DELAY" }}'
 
   zarubaServiceNameWebServer:
     containerName: zarubaContainerNameWebServer

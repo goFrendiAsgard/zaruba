@@ -1,10 +1,10 @@
 includes:
-  - ./z.config.zaruba.yaml
-  - ./z.input.zaruba.yaml
-  - ./z.taskDocker.zaruba.yaml
-  - ./z.taskTest.zaruba.yaml
-  - ./z.taskTestPlayground.zaruba.yaml
-  - ./z.taskTestHelm.zaruba.yaml
+  - ./zaruba-tasks/config.zaruba.yaml
+  - ./zaruba-tasks/input.zaruba.yaml
+  - ./zaruba-tasks/taskDocker.zaruba.yaml
+  - ./zaruba-tasks/taskTest.zaruba.yaml
+  - ./zaruba-tasks/taskTestPlayground.zaruba.yaml
+  - ./zaruba-tasks/taskTestHelm.zaruba.yaml
 
 tasks:
 
