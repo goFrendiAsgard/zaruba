@@ -11,7 +11,7 @@ tasks:
       queries: ""
       containerName: ""
       _start: |
-        {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sql" .GetNewUUID -}}
+        {{ $localTmpFile := .GetWorkPath (printf "tmp/%s.%s.sql" .Name .GetNewUUID) -}}
         {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"

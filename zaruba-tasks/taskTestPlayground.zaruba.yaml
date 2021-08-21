@@ -28,15 +28,24 @@ tasks:
         ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="other-fibo" 
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
-        ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no  
-        ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo 
-        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
+        ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo generatorServiceEnvs='{"HTTP_PORT": "3001"}'
+        #
+        # docker related
+        #
         ../zaruba please makeRabbitmqDockerTask generatorDockerContainerName=testRabbitMq showAdvertisement=no 
         ../zaruba please makeMysqlDockerTask generatorDockerContainerName=testMySql showAdvertisement=no 
         ../zaruba please makeCassandraDockerTask generatorDockerContainerName=testCassandra showAdvertisement=no 
         ../zaruba please makeElasticsearchDockerTask generatorDockerContainerName=testElasticSearch showAdvertisement=no 
         ../zaruba please makeMongoDockerTask generatorDockerContainerName=testMongo showAdvertisement=no 
         ../zaruba please makeRedisDockerTask generatorDockerContainerName=testRedis showAdvertisement=no 
+        ../zaruba please makePostgreDockerTask generatorDockerContainerName=testPostgre showAdvertisement=no 
+        ../zaruba please makeAirflowDockerTask generatorDockerContainerName=testAirflow airflowRedisTask=runTestRedis airflowPostgreTask=runTestPostgre showAdvertisement=no 
+        ../zaruba please makeTrinoDockerTask generatorDockerContainerName=testTrino showAdvertisement=no generatorServicePorts='["8081:8080"]'
+        #
+        # fastapi related
+        #
+        ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no  
+        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
         ../zaruba please makeFastApiModule generatorFastApiServiceName=myService generatorFastApiModuleName=myModule showAdvertisement=no 
         ../zaruba please makeFastApiRoute generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiUrl=/hello showAdvertisement=no 
         ../zaruba please makeFastApiEventHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiEventName=myEvent showAdvertisement=no 
@@ -62,7 +71,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please stopContainer
+        ../zaruba please removeContainer
         ../zaruba please run  -t
 
 
@@ -74,7 +83,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please removeContainer 
+        ../zaruba please stopContainer 
         ../zaruba please runContainer  -t
         ../zaruba please removeContainer 
 
