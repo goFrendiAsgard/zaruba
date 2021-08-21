@@ -29,4 +29,17 @@ tasks:
         {{ .ParseFile "configurator.gotmpl.sh"}}
     configRef: zarubaServiceNameConfigurator
     envRef: zarubaServiceNameConfigurator
+  
+  configureZarubaServiceNameWorker:
+    extend: core.runInDockerContainer
+    location: ../../zarubaServiceName
+    dependencies:
+      - runZarubaServiceNameWorker
+    config:
+      containerShell: bash
+      commands: |
+        {{ .ParseFile "worker.gotmpl.sh"}}
+    configRef: zarubaServiceNameWorker
+    envRef: zarubaServiceNameWorker
+  
 

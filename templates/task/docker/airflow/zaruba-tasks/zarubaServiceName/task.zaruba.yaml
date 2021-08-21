@@ -16,6 +16,7 @@ tasks:
       - runZarubaServiceNameScheduler
       - runZarubaServiceNameWorker
       - runZarubaServiceNameFlower
+      - configureZarubaServiceNameWorker
 
   pullZarubaServiceNameImage:
     extend: core.pullDockerImage
