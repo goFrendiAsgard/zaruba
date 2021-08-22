@@ -34,7 +34,7 @@ var pleaseCmd = &cobra.Command{
 		decoration := getDecoration(*pleasePlainDecor)
 		logger := output.NewConsoleLogger(decoration)
 		csvRecordLogger := getCsvRecordLogger(filepath.Dir(pleaseFile))
-		project, taskNames := getProjectAndTaskName(commandName, logger, decoration, csvRecordLogger, args)
+		project, taskNames := getProjectAndTaskName(commandName, logger, decoration, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := explainer.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
@@ -75,7 +75,7 @@ var pleaseCmd = &cobra.Command{
 		}
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(commandName, logger, decoration, project)
-		r, err := runner.NewRunner(logger, decoration, project, taskNames, "5m", *pleaseTerminate, pleaseWait)
+		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "5m", *pleaseTerminate, pleaseWait)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
@@ -181,8 +181,8 @@ func initProjectOrExit(commandName string, logger output.Logger, decoration *out
 	}
 }
 
-func getProjectAndTaskName(commandName string, logger output.Logger, decoration *output.Decoration, csvRecordLogger *output.CSVRecordLogger, args []string) (project *config.Project, taskNames []string) {
-	project, err := getProject(logger, decoration, csvRecordLogger, pleaseFile)
+func getProjectAndTaskName(commandName string, logger output.Logger, decoration *output.Decoration, args []string) (project *config.Project, taskNames []string) {
+	project, err := getProject(decoration, pleaseFile)
 	if err != nil {
 		exit(commandName, logger, decoration, err)
 	}

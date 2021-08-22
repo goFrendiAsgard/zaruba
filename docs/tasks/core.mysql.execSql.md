@@ -15,7 +15,7 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sql" .GetNewUUID -}}
+                  _start            : {{ $localTmpFile := .GetWorkPath (printf "tmp/%s.%s.sql" .Name .GetNewUUID) -}}
                                       {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
                                       USER="{{ .GetConfig "user" }}"
                                       PASSWORD="{{ .GetConfig "password" }}"

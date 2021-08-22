@@ -5,19 +5,23 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-func getProject(projectFile string) (project *config.Project, logger output.Logger, decoration *output.Decoration, err error) {
-	decoration = output.NewDecoration()
-	logger = output.NewMockLogger()
-	recordLogger := output.NewMockRecordLogger()
-	project, err = config.NewProject(logger, recordLogger, decoration, projectFile, []string{})
-	return project, logger, decoration, err
+func getProject(projectFile string) (project *config.Project, err error) {
+	decoration := output.NewDecoration()
+	return config.NewProject(decoration, projectFile, []string{})
 }
 
-func getProjectAndInit(projectFile string) (project *config.Project, logger output.Logger, decoration *output.Decoration, err error) {
-	project, logger, decoration, err = getProject(projectFile)
+func getProjectAndInit(projectFile string) (project *config.Project, err error) {
+	project, err = getProject(projectFile)
 	if err != nil {
-		return project, logger, decoration, err
+		return project, err
 	}
 	err = project.Init()
-	return project, logger, decoration, err
+	return project, err
+}
+
+func getRunner(project *config.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, logger *output.MockLogger, recordLogger *output.MockRecordLogger, err error) {
+	logger = output.NewMockLogger()
+	recordLogger = output.NewMockRecordLogger()
+	runner, err = NewRunner(logger, recordLogger, project, taskNames, statusIntervalStr, autoTerminate, autoTerminateDelayStr)
+	return runner, logger, recordLogger, err
 }

@@ -36,7 +36,7 @@ func getCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLog
 	return output.NewCSVRecordLogger(logFile)
 }
 
-func getProject(logger output.Logger, decoration *output.Decoration, csvRecordLogger *output.CSVRecordLogger, pleaseFile string) (project *config.Project, err error) {
+func getProject(decoration *output.Decoration, projectFile string) (project *config.Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
@@ -48,5 +48,5 @@ func getProject(logger output.Logger, decoration *output.Decoration, csvRecordLo
 		}
 		defaultIncludes = append(defaultIncludes, script)
 	}
-	return config.NewProject(logger, csvRecordLogger, decoration, pleaseFile, defaultIncludes)
+	return config.NewProject(decoration, projectFile, defaultIncludes)
 }

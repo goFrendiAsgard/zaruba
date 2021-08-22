@@ -20,7 +20,7 @@
                     {{ .Trim (.GetConfig "finish") "\n " }}
   CONFIG        : _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ $localTmpFile := printf "tmp/{{ .Name }}.%s.sh" .GetNewUUID -}}
+                  _start            : {{ $localTmpFile := .GetWorkPath (printf "tmp/%s.%s.sh" .Name .GetNewUUID) -}}
                                       {{ $err := .WriteFile $localTmpFile (.GetConfig "commands") -}}
                                       CONTAINER_SHELL="{{ .GetConfig "containerShell" }}"
                                       CONTAINER_NAME="{{ .GetConfig "containerName" }}"
@@ -30,7 +30,7 @@
                                       docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
                                       rm "${LOCAL_TMP_FILE}"
                                       docker exec "${CONTAINER_NAME}" "${CONTAINER_SHELL}" "${CONTAINER_TMP_FILE}"
-                                      docker exec "${CONTAINER_NAME}" rm "${CONTAINER_TMP_FILE}"
+                                      docker exec -u 0 "${CONTAINER_NAME}" rm "${CONTAINER_TMP_FILE}"
                   afterStart        : Blank
                   beforeStart       : Blank
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}

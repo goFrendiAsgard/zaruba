@@ -47,7 +47,7 @@ func NewTaskData(task *Task) (td *TaskData) {
 		WorkPath:     task.GetWorkPath(),
 		DirPath:      filepath.Dir(task.GetFileLocation()),
 		FileLocation: task.GetFileLocation(),
-		Decoration:   task.Project.decoration,
+		Decoration:   task.Project.Decoration,
 	}
 }
 

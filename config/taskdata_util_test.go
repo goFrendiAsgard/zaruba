@@ -6,7 +6,7 @@ import (
 )
 
 func TestTdGetWorkPath(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -27,7 +27,7 @@ func TestTdGetWorkPath(t *testing.T) {
 }
 
 func TestTdGetRelativePath(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -48,7 +48,7 @@ func TestTdGetRelativePath(t *testing.T) {
 }
 
 func TestTdIsTrue(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -76,7 +76,7 @@ func TestTdIsTrue(t *testing.T) {
 }
 
 func TestTdIsFalse(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -104,7 +104,7 @@ func TestTdIsFalse(t *testing.T) {
 }
 
 func TestTdTrim(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -119,7 +119,7 @@ func TestTdTrim(t *testing.T) {
 }
 
 func TestTdEscapeShellArg(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -134,7 +134,7 @@ func TestTdEscapeShellArg(t *testing.T) {
 }
 
 func TestTdListDir(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -164,7 +164,7 @@ func TestTdListDir(t *testing.T) {
 }
 
 func TestTdListDirInexist(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -179,7 +179,7 @@ func TestTdListDirInexist(t *testing.T) {
 }
 
 func TestTdReadFile(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -198,7 +198,7 @@ func TestTdReadFile(t *testing.T) {
 }
 
 func TestTdReadFileInexist(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -213,7 +213,7 @@ func TestTdReadFileInexist(t *testing.T) {
 }
 
 func TestTdParseFile(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -232,7 +232,7 @@ func TestTdParseFile(t *testing.T) {
 }
 
 func TestTdParseFileInvalid(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -247,7 +247,7 @@ func TestTdParseFileInvalid(t *testing.T) {
 }
 
 func TestTdParseFileError(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -262,7 +262,7 @@ func TestTdParseFileError(t *testing.T) {
 }
 
 func TestTdParseFileInexist(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return

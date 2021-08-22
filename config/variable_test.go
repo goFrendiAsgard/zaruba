@@ -5,7 +5,7 @@ import (
 )
 
 func TestGetVariableName(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/variable/getName.zaruba.yaml")
+	project, err := getProject("../test-resources/variable/getName.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return

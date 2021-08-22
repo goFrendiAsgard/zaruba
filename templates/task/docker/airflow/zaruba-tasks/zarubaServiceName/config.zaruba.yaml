@@ -9,8 +9,7 @@ configs:
     imageName: airflow
     imageTag: 2.1.2
     localhost: host.docker.internal
-    volumes:
-      ../../zarubaServiceName/dags:/opt/airflow/dags
+    volumes: '{{ .GetRelativePath "../../zarubaServiceName/dags" }}:/opt/airflow/dags'
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
 
   zarubaServiceNameConfigurator:

@@ -7,7 +7,7 @@ import (
 )
 
 func TestProjectGetNameDeclared(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getNameDeclared.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getNameDeclared.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -24,7 +24,7 @@ func TestProjectGetNameDeclared(t *testing.T) {
 }
 
 func TestProjectGetNameUndeclared(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getNameUndeclared.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getNameUndeclared.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -41,7 +41,7 @@ func TestProjectGetNameUndeclared(t *testing.T) {
 }
 
 func TestProjectGetSortedInputNames(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getSortedInputNames.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getSortedInputNames.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -65,7 +65,7 @@ func TestProjectGetSortedInputNames(t *testing.T) {
 }
 
 func TestProjectGetSortedTaskNames(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getSortedTaskNames.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getSortedTaskNames.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -89,7 +89,7 @@ func TestProjectGetSortedTaskNames(t *testing.T) {
 }
 
 func TestProjectAddValueAfterInit(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addValueFromPair/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addValueFromPair/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -109,7 +109,7 @@ func TestProjectAddValueAfterInit(t *testing.T) {
 }
 
 func TestProjectSetValueAfterInit(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/setValueFromPair/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/setValueFromPair/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -129,7 +129,7 @@ func TestProjectSetValueAfterInit(t *testing.T) {
 }
 
 func TestProjectAddValueFromPair(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addValueFromPair/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addValueFromPair/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -149,7 +149,7 @@ func TestProjectAddValueFromPair(t *testing.T) {
 }
 
 func TestProjectAddValueFromFile(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addValueFromFile/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addValueFromFile/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -165,7 +165,7 @@ func TestProjectAddValueFromFile(t *testing.T) {
 }
 
 func TestProjectAddValueFromInexistFile(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addValueFromFile/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addValueFromFile/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -177,7 +177,7 @@ func TestProjectAddValueFromInexistFile(t *testing.T) {
 }
 
 func TestProjectAddValueFromInvalidYamlFile(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addValueFromFile/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addValueFromFile/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -189,7 +189,7 @@ func TestProjectAddValueFromInvalidYamlFile(t *testing.T) {
 }
 
 func TestProjectGetValue(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getValue/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -229,7 +229,7 @@ func TestProjectGetValue(t *testing.T) {
 }
 
 func TestProjectIsValueExist(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getValue/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -269,7 +269,7 @@ func TestProjectIsValueExist(t *testing.T) {
 }
 
 func TestProjectGetValues(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getValue/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -301,7 +301,7 @@ func TestProjectGetValues(t *testing.T) {
 }
 
 func TestProjectAddGlobalEnvAfterInit(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addGlobalEnv/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addGlobalEnv/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -321,7 +321,7 @@ func TestProjectAddGlobalEnvAfterInit(t *testing.T) {
 }
 
 func TestProjectAddGlobalEnv(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/addGlobalEnv/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/addGlobalEnv/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -351,7 +351,7 @@ func TestProjectAddGlobalEnv(t *testing.T) {
 }
 
 func TestProjectInitInvalidInputValue(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/init/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/init/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -363,7 +363,7 @@ func TestProjectInitInvalidInputValue(t *testing.T) {
 }
 
 func TestProjectInit(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/init/main.zaruba.yaml")
+	project, err := getProject("../test-resources/project/init/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -381,7 +381,7 @@ func TestProjectInit(t *testing.T) {
 }
 
 func TestProjectGetInputsInexistTask(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getInputsInexistTask.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getInputsInexistTask.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -398,7 +398,7 @@ func TestProjectGetInputsInexistTask(t *testing.T) {
 }
 
 func TestProjectGetInputs(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/getInputs.zaruba.yaml")
+	project, err := getProject("../test-resources/project/getInputs.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -421,7 +421,7 @@ func TestProjectGetInputs(t *testing.T) {
 }
 
 func TestProjectValidateByTaskNamesInexistTask(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/validateByTaskNamesInexistTask.zaruba.yaml")
+	project, err := getProject("../test-resources/project/validateByTaskNamesInexistTask.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -438,7 +438,7 @@ func TestProjectValidateByTaskNamesInexistTask(t *testing.T) {
 }
 
 func TestProjectValidateByTaskNamesInvalidInput(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/validateByTaskNames.zaruba.yaml")
+	project, err := getProject("../test-resources/project/validateByTaskNames.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -456,7 +456,7 @@ func TestProjectValidateByTaskNamesInvalidInput(t *testing.T) {
 }
 
 func TestProjectValidateByTaskNames(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/project/validateByTaskNames.zaruba.yaml")
+	project, err := getProject("../test-resources/project/validateByTaskNames.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return

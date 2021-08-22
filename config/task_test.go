@@ -8,7 +8,7 @@ import (
 )
 
 func TestTaskGetName(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getName.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getName.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -22,7 +22,7 @@ func TestTaskGetName(t *testing.T) {
 }
 
 func TestTaskGetTimeoutDuration(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getTimeoutDuration.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getTimeoutDuration.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -36,7 +36,7 @@ func TestTaskGetTimeoutDuration(t *testing.T) {
 }
 
 func TestTaskGetWorkPathByLocation(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getWorkPathByLocation.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getWorkPathByLocation.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -49,7 +49,7 @@ func TestTaskGetWorkPathByLocation(t *testing.T) {
 }
 
 func TestTaskGetWorkPathByParentLocation(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getWorkPathByParentLocation.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getWorkPathByParentLocation.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -62,7 +62,7 @@ func TestTaskGetWorkPathByParentLocation(t *testing.T) {
 }
 
 func TestTaskGetWorkPathWithoutLocation(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getWorkPathWithoutLocation.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getWorkPathWithoutLocation.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -76,7 +76,7 @@ func TestTaskGetWorkPathWithoutLocation(t *testing.T) {
 }
 
 func TestTaskHaveStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/haveStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/haveStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -90,7 +90,7 @@ func TestTaskHaveStartCmd(t *testing.T) {
 }
 
 func TestTaskHaveStartCmdByParent(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/haveStartCmdByParent.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/haveStartCmdByParent.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -104,7 +104,7 @@ func TestTaskHaveStartCmdByParent(t *testing.T) {
 }
 
 func TestTaskHaveNoStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/haveNoStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/haveNoStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -118,7 +118,7 @@ func TestTaskHaveNoStartCmd(t *testing.T) {
 }
 
 func TestTaskHaveCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/haveCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/haveCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -132,7 +132,7 @@ func TestTaskHaveCheckCmd(t *testing.T) {
 }
 
 func TestTaskHaveCheckCmdByParent(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/haveCheckCmdByParent.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/haveCheckCmdByParent.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -146,7 +146,7 @@ func TestTaskHaveCheckCmdByParent(t *testing.T) {
 }
 
 func TestTaskHaveNoCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/haveNoCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/haveNoCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -160,7 +160,7 @@ func TestTaskHaveNoCheckCmd(t *testing.T) {
 }
 
 func TestTaskGetValueKeys(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/task/getValue.zaruba.yaml")
+	project, err := getProject("../test-resources/task/getValue.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -189,7 +189,7 @@ func TestTaskGetValueKeys(t *testing.T) {
 }
 
 func TestTaskGetValue(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/task/getValue.zaruba.yaml")
+	project, err := getProject("../test-resources/task/getValue.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -237,7 +237,7 @@ func TestTaskGetValue(t *testing.T) {
 }
 
 func TestTaskGetConfigKeys(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -258,7 +258,7 @@ func TestTaskGetConfigKeys(t *testing.T) {
 }
 
 func TestTaskGetConfigPattern(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -303,7 +303,7 @@ func TestTaskGetConfigPattern(t *testing.T) {
 }
 
 func TestTaskGetConfig(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -352,7 +352,7 @@ func TestTaskGetConfig(t *testing.T) {
 }
 
 func TestTaskGetConfigBrokenTemplate(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getConfigBrokenTemplate.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getConfigBrokenTemplate.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -370,7 +370,7 @@ func TestTaskGetConfigBrokenTemplate(t *testing.T) {
 }
 
 func TestTaskGetEnvKeys(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getEnv.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -391,7 +391,7 @@ func TestTaskGetEnvKeys(t *testing.T) {
 }
 
 func TestTaskGetEnv(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/task/getEnv.zaruba.yaml")
+	project, err := getProject("../test-resources/task/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -448,7 +448,7 @@ func TestTaskGetEnv(t *testing.T) {
 }
 
 func TestTaskGetEnvs(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/task/getEnv.zaruba.yaml")
+	project, err := getProject("../test-resources/task/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -481,7 +481,7 @@ func TestTaskGetEnvs(t *testing.T) {
 }
 
 func TestTaskGetEnvBrokenTemplate(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getEnvBrokenTemplate.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getEnvBrokenTemplate.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -499,7 +499,7 @@ func TestTaskGetEnvBrokenTemplate(t *testing.T) {
 }
 
 func TestTaskRecursiveTemplate(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/recursiveTemplate.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/recursiveTemplate.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -517,7 +517,7 @@ func TestTaskRecursiveTemplate(t *testing.T) {
 }
 
 func TestTaskMultiLineTemplate(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/multiLineTemplate.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/multiLineTemplate.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -546,7 +546,7 @@ func TestTaskMultiLineTemplate(t *testing.T) {
 }
 
 func TestTaskGetDependenciesTemplate(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getDependencies.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getDependencies.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return

@@ -20,9 +20,7 @@ var projectSyncEnvFilesCmd = &cobra.Command{
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
-		projectDir := filepath.Dir(projectFile)
-		csvRecordLogger := getCsvRecordLogger(projectDir)
-		project, err := getProject(logger, decoration, csvRecordLogger, projectFile)
+		project, err := getProject(decoration, projectFile)
 		if err != nil {
 			exit(commandName, logger, decoration, err)
 		}
