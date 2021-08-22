@@ -150,6 +150,8 @@ func init() {
 	strCmd.AddCommand(strGetIndentationCmd)
 	strCmd.AddCommand(strIndentCmd)
 	strCmd.AddCommand(strNewUUIDCmd)
+	strCmd.AddCommand(strPadLeftCmd)
+	strCmd.AddCommand(strPadRightCmd)
 	strCmd.AddCommand(strRepeatCmd)
 	strCmd.AddCommand(strReplaceCmd)
 	strCmd.AddCommand(strSplitCmd)

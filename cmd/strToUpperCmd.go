@@ -12,10 +12,9 @@ var strToUpperCmd = &cobra.Command{
 	Use:   "toUpper <string>",
 	Short: "Turn string into UPPER CASE",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fmt.Println(strings.ToUpper(args[0]))
 	},
 }

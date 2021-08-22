@@ -12,10 +12,9 @@ var strToPascalCmd = &cobra.Command{
 	Use:   "toPascal <string>",
 	Short: "Turn string into PascalCase",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fmt.Println(str.ToPascalCase(args[0]))
 	},
 }

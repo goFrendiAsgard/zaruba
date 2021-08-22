@@ -13,13 +13,12 @@ var listJoinCmd = &cobra.Command{
 	Use:   "join <list> [separator]",
 	Short: "Transform JSON list into single string",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		list := []interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		lines := []string{}
 		for _, element := range list {

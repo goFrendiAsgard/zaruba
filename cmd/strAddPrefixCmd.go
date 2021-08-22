@@ -12,10 +12,9 @@ var strAddPrefixCmd = &cobra.Command{
 	Use:   "addPrefix <string> <prefix>",
 	Short: "Add prefix to string",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		if strings.HasPrefix(args[0], args[1]) {
 			fmt.Println(args[0])
 			return

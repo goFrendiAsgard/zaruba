@@ -12,10 +12,9 @@ var strIndentCmd = &cobra.Command{
 	Use:   "indent <string> <indentation>",
 	Short: "indent string",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
 		indentation := args[1]
 		lines := strings.Split(text, "\n")

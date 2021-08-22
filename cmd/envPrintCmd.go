@@ -13,13 +13,12 @@ var envPrintCmd = &cobra.Command{
 	Use:   "print <envMap> [prefix]",
 	Short: "Print environment",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		envMapRaw := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &envMapRaw); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		envMap := convertToMapString(envMapRaw)
 		// cascade prefix
@@ -29,7 +28,7 @@ var envPrintCmd = &cobra.Command{
 		}
 		result, err := godotenv.Marshal(envMap)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(result)
 	},

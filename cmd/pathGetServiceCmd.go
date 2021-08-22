@@ -12,13 +12,12 @@ var pathGetServiceNameCmd = &cobra.Command{
 	Use:   "getServiceName <string>",
 	Short: "Get default service name based on location or image name",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		serviceName, err := config.GetDefaultServiceName(args[0])
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(serviceName)
 	},

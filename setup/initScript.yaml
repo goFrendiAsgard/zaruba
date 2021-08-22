@@ -1,0 +1,31 @@
+- caption: "Setup ubuntu and docker"
+  script: "SETUP_PATH/setup_ubuntu.sh"
+
+- caption: "Setup tmux"
+  script: "SETUP_PATH/setup_tmux.sh"
+
+- caption: "Install kubectl"
+  script: "SETUP_PATH/install_kubectl.sh"
+
+- caption: "Install helm"
+  script: "SETUP_PATH/install_helm.sh"
+
+- caption: "Install nvm"
+  script: "SETUP_PATH/install_nvm.sh"
+
+- caption: "Install pyenv and pipenv"
+  script: "SETUP_PATH/install_pyenv.sh"
+
+- caption: "Install SdkMan"
+  script: "SETUP_PATH/install_sdkman.sh"
+
+- caption: "Install Gvm"
+  script: "SETUP_PATH/install_gvm.sh"
+
+- caption: "Install AWS CLI"
+  script: "SETUP_PATH/install_aws_cli.sh"
+
+- caption: "Install Google Cloud SDK"
+  script: "SETUP_PATH/install_gcloud.sh"
+
+

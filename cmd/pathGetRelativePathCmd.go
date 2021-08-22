@@ -12,21 +12,20 @@ var pathGetRelativePathCmd = &cobra.Command{
 	Use:   "getRelativePath <basePath> <targetPath>",
 	Short: "Get value or default value",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		absBasePath, err := filepath.Abs(args[0])
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		absTargetPath, err := filepath.Abs(args[1])
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		relPath, err := filepath.Rel(absBasePath, absTargetPath)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(relPath)
 	},
