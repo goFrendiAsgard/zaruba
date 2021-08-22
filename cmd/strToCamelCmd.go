@@ -12,10 +12,9 @@ var strToCamelCmd = &cobra.Command{
 	Use:   "toCamel <string>",
 	Short: "Turn string into camelCase",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fmt.Println(str.ToCamelCase(args[0]))
 	},
 }

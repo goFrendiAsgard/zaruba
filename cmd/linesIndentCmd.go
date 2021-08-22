@@ -13,13 +13,12 @@ var linesIndentCmd = &cobra.Command{
 	Use:   "indent <list> <indentation>",
 	Short: "indent lines",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		lines := []string{}
 		if err := json.Unmarshal([]byte(args[0]), &lines); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		indentation := args[1]
 		for index, line := range lines {
@@ -29,7 +28,7 @@ var linesIndentCmd = &cobra.Command{
 		}
 		resultB, err := json.Marshal(lines)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 	},

@@ -13,29 +13,28 @@ var linesSubmatchCmd = &cobra.Command{
 	Use:   "submatch <list> <patterns>",
 	Short: "Return submatch matching the pattern",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		list := []string{}
 		err := json.Unmarshal([]byte(args[0]), &list)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		patterns := []string{}
 		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		index, submatch, err := str.GetLineSubmatch(list, patterns)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		if index == -1 {
-			exit(commandName, logger, decoration, fmt.Errorf("no line match %#v", patterns))
+			exit(cmd, logger, decoration, fmt.Errorf("no line match %#v", patterns))
 		}
 		resultB, err := json.Marshal(submatch)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 	},

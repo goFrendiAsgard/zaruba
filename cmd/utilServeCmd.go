@@ -15,19 +15,18 @@ var utilServeCmd = &cobra.Command{
 	Use:   "serve <location> <port>",
 	Short: "Serve static files in location at a specified port",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		absLocation, err := filepath.Abs(args[0])
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		port := 8080
 		if len(args) == 1 || args[1] != "" {
 			port, err = strconv.Atoi(args[1])
 			if err != nil {
-				exit(commandName, logger, decoration, err)
+				exit(cmd, logger, decoration, err)
 			}
 		}
 		e := echo.New()

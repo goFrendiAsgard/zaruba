@@ -12,13 +12,12 @@ var listContainCmd = &cobra.Command{
 	Use:   "contain <list> <element>",
 	Short: "Find out whether list contains string or not",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		list := []interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		var seekElement interface{}
 		if err := json.Unmarshal([]byte(args[1]), &seekElement); err != nil {

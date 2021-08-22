@@ -12,13 +12,12 @@ var mapTransformKeyCmd = &cobra.Command{
 	Use:   "transformKey <map> <prefix> [suffix]",
 	Short: "Transform map keys",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		dict := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &dict); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		prefix, suffix := args[1], ""
 		if len(args) > 2 {
@@ -31,7 +30,7 @@ var mapTransformKeyCmd = &cobra.Command{
 		}
 		resultB, err := json.Marshal(newDict)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 	},

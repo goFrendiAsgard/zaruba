@@ -13,14 +13,13 @@ var strReplaceCmd = &cobra.Command{
 	Use:   "replace <string> <replacementMap>",
 	Short: "Replace string by replacementMap",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
 		replacementMap := map[string]string{}
 		if err := json.Unmarshal([]byte(args[1]), &replacementMap); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		result := str.ReplaceByMap(text, replacementMap)
 		fmt.Println(result)

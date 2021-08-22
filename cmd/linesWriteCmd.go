@@ -12,17 +12,16 @@ var linesWriteCmd = &cobra.Command{
 	Use:   "write <fileName> <list>",
 	Short: "Write list to file",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]
 		list := []string{}
 		if err := json.Unmarshal([]byte(args[1]), &list); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		if err := file.WriteLines(fileName, list, 0755); err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 	},
 }

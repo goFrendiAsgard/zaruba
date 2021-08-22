@@ -14,10 +14,9 @@ var envGetCmd = &cobra.Command{
 	Use:   "get [prefix]",
 	Short: "Get envmap from currently loaded environment variables",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 0)
+		checkMinArgCount(cmd, logger, decoration, args, 0)
 		// get envMap
 		envMap := map[string]string{}
 		for _, pair := range os.Environ() {
@@ -33,7 +32,7 @@ var envGetCmd = &cobra.Command{
 		// return the map
 		resultB, err := json.Marshal(envMap)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 	},

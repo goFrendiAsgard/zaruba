@@ -1,31 +1,32 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"regexp"
+	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var strSubmatchCmd = &cobra.Command{
-	Use:   "submatch <string> <pattern>",
-	Short: "Return submatch of string based on pattern",
+var strPadRightCmd = &cobra.Command{
+	Use:   "padRight <string> <length> [char]",
+	Short: "fill from left",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
-		rex, err := regexp.Compile(args[1])
+		length, err := strconv.Atoi(args[1])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		result := rex.FindStringSubmatch(text)
-		resultB, err := json.Marshal(result)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
+		pad := " "
+		if len(args) > 2 {
+			pad = args[2]
 		}
-		fmt.Println(string(resultB))
+		for len(text) < length {
+			text = text + pad
+		}
+		fmt.Println(text)
 	},
 }

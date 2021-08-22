@@ -12,10 +12,9 @@ var mapValidateCmd = &cobra.Command{
 	Use:   "validate <value>",
 	Short: "Check whether value is valid JSON map or not",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 1)
 		value := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(args[0]), &value); err != nil {
 			fmt.Println(0)

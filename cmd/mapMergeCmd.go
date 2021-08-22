@@ -12,15 +12,14 @@ var mapMergeCmd = &cobra.Command{
 	Use:   "merge <map> <otherMaps...>",
 	Short: "Merge JSON maps",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandName := cmd.Name()
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(commandName, logger, decoration, args, 2)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
 		newDict := map[string]interface{}{}
 		for _, arg := range args {
 			dict := map[string]interface{}{}
 			if err := json.Unmarshal([]byte(arg), &dict); err != nil {
-				exit(commandName, logger, decoration, err)
+				exit(cmd, logger, decoration, err)
 			}
 			for key, val := range dict {
 				if _, exist := newDict[key]; !exist {
@@ -30,7 +29,7 @@ var mapMergeCmd = &cobra.Command{
 		}
 		resultB, err := json.Marshal(newDict)
 		if err != nil {
-			exit(commandName, logger, decoration, err)
+			exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 	},
