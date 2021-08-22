@@ -7,19 +7,17 @@ RUN go mod download
 
 COPY ./ ./
 COPY ./.git ./.git
-RUN go build -o zaruba
+RUN go build -o zaruba && \
+    chmod 755 ./bash/*.sh && \
+    chmod 755 ./setup/*.sh
 
-ENV ZARUBA_HOME /zaruba
-RUN chmod 755 ./bash/*.sh
-RUN chmod 755 ./write_version.sh
-RUN ./write_version.sh
-
+ENV ZARUBA_HOME="/zaruba"
+RUN . ./bash/get_version.sh && get_version > /zaruba/.version
 
 FROM stalchmst/devbox:latest
 
 ENV PATH="${PATH}:/.zaruba"
-ENV ZARUBA_HOST_DOCKER_INTERNAL="host.docker.internal"
-ENV DOCKER_HOST="tcp://${ZARUBA_HOST_DOCKER_INTERNAL}:2375"
+ENV DOCKER_HOST="tcp://host.docker.internal:2375"
 
 RUN mkdir -p /.zaruba
 COPY --from=builder /zaruba/zaruba /.zaruba/zaruba
@@ -30,10 +28,10 @@ COPY --from=builder /zaruba/scripts /.zaruba/scripts
 COPY --from=builder /zaruba/setup /.zaruba/setup
 COPY --from=builder /zaruba/templates/bash/init.sh /.zaruba/init.sh
 COPY --from=builder /zaruba/templates /.zaruba/templates
-RUN chmod 755 /.zaruba/setup/*.sh
-RUN chmod 755 /.zaruba/init.sh
+RUN chmod 755 /.zaruba/setup/*.sh && \
+    chmod 755 /.zaruba/init.sh && \
+    mkdir -p /project
 
-RUN mkdir -p /project
 WORKDIR /project
 
 CMD ["sleep", "infinity"]

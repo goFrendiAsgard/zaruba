@@ -7,10 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install ubuntu packages
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get update --fix-missing
-RUN apt-get upgrade -y
-
-# Install common tools
-RUN apt-get install -y git ncat curl wget inetutils-tools docker.io
-
-RUN apt-get clean
+    apt-get update --fix-missing && \
+    apt-get upgrade -y && \
+    apt-get install -y git ncat curl wget inetutils-tools docker.io && \
+    apt-get clean
