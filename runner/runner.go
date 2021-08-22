@@ -34,16 +34,14 @@ type Runner struct {
 	surpressWaitError      bool
 	surpressWaitErrorMutex *sync.RWMutex
 	logger                 output.Logger
+	recordLogger           output.RecordLogger
 	decoration             *output.Decoration
 	autoTerminate          bool
 	autoTerminateDelay     time.Duration
 }
 
 // NewRunner create new runner
-func NewRunner(
-	logger output.Logger, decoration *output.Decoration, project *config.Project, taskNames []string,
-	statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string,
-) (runner *Runner, err error) {
+func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *config.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialized")
 	}
@@ -74,11 +72,12 @@ func NewRunner(
 		doneMutex:              &sync.RWMutex{},
 		statusInterval:         statusInterval,
 		startTimeMutex:         &sync.RWMutex{},
-		spaces:                 fmt.Sprintf("%s %s", decoration.Empty, decoration.Empty),
+		spaces:                 fmt.Sprintf("%s %s", project.Decoration.Empty, project.Decoration.Empty),
 		surpressWaitError:      false,
 		surpressWaitErrorMutex: &sync.RWMutex{},
 		logger:                 logger,
-		decoration:             decoration,
+		recordLogger:           recordLogger,
+		decoration:             project.Decoration,
 		autoTerminate:          autoTerminate,
 		autoTerminateDelay:     autoTerminateDelayInterval,
 	}, nil
@@ -93,6 +92,10 @@ func (r *Runner) Run() (err error) {
 	go r.run(ch)
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
+	go r.logStderr()
+	go r.logStdout()
+	go r.logStderrRow()
+	go r.logStdoutRow()
 	err = <-ch
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
@@ -125,6 +128,34 @@ func (r *Runner) Terminate() {
 		delete(r.cmdInfo, label)
 	}
 	r.cmdInfoMutex.Unlock()
+}
+
+func (r *Runner) logStdout() {
+	for {
+		content := <-r.project.StdoutChan
+		r.logger.DPrintf(content)
+	}
+}
+
+func (r *Runner) logStderr() {
+	for {
+		content := <-r.project.StderrChan
+		r.logger.DPrintfError(content)
+	}
+}
+
+func (r *Runner) logStdoutRow() {
+	for {
+		content := <-r.project.StdoutRowChan
+		r.recordLogger.Log(content...)
+	}
+}
+
+func (r *Runner) logStderrRow() {
+	for {
+		content := <-r.project.StderrRowChan
+		r.recordLogger.Log(content...)
+	}
 }
 
 func (r *Runner) showStatusByInterval() {
@@ -308,8 +339,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 		ch <- err
 		return
 	}
-	startLogDone := make(chan error)
-	startCmd, startExist, startErr := task.GetStartCmd(startLogDone)
+	startCmd, startExist, startErr := task.GetStartCmd()
 	if !startExist {
 		r.logger.DPrintfSuccess("Reach %s '%s' wrapper\n", r.decoration.Icon(task.Icon), task.GetName())
 		r.finishTask(task.GetName(), nil)
@@ -320,10 +350,9 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 		ch <- startErr
 		return
 	}
-	checkLogDone := make(chan error)
-	checkCmd, checkExist, checkErr := task.GetCheckCmd(checkLogDone)
+	checkCmd, checkExist, checkErr := task.GetCheckCmd()
 	if !checkExist {
-		err := r.runCommandTask(task, startCmd, startLogDone)
+		err := r.runCommandTask(task, startCmd)
 		r.finishTask(task.GetName(), err)
 		ch <- err
 		return
@@ -332,12 +361,12 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 		ch <- checkErr
 		return
 	}
-	err := r.runServiceTask(task, startCmd, checkCmd, checkLogDone)
+	err := r.runServiceTask(task, startCmd, checkCmd)
 	r.finishTask(task.GetName(), err)
 	ch <- err
 }
 
-func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd, startLogDone chan error) (err error) {
+func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd) (err error) {
 	r.logger.DPrintfStarted("Run %s '%s' command on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
@@ -353,16 +382,16 @@ func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd, startLogD
 	}
 	startCmdLabel := fmt.Sprintf("%s '%s' command", r.decoration.Icon(task.Icon), task.GetName())
 	r.registerCommandCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
-	err = r.waitTaskCmd(task, startCmd, startCmdLabel, startLogDone)
+	err = r.waitTaskCmd(task, startCmd, startCmdLabel)
 	r.unregisterCmd(startCmdLabel)
 	return err
 }
 
-func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd *exec.Cmd, checkLogDone chan error) (err error) {
+func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd *exec.Cmd) (err error) {
 	if err = r.runStartServiceTask(task, startCmd); err != nil {
 		return err
 	}
-	err = r.runCheckServiceTask(task, checkCmd, checkLogDone)
+	err = r.runCheckServiceTask(task, checkCmd)
 	return err
 }
 
@@ -385,7 +414,7 @@ func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err
 	return err
 }
 
-func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd, checkLogDone chan error) (err error) {
+func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd) (err error) {
 	r.logger.DPrintfStarted("Check %s '%s' readiness on %s\n", r.decoration.Icon(task.Icon), task.GetName(), checkCmd.Dir)
 	checkStdinPipe, err := checkCmd.StdinPipe()
 	if err == nil {
@@ -401,12 +430,12 @@ func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd, chec
 	}
 	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", r.decoration.Icon(task.Icon), task.GetName())
 	r.registerCommandCmd(checkCmdLabel, task.GetName(), checkCmd, checkStdinPipe)
-	err = r.waitTaskCmd(task, checkCmd, checkCmdLabel, checkLogDone)
+	err = r.waitTaskCmd(task, checkCmd, checkCmdLabel)
 	r.unregisterCmd(checkCmdLabel)
 	return err
 }
 
-func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, logDone chan error) (err error) {
+func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string) (err error) {
 	executed := false
 	ch := make(chan error)
 	go func() {
@@ -423,11 +452,6 @@ func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string, 
 		executed = true
 		r.sleep(100 * time.Millisecond)
 		r.logger.DPrintfSuccess("Successfully running %s\n", cmdLabel)
-		if logErr := <-logDone; logErr != nil {
-			r.logger.DPrintfError("Error logging %s: %s\n", cmdLabel, logErr)
-		} else {
-			r.logger.DPrintfSuccess("Successfully logging %s\n", cmdLabel)
-		}
 		ch <- nil
 	}()
 	go func() {

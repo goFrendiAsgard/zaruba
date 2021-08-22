@@ -3,7 +3,7 @@ package config
 import "testing"
 
 func TestTdGetConfig(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -31,7 +31,7 @@ func TestTdGetConfig(t *testing.T) {
 }
 
 func TestTdGetSubConfigKeys(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -62,7 +62,7 @@ func TestTdGetSubConfigKeys(t *testing.T) {
 }
 
 func TestTdGetValue(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
+	project, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -95,7 +95,7 @@ func TestTdGetValue(t *testing.T) {
 }
 
 func TestTdGetSubValueKeys(t *testing.T) {
-	project, _, _, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
+	project, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -131,7 +131,7 @@ func TestTdGetSubValueKeys(t *testing.T) {
 }
 
 func TestTdGetEnv(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/getEnv.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -159,7 +159,7 @@ func TestTdGetEnv(t *testing.T) {
 }
 
 func TestTdGetEnvs(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/taskdata/getEnv.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/taskdata/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return

@@ -26,29 +26,33 @@ type Project struct {
 	EnvRefMap                  map[string]*EnvRef           `yaml:"_envrefmap,omitempty"`
 	ConfigRefMap               map[string]*ConfigRef        `yaml:"_configrefmap,omitempty"`
 	IsInitialized              bool                         `yaml:"_isInitialized,omitempty"`
+	StdoutChan                 chan string
+	StdoutRowChan              chan []string
+	StderrChan                 chan string
+	StderrRowChan              chan []string
 	fileLocation               string
 	values                     map[string]string
 	sortedTaskNames            []string
 	sortedInputNames           []string
 	maxPublishedTaskNameLength int
-	decoration                 *output.Decoration
-	logger                     output.Logger
-	dataLogger                 output.RecordLogger
+	Decoration                 *output.Decoration
 }
 
 // NewProject create new Config from Yaml File
-func NewProject(logger output.Logger, dataLogger output.RecordLogger, decoration *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+func NewProject(decoration *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
 	}
-	p, err = loadProject(logger, decoration, projectFile, defaultIncludes)
+	p, err = loadProject(decoration, projectFile, defaultIncludes)
 	if err != nil {
 		return p, err
 	}
-	p.logger = logger
-	p.dataLogger = dataLogger
-	p.decoration = decoration
+	p.StdoutChan = make(chan string)
+	p.StdoutRowChan = make(chan []string)
+	p.StderrChan = make(chan string)
+	p.StderrRowChan = make(chan []string)
+	p.Decoration = decoration
 	p.setSortedTaskNames()
 	p.setSortedInputNames()
 	p.linkToTasks()
@@ -89,7 +93,7 @@ func loadRawProject(projectFile string) (p *Project, err error) {
 	return p, nil
 }
 
-func loadProject(logger output.Logger, d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+func loadProject(d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
 	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
 	p, err = loadRawProject(parsedProjectFile)
 	if err != nil {
@@ -102,7 +106,7 @@ func loadProject(logger output.Logger, d *output.Decoration, projectFile string,
 	p.setProjectEnvRefMap()
 	p.setProjectConfigRefMap()
 	// cascade project, add inclusion's property to this project
-	if err = p.cascadeIncludes(logger, d); err != nil {
+	if err = p.cascadeIncludes(d); err != nil {
 		return p, err
 	}
 	return p, err
@@ -503,13 +507,13 @@ func (p *Project) validateTaskConfigRef() (err error) {
 	return nil
 }
 
-func (p *Project) cascadeIncludes(logger output.Logger, d *output.Decoration) (err error) {
+func (p *Project) cascadeIncludes(d *output.Decoration) (err error) {
 	for _, includeLocation := range p.Includes {
 		parsedIncludeLocation := os.ExpandEnv(includeLocation)
 		if !filepath.IsAbs(parsedIncludeLocation) {
 			parsedIncludeLocation = filepath.Join(filepath.Dir(p.fileLocation), parsedIncludeLocation)
 		}
-		includedProject, err := loadProject(logger, d, parsedIncludeLocation, []string{})
+		includedProject, err := loadProject(d, parsedIncludeLocation, []string{})
 		if err != nil {
 			return err
 		}

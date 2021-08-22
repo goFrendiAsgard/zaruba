@@ -6,7 +6,7 @@ import (
 )
 
 func TestTaskGetStartCmdPatterns(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -33,7 +33,7 @@ func TestTaskGetStartCmdPatterns(t *testing.T) {
 }
 
 func TestTaskGetStartCmdPatternsFromTaskWhichParentHasStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -60,7 +60,7 @@ func TestTaskGetStartCmdPatternsFromTaskWhichParentHasStartCmd(t *testing.T) {
 }
 
 func TestTaskGetStartCmdPatternsFromTaskWithoutStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -86,13 +86,13 @@ func TestTaskGetStartCmdPatternsFromTaskWithoutStartCmd(t *testing.T) {
 }
 
 func TestTaskGetStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithStartCmd"]
-	cmd, exist, err := task.GetStartCmd(make(chan error))
+	cmd, exist, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
@@ -105,13 +105,13 @@ func TestTaskGetStartCmd(t *testing.T) {
 }
 
 func TestTaskGetStartCmdFromTaskWhichParentHasStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWhichParentHasStartCmd"]
-	cmd, exist, err := task.GetStartCmd(make(chan error))
+	cmd, exist, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
@@ -124,13 +124,13 @@ func TestTaskGetStartCmdFromTaskWhichParentHasStartCmd(t *testing.T) {
 }
 
 func TestTaskGetStartCmdFromTaskWithoutStartCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithoutStartCmd"]
-	cmd, exist, err := task.GetStartCmd(make(chan error))
+	cmd, exist, err := task.GetStartCmd()
 	if err == nil {
 		t.Error("error expected")
 		return

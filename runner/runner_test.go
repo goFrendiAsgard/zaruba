@@ -3,16 +3,15 @@ package runner
 import (
 	"strings"
 	"testing"
-
-	"github.com/state-alchemists/zaruba/output"
 )
 
 func TestRunnerNotInitializedProject(t *testing.T) {
-	project, logger, decoration, err := getProject("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProject("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 	}
-	if _, err = NewRunner(logger, decoration, project, []string{}, "10s", false, "10s"); err == nil {
+	_, _, _, err = getRunner(project, []string{}, "10s", false, "10s")
+	if err == nil {
 		t.Error("error expected")
 		return
 	}
@@ -23,12 +22,13 @@ func TestRunnerNotInitializedProject(t *testing.T) {
 }
 
 func TestRunnerInexistTask(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if _, err = NewRunner(logger, decoration, project, []string{"inexist"}, "10s", false, "10s"); err == nil {
+	_, _, _, err = getRunner(project, []string{"inexist"}, "10s", false, "10s")
+	if err == nil {
 		t.Error("error expected")
 		return
 	}
@@ -39,12 +39,13 @@ func TestRunnerInexistTask(t *testing.T) {
 }
 
 func TestRunnerInvalidStatusInterval(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if _, err = NewRunner(logger, decoration, project, []string{}, "invalid", false, "10s"); err == nil {
+	_, _, _, err = getRunner(project, []string{}, "invalid", false, "10s")
+	if err == nil {
 		t.Error("error expected")
 		return
 	}
@@ -55,12 +56,13 @@ func TestRunnerInvalidStatusInterval(t *testing.T) {
 }
 
 func TestRunnerInvalidAutoTerminateInterval(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if _, err = NewRunner(logger, decoration, project, []string{}, "10s", false, "invalid"); err == nil {
+	_, _, _, err = getRunner(project, []string{}, "10s", false, "invalid")
+	if err == nil {
 		t.Error("error expected")
 		return
 	}
@@ -71,27 +73,26 @@ func TestRunnerInvalidAutoTerminateInterval(t *testing.T) {
 }
 
 func TestRunnerServeSalineWater(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWater"}, "10s", false, "10s")
+	runner, logger, _, err := getRunner(project, []string{"serveSalineWater"}, "10s", false, "10s")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	mockLogger := logger.(*output.MockLogger)
 	if err = runner.Run(); err != nil {
 		t.Error(err)
 		return
 	}
-	output := mockLogger.GetOutput()
-	makeNaOHIndex := mockLogger.GetLineIndex("making NaOH")
-	makeHClIndex := mockLogger.GetLineIndex("making HCl")
-	makeNaClIndex := mockLogger.GetLineIndex("making NaCl")
-	makeH2OIndex := mockLogger.GetLineIndex("making H2O")
-	serveSalineWaterIndex := mockLogger.GetLineIndex("serve saline water")
+	output := logger.GetOutput()
+	makeNaOHIndex := logger.GetLineIndex("making NaOH")
+	makeHClIndex := logger.GetLineIndex("making HCl")
+	makeNaClIndex := logger.GetLineIndex("making NaCl")
+	makeH2OIndex := logger.GetLineIndex("making H2O")
+	serveSalineWaterIndex := logger.GetLineIndex("serve saline water")
 	if makeNaOHIndex >= makeNaClIndex || makeHClIndex >= makeNaClIndex {
 		t.Errorf("expect NaOH and HCL created before NaCL, actual: \n%s", output)
 	}
@@ -104,27 +105,26 @@ func TestRunnerServeSalineWater(t *testing.T) {
 }
 
 func TestRunnerServeSalineWaterAutoTerminate(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWater"}, "10s", true, "2s")
+	runner, logger, _, err := getRunner(project, []string{"serveSalineWater"}, "10s", true, "2s")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	mockLogger := logger.(*output.MockLogger)
 	if err = runner.Run(); err != nil {
 		t.Error(err)
 		return
 	}
-	output := mockLogger.GetOutput()
-	makeNaOHIndex := mockLogger.GetLineIndex("making NaOH")
-	makeHClIndex := mockLogger.GetLineIndex("making HCl")
-	makeNaClIndex := mockLogger.GetLineIndex("making NaCl")
-	makeH2OIndex := mockLogger.GetLineIndex("making H2O")
-	serveSalineWaterIndex := mockLogger.GetLineIndex("serve saline water")
+	output := logger.GetOutput()
+	makeNaOHIndex := logger.GetLineIndex("making NaOH")
+	makeHClIndex := logger.GetLineIndex("making HCl")
+	makeNaClIndex := logger.GetLineIndex("making NaCl")
+	makeH2OIndex := logger.GetLineIndex("making H2O")
+	serveSalineWaterIndex := logger.GetLineIndex("serve saline water")
 	if makeNaOHIndex >= makeNaClIndex || makeHClIndex >= makeNaClIndex {
 		t.Errorf("expect NaOH and HCL created before NaCL, actual: \n%s", output)
 	}
@@ -137,18 +137,17 @@ func TestRunnerServeSalineWaterAutoTerminate(t *testing.T) {
 }
 
 func TestRunnerServeSalineWaterForceTerminate(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWater"}, "10s", false, "10s")
+	runner, logger, _, err := getRunner(project, []string{"serveSalineWater"}, "10s", false, "10s")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	mockLogger := logger.(*output.MockLogger)
-	mockLogger.RegisterTrigger("Job Complete", func() {
+	logger.RegisterTrigger("Job Complete", func() {
 		runner.Terminate()
 	})
 	if err = runner.Run(); err == nil {
@@ -162,12 +161,12 @@ func TestRunnerServeSalineWaterForceTerminate(t *testing.T) {
 }
 
 func TestRunnerMakeAll(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"makeAll"}, "10s", false, "10s")
+	runner, _, _, err := getRunner(project, []string{"makeAll"}, "10s", false, "10s")
 	if err != nil {
 		t.Error(err)
 		return
@@ -179,12 +178,12 @@ func TestRunnerMakeAll(t *testing.T) {
 }
 
 func TestRunnerServeSalineWaterFailBeforeCheck(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWater", "serveSalineWaterFailBeforeCheck"}, "10s", false, "10s")
+	runner, _, _, err := getRunner(project, []string{"serveSalineWater", "serveSalineWaterFailBeforeCheck"}, "10s", false, "10s")
 	if err != nil {
 		t.Error(err)
 		return
@@ -196,12 +195,12 @@ func TestRunnerServeSalineWaterFailBeforeCheck(t *testing.T) {
 }
 
 func TestRunnerServeSalineWaterFailAfterCheck(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"serveSalineWaterFailAfterCheck"}, "10s", false, "10s")
+	runner, _, _, err := getRunner(project, []string{"serveSalineWaterFailAfterCheck"}, "10s", false, "10s")
 	if err != nil {
 		t.Error(err)
 		return
@@ -213,12 +212,12 @@ func TestRunnerServeSalineWaterFailAfterCheck(t *testing.T) {
 }
 
 func TestRunnerWaitGovernmentApproval(t *testing.T) {
-	project, logger, decoration, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/runner/alchemy.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	runner, err := NewRunner(logger, decoration, project, []string{"waitGovernmentApproval"}, "10s", false, "10s")
+	runner, _, _, err := getRunner(project, []string{"waitGovernmentApproval"}, "10s", false, "10s")
 	if err != nil {
 		t.Error(err)
 		return

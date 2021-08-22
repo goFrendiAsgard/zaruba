@@ -6,7 +6,7 @@ import (
 )
 
 func TestProjectValidateInvalidFile(t *testing.T) {
-	_, _, _, err := getProject("inexist.zaruba.yaml")
+	_, err := getProject("inexist.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -18,7 +18,7 @@ func TestProjectValidateInvalidFile(t *testing.T) {
 }
 
 func TestProjectValidateInvalidYaml(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidYaml.txt")
+	_, err := getProject("../test-resources/project/validation/invalidYaml.txt")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -29,7 +29,7 @@ func TestProjectValidateInvalidYaml(t *testing.T) {
 	}
 }
 func TestProjectValidateInvalidEnvsValue(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidEnvsValue.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidEnvsValue.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -41,7 +41,7 @@ func TestProjectValidateInvalidEnvsValue(t *testing.T) {
 }
 
 func TestProjectValidateInvalidInputsValue(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidInputsValue.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidInputsValue.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -53,7 +53,7 @@ func TestProjectValidateInvalidInputsValue(t *testing.T) {
 }
 
 func TestProjectValidateInvalidTasksValue(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidTasksValue.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidTasksValue.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -65,7 +65,7 @@ func TestProjectValidateInvalidTasksValue(t *testing.T) {
 }
 
 func TestProjectValidateInvalidTaskEnvsValue(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidTaskEnvsValue.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidTaskEnvsValue.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -77,7 +77,7 @@ func TestProjectValidateInvalidTaskEnvsValue(t *testing.T) {
 }
 
 func TestProjectValidateInvalidProjectKey(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidProjectKey.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidProjectKey.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -89,7 +89,7 @@ func TestProjectValidateInvalidProjectKey(t *testing.T) {
 }
 
 func TestProjectValidateInvalidEnvKey(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidEnvKey.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidEnvKey.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -101,7 +101,7 @@ func TestProjectValidateInvalidEnvKey(t *testing.T) {
 }
 
 func TestProjectValidateInvalidInputKey(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidInputKey.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidInputKey.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -113,7 +113,7 @@ func TestProjectValidateInvalidInputKey(t *testing.T) {
 }
 
 func TestProjectValidateInvalidTaskKey(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidTaskKey.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidTaskKey.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -125,7 +125,7 @@ func TestProjectValidateInvalidTaskKey(t *testing.T) {
 }
 
 func TestProjectValidateInvalidTasEnvkKey(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidTaskEnvKey.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidTaskEnvKey.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -137,13 +137,13 @@ func TestProjectValidateInvalidTasEnvkKey(t *testing.T) {
 }
 
 func TestProjectValidateValidKey(t *testing.T) {
-	if _, _, _, err := getProject("../test-resources/project/validation/validKey.zaruba.yaml"); err != nil {
+	if _, err := getProject("../test-resources/project/validation/validKey.zaruba.yaml"); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestProjectValidateInvalidValue(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/invalidValue.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/invalidValue.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -155,7 +155,7 @@ func TestProjectValidateInvalidValue(t *testing.T) {
 }
 
 func TestProjectValidateInexistInclude(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistInclude/main.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistInclude/main.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -167,7 +167,7 @@ func TestProjectValidateInexistInclude(t *testing.T) {
 }
 
 func TestProjectValidateRedundantInput(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantInput/main.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantInput/main.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -179,7 +179,7 @@ func TestProjectValidateRedundantInput(t *testing.T) {
 }
 
 func TestProjectValidateRedundantTask(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantTask/main.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantTask/main.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -191,7 +191,7 @@ func TestProjectValidateRedundantTask(t *testing.T) {
 }
 
 func TestProjectValidateRedundantEnvRef(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantEnvRef/main.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantEnvRef/main.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -203,7 +203,7 @@ func TestProjectValidateRedundantEnvRef(t *testing.T) {
 }
 
 func TestProjectValidateRedundantConfigRef(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantConfigRef/main.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantConfigRef/main.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -215,14 +215,14 @@ func TestProjectValidateRedundantConfigRef(t *testing.T) {
 }
 
 func TestProjectValidateNonRedundant(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/nonRedundant/main.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/nonRedundant/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestProjectValidateInexistInputs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistInputs.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistInputs.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -234,7 +234,7 @@ func TestProjectValidateInexistInputs(t *testing.T) {
 }
 
 func TestProjectValidateInexistDependencies(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistDependencies.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistDependencies.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -246,7 +246,7 @@ func TestProjectValidateInexistDependencies(t *testing.T) {
 }
 
 func TestProjectValidateRedundantExtendAndExtends(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantExtendAndExtends.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantExtendAndExtends.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -258,7 +258,7 @@ func TestProjectValidateRedundantExtendAndExtends(t *testing.T) {
 }
 
 func TestProjectValidateInexistExtend(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistExtend.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistExtend.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -270,7 +270,7 @@ func TestProjectValidateInexistExtend(t *testing.T) {
 }
 
 func TestProjectValidateInexistExtends(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistExtends.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistExtends.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -282,7 +282,7 @@ func TestProjectValidateInexistExtends(t *testing.T) {
 }
 
 func TestProjectValidateRedundantEnvRefAndEnvRefs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantEnvRefAndEnvRefs.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantEnvRefAndEnvRefs.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -294,7 +294,7 @@ func TestProjectValidateRedundantEnvRefAndEnvRefs(t *testing.T) {
 }
 
 func TestProjectValidateInexistEnvRef(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistEnvRef.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistEnvRef.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -306,7 +306,7 @@ func TestProjectValidateInexistEnvRef(t *testing.T) {
 }
 
 func TestProjectValidateInexistEnvRefs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistEnvRefs.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistEnvRefs.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -318,7 +318,7 @@ func TestProjectValidateInexistEnvRefs(t *testing.T) {
 }
 
 func TestProjectValidateRedundantConfigRefAndConfigRefs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/redundantConfigRefAndConfigRefs.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/redundantConfigRefAndConfigRefs.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -330,7 +330,7 @@ func TestProjectValidateRedundantConfigRefAndConfigRefs(t *testing.T) {
 }
 
 func TestProjectValidateInexistConfigRef(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistConfigRef.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistConfigRef.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -342,7 +342,7 @@ func TestProjectValidateInexistConfigRef(t *testing.T) {
 }
 
 func TestProjectValidateInexistConfigRefs(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/inexistConfigRefs.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/inexistConfigRefs.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -354,7 +354,7 @@ func TestProjectValidateInexistConfigRefs(t *testing.T) {
 }
 
 func TestProjectValidateRecursiveParentTask(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/recursiveParentTask.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/recursiveParentTask.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return
@@ -366,7 +366,7 @@ func TestProjectValidateRecursiveParentTask(t *testing.T) {
 }
 
 func TestProjectValidateRecursiveDependencyTask(t *testing.T) {
-	_, _, _, err := getProject("../test-resources/project/validation/recursiveDependencyTask.zaruba.yaml")
+	_, err := getProject("../test-resources/project/validation/recursiveDependencyTask.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")
 		return

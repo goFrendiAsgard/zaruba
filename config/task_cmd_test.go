@@ -6,13 +6,13 @@ import (
 )
 
 func TestTaskGetCmdFromTaskWithEnv(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithEnv"]
-	cmd, exist, err := task.GetStartCmd(make(chan error))
+	cmd, exist, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
@@ -36,13 +36,13 @@ func TestTaskGetCmdFromTaskWithEnv(t *testing.T) {
 }
 
 func TestTaskGetCmdFromTaskWithBrokenEnv(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithBrokenEnv"]
-	_, exist, err := task.GetStartCmd(make(chan error))
+	_, exist, err := task.GetStartCmd()
 	if err == nil {
 		t.Error("error expected")
 	}
@@ -56,13 +56,13 @@ func TestTaskGetCmdFromTaskWithBrokenEnv(t *testing.T) {
 }
 
 func TestTaskGetCmdFromTaskWithBrokenCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithBrokenCmd"]
-	_, exist, err := task.GetStartCmd(make(chan error))
+	_, exist, err := task.GetStartCmd()
 	if err == nil {
 		t.Error("error expected")
 	}

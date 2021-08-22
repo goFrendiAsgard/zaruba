@@ -6,7 +6,7 @@ import (
 )
 
 func TestTaskGetCheckCmdPatterns(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -33,7 +33,7 @@ func TestTaskGetCheckCmdPatterns(t *testing.T) {
 }
 
 func TestTaskGetCheckCmdPatternsFromTaskWhichParentHasCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -60,7 +60,7 @@ func TestTaskGetCheckCmdPatternsFromTaskWhichParentHasCheckCmd(t *testing.T) {
 }
 
 func TestTaskGetCheckCmdPatternsFromTaskWithoutCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -86,13 +86,13 @@ func TestTaskGetCheckCmdPatternsFromTaskWithoutCheckCmd(t *testing.T) {
 }
 
 func TestTaskGetCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithCheckCmd"]
-	cmd, exist, err := task.GetCheckCmd(make(chan error))
+	cmd, exist, err := task.GetCheckCmd()
 	if err != nil {
 		t.Error(err)
 	}
@@ -105,13 +105,13 @@ func TestTaskGetCheckCmd(t *testing.T) {
 }
 
 func TestTaskGetCheckCmdFromTaskWhichParentHasCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWhichParentHasCheckCmd"]
-	cmd, exist, err := task.GetCheckCmd(make(chan error))
+	cmd, exist, err := task.GetCheckCmd()
 	if err != nil {
 		t.Error(err)
 	}
@@ -124,13 +124,13 @@ func TestTaskGetCheckCmdFromTaskWhichParentHasCheckCmd(t *testing.T) {
 }
 
 func TestTaskGetCheckCmdFromTaskWithoutCheckCmd(t *testing.T) {
-	project, _, _, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskWithoutCheckCmd"]
-	cmd, exist, err := task.GetCheckCmd(make(chan error))
+	cmd, exist, err := task.GetCheckCmd()
 	if err == nil {
 		t.Error("error expected")
 		return
