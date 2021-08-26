@@ -47,6 +47,7 @@ includes:
   - ./tasks/clearPreviousValues.zaruba.yaml
   - ./tasks/clearLog.zaruba.yaml
   - ./tasks/core.buildDockerImage.zaruba.yaml
+  - ./tasks/core.generateAndRun.zaruba.yaml
   - ./tasks/core.helmGenerateValue.zaruba.yaml
   - ./tasks/core.helmInstall.zaruba.yaml
   - ./tasks/core.helmRepoUpdate.zaruba.yaml

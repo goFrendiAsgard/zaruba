@@ -3,7 +3,7 @@
   TASK NAME     : core.mysql.execSql
   LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.mysql.execSql.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ core.runInDockerContainer ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -13,24 +13,34 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup            : set -e
-                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ $localTmpFile := .GetWorkPath (printf "tmp/%s.%s.sql" .Name .GetNewUUID) -}}
-                                      {{ $err := .WriteFile $localTmpFile (.GetConfig "queries") -}}
+  CONFIG        : _executeScript    : REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
+                                      CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                       USER="{{ .GetConfig "user" }}"
                                       PASSWORD="{{ .GetConfig "password" }}"
+                                      docker exec "${CONTAINER_NAME}" bash -c "mysql --user=\"${USER}\" --password=\"${PASSWORD}\" < \"${REMOTE_SCRIPT_FILE}\""
+                                      docker exec -u 0 "${CONTAINER_NAME}" rm "${REMOTE_SCRIPT_FILE}"
+                  _generateScript   : {{ $err := .WriteFile (.GetConfig "_localScriptFile") (.GetConfig "_template") -}}
+                  _localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sql" .Name) }}
+                  _remoteScriptFile : /{{ .Name }}.tmp.sql
+                  _setup            : set -e
+                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                  _start            : {{ .GetConfig "_generateScript" }}
+                                      {{ .GetConfig "_uploadScript" }}
+                                      {{ .GetConfig "_executeScript" }}
+                  _template         : {{ .GetConfig "queries" }}
+                  _uploadScript     : LOCAL_SCRIPT_FILE="{{ .GetConfig "_localScriptFile" }}"
+                                      REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
                                       CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                      LOCAL_TMP_FILE="{{ $localTmpFile }}"
-                                      CONTAINER_TMP_FILE="/{{ .Name }}.{{ .GetNewUUID }}.tmp.sql"
-                                      docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
-                                      rm "${LOCAL_TMP_FILE}"
-                                      docker exec "${CONTAINER_NAME}" bash -c "mysql --user=\"${USER}\" --password=\"${PASSWORD}\" < \"${CONTAINER_TMP_FILE}\""
-                                      docker exec "${CONTAINER_NAME}" rm "${CONTAINER_TMP_FILE}"
+                                      chmod 755 "${LOCAL_SCRIPT_FILE}"
+                                      docker cp "${LOCAL_SCRIPT_FILE}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_FILE}"
+                                      rm "${LOCAL_SCRIPT_FILE}"
                   afterStart        : Blank
                   beforeStart       : Blank
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
+                  commands          : Blank
                   containerName     : Blank
+                  containerShell    : sh
                   database          : {{ .GetEnv "MYSQL_DATABASE" }}
                   finish            : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh

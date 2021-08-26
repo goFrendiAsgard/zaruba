@@ -9,22 +9,23 @@ tasks:
         containerShell : Shell to run script, default to sh
         commands       : Command to be executed, separated by new line
     private: true
-    extend: core.runCoreScript
+    extend: core.generateAndRun
     config:
       commands: ""
       containerShell: "sh"
       containerName: ""
-      _start: |
-        {{ $localTmpFile := .GetWorkPath (printf "tmp/%s.%s.sh" .Name .GetNewUUID) -}}
-        {{ $err := .WriteFile $localTmpFile (.GetConfig "commands") -}}
+      _template: '{{ .GetConfig "commands" }}'
+      _uploadScript: |
+        LOCAL_SCRIPT_FILE="{{ .GetConfig "_localScriptFile" }}"
+        REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
+        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        chmod 755 "${LOCAL_SCRIPT_FILE}"
+        docker cp "${LOCAL_SCRIPT_FILE}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_FILE}"
+        rm "${LOCAL_SCRIPT_FILE}"
+      _executeScript: |
+        REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
         CONTAINER_SHELL="{{ .GetConfig "containerShell" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        LOCAL_TMP_FILE="{{ $localTmpFile }}"
-        CONTAINER_TMP_FILE="/{{ .Name }}.{{ .GetNewUUID }}.tmp.sh"
-        chmod 755 "${LOCAL_TMP_FILE}"
-        docker cp "${LOCAL_TMP_FILE}" "${CONTAINER_NAME}:${CONTAINER_TMP_FILE}"
-        rm "${LOCAL_TMP_FILE}"
-        docker exec "${CONTAINER_NAME}" "${CONTAINER_SHELL}" "${CONTAINER_TMP_FILE}"
-        docker exec -u 0 "${CONTAINER_NAME}" rm "${CONTAINER_TMP_FILE}"
-      start: ""
+        docker exec "${CONTAINER_NAME}" "${CONTAINER_SHELL}" "${REMOTE_SCRIPT_FILE}"
+        docker exec -u 0 "${CONTAINER_NAME}" rm "${REMOTE_SCRIPT_FILE}"
 

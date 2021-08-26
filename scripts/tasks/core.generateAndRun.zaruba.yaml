@@ -1,0 +1,19 @@
+tasks:
+
+  core.generateAndRun:
+    description: Generate script and run it
+    private: true
+    extend: core.runCoreScript
+    config:
+      _template: ''
+      _localScriptFile: '{{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}'
+      _remoteScriptFile: '/{{ .Name }}.tmp.sh'
+      _generateScript: '{{ $err := .WriteFile (.GetConfig "_localScriptFile") (.GetConfig "_template") -}}'
+      _uploadScript: ''
+      _executeScript: ''
+      _start: |
+        {{ .GetConfig "_generateScript" }}
+        {{ .GetConfig "_uploadScript" }}
+        {{ .GetConfig "_executeScript" }}
+      start: ''
+
