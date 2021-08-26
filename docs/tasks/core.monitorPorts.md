@@ -44,8 +44,8 @@
   CONFIG        : RunInLocal        : true
                   _check            : {{ $d := .Decoration -}}
                                       echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
-                  _setup            : {{ .GetConfig "_setup.ports" }}
-                  _setup.ports      : PORTS=""
+                  _setup            : {{ .GetConfig "_setupPorts" }}
+                  _setupPorts       : PORTS=""
                                       {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
                                         {{ if ne $port "" -}}
                                           PORTS="${PORTS} {{ $port }}"
@@ -54,10 +54,10 @@
                   _start            : {{ $d := .Decoration -}}
                                       while true
                                       do
-                                        {{ .GetConfig "_start.checkPorts" }}
+                                        {{ .GetConfig "_startCheckPorts" }}
                                         sleep {{ .GetConfig "interval" }}
                                       done
-                  _start.checkPorts : {{ $d := .Decoration -}}
+                  _startCheckPorts  : {{ $d := .Decoration -}}
                                       for PORT in ${PORTS}
                                       do
                                         if nc -z "localhost" "${PORT}"

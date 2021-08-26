@@ -18,7 +18,7 @@ tasks:
       serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
       dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
       replacementMap: '{}'
-      setup: |
+      _setup: |
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
@@ -30,7 +30,7 @@ tasks:
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
-      start: |
+      _start: |
         {{- $d := .Decoration -}}
         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
         generate_service_task \
@@ -47,3 +47,4 @@ tasks:
           "${REPLACEMENT_MAP}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+      start: ''

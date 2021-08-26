@@ -11,15 +11,15 @@ tasks:
     config:
       ports: 8080
       interval: 1
-      _setup.ports: |
+      _setupPorts: |
         PORTS=""
         {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
           {{ if ne $port "" -}}
             PORTS="${PORTS} {{ $port }}"
           {{ end -}}
         {{ end -}}
-      _setup: '{{ .GetConfig "_setup.ports" }}'
-      _start.checkPorts: |
+      _setup: '{{ .GetConfig "_setupPorts" }}'
+      _startCheckPorts: |
         {{ $d := .Decoration -}}
         for PORT in ${PORTS}
         do
@@ -34,7 +34,7 @@ tasks:
         {{ $d := .Decoration -}}
         while true
         do
-          {{ .GetConfig "_start.checkPorts" }}
+          {{ .GetConfig "_startCheckPorts" }}
           sleep {{ .GetConfig "interval" }}
         done
       _check: |

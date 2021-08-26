@@ -57,9 +57,33 @@
                     DESCRIPTION : Service's docker container name (Can be blank)
                     PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-  CONFIG        : _setup               : set -e
-                                         {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start               : Blank
+  CONFIG        : _setup               : TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
+                                         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+                                         CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+                                         SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
+                                         SERVICE_RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
+                                         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+                                         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+                                         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+                                         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+                  _start               : {{- $d := .Decoration -}}
+                                         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
+                                         generate_service_task \
+                                           "${TEMPLATE_LOCATION}" \
+                                           "${SERVICE_LOCATION}" \
+                                           "${SERVICE_NAME}" \
+                                           "${IMAGE_NAME}" \
+                                           "${CONTAINER_NAME}" \
+                                           "${SERVICE_START_COMMAND}" \
+                                           "${SERVICE_RUNENR_VERSION}" \
+                                           "${SERVICE_PORTS}" \
+                                           "${SERVICE_ENVS}" \
+                                           "${DEPENDENCIES}" \
+                                           "${REPLACEMENT_MAP}"
+                                         echo 🎉🎉🎉
+                                         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
                   afterStart           : Blank
                   beforeStart          : Blank
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -76,33 +100,8 @@
                   servicePorts         : {{ .GetValue "generatorServicePorts" }}
                   serviceRunnerVersion : Blank
                   serviceStartCommand  : {{ .GetValue "generatorGoServiceStartCommand" }}
-                  setup                : TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-                                         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
-                                         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-                                         CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-                                         SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
-                                         SERVICE_RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
-                                         SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-                                         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-                                         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-                                         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
-                  start                : {{- $d := .Decoration -}}
-                                         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
-                                         generate_service_task \
-                                           "${TEMPLATE_LOCATION}" \
-                                           "${SERVICE_LOCATION}" \
-                                           "${SERVICE_NAME}" \
-                                           "${IMAGE_NAME}" \
-                                           "${CONTAINER_NAME}" \
-                                           "${SERVICE_START_COMMAND}" \
-                                           "${SERVICE_RUNENR_VERSION}" \
-                                           "${SERVICE_PORTS}" \
-                                           "${SERVICE_ENVS}" \
-                                           "${DEPENDENCIES}" \
-                                           "${REPLACEMENT_MAP}"
-                                         echo 🎉🎉🎉
-                                         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+                  setup                : Blank
+                  start                : Blank
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/go
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

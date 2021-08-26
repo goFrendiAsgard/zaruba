@@ -48,7 +48,7 @@ tasks:
       volumes: ""
       localhost: localhost
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
-      _setup.containerName: |
+      _setupContainerName: |
         {{ $d := .Decoration -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         if [ -z "${CONTAINER_NAME}" ]
@@ -56,7 +56,7 @@ tasks:
           echo "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
           exit 1
         fi
-      _setup.imageName: |
+      _setupImageName: |
         {{ $d := .Decoration -}}
         DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
         if [ -z "${CONTAINER_NAME}" ]
@@ -67,9 +67,9 @@ tasks:
       _setup: |
         set -e
         {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        {{ .Trim (.GetConfig "_setup.containerName") "\n" }} 
-        {{ .Trim (.GetConfig "_setup.imageName") "\n" }} 
-      _check.containerState: |
+        {{ .Trim (.GetConfig "_setupContainerName") "\n" }} 
+        {{ .Trim (.GetConfig "_setupImageName") "\n" }} 
+      _checkContainerState: |
         {{ $d := .Decoration -}}
         until [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
@@ -80,7 +80,7 @@ tasks:
           sleep 1
         done
         echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
-      _check.checkCommand: |
+      _checkCommand: |
         {{ $d := .Decoration -}}
         {{ if .GetConfig "checkCommand" -}}
         (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -94,7 +94,7 @@ tasks:
         done
         set "${_OLD_STATE}"
         {{ end -}}
-      _check.configPorts: |
+      _checkConfigPorts: |
         {{ $d := .Decoration -}}
         {{ $this := . -}}
         {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
@@ -108,22 +108,22 @@ tasks:
         {{ end -}}
       _check: |
         {{ $d := .Decoration -}}
-        {{ .GetConfig "_check.containerState" }}
-        {{ .GetConfig "_check.configPorts" }}
-        {{ .GetConfig "_check.checkCommand" }}
+        {{ .GetConfig "_checkContainerState" }}
+        {{ .GetConfig "_checkConfigPorts" }}
+        {{ .GetConfig "_checkCommand" }}
         sleep 1
-      _start.rebuildContainer: |
+      _startRebuildContainer: |
         stop_container "${CONTAINER_NAME}"
         remove_container "${CONTAINER_NAME}"
-      _start.logContainer: |
+      _startLogContainer: |
         {{ $d := .Decoration -}}
         echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
-      _start.runContainer.entryPoint: |
+      _startRunContainerEntryPoint: |
         {{ if .GetConfig "entryPoint" -}}
           --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
         {{ end -}}
-      _start.runContainer.env: |
+      _startRunContainerEnv: |
         {{ $this := . -}}
         {{ if eq (.GetConfig "localhost") "localhost" -}}
           {{ range $key, $val := $this.GetEnvs -}}
@@ -137,7 +137,7 @@ tasks:
             -e "{{ $key}}={{ $val }}" {{ "" -}}
           {{ end -}}
         {{ end -}}
-      _start.runContainer.ports: |
+      _startRunContainerPorts: |
         {{ $this := . -}}
         {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
           {{ if ne $port "" -}}
@@ -151,7 +151,7 @@ tasks:
             {{ end -}}
           {{ end -}}
         {{ end -}}
-      _start.runContainer.volumes: |
+      _startRunContainerVolumes: |
         {{ $this := . -}}
         {{ range $index, $volume := .Split (.Trim (.GetConfig "volumes") "\n ") "\n" -}}
           {{ if ne $volume "" -}}
@@ -163,25 +163,25 @@ tasks:
             {{ end -}}
           {{ end -}}
         {{ end -}}
-      _start.runContainer: |
+      _startRunContainer: |
         {{ $d := .Decoration -}}
         {{ $imageTag := .GetConfig "imageTag" -}}
         {{ $this := . -}}
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
-        {{ .GetConfig "_start.runContainer.entryPoint" -}}
-        {{ .GetConfig "_start.runContainer.env" -}}
-        {{ .GetConfig "_start.runContainer.ports" -}}
-        {{ .GetConfig "_start.runContainer.volumes" -}}
+        {{ .GetConfig "_startRunContainerEntryPoint" -}}
+        {{ .GetConfig "_startRunContainerEnv" -}}
+        {{ .GetConfig "_startRunContainerPorts" -}}
+        {{ .GetConfig "_startRunContainerVolumes" -}}
         {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
         -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
       _start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
-        {{ if .IsTrue $rebuild }}{{ .GetConfig "_start.rebuildContainer" }}{{ end }}
+        {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
         if [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
-          {{ .GetConfig "_start.logContainer" }}
+          {{ .GetConfig "_startLogContainer" }}
         elif [ ! -z $(inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Retrieve previous log of '${CONTAINER_NAME}'{{ $d.Normal }}"
@@ -189,10 +189,10 @@ tasks:
           docker logs --tail 20 "${CONTAINER_NAME}"
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
           docker start "${CONTAINER_NAME}"
-          {{ .GetConfig "_start.logContainer" }}
+          {{ .GetConfig "_startLogContainer" }}
         else
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
-          {{ .GetConfig "_start.runContainer" }}
-          {{ .GetConfig "_start.logContainer" }}
+          {{ .GetConfig "_startRunContainer" }}
+          {{ .GetConfig "_startLogContainer" }}
         fi
       check: ""
