@@ -41,6 +41,7 @@ tasks:
         ../zaruba please makePostgreDockerTask generatorDockerContainerName=testPostgre showAdvertisement=no 
         ../zaruba please makeAirflowDockerTask generatorDockerContainerName=testAirflow airflowRedisTask=runTestRedis airflowPostgreTask=runTestPostgre showAdvertisement=no 
         ../zaruba please makeTrinoDockerTask generatorDockerContainerName=testTrino showAdvertisement=no generatorServicePorts='["8081:8080"]'
+        ../zaruba please makeNginxDockerTask generatorDockerContainerName=testNginx
         #
         # fastapi related
         #

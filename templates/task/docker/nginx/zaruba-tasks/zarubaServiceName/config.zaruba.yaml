@@ -1,0 +1,26 @@
+configs:
+
+  generateZarubaServiceNameConfig:
+    domain: '{{ .GetEnv "DOMAIN" }}'
+
+  zarubaServiceName:
+    ports: |
+      80:80
+      443:443
+  
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/app
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/app.yaml
+
+  zarubaServiceNameContainer:
+    containerName: zarubaContainerName
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageName: zarubaImageName
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
+    localhost: host.docker.internal
+    volumes:
+      nginx.conf:/etc/nginx/conf.d/nginx.conf
+      html:/usr/share/nginx/html
+

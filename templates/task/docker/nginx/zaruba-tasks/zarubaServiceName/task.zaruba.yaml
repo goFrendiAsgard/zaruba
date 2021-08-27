@@ -1,0 +1,32 @@
+includes:
+  - ./config.zaruba.yaml
+  - ./env.zaruba.yaml
+  - ./input.zaruba.yaml
+  - ./containerTask.zaruba.yaml
+
+tasks:
+
+  runZarubaServiceName:
+    extend: core.startDockerContainer
+    location: ../../zarubaServiceName
+    dependencies:
+      - rebuildZarubaServiceNameImage
+    inputs:
+      - zarubaServiceNameRunInLocal
+    configRefs:
+      - zarubaServiceNameContainer
+      - zarubaServiceName
+    envRef: zarubaServiceName
+
+  rebuildZarubaServiceNameImage:
+    extend: buildZarubaServiceNameImage
+    dependencies:
+      - removeZarubaServiceNameContainer
+
+  generateZarubaServiceNameConfig:
+    extend: core.runShellScript
+    location: ../../zarubaServiceName
+    configRef: generateZarubaServiceNameConfig
+    envRef: generateZarubaServiceNameConfig
+    config:
+      start: '{{ $err := .WriteFile (.GetWorkPath "./nginx.conf") (.ParseFile "nginx.conf.gotmpl") }}'
