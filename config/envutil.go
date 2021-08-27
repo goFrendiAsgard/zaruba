@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/joho/godotenv"
@@ -181,7 +182,9 @@ func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 
 func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix string) {
 	envMapNode.Style = yaml.LiteralStyle
-	for envKey, envVal := range envMap {
+	envKeys := getSortedEnvMapKeys(envMap)
+	for _, envKey := range envKeys {
+		envVal := envMap[envKey]
 		envKeyFound := false
 		for envKeyIndex := 0; envKeyIndex < len(envMapNode.Content); envKeyIndex += 2 {
 			envKeyNode := envMapNode.Content[envKeyIndex]
@@ -221,13 +224,24 @@ func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix
 
 func createEnvMapNode(envMap map[string]string, envPrefix string) *yaml.Node {
 	newEnvNodes := []*yaml.Node{}
-	for envKey, envVal := range envMap {
+	envKeys := getSortedEnvMapKeys(envMap)
+	for _, envKey := range envKeys {
+		envVal := envMap[envKey]
 		newEnvNodes = append(
 			newEnvNodes,
 			createEnvNode(envKey, envVal, envPrefix)...,
 		)
 	}
 	return &yaml.Node{Kind: yaml.MappingNode, Content: newEnvNodes}
+}
+
+func getSortedEnvMapKeys(envMap map[string]string) (envKeys []string) {
+	envKeys = []string{}
+	for envKey := range envMap {
+		envKeys = append(envKeys, envKey)
+	}
+	sort.Strings(envKeys)
+	return envKeys
 }
 
 func createEnvNode(envKey, envVal, envPrefix string) []*yaml.Node {

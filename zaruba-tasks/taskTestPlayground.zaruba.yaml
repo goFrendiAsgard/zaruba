@@ -61,7 +61,9 @@ tasks:
     extend: core.runShellScript
     configRef: playgroundTest
     config:
-      start: ../zaruba please syncEnv 
+      start: |
+        touch .env
+        ../zaruba please syncEnv 
 
 
   testRun:
