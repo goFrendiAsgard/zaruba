@@ -29,7 +29,7 @@
                                       {{ $valueFile := .GetWorkPath (.GetConfig "valueFile") -}}
                                       {{ $fileContent := .ParseFile $templateFile -}}
                                       {{ $err := .WriteFile $valueFile $fileContent -}}
-                                      {{ if ne $err nil -}}
+                                      {{ if $err -}}
                                       echo '{{ $err }}'
                                       exit 1
                                       {{ end -}}

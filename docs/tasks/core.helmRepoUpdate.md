@@ -13,15 +13,18 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup      : Blank
-                  _start      : Blank
-                  afterStart  : Blank
-                  beforeStart : Blank
-                  cmd         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg      : -c
-                  finish      : Blank
-                  setup       : Blank
-                  start       : helm repo update
+  CONFIG        : _setup              : Blank
+                  _start              : Blank
+                  afterStart          : Blank
+                  beforeStart         : Blank
+                  cmd                 : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg              : -c
+                  defaultHelmRepoName : bitnami
+                  defaultHelmRepoUrl  : https://charts.bitnami.com/bitnami
+                  finish              : Blank
+                  setup               : Blank
+                  start               : helm repo add {{ .GetConfig "defaultHelmRepoName" }} {{ .GetConfig "defaultHelmRepoUrl" }}
+                                        helm repo update
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
