@@ -1,7 +1,7 @@
 configs:
 
   generateZarubaServiceNameConfig:
-    domain: '{{ .GetEnv "DOMAIN" }}'
+    serverName: '{{ .GetEnv "SERVER_NAME" }}'
 
   zarubaServiceName:
     ports: |

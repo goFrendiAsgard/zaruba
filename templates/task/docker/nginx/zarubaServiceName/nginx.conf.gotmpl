@@ -1,6 +1,12 @@
 server {
-    listen       80;
-    server_name  {{ .GetConfig "domain" }};
+    listen 80;
+    listen [::]:80;
+    server_name  {{ .GetConfig "serverName" }};
+
+    location ~ /.well-known/acme-challenge {
+        allow all;
+        root /var/www/html;
+    }
 
     location / {
         root   /usr/share/nginx/html;
