@@ -116,6 +116,21 @@ Now let's get started by [creating a project](docs/creating-a-project.md)
 
 Open [issue](https://github.com/state-alchemists/zaruba/issues) or [pull request](https://github.com/state-alchemists/zaruba/pulls).
 
+# ☑️ Testing
+
+To perform test, you need to have:
+
+* docker desktop
+* kubectl
+* helm
+* pyenv and pipenv
+* go 1.13
+
+Once the prerequisites met, you can perform:
+
+```
+make test
+```
 
 # 🎉 Fun Fact
 

@@ -99,8 +99,6 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        git add . -A && git commit -m 'first commit'
-        git tag -a v0.0.0 -m 'version 0.0.0'
         ../zaruba please buildImage
 
 
@@ -113,7 +111,6 @@ tasks:
     config:
       start: |
         ../zaruba please showLog logKeyword=myService 
-        ../zaruba please clearLog 
   
 
   runContainerRegistry:
@@ -148,12 +145,11 @@ tasks:
     inputs:
       - runPlaygroundDelay
     dependencies:
-      - testBuildImage
+      - testPushImage
     extend: core.startService
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please removeContainer 
         ../zaruba please runContainer  -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
       afterCheck: |
         sleep 1

@@ -19,6 +19,8 @@ tasks:
 
   runZarubaServiceNameContainer:
     extend: core.startDockerContainer
+    dependencies:
+      - buildZarubaServiceNameImage
     location: zarubaServiceLocation
     inputs:
       - zarubaServiceNameRunInLocal

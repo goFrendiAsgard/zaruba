@@ -3,4 +3,8 @@ tasks:
     private: true
     extend: core.runShellScript
     config:
-      start: helm repo update
+      defaultHelmRepoName: bitnami
+      defaultHelmRepoUrl: https://charts.bitnami.com/bitnami
+      start: |
+        helm repo add {{ .GetConfig "defaultHelmRepoName" }} {{ .GetConfig "defaultHelmRepoUrl" }}
+        helm repo update
