@@ -29,4 +29,14 @@ tasks:
     configRef: generateZarubaServiceNameConfig
     envRef: generateZarubaServiceNameConfig
     config:
-      start: '{{ $err := .WriteFile (.GetWorkPath "./nginx.conf") (.ParseFile "nginx.conf.gotmpl") }}'
+      start: |
+        {{ $errWriteNginx := .WriteFile (.GetWorkPath "./nginx.conf") (.ParseFile "nginx.conf.gotmpl") }}
+        {{ if $errWriteNginx -}}
+        echo '{{ $errWriteNginx }}'
+        exit 1
+        {{ end -}}
+        {{ $errWriteDefault := .WriteFile (.GetWorkPath "./conf.d/default.conf") (.ParseFile "conf.d/default.conf.gotmpl") }}
+        {{ if $errWriteDefault -}}
+        echo '{{ $errWriteDefault }}'
+        exit 1
+        {{ end -}}

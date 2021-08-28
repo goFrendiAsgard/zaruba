@@ -21,6 +21,5 @@ configs:
     imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal
     volumes:
-      nginx.conf:/etc/nginx/conf.d/nginx.conf
       html:/usr/share/nginx/html
 

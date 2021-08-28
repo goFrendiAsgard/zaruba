@@ -29,3 +29,12 @@ configs:
     beforeStart:
       set -e
       ZARUBA_HOME="$(realpath ".")"
+
+  containerRegistry:
+    useImagePrefix: false
+    imageName: registry
+    imageTag: 2
+    containerName: containerRegistry
+    localhost: host.docker.internal
+    ports: |
+      9999:5000

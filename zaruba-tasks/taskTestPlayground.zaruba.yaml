@@ -71,11 +71,12 @@ tasks:
     dependencies:
       - testSyncEnv
     extend: core.runShellScript
+    timeout: 1h
     configRef: playgroundTest
     config:
       start: |
         ../zaruba please removeContainer
-        ../zaruba please run  -t
+        ../zaruba please run -t
 
 
   testRunContainer:
@@ -83,11 +84,12 @@ tasks:
     dependencies:
       - testRun
     extend: core.runShellScript
+    timeout: 1h
     configRef: playgroundTest
     config:
       start: |
         ../zaruba please stopContainer 
-        ../zaruba please runContainer  -t
+        ../zaruba please runContainer -t
         ../zaruba please removeContainer 
 
 
@@ -96,6 +98,7 @@ tasks:
     dependencies:
       - testRunContainer
     extend: core.runShellScript
+    timeout: 1h
     configRef: playgroundTest
     config:
       start: |
@@ -111,20 +114,23 @@ tasks:
     config:
       start: |
         ../zaruba please showLog logKeyword=myService 
-  
+
+
+  pullContainerRegistry:
+    icon: 🐳
+    location: ../
+    extend: core.pullDockerImage
+    timeout: 1h
+    configRef: containerRegistry
+
 
   runContainerRegistry:
     icon: 🐳
     location: ../
     extend: core.startDockerContainer
-    config:
-      useImagePrefix: false
-      imageName: registry
-      imageTag: 2
-      containerName: containerRegistry
-      localhost: host.docker.internal
-      ports: |
-        9999:5000
+    dependencies:
+      - pullContainerRegistry
+    configRef: containerRegistry
 
 
   testPushImage:
@@ -147,6 +153,7 @@ tasks:
     dependencies:
       - testPushImage
     extend: core.startService
+    timeout: 1h
     configRef: playgroundTest
     config:
       start: |
