@@ -2,7 +2,9 @@
 
 This is Nginx image with certbot.
 
-To build the image you need to run `zaruba please buildZarubaServiceNameImage`.
+To build the image you need to invoke `zaruba please buildZarubaServiceNameImage`.
+
+To run as container you need to invoke `zaruba pleae runZarubaServiceName`.
 
 # Configuration
 
@@ -46,16 +48,18 @@ zaruba please runZarubaServiceName
 
 # Renew SSL Key
 
-You can run this command again:
+You can run this command:
 
 ```sh
 docker exec -it zarubaContainerName bash
 
-# staging (make sure if command really work)
-certbot certonly --nginx --email john@gmail.com --agree-tos --no-eff-email --staging -d example.com -d www.example.com
+# renew once
+certbot renew --nginx
 
-# real command (if you are sure that the command should work)
-certbot certonly --nginx --email john@gmail.com --agree-tos --no-eff-email --force-renewal -d example.com -d www.example.com
+# renew using crontab
+crontab -e
+# Add this:
+# 0 */12 * * * root certbot -q renew --nginx
 ```
 
 # Adding static files
