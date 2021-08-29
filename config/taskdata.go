@@ -191,6 +191,16 @@ func (td *TaskData) ListDir(dirPath string) (fileNames []string, err error) {
 	return file.ListDir(absDirPath)
 }
 
+func (t *TaskData) IsFileExist(filePath string) (exist bool, err error) {
+	if _, statErr := os.Stat(filePath); statErr == nil {
+		return true, nil
+	} else if os.IsNotExist(statErr) {
+		return false, nil
+	} else {
+		return false, statErr
+	}
+}
+
 func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 	absFilePath := td.GetWorkPath(filePath)
 	pattern, err := td.ReadFile(absFilePath)
