@@ -1,9 +1,8 @@
 configs:
 
-  generateZarubaServiceNameConfig:
-    serverName: '{{ .GetEnv "SERVER_NAME" }}'
-
   zarubaServiceName:
+    serverName: '{{ .GetEnv "SERVER_NAME" }}'
+    backendAddr: '{{ .GetEnv "BACKEND_ADDR" }}'
     ports: |
       80:80
       443:443
@@ -20,6 +19,9 @@ configs:
     imageName: zarubaImageName
     imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal
-    volumes:
-      html:/usr/share/nginx/html
+    volumes: |
+      {{ .GetWorkPath "html" }}:/usr/share/nginx/html
+      {{ .GetWorkPath "acme-challenge" }}:/var/www/html
+      {{ .GetWorkPath "letsencrypt" }}:/etc/letsencrypt
+      {{ .GetWorkPath "logs" }}:/var/log/nginx
 

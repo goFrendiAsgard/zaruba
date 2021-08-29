@@ -26,8 +26,8 @@ tasks:
   generateZarubaServiceNameConfig:
     extend: core.runShellScript
     location: ../../zarubaServiceName
-    configRef: generateZarubaServiceNameConfig
-    envRef: generateZarubaServiceNameConfig
+    configRef: zarubaServiceName
+    envRef: zarubaServiceName
     config:
       start: |
         {{ $errWriteNginx := .WriteFile (.GetWorkPath "./nginx.conf") (.ParseFile "nginx.conf.gotmpl") }}

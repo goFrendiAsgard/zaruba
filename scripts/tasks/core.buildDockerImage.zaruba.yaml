@@ -33,7 +33,7 @@ tasks:
         DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} \
           -t "${DOCKER_IMAGE_NAME}:latest" \
-          {{ if .GetConfig "imageTag" }}-t "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \{{ end }}
+          -t "${DOCKER_IMAGE_NAME}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}" \
           -f "${DOCKER_FILE}" .
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
