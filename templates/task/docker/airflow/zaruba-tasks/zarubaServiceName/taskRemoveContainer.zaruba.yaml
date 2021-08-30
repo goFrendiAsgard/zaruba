@@ -4,28 +4,28 @@ tasks:
     extend: core.removeDockerContainer
     configRefs:
       - zarubaServiceNameConfigurator
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   removeZarubaServiceNameWebServer:
     extend: core.removeDockerContainer
     configRefs:
       - zarubaServiceNameWebServer
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   removeZarubaServiceNameScheduler:
     extend: core.removeDockerContainer
     configRefs:
       - zarubaServiceNameScheduler
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   removeZarubaServiceNameWorker:
     extend: core.removeDockerContainer
     configRefs:
       - zarubaServiceNameWorker
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   removeZarubaServiceNameFlower:
     extend: core.removeDockerContainer
     configRefs:
       - zarubaServiceNameFlower
-      - zarubaServiceName
+      - zarubaServiceNameContainer

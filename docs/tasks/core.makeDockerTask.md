@@ -32,7 +32,8 @@
                                         "${SERVICE_PORTS}" \
                                         "${SERVICE_ENVS}" \
                                         "${DEPENDENCIES}" \
-                                        "${REPLACEMENT_MAP}"
+                                        "${REPLACEMENT_MAP}" \
+                                        "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
                   afterStart        : Blank
@@ -44,6 +45,7 @@
                   finish            : Blank
                   imageName         : {{ .GetValue "generatorDockerImageName" }}
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
+                  registerRunner    : true
                   replacementMap    : {}
                   serviceEnvs       : {{ .GetValue "generatorServiceEnvs" }}
                   serviceName       : {{ .GetValue "generatorServiceName" }}

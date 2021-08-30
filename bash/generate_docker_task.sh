@@ -11,6 +11,7 @@ generate_docker_task() {
     _SERVICE_ENVS="${6}"
     _DEPENDENCIES="${7}"
     _REPLACEMENT_MAP="${8}"
+    _REGISTER_RUNNER="${9}"
 
     _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" str toCamel "${_IMAGE_NAME}")"
     if [ -z "${_DEFAULT_CONTAINER_NAME}" ]
@@ -71,7 +72,7 @@ generate_docker_task() {
 
     "${ZARUBA_HOME}/zaruba" util generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
 
-    register_task_file "${_TASK_FILE_NAME}" "${_SERVICE_NAME}"
+    register_task_file "${_TASK_FILE_NAME}" "${_SERVICE_NAME}" "${_REGISTER_RUNNER}"
 
     "${ZARUBA_HOME}/zaruba" task addDependency ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_DEPENDENCIES}"
     "${ZARUBA_HOME}/zaruba" task setEnv ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_SERVICE_ENVS}"

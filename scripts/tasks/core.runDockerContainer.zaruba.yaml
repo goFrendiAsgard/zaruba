@@ -1,0 +1,38 @@
+tasks:
+
+  core.runDockerContainer:
+    icon: 🐳
+    description: |
+      Run docker container.
+      If container is already started, it's stdout/stderr will be shown.
+      If container is exist but not started, it will be started.
+      If container is not exist, it will be created and started.
+      Common config:
+        setup          : Script to be executed before start service or check service readiness.
+        beforeStart    : Script to be executed before start service.
+        afterStart     : Script to be executed after start service.
+        finish         : Script to be executed after start service or check service readiness.
+        useImagePrefix : Whether image prefix should be used or not
+        imagePrefix    : Image prefix
+        imageName      : Image name
+        imageTag       : Image tag
+        containerName  : Name of the container
+        ports          : Port to be checked to confirm service readiness, 
+                         separated by new line.
+        volumes        : Host-container volume mappings,
+                         separated by new line.
+        rebuild        : Should container be rebuild (This will not rebuild the image)
+        command        : Command to be used (Single Line).
+                         Leave blank to use container's CMD.
+                         The command will be executed from inside the container.
+        checkCommand   : Command to check container readiness (Single Line).
+                         The command will be executed from inside the container.
+        localhost      : Localhost mapping (e.g: host.docker.container)
+    private: true
+    extend: core.runCoreScript
+    dependencies:
+      - updateProjectLinks
+    configRefs: 
+      - coreRunDocker
+      - coreDocker
+    

@@ -4,28 +4,28 @@ tasks:
     extend: core.stopDockerContainer
     configRefs:
       - zarubaServiceNameConfigurator
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   stopZarubaServiceNameWebServer:
     extend: core.stopDockerContainer
     configRefs:
       - zarubaServiceNameWebServer
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   stopZarubaServiceNameScheduler:
     extend: core.stopDockerContainer
     configRefs:
       - zarubaServiceNameScheduler
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   stopZarubaServiceNameWorker:
     extend: core.stopDockerContainer
     configRefs:
       - zarubaServiceNameWorker
-      - zarubaServiceName
+      - zarubaServiceNameContainer
 
   stopZarubaServiceNameFlower:
     extend: core.stopDockerContainer
     configRefs:
       - zarubaServiceNameFlower
-      - zarubaServiceName
+      - zarubaServiceNameContainer

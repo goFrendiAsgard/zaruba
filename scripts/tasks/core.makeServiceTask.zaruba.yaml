@@ -17,6 +17,7 @@ tasks:
       servicePorts: '{{ .GetValue "generatorServicePorts" }}'
       serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
       dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
+      registerRunner: true
       replacementMap: '{}'
       _setup: |
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
@@ -44,7 +45,8 @@ tasks:
           "${SERVICE_PORTS}" \
           "${SERVICE_ENVS}" \
           "${DEPENDENCIES}" \
-          "${REPLACEMENT_MAP}"
+          "${REPLACEMENT_MAP}" \
+          "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
       start: ''
