@@ -1,0 +1,26 @@
+tasks: 
+ 
+  makeMeltanoServiceTask:
+    extend: core.makeServiceTask
+    inputs:
+      - generatorServiceLocation
+      - generatorServiceName
+      - generatorServiceEnvs
+      - generatorServicePorts
+      - generatorTaskDependencies
+      - generatorServiceDockerImageName
+      - generatorServiceDockerContainerName
+    config:
+      beforeStart: |
+        mkdir -p "{{ .GetConfig "serviceLocation" }}"
+      afterStart: |
+        cd "{{ .GetConfig "serviceLocation" }}"
+        pipenv run meltano init app
+        chmod 755 start.sh
+        mv start.sh app/start.sh
+        mv Dockerfile app/Dockerfile
+        mv .dockerignore app/.dockerignore
+        # create dockerfile
+        cd app
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/meltano'
+

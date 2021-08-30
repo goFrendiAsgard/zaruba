@@ -28,7 +28,11 @@ tasks:
         ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="other-fibo" 
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
+        #
+        # service related
+        #
         ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo generatorServiceEnvs='{"HTTP_PORT": "3001"}'
+        ../zaruba please makeMeltanoServiceTask generatorServiceLocation=testMeltano showAdvertisement=no  
         #
         # docker related
         #

@@ -95,6 +95,7 @@ includes:
   - ./tasks/makeFastApiService.zaruba.yaml
   - ./tasks/makeFastApiServiceTask.zaruba.yaml
   - ./tasks/makeGoServiceTask.zaruba.yaml
+  - ./tasks/makeMeltanoServiceTask.zaruba.yaml
   - ./tasks/makeMongoDockerTask.zaruba.yaml
   - ./tasks/makeMysqlDockerTask.zaruba.yaml
   - ./tasks/makeNginxDockerTask.zaruba.yaml
