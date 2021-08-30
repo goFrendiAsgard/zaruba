@@ -79,7 +79,9 @@
                                            "${REPLACEMENT_MAP}"
                                          echo 🎉🎉🎉
                                          echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
-                  afterStart           : cd "{{ .GetConfig "serviceLocation" }}"
+                  afterStart           : # dunno, but seemingly it won't work with 
+                                         pip install meltano
+                                         cd "{{ .GetConfig "serviceLocation" }}"
                                          pipenv run meltano init app
                                          chmod 755 start.sh
                                          mv start.sh app/start.sh
