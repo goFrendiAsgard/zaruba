@@ -2,6 +2,7 @@
 register_task_file() {
     _TASK_FILE_NAME="${1}"
     _SERVICE_NAME="${2}"
+    _REGISTER_RUNNER="${3}"
     _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_SERVICE_NAME}")" 
 
     "${ZARUBA_HOME}/zaruba" project include "./main.zaruba.yaml" "${_TASK_FILE_NAME}"
@@ -28,26 +29,32 @@ register_task_file() {
         "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "pushImage" "[\"push${_PASCAL_SERVICE_NAME}Image\"]"
     fi
 
-    # run
-    if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")" -eq 1 ]
+
+    if [ "${_REGISTER_RUNNER}" = "1" ]
     then
-        "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "run"
-        "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "run" "[\"run${_PASCAL_SERVICE_NAME}\"]"
-        # runContainer (in case of service's runContainer task doesn't exist)
-        "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "runContainer"
-        if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}Container")" -eq 0 ]
+
+        # run
+        if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")" -eq 1 ]
+        then
+            "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "run"
+            "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "run" "[\"run${_PASCAL_SERVICE_NAME}\"]"
+            # runContainer (in case of service's runContainer task doesn't exist)
+            "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "runContainer"
+            if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}Container")" -eq 0 ]
+            then
+                "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "runContainer"
+                "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "runContainer" "[\"run${_PASCAL_SERVICE_NAME}\"]"
+            fi
+        fi
+
+        # runContainer
+        if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}Container")" -eq 1 ]
         then
             "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "runContainer"
-            "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "runContainer" "[\"run${_PASCAL_SERVICE_NAME}\"]"
-        fi
-    fi
+            "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "runContainer" "[\"run${_PASCAL_SERVICE_NAME}Container\"]"
+        fi 
 
-    # runContainer
-    if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}Container")" -eq 1 ]
-    then
-        "${ZARUBA_HOME}/zaruba" project addTask "./main.zaruba.yaml" "runContainer"
-        "${ZARUBA_HOME}/zaruba" task addDependency "./main.zaruba.yaml" "runContainer" "[\"run${_PASCAL_SERVICE_NAME}Container\"]"
-    fi 
+    fi
 
     # stopContainer
     if [ "$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "stop${_PASCAL_SERVICE_NAME}Container")" -eq 1 ]

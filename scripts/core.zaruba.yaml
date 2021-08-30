@@ -2,6 +2,7 @@ includes:
 
   - ./configs/coreDocker.zaruba.yaml
   - ./configs/coreNvm.zaruba.yaml
+  - ./configs/coreRunDocker.zaruba.yaml
   - ./configs/generatorFastApi.zaruba.yaml
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
@@ -69,12 +70,14 @@ includes:
   - ./tasks/core.pushDockerImage.zaruba.yaml
   - ./tasks/core.removeDockerContainer.zaruba.yaml
   - ./tasks/core.runCoreScript.zaruba.yaml
+  - ./tasks/core.runDockerContainer.zaruba.yaml
   - ./tasks/core.runInDockerContainer.zaruba.yaml
   - ./tasks/core.runNodeJsScript.zaruba.yaml
   - ./tasks/core.runNvmScript.zaruba.yaml
   - ./tasks/core.runPythonScript.zaruba.yaml
   - ./tasks/core.runScript.zaruba.yaml
   - ./tasks/core.runShellScript.zaruba.yaml
+  - ./tasks/core.setKubeContext.zaruba.yaml
   - ./tasks/core.showAdv.zaruba.yaml
   - ./tasks/core.startService.zaruba.yaml
   - ./tasks/core.startNvmService.zaruba.yaml

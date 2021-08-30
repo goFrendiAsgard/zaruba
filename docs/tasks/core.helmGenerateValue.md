@@ -21,6 +21,7 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
+                  imageName         : Blank
                   imagePrefix       : Blank
                   imageTag          : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh

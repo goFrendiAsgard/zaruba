@@ -8,7 +8,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐍
-    extend: core.startService
+    extend: core.runShellScript
     location: zarubaServiceLocation/app
     dependencies:
       - prepareZarubaServiceName
@@ -18,12 +18,10 @@ tasks:
     envRef: zarubaServiceName
 
   runZarubaServiceNameContainer:
-    extend: core.startDockerContainer
+    extend: core.runDockerContainer
     location: zarubaServiceLocation
     dependencies:
       - buildZarubaServiceNameImage
-    config:
-      check: echo "Bypass checking"
     configRefs:
       - zarubaServiceNameContainer
       - zarubaServiceName

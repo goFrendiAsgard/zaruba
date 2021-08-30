@@ -73,6 +73,7 @@ generate_fast_api_service() {
         "${_TASK_SERVICE_PORTS}" \
         "${_TASK_SERVICE_ENVS}" \
         "${_TASK_DEPENDENCIES}" \
-        "${_TASK_REPLACEMENT_MAP}"
+        "${_TASK_REPLACEMENT_MAP}" \
+        "1"
 
 }

@@ -27,6 +27,7 @@
                   cmdArg                          : -c
                   dockerFilePath                  : Dockerfile
                   finish                          : Blank
+                  imageName                       : Blank
                   imagePrefix                     : Blank
                   imageTag                        : Blank
                   includeUtilScript               : . ${ZARUBA_HOME}/bash/util.sh

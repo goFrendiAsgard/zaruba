@@ -4,3 +4,4 @@ configs:
     useImagePrefix: true
     imagePrefix: ''
     imageTag: ''
+    imageName: ''

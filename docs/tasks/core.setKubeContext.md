@@ -1,10 +1,9 @@
-# core.helmInstall
+# core.setKubeContext
 ```
-  TASK NAME     : core.helmInstall
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmInstall.zaruba.yaml
+  TASK NAME     : core.setKubeContext
+  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.setKubeContext.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.helmRepoUpdate, core.setKubeContext ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -19,20 +18,16 @@
                   _start            : Blank
                   afterStart        : Blank
                   beforeStart       : Blank
-                  chart             : Blank
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   finish            : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  releaseName       : Blank
+                  kubeContext       : {{ .GetValue "kubeContext" }}
                   setup             : Blank
-                  start             : if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
+                  start             : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
                                       then
-                                        helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
-                                      else
-                                        helm upgrade "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
+                                        kubectl config set-context "{{ .GetConfig "kubeContext" }}"
                                       fi
-                  valueFile         : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

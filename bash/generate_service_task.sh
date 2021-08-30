@@ -14,6 +14,7 @@ generate_service_task() {
     _SERVICE_ENVS="${9}"
     _DEPENDENCIES="${10}"
     _REPLACEMENT_MAP="${11}"
+    _REGISTER_RUNNER="${12}"
 
     _DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" path getServiceName "${_SERVICE_LOCATION}")"
     _SERVICE_NAME="$(get_value_or_default "${_SERVICE_NAME}" "${_DEFAULT_SERVICE_NAME}")"
@@ -80,7 +81,7 @@ generate_service_task() {
 
     "${ZARUBA_HOME}/zaruba" util generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
 
-    register_task_file "${_TASK_FILE_NAME}" "${_SERVICE_NAME}"
+    register_task_file "${_TASK_FILE_NAME}" "${_SERVICE_NAME}" "${_REGISTER_RUNNER}"
 
     "${ZARUBA_HOME}/zaruba" task addDependency ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_DEPENDENCIES}"
     "${ZARUBA_HOME}/zaruba" task setEnv ./main.zaruba.yaml "run${_PASCAL_SERVICE_NAME}" "${_SERVICE_ENVS}"
