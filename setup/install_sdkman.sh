@@ -9,5 +9,8 @@ SCRIPT="$(cat "${SETUP_PATH}/../templates/bash/sdkman.sh")"
 echo "${SCRIPT}" >> "${SETUP_PATH}/../init.sh"
 . "${SETUP_PATH}/../init.sh"
 
+echo "🔽 Install java"
+sdk install java
+
 echo "🎉🎉🎉"
 echo "SDKMan installed, make sure to update your shell configuration"

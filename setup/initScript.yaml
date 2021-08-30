@@ -16,8 +16,14 @@
 - caption: "Install pyenv and pipenv"
   script: "SETUP_PATH/install_pyenv.sh"
 
-- caption: "Install SdkMan"
+- caption: "Install SdkMan and java"
   script: "SETUP_PATH/install_sdkman.sh"
+
+- caption: "Install scala (you need to install SdkMan first)"
+  script: "SETUP_PATH/install_scala.sh"
+
+- caption: "Install spark (you need to install Sdkman and scala first)"
+  script: "SETUP_PATH/install_spark.sh"
 
 - caption: "Install Gvm"
   script: "SETUP_PATH/install_gvm.sh"
