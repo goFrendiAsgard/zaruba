@@ -3,11 +3,11 @@ configs:
   createZarubaServiceNameDb:
     dbName: '{{ .GetEnv "DB_NAME" }}'
 
-  zarubaServiceName:
+  zarubaServiceNameContainer:
     useImagePrefix: true
-    imagePrefix: apache
-    imageName: airflow
-    imageTag: 2.1.2
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageName: zarubaImageName
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal
     volumes: '{{ .GetRelativePath "../../zarubaServiceName/dags" }}:/opt/airflow/dags'
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'

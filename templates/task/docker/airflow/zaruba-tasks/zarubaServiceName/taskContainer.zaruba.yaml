@@ -1,0 +1,13 @@
+tasks:
+
+  buildZarubaServiceNameImage:
+    extend: core.buildDockerImage
+    location: ../../zarubaServiceName
+    timeout: 1h
+    configRef: zarubaServiceNameContainer
+
+  pushZarubaServiceNameImage:
+    extend: core.pushDockerImage
+    location: ../../zarubaServiceName
+    timeout: 1h
+    configRef: zarubaServiceNameContainer

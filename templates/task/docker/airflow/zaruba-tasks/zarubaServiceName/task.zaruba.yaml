@@ -2,9 +2,10 @@ includes:
   - ./config.zaruba.yaml
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
+  - ./taskContainer.zaruba.yaml
   - ./taskInit.zaruba.yaml
-  - ./taskRun.zaruba.yaml
   - ./taskRemoveContainer.zaruba.yaml
+  - ./taskStartContainer.zaruba.yaml
   - ./taskStopContainer.zaruba.yaml
 
 tasks:
@@ -17,11 +18,6 @@ tasks:
       - runZarubaServiceNameWorker
       - runZarubaServiceNameFlower
       - configureZarubaServiceNameWorker
-
-  pullZarubaServiceNameImage:
-    extend: core.pullDockerImage
-    timeout: 1h
-    configRef: zarubaServiceName
 
   stopZarubaServiceNameContainer:
     dependencies:
