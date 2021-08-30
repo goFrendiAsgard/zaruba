@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/output"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 var yamlWriteCmd = &cobra.Command{
