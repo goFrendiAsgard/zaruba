@@ -60,9 +60,15 @@
                   _start                       : {{ $d := .Decoration -}}
                                                  {{ $rebuild := .GetConfig "rebuild" -}}
                                                  {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
+                                                 if [ "$(is_docker_network_exist "{{ .GetConfig "network" }}")" ]
+                                                 then
+                                                   echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
+                                                 else
+                                                   docker network create "{{ .GetConfig "network" }}"
+                                                 fi
                                                  if [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
                                                  then
-                                                   echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
+                                                   echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is already started{{ $d.Normal }}"
                                                    {{ .GetConfig "_startLogContainer" }}
                                                  elif [ ! -z $(inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
                                                  then
@@ -86,6 +92,8 @@
                                                  {{ $imageTag := .GetConfig "imageTag" -}}
                                                  {{ $this := . -}}
                                                  docker run --name "${CONTAINER_NAME}" {{ "" -}}
+                                                 --hostname "${CONTAINER_NAME}" {{ "" -}}
+                                                 --network "{{ .GetConfig "network" }}" {{ "" -}}
                                                  {{ .GetConfig "_startRunContainerEntryPoint" -}}
                                                  {{ .GetConfig "_startRunContainerEnv" -}}
                                                  {{ .GetConfig "_startRunContainerPorts" -}}
@@ -147,6 +155,7 @@
                   imageTag                     : Blank
                   includeUtilScript            : . ${ZARUBA_HOME}/bash/util.sh
                   localhost                    : localhost
+                  network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
                   rebuild                      : false
                   setup                        : Blank

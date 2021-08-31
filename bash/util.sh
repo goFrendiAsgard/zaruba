@@ -79,6 +79,20 @@ inspect_docker() {
     set "${_OLD_STATE}"
 }
 
+# USAGE: is_docker_network_exist <network-name>
+is_docker_network_exist() {
+    _NETWORK_NAME="${1}"
+    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+    set +e
+    if [ "$(docker network inspect "${_NETWORK_NAME}")" = "[]" ]
+    then
+        echo 0
+    else
+        echo 1
+    fi
+    set "${_OLD_STATE}"
+}
+
 
 # USAGE: is_command_error <command>
 is_command_error() {
