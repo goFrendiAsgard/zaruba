@@ -8,8 +8,9 @@ configs:
       rebuild: false
       ports: ''
       volumes: ''
-      localhost: localhost
+      user: ''
       network: '{{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}'
+      localhost: localhost
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
       _setupContainerName: |
         {{ $d := .Decoration -}}
@@ -90,6 +91,7 @@ configs:
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
         --hostname "${CONTAINER_NAME}" {{ "" -}}
         --network "{{ .GetConfig "network" }}" {{ "" -}}
+        {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
         {{ .GetConfig "_startRunContainerEntryPoint" -}}
         {{ .GetConfig "_startRunContainerEnv" -}}
         {{ .GetConfig "_startRunContainerPorts" -}}
