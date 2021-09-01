@@ -70,15 +70,14 @@ git_save() {
 
 # USAGE: inspect_docker <object> <format> <container-name>
 inspect_docker() {
-    _OBJECT="${1}"
+    _OBJECT_TYPE="${1}"
     _FORMAT="${2}"
-    _CONTAINER_NAME="${3}"
+    _OBJECT_NAME="${3}"
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
-    docker ${_OBJECT} inspect -f "{{ ${_FORMAT} }}" "${_CONTAINER_NAME}"
+    docker ${_OBJECT_TYPE} inspect -f "{{ ${_FORMAT} }}" "${_OBJECT_NAME}"
     set "${_OLD_STATE}"
 }
-
 
 # USAGE: is_command_error <command>
 is_command_error() {

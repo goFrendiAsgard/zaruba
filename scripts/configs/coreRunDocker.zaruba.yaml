@@ -8,6 +8,8 @@ configs:
       rebuild: false
       ports: ''
       volumes: ''
+      user: ''
+      network: '{{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}'
       localhost: localhost
       hostDockerInternal: '{{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}'
       _setupContainerName: |
@@ -87,6 +89,9 @@ configs:
         {{ $imageTag := .GetConfig "imageTag" -}}
         {{ $this := . -}}
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
+        --hostname "${CONTAINER_NAME}" {{ "" -}}
+        --network "{{ .GetConfig "network" }}" {{ "" -}}
+        {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
         {{ .GetConfig "_startRunContainerEntryPoint" -}}
         {{ .GetConfig "_startRunContainerEnv" -}}
         {{ .GetConfig "_startRunContainerPorts" -}}
@@ -97,9 +102,16 @@ configs:
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
         {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
+        if [ "$(inspect_docker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
+        then
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
+        else
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
+          docker network create "{{ .GetConfig "network" }}"
+        fi
         if [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' was already started{{ $d.Normal }}"
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is already started{{ $d.Normal }}"
           {{ .GetConfig "_startLogContainer" }}
         elif [ ! -z $(inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
         then

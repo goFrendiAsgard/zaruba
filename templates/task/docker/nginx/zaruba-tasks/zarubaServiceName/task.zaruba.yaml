@@ -20,6 +20,7 @@ tasks:
 
   rebuildZarubaServiceNameImage:
     extend: buildZarubaServiceNameImage
+    timeout: 1h
     dependencies:
       - removeZarubaServiceNameContainer
 
