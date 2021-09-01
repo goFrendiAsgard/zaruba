@@ -127,10 +127,11 @@
                   _start                       : {{ $d := .Decoration -}}
                                                  {{ $rebuild := .GetConfig "rebuild" -}}
                                                  {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
-                                                 if [ "$(is_docker_network_exist "{{ .GetConfig "network" }}")" ]
+                                                 if [ "$(inspect_docker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
                                                  then
                                                    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
                                                  else
+                                                   echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
                                                    docker network create "{{ .GetConfig "network" }}"
                                                  fi
                                                  if [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
@@ -161,6 +162,7 @@
                                                  docker run --name "${CONTAINER_NAME}" {{ "" -}}
                                                  --hostname "${CONTAINER_NAME}" {{ "" -}}
                                                  --network "{{ .GetConfig "network" }}" {{ "" -}}
+                                                 {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
                                                  {{ .GetConfig "_startRunContainerEntryPoint" -}}
                                                  {{ .GetConfig "_startRunContainerEnv" -}}
                                                  {{ .GetConfig "_startRunContainerPorts" -}}
@@ -231,6 +233,7 @@
                   setup                        : Blank
                   start                        : Blank
                   useImagePrefix               : true
+                  user                         : Blank
                   volumes                      : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
