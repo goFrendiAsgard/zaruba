@@ -17,15 +17,6 @@ tasks:
     config:
       containerShell: bash
       commands: |
-        airflow version
-        airflow db upgrade
-        airflow users create \
-          --username "{{ .GetConfig "wwwUserName" }}" \
-          --password "{{ .GetConfig "wwwPassword" }}" \
-          --firstname "{{ .GetConfig "wwwFirstName" }}" \
-          --lastname "{{ .GetConfig "wwwLastName" }}" \
-          --role "{{ .GetConfig "wwwRole" }}" \
-          --email "{{ .GetConfig "wwwEmail" }}"
         {{ .ParseFile "configurator.gotmpl.sh"}}
     configRef: zarubaServiceNameConfigurator
     envRef: zarubaServiceNameConfigurator

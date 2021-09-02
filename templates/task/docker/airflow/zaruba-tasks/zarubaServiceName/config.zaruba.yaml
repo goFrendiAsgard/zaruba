@@ -9,20 +9,17 @@ configs:
     imageName: zarubaImageName
     imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal
-    volumes: '{{ .GetRelativePath "../../zarubaServiceName/dags" }}:/opt/airflow/dags'
+    volumes: |
+      {{ .GetRelativePath "../../zarubaServiceName/dags" }}:/opt/airflow/dags
+      {{ .GetRelativePath "../../zarubaServiceName/logs" }}:/opt/airflow/logs
+      {{ .GetRelativePath "../../zarubaServiceName/plugins" }}:/opt/airflow/plugins
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
 
   zarubaServiceNameConfigurator:
     containerName: zarubaContainerNameConfigurator
     entryPoint: sleep
     command: infinity
-    wwwUserName: '{{ .GetEnv "WWW_USERNAME" }}'
-    wwwPassword: '{{ .GetEnv "WWW_PASSWORD" }}'
-    wwwFirstName: '{{ .GetEnv "WWW_FIRST_NAME" }}'
-    wwwLastName: '{{ .GetEnv "WWW_LAST_NAME" }}'
-    wwwRole: '{{ .GetEnv "WWW_ROLE" }}'
-    wwwEmail: '{{ .GetEnv "WWW_EMAIL" }}'
-    initDelay: '{{ .GetEnv "INIT_DELAY" }}'
+    user: root
 
   zarubaServiceNameWebServer:
     containerName: zarubaContainerNameWebServer
