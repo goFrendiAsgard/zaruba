@@ -55,18 +55,3 @@ tasks:
       - zarubaServiceNameFlower
       - zarubaServiceNameContainer
     envRef: zarubaServiceName
-
-  runZarubaServiceNameConfigurator:
-    extend: core.startDockerContainer
-    dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPostgreTask
-      - createZarubaServiceNameDb
-      - buildZarubaServiceNameImage
-    timeout: 1h
-    inputs:
-      - zarubaServiceNameRunInLocal
-    configRefs:
-      - zarubaServiceNameConfigurator
-      - zarubaServiceNameContainer
-    envRef: zarubaServiceName

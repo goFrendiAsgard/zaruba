@@ -17,8 +17,10 @@ configs:
 
   zarubaServiceNameConfigurator:
     containerName: zarubaContainerNameConfigurator
-    entryPoint: sleep
-    command: infinity
+    entryPoint: bash
+    command: /configurator.sh 
+    volumes: |
+      {{ .GetRelativePath "../../zarubaServiceName/configurator.sh" }}:/opt/airflow/configurator.sh
     user: root
 
   zarubaServiceNameWebServer:

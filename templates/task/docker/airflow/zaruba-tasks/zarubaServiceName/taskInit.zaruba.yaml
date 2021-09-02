@@ -9,18 +9,38 @@ tasks:
     configRef: createZarubaServiceNameDb
     envRef: createZarubaServiceNameDb
 
+  createZarubaServiceNameConfiguratorScript:
+    extend: core.runShellScript
+    location: ../../zarubaServiceName
+    config:
+      start: |
+        {{ $err := .WriteFile (.GetRelativePath "../../zarubaServiceName/configurator.sh") (.ParseFile (.GetRelativePath "../../zarubaServiceName/configurator.gotmpl.sh")) }}
+    configRefs:
+      - zarubaServiceNameConfigurator
+      - zarubaServiceNameContainer
+    envRefs:
+      - zarubaServiceNameConfigurator
+      - zarubaServiceName
+
   configureZarubaServiceName:
-    extend: core.runInDockerContainer
+    extend: core.runDockerContainer
     location: ../../zarubaServiceName
     dependencies:
-      - runZarubaServiceNameConfigurator
-    config:
-      containerShell: bash
-      commands: |
-        {{ .ParseFile "configurator.gotmpl.sh"}}
-    configRef: zarubaServiceNameConfigurator
-    envRef: zarubaServiceNameConfigurator
-  
+      - zarubaAirflowRedisTask
+      - zarubaAirflowPostgreTask
+      - createZarubaServiceNameDb
+      - createZarubaServiceNameConfiguratorScript
+      - buildZarubaServiceNameImage
+    timeout: 1h
+    inputs:
+      - zarubaServiceNameRunInLocal
+    configRefs:
+      - zarubaServiceNameConfigurator
+      - zarubaServiceNameContainer
+    envRefs:
+      - zarubaServiceNameConfigurator
+      - zarubaServiceName
+
   configureZarubaServiceNameWorker:
     extend: core.runInDockerContainer
     location: ../../zarubaServiceName
