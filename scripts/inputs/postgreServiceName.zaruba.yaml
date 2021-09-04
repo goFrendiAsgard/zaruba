@@ -1,0 +1,8 @@
+inputs:
+
+  postgreServiceName:
+    description: Postgre task (Required)
+    prompt: Postgre task
+    validation: ^[a-zA-Z0-9_]+$
+    default: postgre
+

@@ -1,0 +1,8 @@
+inputs:
+
+  redisServiceName:
+    description: Redis task (Required)
+    prompt: Redis task
+    validation: ^[a-zA-Z0-9_]+$
+    default: redis
+

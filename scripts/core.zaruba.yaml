@@ -20,9 +20,9 @@ includes:
   - ./inputs/generatorGoServiceStartCommand.zaruba.yaml
   - ./inputs/generatorNodeJsServiceStartCommand.zaruba.yaml
   - ./inputs/generatorNodeJsServiceRunnerVersion.zaruba.yaml
-  - ./inputs/generatorPostgreTask.zaruba.yaml
+  - ./inputs/postgreServiceName.zaruba.yaml
   - ./inputs/generatorPythonServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorRedisTask.zaruba.yaml
+  - ./inputs/redisServiceName.zaruba.yaml
   - ./inputs/generatorServiceDockerContainerName.zaruba.yaml
   - ./inputs/generatorServiceDockerImageName.zaruba.yaml
   - ./inputs/generatorServiceEnvs.zaruba.yaml
