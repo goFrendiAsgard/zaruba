@@ -1,7 +1,7 @@
 . ${ZARUBA_HOME}/bash/util.sh
-. ${ZARUBA_HOME}/bash/generate_fast_api_module.sh
+. ${ZARUBA_HOME}/bash/generateFastApiModule.sh
 
-generate_fast_api_crud_handler() {
+generateFastApiCrudHandler() {
     _CRUD_TEMPLATE_LOCATION="${1}"
     _MODULE_TEMPLATE_LOCATION="${2}"
     _SERVICE_TEMPLATE_LOCATION="${3}"
@@ -11,7 +11,7 @@ generate_fast_api_crud_handler() {
     _ENTITY_NAME="${7}"
     _FIELD_NAMES="${8}"
 
-    generate_fast_api_module \
+    generateFastApiModule \
         "${_MODULE_TEMPLATE_LOCATION}" \
         "${_SERVICE_TEMPLATE_LOCATION}" \
         "${_TASK_TEMPLATE_LOCATION}" \

@@ -1,6 +1,6 @@
 . ${ZARUBA_HOME}/bash/util.sh
 
-get_version() {
+getVersion() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     _GIT_VERSION=$(git describe --tags --always 2>/dev/null)

@@ -56,8 +56,8 @@
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             URL={{ .EscapeShellArg (.GetConfig "url") }}
                                             HTTP_METHOD={{ .EscapeShellArg (.GetConfig "httpMethod") }}
-                                            . ${ZARUBA_HOME}/bash/generate_fast_api_route.sh
-                                            generate_fast_api_route \
+                                            . ${ZARUBA_HOME}/bash/generateFastApiRoute.sh
+                                            generateFastApiRoute \
                                               "${MODULE_TEMPLATE_LOCATION}" \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
                                               "${TASK_TEMPLATE_LOCATION}" \

@@ -35,9 +35,9 @@
                                       DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
                                       if [ ! -z "${DOCKER_IMAGE_TAG}" ]
                                       then
-                                        pull_image "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                                        pullImage "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                                       else
-                                        pull_image "${DOCKER_IMAGE_NAME}"
+                                        pullImage "${DOCKER_IMAGE_NAME}"
                                       fi
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pulled{{ $d.Normal }}"

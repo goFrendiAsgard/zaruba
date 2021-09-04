@@ -26,7 +26,7 @@
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   releaseName       : Blank
                   setup             : Blank
-                  start             : if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
+                  start             : if [ "$(isCommandError helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
                                       then
                                         helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
                                       else

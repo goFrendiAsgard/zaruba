@@ -7,6 +7,7 @@ includes:
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
 
+  - ./inputs/airflowServiceName.zaruba.yaml
   - ./inputs/dockerContainerName.zaruba.yaml
   - ./inputs/dockerImageName.zaruba.yaml
   - ./inputs/fastApiCrudEntity.zaruba.yaml

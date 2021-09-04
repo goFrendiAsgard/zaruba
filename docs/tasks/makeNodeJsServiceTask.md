@@ -76,8 +76,8 @@
                                          DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                          REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                   _start               : {{- $d := .Decoration -}}
-                                         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
-                                         generate_service_task \
+                                         . "${ZARUBA_HOME}/bash/generateServiceTask.sh"
+                                         generateServiceTask \
                                            "${TEMPLATE_LOCATION}" \
                                            "${SERVICE_LOCATION}" \
                                            "${SERVICE_NAME}" \

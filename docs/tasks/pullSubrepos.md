@@ -41,7 +41,7 @@
                                         ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
                                         if [ $ORIGIN_EXISTS = 1 ]
                                         then
-                                          git_save "Save works before pull"
+                                          gitSave "Save works before pull"
                                           git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
                                         fi
                                       {{ end -}}

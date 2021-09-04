@@ -39,13 +39,13 @@
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
                   redisServiceName
-                    DESCRIPTION : Redis task (Required)
-                    PROMPT      : Redis task
+                    DESCRIPTION : Redis service name (Required)
+                    PROMPT      : Redis service name
                     DEFAULT     : redis
                     VALIDATION  : ^[a-zA-Z0-9_]+$
                   postgreServiceName
-                    DESCRIPTION : Postgre task (Required)
-                    PROMPT      : Postgre task
+                    DESCRIPTION : Postgre service name (Required)
+                    PROMPT      : Postgre service name
                     DEFAULT     : postgre
                     VALIDATION  : ^[a-zA-Z0-9_]+$
   CONFIG        : _setup             : TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
@@ -57,8 +57,8 @@
                                        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                        REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                   _start             : {{- $d := .Decoration -}}
-                                       . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
-                                       generate_docker_task \
+                                       . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
+                                       generateDockerTask \
                                          "${TEMPLATE_LOCATION}" \
                                          "${IMAGE_NAME}" \
                                          "${CONTAINER_NAME}" \
@@ -71,7 +71,7 @@
                                        echo 🎉🎉🎉
                                        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
                   afterStart         : Blank
-                  beforeStart        : . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
+                  beforeStart        : . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
                                        REDIS_SERVICE={{ .EscapeShellArg (.GetConfig "redisServiceName") }}
                                        REDIS_TASK="run$("{{ .ZarubaBin }}" str toPascal "${REDIS_SERVICE}")"
                                        POSTGRE_SERVICE={{ .EscapeShellArg (.GetConfig "postgreServiceName") }}
@@ -83,14 +83,14 @@
                                        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${REDIS_TASK}")" = 0 ]
                                        then
                                          echo "create redis task: ${REDIS_TASK}"
-                                         generate_docker_task \
+                                         generateDockerTask \
                                            "${ZARUBA_HOME}/templates/task/docker/redis" "" "${REDIS_SERVICE}" \
                                            "" "[]" "{}" "[]" "{}"
                                        fi
                                        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${POSTGRE_TASK}")" = 0 ]
                                        then
                                          echo "create postgre task: ${POSTGRE_TASK}"
-                                         generate_docker_task \
+                                         generateDockerTask \
                                            "${ZARUBA_HOME}/templates/task/docker/postgre" "" "${POSTGRE_SERVICE}" \
                                            "" "[]" "{}" "[]" "{}" "1"
                                        fi

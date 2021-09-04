@@ -1,8 +1,8 @@
 . ${ZARUBA_HOME}/bash/util.sh
-. ${ZARUBA_HOME}/bash/generate_service_task.sh
+. ${ZARUBA_HOME}/bash/generateServiceTask.sh
 
-# USAGE generate_fast_api_service <service-template-location> <task-template-location> <service-name>
-generate_fast_api_service() {
+# USAGE generateFastApiService <service-template-location> <task-template-location> <service-name>
+generateFastApiService() {
     _SERVICE_TEMPLATE_LOCATION="${1}"
     _TASK_TEMPLATE_LOCATION="${2}"
     _SERVICE_NAME="${3}"
@@ -42,7 +42,7 @@ generate_fast_api_service() {
 
     echo "Creating shared-lib link for ${_SERVICE_NAME}"
     "${ZARUBA_HOME}/zaruba" project setValue "./default.values.yaml" "link::${_SERVICE_NAME}/helpers" "shared-libs/python/helpers"
-    link_resource "shared-libs/python/helpers" "${_SERVICE_NAME}/helpers"
+    linkResource "shared-libs/python/helpers" "${_SERVICE_NAME}/helpers"
 
     _TASK_EXIST="$("${ZARUBA_HOME}/zaruba" task isExist "./main.zaruba.yaml" "run${_PASCAL_SERVICE_NAME}")"
     if [ "${_TASK_EXIST}" -eq 1 ]
@@ -62,7 +62,7 @@ generate_fast_api_service() {
     _TASK_SERVICE_ENVS="{}"
     _TASK_DEPENDENCIES="[]"
     _TASK_REPLACEMENT_MAP="{}"
-    generate_service_task \
+    generateServiceTask \
         "${_TASK_TEMPLATE_LOCATION}" \
         "${_TASK_SERVICE_LOCATION}" \
         "${_TASK_SERVICE_NAME}" \

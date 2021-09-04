@@ -40,11 +40,11 @@ tasks:
     config:
       _checkContainerState: |
         {{ $d := .Decoration -}}
-        until [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
           sleep 1
         done
-        while [ "$(inspect_docker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
+        while [ "$(inspectDocker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
         do
           sleep 1
         done
@@ -71,7 +71,7 @@ tasks:
             {{ $portParts := $this.Split ($this.Trim $port  " ") ":" -}}
             {{ $hostPort := index $portParts 0 -}}
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
-            wait_port "localhost" {{ $hostPort }}
+            waitPort "localhost" {{ $hostPort }}
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
           {{ end -}}
         {{ end -}}

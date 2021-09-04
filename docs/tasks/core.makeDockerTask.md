@@ -23,8 +23,8 @@
                                       DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                       REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                   _start            : {{- $d := .Decoration -}}
-                                      . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
-                                      generate_docker_task \
+                                      . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
+                                      generateDockerTask \
                                         "${TEMPLATE_LOCATION}" \
                                         "${IMAGE_NAME}" \
                                         "${CONTAINER_NAME}" \

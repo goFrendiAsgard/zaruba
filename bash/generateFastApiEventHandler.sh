@@ -1,7 +1,7 @@
 . ${ZARUBA_HOME}/bash/util.sh
-. ${ZARUBA_HOME}/bash/generate_fast_api_module.sh
+. ${ZARUBA_HOME}/bash/generateFastApiModule.sh
 
-generate_fast_api_event_handler() {
+generateFastApiEventHandler() {
     _MODULE_TEMPLATE_LOCATION="${1}"
     _SERVICE_TEMPLATE_LOCATION="${2}"
     _TASK_TEMPLATE_LOCATION="${3}"
@@ -9,7 +9,7 @@ generate_fast_api_event_handler() {
     _MODULE_NAME="${5}"
     _EVENT_NAME="${6}"
 
-    generate_fast_api_module \
+    generateFastApiModule \
         "${_MODULE_TEMPLATE_LOCATION}" \
         "${_SERVICE_TEMPLATE_LOCATION}" \
         "${_TASK_TEMPLATE_LOCATION}" \

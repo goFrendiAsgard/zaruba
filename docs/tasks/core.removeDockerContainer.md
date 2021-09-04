@@ -31,9 +31,9 @@
                   start             : {{ $d := .Decoration -}}
                                       CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getServiceName "$(pwd)"){{ end }}"
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
-                                      stop_container "${CONTAINER}" 
+                                      stopContainer "${CONTAINER}" 
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
-                                      remove_container "${CONTAINER}" 
+                                      removeContainer "${CONTAINER}" 
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

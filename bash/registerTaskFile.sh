@@ -1,5 +1,5 @@
-# USAGE: register_task_file <task-file-name> <service-name> [register-runner=1]
-register_task_file() {
+# USAGE: registerTaskFile <task-file-name> <service-name> [register-runner=1]
+registerTaskFile() {
     _TASK_FILE_NAME="${1}"
     _SERVICE_NAME="${2}"
     _REGISTER_RUNNER="${3}"

@@ -60,8 +60,8 @@
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
                                             FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
-                                            . ${ZARUBA_HOME}/bash/generate_fast_api_crud_handler.sh
-                                            generate_fast_api_crud_handler \
+                                            . ${ZARUBA_HOME}/bash/generateFastApiCrudHandler.sh
+                                            generateFastApiCrudHandler \
                                               "${CRUD_TEMPLATE_LOCATION}" \
                                               "${MODULE_TEMPLATE_LOCATION}" \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
