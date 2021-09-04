@@ -3,10 +3,10 @@ tasks:
   makeAirflowDockerTask:
     extend: core.makeDockerTask
     inputs:
-      - generatorDockerContainerName
-      - generatorServiceName
-      - generatorServiceEnvs
-      - generatorTaskDependencies
+      - dockerContainerName
+      - newServiceName
+      - newServiceEnvs
+      - newTaskDependencies
       - redisServiceName
       - postgreServiceName
     config:

@@ -7,7 +7,7 @@ tasks:
     dependencies:
       - core.showAdv
     inputs:
-      - generatorFastApiServiceName
+      - newFastApiServiceName
     configRef: generatorFastApi
     config:
       start: |

@@ -1,6 +1,6 @@
 inputs:
 
-  generatorServiceDockerContainerName:
+  newServiceContainerName:
     description: |
       Service's docker container name (Can be blank)
     prompt: Service's docker container name

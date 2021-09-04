@@ -4,12 +4,12 @@ tasks:
     icon: 📜
     extend: core.makeServiceTask
     inputs:
-      - generatorServiceLocation
-      - generatorServiceName
-      - generatorServiceEnvs
-      - generatorServiceStartCommand
-      - generatorServicePorts
-      - generatorServiceDockerImageName
-      - generatorServiceDockerContainerName
-      - generatorTaskDependencies
+      - newServiceLocation
+      - newServiceName
+      - newServiceEnvs
+      - newStartCommand
+      - newServicePorts
+      - newServiceImageName
+      - newServiceContainerName
+      - newTaskDependencies
 

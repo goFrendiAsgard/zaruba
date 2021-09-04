@@ -4,15 +4,15 @@ tasks:
     icon: ⚡
     description: Make FastAPI event handler
     inputs:
-      - generatorFastApiServiceName
-      - generatorFastApiModuleName
-      - generatorFastApiEventName
+      - newFastApiServiceName
+      - newFastApiModuleName
+      - newFastApiEventName
     extend: core.runCoreScript
     dependencies:
       - core.showAdv
     configRef: generatorFastApi
     config:
-      eventName: '{{ .GetValue "generatorFastApiEventName" }}'
+      eventName: '{{ .GetValue "newFastApiEventName" }}'
       start: |
         {{- $d := .Decoration -}}
         MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}

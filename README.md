@@ -20,10 +20,10 @@ zaruba please initProject
 
 # Create FastAPI app with functional book CRUD
 zaruba please makeFastApiCrud \
-    generatorFastApiServiceName=myService \
-    generatorFastApiModuleName=myModule \
-    generatorFastApiCrudEntity=book \
-    generatorFastApiCrudFields='["title","author","synopsis"]'
+    newFastApiServiceName=myService \
+    newFastApiModuleName=myModule \
+    newFastApiCrudEntity=book \
+    newFastApiCrudFields='["title","author","synopsis"]'
 
 # Run the service locally 
 # To run this command, you need:

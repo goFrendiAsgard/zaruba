@@ -1,6 +1,6 @@
 inputs:
 
-  generatorFastApiRpcName:
+  newFastApiRpcName:
     description: |
       RPC name (Required)
     prompt: RPC name

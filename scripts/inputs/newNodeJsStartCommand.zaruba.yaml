@@ -1,6 +1,6 @@
 inputs:
 
-  generatorNodeJsServiceStartCommand:
+  newNodeJsStartCommand:
     description: Command to start the service (Required)
     prompt: Start command
     options:

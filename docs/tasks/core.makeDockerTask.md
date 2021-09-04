@@ -40,16 +40,16 @@
                   beforeStart       : Blank
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
-                  containerName     : {{ .GetValue "generatorDockerContainerName" }}
-                  dependencies      : {{ .GetValue "generatorTaskDependencies" }}
+                  containerName     : {{ .GetValue "dockerContainerName" }}
+                  dependencies      : {{ .GetValue "newTaskDependencies" }}
                   finish            : Blank
-                  imageName         : {{ .GetValue "generatorDockerImageName" }}
+                  imageName         : {{ .GetValue "dockerImageName" }}
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner    : true
                   replacementMap    : {}
-                  serviceEnvs       : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceName       : {{ .GetValue "generatorServiceName" }}
-                  servicePorts      : {{ .GetValue "generatorServicePorts" }}
+                  serviceEnvs       : {{ .GetValue "newServiceEnvs" }}
+                  serviceName       : {{ .GetValue "newServiceName" }}
+                  servicePorts      : {{ .GetValue "newServicePorts" }}
                   setup             : Blank
                   start             : Blank
                   templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/default

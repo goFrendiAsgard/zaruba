@@ -13,15 +13,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorServiceLocation
+  INPUTS        : newServiceLocation
                     DESCRIPTION : Service location, relative to this directory
                     PROMPT      : Service location
                     VALIDATION  : ^.+$
-                  generatorServiceName
+                  newServiceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generatorServiceEnvs
+                  newServiceEnvs
                     DESCRIPTION : Service environments, JSON formated.
                                   E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}
                                   
@@ -32,23 +32,23 @@
                     PROMPT      : Service environments, JSON formated. E.g: {"HTTP_PORT" : "3000", "MODE" : "writer"}
                     DEFAULT     : {}
                     VALIDATION  : ^\{.*\}$
-                  generatorServicePorts
+                  newServicePorts
                     DESCRIPTION : Service ports JSON formated.
                                   E.g: ["3001:3000", "8080" , "{{ .GetEnv \"HTTP_PORT\" }}"]
                     PROMPT      : Service ports, JSON formated. E.g: ["3001:3000", "8080", "{{ .GetEnv \"HTTP_PORT\"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
-                  generatorTaskDependencies
+                  newTaskDependencies
                     DESCRIPTION : Task's dependencies, JSON formated.
                                   E.g: ["runMysql", "runRedis"]
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
-                  generatorServiceDockerImageName
+                  newServiceImageName
                     DESCRIPTION : Service's docker image name (Can be blank)
                     PROMPT      : Service's docker image name
                     VALIDATION  : ^[a-z0-9_]*$
-                  generatorServiceDockerContainerName
+                  newServiceContainerName
                     DESCRIPTION : Service's docker container name (Can be blank)
                     PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
@@ -84,19 +84,19 @@
                   beforeStart          : Blank
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg               : -c
-                  containerName        : {{ .GetValue "generatorServiceDockerContainerName" }}
-                  dependencies         : {{ .GetValue "generatorTaskDependencies" }}
+                  containerName        : {{ .GetValue "newServiceContainerName" }}
+                  dependencies         : {{ .GetValue "newTaskDependencies" }}
                   finish               : Blank
-                  imageName            : {{ .GetValue "generatorServiceDockerImageName" }}
+                  imageName            : {{ .GetValue "newServiceImageName" }}
                   includeUtilScript    : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner       : true
                   replacementMap       : {}
-                  serviceEnvs          : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceLocation      : {{ .GetValue "generatorServiceLocation" }}
-                  serviceName          : {{ .GetValue "generatorServiceName" }}
-                  servicePorts         : {{ .GetValue "generatorServicePorts" }}
+                  serviceEnvs          : {{ .GetValue "newServiceEnvs" }}
+                  serviceLocation      : {{ .GetValue "newServiceLocation" }}
+                  serviceName          : {{ .GetValue "newServiceName" }}
+                  servicePorts         : {{ .GetValue "newServicePorts" }}
                   serviceRunnerVersion : Blank
-                  serviceStartCommand  : {{ .GetValue "generatorServiceStartCommand" }}
+                  serviceStartCommand  : {{ .GetValue "newStartCommand" }}
                   setup                : Blank
                   start                : Blank
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/static

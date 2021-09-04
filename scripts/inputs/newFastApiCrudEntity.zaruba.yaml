@@ -1,6 +1,6 @@
 inputs:
  
-  generatorFastApiCrudEntity:
+  newFastApiCrudEntity:
     description: |
       Entity name (Required)
       Usually plural word (e.g: books, articles)

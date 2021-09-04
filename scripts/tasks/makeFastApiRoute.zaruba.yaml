@@ -4,17 +4,17 @@ tasks:
     icon: ⚡
     description: Make FastAPI route handler
     inputs:
-      - generatorFastApiServiceName
-      - generatorFastApiModuleName
-      - generatorFastApiHttpMethod
-      - generatorFastApiUrl
+      - newFastApiServiceName
+      - newFastApiModuleName
+      - newFastApiHttpMethod
+      - newFastApiUrl
     extend: core.runCoreScript
     dependencies:
       - core.showAdv
     configRef: generatorFastApi
     config:
-      httpMethod: '{{ .GetValue "generatorFastApiHttpMethod" }}'
-      url: '{{ .GetValue "generatorFastApiUrl" }}'
+      httpMethod: '{{ .GetValue "newFastApiHttpMethod" }}'
+      url: '{{ .GetValue "newFastApiUrl" }}'
       start: |
         {{- $d := .Decoration -}}
         MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}

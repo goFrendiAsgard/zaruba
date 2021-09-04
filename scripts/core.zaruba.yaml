@@ -7,30 +7,30 @@ includes:
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
 
-  - ./inputs/generatorDockerContainerName.zaruba.yaml
-  - ./inputs/generatorDockerImageName.zaruba.yaml
-  - ./inputs/generatorFastApiCrudEntity.zaruba.yaml
-  - ./inputs/generatorFastApiCrudFields.zaruba.yaml
-  - ./inputs/generatorFastApiEventName.zaruba.yaml
-  - ./inputs/generatorFastApiHttpMethod.zaruba.yaml
-  - ./inputs/generatorFastApiModuleName.zaruba.yaml
-  - ./inputs/generatorFastApiRpcName.zaruba.yaml
-  - ./inputs/generatorFastApiServiceName.zaruba.yaml
-  - ./inputs/generatorFastApiUrl.zaruba.yaml
-  - ./inputs/generatorGoServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorNodeJsServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorNodeJsServiceRunnerVersion.zaruba.yaml
+  - ./inputs/dockerContainerName.zaruba.yaml
+  - ./inputs/dockerImageName.zaruba.yaml
+  - ./inputs/newFastApiCrudEntity.zaruba.yaml
+  - ./inputs/newFastApiCrudFields.zaruba.yaml
+  - ./inputs/newFastApiEventName.zaruba.yaml
+  - ./inputs/newFastApiHttpMethod.zaruba.yaml
+  - ./inputs/newFastApiModuleName.zaruba.yaml
+  - ./inputs/newFastApiRpcName.zaruba.yaml
+  - ./inputs/newFastApiServiceName.zaruba.yaml
+  - ./inputs/newFastApiUrl.zaruba.yaml
+  - ./inputs/newGoStartCommand.zaruba.yaml
+  - ./inputs/newNodeJsStartCommand.zaruba.yaml
+  - ./inputs/newNodeJsRunnerVersion.zaruba.yaml
   - ./inputs/postgreServiceName.zaruba.yaml
-  - ./inputs/generatorPythonServiceStartCommand.zaruba.yaml
+  - ./inputs/newPythonStartCommand.zaruba.yaml
   - ./inputs/redisServiceName.zaruba.yaml
-  - ./inputs/generatorServiceDockerContainerName.zaruba.yaml
-  - ./inputs/generatorServiceDockerImageName.zaruba.yaml
-  - ./inputs/generatorServiceEnvs.zaruba.yaml
-  - ./inputs/generatorServiceLocation.zaruba.yaml
-  - ./inputs/generatorServiceName.zaruba.yaml
-  - ./inputs/generatorServicePorts.zaruba.yaml
-  - ./inputs/generatorServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorTaskDependencies.zaruba.yaml
+  - ./inputs/newServiceContainerName.zaruba.yaml
+  - ./inputs/newServiceImageName.zaruba.yaml
+  - ./inputs/newServiceEnvs.zaruba.yaml
+  - ./inputs/newServiceLocation.zaruba.yaml
+  - ./inputs/newServiceName.zaruba.yaml
+  - ./inputs/newServicePorts.zaruba.yaml
+  - ./inputs/newStartCommand.zaruba.yaml
+  - ./inputs/newTaskDependencies.zaruba.yaml
   - ./inputs/kubeContext.zaruba.yaml
   - ./inputs/linkFrom.zaruba.yaml
   - ./inputs/linkTo.zaruba.yaml

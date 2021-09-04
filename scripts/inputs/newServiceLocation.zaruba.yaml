@@ -1,6 +1,6 @@
 inputs:
 
-  generatorServiceLocation:
+  newServiceLocation:
     description: Service location, relative to this directory
     prompt: "Service location"
     validation: ^.+$

@@ -1,6 +1,6 @@
 inputs:
 
-  generatorDockerContainerName:
+  dockerContainerName:
     description: Docker container name (Can be blank)
     prompt: Docker container name
     validation: ^[a-zA-Z0-9_]*$

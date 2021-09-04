@@ -13,15 +13,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorDockerContainerName
+  INPUTS        : dockerContainerName
                     DESCRIPTION : Docker container name (Can be blank)
                     PROMPT      : Docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generatorServiceName
+                  newServiceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generatorServiceEnvs
+                  newServiceEnvs
                     DESCRIPTION : Service environments, JSON formated.
                                   E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}
                                   
@@ -32,7 +32,7 @@
                     PROMPT      : Service environments, JSON formated. E.g: {"HTTP_PORT" : "3000", "MODE" : "writer"}
                     DEFAULT     : {}
                     VALIDATION  : ^\{.*\}$
-                  generatorTaskDependencies
+                  newTaskDependencies
                     DESCRIPTION : Task's dependencies, JSON formated.
                                   E.g: ["runMysql", "runRedis"]
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
@@ -96,18 +96,18 @@
                                        fi
                   cmd                : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg             : -c
-                  containerName      : {{ .GetValue "generatorDockerContainerName" }}
-                  dependencies       : {{ .GetValue "generatorTaskDependencies" }}
+                  containerName      : {{ .GetValue "dockerContainerName" }}
+                  dependencies       : {{ .GetValue "newTaskDependencies" }}
                   finish             : Blank
-                  imageName          : {{ .GetValue "generatorDockerImageName" }}
+                  imageName          : {{ .GetValue "dockerImageName" }}
                   includeUtilScript  : . ${ZARUBA_HOME}/bash/util.sh
                   postgreServiceName : {{ .GetValue "postgreServiceName" }}
                   redisServiceName   : {{ .GetValue "redisServiceName" }}
                   registerRunner     : true
                   replacementMap     : {}
-                  serviceEnvs        : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceName        : {{ .GetValue "generatorServiceName" }}
-                  servicePorts       : {{ .GetValue "generatorServicePorts" }}
+                  serviceEnvs        : {{ .GetValue "newServiceEnvs" }}
+                  serviceName        : {{ .GetValue "newServiceName" }}
+                  servicePorts       : {{ .GetValue "newServicePorts" }}
                   setup              : Blank
                   start              : Blank
                   templateLocation   : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/airflow

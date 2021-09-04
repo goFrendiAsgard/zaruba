@@ -15,20 +15,20 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorFastApiServiceName
+  INPUTS        : newFastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiModuleName
+                  newFastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiCrudEntity
+                  newFastApiCrudEntity
                     DESCRIPTION : Entity name (Required)
                                   Usually plural word (e.g: books, articles)
                     PROMPT      : Entity name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiCrudFields
+                  newFastApiCrudFields
                     DESCRIPTION : Field names, JSON formated.
                                   E.g: ["name", "address"]
                     PROMPT      : Field names, JSON formated. E.g: ["name", "address"]
@@ -42,13 +42,13 @@
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                  : -c
                   crudTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiCrud
-                  entityName              : {{ .GetValue "generatorFastApiCrudEntity" }}
-                  fieldNames              : {{ .GetValue "generatorFastApiCrudFields" }}
+                  entityName              : {{ .GetValue "newFastApiCrudEntity" }}
+                  fieldNames              : {{ .GetValue "newFastApiCrudFields" }}
                   finish                  : Blank
                   includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
-                  moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
+                  moduleName              : {{ .GetValue "newFastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
-                  serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
+                  serviceName             : {{ .GetValue "newFastApiServiceName" }}
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
