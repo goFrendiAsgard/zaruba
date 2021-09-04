@@ -1,9 +1,0 @@
-inputs:
-
-  generatorNodeJsServiceRunnerVersion:
-    description: NodeJs version (Required)
-    prompt: NodeJs version
-    options: [node, 16, 15, 14, 13, 12, 11, 10]
-    default: node
-    validation: ^.+$
-

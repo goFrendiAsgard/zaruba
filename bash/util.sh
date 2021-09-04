@@ -9,8 +9,8 @@ then
     fi
 fi
 
-# USAGE get_value_or_default <value> <default>
-get_value_or_default() {
+# USAGE getValueOrDefault <value> <default>
+getValueOrDefault() {
     if [ -z "${1}" ]
     then
         echo "${2}"
@@ -19,7 +19,7 @@ get_value_or_default() {
     fi
 }
 
-get_latest_git_commit() {
+getLatestGitCommit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     git rev-parse --verify HEAD
@@ -27,7 +27,7 @@ get_latest_git_commit() {
 }
 
 
-get_latest_git_tag_commit() {
+getLatestGitTagCommit() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     git rev-parse --verify "$(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags)"^{commit}
@@ -35,15 +35,15 @@ get_latest_git_tag_commit() {
 }
 
 
-get_latest_git_tag() {
+getLatestGitTag() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags
     set "${_OLD_STATE}"
 }
 
-# USAGE: git_init_subrepo <name> <prefix> <url> <branch>
-git_init_subrepo() {
+# USAGE: gitInitSubrepo <name> <prefix> <url> <branch>
+gitInitSubrepo() {
     _NAME="${1}"
     _PREFIX="${2}"
     _URL="${3}"
@@ -58,8 +58,8 @@ git_init_subrepo() {
 }
 
 
-# USAGE: git_save <message>
-git_save() {
+# USAGE: gitSave <message>
+gitSave() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     git add . -A
@@ -68,8 +68,8 @@ git_save() {
 }
 
 
-# USAGE: inspect_docker <object> <format> <container-name>
-inspect_docker() {
+# USAGE: inspectDocker <object> <format> <container-name>
+inspectDocker() {
     _OBJECT_TYPE="${1}"
     _FORMAT="${2}"
     _OBJECT_NAME="${3}"
@@ -79,8 +79,8 @@ inspect_docker() {
     set "${_OLD_STATE}"
 }
 
-# USAGE: is_command_error <command>
-is_command_error() {
+# USAGE: isCommandError <command>
+isCommandError() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     $@ >> /dev/null
@@ -95,8 +95,8 @@ is_command_error() {
 }
 
 
-# USAGE: is_command_exist <command>
-is_command_exist() {
+# USAGE: isCommandExist <command>
+isCommandExist() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     $@ >> /dev/null
@@ -111,8 +111,8 @@ is_command_exist() {
 }
 
 
-# USAGE: link_resource <src> <dst>
-link_resource() {
+# USAGE: linkResource <src> <dst>
+linkResource() {
     _SRC="${1}"
     _DST="${2}"
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -126,8 +126,8 @@ link_resource() {
 }
 
 
-# USAGE: pull_image <image>
-pull_image() {
+# USAGE: pullImage <image>
+pullImage() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     docker image inspect "${1}" > /dev/null || docker  pull "${1}"
@@ -135,8 +135,8 @@ pull_image() {
 } 
 
 
-# USAGE: remove_container <container>
-remove_container() {
+# USAGE: removeContainer <container>
+removeContainer() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     if [ ! -z $(docker container inspect -f "{{ .Name }}" "${1}") ]
@@ -147,8 +147,8 @@ remove_container() {
 } 
 
 
-# USAGE: stop_container <container>
-stop_container() {
+# USAGE: stopContainer <container>
+stopContainer() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     if [ ! -z $(docker container inspect -f "{{ .Name }}" "${1}") ]
@@ -159,8 +159,8 @@ stop_container() {
 } 
 
 
-# USAGE: wait_port <host> <port>
-wait_port() {
+# USAGE: waitPort <host> <port>
+waitPort() {
     until nc -z ${1} ${2}
     do
         sleep 1

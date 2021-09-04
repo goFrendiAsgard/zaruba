@@ -24,7 +24,7 @@ tasks:
           {{ $source := $this.GetValue "link" $destination -}}
           {{ $absSource := $this.GetWorkPath $source -}}
           {{ $absDestination := $this.GetWorkPath $destination -}}
-          link_resource "{{ $absSource }}" "{{ $absDestination }}"
+          linkResource "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉
         echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"

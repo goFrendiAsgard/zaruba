@@ -3,15 +3,15 @@ tasks:
   makeGoServiceTask:
     extend: core.makeServiceTask
     inputs:
-      - generatorServiceLocation
-      - generatorServiceName
-      - generatorServiceEnvs
-      - generatorServicePorts
-      - generatorGoServiceStartCommand
-      - generatorTaskDependencies
-      - generatorServiceDockerImageName
-      - generatorServiceDockerContainerName
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - goStartCommand
+      - taskDependencies
+      - serviceImageName
+      - serviceContainerName
     config:
-      serviceStartCommand: '{{ .GetValue "generatorGoServiceStartCommand" }}'
+      serviceStartCommand: '{{ .GetValue "goStartCommand" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/go'
 

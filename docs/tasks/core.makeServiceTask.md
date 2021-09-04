@@ -26,8 +26,8 @@
                                          DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                          REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                   _start               : {{- $d := .Decoration -}}
-                                         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
-                                         generate_service_task \
+                                         . "${ZARUBA_HOME}/bash/generateServiceTask.sh"
+                                         generateServiceTask \
                                            "${TEMPLATE_LOCATION}" \
                                            "${SERVICE_LOCATION}" \
                                            "${SERVICE_NAME}" \
@@ -46,19 +46,19 @@
                   beforeStart          : Blank
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg               : -c
-                  containerName        : {{ .GetValue "generatorServiceDockerContainerName" }}
-                  dependencies         : {{ .GetValue "generatorTaskDependencies" }}
+                  containerName        : {{ .GetValue "serviceContainerName" }}
+                  dependencies         : {{ .GetValue "taskDependencies" }}
                   finish               : Blank
-                  imageName            : {{ .GetValue "generatorServiceDockerImageName" }}
+                  imageName            : {{ .GetValue "serviceImageName" }}
                   includeUtilScript    : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner       : true
                   replacementMap       : {}
-                  serviceEnvs          : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceLocation      : {{ .GetValue "generatorServiceLocation" }}
-                  serviceName          : {{ .GetValue "generatorServiceName" }}
-                  servicePorts         : {{ .GetValue "generatorServicePorts" }}
+                  serviceEnvs          : {{ .GetValue "serviceEnvs" }}
+                  serviceLocation      : {{ .GetValue "serviceLocation" }}
+                  serviceName          : {{ .GetValue "serviceName" }}
+                  servicePorts         : {{ .GetValue "servicePorts" }}
                   serviceRunnerVersion : Blank
-                  serviceStartCommand  : {{ .GetValue "generatorServiceStartCommand" }}
+                  serviceStartCommand  : {{ .GetValue "startCommand" }}
                   setup                : Blank
                   start                : Blank
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/default

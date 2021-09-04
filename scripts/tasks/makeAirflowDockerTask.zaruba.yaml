@@ -3,37 +3,36 @@ tasks:
   makeAirflowDockerTask:
     extend: core.makeDockerTask
     inputs:
-      - generatorDockerContainerName
-      - generatorServiceName
-      - generatorServiceEnvs
-      - generatorTaskDependencies
-      - generatorRedisTask
-      - generatorPostgreTask
+      - dockerContainerName
+      - serviceName
+      - serviceEnvs
+      - taskDependencies
+      - redisServiceName
+      - postgreServiceName
     config:
-      generatorRedisTask: '{{ .GetValue "generatorRedisTask" }}'
-      generatorPostgreTask: '{{ .GetValue "generatorPostgreTask" }}'
+      redisServiceName: '{{ .GetValue "redisServiceName" }}'
+      postgreServiceName: '{{ .GetValue "postgreServiceName" }}'
       beforeStart: |
-        . "${ZARUBA_HOME}/bash/generate_docker_task.sh"
-        . "${ZARUBA_HOME}/bash/get_service_name_by_task_name.sh"
-        REDIS_TASK={{ .EscapeShellArg (.GetConfig "generatorRedisTask") }}
-        REDIS_SERVICE="$(get_service_name_by_task_name "${REDIS_TASK}")"
-        POSTGRE_TASK={{ .EscapeShellArg (.GetConfig "generatorPostgreTask") }}
-        POSTGRE_SERVICE="$(get_service_name_by_task_name "${POSTGRE_TASK}")"
+        . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
+        REDIS_SERVICE={{ .EscapeShellArg (.GetConfig "redisServiceName") }}
+        REDIS_TASK="run$("{{ .ZarubaBin }}" str toPascal "${REDIS_SERVICE}")"
+        POSTGRE_SERVICE={{ .EscapeShellArg (.GetConfig "postgreServiceName") }}
+        POSTGRE_TASK="run$("{{ .ZarubaBin }}" str toPascal "${POSTGRE_SERVICE}")"
         REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaRedisTask" "${REDIS_TASK}" )"
         REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaRedisService" "${REDIS_SERVICE}" )"
         REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaPostgreTask" "${POSTGRE_TASK}" )"
         REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaPostgreService" "${POSTGRE_SERVICE}" )"
-        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${REDIS_SERVICE}")" = 0 ]
+        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${REDIS_TASK}")" = 0 ]
         then
-          echo "create redis task: ${REDIS_SERVICE}"
-          generate_docker_task \
+          echo "create redis task: ${REDIS_TASK}"
+          generateDockerTask \
             "${ZARUBA_HOME}/templates/task/docker/redis" "" "${REDIS_SERVICE}" \
             "" "[]" "{}" "[]" "{}"
         fi
-        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${POSTGRE_SERVICE}")" = 0 ]
+        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${POSTGRE_TASK}")" = 0 ]
         then
-          echo "create postgre task: ${POSTGRE_SERVICE}"
-          generate_docker_task \
+          echo "create postgre task: ${POSTGRE_TASK}"
+          generateDockerTask \
             "${ZARUBA_HOME}/templates/task/docker/postgre" "" "${POSTGRE_SERVICE}" \
             "" "[]" "{}" "[]" "{}" "1"
         fi

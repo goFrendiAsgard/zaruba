@@ -1,0 +1,8 @@
+inputs:
+
+  serviceContainerName:
+    description: |
+      Service's docker container name (Can be blank)
+    prompt: Service's docker container name
+    validation: ^[a-zA-Z0-9_]*$
+

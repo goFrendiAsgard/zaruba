@@ -7,39 +7,40 @@ includes:
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
 
-  - ./inputs/generatorDockerContainerName.zaruba.yaml
-  - ./inputs/generatorDockerImageName.zaruba.yaml
-  - ./inputs/generatorFastApiCrudEntity.zaruba.yaml
-  - ./inputs/generatorFastApiCrudFields.zaruba.yaml
-  - ./inputs/generatorFastApiEventName.zaruba.yaml
-  - ./inputs/generatorFastApiHttpMethod.zaruba.yaml
-  - ./inputs/generatorFastApiModuleName.zaruba.yaml
-  - ./inputs/generatorFastApiRpcName.zaruba.yaml
-  - ./inputs/generatorFastApiServiceName.zaruba.yaml
-  - ./inputs/generatorFastApiUrl.zaruba.yaml
-  - ./inputs/generatorGoServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorNodeJsServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorNodeJsServiceRunnerVersion.zaruba.yaml
-  - ./inputs/generatorPostgreTask.zaruba.yaml
-  - ./inputs/generatorPythonServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorRedisTask.zaruba.yaml
-  - ./inputs/generatorServiceDockerContainerName.zaruba.yaml
-  - ./inputs/generatorServiceDockerImageName.zaruba.yaml
-  - ./inputs/generatorServiceEnvs.zaruba.yaml
-  - ./inputs/generatorServiceLocation.zaruba.yaml
-  - ./inputs/generatorServiceName.zaruba.yaml
-  - ./inputs/generatorServicePorts.zaruba.yaml
-  - ./inputs/generatorServiceStartCommand.zaruba.yaml
-  - ./inputs/generatorTaskDependencies.zaruba.yaml
+  - ./inputs/airflowServiceName.zaruba.yaml
+  - ./inputs/dockerContainerName.zaruba.yaml
+  - ./inputs/dockerImageName.zaruba.yaml
+  - ./inputs/fastApiCrudEntity.zaruba.yaml
+  - ./inputs/fastApiCrudFields.zaruba.yaml
+  - ./inputs/fastApiEventName.zaruba.yaml
+  - ./inputs/fastApiHttpMethod.zaruba.yaml
+  - ./inputs/fastApiModuleName.zaruba.yaml
+  - ./inputs/fastApiRpcName.zaruba.yaml
+  - ./inputs/fastApiServiceName.zaruba.yaml
+  - ./inputs/fastApiUrl.zaruba.yaml
+  - ./inputs/goStartCommand.zaruba.yaml
+  - ./inputs/keyword.zaruba.yaml
   - ./inputs/kubeContext.zaruba.yaml
   - ./inputs/linkFrom.zaruba.yaml
   - ./inputs/linkTo.zaruba.yaml
-  - ./inputs/logKeyword.zaruba.yaml
+  - ./inputs/nodeJsRunnerVersion.zaruba.yaml
+  - ./inputs/nodeJsStartCommand.zaruba.yaml
+  - ./inputs/postgreServiceName.zaruba.yaml
+  - ./inputs/pythonStartCommand.zaruba.yaml
+  - ./inputs/redisServiceName.zaruba.yaml
   - ./inputs/serverHttpPort.zaruba.yaml
+  - ./inputs/serviceContainerName.zaruba.yaml
+  - ./inputs/serviceImageName.zaruba.yaml
+  - ./inputs/serviceEnvs.zaruba.yaml
+  - ./inputs/serviceLocation.zaruba.yaml
+  - ./inputs/serviceName.zaruba.yaml
+  - ./inputs/servicePorts.zaruba.yaml
   - ./inputs/showAdvertisement.zaruba.yaml
+  - ./inputs/startCommand.zaruba.yaml
   - ./inputs/subrepoUrl.zaruba.yaml
   - ./inputs/subrepoPrefix.zaruba.yaml
   - ./inputs/subrepoName.zaruba.yaml
+  - ./inputs/taskDependencies.zaruba.yaml
   - ./inputs/variableName.zaruba.yaml
   - ./inputs/variableValue.zaruba.yaml
 

@@ -4,15 +4,15 @@ tasks:
     icon: ⚡
     description: Make FastAPI Route
     inputs:
-      - generatorFastApiServiceName
-      - generatorFastApiModuleName
-      - generatorFastApiRpcName
+      - fastApiServiceName
+      - fastApiModuleName
+      - fastApiRpcName
     extend: core.runCoreScript
     dependencies:
       - core.showAdv
     configRef: generatorFastApi
     config:
-      rpcName: '{{ .GetValue "generatorFastApiRpcName" }}'
+      rpcName: '{{ .GetValue "fastApiRpcName" }}'
       start: |
         {{- $d := .Decoration -}}
         MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
@@ -21,8 +21,8 @@ tasks:
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
         RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
-        . ${ZARUBA_HOME}/bash/generate_fast_api_rpc_handler.sh
-        generate_fast_api_rpc_handler \
+        . ${ZARUBA_HOME}/bash/generateFastApiRpcHandler.sh
+        generateFastApiRpcHandler \
           "${MODULE_TEMPLATE_LOCATION}" \
           "${SERVICE_TEMPLATE_LOCATION}" \
           "${TASK_TEMPLATE_LOCATION}" \

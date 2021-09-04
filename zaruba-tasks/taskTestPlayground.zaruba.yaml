@@ -17,31 +17,31 @@ tasks:
         #
         # service related
         #
-        ../zaruba please makeStaticServiceTask generatorServiceLocation=fibo generatorServiceEnvs='{"HTTP_PORT": "3001"}'
-        ../zaruba please makeMeltanoServiceTask generatorServiceLocation=testMeltano showAdvertisement=no  
+        ../zaruba please makeStaticServiceTask serviceLocation=fibo serviceEnvs='{"HTTP_PORT": "3001"}'
+        ../zaruba please makeMeltanoServiceTask serviceLocation=testMeltano showAdvertisement=no  
         #
         # docker related
         #
-        ../zaruba please makeRabbitmqDockerTask generatorDockerContainerName=testRabbitMq showAdvertisement=no 
-        ../zaruba please makeMysqlDockerTask generatorDockerContainerName=testMySql showAdvertisement=no 
-        ../zaruba please makeCassandraDockerTask generatorDockerContainerName=testCassandra showAdvertisement=no 
-        ../zaruba please makeElasticsearchDockerTask generatorDockerContainerName=testElasticSearch showAdvertisement=no 
-        ../zaruba please makeMongoDockerTask generatorDockerContainerName=testMongo showAdvertisement=no 
-        ../zaruba please makeRedisDockerTask generatorDockerContainerName=testRedis showAdvertisement=no 
-        ../zaruba please makePostgreDockerTask generatorDockerContainerName=testPostgre showAdvertisement=no 
-        ../zaruba please makeAirflowDockerTask generatorDockerContainerName=testAirflow generatorRedisTask=runTestRedis generatorPostgreTask=runTestPostgre showAdvertisement=no 
-        ../zaruba please makeTrinoDockerTask generatorDockerContainerName=testTrino showAdvertisement=no generatorServicePorts='["8081:8080"]'
-        ../zaruba please makeNginxDockerTask generatorDockerContainerName=testNginx
+        ../zaruba please makeRabbitmqDockerTask dockerContainerName=testRabbitMq showAdvertisement=no 
+        ../zaruba please makeMysqlDockerTask dockerContainerName=testMySql showAdvertisement=no 
+        ../zaruba please makeCassandraDockerTask dockerContainerName=testCassandra showAdvertisement=no 
+        ../zaruba please makeElasticsearchDockerTask dockerContainerName=testElasticSearch showAdvertisement=no 
+        ../zaruba please makeMongoDockerTask dockerContainerName=testMongo showAdvertisement=no 
+        ../zaruba please makeRedisDockerTask dockerContainerName=testRedis showAdvertisement=no 
+        ../zaruba please makePostgreDockerTask dockerContainerName=testPostgre showAdvertisement=no 
+        ../zaruba please makeAirflowDockerTask dockerContainerName=testAirflow redisServiceName=testRedis postgreServiceName=testPostgre showAdvertisement=no 
+        ../zaruba please makeTrinoDockerTask dockerContainerName=testTrino showAdvertisement=no servicePorts='["8081:8080"]'
+        ../zaruba please makeNginxDockerTask dockerContainerName=testNginx
         #
         # fastapi related
         #
-        ../zaruba please makeFastApiService generatorFastApiServiceName=myService showAdvertisement=no  
-        ../zaruba please makeFastApiServiceTask generatorServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
-        ../zaruba please makeFastApiModule generatorFastApiServiceName=myService generatorFastApiModuleName=myModule showAdvertisement=no 
-        ../zaruba please makeFastApiRoute generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiUrl=/hello showAdvertisement=no 
-        ../zaruba please makeFastApiEventHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiEventName=myEvent showAdvertisement=no 
-        ../zaruba please makeFastApiRpcHandler generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiRpcName=myRpc showAdvertisement=no 
-        ../zaruba please makeFastApiCrud generatorFastApiServiceName=myService generatorFastApiModuleName=myModule generatorFastApiCrudEntity=book generatorFastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no 
+        ../zaruba please makeFastApiService fastApiServiceName=myService showAdvertisement=no  
+        ../zaruba please makeFastApiServiceTask serviceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
+        ../zaruba please makeFastApiModule fastApiServiceName=myService fastApiModuleName=myModule showAdvertisement=no 
+        ../zaruba please makeFastApiRoute fastApiServiceName=myService fastApiModuleName=myModule fastApiUrl=/hello showAdvertisement=no 
+        ../zaruba please makeFastApiEventHandler fastApiServiceName=myService fastApiModuleName=myModule fastApiEventName=myEvent showAdvertisement=no 
+        ../zaruba please makeFastApiRpcHandler fastApiServiceName=myService fastApiModuleName=myModule fastApiRpcName=myRpc showAdvertisement=no 
+        ../zaruba please makeFastApiCrud fastApiServiceName=myService fastApiModuleName=myModule fastApiCrudEntity=book fastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no 
 
 
   testSyncEnv:
@@ -103,7 +103,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please showLog logKeyword=myService 
+        ../zaruba please showLog keyword=myService 
 
 
   pullContainerRegistry:

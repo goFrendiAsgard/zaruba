@@ -15,11 +15,11 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorFastApiServiceName
+  INPUTS        : fastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiModuleName
+                  fastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
@@ -32,9 +32,9 @@
                   cmdArg                  : -c
                   finish                  : Blank
                   includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
-                  moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
+                  moduleName              : {{ .GetValue "fastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
-                  serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
+                  serviceName             : {{ .GetValue "fastApiServiceName" }}
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
@@ -43,8 +43,8 @@
                                             TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
                                             SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
-                                            . ${ZARUBA_HOME}/bash/generate_fast_api_module.sh
-                                            generate_fast_api_module \
+                                            . ${ZARUBA_HOME}/bash/generateFastApiModule.sh
+                                            generateFastApiModule \
                                               "${MODULE_TEMPLATE_LOCATION}" \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
                                               "${TASK_TEMPLATE_LOCATION}" \

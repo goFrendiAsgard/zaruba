@@ -1,8 +1,0 @@
-inputs:
-
-  generatorFastApiUrl:
-    description: |
-      URL to be handled (Required)
-    prompt: URL to be handled
-    validation: ^[a-zA-Z0-9_\-/\{\}]+$
-

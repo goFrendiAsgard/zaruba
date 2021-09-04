@@ -1,0 +1,10 @@
+inputs:
+
+  taskDependencies:
+    description: |
+      Task's dependencies, JSON formated.
+      E.g: ["runMysql", "runRedis"]
+    prompt: "Task dependencies, JSON formated. E.g: [\"runMysql\", \"runRedis\"]"
+    validation: ^\[.*\]$
+    default: "[]"
+

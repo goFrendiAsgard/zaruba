@@ -8,15 +8,15 @@ tasks:
       - core.isProject
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/default'
-      serviceLocation: '{{ .GetValue "generatorServiceLocation" }}'
-      serviceName: '{{ .GetValue "generatorServiceName" }}'
-      imageName: '{{ .GetValue "generatorServiceDockerImageName" }}'
-      containerName: '{{ .GetValue "generatorServiceDockerContainerName" }}'
-      serviceStartCommand: '{{ .GetValue "generatorServiceStartCommand" }}'
+      serviceLocation: '{{ .GetValue "serviceLocation" }}'
+      serviceName: '{{ .GetValue "serviceName" }}'
+      imageName: '{{ .GetValue "serviceImageName" }}'
+      containerName: '{{ .GetValue "serviceContainerName" }}'
+      serviceStartCommand: '{{ .GetValue "startCommand" }}'
       serviceRunnerVersion: ''
-      servicePorts: '{{ .GetValue "generatorServicePorts" }}'
-      serviceEnvs: '{{ .GetValue "generatorServiceEnvs" }}'
-      dependencies: '{{ .GetValue "generatorTaskDependencies" }}'
+      servicePorts: '{{ .GetValue "servicePorts" }}'
+      serviceEnvs: '{{ .GetValue "serviceEnvs" }}'
+      dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
       _setup: |
@@ -33,8 +33,8 @@ tasks:
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
       _start: |
         {{- $d := .Decoration -}}
-        . "${ZARUBA_HOME}/bash/generate_service_task.sh"
-        generate_service_task \
+        . "${ZARUBA_HOME}/bash/generateServiceTask.sh"
+        generateServiceTask \
           "${TEMPLATE_LOCATION}" \
           "${SERVICE_LOCATION}" \
           "${SERVICE_NAME}" \

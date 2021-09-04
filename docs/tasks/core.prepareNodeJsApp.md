@@ -59,7 +59,7 @@
                                               fi
                                             {{ end -}}
                   tsInstallScript         : {{ if .IsTrue (.GetConfig "installTypeScript") -}}
-                                              if [ -f "./node_modules/.bin/tsc" ] || [ "$(is_command_exist tsc)" = 1 ]
+                                              if [ -f "./node_modules/.bin/tsc" ] || [ "$(isCommandExist tsc)" = 1 ]
                                               then
                                                 echo "Typescript is already installed"
                                               else
@@ -67,9 +67,9 @@
                                               fi
                                             {{ end -}}
                   typeScriptVersion       : Blank
-                  useNvmScript            : if [ "$(is_command_exist nvm)" = 1 ]
+                  useNvmScript            : if [ "$(isCommandExist nvm)" = 1 ]
                                             then
-                                              if [ "$(is_command_error nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
+                                              if [ "$(isCommandError nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
                                               then
                                                 nvm install "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
                                               else

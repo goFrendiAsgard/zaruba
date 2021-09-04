@@ -60,18 +60,18 @@
                   _start                       : {{ $d := .Decoration -}}
                                                  {{ $rebuild := .GetConfig "rebuild" -}}
                                                  {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
-                                                 if [ "$(inspect_docker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
+                                                 if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
                                                  then
                                                    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
                                                  else
                                                    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
                                                    docker network create "{{ .GetConfig "network" }}"
                                                  fi
-                                                 if [ "$(inspect_docker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+                                                 if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
                                                  then
                                                    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is already started{{ $d.Normal }}"
                                                    {{ .GetConfig "_startLogContainer" }}
-                                                 elif [ ! -z $(inspect_docker "container" ".Name" "${CONTAINER_NAME}") ]
+                                                 elif [ ! -z $(inspectDocker "container" ".Name" "${CONTAINER_NAME}") ]
                                                  then
                                                    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Retrieve previous log of '${CONTAINER_NAME}'{{ $d.Normal }}"
                                                    sleep 1
@@ -87,8 +87,8 @@
                   _startLogContainer           : {{ $d := .Decoration -}}
                                                  echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
                                                  docker logs --since 0m --follow "${CONTAINER_NAME}"
-                  _startRebuildContainer       : stop_container "${CONTAINER_NAME}"
-                                                 remove_container "${CONTAINER_NAME}"
+                  _startRebuildContainer       : stopContainer "${CONTAINER_NAME}"
+                                                 removeContainer "${CONTAINER_NAME}"
                   _startRunContainer           : {{ $d := .Decoration -}}
                                                  {{ $imageTag := .GetConfig "imageTag" -}}
                                                  {{ $this := . -}}

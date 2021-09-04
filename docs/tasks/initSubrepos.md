@@ -49,20 +49,20 @@
                                         elif [ "$ORIGIN_EXISTS" = "0" ]
                                         then
                                           echo "$NAME origin is not exist"
-                                          git_save "Save works before pulling from ${URL}"
+                                          gitSave "Save works before pulling from ${URL}"
                                           PREFIX_EXISTS=0
                                           if [ -d "$PREFIX" ]
                                           then
                                             PREFIX_EXISTS=1
                                             mv "${PREFIX}" "${PREFIX}.bak"
-                                            git_save "Temporarily move ${PREFIX}"
+                                            gitSave "Temporarily move ${PREFIX}"
                                           fi
-                                          git_init_subrepo "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
+                                          gitInitSubrepo "${NAME}" "${PREFIX}" "${URL}" "${BRANCH}"
                                           if [ "$PREFIX_EXISTS" = "1" ]
                                           then
                                             rm -Rf "${PREFIX}"
                                             mv "${PREFIX}.bak" "${PREFIX}"
-                                            git_save "Restore ${PREFIX}"
+                                            gitSave "Restore ${PREFIX}"
                                           fi
                                         fi
                                       {{ end -}}

@@ -1,7 +1,0 @@
-inputs:
-
-  generatorServiceLocation:
-    description: Service location, relative to this directory
-    prompt: "Service location"
-    validation: ^.+$
-

@@ -12,7 +12,7 @@ RUN go build -o zaruba && \
     chmod 755 ./setup/*.sh
 
 ENV ZARUBA_HOME="/zaruba"
-RUN . ./bash/get_version.sh && get_version > /zaruba/.version
+RUN . ./bash/getVersion.sh && getVersion > /zaruba/.version
 
 FROM stalchmst/devbox:latest
 

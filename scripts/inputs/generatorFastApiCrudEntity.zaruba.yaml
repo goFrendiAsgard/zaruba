@@ -1,9 +1,0 @@
-inputs:
- 
-  generatorFastApiCrudEntity:
-    description: |
-      Entity name (Required)
-      Usually plural word (e.g: books, articles)
-    prompt: Entity name
-    validation: ^[a-zA-Z0-9_]+$
-

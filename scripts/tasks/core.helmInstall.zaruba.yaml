@@ -10,7 +10,7 @@ tasks:
       valueFile: ''
       releaseName: ''
       start: |
-        if [ "$(is_command_error helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
+        if [ "$(isCommandError helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
         then
           helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
         else

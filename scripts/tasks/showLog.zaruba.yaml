@@ -7,9 +7,9 @@ tasks:
     extend: core.runCoreScript
     saveLog: false
     inputs:
-      - logKeyword
+      - keyword
     config:
-      logKeyword: '{{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}'
+      keyword: '{{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}'
       start: |
         {{ $d := .Decoration -}}
         if [ ! -f "log.zaruba.csv" ]
@@ -17,6 +17,6 @@ tasks:
           echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
           exit 1
         fi
-        "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
+        "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
 
 

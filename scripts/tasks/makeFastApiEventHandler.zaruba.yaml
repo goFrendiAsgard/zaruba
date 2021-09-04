@@ -4,15 +4,15 @@ tasks:
     icon: ⚡
     description: Make FastAPI event handler
     inputs:
-      - generatorFastApiServiceName
-      - generatorFastApiModuleName
-      - generatorFastApiEventName
+      - fastApiServiceName
+      - fastApiModuleName
+      - fastApiEventName
     extend: core.runCoreScript
     dependencies:
       - core.showAdv
     configRef: generatorFastApi
     config:
-      eventName: '{{ .GetValue "generatorFastApiEventName" }}'
+      eventName: '{{ .GetValue "fastApiEventName" }}'
       start: |
         {{- $d := .Decoration -}}
         MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
@@ -21,8 +21,8 @@ tasks:
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
         EVENT_NAME={{ .EscapeShellArg (.GetConfig "eventName") }}
-        . ${ZARUBA_HOME}/bash/generate_fast_api_event_handler.sh
-        generate_fast_api_event_handler \
+        . ${ZARUBA_HOME}/bash/generateFastApiEventHandler.sh
+        generateFastApiEventHandler \
           "${MODULE_TEMPLATE_LOCATION}" \
           "${SERVICE_TEMPLATE_LOCATION}" \
           "${TASK_TEMPLATE_LOCATION}" \

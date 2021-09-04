@@ -15,15 +15,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorFastApiServiceName
+  INPUTS        : fastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiModuleName
+                  fastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiRpcName
+                  fastApiRpcName
                     DESCRIPTION : RPC name (Required)
                     PROMPT      : RPC name
                     VALIDATION  : ^[a-zA-Z0-9_\-\.]+$
@@ -36,10 +36,10 @@
                   cmdArg                  : -c
                   finish                  : Blank
                   includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
-                  moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
+                  moduleName              : {{ .GetValue "fastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
-                  rpcName                 : {{ .GetValue "generatorFastApiRpcName" }}
-                  serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
+                  rpcName                 : {{ .GetValue "fastApiRpcName" }}
+                  serviceName             : {{ .GetValue "fastApiServiceName" }}
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
@@ -49,8 +49,8 @@
                                             SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             RPC_NAME={{ .EscapeShellArg (.GetConfig "rpcName") }}
-                                            . ${ZARUBA_HOME}/bash/generate_fast_api_rpc_handler.sh
-                                            generate_fast_api_rpc_handler \
+                                            . ${ZARUBA_HOME}/bash/generateFastApiRpcHandler.sh
+                                            generateFastApiRpcHandler \
                                               "${MODULE_TEMPLATE_LOCATION}" \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
                                               "${TASK_TEMPLATE_LOCATION}" \

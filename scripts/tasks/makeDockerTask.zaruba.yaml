@@ -4,11 +4,11 @@ tasks:
     icon: 🐳
     extend: core.makeDockerTask
     inputs:
-      - generatorDockerImageName
-      - generatorDockerContainerName
-      - generatorServiceName
-      - generatorServiceEnvs
-      - generatorServicePorts
-      - generatorTaskDependencies
+      - dockerImageName
+      - dockerContainerName
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - taskDependencies
   
 

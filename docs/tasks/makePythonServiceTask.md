@@ -13,15 +13,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorServiceLocation
+  INPUTS        : serviceLocation
                     DESCRIPTION : Service location, relative to this directory
                     PROMPT      : Service location
                     VALIDATION  : ^.+$
-                  generatorServiceName
+                  serviceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  generatorServiceEnvs
+                  serviceEnvs
                     DESCRIPTION : Service environments, JSON formated.
                                   E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}
                                   
@@ -32,29 +32,29 @@
                     PROMPT      : Service environments, JSON formated. E.g: {"HTTP_PORT" : "3000", "MODE" : "writer"}
                     DEFAULT     : {}
                     VALIDATION  : ^\{.*\}$
-                  generatorServicePorts
+                  servicePorts
                     DESCRIPTION : Service ports JSON formated.
                                   E.g: ["3001:3000", "8080" , "{{ .GetEnv \"HTTP_PORT\" }}"]
                     PROMPT      : Service ports, JSON formated. E.g: ["3001:3000", "8080", "{{ .GetEnv \"HTTP_PORT\"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
-                  generatorPythonServiceStartCommand
+                  pythonStartCommand
                     DESCRIPTION : Command to start the service (Required)
                     PROMPT      : Start command
                     OPTIONS     : [ pipenv run python start.py, pipenv run python main.py, pipenv run python index.py ]
                     DEFAULT     : pipenv run python start.py
                     VALIDATION  : ^.+$
-                  generatorTaskDependencies
+                  taskDependencies
                     DESCRIPTION : Task's dependencies, JSON formated.
                                   E.g: ["runMysql", "runRedis"]
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
-                  generatorServiceDockerImageName
+                  serviceImageName
                     DESCRIPTION : Service's docker image name (Can be blank)
                     PROMPT      : Service's docker image name
                     VALIDATION  : ^[a-z0-9_]*$
-                  generatorServiceDockerContainerName
+                  serviceContainerName
                     DESCRIPTION : Service's docker container name (Can be blank)
                     PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
@@ -70,8 +70,8 @@
                                          DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                          REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
                   _start               : {{- $d := .Decoration -}}
-                                         . "${ZARUBA_HOME}/bash/generate_service_task.sh"
-                                         generate_service_task \
+                                         . "${ZARUBA_HOME}/bash/generateServiceTask.sh"
+                                         generateServiceTask \
                                            "${TEMPLATE_LOCATION}" \
                                            "${SERVICE_LOCATION}" \
                                            "${SERVICE_NAME}" \
@@ -90,19 +90,19 @@
                   beforeStart          : Blank
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg               : -c
-                  containerName        : {{ .GetValue "generatorServiceDockerContainerName" }}
-                  dependencies         : {{ .GetValue "generatorTaskDependencies" }}
+                  containerName        : {{ .GetValue "serviceContainerName" }}
+                  dependencies         : {{ .GetValue "taskDependencies" }}
                   finish               : Blank
-                  imageName            : {{ .GetValue "generatorServiceDockerImageName" }}
+                  imageName            : {{ .GetValue "serviceImageName" }}
                   includeUtilScript    : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner       : true
                   replacementMap       : {}
-                  serviceEnvs          : {{ .GetValue "generatorServiceEnvs" }}
-                  serviceLocation      : {{ .GetValue "generatorServiceLocation" }}
-                  serviceName          : {{ .GetValue "generatorServiceName" }}
-                  servicePorts         : {{ .GetValue "generatorServicePorts" }}
+                  serviceEnvs          : {{ .GetValue "serviceEnvs" }}
+                  serviceLocation      : {{ .GetValue "serviceLocation" }}
+                  serviceName          : {{ .GetValue "serviceName" }}
+                  servicePorts         : {{ .GetValue "servicePorts" }}
                   serviceRunnerVersion : Blank
-                  serviceStartCommand  : {{ .GetValue "generatorPythonServiceStartCommand" }}
+                  serviceStartCommand  : {{ .GetValue "pythonStartCommand" }}
                   setup                : Blank
                   start                : Blank
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/python

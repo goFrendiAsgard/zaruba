@@ -1,37 +1,37 @@
 - caption: "Setup ubuntu and docker"
-  script: "SETUP_PATH/setup_ubuntu.sh"
+  script: "SETUP_PATH/setupUbuntu.sh"
 
 - caption: "Setup tmux"
-  script: "SETUP_PATH/setup_tmux.sh"
+  script: "SETUP_PATH/setupTmux.sh"
 
 - caption: "Install kubectl"
-  script: "SETUP_PATH/install_kubectl.sh"
+  script: "SETUP_PATH/installKubectl.sh"
 
 - caption: "Install helm"
-  script: "SETUP_PATH/install_helm.sh"
+  script: "SETUP_PATH/installHelm.sh"
 
 - caption: "Install nvm"
-  script: "SETUP_PATH/install_nvm.sh"
+  script: "SETUP_PATH/installNvm.sh"
 
 - caption: "Install pyenv and pipenv"
-  script: "SETUP_PATH/install_pyenv.sh"
+  script: "SETUP_PATH/installPyenv.sh"
 
 - caption: "Install SdkMan and java"
-  script: "SETUP_PATH/install_sdkman.sh"
+  script: "SETUP_PATH/installSdkman.sh"
 
 - caption: "Install scala (you need to install SdkMan first)"
-  script: "SETUP_PATH/install_scala.sh"
+  script: "SETUP_PATH/installScala.sh"
 
 - caption: "Install spark (you need to install Sdkman and scala first)"
-  script: "SETUP_PATH/install_spark.sh"
+  script: "SETUP_PATH/installSpark.sh"
 
 - caption: "Install Gvm"
-  script: "SETUP_PATH/install_gvm.sh"
+  script: "SETUP_PATH/installGvm.sh"
 
 - caption: "Install AWS CLI"
-  script: "SETUP_PATH/install_aws_cli.sh"
+  script: "SETUP_PATH/installAwsCli.sh"
 
 - caption: "Install Google Cloud SDK"
-  script: "SETUP_PATH/install_gcloud.sh"
+  script: "SETUP_PATH/installGcloud.sh"
 
 

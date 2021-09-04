@@ -3,17 +3,17 @@ tasks:
   makeNodeJsServiceTask:
     extend: core.makeServiceTask
     inputs:
-      - generatorServiceLocation
-      - generatorServiceName
-      - generatorServiceEnvs
-      - generatorServicePorts
-      - generatorNodeJsServiceStartCommand
-      - generatorNodeJsServiceRunnerVersion
-      - generatorTaskDependencies
-      - generatorServiceDockerImageName
-      - generatorServiceDockerContainerName
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - nodeJsStartCommand
+      - nodeJsRunnerVersion
+      - taskDependencies
+      - serviceImageName
+      - serviceContainerName
     config:
-      serviceStartCommand: '{{ .GetValue "generatorNodeJsServiceStartCommand" }}'
-      serviceRunnerVersion: '{{ .GetValue "generatorNodeJsServiceRunnerVersion" }}'
+      serviceStartCommand: '{{ .GetValue "nodeJsStartCommand" }}'
+      serviceRunnerVersion: '{{ .GetValue "nodeJsRunnerVersion" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/nodejs'
 

@@ -4,18 +4,18 @@ tasks:
     icon: ⚡
     description: Make FastAPI crud
     inputs:
-      - generatorFastApiServiceName
-      - generatorFastApiModuleName
-      - generatorFastApiCrudEntity
-      - generatorFastApiCrudFields
+      - fastApiServiceName
+      - fastApiModuleName
+      - fastApiCrudEntity
+      - fastApiCrudFields
     extend: core.runCoreScript
     dependencies:
       - core.showAdv
     configRef: generatorFastApi
     config:
       crudTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiCrud'
-      entityName: '{{ .GetValue "generatorFastApiCrudEntity" }}'
-      fieldNames: '{{ .GetValue "generatorFastApiCrudFields" }}'
+      entityName: '{{ .GetValue "fastApiCrudEntity" }}'
+      fieldNames: '{{ .GetValue "fastApiCrudFields" }}'
       start: |
         {{- $d := .Decoration -}}
         CRUD_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "crudTemplateLocation") }}
@@ -26,8 +26,8 @@ tasks:
         MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
         ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
         FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
-        . ${ZARUBA_HOME}/bash/generate_fast_api_crud_handler.sh
-        generate_fast_api_crud_handler \
+        . ${ZARUBA_HOME}/bash/generateFastApiCrudHandler.sh
+        generateFastApiCrudHandler \
           "${CRUD_TEMPLATE_LOCATION}" \
           "${MODULE_TEMPLATE_LOCATION}" \
           "${SERVICE_TEMPLATE_LOCATION}" \

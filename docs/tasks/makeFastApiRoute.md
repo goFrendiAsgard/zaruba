@@ -15,21 +15,21 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : generatorFastApiServiceName
+  INPUTS        : fastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiModuleName
+                  fastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  generatorFastApiHttpMethod
+                  fastApiHttpMethod
                     DESCRIPTION : HTTP Method (Required)
                     PROMPT      : HTTP Method
                     OPTIONS     : [ get, post, put, delete ]
                     DEFAULT     : get
                     VALIDATION  : ^[a-z]+$
-                  generatorFastApiUrl
+                  fastApiUrl
                     DESCRIPTION : URL to be handled (Required)
                     PROMPT      : URL to be handled
                     VALIDATION  : ^[a-zA-Z0-9_\-/\{\}]+$
@@ -41,11 +41,11 @@
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                  : -c
                   finish                  : Blank
-                  httpMethod              : {{ .GetValue "generatorFastApiHttpMethod" }}
+                  httpMethod              : {{ .GetValue "fastApiHttpMethod" }}
                   includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
-                  moduleName              : {{ .GetValue "generatorFastApiModuleName" }}
+                  moduleName              : {{ .GetValue "fastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
-                  serviceName             : {{ .GetValue "generatorFastApiServiceName" }}
+                  serviceName             : {{ .GetValue "fastApiServiceName" }}
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}
@@ -56,8 +56,8 @@
                                             MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
                                             URL={{ .EscapeShellArg (.GetConfig "url") }}
                                             HTTP_METHOD={{ .EscapeShellArg (.GetConfig "httpMethod") }}
-                                            . ${ZARUBA_HOME}/bash/generate_fast_api_route.sh
-                                            generate_fast_api_route \
+                                            . ${ZARUBA_HOME}/bash/generateFastApiRoute.sh
+                                            generateFastApiRoute \
                                               "${MODULE_TEMPLATE_LOCATION}" \
                                               "${SERVICE_TEMPLATE_LOCATION}" \
                                               "${TASK_TEMPLATE_LOCATION}" \
@@ -71,7 +71,7 @@
                                             echo "- ${SERVICE_NAME}/main.py"
                                             echo "- ${SERVICE_NAME}/${MODULE_NAME}/controller.py"
                   taskTemplateLocation    : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/fastapi
-                  url                     : {{ .GetValue "generatorFastApiUrl" }}
+                  url                     : {{ .GetValue "fastApiUrl" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
