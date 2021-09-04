@@ -1,0 +1,8 @@
+inputs:
+
+  generatorPostgreTask:
+    description: Postgre task (Required)
+    prompt: Postgre task
+    validation: ^run[a-zA-Z0-9_]+$
+    default: runPostgre
+

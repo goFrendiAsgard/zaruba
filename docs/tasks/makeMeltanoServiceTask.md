@@ -84,12 +84,8 @@
                                          pip install meltano
                                          cd "{{ .GetConfig "serviceLocation" }}"
                                          pipenv run meltano init app
-                                         chmod 755 start.sh
-                                         mv start.sh app/start.sh
-                                         mv Dockerfile app/Dockerfile
-                                         mv .dockerignore app/.dockerignore
-                                         # create dockerfile
-                                         cd app
+                                         '{{ .ZarubaBin }}' util generate '{{ .GetEnv "ZARUBA_HOME" }}/templates/meltanoApp' ./app '{}'
+                                         chmod 755 app/start.sh
                   beforeStart          : mkdir -p "{{ .GetConfig "serviceLocation" }}"
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg               : -c

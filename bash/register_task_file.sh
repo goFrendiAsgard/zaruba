@@ -1,8 +1,12 @@
-# USAGE: register_task_file <task-file-name> <service-name>
+# USAGE: register_task_file <task-file-name> <service-name> [register-runner=1]
 register_task_file() {
     _TASK_FILE_NAME="${1}"
     _SERVICE_NAME="${2}"
     _REGISTER_RUNNER="${3}"
+    if [ -z "${_REGISTER_RUNNER}" ]
+    then
+        _REGISTER_RUNNER=1
+    fi
     _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_SERVICE_NAME}")" 
 
     "${ZARUBA_HOME}/zaruba" project include "./main.zaruba.yaml" "${_TASK_FILE_NAME}"

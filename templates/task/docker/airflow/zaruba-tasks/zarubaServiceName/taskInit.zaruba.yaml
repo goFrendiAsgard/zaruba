@@ -1,9 +1,9 @@
 tasks:
 
   createZarubaServiceNameDb:
-    extend: zarubaAirflowPostgreServiceExecSql
+    extend: zarubaPostgreServiceExecSql
     dependencies:
-      - zarubaAirflowPostgreTask
+      - zarubaPostgreTask
     config:
       queries: 'CREATE DATABASE {{ .GetConfig "dbName" }}'
     configRef: createZarubaServiceNameDb
@@ -14,7 +14,7 @@ tasks:
     location: ../../zarubaServiceName
     config:
       start: |
-        {{ $err := .WriteFile (.GetRelativePath "../../zarubaServiceName/configurator.sh") (.ParseFile (.GetRelativePath "../../zarubaServiceName/configurator.gotmpl.sh")) }}
+        {{ $err := .WriteFile (.GetRelativePath "../../zarubaServiceName/configurator/init.sh") (.ParseFile (.GetRelativePath "../../zarubaServiceName/configurator/init.gotmpl.sh")) }}
     configRefs:
       - zarubaServiceNameConfigurator
       - zarubaServiceNameContainer
@@ -26,8 +26,8 @@ tasks:
     extend: core.runDockerContainer
     location: ../../zarubaServiceName
     dependencies:
-      - zarubaAirflowRedisTask
-      - zarubaAirflowPostgreTask
+      - zarubaRedisTask
+      - zarubaPostgreTask
       - createZarubaServiceNameDb
       - createZarubaServiceNameConfiguratorScript
       - buildZarubaServiceNameImage
@@ -49,7 +49,7 @@ tasks:
     config:
       containerShell: bash
       commands: |
-        {{ .ParseFile "worker.gotmpl.sh"}}
+        {{ .ParseFile "worker/init.gotmpl.sh"}}
     configRef: zarubaServiceNameWorker
     envRef: zarubaServiceNameWorker
   

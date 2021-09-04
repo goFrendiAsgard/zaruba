@@ -1,23 +1,9 @@
 tasks:
 
-  preparePlayground:
-    icon: 🔨
-    location: ../
-    extend: core.runShellScript
-    config:
-      start: |
-        if [ -d playground ]
-        then
-          chmod 777 -R playground
-        fi
-        rm -Rf playground
-        mkdir -p playground
-
   testMakePlayground:
     location: ../playground
     dependencies:
       - build
-      - preparePlayground
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -43,7 +29,7 @@ tasks:
         ../zaruba please makeMongoDockerTask generatorDockerContainerName=testMongo showAdvertisement=no 
         ../zaruba please makeRedisDockerTask generatorDockerContainerName=testRedis showAdvertisement=no 
         ../zaruba please makePostgreDockerTask generatorDockerContainerName=testPostgre showAdvertisement=no 
-        ../zaruba please makeAirflowDockerTask generatorDockerContainerName=testAirflow airflowRedisTask=runTestRedis airflowPostgreTask=runTestPostgre showAdvertisement=no 
+        ../zaruba please makeAirflowDockerTask generatorDockerContainerName=testAirflow generatorRedisTask=runTestRedis generatorPostgreTask=runTestPostgre showAdvertisement=no 
         ../zaruba please makeTrinoDockerTask generatorDockerContainerName=testTrino showAdvertisement=no generatorServicePorts='["8081:8080"]'
         ../zaruba please makeNginxDockerTask generatorDockerContainerName=testNginx
         #

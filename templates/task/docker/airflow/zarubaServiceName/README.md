@@ -14,9 +14,9 @@ zaruba please runZarubaServiceName
 
 By invoking the command, you will also run several containers:
 
-* `zarubaAirflowRedisService`: Redis, for caching and stuffs
-* `zarubaAirflowPostgreService`: Posgre, for airflow persistance storage
-* `zarubaServiceNameConfigurator`: A container that run before any other airflow containers. Through this container, Zaruba should set up the database and anything else. It will also run your custom script (see: `init.template.sh`).
+* `zarubaRedisService`: Redis, for caching and stuffs
+* `zarubaPostgreService`: Posgre, for airflow persistance storage
+* `zarubaServiceNameConfigurator`: A container that run before any other airflow containers. Through this container, Zaruba should set up the database and anything else. It will also run your custom script (see: `configurator/init.gotmpl.sh`).
 * `zarubaServiceNameWebServer`: The web server, by default run on port `8080`. To change this, you should edit `zarubaServiceNameWebServer`'s `port` value at `../zaruba-tasks/zarubaServiceName/config.zaruba.yaml`.
 * `zarubaServiceNameScheduler`: The scheduler.
 * `zarubaServiceNameWorker`: The one that really run the task.
@@ -32,5 +32,5 @@ You can simply put your DAG on `dags` directory.
 
 To setup custom configuration in your airflow instance, you will need to modify:
 
-* `zarubaServiceName/configurator.gotmpl.sh`
-* `zarubaServiceName/worker.gotmpl.sh`
+* `zarubaServiceName/configurator/init.gotmpl.sh`
+* `zarubaServiceName/worker/init.gotmpl.sh`

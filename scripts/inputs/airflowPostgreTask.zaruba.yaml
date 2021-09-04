@@ -1,8 +1,0 @@
-inputs:
-
-  airflowPostgreTask:
-    description: Airflow postgre task (Required)
-    prompt: Airflow postgre task
-    validation: ^run[a-zA-Z0-9_]+$
-    default: runPostgre
-

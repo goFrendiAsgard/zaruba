@@ -18,9 +18,9 @@ configs:
   zarubaServiceNameConfigurator:
     containerName: zarubaContainerNameConfigurator
     entryPoint: bash
-    command: /opt/airflow/configurator.sh 
+    command: /opt/airflow/configurator/init.sh 
     volumes: |
-      {{ .GetRelativePath "../../zarubaServiceName/configurator.sh" }}:/opt/airflow/configurator.sh
+      {{ .GetRelativePath "../../zarubaServiceName/configurator" }}:/opt/airflow/configurator
       {{ .GetRelativePath "../../zarubaServiceName/dags" }}:/opt/airflow/dags
       {{ .GetRelativePath "../../zarubaServiceName/logs" }}:/opt/airflow/logs
       {{ .GetRelativePath "../../zarubaServiceName/plugins" }}:/opt/airflow/plugins
@@ -31,21 +31,17 @@ configs:
     command: webserver
     ports: |
       8080:8080
-    user: airflow
 
   zarubaServiceNameScheduler:
     containerName: zarubaContainerNameScheduler
     command: scheduler
-    user: airflow
 
   zarubaServiceNameWorker:
     containerName: zarubaContainerNameWorker
     command: celery worker
-    user: airflow
 
   zarubaServiceNameFlower:
     containerName: zarubaContainerNameFlower
     command: celery flower
     ports: |
       5555:5555
-    user: airflow

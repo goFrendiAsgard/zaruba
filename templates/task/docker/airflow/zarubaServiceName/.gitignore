@@ -1,1 +1,2 @@
-configurator.sh
+configurator/init.sh
+logs/*
