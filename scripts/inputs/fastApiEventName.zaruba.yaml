@@ -1,6 +1,6 @@
 inputs:
 
-  newFastApiEventName:
+  fastApiEventName:
     description: |
       Event name (Required)
     prompt: Event name

@@ -1,6 +1,6 @@
 inputs:
 
-  newServiceEnvs:
+  serviceEnvs:
     description: |
       Service environments, JSON formated.
       E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}

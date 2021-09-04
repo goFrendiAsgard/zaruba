@@ -17,11 +17,11 @@
                     DESCRIPTION : Docker container name (Can be blank)
                     PROMPT      : Docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  newServiceName
+                  serviceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  newServiceEnvs
+                  serviceEnvs
                     DESCRIPTION : Service environments, JSON formated.
                                   E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}
                                   
@@ -32,7 +32,7 @@
                     PROMPT      : Service environments, JSON formated. E.g: {"HTTP_PORT" : "3000", "MODE" : "writer"}
                     DEFAULT     : {}
                     VALIDATION  : ^\{.*\}$
-                  newTaskDependencies
+                  taskDependencies
                     DESCRIPTION : Task's dependencies, JSON formated.
                                   E.g: ["runMysql", "runRedis"]
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
@@ -65,15 +65,15 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   containerName     : {{ .GetValue "dockerContainerName" }}
-                  dependencies      : {{ .GetValue "newTaskDependencies" }}
+                  dependencies      : {{ .GetValue "taskDependencies" }}
                   finish            : Blank
                   imageName         : {{ .GetValue "dockerImageName" }}
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner    : true
                   replacementMap    : {}
-                  serviceEnvs       : {{ .GetValue "newServiceEnvs" }}
-                  serviceName       : {{ .GetValue "newServiceName" }}
-                  servicePorts      : {{ .GetValue "newServicePorts" }}
+                  serviceEnvs       : {{ .GetValue "serviceEnvs" }}
+                  serviceName       : {{ .GetValue "serviceName" }}
+                  servicePorts      : {{ .GetValue "servicePorts" }}
                   setup             : Blank
                   start             : Blank
                   templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis

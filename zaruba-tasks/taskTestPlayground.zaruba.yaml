@@ -17,8 +17,8 @@ tasks:
         #
         # service related
         #
-        ../zaruba please makeStaticServiceTask newServiceLocation=fibo newServiceEnvs='{"HTTP_PORT": "3001"}'
-        ../zaruba please makeMeltanoServiceTask newServiceLocation=testMeltano showAdvertisement=no  
+        ../zaruba please makeStaticServiceTask serviceLocation=fibo serviceEnvs='{"HTTP_PORT": "3001"}'
+        ../zaruba please makeMeltanoServiceTask serviceLocation=testMeltano showAdvertisement=no  
         #
         # docker related
         #
@@ -30,18 +30,18 @@ tasks:
         ../zaruba please makeRedisDockerTask dockerContainerName=testRedis showAdvertisement=no 
         ../zaruba please makePostgreDockerTask dockerContainerName=testPostgre showAdvertisement=no 
         ../zaruba please makeAirflowDockerTask dockerContainerName=testAirflow redisServiceName=testRedis postgreServiceName=testPostgre showAdvertisement=no 
-        ../zaruba please makeTrinoDockerTask dockerContainerName=testTrino showAdvertisement=no newServicePorts='["8081:8080"]'
+        ../zaruba please makeTrinoDockerTask dockerContainerName=testTrino showAdvertisement=no servicePorts='["8081:8080"]'
         ../zaruba please makeNginxDockerTask dockerContainerName=testNginx
         #
         # fastapi related
         #
-        ../zaruba please makeFastApiService newFastApiServiceName=myService showAdvertisement=no  
-        ../zaruba please makeFastApiServiceTask newServiceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
-        ../zaruba please makeFastApiModule newFastApiServiceName=myService newFastApiModuleName=myModule showAdvertisement=no 
-        ../zaruba please makeFastApiRoute newFastApiServiceName=myService newFastApiModuleName=myModule newFastApiUrl=/hello showAdvertisement=no 
-        ../zaruba please makeFastApiEventHandler newFastApiServiceName=myService newFastApiModuleName=myModule newFastApiEventName=myEvent showAdvertisement=no 
-        ../zaruba please makeFastApiRpcHandler newFastApiServiceName=myService newFastApiModuleName=myModule newFastApiRpcName=myRpc showAdvertisement=no 
-        ../zaruba please makeFastApiCrud newFastApiServiceName=myService newFastApiModuleName=myModule newFastApiCrudEntity=book newFastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no 
+        ../zaruba please makeFastApiService fastApiServiceName=myService showAdvertisement=no  
+        ../zaruba please makeFastApiServiceTask serviceLocation=myService generatorServiceType=fastapi showAdvertisement=no 
+        ../zaruba please makeFastApiModule fastApiServiceName=myService fastApiModuleName=myModule showAdvertisement=no 
+        ../zaruba please makeFastApiRoute fastApiServiceName=myService fastApiModuleName=myModule fastApiUrl=/hello showAdvertisement=no 
+        ../zaruba please makeFastApiEventHandler fastApiServiceName=myService fastApiModuleName=myModule fastApiEventName=myEvent showAdvertisement=no 
+        ../zaruba please makeFastApiRpcHandler fastApiServiceName=myService fastApiModuleName=myModule fastApiRpcName=myRpc showAdvertisement=no 
+        ../zaruba please makeFastApiCrud fastApiServiceName=myService fastApiModuleName=myModule fastApiCrudEntity=book fastApiCrudFields='["title", "author" , "synopsis"]' showAdvertisement=no 
 
 
   testSyncEnv:
@@ -103,7 +103,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please showLog logKeyword=myService 
+        ../zaruba please showLog keyword=myService 
 
 
   pullContainerRegistry:

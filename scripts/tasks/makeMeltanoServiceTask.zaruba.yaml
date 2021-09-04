@@ -3,13 +3,13 @@ tasks:
   makeMeltanoServiceTask:
     extend: core.makeServiceTask
     inputs:
-      - newServiceLocation
-      - newServiceName
-      - newServiceEnvs
-      - newServicePorts
-      - newTaskDependencies
-      - newServiceImageName
-      - newServiceContainerName
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - taskDependencies
+      - serviceImageName
+      - serviceContainerName
     config:
       registerRunner: false
       beforeStart: |

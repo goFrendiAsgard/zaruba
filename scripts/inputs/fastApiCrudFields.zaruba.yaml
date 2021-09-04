@@ -1,6 +1,6 @@
 inputs:
   
-  newFastApiCrudFields:
+  fastApiCrudFields:
     description: |
       Field names, JSON formated.
       E.g: ["name", "address"]

@@ -41,15 +41,15 @@
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg            : -c
                   containerName     : {{ .GetValue "dockerContainerName" }}
-                  dependencies      : {{ .GetValue "newTaskDependencies" }}
+                  dependencies      : {{ .GetValue "taskDependencies" }}
                   finish            : Blank
                   imageName         : {{ .GetValue "dockerImageName" }}
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner    : true
                   replacementMap    : {}
-                  serviceEnvs       : {{ .GetValue "newServiceEnvs" }}
-                  serviceName       : {{ .GetValue "newServiceName" }}
-                  servicePorts      : {{ .GetValue "newServicePorts" }}
+                  serviceEnvs       : {{ .GetValue "serviceEnvs" }}
+                  serviceName       : {{ .GetValue "serviceName" }}
+                  servicePorts      : {{ .GetValue "servicePorts" }}
                   setup             : Blank
                   start             : Blank
                   templateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/default

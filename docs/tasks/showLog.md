@@ -14,9 +14,9 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : logKeyword
-                    DESCRIPTION : Task regex pattern
-                    PROMPT      : Task regex pattern
+  INPUTS        : keyword
+                    DESCRIPTION : Keyword
+                    PROMPT      : Keyword
   CONFIG        : _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
@@ -26,7 +26,7 @@
                   cmdArg            : -c
                   finish            : Blank
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  logKeyword        : {{ if .GetValue "logKeyword" }}{{ .GetValue "logKeyword" }}{{ else }}.*{{ end }}
+                  keyword           : {{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}
                   setup             : Blank
                   start             : {{ $d := .Decoration -}}
                                       if [ ! -f "log.zaruba.csv" ]
@@ -34,7 +34,7 @@
                                         echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
                                         exit 1
                                       fi
-                                      "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "logKeyword"}}"
+                                      "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -4,8 +4,8 @@ tasks:
     icon: ⚡
     description: Make FastAPI module
     inputs:
-      - newFastApiServiceName
-      - newFastApiModuleName
+      - fastApiServiceName
+      - fastApiModuleName
     extend: core.runCoreScript
     dependencies:
       - core.showAdv

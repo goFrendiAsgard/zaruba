@@ -9,37 +9,37 @@ includes:
 
   - ./inputs/dockerContainerName.zaruba.yaml
   - ./inputs/dockerImageName.zaruba.yaml
-  - ./inputs/newFastApiCrudEntity.zaruba.yaml
-  - ./inputs/newFastApiCrudFields.zaruba.yaml
-  - ./inputs/newFastApiEventName.zaruba.yaml
-  - ./inputs/newFastApiHttpMethod.zaruba.yaml
-  - ./inputs/newFastApiModuleName.zaruba.yaml
-  - ./inputs/newFastApiRpcName.zaruba.yaml
-  - ./inputs/newFastApiServiceName.zaruba.yaml
-  - ./inputs/newFastApiUrl.zaruba.yaml
-  - ./inputs/newGoStartCommand.zaruba.yaml
-  - ./inputs/newNodeJsStartCommand.zaruba.yaml
-  - ./inputs/newNodeJsRunnerVersion.zaruba.yaml
-  - ./inputs/postgreServiceName.zaruba.yaml
-  - ./inputs/newPythonStartCommand.zaruba.yaml
-  - ./inputs/redisServiceName.zaruba.yaml
-  - ./inputs/newServiceContainerName.zaruba.yaml
-  - ./inputs/newServiceImageName.zaruba.yaml
-  - ./inputs/newServiceEnvs.zaruba.yaml
-  - ./inputs/newServiceLocation.zaruba.yaml
-  - ./inputs/newServiceName.zaruba.yaml
-  - ./inputs/newServicePorts.zaruba.yaml
-  - ./inputs/newStartCommand.zaruba.yaml
-  - ./inputs/newTaskDependencies.zaruba.yaml
+  - ./inputs/fastApiCrudEntity.zaruba.yaml
+  - ./inputs/fastApiCrudFields.zaruba.yaml
+  - ./inputs/fastApiEventName.zaruba.yaml
+  - ./inputs/fastApiHttpMethod.zaruba.yaml
+  - ./inputs/fastApiModuleName.zaruba.yaml
+  - ./inputs/fastApiRpcName.zaruba.yaml
+  - ./inputs/fastApiServiceName.zaruba.yaml
+  - ./inputs/fastApiUrl.zaruba.yaml
+  - ./inputs/goStartCommand.zaruba.yaml
+  - ./inputs/keyword.zaruba.yaml
   - ./inputs/kubeContext.zaruba.yaml
   - ./inputs/linkFrom.zaruba.yaml
   - ./inputs/linkTo.zaruba.yaml
-  - ./inputs/logKeyword.zaruba.yaml
+  - ./inputs/nodeJsRunnerVersion.zaruba.yaml
+  - ./inputs/nodeJsStartCommand.zaruba.yaml
+  - ./inputs/postgreServiceName.zaruba.yaml
+  - ./inputs/pythonStartCommand.zaruba.yaml
+  - ./inputs/redisServiceName.zaruba.yaml
   - ./inputs/serverHttpPort.zaruba.yaml
+  - ./inputs/serviceContainerName.zaruba.yaml
+  - ./inputs/serviceImageName.zaruba.yaml
+  - ./inputs/serviceEnvs.zaruba.yaml
+  - ./inputs/serviceLocation.zaruba.yaml
+  - ./inputs/serviceName.zaruba.yaml
+  - ./inputs/servicePorts.zaruba.yaml
   - ./inputs/showAdvertisement.zaruba.yaml
+  - ./inputs/startCommand.zaruba.yaml
   - ./inputs/subrepoUrl.zaruba.yaml
   - ./inputs/subrepoPrefix.zaruba.yaml
   - ./inputs/subrepoName.zaruba.yaml
+  - ./inputs/taskDependencies.zaruba.yaml
   - ./inputs/variableName.zaruba.yaml
   - ./inputs/variableValue.zaruba.yaml
 

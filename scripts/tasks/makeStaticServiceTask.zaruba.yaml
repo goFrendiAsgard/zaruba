@@ -3,13 +3,13 @@ tasks:
   makeStaticServiceTask:
     extend: core.makeServiceTask
     inputs:
-      - newServiceLocation
-      - newServiceName
-      - newServiceEnvs
-      - newServicePorts
-      - newTaskDependencies
-      - newServiceImageName
-      - newServiceContainerName
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - taskDependencies
+      - serviceImageName
+      - serviceContainerName
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/static'
 

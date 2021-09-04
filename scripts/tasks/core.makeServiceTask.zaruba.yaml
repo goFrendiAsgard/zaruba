@@ -8,15 +8,15 @@ tasks:
       - core.isProject
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/default'
-      serviceLocation: '{{ .GetValue "newServiceLocation" }}'
-      serviceName: '{{ .GetValue "newServiceName" }}'
-      imageName: '{{ .GetValue "newServiceImageName" }}'
-      containerName: '{{ .GetValue "newServiceContainerName" }}'
-      serviceStartCommand: '{{ .GetValue "newStartCommand" }}'
+      serviceLocation: '{{ .GetValue "serviceLocation" }}'
+      serviceName: '{{ .GetValue "serviceName" }}'
+      imageName: '{{ .GetValue "serviceImageName" }}'
+      containerName: '{{ .GetValue "serviceContainerName" }}'
+      serviceStartCommand: '{{ .GetValue "startCommand" }}'
       serviceRunnerVersion: ''
-      servicePorts: '{{ .GetValue "newServicePorts" }}'
-      serviceEnvs: '{{ .GetValue "newServiceEnvs" }}'
-      dependencies: '{{ .GetValue "newTaskDependencies" }}'
+      servicePorts: '{{ .GetValue "servicePorts" }}'
+      serviceEnvs: '{{ .GetValue "serviceEnvs" }}'
+      dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
       _setup: |

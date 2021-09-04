@@ -46,19 +46,19 @@
                   beforeStart          : Blank
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg               : -c
-                  containerName        : {{ .GetValue "newServiceContainerName" }}
-                  dependencies         : {{ .GetValue "newTaskDependencies" }}
+                  containerName        : {{ .GetValue "serviceContainerName" }}
+                  dependencies         : {{ .GetValue "taskDependencies" }}
                   finish               : Blank
-                  imageName            : {{ .GetValue "newServiceImageName" }}
+                  imageName            : {{ .GetValue "serviceImageName" }}
                   includeUtilScript    : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner       : true
                   replacementMap       : {}
-                  serviceEnvs          : {{ .GetValue "newServiceEnvs" }}
-                  serviceLocation      : {{ .GetValue "newServiceLocation" }}
-                  serviceName          : {{ .GetValue "newServiceName" }}
-                  servicePorts         : {{ .GetValue "newServicePorts" }}
+                  serviceEnvs          : {{ .GetValue "serviceEnvs" }}
+                  serviceLocation      : {{ .GetValue "serviceLocation" }}
+                  serviceName          : {{ .GetValue "serviceName" }}
+                  servicePorts         : {{ .GetValue "servicePorts" }}
                   serviceRunnerVersion : Blank
-                  serviceStartCommand  : {{ .GetValue "newStartCommand" }}
+                  serviceStartCommand  : {{ .GetValue "startCommand" }}
                   setup                : Blank
                   start                : Blank
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/default

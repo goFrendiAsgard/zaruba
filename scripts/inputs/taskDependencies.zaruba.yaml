@@ -1,6 +1,6 @@
 inputs:
 
-  newTaskDependencies:
+  taskDependencies:
     description: |
       Task's dependencies, JSON formated.
       E.g: ["runMysql", "runRedis"]

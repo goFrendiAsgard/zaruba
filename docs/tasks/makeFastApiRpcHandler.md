@@ -15,15 +15,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : newFastApiServiceName
+  INPUTS        : fastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  newFastApiModuleName
+                  fastApiModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  newFastApiRpcName
+                  fastApiRpcName
                     DESCRIPTION : RPC name (Required)
                     PROMPT      : RPC name
                     VALIDATION  : ^[a-zA-Z0-9_\-\.]+$
@@ -36,10 +36,10 @@
                   cmdArg                  : -c
                   finish                  : Blank
                   includeUtilScript       : . ${ZARUBA_HOME}/bash/util.sh
-                  moduleName              : {{ .GetValue "newFastApiModuleName" }}
+                  moduleName              : {{ .GetValue "fastApiModuleName" }}
                   moduleTemplateLocation  : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule
-                  rpcName                 : {{ .GetValue "newFastApiRpcName" }}
-                  serviceName             : {{ .GetValue "newFastApiServiceName" }}
+                  rpcName                 : {{ .GetValue "fastApiRpcName" }}
+                  serviceName             : {{ .GetValue "fastApiServiceName" }}
                   serviceTemplateLocation : {{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService
                   setup                   : Blank
                   start                   : {{- $d := .Decoration -}}

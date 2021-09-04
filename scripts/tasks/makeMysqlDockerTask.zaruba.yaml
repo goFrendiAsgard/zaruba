@@ -4,9 +4,9 @@ tasks:
     extend: core.makeDockerTask
     inputs:
       - dockerContainerName
-      - newServiceName
-      - newServiceEnvs
-      - newTaskDependencies
+      - serviceName
+      - serviceEnvs
+      - taskDependencies
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/mysql'
 

@@ -13,15 +13,15 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  INPUTS        : newServiceLocation
+  INPUTS        : serviceLocation
                     DESCRIPTION : Service location, relative to this directory
                     PROMPT      : Service location
                     VALIDATION  : ^.+$
-                  newServiceName
+                  serviceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  newServiceEnvs
+                  serviceEnvs
                     DESCRIPTION : Service environments, JSON formated.
                                   E.g: {"HTTP_PORT" : "3000", "MODE" : writer"}
                                   
@@ -32,21 +32,21 @@
                     PROMPT      : Service environments, JSON formated. E.g: {"HTTP_PORT" : "3000", "MODE" : "writer"}
                     DEFAULT     : {}
                     VALIDATION  : ^\{.*\}$
-                  newServicePorts
+                  servicePorts
                     DESCRIPTION : Service ports JSON formated.
                                   E.g: ["3001:3000", "8080" , "{{ .GetEnv \"HTTP_PORT\" }}"]
                     PROMPT      : Service ports, JSON formated. E.g: ["3001:3000", "8080", "{{ .GetEnv \"HTTP_PORT\"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
-                  newServiceImageName
+                  serviceImageName
                     DESCRIPTION : Service's docker image name (Can be blank)
                     PROMPT      : Service's docker image name
                     VALIDATION  : ^[a-z0-9_]*$
-                  newServiceContainerName
+                  serviceContainerName
                     DESCRIPTION : Service's docker container name (Can be blank)
                     PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  newTaskDependencies
+                  taskDependencies
                     DESCRIPTION : Task's dependencies, JSON formated.
                                   E.g: ["runMysql", "runRedis"]
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
@@ -84,19 +84,19 @@
                   beforeStart          : Blank
                   cmd                  : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg               : -c
-                  containerName        : {{ .GetValue "newServiceContainerName" }}
-                  dependencies         : {{ .GetValue "newTaskDependencies" }}
+                  containerName        : {{ .GetValue "serviceContainerName" }}
+                  dependencies         : {{ .GetValue "taskDependencies" }}
                   finish               : Blank
-                  imageName            : {{ .GetValue "newServiceImageName" }}
+                  imageName            : {{ .GetValue "serviceImageName" }}
                   includeUtilScript    : . ${ZARUBA_HOME}/bash/util.sh
                   registerRunner       : true
                   replacementMap       : {}
-                  serviceEnvs          : {{ .GetValue "newServiceEnvs" }}
-                  serviceLocation      : {{ .GetValue "newServiceLocation" }}
-                  serviceName          : {{ .GetValue "newServiceName" }}
-                  servicePorts         : {{ .GetValue "newServicePorts" }}
+                  serviceEnvs          : {{ .GetValue "serviceEnvs" }}
+                  serviceLocation      : {{ .GetValue "serviceLocation" }}
+                  serviceName          : {{ .GetValue "serviceName" }}
+                  servicePorts         : {{ .GetValue "servicePorts" }}
                   serviceRunnerVersion : Blank
-                  serviceStartCommand  : {{ .GetValue "newStartCommand" }}
+                  serviceStartCommand  : {{ .GetValue "startCommand" }}
                   setup                : Blank
                   start                : Blank
                   templateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/fastapi

@@ -6,9 +6,9 @@ tasks:
     inputs:
       - dockerImageName
       - dockerContainerName
-      - newServiceName
-      - newServiceEnvs
-      - newServicePorts
-      - newTaskDependencies
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - taskDependencies
   
 

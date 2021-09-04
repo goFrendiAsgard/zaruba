@@ -3,15 +3,15 @@ tasks:
   makePythonServiceTask:
     extend: core.makeServiceTask
     inputs:
-      - newServiceLocation
-      - newServiceName
-      - newServiceEnvs
-      - newServicePorts
-      - newPythonStartCommand
-      - newTaskDependencies
-      - newServiceImageName
-      - newServiceContainerName
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - pythonStartCommand
+      - taskDependencies
+      - serviceImageName
+      - serviceContainerName
     config:
-      serviceStartCommand: '{{ .GetValue "newPythonStartCommand" }}'
+      serviceStartCommand: '{{ .GetValue "pythonStartCommand" }}'
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/python'
 

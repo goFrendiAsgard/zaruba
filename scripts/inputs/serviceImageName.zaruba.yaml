@@ -1,6 +1,6 @@
 inputs:
 
-  newServiceImageName:
+  serviceImageName:
     description: |
       Service's docker image name (Can be blank)
     prompt: Service's docker image name

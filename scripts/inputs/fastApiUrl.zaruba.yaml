@@ -1,6 +1,6 @@
 inputs:
 
-  newFastApiUrl:
+  fastApiUrl:
     description: |
       URL to be handled (Required)
     prompt: URL to be handled

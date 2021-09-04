@@ -1,6 +1,6 @@
 inputs:
 
-  newServicePorts:
+  servicePorts:
     description: |
       Service ports JSON formated.
       E.g: ["3001:3000", "8080" , "{{ .GetEnv \"HTTP_PORT\" }}"]

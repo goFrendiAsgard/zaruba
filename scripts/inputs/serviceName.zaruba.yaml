@@ -1,6 +1,6 @@
 inputs:
   
-  newServiceName:
+  serviceName:
     description: Service name (Can be blank)
     prompt: Service name
     validation: ^[a-zA-Z0-9_]*$

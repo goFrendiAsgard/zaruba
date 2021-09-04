@@ -4,9 +4,9 @@ tasks:
     extend: core.makeDockerTask
     inputs:
       - dockerContainerName
-      - newServiceName
-      - newServiceEnvs
-      - newTaskDependencies
+      - serviceName
+      - serviceEnvs
+      - taskDependencies
       - redisServiceName
       - postgreServiceName
     config:

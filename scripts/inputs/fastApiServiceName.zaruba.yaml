@@ -1,6 +1,6 @@
 inputs:
   
-  newFastApiServiceName:
+  fastApiServiceName:
     description: Service name (Required)
     prompt: Service name
     validation: ^[a-zA-Z0-9_]+$

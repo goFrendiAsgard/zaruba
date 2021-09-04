@@ -4,15 +4,15 @@ tasks:
     icon: ⚡
     description: Make FastAPI Route
     inputs:
-      - newFastApiServiceName
-      - newFastApiModuleName
-      - newFastApiRpcName
+      - fastApiServiceName
+      - fastApiModuleName
+      - fastApiRpcName
     extend: core.runCoreScript
     dependencies:
       - core.showAdv
     configRef: generatorFastApi
     config:
-      rpcName: '{{ .GetValue "newFastApiRpcName" }}'
+      rpcName: '{{ .GetValue "fastApiRpcName" }}'
       start: |
         {{- $d := .Decoration -}}
         MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}

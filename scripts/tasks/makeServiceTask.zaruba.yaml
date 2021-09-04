@@ -4,12 +4,12 @@ tasks:
     icon: 📜
     extend: core.makeServiceTask
     inputs:
-      - newServiceLocation
-      - newServiceName
-      - newServiceEnvs
-      - newStartCommand
-      - newServicePorts
-      - newServiceImageName
-      - newServiceContainerName
-      - newTaskDependencies
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - startCommand
+      - servicePorts
+      - serviceImageName
+      - serviceContainerName
+      - taskDependencies
 

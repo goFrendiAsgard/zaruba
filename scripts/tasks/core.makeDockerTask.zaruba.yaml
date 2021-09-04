@@ -10,10 +10,10 @@ tasks:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/default'
       imageName: '{{ .GetValue "dockerImageName" }}'
       containerName: '{{ .GetValue "dockerContainerName" }}'
-      serviceName: '{{ .GetValue "newServiceName" }}'
-      servicePorts: '{{ .GetValue "newServicePorts" }}'
-      serviceEnvs: '{{ .GetValue "newServiceEnvs" }}'
-      dependencies: '{{ .GetValue "newTaskDependencies" }}'
+      serviceName: '{{ .GetValue "serviceName" }}'
+      servicePorts: '{{ .GetValue "servicePorts" }}'
+      serviceEnvs: '{{ .GetValue "serviceEnvs" }}'
+      dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
       _setup: |
