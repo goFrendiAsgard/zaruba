@@ -87,7 +87,7 @@ includes:
   - ./tasks/core.wrapper.zaruba.yaml
   - ./tasks/initProject.zaruba.yaml
   - ./tasks/initSubrepos.zaruba.yaml
-  - ./tasks/makeAirflowDockerTask.zaruba.yaml
+  - ./tasks/makeAirflowServiceTask.zaruba.yaml
   - ./tasks/makeCassandraDockerTask.zaruba.yaml
   - ./tasks/makeDockerTask.zaruba.yaml
   - ./tasks/makeElasticsearchDockerTask.zaruba.yaml
@@ -102,7 +102,7 @@ includes:
   - ./tasks/makeMeltanoServiceTask.zaruba.yaml
   - ./tasks/makeMongoDockerTask.zaruba.yaml
   - ./tasks/makeMysqlDockerTask.zaruba.yaml
-  - ./tasks/makeNginxDockerTask.zaruba.yaml
+  - ./tasks/makeNginxServiceTask.zaruba.yaml
   - ./tasks/makeNodeJsServiceTask.zaruba.yaml
   - ./tasks/makePostgreDockerTask.zaruba.yaml
   - ./tasks/makePythonServiceTask.zaruba.yaml

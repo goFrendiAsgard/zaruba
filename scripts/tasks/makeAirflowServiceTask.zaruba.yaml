@@ -1,15 +1,16 @@
 tasks: 
 
-  makeAirflowDockerTask:
+  makeAirflowServiceTask:
     extend: core.makeDockerTask
     inputs:
-      - dockerContainerName
       - serviceName
+      - serviceContainerName
       - serviceEnvs
       - taskDependencies
       - redisServiceName
       - postgreServiceName
     config:
+      asllowInexistServiceLocation: true
       redisServiceName: '{{ .GetValue "redisServiceName" }}'
       postgreServiceName: '{{ .GetValue "postgreServiceName" }}'
       beforeStart: |
