@@ -18,7 +18,19 @@ tasks:
       replacementMap: '{}'
       generatorScriptLocation: "${ZARUBA_HOME}/bash/generateDockerTask.sh"
       generatorFunctionName: "generateDockerTask"
+      generatorFunctionArgs: |
+        "${TEMPLATE_LOCATION}" \
+        "${IMAGE_NAME}" \
+        "${CONTAINER_NAME}" \
+        "${SERVICE_NAME}" \
+        "${SERVICE_PORTS}" \
+        "${SERVICE_ENVS}" \
+        "${DEPENDENCIES}" \
+        "${REPLACEMENT_MAP}" \
+        "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
       _setup: |
+        set -e
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
         . "${ZARUBA_HOME}/bash/generatorUtil.sh"
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
@@ -35,15 +47,7 @@ tasks:
       _start: |
         . "{{ .GetConfig "generatorScriptLocation" }}"
         {{ .GetConfig "generatorFunctionName" }} \
-          "${TEMPLATE_LOCATION}" \
-          "${IMAGE_NAME}" \
-          "${CONTAINER_NAME}" \
-          "${SERVICE_NAME}" \
-          "${SERVICE_PORTS}" \
-          "${SERVICE_ENVS}" \
-          "${DEPENDENCIES}" \
-          "${REPLACEMENT_MAP}" \
-          "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
+        {{ .GetConfig "generatorFunctionArgs" }}
       _finish: |
         {{- $d := .Decoration -}}
         echo 🎉🎉🎉

@@ -52,7 +52,9 @@
   CONFIG        : _finish                 : {{- $d := .Decoration -}}
                                             echo 🎉🎉🎉
                                             echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} created{{ $d.Normal }}"
-                  _setup                  : . "${ZARUBA_HOME}/bash/generatorUtil.sh"
+                  _setup                  : set -e
+                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                            . "${ZARUBA_HOME}/bash/generatorUtil.sh"
                                             TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                             IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
                                             CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
@@ -67,15 +69,7 @@
                                             SERVICE_NAME="$(getDockerServiceName "${SERVICE_NAME}" "${CONTAINER_NAME}")"
                   _start                  : . "{{ .GetConfig "generatorScriptLocation" }}"
                                             {{ .GetConfig "generatorFunctionName" }} \
-                                              "${TEMPLATE_LOCATION}" \
-                                              "${IMAGE_NAME}" \
-                                              "${CONTAINER_NAME}" \
-                                              "${SERVICE_NAME}" \
-                                              "${SERVICE_PORTS}" \
-                                              "${SERVICE_ENVS}" \
-                                              "${DEPENDENCIES}" \
-                                              "${REPLACEMENT_MAP}" \
-                                              "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
+                                            {{ .GetConfig "generatorFunctionArgs" }}
                   afterStart              : Blank
                   beforeStart             : Blank
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -83,6 +77,15 @@
                   containerName           : {{ .GetValue "dockerContainerName" }}
                   dependencies            : {{ .GetValue "taskDependencies" }}
                   finish                  : Blank
+                  generatorFunctionArgs   : "${TEMPLATE_LOCATION}" \
+                                            "${IMAGE_NAME}" \
+                                            "${CONTAINER_NAME}" \
+                                            "${SERVICE_NAME}" \
+                                            "${SERVICE_PORTS}" \
+                                            "${SERVICE_ENVS}" \
+                                            "${DEPENDENCIES}" \
+                                            "${REPLACEMENT_MAP}" \
+                                            "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
                   generatorFunctionName   : generateDockerTask
                   generatorScriptLocation : ${ZARUBA_HOME}/bash/generateDockerTask.sh
                   imageName               : {{ .GetValue "dockerImageName" }}

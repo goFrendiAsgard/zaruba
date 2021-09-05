@@ -1,41 +1,40 @@
 tasks: 
 
   makeAirflowServiceTask:
-    extend: core.makeDockerTask
+    extend: core.makeServiceTask
     inputs:
+      - serviceLocation
       - serviceName
-      - serviceContainerName
       - serviceEnvs
-      - taskDependencies
+      - servicePorts
       - redisServiceName
       - postgreServiceName
+      - serviceImageName
+      - serviceContainerName
     config:
-      asllowInexistServiceLocation: true
+      allowInexistServiceLocation: true
       redisServiceName: '{{ .GetValue "redisServiceName" }}'
       postgreServiceName: '{{ .GetValue "postgreServiceName" }}'
-      beforeStart: |
-        . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
-        REDIS_SERVICE={{ .EscapeShellArg (.GetConfig "redisServiceName") }}
-        REDIS_TASK="run$("{{ .ZarubaBin }}" str toPascal "${REDIS_SERVICE}")"
-        POSTGRE_SERVICE={{ .EscapeShellArg (.GetConfig "postgreServiceName") }}
-        POSTGRE_TASK="run$("{{ .ZarubaBin }}" str toPascal "${POSTGRE_SERVICE}")"
-        REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaRedisTask" "${REDIS_TASK}" )"
-        REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaRedisService" "${REDIS_SERVICE}" )"
-        REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaPostgreTask" "${POSTGRE_TASK}" )"
-        REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaPostgreService" "${POSTGRE_SERVICE}" )"
-        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${REDIS_TASK}")" = 0 ]
-        then
-          echo "create redis task: ${REDIS_TASK}"
-          generateDockerTask \
-            "${ZARUBA_HOME}/templates/task/docker/redis" "" "${REDIS_SERVICE}" \
-            "" "[]" "{}" "[]" "{}"
-        fi
-        if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${POSTGRE_TASK}")" = 0 ]
-        then
-          echo "create postgre task: ${POSTGRE_TASK}"
-          generateDockerTask \
-            "${ZARUBA_HOME}/templates/task/docker/postgre" "" "${POSTGRE_SERVICE}" \
-            "" "[]" "{}" "[]" "{}" "1"
-        fi
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/airflow'
+      postgreTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre'
+      redisTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis'
+      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateAirflowTask.sh"
+      generatorFunctionName: "generateAirflowTask"
+      generatorFunctionArgs: |
+        "${TEMPLATE_LOCATION}" \
+        "${SERVICE_LOCATION}" \
+        "${SERVICE_NAME}" \
+        "${IMAGE_NAME}" \
+        "${CONTAINER_NAME}" \
+        "${SERVICE_START_COMMAND}" \
+        "${SERVICE_RUNENR_VERSION}" \
+        "${SERVICE_PORTS}" \
+        "${SERVICE_ENVS}" \
+        "${DEPENDENCIES}" \
+        "${REPLACEMENT_MAP}" \
+        "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}" \
+        "{{ .GetConfig "redisTemplateLocation" }}" \
+        "{{ .GetConfig "redisServiceName" }}" \
+        "{{ .GetConfig "postgreTemplateLocation" }}" \
+        "{{ .GetConfig "postgreServiceName" }}"
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/airflow'
 

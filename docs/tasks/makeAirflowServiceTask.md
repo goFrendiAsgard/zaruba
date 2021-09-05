@@ -3,7 +3,7 @@
   TASK NAME     : makeAirflowServiceTask
   LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeAirflowServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.makeDockerTask ]
+  PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Trim (.GetConfig "_setup") "\n " }}
@@ -14,13 +14,13 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     {{ .Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : serviceName
+  INPUTS        : serviceLocation
+                    DESCRIPTION : Service location, relative to this directory
+                    PROMPT      : Service location
+                    VALIDATION  : ^.+$
+                  serviceName
                     DESCRIPTION : Service name (Can be blank)
                     PROMPT      : Service name
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
-                  serviceContainerName
-                    DESCRIPTION : Service's docker container name (Can be blank)
-                    PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
                   serviceEnvs
                     DESCRIPTION : Service environments, JSON formated.
@@ -33,10 +33,10 @@
                     PROMPT      : Service environments, JSON formated. E.g: {"HTTP_PORT" : "3000", "MODE" : "writer"}
                     DEFAULT     : {}
                     VALIDATION  : ^\{.*\}$
-                  taskDependencies
-                    DESCRIPTION : Task's dependencies, JSON formated.
-                                  E.g: ["runMysql", "runRedis"]
-                    PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
+                  servicePorts
+                    DESCRIPTION : Service ports JSON formated.
+                                  E.g: ["3001:3000", "8080" , "{{ .GetEnv \"HTTP_PORT\" }}"]
+                    PROMPT      : Service ports, JSON formated. E.g: ["3001:3000", "8080", "{{ .GetEnv \"HTTP_PORT\"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
                   redisServiceName
@@ -49,77 +49,86 @@
                     PROMPT      : Postgre service name
                     DEFAULT     : postgre
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-  CONFIG        : _finish                      : {{- $d := .Decoration -}}
-                                                 echo 🎉🎉🎉
-                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} created{{ $d.Normal }}"
-                  _setup                       : . "${ZARUBA_HOME}/bash/generatorUtil.sh"
-                                                 TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-                                                 IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-                                                 CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-                                                 SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                                 SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-                                                 SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-                                                 DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-                                                 REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
-                                                 # ensure CONTAINER_NAME is not empty
-                                                 CONTAINER_NAME="$(getDockerContainerName "${CONTAINER_NAME}" ${IMAGE_NAME} ${_TEMPLATE_LOCATION})"
-                                                 # ensure SERVICE_NAME is not empty
-                                                 SERVICE_NAME="$(getDockerServiceName "${SERVICE_NAME}" "${CONTAINER_NAME}")"
-                  _start                       : . "{{ .GetConfig "generatorScriptLocation" }}"
-                                                 {{ .GetConfig "generatorFunctionName" }} \
-                                                   "${TEMPLATE_LOCATION}" \
-                                                   "${IMAGE_NAME}" \
-                                                   "${CONTAINER_NAME}" \
-                                                   "${SERVICE_NAME}" \
-                                                   "${SERVICE_PORTS}" \
-                                                   "${SERVICE_ENVS}" \
-                                                   "${DEPENDENCIES}" \
-                                                   "${REPLACEMENT_MAP}" \
-                                                   "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
-                  afterStart                   : Blank
-                  asllowInexistServiceLocation : true
-                  beforeStart                  : . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
-                                                 REDIS_SERVICE={{ .EscapeShellArg (.GetConfig "redisServiceName") }}
-                                                 REDIS_TASK="run$("{{ .ZarubaBin }}" str toPascal "${REDIS_SERVICE}")"
-                                                 POSTGRE_SERVICE={{ .EscapeShellArg (.GetConfig "postgreServiceName") }}
-                                                 POSTGRE_TASK="run$("{{ .ZarubaBin }}" str toPascal "${POSTGRE_SERVICE}")"
-                                                 REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaRedisTask" "${REDIS_TASK}" )"
-                                                 REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaRedisService" "${REDIS_SERVICE}" )"
-                                                 REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaPostgreTask" "${POSTGRE_TASK}" )"
-                                                 REPLACEMENT_MAP="$("{{ .ZarubaBin }}" map set "${REPLACEMENT_MAP}" "zarubaPostgreService" "${POSTGRE_SERVICE}" )"
-                                                 if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${REDIS_TASK}")" = 0 ]
-                                                 then
-                                                   echo "create redis task: ${REDIS_TASK}"
-                                                   generateDockerTask \
-                                                     "${ZARUBA_HOME}/templates/task/docker/redis" "" "${REDIS_SERVICE}" \
-                                                     "" "[]" "{}" "[]" "{}"
-                                                 fi
-                                                 if [ "$("{{ .ZarubaBin }}" task isExist ./main.zaruba.yaml "${POSTGRE_TASK}")" = 0 ]
-                                                 then
-                                                   echo "create postgre task: ${POSTGRE_TASK}"
-                                                   generateDockerTask \
-                                                     "${ZARUBA_HOME}/templates/task/docker/postgre" "" "${POSTGRE_SERVICE}" \
-                                                     "" "[]" "{}" "[]" "{}" "1"
-                                                 fi
-                  cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg                       : -c
-                  containerName                : {{ .GetValue "dockerContainerName" }}
-                  dependencies                 : {{ .GetValue "taskDependencies" }}
-                  finish                       : Blank
-                  generatorFunctionName        : generateDockerTask
-                  generatorScriptLocation      : ${ZARUBA_HOME}/bash/generateDockerTask.sh
-                  imageName                    : {{ .GetValue "dockerImageName" }}
-                  includeUtilScript            : . ${ZARUBA_HOME}/bash/util.sh
-                  postgreServiceName           : {{ .GetValue "postgreServiceName" }}
-                  redisServiceName             : {{ .GetValue "redisServiceName" }}
-                  registerRunner               : true
-                  replacementMap               : {}
-                  serviceEnvs                  : {{ .GetValue "serviceEnvs" }}
-                  serviceName                  : {{ .GetValue "serviceName" }}
-                  servicePorts                 : {{ .GetValue "servicePorts" }}
-                  setup                        : Blank
-                  start                        : Blank
-                  templateLocation             : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/airflow
+                  serviceImageName
+                    DESCRIPTION : Service's docker image name (Can be blank)
+                    PROMPT      : Service's docker image name
+                    VALIDATION  : ^[a-z0-9_]*$
+                  serviceContainerName
+                    DESCRIPTION : Service's docker container name (Can be blank)
+                    PROMPT      : Service's docker container name
+                    VALIDATION  : ^[a-zA-Z0-9_]*$
+  CONFIG        : _finish                     : {{- $d := .Decoration -}}
+                                                echo 🎉🎉🎉
+                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} created{{ $d.Normal }}"
+                  _setup                      : set -e
+                                                {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                                . "${ZARUBA_HOME}/bash/generatorUtil.sh"
+                                                {{ if .IsTrue (.GetConfig "allowInexistServiceLocation") -}}
+                                                mkdir -p "{{ .GetConfig "serviceLocation" }}"
+                                                {{ end -}}
+                                                TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+                                                SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
+                                                SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+                                                IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
+                                                CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
+                                                SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
+                                                SERVICE_RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
+                                                SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
+                                                SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
+                                                DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
+                                                REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+                                                # ensure SERVICE_NAME is not empty
+                                                SERVICE_NAME="$(getServiceName "${SERVICE_NAME}" "${SERVICE_LOCATION}")"
+                                                # ensure IMAGE_NAME is not empty
+                                                IMAGE_NAME="$(getServiceImageName "${IMAGE_NAME}" "${SERVICE_NAME}")"
+                                                # ensure CONTAINER_NAME is not empty
+                                                CONTAINER_NAME="$(getServiceContainerName "${CONTAINER_NAME}" "${SERVICE_NAME}")"
+                  _start                      : . "{{ .GetConfig "generatorScriptLocation" }}"
+                                                {{ .GetConfig "generatorFunctionName" }} \
+                                                {{ .GetConfig "generatorFunctionArgs" }}
+                  afterStart                  : Blank
+                  allowInexistServiceLocation : true
+                  beforeStart                 : Blank
+                  cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg                      : -c
+                  containerName               : {{ .GetValue "serviceContainerName" }}
+                  dependencies                : {{ .GetValue "taskDependencies" }}
+                  finish                      : Blank
+                  generatorFunctionArgs       : "${TEMPLATE_LOCATION}" \
+                                                "${SERVICE_LOCATION}" \
+                                                "${SERVICE_NAME}" \
+                                                "${IMAGE_NAME}" \
+                                                "${CONTAINER_NAME}" \
+                                                "${SERVICE_START_COMMAND}" \
+                                                "${SERVICE_RUNENR_VERSION}" \
+                                                "${SERVICE_PORTS}" \
+                                                "${SERVICE_ENVS}" \
+                                                "${DEPENDENCIES}" \
+                                                "${REPLACEMENT_MAP}" \
+                                                "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}" \
+                                                "{{ .GetConfig "redisTemplateLocation" }}" \
+                                                "{{ .GetConfig "redisServiceName" }}" \
+                                                "{{ .GetConfig "postgreTemplateLocation" }}" \
+                                                "{{ .GetConfig "postgreServiceName" }}"
+                  generatorFunctionName       : generateAirflowTask
+                  generatorScriptLocation     : ${ZARUBA_HOME}/bash/generateAirflowTask.sh
+                  imageName                   : {{ .GetValue "serviceImageName" }}
+                  includeUtilScript           : . ${ZARUBA_HOME}/bash/util.sh
+                  postgreServiceName          : {{ .GetValue "postgreServiceName" }}
+                  postgreTemplateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre
+                  redisServiceName            : {{ .GetValue "redisServiceName" }}
+                  redisTemplateLocation       : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis
+                  registerRunner              : true
+                  replacementMap              : {}
+                  serviceEnvs                 : {{ .GetValue "serviceEnvs" }}
+                  serviceLocation             : {{ .GetValue "serviceLocation" }}
+                  serviceName                 : {{ .GetValue "serviceName" }}
+                  servicePorts                : {{ .GetValue "servicePorts" }}
+                  serviceRunnerVersion        : Blank
+                  serviceStartCommand         : {{ .GetValue "startCommand" }}
+                  setup                       : Blank
+                  start                       : Blank
+                  templateLocation            : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/airflow
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

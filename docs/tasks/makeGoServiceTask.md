@@ -61,7 +61,12 @@
   CONFIG        : _finish                     : {{- $d := .Decoration -}}
                                                 echo 🎉🎉🎉
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} created{{ $d.Normal }}"
-                  _setup                      : . "${ZARUBA_HOME}/bash/generatorUtil.sh"
+                  _setup                      : set -e
+                                                {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                                . "${ZARUBA_HOME}/bash/generatorUtil.sh"
+                                                {{ if .IsTrue (.GetConfig "allowInexistServiceLocation") -}}
+                                                mkdir -p "{{ .GetConfig "serviceLocation" }}"
+                                                {{ end -}}
                                                 TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                                 SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
                                                 SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
@@ -79,23 +84,9 @@
                                                 IMAGE_NAME="$(getServiceImageName "${IMAGE_NAME}" "${SERVICE_NAME}")"
                                                 # ensure CONTAINER_NAME is not empty
                                                 CONTAINER_NAME="$(getServiceContainerName "${CONTAINER_NAME}" "${SERVICE_NAME}")"
-                  _start                      : {{ if .IsTrue (.GetConfig "allowInexistServiceLocation") -}}
-                                                mkdir -p "{{ .GetConfig "serviceLocation" }}"
-                                                {{ end -}}
-                                                . "{{ .GetConfig "generatorScriptLocation" }}"
+                  _start                      : . "{{ .GetConfig "generatorScriptLocation" }}"
                                                 {{ .GetConfig "generatorFunctionName" }} \
-                                                  "${TEMPLATE_LOCATION}" \
-                                                  "${SERVICE_LOCATION}" \
-                                                  "${SERVICE_NAME}" \
-                                                  "${IMAGE_NAME}" \
-                                                  "${CONTAINER_NAME}" \
-                                                  "${SERVICE_START_COMMAND}" \
-                                                  "${SERVICE_RUNENR_VERSION}" \
-                                                  "${SERVICE_PORTS}" \
-                                                  "${SERVICE_ENVS}" \
-                                                  "${DEPENDENCIES}" \
-                                                  "${REPLACEMENT_MAP}" \
-                                                  "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
+                                                {{ .GetConfig "generatorFunctionArgs" }}
                   afterStart                  : Blank
                   allowInexistServiceLocation : false
                   beforeStart                 : Blank
@@ -104,6 +95,18 @@
                   containerName               : {{ .GetValue "serviceContainerName" }}
                   dependencies                : {{ .GetValue "taskDependencies" }}
                   finish                      : Blank
+                  generatorFunctionArgs       : "${TEMPLATE_LOCATION}" \
+                                                "${SERVICE_LOCATION}" \
+                                                "${SERVICE_NAME}" \
+                                                "${IMAGE_NAME}" \
+                                                "${CONTAINER_NAME}" \
+                                                "${SERVICE_START_COMMAND}" \
+                                                "${SERVICE_RUNENR_VERSION}" \
+                                                "${SERVICE_PORTS}" \
+                                                "${SERVICE_ENVS}" \
+                                                "${DEPENDENCIES}" \
+                                                "${REPLACEMENT_MAP}" \
+                                                "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
                   generatorFunctionName       : generateServiceTask
                   generatorScriptLocation     : ${ZARUBA_HOME}/bash/generateServiceTask.sh
                   imageName                   : {{ .GetValue "serviceImageName" }}

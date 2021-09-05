@@ -11,6 +11,7 @@ tasks:
       - serviceImageName
       - serviceContainerName
     config:
+      allowInexistServiceLocation: true
       registerRunner: false
       beforeStart: |
         mkdir -p "{{ .GetConfig "serviceLocation" }}"

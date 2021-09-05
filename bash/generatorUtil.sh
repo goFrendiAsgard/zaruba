@@ -44,7 +44,7 @@ getServiceName() {
 # USAGE getServiceImageName <image-name> <service-name>
 getServiceImageName() {
     _IMAGE_NAME="${1}"
-    _SERVICE_NAME"${2}"
+    _SERVICE_NAME="${2}"
     if [ -z "${_IMAGE_NAME}" ]
     then
         _DEFAULT_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_SERVICE_NAME}")"
