@@ -19,6 +19,8 @@ tasks:
       dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
+      _generatorScriptLocation: "${ZARUBA_HOME}/bash/generateServiceTask.sh"
+      _generatorFunctionName: "generateServiceTask"
       _setup: |
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
@@ -33,8 +35,8 @@ tasks:
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
       _start: |
         {{- $d := .Decoration -}}
-        . "${ZARUBA_HOME}/bash/generateServiceTask.sh"
-        generateServiceTask \
+        . "{{ .GetConfig "_generatorScriptLocation" }}"
+        {{ .GetConfig "_generatorFunctionName" }} \
           "${TEMPLATE_LOCATION}" \
           "${SERVICE_LOCATION}" \
           "${SERVICE_NAME}" \
