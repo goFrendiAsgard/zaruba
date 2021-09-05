@@ -13,6 +13,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
   INPUTS        : dockerContainerName
                     DESCRIPTION : Docker container name (Can be blank)
                     PROMPT      : Docker container name
@@ -38,7 +39,11 @@
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
-  CONFIG        : _setup                  : TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
+  CONFIG        : _finish                 : {{- $d := .Decoration -}}
+                                            echo 🎉🎉🎉
+                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} created{{ $d.Normal }}"
+                  _setup                  : . "${ZARUBA_HOME}/bash/generatorUtil.sh"
+                                            TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
                                             IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
                                             CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
                                             SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
@@ -46,8 +51,11 @@
                                             SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
                                             DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
                                             REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
-                  _start                  : {{- $d := .Decoration -}}
-                                            . "{{ .GetConfig "generatorScriptLocation" }}"
+                                            # ensure CONTAINER_NAME is not empty
+                                            CONTAINER_NAME="$(getDockerContainerName "${CONTAINER_NAME}" ${IMAGE_NAME} ${_TEMPLATE_LOCATION})"
+                                            # ensure SERVICE_NAME is not empty
+                                            SERVICE_NAME="$(getDockerServiceName "${SERVICE_NAME}" "${CONTAINER_NAME}")"
+                  _start                  : . "{{ .GetConfig "generatorScriptLocation" }}"
                                             {{ .GetConfig "generatorFunctionName" }} \
                                               "${TEMPLATE_LOCATION}" \
                                               "${IMAGE_NAME}" \
@@ -58,8 +66,6 @@
                                               "${DEPENDENCIES}" \
                                               "${REPLACEMENT_MAP}" \
                                               "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
-                                            echo 🎉🎉🎉
-                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
                   afterStart              : Blank
                   beforeStart             : Blank
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -77,7 +83,8 @@
                   serviceName             : {{ .GetValue "serviceName" }}
                   servicePorts            : {{ .GetValue "servicePorts" }}
                   setup                   : Blank
-                  start                   : Blank
+                  start                   : . "${ZARUBA_HOME}/bash/setProjectValueUnlessExist.sh"
+                                            setProjectValueUnlessExist redisServiceName "${SERVICE_NAME}"
                   templateLocation        : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

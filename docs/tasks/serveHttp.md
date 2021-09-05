@@ -25,6 +25,7 @@
                     {{ .Trim (.GetConfig "check") "\n " }}
                     {{ .Trim (.GetConfig "afterCheck") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   INPUTS        : serverHttpPort
@@ -34,6 +35,7 @@
                     DEFAULT     : 8080
                     VALIDATION  : ^[0-9]+$
   CONFIG        : RunInLocal        : true
+                  _finish           : Blank
                   _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank

@@ -9,4 +9,6 @@ tasks:
       - taskDependencies
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre'
-
+      start: |
+        . "${ZARUBA_HOME}/bash/setProjectValueUnlessExist.sh"
+        setProjectValueUnlessExist postgreServiceName "${SERVICE_NAME}"

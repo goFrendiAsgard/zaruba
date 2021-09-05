@@ -10,4 +10,3 @@ tasks:
     extend: core.runScript
     config:
       start: "echo hello world"
-

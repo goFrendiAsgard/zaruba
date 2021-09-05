@@ -18,11 +18,13 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _executeScript    : REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
                                       CONTAINER_SHELL="{{ .GetConfig "containerShell" }}"
                                       CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                       docker exec "${CONTAINER_NAME}" "${CONTAINER_SHELL}" "${REMOTE_SCRIPT_FILE}"
                                       docker exec -u 0 "${CONTAINER_NAME}" rm "${REMOTE_SCRIPT_FILE}"
+                  _finish           : Blank
                   _generateScript   : {{ $err := .WriteFile (.GetConfig "_localScriptFile") (.GetConfig "_template") -}}
                   _localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}
                   _remoteScriptFile : /{{ .Name }}.tmp.sh
