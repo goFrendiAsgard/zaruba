@@ -16,8 +16,8 @@ tasks:
       dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
-      _generatorScriptLocation: "${ZARUBA_HOME}/bash/generateDockerTask.sh"
-      _generatorFunctionName: "generateDockerTask"
+      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateDockerTask.sh"
+      generatorFunctionName: "generateDockerTask"
       _setup: |
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
@@ -29,8 +29,8 @@ tasks:
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
       _start: |
         {{- $d := .Decoration -}}
-        . "{{ .GetConfig "_generatorScriptLocation" }}"
-        {{ .GetConfig "_generatorFunctionName" }} \
+        . "{{ .GetConfig "generatorScriptLocation" }}"
+        {{ .GetConfig "generatorFunctionName" }} \
           "${TEMPLATE_LOCATION}" \
           "${IMAGE_NAME}" \
           "${CONTAINER_NAME}" \
