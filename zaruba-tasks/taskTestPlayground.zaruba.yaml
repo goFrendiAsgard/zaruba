@@ -16,6 +16,7 @@ tasks:
     location: ../playground
     dependencies:
       - build
+      - preparePlayground
     extend: core.runShellScript 
     configRef: playgroundTest
     config:
@@ -92,7 +93,6 @@ tasks:
       start: |
         ../zaruba please stopContainer 
         ../zaruba please runContainer -t
-        ../zaruba please removeContainer 
 
 
   testBuildImage:
