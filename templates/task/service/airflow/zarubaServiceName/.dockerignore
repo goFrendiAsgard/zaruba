@@ -1,4 +1,6 @@
 configurator/init.sh
 worker/init.sh
 logs/*
-dags/__pycache__
+dags/*
+plugins/*
+tmp/*
