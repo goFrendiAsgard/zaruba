@@ -22,35 +22,50 @@ generateAirflowTask() {
     _AIRFLOW_POSTGRE_SERVICE_NAME="${16}"
 
     # get redisTask and postgreTask
-    _REDIS_TASK="run$("${ZARUBA_HOME}/zaruba" str toPascal "${_AIRFLOW_REDIS_SERVICE_NAME}")"
-    _POSTGRE_TASK="run$("${ZARUBA_HOME}/zaruba" str toPascal "${_AIRFLOW_POSTGRE_SERVICE_NAME}")"
+    _AIRFLOW_REDIS_TASK="run$("${ZARUBA_HOME}/zaruba" str toPascal "${_AIRFLOW_REDIS_SERVICE_NAME}")"
+    _AIRFLOW_POSTGRE_TASK="run$("${ZARUBA_HOME}/zaruba" str toPascal "${_AIRFLOW_POSTGRE_SERVICE_NAME}")"
 
     # add to replacementMap
-    _AIRFLOW_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_AIRFLOW_REPLACEMENT_MAP}" "zarubaRedisTask" "${_REDIS_TASK}" )"
+    _AIRFLOW_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_AIRFLOW_REPLACEMENT_MAP}" "zarubaRedisTask" "${_AIRFLOW_REDIS_TASK}" )"
     _AIRFLOW_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_AIRFLOW_REPLACEMENT_MAP}" "zarubaRedisService" "${_AIRFLOW_REDIS_SERVICE_NAME}" )"
-    _AIRFLOW_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_AIRFLOW_REPLACEMENT_MAP}" "zarubaPostgreTask" "${_POSTGRE_TASK}" )"
+    _AIRFLOW_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_AIRFLOW_REPLACEMENT_MAP}" "zarubaPostgreTask" "${_AIRFLOW_POSTGRE_TASK}" )"
     _AIRFLOW_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_AIRFLOW_REPLACEMENT_MAP}" "zarubaPostgreService" "${_AIRFLOW_POSTGRE_SERVICE_NAME}" )"
 
-
-    if [ "$("${ZARUBA_HOME}/zaruba" task isExist ./main.zaruba.yaml "${_REDIS_TASK}")" = 0 ]
+    # create redis if needed
+    if [ "$("${ZARUBA_HOME}/zaruba" task isExist ./main.zaruba.yaml "${_AIRFLOW_REDIS_TASK}")" = 0 ]
     then
-        echo "create redis task: ${_REDIS_TASK}"
+        echo "create redis task: ${_AIRFLOW_REDIS_TASK}"
         generateDockerTask \
-            "${_AIRFLOW_REDIS_TEMPLATE_LOCATION}" "" "${_AIRFLOW_REDIS_SERVICE_NAME}" \
-            "" "[]" "{}" "[]" "{}" "1"
+            "${_AIRFLOW_REDIS_TEMPLATE_LOCATION}" \
+            "" \
+            "${_AIRFLOW_REDIS_SERVICE_NAME}" \
+            "" \
+            "[]" \
+            "{}" \
+            "[]" \
+            "{}" \
+            "1"
         setProjectValueUnlessExist redisServiceName "${_AIRFLOW_REDIS_AIRFLOW_SERVICE_NAME}"
     fi
 
-
-    if [ "$("${ZARUBA_HOME}/zaruba" task isExist ./main.zaruba.yaml "${_POSTGRE_TASK}")" = 0 ]
+    # create postgre if needed
+    if [ "$("${ZARUBA_HOME}/zaruba" task isExist ./main.zaruba.yaml "${_AIRFLOW_POSTGRE_TASK}")" = 0 ]
     then
-        echo "create postgre task: ${_POSTGRE_TASK}"
+        echo "create postgre task: ${_AIRFLOW_POSTGRE_TASK}"
         generateDockerTask \
-            "${_AIRFLOW_POSTGRE_TEMPLATE_LOCATION}" "" "${_AIRFLOW_POSTGRE_SERVICE_NAME}" \
-            "" "[]" "{}" "[]" "{}" "1"
+            "${_AIRFLOW_POSTGRE_TEMPLATE_LOCATION}" \
+            "" \
+            "${_AIRFLOW_POSTGRE_SERVICE_NAME}" \
+            "" \
+            "[]" \
+            "{}" \
+            "[]" \
+            "{}" \
+            "1"
         setProjectValueUnlessExist postgreServiceName "${_AIRFLOW_POSTGRE_AIRFLOW_SERVICE_NAME}"
     fi
 
+    # create airflow task
     generateServiceTask \
         "${_AIRFLOW_TEMPLATE_LOCATION}" \
         "${_AIRFLOW_SERVICE_LOCATION}" \

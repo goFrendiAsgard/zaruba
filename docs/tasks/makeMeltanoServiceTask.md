@@ -45,6 +45,21 @@
                     PROMPT      : Task dependencies, JSON formated. E.g: ["runMysql", "runRedis"]
                     DEFAULT     : []
                     VALIDATION  : ^\[.*\]$
+                  airflowServiceName
+                    DESCRIPTION : Airflow service name (Required)
+                    PROMPT      : Airflow service name
+                    DEFAULT     : airflow
+                    VALIDATION  : ^[a-zA-Z0-9_]+$
+                  redisServiceName
+                    DESCRIPTION : Redis service name (Required)
+                    PROMPT      : Redis service name
+                    DEFAULT     : redis
+                    VALIDATION  : ^[a-zA-Z0-9_]+$
+                  postgreServiceName
+                    DESCRIPTION : Postgre service name (Required)
+                    PROMPT      : Postgre service name
+                    DEFAULT     : postgre
+                    VALIDATION  : ^[a-zA-Z0-9_]+$
                   serviceImageName
                     DESCRIPTION : Service's docker image name (Can be blank)
                     PROMPT      : Service's docker image name
@@ -82,14 +97,11 @@
                   _start                      : . "{{ .GetConfig "generatorScriptLocation" }}"
                                                 {{ .GetConfig "generatorFunctionName" }} \
                                                 {{ .GetConfig "generatorFunctionArgs" }}
-                  afterStart                  : # dunno, but seemingly it won't work with 
-                                                pip install meltano
-                                                cd "{{ .GetConfig "serviceLocation" }}"
-                                                pipenv run meltano init app
-                                                '{{ .ZarubaBin }}' util generate '{{ .GetEnv "ZARUBA_HOME" }}/templates/meltanoApp' ./app '{}'
-                                                chmod 755 app/start.sh
+                  afterStart                  : Blank
+                  airflowServiceName          : {{ .GetValue "airflowServiceName" }}
+                  airflowTemplateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/airflow
                   allowInexistServiceLocation : true
-                  beforeStart                 : mkdir -p "{{ .GetConfig "serviceLocation" }}"
+                  beforeStart                 : Blank
                   cmd                         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                      : -c
                   containerName               : {{ .GetValue "serviceContainerName" }}
@@ -106,11 +118,21 @@
                                                 "${SERVICE_ENVS}" \
                                                 "${DEPENDENCIES}" \
                                                 "${REPLACEMENT_MAP}" \
-                                                "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
-                  generatorFunctionName       : generateServiceTask
-                  generatorScriptLocation     : ${ZARUBA_HOME}/bash/generateServiceTask.sh
+                                                "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}" \
+                                                "{{ .GetConfig "airflowTemplateLocation" }}" \
+                                                "{{ .GetConfig "airflowServiceName" }}" \
+                                                "{{ .GetConfig "redisTemplateLocation" }}" \
+                                                "{{ .GetConfig "redisServiceName" }}" \
+                                                "{{ .GetConfig "postgreTemplateLocation" }}" \
+                                                "{{ .GetConfig "postgreServiceName" }}"
+                  generatorFunctionName       : generateMeltanoTask
+                  generatorScriptLocation     : ${ZARUBA_HOME}/bash/generateMeltanoTask.sh
                   imageName                   : {{ .GetValue "serviceImageName" }}
                   includeUtilScript           : . ${ZARUBA_HOME}/bash/util.sh
+                  postgreServiceName          : {{ .GetValue "postgreServiceName" }}
+                  postgreTemplateLocation     : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre
+                  redisServiceName            : {{ .GetValue "redisServiceName" }}
+                  redisTemplateLocation       : {{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis
                   registerRunner              : false
                   replacementMap              : {}
                   serviceEnvs                 : {{ .GetValue "serviceEnvs" }}

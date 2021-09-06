@@ -8,19 +8,40 @@ tasks:
       - serviceEnvs
       - servicePorts
       - taskDependencies
+      - airflowServiceName
+      - redisServiceName
+      - postgreServiceName
       - serviceImageName
       - serviceContainerName
     config:
       allowInexistServiceLocation: true
       registerRunner: false
-      beforeStart: |
-        mkdir -p "{{ .GetConfig "serviceLocation" }}"
-      afterStart: |
-        # dunno, but seemingly it won't work with 
-        pip install meltano
-        cd "{{ .GetConfig "serviceLocation" }}"
-        pipenv run meltano init app
-        '{{ .ZarubaBin }}' util generate '{{ .GetEnv "ZARUBA_HOME" }}/templates/meltanoApp' ./app '{}'
-        chmod 755 app/start.sh
+      airflowServiceName: '{{ .GetValue "airflowServiceName" }}'
+      redisServiceName: '{{ .GetValue "redisServiceName" }}'
+      postgreServiceName: '{{ .GetValue "postgreServiceName" }}'
+      airflowTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/airflow'
+      postgreTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre'
+      redisTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis'
+      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateMeltanoTask.sh"
+      generatorFunctionName: "generateMeltanoTask"
+      generatorFunctionArgs: |
+        "${TEMPLATE_LOCATION}" \
+        "${SERVICE_LOCATION}" \
+        "${SERVICE_NAME}" \
+        "${IMAGE_NAME}" \
+        "${CONTAINER_NAME}" \
+        "${SERVICE_START_COMMAND}" \
+        "${SERVICE_RUNENR_VERSION}" \
+        "${SERVICE_PORTS}" \
+        "${SERVICE_ENVS}" \
+        "${DEPENDENCIES}" \
+        "${REPLACEMENT_MAP}" \
+        "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}" \
+        "{{ .GetConfig "airflowTemplateLocation" }}" \
+        "{{ .GetConfig "airflowServiceName" }}" \
+        "{{ .GetConfig "redisTemplateLocation" }}" \
+        "{{ .GetConfig "redisServiceName" }}" \
+        "{{ .GetConfig "postgreTemplateLocation" }}" \
+        "{{ .GetConfig "postgreServiceName" }}"
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/meltano'
 
