@@ -22,6 +22,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
   CHECK         : - {{ .GetConfig "cmd" }}
@@ -39,11 +40,13 @@
                     {{ .Trim (.GetConfig "check") "\n " }}
                     {{ .Trim (.GetConfig "afterCheck") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   CONFIG        : RunInLocal        : true
                   _check            : {{ $d := .Decoration -}}
                                       echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
+                  _finish           : Blank
                   _setup            : {{ .GetConfig "_setupPorts" }}
                   _setupPorts       : PORTS=""
                                       {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}

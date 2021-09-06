@@ -16,6 +16,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
   INPUTS        : subrepoUrl
                     DESCRIPTION : Subrepo url (Required)
                     PROMPT      : Subrepo url
@@ -26,7 +27,8 @@
                   subrepoName
                     DESCRIPTION : Subrepo name (Can be blank)
                     PROMPT      : Subrepo name
-  CONFIG        : _setup            : set -e
+  CONFIG        : _finish           : Blank
+                  _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank

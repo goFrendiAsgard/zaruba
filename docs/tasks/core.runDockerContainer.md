@@ -39,7 +39,9 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup                       : set -e
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
+  CONFIG        : _finish                      : Blank
+                  _setup                       : set -e
                                                  {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
                                                  {{ .Trim (.GetConfig "_setupContainerName") "\n" }} 
                                                  {{ .Trim (.GetConfig "_setupImageName") "\n" }} 

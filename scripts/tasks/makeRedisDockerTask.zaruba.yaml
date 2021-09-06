@@ -9,4 +9,6 @@ tasks:
       - taskDependencies
     config:
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis'
-
+      start: |
+        . "${ZARUBA_HOME}/bash/setProjectValueUnlessExist.sh"
+        setProjectValueUnlessExist redisServiceName "${SERVICE_NAME}"

@@ -1,4 +1,5 @@
 . ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/generatorUtil.sh
 . ${ZARUBA_HOME}/bash/registerTaskFile.sh
 
 # USAGE generateDockerTask <template-location> <image-name> <container-name> <service-name> <service-ports> <service-envs> <dependencies> <replacement-map> <register-runner>
@@ -13,15 +14,8 @@ generateDockerTask() {
     _REPLACEMENT_MAP="${8}"
     _REGISTER_RUNNER="${9}"
 
-    _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" str toCamel "${_IMAGE_NAME}")"
-    if [ -z "${_DEFAULT_CONTAINER_NAME}" ]
-    then
-        _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" path getServiceName "${_TEMPLATE_LOCATION}")"
-    fi
-
-    _CONTAINER_NAME="$(getValueOrDefault "${_CONTAINER_NAME}" "${_DEFAULT_CONTAINER_NAME}")"
-
-    _SERVICE_NAME="$(getValueOrDefault "${_SERVICE_NAME}" "${_CONTAINER_NAME}")"
+    _CONTAINER_NAME="$(getDockerContainerName "${_CONTAINER_NAME}" ${_IMAGE_NAME} ${_TEMPLATE_LOCATION})"
+    _SERVICE_NAME="$(getDockerServiceName "${_SERVICE_NAME}" "${_CONTAINER_NAME}")"
 
     _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_SERVICE_NAME}")"
     _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_SERVICE_NAME}")"

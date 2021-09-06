@@ -24,6 +24,7 @@ tasks:
       finish: ''
       _setup: ''
       _start: ''
+      _finish: ''
     env:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED
@@ -39,4 +40,5 @@ tasks:
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
+        {{ .Trim (.GetConfig "_finish") "\n " }}
 

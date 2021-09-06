@@ -9,5 +9,4 @@ tasks:
       start: |
         {{ $d := .Decoration -}}
         cd "${ZARUBA_HOME}"
-        . "${ZARUBA_HOME}/bash/getVersion.sh"
         echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"

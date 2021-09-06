@@ -15,11 +15,6 @@ tasks:
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
         #
-        # service related
-        #
-        ../zaruba please makeStaticServiceTask serviceLocation=fibo serviceEnvs='{"HTTP_PORT": "3001"}'
-        ../zaruba please makeMeltanoServiceTask serviceLocation=testMeltano showAdvertisement=no  
-        #
         # docker related
         #
         ../zaruba please makeRabbitmqDockerTask dockerContainerName=testRabbitMq showAdvertisement=no 
@@ -29,9 +24,14 @@ tasks:
         ../zaruba please makeMongoDockerTask dockerContainerName=testMongo showAdvertisement=no 
         ../zaruba please makeRedisDockerTask dockerContainerName=testRedis showAdvertisement=no 
         ../zaruba please makePostgreDockerTask dockerContainerName=testPostgre showAdvertisement=no 
-        ../zaruba please makeAirflowDockerTask dockerContainerName=testAirflow redisServiceName=testRedis postgreServiceName=testPostgre showAdvertisement=no 
         ../zaruba please makeTrinoDockerTask dockerContainerName=testTrino showAdvertisement=no servicePorts='["8081:8080"]'
-        ../zaruba please makeNginxDockerTask dockerContainerName=testNginx
+        ../zaruba please makeNginxServiceTask dockerContainerName=testNginx
+        #
+        # service related
+        #
+        ../zaruba please makeStaticServiceTask serviceLocation=fibo serviceEnvs='{"HTTP_PORT": "3001"}'
+        ../zaruba please makeAirflowServiceTask serviceLocation=testAirflow redisServiceName=testRedis postgreServiceName=testPostgre showAdvertisement=no 
+        ../zaruba please makeMeltanoServiceTask serviceLocation=testMeltano showAdvertisement=no  
         #
         # fastapi related
         #

@@ -1,4 +1,5 @@
 . ${ZARUBA_HOME}/bash/util.sh
+. ${ZARUBA_HOME}/bash/generatorUtil.sh
 . ${ZARUBA_HOME}/bash/registerTaskFile.sh
 
 # USAGE generateServiceTask <template-location> <service-location> <service-name> <image-name> <container-name> <service-start-command> <service-runner-version> <service-ports> <service-envs> <dependencies> <replacement-map> <register-runner>
@@ -16,14 +17,9 @@ generateServiceTask() {
     _REPLACEMENT_MAP="${11}"
     _REGISTER_RUNNER="${12}"
 
-    _DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" path getServiceName "${_SERVICE_LOCATION}")"
-    _SERVICE_NAME="$(getValueOrDefault "${_SERVICE_NAME}" "${_DEFAULT_SERVICE_NAME}")"
-
-    _DEFAULT_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_SERVICE_NAME}")"
-    _IMAGE_NAME="$(getValueOrDefault "${_IMAGE_NAME}" "${_DEFAULT_IMAGE_NAME}")"
-
-    _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" str toCamel "${_SERVICE_NAME}")"
-    _CONTAINER_NAME="$(getValueOrDefault "${_CONTAINER_NAME}" "${_DEFAULT_CONTAINER_NAME}")"
+    _SERVICE_NAME="$(getServiceName "${_SERVICE_NAME}" "${_SERVICE_LOCATION}")"
+    _IMAGE_NAME="$(getServiceImageName "${_IMAGE_NAME}" "${_SERVICE_NAME}")"
+    _CONTAINER_NAME="$(getServiceContainerName "${_CONTAINER_NAME}" "${_SERVICE_NAME}")"
 
     _PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_SERVICE_NAME}")"
     _KEBAB_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_SERVICE_NAME}")"

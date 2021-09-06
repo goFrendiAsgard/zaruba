@@ -16,6 +16,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
   INPUTS        : linkFrom
                     DESCRIPTION : Link source (Required)
                     PROMPT      : Source
@@ -24,7 +25,8 @@
                     DESCRIPTION : Link destination (Required)
                     PROMPT      : Destination
                     VALIDATION  : ^.+$
-  CONFIG        : _setup            : set -e
+  CONFIG        : _finish           : Blank
+                  _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank

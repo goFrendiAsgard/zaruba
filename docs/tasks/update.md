@@ -14,7 +14,9 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup            : set -e
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
+  CONFIG        : _finish           : Blank
+                  _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank
@@ -33,7 +35,6 @@
                                       go build
                                       echo 🎉🎉🎉
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-                                      . "${ZARUBA_HOME}/bash/getVersion.sh"
                                       echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

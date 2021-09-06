@@ -1,29 +1,24 @@
 tasks: 
- 
-  makeMeltanoServiceTask:
+
+  makeAirflowServiceTask:
     extend: core.makeServiceTask
     inputs:
       - serviceLocation
       - serviceName
       - serviceEnvs
       - servicePorts
-      - taskDependencies
-      - airflowServiceName
       - redisServiceName
       - postgreServiceName
       - serviceImageName
       - serviceContainerName
     config:
       allowInexistServiceLocation: true
-      registerRunner: false
-      airflowServiceName: '{{ .GetValue "airflowServiceName" }}'
       redisServiceName: '{{ .GetValue "redisServiceName" }}'
       postgreServiceName: '{{ .GetValue "postgreServiceName" }}'
-      airflowTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/airflow'
       postgreTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/postgre'
       redisTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/redis'
-      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateMeltanoTask.sh"
-      generatorFunctionName: "generateMeltanoTask"
+      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateAirflowTask.sh"
+      generatorFunctionName: "generateAirflowTask"
       generatorFunctionArgs: |
         "${TEMPLATE_LOCATION}" \
         "${SERVICE_LOCATION}" \
@@ -37,11 +32,9 @@ tasks:
         "${DEPENDENCIES}" \
         "${REPLACEMENT_MAP}" \
         "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}" \
-        "{{ .GetConfig "airflowTemplateLocation" }}" \
-        "{{ .GetConfig "airflowServiceName" }}" \
         "{{ .GetConfig "redisTemplateLocation" }}" \
         "{{ .GetConfig "redisServiceName" }}" \
         "{{ .GetConfig "postgreTemplateLocation" }}" \
         "{{ .GetConfig "postgreServiceName" }}"
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/meltano'
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/airflow'
 

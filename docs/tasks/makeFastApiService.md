@@ -15,11 +15,13 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
   INPUTS        : fastApiServiceName
                     DESCRIPTION : Service name (Required)
                     PROMPT      : Service name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-  CONFIG        : _setup                  : set -e
+  CONFIG        : _finish                 : Blank
+                  _setup                  : set -e
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start                  : Blank
                   afterStart              : Blank

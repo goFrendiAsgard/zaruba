@@ -16,7 +16,22 @@ tasks:
       dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
+      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateDockerTask.sh"
+      generatorFunctionName: "generateDockerTask"
+      generatorFunctionArgs: |
+        "${TEMPLATE_LOCATION}" \
+        "${IMAGE_NAME}" \
+        "${CONTAINER_NAME}" \
+        "${SERVICE_NAME}" \
+        "${SERVICE_PORTS}" \
+        "${SERVICE_ENVS}" \
+        "${DEPENDENCIES}" \
+        "${REPLACEMENT_MAP}" \
+        "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
       _setup: |
+        set -e
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+        . "${ZARUBA_HOME}/bash/generatorUtil.sh"
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
         CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
@@ -25,20 +40,17 @@ tasks:
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+        # ensure CONTAINER_NAME is not empty
+        CONTAINER_NAME="$(getDockerContainerName "${CONTAINER_NAME}" ${IMAGE_NAME} ${_TEMPLATE_LOCATION})"
+        # ensure SERVICE_NAME is not empty
+        SERVICE_NAME="$(getDockerServiceName "${SERVICE_NAME}" "${CONTAINER_NAME}")"
       _start: |
+        . "{{ .GetConfig "generatorScriptLocation" }}"
+        {{ .GetConfig "generatorFunctionName" }} \
+        {{ .GetConfig "generatorFunctionArgs" }}
+      _finish: |
         {{- $d := .Decoration -}}
-        . "${ZARUBA_HOME}/bash/generateDockerTask.sh"
-        generateDockerTask \
-          "${TEMPLATE_LOCATION}" \
-          "${IMAGE_NAME}" \
-          "${CONTAINER_NAME}" \
-          "${SERVICE_NAME}" \
-          "${SERVICE_PORTS}" \
-          "${SERVICE_ENVS}" \
-          "${DEPENDENCIES}" \
-          "${REPLACEMENT_MAP}" \
-          "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task created{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} created{{ $d.Normal }}"
       start: ''
 

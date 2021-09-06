@@ -7,6 +7,7 @@ tasks:
       - core.showAdv
       - core.isProject
     config:
+      allowInexistServiceLocation: false
       templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/default'
       serviceLocation: '{{ .GetValue "serviceLocation" }}'
       serviceName: '{{ .GetValue "serviceName" }}'
@@ -19,7 +20,28 @@ tasks:
       dependencies: '{{ .GetValue "taskDependencies" }}'
       registerRunner: true
       replacementMap: '{}'
+      generatorScriptLocation: "${ZARUBA_HOME}/bash/generateServiceTask.sh"
+      generatorFunctionName: "generateServiceTask"
+      generatorFunctionArgs: |
+        "${TEMPLATE_LOCATION}" \
+        "${SERVICE_LOCATION}" \
+        "${SERVICE_NAME}" \
+        "${IMAGE_NAME}" \
+        "${CONTAINER_NAME}" \
+        "${SERVICE_START_COMMAND}" \
+        "${SERVICE_RUNENR_VERSION}" \
+        "${SERVICE_PORTS}" \
+        "${SERVICE_ENVS}" \
+        "${DEPENDENCIES}" \
+        "${REPLACEMENT_MAP}" \
+        "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
       _setup: |
+        set -e
+        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+        . "${ZARUBA_HOME}/bash/generatorUtil.sh"
+        {{ if .IsTrue (.GetConfig "allowInexistServiceLocation") -}}
+        mkdir -p "{{ .GetConfig "serviceLocation" }}"
+        {{ end -}}
         TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
         SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
         SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
@@ -31,22 +53,18 @@ tasks:
         SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
         DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
         REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+        # ensure SERVICE_NAME is not empty
+        SERVICE_NAME="$(getServiceName "${SERVICE_NAME}" "${SERVICE_LOCATION}")"
+        # ensure IMAGE_NAME is not empty
+        IMAGE_NAME="$(getServiceImageName "${IMAGE_NAME}" "${SERVICE_NAME}")"
+        # ensure CONTAINER_NAME is not empty
+        CONTAINER_NAME="$(getServiceContainerName "${CONTAINER_NAME}" "${SERVICE_NAME}")"
       _start: |
+        . "{{ .GetConfig "generatorScriptLocation" }}"
+        {{ .GetConfig "generatorFunctionName" }} \
+        {{ .GetConfig "generatorFunctionArgs" }}
+      _finish: |
         {{- $d := .Decoration -}}
-        . "${ZARUBA_HOME}/bash/generateServiceTask.sh"
-        generateServiceTask \
-          "${TEMPLATE_LOCATION}" \
-          "${SERVICE_LOCATION}" \
-          "${SERVICE_NAME}" \
-          "${IMAGE_NAME}" \
-          "${CONTAINER_NAME}" \
-          "${SERVICE_START_COMMAND}" \
-          "${SERVICE_RUNENR_VERSION}" \
-          "${SERVICE_PORTS}" \
-          "${SERVICE_ENVS}" \
-          "${DEPENDENCIES}" \
-          "${REPLACEMENT_MAP}" \
-          "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task created{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} created{{ $d.Normal }}"
       start: ''

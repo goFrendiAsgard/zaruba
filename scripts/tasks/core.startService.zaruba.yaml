@@ -53,6 +53,7 @@ tasks:
         {{ .Trim (.GetConfig "start") "\n " }}
         {{ .Trim (.GetConfig "afterStart") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
+        {{ .Trim (.GetConfig "_finish") "\n " }}
         echo 🎉🎉🎉
         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
     check:
@@ -72,5 +73,6 @@ tasks:
         {{ .Trim (.GetConfig "check") "\n " }}
         {{ .Trim (.GetConfig "afterCheck") "\n " }}
         {{ .Trim (.GetConfig "finish") "\n " }}
+        {{ .Trim (.GetConfig "_finish") "\n " }}
         echo 🎉🎉🎉
         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"

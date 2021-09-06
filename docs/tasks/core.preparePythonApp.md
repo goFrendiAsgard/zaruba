@@ -14,7 +14,9 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
-  CONFIG        : _setup      : Blank
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
+  CONFIG        : _finish     : Blank
+                  _setup      : Blank
                   _start      : pipenv install
                   afterStart  : Blank
                   beforeStart : Blank

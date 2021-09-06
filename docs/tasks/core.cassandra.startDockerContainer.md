@@ -19,6 +19,7 @@
                     {{ .Trim (.GetConfig "start") "\n " }}
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
   CHECK         : - {{ .GetConfig "cmd" }}
@@ -36,6 +37,7 @@
                     {{ .Trim (.GetConfig "check") "\n " }}
                     {{ .Trim (.GetConfig "afterCheck") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
+                    {{ .Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   CONFIG        : RunInLocal                   : true
@@ -78,6 +80,7 @@
                                                    sleep 1
                                                  done
                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
+                  _finish                      : Blank
                   _setup                       : set -e
                                                  {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
                                                  {{ .Trim (.GetConfig "_setupContainerName") "\n" }} 
