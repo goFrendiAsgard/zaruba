@@ -1,14 +1,16 @@
 tasks: 
 
   makeNginxServiceTask:
-    extend: core.makeDockerTask
+    extend: core.makeServiceTask
     inputs:
+      - serviceLocation
       - serviceName
-      - serviceContainerName
       - serviceEnvs
+      - servicePorts
       - taskDependencies
+      - serviceContainerName
     config:
-      allowInexistServiceLocation: false
-      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/docker/nginx'
+      allowInexistServiceLocation: true
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/nginx'
     
 

@@ -1,5 +1,17 @@
 tasks:
 
+  preparePlayground:
+    extend: core.runShellScript
+    config:
+      start: |
+        if [ -d "./playground" ]
+        then
+          chmod 777 -R ./playground
+          rm -Rf ./playground
+        fi
+        mkdir -p ./playground
+
+
   testMakePlayground:
     location: ../playground
     dependencies:
@@ -25,11 +37,11 @@ tasks:
         ../zaruba please makeRedisDockerTask dockerContainerName=testRedis showAdvertisement=no 
         ../zaruba please makePostgreDockerTask dockerContainerName=testPostgre showAdvertisement=no 
         ../zaruba please makeTrinoDockerTask dockerContainerName=testTrino showAdvertisement=no servicePorts='["8081:8080"]'
-        ../zaruba please makeNginxServiceTask dockerContainerName=testNginx
         #
         # service related
         #
-        ../zaruba please makeStaticServiceTask serviceLocation=fibo serviceEnvs='{"HTTP_PORT": "3001"}'
+        ../zaruba please makeStaticServiceTask serviceLocation=fibo serviceEnvs='{"HTTP_PORT": "3001"}' showAdvertisement=no
+        ../zaruba please makeNginxServiceTask serviceLocation=testNginx showAdvertisement=no
         ../zaruba please makeAirflowServiceTask serviceLocation=testAirflow redisServiceName=testRedis postgreServiceName=testPostgre showAdvertisement=no 
         ../zaruba please makeMeltanoServiceTask serviceLocation=testMeltano showAdvertisement=no  
         #
