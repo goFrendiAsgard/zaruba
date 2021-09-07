@@ -28,7 +28,7 @@
                   setup             : Blank
                   start             : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
                                       then
-                                        kubectl config set-context "{{ .GetConfig "kubeContext" }}"
+                                        kubectl config use-context "{{ .GetConfig "kubeContext" }}"
                                       fi
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
