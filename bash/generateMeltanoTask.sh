@@ -23,11 +23,13 @@ generateMeltanoTask() {
     _MELTANO_POSTGRE_SERVICE_NAME="${18}"
 
     # get airflowTask
-    _MELTANO_AIRFLOW_TASK="run$("${ZARUBA_HOME}/zaruba" str toPascal "${_MELTANO_AIRFLOW_SERVICE_NAME}")"
+    _MELTANO_AIRFLOW_PASCAL_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_MELTANO_AIRFLOW_SERVICE_NAME}")"
+    _MELTANO_AIRFLOW_TASK="run${_MELTANO_AIRFLOW_PASCAL_SERVICE_NAME}"
 
     # add to replacementMap
     _MELTANO_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_MELTANO_REPLACEMENT_MAP}" "zarubaAirflowTask" "${_MELTANO_AIRFLOW_TASK}" )"
     _MELTANO_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_MELTANO_REPLACEMENT_MAP}" "zarubaAirflowService" "${_MELTANO_AIRFLOW_SERVICE_NAME}" )"
+    _MELTANO_REPLACEMENT_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_MELTANO_REPLACEMENT_MAP}" "ZarubaAirflowService" "${_MELTANO_AIRFLOW_PASCAL_SERVICE_NAME}" )"
 
     # create airflow task if needed
     if [ "$("${ZARUBA_HOME}/zaruba" task isExist ./main.zaruba.yaml "${_MELTANO_AIRFLOW_TASK}")" = 0 ]

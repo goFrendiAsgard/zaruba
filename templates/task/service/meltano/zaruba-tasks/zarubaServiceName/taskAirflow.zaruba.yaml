@@ -1,0 +1,23 @@
+tasks:
+
+  configureZarubaServiceNameAirflow:
+    extend: configureZarubaAirflowServiceWorker
+    location: ../../zarubaServiceName/airflow
+    dependencies:
+      - runZarubaAirflowServiceWorker
+    config:
+      commands: |
+        {{ .ParseFile "init.gotmpl.sh"}}
+  
+  registerZarubaServiceName:
+    extend: core.runShellScript
+    location: ../../zarubaServiceName/airflow
+    dependencies:
+      - configureZarubaServiceNameAirflow
+      - buildZarubaServiceNameImage
+    configRef: zarubaAirflowServiceWorker
+    config:
+      start: |
+        docker cp "./dags" "{{ .GetConfig "containerName" }}:/opt/airflow/dags/zarubaServiceName"
+
+    
