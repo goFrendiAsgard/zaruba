@@ -9,6 +9,7 @@ tasks:
     configRefs:
       - zarubaServiceNameContainer
       - zarubaServiceName
+      - coreDocker
     envRef: zarubaServiceName
 
   configureZarubaServiceNameAirflow:

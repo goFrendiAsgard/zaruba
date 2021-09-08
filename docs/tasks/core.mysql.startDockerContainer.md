@@ -94,7 +94,7 @@
                                                  fi
                   _setupImageName              : {{ $d := .Decoration -}}
                                                  DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
-                                                 if [ -z "${CONTAINER_NAME}" ]
+                                                 if [ -z "${DOCKER_IMAGE_NAME}" ]
                                                  then
                                                    echo "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
                                                    exit 1
