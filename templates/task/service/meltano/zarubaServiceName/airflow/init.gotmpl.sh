@@ -10,5 +10,6 @@ setAirflowVar() {
     fi
 }
 
-setAirflowVar "zarubaServiceNameImage" "zarubaServiceName:latest"
+setAirflowVar "zarubaServiceNameDockerUrl" "tcp://host.docker.internal:2375"
+setAirflowVar "zarubaServiceNameImage" "{{ .GetDockerImageName }}"
 setAirflowVar "zarubaServiceNameEnv" "{}"

@@ -1,13 +1,26 @@
 tasks:
 
+  createZarubaServiceNameConfiguratorScript:
+    extend: core.runShellScript
+    location: ../../zarubaServiceName/airflow
+    config:
+      start: |
+        {{ $err := .WriteFile (.GetRelativePath "../../zarubaServiceName/airflow/init.sh") (.ParseFile (.GetRelativePath "../../zarubaServiceName/airflow/init.gotmpl.sh")) }}
+    configRefs:
+      - zarubaServiceNameContainer
+      - zarubaServiceName
+      - coreDocker
+    envRef: zarubaServiceName
+
   configureZarubaServiceNameAirflow:
     extend: configureZarubaAirflowServiceWorker
     location: ../../zarubaServiceName/airflow
     dependencies:
+      - createZarubaServiceNameConfiguratorScript
       - runZarubaAirflowServiceWorker
     config:
       commands: |
-        {{ .ParseFile "init.gotmpl.sh"}}
+        {{ .ReadFile (.GetRelativePath "../../zarubaServiceName/airflow/init.sh") }}
   
   registerZarubaServiceName:
     extend: core.runShellScript
@@ -15,7 +28,9 @@ tasks:
     dependencies:
       - configureZarubaServiceNameAirflow
       - buildZarubaServiceNameImage
-    configRef: zarubaAirflowServiceWorker
+    configRefs:
+      - zarubaAirflowServiceWorker
+      - zarubaAirflowServiceContainer
     config:
       start: |
         docker cp "./dags" "{{ .GetConfig "containerName" }}:/opt/airflow/dags/zarubaServiceName"
