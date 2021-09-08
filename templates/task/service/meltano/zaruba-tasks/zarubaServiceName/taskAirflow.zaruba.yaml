@@ -15,7 +15,9 @@ tasks:
     dependencies:
       - configureZarubaServiceNameAirflow
       - buildZarubaServiceNameImage
-    configRef: zarubaAirflowServiceWorker
+    configRefs:
+      - zarubaAirflowServiceWorker
+      - zarubaAirflowService
     config:
       start: |
         docker cp "./dags" "{{ .GetConfig "containerName" }}:/opt/airflow/dags/zarubaServiceName"

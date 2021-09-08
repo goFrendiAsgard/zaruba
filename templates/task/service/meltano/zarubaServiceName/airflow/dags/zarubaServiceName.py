@@ -15,10 +15,11 @@ default_args = {
     'retry_delay'           : timedelta(minutes=5)
 }
 
-docker_operator_image = Variable.get(key="zarubaServiceNameImage")
-docker_operator_environment = Variable.get(key="zarubaServiceNameEnv", deserialize_json=True)
+docker_url = Variable.get(key='zarubaServiceNameDockerUrl')
+docker_operator_image = Variable.get(key='zarubaServiceNameImage')
+docker_operator_environment = Variable.get(key='zarubaServiceNameEnv', deserialize_json=True)
 
-with DAG('zarubaServiceName_docker_dag', default_args=default_args, schedule_interval="5 * * * *", catchup=False) as dag:
+with DAG('zarubaServiceName_docker_dag', default_args=default_args, schedule_interval='5 * * * *', catchup=False) as dag:
 
     t1 = BashOperator(
         task_id='print_current_date',
@@ -32,10 +33,12 @@ with DAG('zarubaServiceName_docker_dag', default_args=default_args, schedule_int
         api_version='auto',
         auto_remove=True,
         environment=docker_operator_environment,
+        docker_url=docker_url,
     )
 
     t3 = BashOperator(
         task_id='print_done',
         bash_command='echo "Done"'
     )
+
     t1 >> t2 >> t3
