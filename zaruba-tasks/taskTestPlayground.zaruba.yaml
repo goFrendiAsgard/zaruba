@@ -159,7 +159,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please runContainer  -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
+        ../zaruba please registerTestMeltano runContainer  -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
       afterCheck: |
         sleep 1
         echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
