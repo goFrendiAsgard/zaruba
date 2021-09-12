@@ -79,7 +79,7 @@ tasks:
     config:
       start: |
         ../zaruba please removeContainer
-        ../zaruba please run -t
+        ../zaruba please run runTestMeltano -t
 
 
   testRunContainer:
@@ -91,8 +91,8 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please stopContainer 
-        ../zaruba please runContainer -t
+        ../zaruba please stopContainer
+        ../zaruba please runContainer runTestMeltanoContainer -t
 
 
   testBuildImage:
@@ -159,7 +159,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please runContainer  -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
+        ../zaruba please runContainer -e "MY_SERVICE_SQLALCHEMY_DATABASE_URL=sqlite:///database.db"
       afterCheck: |
         sleep 1
         echo "Wait for {{ .GetValue "runPlaygroundDelay" }} s"
@@ -169,7 +169,16 @@ tasks:
         8080
         15672
         5672
-  
+
+  testRegisterMeltano:
+    location: ../playground
+    dependencies:
+      - runPlayground
+    extend: core.runShellScript
+    configRef: playgroundTest
+    config:
+      start: ../zaruba please registerTestMeltano
+
 
   testGeneratedService:
     location: ../playground
@@ -200,6 +209,7 @@ tasks:
       - testLogging
       - testGeneratedService
       - testGeneratedContainer
+      - testRegisterMeltano
     extend: core.runShellScript
     configRef: playgroundTest
     config:
