@@ -35,5 +35,5 @@ def handle(rpc: RPC, zaruba_entity_name_repo: ZarubaEntityNameRepo):
         return None if result is None else result.dict()
     
 
-    print('Handle RPC for zarubaEntityName')
+    print('Handle RPC for zarubaModuleName.zarubaEntityName')
 

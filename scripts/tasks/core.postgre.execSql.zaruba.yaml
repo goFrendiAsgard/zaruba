@@ -10,11 +10,11 @@ tasks:
       database: '{{ .GetEnv "POSTGRES_DB" }}'
       queries: ""
       containerName: ""
-      _template: '{{ .GetConfig "queries" }}'
-      _localScriptFile: '{{ .GetWorkPath (printf "tmp/%s.tmp.sql" .Name) }}'
-      _remoteScriptFile: '/{{ .Name }}.tmp.sql'
-      _executeScript: |
-        REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
+      scriptTemplate: '{{ .GetConfig "queries" }}'
+      localScriptFile: '{{ .GetWorkPath (printf "tmp/%s.tmp.sql" .Name) }}'
+      remoteScriptFile: '/{{ .Name }}.tmp.sql'
+      runScript: |
+        REMOTE_SCRIPT_FILE="{{ .GetConfig "remoteScriptFile" }}"
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         USER="{{ .GetConfig "user" }}"
         PASSWORD="{{ .GetConfig "password" }}"

@@ -14,28 +14,12 @@
                     {{ .Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Trim (.GetConfig "finish") "\n " }}
                     {{ .Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _executeScript    : REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
-                                      CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                      USER="{{ .GetConfig "user" }}"
-                                      PASSWORD="{{ .GetConfig "password" }}"
-                                      docker exec "${CONTAINER_NAME}" bash -c "psql --user=${USER} -w --file=${REMOTE_SCRIPT_FILE}"
-                                      docker exec -u 0 "${CONTAINER_NAME}" rm "${REMOTE_SCRIPT_FILE}"
-                  _finish           : Blank
-                  _generateScript   : {{ $err := .WriteFile (.GetConfig "_localScriptFile") (.GetConfig "_template") -}}
-                  _localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sql" .Name) }}
-                  _remoteScriptFile : /{{ .Name }}.tmp.sql
+  CONFIG        : _finish           : Blank
                   _setup            : set -e
                                       {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ .GetConfig "_generateScript" }}
-                                      {{ .GetConfig "_uploadScript" }}
-                                      {{ .GetConfig "_executeScript" }}
-                  _template         : {{ .GetConfig "queries" }}
-                  _uploadScript     : LOCAL_SCRIPT_FILE="{{ .GetConfig "_localScriptFile" }}"
-                                      REMOTE_SCRIPT_FILE="{{ .GetConfig "_remoteScriptFile" }}"
-                                      CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                      chmod 755 "${LOCAL_SCRIPT_FILE}"
-                                      docker cp "${LOCAL_SCRIPT_FILE}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_FILE}"
-                                      rm "${LOCAL_SCRIPT_FILE}"
+                  _start            : {{ .GetConfig "generateScript" }}
+                                      {{ .GetConfig "uploadScript" }}
+                                      {{ .GetConfig "runScript" }}
                   afterStart        : Blank
                   beforeStart       : Blank
                   cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
@@ -45,11 +29,27 @@
                   containerShell    : sh
                   database          : {{ .GetEnv "POSTGRES_DB" }}
                   finish            : Blank
+                  generateScript    : {{ $err := .WriteFile (.GetConfig "localScriptFile") (.GetConfig "scriptTemplate") -}}
                   includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
+                  localScriptFile   : {{ .GetWorkPath (printf "tmp/%s.tmp.sql" .Name) }}
                   password          : {{ .GetEnv "POSTGRES_PASSWORD" }}
                   queries           : Blank
+                  remoteScriptFile  : /{{ .Name }}.tmp.sql
+                  runScript         : REMOTE_SCRIPT_FILE="{{ .GetConfig "remoteScriptFile" }}"
+                                      CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+                                      USER="{{ .GetConfig "user" }}"
+                                      PASSWORD="{{ .GetConfig "password" }}"
+                                      docker exec "${CONTAINER_NAME}" bash -c "psql --user=${USER} -w --file=${REMOTE_SCRIPT_FILE}"
+                                      docker exec -u 0 "${CONTAINER_NAME}" rm "${REMOTE_SCRIPT_FILE}"
+                  scriptTemplate    : {{ .GetConfig "queries" }}
                   setup             : Blank
                   start             : Blank
+                  uploadScript      : LOCAL_SCRIPT_FILE="{{ .GetConfig "localScriptFile" }}"
+                                      REMOTE_SCRIPT_FILE="{{ .GetConfig "remoteScriptFile" }}"
+                                      CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+                                      chmod 755 "${LOCAL_SCRIPT_FILE}"
+                                      docker cp "${LOCAL_SCRIPT_FILE}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_FILE}"
+                                      rm "${LOCAL_SCRIPT_FILE}"
                   user              : {{ .GetEnv "POSTGRES_USER" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -29,9 +29,20 @@ class RMQMessageBus(RMQConnection, MessageBus):
             ch.queue_bind(exchange=exchange, queue=queue)
             ch.basic_qos(prefetch_count=prefetch_count)
             # create handler and start consuming
-            on_event = self._create_rpc_handler(event_name, exchange, queue, auto_ack, event_handler)
+            on_event = self._create_event_handler(event_name, exchange, queue, auto_ack, event_handler)
             ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
         return register_event_handler
+
+    def _create_event_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, event_handler: Callable[[Any], Any]):
+        def on_event(ch, method, props, body):
+            try:
+                message = self.event_map.get_decoder(event_name)(body)
+                print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
+                result = event_handler(message)
+            finally:
+                if not auto_ack:
+                    ch.basic_ack(delivery_tag=method.delivery_tag)
+        return on_event
 
     def publish(self, event_name: str, message: Any) -> Any:
         exchange = self.event_map.get_exchange_name(event_name)

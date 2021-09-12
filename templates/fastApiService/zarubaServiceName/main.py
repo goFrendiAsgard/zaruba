@@ -7,10 +7,10 @@ from configs.helper import get_abs_static_dir, create_message_bus, create_rpc
 import os
 
 db_url = os.getenv('ZARUBA_SERVICE_NAME_SQLALCHEMY_DATABASE_URL', 'sqlite://')
-rmq_host = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_HOST', 'localhost'),
-rmq_user = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_USER', 'root'),
-rmq_pass = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_PASS', 'toor'),
-rmq_vhost = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_VHOST', '/'),
+rmq_host = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_HOST', 'localhost')
+rmq_user = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_USER', 'root')
+rmq_pass = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_PASS', 'toor')
+rmq_vhost = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_VHOST', '/')
 rmq_event_map = RMQEventMap({})
 
 mb_type = os.getenv('ZARUBA_SERVICE_NAME_MESSAGE_BUS_TYPE', 'local')

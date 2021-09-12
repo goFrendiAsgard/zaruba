@@ -8,7 +8,7 @@ import traceback
 def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
 
     @app.get('/zaruba_entity_name/', response_model=List[ZarubaEntityName])
-    def find_zaruba_entity_name(keyword: str='', limit: int=100, offset: int=0):
+    def find_zaruba_entity_name(keyword: str='', limit: int=100, offset: int=0) -> List[ZarubaEntityName]:
         results = []
         try:
             results = rpc.call('find_zaruba_entity_name', keyword, limit, offset)
@@ -19,7 +19,7 @@ def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
 
 
     @app.get('/zaruba_entity_name/{id}', response_model=ZarubaEntityName)
-    def find_zaruba_entity_name_by_id(id: str):
+    def find_zaruba_entity_name_by_id(id: str) -> ZarubaEntityName:
         result = None
         try:
             result = rpc.call('find_zaruba_entity_name_by_id', id)
@@ -32,7 +32,7 @@ def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
 
 
     @app.post('/zaruba_entity_name/', response_model=ZarubaEntityName)
-    def insert_zaruba_entity_name(data: ZarubaEntityNameData):
+    def insert_zaruba_entity_name(data: ZarubaEntityNameData) -> ZarubaEntityName:
         result = None
         try:
             result = rpc.call('insert_zaruba_entity_name', data.dict())
@@ -45,7 +45,7 @@ def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
 
 
     @app.put('/zaruba_entity_name/{id}', response_model=ZarubaEntityName)
-    def update_zaruba_entity_name(id: str, data: ZarubaEntityNameData):
+    def update_zaruba_entity_name(id: str, data: ZarubaEntityNameData) -> ZarubaEntityName:
         result = None
         try:
             result = rpc.call('update_zaruba_entity_name', id, data.dict())
@@ -58,7 +58,7 @@ def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
 
 
     @app.delete('/zaruba_entity_name/{id}')
-    def delete_zaruba_entity_name(id: str):
+    def delete_zaruba_entity_name(id: str) -> ZarubaEntityName:
         result = None
         try:
             result = rpc.call('delete_zaruba_entity_name', id)
@@ -70,4 +70,4 @@ def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
         return ZarubaEntityName.parse_obj(result)
 
 
-    print('Handle route for zarubaEntityName')
+    print('Handle HTTP routes for zarubaModuleName.zarubaEntityName')

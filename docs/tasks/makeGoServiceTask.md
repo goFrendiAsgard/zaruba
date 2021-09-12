@@ -59,6 +59,7 @@
                     PROMPT      : Service's docker container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                     : {{- $d := .Decoration -}}
+                                                "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
                                                 echo 🎉🎉🎉
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} created{{ $d.Normal }}"
                   _setup                      : set -e
@@ -84,9 +85,11 @@
                                                 IMAGE_NAME="$(getServiceImageName "${IMAGE_NAME}" "${SERVICE_NAME}")"
                                                 # ensure CONTAINER_NAME is not empty
                                                 CONTAINER_NAME="$(getServiceContainerName "${CONTAINER_NAME}" "${SERVICE_NAME}")"
-                  _start                      : . "{{ .GetConfig "generatorScriptLocation" }}"
+                  _start                      : __PWD="$(pwd)"
+                                                . "{{ .GetConfig "generatorScriptLocation" }}"
                                                 {{ .GetConfig "generatorFunctionName" }} \
                                                 {{ .GetConfig "generatorFunctionArgs" }}
+                                                cd "${__PWD}"
                   afterStart                  : Blank
                   allowInexistServiceLocation : false
                   beforeStart                 : Blank

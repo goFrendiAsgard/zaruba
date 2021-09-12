@@ -59,17 +59,6 @@ class RMQRPC(RMQConnection, RPC):
         caller = RMQRPCCaller(self)
         return caller.call(event_name, *args)
 
-    def _create_rpc_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, rpc_handler: Callable[[Any], Any]):
-        def on_event(ch, method, props, body):
-            try:
-                message = self.event_map.get_decoder(event_name)(body)
-                print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
-                result = rpc_handler(message)
-            finally:
-                if not auto_ack:
-                    ch.basic_ack(delivery_tag=method.delivery_tag)
-        return on_event
-
 
 class RMQRPCCaller():
 

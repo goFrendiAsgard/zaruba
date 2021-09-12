@@ -5,7 +5,7 @@ from helpers.transport import MessageBus, RPC
 import traceback
 
 def http_controller(app: FastAPI, mb: MessageBus, rpc: RPC):
-    print('Handle http routes for zarubaModuleName')
+    print('Handle HTTP routes for zarubaModuleName')
 
 
 def event_controller(mb: MessageBus):
@@ -13,4 +13,4 @@ def event_controller(mb: MessageBus):
 
 
 def rpc_controller(rpc: RPC):
-    print('Handle rpc for zarubaModuleName')
+    print('Handle RPC for zarubaModuleName')
