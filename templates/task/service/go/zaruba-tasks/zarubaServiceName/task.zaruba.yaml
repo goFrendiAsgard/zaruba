@@ -3,6 +3,7 @@ includes:
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
   - ./taskContainer.zaruba.yaml
+  - ./taskHelm.zaruba.yaml
 
 tasks:
 
@@ -15,20 +16,6 @@ tasks:
     config:
       start: zarubaStartCommand
     configRef: zarubaServiceName
-    envRef: zarubaServiceName
-
-  runZarubaServiceNameContainer:
-    extend: core.startDockerContainer
-    dependencies:
-      - buildZarubaServiceNameImage
-    location: zarubaServiceLocation
-    inputs:
-      - zarubaServiceNameRunInLocal
-    config:
-      start: zarubaStartCommand
-    configRefs:
-      - zarubaServiceNameContainer
-      - zarubaServiceName
     envRef: zarubaServiceName
 
   testZarubaServiceName:

@@ -3,6 +3,7 @@ includes:
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
   - ./taskContainer.zaruba.yaml
+  - ./taskHelm.zaruba.yaml
 
 tasks:
 
@@ -18,12 +19,6 @@ tasks:
       - zarubaServiceName
     envRef: zarubaServiceName
 
-  rebuildZarubaServiceNameImage:
-    extend: buildZarubaServiceNameImage
-    timeout: 1h
-    dependencies:
-      - removeZarubaServiceNameContainer
-
   generateZarubaServiceNameConfig:
     extend: core.runShellScript
     location: ../../zarubaServiceName
@@ -31,13 +26,5 @@ tasks:
     envRef: zarubaServiceName
     config:
       start: |
-        {{ $errWriteNginx := .WriteFile (.GetWorkPath "./nginx.conf") (.ParseFile "nginx.conf.gotmpl") }}
-        {{ if $errWriteNginx -}}
-        echo '{{ $errWriteNginx }}'
-        exit 1
-        {{ end -}}
-        {{ $errWriteDefault := .WriteFile (.GetWorkPath "./conf.d/default.conf") (.ParseFile "conf.d/default.conf.gotmpl") }}
-        {{ if $errWriteDefault -}}
-        echo '{{ $errWriteDefault }}'
-        exit 1
-        {{ end -}}
+        {{ $errWriteNginx := .WriteFile "./nginx.conf" (.ParseFile "nginx.conf.gotmpl") }}
+        {{ $errWriteDefault := .WriteFile "./conf.d/default.conf" (.ParseFile "conf.d/default.conf.gotmpl") }}

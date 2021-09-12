@@ -4,7 +4,7 @@ tasks:
     icon: 😃
     extend: core.startDockerContainer
     dependencies:
-      - configureZarubaServiceName
+      - initZarubaServiceName
       - buildZarubaServiceNameImage
     timeout: 1h
     inputs:
@@ -18,7 +18,7 @@ tasks:
     icon: ⏰
     extend: core.startDockerContainer
     dependencies:
-      - configureZarubaServiceName
+      - initZarubaServiceName
       - buildZarubaServiceNameImage
     timeout: 1h
     inputs:
@@ -32,7 +32,7 @@ tasks:
     icon: 👷
     extend: core.startDockerContainer
     dependencies:
-      - configureZarubaServiceName
+      - initZarubaServiceName
       - buildZarubaServiceNameImage
     timeout: 1h
     inputs:
@@ -46,7 +46,7 @@ tasks:
     icon: 🌻
     extend: core.startDockerContainer
     dependencies:
-      - configureZarubaServiceName
+      - initZarubaServiceName
       - buildZarubaServiceNameImage
     timeout: 1h
     inputs:

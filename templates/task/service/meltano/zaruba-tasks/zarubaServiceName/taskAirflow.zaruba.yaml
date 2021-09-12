@@ -5,7 +5,7 @@ tasks:
     location: ../../zarubaServiceName/airflow
     config:
       start: |
-        {{ $err := .WriteFile (.GetRelativePath "../../zarubaServiceName/airflow/init.sh") (.ParseFile (.GetRelativePath "../../zarubaServiceName/airflow/init.gotmpl.sh")) }}
+        {{ $err := .WriteFile "init.sh" (.ParseFile "init.gotmpl.sh") }}
     configRefs:
       - zarubaServiceNameContainer
       - zarubaServiceName
@@ -20,7 +20,7 @@ tasks:
       - runZarubaAirflowServiceWorker
     config:
       commands: |
-        {{ .ReadFile (.GetRelativePath "../../zarubaServiceName/airflow/init.sh") }}
+        {{ .ReadFile "airflow/init.sh" }}
   
   registerZarubaServiceName:
     extend: core.runShellScript

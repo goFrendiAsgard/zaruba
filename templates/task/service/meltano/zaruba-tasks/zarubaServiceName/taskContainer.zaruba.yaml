@@ -1,5 +1,15 @@
 tasks:
 
+  runZarubaServiceNameContainer:
+    extend: core.runDockerContainer
+    location: zarubaServiceLocation
+    dependencies:
+      - buildZarubaServiceNameImage
+    configRefs:
+      - zarubaServiceNameContainer
+      - zarubaServiceName
+    envRef: zarubaServiceName
+
   buildZarubaServiceNameImage:
     extend: core.buildDockerImage
     location: zarubaServiceLocation/app

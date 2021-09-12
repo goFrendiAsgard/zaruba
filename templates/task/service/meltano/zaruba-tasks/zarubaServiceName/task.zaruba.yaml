@@ -18,16 +18,6 @@ tasks:
     configRef: zarubaServiceName
     envRef: zarubaServiceName
 
-  runZarubaServiceNameContainer:
-    extend: core.runDockerContainer
-    location: zarubaServiceLocation
-    dependencies:
-      - buildZarubaServiceNameImage
-    configRefs:
-      - zarubaServiceNameContainer
-      - zarubaServiceName
-    envRef: zarubaServiceName
-
   testZarubaServiceName:
     icon: 🐍
     extend: core.runShellScript

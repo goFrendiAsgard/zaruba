@@ -1,0 +1,25 @@
+tasks:
+
+  helmInstallZarubaServiceName:
+    extend: core.helmInstall
+    location: ../..
+    dependencies:
+      - helmGenerateValueZarubaServiceName
+    timeout: 1h
+    configRef: zarubaServiceNameHelm
+    envRef: zarubaServiceName
+
+  helmUninstallZarubaServiceName:
+    extend: core.helmUninstall
+    location: ../..
+    timeout: 1h
+    configRef: zarubaServiceNameHelm
+
+  helmGenerateValueZarubaServiceName:
+    extend: core.helmGenerateValue
+    location: ../..
+    configRefs:
+      - zarubaServiceNameHelm
+      - zarubaServiceNameContainer
+      - zarubaServiceName
+    envRef: zarubaServiceName

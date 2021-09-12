@@ -220,7 +220,8 @@ func (td *TaskData) ParseFile(filePath string) (parsedStr string, err error) {
 }
 
 func (td *TaskData) WriteFile(filePath string, content string) (err error) {
-	return file.WriteText(filePath, content, 0755)
+	absFilePath := td.GetWorkPath(filePath)
+	return file.WriteText(absFilePath, content, 0755)
 }
 
 func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {

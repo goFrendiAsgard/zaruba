@@ -3,6 +3,7 @@ includes:
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
   - ./taskContainer.zaruba.yaml
+  - ./taskHelm.zaruba.yaml
 
 tasks:
 
@@ -18,17 +19,4 @@ tasks:
         {{ $port := index $ports 0 -}}
         "{{ .ZarubaBin }}" util serve . {{ or $port "8080" }}
     configRef: zarubaServiceName
-    envRef: zarubaServiceName
-
-  runZarubaServiceNameContainer:
-    icon: 📜
-    extend: core.startDockerContainer
-    dependencies:
-      - buildZarubaServiceNameImage
-    location: zarubaServiceLocation
-    inputs:
-      - zarubaServiceNameRunInLocal
-    configRefs:
-      - zarubaServiceNameContainer
-      - zarubaServiceName
     envRef: zarubaServiceName

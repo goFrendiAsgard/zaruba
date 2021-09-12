@@ -3,6 +3,7 @@ includes:
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
   - ./taskContainer.zaruba.yaml
+  - ./taskHelm.zaruba.yaml
 
 tasks:
 
@@ -20,18 +21,6 @@ tasks:
         {{ $port := index $ports 0 -}}
         pipenv run uvicorn main:app --reload --port={{ or $port "8080" }}
     configRef: zarubaServiceName
-    envRef: zarubaServiceName
-
-  runZarubaServiceNameContainer:
-    extend: core.startDockerContainer
-    dependencies:
-      - buildZarubaServiceNameImage
-    location: zarubaServiceLocation
-    inputs:
-      - zarubaServiceNameRunInLocal
-    configRefs:
-      - zarubaServiceNameContainer
-      - zarubaServiceName
     envRef: zarubaServiceName
 
   prepareZarubaServiceName:

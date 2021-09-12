@@ -2,11 +2,11 @@ includes:
   - ./config.zaruba.yaml
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
+  - ./taskConfigure.zaruba.yaml
   - ./taskContainer.zaruba.yaml
-  - ./taskInit.zaruba.yaml
-  - ./taskRemoveContainer.zaruba.yaml
-  - ./taskStartContainer.zaruba.yaml
-  - ./taskStopContainer.zaruba.yaml
+  - ./taskContainerRemove.zaruba.yaml
+  - ./taskContainerRun.zaruba.yaml
+  - ./taskContainerStop.zaruba.yaml
 
 tasks:
   

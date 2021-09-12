@@ -9,12 +9,12 @@ tasks:
     configRef: createZarubaServiceNameDb
     envRef: createZarubaServiceNameDb
 
-  createZarubaServiceNameConfiguratorScript:
+  createZarubaServiceNameInitScript:
     extend: core.runShellScript
     location: ../../zarubaServiceName
     config:
       start: |
-        {{ $err := .WriteFile (.GetRelativePath "../../zarubaServiceName/configurator/init.sh") (.ParseFile (.GetRelativePath "../../zarubaServiceName/configurator/init.gotmpl.sh")) }}
+        {{ $err := .WriteFile "configurator/init.sh" (.ParseFile "configurator/init.gotmpl.sh") }}
     configRefs:
       - zarubaServiceNameConfigurator
       - zarubaServiceNameContainer
@@ -22,14 +22,14 @@ tasks:
       - zarubaServiceNameConfigurator
       - zarubaServiceName
 
-  configureZarubaServiceName:
+  initZarubaServiceName:
     extend: core.runDockerContainer
     location: ../../zarubaServiceName
     dependencies:
       - zarubaRedisTask
       - zarubaPostgreTask
       - createZarubaServiceNameDb
-      - createZarubaServiceNameConfiguratorScript
+      - createZarubaServiceNameInitScript
       - buildZarubaServiceNameImage
     timeout: 1h
     inputs:
