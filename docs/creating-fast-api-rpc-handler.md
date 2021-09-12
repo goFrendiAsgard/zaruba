@@ -31,15 +31,15 @@ class Controller():
 
     def start(self):
         if self.enable_event:
-            self.handle_event()
+            self.handle()
         if self.enable_route:
             self.handle_route()
     
 
-    def handle_event(self):
+    def handle(self):
 
-        @self.mb.handle_rpc('myRpc')
-        def handle_rpc_my_rpc(parameter: str) -> str:
+        @self.mb.handle('myRpc')
+        def handle_my_rpc(parameter: str) -> str:
             print('handle RPC call myRpc with parameter: {}'.format(parameter))
             return parameter
 
@@ -51,7 +51,7 @@ class Controller():
 
 ```
 
-To call an RPC, you can call `mb.call_rpc('rpc_name', *parameters)`. The function should return a result depending on what you return in the corresponding RPC handler.
+To call an RPC, you can call `rpc.call('rpc_name', *parameters)`. The function should return a result depending on what you return in the corresponding RPC handler.
 
 
 # Example

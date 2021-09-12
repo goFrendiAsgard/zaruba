@@ -58,15 +58,15 @@ generateFastApiCrudHandler() {
     _ENGINE_DECLARATION_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_MAIN_LINES}" "${_ENGINE_DECLARATION_PATTERN}")"
     _MAIN_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DECLARATION_LINE_INDEX}" "${_INIT_REPO_PARTIAL}")"
 
-    # event controller call
-    _EVENT_CONTROLLER_CALL_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^(\s*)${_SNAKE_MODULE_NAME}_event_controller\((.*)\)(.*)$")"
-    _EVENT_CONTROLLER_CALL_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_MAIN_LINES}" "${_EVENT_CONTROLLER_CALL_PATTERN}")"
-    _EVENT_CONTROLLER_CALL_SUBMATCH="$("${ZARUBA_HOME}/zaruba" lines submatch "${_MAIN_LINES}" "${_EVENT_CONTROLLER_CALL_PATTERN}")"
-    _INDENTATION="$("${ZARUBA_HOME}/zaruba" list get "${_EVENT_CONTROLLER_CALL_SUBMATCH}" 1)"
-    PARAMETERS="$("${ZARUBA_HOME}/zaruba" list get "${_EVENT_CONTROLLER_CALL_SUBMATCH}" 2)"
-    _SUFFIX="$("${ZARUBA_HOME}/zaruba" list get "${_EVENT_CONTROLLER_CALL_SUBMATCH}" 3)"
-    _NEW_EVENT_CONTROLLER_CALL="${_INDENTATION}${_SNAKE_MODULE_NAME}_event_controller(${PARAMETERS}, ${_SNAKE_ENTITY_NAME}_repo)${_SUFFIX}"
-    _MAIN_LINES="$("${ZARUBA_HOME}/zaruba" lines replace "${_MAIN_LINES}" "${_EVENT_CONTROLLER_CALL_LINE_INDEX}" "${_NEW_EVENT_CONTROLLER_CALL}")"
+    # rpc controller call
+    _RPC_CONTROLLER_CALL_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^(\s*)${_SNAKE_MODULE_NAME}_rpc_controller\((.*)\)(.*)$")"
+    _RPC_CONTROLLER_CALL_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_MAIN_LINES}" "${_RPC_CONTROLLER_CALL_PATTERN}")"
+    _RPC_CONTROLLER_CALL_SUBMATCH="$("${ZARUBA_HOME}/zaruba" lines submatch "${_MAIN_LINES}" "${_RPC_CONTROLLER_CALL_PATTERN}")"
+    _INDENTATION="$("${ZARUBA_HOME}/zaruba" list get "${_RPC_CONTROLLER_CALL_SUBMATCH}" 1)"
+    PARAMETERS="$("${ZARUBA_HOME}/zaruba" list get "${_RPC_CONTROLLER_CALL_SUBMATCH}" 2)"
+    _SUFFIX="$("${ZARUBA_HOME}/zaruba" list get "${_RPC_CONTROLLER_CALL_SUBMATCH}" 3)"
+    _NEW_RPC_CONTROLLER_CALL="${_INDENTATION}${_SNAKE_MODULE_NAME}_rpc_controller(${PARAMETERS}, ${_SNAKE_ENTITY_NAME}_repo)${_SUFFIX}"
+    _MAIN_LINES="$("${ZARUBA_HOME}/zaruba" lines replace "${_MAIN_LINES}" "${_RPC_CONTROLLER_CALL_LINE_INDEX}" "${_NEW_RPC_CONTROLLER_CALL}")"
 
     "${ZARUBA_HOME}/zaruba" lines write "${_CAMEL_SERVICE_NAME}/main.py" "${_MAIN_LINES}"
 
@@ -79,27 +79,27 @@ generateFastApiCrudHandler() {
     _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertBefore "${_CONTROLLER_LINES}" 0 "${_IMPORT_TO_CONTROLLER_PARTIAL}")"
 
     # handle route on controller.py
-    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_route.py")"
-    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}" "${_REPLACMENT_MAP}" )"
-    _CONTROLLER_HANDLE_ROUTE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}" "    " )"
-    _ROUTE_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^\s*def route_controller\(.*\):.*$")"
-    _ROUTE_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_ROUTE_CONTROLLER_PATTERN}")"
-    _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_ROUTE_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_ROUTE_PARTIAL}")"
+    _CONTROLLER_HANDLE_HTTP_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_http.py")"
+    _CONTROLLER_HANDLE_HTTP_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_HTTP_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _CONTROLLER_HANDLE_HTTP_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_HTTP_PARTIAL}" "    " )"
+    _HTTP_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^\s*def http_controller\(.*\):.*$")"
+    _HTTP_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_HTTP_CONTROLLER_PATTERN}")"
+    _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_HTTP_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_HTTP_PARTIAL}")"
 
-    # handle event on controller.py
-    _CONTROLLER_HANDLE_EVENT_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_event.py")"
-    _CONTROLLER_HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_EVENT_PARTIAL}" "${_REPLACMENT_MAP}" )"
-    _CONTROLLER_HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_EVENT_PARTIAL}" "    " )"
-    _EVENT_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^(\s*)def event_controller\((.*)\):(.*)$")"
-    _EVENT_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_EVENT_CONTROLLER_PATTERN}")"
-    _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_EVENT_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_EVENT_PARTIAL}")"
+    # handle rpc on controller.py
+    _CONTROLLER_HANDLE_RPC_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_rpc.py")"
+    _CONTROLLER_HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_RPC_PARTIAL}" "${_REPLACMENT_MAP}" )"
+    _CONTROLLER_HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_RPC_PARTIAL}" "    " )"
+    _RPC_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^(\s*)def rpc_controller\((.*)\):(.*)$")"
+    _RPC_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_RPC_CONTROLLER_PATTERN}")"
+    _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_RPC_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_RPC_PARTIAL}")"
 
-    _EVENT_CONTROLLER_SUBMATCH="$("${ZARUBA_HOME}/zaruba" lines submatch "${_CONTROLLER_LINES}" "${_EVENT_CONTROLLER_PATTERN}")"
-    _INDENTATION="$("${ZARUBA_HOME}/zaruba" list get "${_EVENT_CONTROLLER_SUBMATCH}" 1)"
-    PARAMETERS="$("${ZARUBA_HOME}/zaruba" list get "${_EVENT_CONTROLLER_SUBMATCH}" 2)"
-    _SUFFIX="$("${ZARUBA_HOME}/zaruba" list get "${_EVENT_CONTROLLER_SUBMATCH}" 3)"
-    _NEW_EVENT_CONTROLLER="${_INDENTATION}def event_controller(${PARAMETERS}, ${_SNAKE_ENTITY_NAME}_repo: ${_PASCAL_ENTITY_NAME}Repo):${_SUFFIX}"
-    _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines replace "${_CONTROLLER_LINES}" "${_EVENT_CONTROLLER_LINE_INDEX}" "${_NEW_EVENT_CONTROLLER}")"
+    _RPC_CONTROLLER_SUBMATCH="$("${ZARUBA_HOME}/zaruba" lines submatch "${_CONTROLLER_LINES}" "${_RPC_CONTROLLER_PATTERN}")"
+    _INDENTATION="$("${ZARUBA_HOME}/zaruba" list get "${_RPC_CONTROLLER_SUBMATCH}" 1)"
+    PARAMETERS="$("${ZARUBA_HOME}/zaruba" list get "${_RPC_CONTROLLER_SUBMATCH}" 2)"
+    _SUFFIX="$("${ZARUBA_HOME}/zaruba" list get "${_RPC_CONTROLLER_SUBMATCH}" 3)"
+    _NEW_RPC_CONTROLLER="${_INDENTATION}def rpc_controller(${PARAMETERS}, ${_SNAKE_ENTITY_NAME}_repo: ${_PASCAL_ENTITY_NAME}Repo):${_SUFFIX}"
+    _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines replace "${_CONTROLLER_LINES}" "${_RPC_CONTROLLER_LINE_INDEX}" "${_NEW_RPC_CONTROLLER}")"
 
     "${ZARUBA_HOME}/zaruba" lines write "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" "${_CONTROLLER_LINES}"
 

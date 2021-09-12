@@ -30,15 +30,15 @@ class Controller():
 
     def start(self):
         if self.enable_event:
-            self.handle_event()
+            self.handle()
         if self.enable_route:
             self.handle_route()
     
 
-    def handle_event(self):
+    def handle(self):
 
-        @self.mb.handle_event('myEvent')
-        def handle_event_my_event(message: Mapping[str, Any]):
+        @self.mb.handle('myEvent')
+        def handle_my_event(message: Mapping[str, Any]):
             print('handle event myEvent with message: {}'.format(message))
 
         print('Handle events for myModule')

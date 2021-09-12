@@ -24,7 +24,7 @@ generateFastApiRpcHandler() {
     # get controller lines
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines read "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" )
     _PATTERNS="$("${ZARUBA_HOME}/zaruba" list append "[]" \
-        ".*def event_controller.*" \
+        ".*def rpc_controller.*" \
     )"
     _LINE_INDEX=$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_PATTERNS}")
 

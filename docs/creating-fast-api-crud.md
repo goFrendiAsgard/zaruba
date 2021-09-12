@@ -202,15 +202,15 @@ from helpers.transport import MessageBus
 from schemas.book import Book, BookData
 from repos.book import BookRepo
 
-def handle_event(mb: MessageBus, book_repo: BookRepo):
+def handle(mb: MessageBus, book_repo: BookRepo):
 
-    @mb.handle_rpc('find_book')
+    @mb.handle('find_book')
     def find_book(keyword: str, limit: int, offset: int) -> List[Mapping[str, Any]]:
         results = book_repo.find(keyword, limit, offset)
         return [result.dict() for result in results]
 
 
-    @mb.handle_rpc('find_book_by_id')
+    @mb.handle('find_book_by_id')
     def find_book_by_id(id: str) -> Mapping[str, Any]:
         result = book_repo.find_by_id(id)
         if result is None:
@@ -218,7 +218,7 @@ def handle_event(mb: MessageBus, book_repo: BookRepo):
         return result.dict()
 
 
-    @mb.handle_rpc('insert_book')
+    @mb.handle('insert_book')
     def insert_book(data: Mapping[str, Any]) -> Mapping[str, Any]:
         result = book_repo.insert(BookData.parse_obj(data))
         if result is None:
@@ -226,7 +226,7 @@ def handle_event(mb: MessageBus, book_repo: BookRepo):
         return result.dict()
 
 
-    @mb.handle_rpc('update_book')
+    @mb.handle('update_book')
     def update_book(id: str, data: Mapping[str, Any]) -> Mapping[str, Any]:
         result = book_repo.update(id, BookData.parse_obj(data))
         if result is None:
@@ -234,7 +234,7 @@ def handle_event(mb: MessageBus, book_repo: BookRepo):
         return result.dict()
 
 
-    @mb.handle_rpc('delete_book')
+    @mb.handle('delete_book')
     def delete_book(id: str) -> Mapping[str, Any]:
         result = book_repo.delete(id)
         if result is None:
@@ -262,7 +262,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     @app.get('/book/', response_model=List[Book])
     def find_book(keyword: str='', limit: int=100, offset: int=0):
         try:
-            results = mb.call_rpc('find_book', keyword, limit, offset)
+            results = rpc.call('find_book', keyword, limit, offset)
             return [Book.parse_obj(result) for result in results]
         except HTTPException as error:
             raise error
@@ -274,7 +274,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     @app.get('/book/{id}', response_model=Book)
     def find_book_by_id(id: str):
         try:
-            result = mb.call_rpc('find_book_by_id', id)
+            result = rpc.call('find_book_by_id', id)
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
             return Book.parse_obj(result)
@@ -288,7 +288,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     @app.post('/book/', response_model=Book)
     def insert_book(data: BookData):
         try:
-            result = mb.call_rpc('insert_book', data.dict())
+            result = rpc.call('insert_book', data.dict())
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
             return Book.parse_obj(result)
@@ -302,7 +302,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     @app.put('/book/{id}', response_model=Book)
     def update_book(id: str, data: BookData):
         try:
-            result = mb.call_rpc('update_book', id, data.dict())
+            result = rpc.call('update_book', id, data.dict())
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
             return Book.parse_obj(result)
@@ -316,7 +316,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     @app.delete('/book/{id}')
     def delete_book(id: str):
         try:
-            result = mb.call_rpc('delete_book', id)
+            result = rpc.call('delete_book', id)
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
             return Book.parse_obj(result)
@@ -340,7 +340,7 @@ from fastapi import FastAPI, HTTPException
 from helpers.transport import MessageBus
 from repos.book import BookRepo
 from myModule.handleBookRoute import handle_route as handle_book_route
-from myModule.handleBookEvent import handle_event as handle_book_event
+from myModule.handleBookEvent import handle as handle_book_event
 
 import traceback
 
@@ -357,13 +357,13 @@ class Controller():
     def start(self):
         if self.enable_event:
             handle_book_event(self.mb, self.book_repo)
-            self.handle_event()
+            self.handle()
         if self.enable_route:
             handle_book_route(self.app, self.mb)
             self.handle_route()
     
 
-    def handle_event(self):
+    def handle(self):
         print('Handle events for myModule')
     
 

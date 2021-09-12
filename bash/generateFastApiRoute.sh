@@ -25,20 +25,20 @@ generateFastApiRoute() {
     # get controller lines
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines read "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" )
     _PATTERNS="$("${ZARUBA_HOME}/zaruba" list append "[]" \
-        ".*def route_controller.*" \
+        ".*def http_controller.*" \
     )"
     _LINE_INDEX=$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_PATTERNS}")
 
     # inject route handler
-    _HANDLE_ROUTE_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/handle_route.py")
+    _HANDLE_HTTP_PARTIAL=$(cat "${_MODULE_TEMPLATE_LOCATION}/partials/handle_http.py")
     _REPLACEMENT_MAP=$("${ZARUBA_HOME}/zaruba" map set "{}" \
         "zarubaUrl" "${URL}" \
         "zaruba_url" "${_SNAKE_URL}" \
         "zarubaHttpMethod" "${_LOWER_HTTP_METHOD}" \
     )
-    _HANDLE_ROUTE_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_ROUTE_PARTIAL}" "${_REPLACEMENT_MAP}")
-    _HANDLE_ROUTE_PARTIAL=$("${ZARUBA_HOME}/zaruba" str indent "${_HANDLE_ROUTE_PARTIAL}" "    ")
-    _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_ROUTE_PARTIAL}" )
+    _HANDLE_HTTP_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_HTTP_PARTIAL}" "${_REPLACEMENT_MAP}")
+    _HANDLE_HTTP_PARTIAL=$("${ZARUBA_HOME}/zaruba" str indent "${_HANDLE_HTTP_PARTIAL}" "    ")
+    _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_HTTP_PARTIAL}" )
 
     # save controller
     "${ZARUBA_HOME}/zaruba" lines write "${_CAMEL_SERVICE_NAME}/${_CAMEL_MODULE_NAME}/controller.py" "${_CONTROLLER_LINES}"

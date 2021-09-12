@@ -1,3 +1,3 @@
 from repos.zarubaEntityName import ZarubaEntityNameRepo
-from zarubaModuleName.handleZarubaEntityNameRoute import handle_route as handle_zaruba_entity_name_route
-from zarubaModuleName.handleZarubaEntityNameEvent import handle_event as handle_zaruba_entity_name_event
+from zarubaModuleName.handleZarubaEntityNameHttp import handle_http as handle_zaruba_entity_name_http
+from zarubaModuleName.handleZarubaEntityNameRpc import handle as handle_zaruba_entity_name_rpc

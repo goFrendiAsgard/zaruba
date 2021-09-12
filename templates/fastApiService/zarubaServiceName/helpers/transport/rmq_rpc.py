@@ -1,48 +1,19 @@
-from typing import Any, Callable, List, Mapping, TypedDict, Dict
-from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
-from helpers.transport.interface import MessageBus
-from helpers.transport.rmq_config import RMQEventConfig, RMQEventMap
+from typing import Any, Callable, List
+from pika.adapters.blocking_connection import BlockingChannel
+from helpers.transport.interface import RPC
+from helpers.transport.rmq_connection import RMQConnection
+from helpers.transport.rmq_config import RMQEventMap
 
-import pika, time, threading, uuid
+import time, uuid
+import pika
 
-class RMQMessageBus(MessageBus):
+class RMQRPC(RMQConnection, RPC):
 
     def __init__(self, rmq_host: str, rmq_user: str, rmq_pass: str, rmq_vhost: str, rmq_event_map: RMQEventMap):
-        self.rmq_param = pika.ConnectionParameters(
-            host=rmq_host,
-            credentials=pika.PlainCredentials(rmq_user, rmq_pass),
-            virtual_host=rmq_vhost,
-            heartbeat=30
-        )
-        self.should_check_connection = True
+        RMQConnection.__init__(self, rmq_host, rmq_user, rmq_pass, rmq_vhost)
         self.event_map = rmq_event_map
-        self._connect()
-    
-    def _connect(self):
-        self.connection: BlockingConnection = pika.BlockingConnection(self.rmq_param)
-        self.connection.add_callback_threadsafe(self._callback)
-        self.connection.process_data_events()
 
-    def _process_data_events(self):
-        while True:
-            time.sleep(5)
-            if not self.should_check_connection:
-                break
-            try:
-                self.connection.process_data_events()
-            except:
-                self._connect()
-
-    def _callback(self):
-        self.thread = threading.Thread(target=self._process_data_events)
-        self.thread.start()
- 
-    def shutdown(self):
-        self.should_check_connection = False
-        self.connection.close()
-        self.thread.join()
-
-    def handle_rpc(self, event_name: str) -> Callable[..., Any]:
+    def handle(self, event_name: str) -> Callable[..., Any]:
         def register_rpc_handler(rpc_handler: Callable[..., Any]):
             exchange = self.event_map.get_exchange_name(event_name)
             queue = self.event_map.get_queue_name(event_name)
@@ -84,64 +55,29 @@ class RMQMessageBus(MessageBus):
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_request
 
-    def call_rpc(self, event_name: str, *args: Any) -> Any:
+    def call(self, event_name: str, *args: Any) -> Any:
         caller = RMQRPCCaller(self)
         return caller.call(event_name, *args)
 
-    def handle_event(self, event_name: str) -> Callable[..., Any]:
-        def register_event_handler(event_handler: Callable[[Any], Any]):
-            exchange = self.event_map.get_exchange_name(event_name)
-            queue = self.event_map.get_queue_name(event_name)
-            dead_letter_exchange = self.event_map.get_dead_letter_exchange(event_name)
-            dead_letter_queue = self.event_map.get_dead_letter_queue(event_name)
-            auto_ack = self.event_map.get_auto_ack(event_name)
-            arguments = self.event_map.get_queue_arguments(event_name)
-            prefetch_count = self.event_map.get_prefetch_count(event_name)
-            ch = self.connection.channel()
-            if self.event_map.get_ttl(event_name) > 0:
-                ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
-                ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
-                ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
-            ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-            ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
-            ch.queue_bind(exchange=exchange, queue=queue)
-            ch.basic_qos(prefetch_count=prefetch_count)
-            # create handler and start consuming
-            on_event = self._create_rpc_handler(event_name, exchange, queue, auto_ack, event_handler)
-            ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
-        return register_event_handler
-    
-    def _create_rpc_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, event_handler: Callable[[Any], Any]):
+    def _create_rpc_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, rpc_handler: Callable[[Any], Any]):
         def on_event(ch, method, props, body):
             try:
                 message = self.event_map.get_decoder(event_name)(body)
                 print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
-                result = event_handler(message)
+                result = rpc_handler(message)
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_event
 
-    def publish(self, event_name: str, message: Any) -> Any:
-        exchange = self.event_map.get_exchange_name(event_name)
-        routing_key = self.event_map.get_queue_name(event_name)
-        body = self.event_map.get_encoder(event_name)(message)
-        ch = self.connection.channel()
-        ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-        print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': routing_key, 'body': body})
-        ch.basic_publish(
-            exchange=exchange,
-            routing_key=routing_key,
-            body=body
-        )
 
 class RMQRPCCaller():
 
-    def __init__(self, messagebus: RMQMessageBus):
+    def __init__(self, rpc: RMQRPC):
         self.is_timeout: bool = False
         self.result = None
-        self.event_map = messagebus.event_map
-        self.connection = messagebus.connection
+        self.event_map = rpc.event_map
+        self.connection = rpc.connection
         self.ch = self.connection.channel()
         self.corr_id = str(uuid.uuid4())
         self.replied = False

@@ -1,17 +1,17 @@
 from typing import Any, List, Mapping
-from helpers.transport import MessageBus
+from helpers.transport import MessageBus, RPC
 from fastapi import FastAPI, HTTPException
 from schemas.zarubaEntityName import ZarubaEntityName, ZarubaEntityNameData
 
 import traceback
 
-def handle_route(app: FastAPI, mb: MessageBus):
+def handle_http(app: FastAPI, mb: MessageBus, rpc: RPC):
 
     @app.get('/zaruba_entity_name/', response_model=List[ZarubaEntityName])
     def find_zaruba_entity_name(keyword: str='', limit: int=100, offset: int=0):
         results = []
         try:
-            results = mb.call_rpc('find_zaruba_entity_name', keyword, limit, offset)
+            results = rpc.call('find_zaruba_entity_name', keyword, limit, offset)
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -22,7 +22,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     def find_zaruba_entity_name_by_id(id: str):
         result = None
         try:
-            result = mb.call_rpc('find_zaruba_entity_name_by_id', id)
+            result = rpc.call('find_zaruba_entity_name_by_id', id)
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -35,7 +35,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     def insert_zaruba_entity_name(data: ZarubaEntityNameData):
         result = None
         try:
-            result = mb.call_rpc('insert_zaruba_entity_name', data.dict())
+            result = rpc.call('insert_zaruba_entity_name', data.dict())
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -48,7 +48,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     def update_zaruba_entity_name(id: str, data: ZarubaEntityNameData):
         result = None
         try:
-            result = mb.call_rpc('update_zaruba_entity_name', id, data.dict())
+            result = rpc.call('update_zaruba_entity_name', id, data.dict())
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -61,7 +61,7 @@ def handle_route(app: FastAPI, mb: MessageBus):
     def delete_zaruba_entity_name(id: str):
         result = None
         try:
-            result = mb.call_rpc('delete_zaruba_entity_name', id)
+            result = rpc.call('delete_zaruba_entity_name', id)
         except Exception as error:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')

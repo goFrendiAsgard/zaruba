@@ -10,20 +10,7 @@ class LocalMessageBus(MessageBus):
     def shutdown(self):
         pass
 
-    def handle_rpc(self, event_name: str) -> Callable[..., Any]:
-        def register_rpc_handler(rpc_handler: Callable[..., Any]):
-            self.rpc_handler[event_name] = rpc_handler
-        return register_rpc_handler
-
-    def call_rpc(self, event_name: str, *args: Any) -> Any:
-        if event_name not in self.rpc_handler:
-            raise Exception('RPC handler for "{}" is not found'.format(event_name))
-        print({'action': 'call_local_rpc', 'event_name': event_name, 'args': args})
-        result = self.rpc_handler[event_name](*args)
-        print({'action': 'get_local_rpc_reply', 'event_name': event_name, 'args': args, 'result': result})
-        return result
-
-    def handle_event(self, event_name: str) -> Callable[..., Any]:
+    def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
             self.event_handler[event_name] = event_handler
         return register_event_handler

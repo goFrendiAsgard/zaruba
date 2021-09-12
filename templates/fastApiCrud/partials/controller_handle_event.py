@@ -1,2 +1,0 @@
-
-handle_zaruba_entity_name_event(mb, zaruba_entity_name_repo)

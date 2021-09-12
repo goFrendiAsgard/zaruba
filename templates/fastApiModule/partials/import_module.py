@@ -1,2 +1,3 @@
-from zarubaModuleName.controller import route_controller as zaruba_module_name_route_controller
+from zarubaModuleName.controller import http_controller as zaruba_module_name_http_controller
 from zarubaModuleName.controller import event_controller as zaruba_module_name_event_controller
+from zarubaModuleName.controller import rpc_controller as zaruba_module_name_rpc_controller

@@ -30,12 +30,12 @@ class Controller():
 
     def start(self):
         if self.enable_event:
-            self.handle_event()
+            self.handle()
         if self.enable_route:
             self.handle_route()
     
 
-    def handle_event(self):
+    def handle(self):
         print('Handle events for myModule')
     
 

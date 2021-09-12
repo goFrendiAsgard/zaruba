@@ -18,6 +18,8 @@ class RMQEventMap:
 
     def __init__(self, mapping: Mapping[str, RMQEventConfig]):
         self.mapping = mapping
+        self.default_encoder = create_json_byte_encoder()
+        self.default_decoder = create_json_byte_decoder()
 
     def get_exchange_name(self, event_name: str) -> str:
         if event_name in self.mapping and 'exchange_name' in self.mapping[event_name] and self.mapping[event_name]['exchange_name'] != '':
@@ -70,9 +72,9 @@ class RMQEventMap:
     def get_encoder(self, event_name: str) -> Callable:
         if event_name in self.mapping and 'encoder' in self.mapping[event_name]:
             return self.mapping[event_name]['encoder']
-        return create_json_byte_encoder()
+        return self.default_encoder
  
     def get_decoder(self, event_name: str) -> Callable:
         if event_name in self.mapping and 'decoder' in self.mapping[event_name]:
             return self.mapping[event_name]['decoder']
-        return create_json_byte_decoder()
+        return self.default_decoder

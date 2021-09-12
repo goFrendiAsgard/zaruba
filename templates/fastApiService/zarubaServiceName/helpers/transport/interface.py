@@ -1,18 +1,25 @@
 from typing import Any, Callable
 import abc
 
+class RPC(abc.ABC):
+
+    @abc.abstractmethod
+    def handle(self, event_name: str) -> Callable[..., Any]:
+        pass
+
+    @abc.abstractmethod
+    def call(self, event_name: str, *args: Any) -> Any:
+        pass
+
+    @abc.abstractmethod
+    def shutdown(self) -> Any:
+        pass
+
+
 class MessageBus(abc.ABC):
 
     @abc.abstractmethod
-    def handle_rpc(self, event_name: str) -> Callable[..., Any]:
-        pass
-
-    @abc.abstractmethod
-    def call_rpc(self, event_name: str, *args: Any) -> Any:
-        pass
-
-    @abc.abstractmethod
-    def handle_event(self, event_name: str) -> Callable[..., Any]:
+    def handle(self, event_name: str) -> Callable[..., Any]:
         pass
 
     @abc.abstractmethod
