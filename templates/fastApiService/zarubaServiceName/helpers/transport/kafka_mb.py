@@ -4,9 +4,14 @@ from helpers.transport.interface import MessageBus
 from helpers.transport.kafka_config import KafkaEventMap
 import threading
 
-def get_kafka_connection_parameters(bootstrap_servers: str) -> Mapping[str, Any]:
+def get_kafka_connection_parameters(bootstrap_servers: str, sasl_mechanism: str, sasl_plain_username: str = '', sasl_plain_password: str = '') -> Mapping[str, Any]:
+    if sasl_mechanism == '':
+        sasl_mechanism = 'PLAIN'
     return {
-        'bootstrap_servers': bootstrap_servers
+        'bootstrap_servers': bootstrap_servers,
+        'sasl_mechanism': sasl_mechanism,
+        'sasl_plain_username': sasl_plain_username,
+        'sasl_plain_password': sasl_plain_password
     }
 
 class KafkaMessageBus(MessageBus):
