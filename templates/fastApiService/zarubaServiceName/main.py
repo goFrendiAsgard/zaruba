@@ -11,7 +11,7 @@ rmq_connection_parameters = get_rmq_connection_parameters(
     host = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_HOST', 'localhost'),
     user = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_USER', 'root'),
     password = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_PASS', 'toor'),
-    vhost = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_VHOST', '/'),
+    virtual_host = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_VHOST', '/'),
     heartbeat=30
 )
 rmq_event_map = RMQEventMap({})
