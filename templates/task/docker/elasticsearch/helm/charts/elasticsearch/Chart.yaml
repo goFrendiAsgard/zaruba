@@ -1,0 +1,27 @@
+annotations:
+  category: Analytics
+apiVersion: v2
+appVersion: 7.14.1
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
+- condition: global.kibanaEnabled
+  name: kibana
+  repository: https://charts.bitnami.com/bitnami
+  version: 9.x.x
+description: A highly scalable open-source full-text search and analytics engine
+home: https://github.com/bitnami/charts/tree/master/bitnami/elasticsearch
+icon: https://bitnami.com/assets/stacks/elasticsearch/img/elasticsearch-stack-220x234.png
+keywords:
+- elasticsearch
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: elasticsearch
+sources:
+- https://github.com/bitnami/bitnami-docker-elasticsearch
+- https://www.elastic.co/products/elasticsearch
+version: 17.0.3

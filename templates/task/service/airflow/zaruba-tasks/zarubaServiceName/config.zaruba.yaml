@@ -45,3 +45,9 @@ configs:
     command: celery flower
     ports: |
       {{ .GetEnv "ZARUBA_SERVICE_NAME_FLOWER_PORT" }}:5555
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/airflow
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml

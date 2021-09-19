@@ -1,4 +1,5 @@
 configs:
+
   zarubaServiceName:
     imagePrefix: docker.elastic.co/elasticsearch
     imageName: elasticsearch
@@ -7,3 +8,9 @@ configs:
     ports: |
       9200
       9300
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/elasticsearch
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml 

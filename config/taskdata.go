@@ -224,6 +224,10 @@ func (td *TaskData) WriteFile(filePath string, content string) (err error) {
 	return file.WriteText(absFilePath, content, 0755)
 }
 
+func (td *TaskData) Template(content string) (escapedStr string) {
+	return fmt.Sprintf("{{ %s }}", content)
+}
+
 func (td *TaskData) getAbsPath(parentPath, path string) (absPath string) {
 	if filepath.IsAbs(path) {
 		return path

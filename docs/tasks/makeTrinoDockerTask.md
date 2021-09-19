@@ -41,7 +41,7 @@
                     VALIDATION  : ^\[.*\]$
   CONFIG        : _finish                 : {{- $d := .Decoration -}}
                                             echo 🎉🎉🎉
-                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} created{{ $d.Normal }}"
+                                            echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} has been created{{ $d.Normal }}"
                   _setup                  : set -e
                                             {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                                             . "${ZARUBA_HOME}/bash/generatorUtil.sh"
@@ -57,9 +57,11 @@
                                             CONTAINER_NAME="$(getDockerContainerName "${CONTAINER_NAME}" ${IMAGE_NAME} ${_TEMPLATE_LOCATION})"
                                             # ensure SERVICE_NAME is not empty
                                             SERVICE_NAME="$(getDockerServiceName "${SERVICE_NAME}" "${CONTAINER_NAME}")"
-                  _start                  : . "{{ .GetConfig "generatorScriptLocation" }}"
+                  _start                  : __PWD="$(pwd)"
+                                            . "{{ .GetConfig "generatorScriptLocation" }}"
                                             {{ .GetConfig "generatorFunctionName" }} \
                                             {{ .GetConfig "generatorFunctionArgs" }}
+                                            cd "${__PWD}"
                   afterStart              : Blank
                   beforeStart             : Blank
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}

@@ -7,6 +7,7 @@ includes:
   - ./taskContainerRemove.zaruba.yaml
   - ./taskContainerRun.zaruba.yaml
   - ./taskContainerStop.zaruba.yaml
+  - ./taskHelm.zaruba.yaml
 
 tasks:
   

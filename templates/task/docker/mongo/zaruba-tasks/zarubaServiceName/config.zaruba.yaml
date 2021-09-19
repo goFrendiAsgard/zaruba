@@ -1,6 +1,13 @@
 configs:
+
   zarubaServiceName:
     useImagePrefix: false
     imageName: mongo
     containerName: zarubaContainerName
     ports: 27017
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/mongodb
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml 

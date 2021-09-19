@@ -61,7 +61,7 @@
   CONFIG        : _finish                     : {{- $d := .Decoration -}}
                                                 "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
                                                 echo 🎉🎉🎉
-                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} created{{ $d.Normal }}"
+                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} has been created{{ $d.Normal }}"
                   _setup                      : set -e
                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
                                                 . "${ZARUBA_HOME}/bash/generatorUtil.sh"

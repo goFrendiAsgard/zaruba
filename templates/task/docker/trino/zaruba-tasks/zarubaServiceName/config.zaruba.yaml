@@ -1,4 +1,5 @@
 configs:
+
   zarubaServiceName:
     useImagePrefix: true
     imagePrefix: trinodb
@@ -9,3 +10,9 @@ configs:
       8080:8080
     volumes: |
       ../../zarubaServiceName:/etc/trino
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/trino
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml 

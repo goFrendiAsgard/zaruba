@@ -5,15 +5,15 @@ configs:
     ports: |
       zarubaDefaultPortConfig
 
-  zarubaServiceNameHelm:
-    releaseName: zaruba-service-name
-    chart: helm/charts/app
-    valueFile: helm/values/zarubaServiceName.yaml
-    valueTemplateFile: helm/value-templates/app.yaml  
-
   zarubaServiceNameContainer:
     containerName: zarubaContainerName
     imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
     imageName: zarubaImageName
     imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/app
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml 

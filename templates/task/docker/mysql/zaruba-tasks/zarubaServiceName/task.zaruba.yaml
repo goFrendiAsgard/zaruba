@@ -2,6 +2,7 @@ includes:
   - ./config.zaruba.yaml
   - ./env.zaruba.yaml
   - ./input.zaruba.yaml
+  - ./taskHelm.zaruba.yaml
 
 tasks:
 

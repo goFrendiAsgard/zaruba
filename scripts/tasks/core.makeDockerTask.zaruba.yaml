@@ -45,12 +45,14 @@ tasks:
         # ensure SERVICE_NAME is not empty
         SERVICE_NAME="$(getDockerServiceName "${SERVICE_NAME}" "${CONTAINER_NAME}")"
       _start: |
+        __PWD="$(pwd)"
         . "{{ .GetConfig "generatorScriptLocation" }}"
         {{ .GetConfig "generatorFunctionName" }} \
         {{ .GetConfig "generatorFunctionArgs" }}
+        cd "${__PWD}"
       _finish: |
         {{- $d := .Decoration -}}
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} created{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker task for ${SERVICE_NAME} has been created{{ $d.Normal }}"
       start: ''
 

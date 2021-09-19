@@ -1,4 +1,5 @@
 configs:
+
   zarubaServiceName:
     useImagePrefix: false
     imageName: rabbitmq
@@ -7,3 +8,9 @@ configs:
     ports: |
       5672
       15672
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/rabbitmq
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml 
