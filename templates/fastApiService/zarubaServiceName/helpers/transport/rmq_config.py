@@ -10,7 +10,7 @@ class RMQEventConfig(TypedDict):
     ttl: int
     auto_ack: bool
     prefetch_count: int
-    encoder: Callable[[Any], str]
+    encoder: Callable[[Any], bytes]
     decoder: Callable[[bytes], Any]
 
 
@@ -58,7 +58,7 @@ class RMQEventMap:
         if event_name in self.mapping and 'rpc_timeout' in self.mapping[event_name] and self.mapping[event_name]['rpc_timeout'] > 0:
             return self.mapping[event_name]['rpc_timeout']
         return 5000
-    
+
     def get_prefetch_count(self, event_name: str) -> int:
         if event_name in self.mapping and 'prefetch_count' in self.mappping[event_name] and self.mapping[event_name]['prefetch_count'] > 0:
             return self.mapping[event_name]['prefetch_count']
@@ -68,12 +68,12 @@ class RMQEventMap:
         if event_name in self.mapping and 'auto_ack' in self.mapping[event_name]:
             return self.mapping[event_name]['auto_ack']
         return False
-    
+
     def get_encoder(self, event_name: str) -> Callable:
         if event_name in self.mapping and 'encoder' in self.mapping[event_name]:
             return self.mapping[event_name]['encoder']
         return self.default_encoder
- 
+
     def get_decoder(self, event_name: str) -> Callable:
         if event_name in self.mapping and 'decoder' in self.mapping[event_name]:
             return self.mapping[event_name]['decoder']

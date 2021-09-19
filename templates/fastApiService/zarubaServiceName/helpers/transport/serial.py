@@ -3,7 +3,10 @@ import jsons
 
 def create_json_byte_encoder(encoding_type: str = 'utf-8') -> Callable[[Any], bytes]:
     def encode(data: Any) -> bytes:
-        return jsons.dumps(data).encode(encoding_type)
+        serialized = jsons.dumps(data).encode(encoding_type)
+        if type(serialized) == bytes:
+            return serialized
+        return bytes(serialized, encoding_type)
     return encode
 
 

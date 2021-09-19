@@ -1,16 +1,19 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import create_engine
-from helpers.transport import RMQEventMap
+from helpers.transport import RMQEventMap, get_rmq_connection_parameters
 from configs.helper import get_abs_static_dir, create_message_bus, create_rpc
 
 import os
 
 db_url = os.getenv('ZARUBA_SERVICE_NAME_SQLALCHEMY_DATABASE_URL', 'sqlite://')
-rmq_host = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_HOST', 'localhost')
-rmq_user = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_USER', 'root')
-rmq_pass = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_PASS', 'toor')
-rmq_vhost = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_VHOST', '/')
+rmq_connection_parameters = get_rmq_connection_parameters(
+    host = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_HOST', 'localhost'),
+    user = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_USER', 'root'),
+    password = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_PASS', 'toor'),
+    vhost = os.getenv('ZARUBA_SERVICE_NAME_RABBITMQ_VHOST', '/'),
+    heartbeat=30
+)
 rmq_event_map = RMQEventMap({})
 
 mb_type = os.getenv('ZARUBA_SERVICE_NAME_MESSAGE_BUS_TYPE', 'local')
@@ -24,8 +27,8 @@ static_dir = get_abs_static_dir(os.getenv('ZARUBA_SERVICE_NAME_STATIC_DIR', ''))
 
 engine = create_engine(db_url, echo=True)
 app = FastAPI(title='zarubaServiceName')
-mb = create_message_bus(mb_type, rmq_host, rmq_user, rmq_pass, rmq_vhost, rmq_event_map)
-rpc = create_rpc(rpc_type, rmq_host, rmq_user, rmq_pass, rmq_vhost, rmq_event_map)
+mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map)
+rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 
 @app.on_event('shutdown')
 def on_shutdown():

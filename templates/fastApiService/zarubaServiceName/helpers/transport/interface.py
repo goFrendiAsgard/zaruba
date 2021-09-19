@@ -4,11 +4,11 @@ import abc
 class RPC(abc.ABC):
 
     @abc.abstractmethod
-    def handle(self, event_name: str) -> Callable[..., Any]:
+    def handle(self, rpc_name: str) -> Callable[..., Any]:
         pass
 
     @abc.abstractmethod
-    def call(self, event_name: str, *args: Any) -> Any:
+    def call(self, rpc_name: str, *args: Any) -> Any:
         pass
 
     @abc.abstractmethod

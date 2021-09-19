@@ -1,0 +1,15 @@
+tasks: 
+
+  makeKafkaServiceTask:
+    extend: core.makeServiceTask
+    inputs:
+      - serviceLocation
+      - serviceName
+      - serviceEnvs
+      - servicePorts
+      - serviceImageName
+      - serviceContainerName
+    config:
+      allowInexistServiceLocation: true
+      templateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/kafka'
+

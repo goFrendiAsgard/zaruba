@@ -1,0 +1,17 @@
+tasks:
+
+  removeZarubaServiceNameKafka:
+    extend: core.removeDockerContainer
+    configRef: zarubaServiceName
+    dependencies:
+      - removeZarubaServiceNameKafdrop
+
+  removeZarubaServiceNameZookeeper:
+    extend: core.removeDockerContainer
+    configRef: zarubaServiceNameZookeeper
+    dependencies:
+      - removeZarubaServiceNameKafka
+
+  removeZarubaServiceNameKafdrop:
+    extend: core.removeDockerContainer
+    configRef: zarubaServiceNameKafdrop

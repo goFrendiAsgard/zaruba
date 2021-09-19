@@ -5,7 +5,6 @@ class LocalMessageBus(MessageBus):
 
     def __init__(self):
         self.event_handler: Mapping[str, Callable[[Any], Any]] = {}
-        self.rpc_handler: Mapping[str, Callable[..., Any]] = {}
     
     def shutdown(self):
         pass

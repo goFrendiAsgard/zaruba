@@ -12,7 +12,11 @@ sqlalchemy = "1.4.12"
 jsons = "1.4.2"
 aiofiles = "0.7.0"
 requests = "2.25.1"
+kafka-python = "2.0.2"
 
 [dev-packages]
 autopep8 = "1.5.7"
 pytest = "6.2.3"
+
+[requires]
+python_version = "3.8"

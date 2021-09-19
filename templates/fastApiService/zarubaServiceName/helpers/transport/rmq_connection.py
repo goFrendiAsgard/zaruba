@@ -2,20 +2,23 @@ from pika.adapters.blocking_connection import BlockingConnection
 
 import pika, time, threading
 
+def get_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 30) -> pika.ConnectionParameters:
+    return pika.ConnectionParameters(
+        host=host,
+        credentials=pika.PlainCredentials(user, password),
+        virtual_host=virtual_host,
+        heartbeat=heartbeat
+    )
+
 class RMQConnection():
 
-    def __init__(self, rmq_host: str, rmq_user: str, rmq_pass: str, rmq_vhost: str):
-        self.rmq_param = pika.ConnectionParameters(
-            host=rmq_host,
-            credentials=pika.PlainCredentials(rmq_user, rmq_pass),
-            virtual_host=rmq_vhost,
-            heartbeat=30
-        )
+    def __init__(self, connection_parameters: pika.ConnectionParameters):
+        self.connection_parameters = connection_parameters
         self.should_check_connection = True
         self._connect()
 
     def _connect(self):
-        self.connection: BlockingConnection = pika.BlockingConnection(self.rmq_param)
+        self.connection: BlockingConnection = pika.BlockingConnection(self.connection_parameters)
         self.connection.add_callback_threadsafe(self._callback)
         self.connection.process_data_events()
 

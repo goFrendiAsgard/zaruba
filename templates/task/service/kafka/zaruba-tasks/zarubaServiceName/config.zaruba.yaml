@@ -1,0 +1,37 @@
+configs:
+
+  zarubaServiceName:
+    useImagePrefix: true
+    imagePrefix: bitnami
+    imageName: kafka
+    imageTag: 2.7.0
+    containerName: zarubaContainerName
+    localhost: localhost
+    ports: |
+      {{ .GetEnv "ZARUBA_SERVICE_NAME_KAFKA_PORT" }}:9093
+
+  zarubaServiceNameZookeeper:
+    useImagePrefix: true
+    imagePrefix: bitnami
+    imageName: zookeeper
+    imageTag: 3.6.2
+    containerName: zarubaContainerNameZookeeper
+    localhost: host.docker.internal
+    ports: |
+      {{ .GetEnv "ZARUBA_SERVICE_NAME_ZOOKEEPER_PORT" }}:2181
+
+  zarubaServiceNameKafdrop:
+    useImagePrefix: true
+    imagePrefix: obsidiandynamics
+    imageName: kafdrop
+    imageTag: latest
+    containerName: zarubaContainerNameKafdrop
+    localhost: host.docker.internal
+    ports: |
+      {{ .GetEnv "ZARUBA_SERVICE_NAME_KAFDROP_PORT" }}:9000
+
+  zarubaServiceNameHelm:
+    releaseName: zaruba-service-name
+    chart: helm/charts/kafka
+    valueFile: helm/values/zarubaServiceName.yaml
+    valueTemplateFile: helm/value-templates/zarubaServiceName.yaml

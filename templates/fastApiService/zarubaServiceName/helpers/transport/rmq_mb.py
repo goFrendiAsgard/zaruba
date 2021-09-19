@@ -3,11 +3,12 @@ from helpers.transport.interface import MessageBus
 from helpers.transport.rmq_connection import RMQConnection
 from helpers.transport.rmq_config import RMQEventMap
 
+import pika
 
 class RMQMessageBus(RMQConnection, MessageBus):
 
-    def __init__(self, rmq_host: str, rmq_user: str, rmq_pass: str, rmq_vhost: str, rmq_event_map: RMQEventMap):
-        RMQConnection.__init__(self, rmq_host, rmq_user, rmq_pass, rmq_vhost)
+    def __init__(self, rmq_connection_parameters: pika.ConnectionParameters, rmq_event_map: RMQEventMap):
+        RMQConnection.__init__(self, rmq_connection_parameters)
         self.event_map=rmq_event_map
 
     def handle(self, event_name: str) -> Callable[..., Any]:
