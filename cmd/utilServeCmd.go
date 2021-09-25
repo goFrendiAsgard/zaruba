@@ -2,36 +2,42 @@ package cmd
 
 import (
 	"fmt"
+	"net/http"
 	"path/filepath"
 	"strconv"
 
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
 )
 
 var utilServeCmd = &cobra.Command{
-	Use:   "serve <location> <port>",
+	Use:   "serve [location [port]]",
 	Short: "Serve static files in location at a specified port",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(cmd, logger, decoration, args, 1)
-		absLocation, err := filepath.Abs(args[0])
+		checkMinArgCount(cmd, logger, decoration, args, 0)
+		location := "."
+		if len(args) >= 1 {
+			location = args[0]
+		}
+		absLocation, err := filepath.Abs(location)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 		port := 8080
-		if len(args) == 1 || args[1] != "" {
+		if len(args) >= 2 {
 			port, err = strconv.Atoi(args[1])
 			if err != nil {
 				exit(cmd, logger, decoration, err)
 			}
 		}
-		e := echo.New()
-		e.Use(middleware.Logger())
-		e.Static("/", absLocation)
-		e.Start(fmt.Sprintf(":%d", port))
+		http.Handle("/", http.FileServer(http.Dir(absLocation)))
+		logger.Printf("Serving %s on HTTP port %d\n", absLocation, port)
+		logger.Printf("You can open http://localhost:%d\n", port)
+		portStr := fmt.Sprintf(":%d", port)
+		if err := http.ListenAndServe(portStr, nil); err != nil {
+			exit(cmd, logger, decoration, err)
+		}
 	},
 }

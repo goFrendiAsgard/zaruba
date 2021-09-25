@@ -109,15 +109,15 @@ func init() {
 		defaultEnv = append(defaultEnv, defaultEnvFile)
 	}
 	// register flags
-	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project script file")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environment file, pairs, or json map (e.g: '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "yaml file or pairs (e.g: '-v value.yaml' or '-v key=val')")
-	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "if set, you will be able to input values interactively")
-	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "if set, the tasks will be explained instead of executed")
-	pleasePlainDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "if set, there will be no decoration")
-	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "if set, previous values will be loaded")
-	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "if set, tasks will be terminated after complete")
-	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "how long zaruba should wait before terminating tasks (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
+	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environments (e.g: '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g: '-v value.yaml' or '-v key=val')")
+	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
+	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
+	pleasePlainDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "no decoration")
+	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
+	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
+	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
 }
 
 func getTaskNameInteractivelyOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {
