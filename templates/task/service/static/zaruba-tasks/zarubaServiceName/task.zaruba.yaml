@@ -17,6 +17,6 @@ tasks:
       start: |
         {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n") -}}
         {{ $port := index $ports 0 -}}
-        "{{ .ZarubaBin }}" util serve . {{ or $port "8080" }}
+        "{{ .ZarubaBin }}" serve . {{ or $port "8080" }}
     configRef: zarubaServiceName
     envRef: zarubaServiceName

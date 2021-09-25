@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
@@ -70,19 +71,23 @@ var taskCmd = &cobra.Command{
 	Short: "Task manipulation utilities",
 }
 
-var utilCmd = &cobra.Command{
-	Use:   "util",
-	Short: "Uncategorized utilities",
-}
-
 var yamlCmd = &cobra.Command{
 	Use:   "yaml",
 	Short: "YAML utilities",
 }
 
 func init() {
+	if os.Getenv("ZARUBA_HOME") == "" {
+		executable, _ := os.Executable()
+		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
+	}
+	if os.Getenv("ZARUBA_SHELL") == "" {
+		os.Setenv("ZARUBA_SHELL", "bash")
+	}
 	rootCmd.AddCommand(advertisementCmd)
 	rootCmd.AddCommand(envCmd)
+	rootCmd.AddCommand(generateCmd)
+	rootCmd.AddCommand(installCmd)
 	rootCmd.AddCommand(linesCmd)
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(mapCmd)
@@ -90,10 +95,12 @@ func init() {
 	rootCmd.AddCommand(pathCmd)
 	rootCmd.AddCommand(pleaseCmd)
 	rootCmd.AddCommand(projectCmd)
+	rootCmd.AddCommand(serveCmd)
 	rootCmd.AddCommand(strCmd)
 	rootCmd.AddCommand(taskCmd)
-	rootCmd.AddCommand(utilCmd)
 	rootCmd.AddCommand(yamlCmd)
+
+	AddInstallCmdSubCommand()
 
 	advertisementCmd.AddCommand(advertisementShowCmd)
 
@@ -169,9 +176,6 @@ func init() {
 	taskCmd.AddCommand(taskSetConfigCmd)
 	taskCmd.AddCommand(taskSetEnvCmd)
 	taskCmd.AddCommand(taskSyncEnvCmd)
-
-	utilCmd.AddCommand(utilGenerateCmd)
-	utilCmd.AddCommand(utilServeCmd)
 
 	yamlCmd.AddCommand(yamlReadCmd)
 	yamlCmd.AddCommand(yamlPrintCmd)

@@ -34,7 +34,7 @@ generateFastApiModule() {
         "ZarubaModuleName" "${_PASCAL_MODULE_NAME}" \
         "zaruba_module_name" "${_SNAKE_MODULE_NAME}" \
     )
-    "${ZARUBA_HOME}/zaruba" util generate "${_MODULE_TEMPLATE_LOCATION}/zarubaServiceName" "${_CAMEL_SERVICE_NAME}" "${_REPLACEMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" generate "${_MODULE_TEMPLATE_LOCATION}/zarubaServiceName" "${_CAMEL_SERVICE_NAME}" "${_REPLACEMENT_MAP}"
 
     # get main.py lines
     _MAIN_LINES=$("${ZARUBA_HOME}/zaruba" lines read "${_CAMEL_SERVICE_NAME}/main.py")

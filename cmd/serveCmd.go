@@ -10,7 +10,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var utilServeCmd = &cobra.Command{
+var serveCmd = &cobra.Command{
 	Use:   "serve [location [port]]",
 	Short: "Serve static files in location at a specified port",
 	Run: func(cmd *cobra.Command, args []string) {

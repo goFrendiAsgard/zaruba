@@ -64,7 +64,7 @@ generateDockerTask() {
         "ZARUBA_SERVICE_NAME" "${_UPPER_SNAKE_SERVICE_NAME}" \
     )
 
-    "${ZARUBA_HOME}/zaruba" util generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
 
     registerTaskFile "${_TASK_FILE_NAME}" "${_SERVICE_NAME}" "${_REGISTER_RUNNER}"
 

@@ -77,6 +77,6 @@ generateMeltanoTask() {
     pipenv run meltano init app
 
     # add additional files to the project
-    "${ZARUBA_HOME}/zaruba" util generate "${ZARUBA_HOME}/templates/meltanoApp" ./app '{}'
+    "${ZARUBA_HOME}/zaruba" generate "${ZARUBA_HOME}/templates/meltanoApp" ./app '{}'
     chmod 755 app/start.sh
 }

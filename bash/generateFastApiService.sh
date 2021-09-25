@@ -24,7 +24,7 @@ generateFastApiService() {
     )
 
     echo "Creating Fast API Service: ${_SERVICE_NAME}"
-    "${ZARUBA_HOME}/zaruba" util generate "${_SERVICE_TEMPLATE_LOCATION}" . "${_REPLACMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" generate "${_SERVICE_TEMPLATE_LOCATION}" . "${_REPLACMENT_MAP}"
     chmod 755 "${_CAMEL_SERVICE_NAME}/start.sh"
 
     if [ ! -f "./main.zaruba.yaml" ]

@@ -1,13 +1,12 @@
 set -e
-SETUP_PATH="$(dirname $(realpath "${0}"))"
 
 echo "🔽 Downloading and installing sdkman."
 curl -s "https://get.sdkman.io" | bash
 
 echo "🔽 Update init script."
-SCRIPT="$(cat "${SETUP_PATH}/../templates/bash/sdkman.sh")"
-echo "${SCRIPT}" >> "${SETUP_PATH}/../init.sh"
-. "${SETUP_PATH}/../init.sh"
+SCRIPT="$(cat "${ZARUBA_HOME}/templates/bash/sdkman.sh")"
+echo "${SCRIPT}" >> "${ZARUBA_HOME}/init.sh"
+. "${ZARUBA_HOME}/init.sh"
 
 echo "🔽 Install java"
 sdk install java

@@ -8,7 +8,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var utilGenerateCmd = &cobra.Command{
+var generateCmd = &cobra.Command{
 	Use:   "generate <templateLocation> <destination> <replacementMap>",
 	Short: "Make something based on template",
 	Run: func(cmd *cobra.Command, args []string) {

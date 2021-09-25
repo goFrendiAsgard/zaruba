@@ -75,7 +75,7 @@ generateServiceTask() {
         "zarubaDefaultPortConfig" "${_DEFAULT_PORT_CONFIG}" \
     ) 
 
-    "${ZARUBA_HOME}/zaruba" util generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" generate "${_TEMPLATE_LOCATION}" "${_DESTINATION}" "${_REPLACEMENT_MAP}"
 
     registerTaskFile "${_TASK_FILE_NAME}" "${_SERVICE_NAME}" "${_REGISTER_RUNNER}"
 

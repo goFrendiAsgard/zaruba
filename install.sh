@@ -85,12 +85,5 @@ echo "🎉🎉🎉"
 echo "💀 Installation success."
 
 # Run third party installer
-echo "💀 You can now setup/install third party packages, Do you want to proceed? (Y/n)"
-read CHOICE
-if [ "${CHOICE}" != "n" ] && [ "${CHOICE}" != "N" ]
-then
-    cd "${INSTALLATION_DIR}/setup"
-    . "${INSTALLATION_DIR}/setup/init.sh"
-fi
-echo "💀 You can run the third party installer later by invoking:"
-echo "    ${INSTALLATION_DIR}/setup/init.sh"
+echo "💀 You can now setup/install third party tools by invoking zaruba install <command>"
+"${HOME}/.zaruba/zaruba install --help"

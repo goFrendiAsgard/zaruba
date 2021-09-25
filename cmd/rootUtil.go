@@ -52,10 +52,6 @@ func getCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLog
 }
 
 func getProject(decoration *output.Decoration, projectFile string) (project *config.Project, err error) {
-	if os.Getenv("ZARUBA_HOME") == "" {
-		executable, _ := os.Executable()
-		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
-	}
 	defaultIncludes := []string{"${ZARUBA_HOME}/scripts/core.zaruba.yaml"}
 	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
 		if script == "" {

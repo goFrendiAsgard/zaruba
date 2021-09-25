@@ -41,7 +41,7 @@ generateFastApiCrudHandler() {
         "ZarubaEntityName" "${_PASCAL_ENTITY_NAME}" \
         "zaruba_entity_name" "${_SNAKE_ENTITY_NAME}" \
     )
-    "${ZARUBA_HOME}/zaruba" util generate "${_CRUD_TEMPLATE_LOCATION}/zarubaServiceName" "${_CAMEL_SERVICE_NAME}" "${_REPLACMENT_MAP}"
+    "${ZARUBA_HOME}/zaruba" generate "${_CRUD_TEMPLATE_LOCATION}/zarubaServiceName" "${_CAMEL_SERVICE_NAME}" "${_REPLACMENT_MAP}"
 
 
     _MAIN_LINES="$("${ZARUBA_HOME}/zaruba" lines read "${_CAMEL_SERVICE_NAME}/main.py" )"
