@@ -1,5 +1,4 @@
 set -e
-
 GIT_URL="https://github.com/state-alchemists/zaruba"
 INSTALLATION_DIR="${HOME}/.zaruba"
 OLD_SYMLINK="/usr/bin/zaruba"
@@ -11,6 +10,11 @@ then
     . "${HOME}/.zaruba/init.sh"
 fi
 '
+BRANCH="${1}"
+if [ -z "${BRANCH}" ]
+then
+    BRANCH="master"
+fi
 
 # Remove symlink, since 0.7.0 zaruba doesn't need symlink
 echo "💀 Removing old zaruba installation."
@@ -36,12 +40,16 @@ fi
 
 # Clone from repo
 echo "💀 Cloning zaruba source code."
-git clone --depth 1 "${GIT_URL}" "${INSTALLATION_DIR}"
+git clone --depth 1 --branch "${BRANCH}" "${GIT_URL}" "${INSTALLATION_DIR}"
+if [ "${BRANCH}" != "master" ]
+then
+    git checkout -b "master"
+    git checkout "${BRANCH}"
+fi
 
 # Build
 echo "💀 Building zaruba."
 cd "${INSTALLATION_DIR}"
-git fetch --tags
 go build
 chmod 755 -R "${INSTALLATION_DIR}/setup"
 
