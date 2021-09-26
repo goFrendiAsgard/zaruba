@@ -86,7 +86,7 @@ else
 fi
 
 # Starting init script for current session
-echo "💀 Starting init script."
+echo "💀 Loading init script."
 . "${INSTALLATION_DIR}/init.sh"
 
 echo "🎉🎉🎉"

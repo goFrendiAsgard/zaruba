@@ -11,10 +11,10 @@ metadata:
 data:
   tpch.properties: |
     connector.name=tpch
-    tpch.splits-per-node=4
+    tpch.Util.Str.Splits-per-node=4
   tpcds.properties: |
     connector.name=tpcds
-    tpcds.splits-per-node=4
+    tpcds.Util.Str.Splits-per-node=4
 {{- range $catalogName, $catalogProperties := .Values.additionalCatalogs }}
   {{ $catalogName }}.properties: |
     {{- $catalogProperties | nindent 4 }}

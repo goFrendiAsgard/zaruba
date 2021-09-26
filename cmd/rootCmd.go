@@ -154,6 +154,7 @@ func init() {
 	projectCmd.AddCommand(projectSyncEnvFilesCmd)
 
 	strCmd.AddCommand(strAddPrefixCmd)
+	strCmd.AddCommand(strFullIndentCmd)
 	strCmd.AddCommand(strGetIndentationCmd)
 	strCmd.AddCommand(strIndentCmd)
 	strCmd.AddCommand(strNewUUIDCmd)

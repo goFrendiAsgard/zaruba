@@ -13,7 +13,7 @@ tasks:
       interval: 1
       _setupPorts: |
         PORTS=""
-        {{ range $index, $hostPort := .Split (.Trim (.GetConfig "ports" "\n ") "\n") -}}
+        {{ range $index, $hostPort := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports" "\n ") "\n") -}}
           {{ if ne $port "" -}}
             PORTS="${PORTS} {{ $port }}"
           {{ end -}}

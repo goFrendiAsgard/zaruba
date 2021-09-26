@@ -24,14 +24,14 @@
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
                     {{ end -}}
-                    {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Trim (.GetConfig "_start") "\n " }}
-                    {{ .Trim (.GetConfig "start") "\n " }}
-                    {{ .Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
   CHECK         : - {{ .GetConfig "cmd" }}
@@ -42,27 +42,27 @@
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
                     {{ end -}}
-                    {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeCheck") "\n " }}
-                    {{ .Trim (.GetConfig "_check") "\n " }}
-                    {{ .Trim (.GetConfig "check") "\n " }}
-                    {{ .Trim (.GetConfig "afterCheck") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeCheck") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_check") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "check") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterCheck") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
   CONFIG        : RunInLocal        : true
                   _finish           : Blank
                   _setup            : set -e
-                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterCheck        : Blank
                   afterStart        : Blank
                   beforeCheck       : Blank
                   beforeStart       : Blank
                   check             : {{- $d := .Decoration -}}
-                                      {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                      {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
                                         {{ if ne $port "" -}}
                                           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
                                           waitPort "localhost" {{ $port }}

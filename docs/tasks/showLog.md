@@ -7,20 +7,20 @@
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
-                  - {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Trim (.GetConfig "_start") "\n " }}
-                    {{ .Trim (.GetConfig "start") "\n " }}
-                    {{ .Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   INPUTS        : keyword
                     DESCRIPTION : Keyword
                     PROMPT      : Keyword
   CONFIG        : _finish           : Blank
                   _setup            : set -e
-                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank
                   beforeStart       : Blank

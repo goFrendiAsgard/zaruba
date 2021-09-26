@@ -13,11 +13,11 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
-        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
-        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
-        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
+        MODULE_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "moduleName") }}
         . ${ZARUBA_HOME}/bash/generateFastApiModule.sh
         generateFastApiModule \
           "${MODULE_TEMPLATE_LOCATION}" \

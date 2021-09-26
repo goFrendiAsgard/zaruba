@@ -9,14 +9,14 @@
   DEPENDENCIES  : [ core.isProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
-                  - {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Trim (.GetConfig "_start") "\n " }}
-                    {{ .Trim (.GetConfig "start") "\n " }}
-                    {{ .Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   INPUTS        : subrepoUrl
                     DESCRIPTION : Subrepo url (Required)
                     PROMPT      : Subrepo url
@@ -29,7 +29,7 @@
                     PROMPT      : Subrepo name
   CONFIG        : _finish           : Blank
                   _setup            : set -e
-                                      {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
                   _start            : Blank
                   afterStart        : Blank
                   beforeStart       : Blank
@@ -49,10 +49,10 @@
                                       {{ if .GetValue "subrepoPrefix" }}
                                         PREFIX="{{ .GetValue "subrepoPrefix" }}"
                                       {{ else }}
-                                        {{ $urlSegment := .Split (.GetConfig "subrepoUrl") "/" -}}
+                                        {{ $urlSegment := .Util.Str.Split (.GetConfig "subrepoUrl") "/" -}}
                                         {{ $urlSegmentLastIndex := .Subtract (len $urlSegment) 1 -}}
                                         {{ $urlLastSegment := index $urlSegment $urlSegmentLastIndex -}}
-                                        {{ $prefix := index (.Split $urlLastSegment ".") 0 -}}
+                                        {{ $prefix := index (.Util.Str.Split $urlLastSegment ".") 0 -}}
                                         PREFIX="{{ $prefix }}"
                                       {{ end }}
                                       NAME="{{ if .GetValue "subrepoName" }}{{ .GetValue "subrepoName" }}{{ else }}${PREFIX}{{ end }}"

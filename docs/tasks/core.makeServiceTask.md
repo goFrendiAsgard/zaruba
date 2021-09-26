@@ -7,35 +7,35 @@
   DEPENDENCIES  : [ core.showAdv, core.isProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
-                  - {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Trim (.GetConfig "_start") "\n " }}
-                    {{ .Trim (.GetConfig "start") "\n " }}
-                    {{ .Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                     : {{- $d := .Decoration -}}
                                                 "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
                                                 echo 🎉🎉🎉
                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}Service task for ${SERVICE_NAME} has been created{{ $d.Normal }}"
                   _setup                      : set -e
-                                                {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+                                                {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
                                                 . "${ZARUBA_HOME}/bash/generatorUtil.sh"
                                                 {{ if .IsTrue (.GetConfig "allowInexistServiceLocation") -}}
                                                 mkdir -p "{{ .GetConfig "serviceLocation" }}"
                                                 {{ end -}}
-                                                TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-                                                SERVICE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceLocation") }}
-                                                SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-                                                IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-                                                CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-                                                SERVICE_START_COMMAND={{ .EscapeShellArg (.GetConfig "serviceStartCommand") }}
-                                                SERVICE_RUNNER_VERSION={{ .EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
-                                                SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-                                                SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-                                                DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-                                                REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+                                                TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "templateLocation") }}
+                                                SERVICE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "serviceLocation") }}
+                                                SERVICE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "serviceName") }}
+                                                IMAGE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "imageName") }}
+                                                CONTAINER_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "containerName") }}
+                                                SERVICE_START_COMMAND={{ .Util.Str.EscapeShellArg (.GetConfig "serviceStartCommand") }}
+                                                SERVICE_RUNNER_VERSION={{ .Util.Str.EscapeShellArg (.GetConfig "serviceRunnerVersion") }}
+                                                SERVICE_PORTS={{ .Util.Str.EscapeShellArg (.GetConfig "servicePorts") }}
+                                                SERVICE_ENVS={{ .Util.Str.EscapeShellArg (.GetConfig "serviceEnvs") }}
+                                                DEPENDENCIES={{ .Util.Str.EscapeShellArg (.GetConfig "dependencies") }}
+                                                REPLACEMENT_MAP={{ .Util.Str.EscapeShellArg (.GetConfig "replacementMap") }}
                                                 # ensure SERVICE_NAME is not empty
                                                 SERVICE_NAME="$(getServiceName "${SERVICE_NAME}" "${SERVICE_LOCATION}")"
                                                 # ensure IMAGE_NAME is not empty

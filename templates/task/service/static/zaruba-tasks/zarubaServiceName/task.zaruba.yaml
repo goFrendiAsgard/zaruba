@@ -15,7 +15,7 @@ tasks:
       - zarubaServiceNameRunInLocal
     config:
       start: |
-        {{ $ports := .Split (.Trim (.GetConfig "ports") "\n ") "\n") -}}
+        {{ $ports := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n") -}}
         {{ $port := index $ports 0 -}}
         "{{ .ZarubaBin }}" serve . {{ or $port "8080" }}
     configRef: zarubaServiceName

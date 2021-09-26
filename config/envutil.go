@@ -10,7 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/file"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -116,7 +116,7 @@ func SetTaskEnv(task *Task, envMap map[string]string) (err error) {
 
 func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 	taskName := task.GetName()
-	envPrefix := strings.ToUpper(str.ToSnakeCase(GetTaskServiceName(taskName)))
+	envPrefix := strings.ToUpper(task.Project.Util.Str.ToSnake(GetTaskServiceName(taskName)))
 	yamlLocation := task.GetFileLocation()
 	node, err := file.ReadYaml(yamlLocation)
 	if err != nil {
@@ -155,8 +155,9 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 }
 
 func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
+	util := utility.NewUtil()
 	envRefName := envRef.GetName()
-	envPrefix := strings.ToUpper(str.ToSnakeCase(envRefName))
+	envPrefix := strings.ToUpper(util.Str.ToSnake(envRefName))
 	yamlLocation := envRef.GetFileLocation()
 	node, err := file.ReadYaml(yamlLocation)
 	if err != nil {

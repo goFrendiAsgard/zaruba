@@ -94,7 +94,7 @@ resources: {}
 env:
 {{- range $key, $val := $this.GetEnvs }}
   - name: {{ $key }}
-    value: {{ $this.EscapeShellArg $val }}
+    value: {{ $this.Util.Str.EscapeShellArg $val }}
 {{- end }}
 
 

@@ -11,7 +11,7 @@ tasks:
     config:
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-        {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
+        {{ .Util.Str.Trim (.GetConfig "useNvmScript") "\n" }} 
       start: "echo hello world"
 

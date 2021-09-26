@@ -18,14 +18,14 @@ tasks:
       fieldNames: '{{ .GetValue "fastApiCrudFields" }}'
       start: |
         {{- $d := .Decoration -}}
-        CRUD_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "crudTemplateLocation") }}
-        MODULE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
-        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
-        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
-        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-        MODULE_NAME={{ .EscapeShellArg (.GetConfig "moduleName") }}
-        ENTITY_NAME={{ .EscapeShellArg (.GetConfig "entityName") }}
-        FIELD_NAMES={{ .EscapeShellArg (.GetConfig "fieldNames") }}
+        CRUD_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "crudTemplateLocation") }}
+        MODULE_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "moduleTemplateLocation") }}
+        SERVICE_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "serviceName") }}
+        MODULE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "moduleName") }}
+        ENTITY_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "entityName") }}
+        FIELD_NAMES={{ .Util.Str.EscapeShellArg (.GetConfig "fieldNames") }}
         . ${ZARUBA_HOME}/bash/generateFastApiCrudHandler.sh
         generateFastApiCrudHandler \
           "${CRUD_TEMPLATE_LOCATION}" \

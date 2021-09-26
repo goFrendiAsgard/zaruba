@@ -12,9 +12,9 @@ tasks:
     config:
       start: |
         {{- $d := .Decoration -}}
-        SERVICE_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
-        TASK_TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "taskTemplateLocation") }}
-        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
+        SERVICE_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "serviceTemplateLocation") }}
+        TASK_TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "taskTemplateLocation") }}
+        SERVICE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "serviceName") }}
         . ${ZARUBA_HOME}/bash/generateFastApiService.sh
         generateFastApiService \
           "${SERVICE_TEMPLATE_LOCATION}" \

@@ -7,24 +7,24 @@
   PARENT TASKS  : [ core.runNvmScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
-                  - {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Trim (.GetConfig "_start") "\n " }}
-                    {{ .Trim (.GetConfig "start") "\n " }}
-                    {{ .Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                 : Blank
                   _setup                  : set -e
-                                            {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-                                            {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
-                  _start                  : {{ .Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
-                                            {{ .Trim (.GetConfig "npmCleanCacheScript") "\n" }} 
-                                            {{ .Trim (.GetConfig "npmInstallScript") "\n" }} 
-                                            {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
-                                            {{ .Trim (.GetConfig "tsInstallScript") "\n" }} 
-                                            {{ .Trim (.GetConfig "tsCompileScript") "\n" }} 
+                                            {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
+                                            {{ .Util.Str.Trim (.GetConfig "useNvmScript") "\n" }} 
+                  _start                  : {{ .Util.Str.Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
+                                            {{ .Util.Str.Trim (.GetConfig "npmCleanCacheScript") "\n" }} 
+                                            {{ .Util.Str.Trim (.GetConfig "npmInstallScript") "\n" }} 
+                                            {{ .Util.Str.Trim (.GetConfig "npmRebuildScript") "\n" }} 
+                                            {{ .Util.Str.Trim (.GetConfig "tsInstallScript") "\n" }} 
+                                            {{ .Util.Str.Trim (.GetConfig "tsCompileScript") "\n" }} 
                   afterStart              : Blank
                   beforeStart             : Blank
                   cmd                     : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}

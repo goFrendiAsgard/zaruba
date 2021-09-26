@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var linesFillCmd = &cobra.Command{
@@ -28,7 +28,8 @@ var linesFillCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &suplements); err != nil {
 			suplements = []string{args[2]}
 		}
-		result, err := str.CompleteLines(lines, patterns, suplements)
+		util := utility.NewUtil()
+		result, err := util.Str.CompleteLines(lines, patterns, suplements)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

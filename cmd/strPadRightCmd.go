@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strPadRightCmd = &cobra.Command{
@@ -24,9 +25,7 @@ var strPadRightCmd = &cobra.Command{
 		if len(args) > 2 {
 			pad = args[2]
 		}
-		for len(text) < length {
-			text = text + pad
-		}
-		fmt.Println(text)
+		util := utility.NewUtil()
+		fmt.Println(util.Str.PadRight(text, length, pad))
 	},
 }

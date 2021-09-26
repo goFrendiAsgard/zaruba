@@ -3,10 +3,10 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strSplitCmd = &cobra.Command{
@@ -21,7 +21,8 @@ var strSplitCmd = &cobra.Command{
 		if len(args) > 1 {
 			separator = args[1]
 		}
-		result := strings.Split(text, separator)
+		util := utility.NewUtil()
+		result := util.Str.Split(text, separator)
 		resultB, err := json.Marshal(result)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

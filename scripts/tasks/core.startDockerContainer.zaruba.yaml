@@ -66,9 +66,9 @@ tasks:
       _checkConfigPorts: |
         {{ $d := .Decoration -}}
         {{ $this := . -}}
-        {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+        {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
           {{ if ne $port "" -}}
-            {{ $portParts := $this.Split ($this.Trim $port  " ") ":" -}}
+            {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
             {{ $hostPort := index $portParts 0 -}}
             echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
             waitPort "localhost" {{ $hostPort }}

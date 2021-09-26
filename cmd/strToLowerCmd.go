@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strToLowerCmd = &cobra.Command{
@@ -15,6 +15,7 @@ var strToLowerCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		fmt.Println(strings.ToLower(args[0]))
+		util := utility.NewUtil()
+		fmt.Println(util.Str.ToLower(args[0]))
 	},
 }

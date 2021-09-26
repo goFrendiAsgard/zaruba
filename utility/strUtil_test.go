@@ -1,100 +1,112 @@
-package str
+package utility
 
 import (
 	"testing"
 )
 
 func TestIsUpperTrue(t *testing.T) {
+	util := NewUtil()
 	expected := false
-	actual := IsUpper("Some random string")
+	actual := util.Str.IsUpper("Some random string")
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
 }
 
 func TestIsUpperFalse(t *testing.T) {
+	util := NewUtil()
 	expected := true
-	actual := IsUpper("SOME RANDOM STRING")
+	actual := util.Str.IsUpper("SOME RANDOM STRING")
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
 }
 
 func TestIsLowerTrue(t *testing.T) {
+	util := NewUtil()
 	expected := false
-	actual := IsLower("Some random string")
+	actual := util.Str.IsLower("Some random string")
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
 }
 
 func TestIsLowerFalse(t *testing.T) {
+	util := NewUtil()
 	expected := true
-	actual := IsLower("some random string")
+	actual := util.Str.IsLower("some random string")
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
 }
 
 func TestToCamelCase(t *testing.T) {
+	util := NewUtil()
 	expected := "someRandomString"
-	actual := ToCamelCase("Some random string")
+	actual := util.Str.ToCamel("Some random string")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestToCamelCaseEmpty(t *testing.T) {
+	util := NewUtil()
 	expected := ""
-	actual := ToCamelCase("")
+	actual := util.Str.ToCamel("")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestToPascalCase(t *testing.T) {
+	util := NewUtil()
 	expected := "SomeRandomString"
-	actual := ToPascalCase("Some random string")
+	actual := util.Str.ToPascal("Some random string")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestToPascalCaseEmpty(t *testing.T) {
+	util := NewUtil()
 	expected := ""
-	actual := ToPascalCase("")
+	actual := util.Str.ToPascal("")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestToSnakeCase(t *testing.T) {
+	util := NewUtil()
 	expected := "some_random_string"
-	actual := ToSnakeCase("Some random string")
+	actual := util.Str.ToSnake("Some random string")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestToKebabCase(t *testing.T) {
+	util := NewUtil()
 	expected := "some-random-string"
-	actual := ToKebabCase("Some random string")
+	actual := util.Str.ToKebab("Some random string")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestEscapeShellArg(t *testing.T) {
+	util := NewUtil()
 	expected := "'a friend\\'s home'"
-	actual := EscapeShellArg("a friend's home")
+	actual := util.Str.EscapeShellArg("a friend's home")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestStrGetUniqueElement(t *testing.T) {
+	util := NewUtil()
 	expectedList := []string{"a", "b", "c", "d"}
-	actualList := GetUniqueElements([]string{"a", "a", "b", "c", "b", "c", "d", "a", "d"})
+	actualList := util.Str.GetUniqueElements([]string{"a", "a", "b", "c", "b", "c", "d", "a", "d"})
 	if len(actualList) != len(expectedList) {
 		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
 	}
@@ -107,8 +119,9 @@ func TestStrGetUniqueElement(t *testing.T) {
 }
 
 func TestStrGetSubKeys(t *testing.T) {
+	util := NewUtil()
 	expectedList := []string{"a", "b"}
-	actualList := GetSubKeys(
+	actualList := util.Str.GetSubKeys(
 		[]string{"key::a::name", "key::b::name", "key::a::address", "key::b::address", "key", "otherKey", "key::"},
 		[]string{"key"},
 	)
@@ -129,44 +142,50 @@ func TestStrGetSubKeys(t *testing.T) {
 }
 
 func TestIndent(t *testing.T) {
+	util := NewUtil()
 	expected := "def add(a, b):\n    return a + b"
-	actual := Indent("def add(a, b):\n  return a + b", "  ")
+	actual := util.Str.Indent("def add(a, b):\n  return a + b", "  ")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestReplaceByMap(t *testing.T) {
+	util := NewUtil()
 	expected := "orange, egg, grape, grape"
-	actual := ReplaceByMap("jeruk, egg, anggur, anggur", map[string]string{"jeruk": "orange", "anggur": "grape"})
+	actual := util.Str.Replace("jeruk, egg, anggur, anggur", map[string]string{"jeruk": "orange", "anggur": "grape"})
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestRepeat(t *testing.T) {
+	util := NewUtil()
 	expected := "ora umumora umumora umum"
-	actual := Repeat("ora umum", 3)
+	actual := util.Str.Repeat("ora umum", 3)
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestGetSingleIndentationNoSpaceOrTab(t *testing.T) {
-	if _, err := GetSingleIndentation("no space or tab", 3); err == nil {
+	util := NewUtil()
+	if _, err := util.Str.GetIndentation("no space or tab", 3); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetSingleIndentationIrregularIndentation(t *testing.T) {
-	if _, err := GetSingleIndentation("\t something", 3); err == nil {
+	util := NewUtil()
+	if _, err := util.Str.GetIndentation("\t something", 3); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetSingleIndentationValidIndentation(t *testing.T) {
+	util := NewUtil()
 	expected := "  "
-	actual, err := GetSingleIndentation("      something", 3)
+	actual, err := util.Str.GetIndentation("      something", 3)
 	if err != nil {
 		t.Error(err)
 	}
@@ -176,21 +195,24 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 }
 
 func TestGetFirstMatchInvalidFirstPattern(t *testing.T) {
-	if _, _, err := GetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
+	util := NewUtil()
+	if _, _, err := util.Str.GetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchInvalidNonFirstPattern(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "really", "interesting", "", ""}
-	if _, _, err := GetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
+	if _, _, err := util.Str.GetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchFound(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
-	actualIndex, actualSubmatch, err := GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := util.Str.GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -212,8 +234,9 @@ func TestGetFirstMatchFound(t *testing.T) {
 }
 
 func TestGetFirstMatchNotFound(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "really", "interesting", "", "", ""}
-	actualIndex, actualSubmatch, err := GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := util.Str.GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -228,22 +251,25 @@ func TestGetFirstMatchNotFound(t *testing.T) {
 }
 
 func TestReplaceLineNegativeIndex(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := ReplaceLineAtIndex(lines, -1, []string{"new", "and interesting"}); err == nil {
+	if _, err := util.Str.ReplaceLineAtIndex(lines, -1, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineOutOfBoundIndex(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := ReplaceLineAtIndex(lines, 3, []string{"new", "and interesting"}); err == nil {
+	if _, err := util.Str.ReplaceLineAtIndex(lines, 3, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineFirst(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something to be replaced", "is here"}
-	actual, err := ReplaceLineAtIndex(lines, 0, []string{"something new", "and interesting"})
+	actual, err := util.Str.ReplaceLineAtIndex(lines, 0, []string{"something new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -261,8 +287,9 @@ func TestReplaceLineFirst(t *testing.T) {
 }
 
 func TestReplaceLineMiddle(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "to be replaced", "is here"}
-	actual, err := ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
+	actual, err := util.Str.ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -280,8 +307,9 @@ func TestReplaceLineMiddle(t *testing.T) {
 }
 
 func TestReplaceLineLast(t *testing.T) {
+	util := NewUtil()
 	lines := []string{"something", "to be replaced"}
-	actual, err := ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
+	actual, err := util.Str.ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -299,7 +327,8 @@ func TestReplaceLineLast(t *testing.T) {
 }
 
 func TestCompleteLinesDifferentPatternAndSuplementLength(t *testing.T) {
-	_, err := CompleteLines(
+	util := NewUtil()
+	_, err := util.Str.CompleteLines(
 		[]string{},
 		[]string{
 			"^task:(.*)$",
@@ -312,7 +341,8 @@ func TestCompleteLinesDifferentPatternAndSuplementLength(t *testing.T) {
 }
 
 func TestCompleteLinesInvalidPattern(t *testing.T) {
-	_, err := CompleteLines(
+	util := NewUtil()
+	_, err := util.Str.CompleteLines(
 		[]string{},
 		[]string{
 			"[[^",
@@ -327,7 +357,8 @@ func TestCompleteLinesInvalidPattern(t *testing.T) {
 }
 
 func TestCompleteLinesUnmatchPattern(t *testing.T) {
-	_, err := CompleteLines(
+	util := NewUtil()
+	_, err := util.Str.CompleteLines(
 		[]string{},
 		[]string{
 			"ab",
@@ -342,7 +373,8 @@ func TestCompleteLinesUnmatchPattern(t *testing.T) {
 }
 
 func TestCompleteLinesNoMatchAtAll(t *testing.T) {
-	actual, err := CompleteLines(
+	util := NewUtil()
+	actual, err := util.Str.CompleteLines(
 		[]string{"includes: []"},
 		[]string{
 			"^tasks:(.*)$",
@@ -381,7 +413,8 @@ func TestCompleteLinesNoMatchAtAll(t *testing.T) {
 }
 
 func TestCompleteLinesNoMatchPartial(t *testing.T) {
-	actual, err := CompleteLines(
+	util := NewUtil()
+	actual, err := util.Str.CompleteLines(
 		[]string{
 			"includes: []",
 			"tasks: # list of task",

@@ -11,14 +11,14 @@ tasks:
     config:
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
-        {{ .Trim (.GetConfig "useNvmScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
+        {{ .Util.Str.Trim (.GetConfig "useNvmScript") "\n" }} 
       _start: |
-        {{ .Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
-        {{ .Trim (.GetConfig "npmCleanCacheScript") "\n" }} 
-        {{ .Trim (.GetConfig "npmInstallScript") "\n" }} 
-        {{ .Trim (.GetConfig "npmRebuildScript") "\n" }} 
-        {{ .Trim (.GetConfig "tsInstallScript") "\n" }} 
-        {{ .Trim (.GetConfig "tsCompileScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "removeNodeModulesScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "npmCleanCacheScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "npmInstallScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "npmRebuildScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "tsInstallScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "tsCompileScript") "\n" }} 
       start: "echo Prepare NodeJs App"
  

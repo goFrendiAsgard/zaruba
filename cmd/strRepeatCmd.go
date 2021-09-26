@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strRepeatCmd = &cobra.Command{
@@ -21,6 +21,7 @@ var strRepeatCmd = &cobra.Command{
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		fmt.Println(str.Repeat(text, repetition))
+		util := utility.NewUtil()
+		fmt.Println(util.Str.Repeat(text, repetition))
 	},
 }

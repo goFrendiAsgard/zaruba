@@ -7,13 +7,14 @@ import (
 
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 type Explainer struct {
 	logger  output.Logger
 	d       *output.Decoration
 	project *config.Project
+	util    *utility.Util
 }
 
 func NewExplainer(logger output.Logger, decoration *output.Decoration, project *config.Project) *Explainer {
@@ -21,6 +22,7 @@ func NewExplainer(logger output.Logger, decoration *output.Decoration, project *
 		logger:  logger,
 		d:       decoration,
 		project: project,
+		util:    utility.NewUtil(),
 	}
 }
 
@@ -30,7 +32,7 @@ func (e *Explainer) listToMultiLineStr(list []string) string {
 	}
 	lines := []string{}
 	for _, line := range list {
-		line = str.Indent(line, "  ")
+		line = e.util.Str.Indent(line, "  ")
 		lines = append(lines, fmt.Sprintf("- %s", line))
 	}
 	return strings.Join(lines, "\n")
@@ -189,7 +191,7 @@ func (e *Explainer) printField(fieldName string, value string, indentation strin
 	if trimmedValue == "" {
 		return
 	}
-	indentedValue := str.Indent(trimmedValue, indentation)
+	indentedValue := e.util.Str.Indent(trimmedValue, indentation)
 	e.logger.DPrintf("%s%s :%s %s\n", e.d.Yellow, fieldName, e.d.Normal, indentedValue)
 }
 
@@ -205,7 +207,7 @@ func (e *Explainer) GetZarubaCommand(taskNames []string, autoTerminate bool, aut
 			} else {
 				inputValue = e.project.GetValue(inputName)
 			}
-			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, str.EscapeShellArg(inputValue)))
+			inputArgs = append(inputArgs, fmt.Sprintf("%s=%s", inputName, e.util.Str.EscapeShellArg(inputValue)))
 		}
 	}
 	if len(inputArgs) != 0 {

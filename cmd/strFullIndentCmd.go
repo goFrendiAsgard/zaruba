@@ -8,14 +8,16 @@ import (
 	"github.com/state-alchemists/zaruba/utility"
 )
 
-var strToKebabCmd = &cobra.Command{
-	Use:   "toKebab <string>",
-	Short: "Turn string into kebab-case",
+var strFullIndentCmd = &cobra.Command{
+	Use:   "fullIndent <string> <indentation>",
+	Short: "indent multi-line string, include first line",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(cmd, logger, decoration, args, 1)
+		checkMinArgCount(cmd, logger, decoration, args, 2)
+		text := args[0]
+		indentation := args[1]
 		util := utility.NewUtil()
-		fmt.Println(util.Str.ToKebab(args[0]))
+		fmt.Println(util.Str.FullIndent(text, indentation))
 	},
 }

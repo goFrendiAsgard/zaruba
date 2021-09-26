@@ -14,7 +14,7 @@ tasks:
     config:
       buildArg: ""
       start.buildDockerImage.buildArg: |
-        {{ range $index, $buildArg := .Split (.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
+        {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
           {{ if ne $buildArg "" -}}
             --build-arg {{ $buildArg }} {{ "" -}}
           {{ end -}}

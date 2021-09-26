@@ -30,9 +30,9 @@ configs:
         fi
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-        {{ .Trim (.GetConfig "_setupContainerName") "\n" }} 
-        {{ .Trim (.GetConfig "_setupImageName") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
       _startRebuildContainer: |
         stopContainer "${CONTAINER_NAME}"
         removeContainer "${CONTAINER_NAME}"
@@ -60,9 +60,9 @@ configs:
         {{ end -}}
       _startRunContainerPorts: |
         {{ $this := . -}}
-        {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+        {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
           {{ if ne $port "" -}}
-            {{ $portParts := $this.Split ($this.Trim $port  " ") ":" -}}
+            {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
             {{ if eq (len $portParts) 1 -}}
               -p {{ $port }}:{{ $port }} {{ "" -}}
             {{ else -}}
@@ -74,9 +74,9 @@ configs:
         {{ end -}}
       _startRunContainerVolumes: |
         {{ $this := . -}}
-        {{ range $index, $volume := .Split (.Trim (.GetConfig "volumes") "\n ") "\n" -}}
+        {{ range $index, $volume := .Util.Str.Split (.Util.Str.Trim (.GetConfig "volumes") "\n ") "\n" -}}
           {{ if ne $volume "" -}}
-            {{ $volumeParts := $this.Split ($this.Trim $volume  " ") ":" -}}
+            {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
             {{ if eq (len $volumeParts) 2 -}}
               {{ $absHostVolume := $this.GetRelativePath (index $volumeParts 0) -}}
               {{ $containerVolume := index $volumeParts 1 -}}

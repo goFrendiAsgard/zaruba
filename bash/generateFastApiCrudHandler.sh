@@ -81,7 +81,7 @@ generateFastApiCrudHandler() {
     # handle route on controller.py
     _CONTROLLER_HANDLE_HTTP_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_http.py")"
     _CONTROLLER_HANDLE_HTTP_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_HTTP_PARTIAL}" "${_REPLACMENT_MAP}" )"
-    _CONTROLLER_HANDLE_HTTP_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_HTTP_PARTIAL}" "    " )"
+    _CONTROLLER_HANDLE_HTTP_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_CONTROLLER_HANDLE_HTTP_PARTIAL}" "    " )"
     _HTTP_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^\s*def http_controller\(.*\):.*$")"
     _HTTP_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_HTTP_CONTROLLER_PATTERN}")"
     _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_HTTP_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_HTTP_PARTIAL}")"
@@ -89,7 +89,7 @@ generateFastApiCrudHandler() {
     # handle rpc on controller.py
     _CONTROLLER_HANDLE_RPC_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/controller_handle_rpc.py")"
     _CONTROLLER_HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_CONTROLLER_HANDLE_RPC_PARTIAL}" "${_REPLACMENT_MAP}" )"
-    _CONTROLLER_HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_CONTROLLER_HANDLE_RPC_PARTIAL}" "    " )"
+    _CONTROLLER_HANDLE_RPC_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_CONTROLLER_HANDLE_RPC_PARTIAL}" "    " )"
     _RPC_CONTROLLER_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" "^(\s*)def rpc_controller\((.*)\):(.*)$")"
     _RPC_CONTROLLER_LINE_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_CONTROLLER_LINES}" "${_RPC_CONTROLLER_PATTERN}")"
     _CONTROLLER_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_RPC_CONTROLLER_LINE_INDEX}" "${_CONTROLLER_HANDLE_RPC_PARTIAL}")"
@@ -137,7 +137,7 @@ generateFastApiCrudHandler() {
         # schema field declaration
         _SCHEMA_FIELD_DECLARATION_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/schema_field_declaration.py")"
         _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "    ")"
+        _SCHEMA_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_SCHEMA_FIELD_DECLARATION_PARTIAL}" "    ")"
 
         _SCHEMA_FIELD_DECLARATION_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         "^\s*class\s*${_PASCAL_ENTITY_NAME}Data\s*\(.*$"
@@ -149,7 +149,7 @@ generateFastApiCrudHandler() {
         # repo field declaration
         _REPO_FIELD_DECLARATION_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/repo_field_declaration.py")"
         _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_FIELD_DECLARATION_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_REPO_FIELD_DECLARATION_PARTIAL}" "    ")"
+        _REPO_FIELD_DECLARATION_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_REPO_FIELD_DECLARATION_PARTIAL}" "    ")"
 
         _REPO_FIELD_DECLARATION_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         "^\s*class\s*DB${_PASCAL_ENTITY_NAME}Entity\s*\(.*$" \
@@ -162,7 +162,7 @@ generateFastApiCrudHandler() {
         # repo field insert
         _REPO_FIELD_INSERT_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/repo_field_insert.py")"
         _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_FIELD_INSERT_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_REPO_FIELD_INSERT_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" str repeat "    " 4)")"
+        _REPO_FIELD_INSERT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_REPO_FIELD_INSERT_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" str repeat "    " 4)")"
 
         _REPO_FIELD_INSERT_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         "^\s*class\s*DB${_PASCAL_ENTITY_NAME}Repo\s*\(.*$" \
@@ -176,7 +176,7 @@ generateFastApiCrudHandler() {
         # repo field update
         _REPO_FIELD_UPDATE_PARTIAL="$(cat "${_CRUD_TEMPLATE_LOCATION}/partials/repo_field_update.py")"
         _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str replace "${_REPO_FIELD_UPDATE_PARTIAL}" "${_REPLACMENT_MAP}")"
-        _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_REPO_FIELD_UPDATE_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" str repeat "    " 3)")"
+        _REPO_FIELD_UPDATE_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_REPO_FIELD_UPDATE_PARTIAL}" "$("${ZARUBA_HOME}/zaruba" str repeat "    " 3)")"
 
         _REPO_FIELD_UPDATE_PATTERN="$("${ZARUBA_HOME}/zaruba" list append "[]" \
         "^\s*class\s*DB${_PASCAL_ENTITY_NAME}Repo\s*\(.*$" \

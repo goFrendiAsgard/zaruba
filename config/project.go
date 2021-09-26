@@ -12,6 +12,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/utility"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -36,6 +37,7 @@ type Project struct {
 	sortedInputNames           []string
 	maxPublishedTaskNameLength int
 	Decoration                 *output.Decoration
+	Util                       *utility.Util
 }
 
 // NewProject create new Config from Yaml File
@@ -81,6 +83,7 @@ func loadRawProject(projectFile string) (p *Project, err error) {
 		ConfigRefMap:               map[string]*ConfigRef{},
 		IsInitialized:              false,
 		maxPublishedTaskNameLength: 17,
+		Util:                       utility.NewUtil(),
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
 	b, err := keyValidator.Validate()

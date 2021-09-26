@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 	"gopkg.in/yaml.v3"
 )
 
@@ -161,13 +161,14 @@ func Generate(sourceTemplatePath, destinationPath string, replacementMap map[str
 	if err != nil {
 		return err
 	}
+	util := utility.NewUtil()
 	return filepath.Walk(absSourceTemplatePath,
 		func(absSourceLocation string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 			relativeLocation := absSourceLocation[len(absSourceTemplatePath):]
-			absDestinationLocation := filepath.Join(absDestinationPath, str.ReplaceByMap(relativeLocation, replacementMap))
+			absDestinationLocation := filepath.Join(absDestinationPath, util.Str.Replace(relativeLocation, replacementMap))
 			fileMode := info.Mode()
 			if info.IsDir() {
 				os.Mkdir(absDestinationLocation, fileMode)
@@ -177,7 +178,7 @@ func Generate(sourceTemplatePath, destinationPath string, replacementMap map[str
 			if err != nil {
 				return err
 			}
-			newContent := str.ReplaceByMap(content, replacementMap)
+			newContent := util.Str.Replace(content, replacementMap)
 			if newContent == content {
 				_, err = Copy(absSourceLocation, absDestinationLocation)
 				return err

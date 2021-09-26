@@ -11,7 +11,7 @@ import (
 	"github.com/state-alchemists/zaruba/config"
 	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 func fileMustExist(filePath string) (err error) {
@@ -38,6 +38,7 @@ type Prompter struct {
 	logger  output.Logger
 	d       *output.Decoration
 	project *config.Project
+	util    *utility.Util
 }
 
 func NewPrompter(logger output.Logger, decoration *output.Decoration, project *config.Project) *Prompter {
@@ -45,6 +46,7 @@ func NewPrompter(logger output.Logger, decoration *output.Decoration, project *c
 		logger:  logger,
 		d:       decoration,
 		project: project,
+		util:    utility.NewUtil(),
 	}
 }
 
@@ -403,7 +405,7 @@ func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error)
 		prompter.logger.Println(fmt.Sprintf("%s %d of %d) %s", prompter.d.Skull, index+1, inputCount, inputName))
 		if input.Description != "" {
 			indentation := prompter.d.Empty + " "
-			prompter.logger.Println(indentation + str.Indent(input.Description, indentation))
+			prompter.logger.Println(indentation + prompter.util.Str.Indent(input.Description, indentation))
 		}
 		if input.Secret {
 			newValue, err = prompter.askPassword(inputPrompt)

@@ -10,11 +10,10 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/google/uuid"
 	"github.com/state-alchemists/zaruba/boolean"
 	"github.com/state-alchemists/zaruba/file"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -28,6 +27,7 @@ type TaskData struct {
 	DirPath      string
 	FileLocation string
 	Decoration   *output.Decoration
+	Util         *utility.Util
 }
 
 func NewTaskData(task *Task) (td *TaskData) {
@@ -48,6 +48,7 @@ func NewTaskData(task *Task) (td *TaskData) {
 		DirPath:      filepath.Dir(task.GetFileLocation()),
 		FileLocation: task.GetFileLocation(),
 		Decoration:   task.Project.Decoration,
+		Util:         task.Project.Util,
 	}
 }
 
@@ -86,7 +87,7 @@ func (td *TaskData) GetPorts() []int {
 
 func (td *TaskData) GetSubConfigKeys(parentKeys ...string) (subKeys []string) {
 	configKeys := td.task.GetConfigKeys()
-	return str.GetSubKeys(configKeys, parentKeys)
+	return td.task.Project.Util.Str.GetSubKeys(configKeys, parentKeys)
 }
 
 func (td *TaskData) GetValue(keys ...string) (val string, err error) {
@@ -95,7 +96,7 @@ func (td *TaskData) GetValue(keys ...string) (val string, err error) {
 
 func (td *TaskData) GetSubValueKeys(parentKeys ...string) (subKeys []string) {
 	valueKeys := td.task.GetValueKeys()
-	return str.GetSubKeys(valueKeys, parentKeys)
+	return td.task.Project.Util.Str.GetSubKeys(valueKeys, parentKeys)
 }
 
 func (td *TaskData) GetEnv(key string) (val string, err error) {
@@ -118,18 +119,6 @@ func (td *TaskData) ReplaceAll(s, old, new string) string {
 	return strings.ReplaceAll(s, old, new)
 }
 
-func (td *TaskData) EscapeShellArg(s string) (result string) {
-	return str.EscapeShellArg(s)
-}
-
-func (td *TaskData) Indent(multiLineStr string, indentation string) (result string) {
-	return str.Indent(multiLineStr, indentation)
-}
-
-func (td *TaskData) GetNewUUID() string {
-	return uuid.NewString()
-}
-
 func (td *TaskData) GetDockerImageName() string {
 	dockerImagePrefix := ""
 	useImagePrefix, _ := td.GetConfig("useImagePrefix")
@@ -139,24 +128,12 @@ func (td *TaskData) GetDockerImageName() string {
 	dockerImageName, _ := td.GetConfig("imageName")
 	if dockerImageName == "" {
 		defaultServiceName, _ := GetDefaultServiceName(td.DirPath)
-		dockerImageName = str.ToKebabCase(defaultServiceName)
+		dockerImageName = td.task.Project.Util.Str.ToKebab(defaultServiceName)
 	}
 	if dockerImagePrefix == "" {
 		return dockerImageName
 	}
 	return fmt.Sprintf("%s/%s", dockerImagePrefix, dockerImageName)
-}
-
-func (td *TaskData) Split(s, sep string) []string {
-	return strings.Split(s, sep)
-}
-
-func (td *TaskData) Join(sep string, a []string) (string, error) {
-	return strings.Join(a, sep), nil
-}
-
-func (td *TaskData) Trim(str, cutset string) (trimmedStr string) {
-	return strings.Trim(str, cutset)
 }
 
 func (td *TaskData) ParseJSON(s string) (interface{}, error) {

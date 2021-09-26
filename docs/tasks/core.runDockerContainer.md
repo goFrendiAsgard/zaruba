@@ -32,19 +32,19 @@
   DEPENDENCIES  : [ updateProjectLinks ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
-                  - {{ .Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Trim (.GetConfig "setup") "\n " }}
-                    {{ .Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Trim (.GetConfig "_start") "\n " }}
-                    {{ .Trim (.GetConfig "start") "\n " }}
-                    {{ .Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Trim (.GetConfig "finish") "\n " }}
-                    {{ .Trim (.GetConfig "_finish") "\n " }}
+                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                      : Blank
                   _setup                       : set -e
-                                                 {{ .Trim (.GetConfig "includeUtilScript") "\n" }} 
-                                                 {{ .Trim (.GetConfig "_setupContainerName") "\n" }} 
-                                                 {{ .Trim (.GetConfig "_setupImageName") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
                   _setupContainerName          : {{ $d := .Decoration -}}
                                                  CONTAINER_NAME="{{ .GetConfig "containerName" }}"
                                                  if [ -z "${CONTAINER_NAME}" ]
@@ -121,9 +121,9 @@
                                                    {{ end -}}
                                                  {{ end -}}
                   _startRunContainerPorts      : {{ $this := . -}}
-                                                 {{ range $index, $port := .Split (.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                                 {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
                                                    {{ if ne $port "" -}}
-                                                     {{ $portParts := $this.Split ($this.Trim $port  " ") ":" -}}
+                                                     {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
                                                      {{ if eq (len $portParts) 1 -}}
                                                        -p {{ $port }}:{{ $port }} {{ "" -}}
                                                      {{ else -}}
@@ -134,9 +134,9 @@
                                                    {{ end -}}
                                                  {{ end -}}
                   _startRunContainerVolumes    : {{ $this := . -}}
-                                                 {{ range $index, $volume := .Split (.Trim (.GetConfig "volumes") "\n ") "\n" -}}
+                                                 {{ range $index, $volume := .Util.Str.Split (.Util.Str.Trim (.GetConfig "volumes") "\n ") "\n" -}}
                                                    {{ if ne $volume "" -}}
-                                                     {{ $volumeParts := $this.Split ($this.Trim $volume  " ") ":" -}}
+                                                     {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
                                                      {{ if eq (len $volumeParts) 2 -}}
                                                        {{ $absHostVolume := $this.GetRelativePath (index $volumeParts 0) -}}
                                                        {{ $containerVolume := index $volumeParts 1 -}}

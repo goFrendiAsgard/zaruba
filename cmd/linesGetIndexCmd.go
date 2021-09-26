@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var linesGetIndexCmd = &cobra.Command{
@@ -25,7 +25,8 @@ var linesGetIndexCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		index, _, err := str.GetLineSubmatch(list, patterns)
+		util := utility.NewUtil()
+		index, _, err := util.Str.GetLineSubmatch(list, patterns)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

@@ -30,16 +30,16 @@ tasks:
         "{{ if .IsFalse (.GetConfig "registerRunner") }}0{{ else }}1{{ end }}"
       _setup: |
         set -e
-        {{ .Trim (.GetConfig "includeUtilScript") "\n" }}
+        {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
         . "${ZARUBA_HOME}/bash/generatorUtil.sh"
-        TEMPLATE_LOCATION={{ .EscapeShellArg (.GetConfig "templateLocation") }}
-        IMAGE_NAME={{ .EscapeShellArg (.GetConfig "imageName") }}
-        CONTAINER_NAME={{ .EscapeShellArg (.GetConfig "containerName") }}
-        SERVICE_NAME={{ .EscapeShellArg (.GetConfig "serviceName") }}
-        SERVICE_PORTS={{ .EscapeShellArg (.GetConfig "servicePorts") }}
-        SERVICE_ENVS={{ .EscapeShellArg (.GetConfig "serviceEnvs") }}
-        DEPENDENCIES={{ .EscapeShellArg (.GetConfig "dependencies") }}
-        REPLACEMENT_MAP={{ .EscapeShellArg (.GetConfig "replacementMap") }}
+        TEMPLATE_LOCATION={{ .Util.Str.EscapeShellArg (.GetConfig "templateLocation") }}
+        IMAGE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "imageName") }}
+        CONTAINER_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "containerName") }}
+        SERVICE_NAME={{ .Util.Str.EscapeShellArg (.GetConfig "serviceName") }}
+        SERVICE_PORTS={{ .Util.Str.EscapeShellArg (.GetConfig "servicePorts") }}
+        SERVICE_ENVS={{ .Util.Str.EscapeShellArg (.GetConfig "serviceEnvs") }}
+        DEPENDENCIES={{ .Util.Str.EscapeShellArg (.GetConfig "dependencies") }}
+        REPLACEMENT_MAP={{ .Util.Str.EscapeShellArg (.GetConfig "replacementMap") }}
         # ensure CONTAINER_NAME is not empty
         CONTAINER_NAME="$(getDockerContainerName "${CONTAINER_NAME}" ${IMAGE_NAME} ${_TEMPLATE_LOCATION})"
         # ensure SERVICE_NAME is not empty

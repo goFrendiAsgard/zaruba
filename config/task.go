@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"github.com/state-alchemists/zaruba/boolean"
-	"github.com/state-alchemists/zaruba/str"
 )
 
 // Task is zaruba task
@@ -187,7 +186,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 		parentKeys := parentTask.GetConfigKeys()
 		keys = append(keys, parentKeys...)
 	}
-	return str.GetUniqueElements(keys)
+	return task.Project.Util.Str.GetUniqueElements(keys)
 }
 
 func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
@@ -250,7 +249,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 		parentKeys := parentTask.GetEnvKeys()
 		keys = append(keys, parentKeys...)
 	}
-	return str.GetUniqueElements(keys)
+	return task.Project.Util.Str.GetUniqueElements(keys)
 }
 
 func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {

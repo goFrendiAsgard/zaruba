@@ -1,4 +1,4 @@
-package str
+package utility
 
 type ByLenDesc []string
 

@@ -37,7 +37,7 @@ generateFastApiRoute() {
         "zarubaHttpMethod" "${_LOWER_HTTP_METHOD}" \
     )
     _HANDLE_HTTP_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_HTTP_PARTIAL}" "${_REPLACEMENT_MAP}")
-    _HANDLE_HTTP_PARTIAL=$("${ZARUBA_HOME}/zaruba" str indent "${_HANDLE_HTTP_PARTIAL}" "    ")
+    _HANDLE_HTTP_PARTIAL=$("${ZARUBA_HOME}/zaruba" str fullIndent "${_HANDLE_HTTP_PARTIAL}" "    ")
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_HTTP_PARTIAL}" )
 
     # save controller

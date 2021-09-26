@@ -35,7 +35,7 @@ generateFastApiEventHandler() {
         "zaruba_event_name" "${_SNAKE_EVENT_NAME}" \
     )
     _HANDLE_EVENT_PARTIAL=$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_EVENT_PARTIAL}" "${_REPLACEMENT_MAP}")
-    _HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str indent "${_HANDLE_EVENT_PARTIAL}" "    ")"
+    _HANDLE_EVENT_PARTIAL="$("${ZARUBA_HOME}/zaruba" str fullIndent "${_HANDLE_EVENT_PARTIAL}" "    ")"
     _CONTROLLER_LINES=$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_CONTROLLER_LINES}" "${_LINE_INDEX}" "${_HANDLE_EVENT_PARTIAL}" )
 
     # save controller

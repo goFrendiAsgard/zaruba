@@ -3,10 +3,10 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"regexp"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strSubmatchCmd = &cobra.Command{
@@ -17,11 +17,12 @@ var strSubmatchCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
-		rex, err := regexp.Compile(args[1])
+		pattern := args[1]
+		util := utility.NewUtil()
+		result, err := util.Str.Submatch(text, pattern)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		result := rex.FindStringSubmatch(text)
 		resultB, err := json.Marshal(result)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

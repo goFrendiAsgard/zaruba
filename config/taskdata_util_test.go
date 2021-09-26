@@ -103,36 +103,6 @@ func TestTdIsFalse(t *testing.T) {
 	}
 }
 
-func TestTdTrim(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "value"
-	actual := td.Trim("\n   value\n\n  ", " \n")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
-func TestTdEscapeShellArg(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
-	expected := "'abc\"def\\'ghi\n'"
-	actual := td.EscapeShellArg("abc\"def'ghi\n")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
 func TestTdListDir(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {

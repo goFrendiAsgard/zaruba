@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/str"
+	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strToSnakeCmd = &cobra.Command{
@@ -15,6 +15,7 @@ var strToSnakeCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		fmt.Println(str.ToSnakeCase(args[0]))
+		util := utility.NewUtil()
+		fmt.Println(util.Str.ToSnake(args[0]))
 	},
 }
