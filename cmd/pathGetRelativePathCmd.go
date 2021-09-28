@@ -10,7 +10,7 @@ import (
 
 var pathGetRelativePathCmd = &cobra.Command{
 	Use:   "getRelativePath <basePath> <targetPath>",
-	Short: "Get value or default value",
+	Short: "Get relative path",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

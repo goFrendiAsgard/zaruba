@@ -143,7 +143,7 @@ func init() {
 
 	pathCmd.AddCommand(pathGetEnvCmd)
 	pathCmd.AddCommand(pathGetPortConfigCmd)
-	pathCmd.AddCommand(pathGetServiceNameCmd)
+	pathCmd.AddCommand(pathGetAppNameCmd)
 	pathCmd.AddCommand(pathGetRelativePathCmd)
 
 	projectCmd.AddCommand(projectAddTaskCmd)

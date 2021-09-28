@@ -8,9 +8,10 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var pathGetServiceNameCmd = &cobra.Command{
-	Use:   "getServiceName <string>",
-	Short: "Get default service name based on location or image name",
+var pathGetAppNameCmd = &cobra.Command{
+	Use:     "getAppName <string>",
+	Short:   "Get default app name based on location or image name",
+	Aliases: []string{"getServiceName"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

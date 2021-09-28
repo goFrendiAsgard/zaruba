@@ -8,7 +8,7 @@ getDockerContainerName() {
         _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" str toCamel "${_IMAGE_NAME}")"
         if [ -z "${_DEFAULT_CONTAINER_NAME}" ]
         then
-            _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" path getServiceName "${_TEMPLATE_LOCATION}")"
+            _DEFAULT_CONTAINER_NAME="$("${ZARUBA_HOME}/zaruba" path getAppName "${_TEMPLATE_LOCATION}")"
         fi
         echo "${_DEFAULT_CONTAINER_NAME}"
     else
@@ -28,13 +28,13 @@ getDockerServiceName() {
     fi
 }
 
-# USAGE getServiceName <service-name> <service-location>
-getServiceName() {
+# USAGE getAppName <service-name> <service-location>
+getAppName() {
     _SERVICE_NAME="${1}"
     _SERVICE_LOCATION="${2}"
     if [ -z "${_SERVICE_NAME}" ]
     then
-        _DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" path getServiceName "${_SERVICE_LOCATION}")"
+        _DEFAULT_SERVICE_NAME="$("${ZARUBA_HOME}/zaruba" path getAppName "${_SERVICE_LOCATION}")"
         echo "${_DEFAULT_SERVICE_NAME}"
     else
         echo "${_SERVICE_NAME}"

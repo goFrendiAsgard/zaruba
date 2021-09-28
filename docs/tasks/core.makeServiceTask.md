@@ -37,7 +37,7 @@
                                                 DEPENDENCIES={{ .Util.Str.EscapeShellArg (.GetConfig "dependencies") }}
                                                 REPLACEMENT_MAP={{ .Util.Str.EscapeShellArg (.GetConfig "replacementMap") }}
                                                 # ensure SERVICE_NAME is not empty
-                                                SERVICE_NAME="$(getServiceName "${SERVICE_NAME}" "${SERVICE_LOCATION}")"
+                                                SERVICE_NAME="$(getAppName "${SERVICE_NAME}" "${SERVICE_LOCATION}")"
                                                 # ensure IMAGE_NAME is not empty
                                                 IMAGE_NAME="$(getServiceImageName "${IMAGE_NAME}" "${SERVICE_NAME}")"
                                                 # ensure CONTAINER_NAME is not empty

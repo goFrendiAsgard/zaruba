@@ -17,7 +17,7 @@ generateServiceTask() {
     _REPLACEMENT_MAP="${11}"
     _REGISTER_RUNNER="${12}"
 
-    _SERVICE_NAME="$(getServiceName "${_SERVICE_NAME}" "${_SERVICE_LOCATION}")"
+    _SERVICE_NAME="$(getAppName "${_SERVICE_NAME}" "${_SERVICE_LOCATION}")"
     _IMAGE_NAME="$(getServiceImageName "${_IMAGE_NAME}" "${_SERVICE_NAME}")"
     _CONTAINER_NAME="$(getServiceContainerName "${_CONTAINER_NAME}" "${_SERVICE_NAME}")"
 
