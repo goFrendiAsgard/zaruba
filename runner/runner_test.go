@@ -50,7 +50,7 @@ func TestRunnerInvalidStatusInterval(t *testing.T) {
 		return
 	}
 	errorMessage := err.Error()
-	if errorMessage != "cannot parse statusInterval 'invalid': time: invalid duration invalid" {
+	if !strings.HasPrefix(errorMessage, "cannot parse statusInterval 'invalid': time: invalid duration") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }
@@ -67,7 +67,7 @@ func TestRunnerInvalidAutoTerminateInterval(t *testing.T) {
 		return
 	}
 	errorMessage := err.Error()
-	if errorMessage != "cannot parse autoTerminateDelay 'invalid': time: invalid duration invalid" {
+	if !strings.HasPrefix(errorMessage, "cannot parse autoTerminateDelay 'invalid': time: invalid duration") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }

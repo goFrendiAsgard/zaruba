@@ -24,17 +24,17 @@ func exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoratio
 			}
 			nodeCmd = nodeCmd.Parent()
 		}
-		usage := cmd.UsageString()
 		logger.Fprintf(os.Stderr,
-			"%s %s%s%s: %s\n%s%s\n", decoration.Error, decoration.Bold, decoration.Red, commandName, err.Error(), usage, decoration.Normal)
+			"%s %s%s%s\n%s%s\n", decoration.Error, decoration.Bold, decoration.Red, commandName, err.Error(), decoration.Normal)
 		os.Exit(1)
 	}
 }
 
 func checkMinArgCount(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string, minArgCount int) {
 	if len(args) < minArgCount {
+		usage := cmd.UsageString()
 		jsonB, _ := json.Marshal(args)
-		err := fmt.Errorf("expecting %d arguments, get %d: %s", minArgCount, len(args), string(jsonB))
+		err := fmt.Errorf("expecting %d arguments, get %d: %s\n%s", minArgCount, len(args), string(jsonB), usage)
 		exit(cmd, logger, decoration, err)
 	}
 }
