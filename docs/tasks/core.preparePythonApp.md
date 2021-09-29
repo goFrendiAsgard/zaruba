@@ -1,7 +1,7 @@
 # core.preparePythonApp
 ```
   TASK NAME     : core.preparePythonApp
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.preparePythonApp.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.preparePythonApp.zaruba.yaml
   DESCRIPTION   : Prepare Python App
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runShellScript ]

@@ -1,7 +1,7 @@
 # core.isProject
 ```
   TASK NAME     : core.isProject
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.isProject.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.isProject.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

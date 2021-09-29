@@ -1,7 +1,7 @@
 # core.makeDockerTask
 ```
   TASK NAME     : core.makeDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.makeDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.makeDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ core.showAdv, core.isProject ]

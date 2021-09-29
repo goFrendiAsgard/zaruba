@@ -1,7 +1,7 @@
 # makeMeltanoServiceTask
 ```
   TASK NAME     : makeMeltanoServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeMeltanoServiceTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeMeltanoServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

@@ -1,7 +1,7 @@
 # core.generateAndRun
 ```
   TASK NAME     : core.generateAndRun
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.generateAndRun.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.generateAndRun.zaruba.yaml
   DESCRIPTION   : Generate script and run it
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

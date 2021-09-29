@@ -1,7 +1,7 @@
 # makeNginxServiceTask
 ```
   TASK NAME     : makeNginxServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeNginxServiceTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeNginxServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

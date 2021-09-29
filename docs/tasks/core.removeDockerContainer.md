@@ -1,7 +1,7 @@
 # core.removeDockerContainer
 ```
   TASK NAME     : core.removeDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.removeDockerContainer.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.removeDockerContainer.zaruba.yaml
   DESCRIPTION   : Remove docker container.
                   Common config:
                     containerName : Container's name

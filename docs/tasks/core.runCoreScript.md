@@ -1,7 +1,7 @@
 # core.runCoreScript
 ```
   TASK NAME     : core.runCoreScript
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.runCoreScript.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.runCoreScript.zaruba.yaml
   DESCRIPTION   : Run script for core tasks
                   Common config:
                     start : Start script

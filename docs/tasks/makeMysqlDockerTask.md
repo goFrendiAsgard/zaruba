@@ -1,7 +1,7 @@
 # makeMysqlDockerTask
 ```
   TASK NAME     : makeMysqlDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeMysqlDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeMysqlDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

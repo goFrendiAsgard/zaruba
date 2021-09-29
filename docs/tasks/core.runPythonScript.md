@@ -1,7 +1,7 @@
 # core.runPythonScript
 ```
   TASK NAME     : core.runPythonScript
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.runPythonScript.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.runPythonScript.zaruba.yaml
   DESCRIPTION   : Run python script
                   Common config:
                     start : Start script

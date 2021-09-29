@@ -1,7 +1,7 @@
 # makeGoServiceTask
 ```
   TASK NAME     : makeGoServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeGoServiceTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeGoServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

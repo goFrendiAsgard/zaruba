@@ -1,7 +1,7 @@
 # makeTrinoDockerTask
 ```
   TASK NAME     : makeTrinoDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeTrinoDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeTrinoDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

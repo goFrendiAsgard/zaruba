@@ -1,7 +1,7 @@
 # makeCassandraDockerTask
 ```
   TASK NAME     : makeCassandraDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeCassandraDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeCassandraDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

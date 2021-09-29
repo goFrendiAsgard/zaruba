@@ -1,7 +1,7 @@
 # core.startNvmService
 ```
   TASK NAME     : core.startNvmService
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.startNvmService.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.startNvmService.zaruba.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.

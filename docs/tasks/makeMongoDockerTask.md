@@ -1,7 +1,7 @@
 # makeMongoDockerTask
 ```
   TASK NAME     : makeMongoDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeMongoDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeMongoDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

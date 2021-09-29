@@ -1,7 +1,7 @@
 # core.runNodeJsScript
 ```
   TASK NAME     : core.runNodeJsScript
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.runNodeJsScript.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.runNodeJsScript.zaruba.yaml
   DESCRIPTION   : Run Node.Js script
                   Common config:
                     start : Start script

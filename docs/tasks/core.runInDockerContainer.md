@@ -1,7 +1,7 @@
 # core.runInDockerContainer
 ```
   TASK NAME     : core.runInDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.runInDockerContainer.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.runInDockerContainer.zaruba.yaml
   DESCRIPTION   : Run command from inside the container
                   Common config:
                     containerName  : Name of the container

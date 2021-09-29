@@ -1,7 +1,7 @@
 # core.setKubeContext
 ```
   TASK NAME     : core.setKubeContext
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.setKubeContext.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.setKubeContext.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

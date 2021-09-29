@@ -1,7 +1,7 @@
 # makeAirflowServiceTask
 ```
   TASK NAME     : makeAirflowServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeAirflowServiceTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeAirflowServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

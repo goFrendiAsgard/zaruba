@@ -1,7 +1,7 @@
 # core.helmInstall
 ```
   TASK NAME     : core.helmInstall
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmInstall.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.helmInstall.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ core.helmRepoUpdate, core.setKubeContext ]

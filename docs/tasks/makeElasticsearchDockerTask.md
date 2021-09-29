@@ -1,7 +1,7 @@
 # makeElasticsearchDockerTask
 ```
   TASK NAME     : makeElasticsearchDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeElasticsearchDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeElasticsearchDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

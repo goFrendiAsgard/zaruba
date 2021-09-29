@@ -1,7 +1,7 @@
 # core.runNvmScript
 ```
   TASK NAME     : core.runNvmScript
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.runNvmScript.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.runNvmScript.zaruba.yaml
   DESCRIPTION   : Run shell script under nvm
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runShellScript ]

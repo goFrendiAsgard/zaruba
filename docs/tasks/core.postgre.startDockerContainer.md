@@ -1,7 +1,7 @@
 # core.postgre.startDockerContainer
 ```
   TASK NAME     : core.postgre.startDockerContainer
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.postgre.startDockerContainer.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.postgre.startDockerContainer.zaruba.yaml
   TASK TYPE     : Service Task
   PARENT TASKS  : [ core.startDockerContainer ]
   START         : - {{ .GetConfig "cmd" }}

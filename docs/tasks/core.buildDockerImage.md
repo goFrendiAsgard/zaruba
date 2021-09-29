@@ -1,7 +1,7 @@
 # core.buildDockerImage
 ```
   TASK NAME     : core.buildDockerImage
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.buildDockerImage.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.buildDockerImage.zaruba.yaml
   DESCRIPTION   : Build docker image.
                   Common config:
                     imageName : Image name

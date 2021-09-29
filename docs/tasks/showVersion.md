@@ -1,7 +1,7 @@
 # showVersion
 ```
   TASK NAME     : showVersion
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/showVersion.zaruba.yaml
+  LOCATION      : /scripts/tasks/showVersion.zaruba.yaml
   DESCRIPTION   : Show zaruba's current version.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]

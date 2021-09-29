@@ -151,8 +151,13 @@ func (strUtil *StrUtil) Replace(s string, replacementMap map[string]string) (res
 	}
 	sort.Sort(ByLenDesc(keys))
 	for _, key := range keys {
+		re := regexp.MustCompile(key)
 		val := replacementMap[key]
-		result = strings.ReplaceAll(result, key, val)
+		result = re.ReplaceAllStringFunc(result, func(text string) string {
+			indentation, _ := strUtil.GetIndentation(text, 1)
+			indentedVal := strUtil.Indent(val, indentation)
+			return re.ReplaceAllString(text, indentedVal)
+		})
 	}
 	return result
 }

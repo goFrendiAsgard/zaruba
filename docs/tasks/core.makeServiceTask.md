@@ -1,7 +1,7 @@
 # core.makeServiceTask
 ```
   TASK NAME     : core.makeServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.makeServiceTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.makeServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   DEPENDENCIES  : [ core.showAdv, core.isProject ]

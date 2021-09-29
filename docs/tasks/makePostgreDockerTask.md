@@ -1,7 +1,7 @@
 # makePostgreDockerTask
 ```
   TASK NAME     : makePostgreDockerTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makePostgreDockerTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makePostgreDockerTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeDockerTask ]
   START         : - {{ .GetConfig "cmd" }}

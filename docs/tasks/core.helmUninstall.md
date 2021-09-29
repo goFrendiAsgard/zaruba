@@ -1,7 +1,7 @@
 # core.helmUninstall
 ```
   TASK NAME     : core.helmUninstall
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmUninstall.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.helmUninstall.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runShellScript ]
   START         : - {{ .GetConfig "cmd" }}

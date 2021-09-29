@@ -1,7 +1,7 @@
 # core.helmRepoUpdate
 ```
   TASK NAME     : core.helmRepoUpdate
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmRepoUpdate.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.helmRepoUpdate.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runShellScript ]
   START         : - {{ .GetConfig "cmd" }}

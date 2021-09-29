@@ -1,7 +1,7 @@
 # makeKafkaServiceTask
 ```
   TASK NAME     : makeKafkaServiceTask
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeKafkaServiceTask.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeKafkaServiceTask.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.makeServiceTask ]
   START         : - {{ .GetConfig "cmd" }}

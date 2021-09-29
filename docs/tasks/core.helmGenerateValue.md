@@ -1,7 +1,7 @@
 # core.helmGenerateValue
 ```
   TASK NAME     : core.helmGenerateValue
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/core.helmGenerateValue.zaruba.yaml
+  LOCATION      : /scripts/tasks/core.helmGenerateValue.zaruba.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
   START         : - {{ .GetConfig "cmd" }}

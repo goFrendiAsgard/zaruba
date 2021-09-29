@@ -1,7 +1,7 @@
 # makeFastApiEventHandler
 ```
   TASK NAME     : makeFastApiEventHandler
-  LOCATION      : ${ZARUBA_HOME}/scripts/tasks/makeFastApiEventHandler.zaruba.yaml
+  LOCATION      : /scripts/tasks/makeFastApiEventHandler.zaruba.yaml
   DESCRIPTION   : Make FastAPI event handler
   TASK TYPE     : Command Task
   PARENT TASKS  : [ core.runCoreScript ]
