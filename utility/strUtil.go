@@ -155,7 +155,7 @@ func (strUtil *StrUtil) Replace(s string, replacementMap map[string]string) (res
 		val := replacementMap[key]
 		result = re.ReplaceAllStringFunc(result, func(text string) string {
 			indentation, _ := strUtil.GetIndentation(text, 1)
-			indentedVal := strUtil.Indent(val, indentation)
+			indentedVal := strUtil.FullIndent(val, indentation)
 			return re.ReplaceAllString(text, indentedVal)
 		})
 	}
