@@ -1,8 +1,8 @@
 includes:
 
-  - ./configs/coreDocker.zaruba.yaml
-  - ./configs/coreNvm.zaruba.yaml
-  - ./configs/coreRunDocker.zaruba.yaml
+  - ./configs/zrbDocker.zaruba.yaml
+  - ./configs/zrbNvm.zaruba.yaml
+  - ./configs/zrbRunDocker.zaruba.yaml
   - ./configs/generatorFastApi.zaruba.yaml
   - ./configs/includeUtilScript.zaruba.yaml
   - ./configs/playBellScript.zaruba.yaml
@@ -10,6 +10,7 @@ includes:
   - ./inputs/appBuildImageCommand.zaruba.yaml
   - ./inputs/appCheckCommand.zaruba.yaml
   - ./inputs/appContainerName.zaruba.yaml
+  - ./inputs/appContainerVolumes.zaruba.yaml
   - ./inputs/appDependencies.zaruba.yaml
   - ./inputs/appDirectory.zaruba.yaml
   - ./inputs/appEnvPrefix.zaruba.yaml
@@ -45,13 +46,20 @@ includes:
   - ./inputs/subrepoUrl.zaruba.yaml
   - ./inputs/subrepoPrefix.zaruba.yaml
   - ./inputs/subrepoName.zaruba.yaml
-  - ./inputs/templateLocation.zaruba.yaml
+  - ./inputs/templateLocations.zaruba.yaml
   - ./inputs/variableName.zaruba.yaml
   - ./inputs/variableValue.zaruba.yaml
 
+  - ./tasks/addCassandra.zaruba.yaml
+  - ./tasks/addElasticsearch.zaruba.yaml
+  - ./tasks/addMongodb.zaruba.yaml
   - ./tasks/addMysql.zaruba.yaml
+  - ./tasks/addPostgresql.zaruba.yaml
   - ./tasks/addProjectLink.zaruba.yaml
+  - ./tasks/addRabbitmq.zaruba.yaml
+  - ./tasks/addRedis.zaruba.yaml
   - ./tasks/addSubrepo.zaruba.yaml
+  - ./tasks/addTrino.zaruba.yaml
   - ./tasks/clearPreviousValues.zaruba.yaml
   - ./tasks/clearLog.zaruba.yaml
   - ./tasks/initProject.zaruba.yaml

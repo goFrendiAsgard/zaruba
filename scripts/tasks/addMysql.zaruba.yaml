@@ -6,7 +6,10 @@ tasks:
     inputs:
       - appDirectory
     config:
-      templateLocation: '{{ .GetRelativePath "../../templates/mysqlApp" }}'
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/app/mysql" }}"
+        ]
 
   addMysql:
     extend: makeRunnerTask
@@ -21,7 +24,17 @@ tasks:
       - appImageName
       - appContainerName
     config:
-      defaultAppPorts: '["3306"]'
-      templateLocation: '{{ .GetRelativePath "../../templates/mysqlRunnerTask" }}'
-
+      defaultAppContainerVolumes: |
+        [
+          "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+        ]
+      defaultAppPorts: |
+        [
+          "3306"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+        ]
   

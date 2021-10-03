@@ -6,7 +6,7 @@ tasks:
     private: true
     extend: zrbRunShellScript
     configRefs:
-      - coreNvm
+      - zrbNvm
       - includeUtilScript
     config:
       _setup: |

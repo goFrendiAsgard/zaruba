@@ -4,7 +4,7 @@ tasks:
     extend: zrbRunShellScript
     private: true
     config:
-      templateLocation: '{{ .GetValue "templateLocation" }}'
+      templateLocations: '{{ .GetValue "templateLocations" }}'
       appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
       appContainerName: '{{ .GetValue "appContainerName" }}'
       appDependencies: '{{ .GetValue "appDependencies" }}'
@@ -14,8 +14,10 @@ tasks:
       appHelmChartUrl: '{{ .GetValue "appHelmChartUrl" }}'
       appImageName: '{{ .GetValue "appImageName" }}'
       appName: '{{ .GetValue "appName" }}'
-      appPorts: '{{ if eq (.GetValue "appPorts") "[]" }}{{ .GetConfig "defaultAppPorts" }}{{ else }}{{ .GetValue "appPorts" }}{{ end }}'
+      appPorts: '{{ .GetValue "appPorts" }}'
       defaultAppPorts: '[]'
+      appContainerVolumes: '{{ .GetValue "appContainerVolumes" }}'
+      defaultAppContainerVolumes: '[]'
       appPrepareCommand: '{{ .GetValue "appPrepareCommand" }}'
       appPushImageCommand: '{{ .GetValue "appPushImageCommand" }}'
       appRunnerVersion: '{{ .GetValue "appRunnerVersion" }}'
@@ -30,12 +32,28 @@ tasks:
         {{ .GetConfig "_prepareDefaultReplacementMap" }}
       _integrate: ''
       _start: |
+        {{ $d := .Decoration -}}
         . "{{ .GetRelativePath "../../bash/makeUtil.sh" }}"
         _ZRB_PROJECT_FILE_NAME='./main.zaruba.yaml'
-        _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
+        _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
+        if [ "$({{ .ZarubaBin }} list validate "${_ZRB_TEMPLATE_LOCATIONS}")" = 0 ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}{{ $d.Normal }}"
+          exit 1
+        fi
         _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
         _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
         _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
+        _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "appContainerVolumes" }}'
+        if [ "$({{ .ZarubaBin}} list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
+        then
+          _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "defaultAppContainerVolumes" }}'
+        fi
+        if [ "$({{ .ZarubaBin }} list validate "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_APP_CONTAINER_VOLUMES: ${_ZRB_APP_CONTAINER_VOLUMES}{{ $d.Normal }}"
+          exit 1
+        fi
         _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
         _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
         _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
@@ -44,6 +62,15 @@ tasks:
         _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
         _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
         _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
+        if [ "$({{ .ZarubaBin}} list length "${_ZRB_APP_PORTS}")" = 0 ]
+        then
+          _ZRB_APP_PORTS='{{ .GetConfig "defaultAppPorts" }}'
+        fi
+        if [ "$({{ .ZarubaBin }} list validate "${_ZRB_APP_PORTS}")" = 0 ]
+        then
+          echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_APP_PORTS: ${_ZRB_APP_PORTS}{{ $d.Normal }}"
+          exit 1
+        fi
         _ZRB_APP_PREPARE_COMMAND='{{ .GetConfig "appPrepareCommand" }}'
         _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .GetConfig "appPushImageCommand" }}'
         _ZRB_APP_RUNNER_VERSION='{{ .GetConfig "appRunnerVersion" }}'
@@ -54,7 +81,7 @@ tasks:
         __ZRB_PWD=$(pwd)
         {{ .GetConfig "_prepare" }}
         cd "${__ZRB_PWD}"
-        {{ .ZarubaBin }} generate "{{ .GetConfig "templateLocation" }}" "{{ .GetWorkPath "." }}" "${_ZRB_REPLACEMENT_MAP}"
+        _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
         {{ .GetConfig "_integrate" }}
         cd "${__ZRB_PWD}"
       start: ''

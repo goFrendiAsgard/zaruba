@@ -1,0 +1,37 @@
+tasks:
+ 
+  zrbMakeElasticsearchApp:
+    extend: makeApp
+    private: true
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/app/elasticsearch" }}"
+        ]
+
+  addElasticsearch:
+    extend: makeRunnerTask
+    dependencies:
+      - zrbMakeElasticsearchApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "9200",
+          "9300"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+        ]
+  

@@ -1,0 +1,40 @@
+tasks:
+ 
+  zrbMakeTrinoApp:
+    extend: makeApp
+    private: true
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/app/trino" }}"
+        ]
+
+  addTrino:
+    extend: makeRunnerTask
+    dependencies:
+      - zrbMakeTrinoApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppContainerVolumes: |
+        [
+          "./trino:/etc/trino"
+        ]
+      defaultAppPorts: |
+        [
+          "8080"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+        ]
+  

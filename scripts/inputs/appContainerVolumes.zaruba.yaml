@@ -1,0 +1,5 @@
+inputs:
+
+  appContainerVolumes:
+    description: Application container volumes
+    default: '[]'

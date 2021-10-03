@@ -33,6 +33,6 @@ tasks:
     dependencies:
       - updateProjectLinks
     configRefs: 
-      - coreRunDocker
-      - coreDocker
+      - zrbRunDocker
+      - zrbDocker
     

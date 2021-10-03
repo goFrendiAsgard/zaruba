@@ -2,7 +2,7 @@ tasks:
   zrbHelmGenerateValue:
     extend: zrbRunCoreScript
     private: true
-    configRef: coreDocker
+    configRef: zrbDocker
     config:
       valueFile: ''
       valueTemplateFile: ''

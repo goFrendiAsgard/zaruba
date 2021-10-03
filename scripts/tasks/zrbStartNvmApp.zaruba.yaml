@@ -15,7 +15,7 @@ tasks:
         ports       : Port to be checked to confirm service readiness, separated by new line.
     private: true
     extend: zrbStartApp
-    configRef: coreNvm
+    configRef: zrbNvm
     config:
       _setup: |
         set -e

@@ -11,4 +11,8 @@ tasks:
       - appImageName
       - appContainerName
     config:
-      templateLocation: '{{ .GetRelativePath "../../templates/runnerTask" }}'
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/native" }}"
+        ]

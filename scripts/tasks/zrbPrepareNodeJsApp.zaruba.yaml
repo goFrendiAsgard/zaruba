@@ -7,7 +7,7 @@ tasks:
     extend: zrbRunNvmScript
     configRefs:
       - includeUtilScript
-      - coreNvm
+      - zrbNvm
     config:
       _setup: |
         set -e

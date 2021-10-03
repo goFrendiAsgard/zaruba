@@ -1,0 +1,36 @@
+tasks:
+ 
+  zrbMakePostgresqlApp:
+    extend: makeApp
+    private: true
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/app/postgresql" }}"
+        ]
+
+  addPostgresql:
+    extend: makeRunnerTask
+    dependencies:
+      - zrbMakePostgresqlApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "5432"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+        ]
+  

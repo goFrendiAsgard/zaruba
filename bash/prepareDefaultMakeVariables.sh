@@ -48,6 +48,10 @@ fi
 # yaml ports
 _ZRB_APP_YAML_PORTS="$("${ZARUBA_HOME}/zaruba" list join "${_ZRB_APP_PORTS}")"
 
+# yaml volumes
+_ZRB_APP_YAML_CONTAINER_VOLUMES="$("${ZARUBA_HOME}/zaruba" list join "${_ZRB_APP_CONTAINER_VOLUMES}")"
+
+
 # yaml envs
 _ZRB_APP_MAP_ENVS='{}'
 for _ZRB_KEY in $("${ZARUBA_HOME}/zaruba" map rangeKey "${_ZRB_APP_ENVS}")

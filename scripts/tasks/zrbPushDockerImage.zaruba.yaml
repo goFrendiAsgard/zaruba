@@ -10,7 +10,7 @@ tasks:
     extend: zrbRunCoreScript
     dependencies:
       - updateProjectLinks
-    configRef: coreDocker
+    configRef: zrbDocker
     config:
       start: |
         {{ $d := .Decoration -}}

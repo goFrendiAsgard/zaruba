@@ -1,0 +1,7 @@
+tasks:
+
+  startZtplAppName:
+    extend: startZtplAppNameContainer
+    location: ztplTaskAppLocation
+    inputs:
+      - runZtplAppNameInLocal

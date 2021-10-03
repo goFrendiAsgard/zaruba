@@ -1,6 +1,7 @@
 _setReplacementMap "ztplAppBuildImageCommand" "${_ZRB_APP_BUILD_IMAGE_COMMAND}"
 _setReplacementMap "ztplAppCheckCommand" "${_ZRB_APP_CHECK_COMMAND}"
 _setReplacementMap "ztplAppContainerName" "${_ZRB_APP_CONTAINER_NAME}"
+_setReplacementMap "ztplAppContainerVolumes" "${_ZRB_APP_CONTAINER_VOLUMES}"
 _setReplacementMap "ztplAppDependencies" "${_ZRB_APP_DEPENDENCIES}"
 _setReplacementMap "ztplAppDirectory" "${_ZRB_APP_DIRECTORY}"
 _setReplacementMap "ztplTaskAppLocation" "${_ZRB_TASK_APP_LOCATION}"
@@ -19,5 +20,4 @@ _setReplacementMap "ztplAppStartContainerCommand" "${_ZRB_APP_START_CONTAINER_CO
 _setReplacementMap "ztplAppTestCommand" "${_ZRB_APP_TEST_COMMAND}"
 _setReplacementMap "[\t ]*ztplAppYamlPorts" "${_ZRB_APP_YAML_PORTS}"
 _setReplacementMap "[\t ]*ztplAppYamlEnvs" "${_ZRB_APP_YAML_ENVS}"
-
-echo "${_ZRB_REPLACEMENT_MAP}"
+_setReplacementMap "[\t ]*ztplAppYamlContainerVolumes" "${_ZRB_APP_YAML_CONTAINER_VOLUMES}"

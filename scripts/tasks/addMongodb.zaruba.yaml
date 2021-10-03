@@ -1,0 +1,36 @@
+tasks:
+ 
+  zrbMakeMongodbApp:
+    extend: makeApp
+    private: true
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/app/mongodb" }}"
+        ]
+
+  addMongodb:
+    extend: makeRunnerTask
+    dependencies:
+      - zrbMakeMongodbApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "27017"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+        ]
+  
