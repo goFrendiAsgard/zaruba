@@ -1,37 +1,47 @@
 includes: []
 tasks:
 
-  run:
+  prepare:
     icon: 👟
     extend: zrbWrapper
     dependencies: []
 
-  runContainer:
+  test:
+    icon: 👟
+    extend: zrbWrapper
+    dependencies: []
+
+  start:
+    icon: 👟
+    extend: zrbWrapper
+    dependencies: []
+
+  startContainers:
     icon: 🐳
     extend: zrbWrapper
     dependencies: []
 
-  stopContainer:
+  stopContainers:
     icon: ✋
     extend: zrbWrapper
     dependencies: [] 
 
-  removeContainer:
+  removeContainers:
     icon: 🔥
     extend: zrbWrapper
     dependencies: [] 
 
-  pullImage:
+  pullImages:
     icon: 📥
     extend: zrbWrapper
     dependencies: [] 
 
-  pushImage:
+  pushImages:
     icon: 📤
     extend: zrbWrapper
     dependencies: [] 
 
-  buildImage:
+  buildImages:
     icon: 🏭
     extend: zrbWrapper
     dependencies: [] 
@@ -45,3 +55,14 @@ tasks:
     icon: 🔥
     extend: zrbWrapper
     dependencies: [] 
+
+  terraformApply:
+    icon: 🏭
+    extend: zrbWrapper
+    dependencies: [] 
+
+  terraformDestroy:
+    icon: 🔥
+    extend: zrbWrapper
+    dependencies: [] 
+  

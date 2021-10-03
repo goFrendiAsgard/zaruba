@@ -8,6 +8,7 @@ includes:
   - ./configs/playBellScript.zaruba.yaml
 
   - ./inputs/appBuildImageCommand.zaruba.yaml
+  - ./inputs/appCheckCommand.zaruba.yaml
   - ./inputs/appContainerName.zaruba.yaml
   - ./inputs/appDependencies.zaruba.yaml
   - ./inputs/appDirectory.zaruba.yaml
@@ -48,6 +49,7 @@ includes:
   - ./inputs/variableName.zaruba.yaml
   - ./inputs/variableValue.zaruba.yaml
 
+  - ./tasks/addMysql.zaruba.yaml
   - ./tasks/addProjectLink.zaruba.yaml
   - ./tasks/addSubrepo.zaruba.yaml
   - ./tasks/clearPreviousValues.zaruba.yaml

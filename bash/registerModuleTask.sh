@@ -25,8 +25,8 @@ _registerTask "${_PROJECT_FILE_NAME}" "buildImages" "build${_PASCAL_APP_NAME}Ima
 _registerTask "${_PROJECT_FILE_NAME}" "pushImages" "push${_PASCAL_APP_NAME}Image"
 # pullImages
 _registerTask "${_PROJECT_FILE_NAME}" "pullImages" "pull${_PASCAL_APP_NAME}Image"
-# helmApply
-_registerTask "${_PROJECT_FILE_NAME}" "helmApply" "helmApply${_PASCAL_APP_NAME}"
+# helmInstall
+_registerTask "${_PROJECT_FILE_NAME}" "helmInstall" "helmInstall${_PASCAL_APP_NAME}"
 # helmUninstall
 _registerTask "${_PROJECT_FILE_NAME}" "helmUninstall" "helmUninstall${_PASCAL_APP_NAME}"
 # terraformApply

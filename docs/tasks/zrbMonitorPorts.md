@@ -10,7 +10,7 @@
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
+                    {{ if .IsFalse (.GetConfig "runInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
@@ -28,7 +28,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
+                    {{ if .IsFalse (.GetConfig "runInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -43,7 +43,7 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : RunInLocal        : true
+  CONFIG        : runInLocal        : true
                   _check            : {{ $d := .Decoration -}}
                                       echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
                   _finish           : Blank

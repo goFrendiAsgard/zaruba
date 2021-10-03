@@ -11,7 +11,7 @@
                     beforeCheck : Script to be executed before check service readiness.
                     afterCheck  : Script to be executed before check service readiness.
                     finish      : Script to be executed after start service or check service readiness.
-                    RunInLocal  : Run service locally or not.
+                    runInLocal  : Run service locally or not.
                     ports       : Port to be checked to confirm service readiness, separated by new line.
   TASK TYPE     : Service Task
   PARENT TASKS  : [ zrbRunCoreScript ]
@@ -19,7 +19,7 @@
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
+                    {{ if .IsFalse (.GetConfig "runInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
                       sleep infinity
@@ -37,7 +37,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
+                    {{ if .IsFalse (.GetConfig "runInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -52,7 +52,7 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : RunInLocal        : true
+  CONFIG        : runInLocal        : true
                   _finish           : Blank
                   _setup            : set -e
                                       {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}

@@ -1,0 +1,27 @@
+tasks:
+ 
+  zrbMakeMysqlApp:
+    extend: makeApp
+    private: true
+    inputs:
+      - appDirectory
+    config:
+      templateLocation: '{{ .GetRelativePath "../../templates/mysqlApp" }}'
+
+  addMysql:
+    extend: makeRunnerTask
+    dependencies:
+      - zrbMakeMysqlApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: '["3306"]'
+      templateLocation: '{{ .GetRelativePath "../../templates/mysqlRunnerTask" }}'
+
+  

@@ -14,6 +14,6 @@ _registerTask() {
         then
             "${ZARUBA_HOME}/zaruba" project addTask "${_PROJECT_FILE_NAME}" "${_MAIN_TASK_NAME}"
         fi
-        "${ZARUBA_HOME}/zaruba" project addDependency "${_PROJECT_FILE_NAME}" "${_MAIN_TASK_NAME}" "[\"${_MODULE_TASK_NAME}\"]"
+        "${ZARUBA_HOME}/zaruba" task addDependency "${_PROJECT_FILE_NAME}" "${_MAIN_TASK_NAME}" "[\"${_MODULE_TASK_NAME}\"]"
     fi
 }

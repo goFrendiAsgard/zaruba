@@ -1,0 +1,39 @@
+tasks:
+
+  startZtplAppName:
+    extend: startZtplAppNameContainer
+    location: ztplTaskAppLocation
+    inputs:
+      - runZtplAppName
+
+  startZtplAppNameContainer:
+    extend: zrbStartDockerContainer
+    location: ztplTaskAppLocation
+    inputs:
+      - runZtplAppName
+    dependencies:
+      - buildZtplAppNameImage
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppNameContainer
+      - ztplAppName
+
+  buildZtplAppNameImage:
+    extend: zrbBuildDockerImage
+    location: ztplTaskAppLocation
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName
+
+  pushZtplAppNameImage:
+    extend: zrbPushDockerImage
+    location: ztplTaskAppLocation
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName

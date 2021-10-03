@@ -4,6 +4,18 @@ tasks:
     extend: make
     inputs:
       - appDirectory
-      - appName
     config:
+      _prepare: |
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareDefaultReplacementMap" }}
+        if [ -d "${_ZRB_APP_DIRECTORY}" ]
+        then
+          echo "Directory ${_ZRB_APP_DIRECTORY} already exist."
+          exit 0
+        fi
       templateLocation: '{{ .GetRelativePath "../../templates/app" }}'
+      _integrate: |
+        if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+        then
+          chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+        fi

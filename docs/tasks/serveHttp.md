@@ -12,7 +12,7 @@
   CHECK         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
-                    {{ if .IsFalse (.GetConfig "RunInLocal") -}}
+                    {{ if .IsFalse (.GetConfig "runInLocal") -}}
                       echo 🎉🎉🎉
                       echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
                       exit 0
@@ -33,7 +33,7 @@
                     OPTIONS     : [ 8080, 8000, 3000, 5000 ]
                     DEFAULT     : 8080
                     VALIDATION  : ^[0-9]+$
-  CONFIG        : RunInLocal        : true
+  CONFIG        : runInLocal        : true
                   _finish           : Blank
                   _setup            : set -e
                                       {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
