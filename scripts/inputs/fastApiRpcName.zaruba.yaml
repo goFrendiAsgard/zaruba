@@ -1,8 +1,0 @@
-inputs:
-
-  fastApiRpcName:
-    description: |
-      RPC name (Required)
-    prompt: RPC name
-    validation: ^[a-zA-Z0-9_\-\.]+$
-

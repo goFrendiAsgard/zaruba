@@ -1,8 +1,0 @@
-inputs:
-
-  fastApiEventName:
-    description: |
-      Event name (Required)
-    prompt: Event name
-    validation: ^[a-zA-Z0-9_\-\.]+$
-

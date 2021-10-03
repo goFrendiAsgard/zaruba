@@ -1,0 +1,10 @@
+inputs:
+
+  appHttpMethod:
+    description: HTTP Method (Required)
+    prompt: HTTP Method
+    options: [get, post, put, delete]
+    default: get
+    validation: ^[a-z]+$
+    allowCustom: false
+

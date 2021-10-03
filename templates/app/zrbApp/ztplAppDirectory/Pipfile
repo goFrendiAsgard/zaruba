@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+fastapi = "0.65.2"
+uvicorn = "0.13.4"
+pika = "1.2.0"
+uuid = "1.30"
+sqlalchemy = "1.4.12"
+jsons = "1.4.2"
+aiofiles = "0.7.0"
+requests = "2.25.1"
+kafka-python = "2.0.2"
+
+[dev-packages]
+autopep8 = "1.5.7"
+pytest = "6.2.3"
+
+[requires]
+python_version = "3.8"

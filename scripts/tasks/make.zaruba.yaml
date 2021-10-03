@@ -2,6 +2,8 @@ tasks:
 
   make:
     extend: zrbRunShellScript
+    dependencies:
+      - zrbShowAdv
     private: true
     config:
       templateLocations: '{{ .GetValue "templateLocations" }}'
@@ -25,6 +27,13 @@ tasks:
       appStartContainerCommand: '{{ .GetValue "appStartContainerCommand" }}'
       appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
       appTestCommand: '{{ .GetValue "appTestCommand" }}'
+      appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
+      appCrudFields: '{{ .GetValue "appCrudFields" }}'
+      appEventName: '{{ .GetValue "appEventName" }}'
+      appHttpMethod: '{{ .GetValue "appHttpMethod" }}'
+      appModuleName: '{{ .GetValue "appModuleName" }}'
+      appRpcName: '{{ .GetValue "appRpcName" }}'
+      appUrl: '{{ .GetValue "appUrl" }}'
       _prepareDefaultReplacementMap: '. "{{ .GetRelativePath "../../bash/setDefaultReplacementMap.sh" }}"'
       _prepareVariables: '. "{{ .GetRelativePath "../../bash/prepareDefaultMakeVariables.sh" }}"'
       _prepare: |
@@ -77,6 +86,13 @@ tasks:
         _ZRB_APP_START_COMMAND='{{ .GetConfig "appStartCommand" }}'
         _ZRB_APP_START_CONTAINER_COMMAND='{{ .GetConfig "appStartContainerCommand" }}'
         _ZRB_APP_TEST_COMMAND='{{ .GetConfig "appTestCommand" }}'
+        _ZRB_APP_CRUD_ENTITY='{{ .GetConfig "appCrudEntity" }}'
+        _ZRB_APP_CRUD_FIELDS='{{ .GetConfig "appCrudFields" }}'
+        _ZRB_APP_EVENT_NAME='{{ .GetConfig "appEventName" }}'
+        _ZRB_APP_HTTP_METHOD='{{ .GetConfig "appHttpMethod" }}'
+        _ZRB_APP_MODULE_NAME='{{ .GetConfig "appModuleName" }}'
+        _ZRB_APP_RPC_NAME='{{ .GetConfig "appRpcName" }}'
+        _ZRB_APP_URL='{{ .GetConfig "appUrl" }}'
         _ZRB_REPLACEMENT_MAP='{}'
         __ZRB_PWD=$(pwd)
         {{ .GetConfig "_prepare" }}

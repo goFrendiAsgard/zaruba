@@ -1,0 +1,28 @@
+tasks:
+
+  addGoAppRunner:
+    extend: makeRunnerTask
+    dependencies:
+      - zrbMakeZrbApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      _prepareVariables: |
+        . "{{ .GetRelativePath "../../bash/prepareDefaultMakeVariables.sh" }}"
+        . "{{ .GetRelativePath "../../bash/prepareGoTaskGenVariables.sh" }}"
+      defaultAppPorts: |
+        [
+          "3000"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
+          "{{ .GetRelativePath "../../templates/runnerTask/go" }}"
+        ]
+  

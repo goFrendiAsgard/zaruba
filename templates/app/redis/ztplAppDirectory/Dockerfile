@@ -1,1 +1,1 @@
-FROM bitnami/rabbitmq
+FROM bitnami/redis

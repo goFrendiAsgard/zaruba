@@ -25,22 +25,17 @@ includes:
   - ./inputs/appStartCommand.zaruba.yaml
   - ./inputs/appStartContainerCommand.zaruba.yaml
   - ./inputs/appTestCommand.zaruba.yaml
-  - ./inputs/fastApiCrudEntity.zaruba.yaml
-  - ./inputs/fastApiCrudFields.zaruba.yaml
-  - ./inputs/fastApiEventName.zaruba.yaml
-  - ./inputs/fastApiHttpMethod.zaruba.yaml
-  - ./inputs/fastApiModuleName.zaruba.yaml
-  - ./inputs/fastApiRpcName.zaruba.yaml
-  - ./inputs/fastApiServiceName.zaruba.yaml
-  - ./inputs/fastApiUrl.zaruba.yaml
-  - ./inputs/goStartCommand.zaruba.yaml
+  - ./inputs/appCrudEntity.zaruba.yaml
+  - ./inputs/appCrudFields.zaruba.yaml
+  - ./inputs/appEventName.zaruba.yaml
+  - ./inputs/appHttpMethod.zaruba.yaml
+  - ./inputs/appModuleName.zaruba.yaml
+  - ./inputs/appRpcName.zaruba.yaml
+  - ./inputs/appUrl.zaruba.yaml
   - ./inputs/keyword.zaruba.yaml
   - ./inputs/kubeContext.zaruba.yaml
   - ./inputs/linkFrom.zaruba.yaml
   - ./inputs/linkTo.zaruba.yaml
-  - ./inputs/nodeJsRunnerVersion.zaruba.yaml
-  - ./inputs/nodeJsStartCommand.zaruba.yaml
-  - ./inputs/pythonStartCommand.zaruba.yaml
   - ./inputs/serverHttpPort.zaruba.yaml
   - ./inputs/showAdvertisement.zaruba.yaml
   - ./inputs/subrepoUrl.zaruba.yaml
@@ -52,14 +47,18 @@ includes:
 
   - ./tasks/addCassandra.zaruba.yaml
   - ./tasks/addElasticsearch.zaruba.yaml
+  - ./tasks/addGoAppRunner.zaruba.yaml
   - ./tasks/addMongodb.zaruba.yaml
   - ./tasks/addMysql.zaruba.yaml
+  - ./tasks/addNodeJsAppRunner.zaruba.yaml
   - ./tasks/addPostgresql.zaruba.yaml
   - ./tasks/addProjectLink.zaruba.yaml
+  - ./tasks/addPythonAppRunner.zaruba.yaml
   - ./tasks/addRabbitmq.zaruba.yaml
   - ./tasks/addRedis.zaruba.yaml
   - ./tasks/addSubrepo.zaruba.yaml
   - ./tasks/addTrino.zaruba.yaml
+  - ./tasks/addZrbApp.zaruba.yaml
   - ./tasks/clearPreviousValues.zaruba.yaml
   - ./tasks/clearLog.zaruba.yaml
   - ./tasks/initProject.zaruba.yaml
