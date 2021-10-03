@@ -1,0 +1,5 @@
+inputs:
+
+  appDirectory:
+    description: Location of app
+

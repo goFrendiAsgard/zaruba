@@ -1,0 +1,10 @@
+tasks:
+
+  zrbWrapper:
+    private: true
+    extend: zrbRunShellScript
+    autoTerminate: false
+    configRef: playBellScript
+    config:
+      start: '{{ .GetConfig "playBellScript" }}'
+ 

@@ -7,7 +7,7 @@ tasks:
       ARGUMENTS:
         subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
         subrepo::<name>::url      : Remote url of the subrepo
-    extend: core.runCoreScript
+    extend: zrbRunCoreScript
     dependencies:
       - initSubrepos
       - updateProjectLinks

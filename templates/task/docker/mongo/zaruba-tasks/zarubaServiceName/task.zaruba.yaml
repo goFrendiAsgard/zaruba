@@ -8,7 +8,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 🍃
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullZarubaServiceNameImage
     timeout: 1h
@@ -20,14 +20,14 @@ tasks:
     envRef: zarubaServiceName
 
   pullZarubaServiceNameImage:
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     timeout: 1h
     configRef: zarubaServiceName
 
   stopZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceName
 
   removeZarubaServiceNameContainer:
-    extend: core.removeDockerContainer
+    extend: zrbRemoveDockerContainer
     configRef: zarubaServiceName

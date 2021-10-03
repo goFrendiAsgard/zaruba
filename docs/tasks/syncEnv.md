@@ -4,8 +4,8 @@
   LOCATION      : /scripts/tasks/syncEnv.zaruba.yaml
   DESCRIPTION   : Update environment of every task in the current project
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
+  DEPENDENCIES  : [ zrbIsProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

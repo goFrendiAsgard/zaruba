@@ -4,7 +4,7 @@
   LOCATION      : /scripts/tasks/serveHttp.zaruba.yaml
   DESCRIPTION   : Run static web server from your working directory.
   TASK TYPE     : Service Task
-  PARENT TASKS  : [ core.startService ]
+  PARENT TASKS  : [ zrbStartApp ]
   START         : - {{ .GetEnv "ZARUBA_HOME" }}/zaruba
                   - serve
                   - .

@@ -4,7 +4,7 @@
   LOCATION      : /scripts/tasks/showLog.zaruba.yaml
   DESCRIPTION   : Show log for all/particular tasks using regex
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

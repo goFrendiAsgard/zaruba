@@ -1,0 +1,43 @@
+tasks:
+
+  zrbMonitorPorts:
+    icon: 🔎
+    description: |
+      Throw error when any port is inactive
+      Common config:
+        ports : Port to be checked to confirm service readiness, separated by new line.
+    private: true
+    extend: zrbStartApp
+    config:
+      ports: 8080
+      interval: 1
+      _setupPorts: |
+        PORTS=""
+        {{ range $index, $hostPort := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports" "\n ") "\n") -}}
+          {{ if ne $port "" -}}
+            PORTS="${PORTS} {{ $port }}"
+          {{ end -}}
+        {{ end -}}
+      _setup: '{{ .GetConfig "_setupPorts" }}'
+      _startCheckPorts: |
+        {{ $d := .Decoration -}}
+        for PORT in ${PORTS}
+        do
+          if nc -z "localhost" "${PORT}"
+          then
+            continue
+          fi
+          echo "🔎 {{ $d.Bold }}{{ $d.Red }}Port '${PORT}' is not listening{{ $d.Normal }}"
+          exit 1
+        done
+      _start: |
+        {{ $d := .Decoration -}}
+        while true
+        do
+          {{ .GetConfig "_startCheckPorts" }}
+          sleep {{ .GetConfig "interval" }}
+        done
+      _check: |
+        {{ $d := .Decoration -}}
+        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Port monitoring started for: ${PORTS}{{ $d.Normal }}"
+ 

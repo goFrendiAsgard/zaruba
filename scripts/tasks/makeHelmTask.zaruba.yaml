@@ -1,0 +1,15 @@
+tasks:
+
+  makeHelmTask:
+    extend: makeTask
+    inputs:
+      - templateLocation
+      - appDirectory
+      - appHelmChartUrl
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      templateLocation: '{{ .GetRelativePath "../../templates/helmTask" }}'

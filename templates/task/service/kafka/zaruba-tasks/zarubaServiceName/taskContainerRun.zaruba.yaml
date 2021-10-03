@@ -2,7 +2,7 @@ tasks:
 
   runZarubaServiceNameKafka:
     icon: 👷
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullZarubaServiceNameImage
       - runZarubaServiceNameZookeeper
@@ -14,7 +14,7 @@ tasks:
 
   runZarubaServiceNameZookeeper:
     icon: 🌻
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullZarubaServiceNameZookeeperImage
     timeout: 1h
@@ -25,7 +25,7 @@ tasks:
 
   runZarubaServiceNameKafdrop:
     icon: 😃
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullZarubaServiceNameKafdropImage
       - runZarubaServiceNameKafka

@@ -13,7 +13,7 @@
                     It is recommended to put `link` arguments in `default.values.yaml`.
                     In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

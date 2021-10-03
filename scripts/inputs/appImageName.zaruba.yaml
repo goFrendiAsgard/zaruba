@@ -1,0 +1,5 @@
+inputs:
+
+  appImageName:
+    description: App's image name
+    default: ''

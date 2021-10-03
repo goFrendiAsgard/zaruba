@@ -1,0 +1,6 @@
+inputs:
+
+  appContainerName:
+    description: Application container name
+    prompt: Application container name
+    validation: ^[a-zA-Z0-9_]*$

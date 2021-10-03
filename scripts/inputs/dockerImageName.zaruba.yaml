@@ -1,7 +1,0 @@
-inputs:
-
-  dockerImageName:
-    description: Docker image name (Required)
-    prompt: Docker image name
-    validation: ^[a-z0-9_]+$
-

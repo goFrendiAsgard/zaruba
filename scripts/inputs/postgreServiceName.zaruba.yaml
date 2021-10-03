@@ -1,8 +1,0 @@
-inputs:
-
-  postgreServiceName:
-    description: Postgre service name (Required)
-    prompt: Postgre service name
-    validation: ^[a-zA-Z0-9_]+$
-    default: postgre
-

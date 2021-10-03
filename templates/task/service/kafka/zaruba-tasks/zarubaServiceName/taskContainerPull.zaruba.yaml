@@ -1,17 +1,17 @@
 tasks:
 
   pullZarubaServiceNameImage:
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     timeout: 1h
     configRef: zarubaServiceName
 
   pullZarubaServiceNameZookeeperImage:
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     timeout: 1h
     configRef: zarubaServiceNameZookeeper
 
   pullZarubaServiceNameKafdropImage:
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     timeout: 1h
     configRef: zarubaServiceNameKafdrop
 

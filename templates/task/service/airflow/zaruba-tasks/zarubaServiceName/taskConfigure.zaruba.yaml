@@ -10,7 +10,7 @@ tasks:
     envRef: createZarubaServiceNameDb
 
   createZarubaServiceNameInitScript:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: ../../zarubaServiceName
     config:
       start: |
@@ -23,7 +23,7 @@ tasks:
       - zarubaServiceName
 
   initZarubaServiceName:
-    extend: core.runDockerContainer
+    extend: zrbRunDockerContainer
     location: ../../zarubaServiceName
     dependencies:
       - zarubaRedisTask
@@ -42,7 +42,7 @@ tasks:
       - zarubaServiceName
 
   configureZarubaServiceNameWorker:
-    extend: core.runInDockerContainer
+    extend: zrbRunInDockerContainer
     location: ../../zarubaServiceName
     dependencies:
       - runZarubaServiceNameWorker

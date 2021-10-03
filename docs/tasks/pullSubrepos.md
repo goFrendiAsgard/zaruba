@@ -7,7 +7,7 @@
                     subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
                     subrepo::<name>::url      : Remote url of the subrepo
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
   DEPENDENCIES  : [ initSubrepos ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}

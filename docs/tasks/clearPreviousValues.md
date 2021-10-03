@@ -4,7 +4,7 @@
   LOCATION      : /scripts/tasks/clearPreviousValues.zaruba.yaml
   DESCRIPTION   : Clear log
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

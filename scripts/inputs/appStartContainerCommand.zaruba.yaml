@@ -1,0 +1,5 @@
+inputs:
+
+  appStartContainerCommand:
+    description: Command to start app container
+    default: ''

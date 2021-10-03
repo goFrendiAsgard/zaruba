@@ -1,0 +1,18 @@
+tasks:
+  zrbHelmInstall:
+    extend: zrbRunCoreScript
+    private: true
+    dependencies:
+      - zrbHelmRepoUpdate
+      - zrbSetKubeContext
+    config:
+      chart: ''
+      valueFile: ''
+      releaseName: ''
+      start: |
+        if [ "$(isCommandError helm status "{{ .GetConfig "releaseName" }}")" -eq 1 ]
+        then
+          helm install "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
+        else
+          helm upgrade "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chart" }}" -f "{{ .GetConfig "valueFile" }}"
+        fi

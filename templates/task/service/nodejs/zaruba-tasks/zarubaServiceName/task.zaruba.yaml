@@ -9,7 +9,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐸
-    extend: core.startNvmService
+    extend: zrbStartNvmApp
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
@@ -22,7 +22,7 @@ tasks:
 
   testZarubaServiceName:
     icon: 🐸
-    extend: core.runNvmScript
+    extend: zrbRunNvmScript
     location: zarubaServiceLocation
     dependencies:
         - prepareZarubaServiceName
@@ -34,7 +34,7 @@ tasks:
   
   prepareZarubaServiceName:
     icon: 🐸
-    extend: core.prepareNodeJsApp
+    extend: zrbPrepareNodeJsApp
     location: zarubaServiceLocation
     inputs:
       - zarubaServiceName.removeNodeModules

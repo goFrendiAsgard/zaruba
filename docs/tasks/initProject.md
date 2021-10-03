@@ -4,7 +4,7 @@
   LOCATION      : /scripts/tasks/initProject.zaruba.yaml
   DESCRIPTION   : Initiate empty zaruba project.
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

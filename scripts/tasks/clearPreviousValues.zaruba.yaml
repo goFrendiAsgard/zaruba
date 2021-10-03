@@ -4,7 +4,7 @@ tasks:
     icon: 🔥
     description: |
       Clear log
-    extend: core.runCoreScript
+    extend: zrbRunCoreScript
     config:
       start: |
         {{ $d := .Decoration -}}

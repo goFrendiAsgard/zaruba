@@ -9,7 +9,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐍
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: zarubaServiceLocation/app
     dependencies:
       - prepareZarubaServiceName
@@ -20,7 +20,7 @@ tasks:
 
   testZarubaServiceName:
     icon: 🐍
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: zarubaServiceLocation
     dependencies:
       - prepareZarubaServiceName
@@ -32,7 +32,7 @@ tasks:
 
   prepareZarubaServiceName:
     icon: 🐍
-    extend: core.preparePythonApp
+    extend: zrbPreparePythonApp
     location: zarubaServiceLocation
     timeout: 1h
     configRef: zarubaServiceName

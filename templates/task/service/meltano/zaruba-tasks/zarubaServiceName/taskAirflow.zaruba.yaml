@@ -1,7 +1,7 @@
 tasks:
 
   createZarubaServiceNameConfiguratorScript:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: ../../zarubaServiceName/airflow
     config:
       start: |
@@ -23,7 +23,7 @@ tasks:
         {{ .ReadFile "initWorker.sh" }}
   
   registerZarubaServiceName:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: ../../zarubaServiceName/airflow
     dependencies:
       - configureZarubaServiceNameAirflow

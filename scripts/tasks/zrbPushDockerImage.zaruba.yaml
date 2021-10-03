@@ -1,0 +1,26 @@
+tasks:
+
+  zrbPushDockerImage:
+    icon: 🐳
+    private: true
+    description: |
+      Push docker image.
+      Common config:
+        imageName : Image name
+    extend: zrbRunCoreScript
+    dependencies:
+      - updateProjectLinks
+    configRef: coreDocker
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+        DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+        if [ ! -z "${DOCKER_IMAGE_TAG}" ]
+        then
+          docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+        fi
+        docker push "${DOCKER_IMAGE_NAME}:latest"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pushed{{ $d.Normal }}"
+ 

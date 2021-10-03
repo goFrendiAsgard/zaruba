@@ -8,13 +8,14 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐬 
-    extend: core.postgre.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
     config:
+      checkCommand: pg_isready -U {{ .GetEnv "POSTGRES_USER" }}
       afterCheck: sleep 3
       runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
     configRef: zarubaServiceName
@@ -22,7 +23,7 @@ tasks:
 
   zarubaServiceNameExecSql:
     icon: 🐬 
-    extend: core.postgre.execSql
+    extend: zrbPostgreExecSql
     dependencies:
       - runZarubaServiceName
     inputs:
@@ -33,14 +34,14 @@ tasks:
     envRef: zarubaServiceName
 
   pullZarubaServiceNameImage:
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     timeout: 1h
     configRef: zarubaServiceName
 
   stopZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceName
 
   removeZarubaServiceNameContainer:
-    extend: core.removeDockerContainer
+    extend: zrbRemoveDockerContainer
     configRef: zarubaServiceName

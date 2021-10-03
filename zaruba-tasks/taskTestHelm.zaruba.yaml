@@ -6,7 +6,7 @@ tasks:
     dependencies:
       - testPlayground
       - runContainerRegistry
-    extend: core.runShellScript 
+    extend: zrbRunShellScript 
     config:
       start: |
         set -e
@@ -20,7 +20,7 @@ tasks:
     location: ../playground
     dependencies:
       - testHelmInstall
-    extend: core.runShellScript 
+    extend: zrbRunShellScript 
     config:
       start: |
         set -e
@@ -34,7 +34,7 @@ tasks:
     dependencies:
       - testPushImage
       - testHelmInstall
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     timeout: 1h
     config:
       start: |

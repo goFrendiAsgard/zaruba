@@ -1,0 +1,14 @@
+tasks:
+
+  makeRunnerTask:
+    extend: makeTask
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      templateLocation: '{{ .GetRelativePath "../../templates/runnerTask" }}'

@@ -4,7 +4,7 @@ tasks:
     icon: 🔎
     description: |
       Show zaruba's current version.
-    extend: core.runCoreScript
+    extend: zrbRunCoreScript
     config:
       start: |
         {{ $d := .Decoration -}}

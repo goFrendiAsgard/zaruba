@@ -4,7 +4,7 @@ tasks:
     icon: 🌐
     description: |
       Run static web server from your working directory.
-    extend: core.startService
+    extend: zrbStartApp
     inputs:
       - serverHttpPort
     config:

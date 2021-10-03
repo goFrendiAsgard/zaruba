@@ -1,0 +1,4 @@
+inputs:
+  appBuildImageCommand:
+    description: Command to build app image
+    default: ''

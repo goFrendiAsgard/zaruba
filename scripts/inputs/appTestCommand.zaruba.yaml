@@ -1,0 +1,5 @@
+inputs:
+
+  appTestCommand:
+    description: Command to prepare app
+    default: ''

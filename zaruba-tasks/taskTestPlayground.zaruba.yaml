@@ -1,7 +1,7 @@
 tasks:
 
   preparePlayground:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     config:
       start: |
         if [ -d "./playground" ]
@@ -17,7 +17,7 @@ tasks:
     dependencies:
       - build
       - preparePlayground
-    extend: core.runShellScript 
+    extend: zrbRunShellScript 
     configRef: playgroundTest
     config:
       start: |
@@ -62,7 +62,7 @@ tasks:
     location: ../playground
     dependencies:
       - testMakePlayground
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: playgroundTest
     config:
       start: |
@@ -74,7 +74,7 @@ tasks:
     location: ../playground
     dependencies:
       - testSyncEnv
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     timeout: 1h
     configRef: playgroundTest
     config:
@@ -87,7 +87,7 @@ tasks:
     location: ../playground
     dependencies:
       - testRun
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     timeout: 1h
     configRef: playgroundTest
     config:
@@ -100,7 +100,7 @@ tasks:
     location: ../playground
     dependencies:
       - testRunContainer
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     timeout: 1h
     configRef: playgroundTest
     config:
@@ -112,7 +112,7 @@ tasks:
     location: ../playground
     dependencies:
       - testBuildImage
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: playgroundTest
     config:
       start: |
@@ -122,7 +122,7 @@ tasks:
   pullContainerRegistry:
     icon: 🐳
     location: ../
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     timeout: 1h
     configRef: containerRegistry
 
@@ -130,7 +130,7 @@ tasks:
   runContainerRegistry:
     icon: 🐳
     location: ../
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullContainerRegistry
     configRef: containerRegistry
@@ -141,7 +141,7 @@ tasks:
     dependencies:
       - runContainerRegistry
       - testBuildImage
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     timeout: 1h
     configRef: playgroundTest
     config:
@@ -155,7 +155,7 @@ tasks:
       - runPlaygroundDelay
     dependencies:
       - testPushImage
-    extend: core.startService
+    extend: zrbStartApp
     timeout: 1h
     configRef: playgroundTest
     config:
@@ -175,7 +175,7 @@ tasks:
     location: ../playground
     dependencies:
       - runPlayground
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: playgroundTest
     config:
       start: ../zaruba please registerTestMeltano
@@ -185,7 +185,7 @@ tasks:
     location: ../playground
     dependencies:
       - runPlayground
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: playgroundTest
     config:
       start: python ../test_generated_service.py
@@ -195,7 +195,7 @@ tasks:
     location: ../playground
     dependencies:
       - runPlayground
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: playgroundTest
     config:
       start: |
@@ -211,7 +211,7 @@ tasks:
       - testGeneratedService
       - testGeneratedContainer
       - testRegisterMeltano
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: playgroundTest
     config:
       start: ../zaruba please stopContainer

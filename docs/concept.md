@@ -225,7 +225,7 @@ zaruba please sayCheese
 
 Using `extend` is not only save you from writing the same parts over and over. It also allows you to change task's implementation without affecting it's children.
 
-## 🔼 Extending core.runShellScript
+## 🔼 Extending zrbRunShellScript
 
 Let's say you want to use [toilet](https://github.com/cacalabs/toilet) instead of figlet, then you can modify `print` task as follow:
 
@@ -242,22 +242,22 @@ tasks:
     - toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
 ```
 
-Looks good. But, before we continue any further, try to run `zaruba please core.runShellScript -x`. 
+Looks good. But, before we continue any further, try to run `zaruba please zrbRunShellScript -x`. 
 
-![core.runShellScript explanation](images/concept-explain-core-runShellScript.png)
+![zrbRunShellScript explanation](images/concept-explain-core-runShellScript.png)
 
-`core.runShellScript` is part of zaruba's core tasks. Core tasks are always accessible from anywhere.
+`zrbRunShellScript` is part of zaruba's core tasks. Core tasks are always accessible from anywhere.
 
-Based on the explanation, you can see that `core.runShellScript` has several `config` values. You can use those configurations (i.e: `setup`, `beforeStart`, `start`, `afterStart`, `cmd`, and `cmdArg`) to configure the `start` command.
+Based on the explanation, you can see that `zrbRunShellScript` has several `config` values. You can use those configurations (i.e: `setup`, `beforeStart`, `start`, `afterStart`, `cmd`, and `cmdArg`) to configure the `start` command.
 
-In our case, we can simply extend `core.runShellScript` and override it's `start` config:
+In our case, we can simply extend `zrbRunShellScript` and override it's `start` config:
 
 ```yaml
 # Filename: main.zaruba.yaml
 tasks:
 
   print:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     config:
       sentence: '<empty>'
       start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
@@ -277,7 +277,7 @@ tasks:
 
 So, here is how things look like:
 
-![Extending core.runShellScript](images/concept-extend-from-core-runShellScript.png)
+![Extending zrbRunShellScript](images/concept-extend-from-core-runShellScript.png)
 
 ## 🔢 Inputs
 
@@ -301,7 +301,7 @@ inputs:
 tasks:
 
   print:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     inputs:
     - user.sentence
     config:
@@ -372,7 +372,7 @@ inputs:
 tasks:
 
   print:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     inputs:
     - user.sentence
     config:
@@ -445,7 +445,7 @@ Let's check this example:
 tasks:
 
   showMyName:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     config:
       start: echo $NAME
     env:
@@ -455,7 +455,7 @@ tasks:
   
 
   showYourName:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     config:
       start: echo $NAME
     env:
@@ -534,14 +534,14 @@ zaruba please runServer
 
 ![Service task](images/concept-service-task.png)
 
-To make your task declaration shorter, you can extend from `core.startService`: 
+To make your task declaration shorter, you can extend from `zrbStartApp`: 
 
 ```yaml
 # Filename: main.zaruba.yaml
 tasks:
 
   runServer:
-    extend: core.startService
+    extend: zrbStartApp
     env:
       PYTHONUNBUFFERED:
         default: 1
@@ -550,7 +550,7 @@ tasks:
       ports: 3000
 ```
 
-`core.startService` will automatically put port-checking into your `check` command for you.
+`zrbStartApp` will automatically put port-checking into your `check` command for you.
 
 ## 🐳 Docker Task
 
@@ -558,7 +558,7 @@ tasks:
 
 You have see how `service task` works and how it is different from `command task`. Now let's see how you can make a `docker task` to run a container.
 
-You can make docker task by extending `core.startDockerContainer`. Also, you need to provide several `config` to configure the task:
+You can make docker task by extending `zrbStartDockerContainer`. Also, you need to provide several `config` to configure the task:
 
 * `useImagePrefix`: Either you want to use image prefix or not. Since we want to fetch images from [dockerhub](https://hub.docker.com/), we set this to `false`.
 * `imagePrefix`: If you choose to `useImagePrefix`, you can specify the prefix here. 
@@ -574,7 +574,7 @@ Now let's try to run two docker containers, redis and mysql:
 tasks:
 
   runRedis:
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     config:
       useImagePrefix: false
       imageName: redis
@@ -583,7 +583,7 @@ tasks:
 
 
   runMySql:
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     config:
       useImagePrefix: false
       imageName: mysql
@@ -622,19 +622,19 @@ You probably need to wait a little while before seeing you containers running:
 
 When you press ctrl + c, the containers will keep running in the background. This will save you some time in case of you want to start . 
 
-To actually stop the containers you need to run `docker stop <containerName>`. Another alternative is by extending `core.stopDockerContainer` as follow:
+To actually stop the containers you need to run `docker stop <containerName>`. Another alternative is by extending `zrbStopDockerContainer` as follow:
 
 ```yaml
 # Filename: main.zaruba.yaml
 tasks:
 
   runRedis:
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     configRef: redis
 
 
   runMySql:
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     configRef: mySql
     env:
       MYSQL_ROOT_PASSWORD:
@@ -648,12 +648,12 @@ tasks:
 
 
   stopRedis:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: redis
 
 
   stopMySql:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: mySql
 
 
@@ -689,7 +689,7 @@ zaruba please stop
 
 ### 🐳 Remove Container
 
-Similarly, you can extend `core.removeDockerContainer` if you need to remove the container.
+Similarly, you can extend `zrbRemoveDockerContainer` if you need to remove the container.
 
 
 # What's next

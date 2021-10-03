@@ -3,45 +3,45 @@ tasks:
 
   run:
     icon: 👟
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: []
 
   runContainer:
     icon: 🐳
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: []
 
   stopContainer:
     icon: ✋
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 
 
   removeContainer:
     icon: 🔥
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 
 
   pullImage:
     icon: 📥
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 
 
   pushImage:
     icon: 📤
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 
 
   buildImage:
     icon: 🏭
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 
 
   helmInstall:
     icon: 🏭
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 
 
   helmUninstall:
     icon: 🔥
-    extend: core.wrapper
+    extend: zrbWrapper
     dependencies: [] 

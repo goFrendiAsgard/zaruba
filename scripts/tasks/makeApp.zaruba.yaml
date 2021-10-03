@@ -1,0 +1,9 @@
+tasks:
+ 
+  makeApp:
+    extend: make
+    inputs:
+      - appDirectory
+      - appName
+    config:
+      templateLocation: '{{ .GetRelativePath "../../templates/app" }}'

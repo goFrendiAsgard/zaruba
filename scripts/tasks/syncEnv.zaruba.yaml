@@ -4,9 +4,9 @@ tasks:
     icon: 🔄
     description: |
       Update environment of every task in the current project 
-    extend: core.runCoreScript
+    extend: zrbRunCoreScript
     dependencies:
-      - core.isProject
+      - zrbIsProject
     config:
       start: |
         {{ $d := .Decoration -}}

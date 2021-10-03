@@ -3,9 +3,9 @@ tasks:
   setProjectValue:
     icon: 🔗
     description: Set project value.
-    extend: core.runCoreScript
+    extend: zrbRunCoreScript
     dependencies:
-      - core.isProject
+      - zrbIsProject
     inputs:
       - variableName
       - variableValue

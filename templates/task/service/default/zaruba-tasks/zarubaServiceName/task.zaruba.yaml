@@ -9,7 +9,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 📜
-    extend: core.startService
+    extend: zrbStartApp
     location: zarubaServiceLocation
     inputs:
       - zarubaServiceNameRunInLocal

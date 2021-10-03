@@ -8,13 +8,14 @@ tasks:
 
   runZarubaServiceName:
     icon: 👀
-    extend: core.cassandra.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - pullZarubaServiceNameImage
     timeout: 1h
     inputs:
       - zarubaServiceNameRunInLocal
     config:
+      checkCommand: cqlsh -e "describe keyspaces"
       afterCheck: sleep 15
       runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
     configRef: zarubaServiceName
@@ -22,7 +23,7 @@ tasks:
 
   zarubaServiceNameExecCql:
     icon: 👀
-    extend: core.cassandra.execCql
+    extend: zrbCassandraExecCql
     dependencies:
       - runZarubaServiceName
     inputs:
@@ -33,13 +34,13 @@ tasks:
     envRef: zarubaServiceName
 
   pullZarubaServiceNameImage:
-    extend: core.pullDockerImage
+    extend: zrbPullDockerImage
     configRef: zarubaServiceName
 
   stopZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceName
 
   removeZarubaServiceNameContainer:
-    extend: core.removeDockerContainer
+    extend: zrbRemoveDockerContainer
     configRef: zarubaServiceName

@@ -1,0 +1,6 @@
+inputs:
+
+  appRunnerVersion:
+    description: Application runner version
+    default: ''
+  

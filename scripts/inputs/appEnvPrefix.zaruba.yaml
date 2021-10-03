@@ -1,0 +1,5 @@
+inputs:
+
+  appEnvPrefix:
+    description: Application env prefix
+    default: ''

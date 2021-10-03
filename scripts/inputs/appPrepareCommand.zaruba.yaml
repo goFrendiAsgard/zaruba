@@ -1,0 +1,5 @@
+inputs:
+
+  appPrepareCommand:
+    description: Command to prepare app
+    default: ''

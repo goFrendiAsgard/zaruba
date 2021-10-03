@@ -1,17 +1,17 @@
 tasks:
 
   stopZarubaServiceNameKafka:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceName
     dependencies:
       - stopZarubaServiceNameKafdrop
 
   stopZarubaServiceNameZookeeper:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceNameZookeeper
     dependencies:
       - stopZarubaServiceNameKafka
 
   stopZarubaServiceNameKafdrop:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceNameKafdrop

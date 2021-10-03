@@ -3,7 +3,7 @@ tasks:
   testCore:
     icon: 💉
     location: ../
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: mainTest
     config:
       start: |
@@ -19,7 +19,7 @@ tasks:
     location: ../
     dependencies:
       - build
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     configRef: mainTest
     config:
       start: ./zaruba please showVersion 

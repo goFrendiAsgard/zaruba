@@ -11,7 +11,7 @@ tasks:
   build:
     icon: 🚧
     location: ./
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     dependencies:
       - clearLog
     config:
@@ -31,7 +31,7 @@ tasks:
   pushRepo:
     icon: 🔼
     location: ./
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     dependencies:
       - clearLog
     config:
@@ -49,7 +49,7 @@ tasks:
 
   makeTaskDocs:
     location: ./
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     dependencies:
       - build
     config:

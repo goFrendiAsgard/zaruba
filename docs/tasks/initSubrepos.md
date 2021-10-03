@@ -11,8 +11,8 @@
                     It is recommended to put `subrepo` arguments in `default.values.yaml`.
                     In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject, core.isValidSubrepos ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
+  DEPENDENCIES  : [ zrbIsProject, zrbIsValidSubrepos ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

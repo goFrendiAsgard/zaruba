@@ -20,7 +20,7 @@ tasks:
 
   buildZarubaAwsImage:
     icon: 🐳
-    extend: core.buildDockerImage
+    extend: zrbBuildDockerImage
     location: ../
     dependencies:
       - buildZarubaImage
@@ -31,7 +31,7 @@ tasks:
 
   buildZarubaGcloudImage:
     icon: 🐳
-    extend: core.buildDockerImage
+    extend: zrbBuildDockerImage
     location: ../
     dependencies:
       - buildZarubaImage
@@ -42,7 +42,7 @@ tasks:
 
   buildZarubaImage:
     icon: 🐳
-    extend: core.buildDockerImage
+    extend: zrbBuildDockerImage
     location: ../
     dependencies:
       - buildDevboxImage
@@ -53,7 +53,7 @@ tasks:
 
   buildDevboxImage:
     icon: 🐳
-    extend: core.buildDockerImage
+    extend: zrbBuildDockerImage
     location: ../
     configRefs:
       - commonDocker
@@ -62,7 +62,7 @@ tasks:
 
   pushZarubaAwsImage:
     icon: 🐳
-    extend: core.pushDockerImage
+    extend: zrbPushDockerImage
     dependencies:
       - buildZarubaAwsImage
     configRefs:
@@ -72,7 +72,7 @@ tasks:
 
   pushZarubaGcloudImage:
     icon: 🐳
-    extend: core.pushDockerImage
+    extend: zrbPushDockerImage
     dependencies:
       - buildZarubaGcloudImage
     configRefs:
@@ -82,7 +82,7 @@ tasks:
 
   pushZarubaImage:
     icon: 🐳
-    extend: core.pushDockerImage
+    extend: zrbPushDockerImage
     dependencies:
       - buildZarubaImage
     configRefs:
@@ -92,7 +92,7 @@ tasks:
 
   pushDevboxImage:
     icon: 🐳
-    extend: core.pushDockerImage
+    extend: zrbPushDockerImage
     dependencies:
       - buildDevboxImage
     configRefs:

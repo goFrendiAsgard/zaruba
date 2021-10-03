@@ -7,7 +7,7 @@ tasks:
       - removeZarubaServiceNameContainer
 
   buildZarubaServiceNameImage:
-    extend: core.buildDockerImage
+    extend: zrbBuildDockerImage
     location: ../../zarubaServiceName
     dependencies:
       - generateZarubaServiceNameConfig
@@ -15,15 +15,15 @@ tasks:
     configRef: zarubaServiceNameContainer
 
   pushZarubaServiceNameImage:
-    extend: core.pushDockerImage
+    extend: zrbPushDockerImage
     location: ../../zarubaServiceName
     timeout: 1h
     configRef: zarubaServiceNameContainer
 
   stopZarubaServiceNameContainer:
-    extend: core.stopDockerContainer
+    extend: zrbStopDockerContainer
     configRef: zarubaServiceNameContainer
 
   removeZarubaServiceNameContainer:
-    extend: core.removeDockerContainer
+    extend: zrbRemoveDockerContainer
     configRef: zarubaServiceNameContainer

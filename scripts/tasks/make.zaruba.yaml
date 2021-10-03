@@ -1,0 +1,60 @@
+tasks:
+
+  make:
+    extend: zrbRunShellScript
+    private: true
+    config:
+      templateLocation: '{{ .GetValue "templateLocation" }}'
+      appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
+      appContainerName: '{{ .GetValue "appContainerName" }}'
+      appDependencies: '{{ .GetValue "appDependencies" }}'
+      appDirectory: '{{ .GetValue "appDirectory" }}'
+      appEnvPrefix: '{{ .GetValue "appEnvPrefix" }}'
+      appEnvs: '{{ .GetValue "appEnvs" }}'
+      appHelmChartUrl: '{{ .GetValue "appHelmChartUrl" }}'
+      appImageName: '{{ .GetValue "appImageName" }}'
+      appName: '{{ .GetValue "appName" }}'
+      appPorts: '{{ .GetValue "appPorts" }}'
+      appPrepareCommand: '{{ .GetValue "appPrepareCommand" }}'
+      appPushImageCommand: '{{ .GetValue "appPushImageCommand" }}'
+      appRunnerVersion: '{{ .GetValue "appRunnerVersion" }}'
+      appStartCommand: '{{ .GetValue "appStartCommand" }}'
+      appStartContainerCommand: '{{ .GetValue "appStartContainerCommand" }}'
+      appTestCommand: '{{ .GetValue "appTestCommand" }}'
+      projectFileName: './main.zaruba.yaml'
+      moduleFileName: './zaruba-tasks/{{ .GetConfig "appDirectory" }}/index.zaruba.yaml'
+      _prepareDefaultReplacementMap: '. "{{ .GetRelativePath "../../bash/setDefaultReplacementMap.sh" }}"'
+      _prepareVariables: '. "{{ .GetRelativePath "../../bash/prepareDefaultMakeVariables.sh" }}"'
+      _prepare: |
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareDefaultReplacementMap" }}
+      _integrate: ''
+      _start: |
+        . "{{ .GetRelativePath "../../bash/makeUtil.sh" }}"
+        _ZRB_PROJECT_FILE_NAME='{{ .GetConfig "projectFileName" }}'
+        _ZRB_MODULE_FILE_NAME='{{ .GetConfig "moduleFileName" }}'
+        _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
+        _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
+        _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
+        _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
+        _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
+        _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
+        _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
+        _ZRB_APP_HELM_CHART_URL='{{ .GetConfig "appHelmChartUrl" }}'
+        _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
+        _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
+        _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
+        _ZRB_APP_PREPARE_COMMAND='{{ .GetConfig "appPrepareCommand" }}'
+        _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .GetConfig "appPushImageCommand" }}'
+        _ZRB_APP_RUNNER_VERSION='{{ .GetConfig "appRunnerVersion" }}'
+        _ZRB_APP_START_COMMAND='{{ .GetConfig "appStartCommand" }}'
+        _ZRB_APP_START_CONTAINER_COMMAND='{{ .GetConfig "appStartContainerCommand" }}'
+        _ZRB_APP_TEST_COMMAND='{{ .GetConfig "appTestCommand" }}'
+        _ZRB_REPLACEMENT_MAP='{}'
+        __ZRB_PWD=$(pwd)
+        {{ .GetConfig "_prepare" }}
+        cd "${__ZRB_PWD}"
+        {{ .ZarubaBin }} generate "{{ .GetConfig "templateLocation" }}" "{{ .GetWorkPath "." }}" "${_ZRB_REPLACEMENT_MAP}"
+        {{ .GetConfig "_integrate" }}
+        cd "${__ZRB_PWD}"
+      start: ''

@@ -2,7 +2,7 @@ tasks:
 
   runZarubaServiceNameWebServer:
     icon: 😃
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - initZarubaServiceName
       - buildZarubaServiceNameImage
@@ -16,7 +16,7 @@ tasks:
 
   runZarubaServiceNameScheduler:
     icon: ⏰
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - initZarubaServiceName
       - buildZarubaServiceNameImage
@@ -30,7 +30,7 @@ tasks:
 
   runZarubaServiceNameWorker:
     icon: 👷
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - initZarubaServiceName
       - buildZarubaServiceNameImage
@@ -44,7 +44,7 @@ tasks:
 
   runZarubaServiceNameFlower:
     icon: 🌻
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     dependencies:
       - initZarubaServiceName
       - buildZarubaServiceNameImage

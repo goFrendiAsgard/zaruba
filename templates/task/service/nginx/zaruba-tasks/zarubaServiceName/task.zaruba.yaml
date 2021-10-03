@@ -8,7 +8,7 @@ includes:
 tasks:
 
   runZarubaServiceName:
-    extend: core.startDockerContainer
+    extend: zrbStartDockerContainer
     location: ../../zarubaServiceName
     dependencies:
       - rebuildZarubaServiceNameImage
@@ -20,7 +20,7 @@ tasks:
     envRef: zarubaServiceName
 
   generateZarubaServiceNameConfig:
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: ../../zarubaServiceName
     configRef: zarubaServiceName
     envRef: zarubaServiceName

@@ -1,0 +1,4 @@
+inputs:
+
+  appHelmChartUrl:
+    description: App's helm chart url

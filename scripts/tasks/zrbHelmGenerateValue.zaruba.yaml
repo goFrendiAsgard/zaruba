@@ -1,0 +1,17 @@
+tasks:
+  zrbHelmGenerateValue:
+    extend: zrbRunCoreScript
+    private: true
+    configRef: coreDocker
+    config:
+      valueFile: ''
+      valueTemplateFile: ''
+      start: |
+        {{ $templateFile := .GetWorkPath (.GetConfig "valueTemplateFile") -}}
+        {{ $valueFile := .GetWorkPath (.GetConfig "valueFile") -}}
+        {{ $fileContent := .ParseFile $templateFile -}}
+        {{ $err := .WriteFile $valueFile $fileContent -}}
+        {{ if $err -}}
+        echo '{{ $err }}'
+        exit 1
+        {{ end -}}

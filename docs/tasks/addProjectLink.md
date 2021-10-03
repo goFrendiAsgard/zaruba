@@ -5,8 +5,8 @@
   DESCRIPTION   : Add link.
                   TIPS: To update links, you should perform `zaruba please updateProjectLinks`
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ core.isProject ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
+  DEPENDENCIES  : [ zrbIsProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

@@ -4,7 +4,7 @@
   LOCATION      : /scripts/tasks/showVersion.zaruba.yaml
   DESCRIPTION   : Show zaruba's current version.
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
+  PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

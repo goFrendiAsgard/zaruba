@@ -13,7 +13,7 @@ tasks:
       TIPS:
         It is recommended to put `link` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
-    extend: core.runCoreScript
+    extend: zrbRunCoreScript
     config:
       start: |
         {{ $d := .Decoration -}}

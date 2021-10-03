@@ -9,7 +9,7 @@ tasks:
 
   runZarubaServiceName:
     icon: 🐹
-    extend: core.startService
+    extend: zrbStartApp
     location: zarubaServiceLocation
     inputs:
       - zarubaServiceNameRunInLocal
@@ -20,7 +20,7 @@ tasks:
 
   testZarubaServiceName:
     icon: 🐹
-    extend: core.runShellScript
+    extend: zrbRunShellScript
     location: zarubaServiceLocation
     timeout: 1h
     config:
