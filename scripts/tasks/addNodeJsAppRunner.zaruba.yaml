@@ -14,15 +14,15 @@ tasks:
       - appContainerName
     config:
       _prepareVariables: |
-        . "{{ .GetRelativePath "../../bash/prepareDefaultMakeVariables.sh" }}"
-        . "{{ .GetRelativePath "../../bash/prepareNodeJsTaskGenVariables.sh" }}"
+        . "{{ .GetPath "../../bash/prepareDefaultMakeVariables.sh" }}"
+        . "{{ .GetPath "../../bash/prepareNodeJsTaskGenVariables.sh" }}"
       defaultAppPorts: |
         [
           "3000"
         ]
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
-          "{{ .GetRelativePath "../../templates/runnerTask/nodejs" }}"
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/nodejs" }}"
         ]
   

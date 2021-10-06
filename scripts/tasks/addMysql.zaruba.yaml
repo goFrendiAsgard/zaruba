@@ -8,7 +8,7 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/app/mysql" }}"
+          "{{ .GetPath "../../templates/app/mysql" }}"
         ]
 
   addMysql:
@@ -34,7 +34,7 @@ tasks:
         ]
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
-          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/container" }}"
         ]
   

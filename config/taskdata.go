@@ -56,7 +56,7 @@ func (td *TaskData) GetWorkPath(path string) (absPath string) {
 	return td.getAbsPath(td.WorkPath, path)
 }
 
-func (td *TaskData) GetRelativePath(path string) (absPath string) {
+func (td *TaskData) GetPath(path string) (absPath string) {
 	return td.getAbsPath(td.DirPath, path)
 }
 

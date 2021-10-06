@@ -9,7 +9,7 @@ _ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")
 _ZRB_MODULE_FILE_NAME="./zaruba-tasks/${_ZRB_APP_NAME}/index.zaruba.yaml"
 
 # app location
-_ZRB_TASK_APP_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
+_ZRB_TASK_APP_LOCATION="$("${ZARUBA_HOME}/zaruba" path GetPath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
 
 # env prefix
 if [ -z "${_ZRB_APP_ENV_PREFIX}" ]

@@ -26,7 +26,7 @@ func TestTdGetWorkPath(t *testing.T) {
 	}
 }
 
-func TestTdGetRelativePath(t *testing.T) {
+func TestTdGetPath(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/taskdata/util/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
@@ -36,12 +36,12 @@ func TestTdGetRelativePath(t *testing.T) {
 	td := NewTaskData(task)
 	// absolute
 	expected := "/home/gofrendi"
-	actual := td.GetRelativePath("/home/gofrendi")
+	actual := td.GetPath("/home/gofrendi")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 	expected, _ = filepath.Abs("../test-resources/taskdata/util/zaruba-tasks/gofrendi")
-	actual = td.GetRelativePath("./gofrendi")
+	actual = td.GetPath("./gofrendi")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}

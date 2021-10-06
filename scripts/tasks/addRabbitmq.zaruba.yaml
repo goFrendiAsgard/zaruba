@@ -8,7 +8,7 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/app/rabbitmq" }}"
+          "{{ .GetPath "../../templates/app/rabbitmq" }}"
         ]
 
   addRabbitmq:
@@ -31,7 +31,7 @@ tasks:
         ]
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
-          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/container" }}"
         ]
   

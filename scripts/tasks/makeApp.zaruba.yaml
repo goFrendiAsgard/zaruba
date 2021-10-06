@@ -15,7 +15,7 @@ tasks:
         fi
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/app/base" }}"
+          "{{ .GetPath "../../templates/app/base" }}"
         ]
       _integrate: |
         if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]

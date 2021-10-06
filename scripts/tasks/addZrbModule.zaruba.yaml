@@ -9,15 +9,15 @@ tasks:
       - appModuleName
     config:
       _prepareVariables: |
-        . "{{ .GetRelativePath "../../bash/prepareDefaultMakeVariables.sh" }}"
-        . "{{ .GetRelativePath "../../bash/preparePythonTaskGenVariables.sh" }}"
+        . "{{ .GetPath "../../bash/prepareDefaultMakeVariables.sh" }}"
+        . "{{ .GetPath "../../bash/preparePythonTaskGenVariables.sh" }}"
       defaultAppPorts: |
         [
           "3000"
         ]
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
-          "{{ .GetRelativePath "../../templates/runnerTask/python" }}"
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/python" }}"
         ]
   

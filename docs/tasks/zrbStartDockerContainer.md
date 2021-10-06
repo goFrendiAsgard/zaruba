@@ -206,7 +206,7 @@
                                                    {{ if ne $volume "" -}}
                                                      {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
                                                      {{ if eq (len $volumeParts) 2 -}}
-                                                       {{ $absHostVolume := $this.GetRelativePath (index $volumeParts 0) -}}
+                                                       {{ $absHostVolume := $this.GetPath (index $volumeParts 0) -}}
                                                        {{ $containerVolume := index $volumeParts 1 -}}
                                                        -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
                                                      {{ end -}}

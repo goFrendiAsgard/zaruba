@@ -34,15 +34,15 @@ tasks:
       appModuleName: '{{ .GetValue "appModuleName" }}'
       appRpcName: '{{ .GetValue "appRpcName" }}'
       appUrl: '{{ .GetValue "appUrl" }}'
-      _prepareDefaultReplacementMap: '. "{{ .GetRelativePath "../../bash/setDefaultReplacementMap.sh" }}"'
-      _prepareVariables: '. "{{ .GetRelativePath "../../bash/prepareDefaultMakeVariables.sh" }}"'
+      _prepareDefaultReplacementMap: '. "{{ .GetPath "../../bash/setDefaultReplacementMap.sh" }}"'
+      _prepareVariables: '. "{{ .GetPath "../../bash/prepareDefaultMakeVariables.sh" }}"'
       _prepare: |
         {{ .GetConfig "_prepareVariables" }}
         {{ .GetConfig "_prepareDefaultReplacementMap" }}
       _integrate: ''
       _start: |
         {{ $d := .Decoration -}}
-        . "{{ .GetRelativePath "../../bash/makeUtil.sh" }}"
+        . "{{ .GetPath "../../bash/makeUtil.sh" }}"
         _ZRB_PROJECT_FILE_NAME='./main.zaruba.yaml'
         _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
         if [ "$({{ .ZarubaBin }} list validate "${_ZRB_TEMPLATE_LOCATIONS}")" = 0 ]

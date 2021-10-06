@@ -11,4 +11,4 @@ tasks:
       - appImageName
       - appContainerName
     config:
-      templateLocations: '["{{ .GetRelativePath "../../templates/helmTask" }}"]'
+      templateLocations: '["{{ .GetPath "../../templates/helmTask" }}"]'

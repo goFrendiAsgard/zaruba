@@ -10,9 +10,9 @@ configs:
     imageTag: '{{ .GetValue "defaultImageTag" }}'
     localhost: host.docker.internal
     commonVolumes: |
-      {{ .GetRelativePath "../../zarubaServiceName/dags" }}:/opt/airflow/dags
-      {{ .GetRelativePath "../../zarubaServiceName/logs" }}:/opt/airflow/logs
-      {{ .GetRelativePath "../../zarubaServiceName/plugins" }}:/opt/airflow/plugins
+      {{ .GetPath "../../zarubaServiceName/dags" }}:/opt/airflow/dags
+      {{ .GetPath "../../zarubaServiceName/logs" }}:/opt/airflow/logs
+      {{ .GetPath "../../zarubaServiceName/plugins" }}:/opt/airflow/plugins
     volumes: '{{ .GetConfig "commonVolumes" }}'
     runInLocal: '{{ .GetValue "zarubaServiceNameRunInLocal" }}'
     user: '{{ .GetEnv "AIRFLOW_UID" }}:0'
@@ -22,7 +22,7 @@ configs:
     entryPoint: bash
     command: /opt/airflow/configurator/init.sh 
     volumes: |
-      {{ .GetRelativePath "../../zarubaServiceName/configurator" }}:/opt/airflow/configurator
+      {{ .GetPath "../../zarubaServiceName/configurator" }}:/opt/airflow/configurator
       {{ .GetConfig "commonVolumes" }}
     user: root
 

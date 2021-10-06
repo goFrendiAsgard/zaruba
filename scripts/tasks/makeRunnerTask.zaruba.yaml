@@ -13,6 +13,6 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
-          "{{ .GetRelativePath "../../templates/runnerTask/native" }}"
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/native" }}"
         ]

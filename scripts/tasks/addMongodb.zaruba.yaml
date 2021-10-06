@@ -8,7 +8,7 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/app/mongodb" }}"
+          "{{ .GetPath "../../templates/app/mongodb" }}"
         ]
 
   addMongodb:
@@ -30,7 +30,7 @@ tasks:
         ]
       templateLocations: |
         [
-          "{{ .GetRelativePath "../../templates/runnerTask/base" }}",
-          "{{ .GetRelativePath "../../templates/runnerTask/container" }}"
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/container" }}"
         ]
   
