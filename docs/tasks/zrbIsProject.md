@@ -23,10 +23,10 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
-                                     if [ ! -f "main.zaruba.yaml" ]
+                                     if [ ! -f "index.zaruba.yaml" ]
                                      then
                                        "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
                                      fi

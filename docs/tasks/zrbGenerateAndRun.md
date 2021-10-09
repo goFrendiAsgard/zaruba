@@ -27,7 +27,7 @@
                   cmdArg           : -c
                   finish           : Blank
                   generateScript   : {{ $err := .WriteFile (.GetConfig "localScriptFile") (.GetConfig "scriptTemplate") -}}
-                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}
                   remoteScriptFile : /{{ .Name }}.tmp.sh
                   runScript        : Blank

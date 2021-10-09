@@ -32,7 +32,7 @@
                   imageName                       : Blank
                   imagePrefix                     : Blank
                   imageTag                        : Blank
-                  includeShellUtil                : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil                : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                           : Blank
                   start                           : set -e
                                                     {{ $d := .Decoration -}}

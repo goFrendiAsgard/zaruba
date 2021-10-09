@@ -46,7 +46,7 @@ tasks:
         . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
       _prepareCheckCommand: |
         . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
-      _prepare: |
+      _basePrepare: |
         {{ .GetConfig "_prepareVariables" }}
         {{ .GetConfig "_prepareStartCommand" }}
         {{ .GetConfig "_preparePrepareCommand" }}
@@ -54,6 +54,7 @@ tasks:
         {{ .GetConfig "_prepareCheckCommand" }}
         {{ .GetConfig "_afterPrepareVariables" }}
         {{ .GetConfig "_prepareReplacementMap" }}
+      _prepare: '{{ .GetConfig "_basePrepare" }}'
       _afterPrepareVariables: ''
       _integrate: ''
       _validateTemplateLocation: |

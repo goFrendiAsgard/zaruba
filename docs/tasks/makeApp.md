@@ -18,19 +18,30 @@
                     DESCRIPTION : Location of app
                     PROMPT      : Location of app
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-  CONFIG        : _finish                        : Blank
+  CONFIG        : _afterPrepareVariables         : {{ $d := .Decoration -}}
+                                                   if [ -d "${_ZRB_APP_DIRECTORY}" ]
+                                                   then
+                                                     echo "{{ $d.Red }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
+                                                     exit 0
+                                                   fi
+                  _basePrepare                   : {{ .GetConfig "_prepareVariables" }}
+                                                   {{ .GetConfig "_prepareStartCommand" }}
+                                                   {{ .GetConfig "_preparePrepareCommand" }}
+                                                   {{ .GetConfig "_prepareTestCommand" }}
+                                                   {{ .GetConfig "_prepareCheckCommand" }}
+                                                   {{ .GetConfig "_afterPrepareVariables" }}
+                                                   {{ .GetConfig "_prepareReplacementMap" }}
+                  _finish                        : Blank
                   _integrate                     : if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
                                                    then
                                                      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
                                                    fi
-                  _prepare                       : {{ .GetConfig "_prepareVariables" }}
-                                                   {{ .GetConfig "_prepareReplacementMap" }}
-                                                   if [ -d "${_ZRB_APP_DIRECTORY}" ]
-                                                   then
-                                                     echo "Directory ${_ZRB_APP_DIRECTORY} already exist."
-                                                     exit 0
-                                                   fi
+                  _prepare                       : {{ .GetConfig "_basePrepare" }}
+                  _prepareCheckCommand           : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
+                  _preparePrepareCommand         : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
                   _prepareReplacementMap         : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"
+                  _prepareStartCommand           : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
+                  _prepareTestCommand            : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareVariables              : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _setDefaultAppContainerVolumes : if [ "$("${ZARUBA_HOME}/zaruba" list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
                                                    then
@@ -78,6 +89,8 @@
                                                    _ZRB_REPLACEMENT_MAP='{}'
                                                    __ZRB_PWD=$(pwd)
                                                    {{ .GetConfig "_prepare" }}
+                                                   echo "_ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}"
+                                                   echo "_ZRB_REPLACEMENT_MAP: ${_ZRB_REPLACEMENT_MAP}"
                                                    cd "${__ZRB_PWD}"
                                                    _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                                                    {{ .GetConfig "_integrate" }}
@@ -132,11 +145,11 @@
                   defaultAppContainerVolumes     : []
                   defaultAppPorts                : []
                   finish                         : Blank
-                  includeShellUtil               : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
                   templateLocations              : [
-                                                     "${ZARUBA_HOME}/zaruba-tasks/make/_app/template" }}"
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_app/template" }}"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

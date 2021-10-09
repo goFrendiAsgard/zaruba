@@ -25,11 +25,11 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
-                                     ""${ZARUBA_HOME}/zaruba"" project syncEnv "./main.zaruba.yaml"
-                                     ""${ZARUBA_HOME}/zaruba"" project syncEnvFiles "./main.zaruba.yaml"
+                                     "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
+                                     "{{ .ZarubaBin }}" project syncEnvFiles "./main.zaruba.yaml"
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

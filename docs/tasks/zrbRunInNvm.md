@@ -26,7 +26,7 @@
                   cmdArg                  : -c
                   compileTypeScript       : false
                   finish                  : Blank
-                  includeShellUtil        : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil        : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   installTypeScript       : false
                   nodeVersion             : node
                   npmCleanCache           : false

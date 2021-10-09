@@ -1,10 +1,10 @@
-# zrbMakeTask
+# addFastApiModule
 ```
-  TASK NAME     : zrbMakeTask
-  LOCATION      : /zaruba-tasks/make/_task/task.zrbMakeTask.yaml
+  TASK NAME     : addFastApiModule
+  LOCATION      : /zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbMake ]
-  DEPENDENCIES  : [ zrbIsProject ]
+  PARENT TASKS  : [ makeApp ]
+  DEPENDENCIES  : [ addFastApi ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -15,10 +15,18 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+  INPUTS        : appDirectory
+                    DESCRIPTION : Location of app
+                    PROMPT      : Location of app
+                    VALIDATION  : ^[a-zA-Z0-9_]+$
+                  appModuleName
+                    DESCRIPTION : Module name (Required)
+                    PROMPT      : Module name
+                    VALIDATION  : ^[a-zA-Z0-9_]+$
   CONFIG        : _afterPrepareVariables         : {{ $d := .Decoration -}}
-                                                   if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
+                                                   if [ -d "${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}" ]
                                                    then
-                                                     echo "{{ $d.Red }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
+                                                     echo "{{ $d.Red }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
                                                      exit 0
                                                    fi
                   _basePrepare                   : {{ .GetConfig "_prepareVariables" }}
@@ -29,8 +37,7 @@
                                                    {{ .GetConfig "_afterPrepareVariables" }}
                                                    {{ .GetConfig "_prepareReplacementMap" }}
                   _finish                        : Blank
-                  _integrate                     : {{ .GetConfig "_registerModule" }}
-                                                   {{ .GetConfig "_registerTasks" }}
+                  _integrate                     : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/register_module.sh"
                   _prepare                       : {{ .GetConfig "_basePrepare" }}
                   _prepareCheckCommand           : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
                   _preparePrepareCommand         : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
@@ -38,8 +45,6 @@
                   _prepareStartCommand           : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
                   _prepareTestCommand            : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareVariables              : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
-                  _registerModule                : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
-                  _registerTasks                 : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setDefaultAppContainerVolumes : if [ "$("${ZARUBA_HOME}/zaruba" list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
                                                    then
                                                      _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "defaultAppContainerVolumes" }}'
@@ -145,7 +150,9 @@
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
-                  templateLocations              : {{ .GetValue "templateLocations" }}
+                  templateLocations              : [
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
+                                                   ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

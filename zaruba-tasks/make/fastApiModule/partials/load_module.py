@@ -1,9 +1,9 @@
 
-if enable_http_handler:
-    ztpl_app_module_name_http_controller(app, mb, rpc)
+if enable_route_handler:
+    register_ztpl_app_module_name_route_handler(app, mb, rpc)
 
 if enable_event_handler:
-    ztpl_app_module_name_event_controller(mb)
+    register_ztpl_app_module_name_event_handler(mb)
 
 if enable_rpc_handler:
-    ztpl_app_module_name_rpc_controller(rpc)
+    register_ztpl_app_module_name_rpc_handler(rpc)

@@ -1,10 +1,10 @@
-# zrbMakeTask
+# addRedis
 ```
-  TASK NAME     : zrbMakeTask
-  LOCATION      : /zaruba-tasks/make/_task/task.zrbMakeTask.yaml
+  TASK NAME     : addRedis
+  LOCATION      : /zaruba-tasks/make/redis/task.addRedis.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbMake ]
-  DEPENDENCIES  : [ zrbIsProject ]
+  PARENT TASKS  : [ makeContainerAppRunner ]
+  DEPENDENCIES  : [ makeRedisApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -15,6 +15,30 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+  INPUTS        : appDirectory
+                    DESCRIPTION : Location of app
+                    PROMPT      : Location of app
+                    VALIDATION  : ^[a-zA-Z0-9_]+$
+                  appDependencies
+                    DESCRIPTION : Application dependencies
+                    PROMPT      : Application dependencies
+                    DEFAULT     : []
+                  appName
+                    DESCRIPTION : Name of the app
+                    PROMPT      : Name of the app
+                  appEnvs
+                    DESCRIPTION : Application envs
+                    PROMPT      : Application envs
+                    DEFAULT     : {}
+                  appPorts
+                    DESCRIPTION : Application ports
+                    DEFAULT     : []
+                  appImageName
+                    DESCRIPTION : App's image name
+                  appContainerName
+                    DESCRIPTION : Application container name
+                    PROMPT      : Application container name
+                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _afterPrepareVariables         : {{ $d := .Decoration -}}
                                                    if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
                                                    then
@@ -140,12 +164,17 @@
                   cmd                            : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                         : -c
                   defaultAppContainerVolumes     : []
-                  defaultAppPorts                : []
+                  defaultAppPorts                : [
+                                                     "6379"
+                                                   ]
                   finish                         : Blank
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
-                  templateLocations              : {{ .GetValue "templateLocations" }}
+                  templateLocations              : [
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+                                                   ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

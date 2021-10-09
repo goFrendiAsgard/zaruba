@@ -15,11 +15,22 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish                        : Blank
-                  _integrate                     : Blank
-                  _prepare                       : {{ .GetConfig "_prepareVariables" }}
+  CONFIG        : _afterPrepareVariables         : Blank
+                  _basePrepare                   : {{ .GetConfig "_prepareVariables" }}
+                                                   {{ .GetConfig "_prepareStartCommand" }}
+                                                   {{ .GetConfig "_preparePrepareCommand" }}
+                                                   {{ .GetConfig "_prepareTestCommand" }}
+                                                   {{ .GetConfig "_prepareCheckCommand" }}
+                                                   {{ .GetConfig "_afterPrepareVariables" }}
                                                    {{ .GetConfig "_prepareReplacementMap" }}
+                  _finish                        : Blank
+                  _integrate                     : Blank
+                  _prepare                       : {{ .GetConfig "_basePrepare" }}
+                  _prepareCheckCommand           : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
+                  _preparePrepareCommand         : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
                   _prepareReplacementMap         : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"
+                  _prepareStartCommand           : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
+                  _prepareTestCommand            : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareVariables              : . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _setDefaultAppContainerVolumes : if [ "$("${ZARUBA_HOME}/zaruba" list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
                                                    then
@@ -67,6 +78,8 @@
                                                    _ZRB_REPLACEMENT_MAP='{}'
                                                    __ZRB_PWD=$(pwd)
                                                    {{ .GetConfig "_prepare" }}
+                                                   echo "_ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}"
+                                                   echo "_ZRB_REPLACEMENT_MAP: ${_ZRB_REPLACEMENT_MAP}"
                                                    cd "${__ZRB_PWD}"
                                                    _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                                                    {{ .GetConfig "_integrate" }}
@@ -121,7 +134,7 @@
                   defaultAppContainerVolumes     : []
                   defaultAppPorts                : []
                   finish                         : Blank
-                  includeShellUtil               : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
                   templateLocations              : {{ .GetValue "templateLocations" }}

@@ -26,7 +26,7 @@ kafka_event_map = KafkaEventMap({})
 mb_type = os.getenv('APP_MESSAGE_BUS_TYPE', 'local')
 rpc_type = os.getenv('APP_RPC_TYPE', 'local')
 
-enable_http_handler = os.getenv('APP_ENABLE_HTTP_HANDLER', '1') != '0'
+enable_route_handler = os.getenv('APP_ENABLE_ROUTE_HANDLER', '1') != '0'
 enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
 enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
 static_url = os.getenv('APP_STATIC_URL', '/static')
