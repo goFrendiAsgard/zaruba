@@ -1,7 +1,7 @@
 # zrbPushDockerImage
 ```
   TASK NAME     : zrbPushDockerImage
-  LOCATION      : /zaruba-tasks/base/dockerChore/task.zrbPushDockerImage.yaml
+  LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbPushDockerImage.yaml
   DESCRIPTION   : Push docker image.
                   Common config:
                     imageName : Image name
@@ -30,7 +30,7 @@
                   imageName        : Blank
                   imagePrefix      : Blank
                   imageTag         : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"

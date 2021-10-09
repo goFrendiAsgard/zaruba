@@ -1,7 +1,7 @@
 # zrbRemoveDockerContainer
 ```
   TASK NAME     : zrbRemoveDockerContainer
-  LOCATION      : /zaruba-tasks/base/dockerChore/task.zrbRemoveDockerContainer.yaml
+  LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
   DESCRIPTION   : Remove docker container.
                   Common config:
                     containerName : Container's name
@@ -28,10 +28,10 @@
                   cmdArg           : -c
                   containerName    : Blank
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
-                                     CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
+                                     CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$(""${ZARUBA_HOME}/zaruba"" path getAppName "$(pwd)"){{ end }}"
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
                                      stopContainer "${CONTAINER}" 
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"

@@ -1,7 +1,7 @@
 # zrbShowAdv
 ```
   TASK NAME     : zrbShowAdv
-  LOCATION      : /zaruba-tasks/base/advertisement/task.zrbShowAdv.yaml
+  LOCATION      : /zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -23,11 +23,11 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
                                      {{ if .IsTrue $showAdvertisement -}}
-                                       "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
+                                       ""${ZARUBA_HOME}/zaruba"" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
                                      {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -1,0 +1,29 @@
+tasks:
+ 
+  makeMongodbApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetPath "template" }}/zaruba-tasks/make/mongodb/template"
+        ]
+
+  addMongodb:
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeMongodbApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "27017"
+        ]

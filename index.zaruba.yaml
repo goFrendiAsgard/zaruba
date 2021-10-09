@@ -27,3 +27,14 @@ includes:
   - ./zaruba-tasks/zaruba/test/config.mainTest.yaml
   - ./zaruba-tasks/zaruba/test/task.test.yaml
   - ./zaruba-tasks/zaruba/test/task.testCore.yaml
+
+  - ./zaruba-tasks/zaruba/test/containerRegistry/config.containerRegistry.yaml
+  - ./zaruba-tasks/zaruba/test/containerRegistry/task.pullContainerRegistry.yaml
+  - ./zaruba-tasks/zaruba/test/containerRegistry/task.startContainerRegistry.yaml
+
+  - ./zaruba-tasks/zaruba/test/playground/config.playgroundTest.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.preparePlayground.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testAddComponents.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testPlayground.yaml
+

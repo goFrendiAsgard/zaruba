@@ -3,3 +3,4 @@ tasks:
   test:
     dependencies:
       - testCore
+      - testPlayground

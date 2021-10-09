@@ -1,7 +1,7 @@
 # zrbStartApp
 ```
   TASK NAME     : zrbStartApp
-  LOCATION      : /zaruba-tasks/base/start/task.zrbStartApp.yaml
+  LOCATION      : /zaruba-tasks/_base/start/task.zrbStartApp.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.
@@ -71,7 +71,7 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   ports            : Blank
                   runInLocal       : true
                   setup            : Blank

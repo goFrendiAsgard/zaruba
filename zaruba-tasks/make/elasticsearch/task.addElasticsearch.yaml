@@ -1,0 +1,30 @@
+tasks:
+ 
+  makeElasticsearchApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetPath "template" }}/zaruba-tasks/make/elasticsearch/template"
+        ]
+
+  addElasticsearch:
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeElasticsearchApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "9200",
+          "9300"
+        ]

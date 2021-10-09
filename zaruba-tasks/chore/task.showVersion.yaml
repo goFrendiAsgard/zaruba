@@ -8,5 +8,5 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        cd "${ZARUBA_HOME}"
+        cd "{{ .ZarubaHome }}"
         echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"

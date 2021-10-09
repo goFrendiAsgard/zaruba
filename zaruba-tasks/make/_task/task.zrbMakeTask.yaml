@@ -1,0 +1,11 @@
+tasks:
+
+  zrbMakeTask:
+    extend: zrbMake
+    private: true
+    config:
+      _registerModule: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"'
+      _registerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"'
+      _integrate: |
+        {{ .GetConfig "_registerModule" }}
+        {{ .GetConfig "_registerTasks" }}

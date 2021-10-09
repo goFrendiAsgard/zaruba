@@ -8,7 +8,7 @@ tasks:
     config:
       start: |
         {{ $d := .Decoration -}}
-        cd ${ZARUBA_HOME}
+        cd "{{ .ZarubaHome }}"
         echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
         git checkout master
         git pull origin master

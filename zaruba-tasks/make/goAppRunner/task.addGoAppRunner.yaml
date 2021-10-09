@@ -1,0 +1,28 @@
+tasks:
+
+  addGoAppRunner:
+    extend: makeNativeAppRunner
+    dependencies:
+      - zrbMakeZrbApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      _prepareVariables: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh" }}"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh" }}"
+      defaultAppPorts: |
+        [
+          "3000"
+        ]
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/template",
+        ]
+  

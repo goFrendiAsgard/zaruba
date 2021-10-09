@@ -1,0 +1,28 @@
+configs:
+
+  ztplAppName:
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+
+  ztplAppNameContainer:
+    useImagePrefix: true
+    imageName: ztplAppImageName
+    containerName: ztplAppContainerName
+    localhost: host.docker.internal
+    volumes: |
+      ztplAppYamlContainerVolumes
+
+  startZtplAppName:
+    start: |
+      ztplAppStartCommand
+    check: |
+      ztplAppCheckCommand
+
+  prepareZtplAppName:
+    start: |
+      ztplAppPrepareCommand
+
+  testZtplAppName:
+    start: |
+      ztplAppTestCommand

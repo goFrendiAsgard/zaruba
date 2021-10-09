@@ -1,0 +1,23 @@
+tasks:
+
+  addZrbModule:
+    extend: makeApp
+    dependencies:
+      - zrbMakeZrbApp
+    inputs:
+      - appDirectory
+      - appModuleName
+    config:
+      _prepareVariables: |
+        . "{{ .GetPath "../../bash/prepareDefaultMakeVariables.sh" }}"
+        . "{{ .GetPath "../../bash/preparePythonTaskGenVariables.sh" }}"
+      defaultAppPorts: |
+        [
+          "3000"
+        ]
+      templateLocations: |
+        [
+          "{{ .GetPath "../../templates/runnerTask/base" }}",
+          "{{ .GetPath "../../templates/runnerTask/python" }}"
+        ]
+  

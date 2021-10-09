@@ -1,0 +1,31 @@
+tasks:
+ 
+  makeCassandraApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/template"
+        ]
+
+  addCassandra:
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeCassandraApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "7000",
+          "7199",
+          "9042"
+        ]

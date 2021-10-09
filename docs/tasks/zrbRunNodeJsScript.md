@@ -1,7 +1,7 @@
 # zrbRunNodeJsScript
 ```
   TASK NAME     : zrbRunNodeJsScript
-  LOCATION      : /zaruba-tasks/base/run/task.zrbRunNodeJsScript.yaml
+  LOCATION      : /zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
   DESCRIPTION   : Run Node.Js script
                   Common config:
                     start : Start script

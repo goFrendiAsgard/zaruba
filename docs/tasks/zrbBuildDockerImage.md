@@ -1,7 +1,7 @@
 # zrbBuildDockerImage
 ```
   TASK NAME     : zrbBuildDockerImage
-  LOCATION      : /zaruba-tasks/base/dockerChore/task.zrbBuildDockerImage.yaml
+  LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbBuildDockerImage.yaml
   DESCRIPTION   : Build docker image.
                   Common config:
                     imageName : Image name
@@ -32,7 +32,7 @@
                   imageName                       : Blank
                   imagePrefix                     : Blank
                   imageTag                        : Blank
-                  includeShellUtil                : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil                : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                           : Blank
                   start                           : set -e
                                                     {{ $d := .Decoration -}}

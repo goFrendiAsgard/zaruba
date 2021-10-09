@@ -1,7 +1,7 @@
 # zrbRunCoreScript
 ```
   TASK NAME     : zrbRunCoreScript
-  LOCATION      : /zaruba-tasks/base/run/task.zrbRunCoreScript.yaml
+  LOCATION      : /zaruba-tasks/_base/run/coreScript/task.zrbRunCoreScript.yaml
   DESCRIPTION   : Run script for core tasks
                   Common config:
                     start : Start script
@@ -26,7 +26,7 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : echo "No script defined"
   ENVIRONMENTS  : PYTHONUNBUFFERED

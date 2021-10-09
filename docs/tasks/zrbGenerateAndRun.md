@@ -1,7 +1,7 @@
 # zrbGenerateAndRun
 ```
   TASK NAME     : zrbGenerateAndRun
-  LOCATION      : /zaruba-tasks/base/run/task.zrbGenerateAndRun.yaml
+  LOCATION      : /zaruba-tasks/_base/run/task.zrbGenerateAndRun.yaml
   DESCRIPTION   : Generate script and run it
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
@@ -27,7 +27,7 @@
                   cmdArg           : -c
                   finish           : Blank
                   generateScript   : {{ $err := .WriteFile (.GetConfig "localScriptFile") (.GetConfig "scriptTemplate") -}}
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}
                   remoteScriptFile : /{{ .Name }}.tmp.sh
                   runScript        : Blank

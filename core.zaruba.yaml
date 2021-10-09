@@ -1,46 +1,50 @@
 includes:
 
-  - ./zaruba-tasks/base/config.zrbDocker.yaml
-  
+  - ./zaruba-tasks/_base/config.zrbDocker.yaml
 
-  - ./zaruba-tasks/base/advertisement/input.showAdvertisement.yaml
-  - ./zaruba-tasks/base/advertisement/task.zrbShowAdv.yaml
+  - ./zaruba-tasks/_base/advertisement/input.showAdvertisement.yaml
+  - ./zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
-  - ./zaruba-tasks/base/dockerChore/task.zrbBuildDockerImage.yaml
-  - ./zaruba-tasks/base/dockerChore/task.zrbPullDockerImage.yaml
-  - ./zaruba-tasks/base/dockerChore/task.zrbPushDockerImage.yaml
-  - ./zaruba-tasks/base/dockerChore/task.zrbRemoveDockerContainer.yaml
-  - ./zaruba-tasks/base/dockerChore/task.zrbStopDockerContainer.yaml
+  - ./zaruba-tasks/_base/dockerChore/task.zrbBuildDockerImage.yaml
+  - ./zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
+  - ./zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
+  - ./zaruba-tasks/_base/dockerChore/task.zrbPushDockerImage.yaml
+  - ./zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
+  - ./zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
 
-  - ./zaruba-tasks/base/kubeChore/input.kubeContext.yaml
-  - ./zaruba-tasks/base/kubeChore/task.zrbSetKubeContext.yaml
+  - ./zaruba-tasks/_base/kubeChore/input.kubeContext.yaml
+  - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
-  - ./zaruba-tasks/base/run/config.zrbIncludeShellUtil.yaml
-  - ./zaruba-tasks/base/run/config.zrbNvm.yaml
-  - ./zaruba-tasks/base/run/config.zrbRunDocker.yaml
-  - ./zaruba-tasks/base/run/task.zrbGenerateAndRun.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunCoreScript.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunDockerContainer.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunInDockerContainer.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunInNvm.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunNodeJsScript.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunScript.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunPythonScript.yaml
-  - ./zaruba-tasks/base/run/task.zrbRunShellScript.yaml
+  - ./zaruba-tasks/_base/run/task.zrbGenerateAndRun.yaml
+  - ./zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
+  - ./zaruba-tasks/_base/run/task.zrbRunScript.yaml
+  - ./zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
+  - ./zaruba-tasks/_base/run/task.zrbRunShellScript.yaml
 
-  - ./zaruba-tasks/base/start/task.zrbStartApp.yaml
-  - ./zaruba-tasks/base/start/task.zrbStartDockerContainer.yaml
+  - ./zaruba-tasks/_base/run/coreScript/task.zrbRunCoreScript.yaml
+  - ./zaruba-tasks/_base/run/coreScript/config.zrbIncludeShellUtil.yaml
 
-  - ./zaruba-tasks/base/validation/task.zrbIsProject.yaml
-  - ./zaruba-tasks/base/validation/task.zrbIsValidSubrepos.yaml
+  - ./zaruba-tasks/_base/run/docker/config.zrbRunDocker.yaml
+  - ./zaruba-tasks/_base/run/docker/task.zrbRunDockerContainer.yaml
+  - ./zaruba-tasks/_base/run/docker/task.zrbRunInDockerContainer.yaml
 
-  - ./zaruba-tasks/base/wrapper/config.zrbPlayBell.yaml
-  - ./zaruba-tasks/base/wrapper/task.zrbWrapper.yaml
+  - ./zaruba-tasks/_base/run/nvm/config.zrbNvm.yaml
+  - ./zaruba-tasks/_base/run/nvm/task.zrbRunInNvm.yaml
 
-  - ./zaruba-tasks/chore/task.initProject.yaml
+  - ./zaruba-tasks/_base/start/task.zrbStartApp.yaml
+  - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
+
+  - ./zaruba-tasks/_base/validation/task.zrbIsProject.yaml
+  - ./zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
+
+  - ./zaruba-tasks/_base/wrapper/config.zrbPlayBell.yaml
+  - ./zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
+
   - ./zaruba-tasks/chore/task.showVersion.yaml
   - ./zaruba-tasks/chore/task.syncEnv.yaml
   - ./zaruba-tasks/chore/task.update.yaml
+
+  - ./zaruba-tasks/chore/initProject/task.initProject.yaml
 
   - ./zaruba-tasks/chore/link/input.linkFrom.yaml
   - ./zaruba-tasks/chore/link/input.linkTo.yaml
@@ -56,9 +60,35 @@ includes:
   - ./zaruba-tasks/chore/value/task.setProjectValue.yaml
   - ./zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
+  - ./zaruba-tasks/chore/subrepo/input.subrepoName.yaml
+  - ./zaruba-tasks/chore/subrepo/input.subrepoPrefix.yaml
+  - ./zaruba-tasks/chore/subrepo/input.subrepoUrl.yaml
+  - ./zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
   - ./zaruba-tasks/chore/subrepo/task.initSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
 
   - ./zaruba-tasks/chore/serveHttp/input.serverHttpPort.yaml
   - ./zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
+
+  - ./zaruba-tasks/make/_base/input.yaml
+  - ./zaruba-tasks/make/_base/task.zrbMake.yaml
+
+  - ./zaruba-tasks/make/_app/task.makeApp.yaml
+
+  - ./zaruba-tasks/make/_task/task.zrbMakeTask.yaml
+
+  - ./zaruba-tasks/make/_task/appRunner/container/task.makeContainerAppRunner.yaml
+  - ./zaruba-tasks/make/_task/appRunner/native/task.makeNativeAppRunner.yaml
+
+  - ./zaruba-tasks/make/_task/helm/task.makeHelmTask.yaml
+
+  - ./zaruba-tasks/make/_task/terraform/task.makeTerraformTask.yaml
+
+  - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
+  - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
+  - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
+  - ./zaruba-tasks/make/mongodb/task.addMongodb.yaml
+  - ./zaruba-tasks/make/mysql/task.addMysql.yaml
+  - ./zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
+  - ./zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml

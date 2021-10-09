@@ -1,7 +1,7 @@
 # initProject
 ```
   TASK NAME     : initProject
-  LOCATION      : /zaruba-tasks/chore/task.initProject.yaml
+  LOCATION      : /zaruba-tasks/chore/initProject/task.initProject.yaml
   DESCRIPTION   : Initiate empty zaruba project.
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
@@ -24,7 +24,7 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      if [ -f "main.zaruba.yaml" ]
@@ -33,7 +33,7 @@
                                        exit 1
                                      fi
                                      git init
-                                     cp -rT "${ZARUBA_HOME}/templates/project/" .
+                                     cp -rT "${ZARUBA_HOME}/zaruba-tasks/chore/initProject/template/" .
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

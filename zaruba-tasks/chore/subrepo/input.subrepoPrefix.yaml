@@ -1,0 +1,6 @@
+inputs:
+  
+  subrepoPrefix:
+    description: Subrepo directory name (Can be blank)
+    prompt: Subrepo directory name
+

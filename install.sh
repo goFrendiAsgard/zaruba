@@ -60,7 +60,7 @@ then
     mv "${BACKUP_INIT_FILE}" "${INIT_FILE}" 
 else
     echo "💀 Creating init.sh."
-    cp "${INSTALLATION_DIR}/templates/bash/init.sh" "${INIT_FILE}"
+    cp "${INSTALLATION_DIR}/setup/templates/bash/init.sh" "${INIT_FILE}"
     chmod 755 "${INIT_FILE}"
 fi
 

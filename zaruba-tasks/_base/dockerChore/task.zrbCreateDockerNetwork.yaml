@@ -1,0 +1,22 @@
+tasks:
+
+  zrbCreateDockerNetwork:
+    icon: 🐳
+    private: true
+    description: |
+      Create docker network.
+      Common config:
+        network : Network name
+    extend: zrbRunCoreScript
+    config:
+      network: '{{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}'
+      start: |
+        set -e
+        if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
+        then
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
+        else
+          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
+          docker network create "{{ .GetConfig "network" }}"
+        fi
+

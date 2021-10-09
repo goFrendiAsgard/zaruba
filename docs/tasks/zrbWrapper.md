@@ -1,7 +1,7 @@
 # zrbWrapper
 ```
   TASK NAME     : zrbWrapper
-  LOCATION      : /zaruba-tasks/base/wrapper/task.zrbWrapper.yaml
+  LOCATION      : /zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunShellScript ]
   START         : - {{ .GetConfig "cmd" }}

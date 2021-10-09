@@ -1,7 +1,7 @@
 # zrbIsProject
 ```
   TASK NAME     : zrbIsProject
-  LOCATION      : /zaruba-tasks/base/validation/task.zrbIsProject.yaml
+  LOCATION      : /zaruba-tasks/_base/validation/task.zrbIsProject.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -23,7 +23,7 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      if [ ! -f "main.zaruba.yaml" ]

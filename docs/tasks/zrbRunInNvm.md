@@ -1,7 +1,7 @@
 # zrbRunInNvm
 ```
   TASK NAME     : zrbRunInNvm
-  LOCATION      : /zaruba-tasks/base/run/task.zrbRunInNvm.yaml
+  LOCATION      : /zaruba-tasks/_base/run/nvm/task.zrbRunInNvm.yaml
   DESCRIPTION   : Run shell script under nvm
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunShellScript ]
@@ -26,7 +26,7 @@
                   cmdArg                  : -c
                   compileTypeScript       : false
                   finish                  : Blank
-                  includeShellUtil        : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil        : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   installTypeScript       : false
                   nodeVersion             : node
                   npmCleanCache           : false

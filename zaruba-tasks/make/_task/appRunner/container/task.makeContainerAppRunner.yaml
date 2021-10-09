@@ -1,0 +1,18 @@
+tasks:
+
+  makeContainerAppRunner:
+    extend: zrbMakeTask
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+        ]

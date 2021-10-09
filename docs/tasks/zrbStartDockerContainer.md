@@ -1,7 +1,7 @@
 # zrbStartDockerContainer
 ```
   TASK NAME     : zrbStartDockerContainer
-  LOCATION      : /zaruba-tasks/base/start/task.zrbStartDockerContainer.yaml
+  LOCATION      : /zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
   DESCRIPTION   : Start docker container and check it's readiness.
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.
@@ -31,7 +31,7 @@
                     localhost      : Localhost mapping (e.g: host.docker.container)
   TASK TYPE     : Service Task
   PARENT TASKS  : [ zrbStartApp ]
-  DEPENDENCIES  : [ updateProjectLinks ]
+  DEPENDENCIES  : [ updateProjectLinks, zrbCreateDockerNetwork ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{- $d := .Decoration -}}
@@ -129,13 +129,6 @@
                   _start                       : {{ $d := .Decoration -}}
                                                  {{ $rebuild := .GetConfig "rebuild" -}}
                                                  {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
-                                                 if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
-                                                 then
-                                                   echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
-                                                 else
-                                                   echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
-                                                   docker network create "{{ .GetConfig "network" }}"
-                                                 fi
                                                  if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
                                                  then
                                                    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is already started{{ $d.Normal }}"
@@ -227,9 +220,8 @@
                   imageName                    : Blank
                   imagePrefix                  : Blank
                   imageTag                     : Blank
-                  includeShellUtil             : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil             : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   localhost                    : localhost
-                  network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
                   rebuild                      : false
                   runInLocal                   : true

@@ -28,19 +28,19 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : set -e
                                      {{ $d := .Decoration -}}
                                      {{ $names := .GetSubValueKeys "subrepo" -}}
                                      {{ $this := . -}}
                                      BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-                                     ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
+                                     ORIGINS=$(""${ZARUBA_HOME}/zaruba"" str split "$(git remote)")
                                      {{ range $index, $name := $names -}}
                                        PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
                                        URL="{{ $this.GetValue "subrepo" $name "url" }}"
                                        NAME="{{ $name }}"
-                                       ORIGIN_EXISTS=$("{{ .ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
+                                       ORIGIN_EXISTS=$(""${ZARUBA_HOME}/zaruba"" list contain "${ORIGINS}" "${NAME}")
                                        if [ $ORIGIN_EXISTS = 1 ]
                                        then
                                          gitSave.sh" "Save works before p

@@ -1,0 +1,29 @@
+tasks:
+ 
+  makeMysqlApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .GetPath "template" }}/zaruba-tasks/make/mysql/template"
+        ]
+
+  addMysql:
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeMysqlApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "3306"
+        ]

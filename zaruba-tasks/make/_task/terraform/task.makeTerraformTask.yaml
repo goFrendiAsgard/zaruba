@@ -1,0 +1,8 @@
+tasks:
+
+  makeTerraformTask:
+    extend: zrbMakeTask
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: '["{{ .ZarubaHome }}/make/_task/terraform/template"]'

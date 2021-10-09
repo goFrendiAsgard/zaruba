@@ -1,0 +1,24 @@
+tasks:
+ 
+  makeApp:
+    extend: zrbMake
+    inputs:
+      - appDirectory
+    config:
+      _prepare: |
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareReplacementMap" }}
+        if [ -d "${_ZRB_APP_DIRECTORY}" ]
+        then
+          echo "Directory ${_ZRB_APP_DIRECTORY} already exist."
+          exit 0
+        fi
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_app/template" }}"
+        ]
+      _integrate: |
+        if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+        then
+          chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+        fi

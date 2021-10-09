@@ -1,7 +1,7 @@
 # zrbIsValidSubrepos
 ```
   TASK NAME     : zrbIsValidSubrepos
-  LOCATION      : /zaruba-tasks/base/validation/task.zrbIsValidSubrepos.yaml
+  LOCATION      : /zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -23,7 +23,7 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      {{ $names := .GetSubValueKeys "subrepo" -}}

@@ -1,7 +1,7 @@
 # zrbSetKubeContext
 ```
   TASK NAME     : zrbSetKubeContext
-  LOCATION      : /zaruba-tasks/base/kubeChore/task.zrbSetKubeContext.yaml
+  LOCATION      : /zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -23,7 +23,7 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   kubeContext      : {{ .GetValue "kubeContext" }}
                   setup            : Blank
                   start            : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]

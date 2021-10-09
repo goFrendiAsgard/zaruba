@@ -1,0 +1,18 @@
+tasks:
+
+  testAddComponents:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testInitProject
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
+        ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="provoFibo" 
+        ../zaruba please initSubrepos 
+        ../zaruba please pullSubrepos 
+        ../zaruba please makeNativeAppRunner appDirectory=provoFibo
+
+        ../zaruba please addCassandra appDirectory=provoCassandra
+        ../zaruba please addElasticsearch appDirectory=provoElasticsearch

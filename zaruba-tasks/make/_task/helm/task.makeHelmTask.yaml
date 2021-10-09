@@ -1,0 +1,14 @@
+tasks:
+
+  makeHelmTask:
+    extend: zrbMakeTask
+    inputs:
+      - appDirectory
+      - appHelmChartUrl
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      templateLocations: '["{{ .ZarubaHome }}/make/_task/helm/template"]'

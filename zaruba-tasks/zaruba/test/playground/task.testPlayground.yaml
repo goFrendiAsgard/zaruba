@@ -1,0 +1,6 @@
+tasks:
+
+  testPlayground:
+    dependencies:
+      - testInitProject
+      - testAddComponents

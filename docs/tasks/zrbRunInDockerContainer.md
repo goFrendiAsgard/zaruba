@@ -1,7 +1,7 @@
 # zrbRunInDockerContainer
 ```
   TASK NAME     : zrbRunInDockerContainer
-  LOCATION      : /zaruba-tasks/base/run/task.zrbRunInDockerContainer.yaml
+  LOCATION      : /zaruba-tasks/_base/run/docker/task.zrbRunInDockerContainer.yaml
   DESCRIPTION   : Run command from inside the container
                   Common config:
                     containerName  : Name of the container
@@ -34,7 +34,7 @@
                   containerShell   : sh
                   finish           : Blank
                   generateScript   : {{ $err := .WriteFile (.GetConfig "localScriptFile") (.GetConfig "scriptTemplate") -}}
-                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil : . ${ZARUBA_HOME}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}
                   remoteScriptFile : /{{ .Name }}.tmp.sh
                   runScript        : REMOTE_SCRIPT_FILE="{{ .GetConfig "remoteScriptFile" }}"
