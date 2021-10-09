@@ -5,6 +5,9 @@ then
 fi
 _ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")"
 
+# module name
+_ZRB_APP_SNAKE_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
+
 # module file name
 _ZRB_MODULE_FILE_NAME="./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml"
 

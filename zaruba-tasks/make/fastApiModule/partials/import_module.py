@@ -1,3 +1,3 @@
-from ztplAppModuleName.controller import http_controller as zaruba_module_name_http_controller
-from ztplAppModuleName.controller import event_controller as zaruba_module_name_event_controller
-from ztplAppModuleName.controller import rpc_controller as zaruba_module_name_rpc_controller
+from ztplAppModuleName.controller import http_controller as ztpl_app_module_name_http_controller
+from ztplAppModuleName.controller import event_controller as ztpl_app_module_name_event_controller
+from ztplAppModuleName.controller import rpc_controller as ztpl_app_module_name_rpc_controller

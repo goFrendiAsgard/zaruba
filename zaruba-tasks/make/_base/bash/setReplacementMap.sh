@@ -23,10 +23,10 @@ _setReplacementMap "ztplAppCrudFields" "${_ZRB_APP_CRUD_FIELDS}"
 _setReplacementMap "ztplAppEventName" "${_ZRB_APP_EVENT_NAME}"
 _setReplacementMap "ztplAppHttpMethod" "${_ZRB_APP_HTTP_METHOD}"
 _setReplacementMap "ztplAppModuleName" "${_ZRB_APP_MODULE_NAME}"
+_setReplacementMap "ztpl_app_module_name" "${_ZRB_APP_SNAKE_MODULE_NAME}"
 _setReplacementMap "ztplAppRpcName" "${_ZRB_APP_RPC_NAME}"
 _setReplacementMap "ztplAppUrl" "${_ZRB_APP_URL}"
+
 _setReplacementMap "[\t ]*ztplAppYamlPorts" "${_ZRB_APP_YAML_PORTS}"
 _setReplacementMap "[\t ]*ztplAppYamlEnvs" "${_ZRB_APP_YAML_ENVS}"
 _setReplacementMap "[\t ]*ztplAppYamlContainerVolumes" "${_ZRB_APP_YAML_CONTAINER_VOLUMES}"
-
-"${ZARUBA_HOME}/zaruba" yaml print "${_ZRB_REPLACEMENT_MAP}"

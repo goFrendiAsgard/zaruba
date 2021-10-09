@@ -124,6 +124,8 @@ tasks:
         _ZRB_REPLACEMENT_MAP='{}'
         __ZRB_PWD=$(pwd)
         {{ .GetConfig "_prepare" }}
+        echo "_ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}"
+        echo "_ZRB_REPLACEMENT_MAP: ${_ZRB_REPLACEMENT_MAP}"
         cd "${__ZRB_PWD}"
         _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
         {{ .GetConfig "_integrate" }}

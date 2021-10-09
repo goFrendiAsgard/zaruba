@@ -17,10 +17,11 @@ var strReplaceCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
-		replacementMap := map[string]string{}
-		if err := json.Unmarshal([]byte(args[1]), &replacementMap); err != nil {
+		rawReplacementMap := map[string]interface{}{}
+		if err := json.Unmarshal([]byte(args[1]), &rawReplacementMap); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
+		replacementMap := convertToMapString(rawReplacementMap)
 		util := utility.NewUtil()
 		result := util.Str.Replace(text, replacementMap)
 		fmt.Println(result)
