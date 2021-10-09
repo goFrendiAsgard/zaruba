@@ -1,20 +1,19 @@
 tasks:
  
-  zrbMakePostgresqlApp:
+  makePostgresqlApp:
     extend: makeApp
-    private: true
     inputs:
       - appDirectory
     config:
       templateLocations: |
         [
-          "{{ .GetPath "../../templates/app/postgresql" }}"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/postgresql/template"
         ]
 
   addPostgresql:
-    extend: makeRunnerTask
+    extend: makeContainerAppRunner
     dependencies:
-      - zrbMakePostgresqlApp
+      - makePostgresqlApp
     inputs:
       - appDirectory
       - appDependencies
@@ -28,9 +27,3 @@ tasks:
         [
           "5432"
         ]
-      templateLocations: |
-        [
-          "{{ .GetPath "../../templates/runnerTask/base" }}",
-          "{{ .GetPath "../../templates/runnerTask/container" }}"
-        ]
-  

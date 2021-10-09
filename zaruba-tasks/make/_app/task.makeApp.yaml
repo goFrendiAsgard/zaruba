@@ -5,12 +5,11 @@ tasks:
     inputs:
       - appDirectory
     config:
-      _prepare: |
-        {{ .GetConfig "_prepareVariables" }}
-        {{ .GetConfig "_prepareReplacementMap" }}
+      _afterPrepareVariables: |
+        {{ $d := .Decoration -}}
         if [ -d "${_ZRB_APP_DIRECTORY}" ]
         then
-          echo "Directory ${_ZRB_APP_DIRECTORY} already exist."
+          echo "{{ $d.Red }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
           exit 0
         fi
       templateLocations: |

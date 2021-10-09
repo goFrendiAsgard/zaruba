@@ -1,0 +1,24 @@
+tasks:
+ 
+  makeFastApiApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApi/template"
+        ]
+
+  addFastApi:
+    extend: addPythonAppRunner
+    dependencies:
+      - makeFastApiApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName

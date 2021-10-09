@@ -1,0 +1,29 @@
+tasks:
+ 
+  makeTrinoApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/trino/template"
+        ]
+
+  addTrino:
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeTrinoApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "8080"
+        ]

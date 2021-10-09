@@ -33,7 +33,6 @@ fi
 if [ -d "${_ZRB_APP_DIRECTORY}" ]
 then
     # envs
-    echo "${_ZRB_APP_DIRECTORY}"
     _ZRB_DEFAULT_APP_ENVS="$("${ZARUBA_HOME}/zaruba" path getEnv "${_ZRB_APP_DIRECTORY}")"
     _ZRB_APP_ENVS="$("${ZARUBA_HOME}/zaruba" map merge "${_ZRB_APP_ENVS}" "${_ZRB_DEFAULT_APP_ENVS}")"
 
@@ -64,42 +63,4 @@ do
     _ZRB_APP_MAP_ENVS="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_APP_MAP_ENVS}" "${_ZRB_KEY}" "${_ZRB_APP_SINGLE_MAP_ENV}")"
 done
 _ZRB_APP_YAML_ENVS="$("${ZARUBA_HOME}/zaruba" yaml print "${_ZRB_APP_MAP_ENVS}")"
-
-# start command
-if [ -z "${_ZRB_APP_START_COMMAND}" ]
-then
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
-    then
-        _ZRB_APP_START_COMMAND="./start.sh"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/main.go" ]
-    then
-        _ZRB_APP_START_COMMAND="go run main.go"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/package.json" ]
-    then
-        _ZRB_APP_START_COMMAND="npm start"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/main.py" ]
-    then
-        _ZRB_APP_START_COMMAND="python main.py"
-    else
-        _ZRB_APP_START_COMMAND="echo \"Replace this with command to start ${_ZRB_APP_NAME}\" && exit 1"
-    fi
-fi
-
-# prepare command
-if [ -z "${_ZRB_APP_PREPARE_COMMAND}" ]
-then
-    _ZRB_APP_PREPARE_COMMAND="echo \"prepare ${_ZRB_APP_NAME}\""
-fi
-
-# test command
-if [ -z "${_ZRB_APP_TEST_COMMAND}" ]
-then
-    _ZRB_APP_TEST_COMMAND="echo \"test ${_ZRB_APP_NAME}\""
-fi
-
-# check command
-if [ -z "${_ZRB_APP_CHECK_COMMAND}" ]
-then
-    _ZRB_APP_CHECK_COMMAND="echo \"test ${_ZRB_APP_NAME}\""
-fi
 

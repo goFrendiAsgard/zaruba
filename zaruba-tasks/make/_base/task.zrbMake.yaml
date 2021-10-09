@@ -38,9 +38,23 @@ tasks:
         . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"
       _prepareVariables: |
         . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
+      _prepareStartCommand: |
+        . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
+      _preparePrepareCommand: |
+        . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
+      _prepareTestCommand: |
+        . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
+      _prepareCheckCommand: |
+        . "${ZARUBA_HOME}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
       _prepare: |
         {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareStartCommand" }}
+        {{ .GetConfig "_preparePrepareCommand" }}
+        {{ .GetConfig "_prepareTestCommand" }}
+        {{ .GetConfig "_prepareCheckCommand" }}
+        {{ .GetConfig "_afterPrepareVariables" }}
         {{ .GetConfig "_prepareReplacementMap" }}
+      _afterPrepareVariables: ''
       _integrate: ''
       _validateTemplateLocation: |
         {{ $d := .Decoration -}}

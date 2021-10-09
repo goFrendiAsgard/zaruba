@@ -1,0 +1,21 @@
+tasks:
+ 
+  addFastApiModule:
+    extend: makeApp
+    dependencies:
+      - addFastApi
+    inputs:
+      - appDirectory
+      - appModuleName
+    config:
+      _afterPrepareVariables: |
+        {{ $d := .Decoration -}}
+        if [ -d "${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}" ]
+        then
+          echo "{{ $d.Red }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
+          exit 0
+        fi
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
+        ]

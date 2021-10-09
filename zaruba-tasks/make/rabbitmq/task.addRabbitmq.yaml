@@ -1,20 +1,19 @@
 tasks:
  
-  zrbMakeRabbitmqApp:
+  makeRabbitmqApp:
     extend: makeApp
-    private: true
     inputs:
       - appDirectory
     config:
       templateLocations: |
         [
-          "{{ .GetPath "../../templates/app/rabbitmq" }}"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmq/template"
         ]
 
   addRabbitmq:
-    extend: makeRunnerTask
+    extend: makeContainerAppRunner
     dependencies:
-      - zrbMakeRabbitmqApp
+      - makeRabbitmqApp
     inputs:
       - appDirectory
       - appDependencies
@@ -29,9 +28,3 @@ tasks:
           "5672",
           "15672"
         ]
-      templateLocations: |
-        [
-          "{{ .GetPath "../../templates/runnerTask/base" }}",
-          "{{ .GetPath "../../templates/runnerTask/container" }}"
-        ]
-  

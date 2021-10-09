@@ -1,20 +1,19 @@
 tasks:
  
-  zrbMakeRedisApp:
+  makeRedisApp:
     extend: makeApp
-    private: true
     inputs:
       - appDirectory
     config:
       templateLocations: |
         [
-          "{{ .GetPath "../../templates/app/redis" }}"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/redis/template"
         ]
 
   addRedis:
-    extend: makeRunnerTask
+    extend: makeContainerAppRunner
     dependencies:
-      - zrbMakeRedisApp
+      - makeRedisApp
     inputs:
       - appDirectory
       - appDependencies
@@ -28,9 +27,3 @@ tasks:
         [
           "6379"
         ]
-      templateLocations: |
-        [
-          "{{ .GetPath "../../templates/runnerTask/base" }}",
-          "{{ .GetPath "../../templates/runnerTask/container" }}"
-        ]
-  

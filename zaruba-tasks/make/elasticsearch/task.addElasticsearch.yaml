@@ -7,7 +7,7 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .GetPath "template" }}/zaruba-tasks/make/elasticsearch/template"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/elasticsearch/template"
         ]
 
   addElasticsearch:

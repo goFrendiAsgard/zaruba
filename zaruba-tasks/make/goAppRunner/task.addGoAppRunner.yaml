@@ -2,8 +2,6 @@ tasks:
 
   addGoAppRunner:
     extend: makeNativeAppRunner
-    dependencies:
-      - zrbMakeZrbApp
     inputs:
       - appDirectory
       - appDependencies
@@ -23,6 +21,6 @@ tasks:
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/template"
         ]
   

@@ -2,8 +2,17 @@ tasks:
 
   zrbMakeTask:
     extend: zrbMake
+    dependencies:
+      - zrbIsProject
     private: true
     config:
+      _afterPrepareVariables: |
+        {{ $d := .Decoration -}}
+        if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
+        then
+          echo "{{ $d.Red }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
+          exit 0
+        fi
       _registerModule: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"'
       _registerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"'
       _integrate: |
