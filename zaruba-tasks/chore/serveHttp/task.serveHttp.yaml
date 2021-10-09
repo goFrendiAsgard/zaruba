@@ -1,0 +1,16 @@
+tasks:
+
+  serveHttp:
+    icon: 🌐
+    description: |
+      Run static web server from your working directory.
+    extend: zrbStartApp
+    inputs:
+      - serverHttpPort
+    config:
+      ports: '{{ .GetValue "serverHttpPort" }}'
+    start: 
+      - '{{ .GetEnv "ZARUBA_HOME" }}/zaruba'
+      - serve
+      - .
+      - '{{ index (.Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n") 0 }}'

@@ -1,0 +1,5 @@
+configs:
+
+  zrbIncludeShellUtil:
+    includeShellUtil: . ${ZARUBA_HOME}/bash/util.sh
+       

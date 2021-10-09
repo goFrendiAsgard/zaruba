@@ -92,9 +92,9 @@ func init() {
 		dir = "."
 	}
 	// define defaultPleaseFile
-	defaultPleaseFile := filepath.Join(dir, "main.zaruba.yaml")
+	defaultPleaseFile := filepath.Join(dir, "index.zaruba.yaml")
 	if _, err := os.Stat(defaultPleaseFile); os.IsNotExist(err) {
-		defaultPleaseFile = "${ZARUBA_HOME}/scripts/core.zaruba.yaml"
+		defaultPleaseFile = "${ZARUBA_HOME}/core.zaruba.yaml"
 	}
 	// define defaultPleaseValues
 	defaultPleaseValues := []string{}

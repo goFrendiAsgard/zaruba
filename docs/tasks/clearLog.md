@@ -1,7 +1,7 @@
 # clearLog
 ```
   TASK NAME     : clearLog
-  LOCATION      : /scripts/tasks/clearLog.zaruba.yaml
+  LOCATION      : /zaruba-tasks/chore/log/task.clearLog.yaml
   DESCRIPTION   : Clear log
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
@@ -15,20 +15,20 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : Blank
-                  afterStart        : Blank
-                  beforeStart       : Blank
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  setup             : Blank
-                  start             : {{ $d := .Decoration -}}
-                                      rm -Rf log.zaruba.csv
-                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+  CONFIG        : _finish          : Blank
+                  _setup           : set -e
+                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _start           : Blank
+                  afterStart       : Blank
+                  beforeStart      : Blank
+                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg           : -c
+                  finish           : Blank
+                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  setup            : Blank
+                  start            : {{ $d := .Decoration -}}
+                                     rm -Rf log.zaruba.csv
+                                     echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -1,7 +1,7 @@
 # zrbRunPythonScript
 ```
   TASK NAME     : zrbRunPythonScript
-  LOCATION      : /scripts/tasks/zrbRunPythonScript.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/run/task.zrbRunPythonScript.yaml
   DESCRIPTION   : Run python script
                   Common config:
                     start : Start script

@@ -1,0 +1,8 @@
+tasks:
+
+  build:
+    icon: 🚧
+    location: ../..
+    dependencies:
+      - buildBin
+      - buildImage

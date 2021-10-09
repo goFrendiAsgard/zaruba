@@ -1,0 +1,13 @@
+tasks:
+
+  buildZarubaGcloudImage:
+    icon: 🐳
+    extend: zrbBuildDockerImage
+    location: ../../..
+    dependencies:
+      - buildZarubaImage
+    configRefs:
+      - commonDocker
+      - zarubaGcloudDocker
+    timeout: 1h
+

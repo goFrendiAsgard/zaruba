@@ -1,7 +1,7 @@
 # zrbGenerateAndRun
 ```
   TASK NAME     : zrbGenerateAndRun
-  LOCATION      : /scripts/tasks/zrbGenerateAndRun.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/run/task.zrbGenerateAndRun.yaml
   DESCRIPTION   : Generate script and run it
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
@@ -15,26 +15,26 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : {{ .GetConfig "generateScript" }}
-                                      {{ .GetConfig "uploadScript" }}
-                                      {{ .GetConfig "runScript" }}
-                  afterStart        : Blank
-                  beforeStart       : Blank
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  generateScript    : {{ $err := .WriteFile (.GetConfig "localScriptFile") (.GetConfig "scriptTemplate") -}}
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  localScriptFile   : {{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}
-                  remoteScriptFile  : /{{ .Name }}.tmp.sh
-                  runScript         : Blank
-                  scriptTemplate    : Blank
-                  setup             : Blank
-                  start             : Blank
-                  uploadScript      : Blank
+  CONFIG        : _finish          : Blank
+                  _setup           : set -e
+                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _start           : {{ .GetConfig "generateScript" }}
+                                     {{ .GetConfig "uploadScript" }}
+                                     {{ .GetConfig "runScript" }}
+                  afterStart       : Blank
+                  beforeStart      : Blank
+                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg           : -c
+                  finish           : Blank
+                  generateScript   : {{ $err := .WriteFile (.GetConfig "localScriptFile") (.GetConfig "scriptTemplate") -}}
+                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  localScriptFile  : {{ .GetWorkPath (printf "tmp/%s.tmp.sh" .Name) }}
+                  remoteScriptFile : /{{ .Name }}.tmp.sh
+                  runScript        : Blank
+                  scriptTemplate   : Blank
+                  setup            : Blank
+                  start            : Blank
+                  uploadScript     : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

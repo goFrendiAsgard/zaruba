@@ -1,0 +1,7 @@
+tasks:
+
+  publish:
+    icon: 🔼
+    dependencies:
+      - publishRepo
+      - publishImage

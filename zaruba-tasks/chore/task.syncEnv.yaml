@@ -1,0 +1,17 @@
+tasks:
+
+  syncEnv:
+    icon: 🔄
+    description: |
+      Update environment of every task in the current project 
+    extend: zrbRunCoreScript
+    dependencies:
+      - zrbIsProject
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
+        "{{ .ZarubaBin }}" project syncEnvFiles "./main.zaruba.yaml"
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
+

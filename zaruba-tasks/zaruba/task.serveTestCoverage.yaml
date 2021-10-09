@@ -1,0 +1,8 @@
+tasks:
+
+  serveTestCoverage:
+    icon: 🥗
+    location: ../../coverage
+    extend: serveHttp
+    dependencies:
+      - testCore

@@ -1,0 +1,22 @@
+configs:
+
+  commonDocker:
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageTag: '{{ .GetValue "defaultImageTag" }}'
+
+  zarubaDocker:
+    imageName: zaruba
+    dockerFilePath: Dockerfile
+
+  zarubaAwsDocker:
+    imageName: zaruba-aws
+    dockerFilePath: Dockerfile.aws
+
+  zarubaGcloudDocker:
+    imageName: zaruba-gcloud
+    dockerFilePath: Dockerfile.gcloud
+
+  devboxDocker:
+    imageName: devbox
+    dockerFilePath: Dockerfile.devbox
+

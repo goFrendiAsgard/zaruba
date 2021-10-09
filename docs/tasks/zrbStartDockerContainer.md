@@ -1,7 +1,7 @@
 # zrbStartDockerContainer
 ```
   TASK NAME     : zrbStartDockerContainer
-  LOCATION      : /scripts/tasks/zrbStartDockerContainer.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/start/task.zrbStartDockerContainer.yaml
   DESCRIPTION   : Start docker container and check it's readiness.
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.
@@ -68,8 +68,7 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : runInLocal                   : true
-                  _check                       : {{ $d := .Decoration -}}
+  CONFIG        : _check                       : {{ $d := .Decoration -}}
                                                  {{ .GetConfig "_checkContainerState" }}
                                                  {{ .GetConfig "_checkConfigPorts" }}
                                                  {{ .GetConfig "_checkCommand" }}
@@ -110,7 +109,7 @@
                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _finish                      : Blank
                   _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
                   _setupContainerName          : {{ $d := .Decoration -}}
@@ -206,7 +205,7 @@
                                                    {{ if ne $volume "" -}}
                                                      {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
                                                      {{ if eq (len $volumeParts) 2 -}}
-                                                       {{ $absHostVolume := $this.GetPath (index $volumeParts 0) -}}
+                                                       {{ $absHostVolume := $this.GetWorkPath (index $volumeParts 0) -}}
                                                        {{ $containerVolume := index $volumeParts 1 -}}
                                                        -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
                                                      {{ end -}}
@@ -228,11 +227,12 @@
                   imageName                    : Blank
                   imagePrefix                  : Blank
                   imageTag                     : Blank
-                  includeUtilScript            : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil             : . ${ZARUBA_HOME}/bash/util.sh
                   localhost                    : localhost
                   network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
                   rebuild                      : false
+                  runInLocal                   : true
                   setup                        : Blank
                   start                        : Blank
                   useImagePrefix               : true

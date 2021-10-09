@@ -1,0 +1,11 @@
+tasks:
+
+  publishRepo:
+    icon: 🔼
+    location: ../..
+    extend: zrbRunShellScript
+    dependencies:
+      - commitRepo
+    config:
+      start: |
+        git push -u origin HEAD

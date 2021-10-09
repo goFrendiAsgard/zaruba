@@ -1,0 +1,9 @@
+tasks:
+
+  buildImage:
+    icon: 🐳
+    dependencies:
+      - buildDevboxImage
+      - buildZarubaImage
+      - buildZarubaAwsImage
+      - buildZarubaGcloudImage

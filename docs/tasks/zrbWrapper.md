@@ -1,7 +1,7 @@
 # zrbWrapper
 ```
   TASK NAME     : zrbWrapper
-  LOCATION      : /scripts/tasks/zrbWrapper.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/wrapper/task.zrbWrapper.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunShellScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -14,17 +14,17 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish        : Blank
-                  _setup         : Blank
-                  _start         : Blank
-                  afterStart     : Blank
-                  beforeStart    : Blank
-                  cmd            : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg         : -c
-                  finish         : Blank
-                  playBellScript : echo $'\a'
-                  setup          : Blank
-                  start          : {{ .GetConfig "playBellScript" }}
+  CONFIG        : _finish     : Blank
+                  _setup      : Blank
+                  _start      : Blank
+                  afterStart  : Blank
+                  beforeStart : Blank
+                  cmd         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg      : -c
+                  finish      : Blank
+                  playBell    : echo $'\a'
+                  setup       : Blank
+                  start       : {{ .GetConfig "playBell" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

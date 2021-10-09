@@ -1,0 +1,11 @@
+tasks:
+
+  buildDevboxImage:
+    icon: 🐳
+    extend: zrbBuildDockerImage
+    location: ../../..
+    configRefs:
+      - commonDocker
+      - devboxDocker
+    timeout: 1h
+

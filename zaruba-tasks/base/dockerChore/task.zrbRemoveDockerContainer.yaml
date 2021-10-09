@@ -1,0 +1,24 @@
+tasks:
+
+  zrbRemoveDockerContainer:
+    icon: 🐳
+    private: true
+    description: |
+      Remove docker container.
+      Common config:
+        containerName : Container's name
+    extend: zrbRunCoreScript
+    dependencies:
+      - updateProjectLinks
+    config:
+      containerName: ""
+      start: |
+        {{ $d := .Decoration -}}
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+        stopContainer "${CONTAINER}" 
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
+        removeContainer "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
+ 

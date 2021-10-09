@@ -1,0 +1,29 @@
+includes:
+  - ./core.zaruba.yaml
+
+  - ./zaruba-tasks/zaruba/config.yaml
+
+  - ./zaruba-tasks/zaruba/task.commitRepo.yaml
+  - ./zaruba-tasks/zaruba/task.serveTestCoverage.yaml
+
+  - ./zaruba-tasks/zaruba/docs/task.makeDocs.yaml
+
+  - ./zaruba-tasks/zaruba/build/task.build.yaml
+  - ./zaruba-tasks/zaruba/build/task.buildBin.yaml
+  - ./zaruba-tasks/zaruba/build/task.buildDevboxImage.yaml
+  - ./zaruba-tasks/zaruba/build/task.buildImage.yaml
+  - ./zaruba-tasks/zaruba/build/task.buildZarubaAwsImage.yaml
+  - ./zaruba-tasks/zaruba/build/task.buildZarubaGcloudImage.yaml
+  - ./zaruba-tasks/zaruba/build/task.buildZarubaImage.yaml
+
+  - ./zaruba-tasks/zaruba/publish/task.publish.yaml
+  - ./zaruba-tasks/zaruba/publish/task.publishDevboxImage.yaml
+  - ./zaruba-tasks/zaruba/publish/task.publishRepo.yaml
+  - ./zaruba-tasks/zaruba/publish/task.publishImage.yaml
+  - ./zaruba-tasks/zaruba/publish/task.publishZarubaAwsImage.yaml
+  - ./zaruba-tasks/zaruba/publish/task.publishZarubaGcloudImage.yaml
+  - ./zaruba-tasks/zaruba/publish/task.publishZarubaImage.yaml
+
+  - ./zaruba-tasks/zaruba/test/config.mainTest.yaml
+  - ./zaruba-tasks/zaruba/test/task.test.yaml
+  - ./zaruba-tasks/zaruba/test/task.testCore.yaml

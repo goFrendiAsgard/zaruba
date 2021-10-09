@@ -1,0 +1,8 @@
+inputs:
+  
+  zrbKubeContext:
+    default: docker-desktop
+    validation: ^.+$
+    description: Kube context (Required). Perform `kubectl config get-contexts` to get possible values
+    prompt: Kube context
+

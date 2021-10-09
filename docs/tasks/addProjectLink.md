@@ -1,7 +1,7 @@
 # addProjectLink
 ```
   TASK NAME     : addProjectLink
-  LOCATION      : /scripts/tasks/addProjectLink.zaruba.yaml
+  LOCATION      : /zaruba-tasks/chore/link/task.addProjectLink.yaml
   DESCRIPTION   : Add link.
                   TIPS: To update links, you should perform `zaruba please updateProjectLinks`
   TASK TYPE     : Command Task
@@ -25,23 +25,23 @@
                     DESCRIPTION : Link destination (Required)
                     PROMPT      : Destination
                     VALIDATION  : ^.+$
-  CONFIG        : _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : Blank
-                  afterStart        : Blank
-                  beforeStart       : Blank
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  linkFrom          : {{ .GetValue "linkFrom" }}
-                  linkTo            : {{ .GetValue "linkTo" }}
-                  setup             : Blank
-                  start             : {{ $d := .Decoration -}}
-                                      "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
-                                      echo 🎉🎉🎉
-                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
+  CONFIG        : _finish          : Blank
+                  _setup           : set -e
+                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _start           : Blank
+                  afterStart       : Blank
+                  beforeStart      : Blank
+                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg           : -c
+                  finish           : Blank
+                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  linkFrom         : {{ .GetValue "linkFrom" }}
+                  linkTo           : {{ .GetValue "linkTo" }}
+                  setup            : Blank
+                  start            : {{ $d := .Decoration -}}
+                                     "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
+                                     echo 🎉🎉🎉
+                                     echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -1,0 +1,13 @@
+tasks:
+
+  buildZarubaImage:
+    icon: 🐳
+    extend: zrbBuildDockerImage
+    location: ../../..
+    dependencies:
+      - buildDevboxImage
+    configRefs:
+      - commonDocker
+      - zarubaDocker
+    timeout: 1h
+

@@ -1,7 +1,7 @@
 # zrbRunDockerContainer
 ```
   TASK NAME     : zrbRunDockerContainer
-  LOCATION      : /scripts/tasks/zrbRunDockerContainer.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/run/task.zrbRunDockerContainer.yaml
   DESCRIPTION   : Run docker container.
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.
@@ -42,7 +42,7 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                      : Blank
                   _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
                   _setupContainerName          : {{ $d := .Decoration -}}
@@ -138,7 +138,7 @@
                                                    {{ if ne $volume "" -}}
                                                      {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
                                                      {{ if eq (len $volumeParts) 2 -}}
-                                                       {{ $absHostVolume := $this.GetPath (index $volumeParts 0) -}}
+                                                       {{ $absHostVolume := $this.GetWorkPath (index $volumeParts 0) -}}
                                                        {{ $containerVolume := index $volumeParts 1 -}}
                                                        -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
                                                      {{ end -}}
@@ -157,7 +157,7 @@
                   imageName                    : Blank
                   imagePrefix                  : Blank
                   imageTag                     : Blank
-                  includeUtilScript            : . ${ZARUBA_HOME}/bash/util.sh
+                  includeShellUtil             : . ${ZARUBA_HOME}/bash/util.sh
                   localhost                    : localhost
                   network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank

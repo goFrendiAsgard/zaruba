@@ -1,7 +1,7 @@
 # zrbRunShellScript
 ```
   TASK NAME     : zrbRunShellScript
-  LOCATION      : /scripts/tasks/zrbRunShellScript.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/run/task.zrbRunShellScript.yaml
   DESCRIPTION   : Run shell script
                   Common config:
                     start : Start script

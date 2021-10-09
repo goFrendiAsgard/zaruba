@@ -1,7 +1,7 @@
 # zrbStartApp
 ```
   TASK NAME     : zrbStartApp
-  LOCATION      : /scripts/tasks/zrbStartApp.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/start/task.zrbStartApp.yaml
   DESCRIPTION   : Start service and check it's readiness.
                   Common config:
                     setup       : Script to be executed before start service or check service readiness.
@@ -52,30 +52,30 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
                     echo 🎉🎉🎉
                     echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
-  CONFIG        : runInLocal        : true
-                  _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : Blank
-                  afterCheck        : Blank
-                  afterStart        : Blank
-                  beforeCheck       : Blank
-                  beforeStart       : Blank
-                  check             : {{- $d := .Decoration -}}
-                                      {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
-                                        {{ if ne $port "" -}}
-                                          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-                                          waitPort "localhost" {{ $port }}
-                                          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
-                                        {{ end -}}
-                                      {{ end -}}
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  ports             : Blank
-                  setup             : Blank
-                  start             : Blank
+  CONFIG        : _finish          : Blank
+                  _setup           : set -e
+                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _start           : Blank
+                  afterCheck       : Blank
+                  afterStart       : Blank
+                  beforeCheck      : Blank
+                  beforeStart      : Blank
+                  check            : {{- $d := .Decoration -}}
+                                     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
+                                       {{ if ne $port "" -}}
+                                         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
+                                         waitPort "localhost" {{ $port }}
+                                         echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+                                       {{ end -}}
+                                     {{ end -}}
+                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg           : -c
+                  finish           : Blank
+                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  ports            : Blank
+                  runInLocal       : true
+                  setup            : Blank
+                  start            : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -1,0 +1,18 @@
+tasks:
+
+  zrbRunCoreScript:
+    icon: 📔
+    description: |
+      Run script for core tasks
+      Common config:
+        start : Start script
+    private: true
+    extend: zrbRunShellScript
+    configRefs:
+      - zrbIncludeShellUtil
+    config:
+      _setup: |
+        set -e
+        {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+      start: echo "No script defined"
+

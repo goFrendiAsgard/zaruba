@@ -1,0 +1,17 @@
+tasks:
+  
+  zrbRunInNvm:
+    icon: 🐸
+    description: Run shell script under nvm
+    private: true
+    extend: zrbRunShellScript
+    configRefs:
+      - zrbNvm
+      - zrbIncludeShellUtil
+    config:
+      _setup: |
+        set -e
+        {{ .Util.Str.Trim (.GetConfig "includeShellUtilScript") "\n" }}
+        {{ .Util.Str.Trim (.GetConfig "useNvmScript") "\n" }} 
+      start: "echo hello world"
+

@@ -1,0 +1,31 @@
+tasks:
+
+  updateProjectLinks:
+    icon: 🔗
+    description: |
+      Update "links" in your project. Very useful if you have multiple apps sharing some parts of code
+      USAGE:
+        zaruba please updateProjectLinks
+        zaruba please updateProjectLinks "link::fibo/css=common-css"
+        zaruba please updateProjectLinks "link::app/css=common-css"
+      ARGUMENTS
+        link::<destination> : Location of the shared code
+      TIPS:
+        It is recommended to put `link` arguments in `default.values.yaml`.
+        In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
+    extend: zrbRunCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        {{ $this := . -}}
+        {{ $workPath := .WorkPath }}
+        {{ $destinations := .GetSubValueKeys "link" -}}
+        {{ range $index, $destination := $destinations -}}
+          {{ $source := $this.GetValue "link" $destination -}}
+          {{ $absSource := $this.GetWorkPath $source -}}
+          {{ $absDestination := $this.GetWorkPath $destination -}}
+          linkResource "{{ $absSource }}" "{{ $absDestination }}"
+        {{ end -}}
+        echo 🎉🎉🎉
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
+

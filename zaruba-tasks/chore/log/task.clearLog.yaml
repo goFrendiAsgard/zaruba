@@ -1,0 +1,12 @@
+tasks:
+
+  clearLog:
+    icon: 🔥
+    description: |
+      Clear log
+    extend: zrbRunCoreScript
+    config:
+      start: |
+        {{ $d := .Decoration -}}
+        rm -Rf log.zaruba.csv
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"

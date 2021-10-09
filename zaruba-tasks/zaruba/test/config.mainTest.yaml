@@ -1,0 +1,6 @@
+configs:
+
+  mainTest:
+    beforeStart:
+      set -e
+      ZARUBA_HOME="$(realpath ".")"

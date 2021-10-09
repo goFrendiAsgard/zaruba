@@ -1,0 +1,13 @@
+tasks:
+
+  buildZarubaAwsImage:
+    icon: 🐳
+    extend: zrbBuildDockerImage
+    location: ../../..
+    dependencies:
+      - buildZarubaImage
+    configRefs:
+      - commonDocker
+      - zarubaAwsDocker
+    timeout: 1h
+

@@ -1,0 +1,14 @@
+tasks:
+
+  buildBin:
+    icon: 🚧
+    location: ../../..
+    extend: zrbRunShellScript
+    dependencies:
+      - clearLog
+    config:
+      start: |
+        set -e
+        rm -f zaruba
+        go build
+

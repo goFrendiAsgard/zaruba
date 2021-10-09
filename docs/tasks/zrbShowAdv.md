@@ -1,7 +1,7 @@
 # zrbShowAdv
 ```
   TASK NAME     : zrbShowAdv
-  LOCATION      : /scripts/tasks/zrbShowAdv.zaruba.yaml
+  LOCATION      : /zaruba-tasks/base/advertisement/task.zrbShowAdv.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]
   START         : - {{ .GetConfig "cmd" }}
@@ -14,21 +14,21 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : Blank
-                  afterStart        : Blank
-                  beforeStart       : Blank
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  setup             : Blank
-                  start             : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
-                                      {{ if .IsTrue $showAdvertisement -}}
-                                        "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
-                                      {{ end -}}
+  CONFIG        : _finish          : Blank
+                  _setup           : set -e
+                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _start           : Blank
+                  afterStart       : Blank
+                  beforeStart      : Blank
+                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg           : -c
+                  finish           : Blank
+                  includeShellUtil : . ${ZARUBA_HOME}/bash/util.sh
+                  setup            : Blank
+                  start            : {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
+                                     {{ if .IsTrue $showAdvertisement -}}
+                                       "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
+                                     {{ end -}}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
