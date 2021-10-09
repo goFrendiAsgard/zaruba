@@ -1,6 +1,6 @@
 tasks:
  
-  addFastApiModule:
+  addFastApiRouteHandler:
     extend: makeApp
     dependencies:
       - addFastApiModule
@@ -11,9 +11,6 @@ tasks:
       - appHttpMethod
     config:
       _afterPrepareVariables: ''
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
-        ]
+      templateLocations: '[]'
       _integrate: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/add_route_handler.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/add_route_handler.sh"

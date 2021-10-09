@@ -5,5 +5,6 @@ from helpers.transport import MessageBus, RPC
 import traceback
 
 def register_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC):
+
     print('register ztplAppModuleName route handler')
 

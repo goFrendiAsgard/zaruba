@@ -170,8 +170,13 @@ func TestRepeat(t *testing.T) {
 
 func TestGetSingleIndentationNoSpaceOrTab(t *testing.T) {
 	util := NewUtil()
-	if _, err := util.Str.GetIndentation("no space or tab", 3); err == nil {
-		t.Errorf("error expected")
+	expected := ""
+	actual, err := util.Str.GetIndentation("no space or tab", 3)
+	if err != nil {
+		t.Error(err)
+	}
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 

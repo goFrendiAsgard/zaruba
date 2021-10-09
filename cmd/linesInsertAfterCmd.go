@@ -12,7 +12,7 @@ import (
 
 var linesInsertAfterCmd = &cobra.Command{
 	Use:   "insertAfter <lines> <index> <newLine>",
-	Short: "Replace lines[index] with replacements",
+	Short: "Insert newLine after lines[index]",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

@@ -1,6 +1,6 @@
 
-@app.zarubaHttpMethod('ztplAppUrl')
-def zarubaHttpMethod_zaruba_url() -> str:
+@app.ztplAppHttpMethod('ztplAppUrl')
+def ztplAppHttpMethod_zaruba_url() -> str:
     try:
         # To send event: 
         #   mb.call('event_name', {})

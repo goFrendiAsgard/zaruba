@@ -23,4 +23,4 @@ tasks:
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addTrino appDirectory=provoTrino
         ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library
-        ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=blog
+        ../zaruba please addFastApiRouteHandler appDirectory=provoFastApi appModuleName=blog appHttpMethod=get appUrl=/

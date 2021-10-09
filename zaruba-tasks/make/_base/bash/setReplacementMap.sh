@@ -22,6 +22,7 @@ _setReplacementMap "ztplAppCrudEntity" "${_ZRB_APP_CRUD_ENTITY}"
 _setReplacementMap "ztplAppCrudFields" "${_ZRB_APP_CRUD_FIELDS}"
 _setReplacementMap "ztplAppEventName" "${_ZRB_APP_EVENT_NAME}"
 _setReplacementMap "ztplAppHttpMethod" "${_ZRB_APP_HTTP_METHOD}"
+
 _setReplacementMap "ztplAppModuleName" "${_ZRB_APP_MODULE_NAME}"
 _setReplacementMap "ztpl_app_module_name" "${_ZRB_APP_SNAKE_MODULE_NAME}"
 _setReplacementMap "ztplAppRpcName" "${_ZRB_APP_RPC_NAME}"

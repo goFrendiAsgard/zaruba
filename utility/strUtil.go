@@ -174,7 +174,7 @@ func (strUtil *StrUtil) GetIndentation(s string, level int) (result string, err 
 	rex := regexp.MustCompile("^([ \t]+).*$")
 	match := rex.FindStringSubmatch(s)
 	if len(match) < 2 {
-		return "", fmt.Errorf("string is not predeeded by space or tab: '%s'", s)
+		return "", nil
 	}
 	totalIndentation := match[1]
 	indentationLength := len(totalIndentation) / level

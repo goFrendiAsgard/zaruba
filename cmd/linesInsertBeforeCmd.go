@@ -12,7 +12,7 @@ import (
 
 var linesInsertBeforeCmd = &cobra.Command{
 	Use:   "insertBefore <lines> <index> <newLine>",
-	Short: "Replace lines[index] with replacements",
+	Short: "Insert newLine before lines[index]",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

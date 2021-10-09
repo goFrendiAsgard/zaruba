@@ -98,3 +98,4 @@ includes:
   - ./zaruba-tasks/make/trino/task.addTrino.yaml
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
   - ./zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
+  - ./zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
