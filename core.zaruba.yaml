@@ -96,8 +96,10 @@ includes:
   - ./zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
   - ./zaruba-tasks/make/redis/task.addRedis.yaml
   - ./zaruba-tasks/make/trino/task.addTrino.yaml
+
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
-  - ./zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
+  - ./zaruba-tasks/make/fastApiCrud/task.addFastApiCrud.yaml
   - ./zaruba-tasks/make/fastApiEventHandler/task.addFastApiEventHandler.yaml
+  - ./zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
   - ./zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
   - ./zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml

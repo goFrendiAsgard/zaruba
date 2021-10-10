@@ -1,0 +1,19 @@
+tasks:
+ 
+  addFastApiCrud:
+    extend: makeApp
+    dependencies:
+      - addFastApiModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appCrudEntity
+      - appCrudFields
+    config:
+      _afterPrepareVariables: ''
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/template"
+        ]
+      _integrate: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/add_crud_handler.sh"

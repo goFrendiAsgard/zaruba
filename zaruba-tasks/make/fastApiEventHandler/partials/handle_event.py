@@ -1,4 +1,4 @@
 
 @mb.handle('ztplAppEventName')
-def handle_zaruba_event_name(message: Mapping[str, Any]):
-    print('handle event zarubaEventName with message: {}'.format(message))
+def handle_ztpl_app_event_name(message: Mapping[str, Any]):
+    print('handle event ztplAppEventName with message: {}'.format(message))

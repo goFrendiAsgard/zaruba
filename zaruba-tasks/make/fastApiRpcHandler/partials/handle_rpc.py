@@ -1,5 +1,5 @@
 
 @rpc.handle('ztplAppRpcName')
-def handle_zaruba_rpc_name(parameter: str) -> str:
-    print('handle RPC call zarubaRPCName with parameter: {}'.format(parameter))
+def ztpl_app_rpc_name(parameter: str) -> str:
+    print('handle RPC call ztplAppRpcName with parameter: {}'.format(parameter))
     return parameter

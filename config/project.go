@@ -82,7 +82,7 @@ func loadRawProject(projectFile string) (p *Project, err error) {
 		EnvRefMap:                  map[string]*EnvRef{},
 		ConfigRefMap:               map[string]*ConfigRef{},
 		IsInitialized:              false,
-		maxPublishedTaskNameLength: 17,
+		maxPublishedTaskNameLength: 20,
 		Util:                       utility.NewUtil(),
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
