@@ -12,4 +12,4 @@ tasks:
       _afterPrepareVariables: ''
       templateLocations: '[]'
       _integrate: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRpcHandler/bash/add_rpc_handler.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRpcHandler/bash/addRpcHandler.sh"

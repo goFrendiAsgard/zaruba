@@ -10,10 +10,11 @@ tasks:
       - appCrudEntity
       - appCrudFields
     config:
-      _afterPrepareVariables: ''
+      _afterPrepareVariables:
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setAppCrudFirstField.sh"
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/template"
         ]
       _integrate: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/add_crud_handler.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/addCrudHandler.sh"

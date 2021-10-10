@@ -13,4 +13,4 @@ tasks:
       _afterPrepareVariables: ''
       templateLocations: '[]'
       _integrate: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/add_route_handler.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"

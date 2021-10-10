@@ -20,4 +20,4 @@ tasks:
           "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
         ]
       _integrate: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/register_module.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/registerModule.sh"
