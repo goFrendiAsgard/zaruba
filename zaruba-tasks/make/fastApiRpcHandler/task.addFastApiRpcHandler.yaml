@@ -9,7 +9,7 @@ tasks:
       - appModuleName
       - appRpcName
     config:
-      _afterPrepareVariables: ''
+      _validate: ''
       templateLocations: '[]'
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRpcHandler/bash/addRpcHandler.sh"

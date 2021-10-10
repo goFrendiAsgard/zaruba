@@ -9,7 +9,7 @@ tasks:
       - appModuleName
       - appEventName
     config:
-      _afterPrepareVariables: ''
+      _prepareVariables: ''
       templateLocations: '[]'
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiEventHandler/bash/addEventHandler.sh"

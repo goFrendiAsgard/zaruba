@@ -1,12 +1,20 @@
-set -x
 _IMPORT_REPO_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_repo.py")"
 _IMPORT_REPO_SCRIPT="$("${ZARUBA_HOME}/zaruba" str replace "${_IMPORT_REPO_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+
+_INIT_REPO_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/init_repo.py")"
+_INIT_REPO_SCRIPT="$("${ZARUBA_HOME}/zaruba" str replace "${_INIT_REPO_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 _MAIN_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/main.py"
 _LINES="$("${ZARUBA_HOME}/zaruba" lines read "${_MAIN_FILE_LOCATION}")"
 
 # insert import
 _LINES="$("${ZARUBA_HOME}/zaruba" lines insertBefore "${_LINES}" 0 "${_IMPORT_REPO_SCRIPT}")"
+
+# init repo
+_ENGINE_DECLARATION_PATTERN="engine(\s*)="
+_PATTERN="$("${ZARUBA_HOME}/zaruba" list append '[]' "${_ENGINE_DECLARATION_PATTERN}")"
+_ENGINE_DECLARATION_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_LINES}" "${_PATTERN}")"
+_LINES="$("${ZARUBA_HOME}/zaruba" lines insertAfter "${_LINES}" "${_ENGINE_DECLARATION_INDEX}" "${_INIT_REPO_SCRIPT}")"
 
 # look for rpc call
 _CALL_PATTERN="^(\s*)register_${_ZRB_APP_SNAKE_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
@@ -19,7 +27,7 @@ _CALL_PARAM="$("${ZARUBA_HOME}/zaruba" list get "${_CALL_SUBMATCH}" 2)"
 _CALL_SUFFIX="$("${ZARUBA_HOME}/zaruba" list get "${_CALL_SUBMATCH}" 3)"
 _NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_APP_SNAKE_MODULE_NAME}_rpc_handler(${_CALL_PARAM}, ${_ZRB_APP_CRUD_SNAKE_ENTITY}_repo)${_CALL_SUFFIX}"
 
-# replace call signature
+# replace rpc call
 _LINES="$("${ZARUBA_HOME}/zaruba" list set "${_LINES}" "${_CALL_INDEX}" "${_NEW_CALL_LINE}")"
 
 chmod 755 "${_MAIN_FILE_LOCATION}"

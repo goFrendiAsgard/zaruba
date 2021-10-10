@@ -1,26 +1,16 @@
+# -- common
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import create_engine
-from helpers.transport import RMQEventMap, KafkaEventMap, get_rmq_connection_parameters, get_kafka_connection_parameters
-from configs.helper import get_abs_static_dir, create_message_bus, create_rpc
+from helpers.transport import RMQEventMap, KafkaEventMap
+from configs.helper import get_abs_static_dir, get_rmq_connection_parameters, get_kafka_connection_parameters, create_message_bus, create_rpc
 
 import os
 
 db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite://')
-rmq_connection_parameters = get_rmq_connection_parameters(
-    host = os.getenv('APP_RABBITMQ_HOST', 'localhost'),
-    user = os.getenv('APP_RABBITMQ_USER', 'root'),
-    password = os.getenv('APP_RABBITMQ_PASS', 'toor'),
-    virtual_host = os.getenv('APP_RABBITMQ_VHOST', '/'),
-    heartbeat=30
-)
+rmq_connection_parameters = get_rmq_connection_parameters()
 rmq_event_map = RMQEventMap({})
-kafka_connection_parameters = get_kafka_connection_parameters(
-    bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9093'),
-    sasl_mechanism=os.getenv('APP_KAFKA_SASL_MECHANISM', 'PLAIN'),
-    sasl_plain_username=os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', ''),
-    sasl_plain_password=os.getenv('APP_KAFKA_SASL_PLAIN_PASSWORD', '')
-)
+kafka_connection_parameters = get_kafka_connection_parameters()
 kafka_event_map = KafkaEventMap({})
 
 mb_type = os.getenv('APP_MESSAGE_BUS_TYPE', 'local')

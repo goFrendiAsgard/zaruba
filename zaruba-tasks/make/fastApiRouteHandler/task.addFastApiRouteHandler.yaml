@@ -10,7 +10,7 @@ tasks:
       - appUrl
       - appHttpMethod
     config:
-      _afterPrepareVariables: ''
+      _prepareVariables: ''
       templateLocations: '[]'
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"

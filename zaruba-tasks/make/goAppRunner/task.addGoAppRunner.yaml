@@ -12,7 +12,6 @@ tasks:
       - appContainerName
     config:
       _prepareVariables: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh" }}"
         . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh" }}"
       defaultAppPorts: |
         [

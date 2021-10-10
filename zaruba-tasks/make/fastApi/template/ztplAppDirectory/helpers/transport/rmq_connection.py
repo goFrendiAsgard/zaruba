@@ -2,7 +2,7 @@ from pika.adapters.blocking_connection import BlockingConnection
 
 import pika, time, threading
 
-def get_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 30) -> pika.ConnectionParameters:
+def create_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 30) -> pika.ConnectionParameters:
     return pika.ConnectionParameters(
         host=host,
         credentials=pika.PlainCredentials(user, password),
