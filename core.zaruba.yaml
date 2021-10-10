@@ -91,6 +91,7 @@ includes:
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
   - ./zaruba-tasks/make/mongodb/task.addMongodb.yaml
   - ./zaruba-tasks/make/mysql/task.addMysql.yaml
+  - ./zaruba-tasks/make/nginx/task.addNginx.yaml
   - ./zaruba-tasks/make/postgresql/task.addPostgresql.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
