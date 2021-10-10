@@ -1,7 +1,0 @@
-inputs:
-
-  linkTo:
-    validation: ^.+$
-    description: Link destination (Required)
-    prompt: Destination
-

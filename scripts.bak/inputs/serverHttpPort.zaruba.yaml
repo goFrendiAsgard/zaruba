@@ -1,9 +1,0 @@
-inputs:
-
-  serverHttpPort:
-    default: 8080
-    options: [8080, 8000, 3000, 5000]
-    validation: ^[0-9]+$
-    description: HTTP port to serve static files
-    prompt: HTTP port
-

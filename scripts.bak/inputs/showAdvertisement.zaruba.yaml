@@ -1,9 +1,0 @@
-inputs:
-
-  showAdvertisement:
-    default: yes
-    options: [yes, no]
-    allowCustom: false
-    description: Show advertisement
-    prompt: Show advertisement
-

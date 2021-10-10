@@ -1,4 +1,0 @@
-inputs:
-  appPushImageCommand:
-    description: Command to push app image
-    default: ''

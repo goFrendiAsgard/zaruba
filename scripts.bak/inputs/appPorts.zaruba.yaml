@@ -1,5 +1,0 @@
-inputs:
-
-  appPorts:
-    description: Application ports
-    default: '[]'

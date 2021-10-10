@@ -1,7 +1,0 @@
-inputs:
-  
-  linkFrom:
-    validation: ^.+$
-    description: Link source (Required)
-    prompt: Source
-

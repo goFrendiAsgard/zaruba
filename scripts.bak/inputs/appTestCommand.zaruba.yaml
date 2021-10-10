@@ -1,5 +1,0 @@
-inputs:
-
-  appTestCommand:
-    description: Command to test app
-    default: ''

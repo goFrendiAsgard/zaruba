@@ -1,5 +1,0 @@
-inputs:
-
-  appDependencies:
-    description: Application dependencies
-    default: '[]'

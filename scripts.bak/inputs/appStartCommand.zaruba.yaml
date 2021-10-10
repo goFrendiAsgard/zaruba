@@ -1,5 +1,0 @@
-inputs:
-
-  appStartCommand:
-    description: Command to start app
-    default: ''

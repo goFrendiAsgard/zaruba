@@ -1,8 +1,0 @@
-tasks:
-
-  makeTerraformTask:
-    extend: makeTask
-    inputs:
-      - appDirectory
-    config:
-      templateLocations: '["{{ .GetPath "../../templates/terraformTask" }}"]'

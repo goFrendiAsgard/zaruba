@@ -1,7 +1,0 @@
-inputs:
-  
-  variableName:
-    validation: ^.+$
-    description: Variable name (Required)
-    prompt: Name
-

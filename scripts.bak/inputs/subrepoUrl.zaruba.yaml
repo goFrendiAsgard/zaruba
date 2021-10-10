@@ -1,7 +1,0 @@
-inputs:
-
-  subrepoUrl:
-    validation: ^.+$
-    description: Subrepo url (Required)
-    prompt: Subrepo url
-

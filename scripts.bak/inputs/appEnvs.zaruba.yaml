@@ -1,5 +1,0 @@
-inputs:
-
-  appEnvs:
-    description: Application envs
-    default: '{}'

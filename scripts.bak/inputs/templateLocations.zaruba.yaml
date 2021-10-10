@@ -1,5 +1,0 @@
-inputs:
-
-  templateLocations:
-    description: template location
-    default: '[]'

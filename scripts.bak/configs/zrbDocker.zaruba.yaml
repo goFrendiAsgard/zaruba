@@ -1,7 +1,0 @@
-configs:
-
-  zrbDocker:
-    useImagePrefix: true
-    imagePrefix: ''
-    imageTag: ''
-    imageName: ''

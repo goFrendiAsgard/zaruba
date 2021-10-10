@@ -1,5 +1,0 @@
-inputs:
-
-  appCheckCommand:
-    description: Command to check app
-    default: ''
