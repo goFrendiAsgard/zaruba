@@ -38,6 +38,7 @@ tasks:
     configRefs: 
       - zrbRunDocker
       - zrbDocker
+      - zrbDockerNetwork
     config:
       _checkContainerState: |
         {{ $d := .Decoration -}}

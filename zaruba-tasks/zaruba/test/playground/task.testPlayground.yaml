@@ -2,5 +2,35 @@ tasks:
 
   testPlayground:
     dependencies:
-      - testInitProject
+      - testStartContainers
+  
+  testRemoveContainers:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
       - testAddComponents
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please removeContainers
+  
+  testStart:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testRemoveContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please start -t
+
+  testStartContainers:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStart
+      - testAddComponents
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please startContainers -t

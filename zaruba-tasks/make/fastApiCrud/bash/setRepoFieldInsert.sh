@@ -1,3 +1,5 @@
+_PATTERN="[\t ]*(id[\t ]*=[\t ]*str\(uuid.uuid4\(.*)"
+
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/repo_field_insert.py")"
 _FIELD_SCRIPT_LINES='["$1"]'
 for _INDEX in $("${ZARUBA_HOME}/zaruba" list rangeIndex "${_ZRB_APP_CRUD_FIELDS}")
@@ -13,5 +15,4 @@ done
 
 _ZRB_REPO_FIELD_INSERT="$("${ZARUBA_HOME}/zaruba" list join "${_FIELD_SCRIPT_LINES}")"
 
-_PATTERN="[\t ]*(id[\t ]*=[\t ]*str\(uuid.uuid4\(.*)"
 _setReplacementMap "${_PATTERN}" "${_ZRB_REPO_FIELD_INSERT}"

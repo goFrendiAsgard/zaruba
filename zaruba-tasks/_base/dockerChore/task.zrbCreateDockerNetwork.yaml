@@ -8,9 +8,10 @@ tasks:
       Common config:
         network : Network name
     extend: zrbRunCoreScript
+    configRef: zrbDockerNetwork
     config:
-      network: '{{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}'
       start: |
+        {{ $d := .Decoration -}}
         set -e
         if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
         then

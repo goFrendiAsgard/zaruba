@@ -5,6 +5,7 @@ includes:
   - ./zaruba-tasks/_base/advertisement/input.showAdvertisement.yaml
   - ./zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
+  - ./zaruba-tasks/_base/dockerChore/config.zrbDockerNetwork.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbBuildDockerImage.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml

@@ -1,1 +1,1 @@
-zaruba_field_name: str
+ztpl_app_crud_field: str

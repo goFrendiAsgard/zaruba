@@ -25,7 +25,6 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
-
     def find_by_id(self, id: str) -> ZtplAppCrudEntity:
         db = Session(self.engine)
         result: ZtplAppCrudEntity
@@ -38,7 +37,6 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return result
 
-    
     def find(self, keyword: str, limit: int, offset: int) -> List[ZtplAppCrudEntity]:
         db = Session(self.engine)
         results: List[ZtplAppCrudEntity] = []
@@ -50,7 +48,6 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return results
 
-    
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
         db = Session(self.engine)
         result: ZtplAppCrudEntity
@@ -66,7 +63,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         finally:
             db.close()
         return result
-    
+
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
         db = Session(self.engine)
         result: ZtplAppCrudEntity
@@ -83,7 +80,6 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return result
 
- 
     def delete(self, id: str) -> ZtplAppCrudEntity:
         db = Session(self.engine)
         result: ZtplAppCrudEntity

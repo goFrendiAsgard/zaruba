@@ -36,4 +36,5 @@ tasks:
     configRefs: 
       - zrbRunDocker
       - zrbDocker
+      - zrbDockerNetwork
     
