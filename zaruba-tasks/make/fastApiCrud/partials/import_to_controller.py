@@ -1,3 +1,0 @@
-from repos.ZtplAppCrudEntity import ZtplAppCrudEntityRepo
-from zarubaModuleName.handleZtplAppCrudEntityHttp import register_ztpl_app_crud_entity_route
-from zarubaModuleName.handleZtplAppCrudEntityRpc import register_ztpl_app_crud_entity_rpc

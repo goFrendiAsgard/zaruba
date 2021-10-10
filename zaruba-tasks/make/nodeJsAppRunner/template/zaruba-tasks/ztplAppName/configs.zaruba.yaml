@@ -22,9 +22,9 @@ configs:
   prepareZtplAppName:
     installTypeScript: false
     compileTypeScript: false
-    removeNodeModules: '{{ .GetValue "removeZtplZrbAppNameNodeModules" }}'
-    npmCleanCache: '{{ .GetValue "npmCleanCacheZtplZrbAppName" }}'
-    npmRebuild: '{{ .GetValue "npmRebuildZtplZrbAppName" }}'
+    removeNodeModules: '{{ .GetValue "removeZtplAppNameNodeModules" }}'
+    npmCleanCache: '{{ .GetValue "npmCleanCacheZtplAppName" }}'
+    npmRebuild: '{{ .GetValue "npmRebuildZtplAppName" }}'
 
   testZtplAppName:
     start: |

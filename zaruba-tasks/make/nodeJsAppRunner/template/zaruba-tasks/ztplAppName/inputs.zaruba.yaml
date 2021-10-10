@@ -9,19 +9,19 @@ inputs:
     description: Whether to run ztplAppName locally
     prompt: Run ztplAppName locally?
 
-  removeZtplZrbAppNameNodeModules:
+  removeZtplAppNameNodeModules:
     default: no
     options: [yes, no]
     prompt: Do you want to delete node_modules on ztplAppName?
     description: Delete node_modules on ztplAppName
 
-  npmCleanCacheZtplZrbAppName:
+  npmCleanCacheZtplAppName:
     default: no
     options: [yes, no]
     prompt: Do you want to clean npm cache on ztplAppName?
     description: Clean npm cache on ztplAppName
 
-  npmRebuildZtplZrbAppName:
+  npmRebuildZtplAppName:
     default: no
     options: [yes, no]
     prompt: Do you want to perform npm rebuild on ztplAppName?

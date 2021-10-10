@@ -1,10 +1,17 @@
-_HANDLE_ROUTE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiRouteHandler/partials/handle_route.py")"
+_IMPORT_ROUTE_HANDLER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_route_handler.py")"
+_IMPORT_ROUTE_HANDLER_SCRIPT="$("${ZARUBA_HOME}/zaruba" str replace "${_IMPORT_ROUTE_HANDLER_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+
+_HANDLE_ROUTE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/handle_route.py")"
 _HANDLE_ROUTE_SCRIPT="$("${ZARUBA_HOME}/zaruba" str replace "${_HANDLE_ROUTE_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 _CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}/route.py"
 
 _LINES="$("${ZARUBA_HOME}/zaruba" lines read "${_CONTROLLER_FILE_LOCATION}")"
 
+# insert import
+_LINES="$("${ZARUBA_HOME}/zaruba" lines insertBefore "${_LINES}" 0 "${_IMPORT_ROUTE_HANDLER_SCRIPT}")"
+
+# look for handler function
 _PATTERN='["def register_route_handler"]'
 _FUNCTION_INDEX="$("${ZARUBA_HOME}/zaruba" lines getIndex "${_LINES}" "${_PATTERN}")"
 

@@ -33,7 +33,7 @@ static_url = os.getenv('APP_STATIC_URL', '/static')
 static_dir = get_abs_static_dir(os.getenv('APP_STATIC_DIR', ''))
 
 engine = create_engine(db_url, echo=True)
-app = FastAPI(title='ztplZrbAppName')
+app = FastAPI(title='ztplAppName')
 mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map, kafka_connection_parameters, kafka_event_map)
 rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 

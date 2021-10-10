@@ -18,9 +18,9 @@ tasks:
     extend: zrbPrepareNodeJsApp
     location: ztplTaskAppLocation
     inputs:
-      - removeZtplZrbAppNameNodeModules
-      - npmCleanCacheZtplZrbAppName
-      - npmRebuildZtplZrbAppName
+      - removeZtplAppNameNodeModules
+      - npmCleanCacheZtplAppName
+      - npmRebuildZtplAppName
     configRefs:
       - prepareZtplAppName
       - ztplAppName
