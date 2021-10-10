@@ -1,0 +1,15 @@
+tasks:
+ 
+  addFastApiEventHandler:
+    extend: makeApp
+    dependencies:
+      - addFastApiModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appEventName
+    config:
+      _afterPrepareVariables: ''
+      templateLocations: '[]'
+      _integrate: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiEventHandler/bash/add_event_handler.sh"

@@ -24,3 +24,5 @@ tasks:
         ../zaruba please addTrino appDirectory=provoTrino
         ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library
         ../zaruba please addFastApiRouteHandler appDirectory=provoFastApi appModuleName=blog appHttpMethod=get appUrl=/
+        ../zaruba please addFastApiEventHandler appDirectory=provoFastApi appModuleName=library appEventName=open
+        ../zaruba please addFastApiRpcHandler appDirectory=provoFastApi appModuleName=library appRpcName=isBookAvailable
