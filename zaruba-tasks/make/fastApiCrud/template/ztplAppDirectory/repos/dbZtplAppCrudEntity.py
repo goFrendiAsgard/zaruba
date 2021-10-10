@@ -3,8 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
-from schemas.ZtplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
-from repos.ZtplAppCrudEntity import ZtplAppCrudEntityRepo
+from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
+from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
 
 import uuid
 import datetime

@@ -1,7 +1,7 @@
 from typing import Any, List, Mapping
 from helpers.transport import MessageBus, RPC
 from fastapi import FastAPI, HTTPException
-from schemas.ZtplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
+from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 
 import traceback
 

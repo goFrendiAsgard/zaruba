@@ -1,5 +1,5 @@
 from typing import List
-from schemas.ZtplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
+from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 
 import abc
 

@@ -5,3 +5,4 @@ tasks:
     location: ztplTaskAppLocation
     inputs:
       - runZtplAppNameInLocal
+    envRef: ztplAppName

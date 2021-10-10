@@ -2,5 +2,3 @@ envs:
 
   ztplAppName:
     ztplAppYamlEnvs
-
-  ztplAppNameContainer: {}

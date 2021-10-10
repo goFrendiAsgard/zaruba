@@ -2,9 +2,9 @@ tasks:
 
   testPlayground:
     dependencies:
-      - testStartContainers
-  
-  testRemoveContainers:
+      - testStopContainers
+
+  testSyncEnv:
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:
@@ -12,8 +12,19 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
+        touch .env
+        ../zaruba please syncEnv
+
+  testRemoveContainers:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testSyncEnv
+    configRef: playgroundTest
+    config:
+      start: |
         ../zaruba please removeContainers
-  
+
   testStart:
     location: ../../../../playground
     extend: zrbRunShellScript 
@@ -29,8 +40,30 @@ tasks:
     extend: zrbRunShellScript 
     dependencies:
       - testStart
-      - testAddComponents
     configRef: playgroundTest
     config:
       start: |
         ../zaruba please startContainers -t
+        echo "the containers are still running in the background"
+
+  testFastApi:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        sleep 5
+        python "{{ .GetPath "test_fastapi.py" }}"
+
+  testStopContainers:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testFastApi
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please stopContainers
+
