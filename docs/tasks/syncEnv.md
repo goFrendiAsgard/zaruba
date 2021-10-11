@@ -28,8 +28,8 @@
                   includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
-                                     "{{ .ZarubaBin }}" project syncEnv "./main.zaruba.yaml"
-                                     "{{ .ZarubaBin }}" project syncEnvFiles "./main.zaruba.yaml"
+                                     "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+                                     "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

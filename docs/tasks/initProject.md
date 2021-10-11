@@ -27,7 +27,7 @@
                   includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
-                                     if [ -f "main.zaruba.yaml" ]
+                                     if [ -f "index.zaruba.yaml" ]
                                      then
                                        echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
                                        exit 1

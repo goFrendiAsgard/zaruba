@@ -71,17 +71,5 @@ _ZRB_APP_YAML_PORTS="$("${ZARUBA_HOME}/zaruba" list join "${_ZRB_APP_PORTS}")"
 # yaml volumes
 _ZRB_APP_YAML_CONTAINER_VOLUMES="$("${ZARUBA_HOME}/zaruba" list join "${_ZRB_APP_CONTAINER_VOLUMES}")"
 
-
 # yaml envs
-_ZRB_APP_MAP_ENVS='{}'
-for _ZRB_KEY in $("${ZARUBA_HOME}/zaruba" map rangeKey "${_ZRB_APP_ENVS}")
-do
-    _ZRB_FROM="${_ZRB_APP_ENV_PREFIX}_${_ZRB_KEY}"
-    _ZRB_DEFAULT="$("${ZARUBA_HOME}/zaruba" map get "${_ZRB_APP_ENVS}" "${_ZRB_KEY}")"
-    _ZRB_APP_SINGLE_MAP_ENV='{}'
-    _ZRB_APP_SINGLE_MAP_ENV="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_APP_SINGLE_MAP_ENV}" "from" "${_ZRB_FROM}")"
-    _ZRB_APP_SINGLE_MAP_ENV="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_APP_SINGLE_MAP_ENV}" "default" "${_ZRB_DEFAULT}")"
-    _ZRB_APP_MAP_ENVS="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_APP_MAP_ENVS}" "${_ZRB_KEY}" "${_ZRB_APP_SINGLE_MAP_ENV}")"
-done
-_ZRB_APP_YAML_ENVS="$("${ZARUBA_HOME}/zaruba" yaml print "${_ZRB_APP_MAP_ENVS}")"
-
+_ZRB_APP_YAML_ENVS="$(_getYamlEnvs "${_ZRB_APP_ENVS}" "${_ZRB_ENV_PREFIX}")"

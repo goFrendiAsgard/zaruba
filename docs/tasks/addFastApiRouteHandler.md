@@ -1,10 +1,10 @@
-# addFastApiModule
+# addFastApiRouteHandler
 ```
-  TASK NAME     : addFastApiModule
-  LOCATION      : /zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
+  TASK NAME     : addFastApiRouteHandler
+  LOCATION      : /zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeApp ]
-  DEPENDENCIES  : [ addFastApi ]
+  DEPENDENCIES  : [ addFastApiModule ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -23,8 +23,18 @@
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
                     VALIDATION  : ^[a-zA-Z0-9_]+$
+                  appUrl
+                    DESCRIPTION : URL to be handled (Required)
+                    PROMPT      : URL to be handled
+                    VALIDATION  : ^[a-zA-Z0-9_\-/\{\}]+$
+                  appHttpMethod
+                    DESCRIPTION : HTTP Method (Required)
+                    PROMPT      : HTTP Method
+                    OPTIONS     : [ get, post, put, delete ]
+                    DEFAULT     : get
+                    VALIDATION  : ^[a-z]+$
   CONFIG        : _finish                        : Blank
-                  _integrate                     : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/registerModule.sh"
+                  _integrate                     : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
                                                    {{ .GetConfig "_prepareBasePrepareCommand" }}
@@ -102,9 +112,9 @@
                                                    echo "{{ $d.Yellow }}{{ $d.Bold }}Done{{ $d.Normal }}"
                                                    cd "${__ZRB_PWD}"
                   _validate                      : {{ $d := .Decoration -}}
-                                                   if [ -d "${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}" ]
+                                                   if [ -d "${_ZRB_APP_DIRECTORY}" ]
                                                    then
-                                                     echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
+                                                     echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
                                                      exit 0
                                                    fi
                   _validateAppContainerVolumes   : {{ $d := .Decoration -}}
@@ -166,9 +176,7 @@
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
-                  templateLocations              : [
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
-                                                   ]
+                  templateLocations              : []
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

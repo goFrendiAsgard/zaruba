@@ -1,10 +1,10 @@
-# addFastApiModule
+# addNginx
 ```
-  TASK NAME     : addFastApiModule
-  LOCATION      : /zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
+  TASK NAME     : addNginx
+  LOCATION      : /zaruba-tasks/make/nginx/task.addNginx.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeApp ]
-  DEPENDENCIES  : [ addFastApi ]
+  PARENT TASKS  : [ makeContainerAppRunner ]
+  DEPENDENCIES  : [ makeNginxApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -19,12 +19,29 @@
                     DESCRIPTION : Location of app
                     PROMPT      : Location of app
                     VALIDATION  : ^[a-zA-Z0-9_]+$
-                  appModuleName
-                    DESCRIPTION : Module name (Required)
-                    PROMPT      : Module name
-                    VALIDATION  : ^[a-zA-Z0-9_]+$
+                  appDependencies
+                    DESCRIPTION : Application dependencies
+                    PROMPT      : Application dependencies
+                    DEFAULT     : []
+                  appName
+                    DESCRIPTION : Name of the app
+                    PROMPT      : Name of the app
+                  appEnvs
+                    DESCRIPTION : Application envs
+                    PROMPT      : Application envs
+                    DEFAULT     : {}
+                  appPorts
+                    DESCRIPTION : Application ports
+                    DEFAULT     : []
+                  appImageName
+                    DESCRIPTION : App's image name
+                  appContainerName
+                    DESCRIPTION : Application container name
+                    PROMPT      : Application container name
+                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                        : Blank
-                  _integrate                     : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/registerModule.sh"
+                  _integrate                     : {{ .GetConfig "_registerModule" }}
+                                                   {{ .GetConfig "_registerTasks" }}
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
                                                    {{ .GetConfig "_prepareBasePrepareCommand" }}
@@ -41,6 +58,8 @@
                   _prepareBaseVariables          : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap         : Blank
                   _prepareVariables              : Blank
+                  _registerModule                : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerTasks                 : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setDefaultAppContainerVolumes : if [ "$("{{ .ZarubaBin }}" list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
                                                    then
                                                      _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "defaultAppContainerVolumes" }}'
@@ -102,9 +121,9 @@
                                                    echo "{{ $d.Yellow }}{{ $d.Bold }}Done{{ $d.Normal }}"
                                                    cd "${__ZRB_PWD}"
                   _validate                      : {{ $d := .Decoration -}}
-                                                   if [ -d "${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}" ]
+                                                   if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
                                                    then
-                                                     echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
+                                                     echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
                                                      exit 0
                                                    fi
                   _validateAppContainerVolumes   : {{ $d := .Decoration -}}
@@ -160,14 +179,22 @@
                   beforeStart                    : Blank
                   cmd                            : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                         : -c
-                  defaultAppContainerVolumes     : []
-                  defaultAppPorts                : []
+                  defaultAppContainerVolumes     : [
+                                                     "acme-challenge:/opt/bitnami/nginx/acme-challenge",
+                                                     "html:/opt/bitnami/nginx/html",
+                                                     "my_server_block.cnf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf "
+                                                   ]
+                  defaultAppPorts                : [
+                                                     "80",
+                                                     "443"
+                                                   ]
                   finish                         : Blank
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
                   templateLocations              : [
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

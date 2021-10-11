@@ -152,6 +152,7 @@
                   imageTag                     : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   localhost                    : localhost
+                  network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
                   rebuild                      : false
                   setup                        : Blank
