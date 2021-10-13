@@ -7,7 +7,7 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/template"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/appTemplate"
         ]
 
   addMysql:
@@ -31,3 +31,8 @@ tasks:
         [
           "init.sql:/docker-entrypoint-initdb.d/init.sql"
         ]
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/taskTemplate"
+        ] 
