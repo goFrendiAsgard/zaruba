@@ -7,7 +7,7 @@ tasks:
     config:
       templateLocations: |
         [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/template"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appTemplate"
         ]
 
   addCassandra:
@@ -29,3 +29,9 @@ tasks:
           "7199",
           "9042"
         ]
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/taskTemplate"
+        ] 
