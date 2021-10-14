@@ -33,8 +33,10 @@
                                               _ZRB_TASK_NAME="{{ .Name }}"
                                               _ZRB_REPLACEMENT_MAP='{}'
                                               _ZRB_SCRIPT='{{ .GetConfig "script" }}'
+                                              _ZRB_SQL='{{ .GetConfig "sql" }}'
                                               _setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
                                               _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
+                                              _setReplacementMap "ztplQuery" "${_ZRB_QUERY}"
                                               __ZRB_PWD=$(pwd)
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Prepare{{ $d.Normal }}"
                                               {{ .GetConfig "prepare" }} 
@@ -42,6 +44,7 @@
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Generate{{ $d.Normal }}"
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+                                              mkdir -p "{{ .GetConfig "generatedScriptLocation" }}"
                                               "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "{{ .GetConfig "generatedScriptLocation" }}" "${_ZRB_REPLACEMENT_MAP}"
                                               cd "${__ZRB_PWD}"
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Run Generated Script{{ $d.Normal }}"
@@ -65,9 +68,10 @@
                                               docker cp "${GENERATED_SCRIPT_LOCATION}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_LOCATION}"
                                               docker exec "${CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
                                               docker exec -u 0 "${CONTAINER_NAME}" rm -Rf "${_REMOTE_SCRIPT_LOCATION}"
-                                              rm "${GENERATED_SCRIPT_LOCATION}"
+                                              rm -Rf "${GENERATED_SCRIPT_LOCATION}"
                   script                    : Blank
                   setup                     : Blank
+                  sql                       : Blank
                   start                     : Blank
                   templateLocation          : {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
   ENVIRONMENTS  : PYTHONUNBUFFERED

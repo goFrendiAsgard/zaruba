@@ -34,7 +34,7 @@ tasks:
       - updateProjectLinks
       - zrbCreateDockerNetwork
     configRefs: 
-      - zrbRunDocker
+      - zrbRunDockerContainer
       - zrbDocker
       - zrbDockerNetwork
     

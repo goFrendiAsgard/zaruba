@@ -1,6 +1,6 @@
 configs:
 
-  zrbRunDocker:
+  zrbRunDockerContainer:
       containerName: ''
       entryPoint: ''
       command: ''

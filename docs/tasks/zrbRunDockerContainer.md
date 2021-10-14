@@ -1,7 +1,7 @@
 # zrbRunDockerContainer
 ```
   TASK NAME     : zrbRunDockerContainer
-  LOCATION      : /zaruba-tasks/_base/run/docker/task.zrbRunDockerContainer.yaml
+  LOCATION      : /zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
   DESCRIPTION   : Run docker container.
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.

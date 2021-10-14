@@ -7,6 +7,7 @@ tasks:
     config:
       templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template'
       script: ''
+      sql: ''
       generatedScriptLocation: '{{ .GetProjectPath "tmp" }}/${_ZRB_TASK_NAME}'
       prepare: |
         {{ .GetConfig "_prepareEnvReplacementMap" }}
@@ -24,8 +25,10 @@ tasks:
         _ZRB_TASK_NAME="{{ .Name }}"
         _ZRB_REPLACEMENT_MAP='{}'
         _ZRB_SCRIPT='{{ .GetConfig "script" }}'
+        _ZRB_SQL='{{ .GetConfig "sql" }}'
         _setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
         _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
+        _setReplacementMap "ztplQuery" "${_ZRB_QUERY}"
         __ZRB_PWD=$(pwd)
         echo "{{ $d.Yellow }}{{ $d.Bold }}Prepare{{ $d.Normal }}"
         {{ .GetConfig "prepare" }} 

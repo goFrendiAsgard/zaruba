@@ -67,7 +67,7 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please migrateProvoMysql
+        ../zaruba please queryProvoMysql
 
   testStopContainers:
     location: ../../../../playground
