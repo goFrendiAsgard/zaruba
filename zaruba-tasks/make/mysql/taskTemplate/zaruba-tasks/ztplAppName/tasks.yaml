@@ -9,6 +9,7 @@ tasks:
     location: ztplTaskAppLocation
     configRef: ztplAppNameContainer
     envRef: ztplAppName
+    inputs:
+      - sql
     config:
-      query: SHOW SCHEMAS
-      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/migrate" }}'
+      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/queryTemplate" }}'

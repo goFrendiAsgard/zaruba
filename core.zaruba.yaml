@@ -13,6 +13,7 @@ includes:
   - ./zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/generateAndRun/input.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
   - ./zaruba-tasks/_base/kubeChore/input.kubeContext.yaml

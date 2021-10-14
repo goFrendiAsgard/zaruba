@@ -32,7 +32,7 @@
                                               _ZRB_SQL='{{ .GetConfig "sql" }}'
                                               _setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
                                               _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
-                                              _setReplacementMap "ztplQuery" "${_ZRB_QUERY}"
+                                              _setReplacementMap "ztplSql" "${_ZRB_SQL}"
                                               __ZRB_PWD=$(pwd)
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Prepare{{ $d.Normal }}"
                                               {{ .GetConfig "prepare" }} 
@@ -55,9 +55,9 @@
                   includeShellUtil          : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   prepare                   : {{ .GetConfig "_prepareEnvReplacementMap" }}
                   runGeneratedScript        : {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
-                  script                    : Blank
+                  script                    : {{ .GetValue "script" }}
                   setup                     : Blank
-                  sql                       : Blank
+                  sql                       : {{ .GetValue "sql" }}
                   start                     : Blank
                   templateLocation          : {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
   ENVIRONMENTS  : PYTHONUNBUFFERED

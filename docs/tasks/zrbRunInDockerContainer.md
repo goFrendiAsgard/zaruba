@@ -36,7 +36,7 @@
                                               _ZRB_SQL='{{ .GetConfig "sql" }}'
                                               _setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
                                               _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
-                                              _setReplacementMap "ztplQuery" "${_ZRB_QUERY}"
+                                              _setReplacementMap "ztplSql" "${_ZRB_SQL}"
                                               __ZRB_PWD=$(pwd)
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Prepare{{ $d.Normal }}"
                                               {{ .GetConfig "prepare" }} 
@@ -69,9 +69,9 @@
                                               docker exec "${CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
                                               docker exec -u 0 "${CONTAINER_NAME}" rm -Rf "${_REMOTE_SCRIPT_LOCATION}"
                                               rm -Rf "${GENERATED_SCRIPT_LOCATION}"
-                  script                    : Blank
+                  script                    : {{ .GetValue "script" }}
                   setup                     : Blank
-                  sql                       : Blank
+                  sql                       : {{ .GetValue "sql" }}
                   start                     : Blank
                   templateLocation          : {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
   ENVIRONMENTS  : PYTHONUNBUFFERED
