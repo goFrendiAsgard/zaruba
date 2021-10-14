@@ -34,6 +34,7 @@
                                      fi
                                      git init
                                      cp -rT "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
+                                     touch .env
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
   ENVIRONMENTS  : PYTHONUNBUFFERED

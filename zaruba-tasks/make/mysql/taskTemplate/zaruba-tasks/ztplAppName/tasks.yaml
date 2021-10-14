@@ -1,0 +1,16 @@
+tasks:
+
+  startZtplAppName:
+    extend: startZtplAppNameContainer
+    location: ztplTaskAppLocation
+    inputs:
+      - runZtplAppNameInLocal
+    envRef: ztplAppName
+
+  migrateZtplAppName:
+    extend: zrbRunInDockerContainer
+    location: ztplTaskAppLocation
+    configRef: ztplAppNameContainer
+    envRef: ztplAppName
+    config:
+      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/migrate" }}'

@@ -37,7 +37,6 @@
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      {{ $this := . -}}
-                                     {{ $workPath := .WorkPath }}
                                      {{ $destinations := .GetSubValueKeys "link" -}}
                                      {{ range $index, $destination := $destinations -}}
                                        {{ $source := $this.GetValue "link" $destination -}}

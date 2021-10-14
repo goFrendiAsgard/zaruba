@@ -13,10 +13,11 @@ includes:
   - ./zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
+
   - ./zaruba-tasks/_base/kubeChore/input.kubeContext.yaml
   - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
-  - ./zaruba-tasks/_base/run/task.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunScript.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
@@ -27,10 +28,11 @@ includes:
 
   - ./zaruba-tasks/_base/run/docker/config.zrbRunDocker.yaml
   - ./zaruba-tasks/_base/run/docker/task.zrbRunDockerContainer.yaml
-  - ./zaruba-tasks/_base/run/docker/task.zrbRunInDockerContainer.yaml
 
-  - ./zaruba-tasks/_base/run/nvm/config.zrbNvm.yaml
-  - ./zaruba-tasks/_base/run/nvm/task.zrbRunInNvm.yaml
+  - ./zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
+
+  - ./zaruba-tasks/_base/run/inNvm/config.zrbNvm.yaml
+  - ./zaruba-tasks/_base/run/inNvm/task.zrbRunInNvm.yaml
 
   - ./zaruba-tasks/_base/start/task.zrbStartApp.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml

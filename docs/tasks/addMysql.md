@@ -191,7 +191,8 @@
                   start                          : Blank
                   templateLocations              : [
                                                      "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/taskTemplate"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

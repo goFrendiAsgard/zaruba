@@ -18,16 +18,17 @@ import (
 )
 
 type TaskData struct {
-	task         *Task
-	ZarubaHome   string
-	ZarubaBin    string
-	Name         string
-	ProjectName  string
-	WorkPath     string
-	DirPath      string
-	FileLocation string
-	Decoration   *output.Decoration
-	Util         *utility.Util
+	task           *Task
+	ZarubaHome     string
+	ZarubaBin      string
+	Name           string
+	ProjectName    string
+	WorkDirPath    string
+	TaskDirPath    string
+	ProjectDirPath string
+	FileLocation   string
+	Decoration     *output.Decoration
+	Util           *utility.Util
 }
 
 func NewTaskData(task *Task) (td *TaskData) {
@@ -39,25 +40,30 @@ func NewTaskData(task *Task) (td *TaskData) {
 	nextTask := *task
 	nextTask.currentRecursiveLevel++
 	return &TaskData{
-		task:         &nextTask,
-		ZarubaHome:   zarubaHome,
-		ZarubaBin:    filepath.Join(zarubaHome, "zaruba"),
-		Name:         task.GetName(),
-		ProjectName:  task.Project.GetName(),
-		WorkPath:     task.GetWorkPath(),
-		DirPath:      filepath.Dir(task.GetFileLocation()),
-		FileLocation: task.GetFileLocation(),
-		Decoration:   task.Project.Decoration,
-		Util:         task.Project.Util,
+		task:           &nextTask,
+		ZarubaHome:     zarubaHome,
+		ZarubaBin:      filepath.Join(zarubaHome, "zaruba"),
+		Name:           task.GetName(),
+		ProjectName:    task.Project.GetName(),
+		WorkDirPath:    task.GetWorkPath(),
+		TaskDirPath:    filepath.Dir(task.GetFileLocation()),
+		ProjectDirPath: filepath.Dir(task.Project.GetFileLocation()),
+		FileLocation:   task.GetFileLocation(),
+		Decoration:     task.Project.Decoration,
+		Util:           task.Project.Util,
 	}
 }
 
 func (td *TaskData) GetWorkPath(path string) (absPath string) {
-	return td.getAbsPath(td.WorkPath, path)
+	return td.getAbsPath(td.WorkDirPath, path)
 }
 
-func (td *TaskData) GetPath(path string) (absPath string) {
-	return td.getAbsPath(td.DirPath, path)
+func (td *TaskData) GetTaskPath(path string) (absPath string) {
+	return td.getAbsPath(td.TaskDirPath, path)
+}
+
+func (td *TaskData) GetProjectPath(path string) (absPath string) {
+	return td.getAbsPath(td.ProjectDirPath, path)
 }
 
 func (td *TaskData) GetConfig(keys ...string) (val string, err error) {
@@ -127,7 +133,7 @@ func (td *TaskData) GetDockerImageName() string {
 	}
 	dockerImageName, _ := td.GetConfig("imageName")
 	if dockerImageName == "" {
-		defaultServiceName, _ := GetDefaultServiceName(td.DirPath)
+		defaultServiceName, _ := GetDefaultServiceName(td.TaskDirPath)
 		dockerImageName = td.task.Project.Util.Str.ToKebab(defaultServiceName)
 	}
 	if dockerImagePrefix == "" {

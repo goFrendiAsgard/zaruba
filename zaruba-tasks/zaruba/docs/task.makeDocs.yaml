@@ -9,4 +9,4 @@ tasks:
     config:
       start: |
         set -e
-        . "{{ .GetPath "./bash/makeTaskDocs.sh" }}"
+        . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"

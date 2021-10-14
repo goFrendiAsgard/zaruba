@@ -28,6 +28,7 @@ tasks:
   testStart:
     location: ../../../../playground
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
       - testRemoveContainers
     configRef: playgroundTest
@@ -38,6 +39,7 @@ tasks:
   testStartContainers:
     location: ../../../../playground
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
       - testStart
     configRef: playgroundTest
@@ -45,6 +47,7 @@ tasks:
       start: |
         ../zaruba please startContainers -t
         echo "the containers are still running in the background"
+        sleep 5
 
   testFastApi:
     location: ../../../../playground
@@ -54,14 +57,24 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        sleep 5
-        python "{{ .GetPath "test_fastapi.py" }}"
+        python "{{ .GetTaskPath "test_fastapi.py" }}"
+
+  testMigrateMysql:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please migrateProvoMysql
 
   testStopContainers:
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:
       - testFastApi
+      - testMigrateMysql
     configRef: playgroundTest
     config:
       start: |

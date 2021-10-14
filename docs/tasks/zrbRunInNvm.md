@@ -1,7 +1,7 @@
 # zrbRunInNvm
 ```
   TASK NAME     : zrbRunInNvm
-  LOCATION      : /zaruba-tasks/_base/run/nvm/task.zrbRunInNvm.yaml
+  LOCATION      : /zaruba-tasks/_base/run/inNvm/task.zrbRunInNvm.yaml
   DESCRIPTION   : Run shell script under nvm
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunShellScript ]

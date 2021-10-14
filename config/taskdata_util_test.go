@@ -36,12 +36,12 @@ func TestTdGetPath(t *testing.T) {
 	td := NewTaskData(task)
 	// absolute
 	expected := "/home/gofrendi"
-	actual := td.GetPath("/home/gofrendi")
+	actual := td.GetTaskPath("/home/gofrendi")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 	expected, _ = filepath.Abs("../test-resources/taskdata/util/zaruba-tasks/gofrendi")
-	actual = td.GetPath("./gofrendi")
+	actual = td.GetTaskPath("./gofrendi")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
