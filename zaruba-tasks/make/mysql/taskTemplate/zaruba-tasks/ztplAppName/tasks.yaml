@@ -1,10 +1,12 @@
 tasks:
 
   startZtplAppName:
+    icon: 🐬
     dependencies:
       - startZtplAppNameContainer
 
   queryZtplAppName:
+    icon: 📜
     extend: zrbRunInDockerContainer
     location: ztplTaskAppLocation
     configRef: ztplAppNameContainer

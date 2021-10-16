@@ -14,7 +14,7 @@ tasks:
     envRef: ztplAppName
 
   prepareZtplAppName:
-    icon: 🐸
+    icon: 🔧
     extend: zrbPrepareInNvm
     location: ztplTaskAppLocation
     inputs:
@@ -24,7 +24,7 @@ tasks:
     configRef: prepareZtplAppName
 
   testZtplAppName:
-    icon: 🐸
+    icon: ✅
     extend: zrbRunInNvm
     location: ztplTaskAppLocation
     dependencies:

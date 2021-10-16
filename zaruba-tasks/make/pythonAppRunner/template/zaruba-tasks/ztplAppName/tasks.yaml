@@ -14,7 +14,7 @@ tasks:
     envRef: ztplAppName
 
   prepareZtplAppName:
-    icon: 🐍
+    icon: 🔧
     extend: zrbRunShellScript
     location: ztplTaskAppLocation
     configRefs:
@@ -23,7 +23,7 @@ tasks:
     envRef: ztplAppName
 
   testZtplAppName:
-    icon: 🐍
+    icon: ✅
     extend: zrbRunShellScript
     location: ztplTaskAppLocation
     dependencies:

@@ -1,0 +1,35 @@
+tasks:
+ 
+  makeAirflowApp:
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appTemplate"
+        ]
+
+  addAirflow:
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeAirflowApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      defaultAppPorts: |
+        [
+          "6379"
+        ]
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/taskTemplate"
+        ]

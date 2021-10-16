@@ -2,17 +2,17 @@ includes: []
 tasks:
 
   prepare:
-    icon: 👟
+    icon: 🔧
     extend: zrbWrapper
     dependencies: []
 
   test:
-    icon: 👟
+    icon: ✅
     extend: zrbWrapper
     dependencies: []
 
   start:
-    icon: 👟
+    icon: 🏁
     extend: zrbWrapper
     dependencies: []
 
@@ -27,7 +27,7 @@ tasks:
     dependencies: [] 
 
   removeContainers:
-    icon: 🔥
+    icon: ❌
     extend: zrbWrapper
     dependencies: [] 
 
@@ -52,7 +52,7 @@ tasks:
     dependencies: [] 
 
   helmUninstall:
-    icon: 🔥
+    icon: ❌
     extend: zrbWrapper
     dependencies: [] 
 
@@ -62,7 +62,7 @@ tasks:
     dependencies: [] 
 
   terraformDestroy:
-    icon: 🔥
+    icon: ❌
     extend: zrbWrapper
     dependencies: [] 
   

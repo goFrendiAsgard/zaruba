@@ -6,6 +6,7 @@ tasks:
       - startZtplAppNameContainer
 
   flushZtplAppName:
+    icon: 👶
     extend: zrbRunInDockerContainer
     location: ztplTaskAppLocation
     configRef: ztplAppNameContainer
