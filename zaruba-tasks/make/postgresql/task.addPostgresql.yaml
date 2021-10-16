@@ -23,6 +23,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appCheckCommand: pg_isready -U "{{ .Template ".GetEnv \"POSTGRESQL_USERNAME\"" }}"
       defaultAppPorts: |
         [
           "5432"

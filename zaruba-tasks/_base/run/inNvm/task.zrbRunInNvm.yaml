@@ -6,12 +6,12 @@ tasks:
     private: true
     extend: zrbRunShellScript
     configRefs:
-      - zrbNvm
+      - zrbRunInNvm
       - zrbIncludeShellUtil
     config:
       _setup: |
         set -e
         {{ .Util.Str.Trim (.GetConfig "includeShellUtilScript") "\n" }}
         {{ .Util.Str.Trim (.GetConfig "useNvmScript") "\n" }} 
-      start: "echo hello world"
+      start: ''
 

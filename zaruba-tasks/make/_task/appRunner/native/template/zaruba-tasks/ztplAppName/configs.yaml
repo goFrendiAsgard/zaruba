@@ -10,6 +10,8 @@ configs:
     imageName: ztplAppImageName
     containerName: ztplAppContainerName
     localhost: host.docker.internal
+    checkCommand: |
+      ztplAppCheckCommand
     volumes: |
       ztplAppYamlContainerVolumes
 
@@ -20,11 +22,8 @@ configs:
       ztplAppCheckCommand
 
   prepareZtplAppName:
-    installTypeScript: false
-    compileTypeScript: false
-    removeNodeModules: '{{ .GetValue "removeZtplAppNameNodeModules" }}'
-    npmCleanCache: '{{ .GetValue "npmCleanCacheZtplAppName" }}'
-    npmRebuild: '{{ .GetValue "npmRebuildZtplAppName" }}'
+    start: |
+      ztplAppPrepareCommand
 
   testZtplAppName:
     start: |

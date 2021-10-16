@@ -36,5 +36,6 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.preparePlayground.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testAddComponents.yaml
-  - ./zaruba-tasks/zaruba/test/playground/task.testPlayground.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testApps.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testPushImages.yaml
 

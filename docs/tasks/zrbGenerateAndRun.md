@@ -30,6 +30,7 @@
                                               _ZRB_REPLACEMENT_MAP='{}'
                                               _ZRB_SCRIPT='{{ .GetConfig "script" }}'
                                               _ZRB_SQL='{{ .GetConfig "sql" }}'
+                                              _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
                                               _setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
                                               _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
                                               _setReplacementMap "ztplSql" "${_ZRB_SQL}"
@@ -40,8 +41,8 @@
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Generate{{ $d.Normal }}"
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
-                                              mkdir -p "{{ .GetConfig "generatedScriptLocation" }}"
-                                              "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "{{ .GetConfig "generatedScriptLocation" }}" "${_ZRB_REPLACEMENT_MAP}"
+                                              mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+                                              "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
                                               cd "${__ZRB_PWD}"
                                               echo "{{ $d.Yellow }}{{ $d.Bold }}Run Generated Script{{ $d.Normal }}"
                                               {{ .GetConfig "runGeneratedScript" }} 
@@ -51,7 +52,7 @@
                   cmd                       : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                    : -c
                   finish                    : Blank
-                  generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/${_ZRB_TASK_NAME}
+                  generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}
                   includeShellUtil          : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   prepare                   : {{ .GetConfig "_prepareEnvReplacementMap" }}
                   runGeneratedScript        : {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh

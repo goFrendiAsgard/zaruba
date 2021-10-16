@@ -43,12 +43,12 @@
                   _integrate                     : {{ .GetConfig "_registerModule" }}
                                                    {{ .GetConfig "_registerTasks" }}
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
+                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
                                                    {{ .GetConfig "_prepareBasePrepareCommand" }}
                                                    {{ .GetConfig "_prepareBaseTestCommand" }}
                                                    {{ .GetConfig "_prepareBaseCheckCommand" }}
                                                    {{ .GetConfig "_prepareBaseReplacementMap" }}
-                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareReplacementMap" }}
                   _prepareBaseCheckCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
                   _prepareBasePrepareCommand     : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
@@ -152,7 +152,7 @@
                                                    fi
                   afterStart                     : Blank
                   appBuildImageCommand           : {{ .GetValue "appBuildImageCommand" }}
-                  appCheckCommand                : {{ .GetValue "appCheckCommand" }}
+                  appCheckCommand                : cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
                   appContainerName               : {{ .GetValue "appContainerName" }}
                   appContainerVolumes            : {{ .GetValue "appContainerVolumes" }}
                   appCrudEntity                  : {{ .GetValue "appCrudEntity" }}
@@ -191,7 +191,8 @@
                   start                          : Blank
                   templateLocations              : [
                                                      "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/taskTemplate"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

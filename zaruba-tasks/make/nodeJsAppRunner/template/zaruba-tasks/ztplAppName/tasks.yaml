@@ -2,7 +2,7 @@ tasks:
 
   startZtplAppName:
     icon: 🐸
-    extend: zrbStartNvmApp
+    extend: zrbRunInNvm
     location: ztplTaskAppLocation
     inputs:
       - runZtplAppNameInLocal
@@ -15,20 +15,17 @@ tasks:
 
   prepareZtplAppName:
     icon: 🐸
-    extend: zrbPrepareNodeJsApp
+    extend: zrbPrepareInNvm
     location: ztplTaskAppLocation
     inputs:
       - removeZtplAppNameNodeModules
       - npmCleanCacheZtplAppName
       - npmRebuildZtplAppName
-    configRefs:
-      - prepareZtplAppName
-      - ztplAppName
-    envRef: ztplAppName
+    configRef: prepareZtplAppName
 
   testZtplAppName:
     icon: 🐸
-    extend: zrbRunShellScript
+    extend: zrbRunInNvm
     location: ztplTaskAppLocation
     dependencies:
       - prepareZtplAppName

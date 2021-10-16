@@ -39,12 +39,12 @@
                                                    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRpcHandler.sh"
                                                    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRepo.sh"
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
+                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
                                                    {{ .GetConfig "_prepareBasePrepareCommand" }}
                                                    {{ .GetConfig "_prepareBaseTestCommand" }}
                                                    {{ .GetConfig "_prepareBaseCheckCommand" }}
                                                    {{ .GetConfig "_prepareBaseReplacementMap" }}
-                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareReplacementMap" }}
                   _prepareBaseCheckCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
                   _prepareBasePrepareCommand     : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
@@ -53,7 +53,12 @@
                   _prepareBaseTestCommand        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables          : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap         : Blank
-                  _prepareVariables              : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setAppCrudFirstField.sh"
+                  _prepareVariables              : {{ .GetConfig "_prepareBaseStartCommand" }}
+                                                   {{ .GetConfig "_prepareBasePrepareCommand" }}
+                                                   {{ .GetConfig "_prepareBaseTestCommand" }}
+                                                   {{ .GetConfig "_prepareBaseCheckCommand" }}
+                                                   {{ .GetConfig "_prepareBaseReplacementMap" }}
+                                                   . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setAppCrudFirstField.sh"
                                                    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldDeclaration.sh"
                                                    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldInsert.sh"
                                                    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldUpdate.sh"

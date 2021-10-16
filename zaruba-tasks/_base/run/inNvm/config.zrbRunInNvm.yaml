@@ -1,0 +1,16 @@
+configs:
+
+  zrbRunInNvm:
+    nodeVersion: node
+
+    useNvmScript: |
+      if [ "$(isCommandExist nvm)" = 1 ]
+      then
+        if [ "$(isCommandError nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
+        then
+          nvm install "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
+        else
+          nvm use "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}"
+        fi
+      fi
+    

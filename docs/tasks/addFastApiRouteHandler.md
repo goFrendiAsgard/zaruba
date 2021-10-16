@@ -36,12 +36,12 @@
   CONFIG        : _finish                        : Blank
                   _integrate                     : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
+                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
                                                    {{ .GetConfig "_prepareBasePrepareCommand" }}
                                                    {{ .GetConfig "_prepareBaseTestCommand" }}
                                                    {{ .GetConfig "_prepareBaseCheckCommand" }}
                                                    {{ .GetConfig "_prepareBaseReplacementMap" }}
-                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareReplacementMap" }}
                   _prepareBaseCheckCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
                   _prepareBasePrepareCommand     : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"

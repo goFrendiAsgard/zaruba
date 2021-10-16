@@ -26,6 +26,8 @@ tasks:
   pushZtplAppNameImage:
     extend: zrbPushDockerImage
     timeout: 1h
+    dependencies:
+      - buildZtplAppNameImage
     configRefs:
       - ztplAppNameContainer
       - ztplAppName

@@ -20,8 +20,11 @@ configs:
       ztplAppCheckCommand
 
   prepareZtplAppName:
-    start: |
-      ztplAppPrepareCommand
+    installTsc: false
+    compileTypeScript: false
+    removeNodeModules: '{{ .GetValue "removeZtplAppNameNodeModules" }}'
+    cleanNpmCache: '{{ .GetValue "cleanZtplAppNameNpmCache" }}'
+    rebuildNpm: '{{ .GetValue "rebuildZtplAppNameNpm" }}'
 
   testZtplAppName:
     start: |

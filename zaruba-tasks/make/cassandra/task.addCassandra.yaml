@@ -23,6 +23,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appCheckCommand: cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
       defaultAppPorts: |
         [
           "7000",

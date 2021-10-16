@@ -19,7 +19,7 @@ tasks:
         ../zaruba please addMongodb appDirectory=provoMongodb
         ../zaruba please addMysql appDirectory=provoMysql
         ../zaruba please addNginx appDirectory=provoNginx appPorts='["8980:80", "8943:443"]'
-        ../zaruba please addPostgresql appDirectory=provoPosgresql
+        ../zaruba please addPostgresql appDirectory=provoPostgresql
         ../zaruba please addRabbitmq appDirectory=provoRabbitmq
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addTrino appDirectory=provoTrino

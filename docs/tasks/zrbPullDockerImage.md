@@ -28,7 +28,7 @@
                   cmdArg           : -c
                   finish           : Blank
                   imageName        : Blank
-                  imagePrefix      : Blank
+                  imagePrefix      : {{ .GetValue "defaultImagePrefix" }}
                   imageTag         : Blank
                   includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank

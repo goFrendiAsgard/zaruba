@@ -148,7 +148,7 @@
                   finish                       : Blank
                   hostDockerInternal           : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
                   imageName                    : Blank
-                  imagePrefix                  : Blank
+                  imagePrefix                  : {{ .GetValue "defaultImagePrefix" }}
                   imageTag                     : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   localhost                    : localhost

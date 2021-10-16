@@ -23,6 +23,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appCheckCommand: mysql -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }} -e "SHOW SCHEMAS"
       defaultAppPorts: |
         [
           "3306"

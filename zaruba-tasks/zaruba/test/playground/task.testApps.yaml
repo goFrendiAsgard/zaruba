@@ -1,8 +1,8 @@
 tasks:
 
-  testPlayground:
+  testApps:
     dependencies:
-      - testStopContainers
+      - testRemoveContainers
 
   testSyncEnv:
     location: ../../../../playground
@@ -12,12 +12,12 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        touch .env
         ../zaruba please syncEnv
 
-  testRemoveContainers:
+  removeContainersBeforeStart:
     location: ../../../../playground
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
       - testSyncEnv
     configRef: playgroundTest
@@ -30,7 +30,7 @@ tasks:
     extend: zrbRunShellScript 
     timeout: 1h
     dependencies:
-      - testRemoveContainers
+      - removeContainersBeforeStart
     configRef: playgroundTest
     config:
       start: |
@@ -59,7 +59,7 @@ tasks:
       start: |
         python "{{ .GetTaskPath "test_fastapi.py" }}"
 
-  testMigrateMysql:
+  testQueryMysql:
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:
@@ -67,16 +67,38 @@ tasks:
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please queryProvoMysql
+        ../zaruba please queryProvoMysql sql='SHOW SCHEMAS;'
 
-  testStopContainers:
+  testQueryPostgresql:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please queryProvoPostgresql sql='SELECT datname FROM pg_database;'
+
+  testQueryCassandra:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please queryProvoCassandra sql='DESCRIBE KEYSPACES;'
+
+  testRemoveContainers:
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:
       - testFastApi
-      - testMigrateMysql
+      - testQueryMysql
+      - testQueryPostgresql
+      - testQueryCassandra
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please stopContainers
+        ../zaruba please removeContainers
 

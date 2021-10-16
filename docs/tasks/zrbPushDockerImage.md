@@ -28,13 +28,14 @@
                   cmdArg           : -c
                   finish           : Blank
                   imageName        : Blank
-                  imagePrefix      : Blank
+                  imagePrefix      : {{ .GetValue "defaultImagePrefix" }}
                   imageTag         : Blank
                   includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
                                      DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+                                     echo "${DOCKER_IMAGE_NAME}"
                                      if [ ! -z "${DOCKER_IMAGE_TAG}" ]
                                      then
                                        docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"

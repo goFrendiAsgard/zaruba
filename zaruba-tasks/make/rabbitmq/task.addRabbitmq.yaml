@@ -23,6 +23,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appCheckCommand: rabbitmqctl await_startup
       defaultAppPorts: |
         [
           "5672",

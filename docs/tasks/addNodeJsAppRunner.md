@@ -42,12 +42,12 @@
                   _integrate                     : {{ .GetConfig "_registerModule" }}
                                                    {{ .GetConfig "_registerTasks" }}
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
+                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
                                                    {{ .GetConfig "_prepareBasePrepareCommand" }}
                                                    {{ .GetConfig "_prepareBaseTestCommand" }}
                                                    {{ .GetConfig "_prepareBaseCheckCommand" }}
                                                    {{ .GetConfig "_prepareBaseReplacementMap" }}
-                                                   {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareReplacementMap" }}
                   _prepareBaseCheckCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
                   _prepareBasePrepareCommand     : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
@@ -188,6 +188,7 @@
                   start                          : Blank
                   templateLocations              : [
                                                      "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
                                                      "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/template"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED

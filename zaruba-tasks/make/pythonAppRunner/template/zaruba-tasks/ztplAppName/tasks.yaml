@@ -15,7 +15,7 @@ tasks:
 
   prepareZtplAppName:
     icon: 🐍
-    extend: zrbPreparePythonApp
+    extend: zrbRunShellScript
     location: ztplTaskAppLocation
     configRefs:
       - prepareZtplAppName

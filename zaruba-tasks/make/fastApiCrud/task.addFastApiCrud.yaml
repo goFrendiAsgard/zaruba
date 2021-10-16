@@ -12,6 +12,11 @@ tasks:
     config:
       _validate: ''
       _prepareVariables: |
+        {{ .GetConfig "_prepareBaseStartCommand" }}
+        {{ .GetConfig "_prepareBasePrepareCommand" }}
+        {{ .GetConfig "_prepareBaseTestCommand" }}
+        {{ .GetConfig "_prepareBaseCheckCommand" }}
+        {{ .GetConfig "_prepareBaseReplacementMap" }}
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setAppCrudFirstField.sh"
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldDeclaration.sh"
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldInsert.sh"
