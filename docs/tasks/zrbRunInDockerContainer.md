@@ -39,19 +39,21 @@
                                               _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
                                               _setReplacementMap "ztplSql" "${_ZRB_SQL}"
                                               __ZRB_PWD=$(pwd)
-                                              echo "{{ $d.Yellow }}{{ $d.Bold }}Prepare{{ $d.Normal }}"
+                                              echo "{{ $d.Yellow }}[Prepare]{{ $d.Normal }}"
                                               {{ .GetConfig "prepare" }} 
                                               cd "${__ZRB_PWD}"
-                                              echo "{{ $d.Yellow }}{{ $d.Bold }}Generate{{ $d.Normal }}"
-                                              echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
-                                              echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+                                              echo "{{ $d.Yellow }}[Generate]{{ $d.Normal }}"
+                                              echo "{{ $d.Yellow }}_ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
+                                              echo "{{ $d.Yellow }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                               mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                                               "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
                                               cd "${__ZRB_PWD}"
-                                              echo "{{ $d.Yellow }}{{ $d.Bold }}Run Generated Script{{ $d.Normal }}"
+                                              echo "{{ $d.Bold }}{{ $d.Yellow }}[Run Script]{{ $d.Normal }}"
                                               {{ .GetConfig "runGeneratedScript" }} 
                                               cd "${__ZRB_PWD}"
-                  afterStart                : Blank
+                  afterStart                : {{ $d := .Decoration -}}
+                                              echo 🎉🎉🎉
+                                              echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
                   beforeStart               : Blank
                   cmd                       : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                    : -c

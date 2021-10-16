@@ -106,18 +106,17 @@
                                                    _ZRB_APP_URL='{{ .GetConfig "appUrl" }}'
                                                    _ZRB_REPLACEMENT_MAP='{}'
                                                    __ZRB_PWD=$(pwd)
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}Prepare{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[Prepare]{{ $d.Normal }}"
                                                    {{ .GetConfig "_prepareBase" }}
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}Validate{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[Validate]{{ $d.Normal }}"
                                                    {{ .GetConfig "_validate" }}
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}Generate{{ $d.Normal }}"
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+                                                   echo "{{ $d.Yellow }}[Generate]{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}_ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
+                                                   echo "{{ $d.Yellow }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                    cd "${__ZRB_PWD}"
                                                    _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}Integrate{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[Integrate]{{ $d.Normal }}"
                                                    {{ .GetConfig "_integrate" }}
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}Done{{ $d.Normal }}"
                                                    cd "${__ZRB_PWD}"
                   _validate                      : {{ $d := .Decoration -}}
                                                    if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
@@ -128,28 +127,30 @@
                   _validateAppContainerVolumes   : {{ $d := .Decoration -}}
                                                    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
                                                    then
-                                                     echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_APP_CONTAINER_VOLUMES: ${_ZRB_APP_CONTAINER_VOLUMES}{{ $d.Normal }}"
+                                                     echo "{{ $d.Red }}Invalid _ZRB_APP_CONTAINER_VOLUMES: ${_ZRB_APP_CONTAINER_VOLUMES}{{ $d.Normal }}"
                                                      exit 1
                                                    fi
                   _validateAppCrudFields         : {{ $d := .Decoration -}}
                                                    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CRUD_FIELDS}")" = 0 ]
                                                    then
-                                                     echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}{{ $d.Normal }}"
+                                                     echo "{{ $d.Red }}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}{{ $d.Normal }}"
                                                      exit 1
                                                    fi
                   _validateAppPorts              : {{ $d := .Decoration -}}
                                                    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_PORTS}")" = 0 ]
                                                    then
-                                                     echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_APP_PORTS: ${_ZRB_APP_PORTS}{{ $d.Normal }}"
+                                                     echo "{{ $d.Red }}Invalid _ZRB_APP_PORTS: ${_ZRB_APP_PORTS}{{ $d.Normal }}"
                                                      exit 1
                                                    fi
                   _validateTemplateLocation      : {{ $d := .Decoration -}}
                                                    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_TEMPLATE_LOCATIONS}")" = 0 ]
                                                    then
-                                                     echo "{{ $d.Bold }}{{ $d.Red }}Invalid _ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}{{ $d.Normal }}"
+                                                     echo "{{ $d.Red }}Invalid _ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}{{ $d.Normal }}"
                                                      exit 1
                                                    fi
-                  afterStart                     : Blank
+                  afterStart                     : {{ $d := .Decoration -}}
+                                                   echo 🎉🎉🎉
+                                                   echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
                   appBuildImageCommand           : {{ .GetValue "appBuildImageCommand" }}
                   appCheckCommand                : {{ .GetValue "appCheckCommand" }}
                   appContainerName               : {{ .GetValue "appContainerName" }}

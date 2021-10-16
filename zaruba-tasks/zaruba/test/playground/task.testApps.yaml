@@ -89,6 +89,26 @@ tasks:
       start: |
         ../zaruba please queryProvoCassandra sql='DESCRIBE KEYSPACES;'
 
+  testFlushRedis:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please flushProvoRedis
+
+  testResetRabbitmq:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please resetProvoRabbitmq
+
   testRemoveContainers:
     location: ../../../../playground
     extend: zrbRunShellScript 
@@ -97,6 +117,8 @@ tasks:
       - testQueryMysql
       - testQueryPostgresql
       - testQueryCassandra
+      - testFlushRedis
+      - testResetRabbitmq
     configRef: playgroundTest
     config:
       start: |

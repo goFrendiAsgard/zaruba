@@ -1,0 +1,14 @@
+tasks:
+
+  startZtplAppName:
+    icon: 🧰
+    dependencies:
+      - startZtplAppNameContainer
+
+  flushZtplAppName:
+    extend: zrbRunInDockerContainer
+    location: ztplTaskAppLocation
+    configRef: ztplAppNameContainer
+    envRef: ztplAppName
+    config:
+      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/utilities/flush" }}'
