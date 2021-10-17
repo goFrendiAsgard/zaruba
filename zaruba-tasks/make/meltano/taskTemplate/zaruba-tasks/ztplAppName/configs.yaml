@@ -1,0 +1,23 @@
+configs:
+
+  ztplAppName:
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+
+  ztplAppNameContainer:
+    useImagePrefix: true
+    imageName: ztpl-app-image-name
+    containerName: ztplAppContainerName
+    localhost: host.docker.internal
+    volumes: |
+      ztplAppYamlContainerVolumes
+
+  runZtplAppName:
+    start: pipenv run ./start.sh
+
+  prepareZtplAppName:
+    start: pipenv install
+
+  testZtplAppName:
+    start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html

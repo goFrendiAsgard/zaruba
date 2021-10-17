@@ -1,5 +1,4 @@
 #!/bin/bash
-cd app
 
 # TODO: modify the command
 # Example:

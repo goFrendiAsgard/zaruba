@@ -3,6 +3,7 @@ tasks:
   testAddComponents:
     location: ../../../../playground
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
       - testInitProject
     configRef: playgroundTest
@@ -34,3 +35,4 @@ tasks:
 
         ../zaruba please addAirflow appDirectory=provoAirflow
         ../zaruba please addKafka appDirectory=provoKafka
+        ../zaruba please addMeltano appDirectory=provoMeltano

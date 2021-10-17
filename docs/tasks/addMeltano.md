@@ -1,10 +1,10 @@
-# addRabbitmq
+# addMeltano
 ```
-  TASK NAME     : addRabbitmq
-  LOCATION      : /zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
+  TASK NAME     : addMeltano
+  LOCATION      : /zaruba-tasks/make/meltano/task.addMeltano.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeContainerAppRunner ]
-  DEPENDENCIES  : [ makeRabbitmqApp ]
+  PARENT TASKS  : [ makeNativeAppRunner ]
+  DEPENDENCIES  : [ makeMeltanoApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -30,9 +30,6 @@
                     DESCRIPTION : Application envs
                     PROMPT      : Application envs
                     DEFAULT     : {}
-                  appPorts
-                    DESCRIPTION : Application ports
-                    DEFAULT     : []
                   appImageName
                     DESCRIPTION : App's image name
                   appContainerName
@@ -43,7 +40,6 @@
                   _generate                      : {{ .GetConfig "_generateBase" }}
                   _generateBase                  : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                   _integrate                     : {{ .GetConfig "_registerModule" }}
-                                                   {{ .GetConfig "_registerTasks" }}
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
                                                    {{ .GetConfig "_prepareVariables" }}
                                                    {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -156,7 +152,7 @@
                                                    echo 🎉🎉🎉
                                                    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
                   appBuildImageCommand           : {{ .GetValue "appBuildImageCommand" }}
-                  appCheckCommand                : rabbitmqctl await_startup
+                  appCheckCommand                : {{ .GetValue "appCheckCommand" }}
                   appContainerName               : {{ .GetValue "appContainerName" }}
                   appContainerVolumes            : {{ .GetValue "appContainerVolumes" }}
                   appCrudEntity                  : {{ .GetValue "appCrudEntity" }}
@@ -168,7 +164,7 @@
                   appEventName                   : {{ .GetValue "appEventName" }}
                   appHelmChartUrl                : {{ .GetValue "appHelmChartUrl" }}
                   appHttpMethod                  : {{ .GetValue "appHttpMethod" }}
-                  appIcon                        : 🐇
+                  appIcon                        : 🐉
                   appImageName                   : {{ .GetValue "appImageName" }}
                   appModuleName                  : {{ .GetValue "appModuleName" }}
                   appName                        : {{ .GetValue "appName" }}
@@ -185,18 +181,15 @@
                   cmd                            : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                         : -c
                   defaultAppContainerVolumes     : []
-                  defaultAppPorts                : [
-                                                     "5672",
-                                                     "15672"
-                                                   ]
+                  defaultAppPorts                : []
                   finish                         : Blank
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
                   templateLocations              : [
                                                      "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmq/taskTemplate"
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/taskTemplate"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -34,6 +34,8 @@
                     DEFAULT     : get
                     VALIDATION  : ^[a-z]+$
   CONFIG        : _finish                        : Blank
+                  _generate                      : {{ .GetConfig "_generateBase" }}
+                  _generateBase                  : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                   _integrate                     : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"
                   _prepareBase                   : {{ .GetConfig "_prepareBaseVariables" }}
                                                    {{ .GetConfig "_prepareVariables" }}
@@ -107,7 +109,7 @@
                                                    echo "{{ $d.Yellow }}_ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
                                                    echo "{{ $d.Yellow }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                    cd "${__ZRB_PWD}"
-                                                   _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+                                                   {{ .GetConfig "_generate" }}
                                                    echo "{{ $d.Yellow }}[Integrate]{{ $d.Normal }}"
                                                    {{ .GetConfig "_integrate" }}
                                                    cd "${__ZRB_PWD}"

@@ -16,7 +16,7 @@ tasks:
 
   removeContainersBeforeStart:
     location: ../../../../playground
-    extend: zrbRunShellScript 
+    extend: testAddComponents 
     timeout: 1h
     dependencies:
       - testSyncEnv
@@ -108,6 +108,47 @@ tasks:
     config:
       start: |
         ../zaruba please resetProvoRabbitmq
+  
+  testRunMeltano:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testSyncEnv
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please runProvoMeltano
+
+  testBuildMeltanoImage:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - removeContainersBeforeStart
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please buildProvoMeltanoImage
+
+  testRunMeltanoContainer:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testBuildMeltanoImage
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please runProvoMeltanoContainer
+
+  testPushMeltanoImage:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testBuildMeltanoImage
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please pushProvoMeltanoImage
 
   testRemoveContainers:
     location: ../../../../playground
@@ -119,6 +160,9 @@ tasks:
       - testQueryCassandra
       - testFlushRedis
       - testResetRabbitmq
+      - testRunMeltano
+      - testRunMeltanoContainer
+      - testPushMeltanoImage
     configRef: playgroundTest
     config:
       start: |

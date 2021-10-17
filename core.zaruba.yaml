@@ -96,6 +96,8 @@ includes:
   - ./zaruba-tasks/make/kafka/input.addKafka.yaml
   - ./zaruba-tasks/make/kafka/task.addKafka.yaml
 
+  - ./zaruba-tasks/make/meltano/task.addMeltano.yaml
+
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
