@@ -1,6 +1,7 @@
 tasks:
  
   addFastApiCrud:
+    icon: ⚡
     extend: makeApp
     dependencies:
       - addFastApiModule

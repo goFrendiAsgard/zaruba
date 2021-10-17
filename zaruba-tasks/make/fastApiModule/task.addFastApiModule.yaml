@@ -1,6 +1,7 @@
 tasks:
  
   addFastApiModule:
+    icon: ⚡
     extend: makeApp
     dependencies:
       - addFastApi

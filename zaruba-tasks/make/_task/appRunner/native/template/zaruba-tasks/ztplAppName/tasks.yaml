@@ -1,7 +1,7 @@
 tasks:
 
   startZtplAppName:
-    icon: 🏁
+    icon: ztplAppIcon
     extend: zrbStartApp
     location: ztplTaskAppLocation
     inputs:

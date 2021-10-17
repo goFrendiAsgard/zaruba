@@ -8,6 +8,7 @@ _setReplacementMap "ztplTaskAppLocation" "${_ZRB_TASK_APP_LOCATION}"
 _setReplacementMap "ztplAppEnvPrefix" "${_ZRB_APP_ENV_PREFIX}"
 _setReplacementMap "ztplAppEnvs" "${_ZRB_APP_ENVS}"
 _setReplacementMap "ztplAppHelmChartUrl" "${_ZRB_APP_HELM_CHART_URL}"
+_setReplacementMap "ztplAppIcon" "${_ZRB_APP_ICON}"
 _setReplacementMap "ztplAppImageName" "${_ZRB_APP_IMAGE_NAME}"
 
 _setReplacementMap "ztplAppName" "${_ZRB_APP_NAME}"

@@ -1,6 +1,7 @@
 tasks:
  
   makeMysqlApp:
+    icon: 🐬
     extend: makeApp
     inputs:
       - appDirectory
@@ -11,6 +12,7 @@ tasks:
         ]
 
   addMysql:
+    icon: 🐬
     extend: makeContainerAppRunner
     dependencies:
       - makeMysqlApp
@@ -23,6 +25,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appIcon: 🐬
       appCheckCommand: mysql -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }} -e "SHOW SCHEMAS"
       defaultAppPorts: |
         [

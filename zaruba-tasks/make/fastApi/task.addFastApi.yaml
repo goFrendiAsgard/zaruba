@@ -1,6 +1,7 @@
 tasks:
  
   makeFastApiApp:
+    icon: ⚡
     extend: makeApp
     inputs:
       - appDirectory
@@ -11,6 +12,7 @@ tasks:
         ]
 
   addFastApi:
+    icon: ⚡
     extend: addPythonAppRunner
     dependencies:
       - makeFastApiApp
@@ -22,3 +24,5 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
+    config:
+      appIcon: ⚡

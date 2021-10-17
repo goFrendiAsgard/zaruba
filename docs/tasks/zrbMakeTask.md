@@ -62,6 +62,7 @@
                                                    _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
                                                    _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
                                                    _ZRB_APP_HELM_CHART_URL='{{ .GetConfig "appHelmChartUrl" }}'
+                                                   _ZRB_APP_ICON='{{ .GetConfig "appIcon" }}'
                                                    _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
                                                    _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
                                                    _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
@@ -141,6 +142,7 @@
                   appEventName                   : {{ .GetValue "appEventName" }}
                   appHelmChartUrl                : {{ .GetValue "appHelmChartUrl" }}
                   appHttpMethod                  : {{ .GetValue "appHttpMethod" }}
+                  appIcon                        : Blank
                   appImageName                   : {{ .GetValue "appImageName" }}
                   appModuleName                  : {{ .GetValue "appModuleName" }}
                   appName                        : {{ .GetValue "appName" }}

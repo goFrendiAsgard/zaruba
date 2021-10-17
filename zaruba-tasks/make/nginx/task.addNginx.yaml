@@ -1,6 +1,7 @@
 tasks:
  
   makeNginxApp:
+    icon: 📗
     extend: makeApp
     inputs:
       - appDirectory
@@ -11,6 +12,7 @@ tasks:
         ]
 
   addNginx:
+    icon: 📗
     extend: makeContainerAppRunner
     dependencies:
       - makeNginxApp
@@ -23,6 +25,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appIcon: 📗
       defaultAppPorts: |
         [
           "80",

@@ -1,6 +1,7 @@
 tasks:
  
   makeRabbitmqApp:
+    icon: 🐇
     extend: makeApp
     inputs:
       - appDirectory
@@ -11,6 +12,7 @@ tasks:
         ]
 
   addRabbitmq:
+    icon: 🐇
     extend: makeContainerAppRunner
     dependencies:
       - makeRabbitmqApp
@@ -23,6 +25,7 @@ tasks:
       - appImageName
       - appContainerName
     config:
+      appIcon: 🐇
       appCheckCommand: rabbitmqctl await_startup
       defaultAppPorts: |
         [

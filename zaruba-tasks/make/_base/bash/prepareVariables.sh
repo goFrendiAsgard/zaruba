@@ -32,6 +32,12 @@ _ZRB_APP_PASCAL_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_RPC
 # app location
 _ZRB_TASK_APP_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
 
+# app icon
+if [ -z "${_ZRB_APP_ICON}" ]
+then
+    _ZRB_APP_ICON=🏁
+fi
+
 # env prefix
 if [ -z "${_ZRB_APP_ENV_PREFIX}" ]
 then

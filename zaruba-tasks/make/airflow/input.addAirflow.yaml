@@ -1,0 +1,13 @@
+inputs:
+
+  airflowPostgreSqlPorts:
+    description: "Airflow's postgresql port"
+    default: '[5433]'
+
+  airflowRedisPorts:
+    description: "Airflow's Redis port"
+    default: '[6380]'
+
+  airflowUiPorts:
+    description: "Airflow's UI port"
+    default: '[8081]'
