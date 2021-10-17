@@ -1,0 +1,57 @@
+tasks:
+
+  startZtplAppNameZookeeperContainer:
+    icon: 👷
+    extend: zrbStartDockerContainer
+    location: ztplTaskAppLocation/zookeeper
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameZookeeperImage
+    configRefs:
+      - ztplAppNameZookeeperContainer
+      - ztplAppNameZookeeper
+    envRefs: 
+      - ztplAppNameZookeeper
+
+  buildZtplAppNameZookeeperImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplTaskAppLocation/zookeeper
+    timeout: 1h
+    configRefs:
+      - ztplAppNameZookeeperContainer
+      - ztplAppNameZookeeper
+    envRefs: 
+      - ztplAppNameZookeeper
+
+  pushZtplAppNameZookeeperImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameZookeeperImage
+    configRefs:
+      - ztplAppNameZookeeperContainer
+      - ztplAppNameZookeeper
+    envRefs: 
+      - ztplAppNameZookeeper
+
+  stopZtplAppNameZookeeperContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameZookeeperContainer
+      - ztplAppNameZookeeper
+    envRefs: 
+      - ztplAppNameZookeeper
+
+  removeZtplAppNameZookeeperContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplTaskAppLocation
+    configRefs:
+      - ztplAppNameZookeeperContainer
+      - ztplAppNameZookeeper
+    envRefs: 
+      - ztplAppNameZookeeper

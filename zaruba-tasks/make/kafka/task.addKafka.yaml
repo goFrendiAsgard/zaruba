@@ -1,0 +1,43 @@
+tasks:
+ 
+  makeKafkaApp:
+    icon: 🪠
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appTemplate"
+        ]
+
+  addKafka:
+    icon: 🪠
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeKafkaApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - kafkaPorts
+      - zookeeperPorts
+      - appImageName
+      - appContainerName
+    config:
+      appIcon: 🪠
+      appKafkaPorts: '{{ .GetValue "kafkaPorts" }}'
+      appZookeeperPorts: '{{ .GetValue "zookeeperPorts" }}'
+      _prepareVariables: |
+        _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
+        _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
+      _prepareReplacementMap: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/setReplacementMap.sh"
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/taskTemplate"
+        ]

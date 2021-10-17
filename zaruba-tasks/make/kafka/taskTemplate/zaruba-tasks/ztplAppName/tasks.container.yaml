@@ -1,0 +1,36 @@
+tasks:
+
+  startZtplAppNameContainer:
+    icon: ztplAppIcon
+    extend: zrbWrapper
+    dependencies:
+      - startZtplAppNameKafkaContainer
+      - startZtplAppNameZookeeperContainer
+
+  buildZtplAppNameImage:
+    icon: 🏭
+    extend: zrbWrapper
+    dependencies:
+      - buildZtplAppNameKafkaImage
+      - buildZtplAppNameZookeeperImage
+
+  pushZtplAppNameImage:
+    icon: 📤
+    extend: zrbWrapper
+    dependencies:
+      - pushZtplAppNameKafkaImage
+      - pushZtplAppNameZookeeperImage
+
+  stopZtplAppNameContainer:
+    icon: ✋
+    extend: zrbWrapper
+    dependencies:
+      - stopZtplAppNameKafkaContainer
+      - stopZtplAppNameZookeeperContainer
+
+  removeZtplAppNameContainer:
+    icon: ❌
+    extend: zrbWrapper
+    dependencies:
+      - removeZtplAppNameKafkaContainer
+      - removeZtplAppNameZookeeperContainer

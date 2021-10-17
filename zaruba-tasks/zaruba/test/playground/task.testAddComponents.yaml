@@ -31,3 +31,4 @@ tasks:
         ../zaruba please addFastApiCrud appDirectory=provoFastApi appModuleName=library appCrudEntity=book appCrudFields='["title", "author", "synopsis"]'
 
         ../zaruba please addAirflow appDirectory=provoAirflow
+        ../zaruba please addKafka appDirectory=provoKafka

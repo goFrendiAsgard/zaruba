@@ -1,1 +1,0 @@
-zaruba_field_name = Column(String(20), index=True)

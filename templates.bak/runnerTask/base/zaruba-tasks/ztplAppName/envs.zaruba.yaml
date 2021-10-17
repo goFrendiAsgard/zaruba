@@ -1,6 +1,0 @@
-envs:
-
-  ztplAppName:
-    ztplAppYamlEnvs
-
-  ztplAppNameContainer: {}
