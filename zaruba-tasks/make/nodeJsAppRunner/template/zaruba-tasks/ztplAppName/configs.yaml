@@ -7,7 +7,7 @@ configs:
 
   ztplAppNameContainer:
     useImagePrefix: true
-    imageName: ztplAppImageName
+    imageName: ztpl-app-image-name
     containerName: ztplAppContainerName
     localhost: host.docker.internal
     volumes: |

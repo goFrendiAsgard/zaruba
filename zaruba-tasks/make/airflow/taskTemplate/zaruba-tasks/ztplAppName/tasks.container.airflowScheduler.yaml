@@ -1,0 +1,60 @@
+tasks:
+
+  startZtplAppNameSchedulerContainer:
+    icon: 📅
+    extend: zrbStartDockerContainer
+    location: ztplTaskAppLocation/airflowScheduler
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameSchedulerImage
+      - startZtplAppNamePostgresqlContainer
+      - startZtplAppNameRedisContainer
+      - startZtplAppNameWebContainer
+    configRefs:
+      - ztplAppNameSchedulerContainer
+      - ztplAppNameScheduler
+    envRefs: 
+      - ztplAppNameScheduler
+
+  buildZtplAppNameSchedulerImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplTaskAppLocation/airflowScheduler
+    timeout: 1h
+    configRefs:
+      - ztplAppNameSchedulerContainer
+      - ztplAppNameScheduler
+    envRefs: 
+      - ztplAppNameScheduler
+
+  pushZtplAppNameSchedulerImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameSchedulerImage
+    configRefs:
+      - ztplAppNameSchedulerContainer
+      - ztplAppNameScheduler
+    envRefs: 
+      - ztplAppNameScheduler
+
+  stopZtplAppNameSchedulerContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameSchedulerContainer
+      - ztplAppNameScheduler
+    envRefs: 
+      - ztplAppNameScheduler
+
+  removeZtplAppNameSchedulerContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplTaskAppLocation
+    configRefs:
+      - ztplAppNameSchedulerContainer
+      - ztplAppNameScheduler
+    envRefs: 
+      - ztplAppNameScheduler

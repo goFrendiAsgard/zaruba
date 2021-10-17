@@ -4,7 +4,7 @@ tasks:
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:
-      - testApps
+      - testStartContainers
       - prepareContainerRegistry
     configRef: playgroundTest
     config:

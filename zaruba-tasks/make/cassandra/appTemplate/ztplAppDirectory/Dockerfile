@@ -1,1 +1,1 @@
-FROM bitnami/cassandra
+FROM docker.io/bitnami/cassandra

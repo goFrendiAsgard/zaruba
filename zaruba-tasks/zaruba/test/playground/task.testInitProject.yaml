@@ -5,7 +5,6 @@ tasks:
     dependencies:
       - buildBin
       - preparePlayground
-      - testCore
     extend: zrbRunShellScript 
     configRef: playgroundTest
     config:

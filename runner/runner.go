@@ -87,16 +87,17 @@ func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *
 func (r *Runner) Run() (err error) {
 	r.startTime = time.Now()
 	r.showStatus()
+	go r.logStderr()
+	go r.logStdout()
+	go r.logStderrRow()
+	go r.logStdoutRow()
 	ch := make(chan error)
 	go r.handleTerminationSignal(ch)
 	go r.run(ch)
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
-	go r.logStderr()
-	go r.logStdout()
-	go r.logStderrRow()
-	go r.logStdoutRow()
 	err = <-ch
+	r.sleep(100 * time.Millisecond)
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
 		return fmt.Errorf("terminated")

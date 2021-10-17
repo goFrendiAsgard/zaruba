@@ -1,0 +1,16 @@
+envs:
+
+  ztplAppNameScheduler:
+    ztplAppYamlSchedulerEnvs
+
+  ztplAppNameWeb:
+    ztplAppYamlWebEnvs
+
+  ztplAppNameWorker:
+    ztplAppYamlWorkerEnvs
+
+  ztplAppNamePostgresql:
+    ztplAppYamlPostgresqlEnvs
+
+  ztplAppNameRedis:
+    ztplAppYamlRedisEnvs

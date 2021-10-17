@@ -28,7 +28,7 @@ tasks:
       appIcon: 🐰
       defaultAppPorts: |
         [
-          "8080"
+          "8010:8080"
         ]
       defaultAppContainerVolumes: |
         [

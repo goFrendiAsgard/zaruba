@@ -23,8 +23,11 @@ tasks:
         ../zaruba please addRabbitmq appDirectory=provoRabbitmq
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addTrino appDirectory=provoTrino
+
         ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library
         ../zaruba please addFastApiRouteHandler appDirectory=provoFastApi appModuleName=blog appHttpMethod=get appUrl=/
         ../zaruba please addFastApiEventHandler appDirectory=provoFastApi appModuleName=library appEventName=open
         ../zaruba please addFastApiRpcHandler appDirectory=provoFastApi appModuleName=library appRpcName=isBookAvailable
         ../zaruba please addFastApiCrud appDirectory=provoFastApi appModuleName=library appCrudEntity=book appCrudFields='["title", "author", "synopsis"]'
+
+        ../zaruba please addAirflow appDirectory=provoAirflow

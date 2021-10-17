@@ -21,14 +21,26 @@ tasks:
       - appDependencies
       - appName
       - appEnvs
-      - appPorts
+      - airflowWebPorts
+      - airflowPostgreSqlPorts
+      - airflowRedisPorts
       - appImageName
       - appContainerName
     config:
       appIcon: 🎐
-      defaultAppPorts: |
+      appPostgreSqlPorts: '{{ .GetValue "airflowPostgreSqlPorts" }}'
+      appRedisPorts: '{{ .GetValue "airflowRedisPorts" }}'
+      appWebPorts: '{{ .GetValue "airflowWebPorts" }}'
+      _prepareVariables: |
+        _ZRB_APP_POSTGRESQL_PORTS='{{ .GetConfig "appPostgreSqlPorts" }}'
+        _ZRB_APP_REDIS_PORTS='{{ .GetConfig "appRedisPorts" }}'
+        _ZRB_APP_WEB_PORTS='{{ .GetConfig "appWebPorts" }}'
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareVariables.sh"
+      _prepareReplacementMap: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/setReplacementMap.sh"
+      defaultAppContainerVolumes: |
         [
-          "6379"
+          "../dags:/opt/bitnami/airflow/dags"
         ]
       templateLocations: |
         [

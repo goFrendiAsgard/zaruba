@@ -1,10 +1,10 @@
-# addTrino
+# addAirflow
 ```
-  TASK NAME     : addTrino
-  LOCATION      : /zaruba-tasks/make/trino/task.addTrino.yaml
+  TASK NAME     : addAirflow
+  LOCATION      : /zaruba-tasks/make/airflow/task.addAirflow.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeContainerAppRunner ]
-  DEPENDENCIES  : [ makeTrinoApp ]
+  DEPENDENCIES  : [ makeAirflowApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -30,9 +30,15 @@
                     DESCRIPTION : Application envs
                     PROMPT      : Application envs
                     DEFAULT     : {}
-                  appPorts
-                    DESCRIPTION : Application ports
-                    DEFAULT     : []
+                  airflowWebPorts
+                    DESCRIPTION : Airflow's web port
+                    DEFAULT     : ["8080:8080"]
+                  airflowPostgreSqlPorts
+                    DESCRIPTION : Airflow's postgresql port
+                    DEFAULT     : ["5433:5432"]
+                  airflowRedisPorts
+                    DESCRIPTION : Airflow's redis port
+                    DEFAULT     : ["6380:6379"]
                   appImageName
                     DESCRIPTION : App's image name
                   appContainerName
@@ -56,8 +62,11 @@
                   _prepareBaseStartCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
                   _prepareBaseTestCommand        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables          : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
-                  _prepareReplacementMap         : Blank
-                  _prepareVariables              : Blank
+                  _prepareReplacementMap         : . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/setReplacementMap.sh"
+                  _prepareVariables              : _ZRB_APP_POSTGRESQL_PORTS='{{ .GetConfig "appPostgreSqlPorts" }}'
+                                                   _ZRB_APP_REDIS_PORTS='{{ .GetConfig "appRedisPorts" }}'
+                                                   _ZRB_APP_WEB_PORTS='{{ .GetConfig "appWebPorts" }}'
+                                                   . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareVariables.sh"
                   _registerModule                : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _registerTasks                 : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setDefaultAppContainerVolumes : if [ "$("{{ .ZarubaBin }}" list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
@@ -166,35 +175,37 @@
                   appEventName                   : {{ .GetValue "appEventName" }}
                   appHelmChartUrl                : {{ .GetValue "appHelmChartUrl" }}
                   appHttpMethod                  : {{ .GetValue "appHttpMethod" }}
-                  appIcon                        : 🐰
+                  appIcon                        : 🎐
                   appImageName                   : {{ .GetValue "appImageName" }}
                   appModuleName                  : {{ .GetValue "appModuleName" }}
                   appName                        : {{ .GetValue "appName" }}
                   appPorts                       : {{ .GetValue "appPorts" }}
+                  appPostgreSqlPorts             : {{ .GetValue "airflowPostgreSqlPorts" }}
                   appPrepareCommand              : {{ .GetValue "appPrepareCommand" }}
                   appPushImageCommand            : {{ .GetValue "appPushImageCommand" }}
+                  appRedisPorts                  : {{ .GetValue "airflowRedisPorts" }}
                   appRpcName                     : {{ .GetValue "appRpcName" }}
                   appRunnerVersion               : {{ .GetValue "appRunnerVersion" }}
                   appStartCommand                : {{ .GetValue "appStartCommand" }}
                   appStartContainerCommand       : {{ .GetValue "appStartContainerCommand" }}
                   appTestCommand                 : {{ .GetValue "appTestCommand" }}
                   appUrl                         : {{ .GetValue "appUrl" }}
+                  appWebPorts                    : {{ .GetValue "airflowWebPorts" }}
                   beforeStart                    : Blank
                   cmd                            : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                         : -c
                   defaultAppContainerVolumes     : [
-                                                     "trino:/etc/trino"
+                                                     "../dags:/opt/bitnami/airflow/dags"
                                                    ]
-                  defaultAppPorts                : [
-                                                     "8010:8080"
-                                                   ]
+                  defaultAppPorts                : []
                   finish                         : Blank
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                          : Blank
                   start                          : Blank
                   templateLocations              : [
                                                      "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/taskTemplate"
                                                    ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -1,1 +1,1 @@
-FROM bitnami/mysql
+FROM docker.io/bitnami/mysql

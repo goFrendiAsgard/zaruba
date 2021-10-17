@@ -1,1 +1,1 @@
-FROM bitnami/postgresql
+FROM docker.io/bitnami/postgresql

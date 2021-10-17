@@ -1,1 +1,1 @@
-FROM bitnami/mongodb
+FROM docker.io/bitnami/mongodb

@@ -1,1 +1,0 @@
-redis-cli flushall

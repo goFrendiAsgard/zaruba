@@ -90,6 +90,9 @@ includes:
 
   - ./zaruba-tasks/make/_task/terraform/task.makeTerraformTask.yaml
 
+  - ./zaruba-tasks/make/airflow/input.addAirflow.yaml
+  - ./zaruba-tasks/make/airflow/task.addAirflow.yaml
+
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml

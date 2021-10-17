@@ -1,0 +1,51 @@
+tasks:
+
+  startZtplAppNameContainer:
+    icon: ztplAppIcon
+    extend: zrbWrapper
+    dependencies:
+      - startZtplAppNameSchedulerContainer
+      - startZtplAppNameWebContainer
+      - startZtplAppNameWorkerContainer
+      - startZtplAppNamePostgresqlContainer
+      - startZtplAppNameRedisContainer
+
+  buildZtplAppNameImage:
+    icon: 🏭
+    extend: zrbWrapper
+    dependencies:
+      - buildZtplAppNameSchedulerImage
+      - buildZtplAppNameWebImage
+      - buildZtplAppNameWorkerImage
+      - buildZtplAppNamePostgresqlImage
+      - buildZtplAppNameRedisImage
+
+  pushZtplAppNameImage:
+    icon: 📤
+    extend: zrbWrapper
+    dependencies:
+      - pushZtplAppNameSchedulerImage
+      - pushZtplAppNameWebImage
+      - pushZtplAppNameWorkerImage
+      - pushZtplAppNamePostgresqlImage
+      - pushZtplAppNameRedisImage
+
+  stopZtplAppNameContainer:
+    icon: ✋
+    extend: zrbWrapper
+    dependencies:
+      - stopZtplAppNameSchedulerContainer
+      - stopZtplAppNameWebContainer
+      - stopZtplAppNameWorkerContainer
+      - stopZtplAppNamePostgresqlContainer
+      - stopZtplAppNameRedisContainer
+
+  removeZtplAppNameContainer:
+    icon: ❌
+    extend: zrbWrapper
+    dependencies:
+      - removeZtplAppNameSchedulerContainer
+      - removeZtplAppNameWebContainer
+      - removeZtplAppNameWorkerContainer
+      - removeZtplAppNamePostgresqlContainer
+      - removeZtplAppNameRedisContainer

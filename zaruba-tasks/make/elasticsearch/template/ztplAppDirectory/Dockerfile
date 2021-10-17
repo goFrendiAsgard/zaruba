@@ -1,1 +1,1 @@
-FROM bitnami/elasticsearch
+FROM docker.io/bitnami/elasticsearch

@@ -3,3 +3,5 @@ tasks:
   test:
     dependencies:
       - testPushImages
+      - testApps
+      - testCore
