@@ -140,15 +140,15 @@ tasks:
       start: |
         ../zaruba please runProvoMeltanoContainer
 
-  testPushMeltanoImage:
+  testRemoveMeltanoContainer:
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:
-      - testBuildMeltanoImage
+      - testRunMeltanoContainer
     configRef: playgroundTest
     config:
       start: |
-        ../zaruba please pushProvoMeltanoImage
+        ../zaruba please removeProvoMeltanoContainer
 
   testRemoveContainers:
     location: ../../../../playground
@@ -161,8 +161,7 @@ tasks:
       - testFlushRedis
       - testResetRabbitmq
       - testRunMeltano
-      - testRunMeltanoContainer
-      - testPushMeltanoImage
+      - testRemoveMeltanoContainer
     configRef: playgroundTest
     config:
       start: |

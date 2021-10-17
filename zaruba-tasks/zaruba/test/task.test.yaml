@@ -2,6 +2,7 @@ tasks:
 
   test:
     dependencies:
+      - testPushMeltanoImage
       - testPushImages
       - testApps
       - testCore

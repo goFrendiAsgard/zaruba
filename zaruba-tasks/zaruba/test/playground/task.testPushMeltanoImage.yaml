@@ -1,0 +1,13 @@
+tasks:
+
+  testPushMeltanoImage:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testBuildMeltanoImage
+      - prepareContainerRegistry
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please pushProvoMeltanoImage
+
