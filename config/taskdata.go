@@ -23,6 +23,7 @@ type TaskData struct {
 	ZarubaBin      string
 	Name           string
 	ProjectName    string
+	UUID           string
 	WorkDirPath    string
 	TaskDirPath    string
 	ProjectDirPath string
@@ -45,6 +46,7 @@ func NewTaskData(task *Task) (td *TaskData) {
 		ZarubaBin:      filepath.Join(zarubaHome, "zaruba"),
 		Name:           task.GetName(),
 		ProjectName:    task.Project.GetName(),
+		UUID:           task.GetUUID(),
 		WorkDirPath:    task.GetWorkPath(),
 		TaskDirPath:    filepath.Dir(task.GetFileLocation()),
 		ProjectDirPath: filepath.Dir(task.Project.GetFileLocation()),

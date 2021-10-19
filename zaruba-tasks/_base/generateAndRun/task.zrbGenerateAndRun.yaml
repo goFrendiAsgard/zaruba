@@ -8,7 +8,7 @@ tasks:
       templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template'
       script: '{{ .GetValue "script" }}'
       sql: '{{ .GetValue "sql" }}'
-      generatedScriptLocation: '{{ .GetProjectPath "tmp" }}/{{ .Name }}'
+      generatedScriptLocation: '{{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}'
       prepare: |
         {{ .GetConfig "_prepareEnvReplacementMap" }}
       runGeneratedScript: '{{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh'

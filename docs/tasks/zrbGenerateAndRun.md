@@ -54,7 +54,7 @@
                   cmd                       : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                    : -c
                   finish                    : Blank
-                  generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}
+                  generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
                   includeShellUtil          : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   prepare                   : {{ .GetConfig "_prepareEnvReplacementMap" }}
                   runGeneratedScript        : {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh

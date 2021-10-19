@@ -39,4 +39,3 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testApps.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushImages.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushMeltanoImage.yaml
-

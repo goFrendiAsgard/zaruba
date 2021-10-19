@@ -12,14 +12,13 @@ tasks:
     extend: zrbGenerateAndRun
     config:
       containerName: ''
-      remoteScriptLocation: '_{{ .Name }}Script'
+      remoteScriptLocation: '_{{ .Name }}.script.{{ .UUID }}'
       remoteCommand: 'sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"'
       runGeneratedScript: |
-        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        GENERATED_SCRIPT_LOCATION="{{ .GetConfig "generatedScriptLocation" }}"
-        REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-        chmod 755 -R "${GENERATED_SCRIPT_LOCATION}"
-        docker cp "${GENERATED_SCRIPT_LOCATION}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_LOCATION}"
-        docker exec "${CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
-        docker exec -u 0 "${CONTAINER_NAME}" rm -Rf "${_REMOTE_SCRIPT_LOCATION}"
-        rm -Rf "${GENERATED_SCRIPT_LOCATION}"
+        _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
+        chmod 755 -R "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+        docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+        docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
+        docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
+        rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"

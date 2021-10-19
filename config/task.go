@@ -40,8 +40,9 @@ type Task struct {
 	SaveLog               string            `yaml:"saveLog,omitempty"`
 	Project               *Project          `yaml:"_project,omitempty"`
 	fileLocation          string            // File location where this task was declared
-	name                  string
-	logPrefix             string
+	uuid                  string            // Unique identifier of current task
+	name                  string            // Current task name
+	logPrefix             string            // Task prefix for logging
 	timeoutDuration       time.Duration
 	td                    *TaskData
 	maxRecursiveLevel     int
@@ -58,6 +59,12 @@ func (task *Task) init() {
 	}
 	task.generateIcon()
 	task.generateLogPrefix()
+	task.generateUUID()
+}
+
+// GetUUID get task uid
+func (task *Task) GetUUID() (uuid string) {
+	return task.uuid
 }
 
 // GetName get task name
@@ -334,6 +341,12 @@ func (task *Task) linkToEnvs() {
 func (task *Task) generateIcon() {
 	if task.Icon == "" {
 		task.Icon = task.Project.Decoration.GenerateIcon()
+	}
+}
+
+func (task *Task) generateUUID() {
+	if task.uuid != "" {
+		task.uuid = task.Project.Util.Str.NewUUID()
 	}
 }
 

@@ -59,19 +59,18 @@
                   cmdArg                    : -c
                   containerName             : Blank
                   finish                    : Blank
-                  generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}
+                  generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
                   includeShellUtil          : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   prepare                   : {{ .GetConfig "_prepareEnvReplacementMap" }}
                   remoteCommand             : sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
-                  remoteScriptLocation      : _{{ .Name }}Script
-                  runGeneratedScript        : CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-                                              GENERATED_SCRIPT_LOCATION="{{ .GetConfig "generatedScriptLocation" }}"
-                                              REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-                                              chmod 755 -R "${GENERATED_SCRIPT_LOCATION}"
-                                              docker cp "${GENERATED_SCRIPT_LOCATION}" "${CONTAINER_NAME}:${REMOTE_SCRIPT_LOCATION}"
-                                              docker exec "${CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
-                                              docker exec -u 0 "${CONTAINER_NAME}" rm -Rf "${_REMOTE_SCRIPT_LOCATION}"
-                                              rm -Rf "${GENERATED_SCRIPT_LOCATION}"
+                  remoteScriptLocation      : _{{ .Name }}.script.{{ .UUID }}
+                  runGeneratedScript        : _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+                                              _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
+                                              chmod 755 -R "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+                                              docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+                                              docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
+                                              docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
+                                              rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                   script                    : {{ .GetValue "script" }}
                   setup                     : Blank
                   sql                       : {{ .GetValue "sql" }}
