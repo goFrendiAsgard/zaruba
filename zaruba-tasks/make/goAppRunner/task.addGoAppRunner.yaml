@@ -12,8 +12,6 @@ tasks:
       - appImageName
       - appContainerName
     config:
-      _prepareVariables: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh" }}"
       appIcon: 🐹
       defaultAppPorts: |
         [
@@ -25,4 +23,6 @@ tasks:
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
           "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/template"
         ]
+      _prepareVariables: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh" }}"
   

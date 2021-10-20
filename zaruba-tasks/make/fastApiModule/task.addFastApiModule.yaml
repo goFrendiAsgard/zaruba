@@ -9,6 +9,11 @@ tasks:
       - appDirectory
       - appModuleName
     config:
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
+        ]
       _validate: |
         {{ $d := .Decoration -}}
         if [ -d "${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}" ]
@@ -16,9 +21,5 @@ tasks:
           echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
           exit 0
         fi
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
-        ]
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/registerModule.sh"

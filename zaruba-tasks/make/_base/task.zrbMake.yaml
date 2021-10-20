@@ -6,47 +6,42 @@ tasks:
       - zrbShowAdv
     private: true
     config:
-      templateLocations: '{{ .GetValue "templateLocations" }}'
       appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
+      appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
       appContainerName: '{{ .GetValue "appContainerName" }}'
+      appContainerVolumes: '{{ .GetValue "appContainerVolumes" }}'
+      appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
+      appCrudFields: '{{ .GetValue "appCrudFields" }}'
       appDependencies: '{{ .GetValue "appDependencies" }}'
-      appDirectory: '{{ .GetValue "appDirectory" }}'
+      appDirectory: '{{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}'
       appEnvPrefix: '{{ .GetValue "appEnvPrefix" }}'
       appEnvs: '{{ .GetValue "appEnvs" }}'
+      appEventName: '{{ .GetValue "appEventName" }}'
       appHelmChartUrl: '{{ .GetValue "appHelmChartUrl" }}'
+      appHttpMethod: '{{ .GetValue "appHttpMethod" }}'
+      appIcon: ''
       appImageName: '{{ .GetValue "appImageName" }}'
+      appModuleName: '{{ .GetValue "appModuleName" }}'
       appName: '{{ .GetValue "appName" }}'
       appPorts: '{{ .GetValue "appPorts" }}'
-      appIcon: ''
-      defaultAppPorts: '[]'
-      appContainerVolumes: '{{ .GetValue "appContainerVolumes" }}'
-      defaultAppContainerVolumes: '[]'
       appPrepareCommand: '{{ .GetValue "appPrepareCommand" }}'
       appPushImageCommand: '{{ .GetValue "appPushImageCommand" }}'
       appRunnerVersion: '{{ .GetValue "appRunnerVersion" }}'
       appStartCommand: '{{ .GetValue "appStartCommand" }}'
       appStartContainerCommand: '{{ .GetValue "appStartContainerCommand" }}'
-      appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
       appTestCommand: '{{ .GetValue "appTestCommand" }}'
-      appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
-      appCrudFields: '{{ .GetValue "appCrudFields" }}'
-      appEventName: '{{ .GetValue "appEventName" }}'
-      appHttpMethod: '{{ .GetValue "appHttpMethod" }}'
-      appModuleName: '{{ .GetValue "appModuleName" }}'
       appRpcName: '{{ .GetValue "appRpcName" }}'
       appUrl: '{{ .GetValue "appUrl" }}'
-      _prepareBaseReplacementMap: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"
-      _prepareBaseVariables: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
-      _prepareBaseStartCommand: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
-      _prepareBasePrepareCommand: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
-      _prepareBaseTestCommand: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
-      _prepareBaseCheckCommand: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
+      defaultAppContainerVolumes: '[]'
+      defaultAppDirectory: ''
+      defaultAppPorts: '[]'
+      templateLocations: '{{ .GetValue "templateLocations" }}'
+      _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"'
+      _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"'
+      _prepareBaseStartCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"'
+      _prepareBasePrepareCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"'
+      _prepareBaseTestCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"'
+      _prepareBaseCheckCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"'
       _prepareBase: |
         {{ .GetConfig "_prepareBaseVariables" }}
         {{ .GetConfig "_prepareVariables" }}
@@ -65,6 +60,13 @@ tasks:
         if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_TEMPLATE_LOCATIONS}")" = 0 ]
         then
           echo "{{ $d.Red }}Invalid _ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}{{ $d.Normal }}"
+          exit 1
+        fi
+      _validateAppDirectory: |
+        {{ $d := .Decoration -}}
+        if [ -z "${_ZRB_APP_DIRECTORY}" ]
+        then
+          echo "{{ $d.Red }}Invalid _ZRB_APP_DIRECTORY: ${_ZRB_APP_CONTAINER_DIRECTORY}{{ $d.Normal }}"
           exit 1
         fi
       _validateAppContainerVolumes: |
@@ -114,6 +116,7 @@ tasks:
         {{ .GetConfig "_validateAppContainerVolumes" }}
         _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
         _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
+        {{ .GetConfig "_validateAppDirectory" }}
         _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
         _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
         _ZRB_APP_HELM_CHART_URL='{{ .GetConfig "appHelmChartUrl" }}'

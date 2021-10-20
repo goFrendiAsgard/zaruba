@@ -11,6 +11,11 @@ tasks:
       - appCrudEntity
       - appCrudFields
     config:
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/template"
+        ]
       _validate: ''
       _prepareVariables: |
         {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -23,10 +28,6 @@ tasks:
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldInsert.sh"
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldUpdate.sh"
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setSchemaFieldDeclaration.sh"
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/template"
-        ]
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRouteHandler.sh"
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRpcHandler.sh"

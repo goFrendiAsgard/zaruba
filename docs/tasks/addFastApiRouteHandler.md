@@ -18,7 +18,7 @@
   INPUTS        : appDirectory
                     DESCRIPTION : Location of app
                     PROMPT      : Location of app
-                    VALIDATION  : ^[a-zA-Z0-9_]+$
+                    VALIDATION  : ^[a-zA-Z0-9_]*$
                   appModuleName
                     DESCRIPTION : Module name (Required)
                     PROMPT      : Module name
@@ -76,6 +76,7 @@
                                                    {{ .GetConfig "_validateAppContainerVolumes" }}
                                                    _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
                                                    _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
+                                                   {{ .GetConfig "_validateAppDirectory" }}
                                                    _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
                                                    _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
                                                    _ZRB_APP_HELM_CHART_URL='{{ .GetConfig "appHelmChartUrl" }}'
@@ -131,6 +132,12 @@
                                                      echo "{{ $d.Red }}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}{{ $d.Normal }}"
                                                      exit 1
                                                    fi
+                  _validateAppDirectory          : {{ $d := .Decoration -}}
+                                                   if [ -z "${_ZRB_APP_DIRECTORY}" ]
+                                                   then
+                                                     echo "{{ $d.Red }}Invalid _ZRB_APP_DIRECTORY: ${_ZRB_APP_CONTAINER_DIRECTORY}{{ $d.Normal }}"
+                                                     exit 1
+                                                   fi
                   _validateAppPorts              : {{ $d := .Decoration -}}
                                                    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_PORTS}")" = 0 ]
                                                    then
@@ -148,12 +155,12 @@
                                                    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
                   appBuildImageCommand           : {{ .GetValue "appBuildImageCommand" }}
                   appCheckCommand                : {{ .GetValue "appCheckCommand" }}
-                  appContainerName               : {{ .GetValue "appContainerName" }}
+                  appContainerName               : {{ if .GetValue "appContainerName" }}{{ .GetValue "appContainerName" }}{{ else }}{{ .GetValue "defaultAppContainerVolumes" }}{{ end }}
                   appContainerVolumes            : {{ .GetValue "appContainerVolumes" }}
                   appCrudEntity                  : {{ .GetValue "appCrudEntity" }}
                   appCrudFields                  : {{ .GetValue "appCrudFields" }}
                   appDependencies                : {{ .GetValue "appDependencies" }}
-                  appDirectory                   : {{ .GetValue "appDirectory" }}
+                  appDirectory                   : {{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetValue "defaultAppDirectory" }}{{ end }}
                   appEnvPrefix                   : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                        : {{ .GetValue "appEnvs" }}
                   appEventName                   : {{ .GetValue "appEventName" }}
@@ -176,6 +183,7 @@
                   cmd                            : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                         : -c
                   defaultAppContainerVolumes     : []
+                  defaultAppDirectory            : {{ .ProjectName }}FastApi
                   defaultAppPorts                : []
                   finish                         : Blank
                   includeShellUtil               : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh

@@ -6,6 +6,7 @@ tasks:
     inputs:
       - appDirectory
     config:
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/fastApi/template"
@@ -26,3 +27,4 @@ tasks:
       - appContainerName
     config:
       appIcon: ⚡
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'

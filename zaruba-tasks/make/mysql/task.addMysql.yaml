@@ -6,6 +6,7 @@ tasks:
     inputs:
       - appDirectory
     config:
+      defaultAppDirectory: '{{ .ProjectName }}Mysql'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/appTemplate"
@@ -27,6 +28,7 @@ tasks:
     config:
       appIcon: 🐬
       appCheckCommand: mysql -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }} -e "SHOW SCHEMAS"
+      defaultAppDirectory: '{{ .ProjectName }}Mysql'
       defaultAppPorts: |
         [
           "3306"

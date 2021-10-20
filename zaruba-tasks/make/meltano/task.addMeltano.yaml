@@ -34,6 +34,7 @@ tasks:
       - appContainerName
     config:
       appIcon: 🐉
+      defaultAppDirectory: '{{ .ProjectName }}Meltano'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",

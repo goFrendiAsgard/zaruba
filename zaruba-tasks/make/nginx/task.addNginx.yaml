@@ -6,6 +6,7 @@ tasks:
     inputs:
       - appDirectory
     config:
+      defaultAppDirectory: '{{ .ProjectName }}Nginx'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/nginx/template"
@@ -26,6 +27,7 @@ tasks:
       - appContainerName
     config:
       appIcon: 📗
+      defaultAppDirectory: '{{ .ProjectName }}Nginx'
       defaultAppPorts: |
         [
           "80",

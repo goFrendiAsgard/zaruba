@@ -6,6 +6,7 @@ tasks:
     inputs:
       - appDirectory
     config:
+      defaultAppDirectory: '{{ .ProjectName }}Trino'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/trino/template"
@@ -26,6 +27,7 @@ tasks:
       - appContainerName
     config:
       appIcon: 🐰
+      defaultAppDirectory: '{{ .ProjectName }}Trino'
       defaultAppPorts: |
         [
           "8010:8080"

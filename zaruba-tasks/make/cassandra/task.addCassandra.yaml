@@ -6,6 +6,7 @@ tasks:
     inputs:
       - appDirectory
     config:
+      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appTemplate"
@@ -27,6 +28,7 @@ tasks:
     config:
       appIcon: 👀
       appCheckCommand: cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
+      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
       defaultAppPorts: |
         [
           "7000",

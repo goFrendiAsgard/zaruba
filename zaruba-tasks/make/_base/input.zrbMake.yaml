@@ -40,7 +40,7 @@ inputs:
   appDirectory:
     description: Location of app
     prompt: 'Location of app'
-    validation: ^[a-zA-Z0-9_]+$
+    validation: ^[a-zA-Z0-9_]*$
 
   appEnvPrefix:
     description: Application env prefix

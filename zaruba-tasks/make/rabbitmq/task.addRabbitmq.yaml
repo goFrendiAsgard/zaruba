@@ -6,6 +6,7 @@ tasks:
     inputs:
       - appDirectory
     config:
+      defaultAppDirectory: '{{ .ProjectName }}Rabbitmq'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmq/appTemplate"
@@ -27,6 +28,7 @@ tasks:
     config:
       appIcon: 🐇
       appCheckCommand: rabbitmqctl await_startup
+      defaultAppDirectory: '{{ .ProjectName }}Rabbitmq'
       defaultAppPorts: |
         [
           "5672",
