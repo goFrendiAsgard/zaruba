@@ -9,7 +9,7 @@ tasks:
       appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
       appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
       appContainerName: '{{ .GetValue "appContainerName" }}'
-      appContainerVolumes: '{{ .GetValue "appContainerVolumes" }}'
+      appContainerVolumes: '{{ if ne (.GetValue "appContainerVolumes") "[]" }}{{ .GetValue "appContainerVolumes" }}{{ else }}{{ .GetConfig "defaultAppContainerVolumes" }}{{ end }}'
       appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
       appCrudFields: '{{ .GetValue "appCrudFields" }}'
       appDependencies: '{{ .GetValue "appDependencies" }}'
@@ -23,7 +23,7 @@ tasks:
       appImageName: '{{ .GetValue "appImageName" }}'
       appModuleName: '{{ .GetValue "appModuleName" }}'
       appName: '{{ .GetValue "appName" }}'
-      appPorts: '{{ .GetValue "appPorts" }}'
+      appPorts: '{{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}'
       appPrepareCommand: '{{ .GetValue "appPrepareCommand" }}'
       appPushImageCommand: '{{ .GetValue "appPushImageCommand" }}'
       appRunnerVersion: '{{ .GetValue "appRunnerVersion" }}'
@@ -90,16 +90,6 @@ tasks:
           echo "{{ $d.Red }}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}{{ $d.Normal }}"
           exit 1
         fi
-      _setDefaultAppContainerVolumes: |
-        if [ "$("{{ .ZarubaBin }}" list length "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
-        then
-          _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "defaultAppContainerVolumes" }}'
-        fi
-      _setDefaultAppPorts: |
-        if [ "$("{{ .ZarubaBin }}" list length "${_ZRB_APP_PORTS}")" = 0 ]
-        then
-          _ZRB_APP_PORTS='{{ .GetConfig "defaultAppPorts" }}'
-        fi
       _generate: '{{ .GetConfig "_generateBase" }}'
       _generateBase: _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
       _start: |
@@ -112,7 +102,6 @@ tasks:
         _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
         _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
         _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "appContainerVolumes" }}'
-        {{ .GetConfig "_setDefaultAppContainerVolumes" }}
         {{ .GetConfig "_validateAppContainerVolumes" }}
         _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
         _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
@@ -124,7 +113,6 @@ tasks:
         _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
         _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
         _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
-        {{ .GetConfig "_setDefaultAppPorts" }}
         {{ .GetConfig "_validateAppPorts" }}
         _ZRB_APP_PREPARE_COMMAND='{{ .GetConfig "appPrepareCommand" }}'
         _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .GetConfig "appPushImageCommand" }}'
