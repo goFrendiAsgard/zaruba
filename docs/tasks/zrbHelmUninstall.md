@@ -1,9 +1,10 @@
-# zrbSetKubeContext
+# zrbHelmUninstall
 ```
-  TASK NAME     : zrbSetKubeContext
-  LOCATION      : /zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
+  TASK NAME     : zrbHelmUninstall
+  LOCATION      : /zaruba-tasks/_base/helmChore/task.zrbHelmUninstall.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
+  DEPENDENCIES  : [ zrbSetKubeContext ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -15,22 +16,20 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish          : Blank
-                  _setup           : set -e
-                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
-                  _start           : Blank
+                  _setup           : Blank
+                  _start           : helm uninstall "{{ .GetConfig "name" }}"
                   afterStart       : Blank
                   beforeStart      : Blank
+                  chart            : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   kubeContext      : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
                   kubeNmespace     : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+                  name             : Blank
                   setup            : Blank
-                  start            : if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
-                                     then
-                                       kubectl config use-context "{{ .GetConfig "kubeContext" }}"
-                                     fi
+                  start            : Blank
+                  templateLocation : {{ .ZarubaHome }}/zaruba-tasks/helm/template
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

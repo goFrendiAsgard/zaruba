@@ -97,16 +97,16 @@
                                                  _ZRB_APP_URL='{{ .GetConfig "appUrl" }}'
                                                  _ZRB_REPLACEMENT_MAP='{}'
                                                  __ZRB_PWD=$(pwd)
-                                                 echo "{{ $d.Yellow }}[Prepare]{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
                                                  {{ .GetConfig "_prepareBase" }}
-                                                 echo "{{ $d.Yellow }}[Validate]{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}☑️ Validate{{ $d.Normal }}"
                                                  {{ .GetConfig "_validate" }}
-                                                 echo "{{ $d.Yellow }}[Generate]{{ $d.Normal }}"
-                                                 echo "{{ $d.Yellow }}_ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
-                                                 echo "{{ $d.Yellow }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+                                                 echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
+                                                 echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                  cd "${__ZRB_PWD}"
                                                  {{ .GetConfig "_generate" }}
-                                                 echo "{{ $d.Yellow }}[Integrate]{{ $d.Normal }}"
+                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
                   _validate                    : {{ $d := .Decoration -}}

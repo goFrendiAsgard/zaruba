@@ -1,6 +1,8 @@
 includes:
 
   - ./zaruba-tasks/_base/config.zrbDocker.yaml
+  - ./zaruba-tasks/_base/config.zrbKube.yaml
+  - ./zaruba-tasks/_base/input.zrbKube.yaml
 
   - ./zaruba-tasks/_base/advertisement/input.showAdvertisement.yaml
   - ./zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
@@ -16,7 +18,10 @@ includes:
   - ./zaruba-tasks/_base/generateAndRun/input.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
-  - ./zaruba-tasks/_base/kubeChore/input.kubeContext.yaml
+  - ./zaruba-tasks/_base/helmChore/config.zrbHelm.yaml
+  - ./zaruba-tasks/_base/helmChore/task.zrbHelmInstall.yaml
+  - ./zaruba-tasks/_base/helmChore/task.zrbHelmUninstall.yaml
+
   - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
   - ./zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml

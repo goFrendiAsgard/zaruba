@@ -1,3 +1,5 @@
 defaultBranch: master
 defaultImagePrefix: ''
 defaultImageTag: latest
+defaultKubeContext: docker-desktop
+defaultKubeNamespace: default

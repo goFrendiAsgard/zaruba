@@ -1,0 +1,13 @@
+tasks:
+
+  zrbHelmInstall:
+    private: true
+    extend: zrbGenerateAndRun
+    dependencies:
+      - zrbSetKubeContext
+    configRefs:
+      - zrbKube
+      - zrbHelm
+    config:
+      runGeneratedScript: |
+        helm install -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "name" }}" "{{ .GetConfig "chart" }}" 

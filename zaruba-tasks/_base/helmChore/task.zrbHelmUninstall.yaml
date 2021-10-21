@@ -1,0 +1,13 @@
+tasks:
+
+  zrbHelmUninstall:
+    private: true
+    extend: zrbRunShellScript
+    dependencies:
+      - zrbSetKubeContext
+    configRefs:
+      - zrbKube
+      - zrbHelm
+    config:
+      _start: helm uninstall "{{ .GetConfig "name" }}"
+      start: ''

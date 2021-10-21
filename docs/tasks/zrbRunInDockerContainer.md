@@ -20,6 +20,9 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                   : Blank
+                  _prepare                  : Blank
+                  _prepareBase              : {{ .GetConfig "_prepareEnvReplacementMap" }}
+                                              {{ .GetConfig "_prepare" }}
                   _prepareEnvReplacementMap : {{ range $key, $val := .GetEnvs -}}
                                               _setReplacementMap '${{ $key }}' '{{ $val }}'
                                               _setReplacementMap '${{ (print "{" $key "}") }}' '{{ $val }}'
@@ -39,16 +42,16 @@
                                               _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
                                               _setReplacementMap "ztplSql" "${_ZRB_SQL}"
                                               __ZRB_PWD=$(pwd)
-                                              echo "{{ $d.Yellow }}[Prepare]{{ $d.Normal }}"
-                                              {{ .GetConfig "prepare" }} 
+                                              echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
+                                              {{ .GetConfig "_prepareBase" }} 
                                               cd "${__ZRB_PWD}"
-                                              echo "{{ $d.Yellow }}[Generate]{{ $d.Normal }}"
-                                              echo "{{ $d.Yellow }}_ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
-                                              echo "{{ $d.Yellow }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+                                              echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
+                                              echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
+                                              echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                               mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                                               "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
                                               cd "${__ZRB_PWD}"
-                                              echo "{{ $d.Bold }}{{ $d.Yellow }}[Run Script]{{ $d.Normal }}"
+                                              echo "{{ $d.Bold }}{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
                                               {{ .GetConfig "runGeneratedScript" }} 
                                               cd "${__ZRB_PWD}"
                   afterStart                : {{ $d := .Decoration -}}
@@ -61,7 +64,6 @@
                   finish                    : Blank
                   generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
                   includeShellUtil          : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
-                  prepare                   : {{ .GetConfig "_prepareEnvReplacementMap" }}
                   remoteCommand             : sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
                   remoteScriptLocation      : _{{ .Name }}.script.{{ .UUID }}
                   runGeneratedScript        : _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"

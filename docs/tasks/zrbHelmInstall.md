@@ -1,10 +1,10 @@
-# zrbGenerateAndRun
+# zrbHelmInstall
 ```
-  TASK NAME     : zrbGenerateAndRun
-  LOCATION      : /zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
-  DESCRIPTION   : Generate script and run it
+  TASK NAME     : zrbHelmInstall
+  LOCATION      : /zaruba-tasks/_base/helmChore/task.zrbHelmInstall.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbGenerateAndRun ]
+  DEPENDENCIES  : [ zrbSetKubeContext ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -54,17 +54,21 @@
                                               echo 🎉🎉🎉
                                               echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
                   beforeStart               : Blank
+                  chart                     : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
                   cmd                       : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                    : -c
                   finish                    : Blank
                   generatedScriptLocation   : {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
                   includeShellUtil          : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
-                  runGeneratedScript        : {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
+                  kubeContext               : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+                  kubeNmespace              : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+                  name                      : Blank
+                  runGeneratedScript        : helm install -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "name" }}" "{{ .GetConfig "chart" }}" 
                   script                    : {{ .GetValue "script" }}
                   setup                     : Blank
                   sql                       : {{ .GetValue "sql" }}
                   start                     : Blank
-                  templateLocation          : {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+                  templateLocation          : {{ .ZarubaHome }}/zaruba-tasks/helm/template
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -9,15 +9,17 @@ tasks:
       script: '{{ .GetValue "script" }}'
       sql: '{{ .GetValue "sql" }}'
       generatedScriptLocation: '{{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}'
-      prepare: |
-        {{ .GetConfig "_prepareEnvReplacementMap" }}
       runGeneratedScript: '{{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh'
+      _prepareBase: |
+        {{ .GetConfig "_prepareEnvReplacementMap" }}
+        {{ .GetConfig "_prepare" }}
       _prepareEnvReplacementMap: |
         {{ range $key, $val := .GetEnvs -}}
         _setReplacementMap '${{ $key }}' '{{ $val }}'
         _setReplacementMap '${{ (print "{" $key "}") }}' '{{ $val }}'
         _setReplacementMap 'ztplEnv_{{ $key }}' '{{ $val }}'
         {{ end -}}
+      _prepare: ''
       _start: |
         {{ $d := .Decoration -}}
         . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
@@ -31,16 +33,16 @@ tasks:
         _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
         _setReplacementMap "ztplSql" "${_ZRB_SQL}"
         __ZRB_PWD=$(pwd)
-        echo "{{ $d.Yellow }}[Prepare]{{ $d.Normal }}"
-        {{ .GetConfig "prepare" }} 
+        echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
+        {{ .GetConfig "_prepareBase" }} 
         cd "${__ZRB_PWD}"
-        echo "{{ $d.Yellow }}[Generate]{{ $d.Normal }}"
-        echo "{{ $d.Yellow }}_ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
-        echo "{{ $d.Yellow }}_ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+        echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
+        echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
+        echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
         mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
         "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
         cd "${__ZRB_PWD}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}[Run Script]{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
         {{ .GetConfig "runGeneratedScript" }} 
         cd "${__ZRB_PWD}"
       start: ''

@@ -2,8 +2,8 @@ tasks:
   zrbSetKubeContext:
     extend: zrbRunCoreScript
     private: true
+    configRef: zrbKube
     config:
-      kubeContext: '{{ .GetValue "kubeContext" }}'
       start: |
         if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
         then
