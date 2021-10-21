@@ -10,4 +10,4 @@ tasks:
       - zrbHelm
     config:
       runGeneratedScript: |
-        helm install -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "name" }}" "{{ .GetConfig "chart" }}" 
+        helm install --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 

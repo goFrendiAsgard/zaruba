@@ -1,0 +1,16 @@
+apiVersion: v2
+name: app
+description: Generic application Helm chart
+version: 0.3.8
+engine: gotpl
+sources:
+  - https://github.com/dysnix/charts
+maintainers:
+  - email: services@dysnix.com
+    name: Dysnix
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - bitnami-common
+    version: 1.x.x

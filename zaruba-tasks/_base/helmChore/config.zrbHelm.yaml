@@ -1,6 +1,6 @@
 configs:
 
   zrbHelm:
-    name: ''
-    chart: '{{ .ZarubaHome }}/zaruba-tasks/helm/chart'
+    releaseName: ''
+    chartLocation: '{{ .ZarubaHome }}/zaruba-tasks/helm/chart'
     templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/helm/template'

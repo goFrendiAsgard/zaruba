@@ -9,5 +9,5 @@ tasks:
       - zrbKube
       - zrbHelm
     config:
-      _start: helm uninstall "{{ .GetConfig "name" }}"
+      _start: helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}"  "{{ .GetConfig "releaseName" }}"
       start: ''
