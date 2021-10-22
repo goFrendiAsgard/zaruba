@@ -3,7 +3,7 @@ tasks:
   startZtplAppNameKafkaContainer:
     icon: ztplAppIcon
     extend: zrbStartDockerContainer
-    location: ztplTaskAppLocation/kafka
+    location: ztplAppTaskLocation/kafka
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -18,7 +18,7 @@ tasks:
   buildZtplAppNameKafkaImage:
     icon: 🏭
     extend: zrbBuildDockerImage
-    location: ztplTaskAppLocation/kafka
+    location: ztplAppTaskLocation/kafka
     timeout: 1h
     configRefs:
       - ztplAppNameKafkaContainer
@@ -50,7 +50,7 @@ tasks:
   removeZtplAppNameKafkaContainer:
     icon: ❌
     extend: zrbRemoveDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRefs:
       - ztplAppNameKafkaContainer
       - ztplAppNameKafka

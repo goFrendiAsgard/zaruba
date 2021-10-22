@@ -6,15 +6,9 @@ tasks:
       - zrbIsProject
     private: true
     config:
-      _validate: |
-        {{ $d := .Decoration -}}
-        if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
-        then
-          echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
-          exit 0
-        fi
-      _registerModule: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"'
-      _registerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"'
+      _indexFileName: './zaruba-tasks/${_ZRB_APP_NAME}/index.yaml'
+      _registerModule: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"'
+      _registerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"'
       _integrate: |
         {{ .GetConfig "_registerModule" }}
         {{ .GetConfig "_registerTasks" }}

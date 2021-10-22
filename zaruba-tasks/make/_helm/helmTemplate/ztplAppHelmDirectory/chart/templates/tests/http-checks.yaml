@@ -1,0 +1,18 @@
+{{- if .Values.tests.httpChecks.default -}}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "common.names.fullname" . }}-http-check-defaultport"
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ["{{ include "common.names.fullname" . }}:{{ .Values.service.port }}"]
+  restartPolicy: Never
+{{- end -}}

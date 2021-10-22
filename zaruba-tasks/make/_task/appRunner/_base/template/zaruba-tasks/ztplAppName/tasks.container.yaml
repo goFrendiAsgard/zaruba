@@ -3,7 +3,7 @@ tasks:
   startZtplAppNameContainer:
     icon: ztplAppIcon
     extend: zrbStartDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -17,7 +17,7 @@ tasks:
   buildZtplAppNameImage:
     icon: 🏭
     extend: zrbBuildDockerImage
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     timeout: 1h
     configRefs:
       - ztplAppNameContainer
@@ -49,7 +49,7 @@ tasks:
   removeZtplAppNameContainer:
     icon: ❌
     extend: zrbRemoveDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRefs:
       - ztplAppNameContainer
       - ztplAppName

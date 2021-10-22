@@ -87,12 +87,15 @@ includes:
 
   - ./zaruba-tasks/make/_app/task.makeApp.yaml
 
+  - ./zaruba-tasks/make/_helm/task.makeHelm.yaml
+
   - ./zaruba-tasks/make/_task/_base/task.zrbMakeTask.yaml
 
+  - ./zaruba-tasks/make/_task/appRunner/_base/task.zrbMakeAppRunner.yaml
   - ./zaruba-tasks/make/_task/appRunner/container/task.makeContainerAppRunner.yaml
   - ./zaruba-tasks/make/_task/appRunner/native/task.makeNativeAppRunner.yaml
 
-  - ./zaruba-tasks/make/_task/helm/task.makeHelmTask.yaml
+  - ./zaruba-tasks/make/_task/helm/task.zrbMakeHelmTask.yaml
 
   - ./zaruba-tasks/make/_task/terraform/task.makeTerraformTask.yaml
 
@@ -108,6 +111,9 @@ includes:
 
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiApp.yaml
+  - ./zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
+  - ./zaruba-tasks/make/fastApi/task.makeFastApiHelm.yaml
+  - ./zaruba-tasks/make/fastApi/task.makeFastApiHelmTask.yaml
 
   - ./zaruba-tasks/make/fastApiCrud/task.addFastApiCrud.yaml
 

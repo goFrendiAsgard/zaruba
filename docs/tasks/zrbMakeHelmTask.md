@@ -1,7 +1,7 @@
-# makeHelmTask
+# zrbMakeHelmTask
 ```
-  TASK NAME     : makeHelmTask
-  LOCATION      : /zaruba-tasks/make/_task/helm/task.makeHelmTask.yaml
+  TASK NAME     : zrbMakeHelmTask
+  LOCATION      : /zaruba-tasks/make/_task/helm/task.zrbMakeHelmTask.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbMakeTask ]
   START         : - {{ .GetConfig "cmd" }}
@@ -14,33 +14,10 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : appDirectory
-                    DESCRIPTION : Location of app
-                    PROMPT      : Location of app
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
-                  appHelmDirectory
-                    DESCRIPTION : Location of helm directory
-                    PROMPT      : Location of helm directory
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
-                  appHelmReleaseName
-                    DESCRIPTION : Helm release name
-                    PROMPT      : Helm release name
-                  appEnvs
-                    DESCRIPTION : Application envs
-                    PROMPT      : Application envs
-                    DEFAULT     : {}
-                  appPorts
-                    DESCRIPTION : Application ports
-                    DEFAULT     : []
-                  appImageName
-                    DESCRIPTION : App's image name
-                  appContainerName
-                    DESCRIPTION : Application container name
-                    PROMPT      : Application container name
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+                  _indexFileName               : ./zaruba-tasks/${_ZRB_APP_NAME}Helm/index.yaml
                   _integrate                   : {{ .GetConfig "_registerModule" }}
                                                  {{ .GetConfig "_registerTasks" }}
                   _prepareBase                 : {{ .GetConfig "_prepareBaseVariables" }}
@@ -59,8 +36,8 @@
                   _prepareBaseVariables        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap       : Blank
                   _prepareVariables            : Blank
-                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
-                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
                   _setup                       : set -e
                                                  {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
@@ -103,7 +80,7 @@
                                                  __ZRB_PWD=$(pwd)
                                                  echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
                                                  {{ .GetConfig "_prepareBase" }}
-                                                 echo "{{ $d.Yellow }}☑️ Validate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
                                                  {{ .GetConfig "_validate" }}
                                                  echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
                                                  echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
@@ -114,9 +91,9 @@
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
                   _validate                    : {{ $d := .Decoration -}}
-                                                 if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
+                                                 if [ -d "zaruba-tasks/${_ZRB_APP_NAME}Helm" ]
                                                  then
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME}Helm already exist.{{ $d.Normal }}"
                                                    exit 0
                                                  fi
                   _validateAppContainerVolumes : {{ $d := .Decoration -}}
@@ -163,7 +140,7 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmDirectory             : {{ .GetValue "appHelmDirectory" }}
+                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : Blank
@@ -184,12 +161,13 @@
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
                   defaultAppDirectory          : Blank
+                  defaultAppHelmDirectory      : Blank
                   defaultAppPorts              : []
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                        : Blank
                   start                        : Blank
-                  templateLocations            : ["{{ .ZarubaHome }}/make/_task/helm/template"]
+                  templateLocations            : ["{{ .ZarubaHome }}/zaruba-tasks/make/_task/helm/template"]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -3,7 +3,7 @@ tasks:
   startZtplAppName:
     icon: ztplAppIcon
     extend: zrbStartApp
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -16,7 +16,7 @@ tasks:
   testZtplAppName:
     icon: ✅
     extend: zrbRunShellScript
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     dependencies:
       - prepareZtplAppName
     configRefs:

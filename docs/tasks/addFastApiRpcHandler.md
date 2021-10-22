@@ -89,7 +89,7 @@
                                                  __ZRB_PWD=$(pwd)
                                                  echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
                                                  {{ .GetConfig "_prepareBase" }}
-                                                 echo "{{ $d.Yellow }}☑️ Validate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
                                                  {{ .GetConfig "_validate" }}
                                                  echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
                                                  echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
@@ -144,7 +144,7 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmDirectory             : {{ .GetValue "appHelmDirectory" }}
+                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : Blank
@@ -165,6 +165,7 @@
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
                   defaultAppDirectory          : {{ .ProjectName }}FastApi
+                  defaultAppHelmDirectory      : Blank
                   defaultAppPorts              : []
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh

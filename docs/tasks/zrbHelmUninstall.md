@@ -15,21 +15,22 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish          : Blank
-                  _setup           : Blank
-                  _start           : helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}"  "{{ .GetConfig "releaseName" }}"
-                  afterStart       : Blank
-                  beforeStart      : Blank
-                  chartLocation    : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
-                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg           : -c
-                  finish           : Blank
-                  kubeContext      : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
-                  kubeNmespace     : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
-                  releaseName      : Blank
-                  setup            : Blank
-                  start            : Blank
-                  templateLocation : {{ .ZarubaHome }}/zaruba-tasks/helm/template
+  CONFIG        : _finish               : Blank
+                  _setup                : Blank
+                  _start                : helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}"  "{{ .GetConfig "releaseName" }}"
+                  afterStart            : Blank
+                  beforeStart           : Blank
+                  chartLocation         : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
+                  cmd                   : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg                : -c
+                  finish                : Blank
+                  kubeContext           : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+                  kubeNmespace          : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+                  releaseName           : Blank
+                  setup                 : Blank
+                  start                 : Blank
+                  templateLocation      : {{ .GetConfig "valueTemplateLocation" }}
+                  valueTemplateLocation : {{ .ZarubaHome }}/zaruba-tasks/helm/valueTemplate
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

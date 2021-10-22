@@ -8,7 +8,7 @@ _ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")
 
 if [ -z "${_ZRB_APP_HELM_DIRECTORY}" ]
 then
-    _ZRB_APP_HELM_DIRECTORY="${_ZRB_APP_NAME}Deployment"
+    _ZRB_APP_HELM_DIRECTORY="${_ZRB_APP_NAME}Helm"
 fi
 
 if [ -z "${_ZRB_APP_HELM_RELEASE_NAME}" ]
@@ -20,12 +20,9 @@ fi
 _ZRB_APP_SNAKE_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
 _ZRB_APP_PASCAL_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_MODULE_NAME}")"
 
-# module file name
-_ZRB_MODULE_FILE_NAME="./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml"
-
 # app crud entity
-_ZRB_APP_CRUD_SNAKE_ENTITY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_CRUD_ENTITY}")"
-_ZRB_APP_CRUD_PASCAL_ENTITY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_CRUD_ENTITY}")"
+_ZRB_APP_SNAKE_CRUD_ENTITY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_CRUD_ENTITY}")"
+_ZRB_APP_PASCAL_CRUD_ENTITY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_CRUD_ENTITY}")"
 
 # app url
 _ZRB_APP_SNAKE_URL="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_URL}")"
@@ -39,8 +36,11 @@ _ZRB_APP_PASCAL_EVENT_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_E
 _ZRB_APP_SNAKE_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_RPC_NAME}")"
 _ZRB_APP_PASCAL_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_RPC_NAME}")"
 
-# app location
-_ZRB_TASK_APP_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
+# app task location
+_ZRB_APP_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
+
+# app helm task location
+_ZRB_APP_HELM_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}Helm" "${_ZRB_APP_HELM_DIRECTORY}")"
 
 # app icon
 if [ -z "${_ZRB_APP_ICON}" ]

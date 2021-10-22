@@ -3,7 +3,7 @@ tasks:
   startZtplAppNameRedisContainer:
     icon: 🧰
     extend: zrbStartDockerContainer
-    location: ztplTaskAppLocation/redis
+    location: ztplAppTaskLocation/redis
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -17,7 +17,7 @@ tasks:
   buildZtplAppNameRedisImage:
     icon: 🏭
     extend: zrbBuildDockerImage
-    location: ztplTaskAppLocation/redis
+    location: ztplAppTaskLocation/redis
     timeout: 1h
     configRefs:
       - ztplAppNameRedisContainer
@@ -49,7 +49,7 @@ tasks:
   removeZtplAppNameRedisContainer:
     icon: ❌
     extend: zrbRemoveDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRefs:
       - ztplAppNameRedisContainer
       - ztplAppNameRedis

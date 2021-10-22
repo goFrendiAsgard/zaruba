@@ -1,0 +1,10 @@
+tasks:
+ 
+  makeFastApiHelm:
+    icon: ⚡
+    extend: makeHelm
+    inputs:
+      - appHelmDirectory
+    config:
+      appIcon: ⚡
+      defaultAppDirectory: '{{ .ProjectName }}FastApiHelm'

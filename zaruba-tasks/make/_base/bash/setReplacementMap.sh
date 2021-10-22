@@ -4,11 +4,12 @@ _setReplacementMap "ztplAppContainerName" "${_ZRB_APP_CONTAINER_NAME}"
 _setReplacementMap "ztplAppContainerVolumes" "${_ZRB_APP_CONTAINER_VOLUMES}"
 _setReplacementMap "ztplAppDependencies" "${_ZRB_APP_DEPENDENCIES}"
 _setReplacementMap "ztplAppDirectory" "${_ZRB_APP_DIRECTORY}"
-_setReplacementMap "ztplTaskAppLocation" "${_ZRB_TASK_APP_LOCATION}"
+_setReplacementMap "ztplAppTaskLocation" "${_ZRB_APP_TASK_LOCATION}"
 _setReplacementMap "ztplAppEnvPrefix" "${_ZRB_APP_ENV_PREFIX}"
 _setReplacementMap "ztplAppEnvs" "${_ZRB_APP_ENVS}"
 _setReplacementMap "ztplAppHelmDirectory" "${_ZRB_APP_HELM_DIRECTORY}"
 _setReplacementMap "ztplAppHelmReleaseName" "${_ZRB_APP_HELM_RELEASE_NAME}"
+_setReplacementMap "ztplAppHelmTaskLocation" "${_ZRB_APP_HELM_TASK_LOCATION}"
 _setReplacementMap "ztplAppIcon" "${_ZRB_APP_ICON}"
 _setReplacementMap "ztpl-app-image-name" "${_ZRB_APP_IMAGE_NAME}"
 
@@ -25,8 +26,8 @@ _setReplacementMap "ztplAppStartContainerCommand" "${_ZRB_APP_START_CONTAINER_CO
 _setReplacementMap "ztplAppTestCommand" "${_ZRB_APP_TEST_COMMAND}"
 
 _setReplacementMap "ztplAppCrudEntity" "${_ZRB_APP_CRUD_ENTITY}"
-_setReplacementMap "ZtplAppCrudEntity" "${_ZRB_APP_CRUD_PASCAL_ENTITY}"
-_setReplacementMap "ztpl_app_crud_entity" "${_ZRB_APP_CRUD_SNAKE_ENTITY}"
+_setReplacementMap "ZtplAppCrudEntity" "${_ZRB_APP_PASCAL_CRUD_ENTITY}"
+_setReplacementMap "ztpl_app_crud_entity" "${_ZRB_APP_SNAKE_CRUD_ENTITY}"
 
 _setReplacementMap "ztplAppCrudFields" "${_ZRB_APP_CRUD_FIELDS}"
 

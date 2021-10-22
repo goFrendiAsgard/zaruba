@@ -25,7 +25,7 @@ _CALL_SUBMATCH="$("${ZARUBA_HOME}/zaruba" lines submatch "${_LINES}" "${_PATTERN
 _CALL_INDENTATION="$("${ZARUBA_HOME}/zaruba" list get "${_CALL_SUBMATCH}" 1)"
 _CALL_PARAM="$("${ZARUBA_HOME}/zaruba" list get "${_CALL_SUBMATCH}" 2)"
 _CALL_SUFFIX="$("${ZARUBA_HOME}/zaruba" list get "${_CALL_SUBMATCH}" 3)"
-_NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_APP_SNAKE_MODULE_NAME}_rpc_handler(${_CALL_PARAM}, ${_ZRB_APP_CRUD_SNAKE_ENTITY}_repo)${_CALL_SUFFIX}"
+_NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_APP_SNAKE_MODULE_NAME}_rpc_handler(${_CALL_PARAM}, ${_ZRB_APP_SNAKE_CRUD_ENTITY}_repo)${_CALL_SUFFIX}"
 
 # replace rpc call
 _LINES="$("${ZARUBA_HOME}/zaruba" list set "${_LINES}" "${_CALL_INDEX}" "${_NEW_CALL_LINE}")"

@@ -3,7 +3,7 @@ tasks:
   startZtplAppNameSchedulerContainer:
     icon: 📅
     extend: zrbStartDockerContainer
-    location: ztplTaskAppLocation/airflowScheduler
+    location: ztplAppTaskLocation/airflowScheduler
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -20,7 +20,7 @@ tasks:
   buildZtplAppNameSchedulerImage:
     icon: 🏭
     extend: zrbBuildDockerImage
-    location: ztplTaskAppLocation/airflowScheduler
+    location: ztplAppTaskLocation/airflowScheduler
     timeout: 1h
     configRefs:
       - ztplAppNameSchedulerContainer
@@ -52,7 +52,7 @@ tasks:
   removeZtplAppNameSchedulerContainer:
     icon: ❌
     extend: zrbRemoveDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRefs:
       - ztplAppNameSchedulerContainer
       - ztplAppNameScheduler

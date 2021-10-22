@@ -1,0 +1,15 @@
+tasks:
+ 
+  makeHelm:
+    icon: 🚢
+    extend: makeApp
+    inputs:
+      - appHelmDirectory
+    config:
+      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
+        ]
+      _integrate: |
+        cp -r "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate" "${_ZRB_APP_HELM_DIRECTORY}/valueTemplate"

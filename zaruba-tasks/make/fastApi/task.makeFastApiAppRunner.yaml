@@ -1,0 +1,18 @@
+tasks:
+
+  makeFastApiAppRunner:
+    icon: ⚡
+    extend: addPythonAppRunner
+    dependencies:
+      - makeFastApiApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      appIcon: ⚡
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'

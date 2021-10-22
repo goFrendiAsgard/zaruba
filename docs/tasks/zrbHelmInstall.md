@@ -74,8 +74,9 @@
                   setup                      : Blank
                   sql                        : {{ .GetValue "sql" }}
                   start                      : Blank
-                  templateLocation           : {{ .ZarubaHome }}/zaruba-tasks/helm/template
+                  templateLocation           : {{ .GetConfig "valueTemplateLocation" }}
                   useImagePrefix             : true
+                  valueTemplateLocation      : {{ .ZarubaHome }}/zaruba-tasks/helm/valueTemplate
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -3,7 +3,7 @@ tasks:
   startZtplAppNameWebContainer:
     icon: ztplAppIcon
     extend: zrbStartDockerContainer
-    location: ztplTaskAppLocation/airflowWeb
+    location: ztplAppTaskLocation/airflowWeb
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -19,7 +19,7 @@ tasks:
   buildZtplAppNameWebImage:
     icon: 🏭
     extend: zrbBuildDockerImage
-    location: ztplTaskAppLocation/airflowWeb
+    location: ztplAppTaskLocation/airflowWeb
     timeout: 1h
     configRefs:
       - ztplAppNameWebContainer
@@ -51,7 +51,7 @@ tasks:
   removeZtplAppNameWebContainer:
     icon: ❌
     extend: zrbRemoveDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRefs:
       - ztplAppNameWebContainer
       - ztplAppNameWeb

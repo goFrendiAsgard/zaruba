@@ -8,7 +8,7 @@ tasks:
   resetZtplAppName:
     icon: 👶
     extend: zrbRunInDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRef: ztplAppNameContainer
     envRef: ztplAppName
     config:

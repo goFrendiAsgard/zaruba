@@ -3,7 +3,7 @@ tasks:
   startZtplAppNamePostgresqlContainer:
     icon: 🐘
     extend: zrbStartDockerContainer
-    location: ztplTaskAppLocation/postgresql
+    location: ztplAppTaskLocation/postgresql
     inputs:
       - runZtplAppNameInLocal
     dependencies:
@@ -17,7 +17,7 @@ tasks:
   buildZtplAppNamePostgresqlImage:
     icon: 🏭
     extend: zrbBuildDockerImage
-    location: ztplTaskAppLocation/postgresql
+    location: ztplAppTaskLocation/postgresql
     timeout: 1h
     configRefs:
       - ztplAppNamePostgresqlContainer
@@ -49,7 +49,7 @@ tasks:
   removeZtplAppNamePostgresqlContainer:
     icon: ❌
     extend: zrbRemoveDockerContainer
-    location: ztplTaskAppLocation
+    location: ztplAppTaskLocation
     configRefs:
       - ztplAppNamePostgresqlContainer
       - ztplAppNamePostgresql

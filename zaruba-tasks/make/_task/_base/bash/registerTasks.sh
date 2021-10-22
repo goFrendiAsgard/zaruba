@@ -1,5 +1,5 @@
 _PROJECT_FILE_NAME="${1}"
-_MODULE_FILE_NAME="${2}"
+_INDEX_FILE_NAME="${2}"
 _APP_NAME="${3}"
 
 _PASCAL_APP_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_APP_NAME}")" 

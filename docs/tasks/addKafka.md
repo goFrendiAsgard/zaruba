@@ -45,6 +45,7 @@
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+                  _indexFileName               : ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
                   _integrate                   : {{ .GetConfig "_registerModule" }}
                                                  {{ .GetConfig "_registerTasks" }}
                   _prepareBase                 : {{ .GetConfig "_prepareBaseVariables" }}
@@ -65,8 +66,8 @@
                   _prepareVariables            : _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
                                                  _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
-                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
-                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
                   _setup                       : set -e
                                                  {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
@@ -109,7 +110,7 @@
                                                  __ZRB_PWD=$(pwd)
                                                  echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
                                                  {{ .GetConfig "_prepareBase" }}
-                                                 echo "{{ $d.Yellow }}☑️ Validate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
                                                  {{ .GetConfig "_validate" }}
                                                  echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
                                                  echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
@@ -169,7 +170,7 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmDirectory             : {{ .GetValue "appHelmDirectory" }}
+                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : 🪠
@@ -192,6 +193,7 @@
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
                   defaultAppDirectory          : {{ .ProjectName }}Kafka
+                  defaultAppHelmDirectory      : Blank
                   defaultAppPorts              : []
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh

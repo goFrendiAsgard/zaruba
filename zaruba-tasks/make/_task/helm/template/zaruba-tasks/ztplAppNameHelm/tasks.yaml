@@ -1,0 +1,16 @@
+tasks:
+
+  helmInstallZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbHelmInstall
+    location: ztplAppHelmTaskLocation
+    configRef: ztplAppNameHelm
+    envRef: ztplAppName
+
+  helmUninstallZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbHelmUninstall
+    location: ztplAppHelmTaskLocation
+    configRef: ztplAppNameHelm
+    envRef: ztplAppName
+  

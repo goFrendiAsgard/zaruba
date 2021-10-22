@@ -1,0 +1,24 @@
+# Nginx installation sample values
+
+name: alpine
+image:
+  repository: alpine
+
+command:
+  - sh
+  - -c
+  - sleep 300
+
+service:
+  port: 8080
+  ports:
+    - name: foo
+      targetPort: foo
+      port: 3128
+
+    - name: addrest
+      port: 8090
+
+containerPorts:
+  - name: foo
+    containerPort: 8080

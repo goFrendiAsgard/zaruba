@@ -1,0 +1,6 @@
+configs:
+
+  ztplAppNameHelm:
+    releaseName: ztplAppHelmReleaseName
+    chartLocation: '{{ .GetProjectPath "ztplAppHelmDirectory/chart" }}'
+    valueTemplateLocation: '{{ .GetProjectPath "ztplAppHelmDirectory/template" }}'
