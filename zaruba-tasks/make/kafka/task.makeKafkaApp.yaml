@@ -1,0 +1,12 @@
+tasks:
+ 
+  makeKafkaApp:
+    icon: 🪠
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appTemplate"
+        ]

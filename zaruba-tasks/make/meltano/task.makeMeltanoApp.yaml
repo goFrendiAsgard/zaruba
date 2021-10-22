@@ -1,0 +1,21 @@
+tasks:
+ 
+  makeMeltanoApp:
+    icon: 🐉
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appTemplate"
+        ]
+      _generate: |
+        pip install meltano
+        pipenv run meltano init "${_ZRB_APP_DIRECTORY}"
+        if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
+        then
+          _ZRB_APP_LOWER_DIRECTORY="$("{{ .ZarubaBin }}" str toLower "${_ZRB_APP_DIRECTORY}")"
+          mv "${_ZRB_APP_LOWER_DIRECTORY}" "${_ZRB_APP_DIRECTORY}"
+        fi
+        {{ .GetConfig "_generateBase" }}

@@ -1,0 +1,13 @@
+tasks:
+ 
+  makeElasticsearchApp:
+    icon: 🍜
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/elasticsearch/appTemplate"
+        ]

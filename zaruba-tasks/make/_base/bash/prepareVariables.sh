@@ -6,6 +6,16 @@ fi
 _ZRB_APP_SNAKE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_NAME}")"
 _ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")"
 
+if [ -z "${_ZRB_APP_HELM_DIRECTORY}" ]
+then
+    _ZRB_APP_HELM_DIRECTORY="${_ZRB_APP_NAME}Deployment"
+fi
+
+if [ -z "${_ZRB_APP_HELM_RELEASE_NAME}" ]
+then
+    _ZRB_APP_HELM_RELEASE_NAME="${_ZRB_APP_NAME}"
+fi
+
 # module name
 _ZRB_APP_SNAKE_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
 _ZRB_APP_PASCAL_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_MODULE_NAME}")"

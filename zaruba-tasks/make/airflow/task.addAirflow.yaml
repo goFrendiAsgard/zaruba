@@ -1,16 +1,4 @@
 tasks:
- 
-  makeAirflowApp:
-    icon: 🎐
-    extend: makeApp
-    inputs:
-      - appDirectory
-    config:
-      defaultAppDirectory: '{{ .ProjectName }}Airflow'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appTemplate"
-        ]
 
   addAirflow:
     icon: 🎐
@@ -41,7 +29,7 @@ tasks:
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/taskTemplate"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appRunnerTemplate"
         ]
       _prepareVariables: |
         _ZRB_APP_POSTGRESQL_PORTS='{{ .GetConfig "appPostgreSqlPorts" }}'

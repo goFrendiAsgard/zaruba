@@ -5,11 +5,17 @@ tasks:
     extend: zrbGenerateAndRun
     dependencies:
       - zrbSetKubeContext
+      - zrbHelmUpdateRepo
     configRefs:
       - zrbKube
       - zrbHelm
       - zrbDocker
     config:
+      _prepareBaseVariables: |
+        _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
+        _ZRB_RAW_CONFIG_PORTS='{{ .GetConfig "ports" }}'
+        . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareVariables.sh"
+      _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareReplacementMap.sh"'
       helmDryRun: '{{ if .GetValue "helmDryRun" }}{{ .GetValue "helmDryRun" }}{{ else }}false{{ end }}'
       runGeneratedScript: |
         helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 

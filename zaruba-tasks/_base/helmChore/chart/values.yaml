@@ -360,7 +360,7 @@ affinity: {}
 ##  - name: TEST_VAR
 ##    value: test
 ##
-env: {}
+env: []
 
 ## Array of sources to populate environment variables in the container from
 ## Ref: https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#envfromsource-v1-core

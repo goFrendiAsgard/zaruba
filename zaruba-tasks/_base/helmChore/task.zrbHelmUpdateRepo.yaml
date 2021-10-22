@@ -1,0 +1,10 @@
+tasks:
+  zrbHelmUpdateRepo:
+    private: true
+    extend: zrbRunShellScript
+    config:
+      releaseName: bitnami
+      repoUrl: https://charts.bitnami.com/bitnami
+      start: |
+        helm repo add {{ .GetConfig "releaseName" }} {{ .GetConfig "repoUrl" }}
+        helm repo update

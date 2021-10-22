@@ -57,9 +57,15 @@ inputs:
       Event name (Required)
     prompt: Event name
     validation: ^[a-zA-Z0-9_\-\.]+$
+ 
+  appHelmDirectory:
+    description: Location of helm directory
+    prompt: 'Location of helm directory'
+    validation: ^[a-zA-Z0-9_]*$
 
-  appHelmChartUrl:
-    description: App's helm chart url
+  appHelmReleaseName:
+    description: Helm release name
+    prompt: Helm release name
 
   appHttpMethod:
     description: HTTP Method (Required)

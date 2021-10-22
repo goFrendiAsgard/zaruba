@@ -1,16 +1,4 @@
 tasks:
- 
-  makeCassandraApp:
-    icon: 👀
-    extend: makeApp
-    inputs:
-      - appDirectory
-    config:
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appTemplate"
-        ]
 
   addCassandra:
     icon: 👀
@@ -39,5 +27,5 @@ tasks:
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/taskTemplate"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appRunnerTemplate"
         ] 

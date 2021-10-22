@@ -64,7 +64,8 @@
                                                  {{ .GetConfig "_validateAppDirectory" }}
                                                  _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
                                                  _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
-                                                 _ZRB_APP_HELM_CHART_URL='{{ .GetConfig "appHelmChartUrl" }}'
+                                                 _ZRB_APP_HELM_DIRECTORY='{{ .GetConfig "appHelmDirectory" }}'
+                                                 _ZRB_APP_HELM_RELEASE_NAME='{{ .GetConfig "appHelmReleaseName" }}'
                                                  _ZRB_APP_ICON='{{ .GetConfig "appIcon" }}'
                                                  _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
                                                  _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
@@ -143,7 +144,8 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmChartUrl              : {{ .GetValue "appHelmChartUrl" }}
+                  appHelmDirectory             : {{ .GetValue "appHelmDirectory" }}
+                  appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : Blank
                   appImageName                 : {{ .GetValue "appImageName" }}

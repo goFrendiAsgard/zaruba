@@ -4,8 +4,8 @@ tasks:
     extend: zrbMakeTask
     inputs:
       - appDirectory
-      - appHelmChartUrl
-      - appName
+      - appHelmDirectory
+      - appHelmReleaseName
       - appEnvs
       - appPorts
       - appImageName

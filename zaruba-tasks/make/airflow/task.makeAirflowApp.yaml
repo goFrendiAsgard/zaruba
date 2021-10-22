@@ -1,0 +1,13 @@
+tasks:
+ 
+  makeAirflowApp:
+    icon: 🎐
+    extend: makeApp
+    inputs:
+      - appDirectory
+    config:
+      defaultAppDirectory: '{{ .ProjectName }}Airflow'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appTemplate"
+        ]

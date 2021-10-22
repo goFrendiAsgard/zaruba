@@ -56,8 +56,8 @@
                   _prepareBaseVariables        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap       : Blank
                   _prepareVariables            : Blank
-                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
-                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_MODULE_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                       : set -e
                                                  {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
@@ -75,7 +75,8 @@
                                                  {{ .GetConfig "_validateAppDirectory" }}
                                                  _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
                                                  _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
-                                                 _ZRB_APP_HELM_CHART_URL='{{ .GetConfig "appHelmChartUrl" }}'
+                                                 _ZRB_APP_HELM_DIRECTORY='{{ .GetConfig "appHelmDirectory" }}'
+                                                 _ZRB_APP_HELM_RELEASE_NAME='{{ .GetConfig "appHelmReleaseName" }}'
                                                  _ZRB_APP_ICON='{{ .GetConfig "appIcon" }}'
                                                  _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
                                                  _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
@@ -159,7 +160,8 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmChartUrl              : {{ .GetValue "appHelmChartUrl" }}
+                  appHelmDirectory             : {{ .GetValue "appHelmDirectory" }}
+                  appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : 🐉
                   appImageName                 : {{ .GetValue "appImageName" }}
@@ -187,7 +189,7 @@
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/taskTemplate"
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appRunnerTemplate"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

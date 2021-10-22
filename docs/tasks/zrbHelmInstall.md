@@ -4,7 +4,7 @@
   LOCATION      : /zaruba-tasks/_base/helmChore/task.zrbHelmInstall.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbGenerateAndRun ]
-  DEPENDENCIES  : [ zrbSetKubeContext ]
+  DEPENDENCIES  : [ zrbSetKubeContext, zrbHelmUpdateRepo ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -20,8 +20,10 @@
                                                {{ .GetConfig "_prepareVariables" }}
                                                {{ .GetConfig "_prepareBaseReplacementMap" }}
                                                {{ .GetConfig "_prepareReplacementMap" }}
-                  _prepareBaseReplacementMap : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
-                  _prepareBaseVariables      : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+                  _prepareBaseReplacementMap : . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareReplacementMap.sh"
+                  _prepareBaseVariables      : _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
+                                               _ZRB_RAW_CONFIG_PORTS='{{ .GetConfig "ports" }}'
+                                               . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareVariables.sh"
                   _prepareReplacementMap     : Blank
                   _prepareVariables          : Blank
                   _setup                     : set -e
