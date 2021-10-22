@@ -5,6 +5,4 @@ tasks:
     extend: makeHelm
     inputs:
       - appHelmDirectory
-    config:
-      appIcon: ⚡
-      defaultAppDirectory: '{{ .ProjectName }}FastApiHelm'
+    configRef: addFastApi

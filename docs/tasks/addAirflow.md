@@ -71,7 +71,7 @@
                                                  _ZRB_APP_WEB_PORTS='{{ .GetConfig "appWebPorts" }}'
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareVariables.sh"
                   _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
-                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                       : set -e
                                                  {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
@@ -121,7 +121,7 @@
                                                  echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                  cd "${__ZRB_PWD}"
                                                  {{ .GetConfig "_generate" }}
-                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
                   _validate                    : {{ $d := .Decoration -}}
@@ -174,7 +174,7 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
+                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Helm{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : 🎐
@@ -200,7 +200,7 @@
                                                    "../dags:/opt/bitnami/airflow/dags"
                                                  ]
                   defaultAppDirectory          : {{ .ProjectName }}Airflow
-                  defaultAppHelmDirectory      : Blank
+                  defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh

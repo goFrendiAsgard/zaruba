@@ -11,6 +11,4 @@ tasks:
       - appName
       - appHelmDirectory
       - appHelmReleaseName
-    config:
-      appIcon: ⚡
-      defaultAppDirectory: '{{ .ProjectName }}FastApiHelm'
+    configRef: addFastApi

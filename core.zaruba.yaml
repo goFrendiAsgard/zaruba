@@ -109,6 +109,7 @@ includes:
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
 
+  - ./zaruba-tasks/make/fastApi/config.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiApp.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml

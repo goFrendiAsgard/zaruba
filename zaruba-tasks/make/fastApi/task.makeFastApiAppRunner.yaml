@@ -13,6 +13,4 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    config:
-      appIcon: ⚡
-      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+    configRef: addFastApi

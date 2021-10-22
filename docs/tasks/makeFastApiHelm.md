@@ -87,7 +87,7 @@
                                                  echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                  cd "${__ZRB_PWD}"
                                                  {{ .GetConfig "_generate" }}
-                                                 echo "{{ $d.Bold }}{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
                   _validate                    : {{ $d := .Decoration -}}
@@ -140,7 +140,7 @@
                   appEnvPrefix                 : {{ .GetValue "appEnvPrefix" }}
                   appEnvs                      : {{ .GetValue "appEnvs" }}
                   appEventName                 : {{ .GetValue "appEventName" }}
-                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
+                  appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Helm{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
                   appIcon                      : ⚡
@@ -160,8 +160,8 @@
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : {{ .ProjectName }}FastApiHelm
-                  defaultAppHelmDirectory      : Blank
+                  defaultAppDirectory          : {{ .ProjectName }}FastApi
+                  defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
