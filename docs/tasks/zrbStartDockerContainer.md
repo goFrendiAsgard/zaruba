@@ -216,7 +216,7 @@
                   containerName                : Blank
                   entryPoint                   : Blank
                   finish                       : Blank
-                  hostDockerInternal           : {{ if .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ .GetEnv "ZARUBA_HOST_DOCKER_INTERNAL" }}{{ else }}host.docker.internal{{ end }}
+                  hostDockerInternal           : {{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}
                   imageName                    : Blank
                   imagePrefix                  : {{ .GetValue "defaultImagePrefix" }}
                   imageTag                     : Blank

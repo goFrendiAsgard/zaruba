@@ -144,6 +144,11 @@ func (td *TaskData) GetDockerImageName() string {
 	return fmt.Sprintf("%s/%s", dockerImagePrefix, dockerImageName)
 }
 
+func (td *TaskData) ToJSON(data interface{}) (string, error) {
+	b, err := json.Marshal(data)
+	return string(b), err
+}
+
 func (td *TaskData) ParseJSON(s string) (interface{}, error) {
 	if s == "" {
 		return make([]interface{}, 0), nil

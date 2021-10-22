@@ -10,16 +10,15 @@ tasks:
       sql: '{{ .GetValue "sql" }}'
       generatedScriptLocation: '{{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}'
       runGeneratedScript: '{{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh'
+      _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"'
+      _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"'
+      _prepareVariables: ''
+      _prepareReplacementMap: ''
       _prepareBase: |
-        {{ .GetConfig "_prepareEnvReplacementMap" }}
-        {{ .GetConfig "_prepare" }}
-      _prepareEnvReplacementMap: |
-        {{ range $key, $val := .GetEnvs -}}
-        _setReplacementMap '${{ $key }}' '{{ $val }}'
-        _setReplacementMap '${{ (print "{" $key "}") }}' '{{ $val }}'
-        _setReplacementMap 'ztplEnv_{{ $key }}' '{{ $val }}'
-        {{ end -}}
-      _prepare: ''
+        {{ .GetConfig "_prepareBaseVariables" }}
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareBaseReplacementMap" }}
+        {{ .GetConfig "_prepareReplacementMap" }}
       _start: |
         {{ $d := .Decoration -}}
         . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
@@ -28,10 +27,10 @@ tasks:
         _ZRB_REPLACEMENT_MAP='{}'
         _ZRB_SCRIPT='{{ .GetConfig "script" }}'
         _ZRB_SQL='{{ .GetConfig "sql" }}'
+        _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
+        _ZRB_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
-        _setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
-        _setReplacementMap "ztplScript" "${_ZRB_SCRIPT}"
-        _setReplacementMap "ztplSql" "${_ZRB_SQL}"
+        _ZRB_ENVS='{{ .ToJSON .GetEnvs }}'
         __ZRB_PWD=$(pwd)
         echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
         {{ .GetConfig "_prepareBase" }} 

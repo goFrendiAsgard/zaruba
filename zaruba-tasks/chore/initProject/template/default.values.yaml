@@ -3,3 +3,5 @@ defaultImagePrefix: ''
 defaultImageTag: latest
 defaultKubeContext: docker-desktop
 defaultKubeNamespace: default
+helmDryRun: false
+hostDockerInternal: host.docker.internal

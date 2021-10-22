@@ -17,16 +17,16 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish          : Blank
                   _setup           : Blank
-                  _start           : helm uninstall "{{ .GetConfig "name" }}"
+                  _start           : helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}"  "{{ .GetConfig "releaseName" }}"
                   afterStart       : Blank
                   beforeStart      : Blank
-                  chart            : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
+                  chartLocation    : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
                   kubeContext      : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
                   kubeNmespace     : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
-                  name             : Blank
+                  releaseName      : Blank
                   setup            : Blank
                   start            : Blank
                   templateLocation : {{ .ZarubaHome }}/zaruba-tasks/helm/template

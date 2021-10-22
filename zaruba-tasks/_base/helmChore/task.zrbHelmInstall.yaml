@@ -8,6 +8,8 @@ tasks:
     configRefs:
       - zrbKube
       - zrbHelm
+      - zrbDocker
     config:
+      helmDryRun: '{{ if .GetValue "helmDryRun" }}{{ .GetValue "helmDryRun" }}{{ else }}false{{ end }}'
       runGeneratedScript: |
-        helm install --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 
+        helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 
