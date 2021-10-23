@@ -1,3 +1,8 @@
+# app directory
+_ZRB_APP_SNAKE_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_DIRECTORY}")"
+_ZRB_APP_PASCAL_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_DIRECTORY}")"
+_ZRB_APP_KEBAB_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_DIRECTORY}")"
+
 # app name
 if [ -z "${_ZRB_APP_NAME}" ]
 then
@@ -7,15 +12,21 @@ _ZRB_APP_SNAKE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_NAME}")"
 _ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")"
 _ZRB_APP_KEBAB_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_NAME}")"
 
+# helm directory
 if [ -z "${_ZRB_APP_HELM_DIRECTORY}" ]
 then
     _ZRB_APP_HELM_DIRECTORY="${_ZRB_APP_NAME}Helm"
 fi
+_ZRB_APP_SNAKE_HELM_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_HELM_DIRECTORY}")"
+_ZRB_APP_PASCAL_HELM_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_HELM_DIRECTORY}")"
+_ZRB_APP_KEBAB_HELM_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_HELM_DIRECTORY}")"
 
+# helm release name
 if [ -z "${_ZRB_APP_HELM_RELEASE_NAME}" ]
 then
     _ZRB_APP_HELM_RELEASE_NAME="${_ZRB_APP_NAME}"
 fi
+_ZRB_APP_HELM_RELEASE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_HELM_RELEASE_NAME}")"
 
 # module name
 _ZRB_APP_SNAKE_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
@@ -59,8 +70,10 @@ fi
 # image name
 if [ -z "${_ZRB_APP_IMAGE_NAME}" ]
 then
-    _ZRB_APP_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_DIRECTORY}")"
+    _ZRB_APP_IMAGE_NAME="${_ZRB_APP_DIRECTORY}"
 fi
+_ZRB_APP_IMAGE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_IMAGE_NAME}")"
+
 
 # container name
 if [ -z "${_ZRB_APP_CONTAINER_NAME}" ]

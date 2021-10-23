@@ -3,14 +3,29 @@ _setReplacementMap "ztplAppCheckCommand" "${_ZRB_APP_CHECK_COMMAND}"
 _setReplacementMap "ztplAppContainerName" "${_ZRB_APP_CONTAINER_NAME}"
 _setReplacementMap "ztplAppContainerVolumes" "${_ZRB_APP_CONTAINER_VOLUMES}"
 _setReplacementMap "ztplAppDependencies" "${_ZRB_APP_DEPENDENCIES}"
+
 _setReplacementMap "ztplAppDirectory" "${_ZRB_APP_DIRECTORY}"
+_setReplacementMap "ZtplAppDirectory" "${_ZRB_APP_PASCAL_DIRECTORY}"
+_setReplacementMap "ztpl_app_directory" "${_ZRB_APP_SNAKE_DIRECTORY}"
+_setReplacementMap "ztpl-app-directory" "${_ZRB_APP_KEBAB_DIRECTORY}"
+
 _setReplacementMap "ztplAppTaskLocation" "${_ZRB_APP_TASK_LOCATION}"
 _setReplacementMap "ztplAppEnvPrefix" "${_ZRB_APP_ENV_PREFIX}"
 _setReplacementMap "ztplAppEnvs" "${_ZRB_APP_ENVS}"
+
 _setReplacementMap "ztplAppHelmDirectory" "${_ZRB_APP_HELM_DIRECTORY}"
+_setReplacementMap "ZtplAppHelmDirectory" "${_ZRB_APP_PASCAL_HELM_DIRECTORY}"
+_setReplacementMap "ztpl_app_helm_directory" "${_ZRB_APP_SNAKE_HELM_DIRECTORY}"
+_setReplacementMap "ztpl-app-helm-directory" "${_ZRB_APP_KEBAB_HELM_DIRECTORY}"
+
 _setReplacementMap "ztplAppHelmReleaseName" "${_ZRB_APP_HELM_RELEASE_NAME}"
+_setReplacementMap "ztpl-app-helm-release-name" "${_ZRB_APP_HELM_RELEASE_NAME}"
+
 _setReplacementMap "ztplAppHelmTaskLocation" "${_ZRB_APP_HELM_TASK_LOCATION}"
+
 _setReplacementMap "ztplAppIcon" "${_ZRB_APP_ICON}"
+
+_setReplacementMap "ztplAppImageName" "${_ZRB_APP_IMAGE_NAME}"
 _setReplacementMap "ztpl-app-image-name" "${_ZRB_APP_IMAGE_NAME}"
 
 _setReplacementMap "ztplAppName" "${_ZRB_APP_NAME}"

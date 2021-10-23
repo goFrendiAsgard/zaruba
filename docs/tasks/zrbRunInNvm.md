@@ -17,8 +17,8 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish          : Blank
                   _setup           : set -e
-                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtilScript") "\n" }}
-                                     {{ .Util.Str.Trim (.GetConfig "useNvmScript") "\n" }} 
+                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                                     {{ .Util.Str.Trim (.GetConfig "useNvm") "\n" }} 
                   _start           : Blank
                   afterStart       : Blank
                   beforeStart      : Blank
@@ -29,7 +29,7 @@
                   nodeVersion      : node
                   setup            : Blank
                   start            : Blank
-                  useNvmScript     : if [ "$(isCommandExist nvm)" = 1 ]
+                  useNvm           : if [ "$(isCommandExist nvm)" = 1 ]
                                      then
                                        if [ "$(isCommandError nvm ls "{{ if .GetConfig "nodeVersion" }}{{ .GetConfig "nodeVersion" }}{{ else }}node{{ end }}" )" ]
                                        then
