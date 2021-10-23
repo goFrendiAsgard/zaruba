@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ztplAppHelmDirectory.fullname" . }}
+  name: {{ include "ztpl-app-name.fullname" . }}
   labels:
-    {{- include "ztplAppHelmDirectory.labels" . | nindent 4 }}
+    {{- include "ztpl-app-name.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "ztplAppHelmDirectory.selectorLabels" . | nindent 6 }}
+      {{- include "ztpl-app-name.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ztplAppHelmDirectory.selectorLabels" . | nindent 8 }}
+        {{- include "ztpl-app-name.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ztplAppHelmDirectory.serviceAccountName" . }}
+      serviceAccountName: {{ include "ztpl-app-name.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -35,19 +35,19 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.env }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end}}
           {{- with .Values.ports }}
           ports:
-            {{- toYaml .Values.ports | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end}}
           {{- with .Values.livenessProbe }}
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end}}
           {{- with .Values.readinessProbe }}
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
           {{- end}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

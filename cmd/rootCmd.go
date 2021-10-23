@@ -154,6 +154,8 @@ func init() {
 	projectCmd.AddCommand(projectSyncEnvFilesCmd)
 
 	strCmd.AddCommand(strAddPrefixCmd)
+	strCmd.AddCommand(strDoubleQuote)
+	strCmd.AddCommand(strEscapeShellArg)
 	strCmd.AddCommand(strFullIndentCmd)
 	strCmd.AddCommand(strGetIndentationCmd)
 	strCmd.AddCommand(strIndentCmd)
@@ -162,6 +164,7 @@ func init() {
 	strCmd.AddCommand(strPadRightCmd)
 	strCmd.AddCommand(strRepeatCmd)
 	strCmd.AddCommand(strReplaceCmd)
+	strCmd.AddCommand(strSingleQuote)
 	strCmd.AddCommand(strSplitCmd)
 	strCmd.AddCommand(strSubmatchCmd)
 	strCmd.AddCommand(strToCamelCmd)

@@ -6,6 +6,7 @@ tasks:
     location: ztplAppHelmTaskLocation
     configRefs:
       - ztplAppNameHelm
+      - ztplAppNameContainer
       - ztplAppName
     envRef: ztplAppName
 
@@ -15,6 +16,7 @@ tasks:
     location: ztplAppHelmTaskLocation
     configRefs:
       - ztplAppNameHelm
+      - ztplAppNameContainer
       - ztplAppName
     envRef: ztplAppName
   

@@ -2,9 +2,10 @@ _ZRB_CONTAINER_ENVS='[]'
 for _ZRB_KEY in $("${ZARUBA_HOME}/zaruba" map rangeKey "${_ZRB_ENVS}")
 do
     _ZRB_VAL="$("${ZARUBA_HOME}/zaruba" map get "${_ZRB_ENVS}" "${_ZRB_KEY}")"
+    _ZRB_DOUBLE_QUOTED_VAL="$("${ZARUBA_HOME}/zaruba" str doubleQuote "${_ZRB_VAL}")"
     _ZRB_ENV_MAP='{}'
     _ZRB_ENV_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_ENV_MAP}" "name" "${_ZRB_KEY}")"
-    _ZRB_ENV_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_ENV_MAP}" "value" "${_ZRB_VAL}")"
+    _ZRB_ENV_MAP="$("${ZARUBA_HOME}/zaruba" map set "${_ZRB_ENV_MAP}" "value" "${_ZRB_DOUBLE_QUOTED_VAL}")"
     _ZRB_CONTAINER_ENVS="$("${ZARUBA_HOME}/zaruba" list append "${_ZRB_CONTAINER_ENVS}" "${_ZRB_ENV_MAP}")"
 done
 

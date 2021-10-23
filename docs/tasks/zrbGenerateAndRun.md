@@ -35,7 +35,7 @@
                                                _ZRB_SCRIPT='{{ .GetConfig "script" }}'
                                                _ZRB_SQL='{{ .GetConfig "sql" }}'
                                                _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
-                                               _ZRB_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+                                               _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
                                                _ZRB_ENVS='{{ .ToJSON .GetEnvs }}'
                                                __ZRB_PWD=$(pwd)
                                                echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"

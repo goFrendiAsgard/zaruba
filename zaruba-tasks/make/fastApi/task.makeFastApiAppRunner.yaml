@@ -13,4 +13,8 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
+    config:
+      appPrepareCommand: pipenv install
+      appStartCommand: pipenv run bash ./start.sh
+      appTestCommand: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
     configRef: addFastApi

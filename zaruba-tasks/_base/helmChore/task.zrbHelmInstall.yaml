@@ -35,7 +35,8 @@ tasks:
       runGeneratedScript: |
         if [ "$(isCommandError helm status "${_ZRB_KEBAB_RELEASE_NAME}")" -eq 1 ]
         then 
-          helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" 
+          helm install "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run {{ end }}--dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" 
         else
-          helm upgrade {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" 
+          helm upgrade "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}"  {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run {{ end }}--dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml"
         fi
+        rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"

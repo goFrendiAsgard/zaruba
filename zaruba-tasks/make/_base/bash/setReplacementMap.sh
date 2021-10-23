@@ -16,6 +16,7 @@ _setReplacementMap "ztpl-app-image-name" "${_ZRB_APP_IMAGE_NAME}"
 _setReplacementMap "ztplAppName" "${_ZRB_APP_NAME}"
 _setReplacementMap "ZtplAppName" "${_ZRB_APP_PASCAL_NAME}"
 _setReplacementMap "ztpl_app_name" "${_ZRB_APP_SNAKE_NAME}"
+_setReplacementMap "ztpl-app-name" "${_ZRB_APP_KEBAB_NAME}"
 
 _setReplacementMap "ztplAppPrepareCommand" "${_ZRB_APP_PREPARE_COMMAND}"
 _setReplacementMap "ztplAppPorts" "${_ZRB_APP_PORTS}"

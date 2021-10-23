@@ -17,7 +17,9 @@
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish               : Blank
                   _setup                : Blank
-                  _start                : helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}"  "{{ .GetConfig "releaseName" }}"
+                  _start                : _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
+                                          _ZRB_KEBAB_RELEASE_NAME="$("{{ .ZarubaBin }}" str toKebab "${_ZRB_RELEASE_NAME}")"
+                                          helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}" "${_ZRB_KEBAB_RELEASE_NAME}"
                   afterStart            : Blank
                   beforeStart           : Blank
                   chartLocation         : Blank
@@ -25,7 +27,7 @@
                   cmdArg                : -c
                   finish                : Blank
                   kubeContext           : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
-                  kubeNmespace          : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+                  kubeNamespace         : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
                   releaseName           : Blank
                   setup                 : Blank
                   start                 : Blank

@@ -184,13 +184,13 @@
                   appModuleName                : {{ .GetValue "appModuleName" }}
                   appName                      : {{ .GetValue "appName" }}
                   appPorts                     : {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
-                  appPrepareCommand            : {{ .GetValue "appPrepareCommand" }}
+                  appPrepareCommand            : pipenv install
                   appPushImageCommand          : {{ .GetValue "appPushImageCommand" }}
                   appRpcName                   : {{ .GetValue "appRpcName" }}
                   appRunnerVersion             : {{ .GetValue "appRunnerVersion" }}
-                  appStartCommand              : {{ .GetValue "appStartCommand" }}
+                  appStartCommand              : pipenv run bash ./start.sh
                   appStartContainerCommand     : {{ .GetValue "appStartContainerCommand" }}
-                  appTestCommand               : {{ .GetValue "appTestCommand" }}
+                  appTestCommand               : pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
                   appUrl                       : {{ .GetValue "appUrl" }}
                   beforeStart                  : Blank
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}

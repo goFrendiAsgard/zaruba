@@ -39,7 +39,7 @@
                                                _ZRB_SCRIPT='{{ .GetConfig "script" }}'
                                                _ZRB_SQL='{{ .GetConfig "sql" }}'
                                                _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
-                                               _ZRB_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+                                               _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
                                                _ZRB_ENVS='{{ .ToJSON .GetEnvs }}'
                                                __ZRB_PWD=$(pwd)
                                                echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
@@ -92,14 +92,15 @@
                   imageTag                   : Blank
                   includeShellUtil           : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   kubeContext                : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
-                  kubeNmespace               : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+                  kubeNamespace              : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
                   releaseName                : Blank
                   runGeneratedScript         : if [ "$(isCommandError helm status "${_ZRB_KEBAB_RELEASE_NAME}")" -eq 1 ]
                                                then 
-                                                 helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" 
+                                                 helm install "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run {{ end }}--dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" 
                                                else
-                                                 helm upgrade {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" 
+                                                 helm upgrade "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}"  {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run {{ end }}--dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml"
                                                fi
+                                               rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                   script                     : {{ .GetValue "script" }}
                   setup                      : Blank
                   sql                        : {{ .GetValue "sql" }}

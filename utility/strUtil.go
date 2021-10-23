@@ -78,9 +78,24 @@ func (strUtil *StrUtil) ToKebab(s string) (result string) {
 	return result
 }
 
+func (strUtil *StrUtil) Quote(s string, quote byte) (result string) {
+	if len(s) > 0 && s[0] == quote && s[len(s)-1] == quote {
+		return s
+	}
+	quoteEscapedStr := strings.ReplaceAll(s, string(quote), "\\"+string(quote))
+	return fmt.Sprintf("%s%s%s", string(quote), quoteEscapedStr, string(quote))
+}
+
+func (strUtil *StrUtil) DoubleQuote(s string) (result string) {
+	return strUtil.Quote(s, '"')
+}
+
+func (strUtil *StrUtil) SingleQuote(s string) (result string) {
+	return strUtil.Quote(s, '\'')
+}
+
 func (strUtil *StrUtil) EscapeShellArg(s string) (result string) {
-	quoteEscapedStr := strings.ReplaceAll(s, "'", "\\'")
-	return fmt.Sprintf("'%s'", quoteEscapedStr)
+	return strUtil.SingleQuote(s)
 }
 
 // GetSubKeys get sub keys from dictionary
