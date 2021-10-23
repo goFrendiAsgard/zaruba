@@ -4,7 +4,7 @@
   LOCATION      : /zaruba-tasks/_base/helmChore/task.zrbHelmInstall.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbGenerateAndRun ]
-  DEPENDENCIES  : [ zrbSetKubeContext, zrbHelmUpdateRepo ]
+  DEPENDENCIES  : [ zrbSetKubeContext ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}

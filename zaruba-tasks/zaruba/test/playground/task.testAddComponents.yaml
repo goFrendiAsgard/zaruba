@@ -13,7 +13,7 @@ tasks:
         ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="provoFibo" 
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
-        ../zaruba please makeNativeAppRunner appDirectory=provoFibo appEnvs='{"HTTP_PORT":"3001"}'
+        ../zaruba please addAppRunner appDirectory=provoFibo appEnvs='{"HTTP_PORT":"3001"}'
 
         ../zaruba please setProjectValue variableName=showAdvertisement variableValue=no
 

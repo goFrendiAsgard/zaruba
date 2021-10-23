@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeAppHelm:
+    icon: 🐶
+    extend: makeHelm
+    inputs:
+      - appHelmDirectory
+    configRef: addAppRunner

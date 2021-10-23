@@ -1,0 +1,7 @@
+tasks:
+
+  addAppRunner:
+    icon: 🐶
+    dependencies:
+      - makeAppHelmTask
+      - makeAppRunner

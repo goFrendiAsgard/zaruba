@@ -21,7 +21,6 @@ includes:
   - ./zaruba-tasks/_base/helmChore/config.zrbHelm.yaml
   - ./zaruba-tasks/_base/helmChore/task.zrbHelmInstall.yaml
   - ./zaruba-tasks/_base/helmChore/task.zrbHelmUninstall.yaml
-  - ./zaruba-tasks/_base/helmChore/task.zrbHelmUpdateRepo.yaml
 
   - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
@@ -98,6 +97,12 @@ includes:
   - ./zaruba-tasks/make/_task/helm/task.zrbMakeHelmTask.yaml
 
   - ./zaruba-tasks/make/_task/terraform/task.makeTerraformTask.yaml
+
+  - ./zaruba-tasks/make/appRunner/config.addAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/task.addAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/task.makeAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
+  - ./zaruba-tasks/make/appRunner/task.makeAppHelmTask.yaml
 
   - ./zaruba-tasks/make/airflow/input.addAirflow.yaml
   - ./zaruba-tasks/make/airflow/task.addAirflow.yaml

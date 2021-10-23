@@ -5,7 +5,6 @@ tasks:
     extend: zrbGenerateAndRun
     dependencies:
       - zrbSetKubeContext
-      - zrbHelmUpdateRepo
     configRefs:
       - zrbKube
       - zrbHelm

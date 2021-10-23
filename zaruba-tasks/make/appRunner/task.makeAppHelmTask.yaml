@@ -1,0 +1,14 @@
+tasks:
+
+  makeAppHelmTask:
+    icon: 🐶
+    extend: zrbMakeHelmTask
+    dependencies:
+      - makeAppHelm
+      - makeAppRunner
+    inputs:
+      - appDirectory
+      - appName
+      - appHelmDirectory
+      - appHelmReleaseName
+    configRef: addAppRunner

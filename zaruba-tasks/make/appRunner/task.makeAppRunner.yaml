@@ -1,0 +1,14 @@
+tasks:
+
+  makeAppRunner:
+    icon: 🐶
+    extend: makeNativeAppRunner
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: addAppRunner
