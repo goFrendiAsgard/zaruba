@@ -1,10 +1,9 @@
-# makeFastApiAppRunner
+# makeNodeJsAppRunner
 ```
-  TASK NAME     : makeFastApiAppRunner
-  LOCATION      : /zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
+  TASK NAME     : makeNodeJsAppRunner
+  LOCATION      : /zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppRunner.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makePythonAppRunner ]
-  DEPENDENCIES  : [ makeFastApiApp ]
+  PARENT TASKS  : [ makeNativeAppRunner ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -60,7 +59,7 @@
                   _prepareBaseTestCommand      : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap       : Blank
-                  _prepareVariables            : . "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/bash/prepareVariables.sh"
+                  _prepareVariables            : . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
                   _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
                   _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                       : set -e
@@ -179,27 +178,27 @@
                   appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Helm{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
-                  appIcon                      : ⚡
+                  appIcon                      : 🐸
                   appImageName                 : {{ .GetValue "appImageName" }}
                   appModuleName                : {{ .GetValue "appModuleName" }}
                   appName                      : {{ .GetValue "appName" }}
                   appPorts                     : {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
-                  appPrepareCommand            : pipenv install
+                  appPrepareCommand            : {{ .GetValue "appPrepareCommand" }}
                   appPushImageCommand          : {{ .GetValue "appPushImageCommand" }}
                   appRpcName                   : {{ .GetValue "appRpcName" }}
                   appRunnerVersion             : {{ .GetValue "appRunnerVersion" }}
-                  appStartCommand              : pipenv run bash ./start.sh
+                  appStartCommand              : {{ .GetValue "appStartCommand" }}
                   appStartContainerCommand     : {{ .GetValue "appStartContainerCommand" }}
-                  appTestCommand               : pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+                  appTestCommand               : {{ .GetValue "appTestCommand" }}
                   appUrl                       : {{ .GetValue "appUrl" }}
                   beforeStart                  : Blank
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : {{ .ProjectName }}FastApi
+                  defaultAppDirectory          : Blank
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
-                  defaultPythonAppPorts        : [
+                  defaultNodeJsAppPorts        : [
                                                    "3000"
                                                  ]
                   finish                       : Blank
@@ -209,7 +208,7 @@
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate"
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/NodeJsAppRunner/appRunnerTemplate"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

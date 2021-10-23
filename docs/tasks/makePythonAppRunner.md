@@ -1,10 +1,9 @@
-# makeFastApiAppRunner
+# makePythonAppRunner
 ```
-  TASK NAME     : makeFastApiAppRunner
-  LOCATION      : /zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
+  TASK NAME     : makePythonAppRunner
+  LOCATION      : /zaruba-tasks/make/pythonAppRunner/task.makePythonAppRunner.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makePythonAppRunner ]
-  DEPENDENCIES  : [ makeFastApiApp ]
+  PARENT TASKS  : [ makeNativeAppRunner ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -179,24 +178,24 @@
                   appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Helm{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
-                  appIcon                      : ⚡
+                  appIcon                      : 🐍
                   appImageName                 : {{ .GetValue "appImageName" }}
                   appModuleName                : {{ .GetValue "appModuleName" }}
                   appName                      : {{ .GetValue "appName" }}
                   appPorts                     : {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
-                  appPrepareCommand            : pipenv install
+                  appPrepareCommand            : {{ .GetValue "appPrepareCommand" }}
                   appPushImageCommand          : {{ .GetValue "appPushImageCommand" }}
                   appRpcName                   : {{ .GetValue "appRpcName" }}
                   appRunnerVersion             : {{ .GetValue "appRunnerVersion" }}
-                  appStartCommand              : pipenv run bash ./start.sh
+                  appStartCommand              : {{ .GetValue "appStartCommand" }}
                   appStartContainerCommand     : {{ .GetValue "appStartContainerCommand" }}
-                  appTestCommand               : pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+                  appTestCommand               : {{ .GetValue "appTestCommand" }}
                   appUrl                       : {{ .GetValue "appUrl" }}
                   beforeStart                  : Blank
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : {{ .ProjectName }}FastApi
+                  defaultAppDirectory          : Blank
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
                   defaultPythonAppPorts        : [

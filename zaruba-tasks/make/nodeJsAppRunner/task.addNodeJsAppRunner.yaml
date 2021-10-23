@@ -2,27 +2,6 @@ tasks:
 
   addNodeJsAppRunner:
     icon: 🐸
-    extend: makeNativeAppRunner
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appImageName
-      - appContainerName
-    config:
-      _prepareVariables: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
-      appIcon: 🐸
-      defaultAppPorts: |
-        [
-          "3000"
-        ]
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate"
-        ]
-  
+    dependencies:
+      - makeNodeJsAppHelmTask
+      - makeNodeJsAppRunner

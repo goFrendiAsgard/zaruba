@@ -131,7 +131,11 @@ includes:
 
   - ./zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
 
+  - ./zaruba-tasks/make/goAppRunner/config.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
+  - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
+  - ./zaruba-tasks/make/goAppRunner/task.makeGoAppHelm.yaml
+  - ./zaruba-tasks/make/goAppRunner/task.makeGoAppHelmTask.yaml
 
   - ./zaruba-tasks/make/kafka/input.addKafka.yaml
   - ./zaruba-tasks/make/kafka/task.addKafka.yaml
@@ -152,9 +156,17 @@ includes:
   - ./zaruba-tasks/make/postgresql/task.addPostgresql.yaml
   - ./zaruba-tasks/make/postgresql/task.makePostgresqlApp.yaml
 
+  - ./zaruba-tasks/make/nodeJsAppRunner/config.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
+  - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppRunner.yaml
+  - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppHelm.yaml
+  - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppHelmTask.yaml
 
+  - ./zaruba-tasks/make/pythonAppRunner/config.addPythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
+  - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppRunner.yaml
+  - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppHelm.yaml
+  - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppHelmTask.yaml
 
   - ./zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
   - ./zaruba-tasks/make/rabbitmq/task.makeRabbitmqApp.yaml

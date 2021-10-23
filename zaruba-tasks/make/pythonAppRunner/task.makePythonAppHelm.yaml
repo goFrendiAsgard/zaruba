@@ -1,0 +1,8 @@
+tasks:
+ 
+  makePythonAppHelm:
+    icon: 🐍
+    extend: makeHelm
+    inputs:
+      - appHelmDirectory
+    configRef: addPythonAppRunner
