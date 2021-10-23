@@ -95,7 +95,7 @@
                   _validate                    : {{ $d := .Decoration -}}
                                                  if [ -d "zaruba-tasks/${_ZRB_APP_NAME}Helm" ]
                                                  then
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME}Helm already exist.{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME}Helm already exist.{{ $d.Normal }}"
                                                    exit 0
                                                  fi
                   _validateAppContainerVolumes : {{ $d := .Decoration -}}

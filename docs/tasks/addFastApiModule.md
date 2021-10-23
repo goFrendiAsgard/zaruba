@@ -100,7 +100,7 @@
                   _validate                    : {{ $d := .Decoration -}}
                                                  if [ -d "${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}" ]
                                                  then
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME} already exist.{{ $d.Normal }}"
                                                    exit 0
                                                  fi
                   _validateAppContainerVolumes : {{ $d := .Decoration -}}

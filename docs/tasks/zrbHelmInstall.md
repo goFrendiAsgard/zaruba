@@ -20,8 +20,10 @@
                                                {{ .GetConfig "_prepareVariables" }}
                                                {{ .GetConfig "_prepareBaseReplacementMap" }}
                                                {{ .GetConfig "_prepareReplacementMap" }}
-                  _prepareBaseReplacementMap : . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareReplacementMap.sh"
+                  _prepareBaseReplacementMap : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+                                               . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareReplacementMap.sh"
                   _prepareBaseVariables      : _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
+                                               _ZRB_KEBAB_RELEASE_NAME="$("{{ .ZarubaBin }}" str toKebab "${_ZRB_RELEASE_NAME}")"
                                                _ZRB_RAW_CONFIG_PORTS='{{ .GetConfig "ports" }}'
                                                . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareVariables.sh"
                   _prepareReplacementMap     : Blank
@@ -54,8 +56,9 @@
                                                mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                                                "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
                                                cd "${__ZRB_PWD}"
-                                               echo "{{ $d.Bold }}{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
-                                               {{ .GetConfig "runGeneratedScript" }} 
+                                               echo "{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
+                                               echo '{{ .GetConfig "runGeneratedScript" }}'
+                                               {{ .GetConfig "runGeneratedScript" }}
                                                cd "${__ZRB_PWD}"
                   _validate                  : {{ $d := .Decoration -}}
                                                if [ -z "{{ .GetConfig "releaseName" }}" ]
@@ -91,7 +94,12 @@
                   kubeContext                : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
                   kubeNmespace               : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
                   releaseName                : Blank
-                  runGeneratedScript         : helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 
+                  runGeneratedScript         : if [ "$(isCommandError helm status "${_ZRB_KEBAB_RELEASE_NAME}")" -eq 1 ]
+                                               then 
+                                                 helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" 
+                                               else
+                                                 helm upgrade {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" 
+                                               fi
                   script                     : {{ .GetValue "script" }}
                   setup                      : Blank
                   sql                        : {{ .GetValue "sql" }}

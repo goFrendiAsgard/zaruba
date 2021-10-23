@@ -1,56 +1,62 @@
-{{/* vim: set filetype=mustache: */}}
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "ztplAppHelmDirectory.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{/*
-Return the proper App image name
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
 */}}
-{{- define "app.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) }}
-{{- end -}}
+{{- define "ztplAppHelmDirectory.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default .Chart.Name .Values.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "ztplAppHelmDirectory.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Common labels
+*/}}
+{{- define "ztplAppHelmDirectory.labels" -}}
+helm.sh/chart: {{ include "ztplAppHelmDirectory.chart" . }}
+{{ include "ztplAppHelmDirectory.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "ztplAppHelmDirectory.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ztplAppHelmDirectory.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "app.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "common.names.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Return the proper Docker Image Registry Secret Names
-*/}}
-{{- define "app.imagePullSecrets" -}}
-{{- include "common.images.pullSecrets" (dict "images" (list .Values.image) "global" .Values.global) -}}
-{{- end -}}
-
-{{/*
-Set App PVC
-*/}}
-{{- define "app.pvc" -}}
-{{- .Values.persistence.existingClaim | default (include "common.names.fullname" .) -}}
-{{- end -}}
-
-{{/*
-Return  the proper Storage Class
-*/}}
-{{- define "app.storageClass" -}}
-{{- include "common.storage.class" (dict "persistence" .Values.persistence "global" .Values.global) -}}
-{{- end -}}
-
-{{/*
-Choose port name based on .port .targetPort. Fallbacks to "app".
-
-Examples:
-  {{- include "app.service.defaultPortName" (dict "port" "80" "targetPort" "8080") }}
-  {{- include "app.service.defaultPortName" (dict "port" "80" "targetPort" "api") }}
-*/}}
-{{- define "app.service.defaultPortName" -}}
-{{- $targetPort := .targetPort | default .port -}}
-{{- if regexMatch "^[0-9]+$" ($targetPort | toString) -}}
-app
-{{- else -}}
-{{ $targetPort }}
-{{- end -}}
-{{- end -}}
+{{- define "ztplAppHelmDirectory.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "ztplAppHelmDirectory.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}

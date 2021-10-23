@@ -6,10 +6,17 @@ tasks:
     inputs:
       - appHelmDirectory
     config:
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+      _validate: |
+        {{ $d := .Decoration -}}
+        if [ -d "${_ZRB_APP_DIRECTORY}Helm" ]
+        then
+          echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}Helm already exist.{{ $d.Normal }}"
+          exit 0
+        fi
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
         ]
+      valueTemplateLocation: '{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate'
       _integrate: |
-        cp -r "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate" "${_ZRB_APP_HELM_DIRECTORY}/valueTemplate"
+        cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_APP_HELM_DIRECTORY}/valueTemplate"

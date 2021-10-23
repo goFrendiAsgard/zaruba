@@ -52,8 +52,9 @@
                                                mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                                                "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
                                                cd "${__ZRB_PWD}"
-                                               echo "{{ $d.Bold }}{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
-                                               {{ .GetConfig "runGeneratedScript" }} 
+                                               echo "{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
+                                               echo '{{ .GetConfig "runGeneratedScript" }}'
+                                               {{ .GetConfig "runGeneratedScript" }}
                                                cd "${__ZRB_PWD}"
                   _validate                  : Blank
                   _validateTemplateLocation  : {{ $d := .Decoration -}}

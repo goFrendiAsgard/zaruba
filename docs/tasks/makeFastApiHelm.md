@@ -21,7 +21,7 @@
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
-                  _integrate                   : cp -r "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate" "${_ZRB_APP_HELM_DIRECTORY}/valueTemplate"
+                  _integrate                   : cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_APP_HELM_DIRECTORY}/valueTemplate"
                   _prepareBase                 : {{ .GetConfig "_prepareBaseVariables" }}
                                                  {{ .GetConfig "_prepareVariables" }}
                                                  {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -93,9 +93,9 @@
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
                   _validate                    : {{ $d := .Decoration -}}
-                                                 if [ -d "${_ZRB_APP_DIRECTORY}" ]
+                                                 if [ -d "${_ZRB_APP_DIRECTORY}Helm" ]
                                                  then
-                                                   echo "{{ $d.Yellow }}{{ $d.Bold }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}Helm already exist.{{ $d.Normal }}"
                                                    exit 0
                                                  fi
                   _validateAppContainerVolumes : {{ $d := .Decoration -}}
@@ -181,6 +181,7 @@
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
                                                  ]
+                  valueTemplateLocation        : {{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
