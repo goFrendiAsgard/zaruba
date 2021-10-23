@@ -1,0 +1,12 @@
+tasks:
+ 
+  makeSimpleNodeJsAppHelm:
+    icon: 🐸
+    extend: makeHelm
+    dependencies:
+      - makeSimpleNodeJsApp
+    inputs:
+      - appHelmDirectory
+    configRefs:
+      - addSimpleNodeJsAppRunner
+      - addNodeJsAppRunner

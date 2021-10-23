@@ -1,0 +1,16 @@
+tasks:
+
+  makeSimpleNodeJsAppHelmTask:
+    icon: 🐸
+    extend: zrbMakeHelmTask
+    dependencies:
+      - makeSimpleNodeJsAppHelm
+      - makeSimpleNodeJsAppRunner
+    inputs:
+      - appDirectory
+      - appName
+      - appHelmDirectory
+      - appHelmReleaseName
+    configRefs:
+      - addSimpleNodeJsAppRunner
+      - addNodeJsAppRunner

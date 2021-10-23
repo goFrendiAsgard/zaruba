@@ -192,6 +192,20 @@ includes:
   - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelm.yaml
   - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelmTask.yaml
 
+  - ./zaruba-tasks/make/simpleNodeJsApp/config.addSimpleNodeJsAppRunner.yaml
+  - ./zaruba-tasks/make/simpleNodeJsApp/task.addSimpleNodeJsApp.yaml
+  - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsApp.yaml
+  - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppRunner.yaml
+  - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppHelm.yaml
+  - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppHelmTask.yaml
+
+  - ./zaruba-tasks/make/simplePythonApp/config.addSimplePythonAppRunner.yaml
+  - ./zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
+  - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonApp.yaml
+  - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppRunner.yaml
+  - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppHelm.yaml
+  - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppHelmTask.yaml
+
   - ./zaruba-tasks/make/trino/task.addTrino.yaml
   - ./zaruba-tasks/make/trino/task.makeTrinoApp.yaml
   - ./zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml

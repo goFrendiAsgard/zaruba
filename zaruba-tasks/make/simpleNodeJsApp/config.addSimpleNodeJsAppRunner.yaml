@@ -1,0 +1,4 @@
+configs:
+
+  addSimpleNodeJsAppRunner:
+    defaultAppDirectory: '{{ .ProjectName }}App'

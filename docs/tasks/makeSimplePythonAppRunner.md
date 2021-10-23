@@ -1,9 +1,10 @@
-# makeNodeJsAppRunner
+# makeSimplePythonAppRunner
 ```
-  TASK NAME     : makeNodeJsAppRunner
-  LOCATION      : /zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppRunner.yaml
+  TASK NAME     : makeSimplePythonAppRunner
+  LOCATION      : /zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppRunner.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeNativeAppRunner ]
+  DEPENDENCIES  : [ makeSimplePythonApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -59,7 +60,7 @@
                   _prepareBaseTestCommand      : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap       : Blank
-                  _prepareVariables            : . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
+                  _prepareVariables            : . "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/bash/prepareVariables.sh"
                   _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
                   _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                       : set -e
@@ -178,7 +179,7 @@
                   appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Helm{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
-                  appIcon                      : 🐸
+                  appIcon                      : 🐍
                   appImageName                 : {{ .GetValue "appImageName" }}
                   appModuleName                : {{ .GetValue "appModuleName" }}
                   appName                      : {{ .GetValue "appName" }}
@@ -195,10 +196,10 @@
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : Blank
+                  defaultAppDirectory          : {{ .ProjectName }}App
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
-                  defaultNodeJsAppPorts        : [
+                  defaultPythonAppPorts        : [
                                                    "3000"
                                                  ]
                   finish                       : Blank
@@ -208,7 +209,7 @@
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate"
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -19,8 +19,8 @@ tasks:
     location: ztplAppTaskLocation
     inputs:
       - removeZtplAppNameNodeModules
-      - npmCleanCacheZtplAppName
-      - npmRebuildZtplAppName
+      - cleanZtplAppNameNpmCache
+      - rebuildZtplAppNameNpm
     configRef: prepareZtplAppName
 
   testZtplAppName:

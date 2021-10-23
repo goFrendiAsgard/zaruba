@@ -1,0 +1,16 @@
+tasks:
+
+  makeSimplePythonAppHelmTask:
+    icon: 🐍
+    extend: zrbMakeHelmTask
+    dependencies:
+      - makeSimplePythonAppHelm
+      - makeSimplePythonAppRunner
+    inputs:
+      - appDirectory
+      - appName
+      - appHelmDirectory
+      - appHelmReleaseName
+    configRefs:
+      - addSimplePythonAppRunner
+      - addPythonAppRunner
