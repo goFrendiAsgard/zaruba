@@ -25,7 +25,9 @@ func exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoratio
 			nodeCmd = nodeCmd.Parent()
 		}
 		logger.Fprintf(os.Stderr,
-			"%s %s%s%s\n%s%s\n", decoration.Error, decoration.Bold, decoration.Red, commandName, err.Error(), decoration.Normal)
+			"%s %s%s%s%s\n%s %s%s%s%s\n",
+			decoration.Error, decoration.Bold, decoration.Red, commandName, decoration.Normal,
+			decoration.Error, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
 		os.Exit(1)
 	}
 }

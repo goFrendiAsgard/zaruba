@@ -1,0 +1,12 @@
+tasks:
+
+  testHelmUninstall:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testHelmInstall
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please helmUninstall
+

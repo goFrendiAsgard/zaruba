@@ -345,7 +345,7 @@ func (task *Task) generateIcon() {
 }
 
 func (task *Task) generateUUID() {
-	if task.uuid != "" {
+	if task.uuid == "" {
 		task.uuid = task.Project.Util.Str.NewUUID()
 	}
 }

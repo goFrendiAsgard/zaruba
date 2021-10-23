@@ -10,7 +10,7 @@ done
 
 _ZRB_CONTAINER_PORTS='[]'
 _ZRB_PORT_LIST=$("${ZARUBA_HOME}/zaruba" str split "${_ZRB_RAW_CONFIG_PORTS}")
-for _ZRB_INDEX in ${_ZRB_PORT_LIST}
+for _ZRB_INDEX in $("${ZARUBA_HOME}/zaruba" list rangeIndex "${_ZRB_PORT_LIST}")
 do
     _ZRB_PORT_STR="$("${ZARUBA_HOME}/zaruba" list get "${_ZRB_PORT_LIST}" "${_ZRB_INDEX}")"
     _ZRB_PORT_STR_PARTS="$("${ZARUBA_HOME}/zaruba" str split "${_ZRB_PORT_STR}")"

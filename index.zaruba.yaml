@@ -34,8 +34,10 @@ includes:
 
   - ./zaruba-tasks/zaruba/test/playground/config.playgroundTest.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.preparePlayground.yaml
-  - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testAddComponents.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testApps.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testHelmInstall.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testHelmUninstall.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushImages.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushMeltanoImage.yaml

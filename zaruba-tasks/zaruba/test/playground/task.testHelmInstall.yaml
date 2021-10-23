@@ -1,0 +1,13 @@
+tasks:
+
+  testHelmInstall:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+      - prepareContainerRegistry
+    configRef: playgroundTest
+    config:
+      start: |
+        ../zaruba please helmInstall
+

@@ -49,15 +49,12 @@
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
                                                  _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
-                                                 {{ .GetConfig "_validateTemplateLocation" }}
                                                  _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
                                                  _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
                                                  _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
                                                  _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "appContainerVolumes" }}'
-                                                 {{ .GetConfig "_validateAppContainerVolumes" }}
                                                  _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
                                                  _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
-                                                 {{ .GetConfig "_validateAppDirectory" }}
                                                  _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
                                                  _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
                                                  _ZRB_APP_HELM_DIRECTORY='{{ .GetConfig "appHelmDirectory" }}'
@@ -66,7 +63,6 @@
                                                  _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
                                                  _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
                                                  _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
-                                                 {{ .GetConfig "_validateAppPorts" }}
                                                  _ZRB_APP_PREPARE_COMMAND='{{ .GetConfig "appPrepareCommand" }}'
                                                  _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .GetConfig "appPushImageCommand" }}'
                                                  _ZRB_APP_RUNNER_VERSION='{{ .GetConfig "appRunnerVersion" }}'
@@ -75,7 +71,6 @@
                                                  _ZRB_APP_TEST_COMMAND='{{ .GetConfig "appTestCommand" }}'
                                                  _ZRB_APP_CRUD_ENTITY='{{ .GetConfig "appCrudEntity" }}'
                                                  _ZRB_APP_CRUD_FIELDS='{{ .GetConfig "appCrudFields" }}'
-                                                 {{ .GetConfig "_validateAppCrudFields" }}
                                                  _ZRB_APP_EVENT_NAME='{{ .GetConfig "appEventName" }}'
                                                  _ZRB_APP_HTTP_METHOD='{{ .GetConfig "appHttpMethod" }}'
                                                  _ZRB_APP_MODULE_NAME='{{ .GetConfig "appModuleName" }}'
@@ -85,13 +80,20 @@
                                                  __ZRB_PWD=$(pwd)
                                                  echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
                                                  {{ .GetConfig "_prepareBase" }}
-                                                 echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
-                                                 {{ .GetConfig "_validate" }}
-                                                 echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
-                                                 echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATIONS:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
-                                                 echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                  cd "${__ZRB_PWD}"
+                                                 echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
+                                                 {{ .GetConfig "_validateAppDirectory" }}
+                                                 {{ .GetConfig "_validateAppContainerVolumes" }}
+                                                 {{ .GetConfig "_validateTemplateLocation" }}
+                                                 {{ .GetConfig "_validateAppPorts" }}
+                                                 {{ .GetConfig "_validateAppCrudFields" }}
+                                                 {{ .GetConfig "_validate" }}
+                                                 cd "${__ZRB_PWD}"
+                                                 echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
+                                                 echo "{{ $d.Yellow }}🚧 Template Location:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATIONS}"
+                                                 echo "{{ $d.Yellow }}🚧 Replacement Map:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                  {{ .GetConfig "_generate" }}
+                                                 cd "${__ZRB_PWD}"
                                                  echo "{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
@@ -131,6 +133,15 @@
                                                    echo "{{ $d.Red }}Invalid _ZRB_TEMPLATE_LOCATIONS: ${_ZRB_TEMPLATE_LOCATIONS}{{ $d.Normal }}"
                                                    exit 1
                                                  fi
+                                                 for _ZRB_TEMPLATE_LOCATION_INDEX in $("{{ .ZarubaBin }}" list rangeIndex "${_ZRB_TEMPLATE_LOCATIONS}")
+                                                 do
+                                                   _ZRB_TEMPLATE_LOCATION="$("{{ .ZarubaBin }}" list get "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_TEMPLATE_LOCATION_INDEX}")"
+                                                   if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+                                                   then
+                                                     echo "{{ $d.Red }}{{ $d.Bold }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+                                                     exit 1
+                                                   fi
+                                                 done
                   afterStart                   : {{ $d := .Decoration -}}
                                                  echo 🎉🎉🎉
                                                  echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"

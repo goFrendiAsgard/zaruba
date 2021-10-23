@@ -20,7 +20,7 @@
                   _start                : helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}"  "{{ .GetConfig "releaseName" }}"
                   afterStart            : Blank
                   beforeStart           : Blank
-                  chartLocation         : {{ .ZarubaHome }}/zaruba-tasks/helm/chart
+                  chartLocation         : Blank
                   cmd                   : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                : -c
                   finish                : Blank
@@ -30,7 +30,7 @@
                   setup                 : Blank
                   start                 : Blank
                   templateLocation      : {{ .GetConfig "valueTemplateLocation" }}
-                  valueTemplateLocation : {{ .ZarubaHome }}/zaruba-tasks/helm/valueTemplate
+                  valueTemplateLocation : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -11,6 +11,18 @@ tasks:
       - zrbHelm
       - zrbDocker
     config:
+      _validate: |
+        {{ $d := .Decoration -}}
+        if [ -z "{{ .GetConfig "releaseName" }}" ]
+        then
+          echo "{{ $d.Red }}{{ $d.Bold }}Release name cannot be empty.{{ $d.Normal }}"
+          exit 1
+        fi
+        if [ ! -d "{{ .GetConfig "chartLocation" }}" ]
+        then
+          echo "{{ $d.Red }}{{ $d.Bold }}Chart Location doesn't exist: {{ .GetConfig "chartLocation" }}.{{ $d.Normal }}"
+          exit 1
+        fi
       _prepareBaseVariables: |
         _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
         _ZRB_RAW_CONFIG_PORTS='{{ .GetConfig "ports" }}'
@@ -18,4 +30,4 @@ tasks:
       _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareReplacementMap.sh"'
       helmDryRun: '{{ if .GetValue "helmDryRun" }}{{ .GetValue "helmDryRun" }}{{ else }}false{{ end }}'
       runGeneratedScript: |
-        helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "{{ .GetProjectPath "tmp" }}/{{ .Name }}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 
+        helm install {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run{{ end }} --dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" "{{ .GetConfig "releaseName" }}" "{{ .GetConfig "chartLocation" }}" 

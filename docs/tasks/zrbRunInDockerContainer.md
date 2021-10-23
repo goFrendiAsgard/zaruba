@@ -33,27 +33,39 @@
                   _start                     : {{ $d := .Decoration -}}
                                                . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
                                                _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
+                                               _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
                                                _ZRB_TASK_NAME="{{ .Name }}"
                                                _ZRB_REPLACEMENT_MAP='{}'
                                                _ZRB_SCRIPT='{{ .GetConfig "script" }}'
                                                _ZRB_SQL='{{ .GetConfig "sql" }}'
                                                _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
                                                _ZRB_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-                                               _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
                                                _ZRB_ENVS='{{ .ToJSON .GetEnvs }}'
                                                __ZRB_PWD=$(pwd)
                                                echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
                                                {{ .GetConfig "_prepareBase" }} 
                                                cd "${__ZRB_PWD}"
+                                               echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
+                                               {{ .GetConfig "_validateTemplateLocation" }}
+                                               {{ .GetConfig "_validate" }}
+                                               cd "${__ZRB_PWD}"
                                                echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
-                                               echo "{{ $d.Yellow }}🚧 _ZRB_TEMPLATE_LOCATION:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
-                                               echo "{{ $d.Yellow }}🚧 _ZRB_REPLACEMENT_MAP:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
+                                               echo "{{ $d.Yellow }}🚧 Template Location:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
+                                               echo "{{ $d.Yellow }}🚧 Generated Script Location:{{ $d.Normal }} ${_ZRB_GENERATED_SCRIPT_LOCATION}"
+                                               echo "{{ $d.Yellow }}🚧 Replacement Map:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
                                                mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
                                                "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
                                                cd "${__ZRB_PWD}"
                                                echo "{{ $d.Bold }}{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
                                                {{ .GetConfig "runGeneratedScript" }} 
                                                cd "${__ZRB_PWD}"
+                  _validate                  : Blank
+                  _validateTemplateLocation  : {{ $d := .Decoration -}}
+                                               if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+                                               then
+                                                 echo "{{ $d.Red }}{{ $d.Bold }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+                                                 exit 1
+                                               fi
                   afterStart                 : {{ $d := .Decoration -}}
                                                echo 🎉🎉🎉
                                                echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
