@@ -11,18 +11,6 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configRef: addNodeJsAppRunner
-    config:
-      _prepareVariables: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
-      defaultNodeJsAppPorts: |
-        [
-          "3000"
-        ]
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/NodeJsAppRunner/appRunnerTemplate"
-        ]
-  
+    configRefs:
+      - makeNodeJsAppRunner
+      - addNodeJsAppRunner

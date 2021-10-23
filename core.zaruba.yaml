@@ -185,6 +185,13 @@ includes:
   - ./zaruba-tasks/make/redis/task.makeRedisApp.yaml
   - ./zaruba-tasks/make/redis/task.makeRedisAppRunner.yaml
 
+  - ./zaruba-tasks/make/simpleGoApp/config.addSimpleGoAppRunner.yaml
+  - ./zaruba-tasks/make/simpleGoApp/task.addSimpleGoApp.yaml
+  - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoApp.yaml
+  - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppRunner.yaml
+  - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelm.yaml
+  - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelmTask.yaml
+
   - ./zaruba-tasks/make/trino/task.addTrino.yaml
   - ./zaruba-tasks/make/trino/task.makeTrinoApp.yaml
   - ./zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml

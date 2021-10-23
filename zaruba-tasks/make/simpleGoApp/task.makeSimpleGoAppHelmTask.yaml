@@ -1,0 +1,16 @@
+tasks:
+
+  makeSimpleGoAppHelmTask:
+    icon: 🐹
+    extend: zrbMakeHelmTask
+    dependencies:
+      - makeSimpleGoAppHelm
+      - makeSimpleGoAppRunner
+    inputs:
+      - appDirectory
+      - appName
+      - appHelmDirectory
+      - appHelmReleaseName
+    configRefs:
+      - addSimpleGoAppRunner
+      - addGoAppRunner

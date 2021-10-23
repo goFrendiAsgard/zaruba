@@ -1,0 +1,12 @@
+tasks:
+ 
+  makeSimpleGoAppHelm:
+    icon: 🐹
+    extend: makeHelm
+    dependencies:
+      - makeSimpleGoApp
+    inputs:
+      - appHelmDirectory
+    configRefs:
+      - addSimpleGoAppRunner
+      - addGoAppRunner

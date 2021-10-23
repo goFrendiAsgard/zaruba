@@ -1,0 +1,15 @@
+tasks:
+ 
+  makeSimpleGoApp:
+    icon: 🐹
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRefs:
+      - addSimpleGoAppRunner
+      - addGoAppRunner
+    config:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/simpleGoApp/appTemplate"
+        ]

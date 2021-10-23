@@ -1,9 +1,10 @@
-# makeGoAppRunner
+# makeSimpleGoAppRunner
 ```
-  TASK NAME     : makeGoAppRunner
-  LOCATION      : /zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
+  TASK NAME     : makeSimpleGoAppRunner
+  LOCATION      : /zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppRunner.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeNativeAppRunner ]
+  DEPENDENCIES  : [ makeSimpleGoApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -195,7 +196,7 @@
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : Blank
+                  defaultAppDirectory          : {{ .ProjectName }}App
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
                   defaultGoAppPorts            : [

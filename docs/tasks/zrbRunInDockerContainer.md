@@ -64,7 +64,7 @@
                   _validateTemplateLocation  : {{ $d := .Decoration -}}
                                                if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
                                                then
-                                                 echo "{{ $d.Red }}{{ $d.Bold }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+                                                 echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
                                                  exit 1
                                                fi
                   afterStart                 : {{ $d := .Decoration -}}

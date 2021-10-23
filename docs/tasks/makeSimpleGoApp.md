@@ -1,9 +1,9 @@
-# makeGoAppRunner
+# makeSimpleGoApp
 ```
-  TASK NAME     : makeGoAppRunner
-  LOCATION      : /zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
+  TASK NAME     : makeSimpleGoApp
+  LOCATION      : /zaruba-tasks/make/simpleGoApp/task.makeSimpleGoApp.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeNativeAppRunner ]
+  PARENT TASKS  : [ makeApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -18,32 +18,13 @@
                     DESCRIPTION : Location of app
                     PROMPT      : Location of app
                     VALIDATION  : ^[a-zA-Z0-9_]*$
-                  appDependencies
-                    DESCRIPTION : Application dependencies
-                    PROMPT      : Application dependencies
-                    DEFAULT     : []
-                  appName
-                    DESCRIPTION : Name of the app
-                    PROMPT      : Name of the app
-                  appEnvs
-                    DESCRIPTION : Application envs
-                    PROMPT      : Application envs
-                    DEFAULT     : {}
-                  appPorts
-                    DESCRIPTION : Application ports
-                    DEFAULT     : []
-                  appImageName
-                    DESCRIPTION : App's image name
-                  appContainerName
-                    DESCRIPTION : Application container name
-                    PROMPT      : Application container name
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
-                  _indexFileName               : ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
-                  _integrate                   : {{ .GetConfig "_registerModule" }}
-                                                 {{ .GetConfig "_registerTasks" }}
+                  _integrate                   : if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+                                                 then
+                                                   chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+                                                 fi
                   _prepareBase                 : {{ .GetConfig "_prepareBaseVariables" }}
                                                  {{ .GetConfig "_prepareVariables" }}
                                                  {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -59,9 +40,7 @@
                   _prepareBaseTestCommand      : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap       : Blank
-                  _prepareVariables            : . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh"
-                  _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
-                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _prepareVariables            : Blank
                   _setup                       : set -e
                                                  {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
@@ -117,9 +96,9 @@
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
                   _validate                    : {{ $d := .Decoration -}}
-                                                 if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
+                                                 if [ -d "${_ZRB_APP_DIRECTORY}" ]
                                                  then
-                                                   echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
+                                                   echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
                                                    exit 0
                                                  fi
                   _validateAppContainerVolumes : {{ $d := .Decoration -}}
@@ -195,20 +174,15 @@
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : Blank
+                  defaultAppDirectory          : {{ .ProjectName }}App
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
-                  defaultGoAppPorts            : [
-                                                   "3000"
-                                                 ]
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                        : Blank
                   start                        : Blank
                   templateLocations            : [
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/appRunnerTemplate"
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/simpleGoApp/appTemplate"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
