@@ -2,28 +2,5 @@ tasks:
 
   addNginx:
     icon: 📗
-    extend: makeContainerAppRunner
     dependencies:
-      - makeNginxApp
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appImageName
-      - appContainerName
-    config:
-      appIcon: 📗
-      defaultAppDirectory: '{{ .ProjectName }}Nginx'
-      defaultAppPorts: |
-        [
-          "80",
-          "443"
-        ]
-      defaultAppContainerVolumes: |
-        [
-          "acme-challenge:/opt/bitnami/nginx/acme-challenge",
-          "html:/opt/bitnami/nginx/html",
-          "my_server_block.cnf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf "
-        ]
+      - makeNginxAppRunner

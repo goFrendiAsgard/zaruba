@@ -2,22 +2,5 @@ tasks:
 
   addElasticsearch:
     icon: 🍜
-    extend: makeContainerAppRunner
     dependencies:
-      - makeElasticsearchApp
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appImageName
-      - appContainerName
-    config:
-      appIcon: 🍜
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
-      defaultAppPorts: |
-        [
-          "9200",
-          "9300"
-        ]
+      - makeElasticsearchAppRunner

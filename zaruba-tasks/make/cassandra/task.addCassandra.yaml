@@ -2,30 +2,6 @@ tasks:
 
   addCassandra:
     icon: 👀
-    extend: makeContainerAppRunner
     dependencies:
-      - makeCassandraApp
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appImageName
-      - appContainerName
-    config:
-      appIcon: 👀
-      appCheckCommand: cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
-      defaultAppPorts: |
-        [
-          "7000",
-          "7199",
-          "9042"
-        ]
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appRunnerTemplate"
-        ] 
+      - makeCassandraAppRunner
+ 

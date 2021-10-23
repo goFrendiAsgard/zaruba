@@ -2,21 +2,5 @@ tasks:
 
   addMongodb:
     icon: 🍃
-    extend: makeContainerAppRunner
     dependencies:
-      - makeMongodbApp
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appImageName
-      - appContainerName
-    config:
-      appIcon: 🍃
-      defaultAppDirectory: '{{ .ProjectName }}Mongodb'
-      defaultAppPorts: |
-        [
-          "27017"
-        ]
+      - makeMongodbAppRunner

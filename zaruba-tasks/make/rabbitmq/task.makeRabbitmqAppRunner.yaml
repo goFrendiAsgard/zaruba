@@ -1,0 +1,30 @@
+tasks:
+
+  makeRabbitmqAppRunner:
+    icon: 🐇
+    extend: makeContainerAppRunner
+    dependencies:
+      - makeRabbitmqApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    config:
+      appIcon: 🐇
+      appCheckCommand: rabbitmqctl await_startup
+      defaultAppDirectory: '{{ .ProjectName }}Rabbitmq'
+      defaultAppPorts: |
+        [
+          "5672",
+          "15672"
+        ]
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmq/appRunnerTemplate"
+        ] 

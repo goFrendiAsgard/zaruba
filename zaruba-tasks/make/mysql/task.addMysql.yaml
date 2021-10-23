@@ -2,32 +2,5 @@ tasks:
 
   addMysql:
     icon: 🐬
-    extend: makeContainerAppRunner
     dependencies:
-      - makeMysqlApp
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appImageName
-      - appContainerName
-    config:
-      appIcon: 🐬
-      appCheckCommand: mysql -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }} -e "SHOW SCHEMAS"
-      defaultAppDirectory: '{{ .ProjectName }}Mysql'
-      defaultAppPorts: |
-        [
-          "3306"
-        ]
-      defaultAppContainerVolumes: |
-        [
-          "init.sql:/docker-entrypoint-initdb.d/init.sql"
-        ]
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/appRunnerTemplate"
-        ]
+      - makeMysqlAppRunner

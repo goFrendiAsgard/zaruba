@@ -2,24 +2,5 @@ tasks:
 
   addMeltano:
     icon: 🐉
-    extend: makeNativeAppRunner
     dependencies:
-      - makeMeltanoApp
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appImageName
-      - appContainerName
-    config:
-      appIcon: 🐉
-      defaultAppDirectory: '{{ .ProjectName }}Meltano'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appRunnerTemplate"
-        ]
-      _integrate: |
-        {{ .GetConfig "_registerModule" }}
+      - makeMeltanoAppRunner

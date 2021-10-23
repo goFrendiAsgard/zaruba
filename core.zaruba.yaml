@@ -104,15 +104,18 @@ includes:
   - ./zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
   - ./zaruba-tasks/make/appRunner/task.makeAppHelmTask.yaml
 
-  - ./zaruba-tasks/make/airflow/input.addAirflow.yaml
+  - ./zaruba-tasks/make/airflow/input.makeAirflowAppRunner.yaml
   - ./zaruba-tasks/make/airflow/task.addAirflow.yaml
   - ./zaruba-tasks/make/airflow/task.makeAirflowApp.yaml
+  - ./zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
 
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
+  - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
 
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
+  - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchAppRunner.yaml
 
   - ./zaruba-tasks/make/fastApi/config.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
@@ -137,24 +140,30 @@ includes:
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppHelm.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppHelmTask.yaml
 
-  - ./zaruba-tasks/make/kafka/input.addKafka.yaml
+  - ./zaruba-tasks/make/kafka/input.makeKafkaAppRunner.yaml
   - ./zaruba-tasks/make/kafka/task.addKafka.yaml
   - ./zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
+  - ./zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
 
   - ./zaruba-tasks/make/meltano/task.addMeltano.yaml
   - ./zaruba-tasks/make/meltano/task.makeMeltanoApp.yaml
+  - ./zaruba-tasks/make/meltano/task.makeMeltanoAppRunner.yaml
 
   - ./zaruba-tasks/make/mongodb/task.addMongodb.yaml
   - ./zaruba-tasks/make/mongodb/task.makeMongodbApp.yaml
+  - ./zaruba-tasks/make/mongodb/task.makeMongodbAppRunner.yaml
 
   - ./zaruba-tasks/make/mysql/task.addMysql.yaml
   - ./zaruba-tasks/make/mysql/task.makeMysqlApp.yaml
+  - ./zaruba-tasks/make/mysql/task.makeMysqlAppRunner.yaml
 
   - ./zaruba-tasks/make/nginx/task.addNginx.yaml
   - ./zaruba-tasks/make/nginx/task.makeNginxApp.yaml
+  - ./zaruba-tasks/make/nginx/task.makeNginxAppRunner.yaml
 
   - ./zaruba-tasks/make/postgresql/task.addPostgresql.yaml
   - ./zaruba-tasks/make/postgresql/task.makePostgresqlApp.yaml
+  - ./zaruba-tasks/make/postgresql/task.makePostgresqlAppRunner.yaml
 
   - ./zaruba-tasks/make/nodeJsAppRunner/config.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
@@ -170,9 +179,12 @@ includes:
 
   - ./zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
   - ./zaruba-tasks/make/rabbitmq/task.makeRabbitmqApp.yaml
+  - ./zaruba-tasks/make/rabbitmq/task.makeRabbitmqAppRunner.yaml
 
   - ./zaruba-tasks/make/redis/task.addRedis.yaml
   - ./zaruba-tasks/make/redis/task.makeRedisApp.yaml
+  - ./zaruba-tasks/make/redis/task.makeRedisAppRunner.yaml
 
   - ./zaruba-tasks/make/trino/task.addTrino.yaml
   - ./zaruba-tasks/make/trino/task.makeTrinoApp.yaml
+  - ./zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml
