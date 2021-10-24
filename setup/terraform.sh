@@ -4,7 +4,8 @@ echo "🔽 Downloading and installing Terraform."
 curl "https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip" -o "terraform.zip"
 unzip terraform.zip
 
-mv terraform "${HOME}/.terraform"
+mkdir -p "${HOME}/.terraform"
+mv terraform "${HOME}/.terraform/terraform"
 rm terraform.zip
 
 SCRIPT="$(cat "${ZARUBA_HOME}/setup/templates/bash/terraform.sh")"
