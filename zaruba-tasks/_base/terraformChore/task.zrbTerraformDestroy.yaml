@@ -1,0 +1,7 @@
+tasks:
+
+  zrbTerraformDestroy:
+    extend: zrbRunCoreScript
+    config:
+      _start: echo "yes" | terraform destroy -input=false
+      start: ''

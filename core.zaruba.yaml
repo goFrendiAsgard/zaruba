@@ -45,6 +45,10 @@ includes:
   - ./zaruba-tasks/_base/start/task.zrbStartAppInNvm.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformApply.yaml
+  - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformDestroy.yaml
+  - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformInit.yaml
+
   - ./zaruba-tasks/_base/validation/task.zrbIsProject.yaml
   - ./zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
 
@@ -97,7 +101,7 @@ includes:
 
   - ./zaruba-tasks/make/_task/helm/task.zrbMakeHelmTask.yaml
 
-  - ./zaruba-tasks/make/_task/terraform/task.makeTerraformTask.yaml
+  - ./zaruba-tasks/make/_task/terraform/task.zrbMakeTerraformTask.yaml
 
   - ./zaruba-tasks/make/appRunner/config.addAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.addAppRunner.yaml
@@ -113,6 +117,12 @@ includes:
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
+
+  - ./zaruba-tasks/make/eks/config.addEks.yaml
+  - ./zaruba-tasks/make/eks/input.makeEksApp.yaml
+  - ./zaruba-tasks/make/eks/task.addEks.yaml
+  - ./zaruba-tasks/make/eks/task.makeEksApp.yaml
+  - ./zaruba-tasks/make/eks/task.makeEksTerraformTask.yaml
 
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml

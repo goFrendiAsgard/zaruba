@@ -1,0 +1,21 @@
+tasks:
+
+  terraformInitZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbTerraformInit
+    location: ztplAppTaskLocation
+    configRef: terraformInitZtplAppName
+
+  terraformApplyZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbTerraformApply
+    dependencies:
+      - terraformInitZtplAppName
+    location: ztplAppTaskLocation
+    configRef: terraformApplyZtplAppName
+
+  terraformDestroyZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbTerraformDestroy
+    location: ztplAppTaskLocation
+    configRef: terraformDestroyZtplAppName

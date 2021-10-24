@@ -63,12 +63,12 @@
                   _validate                  : {{ $d := .Decoration -}}
                                                if [ -z "{{ .GetConfig "releaseName" }}" ]
                                                then
-                                                 echo "{{ $d.Red }}{{ $d.Bold }}Release name cannot be empty.{{ $d.Normal }}"
+                                                 echo "{{ $d.Red }}Release name cannot be empty.{{ $d.Normal }}"
                                                  exit 1
                                                fi
                                                if [ ! -d "{{ .GetConfig "chartLocation" }}" ]
                                                then
-                                                 echo "{{ $d.Red }}{{ $d.Bold }}Chart Location doesn't exist: {{ .GetConfig "chartLocation" }}.{{ $d.Normal }}"
+                                                 echo "{{ $d.Red }}Chart Location doesn't exist: {{ .GetConfig "chartLocation" }}.{{ $d.Normal }}"
                                                  exit 1
                                                fi
                   _validateTemplateLocation  : {{ $d := .Decoration -}}
@@ -94,10 +94,13 @@
                   kubeContext                : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
                   kubeNamespace              : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
                   releaseName                : Blank
-                  runGeneratedScript         : if [ "$(isCommandError helm status "${_ZRB_KEBAB_RELEASE_NAME}")" -eq 1 ]
+                  runGeneratedScript         : {{ $d := .Decoration -}}
+                                               if [ "$(isCommandError helm status "${_ZRB_KEBAB_RELEASE_NAME}")" -eq 1 ]
                                                then 
+                                                 echo "{{ $d.Yellow }}Install release: ${_ZRB_KEBAB_RELEASE_NAME}.{{ $d.Normal }}"
                                                  helm install "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}" {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run {{ end }}--dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml" 
                                                else
+                                                 echo "{{ $d.Yellow }}Upgrade release: ${_ZRB_KEBAB_RELEASE_NAME}.{{ $d.Normal }}"
                                                  helm upgrade "${_ZRB_KEBAB_RELEASE_NAME}" "{{ .GetConfig "chartLocation" }}"  {{ if .IsTrue (.GetConfig "helmDryRun") }}--dry-run {{ end }}--dependency-update --namespace "{{ .GetConfig "kubeNamespace" }}" --create-namespace -f "${_ZRB_GENERATED_SCRIPT_LOCATION}/values.yaml"
                                                fi
                                                rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"

@@ -55,14 +55,3 @@ tasks:
     icon: ❌
     extend: zrbWrapper
     dependencies: [] 
-
-  terraformApply:
-    icon: 🏭
-    extend: zrbWrapper
-    dependencies: [] 
-
-  terraformDestroy:
-    icon: ❌
-    extend: zrbWrapper
-    dependencies: [] 
-  

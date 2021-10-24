@@ -1,7 +1,7 @@
-# makeTerraformTask
+# zrbMakeTerraformTask
 ```
-  TASK NAME     : makeTerraformTask
-  LOCATION      : /zaruba-tasks/make/_task/terraform/task.makeTerraformTask.yaml
+  TASK NAME     : zrbMakeTerraformTask
+  LOCATION      : /zaruba-tasks/make/_task/terraform/task.zrbMakeTerraformTask.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbMakeTask ]
   START         : - {{ .GetConfig "cmd" }}
@@ -37,7 +37,7 @@
                   _prepareReplacementMap       : Blank
                   _prepareVariables            : Blank
                   _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
-                  _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/terraform/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerTasks               : Blank
                   _setup                       : set -e
                                                  {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
@@ -173,7 +173,7 @@
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                        : Blank
                   start                        : Blank
-                  templateLocations            : ["{{ .ZarubaHome }}/make/_task/terraform/template"]
+                  templateLocations            : ["{{ .ZarubaHome }}/zaruba-tasks/make/_task/terraform/template"]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
