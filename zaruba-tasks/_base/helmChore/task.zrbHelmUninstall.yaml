@@ -2,7 +2,7 @@ tasks:
 
   zrbHelmUninstall:
     private: true
-    extend: zrbRunShellScript
+    extend: zrbRunCoreScript
     dependencies:
       - zrbSetKubeContext
     configRefs:
@@ -10,7 +10,14 @@ tasks:
       - zrbHelm
     config:
       _start: |
+        {{ $d := .Decoration -}}
         _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
         _ZRB_KEBAB_RELEASE_NAME="$("{{ .ZarubaBin }}" str toKebab "${_ZRB_RELEASE_NAME}")"
-        helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}" "${_ZRB_KEBAB_RELEASE_NAME}"
+        if [ "$(isCommandError helm status "${_ZRB_KEBAB_RELEASE_NAME}")" -eq 1 ]
+        then
+          echo "{{ $d.Yellow }}[SKIP] Release doesn't exist: ${_ZRB_KEBAB_RELEASE_NAME}.{{ $d.Normal }}"
+        else
+          echo "{{ $d.Yellow }}Uninstall release: ${_ZRB_KEBAB_RELEASE_NAME}.{{ $d.Normal }}"
+          helm uninstall --namespace "{{ .GetConfig "kubeNamespace" }}" "${_ZRB_KEBAB_RELEASE_NAME}"
+        fi
       start: ''

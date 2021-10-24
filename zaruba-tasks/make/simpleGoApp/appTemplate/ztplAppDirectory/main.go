@@ -20,7 +20,9 @@ func main() {
 	// handle URL
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("%s /", r.Method)
-		fmt.Fprintf(w, "Hello world 🐹")
+		w.WriteHeader(200)
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Write([]byte("Hello world 🐹"))
 	})
 
 	// serve

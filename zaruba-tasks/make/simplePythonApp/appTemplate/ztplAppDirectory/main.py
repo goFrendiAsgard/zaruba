@@ -6,7 +6,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
   def do_GET(self):  
     self.send_response(200)
-    self.send_header('Content-type', 'text/html')
+    self.send_header('Content-type', 'text/html; charset=utf-8')
     self.end_headers()
     self.wfile.write(bytes('Hello world 🐍', 'UTF-8'))
 
@@ -14,7 +14,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 def run():  
   # get http_port
   http_port = int(os.getenv('APP_HTTP_PORT', '3000'))
-  server_address = ('127.0.0.1', http_port)  
+  server_address = ('', http_port)  
   httpd = HTTPServer(server_address, RequestHandler)  
   # serve
   print('Serve HTTP on port {}'.format(http_port))  
