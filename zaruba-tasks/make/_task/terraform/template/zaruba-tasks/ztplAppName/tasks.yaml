@@ -4,18 +4,21 @@ tasks:
     icon: ztplAppIcon
     extend: zrbTerraformInit
     location: ztplAppTaskLocation
+    timeout: 1h
     configRef: terraformInitZtplAppName
 
   terraformApplyZtplAppName:
     icon: ztplAppIcon
     extend: zrbTerraformApply
+    location: ztplAppTaskLocation
+    timeout: 1h
     dependencies:
       - terraformInitZtplAppName
-    location: ztplAppTaskLocation
     configRef: terraformApplyZtplAppName
 
   terraformDestroyZtplAppName:
     icon: ztplAppIcon
     extend: zrbTerraformDestroy
     location: ztplAppTaskLocation
+    timeout: 1h
     configRef: terraformDestroyZtplAppName
