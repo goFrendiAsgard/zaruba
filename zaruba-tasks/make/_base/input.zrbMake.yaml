@@ -79,6 +79,10 @@ inputs:
     description: App's image name
     default: ''
 
+  appBaseImageName:
+    description: App's base image name
+    default: ''
+
   appModuleName:
     description: Module name (Required)
     prompt: Module name

@@ -1,6 +1,7 @@
 tasks:
  
   makeApp:
+    icon: 📜
     extend: zrbMake
     inputs:
       - appDirectory

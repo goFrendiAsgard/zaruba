@@ -1,0 +1,16 @@
+tasks:
+ 
+  makeDockerApp:
+    icon: 🐳
+    extend: makeApp
+    inputs:
+      - appDirectory
+      - appBaseImageName
+    configRefs:
+      - addDocker
+    config:
+      defaultAppBaseImageName: docker.io/bitnami/nginx
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/docker/appTemplate"
+        ]

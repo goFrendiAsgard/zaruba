@@ -3,7 +3,7 @@
   TASK NAME     : makeKafkaAppRunner
   LOCATION      : /zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeContainerAppRunner ]
+  PARENT TASKS  : [ makeDockerAppRunner ]
   DEPENDENCIES  : [ makeKafkaApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -74,6 +74,7 @@
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
                                                  _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
+                                                 _ZRB_APP_BASE_IMAGE_NAME='{{ .GetConfig "appBaseImageName" }}'
                                                  _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
                                                  _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
                                                  _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
@@ -170,6 +171,7 @@
                   afterStart                   : {{ $d := .Decoration -}}
                                                  echo 🎉🎉🎉
                                                  echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+                  appBaseImageName             : {{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}
                   appBuildImageCommand         : {{ .GetValue "appBuildImageCommand" }}
                   appCheckCommand              : {{ .GetValue "appCheckCommand" }}
                   appContainerName             : {{ .GetValue "appContainerName" }}
@@ -202,17 +204,20 @@
                   beforeStart                  : Blank
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
+                  defaultAppBaseImageName      : Blank
                   defaultAppContainerVolumes   : []
                   defaultAppDirectory          : {{ .ProjectName }}Kafka
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
-                  defaultAppPorts              : []
+                  defaultAppPorts              : [
+                                                   "80"
+                                                 ]
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                        : Blank
                   start                        : Blank
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/docker/template",
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appRunnerTemplate"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED

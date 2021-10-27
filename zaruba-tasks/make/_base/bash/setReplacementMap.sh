@@ -1,3 +1,4 @@
+_setReplacementMap "ztplAppBaseImageName" "${_ZRB_APP_BASE_IMAGE_NAME}"
 _setReplacementMap "ztplAppBuildImageCommand" "${_ZRB_APP_BUILD_IMAGE_COMMAND}"
 _setReplacementMap "ztplAppCheckCommand" "${_ZRB_APP_CHECK_COMMAND}"
 _setReplacementMap "ztplAppContainerName" "${_ZRB_APP_CONTAINER_NAME}"

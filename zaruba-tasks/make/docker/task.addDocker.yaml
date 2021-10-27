@@ -1,0 +1,7 @@
+tasks:
+
+  addDocker:
+    icon: 🐳
+    dependencies:
+      - makeDockerHelmTask
+      - makeDockerAppRunnerForDockerApp

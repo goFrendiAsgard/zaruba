@@ -96,7 +96,7 @@ includes:
   - ./zaruba-tasks/make/_task/_base/task.zrbMakeTask.yaml
 
   - ./zaruba-tasks/make/_task/appRunner/_base/task.zrbMakeAppRunner.yaml
-  - ./zaruba-tasks/make/_task/appRunner/container/task.makeContainerAppRunner.yaml
+  - ./zaruba-tasks/make/_task/appRunner/docker/task.makeDockerAppRunner.yaml
   - ./zaruba-tasks/make/_task/appRunner/native/task.makeNativeAppRunner.yaml
 
   - ./zaruba-tasks/make/_task/helm/task.zrbMakeHelmTask.yaml
@@ -117,6 +117,13 @@ includes:
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
+
+  - ./zaruba-tasks/make/docker/config.addDocker.yaml
+  - ./zaruba-tasks/make/docker/task.addDocker.yaml
+  - ./zaruba-tasks/make/docker/task.makeDockerApp.yaml
+  - ./zaruba-tasks/make/docker/task.makeDockerAppRunnerForDockerApp.yaml
+  - ./zaruba-tasks/make/docker/task.makeDockerHelm.yaml
+  - ./zaruba-tasks/make/docker/task.makeDockerHelmTask.yaml
 
   - ./zaruba-tasks/make/eks/config.addEks.yaml
   - ./zaruba-tasks/make/eks/input.makeEksApp.yaml

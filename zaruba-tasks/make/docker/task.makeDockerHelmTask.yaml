@@ -1,0 +1,15 @@
+tasks:
+
+  makeDockerHelmTask:
+    icon: 🐳
+    extend: zrbMakeHelmTask
+    dependencies:
+      - makeDockerHelm
+      - makeDockerAppRunner
+    inputs:
+      - appDirectory
+      - appName
+      - appHelmDirectory
+      - appHelmReleaseName
+    configRefs:
+      - addDocker

@@ -3,7 +3,7 @@
   TASK NAME     : makeNginxAppRunner
   LOCATION      : /zaruba-tasks/make/nginx/task.makeNginxAppRunner.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeContainerAppRunner ]
+  PARENT TASKS  : [ makeDockerAppRunner ]
   DEPENDENCIES  : [ makeNginxApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -69,6 +69,7 @@
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
                                                  _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
+                                                 _ZRB_APP_BASE_IMAGE_NAME='{{ .GetConfig "appBaseImageName" }}'
                                                  _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
                                                  _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
                                                  _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
@@ -165,6 +166,7 @@
                   afterStart                   : {{ $d := .Decoration -}}
                                                  echo 🎉🎉🎉
                                                  echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+                  appBaseImageName             : {{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}
                   appBuildImageCommand         : {{ .GetValue "appBuildImageCommand" }}
                   appCheckCommand              : {{ .GetValue "appCheckCommand" }}
                   appContainerName             : {{ .GetValue "appContainerName" }}
@@ -195,7 +197,9 @@
                   beforeStart                  : Blank
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
+                  defaultAppBaseImageName      : Blank
                   defaultAppContainerVolumes   : [
+                                                   "letsencrypt:/etc/letsencrypt",
                                                    "acme-challenge:/opt/bitnami/nginx/acme-challenge",
                                                    "html:/opt/bitnami/nginx/html",
                                                    "my_server_block.cnf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf "
@@ -212,7 +216,7 @@
                   start                        : Blank
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/docker/template"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

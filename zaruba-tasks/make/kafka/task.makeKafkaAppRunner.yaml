@@ -2,7 +2,7 @@ tasks:
 
   makeKafkaAppRunner:
     icon: 🪠
-    extend: makeContainerAppRunner
+    extend: makeDockerAppRunner
     dependencies:
       - makeKafkaApp
     inputs:
@@ -22,7 +22,7 @@ tasks:
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/docker/template",
           "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appRunnerTemplate"
         ]
       _prepareVariables: |

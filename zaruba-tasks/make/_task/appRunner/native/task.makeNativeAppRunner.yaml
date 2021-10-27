@@ -1,6 +1,7 @@
 tasks:
 
   makeNativeAppRunner:
+    icon: 📜
     extend: zrbMakeAppRunner
     inputs:
       - appDirectory

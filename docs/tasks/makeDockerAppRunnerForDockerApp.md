@@ -1,9 +1,10 @@
-# makeContainerAppRunner
+# makeDockerAppRunnerForDockerApp
 ```
-  TASK NAME     : makeContainerAppRunner
-  LOCATION      : /zaruba-tasks/make/_task/appRunner/container/task.makeContainerAppRunner.yaml
+  TASK NAME     : makeDockerAppRunnerForDockerApp
+  LOCATION      : /zaruba-tasks/make/docker/task.makeDockerAppRunnerForDockerApp.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbMakeAppRunner ]
+  PARENT TASKS  : [ makeDockerAppRunner ]
+  DEPENDENCIES  : [ makeDockerApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -22,6 +23,12 @@
                     DESCRIPTION : Application dependencies
                     PROMPT      : Application dependencies
                     DEFAULT     : []
+                  appImageName
+                    DESCRIPTION : App's image name
+                  appContainerName
+                    DESCRIPTION : Application container name
+                    PROMPT      : Application container name
+                    VALIDATION  : ^[a-zA-Z0-9_]*$
                   appName
                     DESCRIPTION : Name of the app
                     PROMPT      : Name of the app
@@ -32,12 +39,6 @@
                   appPorts
                     DESCRIPTION : Application ports
                     DEFAULT     : []
-                  appImageName
-                    DESCRIPTION : App's image name
-                  appContainerName
-                    DESCRIPTION : Application container name
-                    PROMPT      : Application container name
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
@@ -68,6 +69,7 @@
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
                                                  _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
+                                                 _ZRB_APP_BASE_IMAGE_NAME='{{ .GetConfig "appBaseImageName" }}'
                                                  _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
                                                  _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
                                                  _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
@@ -164,6 +166,7 @@
                   afterStart                   : {{ $d := .Decoration -}}
                                                  echo 🎉🎉🎉
                                                  echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+                  appBaseImageName             : {{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}
                   appBuildImageCommand         : {{ .GetValue "appBuildImageCommand" }}
                   appCheckCommand              : {{ .GetValue "appCheckCommand" }}
                   appContainerName             : {{ .GetValue "appContainerName" }}
@@ -178,7 +181,7 @@
                   appHelmDirectory             : {{ if .GetValue "appHelmDirectory" }}{{ .GetValue "appHelmDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Helm{{ else }}{{ .GetConfig "defaultAppHelmDirectory" }}{{ end }}
                   appHelmReleaseName           : {{ .GetValue "appHelmReleaseName" }}
                   appHttpMethod                : {{ .GetValue "appHttpMethod" }}
-                  appIcon                      : Blank
+                  appIcon                      : 🐳
                   appImageName                 : {{ .GetValue "appImageName" }}
                   appModuleName                : {{ .GetValue "appModuleName" }}
                   appName                      : {{ .GetValue "appName" }}
@@ -194,17 +197,20 @@
                   beforeStart                  : Blank
                   cmd                          : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                       : -c
+                  defaultAppBaseImageName      : Blank
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : Blank
+                  defaultAppDirectory          : {{ .ProjectName }}Docker
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
-                  defaultAppPorts              : []
+                  defaultAppPorts              : [
+                                                   "8080"
+                                                 ]
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                        : Blank
                   start                        : Blank
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/container/template"
+                                                   "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/docker/template"
                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

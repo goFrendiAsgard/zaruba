@@ -19,23 +19,23 @@ cd myProject
 zaruba please initProject
 
 # Create FastAPI app with functional book CRUD
-zaruba please makeFastApiCrud \
-    fastApiServiceName=myService \
-    fastApiModuleName=myModule \
-    fastApiCrudEntity=book \
-    fastApiCrudFields='["title","author","synopsis"]'
+zaruba please addFastApiCrud \
+    appDirectory=myApp \
+    appModuleName=library \
+    appCrudEntity=books \
+    appCrudFields='["title","author","synopsis"]'
 
 # Run the service locally 
 # To run this command, you need:
 # - pyenv
-zaruba please run
+zaruba please start
 # Ctrl+c to stop
 
 # Run the service as docker container
 # To run this command, you need:
 # - docker
-zaruba please runContainer
-zaruba please stopContainer
+zaruba please startContainers
+zaruba please stopContainers
 
 # Deploy the service to the kubernetes cluster
 # To run this command, you need:

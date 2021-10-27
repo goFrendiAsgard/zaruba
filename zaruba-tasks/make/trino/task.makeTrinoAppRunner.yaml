@@ -2,7 +2,7 @@ tasks:
 
   makeTrinoAppRunner:
     icon: 🐰
-    extend: makeContainerAppRunner
+    extend: makeDockerAppRunner
     dependencies:
       - makeTrinoApp
     inputs:

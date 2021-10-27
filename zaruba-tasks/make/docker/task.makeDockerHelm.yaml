@@ -1,0 +1,11 @@
+tasks:
+ 
+  makeDockerHelm:
+    icon: 🐳
+    extend: makeHelm
+    dependencies:
+      - makeDockerAppRunnerForDockerApp
+    inputs:
+      - appHelmDirectory
+    configRefs:
+      - addDocker
