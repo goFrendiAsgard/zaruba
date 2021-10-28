@@ -11,6 +11,7 @@ configs:
       user: ''
       localhost: localhost
       hostDockerInternal: '{{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}'
+      restartPolicy: no
       _setupContainerName: |
         {{ $d := .Decoration -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
@@ -96,7 +97,7 @@ configs:
         {{ .GetConfig "_startRunContainerPorts" -}}
         {{ .GetConfig "_startRunContainerVolumes" -}}
         {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
-        -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+        --restart {{ .GetConfig "restartPolicy" }} -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
       _start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}

@@ -40,6 +40,7 @@ tasks:
       - zrbDocker
       - zrbDockerNetwork
     config:
+      restartPolicy: on-failure
       _checkContainerState: |
         {{ $d := .Decoration -}}
         until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]

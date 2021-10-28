@@ -96,7 +96,7 @@
                                                  {{ .GetConfig "_startRunContainerPorts" -}}
                                                  {{ .GetConfig "_startRunContainerVolumes" -}}
                                                  {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
-                                                 -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+                                                 --restart {{ .GetConfig "restartPolicy" }} -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
                   _startRunContainerEntryPoint : {{ if .GetConfig "entryPoint" -}}
                                                    --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
                                                  {{ end -}}
@@ -155,6 +155,7 @@
                   network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
                   rebuild                      : false
+                  restartPolicy                : no
                   setup                        : Blank
                   start                        : Blank
                   useImagePrefix               : true

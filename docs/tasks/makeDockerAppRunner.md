@@ -200,9 +200,7 @@
                   defaultAppContainerVolumes   : []
                   defaultAppDirectory          : Blank
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
-                  defaultAppPorts              : [
-                                                   "80"
-                                                 ]
+                  defaultAppPorts              : []
                   finish                       : Blank
                   includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
                   setup                        : Blank
