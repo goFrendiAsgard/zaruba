@@ -8,8 +8,8 @@ server {
     # listen       443 ssl;
     # listen  [::]:443 ssl;
     #
-    # ssl_certificate      bitnami/certs/server.crt;
-    # ssl_certificate_key  bitnami/certs/server.key;
+    # ssl_certificate      /etc/letsencrypt/liv/stalchmst.com/fullchain.pem;
+    # ssl_certificate_key  /etc/letsencrypt/live/stalchmst.com/privkey.pem;
     #
     # ssl_session_cache    shared:SSL:1m;
     # ssl_session_timeout  5m;
