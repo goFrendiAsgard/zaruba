@@ -200,7 +200,6 @@
                   defaultAppBaseImageName      : Blank
                   defaultAppContainerVolumes   : [
                                                    "letsencrypt:/etc/letsencrypt",
-                                                   "acme-challenge:/opt/bitnami/nginx/acme-challenge",
                                                    "html:/opt/bitnami/nginx/html",
                                                    "my_server_block.cnf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf "
                                                  ]
