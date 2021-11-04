@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"io/ioutil"
-	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -57,14 +56,7 @@ func SyncProjectEnvFiles(project *Project) (err error) {
 }
 
 func SyncProjectEnv(project *Project) (err error) {
-	projectDir := path.Dir(project.GetFileLocation())
 	for _, task := range project.Tasks {
-		if task.GetTaskLocation() == projectDir {
-			continue
-		}
-		// if !strings.HasPrefix(taskName, "run") {
-		// 	continue
-		// }
 		if err := SyncTaskEnv(task); err != nil {
 			return err
 		}
