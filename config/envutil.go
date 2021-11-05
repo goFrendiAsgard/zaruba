@@ -65,12 +65,15 @@ func SyncProjectEnv(project *Project) (err error) {
 }
 
 func SyncTaskEnv(task *Task) (err error) {
+	if !task.GetSyncEnv() {
+		return nil
+	}
 	projectDir := filepath.Dir(task.Project.GetFileLocation())
 	taskFileLocation := task.GetFileLocation()
 	if !strings.HasPrefix(taskFileLocation, projectDir) {
 		return nil
 	}
-	taskLocation := task.GetLocation()
+	taskLocation := task.GetSyncEnvLocation()
 	if taskLocation == "" || taskLocation == projectDir {
 		return nil
 	}

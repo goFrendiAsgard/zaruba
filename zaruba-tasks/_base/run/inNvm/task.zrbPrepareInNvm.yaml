@@ -4,6 +4,7 @@ tasks:
     icon: 🐸
     private: true
     extend: zrbRunInNvm
+    syncEnv: false
     configs:
       installTsc: false
       compileTypeScript: false

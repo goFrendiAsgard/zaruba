@@ -13,6 +13,7 @@ tasks:
         afterStart    : After start script
         finish        : Finish script
     private: true
+    syncEnv: true
     autoTerminate: true
     configs:
       cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'

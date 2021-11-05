@@ -116,6 +116,9 @@ func (task *Task) GetSaveLog() bool {
 }
 
 func (task *Task) GetSyncEnv() bool {
+	if boolean.IsFalse(task.SyncEnv) {
+		return false
+	}
 	if boolean.IsTrue(task.SyncEnv) {
 		return true
 	}
