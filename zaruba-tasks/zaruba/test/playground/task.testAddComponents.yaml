@@ -7,7 +7,7 @@ tasks:
     dependencies:
       - testInitProject
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
         ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="provoFibo" 

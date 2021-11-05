@@ -9,7 +9,7 @@ tasks:
       - zrbKube
       - zrbHelm
       - zrbDocker
-    config:
+    configs:
       _validate: |
         {{ $d := .Decoration -}}
         if [ -z "{{ .GetConfig "releaseName" }}" ]

@@ -5,7 +5,7 @@ tasks:
     extend: zrbMake
     inputs:
       - appDirectory
-    config:
+    configs:
       _validate: |
         {{ $d := .Decoration -}}
         if [ -d "${_ZRB_APP_DIRECTORY}" ]

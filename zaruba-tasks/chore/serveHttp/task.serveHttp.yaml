@@ -7,7 +7,7 @@ tasks:
     extend: zrbStartApp
     inputs:
       - serverHttpPort
-    config:
+    configs:
       ports: '{{ .GetValue "serverHttpPort" }}'
     start: 
       - '{{ .GetEnv "ZARUBA_HOME" }}/zaruba'

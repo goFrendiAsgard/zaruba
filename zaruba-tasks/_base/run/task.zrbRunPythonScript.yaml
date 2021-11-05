@@ -4,11 +4,11 @@ tasks:
     icon: 🐍
     description: |
       Run python script
-      Common config:
+      Common configs:
         start : Start script
     private: true
     extend: zrbRunScript
-    config:
+    configs:
       cmd: python
       start: "print('hello world')"
 

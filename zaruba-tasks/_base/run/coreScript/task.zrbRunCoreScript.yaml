@@ -4,13 +4,13 @@ tasks:
     icon: 📔
     description: |
       Run script for core tasks
-      Common config:
+      Common configs:
         start : Start script
     private: true
     extend: zrbRunShellScript
     configRefs:
       - zrbIncludeShellUtil
-    config:
+    configs:
       _setup: |
         set -e
         {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}

@@ -6,6 +6,6 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - commitRepo
-    config:
+    configs:
       start: |
         git push -u origin HEAD

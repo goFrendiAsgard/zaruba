@@ -5,7 +5,7 @@ tasks:
     private: true
     extend: zrbRunCoreScript
     saveLog: false
-    config:
+    configs:
       start: |
         {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
         {{ if .IsTrue $showAdvertisement -}}

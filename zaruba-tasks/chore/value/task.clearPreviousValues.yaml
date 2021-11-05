@@ -5,7 +5,7 @@ tasks:
     description: |
       Clear log
     extend: zrbRunCoreScript
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         rm -Rf .previous.values.yaml

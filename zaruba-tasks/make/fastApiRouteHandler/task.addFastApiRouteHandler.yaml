@@ -10,7 +10,7 @@ tasks:
       - appModuleName
       - appUrl
       - appHttpMethod
-    config:
+    configs:
       defaultAppDirectory: '{{ .ProjectName }}FastApi'
       templateLocations: '[]'
       _prepareVariables: ''

@@ -3,7 +3,7 @@
   TASK NAME     : zrbPullDockerImage
   LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
   DESCRIPTION   : Pull docker image.
-                  Common config:
+                  Common configs:
                     imageName : Image name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]

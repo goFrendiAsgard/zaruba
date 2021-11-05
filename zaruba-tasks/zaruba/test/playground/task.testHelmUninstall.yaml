@@ -6,7 +6,7 @@ tasks:
     dependencies:
       - testHelmInstall
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please helmUninstall
 

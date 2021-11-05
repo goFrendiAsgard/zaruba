@@ -5,7 +5,7 @@ tasks:
     dependencies:
       - zrbShowAdv
     private: true
-    config:
+    configs:
       appBaseImageName: '{{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}'
       appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
       appCheckCommand: '{{ .GetValue "appCheckCommand" }}'

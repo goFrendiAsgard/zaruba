@@ -5,7 +5,7 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    config:
+    configs:
       defaultAppDirectory: '{{ .ProjectName }}Rabbitmq'
       templateLocations: |
         [

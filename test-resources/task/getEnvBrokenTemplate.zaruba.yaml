@@ -1,6 +1,6 @@
 tasks:
 
   taskName:
-    env:
+    envs:
       KEY:
         default: '{{ invalid }}'

@@ -3,7 +3,7 @@
   TASK NAME     : zrbRunPythonScript
   LOCATION      : /zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
   DESCRIPTION   : Run python script
-                  Common config:
+                  Common configs:
                     start : Start script
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunScript ]

@@ -3,7 +3,7 @@ tasks:
   preparePlayground:
     extend: zrbRunShellScript
     location: ../../../..
-    config:
+    configs:
       start: |
         if [ -d "./playground" ]
         then

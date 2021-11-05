@@ -11,7 +11,7 @@ tasks:
       - linkTo
     dependencies:
       - zrbIsProject
-    config:
+    configs:
       linkFrom: '{{ .GetValue "linkFrom" }}'
       linkTo: '{{ .GetValue "linkTo" }}'
       start: |

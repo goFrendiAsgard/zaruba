@@ -9,7 +9,7 @@ tasks:
       - appDirectory
       - appModuleName
       - appEventName
-    config:
+    configs:
       defaultAppDirectory: '{{ .ProjectName }}FastApi'
       templateLocations: '[]'
       _prepareVariables: ''

@@ -9,7 +9,7 @@ tasks:
       - appDirectory
       - appModuleName
       - appRpcName
-    config:
+    configs:
       defaultAppDirectory: '{{ .ProjectName }}FastApi'
       templateLocations: '[]'
       _validate: ''

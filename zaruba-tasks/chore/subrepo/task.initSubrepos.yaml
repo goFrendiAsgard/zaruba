@@ -15,7 +15,7 @@ tasks:
     dependencies:
       - zrbIsProject
       - zrbIsValidSubrepos
-    config:
+    configs:
       start: |
         set -e
         {{ $d := .Decoration -}}

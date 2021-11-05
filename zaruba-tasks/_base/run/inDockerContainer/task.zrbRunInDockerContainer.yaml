@@ -4,13 +4,13 @@ tasks:
     icon: 🐳
     description: |
       Run command from inside the container
-      Common config:
+      Common configs:
         containerName  : Name of the container
         containerShell : Shell to run script, default to sh
         command       : Command to be executed, can be multi line
     private: true
     extend: zrbGenerateAndRun
-    config:
+    configs:
       containerName: ''
       remoteScriptLocation: '_{{ .Name }}.script.{{ .UUID }}'
       remoteCommand: 'sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"'

@@ -10,7 +10,7 @@ tasks:
     dependencies:
       - testAddComponents
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please syncEnv
 
@@ -21,7 +21,7 @@ tasks:
     dependencies:
       - testSyncEnv
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please removeContainers
 
@@ -32,7 +32,7 @@ tasks:
     dependencies:
       - removeContainersBeforeStart
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please start -t
 
@@ -43,7 +43,7 @@ tasks:
     dependencies:
       - testStart
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please startContainers -t
         echo "the containers are still running in the background"
@@ -55,7 +55,7 @@ tasks:
     dependencies:
       - testStartContainers
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         python "{{ .GetTaskPath "test_fastapi.py" }}"
 
@@ -65,7 +65,7 @@ tasks:
     dependencies:
       - testStartContainers
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please queryProvoMysql sql='SHOW SCHEMAS;'
 
@@ -75,7 +75,7 @@ tasks:
     dependencies:
       - testStartContainers
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please queryProvoPostgresql sql='SELECT datname FROM pg_database;'
 
@@ -85,7 +85,7 @@ tasks:
     dependencies:
       - testStartContainers
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please queryProvoCassandra sql='DESCRIBE KEYSPACES;'
 
@@ -95,7 +95,7 @@ tasks:
     dependencies:
       - testStartContainers
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please flushProvoRedis
 
@@ -105,7 +105,7 @@ tasks:
     dependencies:
       - testStartContainers
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please resetProvoRabbitmq
   
@@ -115,7 +115,7 @@ tasks:
     dependencies:
       - testSyncEnv
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please runProvoMeltano
 
@@ -126,7 +126,7 @@ tasks:
     dependencies:
       - removeContainersBeforeStart
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please buildProvoMeltanoImage
 
@@ -136,7 +136,7 @@ tasks:
     dependencies:
       - testBuildMeltanoImage
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please runProvoMeltanoContainer
 
@@ -146,7 +146,7 @@ tasks:
     dependencies:
       - testRunMeltanoContainer
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please removeProvoMeltanoContainer
 
@@ -163,7 +163,7 @@ tasks:
       - testRunMeltano
       - testRemoveMeltanoContainer
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please removeContainers
 

@@ -3,7 +3,7 @@
   TASK NAME     : zrbCreateDockerNetwork
   LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
   DESCRIPTION   : Create docker network.
-                  Common config:
+                  Common configs:
                     network : Network name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]

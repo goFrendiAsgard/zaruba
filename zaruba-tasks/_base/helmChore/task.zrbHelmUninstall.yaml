@@ -8,7 +8,7 @@ tasks:
     configRefs:
       - zrbKube
       - zrbHelm
-    config:
+    configs:
       _start: |
         {{ $d := .Decoration -}}
         _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'

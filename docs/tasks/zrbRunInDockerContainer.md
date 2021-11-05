@@ -3,7 +3,7 @@
   TASK NAME     : zrbRunInDockerContainer
   LOCATION      : /zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
   DESCRIPTION   : Run command from inside the container
-                  Common config:
+                  Common configs:
                     containerName  : Name of the container
                     containerShell : Shell to run script, default to sh
                     command       : Command to be executed, can be multi line

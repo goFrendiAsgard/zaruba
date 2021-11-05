@@ -4,7 +4,7 @@ tasks:
     description: Generate script and run it
     private: true
     extend: zrbRunCoreScript
-    config:
+    configs:
       templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template'
       script: '{{ .GetValue "script" }}'
       sql: '{{ .GetValue "sql" }}'

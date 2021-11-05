@@ -8,7 +8,7 @@ tasks:
     configRefs:
       - addSimplePythonAppRunner
       - addPythonAppRunner
-    config:
+    configs:
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/simplePythonApp/appTemplate"

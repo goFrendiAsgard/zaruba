@@ -1,7 +1,7 @@
 tasks:
 
   parentTaskName:
-    env:
+    envs:
       PARENT_KEY:
         from: MY_PARENT_KEY
         default: PARENT_VALUE
@@ -10,7 +10,7 @@ tasks:
   taskName:
     extend: parentTaskName
     envRef: envRefName
-    env:
+    envs:
       KEY:
         from: MY_KEY
         default: VALUE

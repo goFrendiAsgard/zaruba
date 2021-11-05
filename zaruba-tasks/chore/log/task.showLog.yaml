@@ -8,7 +8,7 @@ tasks:
     saveLog: false
     inputs:
       - keyword
-    config:
+    configs:
       keyword: '{{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}'
       start: |
         {{ $d := .Decoration -}}

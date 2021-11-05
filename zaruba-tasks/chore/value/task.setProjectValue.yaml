@@ -9,7 +9,7 @@ tasks:
     inputs:
       - variableName
       - variableValue
-    config:
+    configs:
       variableName: '{{ .GetValue "variableName" }}'
       variableValue: '{{ .GetValue "variableValue" }}'
       start: |

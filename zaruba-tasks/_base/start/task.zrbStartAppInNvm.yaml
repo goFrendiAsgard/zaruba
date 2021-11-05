@@ -4,7 +4,7 @@ tasks:
     icon: 📜
     description: |
       Start service and check it's readiness.
-      Common config:
+      Common configs:
         setup       : Script to be executed before start service or check service readiness.
         start       : Script to start the service (e.g: python -m http.server 9000).
         beforeStart : Script to be executed before start service.
@@ -18,7 +18,7 @@ tasks:
     extend: zrbStartApp
     autoTerminate: false
     configRef: zrbRunInNvm
-    config:
+    configs:
       _setup: |
         set -e
         {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}

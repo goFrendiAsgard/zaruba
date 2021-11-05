@@ -8,7 +8,7 @@ tasks:
     dependencies:
       - makeEksApp
     configRef: addEks
-    config:
+    configs:
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/_task/terraform/template",

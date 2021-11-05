@@ -3,7 +3,7 @@
   TASK NAME     : zrbRunNodeJsScript
   LOCATION      : /zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
   DESCRIPTION   : Run Node.Js script
-                  Common config:
+                  Common configs:
                     start : Start script
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunScript ]

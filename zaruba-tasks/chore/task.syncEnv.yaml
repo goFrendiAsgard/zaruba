@@ -7,7 +7,7 @@ tasks:
     extend: zrbRunCoreScript
     dependencies:
       - zrbIsProject
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"

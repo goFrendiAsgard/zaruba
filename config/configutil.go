@@ -39,7 +39,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 					for taskPropKeyIndex := 0; taskPropKeyIndex < len(taskNode.Content); taskPropKeyIndex += 2 {
 						taskPropKeyNode := taskNode.Content[taskPropKeyIndex]
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
-						if taskPropKeyNode.Value == "config" && taskPropValNode.ShortTag() == "!!map" {
+						if taskPropKeyNode.Value == "configs" && taskPropValNode.ShortTag() == "!!map" {
 							updateConfigMapNode(taskPropValNode, configMap)
 							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 						}
@@ -48,7 +48,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 					taskNode.Style = yaml.LiteralStyle
 					taskNode.Content = append(
 						taskNode.Content,
-						&yaml.Node{Kind: yaml.ScalarNode, Value: "config"},
+						&yaml.Node{Kind: yaml.ScalarNode, Value: "configs"},
 						createConfigMapNode(configMap),
 					)
 					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
@@ -91,14 +91,14 @@ func updateConfigMapNode(configMapNode *yaml.Node, configMap map[string]string) 
 		for configKeyIndex := 0; configKeyIndex < len(configMapNode.Content); configKeyIndex += 2 {
 			configKeyNode := configMapNode.Content[configKeyIndex]
 			configValNode := configMapNode.Content[configKeyIndex+1]
-			// "config" and configKey found, update
+			// "configs" and configKey found, update
 			if configKeyNode.Value == configKey {
 				configValNode.SetString(configVal)
 				configKeyFound = true
 				break
 			}
 		}
-		// "config" found, but configKey not found, create
+		// "configs" found, but configKey not found, create
 		if !configKeyFound {
 			configMapNode.Content = append(configMapNode.Content, createConfigNode(configKey, configVal)...)
 		}

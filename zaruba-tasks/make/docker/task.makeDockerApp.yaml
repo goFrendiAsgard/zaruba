@@ -8,7 +8,7 @@ tasks:
       - appBaseImageName
     configRefs:
       - addDocker
-    config:
+    configs:
       defaultAppBaseImageName: docker.io/bitnami/nginx
       templateLocations: |
         [

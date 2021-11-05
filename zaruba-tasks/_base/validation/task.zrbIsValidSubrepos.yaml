@@ -4,7 +4,7 @@ tasks:
     icon: 🔍
     private: true
     extend: zrbRunCoreScript
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         {{ $names := .GetSubValueKeys "subrepo" -}}

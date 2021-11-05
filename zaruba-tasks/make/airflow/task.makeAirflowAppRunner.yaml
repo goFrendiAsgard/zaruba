@@ -15,7 +15,7 @@ tasks:
       - airflowRedisPorts
       - appImageName
       - appContainerName
-    config:
+    configs:
       appIcon: 🎐
       appPostgreSqlPorts: '{{ .GetValue "airflowPostgreSqlPorts" }}'
       appRedisPorts: '{{ .GetValue "airflowRedisPorts" }}'

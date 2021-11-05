@@ -3,7 +3,7 @@
   TASK NAME     : zrbBuildDockerImage
   LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbBuildDockerImage.yaml
   DESCRIPTION   : Build docker image.
-                  Common config:
+                  Common configs:
                     imageName : Image name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]

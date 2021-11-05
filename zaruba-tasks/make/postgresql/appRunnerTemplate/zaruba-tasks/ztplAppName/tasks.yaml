@@ -13,5 +13,5 @@ tasks:
     envRef: ztplAppName
     inputs:
       - sql
-    config:
+    configs:
       templateLocation: '{{ .GetProjectPath "ztplAppDirectory/queryTemplate" }}'

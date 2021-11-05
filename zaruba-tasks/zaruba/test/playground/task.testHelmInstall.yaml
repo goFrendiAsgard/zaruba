@@ -7,7 +7,7 @@ tasks:
       - testStartContainers
       - prepareContainerRegistry
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please helmInstall
 

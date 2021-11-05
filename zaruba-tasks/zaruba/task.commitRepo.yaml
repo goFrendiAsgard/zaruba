@@ -6,7 +6,7 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - makeDocs
-    config:
+    configs:
       start: |
         git add . -A
         git commit -m "Save changes before pushing"

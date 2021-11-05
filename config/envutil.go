@@ -70,7 +70,7 @@ func SyncTaskEnv(task *Task) (err error) {
 	if !strings.HasPrefix(taskFileLocation, projectDir) {
 		return nil
 	}
-	taskLocation := task.GetTaskLocation()
+	taskLocation := task.GetLocation()
 	if taskLocation == "" || taskLocation == projectDir {
 		return nil
 	}
@@ -81,7 +81,7 @@ func SyncTaskEnv(task *Task) (err error) {
 	envRefName := GetTaskEnvRefname(task)
 	if envRefName == "" {
 		// update taskEnv
-		newEnvMap := getAdditionalEnvMap(task.Env, locationEnvMap)
+		newEnvMap := getAdditionalEnvMap(task.Envs, locationEnvMap)
 		if len(newEnvMap) == 0 {
 			return nil
 		}
@@ -131,7 +131,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 					for taskPropKeyIndex := 0; taskPropKeyIndex < len(taskNode.Content); taskPropKeyIndex += 2 {
 						taskPropKeyNode := taskNode.Content[taskPropKeyIndex]
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
-						if taskPropKeyNode.Value == "env" && taskPropValNode.ShortTag() == "!!map" {
+						if taskPropKeyNode.Value == "envs" && taskPropValNode.ShortTag() == "!!map" {
 							updateEnvMapNode(taskPropValNode, envMap, envPrefix)
 							return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
 						}
@@ -140,7 +140,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 					taskNode.Style = yaml.LiteralStyle
 					taskNode.Content = append(
 						taskNode.Content,
-						&yaml.Node{Kind: yaml.ScalarNode, Value: "env"},
+						&yaml.Node{Kind: yaml.ScalarNode, Value: "envs"},
 						createEnvMapNode(envMap, envPrefix),
 					)
 					return file.WriteYaml(yamlLocation, node, 0555, []file.YamlLinesPreprocessors{file.YamlTwoSpace, file.YamlFixEmoji, file.YamlAddLineBreakForTwoSpaceIndented})
@@ -187,7 +187,7 @@ func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix
 		for envKeyIndex := 0; envKeyIndex < len(envMapNode.Content); envKeyIndex += 2 {
 			envKeyNode := envMapNode.Content[envKeyIndex]
 			envValNode := envMapNode.Content[envKeyIndex+1]
-			// "env" and envKey found, update
+			// "envs" and envKey found, update
 			if envKeyNode.Value == envKey {
 				envFromFound, envDefaultFound := false, false
 				envFrom := getEnvFromName(envKey, envPrefix)
@@ -213,7 +213,7 @@ func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix
 				break
 			}
 		}
-		// "env" found, but envKey not found, create
+		// "envs" found, but envKey not found, create
 		if !envKeyFound {
 			envMapNode.Content = append(envMapNode.Content, createEnvNode(envKey, envVal, envPrefix)...)
 		}

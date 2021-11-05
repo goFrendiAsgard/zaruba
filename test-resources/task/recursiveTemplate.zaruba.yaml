@@ -1,10 +1,10 @@
 tasks:
 
   parentTaskName:
-    config:
+    configs:
       parentKey: '{{ .GetConfig "key" }}'
   
   taskName:
     extend: parentTaskName
-    config:
+    configs:
       key: '{{ .GetConfig "parentKey" }}'  

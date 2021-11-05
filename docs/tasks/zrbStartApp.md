@@ -3,7 +3,7 @@
   TASK NAME     : zrbStartApp
   LOCATION      : /zaruba-tasks/_base/start/task.zrbStartApp.yaml
   DESCRIPTION   : Start service and check it's readiness.
-                  Common config:
+                  Common configs:
                     setup       : Script to be executed before start service or check service readiness.
                     start       : Script to start the service (e.g: python -m http.server 9000).
                     beforeStart : Script to be executed before start service.

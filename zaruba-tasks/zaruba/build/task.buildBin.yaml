@@ -6,7 +6,7 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - clearLog
-    config:
+    configs:
       start: |
         set -e
         rm -f zaruba

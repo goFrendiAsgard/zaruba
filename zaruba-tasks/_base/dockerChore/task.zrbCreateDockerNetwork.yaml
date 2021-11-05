@@ -5,11 +5,11 @@ tasks:
     private: true
     description: |
       Create docker network.
-      Common config:
+      Common configs:
         network : Network name
     extend: zrbRunCoreScript
     configRef: zrbDockerNetwork
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         set -e

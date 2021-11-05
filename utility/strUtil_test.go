@@ -384,13 +384,13 @@ func TestCompleteLinesNoMatchAtAll(t *testing.T) {
 		[]string{
 			"^tasks:(.*)$",
 			"^ +myTask:(.*$)",
-			"^ +config:(.*$)",
+			"^ +configs:(.*$)",
 			"^ +ports:(.*$)",
 		},
 		[]string{
 			"tasks:",
 			"  myTask:",
-			"    config:",
+			"    configs:",
 			"      ports: 8080",
 		},
 	)
@@ -402,7 +402,7 @@ func TestCompleteLinesNoMatchAtAll(t *testing.T) {
 		"includes: []",
 		"tasks:",
 		"  myTask:",
-		"    config:",
+		"    configs:",
 		"      ports: 8080",
 	}
 	if len(actual) != len(expected) {
@@ -428,13 +428,13 @@ func TestCompleteLinesNoMatchPartial(t *testing.T) {
 		[]string{
 			"^tasks:(.*)$",
 			"^ +myTask:(.*)$",
-			"^ +config:(.*)$",
+			"^ +configs:(.*)$",
 			"^ +ports:(.*)$",
 		},
 		[]string{
 			"tasks:",
 			"  myTask:",
-			"    config:",
+			"    configs:",
 			"      ports: 8080",
 		},
 	)
@@ -446,7 +446,7 @@ func TestCompleteLinesNoMatchPartial(t *testing.T) {
 		"includes: []",
 		"tasks: # list of task",
 		"  myTask:",
-		"    config:",
+		"    configs:",
 		"      ports: 8080",
 		"  someTask: {}",
 	}

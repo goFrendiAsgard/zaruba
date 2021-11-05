@@ -5,6 +5,6 @@ tasks:
     extend: zrbRunShellScript
     autoTerminate: false
     configRef: zrbPlayBell
-    config:
+    configs:
       start: '{{ .GetConfig "playBell" }}'
  

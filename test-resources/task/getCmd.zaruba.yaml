@@ -2,14 +2,14 @@ tasks:
 
   taskWithEnv:
     start: [sleep, 1]
-    env:
+    envs:
       KEY:
         default: VALUE
   
 
   taskWithBrokenEnv:
     start: [sleep, 1]
-    env:
+    envs:
       KEY:
         default: '{{ invalid }}'
 

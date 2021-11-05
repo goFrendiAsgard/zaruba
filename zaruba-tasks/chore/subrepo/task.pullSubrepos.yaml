@@ -10,7 +10,7 @@ tasks:
     extend: zrbRunCoreScript
     dependencies:
       - initSubrepos
-    config:
+    configs:
       start: |
         set -e
         {{ $d := .Decoration -}}

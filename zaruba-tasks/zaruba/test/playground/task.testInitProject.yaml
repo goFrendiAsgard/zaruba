@@ -7,6 +7,6 @@ tasks:
       - preparePlayground
     extend: zrbRunShellScript 
     configRef: playgroundTest
-    config:
+    configs:
       start: |
         ../zaruba please initProject 

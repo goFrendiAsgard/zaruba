@@ -4,7 +4,7 @@ tasks:
     icon: 📜
     description: |
       Start service and check it's readiness.
-      Common config:
+      Common configs:
         setup       : Script to be executed before start service or check service readiness.
         start       : Script to start the service (e.g: python -m http.server 9000).
         beforeStart : Script to be executed before start service.
@@ -19,7 +19,7 @@ tasks:
     dependencies:
       - updateProjectLinks
     autoTerminate: false
-    config:
+    configs:
       beforeStart: ""
       start: ""
       afterStart: ""

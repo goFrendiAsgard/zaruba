@@ -8,7 +8,7 @@ tasks:
       - eksRegion
       - eksClusterName
     configRef: addEks
-    config:
+    configs:
       eksRegion: '{{ if .GetValue "eksRegion" }}{{ .GetValue "eksRegion" }}{{ else }}us-east-1{{ end }}'
       eksClusterName: '{{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}'
       templateLocations: |

@@ -5,7 +5,7 @@ tasks:
     extend: makeApp
     inputs:
       - appHelmDirectory
-    config:
+    configs:
       _validate: |
         {{ $d := .Decoration -}}
         if [ -d "${_ZRB_APP_DIRECTORY}Helm" ]

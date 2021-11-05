@@ -12,7 +12,7 @@ tasks:
       - subrepoUrl
       - subrepoPrefix
       - subrepoName
-    config:
+    configs:
       subrepoUrl: '{{ .GetValue "subrepoUrl" }}'
       subrepoPrefix: '{{ .GetValue "subrepoPrefix" }}'
       subrepoName: '{{ .GetValue "subrepoName" }}'

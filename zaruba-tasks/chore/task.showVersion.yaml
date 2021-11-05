@@ -5,7 +5,7 @@ tasks:
     description: |
       Show zaruba's current version.
     extend: zrbRunCoreScript
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         cd "{{ .ZarubaHome }}"

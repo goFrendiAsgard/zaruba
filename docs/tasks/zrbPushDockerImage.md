@@ -3,7 +3,7 @@
   TASK NAME     : zrbPushDockerImage
   LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbPushDockerImage.yaml
   DESCRIPTION   : Push docker image.
-                  Common config:
+                  Common configs:
                     imageName : Image name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]

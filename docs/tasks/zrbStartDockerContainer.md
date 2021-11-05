@@ -6,7 +6,7 @@
                   If container is already started, it's stdout/stderr will be shown.
                   If container is exist but not started, it will be started.
                   If container is not exist, it will be created and started.
-                  Common config:
+                  Common configs:
                     setup          : Script to be executed before start service or check service readiness.
                     beforeStart    : Script to be executed before start service.
                     afterStart     : Script to be executed after start service.

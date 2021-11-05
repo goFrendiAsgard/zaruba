@@ -1,4 +1,4 @@
 tasks:
 
   task:
-    env: invalid value
+    envs: invalid value

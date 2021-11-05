@@ -11,7 +11,7 @@ tasks:
     dependencies:
       - initSubrepos
       - updateProjectLinks
-    config:
+    configs:
       start: |
         set -e
         {{ $d := .Decoration -}}

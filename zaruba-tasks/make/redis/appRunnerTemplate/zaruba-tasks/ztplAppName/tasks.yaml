@@ -11,5 +11,5 @@ tasks:
     location: ztplAppTaskLocation
     configRef: ztplAppNameContainer
     envRef: ztplAppName
-    config:
+    configs:
       templateLocation: '{{ .GetProjectPath "ztplAppDirectory/utilities/flush" }}'

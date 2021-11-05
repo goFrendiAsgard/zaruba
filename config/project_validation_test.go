@@ -124,7 +124,7 @@ func TestProjectValidateInvalidTaskKey(t *testing.T) {
 	}
 }
 
-func TestProjectValidateInvalidTasEnvkKey(t *testing.T) {
+func TestProjectValidateInvalidTasEnvKey(t *testing.T) {
 	_, err := getProject("../test-resources/project/validation/invalidTaskEnvKey.zaruba.yaml")
 	if err == nil {
 		t.Errorf("error expected")

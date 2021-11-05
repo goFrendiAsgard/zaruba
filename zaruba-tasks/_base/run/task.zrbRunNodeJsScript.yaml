@@ -4,11 +4,11 @@ tasks:
     icon: 🐸
     description: |
       Run Node.Js script
-      Common config:
+      Common configs:
         start : Start script
     private: true
     extend: zrbRunScript
-    config:
+    configs:
       cmd: node
       cmdArg: "-p"
       start: "console.log('hello world')"

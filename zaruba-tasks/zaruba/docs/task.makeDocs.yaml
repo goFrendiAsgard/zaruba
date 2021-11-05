@@ -6,7 +6,7 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - buildBin
-    config:
+    configs:
       start: |
         set -e
         . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"

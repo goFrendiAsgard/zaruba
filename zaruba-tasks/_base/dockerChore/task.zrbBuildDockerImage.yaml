@@ -5,13 +5,13 @@ tasks:
     private: true
     description: |
       Build docker image.
-      Common config:
+      Common configs:
         imageName : Image name
     extend: zrbRunCoreScript
     dependencies:
       - updateProjectLinks
     configRef: zrbDocker
-    config:
+    configs:
       buildArg: ""
       start.buildDockerImage.buildArg: |
         {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}

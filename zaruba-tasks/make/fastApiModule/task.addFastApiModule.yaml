@@ -8,7 +8,7 @@ tasks:
     inputs:
       - appDirectory
       - appModuleName
-    config:
+    configs:
       defaultAppDirectory: '{{ .ProjectName }}FastApi'
       templateLocations: |
         [

@@ -23,10 +23,10 @@ tasks:
     dependencies:
       - dependencyTaskName
     configRef: configRefName
-    config:
+    configs:
       configName: value
     envRef: envRefName
-    env:
+    envs:
       envName:
         from: from
         default: default

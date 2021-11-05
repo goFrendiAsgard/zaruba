@@ -29,15 +29,17 @@ type Task struct {
 	Location              string            `yaml:"location,omitempty"`
 	ConfigRef             string            `yaml:"configRef,omitempty"`
 	ConfigRefs            []string          `yaml:"configRefs,omitempty"`
-	Config                map[string]string `yaml:"config,omitempty"`
+	Configs               map[string]string `yaml:"configs,omitempty"`
 	EnvRef                string            `yaml:"envRef,omitempty"`
 	EnvRefs               []string          `yaml:"envRefs,omitempty"`
-	Env                   map[string]*Env   `yaml:"env,omitempty"`
+	Envs                  map[string]*Env   `yaml:"envs,omitempty"`
 	Dependencies          []string          `yaml:"dependencies,omitempty"`
 	Inputs                []string          `yaml:"inputs,omitempty"`
 	Description           string            `yaml:"description,omitempty"`
 	Icon                  string            `yaml:"icon,omitempty"`
 	SaveLog               string            `yaml:"saveLog,omitempty"`
+	SyncEnv               string            `yaml:"syncEnv,omitempty"`
+	SyncEnvLocation       string            `yaml:"syncEnvLocation,omitempty"`
 	Project               *Project          `yaml:"_project,omitempty"`
 	fileLocation          string            // File location where this task was declared
 	uuid                  string            // Unique identifier of current task
@@ -82,7 +84,7 @@ func (task *Task) GetFileLocation() (fileLocation string) {
 	return task.fileLocation
 }
 
-func (task *Task) GetTaskLocation() (path string) {
+func (task *Task) GetLocation() (path string) {
 	if task.Location != "" {
 		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
 	}
@@ -90,14 +92,63 @@ func (task *Task) GetTaskLocation() (path string) {
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
-		return parentTask.GetTaskLocation()
+		parentTaskLocation := parentTask.GetLocation()
+		if parentTaskLocation != "" {
+			return parentTaskLocation
+		}
 	}
 	return ""
 }
 
+func (task *Task) GetSaveLog() bool {
+	if boolean.IsFalse(task.SaveLog) {
+		return false
+	}
+	parentTaskNames := task.getParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		if parentTask.GetSaveLog() {
+			return true
+		}
+	}
+	return true
+}
+
+func (task *Task) GetSyncEnv() bool {
+	if boolean.IsTrue(task.SyncEnv) {
+		return true
+	}
+	parentTaskNames := task.getParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		if parentTask.GetSyncEnv() {
+			return true
+		}
+	}
+	return false
+}
+
+func (task *Task) GetSyncEnvLocation() (path string) {
+	if task.SyncEnvLocation != "" {
+		return task.SyncEnvLocation
+	}
+	parentTaskNames := task.getParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentTaskSyncEnvLocation := parentTask.GetSyncEnvLocation()
+		if parentTaskSyncEnvLocation != "" {
+			return parentTaskSyncEnvLocation
+		}
+	}
+	return task.GetLocation()
+}
+
 // GetWorkPath get path of current task
 func (task *Task) GetWorkPath() (workPath string) {
-	if taskLocation := task.GetTaskLocation(); taskLocation != "" {
+	if taskLocation := task.GetLocation(); taskLocation != "" {
 		return taskLocation
 	}
 	workPath, _ = os.Getwd()
@@ -180,7 +231,7 @@ func (task *Task) GetConfig(keys ...string) (val string, err error) {
 
 func (task *Task) GetConfigKeys() (keys []string) {
 	keys = []string{}
-	for key := range task.Config {
+	for key := range task.Configs {
 		keys = append(keys, key)
 	}
 	for _, envRefName := range task.getConfigRefKeys() {
@@ -197,7 +248,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 }
 
 func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
-	if pattern, declared = task.Config[key]; declared {
+	if pattern, declared = task.Configs[key]; declared {
 		return pattern, true
 	}
 	for _, configRefName := range task.getConfigRefKeys() {
@@ -243,7 +294,7 @@ func (task *Task) GetEnv(key string) (val string, err error) {
 
 func (task *Task) GetEnvKeys() (keys []string) {
 	keys = []string{}
-	for key := range task.Env {
+	for key := range task.Envs {
 		keys = append(keys, key)
 	}
 	for _, envRefName := range task.getEnvRefKeys() {
@@ -260,7 +311,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 }
 
 func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
-	if env, declared = task.Env[key]; declared {
+	if env, declared = task.Envs[key]; declared {
 		return env, declared
 	}
 	for _, envRefName := range task.getEnvRefKeys() {
@@ -333,7 +384,7 @@ func (task *Task) getTemplateName(templateNamePrefix, pattern string) (templateN
 }
 
 func (task *Task) linkToEnvs() {
-	for _, env := range task.Env {
+	for _, env := range task.Envs {
 		env.Task = task
 	}
 }
@@ -486,7 +537,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
-	saveLog := task.SaveLog == "" || boolean.IsTrue(task.SaveLog)
+	saveLog := task.GetSaveLog()
 	taskName := task.GetName()
 	for buf.Scan() {
 		content := buf.Text()

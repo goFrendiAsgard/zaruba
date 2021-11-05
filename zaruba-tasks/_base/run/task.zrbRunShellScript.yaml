@@ -4,9 +4,9 @@ tasks:
     icon: 🐚
     description: |
       Run shell script
-      Common config:
+      Common configs:
         start : Start script
     private: true
     extend: zrbRunScript
-    config:
+    configs:
       start: "echo hello world"

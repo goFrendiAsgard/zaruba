@@ -5,13 +5,13 @@ tasks:
     private: true
     description: |
       Push docker image.
-      Common config:
+      Common configs:
         imageName : Image name
     extend: zrbRunCoreScript
     dependencies:
       - updateProjectLinks
     configRef: zrbDocker
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"

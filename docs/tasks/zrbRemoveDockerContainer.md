@@ -3,7 +3,7 @@
   TASK NAME     : zrbRemoveDockerContainer
   LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
   DESCRIPTION   : Remove docker container.
-                  Common config:
+                  Common configs:
                     containerName : Container's name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]

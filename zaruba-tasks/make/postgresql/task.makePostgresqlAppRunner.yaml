@@ -13,7 +13,7 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    config:
+    configs:
       appIcon: 🐘
       appCheckCommand: pg_isready -U "{{ .Template ".GetEnv \"POSTGRESQL_USERNAME\"" }}"
       defaultAppDirectory: '{{ .ProjectName }}Posgresql'

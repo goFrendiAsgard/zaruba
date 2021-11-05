@@ -63,9 +63,9 @@ tasks:
     inputs: [] # list of input's name
     dependencies: [] # tasks's dependencies
     envRef: envRefName # use "envRefs" for multiple values
-    env: {}
+    envs: {}
     configRef: configRefName # use "configRefs" for multiple values
-    config: {}
+    configs: {}
     start: [] # start command
     check: [] # check command
 ```
@@ -133,7 +133,7 @@ You can make your task more configurable by adding `config` to it. Let's see the
 tasks:
 
   print:
-    config:
+    configs:
       sentence: hello world
     start:
     - figlet
@@ -179,7 +179,7 @@ configRef:
 
 `showNatriumSymbol` has a single config reference, `sodium`. This config reference is also shared with `showSodiumSymbol`. However, `showSodiumSymbol` also has another config reference, `other`.
 
-Thus, `showNatriumSymbol` has one config:
+Thus, `showNatriumSymbol` has one configs:
 * `symbol`: Na
 
 While `showSodiumSymbol` has two configs:
@@ -195,7 +195,7 @@ Just like in object-oriented programming, you can use `extend` to extend your ta
 tasks:
 
   print:
-    config:
+    configs:
       sentence: '<empty>'
     start:
     - figlet
@@ -204,13 +204,13 @@ tasks:
   
   sayHello:
     extend: print
-    config:
+    configs:
       sentence: hello
   
 
   sayCheese:
     extend: print
-    config:
+    configs:
       sentence: cheese
 ```
 
@@ -234,7 +234,7 @@ Let's say you want to use [toilet](https://github.com/cacalabs/toilet) instead o
 tasks:
 
   print:
-    config:
+    configs:
       sentence: '<empty>'
     start:
     - bash
@@ -250,7 +250,7 @@ Looks good. But, before we continue any further, try to run `zaruba please zrbRu
 
 Based on the explanation, you can see that `zrbRunShellScript` has several `config` values. You can use those configurations (i.e: `setup`, `beforeStart`, `start`, `afterStart`, `cmd`, and `cmdArg`) to configure the `start` command.
 
-In our case, we can simply extend `zrbRunShellScript` and override it's `start` config:
+In our case, we can simply extend `zrbRunShellScript` and override it's `start` configs:
 
 ```yaml
 # Filename: main.zaruba.yaml
@@ -258,20 +258,20 @@ tasks:
 
   print:
     extend: zrbRunShellScript
-    config:
+    configs:
       sentence: '<empty>'
       start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
 
   
   sayHello:
     extend: print
-    config:
+    configs:
       sentence: hello
   
 
   sayCheese:
     extend: print
-    config:
+    configs:
       sentence: cheese
 ```
 
@@ -304,20 +304,20 @@ tasks:
     extend: zrbRunShellScript
     inputs:
     - user.sentence
-    config:
+    configs:
       sentence: '{{ .GetValue "user.sentence" }}'
       start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
 
   
   sayHello:
     extend: print
-    config:
+    configs:
       sentence: hello
   
 
   sayCheese:
     extend: print
-    config:
+    configs:
       sentence: cheese
 ```
 
@@ -375,20 +375,20 @@ tasks:
     extend: zrbRunShellScript
     inputs:
     - user.sentence
-    config:
+    configs:
       sentence: '{{ .GetValue "user.sentence" }}'
       start: toilet -f mono12 -F metal '{{ .GetConfig "sentence" }}'
 
   
   runDb:
     extend: print
-    config:
+    configs:
       sentence: runDb
 
 
   compile:
     extend: print
-    config:
+    configs:
       sentence: compile
   
 
@@ -397,7 +397,7 @@ tasks:
     dependencies:
     - runDb
     - compile
-    config:
+    configs:
       sentence: migrate
 ```
 
@@ -446,9 +446,9 @@ tasks:
 
   showMyName:
     extend: zrbRunShellScript
-    config:
+    configs:
       start: echo $NAME
-    env:
+    envs:
       NAME:
         from: MY_NAME
         default: blank
@@ -456,9 +456,9 @@ tasks:
 
   showYourName:
     extend: zrbRunShellScript
-    config:
+    configs:
       start: echo $NAME
-    env:
+    envs:
       NAME:
         from: YOUR_NAME
         default: blank
@@ -502,7 +502,7 @@ Let's see at the following example:
 tasks:
 
   runServer:
-    env:
+    envs:
       PYTHONUNBUFFERED:
         default: 1
     start:
@@ -542,10 +542,10 @@ tasks:
 
   runServer:
     extend: zrbStartApp
-    env:
+    envs:
       PYTHONUNBUFFERED:
         default: 1
-    config:
+    configs:
       start: python -m http.server 3000
       ports: 3000
 ```
@@ -575,7 +575,7 @@ tasks:
 
   runRedis:
     extend: zrbStartDockerContainer
-    config:
+    configs:
       useImagePrefix: false
       imageName: redis
       containerName: redis
@@ -584,12 +584,12 @@ tasks:
 
   runMySql:
     extend: zrbStartDockerContainer
-    config:
+    configs:
       useImagePrefix: false
       imageName: mysql
       containerName: mysql
       ports: 3306
-    env:
+    envs:
       MYSQL_ROOT_PASSWORD:
         default: too
 
@@ -636,7 +636,7 @@ tasks:
   runMySql:
     extend: zrbStartDockerContainer
     configRef: mySql
-    env:
+    envs:
       MYSQL_ROOT_PASSWORD:
         default: too
 

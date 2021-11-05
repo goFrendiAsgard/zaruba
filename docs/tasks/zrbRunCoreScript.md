@@ -3,7 +3,7 @@
   TASK NAME     : zrbRunCoreScript
   LOCATION      : /zaruba-tasks/_base/run/coreScript/task.zrbRunCoreScript.yaml
   DESCRIPTION   : Run script for core tasks
-                  Common config:
+                  Common configs:
                     start : Start script
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunShellScript ]

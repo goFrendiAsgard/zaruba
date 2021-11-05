@@ -3,7 +3,7 @@ tasks:
   zrbMakeAppRunner:
     extend: zrbMakeTask
     private: true
-    config:
+    configs:
       _validate: |
         {{ $d := .Decoration -}}
         if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]

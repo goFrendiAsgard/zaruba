@@ -5,7 +5,7 @@ tasks:
     location: ../../..
     extend: zrbRunShellScript
     configRef: mainTest
-    config:
+    configs:
       start: |
         ZARUBA_HOME=""
         mkdir -p ./coverage

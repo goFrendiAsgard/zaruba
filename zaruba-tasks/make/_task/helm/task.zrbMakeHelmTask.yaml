@@ -3,7 +3,7 @@ tasks:
   zrbMakeHelmTask:
     extend: zrbMakeTask
     private: true
-    config:
+    configs:
       templateLocations: '["{{ .ZarubaHome }}/zaruba-tasks/make/_task/helm/template"]'
       _indexFileName: './zaruba-tasks/${_ZRB_APP_NAME}Helm/index.yaml'
       _validate: |

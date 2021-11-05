@@ -12,7 +12,7 @@ tasks:
       - appEnvs
       - appImageName
       - appContainerName
-    config:
+    configs:
       appIcon: 🐉
       defaultAppDirectory: '{{ .ProjectName }}Meltano'
       templateLocations: |

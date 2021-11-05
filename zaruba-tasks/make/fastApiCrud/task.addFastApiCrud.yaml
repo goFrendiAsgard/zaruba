@@ -10,7 +10,7 @@ tasks:
       - appModuleName
       - appCrudEntity
       - appCrudFields
-    config:
+    configs:
       defaultAppDirectory: '{{ .ProjectName }}FastApi'
       templateLocations: |
         [

@@ -4,7 +4,7 @@ tasks:
     icon: 📔
     description: |
       Run script.
-      Common config:
+      Common configs:
         cmd           : Executable shell name
         cmdArg        : Executable shell argument
         setup         : Setup script
@@ -14,7 +14,7 @@ tasks:
         finish        : Finish script
     private: true
     autoTerminate: true
-    config:
+    configs:
       cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
       cmdArg: "-c"
       setup: ''
@@ -25,7 +25,7 @@ tasks:
       _setup: ''
       _start: ''
       _finish: ''
-    env:
+    envs:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED
         default: 1

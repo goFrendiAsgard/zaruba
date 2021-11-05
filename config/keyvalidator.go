@@ -8,7 +8,7 @@ import (
 )
 
 type TaskEnvKeyCheckData struct {
-	Env map[string]map[string]interface{} `yaml:"env,omitempty"`
+	Envs map[string]map[string]interface{} `yaml:"envs,omitempty"`
 }
 
 type TaskWithEnvKeyCheckData struct {
@@ -112,7 +112,7 @@ func (kv *KeyValidator) checkProjectValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkTaskValidKeys() (err error) {
-	validKeys := []string{"start", "check", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "config", "envRef", "envRefs", "env", "dependencies", "inputs", "description", "icon", "saveLog"}
+	validKeys := []string{"start", "check", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "configs", "envRef", "envRefs", "envs", "dependencies", "inputs", "description", "icon", "saveLog", "syncEnv", "syncEnvLocation"}
 	for taskName, task := range kv.taskKeyCheckData.Tasks {
 		for key := range task {
 			valid := false
@@ -160,7 +160,7 @@ func (kv *KeyValidator) checkInputValidKeys() (err error) {
 
 func (kv *KeyValidator) checkTaskEnvValidKeys() (err error) {
 	for taskName, task := range kv.taskWithEnvKeyCheckData.Tasks {
-		if err = kv.checkEnvMapValidKeys(task.Env, fmt.Sprintf("tasks[%s][env]", taskName)); err != nil {
+		if err = kv.checkEnvMapValidKeys(task.Envs, fmt.Sprintf("tasks[%s][envs]", taskName)); err != nil {
 			return err
 		}
 	}

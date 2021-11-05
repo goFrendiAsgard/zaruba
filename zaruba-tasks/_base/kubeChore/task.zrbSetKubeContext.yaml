@@ -3,7 +3,7 @@ tasks:
     extend: zrbRunCoreScript
     private: true
     configRef: zrbKube
-    config:
+    configs:
       start: |
         if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
         then

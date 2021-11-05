@@ -3,7 +3,7 @@
   TASK NAME     : zrbStopDockerContainer
   LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
   DESCRIPTION   : Stop docker container.
-                  Common config:
+                  Common configs:
                     containerName : Container's name
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbRunCoreScript ]

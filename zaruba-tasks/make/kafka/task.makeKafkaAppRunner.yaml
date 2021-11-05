@@ -14,7 +14,7 @@ tasks:
       - zookeeperPorts
       - appImageName
       - appContainerName
-    config:
+    configs:
       appIcon: 🪠
       appKafkaPorts: '{{ .GetValue "kafkaPorts" }}'
       appZookeeperPorts: '{{ .GetValue "zookeeperPorts" }}'

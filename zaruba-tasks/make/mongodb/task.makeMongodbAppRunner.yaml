@@ -13,7 +13,7 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    config:
+    configs:
       appIcon: 🍃
       defaultAppDirectory: '{{ .ProjectName }}Mongodb'
       defaultAppPorts: |

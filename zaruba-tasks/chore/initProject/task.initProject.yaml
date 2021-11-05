@@ -6,7 +6,7 @@ tasks:
       Initiate empty zaruba project.
     extend: zrbRunCoreScript
     saveLog: false
-    config:
+    configs:
       start: |
         {{ $d := .Decoration -}}
         if [ -f "index.zaruba.yaml" ]

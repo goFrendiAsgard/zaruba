@@ -2,7 +2,7 @@ tasks:
 
   taskName:
     location: ../location 
-    config:
+    configs:
       key: value
   
   otherTaskName: {}

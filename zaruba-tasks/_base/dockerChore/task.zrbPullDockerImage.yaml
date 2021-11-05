@@ -5,13 +5,13 @@ tasks:
     private: true
     description: |
       Pull docker image.
-      Common config:
+      Common configs:
         imageName : Image name
     extend: zrbRunCoreScript
     dependencies:
       - updateProjectLinks
     configRef: zrbDocker
-    config:
+    configs:
       imageTag: ""
       start: |
         {{ $d := .Decoration -}}

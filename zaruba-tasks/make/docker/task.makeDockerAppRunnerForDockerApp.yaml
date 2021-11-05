@@ -15,7 +15,7 @@ tasks:
       - appPorts
     configRefs:
       - addDocker
-    config:
+    configs:
       defaultAppPorts: |
         [
           "8080"

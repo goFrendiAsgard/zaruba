@@ -8,7 +8,7 @@ tasks:
     configRefs:
       - addSimpleNodeJsAppRunner
       - addNodeJsAppRunner
-    config:
+    configs:
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/simpleNodeJsApp/appTemplate"
