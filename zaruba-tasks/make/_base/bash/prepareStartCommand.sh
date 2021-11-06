@@ -15,6 +15,9 @@ then
         if [ -f "${_ZRB_APP_DIRECTORY}/Pipfile" ]
         then
             _ZRB_APP_START_COMMAND="pipenv run python main.py"
+        elif [ -f "${_ZRB_APP_DIRECTORY}/venv/bin/activate" ]
+        then
+            _ZRB_APP_START_COMMAND="source ./venv/bin/activate && python main.py"
         else
             _ZRB_APP_START_COMMAND="python main.py"
         fi

@@ -14,7 +14,7 @@ tasks:
       - appImageName
       - appContainerName
     configs:
-      appPrepareCommand: pipenv install
-      appStartCommand: pipenv run bash ./start.sh
-      appTestCommand: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
-    configRef: addFastApi
+      pythonStartCommand: ./start.sh
+    configRefs:
+      - makePythonVenvAppRunner
+      - addFastApi

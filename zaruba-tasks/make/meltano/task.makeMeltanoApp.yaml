@@ -12,7 +12,7 @@ tasks:
         ]
       _generate: |
         pip install meltano
-        pipenv run meltano init "${_ZRB_APP_DIRECTORY}"
+        meltano init "${_ZRB_APP_DIRECTORY}"
         if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
         then
           _ZRB_APP_LOWER_DIRECTORY="$("{{ .ZarubaBin }}" str toLower "${_ZRB_APP_DIRECTORY}")"

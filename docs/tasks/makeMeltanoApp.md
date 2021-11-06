@@ -20,7 +20,7 @@
                     VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                      : Blank
                   _generate                    : pip install meltano
-                                                 pipenv run meltano init "${_ZRB_APP_DIRECTORY}"
+                                                 meltano init "${_ZRB_APP_DIRECTORY}"
                                                  if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
                                                  then
                                                    _ZRB_APP_LOWER_DIRECTORY="$("{{ .ZarubaBin }}" str toLower "${_ZRB_APP_DIRECTORY}")"
@@ -55,8 +55,8 @@
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
                                                  _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
                                                  _ZRB_APP_BASE_IMAGE_NAME='{{ .GetConfig "appBaseImageName" }}'
-                                                 _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .GetConfig "appBuildImageCommand" }}'
-                                                 _ZRB_APP_CHECK_COMMAND='{{ .GetConfig "appCheckCommand" }}'
+                                                 _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appBuildImageCommand") "\n " }}'
+                                                 _ZRB_APP_CHECK_COMMAND='{{ .Util.Str.Trim (.GetConfig "appCheckCommand") "\n " }}'
                                                  _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
                                                  _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "appContainerVolumes" }}'
                                                  _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
@@ -69,12 +69,12 @@
                                                  _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
                                                  _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
                                                  _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
-                                                 _ZRB_APP_PREPARE_COMMAND='{{ .GetConfig "appPrepareCommand" }}'
-                                                 _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .GetConfig "appPushImageCommand" }}'
+                                                 _ZRB_APP_PREPARE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPrepareCommand") "\n " }}'
+                                                 _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPushImageCommand") "\n " }}'
                                                  _ZRB_APP_RUNNER_VERSION='{{ .GetConfig "appRunnerVersion" }}'
-                                                 _ZRB_APP_START_COMMAND='{{ .GetConfig "appStartCommand" }}'
-                                                 _ZRB_APP_START_CONTAINER_COMMAND='{{ .GetConfig "appStartContainerCommand" }}'
-                                                 _ZRB_APP_TEST_COMMAND='{{ .GetConfig "appTestCommand" }}'
+                                                 _ZRB_APP_START_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartCommand") "\n " }}'
+                                                 _ZRB_APP_START_CONTAINER_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartContainerCommand") "\n " }}'
+                                                 _ZRB_APP_TEST_COMMAND='{{ .Util.Str.Trim (.GetConfig "appTestCommand") "\n " }}'
                                                  _ZRB_APP_CRUD_ENTITY='{{ .GetConfig "appCrudEntity" }}'
                                                  _ZRB_APP_CRUD_FIELDS='{{ .GetConfig "appCrudFields" }}'
                                                  _ZRB_APP_EVENT_NAME='{{ .GetConfig "appEventName" }}'

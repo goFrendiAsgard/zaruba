@@ -14,10 +14,20 @@ configs:
       ztplAppYamlContainerVolumes
 
   runZtplAppName:
-    start: pipenv run ./start.sh
+    start: |
+      source ./venv/bin/activate
+      ./start.sh
 
   prepareZtplAppName:
-    start: pipenv install
+    start: |
+      if [ ! -d "./venv" ]
+      then
+        python -m venv ./venv
+      fi
+      source ./venv/bin/activate
+      pip install -r requirements.txt
 
   testZtplAppName:
-    start: pipenv run pytest -rP -v --cov="$(pwd)" --cov-report html
+    start: |
+      source ./venv/bin/activate
+      pytest -rP -v --cov="$(pwd)" --cov-report html

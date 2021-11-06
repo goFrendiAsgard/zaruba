@@ -21,7 +21,9 @@ tasks:
       - removeZtplAppNameNodeModules
       - cleanZtplAppNameNpmCache
       - rebuildZtplAppNameNpm
-    configRef: prepareZtplAppName
+    configRefs: 
+      - prepareZtplAppName
+      - ztplAppName
 
   testZtplAppName:
     icon: ✅

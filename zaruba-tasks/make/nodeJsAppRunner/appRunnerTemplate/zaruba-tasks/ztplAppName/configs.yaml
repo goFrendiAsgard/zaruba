@@ -1,6 +1,7 @@
 configs:
 
   ztplAppName:
+    nodeVersion: node
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
       ztplAppYamlPorts
