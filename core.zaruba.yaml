@@ -37,12 +37,7 @@ includes:
 
   - ./zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
 
-  - ./zaruba-tasks/_base/run/inNvm/config.zrbRunInNvm.yaml
-  - ./zaruba-tasks/_base/run/inNvm/task.zrbRunInNvm.yaml
-  - ./zaruba-tasks/_base/run/inNvm/task.zrbPrepareInNvm.yaml
-
   - ./zaruba-tasks/_base/start/task.zrbStartApp.yaml
-  - ./zaruba-tasks/_base/start/task.zrbStartAppInNvm.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
 
   - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformApply.yaml
