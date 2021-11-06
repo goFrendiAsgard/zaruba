@@ -29,9 +29,6 @@ includes:
   - ./zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunShellScript.yaml
 
-  - ./zaruba-tasks/_base/run/coreScript/task.zrbRunCoreScript.yaml
-  - ./zaruba-tasks/_base/run/coreScript/config.zrbIncludeShellUtil.yaml
-
   - ./zaruba-tasks/_base/run/dockerContainer/config.zrbRunDockerContainer.yaml
   - ./zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
 

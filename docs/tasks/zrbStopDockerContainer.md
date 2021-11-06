@@ -6,7 +6,7 @@
                   Common configs:
                     containerName : Container's name
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   DEPENDENCIES  : [ updateProjectLinks ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -19,8 +19,9 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish          : Blank
-                  _setup           : set -e
-                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _initShell       : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                     {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start           : Blank
                   afterStart       : Blank
                   beforeStart      : Blank
@@ -28,7 +29,7 @@
                   cmdArg           : -c
                   containerName    : Blank
                   finish           : Blank
-                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : true
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
@@ -36,6 +37,7 @@
                                      stopContainer "${CONTAINER}" 
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
+                  strictMode       : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

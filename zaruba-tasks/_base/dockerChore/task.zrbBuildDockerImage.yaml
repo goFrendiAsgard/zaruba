@@ -7,7 +7,7 @@ tasks:
       Build docker image.
       Common configs:
         imageName : Image name
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
     configRef: zrbDocker

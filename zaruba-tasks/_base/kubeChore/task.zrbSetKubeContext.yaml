@@ -1,6 +1,6 @@
 tasks:
   zrbSetKubeContext:
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     private: true
     configRef: zrbKube
     configs:

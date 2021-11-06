@@ -37,6 +37,8 @@
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+                  _initShell                   : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                                 {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _integrate                   : . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRouteHandler.sh"
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRpcHandler.sh"
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRepo.sh"
@@ -65,8 +67,7 @@
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldInsert.sh"
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldUpdate.sh"
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setSchemaFieldDeclaration.sh"
-                  _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _setup                       : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
@@ -200,9 +201,10 @@
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
                   finish                       : Blank
-                  includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil             : true
                   setup                        : Blank
                   start                        : Blank
+                  strictMode                   : true
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/template"
                                                  ]

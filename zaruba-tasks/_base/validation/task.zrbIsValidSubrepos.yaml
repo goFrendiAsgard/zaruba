@@ -3,7 +3,7 @@ tasks:
   zrbIsValidSubrepos:
     icon: 🔍
     private: true
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     configs:
       start: |
         {{ $d := .Decoration -}}

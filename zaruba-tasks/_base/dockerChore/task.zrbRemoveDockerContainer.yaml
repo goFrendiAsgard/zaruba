@@ -7,7 +7,7 @@ tasks:
       Remove docker container.
       Common configs:
         containerName : Container's name
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
     configs:

@@ -4,7 +4,7 @@
   LOCATION      : /zaruba-tasks/chore/task.update.yaml
   DESCRIPTION   : Update zaruba to the latest version.
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -16,15 +16,16 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish          : Blank
-                  _setup           : set -e
-                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _initShell       : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                     {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start           : Blank
                   afterStart       : Blank
                   beforeStart      : Blank
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : true
                   setup            : Blank
                   start            : {{ $d := .Decoration -}}
                                      cd "{{ .ZarubaHome }}"
@@ -36,6 +37,7 @@
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+                  strictMode       : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

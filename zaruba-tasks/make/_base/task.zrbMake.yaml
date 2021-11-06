@@ -1,7 +1,7 @@
 tasks:
 
   zrbMake:
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - zrbShowAdv
     private: true

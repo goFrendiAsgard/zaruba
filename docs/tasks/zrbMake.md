@@ -3,7 +3,7 @@
   TASK NAME     : zrbMake
   LOCATION      : /zaruba-tasks/make/_base/task.zrbMake.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   DEPENDENCIES  : [ zrbShowAdv ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -18,6 +18,8 @@
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+                  _initShell                   : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                                 {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _integrate                   : Blank
                   _prepareBase                 : {{ .GetConfig "_prepareBaseVariables" }}
                                                  {{ .GetConfig "_prepareVariables" }}
@@ -35,8 +37,7 @@
                   _prepareBaseVariables        : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap       : Blank
                   _prepareVariables            : Blank
-                  _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _setup                       : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
@@ -170,9 +171,10 @@
                   defaultAppHelmDirectory      : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Helm{{ end }}
                   defaultAppPorts              : []
                   finish                       : Blank
-                  includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil             : true
                   setup                        : Blank
                   start                        : Blank
+                  strictMode                   : true
                   templateLocations            : {{ .GetValue "templateLocations" }}
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

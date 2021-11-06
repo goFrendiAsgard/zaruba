@@ -5,7 +5,7 @@ tasks:
     description: |
       Add subrepository.
       TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - zrbIsProject
     inputs:

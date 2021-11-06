@@ -2,7 +2,7 @@ tasks:
 
   zrbHelmUninstall:
     private: true
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - zrbSetKubeContext
     configRefs:

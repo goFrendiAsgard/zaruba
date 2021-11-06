@@ -3,7 +3,7 @@
   TASK NAME     : zrbHelmUninstall
   LOCATION      : /zaruba-tasks/_base/helmChore/task.zrbHelmUninstall.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   DEPENDENCIES  : [ zrbSetKubeContext ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -16,8 +16,9 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish               : Blank
-                  _setup                : set -e
-                                          {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _initShell            : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                          {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _setup                : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                : {{ $d := .Decoration -}}
                                           _ZRB_RELEASE_NAME='{{ .GetConfig "releaseName" }}'
                                           _ZRB_KEBAB_RELEASE_NAME="$("{{ .ZarubaBin }}" str toKebab "${_ZRB_RELEASE_NAME}")"
@@ -34,12 +35,13 @@
                   cmd                   : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg                : -c
                   finish                : Blank
-                  includeShellUtil      : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil      : true
                   kubeContext           : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
                   kubeNamespace         : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
                   releaseName           : Blank
                   setup                 : Blank
                   start                 : Blank
+                  strictMode            : true
                   templateLocation      : {{ .GetConfig "valueTemplateLocation" }}
                   valueTemplateLocation : Blank
   ENVIRONMENTS  : PYTHONUNBUFFERED

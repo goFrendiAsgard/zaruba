@@ -34,8 +34,9 @@
                     DEFAULT     : 8080
                     VALIDATION  : ^[0-9]+$
   CONFIG        : _finish          : Blank
-                  _setup           : set -e
-                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _initShell       : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                     {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start           : Blank
                   afterCheck       : Blank
                   afterStart       : Blank
@@ -52,11 +53,12 @@
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : true
                   ports            : {{ .GetValue "serverHttpPort" }}
                   runInLocal       : true
                   setup            : Blank
                   start            : Blank
+                  strictMode       : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

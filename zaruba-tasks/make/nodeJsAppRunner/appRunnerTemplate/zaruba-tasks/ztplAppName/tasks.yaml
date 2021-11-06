@@ -15,7 +15,7 @@ tasks:
 
   prepareZtplAppName:
     icon: 🔧
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     location: ztplAppTaskLocation
     inputs:
       - removeZtplAppNameNodeModules
@@ -27,7 +27,7 @@ tasks:
 
   testZtplAppName:
     icon: ✅
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     location: ztplAppTaskLocation
     dependencies:
       - prepareZtplAppName

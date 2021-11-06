@@ -5,7 +5,7 @@
   DESCRIPTION   : Add subrepository.
                   TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   DEPENDENCIES  : [ zrbIsProject ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -28,15 +28,16 @@
                     DESCRIPTION : Subrepo name (Can be blank)
                     PROMPT      : Subrepo name
   CONFIG        : _finish          : Blank
-                  _setup           : set -e
-                                     {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _initShell       : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                     {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start           : Blank
                   afterStart       : Blank
                   beforeStart      : Blank
                   cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
                   cmdArg           : -c
                   finish           : Blank
-                  includeShellUtil : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil : true
                   setup            : Blank
                   start            : set -e
                                      {{ $d := .Decoration -}}
@@ -60,6 +61,7 @@
                                      "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
                                      echo 🎉🎉🎉
                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
+                  strictMode       : true
                   subrepoName      : {{ .GetValue "subrepoName" }}
                   subrepoPrefix    : {{ .GetValue "subrepoPrefix" }}
                   subrepoUrl       : {{ .GetValue "subrepoUrl" }}

@@ -5,7 +5,7 @@ tasks:
     description: |
       Add link.
       TIPS: To update links, you should perform `zaruba please updateProjectLinks`
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     inputs:
       - linkFrom
       - linkTo

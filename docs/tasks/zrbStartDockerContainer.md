@@ -108,8 +108,10 @@
                                                  done
                                                  echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
                   _finish                      : Blank
+                  _initShell                   : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                                 {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
                   _setupContainerName          : {{ $d := .Decoration -}}
@@ -220,7 +222,7 @@
                   imageName                    : Blank
                   imagePrefix                  : {{ .GetValue "defaultImagePrefix" }}
                   imageTag                     : Blank
-                  includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil             : true
                   localhost                    : localhost
                   network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
@@ -229,6 +231,7 @@
                   runInLocal                   : true
                   setup                        : Blank
                   start                        : Blank
+                  strictMode                   : true
                   useImagePrefix               : true
                   user                         : Blank
                   volumes                      : Blank

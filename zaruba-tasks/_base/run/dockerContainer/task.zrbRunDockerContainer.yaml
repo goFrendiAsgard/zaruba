@@ -29,7 +29,7 @@ tasks:
                          The command will be executed from inside the container.
         localhost      : Localhost mapping (e.g: host.docker.container)
     private: true
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
       - zrbCreateDockerNetwork

@@ -28,7 +28,7 @@
                                      The command will be executed from inside the container.
                     localhost      : Localhost mapping (e.g: host.docker.container)
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   DEPENDENCIES  : [ updateProjectLinks, zrbCreateDockerNetwork ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
@@ -41,8 +41,10 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                      : Blank
+                  _initShell                   : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                                 {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }} 
+                                                 {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
                                                  {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
                   _setupContainerName          : {{ $d := .Decoration -}}
@@ -150,7 +152,7 @@
                   imageName                    : Blank
                   imagePrefix                  : {{ .GetValue "defaultImagePrefix" }}
                   imageTag                     : Blank
-                  includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil             : true
                   localhost                    : localhost
                   network                      : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
                   ports                        : Blank
@@ -158,6 +160,7 @@
                   restartPolicy                : no
                   setup                        : Blank
                   start                        : Blank
+                  strictMode                   : true
                   useImagePrefix               : true
                   user                         : Blank
                   volumes                      : Blank

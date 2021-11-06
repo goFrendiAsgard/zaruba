@@ -11,7 +11,7 @@ tasks:
       TIPS:
         It is recommended to put `subrepo` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addSubrepo <subrepoUrl=remote-url>`
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - zrbIsProject
       - zrbIsValidSubrepos

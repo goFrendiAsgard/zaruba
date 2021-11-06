@@ -4,7 +4,7 @@
   LOCATION      : /zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
   DESCRIPTION   : Generate script and run it
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunCoreScript ]
+  PARENT TASKS  : [ zrbRunShellScript ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -16,6 +16,8 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                    : Blank
+                  _initShell                 : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                               {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _prepareBase               : {{ .GetConfig "_prepareBaseVariables" }}
                                                {{ .GetConfig "_prepareVariables" }}
                                                {{ .GetConfig "_prepareBaseReplacementMap" }}
@@ -24,8 +26,7 @@
                   _prepareBaseVariables      : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
                   _prepareReplacementMap     : Blank
                   _prepareVariables          : Blank
-                  _setup                     : set -e
-                                               {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _setup                     : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                     : {{ $d := .Decoration -}}
                                                . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
                                                _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
@@ -71,12 +72,13 @@
                   cmdArg                     : -c
                   finish                     : Blank
                   generatedScriptLocation    : {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-                  includeShellUtil           : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil           : true
                   runGeneratedScript         : {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
                   script                     : {{ .GetValue "script" }}
                   setup                      : Blank
                   sql                        : {{ .GetValue "sql" }}
                   start                      : Blank
+                  strictMode                 : true
                   templateLocation           : {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

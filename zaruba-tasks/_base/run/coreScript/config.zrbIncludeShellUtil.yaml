@@ -1,5 +1,0 @@
-configs:
-
-  zrbIncludeShellUtil:
-    includeShellUtil: . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
-       

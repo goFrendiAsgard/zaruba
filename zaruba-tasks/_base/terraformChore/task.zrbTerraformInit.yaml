@@ -1,7 +1,7 @@
 tasks:
 
   zrbTerraformInit:
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     configs:
       _start: terraform init -upgrade -input=false
       start: ''

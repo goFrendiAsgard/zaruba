@@ -7,7 +7,7 @@ tasks:
       Create docker network.
       Common configs:
         network : Network name
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     configRef: zrbDockerNetwork
     configs:
       start: |

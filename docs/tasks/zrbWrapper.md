@@ -14,17 +14,21 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish     : Blank
-                  _setup      : Blank
-                  _start      : Blank
-                  afterStart  : Blank
-                  beforeStart : Blank
-                  cmd         : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg      : -c
-                  finish      : Blank
-                  playBell    : echo $'\a'
-                  setup       : Blank
-                  start       : {{ .GetConfig "playBell" }}
+  CONFIG        : _finish          : Blank
+                  _initShell       : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                     {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+                  _start           : Blank
+                  afterStart       : Blank
+                  beforeStart      : Blank
+                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+                  cmdArg           : -c
+                  finish           : Blank
+                  includeShellUtil : true
+                  playBell         : echo $'\a'
+                  setup            : Blank
+                  start            : {{ .GetConfig "playBell" }}
+                  strictMode       : true
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

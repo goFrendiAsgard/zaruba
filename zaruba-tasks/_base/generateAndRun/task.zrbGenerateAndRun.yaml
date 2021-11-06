@@ -3,7 +3,7 @@ tasks:
   zrbGenerateAndRun:
     description: Generate script and run it
     private: true
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     configs:
       templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template'
       script: '{{ .GetValue "script" }}'

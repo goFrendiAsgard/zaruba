@@ -20,6 +20,8 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                    : Blank
+                  _initShell                 : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                               {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _prepareBase               : {{ .GetConfig "_prepareBaseVariables" }}
                                                {{ .GetConfig "_prepareVariables" }}
                                                {{ .GetConfig "_prepareBaseReplacementMap" }}
@@ -28,8 +30,7 @@
                   _prepareBaseVariables      : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
                   _prepareReplacementMap     : Blank
                   _prepareVariables          : Blank
-                  _setup                     : set -e
-                                               {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _setup                     : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                     : {{ $d := .Decoration -}}
                                                . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
                                                _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
@@ -76,7 +77,7 @@
                   containerName              : Blank
                   finish                     : Blank
                   generatedScriptLocation    : {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-                  includeShellUtil           : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil           : true
                   remoteCommand              : sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
                   remoteScriptLocation       : _{{ .Name }}.script.{{ .UUID }}
                   runGeneratedScript         : _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
@@ -90,6 +91,7 @@
                   setup                      : Blank
                   sql                        : {{ .GetValue "sql" }}
                   start                      : Blank
+                  strictMode                 : true
                   templateLocation           : {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

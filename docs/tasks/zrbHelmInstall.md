@@ -16,6 +16,8 @@
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
   CONFIG        : _finish                    : Blank
+                  _initShell                 : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                               {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _prepareBase               : {{ .GetConfig "_prepareBaseVariables" }}
                                                {{ .GetConfig "_prepareVariables" }}
                                                {{ .GetConfig "_prepareBaseReplacementMap" }}
@@ -28,8 +30,7 @@
                                                . "{{ .ZarubaHome }}/zaruba-tasks/_base/helmChore/bash/prepareVariables.sh"
                   _prepareReplacementMap     : Blank
                   _prepareVariables          : Blank
-                  _setup                     : set -e
-                                               {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _setup                     : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                     : {{ $d := .Decoration -}}
                                                . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
                                                _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
@@ -90,7 +91,7 @@
                   imageName                  : Blank
                   imagePrefix                : {{ .GetValue "defaultImagePrefix" }}
                   imageTag                   : Blank
-                  includeShellUtil           : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil           : true
                   kubeContext                : {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
                   kubeNamespace              : {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
                   releaseName                : Blank
@@ -108,6 +109,7 @@
                   setup                      : Blank
                   sql                        : {{ .GetValue "sql" }}
                   start                      : Blank
+                  strictMode                 : true
                   templateLocation           : {{ .GetConfig "valueTemplateLocation" }}
                   useImagePrefix             : true
                   valueTemplateLocation      : Blank

@@ -3,7 +3,7 @@ tasks:
   zrbShowAdv:
     icon: ☕
     private: true
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     saveLog: false
     configs:
       start: |

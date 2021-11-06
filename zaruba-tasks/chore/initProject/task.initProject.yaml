@@ -4,7 +4,7 @@ tasks:
     icon: 🚧
     description: |
       Initiate empty zaruba project.
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     saveLog: false
     configs:
       start: |

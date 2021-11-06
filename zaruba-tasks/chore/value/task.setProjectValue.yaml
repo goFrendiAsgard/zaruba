@@ -3,7 +3,7 @@ tasks:
   setProjectValue:
     icon: 🔗
     description: Set project value.
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - zrbIsProject
     inputs:

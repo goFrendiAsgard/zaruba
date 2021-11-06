@@ -1,7 +1,7 @@
 tasks:
 
   zrbTerraformApply:
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     configs:
       _start: |
         terraform plan -out=tfplan -input=false

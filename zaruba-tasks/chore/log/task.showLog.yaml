@@ -4,7 +4,7 @@ tasks:
     icon: 🔎
     description: |
       Show log for all/particular tasks using regex
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     saveLog: false
     inputs:
       - keyword

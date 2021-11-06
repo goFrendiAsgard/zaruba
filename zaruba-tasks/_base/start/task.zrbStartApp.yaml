@@ -15,7 +15,7 @@ tasks:
         runInLocal  : Run service locally or not.
         ports       : Port to be checked to confirm service readiness, separated by new line.
     private: true
-    extend: zrbRunCoreScript
+    extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
     autoTerminate: false

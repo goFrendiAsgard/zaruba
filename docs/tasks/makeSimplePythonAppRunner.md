@@ -43,6 +43,8 @@
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                   _indexFileName               : ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
+                  _initShell                   : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                                 {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _integrate                   : {{ .GetConfig "_registerModule" }}
                                                  {{ .GetConfig "_registerTasks" }}
                   _prepareBase                 : {{ .GetConfig "_prepareBaseVariables" }}
@@ -63,8 +65,7 @@
                   _prepareVariables            : . "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/bash/prepareVariables.sh"
                   _registerModule              : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
                   _registerTasks               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
-                  _setup                       : set -e
-                                                 {{ .Util.Str.Trim (.GetConfig "includeShellUtil") "\n" }}
+                  _setup                       : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                       : {{ $d := .Decoration -}}
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
@@ -216,10 +217,11 @@
                                                    "3000"
                                                  ]
                   finish                       : Blank
-                  includeShellUtil             : . {{ .ZarubaHome }}/zaruba-tasks/_base/run/coreScript/bash/shellUtil.sh
+                  includeShellUtil             : true
                   pythonStartCommand           : python main.py
                   setup                        : Blank
                   start                        : Blank
+                  strictMode                   : true
                   templateLocations            : [
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
