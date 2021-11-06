@@ -58,12 +58,12 @@ inputs:
     prompt: Event name
     validation: ^[a-zA-Z0-9_\-\.]+$
  
-  appHelmDirectory:
+  deploymentDirectory:
     description: Location of helm directory
     prompt: 'Location of helm directory'
     validation: ^[a-zA-Z0-9_]*$
 
-  appHelmReleaseName:
+  deploymentName:
     description: Helm release name
     prompt: Helm release name
 

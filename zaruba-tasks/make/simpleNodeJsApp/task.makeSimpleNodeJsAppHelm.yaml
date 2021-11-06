@@ -6,7 +6,7 @@ tasks:
     dependencies:
       - makeSimpleNodeJsApp
     inputs:
-      - appHelmDirectory
+      - deploymentDirectory
     configRefs:
       - addSimpleNodeJsAppRunner
       - addNodeJsAppRunner

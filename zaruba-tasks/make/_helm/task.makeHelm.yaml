@@ -4,7 +4,7 @@ tasks:
     icon: 🚢
     extend: makeApp
     inputs:
-      - appHelmDirectory
+      - deploymentDirectory
     configs:
       _validate: |
         {{ $d := .Decoration -}}
@@ -19,4 +19,4 @@ tasks:
         ]
       valueTemplateLocation: '{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate'
       _integrate: |
-        cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_APP_HELM_DIRECTORY}/valueTemplate"
+        cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_DEPLOYMENT_DIRECTORY}/valueTemplate"

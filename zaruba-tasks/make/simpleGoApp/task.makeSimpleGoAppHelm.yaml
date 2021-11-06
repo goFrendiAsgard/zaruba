@@ -6,7 +6,7 @@ tasks:
     dependencies:
       - makeSimpleGoApp
     inputs:
-      - appHelmDirectory
+      - deploymentDirectory
     configRefs:
       - addSimpleGoAppRunner
       - addGoAppRunner

@@ -4,5 +4,5 @@ tasks:
     icon: ⚡
     extend: makeHelm
     inputs:
-      - appHelmDirectory
+      - deploymentDirectory
     configRef: addFastApi

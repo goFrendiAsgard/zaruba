@@ -13,20 +13,20 @@ _ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")
 _ZRB_APP_KEBAB_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_NAME}")"
 
 # helm directory
-if [ -z "${_ZRB_APP_HELM_DIRECTORY}" ]
+if [ -z "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
 then
-    _ZRB_APP_HELM_DIRECTORY="${_ZRB_APP_NAME}Helm"
+    _ZRB_DEPLOYMENT_DIRECTORY="${_ZRB_APP_NAME}Deployment"
 fi
-_ZRB_APP_SNAKE_HELM_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_HELM_DIRECTORY}")"
-_ZRB_APP_PASCAL_HELM_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_HELM_DIRECTORY}")"
-_ZRB_APP_KEBAB_HELM_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_HELM_DIRECTORY}")"
+_ZRB_DEPLOYMENT_SNAKE_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_DIRECTORY}")"
+_ZRB_DEPLOYMENT_PASCAL_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_DIRECTORY}")"
+_ZRB_DEPLOYMENT_KEBAB_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DIRECTORY}")"
 
 # helm release name
-if [ -z "${_ZRB_APP_HELM_RELEASE_NAME}" ]
+if [ -z "${_ZRB_DEPLOYMENT_NAME}" ]
 then
-    _ZRB_APP_HELM_RELEASE_NAME="${_ZRB_APP_NAME}"
+    _ZRB_DEPLOYMENT_NAME="${_ZRB_APP_NAME}"
 fi
-_ZRB_APP_HELM_RELEASE_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_HELM_RELEASE_NAME}")"
+_ZRB_DEPLOYMENT_KEBAB_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DEPLOYMENT_NAME}")"
 
 # module name
 _ZRB_APP_SNAKE_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
@@ -51,8 +51,8 @@ _ZRB_APP_PASCAL_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_RPC
 # app task location
 _ZRB_APP_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
 
-# app helm task location
-_ZRB_APP_HELM_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}Helm" "${_ZRB_APP_HELM_DIRECTORY}")"
+# deployment task location
+_ZRB_DEPLOYMENT_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_DEPLOYMENT_Directory}" "${_ZRB_DIRECTORY}")"
 
 # app icon
 if [ -z "${_ZRB_APP_ICON}" ]

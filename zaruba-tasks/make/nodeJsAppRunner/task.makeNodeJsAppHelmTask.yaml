@@ -9,6 +9,6 @@ tasks:
     inputs:
       - appDirectory
       - appName
-      - appHelmDirectory
-      - appHelmReleaseName
+      - deploymentDirectory
+      - deploymentName
     configRef: addNodeJsAppRunner

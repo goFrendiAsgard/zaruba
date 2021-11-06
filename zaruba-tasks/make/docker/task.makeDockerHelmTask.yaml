@@ -9,7 +9,7 @@ tasks:
     inputs:
       - appDirectory
       - appName
-      - appHelmDirectory
-      - appHelmReleaseName
+      - deploymentDirectory
+      - deploymentName
     configRefs:
       - addDocker

@@ -6,7 +6,7 @@ tasks:
     dependencies:
       - makeSimplePythonApp
     inputs:
-      - appHelmDirectory
+      - deploymentDirectory
     configRefs:
       - addSimplePythonAppRunner
       - addPythonAppRunner

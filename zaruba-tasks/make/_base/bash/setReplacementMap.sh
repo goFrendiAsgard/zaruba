@@ -14,15 +14,15 @@ _setReplacementMap "ztplAppTaskLocation" "${_ZRB_APP_TASK_LOCATION}"
 _setReplacementMap "ztplAppEnvPrefix" "${_ZRB_APP_ENV_PREFIX}"
 _setReplacementMap "ztplAppEnvs" "${_ZRB_APP_ENVS}"
 
-_setReplacementMap "ztplAppHelmDirectory" "${_ZRB_APP_HELM_DIRECTORY}"
-_setReplacementMap "ZtplAppHelmDirectory" "${_ZRB_APP_PASCAL_HELM_DIRECTORY}"
-_setReplacementMap "ztpl_app_helm_directory" "${_ZRB_APP_SNAKE_HELM_DIRECTORY}"
-_setReplacementMap "ztpl-app-helm-directory" "${_ZRB_APP_KEBAB_HELM_DIRECTORY}"
+_setReplacementMap "ztplDeploymentDirectory" "${_ZRB_DEPLOYMENT_DIRECTORY}"
+_setReplacementMap "ZtplDeploymentDirectory" "${_ZRB_DEPLOYMENT_PASCAL_DIRECTORY}"
+_setReplacementMap "ztpl_deployment_directory" "${_ZRB_DEPLOYMENT_SNAKE_DIRECTORY}"
+_setReplacementMap "ztpl-deployment-directory" "${_ZRB_DEPLOYMENT_KEBAB_DIRECTORY}"
 
-_setReplacementMap "ztplAppHelmReleaseName" "${_ZRB_APP_HELM_RELEASE_NAME}"
-_setReplacementMap "ztpl-app-helm-release-name" "${_ZRB_APP_HELM_RELEASE_NAME}"
+_setReplacementMap "ztplDeploymentName" "${_ZRB_DEPLOYMENT_NAME}"
+_setReplacementMap "ztpl-deployment-name" "${_ZRB_DEPLOYMENT_KEBAB_NAME}"
 
-_setReplacementMap "ztplAppHelmTaskLocation" "${_ZRB_APP_HELM_TASK_LOCATION}"
+_setReplacementMap "ztplAppHelmTaskLocation" "${_ZRB_DEPLOYMENT_TASK_LOCATION}"
 
 _setReplacementMap "ztplAppIcon" "${_ZRB_APP_ICON}"
 

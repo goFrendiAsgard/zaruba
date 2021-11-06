@@ -6,6 +6,6 @@ tasks:
     dependencies:
       - makeDockerAppRunnerForDockerApp
     inputs:
-      - appHelmDirectory
+      - deploymentDirectory
     configRefs:
       - addDocker
