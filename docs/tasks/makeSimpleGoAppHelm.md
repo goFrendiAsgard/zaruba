@@ -1,9 +1,10 @@
-# makeAppHelm
+# makeSimpleGoAppHelm
 ```
-  TASK NAME     : makeAppHelm
-  LOCATION      : /zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
+  TASK NAME     : makeSimpleGoAppHelm
+  LOCATION      : /zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelm.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeHelm ]
+  DEPENDENCIES  : [ makeSimpleGoApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -155,7 +156,7 @@
                   appEnvs                       : {{ .GetValue "appEnvs" }}
                   appEventName                  : {{ .GetValue "appEventName" }}
                   appHttpMethod                 : {{ .GetValue "appHttpMethod" }}
-                  appIcon                       : 🐶
+                  appIcon                       : 🐹
                   appImageName                  : {{ .GetValue "appImageName" }}
                   appModuleName                 : {{ .GetValue "appModuleName" }}
                   appName                       : {{ .GetValue "appName" }}
@@ -174,7 +175,7 @@
                   defaultAppBaseImageName       : Blank
                   defaultAppContainerVolumes    : []
                   defaultAppDeploymentDirectory : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}
-                  defaultAppDirectory           : Blank
+                  defaultAppDirectory           : {{ .ProjectName }}App
                   defaultAppPorts               : []
                   deploymentDirectory           : {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultAppDeploymentDirectory" }}{{ end }}
                   deploymentName                : {{ .GetValue "deploymentName" }}

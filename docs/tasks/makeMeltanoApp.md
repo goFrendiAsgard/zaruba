@@ -1,9 +1,9 @@
-# makeAppHelm
+# makeMeltanoApp
 ```
-  TASK NAME     : makeAppHelm
-  LOCATION      : /zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
+  TASK NAME     : makeMeltanoApp
+  LOCATION      : /zaruba-tasks/make/meltano/task.makeMeltanoApp.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeHelm ]
+  PARENT TASKS  : [ makeApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -14,16 +14,26 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : deploymentDirectory
-                    DESCRIPTION : Location of helm directory
-                    PROMPT      : Location of helm directory
+  INPUTS        : appDirectory
+                    DESCRIPTION : Location of app
+                    PROMPT      : Location of app
                     VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                       : Blank
-                  _generate                     : {{ .GetConfig "_generateBase" }}
+                  _generate                     : pip install meltano
+                                                  meltano init "${_ZRB_APP_DIRECTORY}"
+                                                  if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
+                                                  then
+                                                    _ZRB_APP_LOWER_DIRECTORY="$("{{ .ZarubaBin }}" str toLower "${_ZRB_APP_DIRECTORY}")"
+                                                    mv "${_ZRB_APP_LOWER_DIRECTORY}" "${_ZRB_APP_DIRECTORY}"
+                                                  fi
+                                                  {{ .GetConfig "_generateBase" }}
                   _generateBase                 : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                   _initShell                    : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
                                                   {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-                  _integrate                    : cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_DEPLOYMENT_DIRECTORY}/valueTemplate"
+                  _integrate                    : if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+                                                  then
+                                                    chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+                                                  fi
                   _prepareBase                  : {{ .GetConfig "_prepareBaseVariables" }}
                                                   {{ .GetConfig "_prepareVariables" }}
                                                   {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -95,9 +105,9 @@
                                                   {{ .GetConfig "_integrate" }}
                                                   cd "${__ZRB_PWD}"
                   _validate                     : {{ $d := .Decoration -}}
-                                                  if [ -d "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
+                                                  if [ -d "${_ZRB_APP_DIRECTORY}" ]
                                                   then
-                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
+                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
                                                     exit 0
                                                   fi
                   _validateAppContainerVolumes  : {{ $d := .Decoration -}}
@@ -155,7 +165,7 @@
                   appEnvs                       : {{ .GetValue "appEnvs" }}
                   appEventName                  : {{ .GetValue "appEventName" }}
                   appHttpMethod                 : {{ .GetValue "appHttpMethod" }}
-                  appIcon                       : 🐶
+                  appIcon                       : Blank
                   appImageName                  : {{ .GetValue "appImageName" }}
                   appModuleName                 : {{ .GetValue "appModuleName" }}
                   appName                       : {{ .GetValue "appName" }}
@@ -184,9 +194,8 @@
                   start                         : Blank
                   strictMode                    : true
                   templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appTemplate"
                                                   ]
-                  valueTemplateLocation         : {{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

@@ -5,12 +5,12 @@ tasks:
     private: true
     configs:
       templateLocations: '["{{ .ZarubaHome }}/zaruba-tasks/make/_task/helm/template"]'
-      _indexFileName: './zaruba-tasks/${_ZRB_APP_NAME}Helm/index.yaml'
+      _indexFileName: './zaruba-tasks/${_ZRB_DEPLOYMENT_DIRECTORY}/index.yaml'
       _validate: |
         {{ $d := .Decoration -}}
-        if [ -d "zaruba-tasks/${_ZRB_APP_NAME}Helm" ]
+        if [ -d "zaruba-tasks/${_ZRB_DEPLOYMENT_DIRECTORY}" ]
         then
-          echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME}Helm already exist.{{ $d.Normal }}"
+          echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
           exit 0
         fi
       _registerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_task/helm/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"'

@@ -1,52 +1,52 @@
 # app directory
-_ZRB_APP_SNAKE_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_DIRECTORY}")"
-_ZRB_APP_PASCAL_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_DIRECTORY}")"
-_ZRB_APP_KEBAB_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_DIRECTORY}")"
+_ZRB_SNAKE_APP_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_DIRECTORY}")"
+_ZRB_PASCAL_APP_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_DIRECTORY}")"
+_ZRB_KEBAB_APP_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_DIRECTORY}")"
 
 # app name
 if [ -z "${_ZRB_APP_NAME}" ]
 then
     _ZRB_APP_NAME="$("${ZARUBA_HOME}/zaruba" path getAppName "${_ZRB_APP_DIRECTORY}")"
 fi
-_ZRB_APP_SNAKE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_NAME}")"
-_ZRB_APP_PASCAL_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")"
-_ZRB_APP_KEBAB_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_NAME}")"
+_ZRB_SNAKE_APP_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_NAME}")"
+_ZRB_PASCAL_APP_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_NAME}")"
+_ZRB_KEBAB_APP_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_APP_NAME}")"
 
 # helm directory
 if [ -z "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
 then
     _ZRB_DEPLOYMENT_DIRECTORY="${_ZRB_APP_NAME}Deployment"
 fi
-_ZRB_DEPLOYMENT_SNAKE_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_DIRECTORY}")"
-_ZRB_DEPLOYMENT_PASCAL_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_DIRECTORY}")"
-_ZRB_DEPLOYMENT_KEBAB_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DIRECTORY}")"
+_ZRB_SNAKE_DEPLOYMENT_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_DIRECTORY}")"
+_ZRB_PASCAL_DEPLOYMENT_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_DIRECTORY}")"
+_ZRB_KEBAB_DEPLOYMENT_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DIRECTORY}")"
 
 # helm release name
 if [ -z "${_ZRB_DEPLOYMENT_NAME}" ]
 then
-    _ZRB_DEPLOYMENT_NAME="${_ZRB_APP_NAME}"
+    _ZRB_DEPLOYMENT_NAME="${_ZRB_APP_NAME}Deployment"
 fi
-_ZRB_DEPLOYMENT_KEBAB_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DEPLOYMENT_NAME}")"
+_ZRB_KEBAB_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DEPLOYMENT_NAME}")"
 
 # module name
-_ZRB_APP_SNAKE_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
-_ZRB_APP_PASCAL_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_MODULE_NAME}")"
+_ZRB_SNAKE_APP_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_MODULE_NAME}")"
+_ZRB_PASCAL_APP_MODULE_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_MODULE_NAME}")"
 
 # app crud entity
-_ZRB_APP_SNAKE_CRUD_ENTITY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_CRUD_ENTITY}")"
-_ZRB_APP_PASCAL_CRUD_ENTITY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_CRUD_ENTITY}")"
+_ZRB_SNAKE_APP_CRUD_ENTITY="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_CRUD_ENTITY}")"
+_ZRB_PASCAL_APP_CRUD_ENTITY="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_CRUD_ENTITY}")"
 
 # app url
-_ZRB_APP_SNAKE_URL="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_URL}")"
-_ZRB_APP_PASCAL_URL="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_URL}")"
+_ZRB_SNAKE_APP_URL="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_URL}")"
+_ZRB_PASCAL_APP_URL="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_URL}")"
 
 # app event name
-_ZRB_APP_SNAKE_EVENT_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_EVENT_NAME}")"
-_ZRB_APP_PASCAL_EVENT_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_EVENT_NAME}")"
+_ZRB_SNAKE_APP_EVENT_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_EVENT_NAME}")"
+_ZRB_PASCAL_APP_EVENT_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_EVENT_NAME}")"
 
 # app rpc name
-_ZRB_APP_SNAKE_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_RPC_NAME}")"
-_ZRB_APP_PASCAL_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_RPC_NAME}")"
+_ZRB_SNAKE_APP_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_APP_RPC_NAME}")"
+_ZRB_PASCAL_APP_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_RPC_NAME}")"
 
 # app task location
 _ZRB_APP_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"

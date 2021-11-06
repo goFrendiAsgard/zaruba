@@ -1,7 +1,7 @@
-# makeAppHelm
+# makePythonAppHelm
 ```
-  TASK NAME     : makeAppHelm
-  LOCATION      : /zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
+  TASK NAME     : makePythonAppHelm
+  LOCATION      : /zaruba-tasks/make/pythonAppRunner/task.makePythonAppHelm.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeHelm ]
   START         : - {{ .GetConfig "cmd" }}
@@ -155,7 +155,7 @@
                   appEnvs                       : {{ .GetValue "appEnvs" }}
                   appEventName                  : {{ .GetValue "appEventName" }}
                   appHttpMethod                 : {{ .GetValue "appHttpMethod" }}
-                  appIcon                       : 🐶
+                  appIcon                       : 🐍
                   appImageName                  : {{ .GetValue "appImageName" }}
                   appModuleName                 : {{ .GetValue "appModuleName" }}
                   appName                       : {{ .GetValue "appName" }}

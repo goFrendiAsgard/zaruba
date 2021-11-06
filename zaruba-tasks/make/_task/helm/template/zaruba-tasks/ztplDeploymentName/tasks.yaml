@@ -3,7 +3,7 @@ tasks:
   helmInstallZtplAppName:
     icon: ztplAppIcon
     extend: zrbHelmInstall
-    location: ztplAppHelmTaskLocation
+    location: ztplDeploymentTaskLocation
     configRefs:
       - ztplAppNameHelm
       - ztplAppNameContainer
@@ -13,7 +13,7 @@ tasks:
   helmUninstallZtplAppName:
     icon: ztplAppIcon
     extend: zrbHelmUninstall
-    location: ztplAppHelmTaskLocation
+    location: ztplDeploymentTaskLocation
     configRefs:
       - ztplAppNameHelm
       - ztplAppNameContainer

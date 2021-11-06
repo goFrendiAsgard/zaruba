@@ -96,9 +96,9 @@
                                                   {{ .GetConfig "_integrate" }}
                                                   cd "${__ZRB_PWD}"
                   _validate                     : {{ $d := .Decoration -}}
-                                                  if [ -d "${_ZRB_APP_DIRECTORY}Helm" ]
+                                                  if [ -d "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
                                                   then
-                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY}Helm already exist.{{ $d.Normal }}"
+                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
                                                     exit 0
                                                   fi
                   _validateAppContainerVolumes  : {{ $d := .Decoration -}}

@@ -1,9 +1,10 @@
-# makeAppHelm
+# makeSimpleNodeJsAppRunner
 ```
-  TASK NAME     : makeAppHelm
-  LOCATION      : /zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
+  TASK NAME     : makeSimpleNodeJsAppRunner
+  LOCATION      : /zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppRunner.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeHelm ]
+  PARENT TASKS  : [ makeNativeAppRunner ]
+  DEPENDENCIES  : [ makeSimpleNodeJsApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -14,16 +15,38 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : deploymentDirectory
-                    DESCRIPTION : Location of helm directory
-                    PROMPT      : Location of helm directory
+  INPUTS        : appDirectory
+                    DESCRIPTION : Location of app
+                    PROMPT      : Location of app
+                    VALIDATION  : ^[a-zA-Z0-9_]*$
+                  appDependencies
+                    DESCRIPTION : Application dependencies
+                    PROMPT      : Application dependencies
+                    DEFAULT     : []
+                  appName
+                    DESCRIPTION : Name of the app
+                    PROMPT      : Name of the app
+                  appEnvs
+                    DESCRIPTION : Application envs
+                    PROMPT      : Application envs
+                    DEFAULT     : {}
+                  appPorts
+                    DESCRIPTION : Application ports
+                    DEFAULT     : []
+                  appImageName
+                    DESCRIPTION : App's image name
+                  appContainerName
+                    DESCRIPTION : Application container name
+                    PROMPT      : Application container name
                     VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                       : Blank
                   _generate                     : {{ .GetConfig "_generateBase" }}
                   _generateBase                 : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+                  _indexFileName                : ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
                   _initShell                    : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
                                                   {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-                  _integrate                    : cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_DEPLOYMENT_DIRECTORY}/valueTemplate"
+                  _integrate                    : {{ .GetConfig "_registerModule" }}
+                                                  {{ .GetConfig "_registerTasks" }}
                   _prepareBase                  : {{ .GetConfig "_prepareBaseVariables" }}
                                                   {{ .GetConfig "_prepareVariables" }}
                                                   {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -39,7 +62,9 @@
                   _prepareBaseTestCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables         : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap        : Blank
-                  _prepareVariables             : Blank
+                  _prepareVariables             : . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
+                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerTasks                : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                        : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                        : {{ $d := .Decoration -}}
                                                   . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
@@ -95,9 +120,9 @@
                                                   {{ .GetConfig "_integrate" }}
                                                   cd "${__ZRB_PWD}"
                   _validate                     : {{ $d := .Decoration -}}
-                                                  if [ -d "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
+                                                  if [ -d "zaruba-tasks/${_ZRB_APP_NAME}" ]
                                                   then
-                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
+                                                    echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME} already exist.{{ $d.Normal }}"
                                                     exit 0
                                                   fi
                   _validateAppContainerVolumes  : {{ $d := .Decoration -}}
@@ -155,7 +180,7 @@
                   appEnvs                       : {{ .GetValue "appEnvs" }}
                   appEventName                  : {{ .GetValue "appEventName" }}
                   appHttpMethod                 : {{ .GetValue "appHttpMethod" }}
-                  appIcon                       : 🐶
+                  appIcon                       : 🐸
                   appImageName                  : {{ .GetValue "appImageName" }}
                   appModuleName                 : {{ .GetValue "appModuleName" }}
                   appName                       : {{ .GetValue "appName" }}
@@ -174,8 +199,11 @@
                   defaultAppBaseImageName       : Blank
                   defaultAppContainerVolumes    : []
                   defaultAppDeploymentDirectory : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}
-                  defaultAppDirectory           : Blank
+                  defaultAppDirectory           : {{ .ProjectName }}App
                   defaultAppPorts               : []
+                  defaultNodeJsAppPorts         : [
+                                                    "3000"
+                                                  ]
                   deploymentDirectory           : {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultAppDeploymentDirectory" }}{{ end }}
                   deploymentName                : {{ .GetValue "deploymentName" }}
                   finish                        : Blank
@@ -184,9 +212,10 @@
                   start                         : Blank
                   strictMode                    : true
                   templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate"
                                                   ]
-                  valueTemplateLocation         : {{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

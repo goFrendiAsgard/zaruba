@@ -17,7 +17,7 @@
   CONFIG        : _finish                       : Blank
                   _generate                     : {{ .GetConfig "_generateBase" }}
                   _generateBase                 : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
-                  _indexFileName                : ./zaruba-tasks/${_ZRB_APP_NAME}Helm/index.yaml
+                  _indexFileName                : ./zaruba-tasks/${_ZRB_DEPLOYMENT_DIRECTORY}/index.yaml
                   _initShell                    : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
                                                   {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _integrate                    : {{ .GetConfig "_registerModule" }}
@@ -95,9 +95,9 @@
                                                   {{ .GetConfig "_integrate" }}
                                                   cd "${__ZRB_PWD}"
                   _validate                     : {{ $d := .Decoration -}}
-                                                  if [ -d "zaruba-tasks/${_ZRB_APP_NAME}Helm" ]
+                                                  if [ -d "zaruba-tasks/${_ZRB_DEPLOYMENT_DIRECTORY}" ]
                                                   then
-                                                    echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_APP_NAME}Helm already exist.{{ $d.Normal }}"
+                                                    echo "{{ $d.Yellow }}[SKIP] Directory zaruba-tasks/${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
                                                     exit 0
                                                   fi
                   _validateAppContainerVolumes  : {{ $d := .Decoration -}}
