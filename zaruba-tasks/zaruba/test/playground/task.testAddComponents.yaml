@@ -18,7 +18,7 @@ tasks:
 
         ../zaruba please setProjectValue variableName=showAdvertisement variableValue=no
 
-        ../zaruba please addEks appDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
+        ../zaruba please addEks deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 
         ../zaruba please addDocker appDirectory=provoDocker appPorts='["3002:8080"]'
         ../zaruba please addAppDeployment appDirectory=provoDocker

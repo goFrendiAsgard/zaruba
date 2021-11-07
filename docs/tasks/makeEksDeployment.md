@@ -190,12 +190,13 @@
                   cmdArg                       : -c
                   defaultAppBaseImageName      : Blank
                   defaultAppContainerVolumes   : []
-                  defaultAppDirectory          : Blank
+                  defaultAppDirectory          : {{ .ProjectName }}Eks
                   defaultAppPorts              : []
-                  defaultDeploymentDirectory   : EksDeployment
+                  defaultDeploymentDirectory   : {{ .ProjectName }}Eks
                   deploymentDirectory          : {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultDeploymentDirectory" }}{{ end }}
                   deploymentName               : {{ .GetValue "deploymentName" }}
                   eksClusterName               : {{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}
+                  eksRegion                    : {{ .GetValue "eksRegion" }}
                   finish                       : Blank
                   includeShellUtil             : true
                   setup                        : Blank
