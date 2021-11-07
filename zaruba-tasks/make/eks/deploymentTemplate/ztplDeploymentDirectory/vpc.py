@@ -9,7 +9,7 @@ vpc = ec2.Vpc(
     enable_dns_hostnames=True,
     enable_dns_support=True,
     tags={
-        'Name': 'ztpl-cluster-name-eks-vpc',
+        'Name': 'pulumi-eks-vpc',
     },
 )
 
@@ -17,7 +17,7 @@ igw = ec2.InternetGateway(
     'vpc-ig',
     vpc_id=vpc.id,
     tags={
-        'Name': 'ztpl-cluster-name-vpc-ig',
+        'Name': 'pulumi-vpc-ig',
     },
 )
 
@@ -29,7 +29,7 @@ eks_route_table = ec2.RouteTable(
         gateway_id=igw.id,
     )],
     tags={
-        'Name': 'ztpl-cluster-name-vpc-rt',
+        'Name': 'pulumi-vpc-rt',
     },
 )
 
@@ -47,7 +47,7 @@ for zone in zones.names:
         cidr_block=f'10.100.{len(subnet_ids)}.0/24',
         availability_zone=zone,
         tags={
-            'Name': f'ztpl-cluster-name-sn-{zone}',
+            'Name': f'pulumi-sn-{zone}',
         },
     )
     ec2.RouteTableAssociation(
@@ -64,7 +64,7 @@ eks_security_group = ec2.SecurityGroup(
     vpc_id=vpc.id,
     description='Allow all HTTP(s) traffic to EKS Cluster',
     tags={
-        'Name': 'ztpl-cluster-name-cluster-sg',
+        'Name': 'pulumi-cluster-sg',
     },
     ingress=[
         ec2.SecurityGroupIngressArgs(

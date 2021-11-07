@@ -10,7 +10,7 @@ eks_cluster = eks.Cluster(
     'eks-cluster',
     role_arn=iam.eks_role.arn,
     tags={
-        'Name': 'ztpl-cluster-name-eks-cluster',
+        'Name': 'pulumi-eks-cluster',
     },
     vpc_config=eks.ClusterVpcConfigArgs(
         public_access_cidrs=['0.0.0.0/0'],
@@ -22,11 +22,11 @@ eks_cluster = eks.Cluster(
 eks_node_group = eks.NodeGroup(
     'eks-node-group',
     cluster_name=eks_cluster.name,
-    node_group_name='ztpl-cluster-name-eks-nodegroup',
+    node_group_name='pulumi-eks-nodegroup',
     node_role_arn=iam.ec2_role.arn,
     subnet_ids=vpc.subnet_ids,
     tags={
-        'Name': 'ztpl-cluster-name-cluster-nodeGroup',
+        'Name': 'pulumi-cluster-nodeGroup',
     },
     scaling_config=eks.NodeGroupScalingConfigArgs(
         desired_size=2,
