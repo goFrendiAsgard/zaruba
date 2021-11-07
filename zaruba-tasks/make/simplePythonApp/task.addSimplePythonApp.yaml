@@ -3,5 +3,4 @@ tasks:
   addSimplePythonApp:
     icon: 🐍
     dependencies:
-      - makeSimplePythonAppHelmTask
       - makeSimplePythonAppRunner

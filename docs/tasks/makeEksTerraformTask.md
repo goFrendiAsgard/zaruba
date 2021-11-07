@@ -1,10 +1,10 @@
-# makeEksTerraformTask
+# makeEksDeploymentTask
 ```
-  TASK NAME     : makeEksTerraformTask
-  LOCATION      : /zaruba-tasks/make/eks/task.makeEksTerraformTask.yaml
+  TASK NAME     : makeEksDeploymentTask
+  LOCATION      : /zaruba-tasks/make/eks/task.makeEksDeploymentTask.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbMakeTerraformTask ]
-  DEPENDENCIES  : [ makeEksApp ]
+  DEPENDENCIES  : [ makeEksDeployment ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -43,7 +43,7 @@
                   _prepareBaseVariables         : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap        : Blank
                   _prepareVariables             : Blank
-                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
                   _registerTasks                : Blank
                   _setup                        : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                        : {{ $d := .Decoration -}}
@@ -184,7 +184,7 @@
                   start                         : Blank
                   strictMode                    : true
                   templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/terraform/template",
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/task/terraform/template",
                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/eks/terraformTaskTemplate"
                                                   ]
   ENVIRONMENTS  : PYTHONUNBUFFERED

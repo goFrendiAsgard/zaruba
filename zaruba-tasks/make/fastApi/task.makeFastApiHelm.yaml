@@ -1,8 +1,0 @@
-tasks:
- 
-  makeFastApiHelm:
-    icon: ⚡
-    extend: makeHelm
-    inputs:
-      - deploymentDirectory
-    configRef: addFastApi

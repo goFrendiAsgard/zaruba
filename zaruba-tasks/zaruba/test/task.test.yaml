@@ -5,5 +5,5 @@ tasks:
       - testPushMeltanoImage
       - testPushImages
       - testApps
-      - testHelmUninstall
+      - testDestroy
       - testCore

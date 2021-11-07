@@ -1,0 +1,16 @@
+tasks:
+
+  makeEksDeploymentTask:
+    icon: 📙
+    extend:  zrbMakeTask
+    inputs:
+      - appDirectory
+    dependencies:
+      - makeEksDeployment
+    configRef: makeEks
+    configs:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/task/terraform/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/eks/eksDeploymentTaskTemplate"
+        ]

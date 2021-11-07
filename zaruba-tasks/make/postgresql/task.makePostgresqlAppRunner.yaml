@@ -23,7 +23,7 @@ tasks:
         ]
       templateLocations: |
         [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/docker/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
           "{{ .ZarubaHome }}/zaruba-tasks/make/postgresql/appRunnerTemplate"
         ]  

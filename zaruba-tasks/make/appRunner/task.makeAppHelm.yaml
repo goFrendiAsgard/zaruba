@@ -1,8 +1,0 @@
-tasks:
- 
-  makeAppHelm:
-    icon: 🐶
-    extend: makeHelm
-    inputs:
-      - deploymentDirectory
-    configRef: addAppRunner

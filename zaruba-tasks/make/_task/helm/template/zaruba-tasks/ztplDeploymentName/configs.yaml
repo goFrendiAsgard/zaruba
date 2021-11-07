@@ -1,6 +1,0 @@
-configs:
-
-  ztplAppNameHelm:
-    releaseName: ztpl-deployment-name
-    chartLocation: '{{ .GetProjectPath "ztplDeploymentDirectory/chart" }}'
-    valueTemplateLocation: '{{ .GetProjectPath "ztplDeploymentDirectory/valueTemplate" }}'

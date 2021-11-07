@@ -1,0 +1,9 @@
+{
+    "namsepace": "default",
+    "image.repository": "nginx",
+    "image.tag": "latest",
+    "replicaCount": 1,
+    "env": [],
+    "ports": [],
+    "service.ports": []
+}

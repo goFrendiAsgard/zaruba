@@ -1,8 +1,0 @@
-tasks:
- 
-  makeNodeJsAppHelm:
-    icon: 🐸
-    extend: makeHelm
-    inputs:
-      - deploymentDirectory
-    configRef: addNodeJsAppRunner

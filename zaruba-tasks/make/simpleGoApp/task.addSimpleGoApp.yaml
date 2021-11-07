@@ -3,5 +3,4 @@ tasks:
   addSimpleGoApp:
     icon: 🐹
     dependencies:
-      - makeSimpleGoAppHelmTask
       - makeSimpleGoAppRunner

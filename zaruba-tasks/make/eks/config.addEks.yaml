@@ -1,5 +1,0 @@
-configs:
-
-  addEks:
-    appIcon: 📙
-    defaultAppDirectory: '{{ .ProjectName }}Eks'

@@ -1,0 +1,13 @@
+tasks:
+
+  testDeploy:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+      - prepareContainerRegistry
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please deploy
+

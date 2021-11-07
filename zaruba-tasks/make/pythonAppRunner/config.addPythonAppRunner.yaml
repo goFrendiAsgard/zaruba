@@ -12,8 +12,8 @@ configs:
       ]
     templateLocations: |
       [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/native/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
         "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate"
       ]
   

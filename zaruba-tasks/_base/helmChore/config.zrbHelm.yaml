@@ -1,7 +1,0 @@
-configs:
-
-  zrbHelm:
-    releaseName: ''
-    chartLocation: ''
-    valueTemplateLocation: ''
-    templateLocation: '{{ .GetConfig "valueTemplateLocation" }}'

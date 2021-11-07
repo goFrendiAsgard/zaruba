@@ -3,5 +3,4 @@ tasks:
   addGoAppRunner:
     icon: 🐹
     dependencies:
-      - makeGoAppHelmTask
       - makeGoAppRunner

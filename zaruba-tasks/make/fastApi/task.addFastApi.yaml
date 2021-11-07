@@ -3,5 +3,4 @@ tasks:
   addFastApi:
     icon: ⚡
     dependencies:
-      - makeFastApiHelmTask
       - makeFastApiAppRunner

@@ -1,0 +1,6 @@
+tasks:
+
+  addAppDeployment:
+    icon: 🚢
+    dependencies:
+      - makeAppDeploymentTask

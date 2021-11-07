@@ -3,4 +3,4 @@ tasks:
   addEks:
     icon: 📙
     dependencies:
-      - makeEksTerraformTask
+      - makeEksDeploymentTask

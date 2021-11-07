@@ -1,7 +1,0 @@
-configs:
-
-  terraformInitZtplAppName: {}
- 
-  terraformApplyZtplAppName: {}
-
-  terraformDestroyZtplAppName: {}

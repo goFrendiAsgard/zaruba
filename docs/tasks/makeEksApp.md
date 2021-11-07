@@ -1,7 +1,7 @@
-# makeEksApp
+# makeEksDeployment
 ```
-  TASK NAME     : makeEksApp
-  LOCATION      : /zaruba-tasks/make/eks/task.makeEksApp.yaml
+  TASK NAME     : makeEksDeployment
+  LOCATION      : /zaruba-tasks/make/eks/task.makeEksDeployment.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ makeApp ]
   START         : - {{ .GetConfig "cmd" }}

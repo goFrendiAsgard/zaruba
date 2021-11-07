@@ -53,8 +53,8 @@
                   _prepareBaseVariables         : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap        : Blank
                   _prepareVariables             : Blank
-                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
-                  _registerTasks                : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/helm/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerTasks                : . "{{ .ZarubaHome }}/zaruba-tasks/make/task/helm/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                        : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                        : {{ $d := .Decoration -}}
                                                   . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
@@ -198,7 +198,7 @@
                   setup                         : Blank
                   start                         : Blank
                   strictMode                    : true
-                  templateLocations             : ["{{ .ZarubaHome }}/zaruba-tasks/make/_task/helm/template"]
+                  templateLocations             : ["{{ .ZarubaHome }}/zaruba-tasks/make/task/helm/template"]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

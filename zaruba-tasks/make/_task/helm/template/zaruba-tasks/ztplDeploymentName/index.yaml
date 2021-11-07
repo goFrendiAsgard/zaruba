@@ -1,4 +1,0 @@
-includes:
-  - ./configs.yaml
-  - ./inputs.yaml
-  - ./tasks.yaml

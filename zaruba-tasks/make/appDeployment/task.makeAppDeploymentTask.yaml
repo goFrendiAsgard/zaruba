@@ -1,0 +1,13 @@
+tasks:
+
+  makeAppDeploymentTask:
+    icon: 🚢
+    extend: zrbMakeTask
+    dependencies:
+      - makeAppDeployment
+    configs:
+      templateLocation: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appDeploymentTaskTemplate" }}"
+        ]
+

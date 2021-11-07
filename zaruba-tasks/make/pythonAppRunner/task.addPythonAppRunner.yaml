@@ -3,5 +3,4 @@ tasks:
   addPythonAppRunner:
     icon: 🐍
     dependencies:
-      - makePythonAppHelmTask
       - makePythonAppRunner

@@ -1,8 +1,0 @@
-tasks:
-
-  zrbMakeTerraformTask:
-    extend: zrbMakeTask
-    private: true
-    configs:
-      templateLocations: '["{{ .ZarubaHome }}/zaruba-tasks/make/_task/terraform/template"]'
-      _registerTasks: ''

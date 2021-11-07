@@ -1,8 +1,0 @@
-tasks:
- 
-  makeGoAppHelm:
-    icon: 🐹
-    extend: makeHelm
-    inputs:
-      - deploymentDirectory
-    configRef: addGoAppRunner

@@ -18,10 +18,6 @@ includes:
   - ./zaruba-tasks/_base/generateAndRun/input.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
-  - ./zaruba-tasks/_base/helmChore/config.zrbHelm.yaml
-  - ./zaruba-tasks/_base/helmChore/task.zrbHelmInstall.yaml
-  - ./zaruba-tasks/_base/helmChore/task.zrbHelmUninstall.yaml
-
   - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
   - ./zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
@@ -36,10 +32,6 @@ includes:
 
   - ./zaruba-tasks/_base/start/task.zrbStartApp.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
-
-  - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformApply.yaml
-  - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformDestroy.yaml
-  - ./zaruba-tasks/_base/terraformChore/task.zrbTerraformInit.yaml
 
   - ./zaruba-tasks/_base/validation/task.zrbIsProject.yaml
   - ./zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
@@ -83,25 +75,21 @@ includes:
   - ./zaruba-tasks/make/_base/input.zrbMake.yaml
   - ./zaruba-tasks/make/_base/task.zrbMake.yaml
 
-  - ./zaruba-tasks/make/_app/task.makeApp.yaml
+  - ./zaruba-tasks/make/app/task.makeApp.yaml
 
-  - ./zaruba-tasks/make/_helm/task.makeHelm.yaml
+  - ./zaruba-tasks/make/appDeployment/task.addAppDeployment.yaml
+  - ./zaruba-tasks/make/appDeployment/task.makeAppDeployment.yaml
+  - ./zaruba-tasks/make/appDeployment/task.makeAppDeploymentTask.yaml
 
-  - ./zaruba-tasks/make/_task/_base/task.zrbMakeTask.yaml
+  - ./zaruba-tasks/make/task/task.zrbMakeTask.yaml
 
-  - ./zaruba-tasks/make/_task/appRunner/_base/task.zrbMakeAppRunner.yaml
-  - ./zaruba-tasks/make/_task/appRunner/docker/task.makeDockerAppRunner.yaml
-  - ./zaruba-tasks/make/_task/appRunner/native/task.makeNativeAppRunner.yaml
-
-  - ./zaruba-tasks/make/_task/helm/task.zrbMakeHelmTask.yaml
-
-  - ./zaruba-tasks/make/_task/terraform/task.zrbMakeTerraformTask.yaml
+  - ./zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/docker/task.makeDockerAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
 
   - ./zaruba-tasks/make/appRunner/config.addAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.addAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.makeAppRunner.yaml
-  - ./zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
-  - ./zaruba-tasks/make/appRunner/task.makeAppHelmTask.yaml
 
   - ./zaruba-tasks/make/airflow/input.makeAirflowAppRunner.yaml
   - ./zaruba-tasks/make/airflow/task.addAirflow.yaml
@@ -116,14 +104,12 @@ includes:
   - ./zaruba-tasks/make/docker/task.addDocker.yaml
   - ./zaruba-tasks/make/docker/task.makeDockerApp.yaml
   - ./zaruba-tasks/make/docker/task.makeDockerAppRunnerForDockerApp.yaml
-  - ./zaruba-tasks/make/docker/task.makeDockerHelm.yaml
-  - ./zaruba-tasks/make/docker/task.makeDockerHelmTask.yaml
 
-  - ./zaruba-tasks/make/eks/config.addEks.yaml
-  - ./zaruba-tasks/make/eks/input.makeEksApp.yaml
+  - ./zaruba-tasks/make/eks/config.makeEks.yaml
+  - ./zaruba-tasks/make/eks/input.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eks/task.addEks.yaml
-  - ./zaruba-tasks/make/eks/task.makeEksApp.yaml
-  - ./zaruba-tasks/make/eks/task.makeEksTerraformTask.yaml
+  - ./zaruba-tasks/make/eks/task.makeEksDeployment.yaml
+  - ./zaruba-tasks/make/eks/task.makeEksDeploymentTask.yaml
 
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
@@ -133,8 +119,6 @@ includes:
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiApp.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
-  - ./zaruba-tasks/make/fastApi/task.makeFastApiHelm.yaml
-  - ./zaruba-tasks/make/fastApi/task.makeFastApiHelmTask.yaml
 
   - ./zaruba-tasks/make/fastApiCrud/task.addFastApiCrud.yaml
 
@@ -149,8 +133,6 @@ includes:
   - ./zaruba-tasks/make/goAppRunner/config.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
-  - ./zaruba-tasks/make/goAppRunner/task.makeGoAppHelm.yaml
-  - ./zaruba-tasks/make/goAppRunner/task.makeGoAppHelmTask.yaml
 
   - ./zaruba-tasks/make/kafka/input.makeKafkaAppRunner.yaml
   - ./zaruba-tasks/make/kafka/task.addKafka.yaml
@@ -180,14 +162,10 @@ includes:
   - ./zaruba-tasks/make/nodeJsAppRunner/config.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppRunner.yaml
-  - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppHelm.yaml
-  - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppHelmTask.yaml
 
   - ./zaruba-tasks/make/pythonAppRunner/config.addPythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppRunner.yaml
-  - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppHelm.yaml
-  - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppHelmTask.yaml
 
   - ./zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
   - ./zaruba-tasks/make/rabbitmq/task.makeRabbitmqApp.yaml
@@ -201,22 +179,16 @@ includes:
   - ./zaruba-tasks/make/simpleGoApp/task.addSimpleGoApp.yaml
   - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoApp.yaml
   - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppRunner.yaml
-  - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelm.yaml
-  - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelmTask.yaml
 
   - ./zaruba-tasks/make/simpleNodeJsApp/config.addSimpleNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/task.addSimpleNodeJsApp.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsApp.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppRunner.yaml
-  - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppHelm.yaml
-  - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppHelmTask.yaml
 
   - ./zaruba-tasks/make/simplePythonApp/config.addSimplePythonAppRunner.yaml
   - ./zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
   - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonApp.yaml
   - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppRunner.yaml
-  - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppHelm.yaml
-  - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppHelmTask.yaml
 
   - ./zaruba-tasks/make/trino/task.addTrino.yaml
   - ./zaruba-tasks/make/trino/task.makeTrinoApp.yaml

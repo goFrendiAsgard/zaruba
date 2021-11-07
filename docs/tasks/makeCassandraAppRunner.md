@@ -63,8 +63,8 @@
                   _prepareBaseVariables         : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
                   _prepareReplacementMap        : Blank
                   _prepareVariables             : Blank
-                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/_base/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
-                  _registerTasks                : . "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+                  _registerModule               : . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"
+                  _registerTasks                : . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
                   _setup                        : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                        : {{ $d := .Decoration -}}
                                                   . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
@@ -213,8 +213,8 @@
                   start                         : Blank
                   strictMode                    : true
                   templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/_base/template",
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_task/appRunner/docker/template",
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
                                                     "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appRunnerTemplate"
                                                   ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
