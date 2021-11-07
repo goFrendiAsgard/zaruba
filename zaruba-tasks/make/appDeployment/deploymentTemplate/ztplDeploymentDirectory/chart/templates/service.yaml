@@ -1,4 +1,4 @@
-{{- if .Values.service.enabled -}}
+{{- if and (.Values.service.enabled) (gt (len (.Values.ports)) 0) -}}
 apiVersion: v1
 kind: Service
 metadata:

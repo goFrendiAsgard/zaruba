@@ -80,7 +80,7 @@ tasks:
         {{ $d := .Decoration -}}
         if [ -z "${_ZRB_APP_DIRECTORY}" ]
         then
-          echo "{{ $d.Red }}Invalid _ZRB_APP_DIRECTORY: ${_ZRB_APP_CONTAINER_DIRECTORY}{{ $d.Normal }}"
+          echo "{{ $d.Red }}Invalid _ZRB_APP_DIRECTORY: ${_ZRB_APP_DIRECTORY}{{ $d.Normal }}"
           exit 1
         fi
       _validateAppContainerVolumes: |

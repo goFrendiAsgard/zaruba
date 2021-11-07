@@ -1,14 +1,24 @@
 configs:
-  
+
+  ztplDeploymentName:
+    pulumiStack: '{{ if .GetValue "pulumiStack" }}{{ .GetValue "pulumiStack" }}{{ else }}dev{{ end }}'
+    pulumiSelectStack: |
+      PULUMI_STACK='{{ .GetConfig "pulumiStack" }}'
+      pulumi stack select "${PULUMI_STACK}" || pulumi stack init "${PULUMI_STACK}"
+
   deployZtplDeploymentName:
     start: |
+      {{ .GetConfig "pulumiSelectStack" }}
       pulumi up -y
 
   destroyZtplDeploymentName: 
     start: |
-      pulumi down
+      {{ .GetConfig "pulumiSelectStack" }}
+      pulumi destroy -y
 
   prepareZtplDeploymentName:
+    useImagePrefix: true
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
     namespace: default
     imageName: ztpl-app-image-name
     imageTag: latest
@@ -30,6 +40,7 @@ configs:
       REPLICA_COUNT='{{ .GetConfig "replicaCount" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
+      echo "{{ $d.Yellow }}🚧 Deployment Config:{{ $d.Normal }} ${DEPLOYMENT_CONFIG}"
       echo "${DEPLOYMENT_CONFIG}" > '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
     ports: |
       ztplAppYamlPorts

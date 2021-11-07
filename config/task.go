@@ -135,7 +135,7 @@ func (task *Task) GetSyncEnv() bool {
 
 func (task *Task) GetSyncEnvLocation() (path string) {
 	if task.SyncEnvLocation != "" {
-		return task.SyncEnvLocation
+		return filepath.Join(filepath.Dir(task.fileLocation), task.SyncEnvLocation)
 	}
 	parentTaskNames := task.getParentTaskNames()
 	if len(parentTaskNames) > 0 {

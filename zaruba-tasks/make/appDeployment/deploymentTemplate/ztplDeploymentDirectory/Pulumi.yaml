@@ -1,4 +1,4 @@
-name: ztplDeployment
+name: ztplDeploymentName
 runtime:
   name: python
   options:

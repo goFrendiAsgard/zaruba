@@ -4,7 +4,10 @@ tasks:
     icon: ztplDeploymentName
     extend: zrbRunShellScript
     location: ztplDeploymentTaskLocation
-    configRef: prepareZtplDeploymentName
+    timeout: 1h
+    configRefs:
+      - prepareZtplDeploymentName
+      - ztplDeploymentName
     envRef: ztplDeploymentName
     syncEnvLocation: ztplAppTaskLocation
 
@@ -12,12 +15,22 @@ tasks:
     icon: ztplAppIcon
     extend: zrbRunShellScript
     location: ztplDeploymentTaskLocation
+    timeout: 1h
     dependencies:
       - prepareZtplDeploymentName
-    configRef: deployZtplDeploymentName
+      - zrbSetKubeContext
+    configRefs:
+      - deployZtplDeploymentName
+      - ztplDeploymentName
 
   destroyZtplDeploymentName:
     icon: ztplAppIcon
     extend: zrbRunShellScript
     location: ztplDeploymentTaskLocation
-    configRef: destroyZtplDeploymentName
+    timeout: 1h
+    dependencies:
+      - prepareZtplDeploymentName
+      - zrbSetKubeContext
+    configRefs:
+      - destroyZtplDeploymentName
+      - ztplDeploymentName

@@ -18,10 +18,6 @@
   CONFIG        : _finish                    : Blank
                   _initShell                 : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
                                                {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-                  _prepareBase               : {{ .GetConfig "_prepareBaseVariables" }}
-                                               {{ .GetConfig "_prepareVariables" }}
-                                               {{ .GetConfig "_prepareBaseReplacementMap" }}
-                                               {{ .GetConfig "_prepareReplacementMap" }}
                   _prepareBaseReplacementMap : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
                   _prepareBaseVariables      : . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
                   _prepareReplacementMap     : Blank
@@ -40,7 +36,10 @@
                                                _ZRB_ENVS='{{ .ToJSON .GetEnvs }}'
                                                __ZRB_PWD=$(pwd)
                                                echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
-                                               {{ .GetConfig "_prepareBase" }} 
+                                               {{ .GetConfig "_prepareBaseVariables" }}
+                                               {{ .GetConfig "_prepareVariables" }}
+                                               {{ .GetConfig "_prepareBaseReplacementMap" }}
+                                               {{ .GetConfig "_prepareReplacementMap" }}
                                                cd "${__ZRB_PWD}"
                                                echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
                                                {{ .GetConfig "_validateTemplateLocation" }}

@@ -1,34 +1,21 @@
 configs:
- 
+
+  ztplDeploymentName:
+    pulumiStack: '{{ if .GetValue "pulumiStack" }}{{ .GetValue "pulumiStack" }}{{ else }}dev{{ end }}'
+    pulumiSelectStack: |
+      PULUMI_STACK='{{ .GetConfig "pulumiStack" }}'
+      pulumi stack select "${PULUMI_STACK}" || pulumi stack init "${PULUMI_STACK}"
+
   deployZtplDeploymentName:
     start: |
+      {{ .GetConfig "pulumiSelectStack" }}
       pulumi up -y
       aws eks --region us-east-2 update-kubeconfig --name $(pulumi stack output cluster-name)
 
   destroyZtplDeploymentName: 
     start: |
-      pulumi down
+      {{ .GetConfig "pulumiSelectStack" }}
+      pulumi destroy -y
 
-  prepareZtplDeploymentName:
-    namespace: default
-    imageName: ztpl-app-image-name
-    imageTag: latest
-    replicaCount: 1
-    start: |
-      {{ $d := .Decoration -}}
-      if [ ! -d "./venv" ]
-      then
-        python -m venv ./venv
-      fi
-      DEPLOYMENT_CONFIG={}
-      NAMESPACE='{{ .GetConfig "namespace" }}'
-      IMAGE_NAME="{{ .GetDockerImageName }}"
-      IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
-      RAW_ENVS='{{ .ToJSON .GetEnvs }}'
-      RAW_PORTS='{{ .GetConfig "ports" }}'
-      REPLICA_COUNT='{{ .GetConfig "replicaCount" }}'
-      . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
-      . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
-      echo "${DEPLOYMENT_CONFIG}" > '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
-    ports: |
-      ztplAppYamlPorts
+  prepareZtplDeploymentName: {}
+  

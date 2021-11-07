@@ -19,7 +19,7 @@ with open('./config/config.json') as f:
     config.update(user_config)
 
 app = Chart(
-    'ztpl-deployment-name', 
+    'ztpl-app-name', 
     config=LocalChartOpts(
         path='./chart',
         namespace= config.get('namespace'),

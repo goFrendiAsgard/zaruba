@@ -24,7 +24,7 @@ _ZRB_KEBAB_DEPLOYMENT_DIRECTORY="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_D
 # helm release name
 if [ -z "${_ZRB_DEPLOYMENT_NAME}" ]
 then
-    _ZRB_DEPLOYMENT_NAME="${_ZRB_APP_NAME}Deployment"
+    _ZRB_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" path getAppName "${_ZRB_DEPLOYMENT_DIRECTORY}")"
 fi
 _ZRB_SNAKE_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_DEPLOYMENT_NAME}")"
 _ZRB_PASCAL_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_DEPLOYMENT_NAME}")"
@@ -54,7 +54,7 @@ _ZRB_PASCAL_APP_RPC_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_APP_RPC
 _ZRB_APP_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_APP_NAME}" "${_ZRB_APP_DIRECTORY}")"
 
 # deployment task location
-_ZRB_DEPLOYMENT_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_DEPLOYMENT_Directory}" "${_ZRB_DIRECTORY}")"
+_ZRB_DEPLOYMENT_TASK_LOCATION="$("${ZARUBA_HOME}/zaruba" path getRelativePath "./zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}" "${_ZRB_DEPLOYMENT_DIRECTORY}")"
 
 # app icon
 if [ -z "${_ZRB_APP_ICON}" ]

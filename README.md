@@ -41,8 +41,10 @@ zaruba please stopContainers
 # To run this command, you need:
 # - kubectl
 # - helm
+# - pulumi
 # - cloud provider or a computer that can run kubernetes locally
-zaruba please helmInstall kubeContext=docker-desktop
+zaruba please pushContainers
+zaruba please deploy kubeContext=docker-desktop
 ```
 
 > 💡 __TIPS:__ Execute tasks with `-i` or `--interactive` flag is probably a good idea if you don't want to memorize the parameters. Otherwise, you can also type `zaruba please` to select available tasks.
@@ -86,13 +88,13 @@ Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, `
 * [docker](https://www.docker.com/get-started) is needed to build, pull or push image. You also need docker to run your services as container.
 * [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) is needed to access your kubernetes cluster.
 * [helm](https://helm.sh/) is needed to deploy your services.
-* [pyenv](https://github.com/pyenv/pyenv#installation) and [pipenv](https://pipenv.pypa.io/en/latest/install/) is needed to run python services locally.
-* [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) is needed to run nodejs services locally.
 
 You should also able to install those third party packages by running zaruba's third party installer:
 
 ```sh
-"${HOME}/.zaruba/setup/init.sh
+zaruba install docker
+zaruba install kubectl
+zaruba install helm
 ```
 
 Now let's get started by [creating a project](docs/creating-a-project.md)
