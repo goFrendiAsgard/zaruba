@@ -1,7 +1,7 @@
 # makeApp
 ```
   TASK NAME     : makeApp
-  LOCATION      : /zaruba-tasks/make/_app/task.makeApp.yaml
+  LOCATION      : /zaruba-tasks/make/app/task.makeApp.yaml
   TASK TYPE     : Command Task
   PARENT TASKS  : [ zrbMake ]
   START         : - {{ .GetConfig "cmd" }}
@@ -187,7 +187,7 @@
                   start                         : Blank
                   strictMode                    : true
                   templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_app/template" }}"
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/app/template" }}"
                                                   ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED

@@ -1,10 +1,9 @@
-# makeSimpleGoAppHelm
+# makeAppDeployment
 ```
-  TASK NAME     : makeSimpleGoAppHelm
-  LOCATION      : /zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppHelm.yaml
+  TASK NAME     : makeAppDeployment
+  LOCATION      : /zaruba-tasks/make/appDeployment/task.makeAppDeployment.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeHelm ]
-  DEPENDENCIES  : [ makeSimpleGoApp ]
+  PARENT TASKS  : [ makeApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -15,16 +14,15 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : deploymentDirectory
-                    DESCRIPTION : Location of helm directory
-                    PROMPT      : Location of helm directory
-                    VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                       : Blank
                   _generate                     : {{ .GetConfig "_generateBase" }}
                   _generateBase                 : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                   _initShell                    : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
                                                   {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-                  _integrate                    : cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_DEPLOYMENT_DIRECTORY}/valueTemplate"
+                  _integrate                    : if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+                                                  then
+                                                    chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+                                                  fi
                   _prepareBase                  : {{ .GetConfig "_prepareBaseVariables" }}
                                                   {{ .GetConfig "_prepareVariables" }}
                                                   {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -96,9 +94,9 @@
                                                   {{ .GetConfig "_integrate" }}
                                                   cd "${__ZRB_PWD}"
                   _validate                     : {{ $d := .Decoration -}}
-                                                  if [ -d "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
+                                                  if [ -d "${_ZRB_APP_DIRECTORY}" ]
                                                   then
-                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
+                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
                                                     exit 0
                                                   fi
                   _validateAppContainerVolumes  : {{ $d := .Decoration -}}
@@ -156,7 +154,7 @@
                   appEnvs                       : {{ .GetValue "appEnvs" }}
                   appEventName                  : {{ .GetValue "appEventName" }}
                   appHttpMethod                 : {{ .GetValue "appHttpMethod" }}
-                  appIcon                       : 🐹
+                  appIcon                       : Blank
                   appImageName                  : {{ .GetValue "appImageName" }}
                   appModuleName                 : {{ .GetValue "appModuleName" }}
                   appName                       : {{ .GetValue "appName" }}
@@ -175,7 +173,7 @@
                   defaultAppBaseImageName       : Blank
                   defaultAppContainerVolumes    : []
                   defaultAppDeploymentDirectory : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}
-                  defaultAppDirectory           : {{ .ProjectName }}App
+                  defaultAppDirectory           : Blank
                   defaultAppPorts               : []
                   deploymentDirectory           : {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultAppDeploymentDirectory" }}{{ end }}
                   deploymentName                : {{ .GetValue "deploymentName" }}
@@ -184,10 +182,12 @@
                   setup                         : Blank
                   start                         : Blank
                   strictMode                    : true
-                  templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
+                  templateLocation              : [
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/appDeploymentTemplate" }}"
                                                   ]
-                  valueTemplateLocation         : {{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate
+                  templateLocations             : [
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/app/template" }}"
+                                                  ]
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1

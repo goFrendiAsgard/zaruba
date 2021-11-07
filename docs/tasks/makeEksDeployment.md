@@ -1,9 +1,9 @@
-# makeAppHelm
+# makeEksDeployment
 ```
-  TASK NAME     : makeAppHelm
-  LOCATION      : /zaruba-tasks/make/appRunner/task.makeAppHelm.yaml
+  TASK NAME     : makeEksDeployment
+  LOCATION      : /zaruba-tasks/make/eks/task.makeEksDeployment.yaml
   TASK TYPE     : Command Task
-  PARENT TASKS  : [ makeHelm ]
+  PARENT TASKS  : [ makeApp ]
   START         : - {{ .GetConfig "cmd" }}
                   - {{ .GetConfig "cmdArg" }}
                   - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -14,16 +14,27 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : deploymentDirectory
-                    DESCRIPTION : Location of helm directory
-                    PROMPT      : Location of helm directory
+  INPUTS        : appDirectory
+                    DESCRIPTION : Location of app
+                    PROMPT      : Location of app
                     VALIDATION  : ^[a-zA-Z0-9_]*$
+                  eksRegion
+                    DESCRIPTION : EKS Region
+                    PROMPT      : EKS region
+                    OPTIONS     : [ us-east-1, us-east-2, us-west-1, us-west-2, ca-central-1, eu-north-1, eu-west-3, eu-west-2, eu-west-1, eu-central-1, eu-south-1, ap-south-1, ap-northeast-1, ap-northeast-2, ap-northeast-3, ap-southeast-1, ap-southeast-2, ap-east-1, sa-east-1, cn-north-1, cn-northwest-1, us-gov-east-1, us-gov-west-1, us-gov-secret-1, us-gov-topsecret-1, me-south-1, af-south-1, ap-south-2 ]
+                    DEFAULT     : us-east-1
+                  eksClusterName
+                    DESCRIPTION : EKS cluster name
+                    PROMPT      : EKS cluster name
   CONFIG        : _finish                       : Blank
                   _generate                     : {{ .GetConfig "_generateBase" }}
                   _generateBase                 : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
                   _initShell                    : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
                                                   {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-                  _integrate                    : cp -r "{{ .GetConfig "valueTemplateLocation" }}" "${_ZRB_DEPLOYMENT_DIRECTORY}/valueTemplate"
+                  _integrate                    : if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+                                                  then
+                                                    chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+                                                  fi
                   _prepareBase                  : {{ .GetConfig "_prepareBaseVariables" }}
                                                   {{ .GetConfig "_prepareVariables" }}
                                                   {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -38,8 +49,10 @@
                   _prepareBaseStartCommand      : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
                   _prepareBaseTestCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables         : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
-                  _prepareReplacementMap        : Blank
-                  _prepareVariables             : Blank
+                  _prepareReplacementMap        : _setReplacementMap "ztpl-eks-region" "${_ZRB_EKS_REGION}"
+                                                  _setReplacementMap "ztpl-eks-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"
+                  _prepareVariables             : _ZRB_EKS_REGION='{{ .GetConfig "eksRegion" }}'
+                                                  _ZRB_EKS_CLUSTER_NAME={{ .Util.Str.ToKebab (.GetConfig "eksClusterName") }}
                   _setup                        : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start                        : {{ $d := .Decoration -}}
                                                   . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
@@ -95,9 +108,9 @@
                                                   {{ .GetConfig "_integrate" }}
                                                   cd "${__ZRB_PWD}"
                   _validate                     : {{ $d := .Decoration -}}
-                                                  if [ -d "${_ZRB_DEPLOYMENT_DIRECTORY}" ]
+                                                  if [ -d "${_ZRB_APP_DIRECTORY}" ]
                                                   then
-                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_DEPLOYMENT_DIRECTORY} already exist.{{ $d.Normal }}"
+                                                    echo "{{ $d.Yellow }}[SKIP] Directory ${_ZRB_APP_DIRECTORY} already exist.{{ $d.Normal }}"
                                                     exit 0
                                                   fi
                   _validateAppContainerVolumes  : {{ $d := .Decoration -}}
@@ -155,7 +168,7 @@
                   appEnvs                       : {{ .GetValue "appEnvs" }}
                   appEventName                  : {{ .GetValue "appEventName" }}
                   appHttpMethod                 : {{ .GetValue "appHttpMethod" }}
-                  appIcon                       : 🐶
+                  appIcon                       : 📙
                   appImageName                  : {{ .GetValue "appImageName" }}
                   appModuleName                 : {{ .GetValue "appModuleName" }}
                   appName                       : {{ .GetValue "appName" }}
@@ -174,19 +187,20 @@
                   defaultAppBaseImageName       : Blank
                   defaultAppContainerVolumes    : []
                   defaultAppDeploymentDirectory : {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}
-                  defaultAppDirectory           : Blank
+                  defaultAppDirectory           : {{ .ProjectName }}Eks
                   defaultAppPorts               : []
                   deploymentDirectory           : {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultAppDeploymentDirectory" }}{{ end }}
                   deploymentName                : {{ .GetValue "deploymentName" }}
+                  eksClusterName                : {{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}
+                  eksRegion                     : {{ if .GetValue "eksRegion" }}{{ .GetValue "eksRegion" }}{{ else }}us-east-1{{ end }}
                   finish                        : Blank
                   includeShellUtil              : true
                   setup                         : Blank
                   start                         : Blank
                   strictMode                    : true
                   templateLocations             : [
-                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplate"
+                                                    "{{ .ZarubaHome }}/zaruba-tasks/make/eks/eksDeploymentTemplate"
                                                   ]
-                  valueTemplateLocation         : {{ .ZarubaHome }}/zaruba-tasks/make/_helm/helmTemplatePartial/valueTemplate
   ENVIRONMENTS  : PYTHONUNBUFFERED
                     FROM    : PYTHONUNBUFFERED
                     DEFAULT : 1
