@@ -2,4 +2,4 @@ configs:
 
   makeEks:
     appIcon: 📙
-    defaultAppDirectory: '{{ .ProjectName }}Eks'
+    defaultDeploymentDirectory: 'EksDeployment'

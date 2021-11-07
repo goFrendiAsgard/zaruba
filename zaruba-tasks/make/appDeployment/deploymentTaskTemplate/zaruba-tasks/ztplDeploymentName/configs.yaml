@@ -1,11 +1,10 @@
 configs:
- 
-  deployZtplAppDeploymentName:
+  
+  deployZtplDeploymentName:
     start: |
       pulumi up -y
-      aws eks --region $(pulumi output -raw region) update-kubeconfig --name $(pulumi output -raw cluster_name) 
 
-  destroyZtplAppDeploymentName: 
+  destroyZtplDeploymentName: 
     start: |
       pulumi down
 
@@ -20,6 +19,8 @@ configs:
       then
         python -m venv ./venv
       fi
+      source ./venv/bin/activate
+      pip install -r requirements.txt
       DEPLOYMENT_CONFIG={}
       NAMESPACE='{{ .GetConfig "namespace" }}'
       IMAGE_NAME="{{ .GetDockerImageName }}"

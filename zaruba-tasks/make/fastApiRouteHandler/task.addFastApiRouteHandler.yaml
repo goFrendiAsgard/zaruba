@@ -11,8 +11,9 @@ tasks:
       - appUrl
       - appHttpMethod
     configs:
-      defaultAppDirectory: '{{ .ProjectName }}FastApi'
-      templateLocations: '[]'
+      _skipCreationPath: ''
       _prepareVariables: ''
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+      templateLocations: '[]'

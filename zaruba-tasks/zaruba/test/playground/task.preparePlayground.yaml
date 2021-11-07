@@ -7,7 +7,6 @@ tasks:
       start: |
         if [ -d "./playground" ]
         then
-          chmod 777 -R ./playground
           rm -Rf ./playground
         fi
         mkdir -p ./playground

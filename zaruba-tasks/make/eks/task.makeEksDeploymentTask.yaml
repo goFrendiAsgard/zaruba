@@ -11,6 +11,5 @@ tasks:
     configs:
       templateLocations: |
         [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/task/terraform/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/eks/eksDeploymentTaskTemplate"
+          "{{ .ZarubaHome }}/zaruba-tasks/make/eks/deploymentTaskTemplate"
         ]

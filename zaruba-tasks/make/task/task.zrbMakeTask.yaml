@@ -6,9 +6,10 @@ tasks:
       - zrbIsProject
     private: true
     configs:
-      _indexFileName: './zaruba-tasks/${_ZRB_APP_NAME}/index.yaml'
-      _registerModule: '. "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerModule.sh" "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_indexFileName" }}" "${_ZRB_APP_NAME}"'
-      _registerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"'
-      _integrate: |
-        {{ .GetConfig "_registerModule" }}
-        {{ .GetConfig "_registerTasks" }}
+      _registerIndex: |
+        {{ if .GetConfig "_taskIndexPath" -}}
+        "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+        {{ end -}}
+      _registerDeploymentTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"'
+      _registerAppRunnerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"'
+      _integrate: '{{ .GetConfig "_registerIndex" }}'

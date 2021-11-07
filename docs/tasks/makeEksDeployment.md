@@ -49,8 +49,8 @@
                   _prepareBaseStartCommand      : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
                   _prepareBaseTestCommand       : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
                   _prepareBaseVariables         : . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
-                  _prepareReplacementMap        : _setReplacementMap "ztpl-eks-region" "${_ZRB_EKS_REGION}"
-                                                  _setReplacementMap "ztpl-eks-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"
+                  _prepareReplacementMap        : _setReplacementMap "ztpl-region" "${_ZRB_EKS_REGION}"
+                                                  _setReplacementMap "ztpl-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"
                   _prepareVariables             : _ZRB_EKS_REGION='{{ .GetConfig "eksRegion" }}'
                                                   _ZRB_EKS_CLUSTER_NAME={{ .Util.Str.ToKebab (.GetConfig "eksClusterName") }}
                   _setup                        : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}

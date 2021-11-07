@@ -20,6 +20,8 @@ _setReplacementMap "ztpl_deployment_directory" "${_ZRB_SNAKE_DEPLOYMENT_DIRECTOR
 _setReplacementMap "ztpl-deployment-directory" "${_ZRB_KEBAB_DEPLOYMENT_DIRECTORY}"
 
 _setReplacementMap "ztplDeploymentName" "${_ZRB_DEPLOYMENT_NAME}"
+_setReplacementMap "ZtplDeploymentName" "${_ZRB_PASCAL_DEPLOYMENT_NAME}"
+_setReplacementMap "ztpl_deployment_name" "${_ZRB_SNAKE_DEPLOYMENT_NAME}"
 _setReplacementMap "ztpl-deployment-name" "${_ZRB_KEBAB_DEPLOYMENT_NAME}"
 
 _setReplacementMap "ztplDeploymentTaskLocation" "${_ZRB_DEPLOYMENT_TASK_LOCATION}"

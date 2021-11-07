@@ -14,11 +14,6 @@ tasks:
       _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"'
       _prepareVariables: ''
       _prepareReplacementMap: ''
-      _prepareBase: |
-        {{ .GetConfig "_prepareBaseVariables" }}
-        {{ .GetConfig "_prepareVariables" }}
-        {{ .GetConfig "_prepareBaseReplacementMap" }}
-        {{ .GetConfig "_prepareReplacementMap" }}
       _validateTemplateLocation: |
         {{ $d := .Decoration -}}
         if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
@@ -41,7 +36,10 @@ tasks:
         _ZRB_ENVS='{{ .ToJSON .GetEnvs }}'
         __ZRB_PWD=$(pwd)
         echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
-        {{ .GetConfig "_prepareBase" }} 
+        {{ .GetConfig "_prepareBaseVariables" }}
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareBaseReplacementMap" }}
+        {{ .GetConfig "_prepareReplacementMap" }}
         cd "${__ZRB_PWD}"
         echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
         {{ .GetConfig "_validateTemplateLocation" }}

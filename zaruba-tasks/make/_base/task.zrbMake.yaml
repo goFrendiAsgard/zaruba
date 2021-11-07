@@ -18,7 +18,7 @@ tasks:
       appEnvPrefix: '{{ .GetValue "appEnvPrefix" }}'
       appEnvs: '{{ .GetValue "appEnvs" }}'
       appEventName: '{{ .GetValue "appEventName" }}'
-      deploymentDirectory: '{{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultAppDeploymentDirectory" }}{{ end }}'
+      deploymentDirectory: '{{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultDeploymentDirectory" }}{{ end }}'
       deploymentName: '{{ .GetValue "deploymentName" }}'
       appHttpMethod: '{{ .GetValue "appHttpMethod" }}'
       appIcon: ''
@@ -37,7 +37,7 @@ tasks:
       defaultAppBaseImageName: ''
       defaultAppContainerVolumes: '[]'
       defaultAppDirectory: ''
-      defaultAppDeploymentDirectory: '{{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}'
+      defaultDeploymentDirectory: '{{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}'
       defaultAppPorts: '[]'
       templateLocations: '{{ .GetValue "templateLocations" }}'
       _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"'
@@ -46,15 +46,16 @@ tasks:
       _prepareBasePrepareCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"'
       _prepareBaseTestCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"'
       _prepareBaseCheckCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"'
-      _prepareBase: |
-        {{ .GetConfig "_prepareBaseVariables" }}
-        {{ .GetConfig "_prepareVariables" }}
-        {{ .GetConfig "_prepareBaseStartCommand" }}
-        {{ .GetConfig "_prepareBasePrepareCommand" }}
-        {{ .GetConfig "_prepareBaseTestCommand" }}
-        {{ .GetConfig "_prepareBaseCheckCommand" }}
-        {{ .GetConfig "_prepareBaseReplacementMap" }}
-        {{ .GetConfig "_prepareReplacementMap" }}
+      _skipCreationPath: ''
+      _skipCreation: |
+          {{ $d := .Decoration -}}
+          {{ if .GetConfig "_skipCreationPath" -}}
+          if [ -x "{{ .GetConfig "_skipCreationPath" }}" ]
+          then
+            echo "{{ $d.Yellow }}[SKIP] {{ .GetConfig "_skipCreationPath" }} already exist.{{ $d.Normal }}"
+            exit 0
+          fi
+          {{ end -}}
       _prepareVariables: ''
       _prepareReplacementMap: ''
       _validate: ''
@@ -141,7 +142,14 @@ tasks:
         _ZRB_REPLACEMENT_MAP='{}'
         __ZRB_PWD=$(pwd)
         echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
-        {{ .GetConfig "_prepareBase" }}
+        {{ .GetConfig "_prepareBaseVariables" }}
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareBaseStartCommand" }}
+        {{ .GetConfig "_prepareBasePrepareCommand" }}
+        {{ .GetConfig "_prepareBaseTestCommand" }}
+        {{ .GetConfig "_prepareBaseCheckCommand" }}
+        {{ .GetConfig "_prepareBaseReplacementMap" }}
+        {{ .GetConfig "_prepareReplacementMap" }}
         cd "${__ZRB_PWD}"
         echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
         {{ .GetConfig "_validateAppDirectory" }}
@@ -149,6 +157,7 @@ tasks:
         {{ .GetConfig "_validateTemplateLocation" }}
         {{ .GetConfig "_validateAppPorts" }}
         {{ .GetConfig "_validateAppCrudFields" }}
+        {{ .GetConfig "_skipCreation" }}
         {{ .GetConfig "_validate" }}
         cd "${__ZRB_PWD}"
         echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"

@@ -4,20 +4,20 @@ tasks:
     icon: 📙
     extend: makeApp
     inputs:
-      - appDirectory
+      - deploymentDirectory
       - eksRegion
       - eksClusterName
     configRef: makeEks
     configs:
-      eksRegion: '{{ if .GetValue "eksRegion" }}{{ .GetValue "eksRegion" }}{{ else }}us-east-1{{ end }}'
-      eksClusterName: '{{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/eks/eksDeploymentTemplate"
-        ]
+      _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
       _prepareVariables: |
         _ZRB_EKS_REGION='{{ .GetConfig "eksRegion" }}'
         _ZRB_EKS_CLUSTER_NAME={{ .Util.Str.ToKebab (.GetConfig "eksClusterName") }}
       _prepareReplacementMap: |
-        _setReplacementMap "ztpl-eks-region" "${_ZRB_EKS_REGION}"
-        _setReplacementMap "ztpl-eks-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"
+        _setReplacementMap "ztpl-region" "${_ZRB_EKS_REGION}"
+        _setReplacementMap "ztpl-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"eksRegion: '{{ if .GetValue "eksRegion" }}{{ .GetValue "eksRegion" }}{{ else }}us-east-1{{ end }}'
+      eksClusterName: '{{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/eks/deploymentTemplate"
+        ]

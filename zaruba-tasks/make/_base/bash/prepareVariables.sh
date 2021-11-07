@@ -26,6 +26,8 @@ if [ -z "${_ZRB_DEPLOYMENT_NAME}" ]
 then
     _ZRB_DEPLOYMENT_NAME="${_ZRB_APP_NAME}Deployment"
 fi
+_ZRB_SNAKE_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" str toSnake "${_ZRB_DEPLOYMENT_NAME}")"
+_ZRB_PASCAL_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_ZRB_DEPLOYMENT_NAME}")"
 _ZRB_KEBAB_DEPLOYMENT_NAME="$("${ZARUBA_HOME}/zaruba" str toKebab "${_ZRB_DEPLOYMENT_NAME}")"
 
 # module name
