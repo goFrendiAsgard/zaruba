@@ -1,0 +1,23 @@
+tasks:
+
+  prepareZtplAppDeploymentName:
+    icon: ztplAppDeploymentName
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    configRef: prepareZtplDeploymentName
+    envRef: ztplDeploymentName
+    syncEnvLocation: ztplAppTaskLocation
+
+  deployZtplAppDeploymentName:
+    icon: ztplAppIcon
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    dependencies:
+      - prepareZtplAppDeploymentName
+    configRef: deployZtplAppDeploymentName
+
+  destroyZtplAppDeploymentName:
+    icon: ztplAppIcon
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    configRef: destroyZtplAppDeploymentName
