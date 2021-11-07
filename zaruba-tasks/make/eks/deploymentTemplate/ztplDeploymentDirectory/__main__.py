@@ -7,10 +7,10 @@ from pulumi_aws import eks
 ## EKS Cluster
 
 eks_cluster = eks.Cluster(
-    'ztpl-cluster-name-cluster',
+    'eks-cluster',
     role_arn=iam.eks_role.arn,
     tags={
-        'Name': 'ztpl-cluster-name-cluster',
+        'Name': 'ztpl-cluster-name-eks-cluster',
     },
     vpc_config=eks.ClusterVpcConfigArgs(
         public_access_cidrs=['0.0.0.0/0'],
@@ -20,13 +20,13 @@ eks_cluster = eks.Cluster(
 )
 
 eks_node_group = eks.NodeGroup(
-    'ztpl-cluster-name-node-group',
+    'eks-node-group',
     cluster_name=eks_cluster.name,
-    node_group_name='ztpl-cluster-name-nodegroup',
+    node_group_name='ztpl-cluster-name-eks-nodegroup',
     node_role_arn=iam.ec2_role.arn,
     subnet_ids=vpc.subnet_ids,
     tags={
-        'Name': 'ztpl-cluster-name-nodeGroup',
+        'Name': 'ztpl-cluster-name-cluster-nodeGroup',
     },
     scaling_config=eks.NodeGroupScalingConfigArgs(
         desired_size=2,

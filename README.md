@@ -45,6 +45,7 @@ zaruba please stopContainers
 # - cloud provider or a computer that can run kubernetes locally
 zaruba please pushContainers
 zaruba please addAppDeployment appDirectory=myApp
+zaruba please syncEnv
 zaruba please deploy kubeContext=docker-desktop
 ```
 

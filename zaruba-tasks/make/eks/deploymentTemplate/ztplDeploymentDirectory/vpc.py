@@ -47,7 +47,7 @@ for zone in zones.names:
         cidr_block=f'10.100.{len(subnet_ids)}.0/24',
         availability_zone=zone,
         tags={
-            'Name': f'pulumi-sn-{zone}',
+            'Name': f'ztpl-cluster-name-sn-{zone}',
         },
     )
     ec2.RouteTableAssociation(
@@ -60,11 +60,11 @@ for zone in zones.names:
 ## Security Group
 
 eks_security_group = ec2.SecurityGroup(
-    'ztpl-cluster-name-sg',
+    'eks-cluster-sg',
     vpc_id=vpc.id,
     description='Allow all HTTP(s) traffic to EKS Cluster',
     tags={
-        'Name': 'ztpl-cluster-name-sg',
+        'Name': 'ztpl-cluster-name-cluster-sg',
     },
     ingress=[
         ec2.SecurityGroupIngressArgs(

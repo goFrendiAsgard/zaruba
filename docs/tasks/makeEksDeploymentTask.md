@@ -15,9 +15,9 @@
                     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
                     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  INPUTS        : appDirectory
-                    DESCRIPTION : Location of app
-                    PROMPT      : Location of app
+  INPUTS        : deploymentDirectory
+                    DESCRIPTION : Location of helm directory
+                    PROMPT      : Location of helm directory
                     VALIDATION  : ^[a-zA-Z0-9_]*$
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
@@ -47,7 +47,7 @@
                                                    exit 0
                                                  fi
                                                  {{ end -}}
-                  _skipCreationPath            : Blank
+                  _skipCreationPath            : zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}
                   _start                       : {{ $d := .Decoration -}}
                                                  . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
                                                  _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
@@ -109,6 +109,7 @@
                                                  echo "{{ $d.Yellow }}🔩 Integrate{{ $d.Normal }}"
                                                  {{ .GetConfig "_integrate" }}
                                                  cd "${__ZRB_PWD}"
+                  _taskIndexPath               : ./zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml
                   _validate                    : Blank
                   _validateAppContainerVolumes : {{ $d := .Decoration -}}
                                                  if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]

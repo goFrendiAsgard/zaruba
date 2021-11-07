@@ -4,7 +4,7 @@ import json
 ## EKS Cluster Role
 
 eks_role = iam.Role(
-    'ztpl-cluster-name-iam-role',
+    'eks-iam-role',
     assume_role_policy=json.dumps({
         'Version': '2012-10-17',
         'Statement': [
@@ -21,14 +21,14 @@ eks_role = iam.Role(
 )
 
 iam.RolePolicyAttachment(
-    'ztpl-cluster-name-service-policy-attachment',
+    'eks-service-policy-attachment',
     role=eks_role.id,
     policy_arn='arn:aws:iam::aws:policy/AmazonEKSServicePolicy',
 )
 
 
 iam.RolePolicyAttachment(
-    'ztpl-cluster-name-cluster-policy-attachment',
+    'eks-cluster-policy-attachment',
     role=eks_role.id,
     policy_arn='arn:aws:iam::aws:policy/AmazonEKSClusterPolicy',
 )

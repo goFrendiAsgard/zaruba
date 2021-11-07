@@ -5,7 +5,6 @@ tasks:
     extend: makeApp
     inputs:
       - deploymentDirectory
-      - eksRegion
       - eksClusterName
     configRef: makeEks
     configs:

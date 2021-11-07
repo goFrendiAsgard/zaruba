@@ -2,9 +2,12 @@ configs:
 
   ztplDeploymentName:
     pulumiStack: '{{ if .GetValue "pulumiStack" }}{{ .GetValue "pulumiStack" }}{{ else }}dev{{ end }}'
+    awsRegion: '{{ if .GetValue "ztplDeploymentNameRegion" }}{{ .GetValue "ztplDeploymentNameRegion" }}{{ else }}us-east-2{{ end }}'
     pulumiSelectStack: |
       PULUMI_STACK='{{ .GetConfig "pulumiStack" }}'
+      AWS_REGION='{{ .GetConfig "awsRegion" }}'
       pulumi stack select "${PULUMI_STACK}" || pulumi stack init "${PULUMI_STACK}"
+      pulumi config set aws:region "${AWS_REGION}"
 
   deployZtplDeploymentName:
     start: |
@@ -17,5 +20,11 @@ configs:
       {{ .GetConfig "pulumiSelectStack" }}
       pulumi destroy -y
 
-  prepareZtplDeploymentName: {}
-  
+  prepareZtplDeploymentName:
+    start: |
+      if [ ! -d "./venv" ]
+      then
+        python -m venv ./venv
+      fi
+      source ./venv/bin/activate
+      pip install -r requirements.txt
