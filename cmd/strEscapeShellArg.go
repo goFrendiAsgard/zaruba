@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strEscapeShellArg = &cobra.Command{
@@ -16,7 +16,7 @@ var strEscapeShellArg = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		fmt.Println(util.Str.EscapeShellArg(text))
 	},
 }

@@ -25,8 +25,8 @@
                     PROMPT      : Value
                     VALIDATION  : ^.+$
   CONFIG        : _finish          : Blank
-                  _initShell       : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-                                     {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _initShell       : {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
                   _start           : Blank
                   afterStart       : Blank

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 	"gopkg.in/yaml.v3"
 )
@@ -17,6 +17,7 @@ var yamlWriteCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]
+		util := core.NewUtil()
 		var interfaceContent interface{}
 		if err := json.Unmarshal([]byte(args[1]), &interfaceContent); err != nil {
 			exit(cmd, logger, decoration, err)
@@ -25,7 +26,7 @@ var yamlWriteCmd = &cobra.Command{
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		if err := file.WriteText(fileName, string(resultB), 0755); err != nil {
+		if err := util.File.WriteText(fileName, string(resultB), 0755); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

@@ -12,7 +12,7 @@ import (
 
 var pathGetPortConfigCmd = &cobra.Command{
 	Use:   "getPortConfig <location>",
-	Short: "Return string representing default config.ports",
+	Short: "Return string representing default configs.ports",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)

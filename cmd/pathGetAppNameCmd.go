@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -16,10 +16,11 @@ var pathGetAppNameCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		serviceName, err := config.GetDefaultServiceName(args[0])
+		util := core.NewUtil()
+		defaultAppName, err := util.GetDefaultAppName(args[0])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		fmt.Println(serviceName)
+		fmt.Println(defaultAppName)
 	},
 }

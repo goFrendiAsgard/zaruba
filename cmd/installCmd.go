@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -19,7 +19,8 @@ var installCmd = &cobra.Command{
 
 func AddInstallCmdSubCommand() {
 	setupFilePath := filepath.Join(os.Getenv("ZARUBA_HOME"), "setup")
-	fileList, err := file.ListDir(setupFilePath)
+	util := core.NewUtil()
+	fileList, err := util.File.ListDir(setupFilePath)
 	if err != nil {
 		fmt.Printf("warning: %s is not found", setupFilePath)
 	}

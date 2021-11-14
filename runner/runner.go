@@ -11,14 +11,14 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
 // Runner is used to run tasks
 type Runner struct {
 	taskNames              []string
-	project                *config.Project
+	project                *core.Project
 	taskStatus             map[string]*TaskStatus
 	taskStatusMutex        *sync.RWMutex
 	cmdInfo                map[string]*CmdInfo
@@ -41,7 +41,7 @@ type Runner struct {
 }
 
 // NewRunner create new runner
-func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *config.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
+func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *core.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialized")
 	}
@@ -313,7 +313,7 @@ func (r *Runner) run(ch chan error) {
 }
 
 func (r *Runner) runTaskByNames(taskNames []string) (err error) {
-	tasks := []*config.Task{}
+	tasks := []*core.Task{}
 	for _, taskName := range taskNames {
 		task := r.project.Tasks[taskName]
 		tasks = append(tasks, task)
@@ -331,7 +331,7 @@ func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 	return err
 }
 
-func (r *Runner) runTask(task *config.Task, ch chan error) {
+func (r *Runner) runTask(task *core.Task, ch chan error) {
 	if !r.registerTask(task.GetName()) {
 		ch <- r.waitTaskFinished(task.GetName())
 		return
@@ -367,7 +367,7 @@ func (r *Runner) runTask(task *config.Task, ch chan error) {
 	ch <- err
 }
 
-func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd) (err error) {
+func (r *Runner) runCommandTask(task *core.Task, startCmd *exec.Cmd) (err error) {
 	r.logger.DPrintfStarted("Run %s '%s' command on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
@@ -388,7 +388,7 @@ func (r *Runner) runCommandTask(task *config.Task, startCmd *exec.Cmd) (err erro
 	return err
 }
 
-func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd *exec.Cmd) (err error) {
+func (r *Runner) runServiceTask(task *core.Task, startCmd *exec.Cmd, checkCmd *exec.Cmd) (err error) {
 	if err = r.runStartServiceTask(task, startCmd); err != nil {
 		return err
 	}
@@ -396,7 +396,7 @@ func (r *Runner) runServiceTask(task *config.Task, startCmd *exec.Cmd, checkCmd 
 	return err
 }
 
-func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err error) {
+func (r *Runner) runStartServiceTask(task *core.Task, startCmd *exec.Cmd) (err error) {
 	r.logger.DPrintfStarted("Run %s '%s' service on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
 	startStdinPipe, err := startCmd.StdinPipe()
 	if err == nil {
@@ -415,7 +415,7 @@ func (r *Runner) runStartServiceTask(task *config.Task, startCmd *exec.Cmd) (err
 	return err
 }
 
-func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd) (err error) {
+func (r *Runner) runCheckServiceTask(task *core.Task, checkCmd *exec.Cmd) (err error) {
 	r.logger.DPrintfStarted("Check %s '%s' readiness on %s\n", r.decoration.Icon(task.Icon), task.GetName(), checkCmd.Dir)
 	checkStdinPipe, err := checkCmd.StdinPipe()
 	if err == nil {
@@ -436,7 +436,7 @@ func (r *Runner) runCheckServiceTask(task *config.Task, checkCmd *exec.Cmd) (err
 	return err
 }
 
-func (r *Runner) waitTaskCmd(task *config.Task, cmd *exec.Cmd, cmdLabel string) (err error) {
+func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (err error) {
 	executed := false
 	ch := make(chan error)
 	go func() {

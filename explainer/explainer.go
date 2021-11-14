@@ -5,24 +5,23 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 type Explainer struct {
 	logger  output.Logger
 	d       *output.Decoration
-	project *config.Project
-	util    *utility.Util
+	project *core.Project
+	util    *core.Util
 }
 
-func NewExplainer(logger output.Logger, decoration *output.Decoration, project *config.Project) *Explainer {
+func NewExplainer(logger output.Logger, decoration *output.Decoration, project *core.Project) *Explainer {
 	return &Explainer{
 		logger:  logger,
 		d:       decoration,
 		project: project,
-		util:    utility.NewUtil(),
+		util:    core.NewUtil(),
 	}
 }
 
@@ -99,7 +98,7 @@ func (e *Explainer) explainTask(taskName string) {
 	e.printField("ENVIRONMENTS ", e.getEnvString(task), indentation)
 }
 
-func (e *Explainer) getCmdPatterns(task *config.Task) (start []string, check []string, taskType string) {
+func (e *Explainer) getCmdPatterns(task *core.Task) (start []string, check []string, taskType string) {
 	start, startExist, _ := task.GetStartCmdPatterns()
 	check, checkExist, _ := task.GetCheckCmdPatterns()
 	if startExist && checkExist {
@@ -111,7 +110,7 @@ func (e *Explainer) getCmdPatterns(task *config.Task) (start []string, check []s
 	return start, check, "Wrapper Task"
 }
 
-func (e *Explainer) getInputString(task *config.Task) (inputString string) {
+func (e *Explainer) getInputString(task *core.Task) (inputString string) {
 	inputNames := task.Inputs
 	inputCount := len(inputNames)
 	if inputCount == 0 {
@@ -139,7 +138,7 @@ func (e *Explainer) getInputString(task *config.Task) (inputString string) {
 	return inputString
 }
 
-func (e *Explainer) getEnvString(task *config.Task) (envString string) {
+func (e *Explainer) getEnvString(task *core.Task) (envString string) {
 	subFieldIndentation := strings.Repeat(" ", 2)
 	keys := task.GetEnvKeys()
 	sort.Strings(keys)
@@ -161,7 +160,7 @@ func (e *Explainer) getEnvString(task *config.Task) (envString string) {
 	return envString
 }
 
-func (e *Explainer) getConfigString(task *config.Task) (configStr string) {
+func (e *Explainer) getConfigString(task *core.Task) (configStr string) {
 	keys := task.GetConfigKeys()
 	sort.Strings(keys)
 	fieldKeys := e.getFieldKeys(keys)

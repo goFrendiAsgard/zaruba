@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strSubmatchCmd = &cobra.Command{
@@ -18,7 +18,7 @@ var strSubmatchCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
 		pattern := args[1]
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		result, err := util.Str.Submatch(text, pattern)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

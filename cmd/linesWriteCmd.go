@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -16,11 +16,12 @@ var linesWriteCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]
+		util := core.NewUtil()
 		list := []string{}
 		if err := json.Unmarshal([]byte(args[1]), &list); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		if err := file.WriteLines(fileName, list, 0755); err != nil {
+		if err := util.File.WriteLines(fileName, list, 0755); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

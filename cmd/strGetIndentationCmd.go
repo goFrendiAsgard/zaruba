@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strGetIndentationCmd = &cobra.Command{
@@ -23,7 +23,7 @@ var strGetIndentationCmd = &cobra.Command{
 				level = levelInput
 			}
 		}
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		result, err := util.Str.GetIndentation(text, level)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

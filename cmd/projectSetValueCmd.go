@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -13,7 +13,7 @@ var projectSetValueCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
-		if err := config.SetProjectValue(args[0], args[1], args[2]); err != nil {
+		if err := core.SetProjectValue(args[0], args[1], args[2]); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

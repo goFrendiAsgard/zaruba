@@ -24,6 +24,7 @@ tasks:
     configRefs: 
       - prepareZtplAppName
       - ztplAppName
+    syncEnv: false
 
   testZtplAppName:
     icon: ✅

@@ -146,7 +146,7 @@ func init() {
 	pathCmd.AddCommand(pathGetAppNameCmd)
 	pathCmd.AddCommand(pathGetRelativePathCmd)
 
-	projectCmd.AddCommand(projectAddTaskCmd)
+	projectCmd.AddCommand(projectAddTaskIfNotExistCmd)
 	projectCmd.AddCommand(projectIncludeCmd)
 	projectCmd.AddCommand(projectSetValueCmd)
 	projectCmd.AddCommand(projectShowLogCmd)

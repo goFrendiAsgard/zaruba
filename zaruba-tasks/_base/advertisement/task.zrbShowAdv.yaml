@@ -8,7 +8,7 @@ tasks:
     configs:
       start: |
         {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
-        {{ if .IsTrue $showAdvertisement -}}
+        {{ if .Util.Bool.IsTrue $showAdvertisement -}}
           "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
         {{ end -}}
   

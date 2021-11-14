@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -26,7 +26,7 @@ var projectSyncEnvCmd = &cobra.Command{
 		if err = project.Init(); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		if err = config.SyncProjectEnv(project); err != nil {
+		if err = core.SyncProjectEnv(project); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

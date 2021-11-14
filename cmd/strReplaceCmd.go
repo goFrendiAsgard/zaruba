@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strReplaceCmd = &cobra.Command{
@@ -22,7 +22,7 @@ var strReplaceCmd = &cobra.Command{
 			exit(cmd, logger, decoration, err)
 		}
 		replacementMap := convertToMapString(rawReplacementMap)
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		result := util.Str.Replace(text, replacementMap)
 		fmt.Println(result)
 	},

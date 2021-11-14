@@ -35,10 +35,10 @@ configs:
     cleanNpmCache: '{{ .GetValue "cleanZtplAppNameNpmCache" }}'
     rebuildNpm: '{{ .GetValue "rebuildZtplAppNameNpm" }}'
     start: |
-      INSTALL_TS={{ if .IsTrue (.GetConfig "installTs ") }}1{{ else }}0{{ end }}
-      COMPILE_TS={{ if .IsTrue (.GetConfig "compileTs") }}1{{ else }}0{{ end }}
+      INSTALL_TS={{ if .Util.Bool.IsTrue (.GetConfig "installTs ") }}1{{ else }}0{{ end }}
+      COMPILE_TS={{ if .Util.Bool.IsTrue (.GetConfig "compileTs") }}1{{ else }}0{{ end }}
       TS_VERSION="{{ if .GetConfig "tsVersion" }}@{{ .GetConfig "tsVersion"}}{{ else}}{{ end }}"
-      REMOVE_NODE_MODULES={{ if .IsTrue (.GetConfig "removeNodeModules") }}1{{ else }}0{{ end }}
-      CLEAN_NPM_CACHE={{ if .IsTrue (.GetConfig "cleanNpmCache") }}1{{ else }}0{{ end }}
-      REBUILD_NPM={{ if .IsTrue (.GetConfig "rebuildNpm") }}1{{ else }}0{{ end }}
+      REMOVE_NODE_MODULES={{ if .Util.Bool.IsTrue (.GetConfig "removeNodeModules") }}1{{ else }}0{{ end }}
+      CLEAN_NPM_CACHE={{ if .Util.Bool.IsTrue (.GetConfig "cleanNpmCache") }}1{{ else }}0{{ end }}
+      REBUILD_NPM={{ if .Util.Bool.IsTrue (.GetConfig "rebuildNpm") }}1{{ else }}0{{ end }}
       . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/prepare.sh" }}"

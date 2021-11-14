@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -37,7 +37,7 @@ var taskAddParentCmd = &cobra.Command{
 		if err = json.Unmarshal([]byte(args[2]), &parentNames); err != nil {
 			parentNames = []string{args[2]}
 		}
-		if err = config.AddTaskParent(task, parentNames); err != nil {
+		if err = core.AddTaskParent(task, parentNames); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

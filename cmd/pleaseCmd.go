@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/output"
@@ -142,7 +142,7 @@ func explainOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration 
 	}
 }
 
-func loadPreviousValuesOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, project *config.Project, previousValueFile string) {
+func loadPreviousValuesOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, project *core.Project, previousValueFile string) {
 	if err := previousval.Load(project, previousValueFile); err != nil {
 		exit(cmd, logger, decoration, err)
 	}
@@ -174,13 +174,13 @@ func askAutoTerminateOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, de
 	return autoTerminate
 }
 
-func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *config.Project) {
+func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project) {
 	if err := project.Init(); err != nil {
 		exit(cmd, logger, decoration, err)
 	}
 }
 
-func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string) (project *config.Project, taskNames []string) {
+func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string) (project *core.Project, taskNames []string) {
 	project, err := getProject(decoration, pleaseFile)
 	if err != nil {
 		exit(cmd, logger, decoration, err)

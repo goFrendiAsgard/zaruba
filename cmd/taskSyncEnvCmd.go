@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -31,7 +31,7 @@ var taskSyncEnvCmd = &cobra.Command{
 		if !taskExist {
 			exit(cmd, logger, decoration, fmt.Errorf("task %s does not exist", args[1]))
 		}
-		if err = config.SyncTaskEnv(task); err != nil {
+		if err = core.SyncTaskEnv(task); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

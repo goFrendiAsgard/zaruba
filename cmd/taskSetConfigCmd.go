@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -37,7 +37,7 @@ var taskSetConfigCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &configMap); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		if err = config.SetTaskConfig(task, configMap); err != nil {
+		if err = core.SetTaskConfig(task, configMap); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strAddPrefixCmd = &cobra.Command{
@@ -15,7 +15,7 @@ var strAddPrefixCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		fmt.Println(util.Str.AddPrefix(args[0], args[1]))
 	},
 }

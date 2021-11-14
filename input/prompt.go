@@ -7,11 +7,9 @@ import (
 	"strings"
 
 	"github.com/manifoldco/promptui"
-	"github.com/state-alchemists/zaruba/boolean"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 func fileMustExist(filePath string) (err error) {
@@ -37,16 +35,16 @@ type Action struct {
 type Prompter struct {
 	logger  output.Logger
 	d       *output.Decoration
-	project *config.Project
-	util    *utility.Util
+	project *core.Project
+	util    *core.Util
 }
 
-func NewPrompter(logger output.Logger, decoration *output.Decoration, project *config.Project) *Prompter {
+func NewPrompter(logger output.Logger, decoration *output.Decoration, project *core.Project) *Prompter {
 	return &Prompter{
 		logger:  logger,
 		d:       decoration,
 		project: project,
-		util:    utility.NewUtil(),
+		util:    project.Util,
 	}
 }
 
@@ -308,7 +306,7 @@ func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bo
 	optionIndex, _, err := selectPrompt.Run()
 	selectedOption := options[optionIndex]
 	if err == nil {
-		return boolean.IsTrue(selectedOption), nil
+		return prompter.util.Bool.IsTrue(selectedOption), nil
 	}
 	return false, err
 }
@@ -428,9 +426,9 @@ func (prompter *Prompter) askPassword(inputPrompt string) (value string, err err
 	return prompt.Run()
 }
 
-func (prompter *Prompter) askInput(inputPrompt string, input *config.Variable, oldValue string) (value string, err error) {
+func (prompter *Prompter) askInput(inputPrompt string, input *core.Variable, oldValue string) (value string, err error) {
 	options, captions := prompter.getInputOptions(input, oldValue)
-	allowCustom := !boolean.IsFalse(input.AllowCustom)
+	allowCustom := !prompter.util.Bool.IsFalse(input.AllowCustom)
 	if allowCustom {
 		// Directly ask user input in case of no available option
 		if len(options) == 0 {
@@ -459,7 +457,7 @@ func (prompter *Prompter) askInput(inputPrompt string, input *config.Variable, o
 	return options[selectedIndex], err
 }
 
-func (prompter *Prompter) askUserInput(inputPrompt string, input *config.Variable) (value string, err error) {
+func (prompter *Prompter) askUserInput(inputPrompt string, input *core.Variable) (value string, err error) {
 	prompt := promptui.Prompt{
 		Label: inputPrompt,
 		Validate: func(userInput string) error {
@@ -469,7 +467,7 @@ func (prompter *Prompter) askUserInput(inputPrompt string, input *config.Variabl
 	return prompt.Run()
 }
 
-func (prompter *Prompter) getInputOptions(input *config.Variable, oldValue string) (options []string, captions []string) {
+func (prompter *Prompter) getInputOptions(input *core.Variable, oldValue string) (options []string, captions []string) {
 	options = []string{}
 	captions = []string{}
 	if err := input.Validate(os.ExpandEnv(oldValue)); err == nil {

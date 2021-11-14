@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strToKebabCmd = &cobra.Command{
@@ -15,7 +15,7 @@ var strToKebabCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		fmt.Println(util.Str.ToKebab(args[0]))
 	},
 }

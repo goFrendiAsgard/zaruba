@@ -101,7 +101,7 @@ configs:
       _start: |
         {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
-        {{ if .IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
+        {{ if .Util.Bool.IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
         if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is already started{{ $d.Normal }}"

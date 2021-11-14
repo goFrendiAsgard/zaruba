@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var linesReplaceCmd = &cobra.Command{
@@ -29,7 +29,7 @@ var linesReplaceCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &replacements); err != nil {
 			replacements = []string{args[2]}
 		}
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		result, err := util.Str.ReplaceLineAtIndex(lines, index, replacements)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

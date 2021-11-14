@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -53,7 +53,7 @@ func getCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLog
 	return output.NewCSVRecordLogger(logFile)
 }
 
-func getProject(decoration *output.Decoration, projectFile string) (project *config.Project, err error) {
+func getProject(decoration *output.Decoration, projectFile string) (project *core.Project, err error) {
 	defaultIncludes := []string{"${ZARUBA_HOME}/core.zaruba.yaml"}
 	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
 		if script == "" {
@@ -61,5 +61,5 @@ func getProject(decoration *output.Decoration, projectFile string) (project *con
 		}
 		defaultIncludes = append(defaultIncludes, script)
 	}
-	return config.NewProject(decoration, projectFile, defaultIncludes)
+	return core.NewProject(decoration, projectFile, defaultIncludes)
 }

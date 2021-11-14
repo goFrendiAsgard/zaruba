@@ -6,6 +6,11 @@ configs:
       PULUMI_STACK='{{ .GetConfig "pulumiStack" }}'
       pulumi stack select "${PULUMI_STACK}" || pulumi stack init "${PULUMI_STACK}"
 
+  previewZtplDeploymentName:
+    start: |
+      {{ .GetConfig "pulumiSelectStack" }}
+      pulumi preview
+
   deployZtplDeploymentName:
     start: |
       {{ .GetConfig "pulumiSelectStack" }}

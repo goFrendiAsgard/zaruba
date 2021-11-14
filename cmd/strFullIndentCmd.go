@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/utility"
 )
 
 var strFullIndentCmd = &cobra.Command{
@@ -17,7 +17,7 @@ var strFullIndentCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
 		indentation := args[1]
-		util := utility.NewUtil()
+		util := core.NewUtil()
 		fmt.Println(util.Str.FullIndent(text, indentation))
 	},
 }

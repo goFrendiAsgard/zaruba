@@ -11,6 +11,17 @@ tasks:
     envRef: ztplDeploymentName
     syncEnvLocation: ztplAppTaskLocation
 
+  previewZtplDeploymentName:
+    icon: ztplDeploymentName
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    configRefs:
+      - previewZtplDeploymentName
+      - ztplDeploymentName
+    envRef: ztplDeploymentName
+    syncEnvLocation: ztplAppTaskLocation
+
   deployZtplDeploymentName:
     icon: ztplAppIcon
     extend: zrbRunShellScript

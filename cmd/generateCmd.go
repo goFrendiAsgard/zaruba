@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -22,7 +22,8 @@ var generateCmd = &cobra.Command{
 			exit(cmd, logger, decoration, err)
 		}
 		replacementMap := convertToMapString(rawReplacementMap)
-		if err := file.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {
+		util := core.NewUtil()
+		if err := util.File.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

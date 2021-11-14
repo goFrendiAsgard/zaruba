@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 	"gopkg.in/yaml.v3"
 )
@@ -18,7 +18,8 @@ var yamlReadCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
-		yamlScript, err := file.ReadText(fileName)
+		util := core.NewUtil()
+		yamlScript, err := util.File.ReadText(fileName)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

@@ -17,8 +17,8 @@
   CONFIG        : _finish                      : Blank
                   _generate                    : {{ .GetConfig "_generateBase" }}
                   _generateBase                : _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
-                  _initShell                   : {{ if .IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-                                                 {{ if .IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+                  _initShell                   : {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+                                                 {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
                   _integrate                   : if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
                                                  then
                                                    chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"

@@ -10,10 +10,7 @@ _registerTask() {
     __ZRB_MODULE_TASK_NAME="${3}"
     if [ "$("${ZARUBA_HOME}/zaruba" task isExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MODULE_TASK_NAME}")" = 1 ]
     then
-        if [ "$("${ZARUBA_HOME}/zaruba" task isExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}")" = 0 ]
-        then
-            "${ZARUBA_HOME}/zaruba" project addTask "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}"
-        fi
+        "${ZARUBA_HOME}/zaruba" project addTaskIfNotExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}"
         "${ZARUBA_HOME}/zaruba" task addDependency "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}" "[\"${__ZRB_MODULE_TASK_NAME}\"]"
     fi
 }

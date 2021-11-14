@@ -41,7 +41,7 @@ tasks:
       - '{{ .GetConfig "cmdArg" }}'
       - |
         {{- $d := .Decoration -}}
-        {{ if .IsFalse (.GetConfig "runInLocal") -}}
+        {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
           echo 🎉🎉🎉
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
           sleep infinity
@@ -61,7 +61,7 @@ tasks:
       - '{{ .GetConfig "cmdArg" }}'
       - |
         {{- $d := .Decoration -}}
-        {{ if .IsFalse (.GetConfig "runInLocal") -}}
+        {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
           echo 🎉🎉🎉
           echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
           exit 0

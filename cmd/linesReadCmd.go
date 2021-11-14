@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/file"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -17,7 +17,8 @@ var linesReadCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
-		list, err := file.ReadLines(fileName)
+		util := core.NewUtil()
+		list, err := util.File.ReadLines(fileName)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
