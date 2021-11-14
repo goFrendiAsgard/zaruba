@@ -1,0 +1,181 @@
+package explainer
+
+import (
+	"fmt"
+	"sort"
+	"strings"
+
+	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/strutil"
+)
+
+type TaskExplanationVariable struct {
+	DefaultValue string   `yaml:"Default Value"`
+	Description  string   `yaml:"Description"`
+	Prompt       string   `yaml:"Prompt"`
+	Secret       bool     `yaml:"Secret"`
+	Validation   string   `yaml:"Validation"`
+	Options      []string `yaml:"Options"`
+}
+
+type TaskExplanationEnv struct {
+	From    string
+	Default string
+}
+
+type TaskExplanation struct {
+	d               *output.Decoration
+	Name            string                             `yaml:"Name"`
+	FileLocation    string                             `yaml:"File Location"`
+	Location        string                             `yaml:"Location"`
+	ShouldSyncEnv   bool                               `yaml:"Should Sync Env"`
+	SyncEnvLocation string                             `yaml:"Sync Env Location"`
+	Type            string                             `yaml:"Type"`
+	Description     string                             `yaml:"Description"`
+	Extends         []string                           `yaml:"Extends"`
+	Dependencies    []string                           `yaml:"Dependencies"`
+	Start           []string                           `yaml:"Start"`
+	Check           []string                           `yaml:"Check"`
+	Inputs          map[string]TaskExplanationVariable `yaml:"Inputs"`
+	Configs         map[string]string                  `yaml:"Configs"`
+	Envs            map[string]TaskExplanationEnv      `yaml:"Envs"`
+}
+
+func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExplanation *TaskExplanation) {
+	// start, check,
+	startPattern, startExist, _ := task.GetStartCmdPatterns()
+	checkPattern, checkExist, _ := task.GetCheckCmdPatterns()
+	taskType := "wrapper"
+	if startExist && checkExist {
+		taskType = "service"
+	} else {
+		taskType = "command"
+	}
+	// inputs
+	inputNames := task.Inputs
+	taskInputs := map[string]TaskExplanationVariable{}
+	for _, inputName := range inputNames {
+		variable := task.Project.Inputs[inputName]
+		taskInputs[inputName] = TaskExplanationVariable{
+			DefaultValue: variable.DefaultValue,
+			Description:  variable.Description,
+			Prompt:       variable.Prompt,
+			Secret:       variable.Secret,
+			Validation:   variable.Validation,
+			Options:      variable.Options,
+		}
+	}
+	// configs
+	configKeys := task.GetConfigKeys()
+	sort.Strings(configKeys)
+	taskConfigs := map[string]string{}
+	for _, configKey := range configKeys {
+		configVal, _ := task.GetConfigPattern(configKey)
+		taskConfigs[configKey] = configVal
+	}
+	// envs
+	envKeys := task.GetEnvKeys()
+	sort.Strings(envKeys)
+	taskEnvs := map[string]TaskExplanationEnv{}
+	for _, envKey := range envKeys {
+		env, _ := task.GetEnvObject(envKey)
+		taskEnvs[envKey] = TaskExplanationEnv{
+			From:    env.From,
+			Default: env.Default,
+		}
+	}
+	// task explanation
+	return &TaskExplanation{
+		d:               decoration,
+		Name:            task.GetName(),
+		FileLocation:    task.GetFileLocation(),
+		Location:        task.GetLocation(),
+		ShouldSyncEnv:   task.ShouldSyncEnv(),
+		SyncEnvLocation: task.GetSyncEnvLocation(),
+		Type:            taskType,
+		Description:     task.Description,
+		Extends:         task.GetParentTaskNames(),
+		Dependencies:    task.GetDependencies(),
+		Start:           startPattern,
+		Check:           checkPattern,
+		Inputs:          taskInputs,
+		Configs:         taskConfigs,
+		Envs:            taskEnvs,
+	}
+}
+
+func (t *TaskExplanation) ToString() string {
+	strUtil := strutil.NewStrutil()
+	lines := []string{}
+	lines = append(lines, t.h1(strUtil.ToPascal(t.Name)))
+	lines = append(lines, t.prop("File Location", t.FileLocation))
+	lines = append(lines, t.prop("Location", t.Location))
+	lines = append(lines, t.prop("Should Sync Env", fmt.Sprintf("%t", t.ShouldSyncEnv)))
+	lines = append(lines, t.prop("Sync Env Location", t.SyncEnvLocation))
+	lines = append(lines, t.prop("Type", t.Type))
+	lines = append(lines, t.prop("Description", t.Description))
+	lines = append(lines, t.h2("Extends"))
+	lines = append(lines, t.ul(t.Extends))
+	lines = append(lines, t.h2("Dependencies"))
+	lines = append(lines, t.ul(t.Dependencies))
+	lines = append(lines, t.h2("Start"))
+	lines = append(lines, t.ul(t.Start))
+	lines = append(lines, t.h2("Check"))
+	lines = append(lines, t.ul(t.Check))
+	lines = append(lines, t.h2("Inputs"))
+	for inputName, variable := range t.Inputs {
+		lines = append(lines, t.h3(fmt.Sprintf("Inputs.%s", inputName)))
+		lines = append(lines, t.prop("Default Value", variable.DefaultValue))
+		lines = append(lines, t.prop("Description", variable.Description))
+		lines = append(lines, t.prop("Prompt", variable.Prompt))
+		lines = append(lines, t.prop("Secret", fmt.Sprintf("%t", variable.Secret)))
+		lines = append(lines, t.prop("Validation", variable.Validation))
+		lines = append(lines, t.prop("Options", strings.Join(variable.Options, "; ")))
+	}
+	lines = append(lines, t.h2("Configs"))
+	for configName, configValue := range t.Configs {
+		lines = append(lines, t.prop(configName, configValue))
+	}
+	lines = append(lines, t.h2("Envs"))
+	for envName, env := range t.Envs {
+		lines = append(lines, t.h3(fmt.Sprintf("Envs.%s", envName)))
+		lines = append(lines, t.prop("From", env.From))
+		lines = append(lines, t.prop("Default", env.Default))
+	}
+	return strings.Join(lines, "\n")
+}
+
+func (t *TaskExplanation) ul(items []string) string {
+	strUtil := strutil.NewStrutil()
+	lines := []string{}
+	for _, item := range items {
+		itemLines := strings.Split(item, "\n")
+		if len(itemLines) < 2 {
+			lines = append(lines, fmt.Sprintf("* `%s`", item))
+			continue
+		}
+		lines = append(lines, "*")
+		lines = append(lines, strUtil.FullIndent(fmt.Sprintf("```\n%s\n```", item), "    "))
+	}
+	return strings.Join(lines, "\n") + "\n"
+}
+
+func (t *TaskExplanation) h1(header string) string {
+	return fmt.Sprintf("\n%s%s# %s%s\n", t.d.Bold, t.d.Yellow, header, t.d.Normal)
+}
+
+func (t *TaskExplanation) h2(header string) string {
+	return fmt.Sprintf("\n%s%s## %s%s\n", t.d.Bold, t.d.Yellow, header, t.d.Normal)
+}
+
+func (t *TaskExplanation) h3(header string) string {
+	return fmt.Sprintf("\n%s%s### %s%s\n", t.d.Bold, t.d.Yellow, header, t.d.Normal)
+}
+
+func (t *TaskExplanation) prop(propertyName, value string) string {
+	caption := fmt.Sprintf("%s`%s%s%s%s%s%s`:%s", t.d.Faint, t.d.Normal, t.d.Bold, t.d.Blue, propertyName, t.d.Normal, t.d.Faint, t.d.Normal)
+	strUtil := strutil.NewStrutil()
+	multiLineValue := strUtil.FullIndent(fmt.Sprintf("\n%s\n", value), "    ")
+	return fmt.Sprintf("%s\n%s\n", caption, multiLineValue)
+}

@@ -17,9 +17,7 @@ do
         TASK_EXPLANATION=$(./zaruba str replace "${TASK_EXPLANATION}" "${REPLACEMENT_MAP}")
         TASK_EXPLANATION_LINES=$(./zaruba str split "${TASK_EXPLANATION}")
         DOCS="[]"
-        DOCS=$(./zaruba list append "[]" "# ${TASK_NAME}" "\`\`\`")
         DOCS=$(./zaruba list merge "${DOCS}" "${TASK_EXPLANATION_LINES}")
-        DOCS=$(./zaruba list append "${DOCS}" "\`\`\`")
         DOC_FILE="./docs/tasks/${TASK_NAME}.md"
         ./zaruba lines write "${DOC_FILE}" "${DOCS}"
     fi

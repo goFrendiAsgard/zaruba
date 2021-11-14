@@ -1,33 +1,139 @@
-# zrbRunPythonScript
-```
-  TASK NAME     : zrbRunPythonScript
-  LOCATION      : /zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
-  DESCRIPTION   : Run python script
-                  Common configs:
-                    start : Start script
-  TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunScript ]
-  START         : - {{ .GetConfig "cmd" }}
-                  - {{ .GetConfig "cmdArg" }}
-                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish     : Blank
-                  _setup      : Blank
-                  _start      : Blank
-                  afterStart  : Blank
-                  beforeStart : Blank
-                  cmd         : python
-                  cmdArg      : -c
-                  finish      : Blank
-                  setup       : Blank
-                  start       : print('hello world')
-  ENVIRONMENTS  : PYTHONUNBUFFERED
-                    FROM    : PYTHONUNBUFFERED
-                    DEFAULT : 1
-```
+
+# ZrbRunPythonScript
+
+`File Location`:
+
+    /zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    true
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+    Run python script
+    Common configs:
+      start : Start script
+
+
+
+
+## Extends
+
+* `zrbRunScript`
+
+
+## Dependencies
+
+
+
+
+## Start
+
+* `{{ .GetConfig "cmd" }}`
+* `{{ .GetConfig "cmdArg" }}`
+*
+    ```
+    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+
+    ```
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+`_start`:
+
+
+
+
+`beforeStart`:
+
+
+
+
+`finish`:
+
+
+
+
+`start`:
+
+    print('hello world')
+
+
+`_finish`:
+
+
+
+
+`afterStart`:
+
+
+
+
+`cmd`:
+
+    python
+
+
+`cmdArg`:
+
+    -c
+
+
+`setup`:
+
+
+
+
+`_setup`:
+
+
+
+
+
+## Envs
+
+
+### Envs.PYTHONUNBUFFERED
+
+`From`:
+
+    PYTHONUNBUFFERED
+
+
+`Default`:
+
+    1

@@ -1,7 +1,64 @@
-# addRedis
-```
-  TASK NAME     : addRedis
-  LOCATION      : /zaruba-tasks/make/redis/task.addRedis.yaml
-  TASK TYPE     : Wrapper Task
-  DEPENDENCIES  : [ makeRedisAppRunner ]
-```
+
+# AddRedis
+
+`File Location`:
+
+    /zaruba-tasks/make/redis/task.addRedis.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    false
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+
+
+
+
+## Extends
+
+
+
+
+## Dependencies
+
+* `makeRedisApp`
+* `makeRedisAppRunner`
+* `zrbIsProject`
+* `zrbShowAdv`
+
+
+## Start
+
+
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+
+## Envs

@@ -1,46 +1,170 @@
-# zrbCreateDockerNetwork
-```
-  TASK NAME     : zrbCreateDockerNetwork
-  LOCATION      : /zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
-  DESCRIPTION   : Create docker network.
-                  Common configs:
-                    network : Network name
-  TASK TYPE     : Command Task
-  PARENT TASKS  : [ zrbRunShellScript ]
-  START         : - {{ .GetConfig "cmd" }}
-                  - {{ .GetConfig "cmdArg" }}
-                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish          : Blank
-                  _initShell       : {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-                                     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-                  _setup           : {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-                  _start           : Blank
-                  afterStart       : Blank
-                  beforeStart      : Blank
-                  cmd              : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg           : -c
-                  finish           : Blank
-                  includeShellUtil : true
-                  network          : {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
-                  setup            : Blank
-                  start            : {{ $d := .Decoration -}}
-                                     set -e
-                                     if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
-                                     then
-                                       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
-                                     else
-                                       echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
-                                       docker network create "{{ .GetConfig "network" }}"
-                                     fi
-                  strictMode       : true
-  ENVIRONMENTS  : PYTHONUNBUFFERED
-                    FROM    : PYTHONUNBUFFERED
-                    DEFAULT : 1
-```
+
+# ZrbCreateDockerNetwork
+
+`File Location`:
+
+    /zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    true
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+    Create docker network.
+    Common configs:
+      network : Network name
+
+
+
+
+## Extends
+
+* `zrbRunShellScript`
+
+
+## Dependencies
+
+
+
+
+## Start
+
+* `{{ .GetConfig "cmd" }}`
+* `{{ .GetConfig "cmdArg" }}`
+*
+    ```
+    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+
+    ```
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+`network`:
+
+    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
+
+
+`strictMode`:
+
+    true
+
+
+`_finish`:
+
+
+
+
+`_initShell`:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+`_start`:
+
+
+
+
+`afterStart`:
+
+
+
+
+`finish`:
+
+
+
+
+`_setup`:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+`beforeStart`:
+
+
+
+
+`cmd`:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+`setup`:
+
+
+
+
+`cmdArg`:
+
+    -c
+
+
+`includeShellUtil`:
+
+    true
+
+
+`start`:
+
+    {{ $d := .Decoration -}}
+    set -e
+    if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
+    then
+      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
+    else
+      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
+      docker network create "{{ .GetConfig "network" }}"
+    fi
+
+
+
+
+## Envs
+
+
+### Envs.PYTHONUNBUFFERED
+
+`From`:
+
+    PYTHONUNBUFFERED
+
+
+`Default`:
+
+    1

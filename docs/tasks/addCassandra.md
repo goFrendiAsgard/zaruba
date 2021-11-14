@@ -1,7 +1,64 @@
-# addCassandra
-```
-  TASK NAME     : addCassandra
-  LOCATION      : /zaruba-tasks/make/cassandra/task.addCassandra.yaml
-  TASK TYPE     : Wrapper Task
-  DEPENDENCIES  : [ makeCassandraAppRunner ]
-```
+
+# AddCassandra
+
+`File Location`:
+
+    /zaruba-tasks/make/cassandra/task.addCassandra.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    false
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+
+
+
+
+## Extends
+
+
+
+
+## Dependencies
+
+* `makeCassandraApp`
+* `makeCassandraAppRunner`
+* `zrbIsProject`
+* `zrbShowAdv`
+
+
+## Start
+
+
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+
+## Envs

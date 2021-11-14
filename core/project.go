@@ -421,7 +421,7 @@ func (p *Project) isTaskRecursive(task *Task, previousTaskNames []string) (isRec
 			return true, recursiveTaskName
 		}
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		subTask := p.Tasks[parentTaskName]
 		if isRecursive, recursiveTaskName := p.isTaskRecursive(subTask, previousTaskNames); isRecursive {
 			return true, recursiveTaskName

@@ -1,7 +1,64 @@
-# addSimplePythonApp
-```
-  TASK NAME     : addSimplePythonApp
-  LOCATION      : /zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
-  TASK TYPE     : Wrapper Task
-  DEPENDENCIES  : [ makeSimplePythonAppRunner ]
-```
+
+# AddSimplePythonApp
+
+`File Location`:
+
+    /zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    false
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+
+
+
+
+## Extends
+
+
+
+
+## Dependencies
+
+* `makeSimplePythonApp`
+* `makeSimplePythonAppRunner`
+* `zrbIsProject`
+* `zrbShowAdv`
+
+
+## Start
+
+
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+
+## Envs

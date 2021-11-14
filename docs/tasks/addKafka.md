@@ -1,7 +1,64 @@
-# addKafka
-```
-  TASK NAME     : addKafka
-  LOCATION      : /zaruba-tasks/make/kafka/task.addKafka.yaml
-  TASK TYPE     : Wrapper Task
-  DEPENDENCIES  : [ makeKafkaAppRunner ]
-```
+
+# AddKafka
+
+`File Location`:
+
+    /zaruba-tasks/make/kafka/task.addKafka.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    false
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+
+
+
+
+## Extends
+
+
+
+
+## Dependencies
+
+* `makeKafkaApp`
+* `makeKafkaAppRunner`
+* `zrbIsProject`
+* `zrbShowAdv`
+
+
+## Start
+
+
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+
+## Envs

@@ -86,7 +86,7 @@ func (task *Task) GetLocation() (path string) {
 	if task.Location != "" {
 		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
 	}
-	parentTaskNames := task.getParentTaskNames()
+	parentTaskNames := task.GetParentTaskNames()
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
@@ -102,7 +102,7 @@ func (task *Task) GetSaveLog() bool {
 	if task.Project.Util.Bool.IsFalse(task.SaveLog) {
 		return false
 	}
-	parentTaskNames := task.getParentTaskNames()
+	parentTaskNames := task.GetParentTaskNames()
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
@@ -120,7 +120,7 @@ func (task *Task) ShouldSyncEnv() bool {
 	if task.Project.Util.Bool.IsTrue(task.SyncEnv) {
 		return true
 	}
-	parentTaskNames := task.getParentTaskNames()
+	parentTaskNames := task.GetParentTaskNames()
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
@@ -135,7 +135,7 @@ func (task *Task) GetSyncEnvLocation() (path string) {
 	if task.SyncEnvLocation != "" {
 		return filepath.Join(filepath.Dir(task.fileLocation), task.SyncEnvLocation)
 	}
-	parentTaskNames := task.getParentTaskNames()
+	parentTaskNames := task.GetParentTaskNames()
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
@@ -164,7 +164,7 @@ func (task *Task) GetAutoTerminate() (autoTerminate bool) {
 	if task.Project.Util.Bool.IsFalse(task.AutoTerminate) {
 		return false
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		if parentTask.GetAutoTerminate() {
 			return true
@@ -178,7 +178,7 @@ func (task *Task) HaveStartCmd() bool {
 	if len(task.Start) > 0 {
 		return true
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		if parentTask.HaveStartCmd() {
 			return true
@@ -192,7 +192,7 @@ func (task *Task) HaveCheckCmd() bool {
 	if len(task.Check) > 0 {
 		return true
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		if parentTask.HaveCheckCmd() {
 			return true
@@ -240,7 +240,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 			keys = append(keys, key)
 		}
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		parentKeys := parentTask.GetConfigKeys()
 		keys = append(keys, parentKeys...)
@@ -258,7 +258,7 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 			return pattern, true
 		}
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		if pattern, declared = parentTask.GetConfigPattern(key); declared {
 			return pattern, true
@@ -303,7 +303,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 			keys = append(keys, key)
 		}
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		parentKeys := parentTask.GetEnvKeys()
 		keys = append(keys, parentKeys...)
@@ -321,7 +321,7 @@ func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
 			return &Env{From: envObject.From, Default: envObject.Default}, true
 		}
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		if env, declared = parentTask.GetEnvObject(key); declared {
 			return env, true
@@ -350,7 +350,7 @@ func (task *Task) GetFirstConfigRefName() (configRefName string) {
 	return ""
 }
 
-func (task *Task) getParentTaskNames() (parentTaskNames []string) {
+func (task *Task) GetParentTaskNames() (parentTaskNames []string) {
 	if task.Extend != "" {
 		return []string{task.Extend}
 	}
@@ -461,7 +461,7 @@ func (task *Task) getDependencies() (dependencies []string) {
 			}
 		}
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		subDependencies := task.Project.Tasks[parentTaskName].getDependencies()
 		for _, subDependency := range subDependencies {
 			if !seen[subDependency] {
@@ -487,7 +487,7 @@ func (task *Task) GetStartCmdPatterns() (cmdPatterns []string, exist bool, err e
 	if len(task.Start) > 0 {
 		return task.Start, true, nil
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		cmdPatterns, exist, err = parentTask.GetStartCmdPatterns()
 		if err != nil || exist {
@@ -511,7 +511,7 @@ func (task *Task) GetCheckCmdPatterns() (cmdPatterns []string, exist bool, err e
 	if len(task.Check) > 0 {
 		return task.Check, true, nil
 	}
-	for _, parentTaskName := range task.getParentTaskNames() {
+	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
 		cmdPatterns, exist, err = parentTask.GetCheckCmdPatterns()
 		if err != nil || exist {

@@ -1,7 +1,64 @@
-# addEks
-```
-  TASK NAME     : addEks
-  LOCATION      : /zaruba-tasks/make/eks/task.addEks.yaml
-  TASK TYPE     : Wrapper Task
-  DEPENDENCIES  : [ makeEksDeploymentTask ]
-```
+
+# AddEks
+
+`File Location`:
+
+    /zaruba-tasks/make/eks/task.addEks.yaml
+
+
+`Location`:
+
+
+
+
+`Should Sync Env`:
+
+    false
+
+
+`Sync Env Location`:
+
+
+
+
+`Type`:
+
+    command
+
+
+`Description`:
+
+
+
+
+
+## Extends
+
+
+
+
+## Dependencies
+
+* `makeEksDeployment`
+* `makeEksDeploymentTask`
+* `zrbIsProject`
+* `zrbShowAdv`
+
+
+## Start
+
+
+
+
+## Check
+
+
+
+
+## Inputs
+
+
+## Configs
+
+
+## Envs
