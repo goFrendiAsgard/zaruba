@@ -1,32 +1,32 @@
 
 # ZrbIsValidSubrepos
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 
@@ -70,42 +70,42 @@
 
 ## Configs
 
-`_finish`:
+
+### Configs.beforeStart
+
+Value:
 
 
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.cmdArg
 
-
-`cmdArg`:
+Value:
 
     -c
 
 
-`finish`:
+
+### Configs.finish
+
+Value:
 
 
 
 
-`cmd`:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.setup
 
-
-`includeShellUtil`:
-
-    true
-
-
-`setup`:
+Value:
 
 
 
 
-`start`:
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     {{ $names := .GetSubValueKeys "subrepo" -}}
@@ -128,31 +128,70 @@
     echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
 
 
-`_initShell`:
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_start`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
 
 
 
 
-`afterStart`:
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.cmd
 
+Value:
 
-
-`strictMode`:
-
-    true
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 
@@ -161,11 +200,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

@@ -1,32 +1,32 @@
 
 # ZrbRunNodeJsScript
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Run Node.Js script
     Common configs:
@@ -73,52 +73,82 @@
 
 ## Configs
 
-`_setup`:
+
+### Configs.finish
+
+Value:
 
 
 
 
-`_start`:
+
+### Configs.setup
+
+Value:
 
 
 
 
-`cmd`:
 
-    node
+### Configs.start
 
-
-`cmdArg`:
-
-    -p
-
-
-`finish`:
-
-
-
-
-`_finish`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`setup`:
-
-
-
-
-`start`:
+Value:
 
     console.log('hello world')
 
 
-`afterStart`:
+
+### Configs._setup
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -p
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    node
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
 
 
 
@@ -129,11 +159,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

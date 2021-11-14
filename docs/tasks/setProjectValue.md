@@ -1,32 +1,32 @@
 
 # SetProjectValue
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/value/task.setProjectValue.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Set project value.
 
@@ -70,32 +70,32 @@
 
 ### Inputs.variableName
 
-`Default Value`:
+Default Value:
 
 
 
 
-`Description`:
+Description:
 
     Variable name (Required)
 
 
-`Prompt`:
+Prompt:
 
     Name
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
     ^.+$
 
 
-`Options`:
+Options:
 
 
 
@@ -103,32 +103,32 @@
 
 ### Inputs.variableValue
 
-`Default Value`:
+Default Value:
 
 
 
 
-`Description`:
+Description:
 
     Variable value (Required)
 
 
-`Prompt`:
+Prompt:
 
     Value
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
     ^.+$
 
 
-`Options`:
+Options:
 
 
 
@@ -136,59 +136,44 @@
 
 ## Configs
 
-`variableValue`:
 
-    {{ .GetValue "variableValue" }}
+### Configs._finish
 
-
-`strictMode`:
-
-    true
+Value:
 
 
-`_initShell`:
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`beforeStart`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
 
 
 
 
-`setup`:
 
+### Configs.start
 
-
-
-`cmdArg`:
-
-    -c
-
-
-`_finish`:
-
-
-
-
-`afterStart`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`includeShellUtil`:
-
-    true
-
-
-`start`:
+Value:
 
     {{ $d := .Decoration -}}
     "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
@@ -197,24 +182,84 @@
 
 
 
-`variableName`:
+
+### Configs.variableName
+
+Value:
 
     {{ .GetValue "variableName" }}
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.variableValue
 
+Value:
 
-`_start`:
-
-
+    {{ .GetValue "variableValue" }}
 
 
-`finish`:
+
+### Configs.beforeStart
+
+Value:
 
 
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 
@@ -223,11 +268,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

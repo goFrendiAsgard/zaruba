@@ -1,32 +1,32 @@
 
 # ZrbPushDockerImage
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbPushDockerImage.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Push docker image.
     Common configs:
@@ -73,69 +73,132 @@
 
 ## Configs
 
-`afterStart`:
 
+### Configs._initShell
 
-
-
-`imageName`:
-
-
-
-
-`includeShellUtil`:
-
-    true
-
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`_start`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`finish`:
-
-
-
-
-`imagePrefix`:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-`imageTag`:
-
-
-
-
-`strictMode`:
-
-    true
-
-
-`_finish`:
-
-
-
-
-`_initShell`:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`start`:
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.imageName
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.imageTag
+
+Value:
+
+
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
@@ -151,24 +214,12 @@
 
 
 
-`useImagePrefix`:
+
+### Configs.useImagePrefix
+
+Value:
 
     true
-
-
-`setup`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`cmdArg`:
-
-    -c
 
 
 
@@ -177,11 +228,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

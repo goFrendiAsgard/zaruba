@@ -1,32 +1,32 @@
 
 # AddSubrepo
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Add subrepository.
     TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
@@ -70,67 +70,34 @@
 ## Inputs
 
 
-### Inputs.subrepoUrl
-
-`Default Value`:
-
-
-
-
-`Description`:
-
-    Subrepo url (Required)
-
-
-`Prompt`:
-
-    Subrepo url
-
-
-`Secret`:
-
-    false
-
-
-`Validation`:
-
-    ^.+$
-
-
-`Options`:
-
-
-
-
-
 ### Inputs.subrepoPrefix
 
-`Default Value`:
+Default Value:
 
 
 
 
-`Description`:
+Description:
 
     Subrepo directory name (Can be blank)
 
 
-`Prompt`:
+Prompt:
 
     Subrepo directory name
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
 
 
 
-`Options`:
+Options:
 
 
 
@@ -138,32 +105,65 @@
 
 ### Inputs.subrepoName
 
-`Default Value`:
+Default Value:
 
 
 
 
-`Description`:
+Description:
 
     Subrepo name (Can be blank)
 
 
-`Prompt`:
+Prompt:
 
     Subrepo name
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
 
 
 
-`Options`:
+Options:
+
+
+
+
+
+### Inputs.subrepoUrl
+
+Default Value:
+
+
+
+
+Description:
+
+    Subrepo url (Required)
+
+
+Prompt:
+
+    Subrepo url
+
+
+Secret:
+
+    false
+
+
+Validation:
+
+    ^.+$
+
+
+Options:
 
 
 
@@ -171,32 +171,124 @@
 
 ## Configs
 
-`_start`:
 
+### Configs.subrepoName
 
-
-
-`subrepoName`:
+Value:
 
     {{ .GetValue "subrepoName" }}
 
 
-`subrepoPrefix`:
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.subrepoPrefix
+
+Value:
 
     {{ .GetValue "subrepoPrefix" }}
 
 
-`_finish`:
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.finish
+
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.start
 
-
-
-`start`:
+Value:
 
     set -e
     {{ $d := .Decoration -}}
@@ -223,56 +315,12 @@
 
 
 
-`subrepoUrl`:
+
+### Configs.subrepoUrl
+
+Value:
 
     {{ .GetValue "subrepoUrl" }}
-
-
-`_initShell`:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-`cmdArg`:
-
-    -c
-
-
-`finish`:
-
-
-
-
-`includeShellUtil`:
-
-    true
-
-
-`strictMode`:
-
-    true
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`afterStart`:
-
-
-
-
-`setup`:
-
-
-
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 
@@ -281,11 +329,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

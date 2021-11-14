@@ -1,32 +1,32 @@
 
 # ZrbPullDockerImage
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Pull docker image.
     Common configs:
@@ -73,29 +73,92 @@
 
 ## Configs
 
-`setup`:
+
+### Configs._start
+
+Value:
 
 
 
 
-`_initShell`:
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.useImagePrefix
+
+Value:
+
+    true
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`imageTag`:
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.imageName
+
+Value:
 
 
 
 
-`includeShellUtil`:
 
-    true
+### Configs.imageTag
+
+Value:
 
 
-`start`:
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
@@ -111,64 +174,52 @@
 
 
 
-`cmdArg`:
 
-    -c
+### Configs._finish
 
-
-`finish`:
+Value:
 
 
 
 
-`imagePrefix`:
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.imagePrefix
+
+Value:
 
     {{ .GetValue "defaultImagePrefix" }}
 
 
-`_setup`:
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs._setup
+
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`strictMode`:
-
-    true
-
-
-`beforeStart`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`imageName`:
-
-
-
-
-`useImagePrefix`:
-
-    true
-
-
-`_finish`:
-
-
-
-
-`_start`:
-
-
-
-
-`afterStart`:
-
-
 
 
 
@@ -177,11 +228,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

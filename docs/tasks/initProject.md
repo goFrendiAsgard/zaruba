@@ -1,32 +1,32 @@
 
 # InitProject
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/initProject/task.initProject.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Initiate empty zaruba project.
 
@@ -71,34 +71,58 @@
 
 ## Configs
 
-`_initShell`:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs._setup
 
+Value:
 
-
-`_start`:
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 
+### Configs._start
 
-`beforeStart`:
-
-
-
-
-`finish`:
+Value:
 
 
 
 
-`setup`:
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.finish
+
+Value:
 
 
 
 
-`start`:
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     if [ -f "index.zaruba.yaml" ]
@@ -114,39 +138,54 @@
 
 
 
-`_finish`:
+
+### Configs._finish
+
+Value:
 
 
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.strictMode
 
+Value:
 
-`afterStart`:
-
-
+    true
 
 
-`cmd`:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.afterStart
+
+Value:
 
 
-`cmdArg`:
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
 
     -c
 
 
-`includeShellUtil`:
 
-    true
+### Configs._initShell
 
+Value:
 
-`strictMode`:
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
-    true
 
 
 
@@ -155,11 +194,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

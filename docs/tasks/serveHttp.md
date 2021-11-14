@@ -1,32 +1,32 @@
 
 # ServeHttp
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     service
 
 
-`Description`:
+Description:
 
     Run static web server from your working directory.
 
@@ -81,32 +81,32 @@
 
 ### Inputs.serverHttpPort
 
-`Default Value`:
+Default Value:
 
     8080
 
 
-`Description`:
+Description:
 
     HTTP port to serve static files
 
 
-`Prompt`:
+Prompt:
 
     HTTP port
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
     ^[0-9]+$
 
 
-`Options`:
+Options:
 
     8080; 8000; 3000; 5000
 
@@ -114,12 +114,82 @@
 
 ## Configs
 
-`beforeStart`:
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`check`:
+
+### Configs.beforeCheck
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.start
+
+Value:
+
+
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.check
+
+Value:
 
     {{- $d := .Decoration -}}
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
@@ -132,84 +202,68 @@
 
 
 
-`cmd`:
+
+### Configs.cmd
+
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`start`:
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 
+### Configs.ports
 
-`_initShell`:
+Value:
+
+    {{ .GetValue "serverHttpPort" }}
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_setup`:
+
+### Configs._setup
+
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-`cmdArg`:
 
-    -c
+### Configs.afterCheck
 
-
-`runInLocal`:
-
-    true
-
-
-`strictMode`:
-
-    true
-
-
-`_finish`:
+Value:
 
 
 
 
-`afterCheck`:
 
+### Configs.runInLocal
 
-
-
-`afterStart`:
-
-
-
-
-`beforeCheck`:
-
-
-
-
-`includeShellUtil`:
+Value:
 
     true
 
 
-`ports`:
 
-    {{ .GetValue "serverHttpPort" }}
+### Configs.setup
 
-
-`setup`:
-
-
-
-
-`_start`:
-
-
-
-
-`finish`:
+Value:
 
 
 
@@ -220,11 +274,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

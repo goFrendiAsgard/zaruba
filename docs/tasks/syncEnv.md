@@ -1,32 +1,32 @@
 
 # SyncEnv
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/task.syncEnv.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Update environment of every task in the current project 
 
@@ -71,64 +71,10 @@
 
 ## Configs
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.start
 
-
-`_start`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`includeShellUtil`:
-
-    true
-
-
-`setup`:
-
-
-
-
-`strictMode`:
-
-    true
-
-
-`_initShell`:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-`afterStart`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`cmdArg`:
-
-    -c
-
-
-`finish`:
-
-
-
-
-`start`:
+Value:
 
     {{ $d := .Decoration -}}
     "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
@@ -138,9 +84,102 @@
 
 
 
-`_finish`:
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 
@@ -149,11 +188,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

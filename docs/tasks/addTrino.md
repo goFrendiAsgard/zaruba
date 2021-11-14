@@ -1,32 +1,32 @@
 
 # AddTrino
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/make/trino/task.addTrino.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     false
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 

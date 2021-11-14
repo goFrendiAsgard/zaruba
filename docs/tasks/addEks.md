@@ -1,32 +1,32 @@
 
 # AddEks
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/make/eks/task.addEks.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     false
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 

@@ -1,32 +1,32 @@
 
 # AddProjectLink
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/link/task.addProjectLink.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Add link.
     TIPS: To update links, you should perform `zaruba please updateProjectLinks`
@@ -72,32 +72,32 @@
 
 ### Inputs.linkFrom
 
-`Default Value`:
+Default Value:
 
 
 
 
-`Description`:
+Description:
 
     Link source (Required)
 
 
-`Prompt`:
+Prompt:
 
     Source
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
     ^.+$
 
 
-`Options`:
+Options:
 
 
 
@@ -105,32 +105,32 @@
 
 ### Inputs.linkTo
 
-`Default Value`:
+Default Value:
 
 
 
 
-`Description`:
+Description:
 
     Link destination (Required)
 
 
-`Prompt`:
+Prompt:
 
     Destination
 
 
-`Secret`:
+Secret:
 
     false
 
 
-`Validation`:
+Validation:
 
     ^.+$
 
 
-`Options`:
+Options:
 
 
 
@@ -138,39 +138,52 @@
 
 ## Configs
 
-`_initShell`:
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.linkTo
+
+Value:
+
+    {{ .GetValue "linkTo" }}
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_start`:
+
+### Configs.finish
+
+Value:
 
 
 
 
-`cmdArg`:
 
-    -c
+### Configs.start
 
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`afterStart`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`start`:
+Value:
 
     {{ $d := .Decoration -}}
     "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
@@ -179,44 +192,76 @@
 
 
 
-`finish`:
+
+### Configs._finish
+
+Value:
 
 
 
 
-`linkFrom`:
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.linkFrom
+
+Value:
 
     {{ .GetValue "linkFrom" }}
 
 
-`strictMode`:
 
-    true
+### Configs.afterStart
 
-
-`_finish`:
+Value:
 
 
 
 
-`cmd`:
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`includeShellUtil`:
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
 
     true
 
 
-`linkTo`:
 
-    {{ .GetValue "linkTo" }}
+### Configs._setup
 
+Value:
 
-`setup`:
-
-
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 
@@ -225,11 +270,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

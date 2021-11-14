@@ -1,32 +1,32 @@
 
 # ShowVersion
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/task.showVersion.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Show zaruba's current version.
 
@@ -71,73 +71,112 @@
 
 ## Configs
 
-`afterStart`:
+
+### Configs._finish
+
+Value:
 
 
 
 
-`cmdArg`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
 
     -c
 
 
-`includeShellUtil`:
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    cd "{{ .ZarubaHome }}"
+    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+
+
+
+### Configs.strictMode
+
+Value:
 
     true
 
 
-`strictMode`:
 
-    true
+### Configs._initShell
 
-
-`finish`:
-
-
-
-
-`setup`:
-
-
-
-
-`_finish`:
-
-
-
-
-`_initShell`:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.afterStart
 
-
-`_start`:
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.cmd
 
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`start`:
 
-    {{ $d := .Decoration -}}
-    cd "{{ .ZarubaHome }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
+
+
 
 
 
@@ -146,11 +185,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

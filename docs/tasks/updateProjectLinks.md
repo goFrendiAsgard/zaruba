@@ -1,32 +1,32 @@
 
 # UpdateProjectLinks
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/link/task.updateProjectLinks.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Update "links" in your project. Very useful if you have multiple apps sharing some parts of code
     USAGE:
@@ -80,49 +80,82 @@
 
 ## Configs
 
-`_start`:
 
+### Configs.cmdArg
 
-
-
-`afterStart`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`cmdArg`:
+Value:
 
     -c
 
 
-`finish`:
+
+### Configs.finish
+
+Value:
 
 
 
 
-`_finish`:
+
+### Configs.setup
+
+Value:
 
 
 
 
-`_initShell`:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs.strictMode
 
+Value:
 
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    true
 
 
-`start`:
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     {{ $this := . -}}
@@ -138,24 +171,30 @@
 
 
 
-`strictMode`:
 
-    true
+### Configs._finish
 
-
-`beforeStart`:
+Value:
 
 
 
 
-`includeShellUtil`:
 
-    true
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
-`setup`:
 
 
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 
@@ -164,11 +203,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

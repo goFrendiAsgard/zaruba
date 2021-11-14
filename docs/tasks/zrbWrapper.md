@@ -1,32 +1,32 @@
 
 # ZrbWrapper
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 
@@ -70,74 +70,116 @@
 
 ## Configs
 
-`_initShell`:
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
+
+    {{ .GetConfig "playBell" }}
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_start`:
 
+### Configs.cmd
 
-
-
-`afterStart`:
-
-
-
-
-`playBell`:
-
-    echo $'\a'
-
-
-`start`:
-
-    {{ .GetConfig "playBell" }}
-
-
-`strictMode`:
-
-    true
-
-
-`_finish`:
-
-
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`setup`:
+
+### Configs.beforeStart
+
+Value:
 
 
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.cmdArg
 
-
-`beforeStart`:
-
-
-
-
-`cmdArg`:
+Value:
 
     -c
 
 
-`finish`:
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
 
 
 
 
-`includeShellUtil`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs.playBell
+
+Value:
+
+    echo $'\a'
+
+
+
+### Configs.strictMode
+
+Value:
 
     true
 
@@ -148,11 +190,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

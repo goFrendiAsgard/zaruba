@@ -135,7 +135,8 @@ func (t *TaskExplanation) ToString() string {
 	}
 	lines = append(lines, t.h2("Configs"))
 	for configName, configValue := range t.Configs {
-		lines = append(lines, t.prop(configName, configValue))
+		lines = append(lines, t.h3(fmt.Sprintf("Configs.%s", configName)))
+		lines = append(lines, t.prop("Value", configValue))
 	}
 	lines = append(lines, t.h2("Envs"))
 	for envName, env := range t.Envs {
@@ -174,7 +175,7 @@ func (t *TaskExplanation) h3(header string) string {
 }
 
 func (t *TaskExplanation) prop(propertyName, value string) string {
-	caption := fmt.Sprintf("%s`%s%s%s%s%s%s`:%s", t.d.Faint, t.d.Normal, t.d.Bold, t.d.Blue, propertyName, t.d.Normal, t.d.Faint, t.d.Normal)
+	caption := fmt.Sprintf("%s%s%s%s:", t.d.Bold, t.d.Blue, propertyName, t.d.Normal)
 	strUtil := strutil.NewStrutil()
 	multiLineValue := strUtil.FullIndent(fmt.Sprintf("\n%s\n", value), "    ")
 	return fmt.Sprintf("%s\n%s\n", caption, multiLineValue)

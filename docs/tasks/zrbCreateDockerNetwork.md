@@ -1,32 +1,32 @@
 
 # ZrbCreateDockerNetwork
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Create docker network.
     Common configs:
@@ -73,74 +73,74 @@
 
 ## Configs
 
-`network`:
 
-    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
+### Configs.includeShellUtil
 
-
-`strictMode`:
+Value:
 
     true
 
 
-`_finish`:
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`_initShell`:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs.cmd
 
-
-
-`_start`:
-
-
-
-
-`afterStart`:
-
-
-
-
-`finish`:
-
-
-
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`beforeStart`:
-
-
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`setup`:
 
+### Configs.cmdArg
 
-
-
-`cmdArg`:
+Value:
 
     -c
 
 
-`includeShellUtil`:
 
-    true
+### Configs.beforeStart
+
+Value:
 
 
-`start`:
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.network
+
+Value:
+
+    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     set -e
@@ -155,16 +155,58 @@
 
 
 
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
 ## Envs
 
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

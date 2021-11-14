@@ -1,32 +1,32 @@
 
 # ZrbGenerateAndRun
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Generate script and run it
 
@@ -70,94 +70,10 @@
 
 ## Configs
 
-`_prepareReplacementMap`:
 
+### Configs.afterStart
 
-
-
-`_validate`:
-
-
-
-
-`runGeneratedScript`:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
-
-
-`start`:
-
-
-
-
-`_prepareBaseVariables`:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
-
-
-`_initShell`:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-`_prepareBaseReplacementMap`:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
-
-
-`beforeStart`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`script`:
-
-    {{ .GetValue "script" }}
-
-
-`setup`:
-
-
-
-
-`sql`:
-
-    {{ .GetValue "sql" }}
-
-
-`_finish`:
-
-
-
-
-`strictMode`:
-
-    true
-
-
-`cmdArg`:
-
-    -c
-
-
-`finish`:
-
-
-
-
-`includeShellUtil`:
-
-    true
-
-
-`afterStart`:
+Value:
 
     {{ $d := .Decoration -}}
     echo 🎉🎉🎉
@@ -165,12 +81,88 @@
 
 
 
-`_setup`:
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs._prepareVariables
+
+Value:
+
+
+
+
+
+### Configs._setup
+
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-`_start`:
+
+### Configs._validateTemplateLocation
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      exit 1
+    fi
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.generatedScriptLocation
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+
+
+
+### Configs.runGeneratedScript
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
+
+
+
+### Configs.script
+
+Value:
+
+    {{ .GetValue "script" }}
+
+
+
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+
+
+
+### Configs._start
+
+Value:
 
     {{ $d := .Decoration -}}
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
@@ -208,28 +200,108 @@
 
 
 
-`_validateTemplateLocation`:
 
-    {{ $d := .Decoration -}}
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
-      exit 1
-    fi
+### Configs._validate
+
+Value:
 
 
 
-`generatedScriptLocation`:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
-`templateLocation`:
+### Configs._prepareReplacementMap
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.start
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+
+### Configs._prepareBaseReplacementMap
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+
+
+
+### Configs.sql
+
+Value:
+
+    {{ .GetValue "sql" }}
+
+
+
+### Configs.templateLocation
+
+Value:
 
     {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
-`_prepareVariables`:
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.setup
+
+Value:
 
 
 
@@ -240,11 +312,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

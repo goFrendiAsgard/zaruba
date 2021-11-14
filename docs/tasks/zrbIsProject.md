@@ -1,32 +1,32 @@
 
 # ZrbIsProject
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/validation/task.zrbIsProject.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 
@@ -70,34 +70,84 @@
 
 ## Configs
 
-`_finish`:
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`_initShell`:
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs._start
 
-
-`afterStart`:
+Value:
 
 
 
 
-`strictMode`:
 
-    true
+### Configs.finish
+
+Value:
 
 
-`start`:
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     if [ ! -f "index.zaruba.yaml" ]
@@ -108,39 +158,28 @@
 
 
 
-`_start`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs.beforeStart
+
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.cmd
 
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`cmdArg`:
-
-    -c
-
-
-`finish`:
-
-
-
-
-`includeShellUtil`:
-
-    true
-
-
-`setup`:
-
-
 
 
 
@@ -149,11 +188,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

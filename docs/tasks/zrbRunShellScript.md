@@ -1,32 +1,32 @@
 
 # ZrbRunShellScript
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/run/task.zrbRunShellScript.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Run shell script
     Common configs:
@@ -73,71 +73,110 @@
 
 ## Configs
 
-`_finish`:
+
+### Configs.finish
+
+Value:
 
 
 
 
-`_initShell`:
+
+### Configs.start
+
+Value:
+
+    echo hello world
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_setup`:
+
+### Configs._setup
+
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-`_start`:
 
+### Configs.cmdArg
 
-
-
-`afterStart`:
-
-
-
-
-`cmdArg`:
+Value:
 
     -c
 
 
-`finish`:
 
+### Configs.includeShellUtil
 
-
-
-`includeShellUtil`:
+Value:
 
     true
 
 
-`start`:
 
-    echo hello world
+### Configs.setup
 
-
-`strictMode`:
-
-    true
-
-
-`beforeStart`:
+Value:
 
 
 
 
-`cmd`:
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`setup`:
-
-
 
 
 
@@ -146,11 +185,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

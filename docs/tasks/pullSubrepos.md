@@ -1,32 +1,32 @@
 
 # PullSubrepos
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Pull subrepositories.
     ARGUMENTS:
@@ -76,32 +76,100 @@
 
 ## Configs
 
-`_setup`:
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+
+### Configs._setup
+
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-`_start`:
+
+### Configs._start
+
+Value:
 
 
 
 
-`finish`:
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`includeShellUtil`:
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
 
     true
 
 
-`setup`:
+
+### Configs._finish
+
+Value:
 
 
 
 
-`start`:
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
 
     set -e
     {{ $d := .Decoration -}}
@@ -125,41 +193,12 @@
 
 
 
-`_initShell`:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs.strictMode
 
-
-
-`afterStart`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`cmdArg`:
-
-    -c
-
-
-`strictMode`:
+Value:
 
     true
-
-
-`_finish`:
-
-
 
 
 
@@ -168,11 +207,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

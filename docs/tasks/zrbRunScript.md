@@ -1,32 +1,32 @@
 
 # ZrbRunScript
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/run/task.zrbRunScript.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Run script.
     Common configs:
@@ -79,52 +79,82 @@
 
 ## Configs
 
-`afterStart`:
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`cmdArg`:
 
-    -c
+### Configs.beforeStart
 
-
-`finish`:
+Value:
 
 
 
 
-`setup`:
 
+### Configs.cmd
 
-
-
-`_start`:
-
-
-
-
-`_setup`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`start`:
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.finish
+
+Value:
 
 
 
 
-`_finish`:
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
+
+
+
+
+
+### Configs._setup
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs._finish
+
+Value:
 
 
 
@@ -135,11 +165,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

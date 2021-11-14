@@ -1,32 +1,32 @@
 
 # ZrbStartApp
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/start/task.zrbStartApp.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     service
 
 
-`Description`:
+Description:
 
     Start service and check it's readiness.
     Common configs:
@@ -109,84 +109,42 @@
 
 ## Configs
 
-`afterCheck`:
+
+### Configs.setup
+
+Value:
 
 
 
 
-`cmdArg`:
 
-    -c
+### Configs._finish
 
-
-`ports`:
+Value:
 
 
 
 
-`strictMode`:
 
-    true
+### Configs.afterCheck
 
-
-`_finish`:
+Value:
 
 
 
 
-`cmd`:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.afterStart
 
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`_start`:
+Value:
 
 
 
 
-`afterStart`:
 
+### Configs.check
 
-
-
-`finish`:
-
-
-
-
-`includeShellUtil`:
-
-    true
-
-
-`runInLocal`:
-
-    true
-
-
-`setup`:
-
-
-
-
-`_initShell`:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-`beforeStart`:
-
-
-
-
-`check`:
+Value:
 
     {{- $d := .Decoration -}}
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
@@ -199,12 +157,108 @@
 
 
 
-`start`:
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.beforeCheck
+
+Value:
 
 
 
 
-`beforeCheck`:
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.runInLocal
+
+Value:
+
+    true
+
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.ports
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.finish
+
+Value:
 
 
 
@@ -215,11 +269,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

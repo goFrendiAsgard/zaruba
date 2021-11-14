@@ -1,32 +1,32 @@
 
 # ZrbSetKubeContext
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 
@@ -70,84 +70,129 @@
 
 ## Configs
 
-`_start`:
+
+### Configs._finish
+
+Value:
 
 
 
 
-`beforeStart`:
+
+### Configs._start
+
+Value:
 
 
 
 
-`start`:
 
-    if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
-    then
-      kubectl config use-context "{{ .GetConfig "kubeContext" }}"
-    fi
+### Configs.beforeStart
+
+Value:
 
 
-`_initShell`:
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`cmd`:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs._setup
 
-
-`cmdArg`:
-
-    -c
-
-
-`finish`:
-
-
-
-
-`strictMode`:
-
-    true
-
-
-`includeShellUtil`:
-
-    true
-
-
-`kubeContext`:
-
-    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
-
-
-`setup`:
-
-
-
-
-`_finish`:
-
-
-
-
-`_setup`:
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-`afterStart`:
+
+### Configs.afterStart
+
+Value:
 
 
 
 
-`kubeNamespace`:
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.kubeContext
+
+Value:
+
+    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+
+
+
+### Configs.kubeNamespace
+
+Value:
 
     {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+
+
+
+### Configs.start
+
+Value:
+
+    if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+    then
+      kubectl config use-context "{{ .GetConfig "kubeContext" }}"
+    fi
 
 
 
@@ -156,11 +201,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

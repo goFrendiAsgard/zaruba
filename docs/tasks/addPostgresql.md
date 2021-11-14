@@ -1,32 +1,32 @@
 
 # AddPostgresql
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/make/postgresql/task.addPostgresql.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     false
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 

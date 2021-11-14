@@ -1,32 +1,32 @@
 
 # PushSubrepos
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Publish subrepositories.
     ARGUMENTS:
@@ -77,47 +77,100 @@
 
 ## Configs
 
-`setup`:
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
 
-`_setup`:
+### Configs.afterStart
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`_start`:
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.cmd
 
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`cmdArg`:
 
-    -c
+### Configs.setup
 
-
-`finish`:
+Value:
 
 
 
 
-`includeShellUtil`:
+
+### Configs.strictMode
+
+Value:
 
     true
 
 
-`start`:
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.start
+
+Value:
 
     set -e
     {{ $d := .Decoration -}}
@@ -141,26 +194,12 @@
 
 
 
-`_finish`:
 
+### Configs._setup
 
+Value:
 
-
-`_initShell`:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-`afterStart`:
-
-
-
-
-`strictMode`:
-
-    true
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 
@@ -169,11 +208,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

@@ -1,32 +1,32 @@
 
 # ZrbRemoveDockerContainer
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Remove docker container.
     Common configs:
@@ -73,52 +73,108 @@
 
 ## Configs
 
-`_finish`:
+
+### Configs._start
+
+Value:
 
 
 
 
-`afterStart`:
+
+### Configs.setup
+
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.strictMode
 
-
-
-`strictMode`:
+Value:
 
     true
 
 
-`setup`:
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
 
-`_start`:
+### Configs.afterStart
+
+Value:
 
 
 
 
-`cmdArg`:
+
+### Configs.containerName
+
+Value:
+
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
 
     -c
 
 
-`containerName`:
 
+### Configs.start
 
-
-
-`includeShellUtil`:
-
-    true
-
-
-`start`:
+Value:
 
     {{ $d := .Decoration -}}
     CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
@@ -131,26 +187,12 @@
 
 
 
-`_initShell`:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs.cmd
 
-
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`finish`:
-
-
 
 
 
@@ -159,11 +201,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

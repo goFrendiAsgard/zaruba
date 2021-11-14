@@ -1,32 +1,32 @@
 
 # ClearPreviousValues
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Clear log
 
@@ -71,73 +71,112 @@
 
 ## Configs
 
-`strictMode`:
 
-    true
+### Configs._setup
 
-
-`_setup`:
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-`afterStart`:
 
+### Configs.cmd
 
-
-
-`includeShellUtil`:
-
-    true
-
-
-`beforeStart`:
-
-
-
-
-`cmd`:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`cmdArg`:
+
+### Configs.cmdArg
+
+Value:
 
     -c
 
 
-`finish`:
+
+### Configs.setup
+
+Value:
 
 
 
 
-`setup`:
 
+### Configs.start
 
-
-
-`_finish`:
-
-
-
-
-`_initShell`:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-`_start`:
-
-
-
-
-`start`:
+Value:
 
     {{ $d := .Decoration -}}
     rm -Rf .previous.values.yaml
     echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 
@@ -146,11 +185,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

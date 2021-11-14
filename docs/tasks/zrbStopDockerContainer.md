@@ -1,32 +1,32 @@
 
 # ZrbStopDockerContainer
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Stop docker container.
     Common configs:
@@ -73,29 +73,92 @@
 
 ## Configs
 
-`cmd`:
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`strictMode`:
 
-    true
+### Configs._finish
+
+Value:
 
 
-`_initShell`:
+
+
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`beforeStart`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
 
 
 
 
-`start`:
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
 
     {{ $d := .Decoration -}}
     CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
@@ -106,49 +169,28 @@
 
 
 
-`afterStart`:
 
+### Configs.strictMode
 
-
-
-`includeShellUtil`:
+Value:
 
     true
 
 
-`containerName`:
+
+### Configs.containerName
+
+Value:
 
 
 
 
-`_finish`:
+
+### Configs.finish
+
+Value:
 
 
-
-
-`_start`:
-
-
-
-
-`finish`:
-
-
-
-
-`setup`:
-
-
-
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`cmdArg`:
-
-    -c
 
 
 
@@ -157,11 +199,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

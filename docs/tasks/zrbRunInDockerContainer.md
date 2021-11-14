@@ -1,32 +1,32 @@
 
 # ZrbRunInDockerContainer
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Run command from inside the container
     Common configs:
@@ -75,118 +75,60 @@
 
 ## Configs
 
-`generatedScriptLocation`:
 
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+### Configs._finish
+
+Value:
 
 
-`strictMode`:
+
+
+
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+
+
+
+### Configs.includeShellUtil
+
+Value:
 
     true
 
 
-`_finish`:
 
+### Configs.templateLocation
 
-
-
-`afterStart`:
-
-    {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
-
-
-
-`templateLocation`:
+Value:
 
     {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
-`_prepareBaseReplacementMap`:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+### Configs.sql
 
+Value:
 
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`remoteScriptLocation`:
-
-    _{{ .Name }}.script.{{ .UUID }}
-
-
-`_prepareReplacementMap`:
+    {{ .GetValue "sql" }}
 
 
 
+### Configs._initShell
 
-`_prepareVariables`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`finish`:
-
-
-
-
-`remoteCommand`:
-
-    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
-
-
-`start`:
-
-
-
-
-`_initShell`:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_validateTemplateLocation`:
 
-    {{ $d := .Decoration -}}
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
-      exit 1
-    fi
+### Configs._start
 
-
-
-`containerName`:
-
-
-
-
-`includeShellUtil`:
-
-    true
-
-
-`script`:
-
-    {{ .GetValue "script" }}
-
-
-`_start`:
+Value:
 
     {{ $d := .Decoration -}}
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
@@ -224,7 +166,91 @@
 
 
 
-`runGeneratedScript`:
+
+### Configs._validateTemplateLocation
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      exit 1
+    fi
+
+
+
+
+### Configs.generatedScriptLocation
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+
+
+
+### Configs.remoteCommand
+
+Value:
+
+    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+
+
+
+### Configs._prepareBaseReplacementMap
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+
+
+
+### Configs._prepareReplacementMap
+
+Value:
+
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+    {{ $d := .Decoration -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.finish
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
+
+
+
+
+
+### Configs.runGeneratedScript
+
+Value:
 
     _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
     _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
@@ -235,29 +261,84 @@
     rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
 
 
-`sql`:
 
-    {{ .GetValue "sql" }}
+### Configs.containerName
 
-
-`_prepareBaseVariables`:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+Value:
 
 
-`cmdArg`:
+
+
+
+### Configs.remoteScriptLocation
+
+Value:
+
+    _{{ .Name }}.script.{{ .UUID }}
+
+
+
+### Configs.script
+
+Value:
+
+    {{ .GetValue "script" }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._prepareVariables
+
+Value:
+
+
+
+
+
+### Configs._validate
+
+Value:
+
+
+
+
+
+### Configs.cmdArg
+
+Value:
 
     -c
-
-
-`setup`:
-
-
-
-
-`_validate`:
-
-
 
 
 
@@ -266,11 +347,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

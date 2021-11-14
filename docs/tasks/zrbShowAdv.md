@@ -1,32 +1,32 @@
 
 # ZrbShowAdv
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 
@@ -70,69 +70,42 @@
 
 ## Configs
 
-`_finish`:
+
+### Configs.beforeStart
+
+Value:
 
 
 
 
-`_initShell`:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs.cmdArg
 
-
-
-`_setup`:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-`_start`:
-
-
-
-
-`cmd`:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-`cmdArg`:
+Value:
 
     -c
 
 
-`finish`:
+
+### Configs.finish
+
+Value:
 
 
 
 
-`strictMode`:
 
-    true
+### Configs.setup
 
-
-`afterStart`:
+Value:
 
 
 
 
-`beforeStart`:
 
+### Configs.start
 
-
-
-`includeShellUtil`:
-
-    true
-
-
-`setup`:
-
-
-
-
-`start`:
+Value:
 
     {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
     {{ if .Util.Bool.IsTrue $showAdvertisement -}}
@@ -142,16 +115,82 @@
 
 
 
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+
+### Configs.afterStart
+
+Value:
+
+
+
+
+
+### Configs._start
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+
+### Configs._finish
+
+Value:
+
+
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
 ## Envs
 
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1

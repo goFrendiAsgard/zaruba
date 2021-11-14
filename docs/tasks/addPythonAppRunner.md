@@ -1,32 +1,32 @@
 
 # AddPythonAppRunner
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     false
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
 
 

@@ -1,32 +1,32 @@
 
 # ClearLog
 
-`File Location`:
+File Location:
 
     /zaruba-tasks/chore/log/task.clearLog.yaml
 
 
-`Location`:
+Location:
 
 
 
 
-`Should Sync Env`:
+Should Sync Env:
 
     true
 
 
-`Sync Env Location`:
+Sync Env Location:
 
 
 
 
-`Type`:
+Type:
 
     command
 
 
-`Description`:
+Description:
 
     Clear log
 
@@ -71,71 +71,110 @@
 
 ## Configs
 
-`start`:
 
-    {{ $d := .Decoration -}}
-    rm -Rf log.zaruba.csv
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+### Configs.finish
+
+Value:
 
 
-`strictMode`:
+
+
+
+### Configs.includeShellUtil
+
+Value:
 
     true
 
 
-`_initShell`:
+
+### Configs._initShell
+
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
-`_setup`:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.afterStart
+
+Value:
 
 
-`cmd`:
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+
+
+
+### Configs.cmd
+
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-`includeShellUtil`:
+
+### Configs.setup
+
+Value:
+
+
+
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    rm -Rf log.zaruba.csv
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+
+
+
+### Configs.strictMode
+
+Value:
 
     true
 
 
-`setup`:
+
+### Configs._finish
+
+Value:
 
 
 
 
-`finish`:
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+
+### Configs._start
+
+Value:
 
 
 
 
-`_finish`:
 
+### Configs.cmdArg
 
-
-
-`_start`:
-
-
-
-
-`afterStart`:
-
-
-
-
-`beforeStart`:
-
-
-
-
-`cmdArg`:
+Value:
 
     -c
 
@@ -146,11 +185,11 @@
 
 ### Envs.PYTHONUNBUFFERED
 
-`From`:
+From:
 
     PYTHONUNBUFFERED
 
 
-`Default`:
+Default:
 
     1
