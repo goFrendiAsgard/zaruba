@@ -59,8 +59,8 @@ inputs:
     validation: ^[a-zA-Z0-9_\-\.]+$
  
   deploymentDirectory:
-    description: Location of helm directory
-    prompt: 'Location of helm directory'
+    description: Location of deployment directory
+    prompt: 'Location of deployment directory'
     validation: ^[a-zA-Z0-9_]*$
 
   deploymentName:
