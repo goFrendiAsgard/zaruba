@@ -5,32 +5,18 @@ File Location:
 
     /zaruba-tasks/chore/link/task.addProjectLink.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     command
 
-
 Description:
 
     Add link.
     TIPS: To update links, you should perform `zaruba please updateProjectLinks`
-
 
 
 
@@ -62,11 +48,6 @@ Description:
     ```
 
 
-## Check
-
-
-
-
 ## Inputs
 
 
@@ -74,77 +55,54 @@ Description:
 
 Default Value:
 
-
-
-
 Description:
 
     Link source (Required)
-
 
 Prompt:
 
     Source
 
-
 Secret:
 
     false
-
 
 Validation:
 
     ^.+$
 
-
 Options:
-
-
-
 
 
 ### Inputs.linkTo
 
 Default Value:
 
-
-
-
 Description:
 
     Link destination (Required)
-
 
 Prompt:
 
     Destination
 
-
 Secret:
 
     false
-
 
 Validation:
 
     ^.+$
 
-
 Options:
-
-
-
 
 
 ## Configs
 
 
-### Configs.beforeStart
+### Configs._finish
 
 Value:
-
-
-
 
 
 ### Configs.cmdArg
@@ -154,31 +112,11 @@ Value:
     -c
 
 
-
-### Configs.linkTo
-
-Value:
-
-    {{ .GetValue "linkTo" }}
-
-
-
-### Configs._initShell
+### Configs.cmd
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs.finish
-
-Value:
-
-
-
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.start
@@ -192,21 +130,16 @@ Value:
 
 
 
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 
     true
 
+
+### Configs.afterStart
+
+Value:
 
 
 ### Configs.linkFrom
@@ -216,29 +149,11 @@ Value:
     {{ .GetValue "linkFrom" }}
 
 
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs._start
+### Configs.linkTo
 
 Value:
 
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
+    {{ .GetValue "linkTo" }}
 
 
 ### Configs.setup
@@ -246,14 +161,24 @@ Value:
 Value:
 
 
+### Configs.finish
+
+Value:
 
 
-
-### Configs.strictMode
+### Configs.includeShellUtil
 
 Value:
 
     true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
@@ -264,6 +189,15 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
+### Configs._start
+
+Value:
+
+
+### Configs.beforeStart
+
+Value:
+
 
 ## Envs
 
@@ -273,7 +207,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

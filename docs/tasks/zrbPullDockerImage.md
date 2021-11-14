@@ -5,33 +5,19 @@ File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
     Pull docker image.
     Common configs:
       imageName : Image name
-
 
 
 
@@ -63,31 +49,19 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs._start
+### Configs._setup
 
 Value:
 
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-
-
-### Configs.beforeStart
+### Configs.afterStart
 
 Value:
-
-
-
 
 
 ### Configs.cmd
@@ -97,21 +71,9 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.strictMode
+### Configs.imageTag
 
 Value:
-
-    true
-
 
 
 ### Configs.useImagePrefix
@@ -121,15 +83,9 @@ Value:
     true
 
 
-
-### Configs._initShell
+### Configs.beforeStart
 
 Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
 
 
 ### Configs.cmdArg
@@ -139,21 +95,28 @@ Value:
     -c
 
 
-
-### Configs.imageName
-
-Value:
-
-
-
-
-
-### Configs.imageTag
+### Configs.finish
 
 Value:
 
 
+### Configs.includeShellUtil
 
+Value:
+
+    true
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
 
 
 ### Configs.start
@@ -174,53 +137,35 @@ Value:
 
 
 
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 
     true
 
 
+### Configs._finish
 
-### Configs.setup
+Value:
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._start
 
 Value:
 
 
-
-
-
-### Configs._setup
+### Configs.imageName
 
 Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
 
 
 ## Envs
@@ -231,7 +176,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/chore/task.update.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -32,15 +19,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -61,15 +42,36 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.afterStart
+
+Value:
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+Value:
 
 
 ### Configs.cmdArg
@@ -79,13 +81,9 @@ Value:
     -c
 
 
-
 ### Configs.finish
 
 Value:
-
-
-
 
 
 ### Configs.includeShellUtil
@@ -95,12 +93,22 @@ Value:
     true
 
 
-
 ### Configs.setup
 
 Value:
 
 
+### Configs._finish
+
+Value:
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
@@ -120,71 +128,11 @@ Value:
     echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
 
 
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
 ### Configs.strictMode
 
 Value:
 
     true
-
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
 
 
 ## Envs
@@ -195,7 +143,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

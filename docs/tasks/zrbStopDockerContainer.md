@@ -5,33 +5,19 @@ File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
     Stop docker container.
     Common configs:
       containerName : Container's name
-
 
 
 
@@ -63,23 +49,7 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
 
 
 ### Configs.cmd
@@ -89,13 +59,19 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-
-### Configs._finish
+### Configs.setup
 
 Value:
 
 
+### Configs._start
 
+Value:
+
+
+### Configs.beforeStart
+
+Value:
 
 
 ### Configs._initShell
@@ -107,37 +83,9 @@ Value:
 
 
 
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs._start
+### Configs.containerName
 
 Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
 
 
 ### Configs.includeShellUtil
@@ -147,13 +95,21 @@ Value:
     true
 
 
-
-### Configs.setup
+### Configs.afterStart
 
 Value:
 
 
+### Configs.cmdArg
 
+Value:
+
+    -c
+
+
+### Configs.finish
+
+Value:
 
 
 ### Configs.start
@@ -169,7 +125,6 @@ Value:
 
 
 
-
 ### Configs.strictMode
 
 Value:
@@ -177,21 +132,16 @@ Value:
     true
 
 
-
-### Configs.containerName
-
-Value:
-
-
-
-
-
-### Configs.finish
+### Configs._finish
 
 Value:
 
 
+### Configs._setup
 
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ## Envs
@@ -202,7 +152,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

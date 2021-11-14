@@ -5,36 +5,13 @@ File Location:
 
     /zaruba-tasks/make/airflow/task.addAirflow.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     false
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
-    command
-
-
-Description:
-
-
-
-
-
-## Extends
-
-
+    wrapper
 
 
 ## Dependencies
@@ -43,22 +20,3 @@ Description:
 * `makeAirflowAppRunner`
 * `zrbIsProject`
 * `zrbShowAdv`
-
-
-## Start
-
-
-
-
-## Check
-
-
-
-
-## Inputs
-
-
-## Configs
-
-
-## Envs

@@ -5,41 +5,18 @@ File Location:
 
     /zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     command
 
 
-Description:
-
-
-
-
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -60,31 +37,21 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs._finish
+### Configs.kubeContext
 
 Value:
 
+    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
 
 
-
-
-### Configs._start
+### Configs.kubeNamespace
 
 Value:
 
-
-
+    {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
 
 
 ### Configs.beforeStart
@@ -92,47 +59,16 @@ Value:
 Value:
 
 
-
-
-
-### Configs.finish
+### Configs.cmd
 
 Value:
 
-
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.setup
 
 Value:
-
-
-
 
 
 ### Configs._initShell
@@ -144,6 +80,29 @@ Value:
 
 
 
+### Configs.afterStart
+
+Value:
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+Value:
+
 
 ### Configs._setup
 
@@ -152,37 +111,9 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmd
+### Configs.finish
 
 Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.kubeContext
-
-Value:
-
-    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
-
-
-
-### Configs.kubeNamespace
-
-Value:
-
-    {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
-
 
 
 ### Configs.start
@@ -195,6 +126,17 @@ Value:
     fi
 
 
+### Configs._start
+
+Value:
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
 
 ## Envs
 
@@ -204,7 +146,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

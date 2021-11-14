@@ -5,31 +5,17 @@ File Location:
 
     /zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     service
 
-
 Description:
 
     Run static web server from your working directory.
-
 
 
 
@@ -85,82 +71,42 @@ Default Value:
 
     8080
 
-
 Description:
 
     HTTP port to serve static files
-
 
 Prompt:
 
     HTTP port
 
-
 Secret:
 
     false
 
-
 Validation:
 
     ^[0-9]+$
-
 
 Options:
 
     8080; 8000; 3000; 5000
 
 
-
 ## Configs
 
 
-### Configs.afterStart
+### Configs.cmd
 
 Value:
 
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-
-
-### Configs.beforeCheck
-
-Value:
-
-
-
-
-
-### Configs.includeShellUtil
+### Configs.cmdArg
 
 Value:
 
-    true
-
-
-
-### Configs.start
-
-Value:
-
-
-
-
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._start
-
-Value:
-
-
-
+    -c
 
 
 ### Configs.finish
@@ -168,23 +114,27 @@ Value:
 Value:
 
 
-
-
-
-### Configs.strictMode
+### Configs.ports
 
 Value:
 
-    true
+    {{ .GetValue "serverHttpPort" }}
 
 
-
-### Configs.beforeStart
+### Configs._initShell
 
 Value:
 
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.check
@@ -202,47 +152,18 @@ Value:
 
 
 
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.cmdArg
+### Configs.includeShellUtil
 
 Value:
 
-    -c
+    true
 
 
-
-### Configs.ports
-
-Value:
-
-    {{ .GetValue "serverHttpPort" }}
-
-
-
-### Configs._initShell
+### Configs.strictMode
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
+    true
 
 
 ### Configs.afterCheck
@@ -250,15 +171,19 @@ Value:
 Value:
 
 
-
-
-
-### Configs.runInLocal
+### Configs.afterStart
 
 Value:
 
-    true
 
+### Configs.beforeStart
+
+Value:
+
+
+### Configs._start
+
+Value:
 
 
 ### Configs.setup
@@ -266,7 +191,26 @@ Value:
 Value:
 
 
+### Configs.start
 
+Value:
+
+
+### Configs._finish
+
+Value:
+
+
+### Configs.beforeCheck
+
+Value:
+
+
+### Configs.runInLocal
+
+Value:
+
+    true
 
 
 ## Envs
@@ -277,7 +221,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

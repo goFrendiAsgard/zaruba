@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/chore/task.showVersion.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -32,15 +19,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -61,55 +42,33 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs._finish
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.afterStart
 
 Value:
 
 
-
-
-
-### Configs._setup
+### Configs.cmd
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.beforeStart
+### Configs.includeShellUtil
 
 Value:
 
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
+    true
 
 
 ### Configs.start
@@ -121,13 +80,31 @@ Value:
     echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
 
 
-
-### Configs.strictMode
+### Configs.beforeStart
 
 Value:
 
-    true
 
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+Value:
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs._finish
+
+Value:
 
 
 ### Configs._initShell
@@ -139,45 +116,16 @@ Value:
 
 
 
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmd
+### Configs._setup
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.includeShellUtil
+### Configs._start
 
 Value:
-
-    true
-
-
-
-### Configs.setup
-
-Value:
-
-
-
 
 
 ## Envs
@@ -188,7 +136,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

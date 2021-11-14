@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -36,15 +23,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbGenerateAndRun`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -65,47 +46,19 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs._finish
+### Configs.containerName
 
 Value:
 
 
-
-
-
-### Configs._prepareBaseVariables
+### Configs.generatedScriptLocation
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-
-### Configs.templateLocation
-
-Value:
-
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
-
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
 ### Configs.sql
@@ -115,15 +68,16 @@ Value:
     {{ .GetValue "sql" }}
 
 
-
-### Configs._initShell
+### Configs.start
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+### Configs.templateLocation
 
+Value:
+
+    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
 ### Configs._start
@@ -166,7 +120,6 @@ Value:
 
 
 
-
 ### Configs._validateTemplateLocation
 
 Value:
@@ -180,37 +133,40 @@ Value:
 
 
 
-
-### Configs.generatedScriptLocation
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-
-
-
-### Configs.remoteCommand
+### Configs.cmdArg
 
 Value:
 
-    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+    -c
 
 
-
-### Configs._prepareBaseReplacementMap
+### Configs.remoteScriptLocation
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+    _{{ .Name }}.script.{{ .UUID }}
 
 
-
-### Configs._prepareReplacementMap
+### Configs.setup
 
 Value:
 
 
+### Configs._finish
 
+Value:
+
+
+### Configs._prepareVariables
+
+Value:
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.afterStart
@@ -223,29 +179,18 @@ Value:
 
 
 
-
-### Configs.beforeStart
-
-Value:
-
-
-
-
-
-### Configs.finish
+### Configs._prepareBaseVariables
 
 Value:
 
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
 
 
-
-
-### Configs.start
+### Configs.cmd
 
 Value:
 
-
-
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.runGeneratedScript
@@ -261,53 +206,11 @@ Value:
     rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
 
 
-
-### Configs.containerName
-
-Value:
-
-
-
-
-
-### Configs.remoteScriptLocation
-
-Value:
-
-    _{{ .Name }}.script.{{ .UUID }}
-
-
-
 ### Configs.script
 
 Value:
 
     {{ .GetValue "script" }}
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.setup
-
-Value:
-
-
-
 
 
 ### Configs.strictMode
@@ -317,13 +220,27 @@ Value:
     true
 
 
-
-### Configs._prepareVariables
+### Configs._initShell
 
 Value:
 
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
+
+### Configs._prepareBaseReplacementMap
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs._validate
@@ -331,15 +248,26 @@ Value:
 Value:
 
 
-
-
-
-### Configs.cmdArg
+### Configs.beforeStart
 
 Value:
 
-    -c
 
+### Configs.finish
+
+Value:
+
+
+### Configs.remoteCommand
+
+Value:
+
+    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+
+
+### Configs._prepareReplacementMap
+
+Value:
 
 
 ## Envs
@@ -350,7 +278,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

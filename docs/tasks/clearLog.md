@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/chore/log/task.clearLog.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -32,15 +19,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -61,23 +42,24 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.finish
 
 Value:
-
-
-
 
 
 ### Configs.includeShellUtil
@@ -86,6 +68,15 @@ Value:
 
     true
 
+
+### Configs.setup
+
+Value:
+
+
+### Configs._finish
+
+Value:
 
 
 ### Configs._initShell
@@ -97,37 +88,28 @@ Value:
 
 
 
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+Value:
+
 
 ### Configs.afterStart
 
 Value:
 
 
-
-
-
-### Configs.beforeStart
+### Configs.cmdArg
 
 Value:
 
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.setup
-
-Value:
-
-
-
+    -c
 
 
 ### Configs.start
@@ -139,45 +121,11 @@ Value:
     echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
 
 
-
 ### Configs.strictMode
 
 Value:
 
     true
-
-
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
 
 
 ## Envs
@@ -188,7 +136,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

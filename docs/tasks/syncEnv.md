@@ -5,31 +5,17 @@ File Location:
 
     /zaruba-tasks/chore/task.syncEnv.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     command
 
-
 Description:
 
     Update environment of every task in the current project 
-
 
 
 
@@ -61,15 +47,81 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
+
+
+### Configs._finish
+
+Value:
+
+
+### Configs._start
+
+Value:
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+Value:
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+Value:
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.start
@@ -84,105 +136,6 @@ Value:
 
 
 
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.setup
-
-Value:
-
-
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
 ## Envs
 
 
@@ -191,7 +144,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

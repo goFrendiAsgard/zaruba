@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -34,15 +21,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbRunScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -63,47 +44,17 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs.finish
+### Configs._finish
 
 Value:
 
 
-
-
-
-### Configs.setup
+### Configs.afterStart
 
 Value:
-
-
-
-
-
-### Configs.start
-
-Value:
-
-    console.log('hello world')
-
-
-
-### Configs._setup
-
-Value:
-
-
-
 
 
 ### Configs.cmdArg
@@ -113,21 +64,31 @@ Value:
     -p
 
 
-
-### Configs.afterStart
+### Configs.setup
 
 Value:
 
 
+### Configs.start
 
+Value:
+
+    console.log('hello world')
+
+
+### Configs._setup
+
+Value:
+
+
+### Configs._start
+
+Value:
 
 
 ### Configs.beforeStart
 
 Value:
-
-
-
 
 
 ### Configs.cmd
@@ -137,21 +98,9 @@ Value:
     node
 
 
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._start
+### Configs.finish
 
 Value:
-
-
-
 
 
 ## Envs
@@ -162,7 +111,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

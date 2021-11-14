@@ -5,33 +5,19 @@ File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
     Remove docker container.
     Common configs:
       containerName : Container's name
-
 
 
 
@@ -63,89 +49,14 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs._start
+### Configs.cmdArg
 
 Value:
 
-
-
-
-
-### Configs.setup
-
-Value:
-
-
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.containerName
-
-Value:
-
-
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
+    -c
 
 
 ### Configs.includeShellUtil
@@ -155,21 +66,9 @@ Value:
     true
 
 
-
 ### Configs._finish
 
 Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
 
 
 ### Configs.start
@@ -187,12 +86,63 @@ Value:
 
 
 
-
 ### Configs.cmd
 
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs._start
+
+Value:
+
+
+### Configs.containerName
+
+Value:
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+Value:
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.finish
+
+Value:
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
@@ -204,7 +154,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

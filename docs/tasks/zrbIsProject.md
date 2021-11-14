@@ -5,41 +5,18 @@ File Location:
 
     /zaruba-tasks/_base/validation/task.zrbIsProject.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     command
 
 
-Description:
-
-
-
-
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -60,39 +37,7 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
 
 
 ### Configs.strictMode
@@ -102,47 +47,26 @@ Value:
     true
 
 
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
 ### Configs._start
 
 Value:
 
 
+### Configs.afterStart
 
+Value:
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.finish
 
 Value:
-
-
-
-
-
-### Configs.setup
-
-Value:
-
-
-
 
 
 ### Configs.start
@@ -158,6 +82,31 @@ Value:
 
 
 
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs._finish
+
+Value:
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
 
 ### Configs._setup
 
@@ -166,13 +115,9 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-
 ### Configs.beforeStart
 
 Value:
-
-
-
 
 
 ### Configs.cmd
@@ -180,7 +125,6 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
 
 
 ## Envs
@@ -191,7 +135,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

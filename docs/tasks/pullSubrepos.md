@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -32,7 +19,6 @@ Description:
     ARGUMENTS:
       subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
       subrepo::<name>::url      : Remote url of the subrepo
-
 
 
 
@@ -66,81 +52,7 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-
-### Configs._finish
-
-Value:
-
-
-
 
 
 ### Configs.beforeStart
@@ -148,23 +60,11 @@ Value:
 Value:
 
 
-
-
-
-### Configs.cmdArg
+### Configs.cmd
 
 Value:
 
-    -c
-
-
-
-### Configs.setup
-
-Value:
-
-
-
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.start
@@ -193,6 +93,43 @@ Value:
 
 
 
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+Value:
+
+
+### Configs.finish
+
+Value:
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+Value:
+
 
 ### Configs.strictMode
 
@@ -200,6 +137,22 @@ Value:
 
     true
 
+
+### Configs._finish
+
+Value:
+
+
+### Configs.afterStart
+
+Value:
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ## Envs
@@ -210,7 +163,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

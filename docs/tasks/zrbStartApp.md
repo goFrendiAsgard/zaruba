@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/_base/start/task.zrbStartApp.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     service
-
 
 Description:
 
@@ -39,7 +26,6 @@ Description:
       finish      : Script to be executed after start service or check service readiness.
       runInLocal  : Run service locally or not.
       ports       : Port to be checked to confirm service readiness, separated by new line.
-
 
 
 
@@ -104,26 +90,14 @@ Description:
     ```
 
 
-## Inputs
-
-
 ## Configs
 
 
-### Configs.setup
+### Configs.runInLocal
 
 Value:
 
-
-
-
-
-### Configs._finish
-
-Value:
-
-
-
+    true
 
 
 ### Configs.afterCheck
@@ -131,15 +105,9 @@ Value:
 Value:
 
 
-
-
-
 ### Configs.afterStart
 
 Value:
-
-
-
 
 
 ### Configs.check
@@ -157,21 +125,31 @@ Value:
 
 
 
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-
-### Configs.beforeCheck
+### Configs.cmdArg
 
 Value:
 
+    -c
 
 
+### Configs.finish
+
+Value:
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs._start
+
+Value:
+
+
+### Configs.beforeStart
+
+Value:
 
 
 ### Configs.cmd
@@ -181,13 +159,45 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-
-### Configs.runInLocal
+### Configs.includeShellUtil
 
 Value:
 
     true
 
+
+### Configs.ports
+
+Value:
+
+
+### Configs.start
+
+Value:
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+Value:
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeCheck
+
+Value:
 
 
 ### Configs._initShell
@@ -199,71 +209,6 @@ Value:
 
 
 
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.ports
-
-Value:
-
-
-
-
-
-### Configs.start
-
-Value:
-
-
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
 ## Envs
 
 
@@ -272,7 +217,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

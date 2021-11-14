@@ -5,36 +5,13 @@ File Location:
 
     /zaruba-tasks/make/appRunner/task.addAppRunner.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     false
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
-    command
-
-
-Description:
-
-
-
-
-
-## Extends
-
-
+    wrapper
 
 
 ## Dependencies
@@ -42,22 +19,3 @@ Description:
 * `makeAppRunner`
 * `zrbIsProject`
 * `zrbShowAdv`
-
-
-## Start
-
-
-
-
-## Check
-
-
-
-
-## Inputs
-
-
-## Configs
-
-
-## Envs

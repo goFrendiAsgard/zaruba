@@ -5,41 +5,18 @@ File Location:
 
     /zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     command
 
 
-Description:
-
-
-
-
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -60,55 +37,7 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
-
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.start
-
-Value:
-
-    {{ .GetConfig "playBell" }}
-
 
 
 ### Configs._initShell
@@ -120,29 +49,14 @@ Value:
 
 
 
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.beforeStart
+### Configs._start
 
 Value:
 
 
-
-
-
-### Configs.cmdArg
+### Configs.finish
 
 Value:
-
-    -c
-
 
 
 ### Configs.includeShellUtil
@@ -152,21 +66,52 @@ Value:
     true
 
 
-
 ### Configs.setup
 
 Value:
 
 
-
-
-
-### Configs._setup
+### Configs.start
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ .GetConfig "playBell" }}
 
+
+### Configs._finish
+
+Value:
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.afterStart
+
+Value:
 
 
 ### Configs.playBell
@@ -176,13 +121,11 @@ Value:
     echo $'\a'
 
 
-
-### Configs.strictMode
+### Configs._setup
 
 Value:
 
-    true
-
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ## Envs
@@ -193,7 +136,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

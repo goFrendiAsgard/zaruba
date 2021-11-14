@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -34,15 +21,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -63,63 +44,12 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
 
 
-### Configs.includeShellUtil
+### Configs._finish
 
 Value:
-
-    true
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
 
 
 ### Configs._start
@@ -127,7 +57,9 @@ Value:
 Value:
 
 
+### Configs.finish
 
+Value:
 
 
 ### Configs.network
@@ -135,7 +67,6 @@ Value:
 Value:
 
     {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
-
 
 
 ### Configs.start
@@ -154,6 +85,24 @@ Value:
 
 
 
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
 
 ### Configs._setup
 
@@ -161,6 +110,17 @@ Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.setup
+
+Value:
 
 
 ### Configs._initShell
@@ -172,29 +132,16 @@ Value:
 
 
 
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.setup
+### Configs.afterStart
 
 Value:
 
 
-
-
-
-### Configs._finish
+### Configs.includeShellUtil
 
 Value:
 
-
-
+    true
 
 
 ## Envs
@@ -205,7 +152,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

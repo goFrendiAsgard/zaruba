@@ -5,36 +5,13 @@ File Location:
 
     /zaruba-tasks/make/appDeployment/task.addAppDeployment.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     false
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
-    command
-
-
-Description:
-
-
-
-
-
-## Extends
-
-
+    wrapper
 
 
 ## Dependencies
@@ -43,22 +20,3 @@ Description:
 * `makeAppDeploymentTask`
 * `zrbIsProject`
 * `zrbShowAdv`
-
-
-## Start
-
-
-
-
-## Check
-
-
-
-
-## Inputs
-
-
-## Configs
-
-
-## Envs

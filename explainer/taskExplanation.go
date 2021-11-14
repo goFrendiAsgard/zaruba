@@ -49,7 +49,7 @@ func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExp
 	taskType := "wrapper"
 	if startExist && checkExist {
 		taskType = "service"
-	} else {
+	} else if startExist {
 		taskType = "command"
 	}
 	// inputs
@@ -110,39 +110,59 @@ func (t *TaskExplanation) ToString() string {
 	lines := []string{}
 	lines = append(lines, t.h1(strUtil.ToPascal(t.Name)))
 	lines = append(lines, t.prop("File Location", t.FileLocation))
-	lines = append(lines, t.prop("Location", t.Location))
+	if t.Location != "" {
+		lines = append(lines, t.prop("Location", t.Location))
+	}
 	lines = append(lines, t.prop("Should Sync Env", fmt.Sprintf("%t", t.ShouldSyncEnv)))
-	lines = append(lines, t.prop("Sync Env Location", t.SyncEnvLocation))
+	if t.SyncEnvLocation != "" {
+		lines = append(lines, t.prop("Sync Env Location", t.SyncEnvLocation))
+	}
 	lines = append(lines, t.prop("Type", t.Type))
-	lines = append(lines, t.prop("Description", t.Description))
-	lines = append(lines, t.h2("Extends"))
-	lines = append(lines, t.ul(t.Extends))
-	lines = append(lines, t.h2("Dependencies"))
-	lines = append(lines, t.ul(t.Dependencies))
-	lines = append(lines, t.h2("Start"))
-	lines = append(lines, t.ul(t.Start))
-	lines = append(lines, t.h2("Check"))
-	lines = append(lines, t.ul(t.Check))
-	lines = append(lines, t.h2("Inputs"))
-	for inputName, variable := range t.Inputs {
-		lines = append(lines, t.h3(fmt.Sprintf("Inputs.%s", inputName)))
-		lines = append(lines, t.prop("Default Value", variable.DefaultValue))
-		lines = append(lines, t.prop("Description", variable.Description))
-		lines = append(lines, t.prop("Prompt", variable.Prompt))
-		lines = append(lines, t.prop("Secret", fmt.Sprintf("%t", variable.Secret)))
-		lines = append(lines, t.prop("Validation", variable.Validation))
-		lines = append(lines, t.prop("Options", strings.Join(variable.Options, "; ")))
+	if t.Description != "" {
+		lines = append(lines, t.prop("Description", t.Description))
 	}
-	lines = append(lines, t.h2("Configs"))
-	for configName, configValue := range t.Configs {
-		lines = append(lines, t.h3(fmt.Sprintf("Configs.%s", configName)))
-		lines = append(lines, t.prop("Value", configValue))
+	if len(t.Extends) > 0 {
+		lines = append(lines, t.h2("Extends"))
+		lines = append(lines, t.ul(t.Extends))
 	}
-	lines = append(lines, t.h2("Envs"))
-	for envName, env := range t.Envs {
-		lines = append(lines, t.h3(fmt.Sprintf("Envs.%s", envName)))
-		lines = append(lines, t.prop("From", env.From))
-		lines = append(lines, t.prop("Default", env.Default))
+	if len(t.Dependencies) > 0 {
+		lines = append(lines, t.h2("Dependencies"))
+		lines = append(lines, t.ul(t.Dependencies))
+	}
+	if len(t.Start) > 0 {
+		lines = append(lines, t.h2("Start"))
+		lines = append(lines, t.ul(t.Start))
+	}
+	if len(t.Check) > 0 {
+		lines = append(lines, t.h2("Check"))
+		lines = append(lines, t.ul(t.Check))
+	}
+	if len(t.Inputs) > 0 {
+		lines = append(lines, t.h2("Inputs"))
+		for inputName, variable := range t.Inputs {
+			lines = append(lines, t.h3(fmt.Sprintf("Inputs.%s", inputName)))
+			lines = append(lines, t.prop("Default Value", variable.DefaultValue))
+			lines = append(lines, t.prop("Description", variable.Description))
+			lines = append(lines, t.prop("Prompt", variable.Prompt))
+			lines = append(lines, t.prop("Secret", fmt.Sprintf("%t", variable.Secret)))
+			lines = append(lines, t.prop("Validation", variable.Validation))
+			lines = append(lines, t.prop("Options", strings.Join(variable.Options, "; ")))
+		}
+	}
+	if len(t.Configs) > 0 {
+		lines = append(lines, t.h2("Configs"))
+		for configName, configValue := range t.Configs {
+			lines = append(lines, t.h3(fmt.Sprintf("Configs.%s", configName)))
+			lines = append(lines, t.prop("Value", configValue))
+		}
+	}
+	if len(t.Envs) > 0 {
+		lines = append(lines, t.h2("Envs"))
+		for envName, env := range t.Envs {
+			lines = append(lines, t.h3(fmt.Sprintf("Envs.%s", envName)))
+			lines = append(lines, t.prop("From", env.From))
+			lines = append(lines, t.prop("Default", env.Default))
+		}
 	}
 	return strings.Join(lines, "\n")
 }
@@ -177,6 +197,9 @@ func (t *TaskExplanation) h3(header string) string {
 func (t *TaskExplanation) prop(propertyName, value string) string {
 	caption := fmt.Sprintf("%s%s%s%s:", t.d.Bold, t.d.Blue, propertyName, t.d.Normal)
 	strUtil := strutil.NewStrutil()
-	multiLineValue := strUtil.FullIndent(fmt.Sprintf("\n%s\n", value), "    ")
+	if value == "" {
+		return fmt.Sprintf("%s\n", caption)
+	}
+	multiLineValue := strUtil.FullIndent(fmt.Sprintf("\n%s", value), "    ")
 	return fmt.Sprintf("%s\n%s\n", caption, multiLineValue)
 }

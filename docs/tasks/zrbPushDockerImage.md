@@ -5,33 +5,19 @@ File Location:
 
     /zaruba-tasks/_base/dockerChore/task.zrbPushDockerImage.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
     Push docker image.
     Common configs:
       imageName : Image name
-
 
 
 
@@ -63,33 +49,7 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
 
 
 ### Configs.cmdArg
@@ -99,53 +59,11 @@ Value:
     -c
 
 
-
-### Configs.imageName
-
-Value:
-
-
-
-
-
 ### Configs.includeShellUtil
 
 Value:
 
     true
-
-
-
-### Configs.imageTag
-
-Value:
-
-
-
-
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.setup
-
-Value:
-
-
-
 
 
 ### Configs.strictMode
@@ -155,6 +73,17 @@ Value:
     true
 
 
+### Configs.useImagePrefix
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+Value:
+
 
 ### Configs._setup
 
@@ -163,21 +92,9 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-
 ### Configs._start
 
 Value:
-
-
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
 
 
 ### Configs.cmd
@@ -187,13 +104,16 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-
 ### Configs.imagePrefix
 
 Value:
 
     {{ .GetValue "defaultImagePrefix" }}
 
+
+### Configs.imageTag
+
+Value:
 
 
 ### Configs.start
@@ -214,13 +134,38 @@ Value:
 
 
 
-
-### Configs.useImagePrefix
+### Configs.afterStart
 
 Value:
 
-    true
 
+### Configs.imageName
+
+Value:
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.finish
+
+Value:
+
+
+### Configs.setup
+
+Value:
 
 
 ## Envs
@@ -231,7 +176,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

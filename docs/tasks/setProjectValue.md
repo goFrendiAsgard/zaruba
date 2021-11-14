@@ -5,31 +5,17 @@ File Location:
 
     /zaruba-tasks/chore/value/task.setProjectValue.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
-
-
-Sync Env Location:
-
-
-
 
 Type:
 
     command
 
-
 Description:
 
     Set project value.
-
 
 
 ## Extends
@@ -60,78 +46,53 @@ Description:
     ```
 
 
-## Check
-
-
-
-
 ## Inputs
-
-
-### Inputs.variableName
-
-Default Value:
-
-
-
-
-Description:
-
-    Variable name (Required)
-
-
-Prompt:
-
-    Name
-
-
-Secret:
-
-    false
-
-
-Validation:
-
-    ^.+$
-
-
-Options:
-
-
-
 
 
 ### Inputs.variableValue
 
 Default Value:
 
-
-
-
 Description:
 
     Variable value (Required)
-
 
 Prompt:
 
     Value
 
-
 Secret:
 
     false
-
 
 Validation:
 
     ^.+$
 
-
 Options:
 
 
+### Inputs.variableName
 
+Default Value:
+
+Description:
+
+    Variable name (Required)
+
+Prompt:
+
+    Name
+
+Secret:
+
+    false
+
+Validation:
+
+    ^.+$
+
+Options:
 
 
 ## Configs
@@ -142,7 +103,23 @@ Options:
 Value:
 
 
+### Configs.beforeStart
 
+Value:
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs._initShell
@@ -154,6 +131,29 @@ Value:
 
 
 
+### Configs._start
+
+Value:
+
+
+### Configs.setup
+
+Value:
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.variableName
+
+Value:
+
+    {{ .GetValue "variableName" }}
+
 
 ### Configs._setup
 
@@ -162,13 +162,16 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-
-### Configs._start
+### Configs.cmd
 
 Value:
 
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
+### Configs.finish
+
+Value:
 
 
 ### Configs.start
@@ -182,13 +185,9 @@ Value:
 
 
 
-
-### Configs.variableName
+### Configs.afterStart
 
 Value:
-
-    {{ .GetValue "variableName" }}
-
 
 
 ### Configs.variableValue
@@ -196,71 +195,6 @@ Value:
 Value:
 
     {{ .GetValue "variableValue" }}
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-
-### Configs.setup
-
-Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
 
 
 ## Envs
@@ -271,7 +205,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -32,15 +19,9 @@ Description:
 
 
 
-
 ## Extends
 
 * `zrbRunShellScript`
-
-
-## Dependencies
-
-
 
 
 ## Start
@@ -61,31 +42,7 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
 
 
 ### Configs.cmdArg
@@ -95,79 +52,19 @@ Value:
     -c
 
 
+### Configs.finish
+
+Value:
+
 
 ### Configs.setup
 
 Value:
 
 
-
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    rm -Rf .previous.values.yaml
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
-
-
-
 ### Configs._finish
 
 Value:
-
-
-
-
-
-### Configs._start
-
-Value:
-
-
-
-
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
 
 
 ### Configs._initShell
@@ -179,6 +76,57 @@ Value:
 
 
 
+### Configs.afterStart
+
+Value:
+
+
+### Configs.beforeStart
+
+Value:
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+Value:
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    rm -Rf .previous.values.yaml
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
+
 
 ## Envs
 
@@ -188,7 +136,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 

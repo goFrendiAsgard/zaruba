@@ -5,26 +5,13 @@ File Location:
 
     /zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
 
-
-Location:
-
-
-
-
 Should Sync Env:
 
     true
 
-
-Sync Env Location:
-
-
-
-
 Type:
 
     command
-
 
 Description:
 
@@ -32,7 +19,6 @@ Description:
     ARGUMENTS:
       subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
       subrepo::<name>::url      : Remote url of the subrepo
-
 
 
 
@@ -67,15 +53,19 @@ Description:
     ```
 
 
-## Check
-
-
-
-
-## Inputs
-
-
 ## Configs
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+Value:
 
 
 ### Configs._initShell
@@ -87,53 +77,11 @@ Value:
 
 
 
-
-### Configs.afterStart
-
-Value:
-
-
-
-
-
-### Configs.cmd
+### Configs._setup
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-
-### Configs.setup
-
-Value:
-
-
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-
-### Configs._finish
-
-Value:
-
-
-
-
-
-### Configs._start
-
-Value:
-
-
-
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.beforeStart
@@ -141,31 +89,11 @@ Value:
 Value:
 
 
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-
-### Configs.finish
-
-Value:
-
-
-
-
-
 ### Configs.includeShellUtil
 
 Value:
 
     true
-
 
 
 ### Configs.start
@@ -194,13 +122,38 @@ Value:
 
 
 
-
-### Configs._setup
+### Configs._start
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
+### Configs.afterStart
+
+Value:
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+Value:
+
+
+### Configs.setup
+
+Value:
 
 
 ## Envs
@@ -211,7 +164,6 @@ Value:
 From:
 
     PYTHONUNBUFFERED
-
 
 Default:
 
