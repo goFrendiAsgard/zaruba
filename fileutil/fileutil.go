@@ -1,13 +1,13 @@
 package fileutil
 
 import (
-	"encoding/json"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/state-alchemists/zaruba/jsonutil"
 	"github.com/state-alchemists/zaruba/strutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	"gopkg.in/yaml.v3"
@@ -62,51 +62,22 @@ func (fileUtil *FileUtil) WriteLines(fileName string, lines []string, fileMode o
 	return fileUtil.WriteText(fileName, content, fileMode)
 }
 
-func (fileUtil *FileUtil) normalizeYamlObj(i interface{}) interface{} {
-	switch x := i.(type) {
-	case map[interface{}]interface{}:
-		m2 := map[string]interface{}{}
-		for k, v := range x {
-			m2[k.(string)] = fileUtil.normalizeYamlObj(v)
-		}
-		return m2
-	case []interface{}:
-		for i, v := range x {
-			x[i] = fileUtil.normalizeYamlObj(v)
-		}
-	}
-	return i
-}
-
 func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err error) {
-	yamlScript, err := fileUtil.ReadText(fileName)
+	yamlString, err := fileUtil.ReadText(fileName)
 	if err != nil {
 		return "", err
 	}
-	var interfaceContent interface{}
-	if err = yaml.Unmarshal([]byte(yamlScript), &interfaceContent); err != nil {
-		return "", err
-	}
-	interfaceContent = fileUtil.normalizeYamlObj(interfaceContent)
-	resultB, err := json.Marshal(interfaceContent)
-	if err != nil {
-		return "", err
-	}
-	return string(resultB), nil
+	jsonUtil := jsonutil.NewJsonUtil()
+	return jsonUtil.FromYaml(yamlString)
 }
 
 func (fileUtil *FileUtil) WriteYaml(fileName, jsonString string, fileMode os.FileMode) (err error) {
-	var interfaceContent interface{}
-	if err := json.Unmarshal([]byte(jsonString), &interfaceContent); err != nil {
+	jsonUtil := jsonutil.NewJsonUtil()
+	yamlString, err := jsonUtil.ToYaml(jsonString)
+	if err != nil {
 		return err
 	}
-	yamlContentB, err := yaml.Marshal(interfaceContent)
-	yamlContent := string(yamlContentB)
-	yamlLines := strings.Split(yamlContent, "\n")
-	for _, preprocessor := range []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji} {
-		yamlLines = preprocessor(yamlLines)
-	}
-	return fileUtil.WriteLines(fileName, yamlLines, fileMode)
+	return fileUtil.WriteText(fileName, yamlString, fileMode)
 }
 
 func (fileUtil *FileUtil) ReadYamlNode(fileName string) (node *yaml.Node, err error) {

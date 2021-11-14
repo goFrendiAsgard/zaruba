@@ -1,12 +1,11 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
-	"gopkg.in/yaml.v3"
 )
 
 var yamlPrintCmd = &cobra.Command{
@@ -16,14 +15,12 @@ var yamlPrintCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		var interfaceContent interface{}
-		if err := json.Unmarshal([]byte(args[0]), &interfaceContent); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		resultB, err := yaml.Marshal(interfaceContent)
+		jsonString := args[0]
+		util := core.NewCoreUtil()
+		yamlString, err := util.Json.ToYaml(jsonString)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		fmt.Println(string(resultB))
+		fmt.Println(yamlString)
 	},
 }
