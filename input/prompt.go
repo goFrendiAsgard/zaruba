@@ -8,7 +8,6 @@ import (
 
 	"github.com/manifoldco/promptui"
 	"github.com/state-alchemists/zaruba/core"
-	"github.com/state-alchemists/zaruba/env"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -36,7 +35,7 @@ type Prompter struct {
 	logger  output.Logger
 	d       *output.Decoration
 	project *core.Project
-	util    *core.Util
+	util    *core.CoreUtil
 }
 
 func NewPrompter(logger output.Logger, decoration *output.Decoration, project *core.Project) *Prompter {
@@ -182,7 +181,7 @@ func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (er
 }
 
 func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
-	envFileList, err := prompter.getEnvFileList()
+	envFileList, err := prompter.util.Path.GetEnvFileList(".")
 	if err != nil {
 		return err
 	}
@@ -221,10 +220,6 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		return err
 	}
 	return prompter.project.AddGlobalEnv(value)
-}
-
-func (prompter *Prompter) getEnvFileList() (envFileList []string, err error) {
-	return env.GetEnvFileList(".")
 }
 
 func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error) {

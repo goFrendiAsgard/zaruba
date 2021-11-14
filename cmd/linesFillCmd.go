@@ -28,7 +28,7 @@ var linesFillCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &suplements); err != nil {
 			suplements = []string{args[2]}
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result, err := util.Str.CompleteLines(lines, patterns, suplements)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

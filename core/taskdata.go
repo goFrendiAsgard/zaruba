@@ -26,7 +26,7 @@ type TaskData struct {
 	ProjectDirPath string
 	FileLocation   string
 	Decoration     *output.Decoration
-	Util           *Util
+	Util           *CoreUtil
 }
 
 func NewTaskData(task *Task) (td *TaskData) {
@@ -124,7 +124,7 @@ func (td *TaskData) GetDockerImageName() string {
 	}
 	dockerImageName, _ := td.GetConfig("imageName")
 	if dockerImageName == "" {
-		defaultServiceName, _ := td.Util.GetDefaultAppName(td.TaskDirPath)
+		defaultServiceName, _ := td.Util.Path.GetDefaultAppName(td.TaskDirPath)
 		dockerImageName = td.task.Project.Util.Str.ToKebab(defaultServiceName)
 	}
 	if dockerImagePrefix == "" {

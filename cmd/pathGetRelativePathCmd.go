@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -15,15 +15,10 @@ var pathGetRelativePathCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		absBasePath, err := filepath.Abs(args[0])
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		absTargetPath, err := filepath.Abs(args[1])
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		relPath, err := filepath.Rel(absBasePath, absTargetPath)
+		basePath := args[0]
+		targetPath := args[1]
+		util := core.NewCoreUtil()
+		relPath, err := util.Path.GetRelativePath(basePath, targetPath)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

@@ -6,9 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/core/fileutil"
-	"github.com/state-alchemists/zaruba/core/yamlStyler"
-	"github.com/state-alchemists/zaruba/env"
+	"github.com/state-alchemists/zaruba/fileutil"
+	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -25,7 +24,7 @@ func SyncTaskEnv(task *Task) (err error) {
 	if taskLocation == "" || taskLocation == projectDir {
 		return nil
 	}
-	locationEnvMap, err := env.GetEnvByLocation(taskLocation)
+	locationEnvMap, err := task.Project.Util.Path.GetEnvByLocation(taskLocation)
 	if err != nil {
 		return err
 	}
@@ -67,7 +66,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 	envPrefix := strings.ToUpper(task.Project.Util.Str.ToSnake(taskName))
 	yamlLocation := task.GetFileLocation()
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(yamlLocation)
+	node, err := fileUtil.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -85,7 +84,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "envs" && taskPropValNode.ShortTag() == "!!map" {
 							updateEnvMapNode(taskPropValNode, envMap, envPrefix)
-							return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// env not found
@@ -95,7 +94,7 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "envs"},
 						createEnvMapNode(envMap, envPrefix),
 					)
-					return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -104,12 +103,12 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 }
 
 func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
-	util := NewUtil()
+	util := NewCoreUtil()
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(util.Str.ToSnake(envRefName))
 	yamlLocation := envRef.GetFileLocation()
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(yamlLocation)
+	node, err := fileUtil.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -123,7 +122,7 @@ func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 				envRefNode := valNode.Content[envRefNameIndex+1]
 				if envRefNameNode.Value == envRefName && envRefNode.ShortTag() == "!!map" {
 					updateEnvMapNode(envRefNode, envMap, envPrefix)
-					return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}

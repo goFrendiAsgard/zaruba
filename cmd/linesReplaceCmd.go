@@ -29,7 +29,7 @@ var linesReplaceCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &replacements); err != nil {
 			replacements = []string{args[2]}
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result, err := util.Str.ReplaceLineAtIndex(lines, index, replacements)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/env"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -16,7 +16,8 @@ var pathGetEnvCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		result, err := env.GetEnvByLocation(args[0])
+		util := core.NewCoreUtil()
+		result, err := util.Path.GetEnvByLocation(args[0])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

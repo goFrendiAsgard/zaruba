@@ -25,7 +25,7 @@ var strPadRightCmd = &cobra.Command{
 		if len(args) > 2 {
 			pad = args[2]
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.PadRight(text, length, pad))
 	},
 }

@@ -3,8 +3,8 @@ package core
 import (
 	"fmt"
 
-	"github.com/state-alchemists/zaruba/core/fileutil"
-	"github.com/state-alchemists/zaruba/core/yamlStyler"
+	"github.com/state-alchemists/zaruba/fileutil"
+	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -25,7 +25,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(yamlLocation)
+	node, err := fileUtil.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "configs" && taskPropValNode.ShortTag() == "!!map" {
 							updateConfigMapNode(taskPropValNode, configMap)
-							return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// config not found
@@ -53,7 +53,7 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "configs"},
 						createConfigMapNode(configMap),
 					)
-					return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -65,7 +65,7 @@ func setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error)
 	configRefName := configRef.GetName()
 	yamlLocation := configRef.GetFileLocation()
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(yamlLocation)
+	node, err := fileUtil.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error)
 				configRefNode := valNode.Content[configRefNameIndex+1]
 				if configRefNameNode.Value == configRefName && configRefNode.ShortTag() == "!!map" {
 					updateConfigMapNode(configRefNode, configMap)
-					return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}

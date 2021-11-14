@@ -21,7 +21,7 @@ var strRepeatCmd = &cobra.Command{
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.Repeat(text, repetition))
 	},
 }

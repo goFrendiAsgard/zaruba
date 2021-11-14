@@ -3,8 +3,8 @@ package core
 import (
 	"fmt"
 
-	"github.com/state-alchemists/zaruba/core/fileutil"
-	"github.com/state-alchemists/zaruba/core/yamlStyler"
+	"github.com/state-alchemists/zaruba/fileutil"
+	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -20,7 +20,7 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(yamlLocation)
+	node, err := fileUtil.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -44,7 +44,7 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 						if taskPropKeyNode.Value == "dependencies" && taskPropValNode.ShortTag() == "!!seq" {
 							taskPropValNode.Style = yaml.LiteralStyle
 							taskPropValNode.Content = append(taskPropValNode.Content, newDependencyVals...)
-							return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					taskNode.Style = yaml.LiteralStyle
@@ -53,7 +53,7 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "dependencies"},
 						&yaml.Node{Kind: yaml.SequenceNode, Content: newDependencyVals},
 					)
-					return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -74,7 +74,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(yamlLocation)
+	node, err := fileUtil.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -117,7 +117,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 						if taskPropKeyNode.Value == "extends" && taskPropValNode.ShortTag() == "!!seq" {
 							taskPropValNode.Style = yaml.LiteralStyle
 							taskPropValNode.Content = append(taskPropValNode.Content, newParentVals...)
-							return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// "extends" and "extend" not found and we only have one new parent, then we set "extend" to new parent
@@ -128,7 +128,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 							&yaml.Node{Kind: yaml.ScalarNode, Value: "extend"},
 							newParentVals[0],
 						)
-						return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+						return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 					}
 					// "extends" not found and we have multiple parents, then create "extends"
 					taskNode.Style = yaml.LiteralStyle
@@ -137,7 +137,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "extends"},
 						&yaml.Node{Kind: yaml.SequenceNode, Content: newParentVals},
 					)
-					return fileUtil.WriteYaml(yamlLocation, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}

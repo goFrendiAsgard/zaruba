@@ -22,7 +22,7 @@ var generateCmd = &cobra.Command{
 			exit(cmd, logger, decoration, err)
 		}
 		replacementMap := convertToMapString(rawReplacementMap)
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		if err := util.File.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {
 			exit(cmd, logger, decoration, err)
 		}

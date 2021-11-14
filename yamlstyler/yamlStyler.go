@@ -1,4 +1,4 @@
-package yamlStyler
+package yamlstyler
 
 import (
 	"regexp"

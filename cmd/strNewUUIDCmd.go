@@ -11,7 +11,7 @@ var strNewUUIDCmd = &cobra.Command{
 	Use:   "newUUID",
 	Short: "Generate new UUID string",
 	Run: func(cmd *cobra.Command, args []string) {
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.NewUUID())
 	},
 }

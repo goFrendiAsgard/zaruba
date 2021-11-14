@@ -13,7 +13,7 @@ type Explainer struct {
 	logger  output.Logger
 	d       *output.Decoration
 	project *core.Project
-	util    *core.Util
+	util    *core.CoreUtil
 }
 
 func NewExplainer(logger output.Logger, decoration *output.Decoration, project *core.Project) *Explainer {
@@ -21,7 +21,7 @@ func NewExplainer(logger output.Logger, decoration *output.Decoration, project *
 		logger:  logger,
 		d:       decoration,
 		project: project,
-		util:    core.NewUtil(),
+		util:    core.NewCoreUtil(),
 	}
 }
 

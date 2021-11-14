@@ -16,7 +16,7 @@ var strEscapeShellArg = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.EscapeShellArg(text))
 	},
 }

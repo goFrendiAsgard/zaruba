@@ -15,7 +15,7 @@ var strAddPrefixCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.AddPrefix(args[0], args[1]))
 	},
 }

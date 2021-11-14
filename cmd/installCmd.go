@@ -19,7 +19,7 @@ var installCmd = &cobra.Command{
 
 func AddInstallCmdSubCommand() {
 	setupFilePath := filepath.Join(os.Getenv("ZARUBA_HOME"), "setup")
-	util := core.NewUtil()
+	util := core.NewCoreUtil()
 	fileList, err := util.File.ListDir(setupFilePath)
 	if err != nil {
 		fmt.Printf("warning: %s is not found", setupFilePath)

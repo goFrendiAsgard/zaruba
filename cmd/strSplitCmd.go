@@ -21,7 +21,7 @@ var strSplitCmd = &cobra.Command{
 		if len(args) > 1 {
 			separator = args[1]
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result := util.Str.Split(text, separator)
 		resultB, err := json.Marshal(result)
 		if err != nil {

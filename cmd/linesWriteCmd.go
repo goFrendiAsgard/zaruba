@@ -16,7 +16,7 @@ var linesWriteCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		list := []string{}
 		if err := json.Unmarshal([]byte(args[1]), &list); err != nil {
 			exit(cmd, logger, decoration, err)

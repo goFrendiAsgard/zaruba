@@ -22,7 +22,7 @@ var strReplaceCmd = &cobra.Command{
 			exit(cmd, logger, decoration, err)
 		}
 		replacementMap := convertToMapString(rawReplacementMap)
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result := util.Str.Replace(text, replacementMap)
 		fmt.Println(result)
 	},

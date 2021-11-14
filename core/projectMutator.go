@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
-	"github.com/state-alchemists/zaruba/core/fileutil"
-	"github.com/state-alchemists/zaruba/core/yamlStyler"
+	"github.com/state-alchemists/zaruba/fileutil"
+	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -37,7 +37,7 @@ func SetProjectValue(valueFilePath, key, value string) (err error) {
 
 func IncludeFileToProject(projectFilePath string, fileName string) (err error) {
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(projectFilePath)
+	node, err := fileUtil.ReadYamlNode(projectFilePath)
 	if err != nil {
 		return err
 	}
@@ -51,7 +51,7 @@ func IncludeFileToProject(projectFilePath string, fileName string) (err error) {
 		if keyNode.Value == "includes" && valNode.ShortTag() == "!!seq" {
 			valNode.Style = yaml.LiteralStyle
 			valNode.Content = append(valNode.Content, newIncludeVal)
-			return fileUtil.WriteYaml(projectFilePath, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+			return fileUtil.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 		}
 	}
 	includesKey := &yaml.Node{Kind: yaml.ScalarNode, Value: "includes"}
@@ -61,12 +61,12 @@ func IncludeFileToProject(projectFilePath string, fileName string) (err error) {
 		[]*yaml.Node{includesKey, includesVal},
 		docNode.Content...,
 	)
-	return fileUtil.WriteYaml(projectFilePath, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+	return fileUtil.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 }
 
 func AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
 	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYaml(taskFilePath)
+	node, err := fileUtil.ReadYamlNode(taskFilePath)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
 			}
 			valNode.Style = yaml.LiteralStyle
 			valNode.Content = append(valNode.Content, newTaskName, newTask)
-			return fileUtil.WriteYaml(taskFilePath, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+			return fileUtil.WriteYamlNode(taskFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 		}
 	}
 	// "tasks" not found, add it
@@ -102,7 +102,7 @@ func AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
 		},
 		docNode.Content...,
 	)
-	return fileUtil.WriteYaml(taskFilePath, node, 0555, []yamlStyler.YamlStyler{yamlStyler.TwoSpaces, yamlStyler.FixEmoji, yamlStyler.AddLineBreak})
+	return fileUtil.WriteYamlNode(taskFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 }
 
 func SyncProjectEnvFiles(project *Project) (err error) {

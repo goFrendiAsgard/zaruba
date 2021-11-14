@@ -17,7 +17,7 @@ var linesReadCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		list, err := util.File.ReadLines(fileName)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

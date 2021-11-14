@@ -18,7 +18,7 @@ var strSubmatchCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
 		pattern := args[1]
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result, err := util.Str.Submatch(text, pattern)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

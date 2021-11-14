@@ -15,7 +15,7 @@ var strToLowerCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.ToLower(args[0]))
 	},
 }

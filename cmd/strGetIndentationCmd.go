@@ -23,7 +23,7 @@ var strGetIndentationCmd = &cobra.Command{
 				level = levelInput
 			}
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result, err := util.Str.GetIndentation(text, level)
 		if err != nil {
 			exit(cmd, logger, decoration, err)

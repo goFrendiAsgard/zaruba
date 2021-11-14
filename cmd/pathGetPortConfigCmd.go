@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/env"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -17,7 +17,8 @@ var pathGetPortConfigCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		envMap, err := env.GetEnvByLocation(args[0])
+		util := core.NewCoreUtil()
+		envMap, err := util.Path.GetEnvByLocation(args[0])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

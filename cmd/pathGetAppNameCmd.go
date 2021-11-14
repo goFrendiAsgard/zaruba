@@ -16,8 +16,8 @@ var pathGetAppNameCmd = &cobra.Command{
 		decoration := output.NewDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		util := core.NewUtil()
-		defaultAppName, err := util.GetDefaultAppName(args[0])
+		util := core.NewCoreUtil()
+		defaultAppName, err := util.Path.GetDefaultAppName(args[0])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}

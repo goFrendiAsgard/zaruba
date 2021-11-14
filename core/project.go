@@ -36,7 +36,7 @@ type Project struct {
 	sortedInputNames           []string
 	maxPublishedTaskNameLength int
 	Decoration                 *output.Decoration
-	Util                       *Util
+	Util                       *CoreUtil
 }
 
 // NewProject create new Config from Yaml File
@@ -82,7 +82,7 @@ func loadRawProject(projectFile string) (p *Project, err error) {
 		ConfigRefMap:               map[string]*ConfigRef{},
 		IsInitialized:              false,
 		maxPublishedTaskNameLength: 20,
-		Util:                       NewUtil(),
+		Util:                       NewCoreUtil(),
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
 	b, err := keyValidator.Validate()

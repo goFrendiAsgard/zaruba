@@ -29,7 +29,7 @@ var linesInsertBeforeCmd = &cobra.Command{
 		if err := json.Unmarshal([]byte(args[2]), &newLines); err != nil {
 			newLines = []string{args[2]}
 		}
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		result, err := util.Str.ReplaceLineAtIndex(lines, index, append(newLines, lines[index]))
 		if err != nil {
 			exit(cmd, logger, decoration, err)

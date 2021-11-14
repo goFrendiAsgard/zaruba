@@ -17,7 +17,7 @@ var strFullIndentCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]
 		indentation := args[1]
-		util := core.NewUtil()
+		util := core.NewCoreUtil()
 		fmt.Println(util.Str.FullIndent(text, indentation))
 	},
 }
