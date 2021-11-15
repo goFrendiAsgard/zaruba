@@ -40,7 +40,6 @@ inputs:
   appDirectory:
     description: Location of app
     prompt: 'Location of app'
-    validation: ^[a-zA-Z0-9_]*$
 
   appEnvPrefix:
     description: Application env prefix
@@ -61,7 +60,6 @@ inputs:
   deploymentDirectory:
     description: Location of deployment directory
     prompt: 'Location of deployment directory'
-    validation: ^[a-zA-Z0-9_]*$
 
   deploymentName:
     description: Helm release name
