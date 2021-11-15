@@ -93,23 +93,6 @@ Description:
 ## Configs
 
 
-### Configs.runInLocal
-
-Value:
-
-    true
-
-
-### Configs.afterCheck
-
-Value:
-
-
-### Configs.afterStart
-
-Value:
-
-
 ### Configs.check
 
 Value:
@@ -125,31 +108,43 @@ Value:
 
 
 
-### Configs.cmdArg
+### Configs.runInLocal
 
 Value:
 
-    -c
+    true
 
 
-### Configs.finish
-
-Value:
+### Configs.start
 
 
-### Configs.setup
+### Configs.strictMode
 
 Value:
 
+    true
 
-### Configs._start
 
-Value:
+### Configs._finish
 
 
 ### Configs.beforeStart
 
+
+### Configs.finish
+
+
+### Configs.ports
+
+
+### Configs._setup
+
 Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -166,38 +161,7 @@ Value:
     true
 
 
-### Configs.ports
-
-Value:
-
-
-### Configs.start
-
-Value:
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-Value:
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.beforeCheck
-
-Value:
+### Configs.setup
 
 
 ### Configs._initShell
@@ -207,6 +171,22 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+
+
+### Configs.afterCheck
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs._start
+
+
+### Configs.beforeCheck
 
 
 ## Envs

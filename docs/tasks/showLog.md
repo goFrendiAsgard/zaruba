@@ -47,8 +47,6 @@ Description:
 
 ### Inputs.keyword
 
-Default Value:
-
 Description:
 
     Keyword
@@ -61,19 +59,28 @@ Secret:
 
     false
 
-Validation:
-
-Options:
-
 
 ## Configs
 
 
-### Configs.strictMode
+### Configs._finish
+
+
+### Configs._setup
 
 Value:
 
-    true
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs._initShell
@@ -85,28 +92,7 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
 ### Configs.beforeStart
-
-Value:
-
-
-### Configs.keyword
-
-Value:
-
-    {{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}
-
-
-### Configs._finish
-
-Value:
 
 
 ### Configs.cmd
@@ -116,38 +102,14 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs._start
-
-Value:
-
-
-### Configs.afterStart
-
-Value:
-
-
-### Configs.setup
-
-Value:
-
-
 ### Configs.finish
 
-Value:
 
-
-### Configs.includeShellUtil
+### Configs.keyword
 
 Value:
 
-    true
+    {{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}
 
 
 ### Configs.start
@@ -162,6 +124,26 @@ Value:
     fi
     "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
 
+
+
+### Configs.afterStart
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

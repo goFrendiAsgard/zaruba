@@ -45,16 +45,22 @@ Description:
 ## Configs
 
 
-### Configs.strictMode
+### Configs.start
 
 Value:
 
-    true
+    {{ $d := .Decoration -}}
+    cd "{{ .ZarubaHome }}"
+    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
 
 
-### Configs.afterStart
+### Configs._initShell
 
 Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 ### Configs.cmd
@@ -71,18 +77,10 @@ Value:
     true
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    cd "{{ .ZarubaHome }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+### Configs.afterStart
 
 
 ### Configs.beforeStart
-
-Value:
 
 
 ### Configs.cmdArg
@@ -94,26 +92,11 @@ Value:
 
 ### Configs.finish
 
-Value:
-
 
 ### Configs.setup
 
-Value:
-
 
 ### Configs._finish
-
-Value:
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
 
 
 ### Configs._setup
@@ -125,7 +108,12 @@ Value:
 
 ### Configs._start
 
+
+### Configs.strictMode
+
 Value:
+
+    true
 
 
 ## Envs

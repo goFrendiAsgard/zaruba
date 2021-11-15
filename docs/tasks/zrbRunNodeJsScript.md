@@ -47,26 +47,7 @@ Description:
 ## Configs
 
 
-### Configs._finish
-
-Value:
-
-
-### Configs.afterStart
-
-Value:
-
-
-### Configs.cmdArg
-
-Value:
-
-    -p
-
-
-### Configs.setup
-
-Value:
+### Configs.beforeStart
 
 
 ### Configs.start
@@ -76,19 +57,13 @@ Value:
     console.log('hello world')
 
 
-### Configs._setup
+### Configs.afterStart
 
-Value:
+
+### Configs._setup
 
 
 ### Configs._start
-
-Value:
-
-
-### Configs.beforeStart
-
-Value:
 
 
 ### Configs.cmd
@@ -98,9 +73,20 @@ Value:
     node
 
 
-### Configs.finish
+### Configs.cmdArg
 
 Value:
+
+    -p
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs._finish
 
 
 ## Envs

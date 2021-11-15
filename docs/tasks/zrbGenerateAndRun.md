@@ -44,146 +44,14 @@ Description:
 ## Configs
 
 
-### Configs._prepareVariables
-
-Value:
-
-
-### Configs.afterStart
-
-Value:
-
-    {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
-
-
-
-### Configs.beforeStart
-
-Value:
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.generatedScriptLocation
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-
-
-### Configs.runGeneratedScript
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
-
-
-### Configs.sql
-
-Value:
-
-    {{ .GetValue "sql" }}
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs._prepareBaseVariables
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._validate
-
-Value:
-
-
-### Configs.finish
-
-Value:
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-Value:
-
-
-### Configs._finish
-
-Value:
-
-
-### Configs._prepareReplacementMap
-
-Value:
-
-
-### Configs._validateTemplateLocation
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
-      exit 1
-    fi
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs.start
 
-Value:
 
-
-### Configs.strictMode
+### Configs.templateLocation
 
 Value:
 
-    true
-
-
-### Configs._prepareBaseReplacementMap
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
 ### Configs._start
@@ -226,6 +94,57 @@ Value:
 
 
 
+### Configs.afterStart
+
+Value:
+
+    {{ $d := .Decoration -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+
+
+
+### Configs.setup
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._validate
+
+
+### Configs.beforeStart
+
+
+### Configs.finish
+
+
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._prepareBaseReplacementMap
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+
+
+### Configs._prepareVariables
+
+
 ### Configs.script
 
 Value:
@@ -233,11 +152,76 @@ Value:
     {{ .GetValue "script" }}
 
 
-### Configs.templateLocation
+### Configs.cmdArg
 
 Value:
 
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+    -c
+
+
+### Configs.generatedScriptLocation
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.runGeneratedScript
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
+
+
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+
+
+### Configs._prepareReplacementMap
+
+
+### Configs._validateTemplateLocation
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      exit 1
+    fi
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.sql
+
+Value:
+
+    {{ .GetValue "sql" }}
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

@@ -40,16 +40,6 @@ Type:
 ## Configs
 
 
-### Configs._start
-
-Value:
-
-
-### Configs.afterStart
-
-Value:
-
-
 ### Configs.cmd
 
 Value:
@@ -64,11 +54,6 @@ Value:
     -c
 
 
-### Configs.finish
-
-Value:
-
-
 ### Configs.includeShellUtil
 
 Value:
@@ -76,16 +61,15 @@ Value:
     true
 
 
-### Configs.setup
+### Configs.start
 
 Value:
 
+    {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
+    {{ if .Util.Bool.IsTrue $showAdvertisement -}}
+      "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
+    {{ end -}}
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.strictMode
@@ -106,23 +90,27 @@ Value:
 
 ### Configs.beforeStart
 
-Value:
+
+### Configs._start
 
 
-### Configs.start
+### Configs.afterStart
 
-Value:
 
-    {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
-    {{ if .Util.Bool.IsTrue $showAdvertisement -}}
-      "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
-    {{ end -}}
+### Configs.finish
 
+
+### Configs.setup
 
 
 ### Configs._finish
 
+
+### Configs._setup
+
 Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ## Envs

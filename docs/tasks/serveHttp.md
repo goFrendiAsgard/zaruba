@@ -67,10 +67,6 @@ Description:
 
 ### Inputs.serverHttpPort
 
-Default Value:
-
-    8080
-
 Description:
 
     HTTP port to serve static files
@@ -78,6 +74,10 @@ Description:
 Prompt:
 
     HTTP port
+
+Default Value:
+
+    8080
 
 Secret:
 
@@ -95,13 +95,6 @@ Options:
 ## Configs
 
 
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
 ### Configs.cmdArg
 
 Value:
@@ -109,25 +102,7 @@ Value:
     -c
 
 
-### Configs.finish
-
-Value:
-
-
-### Configs.ports
-
-Value:
-
-    {{ .GetValue "serverHttpPort" }}
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
+### Configs.start
 
 
 ### Configs._setup
@@ -135,6 +110,45 @@ Value:
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.runInLocal
+
+Value:
+
+    true
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+
+### Configs.afterCheck
 
 
 ### Configs.check
@@ -159,58 +173,26 @@ Value:
     true
 
 
-### Configs.strictMode
+### Configs.ports
 
 Value:
 
-    true
-
-
-### Configs.afterCheck
-
-Value:
-
-
-### Configs.afterStart
-
-Value:
-
-
-### Configs.beforeStart
-
-Value:
-
-
-### Configs._start
-
-Value:
+    {{ .GetValue "serverHttpPort" }}
 
 
 ### Configs.setup
 
-Value:
 
-
-### Configs.start
+### Configs._initShell
 
 Value:
 
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
-### Configs._finish
-
-Value:
 
 
 ### Configs.beforeCheck
-
-Value:
-
-
-### Configs.runInLocal
-
-Value:
-
-    true
 
 
 ## Envs

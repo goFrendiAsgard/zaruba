@@ -141,27 +141,43 @@ func (t *TaskExplanation) ToString() string {
 		lines = append(lines, t.h2("Inputs"))
 		for inputName, variable := range t.Inputs {
 			lines = append(lines, t.h3(fmt.Sprintf("Inputs.%s", inputName)))
-			lines = append(lines, t.prop("Default Value", variable.DefaultValue))
-			lines = append(lines, t.prop("Description", variable.Description))
-			lines = append(lines, t.prop("Prompt", variable.Prompt))
+			if variable.Description != "" {
+				lines = append(lines, t.prop("Description", variable.Description))
+			}
+			if variable.Prompt != "" {
+				lines = append(lines, t.prop("Prompt", variable.Prompt))
+			}
+			if variable.DefaultValue != "" {
+				lines = append(lines, t.prop("Default Value", variable.DefaultValue))
+			}
 			lines = append(lines, t.prop("Secret", fmt.Sprintf("%t", variable.Secret)))
-			lines = append(lines, t.prop("Validation", variable.Validation))
-			lines = append(lines, t.prop("Options", strings.Join(variable.Options, "; ")))
+			if variable.Validation != "" {
+				lines = append(lines, t.prop("Validation", variable.Validation))
+			}
+			if len(variable.Options) > 0 {
+				lines = append(lines, t.prop("Options", strings.Join(variable.Options, "; ")))
+			}
 		}
 	}
 	if len(t.Configs) > 0 {
 		lines = append(lines, t.h2("Configs"))
 		for configName, configValue := range t.Configs {
 			lines = append(lines, t.h3(fmt.Sprintf("Configs.%s", configName)))
-			lines = append(lines, t.prop("Value", configValue))
+			if configValue != "" {
+				lines = append(lines, t.prop("Value", configValue))
+			}
 		}
 	}
 	if len(t.Envs) > 0 {
 		lines = append(lines, t.h2("Envs"))
 		for envName, env := range t.Envs {
 			lines = append(lines, t.h3(fmt.Sprintf("Envs.%s", envName)))
-			lines = append(lines, t.prop("From", env.From))
-			lines = append(lines, t.prop("Default", env.Default))
+			if env.From != "" {
+				lines = append(lines, t.prop("From", env.From))
+			}
+			if env.Default != "" {
+				lines = append(lines, t.prop("Default", env.Default))
+			}
 		}
 	}
 	return strings.Join(lines, "\n")

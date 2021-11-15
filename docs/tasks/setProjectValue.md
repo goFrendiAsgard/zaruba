@@ -49,32 +49,7 @@ Description:
 ## Inputs
 
 
-### Inputs.variableValue
-
-Default Value:
-
-Description:
-
-    Variable value (Required)
-
-Prompt:
-
-    Value
-
-Secret:
-
-    false
-
-Validation:
-
-    ^.+$
-
-Options:
-
-
 ### Inputs.variableName
-
-Default Value:
 
 Description:
 
@@ -92,34 +67,27 @@ Validation:
 
     ^.+$
 
-Options:
+
+### Inputs.variableValue
+
+Description:
+
+    Variable value (Required)
+
+Prompt:
+
+    Value
+
+Secret:
+
+    false
+
+Validation:
+
+    ^.+$
 
 
 ## Configs
-
-
-### Configs._finish
-
-Value:
-
-
-### Configs.beforeStart
-
-Value:
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
 
 
 ### Configs._initShell
@@ -133,12 +101,35 @@ Value:
 
 ### Configs._start
 
-Value:
+
+### Configs.beforeStart
+
+
+### Configs._finish
+
+
+### Configs.finish
 
 
 ### Configs.setup
 
+
+### Configs.cmdArg
+
 Value:
+
+    -c
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
+
 
 
 ### Configs.strictMode
@@ -162,6 +153,9 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
+### Configs.afterStart
+
+
 ### Configs.cmd
 
 Value:
@@ -169,25 +163,11 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.finish
+### Configs.includeShellUtil
 
 Value:
 
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
-
-
-
-### Configs.afterStart
-
-Value:
+    true
 
 
 ### Configs.variableValue

@@ -58,21 +58,7 @@ Description:
 ## Configs
 
 
-### Configs.afterStart
-
-Value:
-
-
-### Configs.finish
-
-Value:
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
+### Configs._finish
 
 
 ### Configs._initShell
@@ -93,19 +79,11 @@ Value:
 
 ### Configs._start
 
-Value:
 
-
-### Configs.cmdArg
-
-Value:
-
-    -c
+### Configs.finish
 
 
 ### Configs.setup
-
-Value:
 
 
 ### Configs.start
@@ -158,14 +136,10 @@ Value:
     true
 
 
-### Configs._finish
-
-Value:
+### Configs.afterStart
 
 
 ### Configs.beforeStart
-
-Value:
 
 
 ### Configs.cmd
@@ -173,6 +147,20 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ## Envs

@@ -51,9 +51,22 @@ Description:
 ## Inputs
 
 
-### Inputs.subrepoUrl
+### Inputs.subrepoName
 
-Default Value:
+Description:
+
+    Subrepo name (Can be blank)
+
+Prompt:
+
+    Subrepo name
+
+Secret:
+
+    false
+
+
+### Inputs.subrepoUrl
 
 Description:
 
@@ -71,12 +84,8 @@ Validation:
 
     ^.+$
 
-Options:
-
 
 ### Inputs.subrepoPrefix
-
-Default Value:
 
 Description:
 
@@ -90,38 +99,27 @@ Secret:
 
     false
 
-Validation:
-
-Options:
-
-
-### Inputs.subrepoName
-
-Default Value:
-
-Description:
-
-    Subrepo name (Can be blank)
-
-Prompt:
-
-    Subrepo name
-
-Secret:
-
-    false
-
-Validation:
-
-Options:
-
 
 ## Configs
 
 
-### Configs._start
+### Configs._finish
+
+
+### Configs._initShell
 
 Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.cmd
@@ -131,11 +129,24 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
 ### Configs.includeShellUtil
 
 Value:
 
     true
+
+
+### Configs.afterStart
+
+
+### Configs.finish
 
 
 ### Configs.start
@@ -167,11 +178,10 @@ Value:
 
 
 
-### Configs.subrepoName
+### Configs.beforeStart
 
-Value:
 
-    {{ .GetValue "subrepoName" }}
+### Configs.setup
 
 
 ### Configs.subrepoPrefix
@@ -181,33 +191,7 @@ Value:
     {{ .GetValue "subrepoPrefix" }}
 
 
-### Configs.subrepoUrl
-
-Value:
-
-    {{ .GetValue "subrepoUrl" }}
-
-
-### Configs._finish
-
-Value:
-
-
-### Configs.beforeStart
-
-Value:
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-Value:
+### Configs._start
 
 
 ### Configs.strictMode
@@ -217,30 +201,18 @@ Value:
     true
 
 
-### Configs._initShell
+### Configs.subrepoName
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+    {{ .GetValue "subrepoName" }}
 
 
-
-### Configs.afterStart
+### Configs.subrepoUrl
 
 Value:
 
-
-### Configs.setup
-
-Value:
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ .GetValue "subrepoUrl" }}
 
 
 ## Envs

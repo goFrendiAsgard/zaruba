@@ -52,11 +52,40 @@ Description:
 ## Configs
 
 
+### Configs.containerName
+
+
+### Configs.finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
 ### Configs.cmdArg
 
 Value:
 
     -c
+
+
+### Configs._finish
 
 
 ### Configs.includeShellUtil
@@ -66,9 +95,17 @@ Value:
     true
 
 
-### Configs._finish
+### Configs.setup
+
+
+### Configs.strictMode
 
 Value:
+
+    true
+
+
+### Configs.afterStart
 
 
 ### Configs.start
@@ -84,57 +121,6 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
 
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs._start
-
-Value:
-
-
-### Configs.containerName
-
-Value:
-
-
-### Configs.setup
-
-Value:
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.afterStart
-
-Value:
-
-
-### Configs.beforeStart
-
-Value:
-
-
-### Configs.finish
-
-Value:
-
-
-### Configs.strictMode
-
-Value:
-
-    true
 
 
 ### Configs._initShell
