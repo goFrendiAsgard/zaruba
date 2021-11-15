@@ -56,16 +56,6 @@ Description:
 ## Configs
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
 ### Configs.afterStart
 
 
@@ -81,6 +71,16 @@ Value:
 Value:
 
     -c
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.strictMode
@@ -99,17 +99,14 @@ Value:
 
 
 
-### Configs.beforeStart
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
+### Configs._setup
 
 Value:
 
-    true
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
 
 
 ### Configs.setup
@@ -142,6 +139,9 @@ Value:
 
 
 ### Configs._finish
+
+
+### Configs._start
 
 
 ## Envs

@@ -40,37 +40,7 @@ Type:
 ## Configs
 
 
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
-### Configs.beforeStart
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -78,6 +48,22 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs._start
 
 
 ### Configs._initShell
@@ -89,17 +75,21 @@ Value:
 
 
 
-### Configs.afterStart
-
-
-### Configs.cmdArg
+### Configs._setup
 
 Value:
 
-    -c
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.setup
+### Configs.beforeStart
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.start
@@ -125,6 +115,16 @@ Value:
       fi
     {{ end }}
     echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
 
 
 ## Envs

@@ -52,11 +52,43 @@ Description:
 ## Configs
 
 
-### Configs.cmd
+### Configs.afterStart
+
+
+### Configs.includeShellUtil
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.buildArg
 
 
 ### Configs.cmdArg
@@ -66,7 +98,11 @@ Value:
     -c
 
 
-### Configs.finish
+### Configs.dockerFilePath
+
+Value:
+
+    Dockerfile
 
 
 ### Configs.imagePrefix
@@ -77,48 +113,6 @@ Value:
 
 
 ### Configs.setup
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.buildArg
-
-
-### Configs.start.buildDockerImage.buildArg
-
-Value:
-
-    {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
-      {{ if ne $buildArg "" -}}
-        --build-arg {{ $buildArg }} {{ "" -}}
-      {{ end -}}
-    {{ end -}}
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.beforeStart
-
-
-### Configs.imageTag
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
 
 
 ### Configs.start
@@ -144,6 +138,37 @@ Value:
 
 
 
+### Configs.start.buildDockerImage.buildArg
+
+Value:
+
+    {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
+      {{ if ne $buildArg "" -}}
+        --build-arg {{ $buildArg }} {{ "" -}}
+      {{ end -}}
+    {{ end -}}
+
+
+
+### Configs._finish
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.imageName
+
+
+### Configs.imageTag
+
+
 ### Configs.useImagePrefix
 
 Value:
@@ -151,32 +176,7 @@ Value:
     true
 
 
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
 ### Configs._start
-
-
-### Configs.dockerFilePath
-
-Value:
-
-    Dockerfile
-
-
-### Configs.imageName
-
-
-### Configs._finish
-
-
-### Configs.afterStart
 
 
 ## Envs

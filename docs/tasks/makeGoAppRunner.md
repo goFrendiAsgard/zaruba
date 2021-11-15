@@ -166,48 +166,69 @@ Validation:
 ## Configs
 
 
-### Configs.includeShellUtil
+### Configs.appDirectory
 
 Value:
 
-    true
+    {{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}
 
 
-### Configs._finish
-
-
-### Configs._prepareBaseReplacementMap
+### Configs.appEnvs
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"
+    {{ .GetValue "appEnvs" }}
 
 
-### Configs._registerIndex
-
-Value:
-
-    {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
-    {{ end -}}
-
-
-
-### Configs.appBaseImageName
+### Configs.appModuleName
 
 Value:
 
-    {{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}
+    {{ .GetValue "appModuleName" }}
 
 
-### Configs.appPorts
+### Configs.appTestCommand
 
 Value:
 
-    {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
+    {{ .GetValue "appTestCommand" }}
 
 
-### Configs.finish
+### Configs.appUrl
+
+Value:
+
+    {{ .GetValue "appUrl" }}
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+Value:
+
+    {{ $d := .Decoration -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+
+
+### Configs._registerDeploymentTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+
+
+### Configs.appCheckCommand
+
+Value:
+
+    {{ .GetValue "appCheckCommand" }}
 
 
 ### Configs._initShell
@@ -219,71 +240,11 @@ Value:
 
 
 
-### Configs._prepareBaseStartCommand
+### Configs._prepareBaseReplacementMap
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
-
-
-### Configs._prepareBaseVariables
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
-
-
-### Configs._registerDeploymentTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.appBuildImageCommand
-
-Value:
-
-    {{ .GetValue "appBuildImageCommand" }}
-
-
-### Configs._integrate
-
-Value:
-
-    {{ .GetConfig "_registerIndex" }}
-    {{ .GetConfig "_registerAppRunnerTasks" }}
-
-
-
-### Configs._prepareReplacementMap
-
-
-### Configs._validateAppDirectory
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ -z "${_ZRB_APP_DIRECTORY}" ]
-    then
-      echo "{{ $d.Red }}Invalid _ZRB_APP_DIRECTORY: ${_ZRB_APP_DIRECTORY}{{ $d.Normal }}"
-      exit 1
-    fi
-
-
-
-### Configs.appCheckCommand
-
-Value:
-
-    {{ .GetValue "appCheckCommand" }}
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/setReplacementMap.sh"
 
 
 ### Configs.appDependencies
@@ -293,33 +254,16 @@ Value:
     {{ .GetValue "appDependencies" }}
 
 
-### Configs._prepareVariables
+### Configs.templateLocations
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh"
+    [
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
+      "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/appRunnerTemplate"
+    ]
 
-
-
-### Configs._skipCreationPath
-
-Value:
-
-    zaruba-tasks/${_ZRB_APP_NAME}
-
-
-### Configs.appUrl
-
-Value:
-
-    {{ .GetValue "appUrl" }}
-
-
-### Configs.deploymentName
-
-Value:
-
-    {{ .GetValue "deploymentName" }}
 
 
 ### Configs._start
@@ -390,62 +334,37 @@ Value:
 
 
 
-### Configs.afterStart
+### Configs._validateAppContainerVolumes
 
 Value:
 
     {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
+    then
+      echo "{{ $d.Red }}Invalid _ZRB_APP_CONTAINER_VOLUMES: ${_ZRB_APP_CONTAINER_VOLUMES}{{ $d.Normal }}"
+      exit 1
+    fi
 
 
-### Configs.appEnvPrefix
 
-Value:
-
-    {{ .GetValue "appEnvPrefix" }}
+### Configs.setup
 
 
-### Configs.appPrepareCommand
-
-Value:
-
-    {{ .GetValue "appPrepareCommand" }}
+### Configs._prepareReplacementMap
 
 
-### Configs.cmd
+### Configs.cmdArg
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    -c
 
 
-### Configs.defaultAppContainerVolumes
-
-Value:
-
-    []
-
-
-### Configs.appCrudEntity
+### Configs.strictMode
 
 Value:
 
-    {{ .GetValue "appCrudEntity" }}
-
-
-### Configs.appStartContainerCommand
-
-Value:
-
-    {{ .GetValue "appStartContainerCommand" }}
-
-
-### Configs._prepareBaseCheckCommand
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
+    true
 
 
 ### Configs.appContainerVolumes
@@ -455,11 +374,55 @@ Value:
     {{ if ne (.GetValue "appContainerVolumes") "[]" }}{{ .GetValue "appContainerVolumes" }}{{ else }}{{ .GetConfig "defaultAppContainerVolumes" }}{{ end }}
 
 
-### Configs.appDirectory
+### Configs.appName
 
 Value:
 
-    {{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}
+    {{ .GetValue "appName" }}
+
+
+### Configs._validateAppPorts
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_PORTS}")" = 0 ]
+    then
+      echo "{{ $d.Red }}Invalid _ZRB_APP_PORTS: ${_ZRB_APP_PORTS}{{ $d.Normal }}"
+      exit 1
+    fi
+
+
+
+### Configs._registerAppRunnerTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+
+
+### Configs._validate
+
+
+### Configs.appEnvPrefix
+
+Value:
+
+    {{ .GetValue "appEnvPrefix" }}
+
+
+### Configs.appImageName
+
+Value:
+
+    {{ .GetValue "appImageName" }}
+
+
+### Configs.appPrepareCommand
+
+Value:
+
+    {{ .GetValue "appPrepareCommand" }}
 
 
 ### Configs.appStartCommand
@@ -469,59 +432,11 @@ Value:
     {{ .GetValue "appStartCommand" }}
 
 
-### Configs.beforeStart
-
-
-### Configs.appHttpMethod
+### Configs.defaultAppContainerVolumes
 
 Value:
 
-    {{ .GetValue "appHttpMethod" }}
-
-
-### Configs.appModuleName
-
-Value:
-
-    {{ .GetValue "appModuleName" }}
-
-
-### Configs.appName
-
-Value:
-
-    {{ .GetValue "appName" }}
-
-
-### Configs.appPushImageCommand
-
-Value:
-
-    {{ .GetValue "appPushImageCommand" }}
-
-
-### Configs.appRunnerVersion
-
-Value:
-
-    {{ .GetValue "appRunnerVersion" }}
-
-
-### Configs.deploymentDirectory
-
-Value:
-
-    {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultDeploymentDirectory" }}{{ end }}
-
-
-### Configs.appEventName
-
-Value:
-
-    {{ .GetValue "appEventName" }}
-
-
-### Configs.defaultAppBaseImageName
+    []
 
 
 ### Configs.defaultDeploymentDirectory
@@ -531,29 +446,67 @@ Value:
     {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}
 
 
-### Configs.setup
-
-
-### Configs._prepareBaseTestCommand
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
-
-
-### Configs._validate
-
-
-### Configs._validateAppCrudFields
+### Configs._skipCreation
 
 Value:
 
     {{ $d := .Decoration -}}
-    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CRUD_FIELDS}")" = 0 ]
+    {{ if .GetConfig "_skipCreationPath" -}}
+    if [ -x "{{ .GetConfig "_skipCreationPath" }}" ]
     then
-      echo "{{ $d.Red }}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}{{ $d.Normal }}"
-      exit 1
+      echo "{{ $d.Yellow }}[SKIP] {{ .GetConfig "_skipCreationPath" }} already exist.{{ $d.Normal }}"
+      exit 0
     fi
+    {{ end -}}
+
+
+
+### Configs.appBuildImageCommand
+
+Value:
+
+    {{ .GetValue "appBuildImageCommand" }}
+
+
+### Configs.start
+
+
+### Configs.defaultGoAppPorts
+
+Value:
+
+    [
+      "3000"
+    ]
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.appCrudEntity
+
+Value:
+
+    {{ .GetValue "appCrudEntity" }}
+
+
+### Configs.appRpcName
+
+Value:
+
+    {{ .GetValue "appRpcName" }}
+
+
+### Configs._prepareVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh"
 
 
 
@@ -579,35 +532,150 @@ Value:
 
 
 
-### Configs.appImageName
+### Configs.appEventName
 
 Value:
 
-    {{ .GetValue "appImageName" }}
+    {{ .GetValue "appEventName" }}
 
 
-### Configs.defaultAppDirectory
-
-
-### Configs._registerAppRunnerTasks
+### Configs.appIcon
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+    🐹
 
 
-### Configs._skipCreation
+### Configs.beforeStart
+
+
+### Configs._prepareBasePrepareCommand
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
+
+
+### Configs.appBaseImageName
+
+Value:
+
+    {{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}
+
+
+### Configs._taskIndexPath
+
+Value:
+
+    ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
+
+
+### Configs.defaultAppPorts
+
+Value:
+
+    []
+
+
+### Configs.appPushImageCommand
+
+Value:
+
+    {{ .GetValue "appPushImageCommand" }}
+
+
+### Configs._registerIndex
+
+Value:
+
+    {{ if .GetConfig "_taskIndexPath" -}}
+    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+    {{ end -}}
+
+
+
+### Configs._validateAppCrudFields
 
 Value:
 
     {{ $d := .Decoration -}}
-    {{ if .GetConfig "_skipCreationPath" -}}
-    if [ -x "{{ .GetConfig "_skipCreationPath" }}" ]
+    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CRUD_FIELDS}")" = 0 ]
     then
-      echo "{{ $d.Yellow }}[SKIP] {{ .GetConfig "_skipCreationPath" }} already exist.{{ $d.Normal }}"
-      exit 0
+      echo "{{ $d.Red }}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}{{ $d.Normal }}"
+      exit 1
     fi
-    {{ end -}}
+
+
+
+### Configs.deploymentDirectory
+
+Value:
+
+    {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultDeploymentDirectory" }}{{ end }}
+
+
+### Configs._generateBase
+
+Value:
+
+    _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+
+
+### Configs._prepareBaseTestCommand
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.appContainerName
+
+Value:
+
+    {{ .GetValue "appContainerName" }}
+
+
+### Configs.appHttpMethod
+
+Value:
+
+    {{ .GetValue "appHttpMethod" }}
+
+
+### Configs._prepareBaseStartCommand
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
+
+
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"
+
+
+### Configs._validateAppDirectory
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ -z "${_ZRB_APP_DIRECTORY}" ]
+    then
+      echo "{{ $d.Red }}Invalid _ZRB_APP_DIRECTORY: ${_ZRB_APP_DIRECTORY}{{ $d.Normal }}"
+      exit 1
+    fi
 
 
 
@@ -618,74 +686,18 @@ Value:
     {{ .GetValue "appCrudFields" }}
 
 
-### Configs.appEnvs
+### Configs.appPorts
 
 Value:
 
-    {{ .GetValue "appEnvs" }}
+    {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
 
 
-### Configs.appRpcName
-
-Value:
-
-    {{ .GetValue "appRpcName" }}
-
-
-### Configs.defaultAppPorts
+### Configs.appRunnerVersion
 
 Value:
 
-    []
-
-
-### Configs._validateAppPorts
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_PORTS}")" = 0 ]
-    then
-      echo "{{ $d.Red }}Invalid _ZRB_APP_PORTS: ${_ZRB_APP_PORTS}{{ $d.Normal }}"
-      exit 1
-    fi
-
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs._prepareBasePrepareCommand
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
-
-
-### Configs.start
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.templateLocations
-
-Value:
-
-    [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/appRunnerTemplate"
-    ]
-
+    {{ .GetValue "appRunnerVersion" }}
 
 
 ### Configs._generate
@@ -695,62 +707,50 @@ Value:
     {{ .GetConfig "_generateBase" }}
 
 
-### Configs._generateBase
+### Configs._prepareBaseCheckCommand
 
 Value:
 
-    _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
 
 
-### Configs.appContainerName
-
-Value:
-
-    {{ .GetValue "appContainerName" }}
-
-
-### Configs.appIcon
+### Configs.deploymentName
 
 Value:
 
-    🐹
+    {{ .GetValue "deploymentName" }}
 
 
-### Configs.defaultGoAppPorts
-
-Value:
-
-    [
-      "3000"
-    ]
-
-
-
-### Configs._taskIndexPath
+### Configs.appStartContainerCommand
 
 Value:
 
-    ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
+    {{ .GetValue "appStartContainerCommand" }}
 
 
-### Configs._validateAppContainerVolumes
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ "$("{{ .ZarubaBin }}" list validate "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]
-    then
-      echo "{{ $d.Red }}Invalid _ZRB_APP_CONTAINER_VOLUMES: ${_ZRB_APP_CONTAINER_VOLUMES}{{ $d.Normal }}"
-      exit 1
-    fi
+### Configs.defaultAppDirectory
 
 
-
-### Configs.appTestCommand
+### Configs._integrate
 
 Value:
 
-    {{ .GetValue "appTestCommand" }}
+    {{ .GetConfig "_registerIndex" }}
+    {{ .GetConfig "_registerAppRunnerTasks" }}
+
+
+
+### Configs.defaultAppBaseImageName
+
+
+### Configs._finish
+
+
+### Configs._skipCreationPath
+
+Value:
+
+    zaruba-tasks/${_ZRB_APP_NAME}
 
 
 ## Envs

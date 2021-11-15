@@ -54,7 +54,10 @@ Description:
 ## Configs
 
 
-### Configs.afterStart
+### Configs._start
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -64,7 +67,11 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.finish
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.includeShellUtil
@@ -77,20 +84,36 @@ Value:
 ### Configs.setup
 
 
-### Configs._finish
-
-
-### Configs._start
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
+### Configs.strictMode
 
 Value:
 
-    -c
+    true
+
+
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+
+### Configs.finish
 
 
 ### Configs.start
@@ -109,29 +132,6 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
 
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ## Envs

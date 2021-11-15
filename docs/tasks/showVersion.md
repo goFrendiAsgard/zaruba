@@ -45,13 +45,7 @@ Description:
 ## Configs
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    cd "{{ .ZarubaHome }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+### Configs._finish
 
 
 ### Configs._initShell
@@ -63,11 +57,11 @@ Value:
 
 
 
-### Configs.cmd
+### Configs.cmdArg
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    -c
 
 
 ### Configs.includeShellUtil
@@ -77,26 +71,20 @@ Value:
     true
 
 
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
+### Configs.start
 
 Value:
 
-    -c
+    {{ $d := .Decoration -}}
+    cd "{{ .ZarubaHome }}"
+    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
 
 
-### Configs.finish
+### Configs.strictMode
 
+Value:
 
-### Configs.setup
-
-
-### Configs._finish
+    true
 
 
 ### Configs._setup
@@ -109,11 +97,23 @@ Value:
 ### Configs._start
 
 
-### Configs.strictMode
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
 
 Value:
 
-    true
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.setup
 
 
 ## Envs

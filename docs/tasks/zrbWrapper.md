@@ -40,7 +40,57 @@ Type:
 ## Configs
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
 ### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.afterStart
+
+
+### Configs.playBell
+
+Value:
+
+    echo $'\a'
 
 
 ### Configs._initShell
@@ -52,61 +102,11 @@ Value:
 
 
 
-### Configs.beforeStart
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.playBell
-
-Value:
-
-    echo $'\a'
-
-
-### Configs.setup
-
-
-### Configs._start
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
-
-
 ### Configs.start
 
 Value:
 
     {{ .GetConfig "playBell" }}
-
-
-### Configs.afterStart
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
 
 
 ### Configs.strictMode

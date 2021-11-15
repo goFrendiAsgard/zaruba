@@ -6,7 +6,7 @@ tasks:
     inputs:
       - appDirectory
     configs:
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+      defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/elasticsearch/appTemplate"

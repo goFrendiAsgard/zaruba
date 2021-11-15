@@ -47,6 +47,23 @@ Description:
 ## Configs
 
 
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.start
+
+Value:
+
+    echo hello world
+
+
 ### Configs._finish
 
 
@@ -60,10 +77,11 @@ Value:
 ### Configs._start
 
 
-### Configs.afterStart
+### Configs.cmdArg
 
+Value:
 
-### Configs.finish
+    -c
 
 
 ### Configs.setup
@@ -85,6 +103,9 @@ Value:
 
 
 
+### Configs.afterStart
+
+
 ### Configs.beforeStart
 
 
@@ -93,27 +114,6 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.start
-
-Value:
-
-    echo hello world
 
 
 ## Envs

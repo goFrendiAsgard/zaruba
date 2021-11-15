@@ -75,38 +75,7 @@ Description:
 ## Configs
 
 
-### Configs.afterStart
-
-
-### Configs.finish
-
-
-### Configs.hostDockerInternal
-
-Value:
-
-    {{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._setupContainerName
-
-Value:
-
-    {{ $d := .Decoration -}}
-    CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-    if [ -z "${CONTAINER_NAME}" ]
-    then
-      echo "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
-      exit 1
-    fi
-
+### Configs._finish
 
 
 ### Configs._startRunContainerPorts
@@ -129,62 +98,24 @@ Value:
 
 
 
-### Configs.imageName
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.restartPolicy
-
-Value:
-
-    no
-
-
-### Configs.useImagePrefix
-
-Value:
-
-    true
-
-
-### Configs._startRunContainerVolumes
-
-Value:
-
-    {{ $this := . -}}
-    {{ range $index, $volume := .Util.Str.Split (.Util.Str.Trim (.GetConfig "volumes") "\n ") "\n" -}}
-      {{ if ne $volume "" -}}
-        {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
-        {{ if eq (len $volumeParts) 2 -}}
-          {{ $absHostVolume := $this.GetWorkPath (index $volumeParts 0) -}}
-          {{ $containerVolume := index $volumeParts 1 -}}
-          -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
-        {{ end -}}
-      {{ end -}}
-    {{ end -}}
-
-
-
 ### Configs.entryPoint
 
 
-### Configs.beforeStart
+### Configs.imageName
 
 
-### Configs.imageTag
-
-
-### Configs.rebuild
+### Configs._setupContainerName
 
 Value:
 
-    false
+    {{ $d := .Decoration -}}
+    CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+    if [ -z "${CONTAINER_NAME}" ]
+    then
+      echo "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+      exit 1
+    fi
+
 
 
 ### Configs._startRunContainer
@@ -204,6 +135,134 @@ Value:
     {{ .GetConfig "_startRunContainerVolumes" -}}
     {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
     --restart {{ .GetConfig "restartPolicy" }} -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.localhost
+
+Value:
+
+    localhost
+
+
+### Configs.network
+
+Value:
+
+    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
+
+
+### Configs.restartPolicy
+
+Value:
+
+    no
+
+
+### Configs.checkCommand
+
+
+### Configs.finish
+
+
+### Configs.useImagePrefix
+
+Value:
+
+    true
+
+
+### Configs.volumes
+
+
+### Configs._setup
+
+Value:
+
+    set -e
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
+    {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
+    {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
+
+
+
+### Configs.containerName
+
+
+### Configs.hostDockerInternal
+
+Value:
+
+    {{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}
+
+
+### Configs.rebuild
+
+Value:
+
+    false
+
+
+### Configs._startRebuildContainer
+
+Value:
+
+    stopContainer "${CONTAINER_NAME}"
+    removeContainer "${CONTAINER_NAME}"
+
+
+
+### Configs._startRunContainerEntryPoint
+
+Value:
+
+    {{ if .GetConfig "entryPoint" -}}
+      --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
+    {{ end -}}
+
+
+
+### Configs.command
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
+### Configs.imageTag
+
+
+### Configs.ports
+
+
+### Configs.setup
+
+
+### Configs.start
+
+
+### Configs.user
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
 
@@ -227,48 +286,25 @@ Value:
 
 
 
-### Configs.containerName
-
-
-### Configs.ports
-
-
-### Configs._initShell
+### Configs._startRunContainerVolumes
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+    {{ $this := . -}}
+    {{ range $index, $volume := .Util.Str.Split (.Util.Str.Trim (.GetConfig "volumes") "\n ") "\n" -}}
+      {{ if ne $volume "" -}}
+        {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
+        {{ if eq (len $volumeParts) 2 -}}
+          {{ $absHostVolume := $this.GetWorkPath (index $volumeParts 0) -}}
+          {{ $containerVolume := index $volumeParts 1 -}}
+          -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
+        {{ end -}}
+      {{ end -}}
+    {{ end -}}
 
 
 
-### Configs._startRebuildContainer
-
-Value:
-
-    stopContainer "${CONTAINER_NAME}"
-    removeContainer "${CONTAINER_NAME}"
-
-
-
-### Configs._startLogContainer
-
-Value:
-
-    {{ $d := .Decoration -}}
-    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
-    docker logs --since 0m --follow "${CONTAINER_NAME}"
-
-
-
-### Configs.command
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.afterStart
 
 
 ### Configs._setupImageName
@@ -283,6 +319,13 @@ Value:
       exit 1
     fi
 
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs._start
@@ -312,71 +355,28 @@ Value:
 
 
 
-### Configs.cmdArg
+### Configs._startLogContainer
 
 Value:
 
-    -c
+    {{ $d := .Decoration -}}
+    echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
+    docker logs --since 0m --follow "${CONTAINER_NAME}"
 
 
-### Configs.setup
 
-
-### Configs.start
-
-
-### Configs.user
-
-
-### Configs._setup
+### Configs.includeShellUtil
 
 Value:
 
-    set -e
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
-    {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
-    {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
+    true
 
 
-
-### Configs._startRunContainerEntryPoint
+### Configs.strictMode
 
 Value:
 
-    {{ if .GetConfig "entryPoint" -}}
-      --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
-    {{ end -}}
-
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-### Configs.localhost
-
-Value:
-
-    localhost
-
-
-### Configs.network
-
-Value:
-
-    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
-
-
-### Configs.volumes
-
-
-### Configs._finish
-
-
-### Configs.checkCommand
+    true
 
 
 ## Envs

@@ -95,6 +95,22 @@ Options:
 ## Configs
 
 
+### Configs.beforeCheck
+
+
+### Configs.beforeStart
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
 ### Configs.cmdArg
 
 Value:
@@ -102,40 +118,14 @@ Value:
     -c
 
 
+### Configs.ports
+
+Value:
+
+    {{ .GetValue "serverHttpPort" }}
+
+
 ### Configs.start
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.beforeStart
-
-
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
-
-
-### Configs.runInLocal
-
-Value:
-
-    true
 
 
 ### Configs.strictMode
@@ -145,10 +135,13 @@ Value:
     true
 
 
-### Configs._finish
+### Configs._start
 
 
 ### Configs.afterCheck
+
+
+### Configs.afterStart
 
 
 ### Configs.check
@@ -166,21 +159,14 @@ Value:
 
 
 
-### Configs.includeShellUtil
+### Configs.cmd
 
 Value:
 
-    true
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.ports
-
-Value:
-
-    {{ .GetValue "serverHttpPort" }}
-
-
-### Configs.setup
+### Configs._finish
 
 
 ### Configs._initShell
@@ -192,7 +178,21 @@ Value:
 
 
 
-### Configs.beforeCheck
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.runInLocal
+
+Value:
+
+    true
+
+
+### Configs.setup
 
 
 ## Envs

@@ -51,21 +51,6 @@ Description:
 ## Inputs
 
 
-### Inputs.subrepoName
-
-Description:
-
-    Subrepo name (Can be blank)
-
-Prompt:
-
-    Subrepo name
-
-Secret:
-
-    false
-
-
 ### Inputs.subrepoUrl
 
 Description:
@@ -100,26 +85,28 @@ Secret:
     false
 
 
+### Inputs.subrepoName
+
+Description:
+
+    Subrepo name (Can be blank)
+
+Prompt:
+
+    Subrepo name
+
+Secret:
+
+    false
+
+
 ## Configs
 
 
 ### Configs._finish
 
 
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -129,11 +116,7 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
+### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -146,7 +129,11 @@ Value:
 ### Configs.afterStart
 
 
-### Configs.finish
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.start
@@ -178,10 +165,18 @@ Value:
 
 
 
-### Configs.beforeStart
+### Configs.strictMode
+
+Value:
+
+    true
 
 
-### Configs.setup
+### Configs.subrepoUrl
+
+Value:
+
+    {{ .GetValue "subrepoUrl" }}
 
 
 ### Configs.subrepoPrefix
@@ -191,14 +186,26 @@ Value:
     {{ .GetValue "subrepoPrefix" }}
 
 
-### Configs._start
-
-
-### Configs.strictMode
+### Configs._initShell
 
 Value:
 
-    true
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.setup
 
 
 ### Configs.subrepoName
@@ -206,13 +213,6 @@ Value:
 Value:
 
     {{ .GetValue "subrepoName" }}
-
-
-### Configs.subrepoUrl
-
-Value:
-
-    {{ .GetValue "subrepoUrl" }}
 
 
 ## Envs

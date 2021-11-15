@@ -15,7 +15,7 @@ tasks:
       - appContainerName
     configs:
       appIcon: 🍜
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+      defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
       defaultAppPorts: |
         [
           "9200",

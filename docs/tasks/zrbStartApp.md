@@ -93,6 +93,9 @@ Description:
 ## Configs
 
 
+### Configs.afterCheck
+
+
 ### Configs.check
 
 Value:
@@ -108,13 +111,6 @@ Value:
 
 
 
-### Configs.runInLocal
-
-Value:
-
-    true
-
-
 ### Configs.start
 
 
@@ -123,18 +119,6 @@ Value:
 Value:
 
     true
-
-
-### Configs._finish
-
-
-### Configs.beforeStart
-
-
-### Configs.finish
-
-
-### Configs.ports
 
 
 ### Configs._setup
@@ -147,21 +131,13 @@ Value:
 ### Configs.afterStart
 
 
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.finish
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
+### Configs.ports
 
 
-### Configs.setup
+### Configs._finish
 
 
 ### Configs._initShell
@@ -173,7 +149,27 @@ Value:
 
 
 
-### Configs.afterCheck
+### Configs._start
+
+
+### Configs.beforeCheck
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.cmdArg
@@ -183,10 +179,14 @@ Value:
     -c
 
 
-### Configs._start
+### Configs.runInLocal
+
+Value:
+
+    true
 
 
-### Configs.beforeCheck
+### Configs.setup
 
 
 ## Envs

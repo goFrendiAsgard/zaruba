@@ -40,10 +40,11 @@ Type:
 ## Configs
 
 
-### Configs._start
+### Configs.cmdArg
 
+Value:
 
-### Configs.afterStart
+    -c
 
 
 ### Configs.start
@@ -56,18 +57,40 @@ Value:
     fi
 
 
-### Configs._setup
+### Configs.strictMode
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    true
 
 
-### Configs.cmdArg
+### Configs.cmd
 
 Value:
 
-    -c
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.kubeContext
+
+Value:
+
+    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._start
+
+
+### Configs.beforeStart
 
 
 ### Configs.finish
@@ -80,14 +103,20 @@ Value:
     {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
 
 
-### Configs.beforeStart
+### Configs.setup
 
 
-### Configs.cmd
+### Configs._finish
+
+
+### Configs._setup
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
 
 
 ### Configs.includeShellUtil
@@ -95,35 +124,6 @@ Value:
 Value:
 
     true
-
-
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.kubeContext
-
-Value:
-
-    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
 
 
 ## Envs

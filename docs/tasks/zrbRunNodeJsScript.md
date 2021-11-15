@@ -47,7 +47,36 @@ Description:
 ## Configs
 
 
+### Configs._setup
+
+
+### Configs._start
+
+
+### Configs.cmdArg
+
+Value:
+
+    -p
+
+
+### Configs._finish
+
+
 ### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    node
+
+
+### Configs.finish
+
+
+### Configs.setup
 
 
 ### Configs.start
@@ -58,35 +87,6 @@ Value:
 
 
 ### Configs.afterStart
-
-
-### Configs._setup
-
-
-### Configs._start
-
-
-### Configs.cmd
-
-Value:
-
-    node
-
-
-### Configs.cmdArg
-
-Value:
-
-    -p
-
-
-### Configs.finish
-
-
-### Configs.setup
-
-
-### Configs._finish
 
 
 ## Envs

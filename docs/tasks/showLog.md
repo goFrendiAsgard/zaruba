@@ -63,24 +63,20 @@ Secret:
 ## Configs
 
 
-### Configs._finish
+### Configs.beforeStart
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.finish
 
 
-### Configs._start
-
-
-### Configs.cmdArg
+### Configs.includeShellUtil
 
 Value:
 
-    -c
+    true
+
+
+### Configs.setup
 
 
 ### Configs._initShell
@@ -92,17 +88,21 @@ Value:
 
 
 
-### Configs.beforeStart
+### Configs.afterStart
 
 
-### Configs.cmd
+### Configs._setup
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.finish
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.keyword
@@ -110,6 +110,19 @@ Value:
 Value:
 
     {{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}
+
+
+### Configs._finish
+
+
+### Configs._start
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.start
@@ -124,19 +137,6 @@ Value:
     fi
     "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
 
-
-
-### Configs.afterStart
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
 
 
 ### Configs.strictMode

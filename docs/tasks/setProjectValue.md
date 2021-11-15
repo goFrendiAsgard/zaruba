@@ -90,28 +90,13 @@ Validation:
 ## Configs
 
 
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
+### Configs._finish
 
 
 ### Configs._start
 
 
-### Configs.beforeStart
-
-
-### Configs._finish
-
-
-### Configs.finish
-
-
-### Configs.setup
+### Configs.afterStart
 
 
 ### Configs.cmdArg
@@ -132,38 +117,14 @@ Value:
 
 
 
-### Configs.strictMode
+### Configs.includeShellUtil
 
 Value:
 
     true
 
 
-### Configs.variableName
-
-Value:
-
-    {{ .GetValue "variableName" }}
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.afterStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 
@@ -175,6 +136,45 @@ Value:
 Value:
 
     {{ .GetValue "variableValue" }}
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.setup
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.variableName
+
+Value:
+
+    {{ .GetValue "variableName" }}
 
 
 ## Envs
