@@ -50,16 +50,20 @@ Description:
 ## Configs
 
 
-### Configs.start
+### Configs.beforeStart
+
+
+### Configs.cmd
 
 Value:
 
-    {{ $d := .Decoration -}}
-    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
-    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
+
+### Configs.finish
+
+
+### Configs.setup
 
 
 ### Configs.strictMode
@@ -67,6 +71,15 @@ Value:
 Value:
 
     true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 ### Configs._setup
@@ -79,15 +92,6 @@ Value:
 ### Configs._start
 
 
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.finish
-
-
 ### Configs.includeShellUtil
 
 Value:
@@ -95,23 +99,22 @@ Value:
     true
 
 
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
+
+
+
 ### Configs._finish
 
 
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.afterStart
 
 
 ### Configs.cmdArg
@@ -119,9 +122,6 @@ Value:
 Value:
 
     -c
-
-
-### Configs.setup
 
 
 ## Envs

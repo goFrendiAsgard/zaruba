@@ -40,37 +40,10 @@ Type:
 ## Configs
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs.finish
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
+### Configs._finish
 
 
 ### Configs._initShell
@@ -89,14 +62,18 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeStart
-
-
 ### Configs.cmd
 
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.setup
@@ -113,6 +90,29 @@ Value:
     fi
     echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ## Envs

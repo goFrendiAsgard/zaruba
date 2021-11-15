@@ -54,7 +54,19 @@ Description:
 ## Configs
 
 
-### Configs._start
+### Configs.setup
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.afterStart
 
 
 ### Configs.beforeStart
@@ -81,26 +93,7 @@ Value:
     true
 
 
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
 ### Configs._finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
 
 
 ### Configs._setup
@@ -110,7 +103,7 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.afterStart
+### Configs._start
 
 
 ### Configs.finish
@@ -132,6 +125,13 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

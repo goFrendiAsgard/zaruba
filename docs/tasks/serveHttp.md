@@ -95,20 +95,13 @@ Options:
 ## Configs
 
 
-### Configs.beforeCheck
-
-
-### Configs.beforeStart
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
+### Configs._initShell
 
 Value:
 
-    true
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 ### Configs.cmdArg
@@ -118,14 +111,17 @@ Value:
     -c
 
 
-### Configs.ports
+### Configs.start
+
+
+### Configs.cmd
 
 Value:
 
-    {{ .GetValue "serverHttpPort" }}
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.start
+### Configs.setup
 
 
 ### Configs.strictMode
@@ -135,13 +131,23 @@ Value:
     true
 
 
-### Configs._start
+### Configs._finish
 
 
-### Configs.afterCheck
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.beforeCheck
 
 
 ### Configs.check
@@ -159,30 +165,27 @@ Value:
 
 
 
-### Configs.cmd
+### Configs.finish
+
+
+### Configs.includeShellUtil
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
 
 
-### Configs._finish
+### Configs._start
 
 
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+### Configs.afterCheck
 
 
-
-### Configs._setup
+### Configs.ports
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ .GetValue "serverHttpPort" }}
 
 
 ### Configs.runInLocal
@@ -190,9 +193,6 @@ Value:
 Value:
 
     true
-
-
-### Configs.setup
 
 
 ## Envs

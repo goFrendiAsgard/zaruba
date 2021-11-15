@@ -47,7 +47,7 @@ Description:
 ## Configs
 
 
-### Configs._start
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -55,9 +55,6 @@ Description:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
 
 
 ### Configs.start
@@ -76,13 +73,11 @@ Value:
 
 
 
-### Configs._finish
+### Configs.strictMode
 
+Value:
 
-### Configs.afterStart
-
-
-### Configs.setup
+    true
 
 
 ### Configs._setup
@@ -99,28 +94,20 @@ Value:
     true
 
 
+### Configs.setup
+
+
+### Configs._finish
+
+
+### Configs.afterStart
+
+
 ### Configs.network
 
 Value:
 
     {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.beforeStart
 
 
 ### Configs._initShell
@@ -130,6 +117,19 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs._start
 
 
 ## Envs

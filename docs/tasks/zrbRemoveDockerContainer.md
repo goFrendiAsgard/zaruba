@@ -52,14 +52,14 @@ Description:
 ## Configs
 
 
-### Configs.setup
+### Configs.finish
 
 
-### Configs.cmd
+### Configs.includeShellUtil
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
 
 
 ### Configs.start
@@ -77,6 +77,12 @@ Value:
 
 
 
+### Configs.containerName
+
+
+### Configs._finish
+
+
 ### Configs._initShell
 
 Value:
@@ -84,6 +90,25 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+
+
+### Configs.beforeStart
+
+
+### Configs.setup
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs._setup
@@ -100,36 +125,11 @@ Value:
     -c
 
 
-### Configs.finish
-
-
 ### Configs.strictMode
 
 Value:
 
     true
-
-
-### Configs._finish
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.containerName
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs._start
 
 
 ## Envs

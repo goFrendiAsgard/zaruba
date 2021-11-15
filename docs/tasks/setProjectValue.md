@@ -49,25 +49,6 @@ Description:
 ## Inputs
 
 
-### Inputs.variableName
-
-Description:
-
-    Variable name (Required)
-
-Prompt:
-
-    Name
-
-Secret:
-
-    false
-
-Validation:
-
-    ^.+$
-
-
 ### Inputs.variableValue
 
 Description:
@@ -87,34 +68,36 @@ Validation:
     ^.+$
 
 
+### Inputs.variableName
+
+Description:
+
+    Variable name (Required)
+
+Prompt:
+
+    Name
+
+Secret:
+
+    false
+
+Validation:
+
+    ^.+$
+
+
 ## Configs
 
 
 ### Configs._finish
 
 
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.cmdArg
+### Configs._setup
 
 Value:
 
-    -c
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
-
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.includeShellUtil
@@ -124,11 +107,11 @@ Value:
     true
 
 
-### Configs.strictMode
+### Configs.variableName
 
 Value:
 
-    true
+    {{ .GetValue "variableName" }}
 
 
 ### Configs.variableValue
@@ -147,14 +130,13 @@ Value:
 
 
 
-### Configs.setup
+### Configs._start
 
 
-### Configs._setup
+### Configs.afterStart
 
-Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.finish
 
 
 ### Configs.beforeStart
@@ -167,14 +149,32 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.finish
-
-
-### Configs.variableName
+### Configs.cmdArg
 
 Value:
 
-    {{ .GetValue "variableName" }}
+    -c
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

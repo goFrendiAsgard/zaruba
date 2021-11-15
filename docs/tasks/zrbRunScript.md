@@ -51,25 +51,6 @@ Description:
 ### Configs._start
 
 
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-
-### Configs.setup
-
-
-### Configs._setup
-
-
 ### Configs.afterStart
 
 
@@ -84,6 +65,25 @@ Value:
 
 
 ### Configs._finish
+
+
+### Configs._setup
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
 
 
 ## Envs

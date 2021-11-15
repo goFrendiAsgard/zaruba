@@ -93,7 +93,23 @@ Description:
 ## Configs
 
 
+### Configs.finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
 ### Configs.afterCheck
+
+
+### Configs.afterStart
 
 
 ### Configs.check
@@ -111,35 +127,6 @@ Value:
 
 
 
-### Configs.start
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.afterStart
-
-
-### Configs.finish
-
-
-### Configs.ports
-
-
-### Configs._finish
-
-
 ### Configs._initShell
 
 Value:
@@ -149,7 +136,17 @@ Value:
 
 
 
-### Configs._start
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.ports
 
 
 ### Configs.beforeCheck
@@ -162,7 +159,10 @@ Value:
     true
 
 
-### Configs.beforeStart
+### Configs.setup
+
+
+### Configs._finish
 
 
 ### Configs.cmd
@@ -172,13 +172,6 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs.runInLocal
 
 Value:
@@ -186,7 +179,14 @@ Value:
     true
 
 
-### Configs.setup
+### Configs.start
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

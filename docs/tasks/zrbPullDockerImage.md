@@ -52,7 +52,7 @@ Description:
 ## Configs
 
 
-### Configs.afterStart
+### Configs.setup
 
 
 ### Configs.strictMode
@@ -62,16 +62,20 @@ Value:
     true
 
 
-### Configs._initShell
+### Configs._setup
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
+### Configs._start
 
-### Configs.beforeStart
+
+### Configs.afterStart
+
+
+### Configs.finish
 
 
 ### Configs.imagePrefix
@@ -81,7 +85,10 @@ Value:
     {{ .GetValue "defaultImagePrefix" }}
 
 
-### Configs.setup
+### Configs.beforeStart
+
+
+### Configs.imageName
 
 
 ### Configs.start
@@ -102,7 +109,11 @@ Value:
 
 
 
-### Configs._finish
+### Configs.useImagePrefix
+
+Value:
+
+    true
 
 
 ### Configs.cmd
@@ -112,6 +123,21 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
+### Configs.imageTag
+
+
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
 ### Configs.cmdArg
 
 Value:
@@ -119,33 +145,7 @@ Value:
     -c
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
-### Configs.finish
-
-
-### Configs.imageName
-
-
-### Configs.imageTag
-
-
 ### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.useImagePrefix
 
 Value:
 
