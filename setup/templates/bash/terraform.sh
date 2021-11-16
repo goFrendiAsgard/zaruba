@@ -1,4 +1,4 @@
 if [ -d "${HOME}/.terraform" ]
 then
-    PATH="${PATH}:${HOME}/.terraform"
+    export PATH="${PATH}:${HOME}/.terraform"
 fi

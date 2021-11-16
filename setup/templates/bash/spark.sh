@@ -1,4 +1,4 @@
 if [ -d "${HOME}/spark" ]
 then
-    PATH="${PATH}:${HOME}/spark/bin"
+    export PATH="${PATH}:${HOME}/spark/bin"
 fi
