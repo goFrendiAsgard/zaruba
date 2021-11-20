@@ -12,7 +12,7 @@ var yamlReadCmd = &cobra.Command{
 	Use:   "read <fileName>",
 	Short: "Read yaml from file",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]

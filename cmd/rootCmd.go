@@ -136,6 +136,8 @@ func init() {
 	mapCmd.AddCommand(mapSetCmd)
 	mapCmd.AddCommand(mapTransformKeyCmd)
 	mapCmd.AddCommand(mapValidateCmd)
+	mapCmd.AddCommand(mapToStringMapCmd)
+	mapCmd.AddCommand(mapToVariedStringMapCmd)
 
 	numCmd.AddCommand(numRangeCmd)
 	numCmd.AddCommand(numValidateIntCmd)
@@ -173,6 +175,7 @@ func init() {
 	strCmd.AddCommand(strToPascalCmd)
 	strCmd.AddCommand(strToSnakeCmd)
 	strCmd.AddCommand(strToUpperCmd)
+	strCmd.AddCommand(strToUpperSnakeCmd)
 
 	taskCmd.AddCommand(taskAddDependencyCmd)
 	taskCmd.AddCommand(taskAddParentCmd)
@@ -190,7 +193,7 @@ func init() {
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		logger.Println(err)
 		logger.DPrintfError("To run a task you need to type %s%szaruba please <task-name>%s\n", decoration.Bold, decoration.Yellow, decoration.Normal)

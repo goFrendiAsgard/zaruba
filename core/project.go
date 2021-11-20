@@ -39,8 +39,23 @@ type Project struct {
 	Util                       *CoreUtil
 }
 
-// NewProject create new Config from Yaml File
-func NewProject(decoration *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+func NewDefaultProject(projectFile string) (p *Project, err error) {
+	return NewProject(projectFile, output.NewDefaultDecoration())
+}
+
+func NewProject(projectFile string, decoration *output.Decoration) (p *Project, err error) {
+	defaultIncludes := []string{"${ZARUBA_HOME}/core.zaruba.yaml"}
+	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
+		if script == "" {
+			continue
+		}
+		defaultIncludes = append(defaultIncludes, script)
+	}
+	return NewCustomProject(decoration, projectFile, defaultIncludes)
+}
+
+// NewCustomProject create new Config from Yaml File
+func NewCustomProject(decoration *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))

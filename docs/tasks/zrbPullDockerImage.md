@@ -52,43 +52,10 @@ Description:
 ## Configs
 
 
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
 ### Configs.afterStart
 
 
-### Configs.finish
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-### Configs.beforeStart
-
-
-### Configs.imageName
+### Configs.imageTag
 
 
 ### Configs.start
@@ -109,6 +76,19 @@ Value:
 
 
 
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
 ### Configs.useImagePrefix
 
 Value:
@@ -116,17 +96,18 @@ Value:
     true
 
 
-### Configs.cmd
+### Configs.imagePrefix
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ .GetValue "defaultImagePrefix" }}
 
 
-### Configs.imageTag
+### Configs.strictMode
 
+Value:
 
-### Configs._finish
+    true
 
 
 ### Configs._initShell
@@ -138,6 +119,16 @@ Value:
 
 
 
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
 ### Configs.cmdArg
 
 Value:
@@ -145,11 +136,20 @@ Value:
     -c
 
 
-### Configs.includeShellUtil
+### Configs._finish
+
+
+### Configs._setup
 
 Value:
 
-    true
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.imageName
 
 
 ## Envs

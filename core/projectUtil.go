@@ -12,7 +12,34 @@ import (
 	yaml "gopkg.in/yaml.v3"
 )
 
-func SetProjectValue(valueFilePath, key, value string) (err error) {
+type ProjectUtil struct {
+	file *fileutil.FileUtil
+	Task *TaskUtil
+}
+
+func NewProjectUtil(fileUtil *fileutil.FileUtil) *ProjectUtil {
+	taskUtil := NewTaskUtil(fileUtil)
+	projectUtil := &ProjectUtil{
+		file: fileUtil,
+		Task: taskUtil,
+	}
+	projectUtil.Task.Project = projectUtil
+	return projectUtil
+}
+
+func (projectUtil *ProjectUtil) getProject(projectFile string) (project *Project, err error) {
+	project, err = NewDefaultProject(projectFile)
+	if err != nil {
+		return nil, err
+	}
+	err = project.Init()
+	if err != nil {
+		return nil, err
+	}
+	return project, nil
+}
+
+func (projectUtil *ProjectUtil) SetValue(valueFilePath, key, value string) (err error) {
 	if key == "" {
 		return fmt.Errorf("key cannot be empty")
 	}
@@ -35,9 +62,8 @@ func SetProjectValue(valueFilePath, key, value string) (err error) {
 	return ioutil.WriteFile(valueFilePath, newFileContentB, 0755)
 }
 
-func IncludeFileToProject(projectFilePath string, fileName string) (err error) {
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(projectFilePath)
+func (projectUtil *ProjectUtil) IncludeFile(projectFilePath string, fileName string) (err error) {
+	node, err := projectUtil.file.ReadYamlNode(projectFilePath)
 	if err != nil {
 		return err
 	}
@@ -51,7 +77,7 @@ func IncludeFileToProject(projectFilePath string, fileName string) (err error) {
 		if keyNode.Value == "includes" && valNode.ShortTag() == "!!seq" {
 			valNode.Style = yaml.LiteralStyle
 			valNode.Content = append(valNode.Content, newIncludeVal)
-			return fileUtil.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+			return projectUtil.file.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 		}
 	}
 	includesKey := &yaml.Node{Kind: yaml.ScalarNode, Value: "includes"}
@@ -61,12 +87,11 @@ func IncludeFileToProject(projectFilePath string, fileName string) (err error) {
 		[]*yaml.Node{includesKey, includesVal},
 		docNode.Content...,
 	)
-	return fileUtil.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+	return projectUtil.file.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 }
 
-func AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(taskFilePath)
+func (projectUtil *ProjectUtil) AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
+	node, err := projectUtil.file.ReadYamlNode(taskFilePath)
 	if err != nil {
 		return err
 	}
@@ -86,7 +111,7 @@ func AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
 			}
 			valNode.Style = yaml.LiteralStyle
 			valNode.Content = append(valNode.Content, newTaskName, newTask)
-			return fileUtil.WriteYamlNode(taskFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+			return projectUtil.file.WriteYamlNode(taskFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 		}
 	}
 	// "tasks" not found, add it
@@ -102,10 +127,14 @@ func AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
 		},
 		docNode.Content...,
 	)
-	return fileUtil.WriteYamlNode(taskFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+	return projectUtil.file.WriteYamlNode(taskFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 }
 
-func SyncProjectEnvFiles(project *Project) (err error) {
+func (projectUtil *ProjectUtil) SyncEnvFiles(projectFile string) (err error) {
+	project, err := projectUtil.getProject(projectFile)
+	if err != nil {
+		return err
+	}
 	projectDir := filepath.Dir(project.GetFileLocation())
 	files, err := ioutil.ReadDir(projectDir)
 	if err != nil {
@@ -146,9 +175,14 @@ func SyncProjectEnvFiles(project *Project) (err error) {
 	return nil
 }
 
-func SyncProjectEnv(project *Project) (err error) {
+func (projectUtil *ProjectUtil) SyncTasksEnv(projectFile string) (err error) {
+	project, err := projectUtil.getProject(projectFile)
+	if err != nil {
+		return err
+	}
 	for _, task := range project.Tasks {
-		if err := SyncTaskEnv(task); err != nil {
+		taskName := task.GetName()
+		if err := projectUtil.Task.Env.Sync(projectFile, taskName); err != nil {
 			return err
 		}
 	}

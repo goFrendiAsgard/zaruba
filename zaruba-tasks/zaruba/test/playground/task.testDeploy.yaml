@@ -6,6 +6,7 @@ tasks:
     dependencies:
       - testPushImages
     configRef: playgroundTest
+    timeout: 1h
     configs:
       start: |
         ../zaruba please deploy

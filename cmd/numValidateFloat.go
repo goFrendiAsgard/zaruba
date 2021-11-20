@@ -12,7 +12,7 @@ var numValidateFloatCmd = &cobra.Command{
 	Use:   "validateFloat <value>",
 	Short: "Check whether value is valid float or not",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		if _, err := strconv.ParseFloat(args[0], 64); err != nil {

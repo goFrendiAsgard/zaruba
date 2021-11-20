@@ -12,7 +12,7 @@ var linesWriteCmd = &cobra.Command{
 	Use:   "write <fileName> <list>",
 	Short: "Write list to file",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]

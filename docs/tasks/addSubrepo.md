@@ -103,47 +103,6 @@ Secret:
 ## Configs
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.subrepoPrefix
-
-Value:
-
-    {{ .GetValue "subrepoPrefix" }}
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
 ### Configs.start
 
 Value:
@@ -173,17 +132,21 @@ Value:
 
 
 
-### Configs.setup
-
-
-### Configs.subrepoUrl
+### Configs.subrepoName
 
 Value:
 
-    {{ .GetValue "subrepoUrl" }}
+    {{ .GetValue "subrepoName" }}
 
 
-### Configs._finish
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.finish
 
 
 ### Configs.beforeStart
@@ -196,6 +159,16 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
 ### Configs._initShell
 
 Value:
@@ -205,14 +178,41 @@ Value:
 
 
 
-### Configs.afterStart
+### Configs._start
 
 
-### Configs.subrepoName
+### Configs.strictMode
 
 Value:
 
-    {{ .GetValue "subrepoName" }}
+    true
+
+
+### Configs.afterStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.subrepoUrl
+
+Value:
+
+    {{ .GetValue "subrepoUrl" }}
+
+
+### Configs._finish
+
+
+### Configs.subrepoPrefix
+
+Value:
+
+    {{ .GetValue "subrepoPrefix" }}
 
 
 ## Envs

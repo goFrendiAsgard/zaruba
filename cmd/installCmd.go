@@ -35,7 +35,7 @@ func AddInstallCmdSubCommand() {
 		subCommand := &cobra.Command{
 			Use: subCommandName,
 			Run: func(cmd *cobra.Command, args []string) {
-				decoration := output.NewDecoration()
+				decoration := output.NewDefaultDecoration()
 				logger := output.NewConsoleLogger(decoration)
 				if err := runInstallSubCmd(shell, filepath.Join(setupFilePath, fileName)); err != nil {
 					exit(cmd, logger, decoration, err)

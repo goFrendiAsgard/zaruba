@@ -3,29 +3,41 @@ package core
 import (
 	"fmt"
 
-	"github.com/state-alchemists/zaruba/fileutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
-func SetTaskConfig(task *Task, configMap map[string]string) (err error) {
+type TaskConfigUtil struct {
+	taskUtil *TaskUtil
+}
+
+func NewTaskConfigUtil(taskUtil *TaskUtil) *TaskConfigUtil {
+	return &TaskConfigUtil{
+		taskUtil: taskUtil,
+	}
+}
+
+func (configUtil *TaskConfigUtil) Set(projectFile, taskName string, configMap map[string]string) (err error) {
 	if len(configMap) == 0 {
 		return nil
+	}
+	task, err := configUtil.taskUtil.getTask(projectFile, taskName)
+	if err != nil {
+		return err
 	}
 	configRefName := task.GetFirstConfigRefName()
 	if configRefName == "" {
 		// update taskConfig
-		return setTaskConfig(task, configMap)
+		return configUtil.set(task, configMap)
 	}
 	// update configRef
-	return setConfigRef(task.Project.ConfigRefMap[configRefName], configMap)
+	return configUtil.setConfigRef(task.Project.ConfigRefMap[configRefName], configMap)
 }
 
-func setTaskConfig(task *Task, configMap map[string]string) (err error) {
+func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (err error) {
 	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(yamlLocation)
+	node, err := configUtil.taskUtil.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -42,8 +54,8 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 						taskPropKeyNode := taskNode.Content[taskPropKeyIndex]
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "configs" && taskPropValNode.ShortTag() == "!!map" {
-							updateConfigMapNode(taskPropValNode, configMap)
-							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+							configUtil.updateConfigMapNode(taskPropValNode, configMap)
+							return configUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// config not found
@@ -51,9 +63,9 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 					taskNode.Content = append(
 						taskNode.Content,
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "configs"},
-						createConfigMapNode(configMap),
+						configUtil.createConfigMapNode(configMap),
 					)
-					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return configUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -61,11 +73,10 @@ func setTaskConfig(task *Task, configMap map[string]string) (err error) {
 	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
 }
 
-func setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error) {
+func (configUtil *TaskConfigUtil) setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error) {
 	configRefName := configRef.GetName()
 	yamlLocation := configRef.GetFileLocation()
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(yamlLocation)
+	node, err := configUtil.taskUtil.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -78,8 +89,8 @@ func setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error)
 				configRefNameNode := valNode.Content[configRefNameIndex]
 				configRefNode := valNode.Content[configRefNameIndex+1]
 				if configRefNameNode.Value == configRefName && configRefNode.ShortTag() == "!!map" {
-					updateConfigMapNode(configRefNode, configMap)
-					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					configUtil.updateConfigMapNode(configRefNode, configMap)
+					return configUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -87,7 +98,7 @@ func setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error)
 	return fmt.Errorf("cannot find configRef %s in %s", configRefName, yamlLocation)
 }
 
-func updateConfigMapNode(configMapNode *yaml.Node, configMap map[string]string) {
+func (configUtil *TaskConfigUtil) updateConfigMapNode(configMapNode *yaml.Node, configMap map[string]string) {
 	configMapNode.Style = yaml.LiteralStyle
 	for configKey, configVal := range configMap {
 		configKeyFound := false
@@ -103,23 +114,23 @@ func updateConfigMapNode(configMapNode *yaml.Node, configMap map[string]string) 
 		}
 		// "configs" found, but configKey not found, create
 		if !configKeyFound {
-			configMapNode.Content = append(configMapNode.Content, createConfigNode(configKey, configVal)...)
+			configMapNode.Content = append(configMapNode.Content, configUtil.createConfigNode(configKey, configVal)...)
 		}
 	}
 }
 
-func createConfigMapNode(configMap map[string]string) *yaml.Node {
+func (configUtil *TaskConfigUtil) createConfigMapNode(configMap map[string]string) *yaml.Node {
 	newConfigNodes := []*yaml.Node{}
 	for configKey, configVal := range configMap {
 		newConfigNodes = append(
 			newConfigNodes,
-			createConfigNode(configKey, configVal)...,
+			configUtil.createConfigNode(configKey, configVal)...,
 		)
 	}
 	return &yaml.Node{Kind: yaml.MappingNode, Content: newConfigNodes}
 }
 
-func createConfigNode(configKey, configVal string) []*yaml.Node {
+func (configUtil *TaskConfigUtil) createConfigNode(configKey, configVal string) []*yaml.Node {
 	return []*yaml.Node{
 		{Kind: yaml.ScalarNode, Value: configKey},
 		{Kind: yaml.ScalarNode, Value: configVal},

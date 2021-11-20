@@ -51,25 +51,6 @@ Description:
 ## Inputs
 
 
-### Inputs.linkFrom
-
-Description:
-
-    Link source (Required)
-
-Prompt:
-
-    Source
-
-Secret:
-
-    false
-
-Validation:
-
-    ^.+$
-
-
 ### Inputs.linkTo
 
 Description:
@@ -89,21 +70,26 @@ Validation:
     ^.+$
 
 
+### Inputs.linkFrom
+
+Description:
+
+    Link source (Required)
+
+Prompt:
+
+    Source
+
+Secret:
+
+    false
+
+Validation:
+
+    ^.+$
+
+
 ## Configs
-
-
-### Configs.linkTo
-
-Value:
-
-    {{ .GetValue "linkTo" }}
-
-
-### Configs.strictMode
-
-Value:
-
-    true
 
 
 ### Configs.cmd
@@ -113,27 +99,7 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.linkFrom
-
-Value:
-
-    {{ .GetValue "linkFrom" }}
-
-
-### Configs._finish
-
-
-### Configs.finish
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
+### Configs.setup
 
 
 ### Configs.start
@@ -147,6 +113,25 @@ Value:
 
 
 
+### Configs._finish
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.finish
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
 ### Configs._setup
 
 Value:
@@ -154,7 +139,7 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.afterStart
+### Configs.beforeStart
 
 
 ### Configs.includeShellUtil
@@ -164,7 +149,11 @@ Value:
     true
 
 
-### Configs.setup
+### Configs.linkTo
+
+Value:
+
+    {{ .GetValue "linkTo" }}
 
 
 ### Configs._initShell
@@ -176,7 +165,18 @@ Value:
 
 
 
-### Configs._start
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.linkFrom
+
+Value:
+
+    {{ .GetValue "linkFrom" }}
 
 
 ## Envs

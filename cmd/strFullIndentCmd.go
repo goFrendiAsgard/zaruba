@@ -12,7 +12,7 @@ var strFullIndentCmd = &cobra.Command{
 	Use:   "fullIndent <string> <indentation>",
 	Short: "indent multi-line string, include first line",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]

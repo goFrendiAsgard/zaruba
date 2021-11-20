@@ -12,7 +12,7 @@ var projectAddTaskIfNotExistCmd = &cobra.Command{
 	Use:   "addTaskIfNotExist <taskFilePath> <taskName>",
 	Short: "Add task to project",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		taskFilePath, err := filepath.Abs(args[0])
@@ -20,7 +20,8 @@ var projectAddTaskIfNotExistCmd = &cobra.Command{
 			exit(cmd, logger, decoration, err)
 		}
 		taskName := args[1]
-		if err = core.AddTaskIfNotExist(taskFilePath, taskName); err != nil {
+		util := core.NewCoreUtil()
+		if err = util.Project.AddTaskIfNotExist(taskFilePath, taskName); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

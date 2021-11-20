@@ -13,7 +13,7 @@ var linesIndentCmd = &cobra.Command{
 	Use:   "indent <list> <indentation>",
 	Short: "indent lines",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		lines := []string{}

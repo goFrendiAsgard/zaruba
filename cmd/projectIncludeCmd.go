@@ -12,7 +12,7 @@ var projectIncludeCmd = &cobra.Command{
 	Use:   "include <projectFilePath> <fileName>",
 	Short: "Add file to project",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		projectFilePath, err := filepath.Abs(args[0])
@@ -20,7 +20,8 @@ var projectIncludeCmd = &cobra.Command{
 			exit(cmd, logger, decoration, err)
 		}
 		fileName := args[1]
-		if err = core.IncludeFileToProject(projectFilePath, fileName); err != nil {
+		util := core.NewCoreUtil()
+		if err = util.Project.IncludeFile(projectFilePath, fileName); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

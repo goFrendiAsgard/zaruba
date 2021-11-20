@@ -1,10 +1,8 @@
 package cmd
 
 import (
-	"encoding/json"
-
-	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -12,21 +10,24 @@ var envWriteCmd = &cobra.Command{
 	Use:   "write <fileName> <envMap> [prefix]",
 	Short: "Write envMap to file",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		fileName := args[0]
-		envMapRaw := map[string]interface{}{}
-		if err := json.Unmarshal([]byte(args[1]), &envMapRaw); err != nil {
+		fileName, mapString := args[0], args[1]
+		var err error
+		util := core.NewCoreUtil()
+		if len(args) > 1 {
+			prefix := args[1]
+			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, prefix)
+			if err != nil {
+				exit(cmd, logger, decoration, err)
+			}
+		}
+		envString, err := util.Json.Map.ToEnvString(mapString)
+		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		envMap := convertToMapString(envMapRaw)
-		// cascade prefix
-		if len(args) > 2 {
-			prefix := args[2]
-			envMap = envCascadePrefix(envMap, prefix)
-		}
-		if err := godotenv.Write(envMap, fileName); err != nil {
+		if err := util.File.WriteText(fileName, envString, 0755); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

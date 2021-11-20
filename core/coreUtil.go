@@ -9,20 +9,25 @@ import (
 )
 
 type CoreUtil struct {
-	Str  *strutil.StrUtil
-	File *fileutil.FileUtil
-	Bool *booleanutil.BooleanUtil
-	Path *pathutil.PathUtil
-	Json *jsonutil.JsonUtil
+	Str     *strutil.StrUtil
+	File    *fileutil.FileUtil
+	Bool    *booleanutil.BooleanUtil
+	Path    *pathutil.PathUtil
+	Json    *jsonutil.JsonUtil
+	Project *ProjectUtil
 }
 
 func NewCoreUtil() *CoreUtil {
+	jsonUtil := jsonutil.NewJsonUtil()
+	fileUtil := fileutil.NewFileUtil(jsonUtil)
+	projectUtil := NewProjectUtil(fileUtil)
 	coreUtil := &CoreUtil{
-		Str:  strutil.NewStrutil(),
-		File: fileutil.NewFileUtil(),
-		Bool: booleanutil.NewBooleanUtil(),
-		Path: pathutil.NewPathUtil(),
-		Json: jsonutil.NewJsonUtil(),
+		Str:     strutil.NewStrutil(),
+		File:    fileUtil,
+		Bool:    booleanutil.NewBooleanUtil(),
+		Path:    pathutil.NewPathUtil(),
+		Json:    jsonUtil,
+		Project: projectUtil,
 	}
 	return coreUtil
 }

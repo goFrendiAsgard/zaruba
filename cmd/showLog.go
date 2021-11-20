@@ -14,7 +14,7 @@ var projectShowLogCmd = &cobra.Command{
 	Use:   "showLog <logFile> <taskNamePattern>",
 	Short: "Show log",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		message, err := getLog(decoration, args[0], args[1])

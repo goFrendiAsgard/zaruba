@@ -13,7 +13,7 @@ var linesFillCmd = &cobra.Command{
 	Use:   "fill <lines> <patterns> <suplements>",
 	Short: "Insert suplements to lines if patterns is not found",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
 		lines := []string{}

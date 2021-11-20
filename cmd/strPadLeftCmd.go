@@ -13,7 +13,7 @@ var strPadLeftCmd = &cobra.Command{
 	Use:   "padLeft <string> <length> [char]",
 	Short: "fill from left",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]

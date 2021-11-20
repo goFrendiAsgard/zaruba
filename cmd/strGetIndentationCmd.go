@@ -13,7 +13,7 @@ var strGetIndentationCmd = &cobra.Command{
 	Use:   "getIndentation <string> [level=1]",
 	Short: "Get indentation of string",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]

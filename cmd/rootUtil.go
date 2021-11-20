@@ -45,7 +45,7 @@ func getDecoration(plainDecor bool) (decoration *output.Decoration) {
 	if plainDecor {
 		return output.NewPlainDecoration()
 	}
-	return output.NewDecoration()
+	return output.NewDefaultDecoration()
 }
 
 func getCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLogger) {
@@ -61,5 +61,5 @@ func getProject(decoration *output.Decoration, projectFile string) (project *cor
 		}
 		defaultIncludes = append(defaultIncludes, script)
 	}
-	return core.NewProject(decoration, projectFile, defaultIncludes)
+	return core.NewCustomProject(decoration, projectFile, defaultIncludes)
 }

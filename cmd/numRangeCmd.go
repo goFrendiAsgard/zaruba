@@ -12,7 +12,7 @@ var numRangeCmd = &cobra.Command{
 	Use:   "range [start] <end> [step]",
 	Short: "Print numbers sequentially",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		start, end, step := 0, 0, 1

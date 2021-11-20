@@ -23,6 +23,10 @@ func (strUtil *StrUtil) IsLower(s string) (result bool) {
 	return strings.ToLower(s) == s
 }
 
+func (strUtil *StrUtil) ToUpper(s string) (result string) {
+	return strings.ToUpper(s)
+}
+
 func (strUtil *StrUtil) ToLower(s string) (result string) {
 	return strings.ToLower(s)
 }
@@ -42,6 +46,10 @@ func (strUtil *StrUtil) ToCamel(s string) (result string) {
 
 func (strUtil *StrUtil) ToPascal(s string) (result string) {
 	return strings.Title(strUtil.ToCamel(s))
+}
+
+func (strUtil *StrUtil) ToUpperSnake(s string) (result string) {
+	return strUtil.ToUpper(strUtil.ToSnake(s))
 }
 
 func (strUtil *StrUtil) ToSnake(s string) (result string) {

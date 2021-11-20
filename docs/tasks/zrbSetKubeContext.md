@@ -40,10 +40,69 @@ Type:
 ## Configs
 
 
-### Configs._start
+### Configs._finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+    then
+      kubectl config use-context "{{ .GetConfig "kubeContext" }}"
+    fi
+
+
+### Configs._start
+
+
+### Configs.finish
 
 
 ### Configs.kubeContext
@@ -58,65 +117,6 @@ Value:
 Value:
 
     {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
-
-
-### Configs.start
-
-Value:
-
-    if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
-    then
-      kubectl config use-context "{{ .GetConfig "kubeContext" }}"
-    fi
-
-
-### Configs._finish
-
-
-### Configs.finish
-
-
-### Configs.setup
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.beforeStart
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
 
 
 ### Configs.strictMode

@@ -6,12 +6,25 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/fileutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
-func SyncTaskEnv(task *Task) (err error) {
+type TaskEnvUtil struct {
+	taskUtil *TaskUtil
+}
+
+func NewTaskEnvUtil(taskUtil *TaskUtil) *TaskEnvUtil {
+	return &TaskEnvUtil{
+		taskUtil: taskUtil,
+	}
+}
+
+func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
+	task, err := envUtil.taskUtil.getTask(projectFile, taskName)
+	if err != nil {
+		return err
+	}
 	if !task.ShouldSyncEnv() {
 		return nil
 	}
@@ -31,42 +44,45 @@ func SyncTaskEnv(task *Task) (err error) {
 	envRefName := task.GetFirstEnvRefName()
 	if envRefName == "" {
 		// update taskEnv
-		newEnvMap := getAdditionalEnvMap(task.Envs, locationEnvMap)
+		newEnvMap := envUtil.getAdditionalEnvMap(task.Envs, locationEnvMap)
 		if len(newEnvMap) == 0 {
 			return nil
 		}
-		if err = setTaskEnv(task, newEnvMap); err != nil {
+		if err = envUtil.set(task, newEnvMap); err != nil {
 			return err
 		}
 		return nil
 	}
 	// update envRef
-	newEnvMap := getAdditionalEnvMap(task.Project.EnvRefMap[envRefName].Map, locationEnvMap)
+	newEnvMap := envUtil.getAdditionalEnvMap(task.Project.EnvRefMap[envRefName].Map, locationEnvMap)
 	if len(newEnvMap) == 0 {
 		return nil
 	}
-	return setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
+	return envUtil.setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
 }
 
-func SetTaskEnv(task *Task, envMap map[string]string) (err error) {
+func (envUtil *TaskEnvUtil) Set(projectFile, taskName string, envMap map[string]string) (err error) {
 	if len(envMap) == 0 {
 		return nil
+	}
+	task, err := envUtil.taskUtil.getTask(projectFile, taskName)
+	if err != nil {
+		return err
 	}
 	envRefName := task.GetFirstEnvRefName()
 	if envRefName == "" {
 		// update taskEnv
-		return setTaskEnv(task, envMap)
+		return envUtil.set(task, envMap)
 	}
 	// update envRef
-	return setEnvRef(task.Project.EnvRefMap[envRefName], envMap)
+	return envUtil.setEnvRef(task.Project.EnvRefMap[envRefName], envMap)
 }
 
-func setTaskEnv(task *Task, envMap map[string]string) (err error) {
+func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error) {
 	taskName := task.GetName()
 	envPrefix := strings.ToUpper(task.Project.Util.Str.ToSnake(taskName))
 	yamlLocation := task.GetFileLocation()
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(yamlLocation)
+	node, err := envUtil.taskUtil.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -83,8 +99,8 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 						taskPropKeyNode := taskNode.Content[taskPropKeyIndex]
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "envs" && taskPropValNode.ShortTag() == "!!map" {
-							updateEnvMapNode(taskPropValNode, envMap, envPrefix)
-							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+							envUtil.updateEnvMapNode(taskPropValNode, envMap, envPrefix)
+							return envUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// env not found
@@ -92,9 +108,9 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 					taskNode.Content = append(
 						taskNode.Content,
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "envs"},
-						createEnvMapNode(envMap, envPrefix),
+						envUtil.createEnvMapNode(envMap, envPrefix),
 					)
-					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return envUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -102,13 +118,12 @@ func setTaskEnv(task *Task, envMap map[string]string) (err error) {
 	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
 }
 
-func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
+func (envUtil *TaskEnvUtil) setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 	util := NewCoreUtil()
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(util.Str.ToSnake(envRefName))
 	yamlLocation := envRef.GetFileLocation()
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(yamlLocation)
+	node, err := envUtil.taskUtil.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -121,8 +136,8 @@ func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 				envRefNameNode := valNode.Content[envRefNameIndex]
 				envRefNode := valNode.Content[envRefNameIndex+1]
 				if envRefNameNode.Value == envRefName && envRefNode.ShortTag() == "!!map" {
-					updateEnvMapNode(envRefNode, envMap, envPrefix)
-					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					envUtil.updateEnvMapNode(envRefNode, envMap, envPrefix)
+					return envUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -130,9 +145,9 @@ func setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
 	return fmt.Errorf("cannot find envRef %s in %s", envRefName, yamlLocation)
 }
 
-func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix string) {
+func (envUtil *TaskEnvUtil) updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix string) {
 	envMapNode.Style = yaml.LiteralStyle
-	envKeys := getSortedEnvMapKeys(envMap)
+	envKeys := envUtil.getSortedEnvMapKeys(envMap)
 	for _, envKey := range envKeys {
 		envVal := envMap[envKey]
 		envKeyFound := false
@@ -142,7 +157,7 @@ func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix
 			// "envs" and envKey found, update
 			if envKeyNode.Value == envKey {
 				envFromFound, envDefaultFound := false, false
-				envFrom := getEnvFromName(envKey, envPrefix)
+				envFrom := envUtil.getEnvFromName(envKey, envPrefix)
 				for envPropKeyIndex := 0; envPropKeyIndex < len(envValNode.Content); envPropKeyIndex += 2 {
 					envPropKeyNode := envValNode.Content[envPropKeyIndex]
 					envPropValNode := envValNode.Content[envPropKeyIndex+1]
@@ -156,10 +171,10 @@ func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix
 					}
 				}
 				if !envFromFound {
-					envValNode.Content = append(envValNode.Content, createEnvFromNode(envKey, envPrefix)...)
+					envValNode.Content = append(envValNode.Content, envUtil.createEnvFromNode(envKey, envPrefix)...)
 				}
 				if !envDefaultFound {
-					envValNode.Content = append(envValNode.Content, createEnvDefaultNode(envVal)...)
+					envValNode.Content = append(envValNode.Content, envUtil.createEnvDefaultNode(envVal)...)
 				}
 				envKeyFound = true
 				break
@@ -167,25 +182,25 @@ func updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix
 		}
 		// "envs" found, but envKey not found, create
 		if !envKeyFound {
-			envMapNode.Content = append(envMapNode.Content, createEnvNode(envKey, envVal, envPrefix)...)
+			envMapNode.Content = append(envMapNode.Content, envUtil.createEnvNode(envKey, envVal, envPrefix)...)
 		}
 	}
 }
 
-func createEnvMapNode(envMap map[string]string, envPrefix string) *yaml.Node {
+func (envUtil *TaskEnvUtil) createEnvMapNode(envMap map[string]string, envPrefix string) *yaml.Node {
 	newEnvNodes := []*yaml.Node{}
-	envKeys := getSortedEnvMapKeys(envMap)
+	envKeys := envUtil.getSortedEnvMapKeys(envMap)
 	for _, envKey := range envKeys {
 		envVal := envMap[envKey]
 		newEnvNodes = append(
 			newEnvNodes,
-			createEnvNode(envKey, envVal, envPrefix)...,
+			envUtil.createEnvNode(envKey, envVal, envPrefix)...,
 		)
 	}
 	return &yaml.Node{Kind: yaml.MappingNode, Content: newEnvNodes}
 }
 
-func getSortedEnvMapKeys(envMap map[string]string) (envKeys []string) {
+func (envUtil *TaskEnvUtil) getSortedEnvMapKeys(envMap map[string]string) (envKeys []string) {
 	envKeys = []string{}
 	for envKey := range envMap {
 		envKeys = append(envKeys, envKey)
@@ -194,42 +209,42 @@ func getSortedEnvMapKeys(envMap map[string]string) (envKeys []string) {
 	return envKeys
 }
 
-func createEnvNode(envKey, envVal, envPrefix string) []*yaml.Node {
+func (envUtil *TaskEnvUtil) createEnvNode(envKey, envVal, envPrefix string) []*yaml.Node {
 	return []*yaml.Node{
 		{Kind: yaml.ScalarNode, Value: envKey},
 		{
 			Kind: yaml.MappingNode,
 			Content: append(
-				createEnvFromNode(envKey, envPrefix),
-				createEnvDefaultNode(envVal)...,
+				envUtil.createEnvFromNode(envKey, envPrefix),
+				envUtil.createEnvDefaultNode(envVal)...,
 			),
 		},
 	}
 }
 
-func createEnvFromNode(envKey, envPrefix string) []*yaml.Node {
-	envFrom := getEnvFromName(envKey, envPrefix)
+func (envUtil *TaskEnvUtil) createEnvFromNode(envKey, envPrefix string) []*yaml.Node {
+	envFrom := envUtil.getEnvFromName(envKey, envPrefix)
 	return []*yaml.Node{
 		{Kind: yaml.ScalarNode, Value: "from"},
 		{Kind: yaml.ScalarNode, Value: envFrom},
 	}
 }
 
-func createEnvDefaultNode(envVal string) []*yaml.Node {
+func (envUtil *TaskEnvUtil) createEnvDefaultNode(envVal string) []*yaml.Node {
 	return []*yaml.Node{
 		{Kind: yaml.ScalarNode, Value: "default"},
 		{Kind: yaml.ScalarNode, Value: envVal},
 	}
 }
 
-func getEnvFromName(envKey, envPrefix string) string {
+func (envUtil *TaskEnvUtil) getEnvFromName(envKey, envPrefix string) string {
 	if !strings.HasPrefix(envKey, envPrefix) {
 		return fmt.Sprintf("%s_%s", envPrefix, envKey)
 	}
 	return envKey
 }
 
-func getAdditionalEnvMap(existingEnvMap map[string]*Env, locationEnvMap map[string]string) (additionalEnvMap map[string]string) {
+func (envUtil *TaskEnvUtil) getAdditionalEnvMap(existingEnvMap map[string]*Env, locationEnvMap map[string]string) (additionalEnvMap map[string]string) {
 	additionalEnvMap = map[string]string{}
 	for envKey, envVal := range locationEnvMap {
 		if _, exist := existingEnvMap[envKey]; exist {

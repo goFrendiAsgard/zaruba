@@ -63,7 +63,46 @@ Secret:
 ## Configs
 
 
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs._finish
+
+
 ### Configs.afterStart
+
+
+### Configs.finish
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -f "log.zaruba.csv" ]
+    then
+      echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
+      exit 1
+    fi
+    "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
+
 
 
 ### Configs.strictMode
@@ -74,6 +113,9 @@ Value:
 
 
 ### Configs._start
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -102,48 +144,6 @@ Value:
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ ! -f "log.zaruba.csv" ]
-    then
-      echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-      exit 1
-    fi
-    "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
-
-
-
-### Configs._finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.beforeStart
-
-
-### Configs.finish
 
 
 ## Envs

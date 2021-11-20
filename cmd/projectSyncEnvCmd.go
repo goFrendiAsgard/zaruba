@@ -12,21 +12,15 @@ var projectSyncEnvCmd = &cobra.Command{
 	Use:   "syncEnv <projectFile>",
 	Short: "Update every task's environment",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		project, err := getProject(decoration, projectFile)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		if err = project.Init(); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		if err = core.SyncProjectEnv(project); err != nil {
+		util := core.NewCoreUtil()
+		if err = util.Project.SyncTasksEnv(projectFile); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

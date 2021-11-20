@@ -10,7 +10,7 @@ var yamlWriteCmd = &cobra.Command{
 	Use:   "write <fileName> <obj>",
 	Short: "Write obj to file as YAML",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]

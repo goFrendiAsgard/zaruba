@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
-	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -14,30 +12,20 @@ var taskSetConfigCmd = &cobra.Command{
 	Use:   "setConfig <projectFile> <taskName> <configMap>",
 	Short: "Set task config",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		project, err := getProject(decoration, projectFile)
+		taskName := args[1]
+		util := core.NewCoreUtil()
+		configMap, err := util.Json.Map.GetStringDict(args[2])
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		if err = project.Init(); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		taskName := args[1]
-		task, taskExist := project.Tasks[taskName]
-		if !taskExist {
-			exit(cmd, logger, decoration, fmt.Errorf("task %s is not exist", taskName))
-		}
-		configMap := map[string]string{}
-		if err := json.Unmarshal([]byte(args[2]), &configMap); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		if err = core.SetTaskConfig(task, configMap); err != nil {
+		if err = util.Project.Task.Config.Set(projectFile, taskName, configMap); err != nil {
 			exit(cmd, logger, decoration, err)
 		}
 	},

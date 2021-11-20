@@ -12,7 +12,7 @@ var yamlPrintCmd = &cobra.Command{
 	Use:   "print <obj>",
 	Short: "Print obj as YAML",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		jsonString := args[0]

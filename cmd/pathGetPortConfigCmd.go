@@ -14,7 +14,7 @@ var pathGetPortConfigCmd = &cobra.Command{
 	Use:   "getPortConfig <location>",
 	Short: "Return string representing default configs.ports",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		util := core.NewCoreUtil()

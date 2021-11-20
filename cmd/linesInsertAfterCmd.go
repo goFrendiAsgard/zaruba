@@ -14,7 +14,7 @@ var linesInsertAfterCmd = &cobra.Command{
 	Use:   "insertAfter <lines> <index> <newLine>",
 	Short: "Insert newLine after lines[index]",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
 		lines := []string{}

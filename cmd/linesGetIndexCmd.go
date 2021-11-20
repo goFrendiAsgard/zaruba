@@ -13,7 +13,7 @@ var linesGetIndexCmd = &cobra.Command{
 	Use:   "getIndex <list> <patterns>",
 	Short: "Return index of matching the pattern",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		list := []string{}

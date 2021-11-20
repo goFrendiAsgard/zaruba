@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -13,7 +13,7 @@ var envReadCmd = &cobra.Command{
 	Use:   "read <fileName> [prefix]",
 	Short: "Read envmap from file",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
@@ -21,15 +21,15 @@ var envReadCmd = &cobra.Command{
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		// cascade prefix
+		util := core.NewCoreUtil()
+		mapString := util.Json.FromInterface(envMap)
 		if len(args) > 1 {
 			prefix := args[1]
-			envMap = envCascadePrefix(envMap, prefix)
+			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, prefix)
+			if err != nil {
+				exit(cmd, logger, decoration, err)
+			}
 		}
-		resultB, err := json.Marshal(envMap)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(mapString)
 	},
 }

@@ -8,19 +8,60 @@ import (
 	yaml "gopkg.in/yaml.v3"
 )
 
-func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
+type TaskUtil struct {
+	Project *ProjectUtil
+	file    *fileutil.FileUtil
+	Config  *TaskConfigUtil
+	Env     *TaskEnvUtil
+}
+
+func NewTaskUtil(fileUtil *fileutil.FileUtil) *TaskUtil {
+	taskUtil := &TaskUtil{
+		file: fileUtil,
+	}
+	configUtil := NewTaskConfigUtil(taskUtil)
+	taskUtil.Config = configUtil
+	envUtil := NewTaskEnvUtil(taskUtil)
+	taskUtil.Env = envUtil
+	return taskUtil
+}
+
+func (taskUtil *TaskUtil) getTask(projectFile, taskName string) (task *Task, err error) {
+	project, err := taskUtil.Project.getProject(projectFile)
+	if err != nil {
+		return nil, err
+	}
+	task, taskExist := project.Tasks[taskName]
+	if !taskExist {
+		return nil, fmt.Errorf("task %s is not exist", taskName)
+	}
+	return task, nil
+}
+
+func (taskUtil *TaskUtil) IsExist(projectFile, taskName string) (exist bool, err error) {
+	project, err := taskUtil.Project.getProject(projectFile)
+	if err != nil {
+		return false, err
+	}
+	_, exist = project.Tasks[taskName]
+	return exist, nil
+}
+
+func (taskUtil *TaskUtil) AddDependencies(projectFile, taskName string, dependencyTaskNames []string) (err error) {
 	if len(dependencyTaskNames) == 0 {
 		return nil
+	}
+	task, err := taskUtil.getTask(projectFile, taskName)
+	if err != nil {
+		return err
 	}
 	for _, dependencyTaskName := range dependencyTaskNames {
 		if _, dependencyExist := task.Project.Tasks[dependencyTaskName]; !dependencyExist {
 			return fmt.Errorf("dependency task %s is not exist", dependencyTaskName)
 		}
 	}
-	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(yamlLocation)
+	node, err := taskUtil.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -44,7 +85,7 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 						if taskPropKeyNode.Value == "dependencies" && taskPropValNode.ShortTag() == "!!seq" {
 							taskPropValNode.Style = yaml.LiteralStyle
 							taskPropValNode.Content = append(taskPropValNode.Content, newDependencyVals...)
-							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+							return taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					taskNode.Style = yaml.LiteralStyle
@@ -53,28 +94,29 @@ func AddTaskDependencies(task *Task, dependencyTaskNames []string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "dependencies"},
 						&yaml.Node{Kind: yaml.SequenceNode, Content: newDependencyVals},
 					)
-					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
 	}
 	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
-
 }
 
-func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
+func (taskUtil *TaskUtil) AddParents(projectFile, taskName string, parentTaskNames []string) (err error) {
 	if len(parentTaskNames) == 0 {
 		return nil
+	}
+	task, err := taskUtil.getTask(projectFile, taskName)
+	if err != nil {
+		return err
 	}
 	for _, parentTaskName := range parentTaskNames {
 		if _, parentExist := task.Project.Tasks[parentTaskName]; !parentExist {
 			return fmt.Errorf("parent task %s is not exist", parentTaskName)
 		}
 	}
-	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
-	fileUtil := fileutil.NewFileUtil()
-	node, err := fileUtil.ReadYamlNode(yamlLocation)
+	node, err := taskUtil.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -117,7 +159,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 						if taskPropKeyNode.Value == "extends" && taskPropValNode.ShortTag() == "!!seq" {
 							taskPropValNode.Style = yaml.LiteralStyle
 							taskPropValNode.Content = append(taskPropValNode.Content, newParentVals...)
-							return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+							return taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// "extends" and "extend" not found and we only have one new parent, then we set "extend" to new parent
@@ -128,7 +170,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 							&yaml.Node{Kind: yaml.ScalarNode, Value: "extend"},
 							newParentVals[0],
 						)
-						return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+						return taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 					}
 					// "extends" not found and we have multiple parents, then create "extends"
 					taskNode.Style = yaml.LiteralStyle
@@ -137,7 +179,7 @@ func AddTaskParent(task *Task, parentTaskNames []string) (err error) {
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "extends"},
 						&yaml.Node{Kind: yaml.SequenceNode, Content: newParentVals},
 					)
-					return fileUtil.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}

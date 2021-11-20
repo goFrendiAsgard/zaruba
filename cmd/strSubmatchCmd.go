@@ -13,7 +13,7 @@ var strSubmatchCmd = &cobra.Command{
 	Use:   "submatch <string> <pattern>",
 	Short: "Return submatch of string based on pattern",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		text := args[0]

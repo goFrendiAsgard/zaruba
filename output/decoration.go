@@ -95,8 +95,8 @@ func NewPlainDecoration() (d *Decoration) {
 	}
 }
 
-// NewDecoration Create New Decoration
-func NewDecoration() (d *Decoration) {
+// NewDefaultDecoration Create New Decoration
+func NewDefaultDecoration() (d *Decoration) {
 	// source: https://gist.github.com/mxmerz/92e97cd27857a9ba787b
 	d = &Decoration{
 		Normal:      "\x1b[0m",

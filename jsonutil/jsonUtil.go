@@ -4,30 +4,31 @@ import (
 	"encoding/json"
 	"strings"
 
+	jsonHelper "github.com/state-alchemists/zaruba/jsonutil/helper"
+	"github.com/state-alchemists/zaruba/jsonutil/jsonlist"
+	"github.com/state-alchemists/zaruba/jsonutil/jsonmap"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	"gopkg.in/yaml.v3"
 )
 
-type JsonUtil struct{}
-
-func NewJsonUtil() *JsonUtil {
-	return &JsonUtil{}
+type JsonUtil struct {
+	Map  *jsonmap.JsonMap
+	List *jsonlist.JsonList
 }
 
-func (jsonUtil *JsonUtil) normalizeObj(i interface{}) interface{} {
-	switch x := i.(type) {
-	case map[interface{}]interface{}:
-		m2 := map[string]interface{}{}
-		for k, v := range x {
-			m2[k.(string)] = jsonUtil.normalizeObj(v)
-		}
-		return m2
-	case []interface{}:
-		for i, v := range x {
-			x[i] = jsonUtil.normalizeObj(v)
-		}
+func NewJsonUtil() *JsonUtil {
+	return &JsonUtil{
+		Map:  jsonmap.NewJsonMap(),
+		List: jsonlist.NewJsonList(),
 	}
-	return i
+}
+
+func (jsonUtil *JsonUtil) FromInterface(obj interface{}) (jsonString string) {
+	return jsonHelper.FromInterface(obj)
+}
+
+func (jsonUtil *JsonUtil) ToInterface(jsonString string) (obj interface{}) {
+	return jsonHelper.ToInterface(jsonString)
 }
 
 func (jsonUtil *JsonUtil) FromYaml(yamlString string) (jsonString string, err error) {
@@ -35,7 +36,7 @@ func (jsonUtil *JsonUtil) FromYaml(yamlString string) (jsonString string, err er
 	if err = yaml.Unmarshal([]byte(yamlString), &interfaceContent); err != nil {
 		return "", err
 	}
-	interfaceContent = jsonUtil.normalizeObj(interfaceContent)
+	interfaceContent = jsonHelper.NormalizeObj(interfaceContent)
 	resultB, err := json.Marshal(interfaceContent)
 	if err != nil {
 		return "", err
@@ -48,7 +49,7 @@ func (jsonUtil *JsonUtil) ToYaml(jsonString string) (yamlString string, err erro
 	if err := json.Unmarshal([]byte(jsonString), &interfaceContent); err != nil {
 		return "", err
 	}
-	interfaceContent = jsonUtil.normalizeObj(interfaceContent)
+	interfaceContent = jsonHelper.NormalizeObj(interfaceContent)
 	yamlContentB, err := yaml.Marshal(interfaceContent)
 	if err != nil {
 		return "", err

@@ -52,11 +52,40 @@ Description:
 ## Configs
 
 
-### Configs.useImagePrefix
+### Configs.imageTag
+
+
+### Configs.strictMode
 
 Value:
 
     true
+
+
+### Configs.buildArg
+
+
+### Configs.dockerFilePath
+
+Value:
+
+    Dockerfile
+
+
+### Configs._start
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.imageName
 
 
 ### Configs._finish
@@ -69,7 +98,24 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeStart
+### Configs.setup
+
+
+### Configs.useImagePrefix
+
+Value:
+
+    true
+
+
+### Configs.afterStart
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.finish
@@ -105,11 +151,16 @@ Value:
 
 
 
-### Configs.strictMode
+### Configs.start.buildDockerImage.buildArg
 
 Value:
 
-    true
+    {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
+      {{ if ne $buildArg "" -}}
+        --build-arg {{ $buildArg }} {{ "" -}}
+      {{ end -}}
+    {{ end -}}
+
 
 
 ### Configs._initShell
@@ -126,57 +177,6 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.imageName
-
-
-### Configs.setup
-
-
-### Configs.afterStart
-
-
-### Configs.dockerFilePath
-
-Value:
-
-    Dockerfile
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.start.buildDockerImage.buildArg
-
-Value:
-
-    {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
-      {{ if ne $buildArg "" -}}
-        --build-arg {{ $buildArg }} {{ "" -}}
-      {{ end -}}
-    {{ end -}}
-
-
-
-### Configs._start
-
-
-### Configs.buildArg
-
-
-### Configs.imageTag
 
 
 ## Envs

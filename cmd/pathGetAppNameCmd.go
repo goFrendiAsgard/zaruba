@@ -13,7 +13,7 @@ var pathGetAppNameCmd = &cobra.Command{
 	Short:   "Get default app name based on location or image name",
 	Aliases: []string{"getServiceName"},
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		util := core.NewCoreUtil()

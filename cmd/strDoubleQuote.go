@@ -12,7 +12,7 @@ var strDoubleQuote = &cobra.Command{
 	Use:   "doubleQuote <string>",
 	Short: "Double quote string",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]

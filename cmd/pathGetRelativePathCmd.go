@@ -12,7 +12,7 @@ var pathGetRelativePathCmd = &cobra.Command{
 	Use:   "getRelativePath <basePath> <targetPath>",
 	Short: "Get relative path",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		basePath := args[0]

@@ -14,7 +14,7 @@ var serveCmd = &cobra.Command{
 	Use:   "serve [location [port]]",
 	Short: "Serve static files in location at a specified port",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 0)
 		location := "."

@@ -45,17 +45,14 @@ Description:
 ## Configs
 
 
-### Configs.beforeStart
+### Configs.finish
 
 
-### Configs.cmdArg
+### Configs.includeShellUtil
 
 Value:
 
-    -c
-
-
-### Configs.finish
+    true
 
 
 ### Configs.setup
@@ -70,17 +67,7 @@ Value:
     echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._start
-
-
-### Configs.afterStart
+### Configs._finish
 
 
 ### Configs._setup
@@ -97,14 +84,18 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.includeShellUtil
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.strictMode
 
 Value:
 
     true
-
-
-### Configs._finish
 
 
 ### Configs._initShell
@@ -114,6 +105,15 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
 
 
 ## Envs

@@ -1,36 +1,26 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
 var mapMergeCmd = &cobra.Command{
-	Use:   "merge <map> <otherMaps...>",
-	Short: "Merge JSON maps",
+	Use:   "merge <jsonMap> <otherJsonMaps...>",
+	Short: "Merge JSON maps, in case of duplicate keys, the first ocurrance is going to be used",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		newDict := map[string]interface{}{}
-		for _, arg := range args {
-			dict := map[string]interface{}{}
-			if err := json.Unmarshal([]byte(arg), &dict); err != nil {
-				exit(cmd, logger, decoration, err)
-			}
-			for key, val := range dict {
-				if _, exist := newDict[key]; !exist {
-					newDict[key] = val
-				}
-			}
-		}
-		resultB, err := json.Marshal(newDict)
+		mapStrings := args
+		util := core.NewCoreUtil()
+		mergedMapString, err := util.Json.Map.Merge(mapStrings...)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		fmt.Println(string(resultB))
+		fmt.Println(mergedMapString)
 	},
 }

@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -12,25 +12,15 @@ var listAppendCmd = &cobra.Command{
 	Use:   "append <list> <newValues...>",
 	Short: "Append new values to list",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		list := []interface{}{}
-		if err := json.Unmarshal([]byte(args[0]), &list); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		newStrValues := args[1:]
-		for _, newStrValue := range newStrValues {
-			var newValue interface{}
-			if err := json.Unmarshal([]byte(newStrValue), &newValue); err != nil {
-				newValue = newStrValue
-			}
-			list = append(list, newValue)
-		}
-		resultB, err := json.Marshal(list)
+		listString, value := args[0], args[1]
+		util := core.NewCoreUtil()
+		newListString, err := util.Json.List.Append(listString, value)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		fmt.Println(string(resultB))
+		fmt.Println(newListString)
 	},
 }

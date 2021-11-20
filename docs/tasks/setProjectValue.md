@@ -49,25 +49,6 @@ Description:
 ## Inputs
 
 
-### Inputs.variableValue
-
-Description:
-
-    Variable value (Required)
-
-Prompt:
-
-    Value
-
-Secret:
-
-    false
-
-Validation:
-
-    ^.+$
-
-
 ### Inputs.variableName
 
 Description:
@@ -87,38 +68,29 @@ Validation:
     ^.+$
 
 
+### Inputs.variableValue
+
+Description:
+
+    Variable value (Required)
+
+Prompt:
+
+    Value
+
+Secret:
+
+    false
+
+Validation:
+
+    ^.+$
+
+
 ## Configs
 
 
 ### Configs._finish
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.variableName
-
-Value:
-
-    {{ .GetValue "variableName" }}
-
-
-### Configs.variableValue
-
-Value:
-
-    {{ .GetValue "variableValue" }}
 
 
 ### Configs._initShell
@@ -130,23 +102,27 @@ Value:
 
 
 
-### Configs._start
-
-
 ### Configs.afterStart
 
 
 ### Configs.finish
 
 
-### Configs.beforeStart
-
-
-### Configs.cmd
+### Configs.strictMode
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmdArg
@@ -154,9 +130,6 @@ Value:
 Value:
 
     -c
-
-
-### Configs.setup
 
 
 ### Configs.start
@@ -170,11 +143,38 @@ Value:
 
 
 
-### Configs.strictMode
+### Configs.variableValue
+
+Value:
+
+    {{ .GetValue "variableValue" }}
+
+
+### Configs._start
+
+
+### Configs.includeShellUtil
 
 Value:
 
     true
+
+
+### Configs.setup
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.variableName
+
+Value:
+
+    {{ .GetValue "variableName" }}
 
 
 ## Envs

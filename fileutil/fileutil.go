@@ -13,10 +13,14 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type FileUtil struct{}
+type FileUtil struct {
+	jsonUtil *jsonutil.JsonUtil
+}
 
-func NewFileUtil() *FileUtil {
-	return &FileUtil{}
+func NewFileUtil(jsonUtil *jsonutil.JsonUtil) *FileUtil {
+	return &FileUtil{
+		jsonUtil: jsonUtil,
+	}
 }
 
 func (fileUtil *FileUtil) Copy(src, dst string) (byteCount int64, err error) {
@@ -67,13 +71,11 @@ func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err erro
 	if err != nil {
 		return "", err
 	}
-	jsonUtil := jsonutil.NewJsonUtil()
-	return jsonUtil.FromYaml(yamlString)
+	return fileUtil.jsonUtil.FromYaml(yamlString)
 }
 
 func (fileUtil *FileUtil) WriteYaml(fileName, jsonString string, fileMode os.FileMode) (err error) {
-	jsonUtil := jsonutil.NewJsonUtil()
-	yamlString, err := jsonUtil.ToYaml(jsonString)
+	yamlString, err := fileUtil.jsonUtil.ToYaml(jsonString)
 	if err != nil {
 		return err
 	}

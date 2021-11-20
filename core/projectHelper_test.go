@@ -5,8 +5,8 @@ import (
 )
 
 func getProject(projectFile string) (project *Project, err error) {
-	decoration := output.NewDecoration()
-	project, err = NewProject(decoration, projectFile, []string{})
+	decoration := output.NewDefaultDecoration()
+	project, err = NewCustomProject(decoration, projectFile, []string{})
 	if err != nil {
 		return project, err
 	}

@@ -14,7 +14,7 @@ var linesReplaceCmd = &cobra.Command{
 	Use:   "replace <lines> <index> <replacements>",
 	Short: "Replace lines[index] with replacements",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
 		lines := []string{}

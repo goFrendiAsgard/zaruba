@@ -13,7 +13,7 @@ var strSplitCmd = &cobra.Command{
 	Use:   "split <string> [separator]",
 	Short: "Split string into JSON list",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]

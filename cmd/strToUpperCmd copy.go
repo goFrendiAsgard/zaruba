@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -12,9 +12,10 @@ var strToUpperCmd = &cobra.Command{
 	Use:   "toUpper <string>",
 	Short: "Turn string into UPPER CASE",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		fmt.Println(strings.ToUpper(args[0]))
+		util := core.NewCoreUtil()
+		fmt.Println(util.Str.ToUpper(args[0]))
 	},
 }

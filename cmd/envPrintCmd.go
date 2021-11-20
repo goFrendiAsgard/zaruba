@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
-	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -13,23 +12,23 @@ var envPrintCmd = &cobra.Command{
 	Use:   "print <envMap> [prefix]",
 	Short: "Print environment",
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := output.NewDecoration()
+		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
-		envMapRaw := map[string]interface{}{}
-		if err := json.Unmarshal([]byte(args[0]), &envMapRaw); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		envMap := convertToMapString(envMapRaw)
-		// cascade prefix
+		mapString := args[0]
+		var err error
+		util := core.NewCoreUtil()
 		if len(args) > 1 {
 			prefix := args[1]
-			envMap = envCascadePrefix(envMap, prefix)
+			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, prefix)
+			if err != nil {
+				exit(cmd, logger, decoration, err)
+			}
 		}
-		result, err := godotenv.Marshal(envMap)
+		envString, err := util.Json.Map.ToEnvString(mapString)
 		if err != nil {
 			exit(cmd, logger, decoration, err)
 		}
-		fmt.Println(result)
+		fmt.Println(envString)
 	},
 }
