@@ -16,5 +16,4 @@ tasks:
     configs:
       pythonStartCommand: ./start.sh
     configRefs:
-      - makePythonVenvAppRunner
       - addFastApi

@@ -40,6 +40,9 @@ Type:
 ## Configs
 
 
+### Configs._finish
+
+
 ### Configs._initShell
 
 Value:
@@ -47,6 +50,44 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+
+
+### Configs._start
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
+    {{ if .Util.Bool.IsTrue $showAdvertisement -}}
+      "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
+    {{ end -}}
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ### Configs._setup
@@ -62,37 +103,6 @@ Value:
 ### Configs.beforeStart
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.start
-
-Value:
-
-    {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
-    {{ if .Util.Bool.IsTrue $showAdvertisement -}}
-      "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
-    {{ end -}}
-
-
-
-### Configs._finish
-
-
-### Configs._start
-
-
 ### Configs.cmd
 
 Value:
@@ -100,17 +110,7 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs.finish
-
-
-### Configs.setup
 
 
 ## Envs

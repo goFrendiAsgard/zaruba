@@ -44,17 +44,24 @@ Description:
 ## Configs
 
 
-### Configs._prepareVariables
+### Configs._validate
 
 
-### Configs.beforeStart
-
-
-### Configs.cmdArg
+### Configs.afterStart
 
 Value:
 
-    -c
+    {{ $d := .Decoration -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.script
@@ -62,13 +69,6 @@ Value:
 Value:
 
     {{ .GetValue "script" }}
-
-
-### Configs.sql
-
-Value:
-
-    {{ .GetValue "sql" }}
 
 
 ### Configs._initShell
@@ -80,11 +80,25 @@ Value:
 
 
 
-### Configs._prepareBaseVariables
+### Configs._setup
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.generatedScriptLocation
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
 ### Configs.strictMode
@@ -97,41 +111,33 @@ Value:
 ### Configs._finish
 
 
-### Configs._setup
+### Configs._prepareVariables
+
+
+### Configs._validateTemplateLocation
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ $d := .Decoration -}}
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      exit 1
+    fi
 
-
-### Configs._validate
-
-
-### Configs.finish
-
-
-### Configs.generatedScriptLocation
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.runGeneratedScript
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
 
 
 ### Configs.setup
+
+
+### Configs.start
+
+
+### Configs.templateLocation
+
+Value:
+
+    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
 ### Configs._prepareReplacementMap
@@ -177,31 +183,31 @@ Value:
 
 
 
-### Configs.start
+### Configs.beforeStart
 
 
-### Configs.templateLocation
-
-Value:
-
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
-
-
-### Configs.afterStart
+### Configs.cmdArg
 
 Value:
 
-    {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+    -c
 
 
+### Configs.finish
 
-### Configs.cmd
+
+### Configs.runGeneratedScript
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
+
+
+### Configs.sql
+
+Value:
+
+    {{ .GetValue "sql" }}
 
 
 ### Configs._prepareBaseReplacementMap
@@ -211,17 +217,11 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
 
 
-### Configs._validateTemplateLocation
+### Configs._prepareBaseVariables
 
 Value:
 
-    {{ $d := .Decoration -}}
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
-      exit 1
-    fi
-
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
 
 
 ## Envs

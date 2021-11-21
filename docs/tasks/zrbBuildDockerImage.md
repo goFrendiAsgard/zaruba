@@ -52,17 +52,13 @@ Description:
 ## Configs
 
 
-### Configs._start
+### Configs._finish
 
 
-### Configs.beforeStart
+### Configs.imageName
 
 
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.imageTag
 
 
 ### Configs.cmdArg
@@ -72,7 +68,31 @@ Value:
     -c
 
 
-### Configs.imageName
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.buildArg
+
+
+### Configs.dockerFilePath
+
+Value:
+
+    Dockerfile
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
+### Configs.setup
 
 
 ### Configs.start
@@ -98,6 +118,21 @@ Value:
 
 
 
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
 ### Configs.start.buildDockerImage.buildArg
 
 Value:
@@ -110,35 +145,6 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.afterStart
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
 ### Configs.useImagePrefix
 
 Value:
@@ -146,27 +152,7 @@ Value:
     true
 
 
-### Configs._finish
-
-
-### Configs.buildArg
-
-
-### Configs.dockerFilePath
-
-Value:
-
-    Dockerfile
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-### Configs.imageTag
+### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -176,7 +162,21 @@ Value:
     true
 
 
-### Configs.setup
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ## Envs

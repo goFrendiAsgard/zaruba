@@ -65,9 +65,6 @@ Value:
     echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
 
 
-### Configs._finish
-
-
 ### Configs._initShell
 
 Value:
@@ -77,14 +74,10 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.afterStart
 
 
-### Configs._start
+### Configs.beforeStart
 
 
 ### Configs.cmdArg
@@ -97,17 +90,20 @@ Value:
 ### Configs.finish
 
 
-### Configs.includeShellUtil
+### Configs.setup
+
+
+### Configs._finish
+
+
+### Configs._setup
 
 Value:
 
-    true
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.afterStart
-
-
-### Configs.beforeStart
+### Configs._start
 
 
 ### Configs.cmd
@@ -117,7 +113,11 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.setup
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.strictMode

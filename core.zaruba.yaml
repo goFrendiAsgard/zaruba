@@ -70,8 +70,6 @@ includes:
   - ./zaruba-tasks/chore/serveHttp/input.serverHttpPort.yaml
   - ./zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
 
-  - ./zaruba-tasks/make/config.makePythonVenvAppRunner.yaml
-
   - ./zaruba-tasks/make/_base/input.zrbMake.yaml
   - ./zaruba-tasks/make/_base/task.zrbMake.yaml
 

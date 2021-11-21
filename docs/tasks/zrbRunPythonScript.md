@@ -54,9 +54,6 @@ Value:
     -c
 
 
-### Configs.finish
-
-
 ### Configs.start
 
 Value:
@@ -64,13 +61,10 @@ Value:
     print('hello world')
 
 
-### Configs._setup
+### Configs._finish
 
 
 ### Configs.afterStart
-
-
-### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -80,13 +74,19 @@ Value:
     python
 
 
-### Configs._finish
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs._setup
 
 
 ### Configs._start
 
 
-### Configs.setup
+### Configs.beforeStart
 
 
 ## Envs

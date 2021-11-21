@@ -49,21 +49,17 @@ Description:
 ## Configs
 
 
-### Configs.generatedScriptLocation
+### Configs._prepareReplacementMap
+
+
+### Configs.cmd
 
 Value:
 
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.script
-
-Value:
-
-    {{ .GetValue "script" }}
-
-
-### Configs._validate
+### Configs.start
 
 
 ### Configs.cmdArg
@@ -73,10 +69,88 @@ Value:
     -c
 
 
-### Configs.containerName
+### Configs.remoteScriptLocation
+
+Value:
+
+    _{{ .Name }}.script.{{ .UUID }}
 
 
-### Configs._prepareReplacementMap
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+
+
+### Configs._validateTemplateLocation
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      exit 1
+    fi
+
+
+
+### Configs.beforeStart
+
+
+### Configs.setup
+
+
+### Configs.afterStart
+
+Value:
+
+    {{ $d := .Decoration -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+
+
+
+### Configs._prepareBaseReplacementMap
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.remoteCommand
+
+Value:
+
+    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._validate
+
+
+### Configs.script
+
+Value:
+
+    {{ .GetValue "script" }}
+
+
+### Configs._prepareVariables
 
 
 ### Configs.includeShellUtil
@@ -99,24 +173,31 @@ Value:
     rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
 
 
-### Configs.beforeStart
-
-
-### Configs.cmd
+### Configs.templateLocation
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
-### Configs._prepareVariables
+### Configs.containerName
 
 
-### Configs.remoteCommand
+### Configs.finish
+
+
+### Configs.generatedScriptLocation
 
 Value:
 
-    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+
+
+### Configs.sql
+
+Value:
+
+    {{ .GetValue "sql" }}
 
 
 ### Configs._finish
@@ -129,26 +210,6 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
-
-
-### Configs._validateTemplateLocation
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
-      exit 1
-    fi
-
-
-
-### Configs._prepareBaseVariables
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
 
 
 ### Configs._start
@@ -189,67 +250,6 @@ Value:
     {{ .GetConfig "runGeneratedScript" }}
     cd "${__ZRB_PWD}"
 
-
-
-### Configs.sql
-
-Value:
-
-    {{ .GetValue "sql" }}
-
-
-### Configs.setup
-
-
-### Configs.start
-
-
-### Configs.finish
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._prepareBaseReplacementMap
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
-
-
-### Configs.afterStart
-
-Value:
-
-    {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
-
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.remoteScriptLocation
-
-Value:
-
-    _{{ .Name }}.script.{{ .UUID }}
-
-
-### Configs.templateLocation
-
-Value:
-
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
 ## Envs

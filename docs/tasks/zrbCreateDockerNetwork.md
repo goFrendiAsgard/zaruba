@@ -47,14 +47,35 @@ Description:
 ## Configs
 
 
-### Configs.cmd
+### Configs.network
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
 
 
-### Configs.finish
+### Configs.setup
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ### Configs._initShell
@@ -66,37 +87,19 @@ Value:
 
 
 
-### Configs._start
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.network
-
-Value:
-
-    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
+### Configs.finish
 
 
 ### Configs.afterStart
 
 
 ### Configs.beforeStart
+
+
+### Configs._finish
+
+
+### Configs._start
 
 
 ### Configs.start
@@ -115,14 +118,11 @@ Value:
 
 
 
-### Configs.strictMode
+### Configs.cmd
 
 Value:
 
-    true
-
-
-### Configs._finish
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.includeShellUtil

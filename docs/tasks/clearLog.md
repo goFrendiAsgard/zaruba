@@ -57,9 +57,6 @@ Value:
 ### Configs.afterStart
 
 
-### Configs.beforeStart
-
-
 ### Configs.includeShellUtil
 
 Value:
@@ -67,23 +64,7 @@ Value:
     true
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    rm -Rf log.zaruba.csv
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
-
-
 ### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
 
 
 ### Configs._finish
@@ -97,6 +78,9 @@ Value:
 
 
 ### Configs._start
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -114,6 +98,22 @@ Value:
 
 
 ### Configs.finish
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    rm -Rf log.zaruba.csv
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

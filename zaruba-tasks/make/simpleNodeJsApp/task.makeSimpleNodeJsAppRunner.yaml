@@ -2,7 +2,7 @@ tasks:
 
   makeSimpleNodeJsAppRunner:
     icon: 🐸
-    extend: makeNativeAppRunner
+    extend: makeNodeJsAppRunner
     dependencies:
       - makeSimpleNodeJsApp
     inputs:
@@ -14,6 +14,4 @@ tasks:
       - appImageName
       - appContainerName
     configRefs:
-      - makeNodeJsAppRunner
       - addSimpleNodeJsAppRunner
-      - addNodeJsAppRunner

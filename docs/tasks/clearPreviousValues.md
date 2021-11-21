@@ -45,15 +45,6 @@ Description:
 ## Configs
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    rm -Rf .previous.values.yaml
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
-
-
 ### Configs._initShell
 
 Value:
@@ -63,10 +54,14 @@ Value:
 
 
 
-### Configs.afterStart
+### Configs._start
 
 
-### Configs.beforeStart
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.cmdArg
@@ -74,9 +69,6 @@ Value:
 Value:
 
     -c
-
-
-### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -106,14 +98,22 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._start
+### Configs.afterStart
 
 
-### Configs.cmd
+### Configs.beforeStart
+
+
+### Configs.finish
+
+
+### Configs.start
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    {{ $d := .Decoration -}}
+    rm -Rf .previous.values.yaml
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
 
 
 ## Envs

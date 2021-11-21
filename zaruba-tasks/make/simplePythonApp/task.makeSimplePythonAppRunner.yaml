@@ -2,7 +2,7 @@ tasks:
 
   makeSimplePythonAppRunner:
     icon: 🐍
-    extend: makeNativeAppRunner
+    extend: makePythonAppRunner
     dependencies:
       - makeSimplePythonApp
     inputs:
@@ -13,8 +13,5 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configRefs:
-      - makePythonVenvAppRunner
-      - makePythonAppRunner
+    configRefs: 
       - addSimplePythonAppRunner
-      - addPythonAppRunner
