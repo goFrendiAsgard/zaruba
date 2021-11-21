@@ -14,6 +14,9 @@ import (
 	"github.com/state-alchemists/zaruba/cmd/numcmd"
 	"github.com/state-alchemists/zaruba/cmd/pathcmd"
 	"github.com/state-alchemists/zaruba/cmd/projectcmd"
+	"github.com/state-alchemists/zaruba/cmd/strcmd"
+	"github.com/state-alchemists/zaruba/cmd/taskcmd"
+	"github.com/state-alchemists/zaruba/cmd/yamlcmd"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -28,21 +31,6 @@ var rootCmd = &cobra.Command{
  / /| (_| | |  | |_| | |_) / ___ \
 /____\__,_|_|   \__,_|_.__/_/   \_\
 Task runner framework and CLI utilities`,
-}
-
-var strCmd = &cobra.Command{
-	Use:   "str",
-	Short: "String manipulation utilities",
-}
-
-var taskCmd = &cobra.Command{
-	Use:   "task",
-	Short: "Task manipulation utilities",
-}
-
-var yamlCmd = &cobra.Command{
-	Use:   "yaml",
-	Short: "YAML utilities",
 }
 
 func init() {
@@ -86,45 +74,17 @@ func init() {
 	pathcmd.Init()
 
 	rootCmd.AddCommand(projectcmd.Cmd)
-	pathcmd.Init()
+	projectcmd.Init()
 
-	rootCmd.AddCommand(strCmd)
-	rootCmd.AddCommand(taskCmd)
-	rootCmd.AddCommand(yamlCmd)
+	rootCmd.AddCommand(strcmd.Cmd)
+	strcmd.Init()
 
-	strCmd.AddCommand(strAddPrefixCmd)
-	strCmd.AddCommand(strDoubleQuote)
-	strCmd.AddCommand(strEscapeShellArg)
-	strCmd.AddCommand(strFullIndentCmd)
-	strCmd.AddCommand(strGetIndentationCmd)
-	strCmd.AddCommand(strIndentCmd)
-	strCmd.AddCommand(strNewUUIDCmd)
-	strCmd.AddCommand(strNewName)
-	strCmd.AddCommand(strPadLeftCmd)
-	strCmd.AddCommand(strPadRightCmd)
-	strCmd.AddCommand(strRepeatCmd)
-	strCmd.AddCommand(strReplaceCmd)
-	strCmd.AddCommand(strSingleQuote)
-	strCmd.AddCommand(strSplitCmd)
-	strCmd.AddCommand(strSubmatchCmd)
-	strCmd.AddCommand(strToCamelCmd)
-	strCmd.AddCommand(strToKebabCmd)
-	strCmd.AddCommand(strToLowerCmd)
-	strCmd.AddCommand(strToPascalCmd)
-	strCmd.AddCommand(strToSnakeCmd)
-	strCmd.AddCommand(strToUpperCmd)
-	strCmd.AddCommand(strToUpperSnakeCmd)
+	rootCmd.AddCommand(taskcmd.Cmd)
+	taskcmd.Init()
 
-	taskCmd.AddCommand(taskAddDependencyCmd)
-	taskCmd.AddCommand(taskAddParentCmd)
-	taskCmd.AddCommand(taskIsExistCmd)
-	taskCmd.AddCommand(taskSetConfigCmd)
-	taskCmd.AddCommand(taskSetEnvCmd)
-	taskCmd.AddCommand(taskSyncEnvCmd)
+	rootCmd.AddCommand(yamlcmd.Cmd)
+	yamlcmd.Init()
 
-	yamlCmd.AddCommand(yamlReadCmd)
-	yamlCmd.AddCommand(yamlPrintCmd)
-	yamlCmd.AddCommand(yamlWriteCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

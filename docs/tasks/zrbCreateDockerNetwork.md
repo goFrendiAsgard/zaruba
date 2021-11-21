@@ -47,7 +47,14 @@ Description:
 ## Configs
 
 
-### Configs._finish
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
 
 
 ### Configs._initShell
@@ -59,44 +66,14 @@ Value:
 
 
 
+### Configs._start
+
+
 ### Configs._setup
 
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.finish
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
 
 
 ### Configs.network
@@ -106,14 +83,20 @@ Value:
     {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
 
 
-### Configs._start
-
-
-### Configs.includeShellUtil
+### Configs.cmdArg
 
 Value:
 
-    true
+    -c
+
+
+### Configs.setup
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
 
 
 ### Configs.start
@@ -130,6 +113,23 @@ Value:
       docker network create "{{ .GetConfig "network" }}"
     fi
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ## Envs

@@ -40,23 +40,17 @@ Type:
 ## Configs
 
 
-### Configs._setup
+### Configs.start
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ $d := .Decoration -}}
+    if [ ! -f "index.zaruba.yaml" ]
+    then
+      "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+    fi
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
 
-
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.finish
-
-
-### Configs.setup
 
 
 ### Configs.strictMode
@@ -66,7 +60,7 @@ Value:
     true
 
 
-### Configs._finish
+### Configs.beforeStart
 
 
 ### Configs._initShell
@@ -78,7 +72,17 @@ Value:
 
 
 
-### Configs.beforeStart
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -95,24 +99,20 @@ Value:
     -c
 
 
+### Configs.finish
+
+
+### Configs._finish
+
+
+### Configs.setup
+
+
 ### Configs.includeShellUtil
 
 Value:
 
     true
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ ! -f "index.zaruba.yaml" ]
-    then
-      "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
-    fi
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
-
 
 
 ## Envs

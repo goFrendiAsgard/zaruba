@@ -40,17 +40,47 @@ Type:
 ## Configs
 
 
-### Configs.beforeStart
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.setup
+
+
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.finish
 
 
-### Configs.includeShellUtil
+### Configs.kubeContext
 
 Value:
 
-    true
+    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+
+
+### Configs.kubeNamespace
+
+Value:
+
+    {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
 
 
 ### Configs.start
@@ -70,13 +100,6 @@ Value:
     true
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs._initShell
 
 Value:
@@ -86,11 +109,7 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -100,30 +119,11 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.kubeNamespace
+### Configs.includeShellUtil
 
 Value:
 
-    {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
-
-
-### Configs.setup
-
-
-### Configs._finish
-
-
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.kubeContext
-
-Value:
-
-    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+    true
 
 
 ## Envs

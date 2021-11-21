@@ -45,6 +45,26 @@ Description:
 ## Configs
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
 ### Configs._initShell
 
 Value:
@@ -64,14 +84,7 @@ Value:
 ### Configs._start
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
+### Configs.afterStart
 
 
 ### Configs.strictMode
@@ -85,16 +98,6 @@ Value:
 
 
 ### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -118,9 +121,6 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
     echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
-
-
-### Configs.afterStart
 
 
 ## Envs

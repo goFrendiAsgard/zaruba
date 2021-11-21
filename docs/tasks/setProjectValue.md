@@ -49,25 +49,6 @@ Description:
 ## Inputs
 
 
-### Inputs.variableName
-
-Description:
-
-    Variable name (Required)
-
-Prompt:
-
-    Name
-
-Secret:
-
-    false
-
-Validation:
-
-    ^.+$
-
-
 ### Inputs.variableValue
 
 Description:
@@ -87,57 +68,40 @@ Validation:
     ^.+$
 
 
+### Inputs.variableName
+
+Description:
+
+    Variable name (Required)
+
+Prompt:
+
+    Name
+
+Secret:
+
+    false
+
+Validation:
+
+    ^.+$
+
+
 ## Configs
-
-
-### Configs.afterStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.beforeStart
 
 
-### Configs.cmdArg
+### Configs.start
 
 Value:
 
-    -c
+    {{ $d := .Decoration -}}
+    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
-### Configs.setup
 
 
 ### Configs.variableValue
@@ -150,6 +114,43 @@ Value:
 ### Configs._finish
 
 
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.setup
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
 ### Configs._initShell
 
 Value:
@@ -159,15 +160,14 @@ Value:
 
 
 
-### Configs.start
+### Configs._start
+
+
+### Configs.includeShellUtil
 
 Value:
 
-    {{ $d := .Decoration -}}
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
-
+    true
 
 
 ### Configs.variableName

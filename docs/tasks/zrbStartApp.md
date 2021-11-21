@@ -93,13 +93,26 @@ Description:
 ## Configs
 
 
-### Configs._initShell
+### Configs._start
+
+
+### Configs.ports
+
+
+### Configs.start
+
+
+### Configs.afterCheck
+
+
+### Configs.afterStart
+
+
+### Configs.cmd
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.cmdArg
@@ -109,7 +122,7 @@ Value:
     -c
 
 
-### Configs.includeShellUtil
+### Configs.runInLocal
 
 Value:
 
@@ -119,6 +132,28 @@ Value:
 ### Configs.setup
 
 
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
 ### Configs.strictMode
 
 Value:
@@ -126,16 +161,17 @@ Value:
     true
 
 
-### Configs._start
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.afterCheck
+### Configs.beforeCheck
 
 
 ### Configs.beforeStart
-
-
-### Configs.afterStart
 
 
 ### Configs.check
@@ -151,42 +187,6 @@ Value:
       {{ end -}}
     {{ end -}}
 
-
-
-### Configs.finish
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.ports
-
-
-### Configs.runInLocal
-
-Value:
-
-    true
-
-
-### Configs.start
-
-
-### Configs._finish
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.beforeCheck
 
 
 ## Envs

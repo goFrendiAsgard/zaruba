@@ -58,6 +58,13 @@ Description:
 ## Configs
 
 
+### Configs.strictMode
+
+Value:
+
+    true
+
+
 ### Configs._initShell
 
 Value:
@@ -70,14 +77,17 @@ Value:
 ### Configs.afterStart
 
 
-### Configs.beforeStart
-
-
 ### Configs.cmdArg
 
 Value:
 
     -c
+
+
+### Configs.finish
+
+
+### Configs.setup
 
 
 ### Configs.includeShellUtil
@@ -130,13 +140,6 @@ Value:
 
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
 ### Configs._finish
 
 
@@ -150,17 +153,14 @@ Value:
 ### Configs._start
 
 
+### Configs.beforeStart
+
+
 ### Configs.cmd
 
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
-
-
-### Configs.setup
 
 
 ## Envs

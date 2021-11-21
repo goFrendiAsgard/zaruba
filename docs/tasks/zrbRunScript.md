@@ -48,13 +48,7 @@ Description:
 ## Configs
 
 
-### Configs._finish
-
-
-### Configs._setup
-
-
-### Configs._start
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -67,10 +61,13 @@ Value:
 ### Configs.setup
 
 
+### Configs._setup
+
+
+### Configs._start
+
+
 ### Configs.afterStart
-
-
-### Configs.beforeStart
 
 
 ### Configs.cmdArg
@@ -84,6 +81,9 @@ Value:
 
 
 ### Configs.start
+
+
+### Configs._finish
 
 
 ## Envs

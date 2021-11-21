@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"time"
 )
 
 type NameGenerator struct {
@@ -33,7 +34,7 @@ func NewNameGenerator() *NameGenerator {
 }
 
 func (generator *NameGenerator) Generate() string {
-	r := rand.New(rand.New(rand.NewSource(99)))
+	r := rand.New(rand.New(rand.NewSource(time.Now().UnixNano())))
 	adjective := generator.adjectives[r.Intn(len(generator.adjectives))]
 	noun := strings.Title(generator.adjectives[r.Intn(len(generator.nouns))])
 	return fmt.Sprintf("%v%v", adjective, noun)

@@ -95,7 +95,26 @@ Options:
 ## Configs
 
 
-### Configs._finish
+### Configs._start
+
+
+### Configs.afterCheck
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.setup
 
 
 ### Configs._initShell
@@ -107,29 +126,7 @@ Value:
 
 
 
-### Configs._start
-
-
-### Configs.afterCheck
-
-
-### Configs.afterStart
-
-
 ### Configs.beforeCheck
-
-
-### Configs.start
-
-
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.includeShellUtil
@@ -139,13 +136,6 @@ Value:
     true
 
 
-### Configs.ports
-
-Value:
-
-    {{ .GetValue "serverHttpPort" }}
-
-
 ### Configs.runInLocal
 
 Value:
@@ -153,11 +143,7 @@ Value:
     true
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs.start
 
 
 ### Configs.check
@@ -175,17 +161,31 @@ Value:
 
 
 
-### Configs.finish
-
-
-### Configs.cmdArg
+### Configs.ports
 
 Value:
 
-    -c
+    {{ .GetValue "serverHttpPort" }}
 
 
-### Configs.setup
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
 
 
 ### Configs.strictMode

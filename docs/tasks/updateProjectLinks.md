@@ -54,31 +54,14 @@ Description:
 ## Configs
 
 
-### Configs._setup
+### Configs.beforeStart
+
+
+### Configs.cmdArg
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.afterStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
+    -c
 
 
 ### Configs.start
@@ -99,6 +82,23 @@ Value:
 
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
 ### Configs._finish
 
 
@@ -111,20 +111,20 @@ Value:
 
 
 
-### Configs._start
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
+### Configs._setup
 
 Value:
 
-    -c
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.finish
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.setup
 
 
 ### Configs.strictMode
