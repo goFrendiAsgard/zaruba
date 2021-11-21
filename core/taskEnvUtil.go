@@ -6,22 +6,23 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/state-alchemists/zaruba/pathutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
 type TaskEnvUtil struct {
-	taskUtil *TaskUtil
+	task *TaskUtil
 }
 
 func NewTaskEnvUtil(taskUtil *TaskUtil) *TaskEnvUtil {
 	return &TaskEnvUtil{
-		taskUtil: taskUtil,
+		task: taskUtil,
 	}
 }
 
 func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
-	task, err := envUtil.taskUtil.getTask(projectFile, taskName)
+	task, err := envUtil.task.getTask(projectFile, taskName)
 	if err != nil {
 		return err
 	}
@@ -37,7 +38,7 @@ func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
 	if taskLocation == "" || taskLocation == projectDir {
 		return nil
 	}
-	locationEnvMap, err := task.Project.Util.Path.GetEnvByLocation(taskLocation)
+	locationEnvMap, err := pathutil.PathGetEnvByLocation(taskLocation)
 	if err != nil {
 		return err
 	}
@@ -61,11 +62,15 @@ func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
 	return envUtil.setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
 }
 
-func (envUtil *TaskEnvUtil) Set(projectFile, taskName string, envMap map[string]string) (err error) {
+func (envUtil *TaskEnvUtil) Set(projectFile, taskName string, jsonEnvMap string) (err error) {
+	envMap, err := envUtil.task.json.Map.GetStringDict(jsonEnvMap)
+	if err != nil {
+		return err
+	}
 	if len(envMap) == 0 {
 		return nil
 	}
-	task, err := envUtil.taskUtil.getTask(projectFile, taskName)
+	task, err := envUtil.task.getTask(projectFile, taskName)
 	if err != nil {
 		return err
 	}
@@ -82,7 +87,7 @@ func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error
 	taskName := task.GetName()
 	envPrefix := strings.ToUpper(task.Project.Util.Str.ToSnake(taskName))
 	yamlLocation := task.GetFileLocation()
-	node, err := envUtil.taskUtil.file.ReadYamlNode(yamlLocation)
+	node, err := envUtil.task.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -100,7 +105,7 @@ func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "envs" && taskPropValNode.ShortTag() == "!!map" {
 							envUtil.updateEnvMapNode(taskPropValNode, envMap, envPrefix)
-							return envUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+							return envUtil.task.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// env not found
@@ -110,7 +115,7 @@ func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "envs"},
 						envUtil.createEnvMapNode(envMap, envPrefix),
 					)
-					return envUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return envUtil.task.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -123,7 +128,7 @@ func (envUtil *TaskEnvUtil) setEnvRef(envRef *EnvRef, envMap map[string]string) 
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(util.Str.ToSnake(envRefName))
 	yamlLocation := envRef.GetFileLocation()
-	node, err := envUtil.taskUtil.file.ReadYamlNode(yamlLocation)
+	node, err := envUtil.task.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -137,7 +142,7 @@ func (envUtil *TaskEnvUtil) setEnvRef(envRef *EnvRef, envMap map[string]string) 
 				envRefNode := valNode.Content[envRefNameIndex+1]
 				if envRefNameNode.Value == envRefName && envRefNode.ShortTag() == "!!map" {
 					envUtil.updateEnvMapNode(envRefNode, envMap, envPrefix)
-					return envUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return envUtil.task.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}

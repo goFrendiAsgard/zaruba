@@ -15,7 +15,7 @@ var projectSetValueCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 3)
 		util := core.NewCoreUtil()
 		if err := util.Project.SetValue(args[0], args[1], args[2]); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

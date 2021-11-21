@@ -52,30 +52,11 @@ Description:
 ## Configs
 
 
-### Configs.imageTag
-
-
-### Configs.strictMode
+### Configs.cmd
 
 Value:
 
-    true
-
-
-### Configs.buildArg
-
-
-### Configs.dockerFilePath
-
-Value:
-
-    Dockerfile
-
-
-### Configs._start
-
-
-### Configs.beforeStart
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.cmdArg
@@ -83,49 +64,6 @@ Value:
 Value:
 
     -c
-
-
-### Configs.imageName
-
-
-### Configs._finish
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.setup
-
-
-### Configs.useImagePrefix
-
-Value:
-
-    true
-
-
-### Configs.afterStart
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.finish
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
 
 
 ### Configs.start
@@ -163,6 +101,55 @@ Value:
 
 
 
+### Configs.buildArg
+
+
+### Configs._start
+
+
+### Configs.beforeStart
+
+
+### Configs.imageTag
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.useImagePrefix
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+
+### Configs.finish
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
 ### Configs._initShell
 
 Value:
@@ -172,11 +159,24 @@ Value:
 
 
 
-### Configs.cmd
+### Configs.imageName
+
+
+### Configs.setup
+
+
+### Configs.strictMode
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
+
+
+### Configs.dockerFilePath
+
+Value:
+
+    Dockerfile
 
 
 ## Envs

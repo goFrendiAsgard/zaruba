@@ -47,23 +47,6 @@ Description:
 ## Configs
 
 
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
 ### Configs._setup
 
 Value:
@@ -71,7 +54,10 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeStart
+### Configs._start
+
+
+### Configs.afterStart
 
 
 ### Configs.cmdArg
@@ -81,9 +67,6 @@ Value:
     -c
 
 
-### Configs.finish
-
-
 ### Configs.includeShellUtil
 
 Value:
@@ -91,14 +74,18 @@ Value:
     true
 
 
-### Configs.setup
-
-
 ### Configs.start
 
 Value:
 
     echo hello world
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ### Configs._initShell
@@ -110,10 +97,23 @@ Value:
 
 
 
-### Configs._start
+### Configs.beforeStart
 
 
-### Configs.afterStart
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs._finish
 
 
 ## Envs

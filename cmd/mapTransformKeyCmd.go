@@ -22,7 +22,7 @@ var mapTransformKeyCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		newMapString, err := util.Json.Map.TransformKeys(mapString, prefix, suffix)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(newMapString)
 	},

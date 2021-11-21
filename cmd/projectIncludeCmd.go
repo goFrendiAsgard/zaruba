@@ -17,12 +17,12 @@ var projectIncludeCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		projectFilePath, err := filepath.Abs(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fileName := args[1]
 		util := core.NewCoreUtil()
 		if err = util.Project.IncludeFile(projectFilePath, fileName); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

@@ -18,7 +18,7 @@ var listLengthCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		length, err := util.Json.List.GetLength(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(length)
 	},

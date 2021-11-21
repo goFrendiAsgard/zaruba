@@ -18,7 +18,7 @@ var envGetCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		envMapStr, err := util.Json.Map.GetFromEnv()
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		if len(args) == 0 {
 			fmt.Println(envMapStr)
@@ -27,7 +27,7 @@ var envGetCmd = &cobra.Command{
 		prefix := args[0]
 		cascadedEnvMapStr, err := util.Json.Map.CascadePrefixKeys(envMapStr, prefix)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(cascadedEnvMapStr)
 	},

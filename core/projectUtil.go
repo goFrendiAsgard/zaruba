@@ -8,6 +8,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/fileutil"
+	"github.com/state-alchemists/zaruba/jsonutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
@@ -17,13 +18,13 @@ type ProjectUtil struct {
 	Task *TaskUtil
 }
 
-func NewProjectUtil(fileUtil *fileutil.FileUtil) *ProjectUtil {
-	taskUtil := NewTaskUtil(fileUtil)
+func NewProjectUtil(fileUtil *fileutil.FileUtil, jsonUtil *jsonutil.JsonUtil) *ProjectUtil {
+	taskUtil := NewTaskUtil(fileUtil, jsonUtil)
 	projectUtil := &ProjectUtil{
 		file: fileUtil,
 		Task: taskUtil,
 	}
-	projectUtil.Task.Project = projectUtil
+	projectUtil.Task.project = projectUtil
 	return projectUtil
 }
 

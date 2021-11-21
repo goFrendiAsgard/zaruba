@@ -19,7 +19,7 @@ var yamlPrintCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		yamlString, err := util.Json.ToYaml(jsonString)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(yamlString)
 	},

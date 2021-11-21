@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -17,14 +16,10 @@ var pathGetEnvCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		util := core.NewCoreUtil()
-		result, err := util.Path.GetEnvByLocation(args[0])
+		jsonMap, err := util.Path.GetEnvByLocation(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		resultB, err := json.Marshal(result)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(jsonMap)
 	},
 }

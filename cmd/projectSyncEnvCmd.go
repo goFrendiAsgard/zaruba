@@ -17,11 +17,11 @@ var projectSyncEnvCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		util := core.NewCoreUtil()
 		if err = util.Project.SyncTasksEnv(projectFile); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

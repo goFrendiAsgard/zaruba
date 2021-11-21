@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -10,33 +9,21 @@ import (
 )
 
 var linesSubmatchCmd = &cobra.Command{
-	Use:   "submatch <list> <patterns>",
+	Use:   "submatch <jsonList> <patterns>",
 	Short: "Return submatch matching the pattern",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		list := []string{}
-		err := json.Unmarshal([]byte(args[0]), &list)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		patterns := []string{}
-		if err := json.Unmarshal([]byte(args[1]), &patterns); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
 		util := core.NewCoreUtil()
-		index, submatch, err := util.Str.GetLineSubmatch(list, patterns)
+		jsonLines, jsonPatterns := args[0], args[1]
+		matchIndex, jsonSubmatch, err := util.Json.List.GetLinesSubmatch(jsonLines, jsonPatterns)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		if index == -1 {
-			exit(cmd, logger, decoration, fmt.Errorf("no line match %#v", patterns))
+		if matchIndex == -1 {
+			exit(cmd, args, logger, decoration, fmt.Errorf("no line match %s", jsonPatterns))
 		}
-		resultB, err := json.Marshal(submatch)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(util.Json.FromInterface(jsonSubmatch))
 	},
 }

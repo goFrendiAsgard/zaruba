@@ -20,7 +20,7 @@ var pathGetRelativePathCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		relPath, err := util.Path.GetRelativePath(basePath, targetPath)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(relPath)
 	},

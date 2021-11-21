@@ -40,7 +40,7 @@ configs:
       NAMESPACE='{{ .GetConfig "namespace" }}'
       IMAGE_NAME="{{ .GetDockerImageName }}"
       IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
-      RAW_ENVS='{{ .ToJSON .GetEnvs }}'
+      RAW_ENVS='{{ .Util.Json.FromInterface .GetEnvs }}'
       RAW_PORTS='{{ .GetConfig "ports" }}'
       REPLICA_COUNT='{{ .GetConfig "replicaCount" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'

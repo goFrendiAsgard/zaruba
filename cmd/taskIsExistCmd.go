@@ -18,13 +18,13 @@ var taskIsExistCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		taskName := args[1]
 		util := core.NewCoreUtil()
 		exist, err := util.Project.Task.IsExist(projectFile, taskName)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		if exist {
 			fmt.Println(1)

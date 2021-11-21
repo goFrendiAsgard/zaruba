@@ -13,16 +13,10 @@ var generateCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
-		sourceTemplatePath := args[0]
-		destinationPath := args[1]
-		mapString := args[2]
+		sourceTemplatePath, destinationPath, replacementMapString := args[0], args[1], args[2]
 		util := core.NewCoreUtil()
-		replacementMap, err := util.Json.Map.GetStringDict(mapString)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		if err := util.File.Generate(sourceTemplatePath, destinationPath, replacementMap); err != nil {
-			exit(cmd, logger, decoration, err)
+		if err := util.File.Generate(sourceTemplatePath, destinationPath, replacementMapString); err != nil {
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

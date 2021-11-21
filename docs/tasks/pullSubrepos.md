@@ -55,31 +55,7 @@ Description:
 ## Configs
 
 
-### Configs._finish
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
+### Configs.afterStart
 
 
 ### Configs.finish
@@ -92,11 +68,10 @@ Value:
     true
 
 
-### Configs.strictMode
+### Configs.setup
 
-Value:
 
-    true
+### Configs._finish
 
 
 ### Configs._initShell
@@ -108,13 +83,18 @@ Value:
 
 
 
-### Configs._start
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.afterStart
+### Configs.cmdArg
 
+Value:
 
-### Configs.setup
+    -c
 
 
 ### Configs.start
@@ -141,6 +121,26 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._start
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ## Envs

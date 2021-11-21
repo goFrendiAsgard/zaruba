@@ -8,20 +8,24 @@ import (
 )
 
 type TaskConfigUtil struct {
-	taskUtil *TaskUtil
+	task *TaskUtil
 }
 
 func NewTaskConfigUtil(taskUtil *TaskUtil) *TaskConfigUtil {
 	return &TaskConfigUtil{
-		taskUtil: taskUtil,
+		task: taskUtil,
 	}
 }
 
-func (configUtil *TaskConfigUtil) Set(projectFile, taskName string, configMap map[string]string) (err error) {
+func (configUtil *TaskConfigUtil) Set(projectFile, taskName string, jsonConfigMap string) (err error) {
+	configMap, err := configUtil.task.json.Map.GetStringDict(jsonConfigMap)
+	if err != nil {
+		return err
+	}
 	if len(configMap) == 0 {
 		return nil
 	}
-	task, err := configUtil.taskUtil.getTask(projectFile, taskName)
+	task, err := configUtil.task.getTask(projectFile, taskName)
 	if err != nil {
 		return err
 	}
@@ -37,7 +41,7 @@ func (configUtil *TaskConfigUtil) Set(projectFile, taskName string, configMap ma
 func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (err error) {
 	taskName := task.GetName()
 	yamlLocation := task.GetFileLocation()
-	node, err := configUtil.taskUtil.file.ReadYamlNode(yamlLocation)
+	node, err := configUtil.task.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -55,7 +59,7 @@ func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (
 						taskPropValNode := taskNode.Content[taskPropKeyIndex+1]
 						if taskPropKeyNode.Value == "configs" && taskPropValNode.ShortTag() == "!!map" {
 							configUtil.updateConfigMapNode(taskPropValNode, configMap)
-							return configUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+							return configUtil.task.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 						}
 					}
 					// config not found
@@ -65,7 +69,7 @@ func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (
 						&yaml.Node{Kind: yaml.ScalarNode, Value: "configs"},
 						configUtil.createConfigMapNode(configMap),
 					)
-					return configUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return configUtil.task.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}
@@ -76,7 +80,7 @@ func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (
 func (configUtil *TaskConfigUtil) setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error) {
 	configRefName := configRef.GetName()
 	yamlLocation := configRef.GetFileLocation()
-	node, err := configUtil.taskUtil.file.ReadYamlNode(yamlLocation)
+	node, err := configUtil.task.file.ReadYamlNode(yamlLocation)
 	if err != nil {
 		return err
 	}
@@ -90,7 +94,7 @@ func (configUtil *TaskConfigUtil) setConfigRef(configRef *ConfigRef, configMap m
 				configRefNode := valNode.Content[configRefNameIndex+1]
 				if configRefNameNode.Value == configRefName && configRefNode.ShortTag() == "!!map" {
 					configUtil.updateConfigMapNode(configRefNode, configMap)
-					return configUtil.taskUtil.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
+					return configUtil.task.file.WriteYamlNode(yamlLocation, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 				}
 			}
 		}

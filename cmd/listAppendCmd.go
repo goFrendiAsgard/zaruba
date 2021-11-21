@@ -9,8 +9,8 @@ import (
 )
 
 var listAppendCmd = &cobra.Command{
-	Use:   "append <list> <newValues...>",
-	Short: "Append new values to list",
+	Use:   "append <jsonList> <newValues...>",
+	Short: "Append new values to jsonList",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
@@ -19,7 +19,7 @@ var listAppendCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		newListString, err := util.Json.List.Append(listString, value)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(newListString)
 	},

@@ -20,7 +20,7 @@ var mapGetCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		data, err := util.Json.Map.GetValue(mapString, key)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(util.Json.FromInterface(data))
 	},

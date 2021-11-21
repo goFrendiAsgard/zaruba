@@ -18,14 +18,17 @@ type CoreUtil struct {
 }
 
 func NewCoreUtil() *CoreUtil {
-	jsonUtil := jsonutil.NewJsonUtil()
+	strUtil := strutil.NewStrUtil()
+	jsonUtil := jsonutil.NewJsonUtil(strUtil)
 	fileUtil := fileutil.NewFileUtil(jsonUtil)
-	projectUtil := NewProjectUtil(fileUtil)
+	projectUtil := NewProjectUtil(fileUtil, jsonUtil)
+	pathUtil := pathutil.NewPathUtil(jsonUtil)
+	booleanUtil := booleanutil.NewBooleanUtil()
 	coreUtil := &CoreUtil{
-		Str:     strutil.NewStrutil(),
+		Str:     strUtil,
 		File:    fileUtil,
-		Bool:    booleanutil.NewBooleanUtil(),
-		Path:    pathutil.NewPathUtil(),
+		Bool:    booleanUtil,
+		Path:    pathUtil,
 		Json:    jsonUtil,
 		Project: projectUtil,
 	}

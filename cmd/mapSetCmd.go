@@ -20,7 +20,7 @@ var mapSetCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		newMapString, err := util.Json.Map.Set(mapString, setArgs...)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(newMapString)
 	},

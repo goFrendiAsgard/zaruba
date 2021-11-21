@@ -2,19 +2,23 @@ package pathutil
 
 import (
 	"bytes"
-	"io/ioutil"
-	"os"
+	"fmt"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
-	"github.com/joho/godotenv"
+	"github.com/state-alchemists/zaruba/jsonutil"
 )
 
-type PathUtil struct{}
+type PathUtil struct {
+	json *jsonutil.JsonUtil
+}
 
-func NewPathUtil() *PathUtil {
-	return &PathUtil{}
+func NewPathUtil(jsonUtil *jsonutil.JsonUtil) *PathUtil {
+	return &PathUtil{
+		json: jsonUtil,
+	}
 }
 
 func (pathUtil *PathUtil) GetRelativePath(basePath, targetPath string) (relativePath string, err error) {
@@ -48,58 +52,36 @@ func (pathUtil *PathUtil) GetDefaultAppName(location string) (appName string, er
 	return appName, err
 }
 
-func (pathUtil *PathUtil) GetEnvFileList(location string) (envFileList []string, err error) {
-	absDirPath, err := filepath.Abs(location)
+func (pathUtil *PathUtil) GetEnvFileList(location string) (jsonList string, err error) {
+	fileList, err := PathGetEnvFileList(location)
 	if err != nil {
-		return envFileList, err
+		return "[]", err
 	}
-	dir, err := os.Open(absDirPath)
-	if err != nil {
-		return envFileList, err
-	}
-	defer dir.Close()
-	fileList, err := dir.Readdirnames(0)
-	if err != nil {
-		return envFileList, err
-	}
-	envFileList = []string{}
-	for _, fileName := range fileList {
-		if strings.HasSuffix(fileName, ".env") && fileName != ".env" {
-			envFileList = append(envFileList, fileName)
-		}
-	}
-	return envFileList, err
+	return pathUtil.json.FromInterface(fileList), nil
 }
 
-func (pathUtil *PathUtil) GetEnvByLocation(location string) (envMap map[string]string, err error) {
-	absDirPath, err := filepath.Abs(location)
+func (pathUtil *PathUtil) GetPortConfigByLocation(location string) (jsonList string, err error) {
+	envMap, err := PathGetEnvByLocation(location)
 	if err != nil {
-		return envMap, err
+		return "[]", err
 	}
-	files, err := ioutil.ReadDir(absDirPath)
-	if err != nil {
-		return envMap, err
-	}
-	envMap = map[string]string{}
-	for _, file := range files {
-		isDir := file.IsDir()
-		if isDir {
-			continue
-		}
-		fileName := file.Name()
-		if !strings.HasSuffix(fileName, ".env") && !strings.HasSuffix(fileName, ".env.template") {
-			continue
-		}
-		singleEnvMap, err := godotenv.Read(filepath.Join(absDirPath, fileName))
+	ports := []string{}
+	for key, val := range envMap {
+		intVal, err := strconv.Atoi(val)
 		if err != nil {
-			return envMap, err
+			continue
 		}
-		for key, value := range singleEnvMap {
-			if _, keyExist := envMap[key]; keyExist {
-				continue
-			}
-			envMap[key] = value
+		if intVal > 1000 {
+			ports = append(ports, fmt.Sprintf("{{ .GetEnv \"%s\" }}", key))
 		}
 	}
-	return envMap, nil
+	return pathUtil.json.FromInterface(ports), nil
+}
+
+func (pathUtil *PathUtil) GetEnvByLocation(location string) (jsonMap string, err error) {
+	envMap, err := PathGetEnvByLocation(location)
+	if err != nil {
+		return "{}", err
+	}
+	return pathUtil.json.FromInterface(envMap), nil
 }

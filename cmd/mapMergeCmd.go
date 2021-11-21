@@ -19,7 +19,7 @@ var mapMergeCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		mergedMapString, err := util.Json.Map.Merge(mapStrings...)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(mergedMapString)
 	},

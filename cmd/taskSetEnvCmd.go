@@ -17,16 +17,12 @@ var taskSetEnvCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 3)
 		projectFile, err := filepath.Abs(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		taskName := args[1]
+		taskName, jsonEnvMap := args[1], args[2]
 		util := core.NewCoreUtil()
-		envMap, err := util.Json.Map.GetStringDict(args[2])
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		if err = util.Project.Task.Env.Set(projectFile, taskName, envMap); err != nil {
-			exit(cmd, logger, decoration, err)
+		if err = util.Project.Task.Env.Set(projectFile, taskName, jsonEnvMap); err != nil {
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

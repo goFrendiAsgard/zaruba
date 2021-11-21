@@ -19,7 +19,7 @@ var mapRangeKeyCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		keys, err := util.Json.Map.GetKeys(mapString)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		for _, key := range keys {
 			fmt.Println(key)

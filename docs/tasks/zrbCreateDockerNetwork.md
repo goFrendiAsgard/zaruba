@@ -50,6 +50,15 @@ Description:
 ### Configs._finish
 
 
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
 ### Configs._setup
 
 Value:
@@ -57,10 +66,23 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
+### Configs.finish
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
 ### Configs.afterStart
 
 
-### Configs._start
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -77,14 +99,21 @@ Value:
     -c
 
 
+### Configs.network
+
+Value:
+
+    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
+
+
+### Configs._start
+
+
 ### Configs.includeShellUtil
 
 Value:
 
     true
-
-
-### Configs.beforeStart
 
 
 ### Configs.start
@@ -101,35 +130,6 @@ Value:
       docker network create "{{ .GetConfig "network" }}"
     fi
 
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.finish
-
-
-### Configs.network
-
-Value:
-
-    {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
-
-
-### Configs.setup
 
 
 ## Envs

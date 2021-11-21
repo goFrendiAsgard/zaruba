@@ -52,7 +52,11 @@ Description:
 ## Configs
 
 
-### Configs.afterStart
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
 
 
 ### Configs.imageTag
@@ -76,34 +80,24 @@ Value:
 
 
 
-### Configs.finish
-
-
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 
     true
 
 
-### Configs.setup
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
 
 
 ### Configs.useImagePrefix
-
-Value:
-
-    true
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-### Configs.strictMode
 
 Value:
 
@@ -122,6 +116,12 @@ Value:
 ### Configs.beforeStart
 
 
+### Configs.finish
+
+
+### Configs._finish
+
+
 ### Configs.cmd
 
 Value:
@@ -136,20 +136,20 @@ Value:
     -c
 
 
-### Configs._finish
+### Configs.imageName
 
 
-### Configs._setup
+### Configs.includeShellUtil
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    true
+
+
+### Configs.setup
 
 
 ### Configs._start
-
-
-### Configs.imageName
 
 
 ## Envs

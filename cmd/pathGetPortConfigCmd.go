@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/core"
@@ -12,30 +10,17 @@ import (
 
 var pathGetPortConfigCmd = &cobra.Command{
 	Use:   "getPortConfig <location>",
-	Short: "Return string representing default configs.ports",
+	Short: "Return jsonList representing default configs.ports",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		util := core.NewCoreUtil()
-		envMap, err := util.Path.GetEnvByLocation(args[0])
+		location := args[0]
+		jsonList, err := util.Path.GetPortConfigByLocation(location)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		ports := []string{}
-		for key, val := range envMap {
-			intVal, err := strconv.Atoi(val)
-			if err != nil {
-				continue
-			}
-			if intVal > 1000 {
-				ports = append(ports, fmt.Sprintf("{{ .GetEnv \"%s\" }}", key))
-			}
-		}
-		resultB, err := json.Marshal(ports)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(jsonList)
 	},
 }

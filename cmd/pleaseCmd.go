@@ -76,10 +76,10 @@ var pleaseCmd = &cobra.Command{
 		initProjectOrExit(cmd, logger, decoration, project)
 		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "5m", *pleaseTerminate, pleaseWait)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		if err := r.Run(); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		logger.DPrintf("%sLast command:%s %s\n", decoration.Yellow, decoration.Normal, explainer.GetZarubaCommand(taskNames, *pleaseTerminate, pleaseWait))
 	},
@@ -123,7 +123,7 @@ func init() {
 func getTaskNameInteractivelyOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {
 	taskName, err := prompter.GetTaskName()
 	if err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 	return taskName
 }
@@ -131,69 +131,69 @@ func getTaskNameInteractivelyOrExit(cmd *cobra.Command, logger *output.ConsoleLo
 func getActionOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskName string) (action *input.Action) {
 	action, err := prompter.GetAction(taskName)
 	if err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 	return action
 }
 
 func explainOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, explainer *explainer.Explainer, taskNames []string) {
 	if err := explainer.Explain(taskNames...); err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
 func loadPreviousValuesOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, project *core.Project, previousValueFile string) {
 	if err := previousval.Load(project, previousValueFile); err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
 func askProjectValuesByTasksOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.SetProjectValuesByTask(taskNames); err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
 func askProjectEnvOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) {
 	if err := prompter.GetAdditionalEnv(taskNames); err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
 func askProjectValueOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) {
 	if err := prompter.GetAdditionalValue(); err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
 func askAutoTerminateOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter, taskNames []string) (autoTerminate bool) {
 	autoTerminate, err := prompter.GetAutoTerminate(taskNames)
 	if err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 	return autoTerminate
 }
 
 func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project) {
 	if err := project.Init(); err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
 func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string) (project *core.Project, taskNames []string) {
 	project, err := getProject(decoration, pleaseFile)
 	if err != nil {
-		exit(cmd, logger, decoration, err)
+		exit(cmd, args, logger, decoration, err)
 	}
 	for _, env := range pleaseEnv {
 		if err = project.AddGlobalEnv(env); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	}
 	// process values from flag
 	for _, value := range pleaseValues {
 		if err = project.AddValue(value); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	}
 	taskNames = []string{}
@@ -201,7 +201,7 @@ func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration 
 	for _, arg := range args {
 		if strings.Contains(arg, "=") {
 			if err = project.AddValue(arg); err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 			continue
 		}

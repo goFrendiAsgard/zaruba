@@ -20,12 +20,12 @@ var listSetCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		index, err := strconv.Atoi(args[1])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		value := args[2]
 		newListString, err := util.Json.List.Set(listString, index, value)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(newListString)
 	},

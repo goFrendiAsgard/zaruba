@@ -17,7 +17,7 @@ var yamlWriteCmd = &cobra.Command{
 		jsonString := args[1]
 		util := core.NewCoreUtil()
 		if err := util.File.WriteYaml(fileName, jsonString, 0755); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

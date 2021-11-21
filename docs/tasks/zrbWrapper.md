@@ -40,14 +40,19 @@ Type:
 ## Configs
 
 
-### Configs._setup
+### Configs.setup
+
+
+### Configs._initShell
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
 
-### Configs._start
+
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -55,16 +60,6 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
 
 
 ### Configs.strictMode
@@ -77,33 +72,7 @@ Value:
 ### Configs._finish
 
 
-### Configs.start
-
-Value:
-
-    {{ .GetConfig "playBell" }}
-
-
-### Configs.setup
-
-
-### Configs.playBell
-
-Value:
-
-    echo $'\a'
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.beforeStart
+### Configs._start
 
 
 ### Configs.cmdArg
@@ -113,7 +82,38 @@ Value:
     -c
 
 
-### Configs.afterStart
+### Configs.start
+
+Value:
+
+    {{ .GetConfig "playBell" }}
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.playBell
+
+Value:
+
+    echo $'\a'
+
+
+### Configs.beforeStart
 
 
 ## Envs

@@ -10,8 +10,8 @@ import (
 )
 
 var listGetCmd = &cobra.Command{
-	Use:   "get <list> <index>",
-	Short: "Get list[index]",
+	Use:   "get <jsonList> <index>",
+	Short: "Get jsonList[index]",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
@@ -19,12 +19,12 @@ var listGetCmd = &cobra.Command{
 		listString := args[0]
 		index, err := strconv.Atoi(args[1])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		util := core.NewCoreUtil()
 		data, err := util.Json.List.GetValue(listString, index)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(util.Json.FromInterface(data))
 	},

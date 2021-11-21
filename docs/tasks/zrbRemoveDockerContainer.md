@@ -52,30 +52,14 @@ Description:
 ## Configs
 
 
-### Configs._finish
+### Configs.afterStart
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-
-### Configs.setup
-
-
-### Configs.strictMode
+### Configs.cmd
 
 Value:
 
-    true
-
-
-### Configs.containerName
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.start
@@ -93,10 +77,14 @@ Value:
 
 
 
-### Configs.afterStart
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeStart
+### Configs._start
 
 
 ### Configs.includeShellUtil
@@ -115,21 +103,33 @@ Value:
 
 
 
-### Configs._setup
+### Configs.cmdArg
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    -c
 
 
-### Configs._start
+### Configs.finish
 
 
-### Configs.cmd
+### Configs.setup
+
+
+### Configs.beforeStart
+
+
+### Configs.containerName
+
+
+### Configs.strictMode
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
+
+
+### Configs._finish
 
 
 ## Envs

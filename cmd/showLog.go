@@ -19,7 +19,7 @@ var projectShowLogCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 2)
 		message, err := getLog(decoration, args[0], args[1])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(message)
 	},

@@ -38,7 +38,7 @@ func AddInstallCmdSubCommand() {
 				decoration := output.NewDefaultDecoration()
 				logger := output.NewConsoleLogger(decoration)
 				if err := runInstallSubCmd(shell, filepath.Join(setupFilePath, fileName)); err != nil {
-					exit(cmd, logger, decoration, err)
+					exit(cmd, args, logger, decoration, err)
 				}
 			},
 		}

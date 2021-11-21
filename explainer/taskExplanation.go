@@ -106,7 +106,7 @@ func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExp
 }
 
 func (t *TaskExplanation) ToString() string {
-	strUtil := strutil.NewStrutil()
+	strUtil := strutil.NewStrUtil()
 	lines := []string{}
 	lines = append(lines, t.h1(strUtil.ToPascal(t.Name)))
 	lines = append(lines, t.prop("File Location", t.FileLocation))
@@ -184,7 +184,6 @@ func (t *TaskExplanation) ToString() string {
 }
 
 func (t *TaskExplanation) ul(items []string) string {
-	strUtil := strutil.NewStrutil()
 	lines := []string{}
 	for _, item := range items {
 		itemLines := strings.Split(item, "\n")
@@ -193,7 +192,7 @@ func (t *TaskExplanation) ul(items []string) string {
 			continue
 		}
 		lines = append(lines, "*")
-		lines = append(lines, strUtil.FullIndent(fmt.Sprintf("```\n%s\n```", item), "    "))
+		lines = append(lines, strutil.StrFullIndent(fmt.Sprintf("```\n%s\n```", item), "    "))
 	}
 	return strings.Join(lines, "\n") + "\n"
 }
@@ -212,10 +211,9 @@ func (t *TaskExplanation) h3(header string) string {
 
 func (t *TaskExplanation) prop(propertyName, value string) string {
 	caption := fmt.Sprintf("%s%s%s%s:", t.d.Bold, t.d.Blue, propertyName, t.d.Normal)
-	strUtil := strutil.NewStrutil()
 	if value == "" {
 		return fmt.Sprintf("%s\n", caption)
 	}
-	multiLineValue := strUtil.FullIndent(fmt.Sprintf("\n%s", value), "    ")
+	multiLineValue := strutil.StrFullIndent(fmt.Sprintf("\n%s", value), "    ")
 	return fmt.Sprintf("%s\n%s\n", caption, multiLineValue)
 }

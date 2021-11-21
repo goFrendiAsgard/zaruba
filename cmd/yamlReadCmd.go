@@ -19,7 +19,7 @@ var yamlReadCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		jsonString, err := util.File.ReadYaml(fileName)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(jsonString)
 	},

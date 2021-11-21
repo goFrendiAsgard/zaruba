@@ -14,16 +14,25 @@ import (
 type Dict map[string]interface{}
 type StringDict map[string]string
 
-type JsonMap struct{}
+type JsonMap struct {
+	str *strutil.StrUtil
+}
 
-func NewJsonMap() *JsonMap {
-	return &JsonMap{}
+func NewJsonMap(strUtil *strutil.StrUtil) *JsonMap {
+	return &JsonMap{
+		str: strUtil,
+	}
+}
+
+func (jsonMap *JsonMap) GetDict(mapString string) (dict Dict, err error) {
+	dict = Dict{}
+	err = json.Unmarshal([]byte(mapString), &dict)
+	return dict, err
 }
 
 func (jsonMap *JsonMap) GetStringDict(mapString string) (stringDict StringDict, err error) {
 	stringDict = StringDict{}
-	dict := Dict{}
-	err = json.Unmarshal([]byte(mapString), &dict)
+	dict, err := jsonMap.GetDict(mapString)
 	if err != nil {
 		return stringDict, err
 	}
@@ -34,14 +43,12 @@ func (jsonMap *JsonMap) GetStringDict(mapString string) (stringDict StringDict, 
 }
 
 func (jsonMap *JsonMap) Validate(mapString string) (valid bool) {
-	dict := Dict{}
-	err := json.Unmarshal([]byte(mapString), &dict)
+	_, err := jsonMap.GetDict(mapString)
 	return err == nil
 }
 
 func (jsonMap *JsonMap) GetValue(mapString, key string) (data interface{}, err error) {
-	dict := Dict{}
-	err = json.Unmarshal([]byte(mapString), &dict)
+	dict, err := jsonMap.GetDict(mapString)
 	if err != nil {
 		return nil, err
 	}
@@ -50,8 +57,7 @@ func (jsonMap *JsonMap) GetValue(mapString, key string) (data interface{}, err e
 
 func (jsonMap *JsonMap) GetKeys(mapString string) (keys []string, err error) {
 	keys = []string{}
-	dict := Dict{}
-	err = json.Unmarshal([]byte(mapString), &dict)
+	dict, err := jsonMap.GetDict(mapString)
 	if err != nil {
 		return nil, err
 	}
@@ -64,8 +70,7 @@ func (jsonMap *JsonMap) GetKeys(mapString string) (keys []string, err error) {
 func (jsonMap *JsonMap) Merge(mapStrings ...string) (mergedMapString string, err error) {
 	mergedDict := Dict{}
 	for _, mapString := range mapStrings {
-		dict := Dict{}
-		err = json.Unmarshal([]byte(mapString), &dict)
+		dict, err := jsonMap.GetDict(mapString)
 		if err != nil {
 			return "{}", err
 		}
@@ -83,8 +88,7 @@ func (jsonMap *JsonMap) Merge(mapStrings ...string) (mergedMapString string, err
 }
 
 func (jsonMap *JsonMap) Set(mapString string, args ...string) (newMapString string, err error) {
-	dict := Dict{}
-	err = json.Unmarshal([]byte(mapString), &dict)
+	dict, err := jsonMap.GetDict(mapString)
 	if err != nil {
 		return mapString, err
 	}
@@ -104,8 +108,7 @@ func (jsonMap *JsonMap) Set(mapString string, args ...string) (newMapString stri
 }
 
 func (jsonMap *JsonMap) TransformKeys(mapString string, prefix string, suffix string) (newMapString string, err error) {
-	dict := Dict{}
-	err = json.Unmarshal([]byte(mapString), &dict)
+	dict, err := jsonMap.GetDict(mapString)
 	if err != nil {
 		return mapString, err
 	}
@@ -122,8 +125,7 @@ func (jsonMap *JsonMap) TransformKeys(mapString string, prefix string, suffix st
 }
 
 func (jsonMap *JsonMap) CascadePrefixKeys(mapString string, prefix string) (newMapString string, err error) {
-	dict := Dict{}
-	err = json.Unmarshal([]byte(mapString), &dict)
+	dict, err := jsonMap.GetDict(mapString)
 	if err != nil {
 		return mapString, err
 	}
@@ -183,8 +185,7 @@ func (jsonMap *JsonMap) ToVariedStringMap(mapString string, keys ...string) (new
 			keys = append(keys, key)
 		}
 	}
-	strUtil := strutil.NewStrutil()
-	strTransformators := []func(string) string{strUtil.ToKebab, strUtil.ToCamel, strUtil.ToSnake, strUtil.ToLower, strUtil.ToUpper, strUtil.ToUpperSnake, strUtil.DoubleQuote, strUtil.SingleQuote}
+	strTransformators := []func(string) string{jsonMap.str.ToKebab, jsonMap.str.ToCamel, jsonMap.str.ToSnake, jsonMap.str.ToLower, jsonMap.str.ToUpper, jsonMap.str.ToUpperSnake, jsonMap.str.DoubleQuote, jsonMap.str.SingleQuote}
 	for _, key := range keys {
 		val := variedStringDict[key]
 		for _, strTransformator := range strTransformators {
@@ -209,4 +210,12 @@ func (jsonMap *JsonMap) ToEnvString(mapString string) (envString string, err err
 		return "", err
 	}
 	return godotenv.Marshal(stringDict)
+}
+
+func (jsonMap *JsonMap) Replace(str string, replacementMapString string) (newStr string, err error) {
+	replacementMap, err := jsonMap.GetStringDict(replacementMapString)
+	if err != nil {
+		return str, err
+	}
+	return strutil.StrReplace(str, replacementMap), nil
 }

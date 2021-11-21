@@ -111,7 +111,6 @@ func init() {
 
 	linesCmd.AddCommand(linesFillCmd)
 	linesCmd.AddCommand(linesGetIndexCmd)
-	linesCmd.AddCommand(linesIndentCmd)
 	linesCmd.AddCommand(linesInsertAfterCmd)
 	linesCmd.AddCommand(linesInsertBeforeCmd)
 	linesCmd.AddCommand(linesReadCmd)
@@ -162,6 +161,7 @@ func init() {
 	strCmd.AddCommand(strGetIndentationCmd)
 	strCmd.AddCommand(strIndentCmd)
 	strCmd.AddCommand(strNewUUIDCmd)
+	strCmd.AddCommand(strNewName)
 	strCmd.AddCommand(strPadLeftCmd)
 	strCmd.AddCommand(strPadRightCmd)
 	strCmd.AddCommand(strRepeatCmd)

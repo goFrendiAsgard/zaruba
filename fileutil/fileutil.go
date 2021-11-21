@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/jsonutil"
 	"github.com/state-alchemists/zaruba/strutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
@@ -14,12 +15,22 @@ import (
 )
 
 type FileUtil struct {
-	jsonUtil *jsonutil.JsonUtil
+	json *jsonutil.JsonUtil
 }
 
 func NewFileUtil(jsonUtil *jsonutil.JsonUtil) *FileUtil {
 	return &FileUtil{
-		jsonUtil: jsonUtil,
+		json: jsonUtil,
+	}
+}
+
+func (fileUtil *FileUtil) IsExist(filePath string) (exist bool, err error) {
+	if _, statErr := os.Stat(filePath); statErr == nil {
+		return true, nil
+	} else if os.IsNotExist(statErr) {
+		return false, nil
+	} else {
+		return false, statErr
 	}
 }
 
@@ -53,17 +64,29 @@ func (fileUtil *FileUtil) WriteText(fileName string, text string, fileMode os.Fi
 	return ioutil.WriteFile(fileName, []byte(text), fileMode)
 }
 
-func (fileUtil *FileUtil) ReadLines(fileName string) (lines []string, err error) {
+func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err error) {
 	content, err := fileUtil.ReadText(fileName)
 	if err != nil {
-		return []string{}, err
+		return "[]", err
 	}
-	return strings.Split(content, "\n"), nil
+	return fileUtil.json.FromInterface(strings.Split(content, "\n")), nil
 }
 
-func (fileUtil *FileUtil) WriteLines(fileName string, lines []string, fileMode os.FileMode) (err error) {
+func (fileUtil *FileUtil) WriteLines(fileName string, jsonString string, fileMode os.FileMode) (err error) {
+	lines, err := fileUtil.json.List.GetStringList(jsonString)
+	if err != nil {
+		return err
+	}
 	content := strings.Join(lines, "\n")
 	return fileUtil.WriteText(fileName, content, fileMode)
+}
+
+func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error) {
+	envMap, err := godotenv.Read(fileName)
+	if err != nil {
+		return "", err
+	}
+	return fileUtil.json.FromInterface(envMap), nil
 }
 
 func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err error) {
@@ -71,11 +94,11 @@ func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err erro
 	if err != nil {
 		return "", err
 	}
-	return fileUtil.jsonUtil.FromYaml(yamlString)
+	return fileUtil.json.FromYaml(yamlString)
 }
 
 func (fileUtil *FileUtil) WriteYaml(fileName, jsonString string, fileMode os.FileMode) (err error) {
-	yamlString, err := fileUtil.jsonUtil.ToYaml(jsonString)
+	yamlString, err := fileUtil.json.ToYaml(jsonString)
 	if err != nil {
 		return err
 	}
@@ -115,7 +138,8 @@ func (fileUtil *FileUtil) WriteYamlNode(fileName string, node *yaml.Node, fileMo
 	for _, styler := range yamlStylers {
 		yamlLines = styler(yamlLines)
 	}
-	return fileUtil.WriteLines(fileName, yamlLines, fileMode)
+	jsonString := fileUtil.json.FromInterface(yamlLines)
+	return fileUtil.WriteLines(fileName, jsonString, fileMode)
 }
 
 func (fileUtil *FileUtil) ListDir(dirPath string) (fileNames []string, err error) {
@@ -130,7 +154,11 @@ func (fileUtil *FileUtil) ListDir(dirPath string) (fileNames []string, err error
 	return fileNames, nil
 }
 
-func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMap map[string]string) (err error) {
+func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
+	replacementMap, err := fileUtil.json.Map.GetStringDict(replacementMapString)
+	if err != nil {
+		return err
+	}
 	absSourceTemplatePath, err := filepath.Abs(sourceTemplatePath)
 	if err != nil {
 		return err
@@ -139,14 +167,13 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 	if err != nil {
 		return err
 	}
-	strUtil := strutil.NewStrutil()
 	return filepath.Walk(absSourceTemplatePath,
 		func(absSourceLocation string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 			relativeLocation := absSourceLocation[len(absSourceTemplatePath):]
-			absDestinationLocation := filepath.Join(absDestinationPath, strUtil.Replace(relativeLocation, replacementMap))
+			absDestinationLocation := filepath.Join(absDestinationPath, strutil.StrReplace(relativeLocation, replacementMap))
 			fileMode := info.Mode()
 			if info.IsDir() {
 				os.Mkdir(absDestinationLocation, fileMode)
@@ -156,7 +183,7 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 			if err != nil {
 				return err
 			}
-			newContent := strUtil.Replace(content, replacementMap)
+			newContent := strutil.StrReplace(content, replacementMap)
 			if newContent == content {
 				_, err = fileUtil.Copy(absSourceLocation, absDestinationLocation)
 				return err

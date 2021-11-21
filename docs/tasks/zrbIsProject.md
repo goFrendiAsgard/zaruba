@@ -40,17 +40,33 @@ Type:
 ## Configs
 
 
-### Configs.start
+### Configs._setup
 
 Value:
 
-    {{ $d := .Decoration -}}
-    if [ ! -f "index.zaruba.yaml" ]
-    then
-      "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
-    fi
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
 
 
 ### Configs._initShell
@@ -62,33 +78,7 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.afterStart
-
-
 ### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
-
-
-### Configs._finish
-
-
-### Configs._start
 
 
 ### Configs.cmd
@@ -98,7 +88,11 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.finish
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.includeShellUtil
@@ -108,11 +102,17 @@ Value:
     true
 
 
-### Configs.strictMode
+### Configs.start
 
 Value:
 
-    true
+    {{ $d := .Decoration -}}
+    if [ ! -f "index.zaruba.yaml" ]
+    then
+      "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+    fi
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
+
 
 
 ## Envs

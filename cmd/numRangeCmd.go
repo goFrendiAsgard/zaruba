@@ -21,29 +21,29 @@ var numRangeCmd = &cobra.Command{
 		case 1:
 			end, err = strconv.Atoi(args[0])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 		case 2:
 			start, err = strconv.Atoi(args[0])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 			end, err = strconv.Atoi(args[1])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 		case 3:
 			start, err = strconv.Atoi(args[0])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 			end, err = strconv.Atoi(args[1])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 			step, err = strconv.Atoi(args[2])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 		}
 		for i := start; i < end; i += step {

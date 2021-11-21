@@ -5,7 +5,7 @@ import (
 )
 
 func TestIsUpperTrue(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := false
 	actual := strutil.IsUpper("Some random string")
 	if actual != expected {
@@ -14,7 +14,7 @@ func TestIsUpperTrue(t *testing.T) {
 }
 
 func TestIsUpperFalse(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := true
 	actual := strutil.IsUpper("SOME RANDOM STRING")
 	if actual != expected {
@@ -23,7 +23,7 @@ func TestIsUpperFalse(t *testing.T) {
 }
 
 func TestIsLowerTrue(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := false
 	actual := strutil.IsLower("Some random string")
 	if actual != expected {
@@ -32,7 +32,7 @@ func TestIsLowerTrue(t *testing.T) {
 }
 
 func TestIsLowerFalse(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := true
 	actual := strutil.IsLower("some random string")
 	if actual != expected {
@@ -41,7 +41,7 @@ func TestIsLowerFalse(t *testing.T) {
 }
 
 func TestToCamelCase(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "someRandomString"
 	actual := strutil.ToCamel("Some random string")
 	if actual != expected {
@@ -50,7 +50,7 @@ func TestToCamelCase(t *testing.T) {
 }
 
 func TestToCamelCaseEmpty(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := ""
 	actual := strutil.ToCamel("")
 	if actual != expected {
@@ -59,7 +59,7 @@ func TestToCamelCaseEmpty(t *testing.T) {
 }
 
 func TestToPascalCase(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "SomeRandomString"
 	actual := strutil.ToPascal("Some random string")
 	if actual != expected {
@@ -68,7 +68,7 @@ func TestToPascalCase(t *testing.T) {
 }
 
 func TestToPascalCaseEmpty(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := ""
 	actual := strutil.ToPascal("")
 	if actual != expected {
@@ -77,7 +77,7 @@ func TestToPascalCaseEmpty(t *testing.T) {
 }
 
 func TestToSnakeCase(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "some_random_string"
 	actual := strutil.ToSnake("Some random string")
 	if actual != expected {
@@ -86,7 +86,7 @@ func TestToSnakeCase(t *testing.T) {
 }
 
 func TestToKebabCase(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "some-random-string"
 	actual := strutil.ToKebab("Some random string")
 	if actual != expected {
@@ -95,7 +95,7 @@ func TestToKebabCase(t *testing.T) {
 }
 
 func TestEscapeShellArg(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "'a friend\\'s home'"
 	actual := strutil.EscapeShellArg("a friend's home")
 	if actual != expected {
@@ -103,46 +103,8 @@ func TestEscapeShellArg(t *testing.T) {
 	}
 }
 
-func TestStrGetUniqueElement(t *testing.T) {
-	strutil := NewStrutil()
-	expectedList := []string{"a", "b", "c", "d"}
-	actualList := strutil.GetUniqueElements([]string{"a", "a", "b", "c", "b", "c", "d", "a", "d"})
-	if len(actualList) != len(expectedList) {
-		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
-	}
-	for index, expected := range expectedList {
-		actual := actualList[index]
-		if actual != expected {
-			t.Errorf("expected: %s, actual: %s", expected, actual)
-		}
-	}
-}
-
-func TestStrGetSubKeys(t *testing.T) {
-	strutil := NewStrutil()
-	expectedList := []string{"a", "b"}
-	actualList := strutil.GetSubKeys(
-		[]string{"key::a::name", "key::b::name", "key::a::address", "key::b::address", "key", "otherKey", "key::"},
-		[]string{"key"},
-	)
-	if len(actualList) != len(expectedList) {
-		t.Errorf("expected: %#v, actual: %#v", expectedList, actualList)
-	}
-	for _, expected := range expectedList {
-		actualFound := false
-		for _, actual := range actualList {
-			if actual == expected {
-				actualFound = true
-			}
-		}
-		if !actualFound {
-			t.Errorf("cannot find key %s, on: %#v", expected, actualList)
-		}
-	}
-}
-
 func TestIndent(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "def add(a, b):\n    return a + b"
 	actual := strutil.Indent("def add(a, b):\n  return a + b", "  ")
 	if actual != expected {
@@ -150,17 +112,16 @@ func TestIndent(t *testing.T) {
 	}
 }
 
-func TestReplaceByMap(t *testing.T) {
-	strutil := NewStrutil()
+func TestStrReplace(t *testing.T) {
 	expected := "orange, egg, grape, grape"
-	actual := strutil.Replace("jeruk, egg, anggur, anggur", map[string]string{"jeruk": "orange", "anggur": "grape"})
+	actual := StrReplace("jeruk, egg, anggur, anggur", map[string]string{"jeruk": "orange", "anggur": "grape"})
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}
 }
 
 func TestRepeat(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "ora umumora umumora umum"
 	actual := strutil.Repeat("ora umum", 3)
 	if actual != expected {
@@ -169,7 +130,7 @@ func TestRepeat(t *testing.T) {
 }
 
 func TestGetSingleIndentationNoSpaceOrTab(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := ""
 	actual, err := strutil.GetIndentation("no space or tab", 3)
 	if err != nil {
@@ -181,14 +142,14 @@ func TestGetSingleIndentationNoSpaceOrTab(t *testing.T) {
 }
 
 func TestGetSingleIndentationIrregularIndentation(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	if _, err := strutil.GetIndentation("\t something", 3); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetSingleIndentationValidIndentation(t *testing.T) {
-	strutil := NewStrutil()
+	strutil := NewStrUtil()
 	expected := "  "
 	actual, err := strutil.GetIndentation("      something", 3)
 	if err != nil {
@@ -200,24 +161,21 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 }
 
 func TestGetFirstMatchInvalidFirstPattern(t *testing.T) {
-	strutil := NewStrutil()
-	if _, _, err := strutil.GetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
+	if _, _, err := StrGetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchInvalidNonFirstPattern(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "really", "interesting", "", ""}
-	if _, _, err := strutil.GetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
+	if _, _, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchFound(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
-	actualIndex, actualSubmatch, err := strutil.GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -239,9 +197,8 @@ func TestGetFirstMatchFound(t *testing.T) {
 }
 
 func TestGetFirstMatchNotFound(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "really", "interesting", "", "", ""}
-	actualIndex, actualSubmatch, err := strutil.GetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -256,25 +213,22 @@ func TestGetFirstMatchNotFound(t *testing.T) {
 }
 
 func TestReplaceLineNegativeIndex(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := strutil.ReplaceLineAtIndex(lines, -1, []string{"new", "and interesting"}); err == nil {
+	if _, err := StrReplaceLineAtIndex(lines, -1, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineOutOfBoundIndex(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "to be replaced", "is here"}
-	if _, err := strutil.ReplaceLineAtIndex(lines, 3, []string{"new", "and interesting"}); err == nil {
+	if _, err := StrReplaceLineAtIndex(lines, 3, []string{"new", "and interesting"}); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestReplaceLineFirst(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something to be replaced", "is here"}
-	actual, err := strutil.ReplaceLineAtIndex(lines, 0, []string{"something new", "and interesting"})
+	actual, err := StrReplaceLineAtIndex(lines, 0, []string{"something new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -292,9 +246,8 @@ func TestReplaceLineFirst(t *testing.T) {
 }
 
 func TestReplaceLineMiddle(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "to be replaced", "is here"}
-	actual, err := strutil.ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
+	actual, err := StrReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -312,9 +265,8 @@ func TestReplaceLineMiddle(t *testing.T) {
 }
 
 func TestReplaceLineLast(t *testing.T) {
-	strutil := NewStrutil()
 	lines := []string{"something", "to be replaced"}
-	actual, err := strutil.ReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
+	actual, err := StrReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -332,8 +284,7 @@ func TestReplaceLineLast(t *testing.T) {
 }
 
 func TestCompleteLinesDifferentPatternAndSuplementLength(t *testing.T) {
-	strutil := NewStrutil()
-	_, err := strutil.CompleteLines(
+	_, err := StrCompleteLines(
 		[]string{},
 		[]string{
 			"^task:(.*)$",
@@ -346,8 +297,7 @@ func TestCompleteLinesDifferentPatternAndSuplementLength(t *testing.T) {
 }
 
 func TestCompleteLinesInvalidPattern(t *testing.T) {
-	strutil := NewStrutil()
-	_, err := strutil.CompleteLines(
+	_, err := StrCompleteLines(
 		[]string{},
 		[]string{
 			"[[^",
@@ -362,8 +312,7 @@ func TestCompleteLinesInvalidPattern(t *testing.T) {
 }
 
 func TestCompleteLinesUnmatchPattern(t *testing.T) {
-	strutil := NewStrutil()
-	_, err := strutil.CompleteLines(
+	_, err := StrCompleteLines(
 		[]string{},
 		[]string{
 			"ab",
@@ -378,8 +327,7 @@ func TestCompleteLinesUnmatchPattern(t *testing.T) {
 }
 
 func TestCompleteLinesNoMatchAtAll(t *testing.T) {
-	strutil := NewStrutil()
-	actual, err := strutil.CompleteLines(
+	actual, err := StrCompleteLines(
 		[]string{"includes: []"},
 		[]string{
 			"^tasks:(.*)$",
@@ -418,8 +366,7 @@ func TestCompleteLinesNoMatchAtAll(t *testing.T) {
 }
 
 func TestCompleteLinesNoMatchPartial(t *testing.T) {
-	strutil := NewStrutil()
-	actual, err := strutil.CompleteLines(
+	actual, err := StrCompleteLines(
 		[]string{
 			"includes: []",
 			"tasks: # list of task",

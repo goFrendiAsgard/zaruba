@@ -90,22 +90,34 @@ Validation:
 ## Configs
 
 
-### Configs._finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
 ### Configs.afterStart
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
 ### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.strictMode
@@ -122,14 +134,29 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeStart
+### Configs._start
 
 
-### Configs.cmdArg
+### Configs.setup
+
+
+### Configs.variableValue
 
 Value:
 
-    -c
+    {{ .GetValue "variableValue" }}
+
+
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 ### Configs.start
@@ -141,33 +168,6 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
 
-
-
-### Configs.variableValue
-
-Value:
-
-    {{ .GetValue "variableValue" }}
-
-
-### Configs._start
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.variableName

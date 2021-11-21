@@ -44,7 +44,7 @@ type Task struct {
 	name                  string            // Current task name
 	logPrefix             string            // Task prefix for logging
 	timeoutDuration       time.Duration
-	td                    *TaskData
+	td                    *Tpl
 	maxRecursiveLevel     int
 	currentRecursiveLevel int
 }
@@ -245,7 +245,7 @@ func (task *Task) GetConfigKeys() (keys []string) {
 		parentKeys := parentTask.GetConfigKeys()
 		keys = append(keys, parentKeys...)
 	}
-	return task.Project.Util.Str.GetUniqueElements(keys)
+	return task.getUniqueElements(keys)
 }
 
 func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
@@ -308,7 +308,7 @@ func (task *Task) GetEnvKeys() (keys []string) {
 		parentKeys := parentTask.GetEnvKeys()
 		keys = append(keys, parentKeys...)
 	}
-	return task.Project.Util.Str.GetUniqueElements(keys)
+	return task.getUniqueElements(keys)
 }
 
 func (task *Task) GetEnvObject(key string) (env *Env, declared bool) {
@@ -376,7 +376,7 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 		return "", fmt.Errorf("max recursive parsing on %s: %s", templateNamePrefix, pattern)
 	}
 	if task.td == nil {
-		task.td = NewTaskData(task)
+		task.td = NewTpl(task)
 	}
 	templateName := task.getTemplateName(templateNamePrefix, pattern)
 	tmpl, err := template.New(templateName).Option("missingkey=zero").Parse(pattern)
@@ -572,6 +572,19 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 			logRowChan <- rowContent
 		}
 	}
+}
+
+func (task *Task) getUniqueElements(arr []string) (result []string) {
+	result = []string{}
+	seen := map[string]bool{}
+	for _, element := range arr {
+		if _, exist := seen[element]; exist {
+			continue
+		}
+		result = append(result, element)
+		seen[element] = true
+	}
+	return result
 }
 
 func (task *Task) getCmdIconType(cmdType string) string {

@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 
@@ -11,33 +10,22 @@ import (
 )
 
 var linesInsertAfterCmd = &cobra.Command{
-	Use:   "insertAfter <lines> <index> <newLine>",
+	Use:   "insertAfter <jsonList> <index> <newLine>",
 	Short: "Insert newLine after lines[index]",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 3)
-		lines := []string{}
-		if err := json.Unmarshal([]byte(args[0]), &lines); err != nil {
-			exit(cmd, logger, decoration, err)
-		}
+		util := core.NewCoreUtil()
+		jsonLines, jsonReplacements := args[0], args[2]
 		index, err := strconv.Atoi(args[1])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		newLines := []string{}
-		if err := json.Unmarshal([]byte(args[2]), &newLines); err != nil {
-			newLines = []string{args[2]}
-		}
-		util := core.NewCoreUtil()
-		result, err := util.Str.ReplaceLineAtIndex(lines, index, append([]string{lines[index]}, newLines...))
+		newJsonLines, err := util.Json.List.InsertLineAfterIndex(jsonLines, index, jsonReplacements)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		resultB, err := json.Marshal(result)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(newJsonLines)
 	},
 }

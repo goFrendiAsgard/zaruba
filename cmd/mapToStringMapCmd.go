@@ -19,7 +19,7 @@ var mapToStringMapCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		newMapString, err := util.Json.Map.ToStringMap(mapString)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(newMapString)
 	},

@@ -12,7 +12,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-func exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, err error) {
+func exit(cmd *cobra.Command, args []string, logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
 		nodeCmd := cmd
 		commandName := ""
@@ -24,9 +24,11 @@ func exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoratio
 			}
 			nodeCmd = nodeCmd.Parent()
 		}
+		argsJsonBytes, _ := json.Marshal(args)
 		logger.Fprintf(os.Stderr,
-			"%s %s%s%s%s\n%s %s%s%s%s\n",
+			"%s %s%s%s%s\n%s %s%s%s%s\n%s %s%s%s%s\n",
 			decoration.Error, decoration.Bold, decoration.Red, commandName, decoration.Normal,
+			decoration.Error, decoration.Bold, decoration.Red, string(argsJsonBytes), decoration.Normal,
 			decoration.Error, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
 		os.Exit(1)
 	}
@@ -35,9 +37,9 @@ func exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoratio
 func checkMinArgCount(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string, minArgCount int) {
 	if len(args) < minArgCount {
 		usage := cmd.UsageString()
-		jsonB, _ := json.Marshal(args)
-		err := fmt.Errorf("expecting %d arguments, get %d: %s\n%s", minArgCount, len(args), string(jsonB), usage)
-		exit(cmd, logger, decoration, err)
+		argsJsonBytes, _ := json.Marshal(args)
+		err := fmt.Errorf("expecting %d arguments, get %d: %s\n%s", minArgCount, len(args), string(argsJsonBytes), usage)
+		exit(cmd, args, logger, decoration, err)
 	}
 }
 

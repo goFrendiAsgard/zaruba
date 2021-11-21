@@ -18,7 +18,7 @@ var listRangeIndexCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		length, err := util.Json.List.GetLength(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		for i := 0; i < length; i++ {
 			fmt.Println(i)

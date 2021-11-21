@@ -19,7 +19,7 @@ var pathGetAppNameCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		defaultAppName, err := util.Path.GetDefaultAppName(args[0])
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(defaultAppName)
 	},

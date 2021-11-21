@@ -20,15 +20,15 @@ var envWriteCmd = &cobra.Command{
 			prefix := args[1]
 			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, prefix)
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 		}
 		envString, err := util.Json.Map.ToEnvString(mapString)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		if err := util.File.WriteText(fileName, envString, 0755); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

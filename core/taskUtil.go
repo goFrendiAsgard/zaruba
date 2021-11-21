@@ -4,20 +4,23 @@ import (
 	"fmt"
 
 	"github.com/state-alchemists/zaruba/fileutil"
+	"github.com/state-alchemists/zaruba/jsonutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
 )
 
 type TaskUtil struct {
-	Project *ProjectUtil
+	project *ProjectUtil
 	file    *fileutil.FileUtil
+	json    *jsonutil.JsonUtil
 	Config  *TaskConfigUtil
 	Env     *TaskEnvUtil
 }
 
-func NewTaskUtil(fileUtil *fileutil.FileUtil) *TaskUtil {
+func NewTaskUtil(fileUtil *fileutil.FileUtil, jsonUtil *jsonutil.JsonUtil) *TaskUtil {
 	taskUtil := &TaskUtil{
 		file: fileUtil,
+		json: jsonUtil,
 	}
 	configUtil := NewTaskConfigUtil(taskUtil)
 	taskUtil.Config = configUtil
@@ -27,7 +30,7 @@ func NewTaskUtil(fileUtil *fileutil.FileUtil) *TaskUtil {
 }
 
 func (taskUtil *TaskUtil) getTask(projectFile, taskName string) (task *Task, err error) {
-	project, err := taskUtil.Project.getProject(projectFile)
+	project, err := taskUtil.project.getProject(projectFile)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +42,7 @@ func (taskUtil *TaskUtil) getTask(projectFile, taskName string) (task *Task, err
 }
 
 func (taskUtil *TaskUtil) IsExist(projectFile, taskName string) (exist bool, err error) {
-	project, err := taskUtil.Project.getProject(projectFile)
+	project, err := taskUtil.project.getProject(projectFile)
 	if err != nil {
 		return false, err
 	}

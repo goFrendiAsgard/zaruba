@@ -7,6 +7,7 @@ import (
 	jsonHelper "github.com/state-alchemists/zaruba/jsonutil/helper"
 	"github.com/state-alchemists/zaruba/jsonutil/jsonlist"
 	"github.com/state-alchemists/zaruba/jsonutil/jsonmap"
+	"github.com/state-alchemists/zaruba/strutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	"gopkg.in/yaml.v3"
 )
@@ -16,9 +17,9 @@ type JsonUtil struct {
 	List *jsonlist.JsonList
 }
 
-func NewJsonUtil() *JsonUtil {
+func NewJsonUtil(strUtil *strutil.StrUtil) *JsonUtil {
 	return &JsonUtil{
-		Map:  jsonmap.NewJsonMap(),
+		Map:  jsonmap.NewJsonMap(strUtil),
 		List: jsonlist.NewJsonList(),
 	}
 }

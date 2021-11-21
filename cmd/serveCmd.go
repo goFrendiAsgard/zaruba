@@ -23,13 +23,13 @@ var serveCmd = &cobra.Command{
 		}
 		absLocation, err := filepath.Abs(location)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		port := 8080
 		if len(args) >= 2 {
 			port, err = strconv.Atoi(args[1])
 			if err != nil {
-				exit(cmd, logger, decoration, err)
+				exit(cmd, args, logger, decoration, err)
 			}
 		}
 		http.Handle("/", http.FileServer(http.Dir(absLocation)))
@@ -37,7 +37,7 @@ var serveCmd = &cobra.Command{
 		logger.Printf("You can open http://localhost:%d\n", port)
 		portStr := fmt.Sprintf(":%d", port)
 		if err := http.ListenAndServe(portStr, nil); err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

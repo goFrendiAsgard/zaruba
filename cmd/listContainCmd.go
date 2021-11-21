@@ -9,8 +9,8 @@ import (
 )
 
 var listContainCmd = &cobra.Command{
-	Use:   "contain <list> <element>",
-	Short: "Find out whether list contains string or not",
+	Use:   "contain <jsonList> <element>",
+	Short: "Find out whether jsonList contains string or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
@@ -20,7 +20,7 @@ var listContainCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		exist, err := util.Json.List.Contain(listString, elementStr)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		if exist {
 			fmt.Println(1)

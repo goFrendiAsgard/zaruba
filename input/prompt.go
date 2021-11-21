@@ -9,6 +9,7 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/pathutil"
 )
 
 func fileMustExist(filePath string) (err error) {
@@ -181,7 +182,7 @@ func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (er
 }
 
 func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
-	envFileList, err := prompter.util.Path.GetEnvFileList(".")
+	envFileList, err := pathutil.PathGetEnvFileList(".")
 	if err != nil {
 		return err
 	}

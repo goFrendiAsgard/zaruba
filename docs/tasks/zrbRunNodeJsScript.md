@@ -50,13 +50,7 @@ Description:
 ### Configs._finish
 
 
-### Configs._setup
-
-
-### Configs._start
-
-
-### Configs.beforeStart
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -73,6 +67,9 @@ Value:
     -p
 
 
+### Configs.finish
+
+
 ### Configs.start
 
 Value:
@@ -80,10 +77,13 @@ Value:
     console.log('hello world')
 
 
-### Configs.afterStart
+### Configs._setup
 
 
-### Configs.finish
+### Configs._start
+
+
+### Configs.beforeStart
 
 
 ### Configs.setup

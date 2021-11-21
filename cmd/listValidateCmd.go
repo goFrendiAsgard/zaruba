@@ -9,8 +9,8 @@ import (
 )
 
 var listValidateCmd = &cobra.Command{
-	Use:   "validate <value>",
-	Short: "Check whether value is valid JSON list or not",
+	Use:   "validate <jsonList>",
+	Short: "Check whether jsonList is valid JSON list or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

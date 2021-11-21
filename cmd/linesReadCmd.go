@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -18,14 +17,10 @@ var linesReadCmd = &cobra.Command{
 		checkMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
 		util := core.NewCoreUtil()
-		list, err := util.File.ReadLines(fileName)
+		jsonString, err := util.File.ReadLines(fileName)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		resultB, err := json.Marshal(list)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(jsonString)
 	},
 }

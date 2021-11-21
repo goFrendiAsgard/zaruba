@@ -2,17 +2,17 @@ package core
 
 import "testing"
 
-func TestTdGetConfig(t *testing.T) {
+func TestTplGetConfig(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
+	tpl := NewTpl(task)
 	// key::subkey1
 	expected := "value1"
-	actual, err := td.GetConfig("key::subKey1")
+	actual, err := tpl.GetConfig("key::subKey1")
 	if err != nil {
 		t.Error(err)
 	}
@@ -21,7 +21,7 @@ func TestTdGetConfig(t *testing.T) {
 	}
 	// key::subkey2
 	expected = "value2"
-	actual, err = td.GetConfig("key::subKey2")
+	actual, err = tpl.GetConfig("key::subKey2")
 	if err != nil {
 		t.Error(err)
 	}
@@ -30,17 +30,17 @@ func TestTdGetConfig(t *testing.T) {
 	}
 }
 
-func TestTdGetSubConfigKeys(t *testing.T) {
+func TestTplGetSubConfigKeys(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
+	tpl := NewTpl(task)
 	// key::subkey1
 	expectedKeys := []string{"subKey1", "subKey2"}
-	actualKeys := td.GetSubConfigKeys("key")
+	actualKeys := tpl.GetSubConfigKeys("key")
 	if err != nil {
 		t.Error(err)
 	}
@@ -61,7 +61,7 @@ func TestTdGetSubConfigKeys(t *testing.T) {
 	}
 }
 
-func TestTdGetValue(t *testing.T) {
+func TestTplGetValue(t *testing.T) {
 	project, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
@@ -73,10 +73,10 @@ func TestTdGetValue(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
+	tpl := NewTpl(task)
 	// key::subkey1
 	expected := "value1"
-	actual, err := td.GetValue("key::subKey1")
+	actual, err := tpl.GetValue("key::subKey1")
 	if err != nil {
 		t.Error(err)
 	}
@@ -85,7 +85,7 @@ func TestTdGetValue(t *testing.T) {
 	}
 	// key::subkey2
 	expected = "value2"
-	actual, err = td.GetValue("key::subKey2")
+	actual, err = tpl.GetValue("key::subKey2")
 	if err != nil {
 		t.Error(err)
 	}
@@ -94,7 +94,7 @@ func TestTdGetValue(t *testing.T) {
 	}
 }
 
-func TestTdGetSubValueKeys(t *testing.T) {
+func TestTplGetSubValueKeys(t *testing.T) {
 	project, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
@@ -106,10 +106,10 @@ func TestTdGetSubValueKeys(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
+	tpl := NewTpl(task)
 	// key::subkey1
 	expectedKeys := []string{"subKey1", "subKey2"}
-	actualKeys := td.GetSubValueKeys("key")
+	actualKeys := tpl.GetSubValueKeys("key")
 	if err != nil {
 		t.Error(err)
 	}
@@ -130,17 +130,17 @@ func TestTdGetSubValueKeys(t *testing.T) {
 	}
 }
 
-func TestTdGetEnv(t *testing.T) {
+func TestTplGetEnv(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/taskdata/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
+	tpl := NewTpl(task)
 	// key1
 	expected := "VALUE1"
-	actual, err := td.GetEnv("KEY1")
+	actual, err := tpl.GetEnv("KEY1")
 	if err != nil {
 		t.Error(err)
 	}
@@ -149,7 +149,7 @@ func TestTdGetEnv(t *testing.T) {
 	}
 	// key2
 	expected = "VALUE2"
-	actual, err = td.GetEnv("KEY2")
+	actual, err = tpl.GetEnv("KEY2")
 	if err != nil {
 		t.Error(err)
 	}
@@ -158,17 +158,17 @@ func TestTdGetEnv(t *testing.T) {
 	}
 }
 
-func TestTdGetEnvs(t *testing.T) {
+func TestTplGetEnvs(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/taskdata/getEnv.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	task := project.Tasks["taskName"]
-	td := NewTaskData(task)
+	tpl := NewTpl(task)
 	// key1
 	expectedEnvs := map[string]string{"KEY1": "VALUE1", "KEY2": "VALUE2"}
-	actualEnvs, err := td.GetEnvs()
+	actualEnvs, err := tpl.GetEnvs()
 	if err != nil {
 		t.Error(err)
 	}

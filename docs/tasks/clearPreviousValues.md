@@ -45,7 +45,25 @@ Description:
 ## Configs
 
 
-### Configs.afterStart
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ### Configs.finish
@@ -56,32 +74,6 @@ Description:
 Value:
 
     true
-
-
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    rm -Rf .previous.values.yaml
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
 
 
 ### Configs._finish
@@ -96,14 +88,10 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
 ### Configs._start
+
+
+### Configs.afterStart
 
 
 ### Configs.beforeStart
@@ -114,6 +102,18 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    rm -Rf .previous.values.yaml
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Previous values removed{{ $d.Normal }}"
 
 
 ## Envs

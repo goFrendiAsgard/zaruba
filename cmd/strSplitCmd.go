@@ -25,7 +25,7 @@ var strSplitCmd = &cobra.Command{
 		result := util.Str.Split(text, separator)
 		resultB, err := json.Marshal(result)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 

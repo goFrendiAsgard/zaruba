@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -16,17 +15,12 @@ var strSubmatchCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		checkMinArgCount(cmd, logger, decoration, args, 2)
-		text := args[0]
-		pattern := args[1]
+		text, pattern := args[0], args[1]
 		util := core.NewCoreUtil()
-		result, err := util.Str.Submatch(text, pattern)
+		jsonSubmatch, err := util.Json.List.Submatch(text, pattern)
 		if err != nil {
-			exit(cmd, logger, decoration, err)
+			exit(cmd, args, logger, decoration, err)
 		}
-		resultB, err := json.Marshal(result)
-		if err != nil {
-			exit(cmd, logger, decoration, err)
-		}
-		fmt.Println(string(resultB))
+		fmt.Println(jsonSubmatch)
 	},
 }
