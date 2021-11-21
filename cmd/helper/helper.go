@@ -26,7 +26,7 @@ func Exit(cmd *cobra.Command, args []string, logger output.Logger, decoration *o
 		}
 		argsJsonBytes, _ := json.Marshal(args)
 		logger.Fprintf(os.Stderr,
-			"%s %s%s%s%s\n%s %s%s%s%s\n%s %s%s%s%s\n",
+			"%s %s%sCommand: %s%s\n%s %s%sArguments: %s%s\n%s %s%sError: %s%s\n",
 			decoration.Error, decoration.Bold, decoration.Red, commandName, decoration.Normal,
 			decoration.Error, decoration.Bold, decoration.Red, string(argsJsonBytes), decoration.Normal,
 			decoration.Error, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
