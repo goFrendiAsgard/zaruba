@@ -5,6 +5,15 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/cmd/advertisementcmd"
+	"github.com/state-alchemists/zaruba/cmd/envcmd"
+	"github.com/state-alchemists/zaruba/cmd/installcmd"
+	"github.com/state-alchemists/zaruba/cmd/linescmd"
+	"github.com/state-alchemists/zaruba/cmd/listcmd"
+	"github.com/state-alchemists/zaruba/cmd/mapcmd"
+	"github.com/state-alchemists/zaruba/cmd/numcmd"
+	"github.com/state-alchemists/zaruba/cmd/pathcmd"
+	"github.com/state-alchemists/zaruba/cmd/projectcmd"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -19,46 +28,6 @@ var rootCmd = &cobra.Command{
  / /| (_| | |  | |_| | |_) / ___ \
 /____\__,_|_|   \__,_|_.__/_/   \_\
 Task runner framework and CLI utilities`,
-}
-
-var advertisementCmd = &cobra.Command{
-	Use:   "advertisement",
-	Short: "Advertisement utilities",
-}
-
-var envCmd = &cobra.Command{
-	Use:   "env",
-	Short: "env utilities",
-}
-
-var linesCmd = &cobra.Command{
-	Use:   "lines",
-	Short: "Lines manipulation utilities",
-}
-
-var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "List manipulation utilities",
-}
-
-var mapCmd = &cobra.Command{
-	Use:   "map",
-	Short: "Map manipulation utilities",
-}
-
-var numCmd = &cobra.Command{
-	Use:   "num",
-	Short: "Number manipulation utilities",
-}
-
-var pathCmd = &cobra.Command{
-	Use:   "path",
-	Short: "path manipulation utilities",
-}
-
-var projectCmd = &cobra.Command{
-	Use:   "project",
-	Short: "Project manipulation utilities",
 }
 
 var strCmd = &cobra.Command{
@@ -77,82 +46,51 @@ var yamlCmd = &cobra.Command{
 }
 
 func init() {
+	executable, _ := os.Executable()
 	if os.Getenv("ZARUBA_HOME") == "" {
-		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
+	}
+	if os.Getenv("ZARUBA_BIN") == "" {
+		os.Setenv("ZARUBA_BIN", executable)
 	}
 	if os.Getenv("ZARUBA_SHELL") == "" {
 		os.Setenv("ZARUBA_SHELL", "bash")
 	}
-	rootCmd.AddCommand(advertisementCmd)
-	rootCmd.AddCommand(envCmd)
+
 	rootCmd.AddCommand(generateCmd)
-	rootCmd.AddCommand(installCmd)
-	rootCmd.AddCommand(linesCmd)
-	rootCmd.AddCommand(listCmd)
-	rootCmd.AddCommand(mapCmd)
-	rootCmd.AddCommand(numCmd)
-	rootCmd.AddCommand(pathCmd)
 	rootCmd.AddCommand(pleaseCmd)
-	rootCmd.AddCommand(projectCmd)
 	rootCmd.AddCommand(serveCmd)
+
+	rootCmd.AddCommand(advertisementcmd.Cmd)
+	advertisementcmd.Init()
+
+	rootCmd.AddCommand(envcmd.Cmd)
+	envcmd.Init()
+
+	rootCmd.AddCommand(installcmd.Cmd)
+	installcmd.Init()
+
+	rootCmd.AddCommand(linescmd.Cmd)
+	linescmd.Init()
+
+	rootCmd.AddCommand(listcmd.Cmd)
+	listcmd.Init()
+
+	rootCmd.AddCommand(mapcmd.Cmd)
+	mapcmd.Init()
+
+	rootCmd.AddCommand(numcmd.Cmd)
+	numcmd.Init()
+
+	rootCmd.AddCommand(pathcmd.Cmd)
+	pathcmd.Init()
+
+	rootCmd.AddCommand(projectcmd.Cmd)
+	pathcmd.Init()
+
 	rootCmd.AddCommand(strCmd)
 	rootCmd.AddCommand(taskCmd)
 	rootCmd.AddCommand(yamlCmd)
-
-	AddInstallCmdSubCommand()
-
-	advertisementCmd.AddCommand(advertisementShowCmd)
-
-	envCmd.AddCommand(envGetCmd)
-	envCmd.AddCommand(envReadCmd)
-	envCmd.AddCommand(envPrintCmd)
-	envCmd.AddCommand(envWriteCmd)
-
-	linesCmd.AddCommand(linesFillCmd)
-	linesCmd.AddCommand(linesGetIndexCmd)
-	linesCmd.AddCommand(linesInsertAfterCmd)
-	linesCmd.AddCommand(linesInsertBeforeCmd)
-	linesCmd.AddCommand(linesReadCmd)
-	linesCmd.AddCommand(linesReplaceCmd)
-	linesCmd.AddCommand(linesSubmatchCmd)
-	linesCmd.AddCommand(linesWriteCmd)
-
-	listCmd.AddCommand(listAppendCmd)
-	listCmd.AddCommand(listContainCmd)
-	listCmd.AddCommand(listGetCmd)
-	listCmd.AddCommand(listJoinCmd)
-	listCmd.AddCommand(listLengthCmd)
-	listCmd.AddCommand(listMergeCmd)
-	listCmd.AddCommand(listRangeIndexCmd)
-	listCmd.AddCommand(listSetCmd)
-	listCmd.AddCommand(listValidateCmd)
-
-	mapCmd.AddCommand(mapGetCmd)
-	mapCmd.AddCommand(mapGetKeysCmd)
-	mapCmd.AddCommand(mapMergeCmd)
-	mapCmd.AddCommand(mapRangeKeyCmd)
-	mapCmd.AddCommand(mapSetCmd)
-	mapCmd.AddCommand(mapTransformKeyCmd)
-	mapCmd.AddCommand(mapValidateCmd)
-	mapCmd.AddCommand(mapToStringMapCmd)
-	mapCmd.AddCommand(mapToVariedStringMapCmd)
-
-	numCmd.AddCommand(numRangeCmd)
-	numCmd.AddCommand(numValidateIntCmd)
-	numCmd.AddCommand(numValidateFloatCmd)
-
-	pathCmd.AddCommand(pathGetEnvCmd)
-	pathCmd.AddCommand(pathGetPortConfigCmd)
-	pathCmd.AddCommand(pathGetAppNameCmd)
-	pathCmd.AddCommand(pathGetRelativePathCmd)
-
-	projectCmd.AddCommand(projectAddTaskIfNotExistCmd)
-	projectCmd.AddCommand(projectIncludeCmd)
-	projectCmd.AddCommand(projectSetValueCmd)
-	projectCmd.AddCommand(projectShowLogCmd)
-	projectCmd.AddCommand(projectSyncEnvCmd)
-	projectCmd.AddCommand(projectSyncEnvFilesCmd)
 
 	strCmd.AddCommand(strAddPrefixCmd)
 	strCmd.AddCommand(strDoubleQuote)

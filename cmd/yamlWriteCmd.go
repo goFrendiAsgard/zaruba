@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
@@ -12,12 +13,12 @@ var yamlWriteCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(cmd, logger, decoration, args, 2)
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		fileName := args[0]
 		jsonString := args[1]
 		util := core.NewCoreUtil()
 		if err := util.File.WriteYaml(fileName, jsonString, 0755); err != nil {
-			exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	},
 }

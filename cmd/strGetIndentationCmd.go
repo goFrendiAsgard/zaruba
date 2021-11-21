@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
+	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
@@ -15,7 +16,7 @@ var strGetIndentationCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(cmd, logger, decoration, args, 1)
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]
 		level := 1
 		if len(args) > 1 {
@@ -26,7 +27,7 @@ var strGetIndentationCmd = &cobra.Command{
 		util := core.NewCoreUtil()
 		result, err := util.Str.GetIndentation(text, level)
 		if err != nil {
-			exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(result)
 	},

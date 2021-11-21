@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
@@ -15,7 +16,7 @@ var strSplitCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(cmd, logger, decoration, args, 1)
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]
 		separator := "\n"
 		if len(args) > 1 {
@@ -25,7 +26,7 @@ var strSplitCmd = &cobra.Command{
 		result := util.Str.Split(text, separator)
 		resultB, err := json.Marshal(result)
 		if err != nil {
-			exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(string(resultB))
 

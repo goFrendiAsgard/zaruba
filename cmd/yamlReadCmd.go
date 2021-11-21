@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
@@ -14,12 +15,12 @@ var yamlReadCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		checkMinArgCount(cmd, logger, decoration, args, 1)
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
 		util := core.NewCoreUtil()
 		jsonString, err := util.File.ReadYaml(fileName)
 		if err != nil {
-			exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		fmt.Println(jsonString)
 	},

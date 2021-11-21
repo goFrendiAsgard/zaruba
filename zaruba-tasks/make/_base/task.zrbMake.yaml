@@ -36,7 +36,7 @@ tasks:
       appUrl: '{{ .GetValue "appUrl" }}'
       defaultAppBaseImageName: ''
       defaultAppContainerVolumes: '[]'
-      defaultAppDirectory: ''
+      defaultAppDirectory: '{{ .Util.Str.NewName }}'
       defaultDeploymentDirectory: '{{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}'
       defaultAppPorts: '[]'
       templateLocations: '{{ .GetValue "templateLocations" }}'
