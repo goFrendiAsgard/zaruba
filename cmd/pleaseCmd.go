@@ -82,7 +82,6 @@ var pleaseCmd = &cobra.Command{
 		if err := r.Run(); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		logger.DPrintf("%sLast command:%s %s\n", decoration.Yellow, decoration.Normal, explainer.GetZarubaCommand(taskNames, *pleaseTerminate, pleaseWait))
 	},
 }
 
