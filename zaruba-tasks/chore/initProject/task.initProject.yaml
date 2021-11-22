@@ -8,16 +8,15 @@ tasks:
     saveLog: false
     configs:
       start: |
-        {{ $d := .Decoration -}}
         if [ -f "index.zaruba.yaml" ]
         then
-          echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
+          echo "${_BOLD}${_RED}$(pwd) is a zaruba project.${_NORMAL}"
           exit 1
         fi
         git init
         cp -rT "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
         touch .env
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"
 
  

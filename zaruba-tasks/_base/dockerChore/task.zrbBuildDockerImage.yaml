@@ -21,11 +21,10 @@ tasks:
         {{ end -}}
       dockerFilePath: Dockerfile
       start: |
-        {{ $d := .Decoration -}}
         DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
         if [ ! -f "${DOCKER_FILE}" ]
         then
-          echo "{{ $d.Bold }}{{ $d.Red }}${DOCKER_FILE} should be exist{{ $d.Normal }}"
+          echo "${_BOLD}${_RED}${DOCKER_FILE} should be exist${_NORMAL}"
           exit 1
         fi
         DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
@@ -35,5 +34,5 @@ tasks:
           -t "${DOCKER_IMAGE_NAME}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}" \
           -f "${DOCKER_FILE}" .
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Docker image built${_NORMAL}"
 

@@ -16,7 +16,6 @@ tasks:
     extend: zrbRunShellScript
     configs:
       start: |
-        {{ $d := .Decoration -}}
         {{ $this := . -}}
         {{ $destinations := .GetSubValueKeys "link" -}}
         {{ range $index, $destination := $destinations -}}
@@ -26,5 +25,5 @@ tasks:
           linkResource "{{ $absSource }}" "{{ $absDestination }}"
         {{ end -}}
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Links updated${_NORMAL}"
 

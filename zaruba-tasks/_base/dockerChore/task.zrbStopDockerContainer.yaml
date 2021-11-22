@@ -13,10 +13,9 @@ tasks:
     configs:
       containerName: ""
       start: |
-        {{ $d := .Decoration -}}
         CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
         stopContainer "${CONTAINER}" 
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
  

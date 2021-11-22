@@ -44,78 +44,7 @@ Description:
 ## Configs
 
 
-### Configs._prepareBaseVariables
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
-
-
-### Configs._prepareReplacementMap
-
-
-### Configs._start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
-    _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
-    _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
-    _ZRB_TASK_NAME="{{ .Name }}"
-    _ZRB_REPLACEMENT_MAP='{}'
-    _ZRB_SCRIPT='{{ .GetConfig "script" }}'
-    _ZRB_SQL='{{ .GetConfig "sql" }}'
-    _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
-    _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
-    _ZRB_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
-    __ZRB_PWD=$(pwd)
-    echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
-    {{ .GetConfig "_prepareBaseVariables" }}
-    {{ .GetConfig "_prepareVariables" }}
-    {{ .GetConfig "_prepareBaseReplacementMap" }}
-    {{ .GetConfig "_prepareReplacementMap" }}
-    cd "${__ZRB_PWD}"
-    echo "{{ $d.Yellow }}✅ Validate{{ $d.Normal }}"
-    {{ .GetConfig "_validateTemplateLocation" }}
-    {{ .GetConfig "_validate" }}
-    cd "${__ZRB_PWD}"
-    echo "{{ $d.Yellow }}🚧 Generate{{ $d.Normal }}"
-    echo "{{ $d.Yellow }}🚧 Template Location:{{ $d.Normal }} ${_ZRB_TEMPLATE_LOCATION}"
-    echo "{{ $d.Yellow }}🚧 Generated Script Location:{{ $d.Normal }} ${_ZRB_GENERATED_SCRIPT_LOCATION}"
-    echo "{{ $d.Yellow }}🚧 Replacement Map:{{ $d.Normal }} ${_ZRB_REPLACEMENT_MAP}"
-    mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
-    "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
-    cd "${__ZRB_PWD}"
-    echo "{{ $d.Yellow }}🏁 Run Script{{ $d.Normal }}"
-    echo '{{ .GetConfig "runGeneratedScript" }}'
-    {{ .GetConfig "runGeneratedScript" }}
-    cd "${__ZRB_PWD}"
-
-
-
-### Configs.sql
-
-Value:
-
-    {{ .GetValue "sql" }}
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.afterStart
-
-Value:
-
-    {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
-
+### Configs.beforeStart
 
 
 ### Configs.cmdArg
@@ -125,7 +54,20 @@ Value:
     -c
 
 
-### Configs.finish
+### Configs.setup
+
+
+### Configs.start
+
+
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+
+
+### Configs._prepareVariables
 
 
 ### Configs.generatedScriptLocation
@@ -135,28 +77,11 @@ Value:
     {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
-### Configs.script
-
-Value:
-
-    {{ .GetValue "script" }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
 ### Configs.runGeneratedScript
 
 Value:
 
     {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
-
-
-### Configs._finish
 
 
 ### Configs._initShell
@@ -177,29 +102,29 @@ Value:
 
 Value:
 
-    {{ $d := .Decoration -}}
     if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
     then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      echo "${_RED}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.${_NORMAL}"
       exit 1
     fi
 
 
 
-### Configs.beforeStart
+### Configs.finish
 
 
-### Configs.cmd
+### Configs.includeShellUtil
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    true
 
 
-### Configs.setup
+### Configs.strictMode
 
+Value:
 
-### Configs.start
+    true
 
 
 ### Configs.templateLocation
@@ -209,6 +134,45 @@ Value:
     {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
+### Configs._start
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
+    _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
+    _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
+    _ZRB_TASK_NAME="{{ .Name }}"
+    _ZRB_REPLACEMENT_MAP='{}'
+    _ZRB_SCRIPT='{{ .GetConfig "script" }}'
+    _ZRB_SQL='{{ .GetConfig "sql" }}'
+    _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
+    _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
+    _ZRB_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
+    __ZRB_PWD=$(pwd)
+    echo "${_YELLOW}🧰 Prepare${_NORMAL}"
+    {{ .GetConfig "_prepareBaseVariables" }}
+    {{ .GetConfig "_prepareVariables" }}
+    {{ .GetConfig "_prepareBaseReplacementMap" }}
+    {{ .GetConfig "_prepareReplacementMap" }}
+    cd "${__ZRB_PWD}"
+    echo "${_YELLOW}✅ Validate${_NORMAL}"
+    {{ .GetConfig "_validateTemplateLocation" }}
+    {{ .GetConfig "_validate" }}
+    cd "${__ZRB_PWD}"
+    echo "${_YELLOW}🚧 Generate${_NORMAL}"
+    echo "${_YELLOW}🚧 Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATION}"
+    echo "${_YELLOW}🚧 Generated Script Location:${_NORMAL} ${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    echo "${_YELLOW}🚧 Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
+    mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
+    cd "${__ZRB_PWD}"
+    echo "${_YELLOW}🏁 Run Script${_NORMAL}"
+    echo '{{ .GetConfig "runGeneratedScript" }}'
+    {{ .GetConfig "runGeneratedScript" }}
+    cd "${__ZRB_PWD}"
+
+
+
 ### Configs._prepareBaseReplacementMap
 
 Value:
@@ -216,7 +180,7 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
 
 
-### Configs._prepareVariables
+### Configs._prepareReplacementMap
 
 
 ### Configs._setup
@@ -224,6 +188,39 @@ Value:
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+Value:
+
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.script
+
+Value:
+
+    {{ .GetValue "script" }}
+
+
+### Configs.sql
+
+Value:
+
+    {{ .GetValue "sql" }}
+
+
+### Configs._finish
 
 
 ## Envs

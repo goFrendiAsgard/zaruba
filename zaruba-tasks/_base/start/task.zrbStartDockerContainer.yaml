@@ -42,7 +42,6 @@ tasks:
     configs:
       restartPolicy: on-failure
       _checkContainerState: |
-        {{ $d := .Decoration -}}
         until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         do
           sleep 1
@@ -51,9 +50,8 @@ tasks:
         do
           sleep 1
         done
-        echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is running{{ $d.Normal }}"
+        echo "🔎 ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is running${_NORMAL}"
       _checkCommand: |
-        {{ $d := .Decoration -}}
         {{ if .GetConfig "checkCommand" -}}
         (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
         set +e
@@ -67,19 +65,17 @@ tasks:
         set "${_OLD_STATE}"
         {{ end -}}
       _checkConfigPorts: |
-        {{ $d := .Decoration -}}
         {{ $this := . -}}
         {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
           {{ if ne $port "" -}}
             {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
             {{ $hostPort := index $portParts 0 -}}
-            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Waiting for host port: '{{ $hostPort }}'{{ $d.Normal }}"
+            echo "🔎 ${_BOLD}${_YELLOW}Waiting for host port: '{{ $hostPort }}'${_NORMAL}"
             waitPort "localhost" {{ $hostPort }}
-            echo "🔎 {{ $d.Bold }}{{ $d.Yellow }}Host port '{{ $hostPort }}' is ready{{ $d.Normal }}"
+            echo "🔎 ${_BOLD}${_YELLOW}Host port '{{ $hostPort }}' is ready${_NORMAL}"
           {{ end -}}
         {{ end -}}
       _check: |
-        {{ $d := .Decoration -}}
         {{ .GetConfig "_checkContainerState" }}
         {{ .GetConfig "_checkConfigPorts" }}
         {{ .GetConfig "_checkCommand" }}

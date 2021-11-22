@@ -92,21 +92,18 @@ Validation:
 ## Configs
 
 
-### Configs.afterStart
-
-
-### Configs.start
+### Configs.cmdArg
 
 Value:
 
-    {{ $d := .Decoration -}}
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
+    -c
 
 
+### Configs.linkFrom
 
-### Configs._start
+Value:
+
+    {{ .GetValue "linkFrom" }}
 
 
 ### Configs._initShell
@@ -120,7 +117,47 @@ Value:
 
 
 
-### Configs.finish
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.start
+
+Value:
+
+    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Link ${SOURCE} -> ${DESTINATION} has been added${_NORMAL}"
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.includeShellUtil
@@ -140,45 +177,7 @@ Value:
 ### Configs.setup
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.linkFrom
-
-Value:
-
-    {{ .GetValue "linkFrom" }}
-
-
-### Configs.beforeStart
+### Configs.finish
 
 
 ## Envs

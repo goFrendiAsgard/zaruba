@@ -9,11 +9,10 @@ tasks:
       - zrbIsProject
     configs:
       start: |
-        {{ $d := .Decoration -}}
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Synchronize task environments{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Synchronize task environments${_NORMAL}"
         "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Synchronize project's environment files{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Synchronize project's environment files${_NORMAL}"
         "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment synchronized{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Environment synchronized${_NORMAL}"
 

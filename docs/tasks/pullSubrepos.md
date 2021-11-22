@@ -55,6 +55,59 @@ Description:
 ## Configs
 
 
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    {{ $names := .GetSubValueKeys "subrepo" -}}
+    {{ $this := . -}}
+    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
+    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
+    {{ range $index, $name := $names -}}
+      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+      URL="{{ $this.GetValue "subrepo" $name "url" }}"
+      NAME="{{ $name }}"
+      ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
+      if [ $ORIGIN_EXISTS = 1 ]
+      then
+        gitSave "Save works before pull"
+        git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+      fi
+    {{ end -}}
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Subrepos pulled${_NORMAL}"
+
+
+
+### Configs._finish
+
+
 ### Configs._initShell
 
 Value:
@@ -73,22 +126,6 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
 ### Configs.cmdArg
 
 Value:
@@ -96,42 +133,7 @@ Value:
     -c
 
 
-### Configs._finish
-
-
-### Configs.setup
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    {{ $names := .GetSubValueKeys "subrepo" -}}
-    {{ $this := . -}}
-    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
-    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-    {{ range $index, $name := $names -}}
-      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-      URL="{{ $this.GetValue "subrepo" $name "url" }}"
-      NAME="{{ $name }}"
-      ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
-      if [ $ORIGIN_EXISTS = 1 ]
-      then
-        gitSave "Save works before pull"
-        git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-      fi
-    {{ end -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
+### Configs.finish
 
 
 ### Configs.strictMode
@@ -139,9 +141,6 @@ Value:
 Value:
 
     true
-
-
-### Configs.finish
 
 
 ## Envs

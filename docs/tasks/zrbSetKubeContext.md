@@ -40,22 +40,34 @@ Type:
 ## Configs
 
 
-### Configs._initShell
+### Configs.strictMode
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+    true
 
 
+### Configs._finish
 
-### Configs.kubeContext
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
 
 Value:
 
-    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+    -c
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ### Configs.kubeNamespace
@@ -68,39 +80,6 @@ Value:
 ### Configs.setup
 
 
-### Configs.start
-
-Value:
-
-    if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
-    then
-      kubectl config use-context "{{ .GetConfig "kubeContext" }}"
-    fi
-
-
-### Configs.afterStart
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs._start
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs._setup
 
 Value:
@@ -108,7 +87,7 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeStart
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -118,14 +97,35 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.finish
-
-
-### Configs.includeShellUtil
+### Configs.kubeContext
 
 Value:
 
-    true
+    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._start
+
+
+### Configs.start
+
+Value:
+
+    if [ "$(kubectl config current-context)" != "{{ .GetConfig "kubeContext" }}" ]
+    then
+      kubectl config use-context "{{ .GetConfig "kubeContext" }}"
+    fi
 
 
 ## Envs

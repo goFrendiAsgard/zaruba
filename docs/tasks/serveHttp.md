@@ -46,7 +46,7 @@ Description:
     {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
-      echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
       exit 0
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -58,7 +58,7 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
     echo 🎉🎉🎉
-    echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
     ```
 
 
@@ -95,32 +95,21 @@ Options:
 ## Configs
 
 
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
+### Configs._initShell
 
 Value:
 
-    -c
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
-
-### Configs.finish
-
-
-### Configs._start
 
 
 ### Configs.afterCheck
 
 
-### Configs.setup
-
-
-### Configs._finish
+### Configs.beforeCheck
 
 
 ### Configs.ports
@@ -130,14 +119,10 @@ Value:
     {{ .GetValue "serverHttpPort" }}
 
 
-### Configs.runInLocal
-
-Value:
-
-    true
-
-
 ### Configs.start
+
+
+### Configs._finish
 
 
 ### Configs._setup
@@ -147,32 +132,17 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.beforeCheck
-
-
-### Configs.check
-
-Value:
-
-    {{- $d := .Decoration -}}
-    {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
-      {{ if ne $port "" -}}
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
-        waitPort "localhost" {{ $port }}
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
-      {{ end -}}
-    {{ end -}}
-
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.finish
 
 
 ### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.runInLocal
 
 Value:
 
@@ -186,15 +156,45 @@ Value:
     true
 
 
-### Configs._initShell
+### Configs.afterStart
+
+
+### Configs.check
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+    {{- $d := .Decoration -}}
+    {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
+      {{ if ne $port "" -}}
+        echo "📜 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
+        waitPort "localhost" {{ $port }}
+        echo "📜 ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
+      {{ end -}}
+    {{ end -}}
 
+
+
+### Configs._start
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.setup
 
 
 ## Envs

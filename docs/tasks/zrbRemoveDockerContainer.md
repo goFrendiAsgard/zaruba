@@ -52,11 +52,30 @@ Description:
 ## Configs
 
 
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
 ### Configs._setup
 
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
 
 
 ### Configs.afterStart
@@ -69,37 +88,11 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.containerName
-
-
 ### Configs.includeShellUtil
 
 Value:
 
     true
-
-
-### Configs.beforeStart
-
-
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._start
 
 
 ### Configs._finish
@@ -116,21 +109,27 @@ Value:
 
 
 
-### Configs.finish
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.containerName
 
 
 ### Configs.start
 
 Value:
 
-    {{ $d := .Decoration -}}
     CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
     stopContainer "${CONTAINER}" 
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Remove docker container ${CONTAINER}{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Remove docker container ${CONTAINER}${_NORMAL}"
     removeContainer "${CONTAINER}" 
     echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} removed{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} removed${_NORMAL}"
 
 
 

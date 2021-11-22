@@ -93,24 +93,46 @@ Validation:
 ### Configs._finish
 
 
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.start
+
+Value:
+
+    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Kwarg ${KEY} : ${VALUE} has been set${_NORMAL}"
+
+
+
+### Configs.variableValue
+
+Value:
+
+    {{ .GetValue "variableValue" }}
+
+
 ### Configs._setup
 
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
-
-
-### Configs._start
 
 
 ### Configs.afterStart
@@ -126,14 +148,14 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.includeShellUtil
+### Configs.cmdArg
 
 Value:
 
-    true
+    -c
 
 
-### Configs.strictMode
+### Configs.includeShellUtil
 
 Value:
 
@@ -147,36 +169,13 @@ Value:
     {{ .GetValue "variableName" }}
 
 
-### Configs.variableValue
-
-Value:
-
-    {{ .GetValue "variableValue" }}
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
+### Configs._start
 
 
 ### Configs.finish
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
-
+### Configs.setup
 
 
 ## Envs

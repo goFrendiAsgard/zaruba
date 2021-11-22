@@ -6,10 +6,10 @@ tasks:
     extend: zrbRunShellScript
     configs:
       start: |
-        {{ $d := .Decoration -}}
         if [ ! -f "index.zaruba.yaml" ]
         then
-          "{{ $d.Bold }}{{ $d.Red }}$(pwd) is not a zaruba project.{{ $d.Normal }}"
+          echo "${_BOLD}${_RED}$(pwd) is not a zaruba project.${_NORMAL}"
+          exit 1
         fi
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Current directory is a valid zaruba project{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Current directory is a valid zaruba project${_NORMAL}"
 

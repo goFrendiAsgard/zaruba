@@ -7,13 +7,12 @@ tasks:
     extend: zrbRunShellScript
     configs:
       start: |
-        {{ $d := .Decoration -}}
         cd "{{ .ZarubaHome }}"
-        echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
+        echo "🔽 ${_BOLD}${_YELLOW}Pull zaruba${_NORMAL}"
         git checkout master
         git pull origin master
-        echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
+        echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
         go build
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Zaruba ready!!!${_NORMAL}"
+        echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"

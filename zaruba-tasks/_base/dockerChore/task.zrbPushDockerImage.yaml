@@ -13,7 +13,6 @@ tasks:
     configRef: zrbDocker
     configs:
       start: |
-        {{ $d := .Decoration -}}
         DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
         DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
         echo "${DOCKER_IMAGE_NAME}"
@@ -23,5 +22,5 @@ tasks:
         fi
         docker push "${DOCKER_IMAGE_NAME}:latest"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pushed{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} pushed${_NORMAL}"
  

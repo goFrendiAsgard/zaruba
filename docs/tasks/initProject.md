@@ -45,11 +45,61 @@ Description:
 ## Configs
 
 
+### Configs.setup
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
 ### Configs.includeShellUtil
 
 Value:
 
     true
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.start
+
+Value:
+
+    if [ -f "index.zaruba.yaml" ]
+    then
+      echo "${_BOLD}${_RED}$(pwd) is a zaruba project.${_NORMAL}"
+      exit 1
+    fi
+    git init
+    cp -rT "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
+    touch .env
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"
+
 
 
 ### Configs._finish
@@ -66,58 +116,7 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
 ### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-
-### Configs.setup
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ -f "index.zaruba.yaml" ]
-    then
-      echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
-      exit 1
-    fi
-    git init
-    cp -rT "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
-    touch .env
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
-
 
 
 ### Configs.strictMode

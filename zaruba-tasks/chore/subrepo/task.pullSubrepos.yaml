@@ -12,7 +12,6 @@ tasks:
       - initSubrepos
     configs:
       start: |
-        {{ $d := .Decoration -}}
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
@@ -29,5 +28,5 @@ tasks:
           fi
         {{ end -}}
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Subrepos pulled${_NORMAL}"
 

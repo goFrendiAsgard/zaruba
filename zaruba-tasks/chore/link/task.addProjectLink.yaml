@@ -15,8 +15,7 @@ tasks:
       linkFrom: '{{ .GetValue "linkFrom" }}'
       linkTo: '{{ .GetValue "linkTo" }}'
       start: |
-        {{ $d := .Decoration -}}
         "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Link ${SOURCE} -> ${DESTINATION} has been added{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Link ${SOURCE} -> ${DESTINATION} has been added${_NORMAL}"
 

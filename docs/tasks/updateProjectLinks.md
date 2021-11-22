@@ -65,6 +65,52 @@ Value:
 
 
 
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.start
+
+Value:
+
+    {{ $this := . -}}
+    {{ $destinations := .GetSubValueKeys "link" -}}
+    {{ range $index, $destination := $destinations -}}
+      {{ $source := $this.GetValue "link" $destination -}}
+      {{ $absSource := $this.GetWorkPath $source -}}
+      {{ $absDestination := $this.GetWorkPath $destination -}}
+      linkResource "{{ $absSource }}" "{{ $absDestination }}"
+    {{ end -}}
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Links updated${_NORMAL}"
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+
 ### Configs._setup
 
 Value:
@@ -87,53 +133,6 @@ Value:
 Value:
 
     -c
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    {{ $this := . -}}
-    {{ $destinations := .GetSubValueKeys "link" -}}
-    {{ range $index, $destination := $destinations -}}
-      {{ $source := $this.GetValue "link" $destination -}}
-      {{ $absSource := $this.GetWorkPath $source -}}
-      {{ $absDestination := $this.GetWorkPath $destination -}}
-      linkResource "{{ $absSource }}" "{{ $absDestination }}"
-    {{ end -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Links updated{{ $d.Normal }}"
-
-
-
-### Configs._finish
-
-
-### Configs._start
-
-
-### Configs.afterStart
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
 
 
 ## Envs

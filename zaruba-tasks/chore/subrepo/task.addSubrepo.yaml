@@ -17,11 +17,10 @@ tasks:
       subrepoPrefix: '{{ .GetValue "subrepoPrefix" }}'
       subrepoName: '{{ .GetValue "subrepoName" }}'
       start: |
-        {{ $d := .Decoration -}}
         URL="{{ .GetValue "subrepoUrl" }}"
         if [ -z "${URL}" ]
         then
-          echo "{{ $d.Bold }}{{ $d.Red }}subrepoUrl is not defined{{ $d.Normal }}"
+          echo "${_BOLD}${_RED}subrepoUrl is not defined${_NORMAL}"
           exit 1
         fi
         {{ if .GetValue "subrepoPrefix" }}
@@ -37,5 +36,5 @@ tasks:
         "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
         "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepo ${NAME} has been added{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Subrepo ${NAME} has been added${_NORMAL}"
 

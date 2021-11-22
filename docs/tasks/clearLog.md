@@ -45,6 +45,39 @@ Description:
 ## Configs
 
 
+### Configs._finish
+
+
+### Configs._start
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
 ### Configs._initShell
 
 Value:
@@ -56,20 +89,17 @@ Value:
 
 
 
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
 ### Configs.afterStart
 
 
 ### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -83,39 +113,8 @@ Value:
 
 Value:
 
-    {{ $d := .Decoration -}}
     rm -Rf log.zaruba.csv
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
+    echo "${_BOLD}${_YELLOW}Log removed${_NORMAL}"
 
 
 ## Envs

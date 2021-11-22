@@ -56,6 +56,16 @@ Description:
 ## Configs
 
 
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.afterStart
+
+
 ### Configs.beforeStart
 
 
@@ -66,32 +76,21 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.setup
-
-
-### Configs.start
+### Configs.cmdArg
 
 Value:
 
-    {{ $d := .Decoration -}}
-    {{ $names := .GetSubValueKeys "subrepo" -}}
-    {{ $this := . -}}
-    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
-    {{ range $index, $name := $names -}}
-      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-      URL="{{ $this.GetValue "subrepo" $name "url" }}"
-      NAME="{{ $name }}"
-      ORIGIN_EXISTS=$("{{ .ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
-      if [ $ORIGIN_EXISTS = 1 ]
-      then
-        gitSave.sh" "Save works before p
-        git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-      fi
-    {{ end -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
+    -c
 
+
+### Configs.setup
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ### Configs._finish
@@ -108,31 +107,7 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
 ### Configs._start
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.afterStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
 
 
 ### Configs.finish
@@ -143,6 +118,30 @@ Value:
 Value:
 
     true
+
+
+### Configs.start
+
+Value:
+
+    {{ $names := .GetSubValueKeys "subrepo" -}}
+    {{ $this := . -}}
+    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
+    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
+    {{ range $index, $name := $names -}}
+      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+      URL="{{ $this.GetValue "subrepo" $name "url" }}"
+      NAME="{{ $name }}"
+      ORIGIN_EXISTS=$("{{ .ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
+      if [ $ORIGIN_EXISTS = 1 ]
+      then
+        gitSave.sh" "Save works before p
+        git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+      fi
+    {{ end -}}
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Subrepos pushed${_NORMAL}"
+
 
 
 ## Envs

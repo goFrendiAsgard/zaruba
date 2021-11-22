@@ -29,7 +29,6 @@ configs:
     imageTag: latest
     replicaCount: 1
     start: |
-      {{ $d := .Decoration -}}
       if [ ! -d "./venv" ]
       then
         python -m venv ./venv
@@ -45,7 +44,7 @@ configs:
       REPLICA_COUNT='{{ .GetConfig "replicaCount" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
-      echo "{{ $d.Yellow }}🚧 Deployment Config:{{ $d.Normal }} ${DEPLOYMENT_CONFIG}"
+      echo "${_YELLOW}🚧 Deployment Config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
       echo "${DEPLOYMENT_CONFIG}" > '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
     ports: |
       ztplAppYamlPorts

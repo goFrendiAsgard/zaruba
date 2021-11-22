@@ -45,63 +45,12 @@ Description:
 ## Configs
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.beforeStart
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
 ### Configs.start
 
 Value:
 
-    {{ $d := .Decoration -}}
     cd "{{ .ZarubaHome }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
+    echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"
 
 
 ### Configs._initShell
@@ -115,7 +64,57 @@ Value:
 
 
 
+### Configs._start
+
+
 ### Configs.afterStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

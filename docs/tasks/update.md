@@ -45,26 +45,6 @@ Description:
 ## Configs
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
 ### Configs._initShell
 
 Value:
@@ -76,7 +56,14 @@ Value:
 
 
 
-### Configs.afterStart
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -86,6 +73,32 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs._finish
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
 ### Configs.setup
 
 
@@ -93,32 +106,18 @@ Value:
 
 Value:
 
-    {{ $d := .Decoration -}}
     cd "{{ .ZarubaHome }}"
-    echo "🔽 {{ $d.Bold }}{{ $d.Yellow }}Pull zaruba{{ $d.Normal }}"
+    echo "🔽 ${_BOLD}${_YELLOW}Pull zaruba${_NORMAL}"
     git checkout master
     git pull origin master
-    echo "🚧 {{ $d.Bold }}{{ $d.Yellow }}Compile zaruba{{ $d.Normal }}"
+    echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
     go build
     echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Zaruba ready!!!{{ $d.Normal }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Zaruba ready!!!${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs._start
-
-
-### Configs.beforeStart
-
-
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 

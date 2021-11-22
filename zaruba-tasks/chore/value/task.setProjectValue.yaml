@@ -13,8 +13,7 @@ tasks:
       variableName: '{{ .GetValue "variableName" }}'
       variableValue: '{{ .GetValue "variableValue" }}'
       start: |
-        {{ $d := .Decoration -}}
         "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Kwarg ${KEY} : ${VALUE} has been set{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Kwarg ${KEY} : ${VALUE} has been set${_NORMAL}"
 

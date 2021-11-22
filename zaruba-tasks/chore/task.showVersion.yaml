@@ -7,6 +7,5 @@ tasks:
     extend: zrbRunShellScript
     configs:
       start: |
-        {{ $d := .Decoration -}}
         cd "{{ .ZarubaHome }}"
-        echo "{{ $d.Bold }}{{ $d.Yellow }}$(getVersion){{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"

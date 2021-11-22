@@ -17,7 +17,6 @@ tasks:
       - zrbIsValidSubrepos
     configs:
       start: |
-        {{ $d := .Decoration -}}
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
@@ -51,5 +50,5 @@ tasks:
           fi
         {{ end -}}
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos Initialized{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Subrepos Initialized${_NORMAL}"
 

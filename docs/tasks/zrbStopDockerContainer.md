@@ -52,27 +52,10 @@ Description:
 ## Configs
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+### Configs._start
 
 
 ### Configs.afterStart
-
-
-### Configs.containerName
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
 
 
 ### Configs._initShell
@@ -86,11 +69,11 @@ Value:
 
 
 
-### Configs.strictMode
+### Configs._setup
 
 Value:
 
-    true
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.cmd
@@ -103,6 +86,23 @@ Value:
 ### Configs.finish
 
 
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
 ### Configs.includeShellUtil
 
 Value:
@@ -113,23 +113,22 @@ Value:
 ### Configs.setup
 
 
+### Configs._finish
+
+
+### Configs.containerName
+
+
 ### Configs.start
 
 Value:
 
-    {{ $d := .Decoration -}}
     CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Stop docker container ${CONTAINER}{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
     stopContainer "${CONTAINER}" 
     echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Docker container ${CONTAINER} stopped{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
 
-
-
-### Configs._finish
-
-
-### Configs._start
 
 
 ## Envs

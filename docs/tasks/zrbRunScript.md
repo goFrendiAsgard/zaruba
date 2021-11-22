@@ -48,13 +48,10 @@ Description:
 ## Configs
 
 
-### Configs.finish
-
-
-### Configs.start
-
-
 ### Configs._finish
+
+
+### Configs._start
 
 
 ### Configs.afterStart
@@ -67,6 +64,15 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
+### Configs.finish
+
+
+### Configs._setup
+
+
+### Configs.beforeStart
+
+
 ### Configs.cmdArg
 
 Value:
@@ -74,16 +80,10 @@ Value:
     -c
 
 
-### Configs._setup
-
-
-### Configs._start
-
-
-### Configs.beforeStart
-
-
 ### Configs.setup
+
+
+### Configs.start
 
 
 ## Envs

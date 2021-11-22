@@ -13,19 +13,17 @@ configs:
       hostDockerInternal: '{{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}'
       restartPolicy: no
       _setupContainerName: |
-        {{ $d := .Decoration -}}
         CONTAINER_NAME="{{ .GetConfig "containerName" }}"
         if [ -z "${CONTAINER_NAME}" ]
         then
-          echo "{{ $d.Bold }}{{ $d.Red }}containerName is not provided{{ $d.Normal }}"
+          echo "${_BOLD}${_RED}containerName is not provided${_NORMAL}"
           exit 1
         fi
       _setupImageName: |
-        {{ $d := .Decoration -}}
         DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
         if [ -z "${DOCKER_IMAGE_NAME}" ]
         then
-          echo "{{ $d.Bold }}{{ $d.Red }}imageName is not provided{{ $d.Normal }}"
+          echo "${_BOLD}${_RED}imageName is not provided${_NORMAL}"
           exit 1
         fi
       _setup: |
@@ -36,8 +34,7 @@ configs:
         stopContainer "${CONTAINER_NAME}"
         removeContainer "${CONTAINER_NAME}"
       _startLogContainer: |
-        {{ $d := .Decoration -}}
-        echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Logging '${CONTAINER_NAME}'{{ $d.Normal }}"
+        echo "🐳 ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
       _startRunContainerEntryPoint: |
         {{ if .GetConfig "entryPoint" -}}
@@ -84,7 +81,6 @@ configs:
           {{ end -}}
         {{ end -}}
       _startRunContainer: |
-        {{ $d := .Decoration -}}
         {{ $imageTag := .GetConfig "imageTag" -}}
         {{ $this := . -}}
         docker run --name "${CONTAINER_NAME}" {{ "" -}}
@@ -98,23 +94,22 @@ configs:
         {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
         --restart {{ .GetConfig "restartPolicy" }} -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
       _start: |
-        {{ $d := .Decoration -}}
         {{ $rebuild := .GetConfig "rebuild" -}}
         {{ if .Util.Bool.IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
         if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
         then
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Container '${CONTAINER_NAME}' is already started{{ $d.Normal }}"
+          echo "🐳 ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is already started${_NORMAL}"
           {{ .GetConfig "_startLogContainer" }}
         elif [ ! -z $(inspectDocker "container" ".Name" "${CONTAINER_NAME}") ]
         then
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Retrieve previous log of '${CONTAINER_NAME}'{{ $d.Normal }}"
+          echo "🐳 ${_BOLD}${_YELLOW}Retrieve previous log of '${CONTAINER_NAME}'${_NORMAL}"
           sleep 1
           docker logs --tail 20 "${CONTAINER_NAME}"
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
+          echo "🐳 ${_BOLD}${_YELLOW}Starting container '${CONTAINER_NAME}'${_NORMAL}"
           docker start "${CONTAINER_NAME}"
           {{ .GetConfig "_startLogContainer" }}
         else
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating and starting container '${CONTAINER_NAME}'{{ $d.Normal }}"
+          echo "🐳 ${_BOLD}${_YELLOW}Creating and starting container '${CONTAINER_NAME}'${_NORMAL}"
           {{ .GetConfig "_startRunContainer" }}
           {{ .GetConfig "_startLogContainer" }}
         fi

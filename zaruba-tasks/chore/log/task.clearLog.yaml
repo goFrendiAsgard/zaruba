@@ -7,6 +7,5 @@ tasks:
     extend: zrbRunShellScript
     configs:
       start: |
-        {{ $d := .Decoration -}}
         rm -Rf log.zaruba.csv
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Log removed{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Log removed${_NORMAL}"

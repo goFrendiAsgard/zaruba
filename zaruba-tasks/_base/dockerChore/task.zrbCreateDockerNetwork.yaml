@@ -11,12 +11,11 @@ tasks:
     configRef: zrbDockerNetwork
     configs:
       start: |
-        {{ $d := .Decoration -}}
         if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
         then
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
+          echo "🐳 ${_BOLD}${_YELLOW}Network '{{ .GetConfig "network" }}' is already exist${_NORMAL}"
         else
-          echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
+          echo "🐳 ${_BOLD}${_YELLOW}Creating network '{{ .GetConfig "network" }}'${_NORMAL}"
           docker network create "{{ .GetConfig "network" }}"
         fi
 

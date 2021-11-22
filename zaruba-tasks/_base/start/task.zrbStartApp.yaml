@@ -29,9 +29,9 @@ tasks:
         {{- $d := .Decoration -}}
         {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
           {{ if ne $port "" -}}
-            echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
+            echo "📜 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
             waitPort "localhost" {{ $port }}
-            echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+            echo "📜 ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
           {{ end -}}
         {{ end -}}
       afterCheck: ""
@@ -43,7 +43,7 @@ tasks:
         {{- $d := .Decoration -}}
         {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
           echo 🎉🎉🎉
-          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
+          echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
           sleep infinity
         {{ end -}}
         {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -55,7 +55,7 @@ tasks:
         {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
         {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
         echo 🎉🎉🎉
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
+        echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
     check:
       - '{{ .GetConfig "cmd" }}'
       - '{{ .GetConfig "cmdArg" }}'
@@ -63,7 +63,7 @@ tasks:
         {{- $d := .Decoration -}}
         {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
           echo 🎉🎉🎉
-          echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+          echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
           exit 0
         {{ end -}}
         {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -75,4 +75,4 @@ tasks:
         {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
         {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
         echo 🎉🎉🎉
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+        echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"

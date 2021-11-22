@@ -52,14 +52,22 @@ Description:
 ## Configs
 
 
+### Configs.finish
+
+
+### Configs.imageName
+
+
 ### Configs.imageTag
+
+
+### Configs.setup
 
 
 ### Configs.start
 
 Value:
 
-    {{ $d := .Decoration -}}
     DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
     DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
     if [ ! -z "${DOCKER_IMAGE_TAG}" ]
@@ -69,42 +77,18 @@ Value:
       pullImage "${DOCKER_IMAGE_NAME}"
     fi
     echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pulled{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} pulled${_NORMAL}"
 
 
 
-### Configs._finish
+### Configs._start
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.imageName
-
-
-### Configs._initShell
+### Configs.cmdArg
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    -c
 
 
 ### Configs.imagePrefix
@@ -121,33 +105,48 @@ Value:
     true
 
 
-### Configs.setup
+### Configs._finish
 
 
-### Configs.strictMode
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.useImagePrefix
 
 Value:
 
     true
 
 
-### Configs.afterStart
-
-
-### Configs.cmdArg
+### Configs._setup
 
 Value:
 
-    -c
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.finish
+### Configs.afterStart
 
 
-### Configs._start
+### Configs.beforeStart
 
 
-### Configs.useImagePrefix
+### Configs.strictMode
 
 Value:
 

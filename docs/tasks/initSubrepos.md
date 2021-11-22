@@ -58,16 +58,6 @@ Description:
 ## Configs
 
 
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
 ### Configs.cmdArg
 
 Value:
@@ -75,17 +65,17 @@ Value:
     -c
 
 
-### Configs.finish
+### Configs.includeShellUtil
 
+Value:
 
-### Configs.setup
+    true
 
 
 ### Configs.start
 
 Value:
 
-    {{ $d := .Decoration -}}
     {{ $names := .GetSubValueKeys "subrepo" -}}
     {{ $this := . -}}
     BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
@@ -119,15 +109,8 @@ Value:
       fi
     {{ end -}}
     echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos Initialized{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}Subrepos Initialized${_NORMAL}"
 
-
-
-### Configs.strictMode
-
-Value:
-
-    true
 
 
 ### Configs._finish
@@ -154,14 +137,30 @@ Value:
 ### Configs._start
 
 
-### Configs.afterStart
+### Configs.beforeStart
 
 
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 
     true
+
+
+### Configs.afterStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.setup
 
 
 ## Envs

@@ -48,7 +48,7 @@ Description:
     {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
-      echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
+      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
       sleep infinity
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -60,7 +60,7 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
     echo 🎉🎉🎉
-    echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is started{{ $d.Normal }}"
+    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
 
     ```
 
@@ -74,7 +74,7 @@ Description:
     {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
-      echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
       exit 0
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -86,73 +86,11 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
     echo 🎉🎉🎉
-    echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Task '{{ .Name }}' is ready{{ $d.Normal }}"
+    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
     ```
 
 
 ## Configs
-
-
-### Configs.beforeCheck
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.finish
-
-
-### Configs.start
-
-
-### Configs._finish
-
-
-### Configs.afterStart
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.ports
-
-
-### Configs.runInLocal
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-
-### Configs.beforeStart
-
-
-### Configs._start
 
 
 ### Configs.afterCheck
@@ -165,12 +103,29 @@ Value:
     {{- $d := .Decoration -}}
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
       {{ if ne $port "" -}}
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Waiting for port '{{ $port }}'{{ $d.Normal }}"
+        echo "📜 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
         waitPort "localhost" {{ $port }}
-        echo "📜 {{ $d.Bold }}{{ $d.Yellow }}Port '{{ $port }}' is ready{{ $d.Normal }}"
+        echo "📜 ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
       {{ end -}}
     {{ end -}}
 
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeCheck
 
 
 ### Configs.cmd
@@ -178,6 +133,45 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.start
+
+
+### Configs.afterStart
+
+
+### Configs.runInLocal
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.ports
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
 
 
 ### Configs._initShell
@@ -189,6 +183,12 @@ Value:
     {{ $d.ToEnvironmentVariables }}
     {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
 
+
+
+### Configs._start
+
+
+### Configs.beforeStart
 
 
 ## Envs

@@ -52,7 +52,10 @@ Description:
 ## Configs
 
 
-### Configs._start
+### Configs.afterStart
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -62,27 +65,79 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
+### Configs.finish
+
+
+### Configs.imagePrefix
 
 Value:
 
-    -c
+    {{ .GetValue "defaultImagePrefix" }}
 
 
-### Configs.includeShellUtil
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
+    if [ ! -f "${DOCKER_FILE}" ]
+    then
+      echo "${_BOLD}${_RED}${DOCKER_FILE} should be exist${_NORMAL}"
+      exit 1
+    fi
+    DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+    DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+    docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} \
+      -t "${DOCKER_IMAGE_NAME}:latest" \
+      -t "${DOCKER_IMAGE_NAME}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}" \
+      -f "${DOCKER_FILE}" .
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Docker image built${_NORMAL}"
+
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.imageTag
+
+
+### Configs.useImagePrefix
 
 Value:
 
     true
 
 
-### Configs.beforeStart
+### Configs._start
 
 
-### Configs.finish
+### Configs.buildArg
 
 
-### Configs.imageName
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.start.buildDockerImage.buildArg
@@ -97,28 +152,6 @@ Value:
 
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
-    if [ ! -f "${DOCKER_FILE}" ]
-    then
-      echo "{{ $d.Bold }}{{ $d.Red }}${DOCKER_FILE} should be exist{{ $d.Normal }}"
-      exit 1
-    fi
-    DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
-    DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-    docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} \
-      -t "${DOCKER_IMAGE_NAME}:latest" \
-      -t "${DOCKER_IMAGE_NAME}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}" \
-      -f "${DOCKER_FILE}" .
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
-
-
-
 ### Configs.strictMode
 
 Value:
@@ -129,55 +162,21 @@ Value:
 ### Configs._finish
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.imagePrefix
-
-Value:
-
-    {{ .GetValue "defaultImagePrefix" }}
-
-
-### Configs.setup
-
-
-### Configs.imageTag
-
-
-### Configs.useImagePrefix
-
-Value:
-
-    true
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.afterStart
-
-
-### Configs.buildArg
-
-
 ### Configs.dockerFilePath
 
 Value:
 
     Dockerfile
+
+
+### Configs.imageName
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ## Envs

@@ -52,6 +52,9 @@ Description:
 ## Configs
 
 
+### Configs._finish
+
+
 ### Configs._initShell
 
 Value:
@@ -63,6 +66,12 @@ Value:
 
 
 
+### Configs.beforeStart
+
+
+### Configs.finish
+
+
 ### Configs.cmdArg
 
 Value:
@@ -70,42 +79,11 @@ Value:
     -c
 
 
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
-    DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-    echo "${DOCKER_IMAGE_NAME}"
-    if [ ! -z "${DOCKER_IMAGE_TAG}" ]
-    then
-      docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-    fi
-    docker push "${DOCKER_IMAGE_NAME}:latest"
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image ${DOCKER_IMAGE_NAME} pushed{{ $d.Normal }}"
-
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
 ### Configs.imagePrefix
 
 Value:
 
     {{ .GetValue "defaultImagePrefix" }}
-
-
-### Configs.setup
 
 
 ### Configs.useImagePrefix
@@ -125,20 +103,41 @@ Value:
 ### Configs._start
 
 
-### Configs.finish
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
 ### Configs.cmd
 
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+    DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+    echo "${DOCKER_IMAGE_NAME}"
+    if [ ! -z "${DOCKER_IMAGE_TAG}" ]
+    then
+      docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+    fi
+    docker push "${DOCKER_IMAGE_NAME}:latest"
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} pushed${_NORMAL}"
+
+
+
+### Configs.afterStart
 
 
 ### Configs.imageName
@@ -147,7 +146,7 @@ Value:
 ### Configs.imageTag
 
 
-### Configs.includeShellUtil
+### Configs.strictMode
 
 Value:
 

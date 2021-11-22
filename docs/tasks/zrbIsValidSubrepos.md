@@ -40,25 +40,6 @@ Type:
 ## Configs
 
 
-### Configs.afterStart
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.setup
-
-
-### Configs._finish
-
-
 ### Configs._initShell
 
 Value:
@@ -70,17 +51,10 @@ Value:
 
 
 
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
 ### Configs._start
 
 
-### Configs.beforeStart
+### Configs.afterStart
 
 
 ### Configs.cmd
@@ -90,18 +64,13 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
+### Configs.setup
 
 
 ### Configs.start
 
 Value:
 
-    {{ $d := .Decoration -}}
     {{ $names := .GetSubValueKeys "subrepo" -}}
     {{ $this := . -}}
     {{ range $index, $name := $names -}}
@@ -110,19 +79,49 @@ Value:
       NAME="{{ $name }}"
       if [ -z "${URL}" ]
       then
-        echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have url{{ $d.Normal }}"
+        echo "${_BOLD}${_RED}Subrepo ${NAME} doesn't have url${_NORMAL}"
         exit 1
       fi
       if [ -z "${PREFIX}" ]
       then
-        echo "{{ $d.Bold }}{{ $d.Red }}Subrepo ${NAME} doesn't have prefix{{ $d.Normal }}"
+        echo "${_BOLD}${_RED}Subrepo ${NAME} doesn't have prefix${_NORMAL}"
         exit 1
       fi
     {{ end }}
-    echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
+    echo "${_BOLD}${_YELLOW}All Subrepos are valid${_NORMAL}"
 
 
 ### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.beforeStart
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
 
 Value:
 

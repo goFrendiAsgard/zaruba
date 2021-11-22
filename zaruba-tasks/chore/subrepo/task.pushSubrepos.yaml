@@ -13,7 +13,6 @@ tasks:
       - updateProjectLinks
     configs:
       start: |
-        {{ $d := .Decoration -}}
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}
         BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
@@ -30,5 +29,5 @@ tasks:
           fi
         {{ end -}}
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
+        echo "${_BOLD}${_YELLOW}Subrepos pushed${_NORMAL}"
 
