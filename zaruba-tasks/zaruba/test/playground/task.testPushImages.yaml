@@ -18,5 +18,4 @@ tasks:
       - testInitProject
     configs:
       start: |
-        set -e
         ./zaruba please startContainerRegistry -t

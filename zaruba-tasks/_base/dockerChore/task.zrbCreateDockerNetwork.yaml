@@ -12,7 +12,6 @@ tasks:
     configs:
       start: |
         {{ $d := .Decoration -}}
-        set -e
         if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
         then
           echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"

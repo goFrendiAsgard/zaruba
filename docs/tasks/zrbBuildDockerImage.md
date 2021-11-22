@@ -52,11 +52,55 @@ Description:
 ## Configs
 
 
+### Configs._start
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.beforeStart
+
+
+### Configs.finish
+
+
+### Configs.imageName
+
+
+### Configs.start.buildDockerImage.buildArg
+
+Value:
+
+    {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
+      {{ if ne $buildArg "" -}}
+        --build-arg {{ $buildArg }} {{ "" -}}
+      {{ end -}}
+    {{ end -}}
+
+
+
 ### Configs.start
 
 Value:
 
-    set -e
     {{ $d := .Decoration -}}
     DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
     if [ ! -f "${DOCKER_FILE}" ]
@@ -72,18 +116,6 @@ Value:
       -f "${DOCKER_FILE}" .
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Docker image built{{ $d.Normal }}"
-
-
-
-### Configs.start.buildDockerImage.buildArg
-
-Value:
-
-    {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
-      {{ if ne $buildArg "" -}}
-        --build-arg {{ $buildArg }} {{ "" -}}
-      {{ end -}}
-    {{ end -}}
 
 
 
@@ -104,12 +136,6 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.imageName
-
-
-### Configs.finish
-
-
 ### Configs.imagePrefix
 
 Value:
@@ -117,11 +143,10 @@ Value:
     {{ .GetValue "defaultImagePrefix" }}
 
 
-### Configs.includeShellUtil
+### Configs.setup
 
-Value:
 
-    true
+### Configs.imageTag
 
 
 ### Configs.useImagePrefix
@@ -129,35 +154,6 @@ Value:
 Value:
 
     true
-
-
-### Configs._start
-
-
-### Configs.beforeStart
-
-
-### Configs.dockerFilePath
-
-Value:
-
-    Dockerfile
-
-
-### Configs.buildArg
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
-
-
-### Configs.imageTag
 
 
 ### Configs._initShell
@@ -174,11 +170,14 @@ Value:
 ### Configs.afterStart
 
 
-### Configs.cmd
+### Configs.buildArg
+
+
+### Configs.dockerFilePath
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    Dockerfile
 
 
 ## Envs

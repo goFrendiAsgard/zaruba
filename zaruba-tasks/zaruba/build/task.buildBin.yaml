@@ -8,7 +8,6 @@ tasks:
       - clearLog
     configs:
       start: |
-        set -e
         rm -f zaruba
         go build
 

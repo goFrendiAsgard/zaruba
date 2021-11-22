@@ -13,7 +13,6 @@ tasks:
       - updateProjectLinks
     configs:
       start: |
-        set -e
         {{ $d := .Decoration -}}
         {{ $names := .GetSubValueKeys "subrepo" -}}
         {{ $this := . -}}

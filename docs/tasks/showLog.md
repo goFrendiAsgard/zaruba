@@ -63,27 +63,24 @@ Secret:
 ## Configs
 
 
-### Configs.finish
+### Configs._finish
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.setup
 
 
-### Configs.start
+### Configs.strictMode
 
 Value:
 
-    {{ $d := .Decoration -}}
-    if [ ! -f "log.zaruba.csv" ]
-    then
-      echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
-      exit 1
-    fi
-    "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
-
-
-
-### Configs._finish
+    true
 
 
 ### Configs._setup
@@ -96,20 +93,7 @@ Value:
 ### Configs._start
 
 
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.strictMode
+### Configs.includeShellUtil
 
 Value:
 
@@ -127,11 +111,7 @@ Value:
 
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
+### Configs.finish
 
 
 ### Configs.keyword
@@ -139,6 +119,26 @@ Value:
 Value:
 
     {{ if .GetValue "keyword" }}{{ .GetValue "keyword" }}{{ else }}.*{{ end }}
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -f "log.zaruba.csv" ]
+    then
+      echo "{{ $d.Bold }}{{ $d.Red }}Log is not exist{{ $d.Normal }}"
+      exit 1
+    fi
+    "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
+
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd

@@ -47,6 +47,55 @@ Description:
 ## Configs
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.finish
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
+    then
+      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
+    else
+      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
+      docker network create "{{ .GetConfig "network" }}"
+    fi
+
+
+
+### Configs._finish
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
 ### Configs._initShell
 
 Value:
@@ -58,20 +107,13 @@ Value:
 
 
 
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs._finish
-
-
 ### Configs._start
 
 
-### Configs.finish
+### Configs.afterStart
+
+
+### Configs.beforeStart
 
 
 ### Configs.includeShellUtil
@@ -79,42 +121,6 @@ Value:
 Value:
 
     true
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.start
-
-Value:
-
-    {{ $d := .Decoration -}}
-    set -e
-    if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
-    then
-      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Network '{{ .GetConfig "network" }}' is already exist{{ $d.Normal }}"
-    else
-      echo "🐳 {{ $d.Bold }}{{ $d.Yellow }}Creating network '{{ .GetConfig "network" }}'{{ $d.Normal }}"
-      docker network create "{{ .GetConfig "network" }}"
-    fi
-
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
 
 
 ### Configs.network
@@ -125,13 +131,6 @@ Value:
 
 
 ### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
 
 
 ## Envs

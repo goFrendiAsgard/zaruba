@@ -21,7 +21,6 @@ tasks:
         {{ end -}}
       dockerFilePath: Dockerfile
       start: |
-        set -e
         {{ $d := .Decoration -}}
         DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
         if [ ! -f "${DOCKER_FILE}" ]

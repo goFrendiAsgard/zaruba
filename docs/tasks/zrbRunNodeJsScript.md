@@ -47,17 +47,13 @@ Description:
 ## Configs
 
 
-### Configs.setup
+### Configs._start
 
 
 ### Configs.afterStart
 
 
-### Configs.cmd
-
-Value:
-
-    node
+### Configs.beforeStart
 
 
 ### Configs.cmdArg
@@ -67,7 +63,7 @@ Value:
     -p
 
 
-### Configs.finish
+### Configs.setup
 
 
 ### Configs.start
@@ -80,13 +76,17 @@ Value:
 ### Configs._finish
 
 
+### Configs.cmd
+
+Value:
+
+    node
+
+
+### Configs.finish
+
+
 ### Configs._setup
-
-
-### Configs._start
-
-
-### Configs.beforeStart
 
 
 ## Envs

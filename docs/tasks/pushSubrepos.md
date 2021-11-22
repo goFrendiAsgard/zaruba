@@ -59,24 +59,39 @@ Description:
 ### Configs.beforeStart
 
 
-### Configs.cmdArg
+### Configs.cmd
 
 Value:
 
-    -c
-
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
 ### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    {{ $d := .Decoration -}}
+    {{ $names := .GetSubValueKeys "subrepo" -}}
+    {{ $this := . -}}
+    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
+    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
+    {{ range $index, $name := $names -}}
+      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+      URL="{{ $this.GetValue "subrepo" $name "url" }}"
+      NAME="{{ $name }}"
+      ORIGIN_EXISTS=$("{{ .ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
+      if [ $ORIGIN_EXISTS = 1 ]
+      then
+        gitSave.sh" "Save works before p
+        git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+      fi
+    {{ end -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
+
 
 
 ### Configs._finish
@@ -100,30 +115,7 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.start
-
-Value:
-
-    set -e
-    {{ $d := .Decoration -}}
-    {{ $names := .GetSubValueKeys "subrepo" -}}
-    {{ $this := . -}}
-    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
-    {{ range $index, $name := $names -}}
-      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-      URL="{{ $this.GetValue "subrepo" $name "url" }}"
-      NAME="{{ $name }}"
-      ORIGIN_EXISTS=$("{{ .ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
-      if [ $ORIGIN_EXISTS = 1 ]
-      then
-        gitSave.sh" "Save works before p
-        git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-      fi
-    {{ end -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pushed{{ $d.Normal }}"
-
+### Configs._start
 
 
 ### Configs.strictMode
@@ -133,17 +125,24 @@ Value:
     true
 
 
-### Configs._start
-
-
 ### Configs.afterStart
 
 
-### Configs.cmd
+### Configs.cmdArg
 
 Value:
 
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+    -c
+
+
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ## Envs

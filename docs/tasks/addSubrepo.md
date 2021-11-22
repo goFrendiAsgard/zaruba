@@ -103,17 +103,7 @@ Secret:
 ## Configs
 
 
-### Configs._start
-
-
-### Configs.subrepoUrl
-
-Value:
-
-    {{ .GetValue "subrepoUrl" }}
-
-
-### Configs.afterStart
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -123,39 +113,27 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.subrepoName
+### Configs.setup
+
+
+### Configs._setup
 
 Value:
 
-    {{ .GetValue "subrepoName" }}
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._finish
-
-
-### Configs._initShell
+### Configs.subrepoPrefix
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
+    {{ .GetValue "subrepoPrefix" }}
 
 
 ### Configs.start
 
 Value:
 
-    set -e
     {{ $d := .Decoration -}}
     URL="{{ .GetValue "subrepoUrl" }}"
     if [ -z "${URL}" ]
@@ -180,6 +158,9 @@ Value:
 
 
 
+### Configs.afterStart
+
+
 ### Configs.cmdArg
 
 Value:
@@ -187,10 +168,11 @@ Value:
     -c
 
 
-### Configs.finish
+### Configs.includeShellUtil
 
+Value:
 
-### Configs.setup
+    true
 
 
 ### Configs.strictMode
@@ -200,21 +182,38 @@ Value:
     true
 
 
-### Configs.subrepoPrefix
+### Configs.subrepoName
 
 Value:
 
-    {{ .GetValue "subrepoPrefix" }}
+    {{ .GetValue "subrepoName" }}
 
 
-### Configs._setup
+### Configs._finish
+
+
+### Configs._start
+
+
+### Configs.finish
+
+
+### Configs.subrepoUrl
 
 Value:
 
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+    {{ .GetValue "subrepoUrl" }}
 
 
-### Configs.beforeStart
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 ## Envs

@@ -50,6 +50,23 @@ Description:
 ## Configs
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
 ### Configs._initShell
 
 Value:
@@ -68,13 +85,10 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._start
+### Configs.afterStart
 
 
 ### Configs.beforeStart
-
-
-### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -87,35 +101,17 @@ Value:
 ### Configs.setup
 
 
-### Configs._finish
-
-
-### Configs.afterStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs.start
 
 Value:
 
     {{ $d := .Decoration -}}
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Synchronize task environments{{ $d.Normal }}"
     "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Synchronize project's environment files{{ $d.Normal }}"
     "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
     echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Environment synchronized{{ $d.Normal }}"
 
 
 
@@ -124,6 +120,12 @@ Value:
 Value:
 
     true
+
+
+### Configs._finish
+
+
+### Configs._start
 
 
 ## Envs

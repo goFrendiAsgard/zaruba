@@ -52,7 +52,7 @@ Value:
     true
 
 
-### Configs.setup
+### Configs._finish
 
 
 ### Configs._initShell
@@ -79,6 +79,16 @@ Value:
 ### Configs.afterStart
 
 
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.beforeStart
+
+
 ### Configs.cmdArg
 
 Value:
@@ -89,24 +99,7 @@ Value:
 ### Configs.finish
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs.beforeStart
-
-
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+### Configs.setup
 
 
 ### Configs.start
@@ -125,6 +118,13 @@ Value:
     echo 🎉🎉🎉
     echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

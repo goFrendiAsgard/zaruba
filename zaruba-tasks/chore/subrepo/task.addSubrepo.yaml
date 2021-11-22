@@ -17,7 +17,6 @@ tasks:
       subrepoPrefix: '{{ .GetValue "subrepoPrefix" }}'
       subrepoName: '{{ .GetValue "subrepoName" }}'
       start: |
-        set -e
         {{ $d := .Decoration -}}
         URL="{{ .GetValue "subrepoUrl" }}"
         if [ -z "${URL}" ]

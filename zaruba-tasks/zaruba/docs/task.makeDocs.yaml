@@ -8,5 +8,4 @@ tasks:
       - buildBin
     configs:
       start: |
-        set -e
         . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"

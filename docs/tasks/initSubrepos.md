@@ -58,31 +58,7 @@ Description:
 ## Configs
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
 ### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
 
 
 ### Configs.cmd
@@ -90,6 +66,13 @@ Value:
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
 
 
 ### Configs.finish
@@ -102,7 +85,6 @@ Value:
 
 Value:
 
-    set -e
     {{ $d := .Decoration -}}
     {{ $names := .GetSubValueKeys "subrepo" -}}
     {{ $this := . -}}
@@ -141,6 +123,16 @@ Value:
 
 
 
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs._finish
+
+
 ### Configs._initShell
 
 Value:
@@ -163,6 +155,13 @@ Value:
 
 
 ### Configs.afterStart
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
 ## Envs

@@ -29,7 +29,6 @@ configs:
           exit 1
         fi
       _setup: |
-        set -e
         {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
         {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
         {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
