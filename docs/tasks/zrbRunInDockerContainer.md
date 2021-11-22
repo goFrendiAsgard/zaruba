@@ -52,23 +52,6 @@ Description:
 ### Configs._prepareReplacementMap
 
 
-### Configs.cmd
-
-Value:
-
-    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.start
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
 ### Configs.remoteScriptLocation
 
 Value:
@@ -76,47 +59,14 @@ Value:
     _{{ .Name }}.script.{{ .UUID }}
 
 
-### Configs._prepareBaseVariables
+### Configs.cmd
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs._validateTemplateLocation
-
-Value:
-
-    {{ $d := .Decoration -}}
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
-      exit 1
-    fi
-
-
-
-### Configs.beforeStart
-
-
-### Configs.setup
-
-
-### Configs.afterStart
-
-Value:
-
-    {{ $d := .Decoration -}}
-    echo 🎉🎉🎉
-    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
-
-
-
-### Configs._prepareBaseReplacementMap
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+### Configs._finish
 
 
 ### Configs._setup
@@ -124,92 +74,6 @@ Value:
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
-
-
-### Configs.remoteCommand
-
-Value:
-
-    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._validate
-
-
-### Configs.script
-
-Value:
-
-    {{ .GetValue "script" }}
-
-
-### Configs._prepareVariables
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.runGeneratedScript
-
-Value:
-
-    _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-    _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-    chmod 755 -R "${_ZRB_GENERATED_SCRIPT_LOCATION}"
-    docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
-    docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
-
-
-### Configs.templateLocation
-
-Value:
-
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
-
-
-### Configs.containerName
-
-
-### Configs.finish
-
-
-### Configs.generatedScriptLocation
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-
-
-### Configs.sql
-
-Value:
-
-    {{ .GetValue "sql" }}
-
-
-### Configs._finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
 
 
 ### Configs._start
@@ -226,7 +90,7 @@ Value:
     _ZRB_SQL='{{ .GetConfig "sql" }}'
     _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
     _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
-    _ZRB_ENVS='{{ .Util.Json.FromInterface .GetEnvs }}'
+    _ZRB_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
     __ZRB_PWD=$(pwd)
     echo "{{ $d.Yellow }}🧰 Prepare{{ $d.Normal }}"
     {{ .GetConfig "_prepareBaseVariables" }}
@@ -250,6 +114,144 @@ Value:
     {{ .GetConfig "runGeneratedScript" }}
     cd "${__ZRB_PWD}"
 
+
+
+### Configs._validateTemplateLocation
+
+Value:
+
+    {{ $d := .Decoration -}}
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "{{ $d.Red }}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.{{ $d.Normal }}"
+      exit 1
+    fi
+
+
+
+### Configs._validate
+
+
+### Configs.afterStart
+
+Value:
+
+    {{ $d := .Decoration -}}
+    echo 🎉🎉🎉
+    echo "{{ $d.Bold }}{{ $d.Yellow }}Done{{ $d.Normal }}"
+
+
+
+### Configs.containerName
+
+
+### Configs.remoteCommand
+
+Value:
+
+    sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+
+
+### Configs.runGeneratedScript
+
+Value:
+
+    _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+    _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
+    chmod 755 -R "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
+    docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+
+
+### Configs.script
+
+Value:
+
+    {{ .GetValue "script" }}
+
+
+### Configs.sql
+
+Value:
+
+    {{ .GetValue "sql" }}
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.generatedScriptLocation
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.start
+
+
+### Configs._prepareBaseVariables
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
+
+
+### Configs._prepareVariables
+
+
+### Configs._prepareBaseReplacementMap
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.templateLocation
+
+Value:
+
+    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+
+
+### Configs.beforeStart
 
 
 ## Envs

@@ -30,37 +30,6 @@ func TestTplGetConfig(t *testing.T) {
 	}
 }
 
-func TestTplGetSubConfigKeys(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/taskdata/getConfig.zaruba.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	task := project.Tasks["taskName"]
-	tpl := NewTpl(task)
-	// key::subkey1
-	expectedKeys := []string{"subKey1", "subKey2"}
-	actualKeys := tpl.GetSubConfigKeys("key")
-	if err != nil {
-		t.Error(err)
-	}
-	if len(actualKeys) != len(expectedKeys) {
-		t.Errorf("expected: %#v, actual %#v", expectedKeys, actualKeys)
-	}
-	for _, expected := range expectedKeys {
-		keyFound := false
-		for _, actual := range actualKeys {
-			if actual == expected {
-				keyFound = true
-				break
-			}
-		}
-		if !keyFound {
-			t.Errorf("key not found: %s, keys: %#v", expected, actualKeys)
-		}
-	}
-}
-
 func TestTplGetValue(t *testing.T) {
 	project, err := getProject("../test-resources/taskdata/getValue/main.zaruba.yaml")
 	if err != nil {

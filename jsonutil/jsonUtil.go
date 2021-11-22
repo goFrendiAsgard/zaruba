@@ -62,3 +62,35 @@ func (jsonUtil *JsonUtil) ToYaml(jsonString string) (yamlString string, err erro
 	}
 	return strings.Join(yamlLines, "\n"), nil
 }
+
+func (jsonUtil *JsonUtil) FromDict(dict jsonHelper.Dict) (jsonString string, err error) {
+	return jsonHelper.FromDict(dict)
+}
+
+func (jsonUtil *JsonUtil) ToDict(jsonString string) (dict jsonHelper.Dict, err error) {
+	return jsonHelper.ToDict(jsonString)
+}
+
+func (jsonUtil *JsonUtil) FromStringDict(stringDict jsonHelper.StringDict) (jsonString string, err error) {
+	return jsonHelper.FromStringDict(stringDict)
+}
+
+func (jsonUtil *JsonUtil) ToStringDict(jsonString string) (stringDict jsonHelper.StringDict, err error) {
+	return jsonHelper.ToStringDict(jsonString)
+}
+
+func (jsonUtil *JsonUtil) FromList(list jsonHelper.List) (jsonString string, err error) {
+	return jsonHelper.FromList(list)
+}
+
+func (jsonUtil *JsonUtil) ToList(jsonString string) (list jsonHelper.List, err error) {
+	return jsonHelper.ToList(jsonString)
+}
+
+func (jsonUtil *JsonUtil) FromStringList(stringList jsonHelper.StringList) (jsonString string, err error) {
+	return jsonHelper.FromStringList(stringList)
+}
+
+func (jsonUtil *JsonUtil) ToStringList(jsonString string) (stringList jsonHelper.StringList, err error) {
+	return jsonHelper.ToStringList(jsonString)
+}

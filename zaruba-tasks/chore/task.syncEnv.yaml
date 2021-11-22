@@ -10,8 +10,10 @@ tasks:
     configs:
       start: |
         {{ $d := .Decoration -}}
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Synchronize task environments{{ $d.Normal }}"
         "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Synchronize project's environment files{{ $d.Normal }}"
         "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
         echo 🎉🎉🎉
-        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment updated{{ $d.Normal }}"
+        echo "{{ $d.Bold }}{{ $d.Yellow }}Environment synchronized{{ $d.Normal }}"
 

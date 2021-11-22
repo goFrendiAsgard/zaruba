@@ -86,23 +86,19 @@ func (strUtil *StrUtil) ToKebab(s string) (result string) {
 }
 
 func (strUtil *StrUtil) Quote(s string, quote byte) (result string) {
-	if len(s) > 0 && s[0] == quote && s[len(s)-1] == quote {
-		return s
-	}
-	quoteEscapedStr := strings.ReplaceAll(s, string(quote), "\\"+string(quote))
-	return fmt.Sprintf("%s%s%s", string(quote), quoteEscapedStr, string(quote))
+	return StrQuote(s, quote)
 }
 
 func (strUtil *StrUtil) DoubleQuote(s string) (result string) {
-	return strUtil.Quote(s, '"')
+	return StrDoubleQuote(s)
 }
 
 func (strUtil *StrUtil) SingleQuote(s string) (result string) {
-	return strUtil.Quote(s, '\'')
+	return StrSingleQuote(s)
 }
 
 func (strUtil *StrUtil) EscapeShellArg(s string) (result string) {
-	return strUtil.SingleQuote(s)
+	return StrEscapeShellArg(s)
 }
 
 // indent second-last lines

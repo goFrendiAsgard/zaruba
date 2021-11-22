@@ -22,7 +22,7 @@ var addParentCmd = &cobra.Command{
 		}
 		taskName := args[1]
 		util := core.NewCoreUtil()
-		parentNames, err := util.Json.List.GetStringList(args[2])
+		parentNames, err := util.Json.ToStringList(args[2])
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

@@ -22,6 +22,6 @@ var getKeysCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(util.Json.FromInterface(keys))
+		fmt.Println(util.Json.FromStringList(keys))
 	},
 }

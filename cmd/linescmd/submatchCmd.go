@@ -25,6 +25,6 @@ var submatchCmd = &cobra.Command{
 		if matchIndex == -1 {
 			cmdHelper.Exit(cmd, args, logger, decoration, fmt.Errorf("no line match %s", jsonPatterns))
 		}
-		fmt.Println(util.Json.FromInterface(jsonSubmatch))
+		fmt.Println(jsonSubmatch)
 	},
 }

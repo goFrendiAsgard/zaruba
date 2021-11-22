@@ -220,9 +220,20 @@ func (task *Task) GetValueKeys() (keys []string) {
 	return keys
 }
 
+// GetConfigs getting all parsed config
+func (task *Task) GetConfigs() (parsedConfig map[string]string, err error) {
+	parsedConfig = map[string]string{}
+	for _, key := range task.GetConfigKeys() {
+		parsedConfig[key], err = task.GetConfig(key)
+		if err != nil {
+			return parsedConfig, err
+		}
+	}
+	return parsedConfig, nil
+}
+
 // GetConfig getting config of a task
-func (task *Task) GetConfig(keys ...string) (val string, err error) {
-	key := strings.Join(keys, "::")
+func (task *Task) GetConfig(key string) (val string, err error) {
 	if pattern, declared := task.GetConfigPattern(key); declared {
 		templateName := fmt.Sprintf("%s[config][%s]", task.GetName(), key)
 		return task.getParsedPattern(templateName, pattern)

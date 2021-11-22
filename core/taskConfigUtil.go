@@ -18,7 +18,7 @@ func NewTaskConfigUtil(taskUtil *TaskUtil) *TaskConfigUtil {
 }
 
 func (configUtil *TaskConfigUtil) Set(projectFile, taskName string, jsonConfigMap string) (err error) {
-	configMap, err := configUtil.task.json.Map.GetStringDict(jsonConfigMap)
+	configMap, err := configUtil.task.json.ToStringDict(jsonConfigMap)
 	if err != nil {
 		return err
 	}

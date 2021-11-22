@@ -7,7 +7,30 @@ import (
 	"strings"
 )
 
-// strIndent second-last lines
+func StrQuote(s string, quote byte) (result string) {
+	if len(s) > 0 && s[0] == quote && s[len(s)-1] == quote {
+		return s
+	}
+	quoteEscapedStr := strings.ReplaceAll(s, string(quote), "\\"+string(quote))
+	return fmt.Sprintf("%s%s%s", string(quote), quoteEscapedStr, string(quote))
+}
+
+func StrDoubleQuote(s string) (result string) {
+	return StrQuote(s, '"')
+}
+
+func StrSingleQuote(s string) (result string) {
+	return StrQuote(s, '\'')
+}
+
+func StrEscapeShellArg(s string) (result string) {
+	return StrSingleQuote(s)
+}
+
+func StrEnvironmentVariable(key, value string) (result string) {
+	return fmt.Sprintf("%s=%s", key, StrDoubleQuote(value))
+}
+
 func strIndent(multiLineStr string, indentation string, skipFirstLine bool) (indentedStr string) {
 	lines := strings.Split(multiLineStr, "\n")
 	for index, line := range lines {
@@ -26,6 +49,7 @@ func StrIndent(multiLineStr string, indentation string) (indentedStr string) {
 	return strIndent(multiLineStr, indentation, true)
 }
 
+// indent all lines
 func StrFullIndent(multiLineStr string, indentation string) (indentedStr string) {
 	return strIndent(multiLineStr, indentation, false)
 }

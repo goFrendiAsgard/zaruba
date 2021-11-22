@@ -57,7 +57,7 @@ func (pathUtil *PathUtil) GetEnvFileList(location string) (jsonList string, err 
 	if err != nil {
 		return "[]", err
 	}
-	return pathUtil.json.FromInterface(fileList), nil
+	return pathUtil.json.FromStringList(fileList)
 }
 
 func (pathUtil *PathUtil) GetPortConfigByLocation(location string) (jsonList string, err error) {
@@ -75,7 +75,7 @@ func (pathUtil *PathUtil) GetPortConfigByLocation(location string) (jsonList str
 			ports = append(ports, fmt.Sprintf("{{ .GetEnv \"%s\" }}", key))
 		}
 	}
-	return pathUtil.json.FromInterface(ports), nil
+	return pathUtil.json.FromStringList(ports)
 }
 
 func (pathUtil *PathUtil) GetEnvByLocation(location string) (jsonMap string, err error) {
@@ -83,5 +83,5 @@ func (pathUtil *PathUtil) GetEnvByLocation(location string) (jsonMap string, err
 	if err != nil {
 		return "{}", err
 	}
-	return pathUtil.json.FromInterface(envMap), nil
+	return pathUtil.json.FromStringDict(envMap)
 }

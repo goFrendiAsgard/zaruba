@@ -40,6 +40,12 @@ Type:
 ## Configs
 
 
+### Configs._finish
+
+
+### Configs.beforeStart
+
+
 ### Configs.start
 
 Value:
@@ -65,35 +71,32 @@ Value:
     echo "{{ $d.Bold }}{{ $d.Yellow }}All Subrepos are valid{{ $d.Normal }}"
 
 
-### Configs._initShell
+### Configs.strictMode
 
 Value:
 
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
+    true
 
 
 ### Configs.finish
 
 
-### Configs.setup
+### Configs.includeShellUtil
+
+Value:
+
+    true
 
 
-### Configs._finish
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
 
 
 ### Configs._setup
@@ -106,6 +109,9 @@ Value:
 ### Configs._start
 
 
+### Configs.afterStart
+
+
 ### Configs.cmd
 
 Value:
@@ -113,18 +119,14 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.includeShellUtil
+### Configs.cmdArg
 
 Value:
 
-    true
+    -c
 
 
-### Configs.strictMode
-
-Value:
-
-    true
+### Configs.setup
 
 
 ## Envs

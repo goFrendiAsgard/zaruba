@@ -22,7 +22,7 @@ var addDependencyCmd = &cobra.Command{
 		}
 		taskName := args[1]
 		util := core.NewCoreUtil()
-		dependencyTaskNames, err := util.Json.List.GetStringList(args[2])
+		dependencyTaskNames, err := util.Json.ToStringList(args[2])
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

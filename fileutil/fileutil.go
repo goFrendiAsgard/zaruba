@@ -69,11 +69,11 @@ func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err err
 	if err != nil {
 		return "[]", err
 	}
-	return fileUtil.json.FromInterface(strings.Split(content, "\n")), nil
+	return fileUtil.json.FromStringList(strings.Split(content, "\n"))
 }
 
 func (fileUtil *FileUtil) WriteLines(fileName string, jsonString string, fileMode os.FileMode) (err error) {
-	lines, err := fileUtil.json.List.GetStringList(jsonString)
+	lines, err := fileUtil.json.ToStringList(jsonString)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error
 	if err != nil {
 		return "", err
 	}
-	return fileUtil.json.FromInterface(envMap), nil
+	return fileUtil.json.FromStringDict(envMap)
 }
 
 func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err error) {
@@ -138,7 +138,10 @@ func (fileUtil *FileUtil) WriteYamlNode(fileName string, node *yaml.Node, fileMo
 	for _, styler := range yamlStylers {
 		yamlLines = styler(yamlLines)
 	}
-	jsonString := fileUtil.json.FromInterface(yamlLines)
+	jsonString, err := fileUtil.json.FromStringList(yamlLines)
+	if err != nil {
+		return err
+	}
 	return fileUtil.WriteLines(fileName, jsonString, fileMode)
 }
 
@@ -155,7 +158,7 @@ func (fileUtil *FileUtil) ListDir(dirPath string) (fileNames []string, err error
 }
 
 func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
-	replacementMap, err := fileUtil.json.Map.GetStringDict(replacementMapString)
+	replacementMap, err := fileUtil.json.ToStringDict(replacementMapString)
 	if err != nil {
 		return err
 	}

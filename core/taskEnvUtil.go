@@ -63,7 +63,7 @@ func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
 }
 
 func (envUtil *TaskEnvUtil) Set(projectFile, taskName string, jsonEnvMap string) (err error) {
-	envMap, err := envUtil.task.json.Map.GetStringDict(jsonEnvMap)
+	envMap, err := envUtil.task.json.ToStringDict(jsonEnvMap)
 	if err != nil {
 		return err
 	}

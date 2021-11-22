@@ -48,19 +48,13 @@ Description:
 ## Configs
 
 
-### Configs.setup
+### Configs._finish
 
 
-### Configs.start
-
-
-### Configs._setup
+### Configs._start
 
 
 ### Configs.afterStart
-
-
-### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -77,13 +71,19 @@ Value:
     -c
 
 
-### Configs._finish
-
-
-### Configs._start
-
-
 ### Configs.finish
+
+
+### Configs._setup
+
+
+### Configs.beforeStart
+
+
+### Configs.setup
+
+
+### Configs.start
 
 
 ## Envs

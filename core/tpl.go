@@ -63,8 +63,12 @@ func (tpl *Tpl) GetProjectPath(path string) (absPath string) {
 	return tpl.getAbsPath(tpl.ProjectDirPath, path)
 }
 
-func (tpl *Tpl) GetConfig(keys ...string) (val string, err error) {
-	return tpl.task.GetConfig(keys...)
+func (tpl *Tpl) GetConfig(key string) (val string, err error) {
+	return tpl.task.GetConfig(key)
+}
+
+func (tpl *Tpl) GetConfigs() (parsedConfig map[string]string, err error) {
+	return tpl.task.GetConfigs()
 }
 
 func (tpl *Tpl) GetPorts() []int {
@@ -88,7 +92,8 @@ func (tpl *Tpl) GetPorts() []int {
 	return ports
 }
 
-func (tpl *Tpl) getSubKeys(keys []string, parentKeys []string) (subKeys []string) {
+func (tpl *Tpl) GetSubValueKeys(parentKeys ...string) (subKeys []string) {
+	keys := tpl.task.GetValueKeys()
 	seen := map[string]bool{}
 	parentKey := strings.Join(parentKeys, "::")
 	prefixLength := len(parentKey) + len("::")
@@ -109,16 +114,6 @@ func (tpl *Tpl) getSubKeys(keys []string, parentKeys []string) (subKeys []string
 		subKeys = append(subKeys, key)
 	}
 	return subKeys
-}
-
-func (tpl *Tpl) GetSubConfigKeys(parentKeys ...string) (subKeys []string) {
-	configKeys := tpl.task.GetConfigKeys()
-	return tpl.getSubKeys(configKeys, parentKeys)
-}
-
-func (tpl *Tpl) GetSubValueKeys(parentKeys ...string) (subKeys []string) {
-	valueKeys := tpl.task.GetValueKeys()
-	return tpl.getSubKeys(valueKeys, parentKeys)
 }
 
 func (tpl *Tpl) GetValue(keys ...string) (val string, err error) {

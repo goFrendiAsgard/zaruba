@@ -1,5 +1,11 @@
 package output
 
+import (
+	"strings"
+
+	"github.com/state-alchemists/zaruba/strutil"
+)
+
 // Decoration is decorator for terminal
 type Decoration struct {
 	Normal      string
@@ -177,4 +183,46 @@ func (d *Decoration) GenerateIcon() string {
 	icon := d.iconList[d.iconIndex]
 	d.iconIndex++
 	return icon
+}
+
+func (d *Decoration) ToEnvironmentVariables() string {
+	envStringList := []string{
+		strutil.StrEnvironmentVariable("_BOLD", d.Bold),
+		strutil.StrEnvironmentVariable("_FAINT", d.Faint),
+		strutil.StrEnvironmentVariable("_ITALIC", d.Italic),
+		strutil.StrEnvironmentVariable("_UNDERLINE", d.Underline),
+		strutil.StrEnvironmentVariable("_BLINK_SLOW", d.BlinkSlow),
+		strutil.StrEnvironmentVariable("_BLINK_RAPID", d.BlinkRapid),
+		strutil.StrEnvironmentVariable("_INVERSE", d.Inverse),
+		strutil.StrEnvironmentVariable("_CONCEAL", d.Conceal),
+		strutil.StrEnvironmentVariable("_CROSSED_OUT", d.CrossedOut),
+		strutil.StrEnvironmentVariable("_BLACK", d.Black),
+		strutil.StrEnvironmentVariable("_RED", d.Red),
+		strutil.StrEnvironmentVariable("_GREEN", d.Green),
+		strutil.StrEnvironmentVariable("_BLUE", d.Blue),
+		strutil.StrEnvironmentVariable("_MAGENTA", d.Magenta),
+		strutil.StrEnvironmentVariable("_CYAN", d.Cyan),
+		strutil.StrEnvironmentVariable("_WHITE", d.White),
+		strutil.StrEnvironmentVariable("_BG_BLACK", d.BgBlack),
+		strutil.StrEnvironmentVariable("_BG_RED", d.BgRed),
+		strutil.StrEnvironmentVariable("_BG_GREEN", d.BgGreen),
+		strutil.StrEnvironmentVariable("_BG_YELLOW", d.BgYellow),
+		strutil.StrEnvironmentVariable("_BG_BLUE", d.BgBlue),
+		strutil.StrEnvironmentVariable("_BG_MAGENTA", d.BgMagenta),
+		strutil.StrEnvironmentVariable("_BG_CYAN", d.BgCyan),
+		strutil.StrEnvironmentVariable("_BG_WHITE", d.BgWhite),
+		strutil.StrEnvironmentVariable("_NO_UNDERLINE", d.NoUnderline),
+		strutil.StrEnvironmentVariable("_NO_INVERSE", d.NoInverse),
+		strutil.StrEnvironmentVariable("_NO_COLOR", d.NoColor),
+		strutil.StrEnvironmentVariable("_SKULL", d.Skull),
+		strutil.StrEnvironmentVariable("_SUCCESS", d.Success),
+		strutil.StrEnvironmentVariable("_ERROR", d.Error),
+		strutil.StrEnvironmentVariable("_START", d.Start),
+		strutil.StrEnvironmentVariable("_KILL", d.Kill),
+		strutil.StrEnvironmentVariable("_INSPECT", d.Inspect),
+		strutil.StrEnvironmentVariable("_RUN", d.Run),
+		strutil.StrEnvironmentVariable("_EMPTY", d.Empty),
+		strutil.StrEnvironmentVariable("_NORMAL", d.Normal),
+	}
+	return strings.Join(envStringList, ";")
 }
