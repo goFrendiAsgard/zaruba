@@ -44,44 +44,7 @@ Description:
 ## Configs
 
 
-### Configs.beforeStart
-
-
-### Configs.cmdArg
-
-Value:
-
-    -c
-
-
-### Configs.setup
-
-
-### Configs.start
-
-
-### Configs._prepareBaseVariables
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
-
-
-### Configs._prepareVariables
-
-
-### Configs.generatedScriptLocation
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
-
-
-### Configs.runGeneratedScript
-
-Value:
-
-    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
+### Configs._finish
 
 
 ### Configs._initShell
@@ -95,43 +58,31 @@ Value:
 
 
 
-### Configs._validate
-
-
-### Configs._validateTemplateLocation
+### Configs._prepareBaseReplacementMap
 
 Value:
 
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "${_RED}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.${_NORMAL}"
-      exit 1
-    fi
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
 
 
-
-### Configs.finish
-
-
-### Configs.includeShellUtil
+### Configs._prepareBaseVariables
 
 Value:
 
-    true
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
 
 
-### Configs.strictMode
+### Configs._prepareReplacementMap
+
+
+### Configs._prepareVariables
+
+
+### Configs._setup
 
 Value:
 
-    true
-
-
-### Configs.templateLocation
-
-Value:
-
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs._start
@@ -173,21 +124,19 @@ Value:
 
 
 
-### Configs._prepareBaseReplacementMap
+### Configs._validate
+
+
+### Configs._validateTemplateLocation
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
+    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
+    then
+      echo "${_RED}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.${_NORMAL}"
+      exit 1
+    fi
 
-
-### Configs._prepareReplacementMap
-
-
-### Configs._setup
-
-Value:
-
-    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
 ### Configs.afterStart
@@ -199,11 +148,45 @@ Value:
 
 
 
+### Configs.beforeStart
+
+
 ### Configs.cmd
 
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.generatedScriptLocation
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.runGeneratedScript
+
+Value:
+
+    {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
 
 
 ### Configs.script
@@ -213,6 +196,9 @@ Value:
     {{ .GetValue "script" }}
 
 
+### Configs.setup
+
+
 ### Configs.sql
 
 Value:
@@ -220,7 +206,21 @@ Value:
     {{ .GetValue "sql" }}
 
 
-### Configs._finish
+### Configs.start
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.templateLocation
+
+Value:
+
+    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
 
 
 ## Envs

@@ -45,14 +45,7 @@ Description:
 ## Configs
 
 
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
+### Configs._finish
 
 
 ### Configs._initShell
@@ -76,35 +69,17 @@ Value:
 ### Configs._start
 
 
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
 ### Configs.cmd
 
 Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-
-
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.start
-
-Value:
-
-    rm -Rf .previous.values.yaml
-    echo "${_BOLD}${_YELLOW}Previous values removed${_NORMAL}"
-
-
-### Configs._finish
-
-
-### Configs.afterStart
-
-
-### Configs.beforeStart
 
 
 ### Configs.cmdArg
@@ -115,6 +90,31 @@ Value:
 
 
 ### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    rm -Rf .previous.values.yaml
+    echo "${_BOLD}${_YELLOW}Previous values removed${_NORMAL}"
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

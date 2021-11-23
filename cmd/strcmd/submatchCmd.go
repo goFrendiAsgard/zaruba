@@ -18,7 +18,11 @@ var submatchCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		text, pattern := args[0], args[1]
 		util := core.NewCoreUtil()
-		jsonSubmatch, err := util.Json.List.Submatch(text, pattern)
+		submatch, err := util.Str.Submatch(text, pattern)
+		if err != nil {
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
+		}
+		jsonSubmatch, err := util.Json.FromStringList(submatch)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

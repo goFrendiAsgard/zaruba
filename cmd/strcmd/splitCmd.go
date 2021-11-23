@@ -1,7 +1,6 @@
 package strcmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -23,12 +22,12 @@ var splitCmd = &cobra.Command{
 			separator = args[1]
 		}
 		util := core.NewCoreUtil()
-		result := util.Str.Split(text, separator)
-		resultB, err := json.Marshal(result)
+		list := util.Str.Split(text, separator)
+		jsonList, err := util.Json.FromStringList(list)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(string(resultB))
+		fmt.Println(jsonList)
 
 	},
 }

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
+	"github.com/state-alchemists/zaruba/dictutil"
 	jsonHelper "github.com/state-alchemists/zaruba/jsonutil/helper"
 	"github.com/state-alchemists/zaruba/strutil"
 )
@@ -35,15 +36,11 @@ func (jsonMap *JsonMap) GetValue(mapString, key string) (data interface{}, err e
 }
 
 func (jsonMap *JsonMap) GetKeys(mapString string) (keys []string, err error) {
-	keys = []string{}
 	dict, err := jsonHelper.ToDict(mapString)
 	if err != nil {
 		return nil, err
 	}
-	for key := range dict {
-		keys = append(keys, key)
-	}
-	return keys, nil
+	return dictutil.DictGetSortedKeys(dict)
 }
 
 func (jsonMap *JsonMap) Merge(mapStrings ...string) (mergedMapString string, err error) {

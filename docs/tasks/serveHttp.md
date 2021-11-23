@@ -95,6 +95,9 @@ Options:
 ## Configs
 
 
+### Configs._finish
+
+
 ### Configs._initShell
 
 Value:
@@ -106,25 +109,6 @@ Value:
 
 
 
-### Configs.afterCheck
-
-
-### Configs.beforeCheck
-
-
-### Configs.ports
-
-Value:
-
-    {{ .GetValue "serverHttpPort" }}
-
-
-### Configs.start
-
-
-### Configs._finish
-
-
 ### Configs._setup
 
 Value:
@@ -132,31 +116,19 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs.finish
+### Configs._start
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.runInLocal
-
-Value:
-
-    true
-
-
-### Configs.strictMode
-
-Value:
-
-    true
+### Configs.afterCheck
 
 
 ### Configs.afterStart
+
+
+### Configs.beforeCheck
+
+
+### Configs.beforeStart
 
 
 ### Configs.check
@@ -174,12 +146,6 @@ Value:
 
 
 
-### Configs._start
-
-
-### Configs.beforeStart
-
-
 ### Configs.cmd
 
 Value:
@@ -194,7 +160,41 @@ Value:
     -c
 
 
+### Configs.finish
+
+
+### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.ports
+
+Value:
+
+    {{ .GetValue "serverHttpPort" }}
+
+
+### Configs.runInLocal
+
+Value:
+
+    true
+
+
 ### Configs.setup
+
+
+### Configs.start
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

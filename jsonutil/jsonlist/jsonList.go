@@ -201,11 +201,3 @@ func (jsonList *JsonList) CompleteLines(jsonLines, jsonPatterns, jsonSuplements 
 	}
 	return jsonHelper.FromStringList(newLines)
 }
-
-func (jsonList *JsonList) Submatch(s, pattern string) (jsonSubmatch string, err error) {
-	submatch, err := strutil.StrSubmatch(s, pattern)
-	if err != nil {
-		return "[]", err
-	}
-	return jsonHelper.FromStringList(submatch)
-}

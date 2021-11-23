@@ -130,12 +130,7 @@ func (strUtil *StrUtil) GetIndentation(s string, level int) (result string, err 
 }
 
 func (strUtil *StrUtil) Submatch(s string, pattern string) (result []string, err error) {
-	rex, err := regexp.Compile(pattern)
-	if err != nil {
-		return result, err
-	}
-	result = rex.FindStringSubmatch(s)
-	return result, err
+	return StrSubmatch(s, pattern)
 }
 
 func (strUtil *StrUtil) Split(s string, separator string) (result []string) {

@@ -52,10 +52,7 @@ Description:
 ## Configs
 
 
-### Configs._start
-
-
-### Configs.afterStart
+### Configs._finish
 
 
 ### Configs._initShell
@@ -76,6 +73,15 @@ Value:
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
 ### Configs.cmd
 
 Value:
@@ -83,24 +89,17 @@ Value:
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.finish
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs.beforeStart
-
-
 ### Configs.cmdArg
 
 Value:
 
     -c
+
+
+### Configs.containerName
+
+
+### Configs.finish
 
 
 ### Configs.includeShellUtil
@@ -113,12 +112,6 @@ Value:
 ### Configs.setup
 
 
-### Configs._finish
-
-
-### Configs.containerName
-
-
 ### Configs.start
 
 Value:
@@ -129,6 +122,13 @@ Value:
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

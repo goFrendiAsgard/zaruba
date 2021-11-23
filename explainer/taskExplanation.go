@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dictutil"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/strutil"
 )
@@ -139,7 +140,9 @@ func (t *TaskExplanation) ToString() string {
 	}
 	if len(t.Inputs) > 0 {
 		lines = append(lines, t.h2("Inputs"))
-		for inputName, variable := range t.Inputs {
+		inputNames, _ := dictutil.DictGetSortedKeys(t.Inputs)
+		for _, inputName := range inputNames {
+			variable := t.Inputs[inputName]
 			lines = append(lines, t.h3(fmt.Sprintf("Inputs.%s", inputName)))
 			if variable.Description != "" {
 				lines = append(lines, t.prop("Description", variable.Description))
@@ -161,7 +164,9 @@ func (t *TaskExplanation) ToString() string {
 	}
 	if len(t.Configs) > 0 {
 		lines = append(lines, t.h2("Configs"))
-		for configName, configValue := range t.Configs {
+		configNames, _ := dictutil.DictGetSortedKeys(t.Configs)
+		for _, configName := range configNames {
+			configValue := t.Configs[configName]
 			lines = append(lines, t.h3(fmt.Sprintf("Configs.%s", configName)))
 			if configValue != "" {
 				lines = append(lines, t.prop("Value", configValue))
@@ -170,7 +175,9 @@ func (t *TaskExplanation) ToString() string {
 	}
 	if len(t.Envs) > 0 {
 		lines = append(lines, t.h2("Envs"))
-		for envName, env := range t.Envs {
+		envNames, _ := dictutil.DictGetSortedKeys(t.Envs)
+		for _, envName := range envNames {
+			env := t.Envs[envName]
 			lines = append(lines, t.h3(fmt.Sprintf("Envs.%s", envName)))
 			if env.From != "" {
 				lines = append(lines, t.prop("From", env.From))

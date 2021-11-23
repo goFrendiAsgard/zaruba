@@ -56,11 +56,28 @@ Description:
 ## Configs
 
 
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToEnvironmentVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+
+
+
 ### Configs._setup
 
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
 
 
 ### Configs.afterStart
@@ -83,33 +100,6 @@ Value:
     -c
 
 
-### Configs.setup
-
-
-### Configs.strictMode
-
-Value:
-
-    true
-
-
-### Configs._finish
-
-
-### Configs._initShell
-
-Value:
-
-    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
-
-
-
-### Configs._start
-
-
 ### Configs.finish
 
 
@@ -118,6 +108,9 @@ Value:
 Value:
 
     true
+
+
+### Configs.setup
 
 
 ### Configs.start
@@ -142,6 +135,13 @@ Value:
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Subrepos pushed${_NORMAL}"
 
+
+
+### Configs.strictMode
+
+Value:
+
+    true
 
 
 ## Envs

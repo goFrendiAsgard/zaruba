@@ -47,7 +47,19 @@ Description:
 ## Configs
 
 
+### Configs._finish
+
+
+### Configs._setup
+
+
+### Configs._start
+
+
 ### Configs.afterStart
+
+
+### Configs.beforeStart
 
 
 ### Configs.cmd
@@ -64,6 +76,9 @@ Value:
     -c
 
 
+### Configs.finish
+
+
 ### Configs.setup
 
 
@@ -72,21 +87,6 @@ Value:
 Value:
 
     print('hello world')
-
-
-### Configs._finish
-
-
-### Configs._setup
-
-
-### Configs._start
-
-
-### Configs.beforeStart
-
-
-### Configs.finish
 
 
 ## Envs

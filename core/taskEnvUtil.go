@@ -3,9 +3,9 @@ package core
 import (
 	"fmt"
 	"path/filepath"
-	"sort"
 	"strings"
 
+	"github.com/state-alchemists/zaruba/dictutil"
 	"github.com/state-alchemists/zaruba/pathutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	yaml "gopkg.in/yaml.v3"
@@ -152,7 +152,7 @@ func (envUtil *TaskEnvUtil) setEnvRef(envRef *EnvRef, envMap map[string]string) 
 
 func (envUtil *TaskEnvUtil) updateEnvMapNode(envMapNode *yaml.Node, envMap map[string]string, envPrefix string) {
 	envMapNode.Style = yaml.LiteralStyle
-	envKeys := envUtil.getSortedEnvMapKeys(envMap)
+	envKeys, _ := dictutil.DictGetSortedKeys(envMap)
 	for _, envKey := range envKeys {
 		envVal := envMap[envKey]
 		envKeyFound := false
@@ -194,7 +194,7 @@ func (envUtil *TaskEnvUtil) updateEnvMapNode(envMapNode *yaml.Node, envMap map[s
 
 func (envUtil *TaskEnvUtil) createEnvMapNode(envMap map[string]string, envPrefix string) *yaml.Node {
 	newEnvNodes := []*yaml.Node{}
-	envKeys := envUtil.getSortedEnvMapKeys(envMap)
+	envKeys, _ := dictutil.DictGetSortedKeys(envMap)
 	for _, envKey := range envKeys {
 		envVal := envMap[envKey]
 		newEnvNodes = append(
@@ -203,15 +203,6 @@ func (envUtil *TaskEnvUtil) createEnvMapNode(envMap map[string]string, envPrefix
 		)
 	}
 	return &yaml.Node{Kind: yaml.MappingNode, Content: newEnvNodes}
-}
-
-func (envUtil *TaskEnvUtil) getSortedEnvMapKeys(envMap map[string]string) (envKeys []string) {
-	envKeys = []string{}
-	for envKey := range envMap {
-		envKeys = append(envKeys, envKey)
-	}
-	sort.Strings(envKeys)
-	return envKeys
 }
 
 func (envUtil *TaskEnvUtil) createEnvNode(envKey, envVal, envPrefix string) []*yaml.Node {

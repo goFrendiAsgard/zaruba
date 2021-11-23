@@ -93,13 +93,6 @@ Validation:
 ### Configs._finish
 
 
-### Configs.strictMode
-
-Value:
-
-    true
-
-
 ### Configs._initShell
 
 Value:
@@ -111,28 +104,14 @@ Value:
 
 
 
-### Configs.start
-
-Value:
-
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
-    echo 🎉🎉🎉
-    echo "${_BOLD}${_YELLOW}Kwarg ${KEY} : ${VALUE} has been set${_NORMAL}"
-
-
-
-### Configs.variableValue
-
-Value:
-
-    {{ .GetValue "variableValue" }}
-
-
 ### Configs._setup
 
 Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
 
 
 ### Configs.afterStart
@@ -155,7 +134,30 @@ Value:
     -c
 
 
+### Configs.finish
+
+
 ### Configs.includeShellUtil
+
+Value:
+
+    true
+
+
+### Configs.setup
+
+
+### Configs.start
+
+Value:
+
+    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Kwarg ${KEY} : ${VALUE} has been set${_NORMAL}"
+
+
+
+### Configs.strictMode
 
 Value:
 
@@ -169,13 +171,11 @@ Value:
     {{ .GetValue "variableName" }}
 
 
-### Configs._start
+### Configs.variableValue
 
+Value:
 
-### Configs.finish
-
-
-### Configs.setup
+    {{ .GetValue "variableValue" }}
 
 
 ## Envs
