@@ -27,8 +27,8 @@ func StrEscapeShellArg(s string) (result string) {
 	return StrSingleQuote(s)
 }
 
-func StrEnvironmentVariable(key, value string) (result string) {
-	return fmt.Sprintf("%s=%s", key, StrDoubleQuote(value))
+func StrShellVariable(key, value string) (result string) {
+	return fmt.Sprintf("%s=%s", key, StrSingleQuote(value))
 }
 
 func strIndent(multiLineStr string, indentation string, skipFirstLine bool) (indentedStr string) {

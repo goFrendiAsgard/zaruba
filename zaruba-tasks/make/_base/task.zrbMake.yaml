@@ -6,6 +6,9 @@ tasks:
       - zrbShowAdv
     private: true
     configs:
+      initShellConfigVariables: true
+      initShellConfigMapVariable: true
+      initShellEnvMapVariable: true
       appBaseImageName: '{{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}'
       appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
       appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
@@ -36,7 +39,7 @@ tasks:
       appUrl: '{{ .GetValue "appUrl" }}'
       defaultAppBaseImageName: ''
       defaultAppContainerVolumes: '[]'
-      defaultAppDirectory: '{{ .Util.Str.NewName }}'
+      defaultAppDirectory: '{{ .GeneratedRandomName }}'
       defaultDeploymentDirectory: '{{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}'
       defaultAppPorts: '[]'
       templateLocations: '{{ .GetValue "templateLocations" }}'

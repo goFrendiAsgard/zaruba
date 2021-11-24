@@ -66,9 +66,12 @@ Description:
 Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
     {{ $d := .Decoration -}}
-    {{ $d.ToEnvironmentVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ end }}
+    {{ $d.ToShellVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "initShellConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "initShellConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "initShellEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
 
 
 
@@ -110,6 +113,27 @@ Value:
 Value:
 
     true
+
+
+### Configs.initShellConfigMapVariable
+
+Value:
+
+    false
+
+
+### Configs.initShellConfigVariables
+
+Value:
+
+    false
+
+
+### Configs.initShellEnvMapVariable
+
+Value:
+
+    false
 
 
 ### Configs.setup

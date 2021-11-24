@@ -10,21 +10,23 @@ import (
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/output"
+	"github.com/state-alchemists/zaruba/strutil"
 )
 
 type Tpl struct {
-	task           *Task
-	ZarubaHome     string
-	ZarubaBin      string
-	Name           string
-	ProjectName    string
-	UUID           string
-	WorkDirPath    string
-	TaskDirPath    string
-	ProjectDirPath string
-	FileLocation   string
-	Decoration     *output.Decoration
-	Util           *CoreUtil
+	task                *Task
+	ZarubaHome          string
+	ZarubaBin           string
+	Name                string
+	ProjectName         string
+	UUID                string
+	GeneratedRandomName string
+	WorkDirPath         string
+	TaskDirPath         string
+	ProjectDirPath      string
+	FileLocation        string
+	Decoration          *output.Decoration
+	Util                *CoreUtil
 }
 
 func NewTpl(task *Task) (td *Tpl) {
@@ -36,18 +38,19 @@ func NewTpl(task *Task) (td *Tpl) {
 	nextTask := *task
 	nextTask.currentRecursiveLevel++
 	return &Tpl{
-		task:           &nextTask,
-		ZarubaHome:     zarubaHome,
-		ZarubaBin:      filepath.Join(zarubaHome, "zaruba"),
-		Name:           task.GetName(),
-		ProjectName:    task.Project.GetName(),
-		UUID:           task.GetUUID(),
-		WorkDirPath:    task.GetWorkPath(),
-		TaskDirPath:    filepath.Dir(task.GetFileLocation()),
-		ProjectDirPath: filepath.Dir(task.Project.GetFileLocation()),
-		FileLocation:   task.GetFileLocation(),
-		Decoration:     task.Project.Decoration,
-		Util:           task.Project.Util,
+		task:                &nextTask,
+		ZarubaHome:          zarubaHome,
+		ZarubaBin:           filepath.Join(zarubaHome, "zaruba"),
+		Name:                task.GetName(),
+		ProjectName:         task.Project.GetName(),
+		UUID:                task.GetUUID(),
+		GeneratedRandomName: task.GetGeneratedRandomName(),
+		WorkDirPath:         task.GetWorkPath(),
+		TaskDirPath:         filepath.Dir(task.GetFileLocation()),
+		ProjectDirPath:      filepath.Dir(task.Project.GetFileLocation()),
+		FileLocation:        task.GetFileLocation(),
+		Decoration:          task.Project.Decoration,
+		Util:                task.Project.Util,
 	}
 }
 
@@ -67,8 +70,26 @@ func (tpl *Tpl) GetConfig(key string) (val string, err error) {
 	return tpl.task.GetConfig(key)
 }
 
-func (tpl *Tpl) GetConfigs() (parsedConfig map[string]string, err error) {
-	return tpl.task.GetConfigs()
+func (tpl *Tpl) GetConfigs(keyPattern string) (parsedConfig map[string]string, err error) {
+	return tpl.task.GetConfigs(keyPattern)
+}
+
+func (tpl *Tpl) GetConfigsAsShellVariables(keyPattern, variablePrefix string) (str string, err error) {
+	configMap, err := tpl.GetConfigs(keyPattern)
+	if err != nil {
+		return "", err
+	}
+	configKeys, err := tpl.Util.Dict.GetSortedKeys(configMap)
+	if err != nil {
+		return "", err
+	}
+	shellVariableList := []string{}
+	for _, rawKey := range configKeys {
+		key := fmt.Sprintf("%s_%s", variablePrefix, tpl.Util.Str.ToUpperSnake(rawKey))
+		value := configMap[rawKey]
+		shellVariableList = append(shellVariableList, strutil.StrShellVariable(key, value))
+	}
+	return strings.Join(shellVariableList, ";"), nil
 }
 
 func (tpl *Tpl) GetPorts() []int {

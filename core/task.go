@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"syscall"
@@ -42,6 +43,7 @@ type Task struct {
 	fileLocation          string            // File location where this task was declared
 	uuid                  string            // Unique identifier of current task
 	name                  string            // Current task name
+	generatedRandomName   string            // Random name
 	logPrefix             string            // Task prefix for logging
 	timeoutDuration       time.Duration
 	td                    *Tpl
@@ -60,11 +62,17 @@ func (task *Task) init() {
 	task.generateIcon()
 	task.generateLogPrefix()
 	task.generateUUID()
+	task.generateGeneratedRandomName()
 }
 
 // GetUUID get task uid
 func (task *Task) GetUUID() (uuid string) {
 	return task.uuid
+}
+
+// GetGeneratedRandomName get generated random name
+func (task *Task) GetGeneratedRandomName() (name string) {
+	return task.generatedRandomName
 }
 
 // GetName get task name
@@ -220,10 +228,17 @@ func (task *Task) GetValueKeys() (keys []string) {
 	return keys
 }
 
-// GetConfigs getting all parsed config
-func (task *Task) GetConfigs() (parsedConfig map[string]string, err error) {
+// GetConfigs getting all parsed config which key matching a pattern
+func (task *Task) GetConfigs(keyPattern string) (parsedConfig map[string]string, err error) {
 	parsedConfig = map[string]string{}
 	for _, key := range task.GetConfigKeys() {
+		match, err := regexp.MatchString(keyPattern, key)
+		if err != nil {
+			return parsedConfig, err
+		}
+		if !match {
+			continue
+		}
 		parsedConfig[key], err = task.GetConfig(key)
 		if err != nil {
 			return parsedConfig, err
@@ -430,6 +445,12 @@ func (task *Task) generateIcon() {
 func (task *Task) generateUUID() {
 	if task.uuid == "" {
 		task.uuid = task.Project.Util.Str.NewUUID()
+	}
+}
+
+func (task *Task) generateGeneratedRandomName() {
+	if task.uuid == "" {
+		task.generatedRandomName = task.Project.Util.Str.NewName()
 	}
 }
 
