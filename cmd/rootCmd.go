@@ -30,7 +30,7 @@ var rootCmd = &cobra.Command{
   / // _  |  __| | | |  _ \ / _ \
  / /| (_| | |  | |_| | |_) / ___ \
 /____\__,_|_|   \__,_|_.__/_/   \_\
-Task runner framework and CLI utilities`,
+      Task runner and CLI utilities`,
 }
 
 func init() {
