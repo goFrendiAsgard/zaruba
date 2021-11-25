@@ -18,9 +18,9 @@ tasks:
     extend: zrbRunShellScript
     location: ztplAppTaskLocation
     inputs:
-      - removeZtplAppNameNodeModules
-      - cleanZtplAppNameNpmCache
-      - rebuildZtplAppNameNpm
+      - shouldRemoveZtplAppNameNodeModules
+      - shouldCleanZtplAppNameNpmCache
+      - shouldRebuildZtplAppNameNpm
     configRefs: 
       - prepareZtplAppName
       - ztplAppName

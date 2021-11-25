@@ -28,17 +28,17 @@ configs:
       ztplAppTestCommand
 
   prepareZtplAppName:
-    installTs: false
-    compileTs: false
+    shouldInstallTs: false
+    shouldCompileTs: false
     tsVersion: ''
-    removeNodeModules: '{{ .GetValue "removeZtplAppNameNodeModules" }}'
-    cleanNpmCache: '{{ .GetValue "cleanZtplAppNameNpmCache" }}'
-    rebuildNpm: '{{ .GetValue "rebuildZtplAppNameNpm" }}'
+    shouldRemoveNodeModules: '{{ .GetValue "shouldRemoveZtplAppNameNodeModules" }}'
+    shouldCleanNpmCache: '{{ .GetValue "shouldCleanZtplAppNameNpmCache" }}'
+    shouldRebuildNpm: '{{ .GetValue "shouldRebuildZtplAppNameNpm" }}'
     start: |
-      INSTALL_TS={{ if .Util.Bool.IsTrue (.GetConfig "installTs ") }}1{{ else }}0{{ end }}
-      COMPILE_TS={{ if .Util.Bool.IsTrue (.GetConfig "compileTs") }}1{{ else }}0{{ end }}
+      SHOULD_INSTALL_TS={{ if .Util.Bool.IsTrue (.GetConfig "shouldInstallTs ") }}1{{ else }}0{{ end }}
+      SHOULD_COMPILE_TS={{ if .Util.Bool.IsTrue (.GetConfig "shouldCompileTs") }}1{{ else }}0{{ end }}
       TS_VERSION="{{ if .GetConfig "tsVersion" }}@{{ .GetConfig "tsVersion"}}{{ else}}{{ end }}"
-      REMOVE_NODE_MODULES={{ if .Util.Bool.IsTrue (.GetConfig "removeNodeModules") }}1{{ else }}0{{ end }}
-      CLEAN_NPM_CACHE={{ if .Util.Bool.IsTrue (.GetConfig "cleanNpmCache") }}1{{ else }}0{{ end }}
-      REBUILD_NPM={{ if .Util.Bool.IsTrue (.GetConfig "rebuildNpm") }}1{{ else }}0{{ end }}
+      SHOULD_REMOVE_NODE_MODULES={{ if .Util.Bool.IsTrue (.GetConfig "shouldRemoveNodeModules") }}1{{ else }}0{{ end }}
+      SHOULD_CLEAN_NPM_CACHE={{ if .Util.Bool.IsTrue (.GetConfig "shouldCleanNpmCache") }}1{{ else }}0{{ end }}
+      SHOULD_REBUILD_NPM={{ if .Util.Bool.IsTrue (.GetConfig "shouldRebuildNpm") }}1{{ else }}0{{ end }}
       . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/prepare.sh" }}"

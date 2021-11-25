@@ -77,13 +77,6 @@ Value:
       _ZRB_APP_LOWER_DIRECTORY="$("{{ .ZarubaBin }}" str toLower "${_ZRB_APP_DIRECTORY}")"
       mv "${_ZRB_APP_LOWER_DIRECTORY}" "${_ZRB_APP_DIRECTORY}"
     fi
-    {{ .GetConfig "_generateBase" }}
-
-
-### Configs._generateBase
-
-Value:
-
     _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
 
 
@@ -92,12 +85,12 @@ Value:
 Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
     {{ $d := .Decoration -}}
     {{ $d.ToShellVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "initShellConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "initShellConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "initShellEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
 
 
 
@@ -578,35 +571,35 @@ Value:
 ### Configs.finish
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.initShellConfigMapVariable
-
-Value:
-
-    true
-
-
-### Configs.initShellConfigVariables
-
-Value:
-
-    true
-
-
-### Configs.initShellEnvMapVariable
-
-Value:
-
-    true
-
-
 ### Configs.setup
+
+
+### Configs.shouldInitConfigMapVariable
+
+Value:
+
+    true
+
+
+### Configs.shouldInitConfigVariables
+
+Value:
+
+    true
+
+
+### Configs.shouldInitEnvMapVariable
+
+Value:
+
+    true
+
+
+### Configs.shouldInitUtil
+
+Value:
+
+    true
 
 
 ### Configs.start

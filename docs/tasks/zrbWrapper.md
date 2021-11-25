@@ -48,12 +48,12 @@ Type:
 Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "includeShellUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
     {{ $d := .Decoration -}}
     {{ $d.ToShellVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "initShellConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "initShellConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "initShellEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
 
 
 
@@ -90,34 +90,6 @@ Value:
 ### Configs.finish
 
 
-### Configs.includeShellUtil
-
-Value:
-
-    true
-
-
-### Configs.initShellConfigMapVariable
-
-Value:
-
-    false
-
-
-### Configs.initShellConfigVariables
-
-Value:
-
-    false
-
-
-### Configs.initShellEnvMapVariable
-
-Value:
-
-    false
-
-
 ### Configs.playBell
 
 Value:
@@ -126,6 +98,34 @@ Value:
 
 
 ### Configs.setup
+
+
+### Configs.shouldInitConfigMapVariable
+
+Value:
+
+    false
+
+
+### Configs.shouldInitConfigVariables
+
+Value:
+
+    false
+
+
+### Configs.shouldInitEnvMapVariable
+
+Value:
+
+    false
+
+
+### Configs.shouldInitUtil
+
+Value:
+
+    true
 
 
 ### Configs.start

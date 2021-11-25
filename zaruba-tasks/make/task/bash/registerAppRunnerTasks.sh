@@ -1,7 +1,7 @@
 _PROJECT_FILE_NAME="${1}"
 _APP_NAME="${2}"
 
-_PASCAL_APP_NAME="$("${ZARUBA_HOME}/zaruba" str toPascal "${_APP_NAME}")" 
+_PASCAL_APP_NAME="$("${ZARUBA_BIN}" str toPascal "${_APP_NAME}")" 
 
 # prepare
 _registerTask "${_PROJECT_FILE_NAME}" "prepare" "prepare${_PASCAL_APP_NAME}"

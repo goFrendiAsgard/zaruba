@@ -6,9 +6,9 @@ tasks:
       - zrbShowAdv
     private: true
     configs:
-      initShellConfigVariables: true
-      initShellConfigMapVariable: true
-      initShellEnvMapVariable: true
+      shouldInitConfigVariables: true
+      shouldInitConfigMapVariable: true
+      shouldInitEnvMapVariable: true
       appBaseImageName: '{{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}'
       appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
       appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
@@ -101,8 +101,7 @@ tasks:
           echo "${_RED}Invalid _ZRB_APP_CRUD_FIELDS: ${_ZRB_APP_CRUD_FIELDS}${_NORMAL}"
           exit 1
         fi
-      _generate: '{{ .GetConfig "_generateBase" }}'
-      _generateBase: _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+      _generate: _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
       _start: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
         _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'

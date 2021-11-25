@@ -1,8 +1,8 @@
-if [ "${REMOVE_NODE_MODULES}" = 1 ]
+if [ "${SHOULD_REMOVE_NODE_MODULES}" = 1 ]
 then
     npm -Rf node_modules
 fi
-if [ "${CLEAN_NPM_CACHE}" = 1 ]
+if [ "${SHOULD_CLEAN_NPM_CACHE}" = 1 ]
 then
     npm cache clean --force
 fi
@@ -10,11 +10,11 @@ if [ ! -d "node_modules" ]
 then
     npm install
 fi
-if [ "${REBUILD_NPM}" = 1 ]
+if [ "${SHOULD_REBUILD_NPM}" = 1 ]
 then
     npm rebuild
 fi
-if [ "${INSTALL_TS}" = 1 ]
+if [ "${SHOULD_INSTALL_TS}" = 1 ]
 then
     if [ -f "./node_modules/.bin/tsc" ] || [ "$(isCommandExist tsc)" = 1 ]
     then
@@ -23,7 +23,7 @@ then
         npm install -g typescript${TS_VERSION}
     fi
 fi
-if [ "${COMPILE_TS}" = 1 ]
+if [ "${SHOULD_COMPILE_TS}" = 1 ]
 then
     if [ -f "./node_modules/.bin/tsc" ]
     then
