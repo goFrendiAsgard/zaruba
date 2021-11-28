@@ -4,7 +4,7 @@ tasks:
     extend: zrbMakeTask
     private: true
     configs:
-      _skipCreationPath: 'zaruba-tasks/${_ZRB_APP_NAME}'
+      skipCreationPath: 'zaruba-tasks/${_ZRB_APP_NAME}'
       _taskIndexPath: './zaruba-tasks/${_ZRB_APP_NAME}/index.yaml'
       _integrate: |
         {{ .GetConfig "_registerIndex" }}

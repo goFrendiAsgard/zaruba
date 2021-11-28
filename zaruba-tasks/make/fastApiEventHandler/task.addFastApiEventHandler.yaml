@@ -10,7 +10,7 @@ tasks:
       - appModuleName
       - appEventName
     configs:
-      _skipCreationPath: ''
+      skipCreationPath: ''
       _prepareVariables: ''
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiEventHandler/bash/addEventHandler.sh"

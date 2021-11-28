@@ -4,7 +4,7 @@ tasks:
     icon: 🚢
     extend: makeApp
     configs:
-      _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
+      skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
       templateLocations: |
         [
           "{{ .ZarubaHome }}/zaruba-tasks/make/appDeployment/deploymentTemplate"

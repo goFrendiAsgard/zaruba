@@ -8,7 +8,7 @@ tasks:
       - eksClusterName
     configRef: makeEks
     configs:
-      _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
+      skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
       _prepareVariables: |
         _ZRB_EKS_REGION='{{ .GetConfig "eksRegion" }}'
         _ZRB_EKS_CLUSTER_NAME={{ .Util.Str.ToKebab (.GetConfig "eksClusterName") }}

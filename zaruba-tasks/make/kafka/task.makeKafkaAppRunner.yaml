@@ -30,4 +30,4 @@ tasks:
         _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
         . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
       _prepareReplacementMap: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/setReplacementMap.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareReplacementMap.sh"

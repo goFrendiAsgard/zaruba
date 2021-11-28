@@ -37,4 +37,4 @@ tasks:
         _ZRB_APP_WEB_PORTS='{{ .GetConfig "appWebPorts" }}'
         . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareVariables.sh"
       _prepareReplacementMap: |
-        . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/setReplacementMap.sh"
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareReplacementMap.sh"
