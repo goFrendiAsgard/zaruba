@@ -23,10 +23,6 @@ func StrSingleQuote(s string) (result string) {
 	return StrQuote(s, '\'')
 }
 
-func StrEscapeShellArg(s string) (result string) {
-	return StrSingleQuote(s)
-}
-
 func StrShellVariable(key, value string) (result string) {
 	return fmt.Sprintf("%s=%s", key, StrSingleQuote(value))
 }

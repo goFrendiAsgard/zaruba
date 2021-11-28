@@ -187,6 +187,7 @@ func (d *Decoration) GenerateIcon() string {
 
 func (d *Decoration) ToShellVariables() string {
 	shellVariableList := []string{
+		strutil.StrShellVariable("_NORMAL", d.Normal),
 		strutil.StrShellVariable("_BOLD", d.Bold),
 		strutil.StrShellVariable("_FAINT", d.Faint),
 		strutil.StrShellVariable("_ITALIC", d.Italic),
@@ -199,6 +200,7 @@ func (d *Decoration) ToShellVariables() string {
 		strutil.StrShellVariable("_BLACK", d.Black),
 		strutil.StrShellVariable("_RED", d.Red),
 		strutil.StrShellVariable("_GREEN", d.Green),
+		strutil.StrShellVariable("_YELLOW", d.Yellow),
 		strutil.StrShellVariable("_BLUE", d.Blue),
 		strutil.StrShellVariable("_MAGENTA", d.Magenta),
 		strutil.StrShellVariable("_CYAN", d.Cyan),
@@ -222,7 +224,6 @@ func (d *Decoration) ToShellVariables() string {
 		strutil.StrShellVariable("_INSPECT", d.Inspect),
 		strutil.StrShellVariable("_RUN", d.Run),
 		strutil.StrShellVariable("_EMPTY", d.Empty),
-		strutil.StrShellVariable("_NORMAL", d.Normal),
 	}
 	return strings.Join(shellVariableList, ";")
 }

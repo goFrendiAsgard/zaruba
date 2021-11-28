@@ -10,7 +10,6 @@ var Cmd = &cobra.Command{
 func Init() {
 	Cmd.AddCommand(addPrefixCmd)
 	Cmd.AddCommand(doubleQuote)
-	Cmd.AddCommand(escapeShellArg)
 	Cmd.AddCommand(fullIndentCmd)
 	Cmd.AddCommand(getIndentationCmd)
 	Cmd.AddCommand(indentCmd)

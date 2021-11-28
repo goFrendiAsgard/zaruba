@@ -94,15 +94,6 @@ func TestToKebabCase(t *testing.T) {
 	}
 }
 
-func TestEscapeShellArg(t *testing.T) {
-	strutil := NewStrUtil()
-	expected := "'a friend\\'s home'"
-	actual := strutil.EscapeShellArg("a friend's home")
-	if actual != expected {
-		t.Errorf("expected: %s, actual: %s", expected, actual)
-	}
-}
-
 func TestIndent(t *testing.T) {
 	strutil := NewStrUtil()
 	expected := "def add(a, b):\n    return a + b"
