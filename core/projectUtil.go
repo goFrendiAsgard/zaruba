@@ -14,22 +14,29 @@ import (
 )
 
 type ProjectUtil struct {
-	file *fileutil.FileUtil
-	Task *TaskUtil
+	file               *fileutil.FileUtil
+	Task               *TaskUtil
+	locationProjectMap map[string]*Project
 }
 
 func NewProjectUtil(fileUtil *fileutil.FileUtil, jsonUtil *jsonutil.JsonUtil) *ProjectUtil {
 	taskUtil := NewTaskUtil(fileUtil, jsonUtil)
 	projectUtil := &ProjectUtil{
-		file: fileUtil,
-		Task: taskUtil,
+		file:               fileUtil,
+		Task:               taskUtil,
+		locationProjectMap: map[string]*Project{},
 	}
 	projectUtil.Task.project = projectUtil
 	return projectUtil
 }
 
 func (projectUtil *ProjectUtil) getProject(projectFile string) (project *Project, err error) {
+	project, exist := projectUtil.locationProjectMap[projectFile]
+	if exist {
+		return project, nil
+	}
 	project, err = NewDefaultProject(projectFile)
+	projectUtil.locationProjectMap[projectFile] = project
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +190,8 @@ func (projectUtil *ProjectUtil) SyncTasksEnv(projectFile string) (err error) {
 	}
 	for _, task := range project.Tasks {
 		taskName := task.GetName()
-		if err := projectUtil.Task.Env.Sync(projectFile, taskName); err != nil {
+		err := projectUtil.Task.Env.Sync(projectFile, taskName)
+		if err != nil {
 			return err
 		}
 	}

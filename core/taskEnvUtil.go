@@ -34,11 +34,11 @@ func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
 	if !strings.HasPrefix(taskFileLocation, projectDir) {
 		return nil
 	}
-	taskLocation := task.GetSyncEnvLocation()
-	if taskLocation == "" || taskLocation == projectDir {
+	syncEnvLocation := task.GetSyncEnvLocation()
+	if syncEnvLocation == "" || syncEnvLocation == projectDir {
 		return nil
 	}
-	locationEnvMap, err := pathutil.PathGetEnvByLocation(taskLocation)
+	locationEnvMap, err := pathutil.PathGetEnvByLocation(syncEnvLocation)
 	if err != nil {
 		return err
 	}
