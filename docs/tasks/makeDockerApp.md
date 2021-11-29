@@ -116,6 +116,13 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
 
 
+### Configs._prepareBaseMigrateCommand
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareMigrateCommand.sh"
+
+
 ### Configs._prepareBasePrepareCommand
 
 Value:
@@ -200,6 +207,7 @@ Value:
     _ZRB_APP_START_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartCommand") "\n " }}'
     _ZRB_APP_START_CONTAINER_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartContainerCommand") "\n " }}'
     _ZRB_APP_TEST_COMMAND='{{ .Util.Str.Trim (.GetConfig "appTestCommand") "\n " }}'
+    _ZRB_APP_MIGRATE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appMigrateCommand") "\n " }}'
     _ZRB_APP_CRUD_ENTITY='{{ .GetConfig "appCrudEntity" }}'
     _ZRB_APP_CRUD_FIELDS='{{ .GetConfig "appCrudFields" }}'
     _ZRB_APP_EVENT_NAME='{{ .GetConfig "appEventName" }}'
@@ -214,6 +222,7 @@ Value:
     {{ .GetConfig "_prepareBaseStartCommand" }}
     {{ .GetConfig "_prepareBasePrepareCommand" }}
     {{ .GetConfig "_prepareBaseTestCommand" }}
+    {{ .GetConfig "_prepareBaseMigrateCommand" }}
     {{ .GetConfig "_prepareBaseCheckCommand" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
@@ -387,6 +396,13 @@ Value:
 Value:
 
     {{ .GetValue "appImageName" }}
+
+
+### Configs.appMigrateCommand
+
+Value:
+
+    {{ .GetValue "appMigrateCommand" }}
 
 
 ### Configs.appModuleName

@@ -11,6 +11,8 @@ tasks:
       - appContainerName
       - appEnvs
       - appPorts
+      - appStartCommand
+      - appCheckCommand
     configs:
       templateLocations: |
         [

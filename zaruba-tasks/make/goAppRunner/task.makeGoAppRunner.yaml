@@ -9,6 +9,10 @@ tasks:
       - appName
       - appEnvs
       - appPorts
+      - appStartCommand
+      - appTestCommand
+      - appMigrateCommand
+      - appCheckCommand
       - appImageName
       - appContainerName
     configRefs:
