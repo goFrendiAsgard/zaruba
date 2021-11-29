@@ -27,6 +27,10 @@ configs:
     start: |
       ztplAppTestCommand
 
+  migrateZtplAppName:
+    start: |
+      ztplAppMigrateCommand
+
   prepareZtplAppName:
     shouldInstallTs: false
     shouldCompileTs: false

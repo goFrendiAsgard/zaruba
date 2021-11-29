@@ -28,3 +28,7 @@ configs:
   testZtplAppName:
     start: |
       . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/test.sh" }}"
+
+  migrateZtplAppName:
+    start: |
+      ztplAppMigrateCommand

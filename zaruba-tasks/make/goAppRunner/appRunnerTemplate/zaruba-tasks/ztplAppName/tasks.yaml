@@ -19,3 +19,12 @@ tasks:
       - testZtplAppName
       - ztplAppName
     envRef: ztplAppName
+
+  migrateZtplAppName:
+    icon: 🦆
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    configRefs:
+      - migrateZtplAppName
+      - ztplAppName
+    envRef: ztplAppName

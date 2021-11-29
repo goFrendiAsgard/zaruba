@@ -3,7 +3,6 @@ _DEPLOYMENT_NAME="${2}"
 
 _PASCAL_DEPLOYMENT_NAME="$("${ZARUBA_BIN}" str toPascal "${_DEPLOYMENT_NAME}")" 
 
-# deploy
+_registerTask "${_PROJECT_FILE_NAME}" "prepareDeployments" "prepare${_PASCAL_DEPLOYMENT_NAME}Deployment"
 _registerTask "${_PROJECT_FILE_NAME}" "deploy" "deploy${_PASCAL_DEPLOYMENT_NAME}"
-# destroy
 _registerTask "${_PROJECT_FILE_NAME}" "destroy" "destroy${_PASCAL_DEPLOYMENT_NAME}"

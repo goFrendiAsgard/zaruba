@@ -28,3 +28,7 @@ configs:
   testZtplAppName:
     start: |
       ztplAppTestCommand
+
+  migrateZtplAppName:
+    start: |
+      ztplAppMigrateCommand

@@ -43,6 +43,7 @@ _setReplacementMap "ztplAppRunnerVersion" "${_ZRB_APP_RUNNER_VERSION}"
 _setReplacementMap "[\t ]*ztplAppStartCommand" "${_ZRB_APP_START_COMMAND}"
 _setReplacementMap "[\t ]*ztplAppStartContainerCommand" "${_ZRB_APP_START_CONTAINER_COMMAND}"
 _setReplacementMap "[\t ]*ztplAppTestCommand" "${_ZRB_APP_TEST_COMMAND}"
+_setReplacementMap "[\t ]*ztplAppMigrateCommand" "${_ZRB_APP_MIGRATE_COMMAND}"
 
 _setReplacementMap "ztplAppCrudEntity" "${_ZRB_APP_CRUD_ENTITY}"
 _setReplacementMap "ZtplAppCrudEntity" "${_ZRB_PASCAL_APP_CRUD_ENTITY}"

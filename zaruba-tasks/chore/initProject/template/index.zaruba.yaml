@@ -6,6 +6,11 @@ tasks:
     extend: zrbWrapper
     dependencies: []
 
+  migrate:
+    icon: 🦆
+    extend: zrbWrapper
+    dependencies: []
+
   test:
     icon: ✅
     extend: zrbWrapper
@@ -16,7 +21,17 @@ tasks:
     extend: zrbWrapper
     dependencies: []
 
+  run:
+    icon: 🏁
+    extend: zrbWrapper
+    dependencies: []
+
   startContainers:
+    icon: 🐳
+    extend: zrbWrapper
+    dependencies: []
+
+  runContainers:
     icon: 🐳
     extend: zrbWrapper
     dependencies: []
@@ -45,6 +60,11 @@ tasks:
     icon: 🏭
     extend: zrbWrapper
     dependencies: [] 
+
+  prepareDeployments:
+    icon: 🔧
+    extend: zrbWrapper
+    dependencies: []
 
   deploy:
     icon: 🏭

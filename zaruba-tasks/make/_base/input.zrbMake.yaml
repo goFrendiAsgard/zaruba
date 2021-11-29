@@ -124,6 +124,10 @@ inputs:
     description: Command to test app
     default: ''
 
+  appMigrateCommand:
+    description: Command to do migration
+    default: ''
+
   appUrl:
     description: |
       URL to be handled (Required)
