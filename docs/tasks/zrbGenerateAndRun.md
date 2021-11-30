@@ -101,7 +101,6 @@ Value:
     _ZRB_SQL='{{ .GetConfig "sql" }}'
     _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
     _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
-    _ZRB_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
     __ZRB_PWD=$(pwd)
     echo "${_YELLOW}🧰 Prepare${_NORMAL}"
     {{ .GetConfig "_prepareBaseVariables" }}
@@ -134,12 +133,7 @@ Value:
 
 Value:
 
-    if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-    then
-      echo "${_RED}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.${_NORMAL}"
-      exit 1
-    fi
-
+    . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/validateTemplateLocation.sh"
 
 
 ### Configs.afterStart
@@ -199,21 +193,21 @@ Value:
 
 Value:
 
-    false
+    true
 
 
 ### Configs.shouldInitConfigVariables
 
 Value:
 
-    false
+    true
 
 
 ### Configs.shouldInitEnvMapVariable
 
 Value:
 
-    false
+    true
 
 
 ### Configs.shouldInitUtil

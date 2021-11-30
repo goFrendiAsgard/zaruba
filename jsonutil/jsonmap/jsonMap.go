@@ -83,14 +83,18 @@ func (jsonMap *JsonMap) Set(mapString string, args ...string) (newMapString stri
 	return string(newMapBytes), nil
 }
 
-func (jsonMap *JsonMap) TransformKeys(mapString string, prefix string, suffix string) (newMapString string, err error) {
+func (jsonMap *JsonMap) TransformKeys(mapString string, prefix string, suffix string, transformers ...func(string) string) (newMapString string, err error) {
 	dict, err := jsonHelper.ToDict(mapString)
 	if err != nil {
 		return mapString, err
 	}
 	newDict := jsonHelper.Dict{}
 	for key, val := range dict {
-		newKey := fmt.Sprintf("%s%s%s", prefix, key, suffix)
+		newKey := key
+		for _, transformer := range transformers {
+			newKey = transformer(newKey)
+		}
+		newKey = fmt.Sprintf("%s%s%s", prefix, newKey, suffix)
 		newDict[newKey] = val
 	}
 	newMapBytes, err := json.Marshal(newDict)

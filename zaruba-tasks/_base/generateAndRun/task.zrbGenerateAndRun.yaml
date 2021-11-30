@@ -5,6 +5,9 @@ tasks:
     private: true
     extend: zrbRunShellScript
     configs:
+      shouldInitConfigVariables: true
+      shouldInitConfigMapVariable: true
+      shouldInitEnvMapVariable: true
       templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template'
       script: '{{ .GetValue "script" }}'
       sql: '{{ .GetValue "sql" }}'
@@ -14,12 +17,7 @@ tasks:
       _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"'
       _prepareVariables: ''
       _prepareReplacementMap: ''
-      _validateTemplateLocation: |
-        if [ ! -x "${_ZRB_TEMPLATE_LOCATION}" ]
-        then
-          echo "${_RED}Template Location doesn't exist: ${_ZRB_TEMPLATE_LOCATION}.${_NORMAL}"
-          exit 1
-        fi
+      _validateTemplateLocation: '. "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/validateTemplateLocation.sh"'
       _validate: ''
       _start: |
         . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
@@ -31,7 +29,6 @@ tasks:
         _ZRB_SQL='{{ .GetConfig "sql" }}'
         _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
         _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
-        _ZRB_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
         __ZRB_PWD=$(pwd)
         echo "${_YELLOW}🧰 Prepare${_NORMAL}"
         {{ .GetConfig "_prepareBaseVariables" }}
