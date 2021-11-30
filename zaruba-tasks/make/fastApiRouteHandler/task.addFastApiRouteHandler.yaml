@@ -11,7 +11,7 @@ tasks:
       - appUrl
       - appHttpMethod
     configs:
-      skipCreationPath: ''
+      _skipCreationPath: ''
       _prepareVariables: ''
       _integrate: |
         . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"

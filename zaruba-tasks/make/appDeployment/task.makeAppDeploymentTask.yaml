@@ -10,7 +10,7 @@ tasks:
       - deploymentDirectory
       - deploymentName
     configs:
-      skipCreationPath: 'zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}'
+      _skipCreationPath: 'zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}'
       _taskIndexPath: './zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml'
       _integrate: |
         {{ .GetConfig "_registerIndex" }}

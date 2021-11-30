@@ -1,5 +1,7 @@
 _setReplacementMap() {
-    _ZRB_REPLACEMENT_MAP="$("${ZARUBA_BIN}" map set "${_ZRB_REPLACEMENT_MAP}" $@)"
+    __ZRB_KEY="${1}"
+    __ZRB_VAL="${2}"
+    _ZRB_REPLACEMENT_MAP="$("${ZARUBA_BIN}" map set "${_ZRB_REPLACEMENT_MAP}" "${1}" "${2}")"
 }
 
 _addConfigToReplacementMap() {
@@ -51,4 +53,16 @@ _getYamlEnvs() {
     done
     __ZRB_YAML_ENVS="$("${ZARUBA_BIN}" yaml print "${__ZRB_MAP_ENVS}")"
     echo "${__ZRB_YAML_ENVS}"
+}
+
+_skipIfExist() {
+    __ZRB_PATH="${1}"
+    if [ ! -z "${__ZRB_PATH}" ]
+    then
+        if [ -x "${__ZRB_PATH}" ]
+        then
+            echo "${_YELLOW}[SKIP] ${__ZRB_PATH} already exist.${_NORMAL}"
+            exit 0
+        fi
+    fi
 }

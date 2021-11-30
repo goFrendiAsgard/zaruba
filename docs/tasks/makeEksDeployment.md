@@ -191,7 +191,14 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/skipCreation.sh"
+    _skipIfExist "{{ .GetConfig "_skipCreationPath" }}"
+
+
+### Configs._skipCreationPath
+
+Value:
+
+    ${_ZRB_DEPLOYMENT_DIRECTORY}
 
 
 ### Configs._start
@@ -606,13 +613,6 @@ Value:
 Value:
 
     true
-
-
-### Configs.skipCreationPath
-
-Value:
-
-    ${_ZRB_DEPLOYMENT_DIRECTORY}
 
 
 ### Configs.start

@@ -11,7 +11,7 @@ tasks:
       - appCrudEntity
       - appCrudFields
     configs:
-      skipCreationPath: ''
+      _skipCreationPath: ''
       _prepareVariables: |
         {{ .GetConfig "_prepareBaseStartCommand" }}
         {{ .GetConfig "_prepareBasePrepareCommand" }}

@@ -6,7 +6,7 @@ tasks:
     inputs:
       - appDirectory
     configs:
-      skipCreationPath: '${_ZRB_APP_DIRECTORY}'
+      _skipCreationPath: '${_ZRB_APP_DIRECTORY}'
       _integrate: |
         if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
         then
