@@ -7,7 +7,7 @@ import (
 
 func getProject(projectFile string) (project *core.Project, err error) {
 	decoration := output.NewDefaultDecoration()
-	return core.NewCustomProject(decoration, projectFile, []string{})
+	return core.NewCustomProject(projectFile, decoration, []string{})
 }
 
 func getProjectAndInit(projectFile string) (project *core.Project, err error) {

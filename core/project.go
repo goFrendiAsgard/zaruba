@@ -51,11 +51,11 @@ func NewProject(projectFile string, decoration *output.Decoration) (p *Project, 
 		}
 		defaultIncludes = append(defaultIncludes, script)
 	}
-	return NewCustomProject(decoration, projectFile, defaultIncludes)
+	return NewCustomProject(projectFile, decoration, defaultIncludes)
 }
 
 // NewCustomProject create new Config from Yaml File
-func NewCustomProject(decoration *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+func NewCustomProject(projectFile string, decoration *output.Decoration, defaultIncludes []string) (p *Project, err error) {
 	if os.Getenv("ZARUBA_HOME") == "" {
 		executable, _ := os.Executable()
 		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))

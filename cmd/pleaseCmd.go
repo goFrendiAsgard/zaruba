@@ -181,7 +181,7 @@ func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *out
 }
 
 func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string) (project *core.Project, taskNames []string) {
-	project, err := cmdHelper.GetProject(decoration, pleaseFile)
+	project, err := core.NewProject(pleaseFile, decoration)
 	if err != nil {
 		cmdHelper.Exit(cmd, args, logger, decoration, err)
 	}

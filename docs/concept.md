@@ -37,12 +37,12 @@ includes:
 
 ## 🌍 Global Include
 
-If you want your scripts to be available from every project in your computer, you can add them into `ZARUBA_SCRIPT` environment. Please make sure that your script paths are absolute.
+If you want your scripts to be available from every project in your computer, you can add them into `ZARUBA_SCRIPTS` environment. Please make sure that your script paths are absolute.
 
 For example you want `${HOME}/common-task.zaruba.yaml` and `${HOME}/make-coffee.zaruba.yaml`. In that case, you can put this in your `.profile`, `.bashrc`, or `.zshrc`:
 
 ```sh
-export ZARUBA_SCRIPT=${HOME}/common-task.zaruba.yaml:${HOME}/make-coffee.zaruba.yaml
+export ZARUBA_SCRIPTS=${HOME}/common-task.zaruba.yaml:${HOME}/make-coffee.zaruba.yaml
 ```
 
 This trick is going to be useful if you have common stateless tools like scaffolding or cofee-maker-automation that should be accessible from anywhere. Otherwise, local include (i.e: using `includes` key in your main project) is preferable.
