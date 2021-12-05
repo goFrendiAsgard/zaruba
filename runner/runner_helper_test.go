@@ -1,16 +1,16 @@
 package runner
 
 import (
-	"github.com/state-alchemists/zaruba/config"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-func getProject(projectFile string) (project *config.Project, err error) {
-	decoration := output.NewDecoration()
-	return config.NewProject(decoration, projectFile, []string{})
+func getProject(projectFile string) (project *core.Project, err error) {
+	decoration := output.NewDefaultDecoration()
+	return core.NewCustomProject(projectFile, decoration, []string{})
 }
 
-func getProjectAndInit(projectFile string) (project *config.Project, err error) {
+func getProjectAndInit(projectFile string) (project *core.Project, err error) {
 	project, err = getProject(projectFile)
 	if err != nil {
 		return project, err
@@ -19,7 +19,7 @@ func getProjectAndInit(projectFile string) (project *config.Project, err error) 
 	return project, err
 }
 
-func getRunner(project *config.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, logger *output.MockLogger, recordLogger *output.MockRecordLogger, err error) {
+func getRunner(project *core.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, logger *output.MockLogger, recordLogger *output.MockRecordLogger, err error) {
 	logger = output.NewMockLogger()
 	recordLogger = output.NewMockRecordLogger()
 	runner, err = NewRunner(logger, recordLogger, project, taskNames, statusIntervalStr, autoTerminate, autoTerminateDelayStr)

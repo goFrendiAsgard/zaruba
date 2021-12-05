@@ -1,0 +1,19 @@
+tasks:
+ 
+  addFastApiModule:
+    icon: ⚡
+    extend: makeApp
+    dependencies:
+      - addFastApi
+    inputs:
+      - appDirectory
+      - appModuleName
+    configs:
+      _skipCreationPath: '${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}'
+      _integrate: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/registerModule.sh"
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/template"
+        ]

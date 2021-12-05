@@ -1,0 +1,17 @@
+tasks:
+
+  startZtplAppName:
+    icon: ztplAppIcon
+    dependencies:
+      - startZtplAppNameContainer
+
+  queryZtplAppName:
+    icon: 📜
+    extend: zrbRunInDockerContainer
+    location: ztplAppTaskLocation
+    configRef: ztplAppNameContainer
+    envRef: ztplAppName
+    inputs:
+      - sql
+    configs:
+      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/queryTemplate" }}'

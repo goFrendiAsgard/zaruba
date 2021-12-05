@@ -1,7 +1,0 @@
-inputs:
-
-  startCommand:
-    description: Command to start the service (Required)
-    prompt: Start command
-    validation: ^.+$
-

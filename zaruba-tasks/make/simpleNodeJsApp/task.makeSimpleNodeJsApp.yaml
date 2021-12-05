@@ -1,0 +1,15 @@
+tasks:
+ 
+  makeSimpleNodeJsApp:
+    icon: 🐸
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRefs:
+      - addSimpleNodeJsAppRunner
+      - addNodeJsAppRunner
+    configs:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/simpleNodeJsApp/appTemplate"
+        ]

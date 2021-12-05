@@ -1,0 +1,21 @@
+tasks:
+
+  zrbStopDockerContainer:
+    icon: 🐳
+    private: true
+    description: |
+      Stop docker container.
+      Common configs:
+        containerName : Container's name
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    configs:
+      containerName: ""
+      start: |
+        CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
+        echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
+        stopContainer "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
+ 

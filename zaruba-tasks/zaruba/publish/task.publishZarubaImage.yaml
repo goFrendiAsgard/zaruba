@@ -1,0 +1,11 @@
+tasks:
+
+  publishZarubaImage:
+    icon: 🐳
+    extend: zrbPushDockerImage
+    dependencies:
+      - buildZarubaImage
+    configRefs:
+      - commonDocker
+      - zarubaDocker
+    timeout: 1h

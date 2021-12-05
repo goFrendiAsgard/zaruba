@@ -1,0 +1,19 @@
+tasks:
+
+  makeEksDeploymentTask:
+    icon: 📙
+    extend:  zrbMakeTask
+    inputs:
+      - deploymentDirectory
+    dependencies:
+      - makeEksDeployment
+    configRef: makeEks
+    configs:
+      _skipCreationPath: 'zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}'
+      _taskIndexPath: './zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml'
+      _integrate: |
+        {{ .GetConfig "_registerIndex" }}
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/eks/deploymentTaskTemplate"
+        ]

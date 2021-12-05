@@ -1,7 +1,7 @@
 tasks:
 
   combine:
-    config:
+    configs:
       flask1: empty
       flast2: empty
     start: [echo, 'making {{ .GetConfig "flask1" }}{{ .GetConfig "flask2" }}']
@@ -9,14 +9,14 @@ tasks:
   
   makeNaOH:
     extend: combine
-    config:
+    configs:
       flask1: Na
       flask2: OH
   
 
   makeHCl:
     extend: combine
-    config:
+    configs:
       flask1: H
       flask2: Cl
   
@@ -26,7 +26,7 @@ tasks:
       - makeNaOH
       - makeHCl
     extend: combine
-    config:
+    configs:
       flask1: Na
       flask2: Cl
 
@@ -36,7 +36,7 @@ tasks:
       - makeNaOH
       - makeHCl
     extend: combine
-    config:
+    configs:
       flask1: H2
       flask2: O
   

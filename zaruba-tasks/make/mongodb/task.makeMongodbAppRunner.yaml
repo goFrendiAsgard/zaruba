@@ -1,0 +1,22 @@
+tasks:
+
+  makeMongodbAppRunner:
+    icon: 🍃
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeMongodbApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configs:
+      appIcon: 🍃
+      defaultAppDirectory: '{{ .ProjectName }}Mongodb'
+      defaultAppPorts: |
+        [
+          "27017"
+        ]

@@ -1,0 +1,48 @@
+configs:
+
+  ztplAppName:
+    nodeVersion: node
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+    beforeStart: |
+      NODE_VERSION='{{ .GetConfig "nodeVersion" }}'
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/useNvm.sh" }}"
+
+  ztplAppNameContainer:
+    useImagePrefix: true
+    imageName: ztpl-app-image-name
+    containerName: ztplAppContainerName
+    localhost: host.docker.internal
+    volumes: |
+      ztplAppYamlContainerVolumes
+
+  startZtplAppName:
+    start: |
+      ztplAppStartCommand
+    check: |
+      ztplAppCheckCommand
+
+  testZtplAppName:
+    start: |
+      ztplAppTestCommand
+
+  migrateZtplAppName:
+    start: |
+      ztplAppMigrateCommand
+
+  prepareZtplAppName:
+    shouldInstallTs: false
+    shouldCompileTs: false
+    tsVersion: ''
+    shouldRemoveNodeModules: '{{ .GetValue "shouldRemoveZtplAppNameNodeModules" }}'
+    shouldCleanNpmCache: '{{ .GetValue "shouldCleanZtplAppNameNpmCache" }}'
+    shouldRebuildNpm: '{{ .GetValue "shouldRebuildZtplAppNameNpm" }}'
+    start: |
+      SHOULD_INSTALL_TS={{ if .Util.Bool.IsTrue (.GetConfig "shouldInstallTs ") }}1{{ else }}0{{ end }}
+      SHOULD_COMPILE_TS={{ if .Util.Bool.IsTrue (.GetConfig "shouldCompileTs") }}1{{ else }}0{{ end }}
+      TS_VERSION="{{ if .GetConfig "tsVersion" }}@{{ .GetConfig "tsVersion"}}{{ else}}{{ end }}"
+      SHOULD_REMOVE_NODE_MODULES={{ if .Util.Bool.IsTrue (.GetConfig "shouldRemoveNodeModules") }}1{{ else }}0{{ end }}
+      SHOULD_CLEAN_NPM_CACHE={{ if .Util.Bool.IsTrue (.GetConfig "shouldCleanNpmCache") }}1{{ else }}0{{ end }}
+      SHOULD_REBUILD_NPM={{ if .Util.Bool.IsTrue (.GetConfig "shouldRebuildNpm") }}1{{ else }}0{{ end }}
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/prepare.sh" }}"

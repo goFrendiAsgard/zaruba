@@ -1,0 +1,116 @@
+configs:
+
+  zrbRunDockerContainer:
+      containerName: ''
+      entryPoint: ''
+      command: ''
+      checkCommand: ''
+      rebuild: false
+      ports: ''
+      volumes: ''
+      user: ''
+      localhost: localhost
+      hostDockerInternal: '{{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}'
+      restartPolicy: no
+      _setupContainerName: |
+        CONTAINER_NAME="{{ .GetConfig "containerName" }}"
+        if [ -z "${CONTAINER_NAME}" ]
+        then
+          echo "${_BOLD}${_RED}containerName is not provided${_NORMAL}"
+          exit 1
+        fi
+      _setupImageName: |
+        DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+        if [ -z "${DOCKER_IMAGE_NAME}" ]
+        then
+          echo "${_BOLD}${_RED}imageName is not provided${_NORMAL}"
+          exit 1
+        fi
+      _setup: |
+        {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
+        {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
+      _startRebuildContainer: |
+        stopContainer "${CONTAINER_NAME}"
+        removeContainer "${CONTAINER_NAME}"
+      _startLogContainer: |
+        echo "🐳 ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
+        docker logs --since 0m --follow "${CONTAINER_NAME}"
+      _startRunContainerEntryPoint: |
+        {{ if .GetConfig "entryPoint" -}}
+          --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
+        {{ end -}}
+      _startRunContainerEnv: |
+        {{ $this := . -}}
+        {{ if eq (.GetConfig "localhost") "localhost" -}}
+          {{ range $key, $val := $this.GetEnvs -}}
+            -e "{{ $key }}={{ $val }}" {{ "" -}}
+          {{ end -}}
+        {{ else -}}
+          {{ range $key, $val := $this.GetEnvs -}}
+            {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
+            {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
+            {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
+            -e "{{ $key }}={{ $val }}" {{ "" -}}
+          {{ end -}}
+        {{ end -}}
+      _startRunContainerPorts: |
+        {{ $this := . -}}
+        {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
+          {{ if ne $port "" -}}
+            {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
+            {{ if eq (len $portParts) 1 -}}
+              -p {{ $port }}:{{ $port }} {{ "" -}}
+            {{ else -}}
+              {{ $hostPort := index $portParts 0 -}}
+              {{ $containerPort := index $portParts 1 -}}
+              -p {{ $hostPort }}:{{ $containerPort }} {{ "" -}}
+            {{ end -}}
+          {{ end -}}
+        {{ end -}}
+      _startRunContainerVolumes: |
+        {{ $this := . -}}
+        {{ range $index, $volume := .Util.Str.Split (.Util.Str.Trim (.GetConfig "volumes") "\n ") "\n" -}}
+          {{ if ne $volume "" -}}
+            {{ $volumeParts := $this.Util.Str.Split ($this.Util.Str.Trim $volume  " ") ":" -}}
+            {{ if eq (len $volumeParts) 2 -}}
+              {{ $absHostVolume := $this.GetWorkPath (index $volumeParts 0) -}}
+              {{ $containerVolume := index $volumeParts 1 -}}
+              -v "{{ $absHostVolume }}:{{ $containerVolume }}" {{ "" -}}
+            {{ end -}}
+          {{ end -}}
+        {{ end -}}
+      _startRunContainer: |
+        {{ $imageTag := .GetConfig "imageTag" -}}
+        {{ $this := . -}}
+        docker run --name "${CONTAINER_NAME}" {{ "" -}}
+        --hostname "${CONTAINER_NAME}" {{ "" -}}
+        --network "{{ .GetConfig "network" }}" {{ "" -}}
+        {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
+        {{ .GetConfig "_startRunContainerEntryPoint" -}}
+        {{ .GetConfig "_startRunContainerEnv" -}}
+        {{ .GetConfig "_startRunContainerPorts" -}}
+        {{ .GetConfig "_startRunContainerVolumes" -}}
+        {{ if ne (.GetConfig "hostDockerInternal") "host.docker.internal" }}--add-host "{{ .GetConfig "hostDockerInternal" }}:host.docker.internal"{{ end }} {{ "" -}}
+        --restart {{ .GetConfig "restartPolicy" }} -d "${DOCKER_IMAGE_NAME}{{ if $imageTag }}:{{ $imageTag }}{{ end }}" {{ .GetConfig "command" }}
+      _start: |
+        {{ $rebuild := .GetConfig "rebuild" -}}
+        {{ if .Util.Bool.IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
+        if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+        then
+          echo "🐳 ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is already started${_NORMAL}"
+          {{ .GetConfig "_startLogContainer" }}
+        elif [ ! -z $(inspectDocker "container" ".Name" "${CONTAINER_NAME}") ]
+        then
+          echo "🐳 ${_BOLD}${_YELLOW}Retrieve previous log of '${CONTAINER_NAME}'${_NORMAL}"
+          sleep 1
+          docker logs --tail 20 "${CONTAINER_NAME}"
+          echo "🐳 ${_BOLD}${_YELLOW}Starting container '${CONTAINER_NAME}'${_NORMAL}"
+          docker start "${CONTAINER_NAME}"
+          {{ .GetConfig "_startLogContainer" }}
+        else
+          echo "🐳 ${_BOLD}${_YELLOW}Creating and starting container '${CONTAINER_NAME}'${_NORMAL}"
+          {{ .GetConfig "_startRunContainer" }}
+          {{ .GetConfig "_startLogContainer" }}
+        fi
+      start: ''

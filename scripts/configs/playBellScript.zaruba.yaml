@@ -1,4 +1,0 @@
-configs:
-
-  playBellScript:
-    playBellScript: echo $'\a'

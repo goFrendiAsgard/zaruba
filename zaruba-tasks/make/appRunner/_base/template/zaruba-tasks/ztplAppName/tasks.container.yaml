@@ -1,0 +1,57 @@
+tasks:
+
+  startZtplAppNameContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameImage
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName
+
+  buildZtplAppNameImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation
+    timeout: 1h
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName
+
+  pushZtplAppNameImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameImage
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName
+
+  stopZtplAppNameContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName
+
+  removeZtplAppNameContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameContainer
+      - ztplAppName
+    envRefs: 
+      - ztplAppName

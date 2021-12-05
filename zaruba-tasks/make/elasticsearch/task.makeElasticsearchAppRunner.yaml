@@ -1,0 +1,23 @@
+tasks:
+
+  makeElasticsearchAppRunner:
+    icon: 🍜
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeElasticsearchApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configs:
+      appIcon: 🍜
+      defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
+      defaultAppPorts: |
+        [
+          "9200",
+          "9300"
+        ]

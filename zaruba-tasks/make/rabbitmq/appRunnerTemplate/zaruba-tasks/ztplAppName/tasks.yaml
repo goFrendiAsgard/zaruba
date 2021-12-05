@@ -1,0 +1,15 @@
+tasks:
+
+  startZtplAppName:
+    icon: ztplAppIcon
+    dependencies:
+      - startZtplAppNameContainer
+
+  resetZtplAppName:
+    icon: 👶
+    extend: zrbRunInDockerContainer
+    location: ztplAppTaskLocation
+    configRef: ztplAppNameContainer
+    envRef: ztplAppName
+    configs:
+      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/utilities/reset" }}'

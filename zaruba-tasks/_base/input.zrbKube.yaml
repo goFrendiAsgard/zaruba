@@ -1,0 +1,14 @@
+inputs:
+  
+  kubeContext:
+    default: docker-desktop
+    validation: ^.*$
+    description: Kubernetes context. Perform `kubectl config get-contexts` to get possible values
+    prompt: Kubernetes context
+
+  
+  kubeNamespace:
+    default: default
+    validation: ^.+$
+    description: KubernetesNamespace
+    prompt: Kubernetes namespace

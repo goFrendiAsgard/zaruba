@@ -1,0 +1,35 @@
+tasks:
+
+  prepareZtplDeploymentName:
+    icon: ztplDeploymentName
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    configRefs:
+      - prepareZtplDeploymentName
+      - ztplDeploymentName
+    envRef: ztplDeploymentName
+
+  deployZtplDeploymentName:
+    icon: ztplAppIcon
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    dependencies:
+      - prepareZtplDeploymentName
+    inputs:
+      - ztplDeploymentNameRegion
+    configRefs:
+      - deployZtplDeploymentName
+      - ztplDeploymentName
+
+  destroyZtplDeploymentName:
+    icon: ztplAppIcon
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    inputs:
+      - ztplDeploymentNameRegion
+    configRefs:
+      - destroyZtplDeploymentName
+      - ztplDeploymentName

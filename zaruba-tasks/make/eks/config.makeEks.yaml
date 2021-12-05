@@ -1,0 +1,8 @@
+configs:
+
+  makeEks:
+    appIcon: 📙
+    defaultAppDirectory: '{{ .ProjectName }}Eks'
+    defaultDeploymentDirectory: '{{ .ProjectName }}Eks'
+    eksRegion: '{{ .GetValue "eksRegion" }}'
+    eksClusterName: '{{ .GetValue "eksClusterName" }}'

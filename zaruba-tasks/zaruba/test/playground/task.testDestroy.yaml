@@ -1,0 +1,12 @@
+tasks:
+
+  testDestroy:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testDeploy
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please destroy
+

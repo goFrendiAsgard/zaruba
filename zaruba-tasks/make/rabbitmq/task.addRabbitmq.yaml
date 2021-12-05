@@ -1,0 +1,6 @@
+tasks:
+
+  addRabbitmq:
+    icon: 🐇
+    dependencies:
+      - makeRabbitmqAppRunner

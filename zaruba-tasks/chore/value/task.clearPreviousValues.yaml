@@ -1,0 +1,11 @@
+tasks:
+
+  clearPreviousValues:
+    icon: 🔥
+    description: |
+      Clear log
+    extend: zrbRunShellScript
+    configs:
+      start: |
+        rm -Rf .previous.values.yaml
+        echo "${_BOLD}${_YELLOW}Previous values removed${_NORMAL}"

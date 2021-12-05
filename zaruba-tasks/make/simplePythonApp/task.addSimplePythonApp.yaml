@@ -1,0 +1,6 @@
+tasks:
+
+  addSimplePythonApp:
+    icon: 🐍
+    dependencies:
+      - makeSimplePythonAppRunner

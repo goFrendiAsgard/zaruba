@@ -1,0 +1,38 @@
+tasks:
+
+  zrbBuildDockerImage:
+    icon: 🐳
+    private: true
+    description: |
+      Build docker image.
+      Common configs:
+        imageName : Image name
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    configRef: zrbDocker
+    configs:
+      buildArg: ""
+      start.buildDockerImage.buildArg: |
+        {{ range $index, $buildArg := .Util.Str.Split (.Util.Str.Trim (.GetConfig "buildArg") "\n" ) "\n" -}}
+          {{ if ne $buildArg "" -}}
+            --build-arg {{ $buildArg }} {{ "" -}}
+          {{ end -}}
+        {{ end -}}
+      dockerFilePath: Dockerfile
+      start: |
+        DOCKER_FILE="{{ .GetConfig "dockerFilePath" }}"
+        if [ ! -f "${DOCKER_FILE}" ]
+        then
+          echo "${_BOLD}${_RED}${DOCKER_FILE} should be exist${_NORMAL}"
+          exit 1
+        fi
+        DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+        DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+        docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} \
+          -t "${DOCKER_IMAGE_NAME}:latest" \
+          -t "${DOCKER_IMAGE_NAME}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}" \
+          -f "${DOCKER_FILE}" .
+        echo 🎉🎉🎉
+        echo "${_BOLD}${_YELLOW}Docker image built${_NORMAL}"
+

@@ -1,0 +1,9 @@
+inputs:
+
+  sql:
+    description: SQL script
+    default: ''
+
+  script:
+    description: Script
+    default: ''

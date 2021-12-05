@@ -1,0 +1,5 @@
+configs:
+
+  addDocker:
+    appIcon: 🐳
+    defaultAppDirectory: '{{ .ProjectName }}Docker'

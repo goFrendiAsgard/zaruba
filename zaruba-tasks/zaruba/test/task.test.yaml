@@ -1,0 +1,9 @@
+tasks:
+
+  test:
+    dependencies:
+      - testPushMeltanoImage
+      - testPushImages
+      - testApps
+      - testDestroy
+      - testCore

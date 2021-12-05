@@ -1,0 +1,6 @@
+tasks:
+
+  addTrino:
+    icon: 🐰
+    dependencies:
+      - makeTrinoAppRunner

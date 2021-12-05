@@ -1,0 +1,6 @@
+tasks:
+
+  addEks:
+    icon: 📙
+    dependencies:
+      - makeEksDeploymentTask

@@ -1,5 +1,0 @@
-inputs:
-
-  runPlaygroundDelay:
-    default: 10
-    description: Delay after run playground

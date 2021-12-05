@@ -1,0 +1,11 @@
+tasks:
+
+  publishZarubaAwsImage:
+    icon: 🐳
+    extend: zrbPushDockerImage
+    dependencies:
+      - buildZarubaAwsImage
+    configRefs:
+      - commonDocker
+      - zarubaAwsDocker
+    timeout: 1h

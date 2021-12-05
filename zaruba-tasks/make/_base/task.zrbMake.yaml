@@ -1,0 +1,132 @@
+tasks:
+
+  zrbMake:
+    extend: zrbRunShellScript
+    dependencies:
+      - zrbShowAdv
+    private: true
+    configs:
+      shouldInitConfigVariables: true
+      shouldInitConfigMapVariable: true
+      shouldInitEnvMapVariable: true
+      appBaseImageName: '{{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}'
+      appBuildImageCommand: '{{ .GetValue "appBuildImageCommand" }}'
+      appCheckCommand: '{{ .GetValue "appCheckCommand" }}'
+      appContainerName: '{{ .GetValue "appContainerName" }}'
+      appContainerVolumes: '{{ if ne (.GetValue "appContainerVolumes") "[]" }}{{ .GetValue "appContainerVolumes" }}{{ else }}{{ .GetConfig "defaultAppContainerVolumes" }}{{ end }}'
+      appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
+      appCrudFields: '{{ .GetValue "appCrudFields" }}'
+      appDependencies: '{{ .GetValue "appDependencies" }}'
+      appDirectory: '{{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}'
+      appEnvPrefix: '{{ .GetValue "appEnvPrefix" }}'
+      appEnvs: '{{ .GetValue "appEnvs" }}'
+      appEventName: '{{ .GetValue "appEventName" }}'
+      deploymentDirectory: '{{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultDeploymentDirectory" }}{{ end }}'
+      deploymentName: '{{ .GetValue "deploymentName" }}'
+      appHttpMethod: '{{ .GetValue "appHttpMethod" }}'
+      appIcon: ''
+      appImageName: '{{ .GetValue "appImageName" }}'
+      appModuleName: '{{ .GetValue "appModuleName" }}'
+      appName: '{{ .GetValue "appName" }}'
+      appPorts: '{{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}'
+      appPrepareCommand: '{{ .GetValue "appPrepareCommand" }}'
+      appPushImageCommand: '{{ .GetValue "appPushImageCommand" }}'
+      appRunnerVersion: '{{ .GetValue "appRunnerVersion" }}'
+      appStartCommand: '{{ .GetValue "appStartCommand" }}'
+      appStartContainerCommand: '{{ .GetValue "appStartContainerCommand" }}'
+      appTestCommand: '{{ .GetValue "appTestCommand" }}'
+      appMigrateCommand: '{{ .GetValue "appMigrateCommand" }}'
+      appRpcName: '{{ .GetValue "appRpcName" }}'
+      appUrl: '{{ .GetValue "appUrl" }}'
+      defaultAppBaseImageName: ''
+      defaultAppContainerVolumes: '[]'
+      defaultAppDirectory: '{{ .GeneratedRandomName }}'
+      defaultDeploymentDirectory: '{{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}'
+      defaultAppPorts: '[]'
+      templateLocations: '{{ .GetValue "templateLocations" }}'
+      _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareReplacementMap.sh"'
+      _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"'
+      _prepareBaseStartCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"'
+      _prepareBasePrepareCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"'
+      _prepareBaseTestCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"'
+      _prepareBaseMigrateCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareMigrateCommand.sh"'
+      _prepareBaseCheckCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"'
+      _skipCreationPath: ''
+      _skipCreation: '_skipIfExist "{{ .GetConfig "_skipCreationPath" }}"'
+      _prepareVariables: ''
+      _prepareReplacementMap: ''
+      _validate: ''
+      _integrate: ''
+      _validateTemplateLocation: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateTemplateLocation.sh"'
+      _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'
+      _validateAppContainerVolumes: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppContainerVolumes.sh"'
+      _validateAppPorts: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppPorts.sh"'
+      _validateAppCrudFields: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppCrudFields.sh"'
+      _generate: _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+      _start: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
+        _ZRB_REPLACEMENT_MAP='{}'
+        _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
+        _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
+        _ZRB_APP_BASE_IMAGE_NAME='{{ .GetConfig "appBaseImageName" }}'
+        _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appBuildImageCommand") "\n " }}'
+        _ZRB_APP_CHECK_COMMAND='{{ .Util.Str.Trim (.GetConfig "appCheckCommand") "\n " }}'
+        _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
+        _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "appContainerVolumes" }}'
+        _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
+        _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
+        _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
+        _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
+        _ZRB_DEPLOYMENT_DIRECTORY='{{ .GetConfig "deploymentDirectory" }}'
+        _ZRB_DEPLOYMENT_NAME='{{ .GetConfig "deploymentName" }}'
+        _ZRB_APP_ICON='{{ .GetConfig "appIcon" }}'
+        _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
+        _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
+        _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
+        _ZRB_APP_PREPARE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPrepareCommand") "\n " }}'
+        _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPushImageCommand") "\n " }}'
+        _ZRB_APP_RUNNER_VERSION='{{ .GetConfig "appRunnerVersion" }}'
+        _ZRB_APP_START_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartCommand") "\n " }}'
+        _ZRB_APP_START_CONTAINER_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartContainerCommand") "\n " }}'
+        _ZRB_APP_TEST_COMMAND='{{ .Util.Str.Trim (.GetConfig "appTestCommand") "\n " }}'
+        _ZRB_APP_MIGRATE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appMigrateCommand") "\n " }}'
+        _ZRB_APP_CRUD_ENTITY='{{ .GetConfig "appCrudEntity" }}'
+        _ZRB_APP_CRUD_FIELDS='{{ .GetConfig "appCrudFields" }}'
+        _ZRB_APP_EVENT_NAME='{{ .GetConfig "appEventName" }}'
+        _ZRB_APP_HTTP_METHOD='{{ .GetConfig "appHttpMethod" }}'
+        _ZRB_APP_MODULE_NAME='{{ .GetConfig "appModuleName" }}'
+        _ZRB_APP_RPC_NAME='{{ .GetConfig "appRpcName" }}'
+        _ZRB_APP_URL='{{ .GetConfig "appUrl" }}'
+        __ZRB_PWD=$(pwd)
+        echo "${_YELLOW}🧰 Prepare${_NORMAL}"
+        {{ .GetConfig "_prepareBaseVariables" }}
+        {{ .GetConfig "_prepareVariables" }}
+        {{ .GetConfig "_prepareBaseStartCommand" }}
+        {{ .GetConfig "_prepareBasePrepareCommand" }}
+        {{ .GetConfig "_prepareBaseTestCommand" }}
+        {{ .GetConfig "_prepareBaseMigrateCommand" }}
+        {{ .GetConfig "_prepareBaseCheckCommand" }}
+        {{ .GetConfig "_prepareBaseReplacementMap" }}
+        {{ .GetConfig "_prepareReplacementMap" }}
+        cd "${__ZRB_PWD}"
+        echo "${_YELLOW}✅ Validate${_NORMAL}"
+        {{ .GetConfig "_validateAppDirectory" }}
+        {{ .GetConfig "_validateAppContainerVolumes" }}
+        {{ .GetConfig "_validateTemplateLocation" }}
+        {{ .GetConfig "_validateAppPorts" }}
+        {{ .GetConfig "_validateAppCrudFields" }}
+        {{ .GetConfig "_skipCreation" }}
+        {{ .GetConfig "_validate" }}
+        cd "${__ZRB_PWD}"
+        echo "${_YELLOW}🚧 Generate${_NORMAL}"
+        echo "${_YELLOW}🚧 Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATIONS}"
+        echo "${_YELLOW}🚧 Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
+        {{ .GetConfig "_generate" }}
+        cd "${__ZRB_PWD}"
+        echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+        {{ .GetConfig "_integrate" }}
+        cd "${__ZRB_PWD}"
+      start: ''
+      afterStart: |
+        echo 🎉🎉🎉
+        echo "${_BOLD}${_YELLOW}Done${_NORMAL}"

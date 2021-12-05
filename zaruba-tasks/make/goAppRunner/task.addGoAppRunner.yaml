@@ -1,0 +1,6 @@
+tasks:
+
+  addGoAppRunner:
+    icon: 🐹
+    dependencies:
+      - makeGoAppRunner

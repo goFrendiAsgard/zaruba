@@ -1,0 +1,45 @@
+tasks:
+
+  zrbRunScript:
+    icon: 📔
+    description: |
+      Run script.
+      Common configs:
+        cmd           : Executable shell name
+        cmdArg        : Executable shell argument
+        setup         : Setup script
+        beforeStart   : Before start script
+        start         : Start script
+        afterStart    : After start script
+        finish        : Finish script
+    private: true
+    syncEnv: true
+    autoTerminate: true
+    configs:
+      cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
+      cmdArg: "-c"
+      setup: ''
+      beforeStart: ''
+      start: ''
+      afterStart: ''
+      finish: ''
+      _setup: ''
+      _start: ''
+      _finish: ''
+    envs:
+      PYTHONUNBUFFERED:
+        from: PYTHONUNBUFFERED
+        default: 1
+    start:
+      - '{{ .GetConfig "cmd" }}'
+      - '{{ .GetConfig "cmdArg" }}'
+      - |
+        {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+

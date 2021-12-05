@@ -1,0 +1,19 @@
+tasks:
+
+  makeFastApiAppRunner:
+    icon: ⚡
+    extend: makePythonAppRunner
+    dependencies:
+      - makeFastApiApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configs:
+      pythonStartCommand: ./start.sh
+    configRefs:
+      - addFastApi

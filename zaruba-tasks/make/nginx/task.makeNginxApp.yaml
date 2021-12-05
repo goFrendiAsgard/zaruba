@@ -1,0 +1,13 @@
+tasks:
+ 
+  makeNginxApp:
+    icon: 📗
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configs:
+      defaultAppDirectory: '{{ .ProjectName }}Nginx'
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/nginx/appTemplate"
+        ]

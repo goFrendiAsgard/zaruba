@@ -4,7 +4,7 @@ echo "🔽 Downloading and installing sdkman."
 curl -s "https://get.sdkman.io" | bash
 
 echo "🔽 Update init script."
-SCRIPT="$(cat "${ZARUBA_HOME}/templates/bash/sdkman.sh")"
+SCRIPT="$(cat "${ZARUBA_HOME}/setup/templates/bash/sdkman.sh")"
 echo "${SCRIPT}" >> "${ZARUBA_HOME}/init.sh"
 . "${ZARUBA_HOME}/init.sh"
 

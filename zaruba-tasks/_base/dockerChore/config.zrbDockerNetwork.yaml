@@ -1,0 +1,4 @@
+configs:
+
+  zrbDockerNetwork:
+    network: '{{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}'

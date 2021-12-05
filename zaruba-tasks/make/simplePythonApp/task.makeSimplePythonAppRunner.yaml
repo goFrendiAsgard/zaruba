@@ -1,0 +1,17 @@
+tasks:
+
+  makeSimplePythonAppRunner:
+    icon: 🐍
+    extend: makePythonAppRunner
+    dependencies:
+      - makeSimplePythonApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRefs: 
+      - addSimplePythonAppRunner

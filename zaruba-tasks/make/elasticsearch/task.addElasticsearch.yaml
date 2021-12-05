@@ -1,0 +1,6 @@
+tasks:
+
+  addElasticsearch:
+    icon: 🍜
+    dependencies:
+      - makeElasticsearchAppRunner

@@ -1,0 +1,6 @@
+tasks:
+
+  addRedis:
+    icon: 🧰
+    dependencies:
+      - makeRedisAppRunner

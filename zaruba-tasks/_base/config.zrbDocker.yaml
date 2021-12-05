@@ -1,0 +1,7 @@
+configs:
+
+  zrbDocker:
+    useImagePrefix: true
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageTag: ''
+    imageName: ''

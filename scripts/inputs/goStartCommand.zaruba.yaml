@@ -1,7 +1,0 @@
-inputs:
-
-  goStartCommand:
-    description: Command to start the service (Required)
-    prompt: Start command
-    default: go run .
-    validation: ^.+$

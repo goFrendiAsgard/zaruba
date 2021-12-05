@@ -1,0 +1,12 @@
+tasks:
+
+  commitRepo:
+    icon: 🔼
+    location: ../
+    extend: zrbRunShellScript
+    dependencies:
+      - makeDocs
+    configs:
+      start: |
+        git add . -A
+        git commit -m "Save changes before pushing"

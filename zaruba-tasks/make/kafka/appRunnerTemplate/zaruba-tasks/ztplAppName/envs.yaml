@@ -1,0 +1,7 @@
+envs:
+
+  ztplAppNameKafka:
+    ztplAppYamlKafkaEnvs
+
+  ztplAppNameZookeeper:
+    ztplAppYamlZookeeperEnvs

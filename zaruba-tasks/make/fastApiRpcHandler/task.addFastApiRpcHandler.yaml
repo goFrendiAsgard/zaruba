@@ -1,0 +1,17 @@
+tasks:
+ 
+  addFastApiRpcHandler:
+    icon: ⚡
+    extend: makeApp
+    dependencies:
+      - addFastApiModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appRpcName
+    configs:
+      _skipCreationPath: ''
+      _integrate: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRpcHandler/bash/addRpcHandler.sh"
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+      templateLocations: '[]'

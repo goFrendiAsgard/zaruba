@@ -1,0 +1,58 @@
+tasks:
+
+  startZtplAppNameKafkaContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/kafka
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameKafkaImage
+      - startZtplAppNameZookeeperContainer
+    configRefs:
+      - ztplAppNameKafkaContainer
+      - ztplAppNameKafka
+    envRefs: 
+      - ztplAppNameKafka
+
+  buildZtplAppNameKafkaImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/kafka
+    timeout: 1h
+    configRefs:
+      - ztplAppNameKafkaContainer
+      - ztplAppNameKafka
+    envRefs: 
+      - ztplAppNameKafka
+
+  pushZtplAppNameKafkaImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameKafkaImage
+    configRefs:
+      - ztplAppNameKafkaContainer
+      - ztplAppNameKafka
+    envRefs: 
+      - ztplAppNameKafka
+
+  stopZtplAppNameKafkaContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameKafkaContainer
+      - ztplAppNameKafka
+    envRefs: 
+      - ztplAppNameKafka
+
+  removeZtplAppNameKafkaContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameKafkaContainer
+      - ztplAppNameKafka
+    envRefs: 
+      - ztplAppNameKafka

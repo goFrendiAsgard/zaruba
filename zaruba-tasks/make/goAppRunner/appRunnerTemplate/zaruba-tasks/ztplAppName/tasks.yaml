@@ -1,0 +1,30 @@
+tasks:
+
+  startZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbStartApp
+    location: ztplAppTaskLocation
+    inputs:
+      - runZtplAppNameInLocal
+    configRefs:
+      - startZtplAppName
+      - ztplAppName
+    envRef: ztplAppName
+
+  testZtplAppName:
+    icon: ✅
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    configRefs:
+      - testZtplAppName
+      - ztplAppName
+    envRef: ztplAppName
+
+  migrateZtplAppName:
+    icon: 🦆
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    configRefs:
+      - migrateZtplAppName
+      - ztplAppName
+    envRef: ztplAppName

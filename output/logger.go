@@ -60,6 +60,9 @@ func (l *ConsoleLogger) Fprintf(w io.Writer, template string, a ...interface{}) 
 
 func (l *ConsoleLogger) dPrintf(template string, args ...interface{}) (n int, err error) {
 	pTemplate := fmt.Sprintf("%s %s", l.d.Skull, template)
+	if len(args) == 0 {
+		return fmt.Print(pTemplate)
+	}
 	return fmt.Printf(pTemplate, args...)
 }
 

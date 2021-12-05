@@ -1,0 +1,21 @@
+tasks:
+
+  testPushImages:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testStartContainers
+      - prepareContainerRegistry
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please pushImages
+
+  prepareContainerRegistry:
+    location: ../../../..
+    extend: zrbRunShellScript
+    dependencies:
+      - testInitProject
+    configs:
+      start: |
+        ./zaruba please startContainerRegistry -t

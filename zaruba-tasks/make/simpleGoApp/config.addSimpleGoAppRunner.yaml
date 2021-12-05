@@ -1,0 +1,4 @@
+configs:
+
+  addSimpleGoAppRunner:
+    defaultAppDirectory: '{{ .ProjectName }}App'

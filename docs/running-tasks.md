@@ -58,11 +58,11 @@ zaruba please runContainer -x
 
 # Involved tasks
 
-* [core.startService](tasks/core.startService.md) (extended)
-* [core.startDockerContainer](tasks/core.startDockerContainer.md) (extended)
-* [core.stopDockerContainer](tasks/core.stopDockerContainer.md) (extended)
-* [core.buildDockerImage](tasks/core.buildDockerImage.md) (extended)
-* [core.pushDockerImage](tasks/core.pushDockerImage.md) (extended)
+* [zrbStartApp](tasks/zrbStartApp.md) (extended)
+* [zrbStartDockerContainer](tasks/zrbStartDockerContainer.md) (extended)
+* [zrbStopDockerContainer](tasks/zrbStopDockerContainer.md) (extended)
+* [zrbBuildDockerImage](tasks/zrbBuildDockerImage.md) (extended)
+* [zrbPushDockerImage](tasks/zrbPushDockerImage.md) (extended)
 
 # What's next
 

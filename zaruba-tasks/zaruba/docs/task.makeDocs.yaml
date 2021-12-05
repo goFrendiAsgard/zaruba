@@ -1,0 +1,11 @@
+tasks:
+
+
+  makeDocs:
+    location: ../../..
+    extend: zrbRunShellScript
+    dependencies:
+      - buildBin
+    configs:
+      start: |
+        . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"

@@ -1,0 +1,26 @@
+tasks:
+
+  makeTrinoAppRunner:
+    icon: 🐰
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeTrinoApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configs:
+      appIcon: 🐰
+      defaultAppDirectory: '{{ .ProjectName }}Trino'
+      defaultAppPorts: |
+        [
+          "8010:8080"
+        ]
+      defaultAppContainerVolumes: |
+        [
+          "trino:/etc/trino"
+        ]

@@ -1,0 +1,15 @@
+tasks:
+ 
+  makeSimplePythonApp:
+    icon: 🐍
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRefs:
+      - addSimplePythonAppRunner
+      - addPythonAppRunner
+    configs:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/simplePythonApp/appTemplate"
+        ]

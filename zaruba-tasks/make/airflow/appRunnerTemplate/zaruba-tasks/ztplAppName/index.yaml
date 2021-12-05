@@ -1,0 +1,11 @@
+includes:
+  - ./configs.yaml
+  - ./envs.yaml
+  - ./inputs.yaml
+  - ./tasks.yaml
+  - ./tasks.container.yaml
+  - ./tasks.container.airflowScheduler.yaml
+  - ./tasks.container.airflowWeb.yaml
+  - ./tasks.container.airflowWorker.yaml
+  - ./tasks.container.postgresql.yaml
+  - ./tasks.container.redis.yaml

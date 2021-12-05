@@ -1,0 +1,22 @@
+tasks:
+
+  makeDockerAppRunnerForDockerApp:
+    icon: 🐳
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeDockerApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appImageName
+      - appContainerName
+      - appName
+      - appEnvs
+      - appPorts
+    configRefs:
+      - addDocker
+    configs:
+      defaultAppPorts: |
+        [
+          "8080"
+        ]

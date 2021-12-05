@@ -1,0 +1,6 @@
+defaultBranch: master
+defaultImagePrefix: ''
+defaultImageTag: latest
+defaultKubeContext: docker-desktop
+defaultKubeNamespace: default
+hostDockerInternal: host.docker.internal

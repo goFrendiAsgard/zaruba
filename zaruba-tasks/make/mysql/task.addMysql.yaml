@@ -1,0 +1,6 @@
+tasks:
+
+  addMysql:
+    icon: 🐬
+    dependencies:
+      - makeMysqlAppRunner

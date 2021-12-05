@@ -1,0 +1,21 @@
+tasks:
+
+  makeDockerAppRunner:
+    icon: 🐳
+    extend: zrbMakeAppRunner
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appImageName
+      - appContainerName
+      - appEnvs
+      - appPorts
+      - appStartCommand
+      - appCheckCommand
+    configs:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template"
+        ]

@@ -1,0 +1,9 @@
+tasks:
+
+  publishImage:
+    icon: 🐳
+    dependencies:
+      - publishDevboxImage
+      - publishZarubaImage
+      - publishZarubaAwsImage
+      - publishZarubaGcloudImage

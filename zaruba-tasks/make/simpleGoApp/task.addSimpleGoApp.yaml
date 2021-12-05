@@ -1,0 +1,6 @@
+tasks:
+
+  addSimpleGoApp:
+    icon: 🐹
+    dependencies:
+      - makeSimpleGoAppRunner

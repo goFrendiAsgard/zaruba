@@ -1,55 +1,181 @@
-# pullSubrepos
-```
-  TASK NAME     : pullSubrepos
-  LOCATION      : /scripts/tasks/pullSubrepos.zaruba.yaml
-  DESCRIPTION   : Pull subrepositories.
-                  ARGUMENTS:
-                    subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
-                    subrepo::<name>::url      : Remote url of the subrepo
-  TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  DEPENDENCIES  : [ initSubrepos ]
-  START         : - {{ .GetConfig "cmd" }}
-                  - {{ .GetConfig "cmdArg" }}
-                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : Blank
-                  afterStart        : Blank
-                  beforeStart       : Blank
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  setup             : Blank
-                  start             : set -e
-                                      {{ $d := .Decoration -}}
-                                      {{ $names := .GetSubValueKeys "subrepo" -}}
-                                      {{ $this := . -}}
-                                      ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
-                                      BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-                                      {{ range $index, $name := $names -}}
-                                        PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-                                        URL="{{ $this.GetValue "subrepo" $name "url" }}"
-                                        NAME="{{ $name }}"
-                                        ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
-                                        if [ $ORIGIN_EXISTS = 1 ]
-                                        then
-                                          gitSave "Save works before pull"
-                                          git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-                                        fi
-                                      {{ end -}}
-                                      echo 🎉🎉🎉
-                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Subrepos pulled{{ $d.Normal }}"
-  ENVIRONMENTS  : PYTHONUNBUFFERED
-                    FROM    : PYTHONUNBUFFERED
-                    DEFAULT : 1
-```
+
+# PullSubrepos
+
+File Location:
+
+    /zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
+
+Should Sync Env:
+
+    true
+
+Type:
+
+    command
+
+Description:
+
+    Pull subrepositories.
+    ARGUMENTS:
+      subrepo::<name>::prefix   : Prefix (directory name) of the subrepo
+      subrepo::<name>::url      : Remote url of the subrepo
+
+
+
+## Extends
+
+* `zrbRunShellScript`
+
+
+## Dependencies
+
+* `initSubrepos`
+* `zrbIsProject`
+* `zrbIsValidSubrepos`
+
+
+## Start
+
+* `{{ .GetConfig "cmd" }}`
+* `{{ .GetConfig "cmdArg" }}`
+*
+    ```
+    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+
+    ```
+
+
+## Configs
+
+
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToShellVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs.shouldInitConfigMapVariable
+
+Value:
+
+    false
+
+
+### Configs.shouldInitConfigVariables
+
+Value:
+
+    false
+
+
+### Configs.shouldInitEnvMapVariable
+
+Value:
+
+    false
+
+
+### Configs.shouldInitUtil
+
+Value:
+
+    true
+
+
+### Configs.start
+
+Value:
+
+    {{ $names := .GetSubValueKeys "subrepo" -}}
+    {{ $this := . -}}
+    ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
+    BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
+    {{ range $index, $name := $names -}}
+      PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
+      URL="{{ $this.GetValue "subrepo" $name "url" }}"
+      NAME="{{ $name }}"
+      ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
+      if [ $ORIGIN_EXISTS = 1 ]
+      then
+        gitSave "Save works before pull"
+        git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
+      fi
+    {{ end -}}
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Subrepos pulled${_NORMAL}"
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+## Envs
+
+
+### Envs.PYTHONUNBUFFERED
+
+From:
+
+    PYTHONUNBUFFERED
+
+Default:
+
+    1

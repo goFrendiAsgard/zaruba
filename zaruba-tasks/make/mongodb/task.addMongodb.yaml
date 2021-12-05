@@ -1,0 +1,6 @@
+tasks:
+
+  addMongodb:
+    icon: 🍃
+    dependencies:
+      - makeMongodbAppRunner

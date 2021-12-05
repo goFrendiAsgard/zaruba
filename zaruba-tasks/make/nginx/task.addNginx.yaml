@@ -1,0 +1,6 @@
+tasks:
+
+  addNginx:
+    icon: 📗
+    dependencies:
+      - makeNginxAppRunner

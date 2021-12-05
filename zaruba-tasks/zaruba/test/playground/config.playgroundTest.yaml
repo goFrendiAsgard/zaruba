@@ -1,0 +1,5 @@
+configs:
+
+  playgroundTest:
+    beforeStart: |
+      ZARUBA_HOME="$(realpath "..")"

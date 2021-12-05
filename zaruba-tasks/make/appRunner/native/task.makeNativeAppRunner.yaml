@@ -1,0 +1,23 @@
+tasks:
+
+  makeNativeAppRunner:
+    icon: 📜
+    extend: zrbMakeAppRunner
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appStartCommand
+      - appTestCommand
+      - appMigrateCommand
+      - appCheckCommand
+      - appImageName
+      - appContainerName
+    configs:
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template"
+        ]

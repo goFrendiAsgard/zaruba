@@ -1,0 +1,19 @@
+tasks:
+
+  makeSimpleGoAppRunner:
+    icon: 🐹
+    extend: makeNativeAppRunner
+    dependencies:
+      - makeSimpleGoApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRefs:
+      - makeGoAppRunner
+      - addSimpleGoAppRunner
+      - addGoAppRunner

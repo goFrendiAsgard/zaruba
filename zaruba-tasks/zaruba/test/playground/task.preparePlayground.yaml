@@ -1,0 +1,13 @@
+tasks:
+
+  preparePlayground:
+    extend: zrbRunShellScript
+    location: ../../../..
+    configs:
+      start: |
+        if [ -d "./playground" ]
+        then
+          rm -Rf ./playground
+        fi
+        mkdir -p ./playground
+

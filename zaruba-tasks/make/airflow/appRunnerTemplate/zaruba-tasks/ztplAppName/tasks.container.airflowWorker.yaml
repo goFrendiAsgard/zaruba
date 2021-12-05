@@ -1,0 +1,60 @@
+tasks:
+
+  startZtplAppNameWorkerContainer:
+    icon: 👷
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/airflowWorker
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameWorkerImage
+      - startZtplAppNamePostgresqlContainer
+      - startZtplAppNameRedisContainer
+      - startZtplAppNameWebContainer
+    configRefs:
+      - ztplAppNameWorkerContainer
+      - ztplAppNameWorker
+    envRefs: 
+      - ztplAppNameWorker
+
+  buildZtplAppNameWorkerImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/airflowWorker
+    timeout: 1h
+    configRefs:
+      - ztplAppNameWorkerContainer
+      - ztplAppNameWorker
+    envRefs: 
+      - ztplAppNameWorker
+
+  pushZtplAppNameWorkerImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameWorkerImage
+    configRefs:
+      - ztplAppNameWorkerContainer
+      - ztplAppNameWorker
+    envRefs: 
+      - ztplAppNameWorker
+
+  stopZtplAppNameWorkerContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameWorkerContainer
+      - ztplAppNameWorker
+    envRefs: 
+      - ztplAppNameWorker
+
+  removeZtplAppNameWorkerContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameWorkerContainer
+      - ztplAppNameWorker
+    envRefs: 
+      - ztplAppNameWorker

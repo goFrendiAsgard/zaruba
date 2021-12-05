@@ -1,0 +1,29 @@
+tasks:
+
+  makePostgresqlAppRunner:
+    icon: 🐘
+    extend: makeDockerAppRunner
+    dependencies:
+      - makePostgresqlApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configs:
+      appIcon: 🐘
+      appCheckCommand: pg_isready -U "{{ .Template ".GetEnv \"POSTGRESQL_USERNAME\"" }}"
+      defaultAppDirectory: '{{ .ProjectName }}Posgresql'
+      defaultAppPorts: |
+        [
+          "5432"
+        ]
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+          "{{ .ZarubaHome }}/zaruba-tasks/make/postgresql/appRunnerTemplate"
+        ]  

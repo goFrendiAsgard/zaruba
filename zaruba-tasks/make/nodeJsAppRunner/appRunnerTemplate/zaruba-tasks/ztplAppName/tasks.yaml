@@ -1,0 +1,49 @@
+tasks:
+
+  startZtplAppName:
+    icon: ztplAppIcon
+    extend: zrbStartApp
+    location: ztplAppTaskLocation
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - prepareZtplAppName
+    configRefs:
+      - startZtplAppName
+      - ztplAppName
+    envRef: ztplAppName
+
+  prepareZtplAppName:
+    icon: 🔧
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    inputs:
+      - shouldRemoveZtplAppNameNodeModules
+      - shouldCleanZtplAppNameNpmCache
+      - shouldRebuildZtplAppNameNpm
+    configRefs: 
+      - prepareZtplAppName
+      - ztplAppName
+    syncEnv: false
+
+  testZtplAppName:
+    icon: ✅
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    dependencies:
+      - prepareZtplAppName
+    configRefs:
+      - testZtplAppName
+      - ztplAppName
+    envRef: ztplAppName
+
+  migrateZtplAppName:
+    icon: 🦆
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    dependencies:
+      - prepareZtplAppName
+    configRefs:
+      - migrateZtplAppName
+      - ztplAppName
+    envRef: ztplAppName

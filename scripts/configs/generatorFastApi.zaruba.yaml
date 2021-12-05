@@ -1,8 +1,0 @@
-configs:
-
-  generatorFastApi:
-    taskTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/task/service/fastapi'
-    serviceTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiService'
-    moduleTemplateLocation: '{{ .GetEnv "ZARUBA_HOME" }}/templates/fastApiModule'
-    serviceName: '{{ .GetValue "fastApiServiceName" }}'
-    moduleName: '{{ .GetValue "fastApiModuleName" }}'

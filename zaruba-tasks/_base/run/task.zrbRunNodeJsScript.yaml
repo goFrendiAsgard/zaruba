@@ -1,0 +1,15 @@
+tasks:
+
+  zrbRunNodeJsScript:
+    icon: 🐸
+    description: |
+      Run Node.Js script
+      Common configs:
+        start : Start script
+    private: true
+    extend: zrbRunScript
+    configs:
+      cmd: node
+      cmdArg: "-p"
+      start: "console.log('hello world')"
+

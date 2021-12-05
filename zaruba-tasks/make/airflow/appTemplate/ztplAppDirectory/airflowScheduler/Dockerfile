@@ -1,0 +1,1 @@
+FROM docker.io/bitnami/airflow-scheduler:2

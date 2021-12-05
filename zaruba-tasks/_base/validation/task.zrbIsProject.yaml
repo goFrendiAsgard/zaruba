@@ -1,0 +1,15 @@
+tasks:
+
+  zrbIsProject:
+    icon: 🔎
+    private: true
+    extend: zrbRunShellScript
+    configs:
+      start: |
+        if [ ! -f "index.zaruba.yaml" ]
+        then
+          echo "${_BOLD}${_RED}$(pwd) is not a zaruba project.${_NORMAL}"
+          exit 1
+        fi
+        echo "${_BOLD}${_YELLOW}Current directory is a valid zaruba project${_NORMAL}"
+

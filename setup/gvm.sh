@@ -4,7 +4,7 @@ echo "🔽 Downloading and installing gvm."
 curl -o- https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash
 
 echo "🔽 Update init script."
-SCRIPT="$(cat "${ZARUBA_HOME}/templates/bash/gvm.sh")"
+SCRIPT="$(cat "${ZARUBA_HOME}/setup/templates/bash/gvm.sh")"
 echo "${SCRIPT}" >> "${ZARUBA_HOME}/init.sh"
 . "${ZARUBA_HOME}/init.sh"
 

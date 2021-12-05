@@ -1,0 +1,13 @@
+tasks:
+
+  testDeploy:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    dependencies:
+      - testPushImages
+    configRef: playgroundTest
+    timeout: 1h
+    configs:
+      start: |
+        ../zaruba please prepareDeployments
+        ../zaruba please deploy

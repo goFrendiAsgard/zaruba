@@ -1,0 +1,14 @@
+tasks:
+
+  zrbRunPythonScript:
+    icon: 🐍
+    description: |
+      Run python script
+      Common configs:
+        start : Start script
+    private: true
+    extend: zrbRunScript
+    configs:
+      cmd: python
+      start: "print('hello world')"
+

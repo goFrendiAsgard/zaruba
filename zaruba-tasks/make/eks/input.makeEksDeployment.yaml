@@ -1,0 +1,5 @@
+inputs:
+
+  eksClusterName:
+    prompt: EKS cluster name
+    description: EKS cluster name

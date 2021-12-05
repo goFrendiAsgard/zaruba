@@ -1,0 +1,77 @@
+includes: []
+tasks:
+
+  prepare:
+    icon: 🔧
+    extend: zrbWrapper
+    dependencies: []
+
+  migrate:
+    icon: 🦆
+    extend: zrbWrapper
+    dependencies: []
+
+  test:
+    icon: ✅
+    extend: zrbWrapper
+    dependencies: []
+
+  start:
+    icon: 🏁
+    extend: zrbWrapper
+    dependencies: []
+
+  run:
+    icon: 🏁
+    extend: zrbWrapper
+    dependencies: []
+
+  startContainers:
+    icon: 🐳
+    extend: zrbWrapper
+    dependencies: []
+
+  runContainers:
+    icon: 🐳
+    extend: zrbWrapper
+    dependencies: []
+
+  stopContainers:
+    icon: ✋
+    extend: zrbWrapper
+    dependencies: [] 
+
+  removeContainers:
+    icon: ❌
+    extend: zrbWrapper
+    dependencies: [] 
+
+  pullImages:
+    icon: 📥
+    extend: zrbWrapper
+    dependencies: [] 
+
+  pushImages:
+    icon: 📤
+    extend: zrbWrapper
+    dependencies: [] 
+
+  buildImages:
+    icon: 🏭
+    extend: zrbWrapper
+    dependencies: [] 
+
+  prepareDeployments:
+    icon: 🔧
+    extend: zrbWrapper
+    dependencies: []
+
+  deploy:
+    icon: 🏭
+    extend: zrbWrapper
+    dependencies: [] 
+
+  destroy:
+    icon: ❌
+    extend: zrbWrapper
+    dependencies: [] 

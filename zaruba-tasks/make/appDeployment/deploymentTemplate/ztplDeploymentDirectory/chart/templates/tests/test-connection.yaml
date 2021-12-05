@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "ztpl-app-name.fullname" . }}-test-connection"
+  labels:
+    {{- include "ztpl-app-name.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "ztpl-app-name.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

@@ -1,0 +1,18 @@
+tasks:
+ 
+  makeApp:
+    icon: 📜
+    extend: zrbMake
+    inputs:
+      - appDirectory
+    configs:
+      _skipCreationPath: '${_ZRB_APP_DIRECTORY}'
+      _integrate: |
+        if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+        then
+          chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+        fi
+      templateLocations: |
+        [
+          "{{ .ZarubaHome }}/zaruba-tasks/make/app/template"
+        ]

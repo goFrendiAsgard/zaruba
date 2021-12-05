@@ -1,0 +1,6 @@
+tasks:
+
+  addNodeJsAppRunner:
+    icon: 🐸
+    dependencies:
+      - makeNodeJsAppRunner

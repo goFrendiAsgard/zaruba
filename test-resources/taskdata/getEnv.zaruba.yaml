@@ -1,7 +1,7 @@
 tasks:
 
   taskName:
-    env:
+    envs:
       KEY1:
         default: VALUE1
       KEY2:

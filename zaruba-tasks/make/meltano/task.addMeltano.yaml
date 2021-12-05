@@ -1,0 +1,6 @@
+tasks:
+
+  addMeltano:
+    icon: 🐉
+    dependencies:
+      - makeMeltanoAppRunner

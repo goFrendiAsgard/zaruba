@@ -1,0 +1,8 @@
+tasks:
+
+  startContainerRegistry:
+    icon: 🐳
+    extend: zrbStartDockerContainer
+    dependencies:
+      - pullContainerRegistry
+    configRef: containerRegistry

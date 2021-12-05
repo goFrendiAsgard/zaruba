@@ -1,0 +1,19 @@
+tasks:
+ 
+  addFastApiRouteHandler:
+    icon: ⚡
+    extend: makeApp
+    dependencies:
+      - addFastApiModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appUrl
+      - appHttpMethod
+    configs:
+      _skipCreationPath: ''
+      _prepareVariables: ''
+      _integrate: |
+        . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiRouteHandler/bash/addRouteHandler.sh"
+      defaultAppDirectory: '{{ .ProjectName }}FastApi'
+      templateLocations: '[]'

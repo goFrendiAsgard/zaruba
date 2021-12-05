@@ -1,8 +1,0 @@
-inputs:
-
-  airflowServiceName:
-    description: Airflow service name (Required)
-    prompt: Airflow service name
-    validation: ^[a-zA-Z0-9_]+$
-    default: airflow
-

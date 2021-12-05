@@ -1,0 +1,7 @@
+tasks:
+
+  addAirflow:
+    icon: 🎐
+    dependencies:
+      - makeAirflowAppRunner
+ 

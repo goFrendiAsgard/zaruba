@@ -1,0 +1,6 @@
+tasks:
+
+  addPostgresql:
+    icon: 🐘
+    dependencies:
+      - makePostgresqlAppRunner

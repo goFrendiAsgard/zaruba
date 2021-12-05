@@ -1,0 +1,20 @@
+tasks:
+
+  makeNodeJsAppRunner:
+    icon: 🐸
+    extend: makeNativeAppRunner
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appStartCommand
+      - appTestCommand
+      - appMigrateCommand
+      - appCheckCommand
+      - appImageName
+      - appContainerName
+    configRefs:
+      - makeNodeJsAppRunner
+      - addNodeJsAppRunner

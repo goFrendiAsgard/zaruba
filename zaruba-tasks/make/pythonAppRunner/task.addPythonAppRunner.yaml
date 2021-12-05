@@ -1,0 +1,6 @@
+tasks:
+
+  addPythonAppRunner:
+    icon: 🐍
+    dependencies:
+      - makePythonAppRunner

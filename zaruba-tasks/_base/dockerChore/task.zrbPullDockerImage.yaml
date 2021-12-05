@@ -1,0 +1,27 @@
+tasks:
+  
+  zrbPullDockerImage:
+    icon: 🐳
+    private: true
+    description: |
+      Pull docker image.
+      Common configs:
+        imageName : Image name
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    configRef: zrbDocker
+    configs:
+      imageTag: ""
+      start: |
+        DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
+        DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+        if [ ! -z "${DOCKER_IMAGE_TAG}" ]
+        then
+          pullImage "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+        else
+          pullImage "${DOCKER_IMAGE_NAME}"
+        fi
+        echo 🎉🎉🎉
+        echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} pulled${_NORMAL}"
+

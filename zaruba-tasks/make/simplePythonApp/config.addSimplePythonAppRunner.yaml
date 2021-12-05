@@ -1,0 +1,4 @@
+configs:
+
+  addSimplePythonAppRunner:
+    defaultAppDirectory: '{{ .ProjectName }}App'

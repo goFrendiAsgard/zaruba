@@ -1,0 +1,50 @@
+tasks:
+
+  testAddComponents:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - testInitProject
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
+        ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="provoFibo" 
+        ../zaruba please initSubrepos 
+        ../zaruba please pullSubrepos 
+        ../zaruba please addAppRunner appDirectory=provoFibo appEnvs='{"HTTP_PORT":"3001"}'
+        ../zaruba please addAppDeployment appDirectory=provoFibo
+
+        ../zaruba please setProjectValue variableName=showAdvertisement variableValue=no
+
+        ../zaruba please addEks deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
+
+        ../zaruba please addDocker appDirectory=provoDocker appPorts='["3002:8080"]'
+        ../zaruba please addAppDeployment appDirectory=provoDocker
+        ../zaruba please addSimpleGoApp appDirectory=provoGo appEnvs='{"APP_HTTP_PORT":"3003"}'
+        ../zaruba please addAppDeployment appDirectory=provoGo
+        ../zaruba please addSimpleNodeJsApp appDirectory=provoNodeJs appEnvs='{"APP_HTTP_PORT":"3004"}'
+        ../zaruba please addAppDeployment appDirectory=provoNodeJs
+        ../zaruba please addSimplePythonApp appDirectory=provoPython appEnvs='{"APP_HTTP_PORT":"3005"}'
+        ../zaruba please addAppDeployment appDirectory=provoPython
+
+        ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library
+        ../zaruba please addFastApiRouteHandler appDirectory=provoFastApi appModuleName=blog appHttpMethod=get appUrl=/
+        ../zaruba please addFastApiEventHandler appDirectory=provoFastApi appModuleName=library appEventName=open
+        ../zaruba please addFastApiRpcHandler appDirectory=provoFastApi appModuleName=library appRpcName=isBookAvailable
+        ../zaruba please addFastApiCrud appDirectory=provoFastApi appModuleName=library appCrudEntity=books appCrudFields='["title", "author", "synopsis"]'
+        ../zaruba please addAppDeployment appDirectory=provoFastApi
+
+        ../zaruba please addAirflow appDirectory=provoAirflow
+        ../zaruba please addCassandra appDirectory=provoCassandra
+        ../zaruba please addElasticsearch appDirectory=provoElasticsearch
+        ../zaruba please addKafka appDirectory=provoKafka
+        ../zaruba please addMeltano appDirectory=provoMeltano
+        ../zaruba please addMongodb appDirectory=provoMongodb
+        ../zaruba please addMysql appDirectory=provoMysql
+        ../zaruba please addNginx appDirectory=provoNginx appPorts='["8980:80", "8943:443"]'
+        ../zaruba please addPostgresql appDirectory=provoPostgresql
+        ../zaruba please addRabbitmq appDirectory=provoRabbitmq
+        ../zaruba please addRedis appDirectory=provoRedis
+        ../zaruba please addTrino appDirectory=provoTrino

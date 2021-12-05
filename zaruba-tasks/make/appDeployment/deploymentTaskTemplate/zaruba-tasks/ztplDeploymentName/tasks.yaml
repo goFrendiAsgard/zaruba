@@ -1,0 +1,47 @@
+tasks:
+
+  prepareZtplDeploymentName:
+    icon: ztplDeploymentName
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    configRefs:
+      - prepareZtplDeploymentName
+      - ztplDeploymentName
+    envRef: ztplDeploymentName
+    syncEnvLocation: ztplAppTaskLocation
+
+  previewZtplDeploymentName:
+    icon: ztplDeploymentName
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    configRefs:
+      - previewZtplDeploymentName
+      - ztplDeploymentName
+    envRef: ztplDeploymentName
+    syncEnvLocation: ztplAppTaskLocation
+
+  deployZtplDeploymentName:
+    icon: ztplAppIcon
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    dependencies:
+      - prepareZtplDeploymentName
+      - zrbSetKubeContext
+    configRefs:
+      - deployZtplDeploymentName
+      - ztplDeploymentName
+
+  destroyZtplDeploymentName:
+    icon: ztplAppIcon
+    extend: zrbRunShellScript
+    location: ztplDeploymentTaskLocation
+    timeout: 1h
+    dependencies:
+      - prepareZtplDeploymentName
+      - zrbSetKubeContext
+    configRefs:
+      - destroyZtplDeploymentName
+      - ztplDeploymentName

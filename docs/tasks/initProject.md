@@ -1,42 +1,164 @@
-# initProject
-```
-  TASK NAME     : initProject
-  LOCATION      : /scripts/tasks/initProject.zaruba.yaml
-  DESCRIPTION   : Initiate empty zaruba project.
-  TASK TYPE     : Command Task
-  PARENT TASKS  : [ core.runCoreScript ]
-  START         : - {{ .GetConfig "cmd" }}
-                  - {{ .GetConfig "cmdArg" }}
-                  - {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
-                    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-  CONFIG        : _finish           : Blank
-                  _setup            : set -e
-                                      {{ .Util.Str.Trim (.GetConfig "includeUtilScript") "\n" }}
-                  _start            : Blank
-                  afterStart        : Blank
-                  beforeStart       : Blank
-                  cmd               : {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
-                  cmdArg            : -c
-                  finish            : Blank
-                  includeUtilScript : . ${ZARUBA_HOME}/bash/util.sh
-                  setup             : Blank
-                  start             : {{ $d := .Decoration -}}
-                                      if [ -f "main.zaruba.yaml" ]
-                                      then
-                                        echo "{{ $d.Bold }}{{ $d.Red }}$(pwd) is a zaruba project.{{ $d.Normal }}"
-                                        exit 1
-                                      fi
-                                      git init
-                                      cp -rT "${ZARUBA_HOME}/templates/project/" .
-                                      echo 🎉🎉🎉
-                                      echo "{{ $d.Bold }}{{ $d.Yellow }}Project created{{ $d.Normal }}"
-  ENVIRONMENTS  : PYTHONUNBUFFERED
-                    FROM    : PYTHONUNBUFFERED
-                    DEFAULT : 1
-```
+
+# InitProject
+
+File Location:
+
+    /zaruba-tasks/chore/initProject/task.initProject.yaml
+
+Should Sync Env:
+
+    true
+
+Type:
+
+    command
+
+Description:
+
+    Initiate empty zaruba project.
+
+
+
+## Extends
+
+* `zrbRunShellScript`
+
+
+## Start
+
+* `{{ .GetConfig "cmd" }}`
+* `{{ .GetConfig "cmdArg" }}`
+*
+    ```
+    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+
+    ```
+
+
+## Configs
+
+
+### Configs._finish
+
+
+### Configs._initShell
+
+Value:
+
+    {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
+    {{ $d := .Decoration -}}
+    {{ $d.ToShellVariables }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
+    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.SingleQuote (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
+
+
+
+### Configs._setup
+
+Value:
+
+    {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
+
+
+### Configs._start
+
+
+### Configs.afterStart
+
+
+### Configs.beforeStart
+
+
+### Configs.cmd
+
+Value:
+
+    {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
+
+
+### Configs.cmdArg
+
+Value:
+
+    -c
+
+
+### Configs.finish
+
+
+### Configs.setup
+
+
+### Configs.shouldInitConfigMapVariable
+
+Value:
+
+    false
+
+
+### Configs.shouldInitConfigVariables
+
+Value:
+
+    false
+
+
+### Configs.shouldInitEnvMapVariable
+
+Value:
+
+    false
+
+
+### Configs.shouldInitUtil
+
+Value:
+
+    true
+
+
+### Configs.start
+
+Value:
+
+    if [ -f "index.zaruba.yaml" ]
+    then
+      echo "${_BOLD}${_RED}$(pwd) is a zaruba project.${_NORMAL}"
+      exit 1
+    fi
+    git init
+    cp -rT "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
+    touch .env
+    echo 🎉🎉🎉
+    echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"
+
+
+
+### Configs.strictMode
+
+Value:
+
+    true
+
+
+## Envs
+
+
+### Envs.PYTHONUNBUFFERED
+
+From:
+
+    PYTHONUNBUFFERED
+
+Default:
+
+    1

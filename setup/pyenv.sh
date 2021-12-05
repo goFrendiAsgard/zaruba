@@ -4,7 +4,7 @@ echo "🔽 Downloading and installing pyenv."
 curl https://pyenv.run | bash
 
 echo "🔽 Update init script."
-SCRIPT="$(cat "${ZARUBA_HOME}/templates/bash/pyenv.sh")"
+SCRIPT="$(cat "${ZARUBA_HOME}/setup/templates/bash/pyenv.sh")"
 echo "${SCRIPT}" >> "${ZARUBA_HOME}/init.sh"
 . "${ZARUBA_HOME}/init.sh"
 

@@ -1,0 +1,6 @@
+tasks:
+
+  addAppRunner:
+    icon: 🐶
+    dependencies:
+      - makeAppRunner

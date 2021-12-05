@@ -1,0 +1,6 @@
+tasks:
+
+  addFastApi:
+    icon: ⚡
+    dependencies:
+      - makeFastApiAppRunner

@@ -1,0 +1,57 @@
+tasks:
+
+  startZtplAppNameRedisContainer:
+    icon: 🧰
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/redis
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameRedisImage
+    configRefs:
+      - ztplAppNameRedisContainer
+      - ztplAppNameRedis
+    envRefs: 
+      - ztplAppNameRedis
+
+  buildZtplAppNameRedisImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/redis
+    timeout: 1h
+    configRefs:
+      - ztplAppNameRedisContainer
+      - ztplAppNameRedis
+    envRefs: 
+      - ztplAppNameRedis
+
+  pushZtplAppNameRedisImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameRedisImage
+    configRefs:
+      - ztplAppNameRedisContainer
+      - ztplAppNameRedis
+    envRefs: 
+      - ztplAppNameRedis
+
+  stopZtplAppNameRedisContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameRedisContainer
+      - ztplAppNameRedis
+    envRefs: 
+      - ztplAppNameRedis
+
+  removeZtplAppNameRedisContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameRedisContainer
+      - ztplAppNameRedis
+    envRefs: 
+      - ztplAppNameRedis

@@ -1,0 +1,7 @@
+tasks:
+
+  addCassandra:
+    icon: 👀
+    dependencies:
+      - makeCassandraAppRunner
+ 

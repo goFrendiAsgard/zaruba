@@ -1,0 +1,6 @@
+tasks:
+
+  addSimpleNodeJsApp:
+    icon: 🐸
+    dependencies:
+      - makeSimpleNodeJsAppRunner

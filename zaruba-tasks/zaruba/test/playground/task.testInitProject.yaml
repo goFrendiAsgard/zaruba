@@ -1,0 +1,12 @@
+tasks:
+
+  testInitProject:
+    location: ../../../../playground
+    dependencies:
+      - buildBin
+      - preparePlayground
+    extend: zrbRunShellScript 
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please initProject 

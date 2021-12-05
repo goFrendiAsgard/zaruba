@@ -1,0 +1,33 @@
+configs:
+
+  ztplAppName:
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+
+  ztplAppNameContainer:
+    useImagePrefix: true
+    imageName: ztpl-app-image-name
+    containerName: ztplAppContainerName
+    localhost: host.docker.internal
+    volumes: |
+      ztplAppYamlContainerVolumes
+
+  runZtplAppName:
+    start: |
+      source ./venv/bin/activate
+      ./start.sh
+
+  prepareZtplAppName:
+    start: |
+      if [ ! -d "./venv" ]
+      then
+        python -m venv ./venv
+      fi
+      source ./venv/bin/activate
+      pip install -r requirements.txt
+
+  testZtplAppName:
+    start: |
+      source ./venv/bin/activate
+      pytest -rP -v --cov="$(pwd)" --cov-report html

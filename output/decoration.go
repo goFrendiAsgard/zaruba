@@ -1,5 +1,11 @@
 package output
 
+import (
+	"strings"
+
+	"github.com/state-alchemists/zaruba/strutil"
+)
+
 // Decoration is decorator for terminal
 type Decoration struct {
 	Normal      string
@@ -95,8 +101,8 @@ func NewPlainDecoration() (d *Decoration) {
 	}
 }
 
-// NewDecoration Create New Decoration
-func NewDecoration() (d *Decoration) {
+// NewDefaultDecoration Create New Decoration
+func NewDefaultDecoration() (d *Decoration) {
 	// source: https://gist.github.com/mxmerz/92e97cd27857a9ba787b
 	d = &Decoration{
 		Normal:      "\x1b[0m",
@@ -177,4 +183,47 @@ func (d *Decoration) GenerateIcon() string {
 	icon := d.iconList[d.iconIndex]
 	d.iconIndex++
 	return icon
+}
+
+func (d *Decoration) ToShellVariables() string {
+	shellVariableList := []string{
+		strutil.StrShellVariable("_NORMAL", d.Normal),
+		strutil.StrShellVariable("_BOLD", d.Bold),
+		strutil.StrShellVariable("_FAINT", d.Faint),
+		strutil.StrShellVariable("_ITALIC", d.Italic),
+		strutil.StrShellVariable("_UNDERLINE", d.Underline),
+		strutil.StrShellVariable("_BLINK_SLOW", d.BlinkSlow),
+		strutil.StrShellVariable("_BLINK_RAPID", d.BlinkRapid),
+		strutil.StrShellVariable("_INVERSE", d.Inverse),
+		strutil.StrShellVariable("_CONCEAL", d.Conceal),
+		strutil.StrShellVariable("_CROSSED_OUT", d.CrossedOut),
+		strutil.StrShellVariable("_BLACK", d.Black),
+		strutil.StrShellVariable("_RED", d.Red),
+		strutil.StrShellVariable("_GREEN", d.Green),
+		strutil.StrShellVariable("_YELLOW", d.Yellow),
+		strutil.StrShellVariable("_BLUE", d.Blue),
+		strutil.StrShellVariable("_MAGENTA", d.Magenta),
+		strutil.StrShellVariable("_CYAN", d.Cyan),
+		strutil.StrShellVariable("_WHITE", d.White),
+		strutil.StrShellVariable("_BG_BLACK", d.BgBlack),
+		strutil.StrShellVariable("_BG_RED", d.BgRed),
+		strutil.StrShellVariable("_BG_GREEN", d.BgGreen),
+		strutil.StrShellVariable("_BG_YELLOW", d.BgYellow),
+		strutil.StrShellVariable("_BG_BLUE", d.BgBlue),
+		strutil.StrShellVariable("_BG_MAGENTA", d.BgMagenta),
+		strutil.StrShellVariable("_BG_CYAN", d.BgCyan),
+		strutil.StrShellVariable("_BG_WHITE", d.BgWhite),
+		strutil.StrShellVariable("_NO_UNDERLINE", d.NoUnderline),
+		strutil.StrShellVariable("_NO_INVERSE", d.NoInverse),
+		strutil.StrShellVariable("_NO_COLOR", d.NoColor),
+		strutil.StrShellVariable("_SKULL", d.Skull),
+		strutil.StrShellVariable("_SUCCESS", d.Success),
+		strutil.StrShellVariable("_ERROR", d.Error),
+		strutil.StrShellVariable("_START", d.Start),
+		strutil.StrShellVariable("_KILL", d.Kill),
+		strutil.StrShellVariable("_INSPECT", d.Inspect),
+		strutil.StrShellVariable("_RUN", d.Run),
+		strutil.StrShellVariable("_EMPTY", d.Empty),
+	}
+	return strings.Join(shellVariableList, ";")
 }
