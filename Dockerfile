@@ -8,7 +8,7 @@ RUN go mod download
 COPY ./ ./
 COPY ./.git ./.git
 RUN go build -o zaruba && \
-    chmod 755 -R ./zaruba-tasks \
+    chmod 755 ./zaruba-tasks -R \
     chmod 755 ./setup/*.sh
 
 ENV ZARUBA_HOME="/zaruba"
