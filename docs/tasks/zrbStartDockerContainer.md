@@ -62,7 +62,6 @@ Description:
 * `{{ .GetConfig "cmdArg" }}`
 *
     ```
-    {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
       echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
@@ -88,7 +87,6 @@ Description:
 * `{{ .GetConfig "cmdArg" }}`
 *
     ```
-    {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
       echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"

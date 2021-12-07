@@ -45,7 +45,6 @@ Description:
 * `{{ .GetConfig "cmdArg" }}`
 *
     ```
-    {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
       echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
@@ -71,7 +70,6 @@ Description:
 * `{{ .GetConfig "cmdArg" }}`
 *
     ```
-    {{- $d := .Decoration -}}
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
       echo 🎉🎉🎉
       echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
@@ -136,7 +134,6 @@ Value:
 
 Value:
 
-    {{- $d := .Decoration -}}
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
       {{ if ne $port "" -}}
         echo "📜 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
