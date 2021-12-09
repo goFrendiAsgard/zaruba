@@ -3,3 +3,4 @@ configs:
   mainTest:
     beforeStart:
       ZARUBA_HOME="$(realpath ".")"
+      ZARUBA_SCRIPTS=""
