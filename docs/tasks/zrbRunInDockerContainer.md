@@ -124,8 +124,9 @@ Value:
     mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
     "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}🏁 Run Script${_NORMAL}"
+    echo "${_YELLOW}🏁 Generated Script${_NORMAL}"
     echo '{{ .GetConfig "runGeneratedScript" }}'
+    echo "${_YELLOW}🏁 Run Generated Script${_NORMAL}"
     {{ .GetConfig "runGeneratedScript" }}
     cd "${__ZRB_PWD}"
 
