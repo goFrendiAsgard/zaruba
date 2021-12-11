@@ -5,6 +5,78 @@ tasks:
     dependencies:
       - zrbShowAdv
     private: true
+    description: |
+      Make piece of code based on template and replacement map.
+      Common configs:
+        templateLocations      : JSON array, location of the templates.
+        _prepareVariables      : Script to initiate additional environment variables.
+        _prepareReplacementMap : Script to modify _ZRB_REPLACEMENT_MAP.
+        _validate              : Script to validate configurations.
+        _integrate             : Script to integrate the newly generated code to the system.
+      Replacements:
+        ZTPL_ENV_[.+]                       : Environment of current task
+        ztplCfg[.+]                         : Configuration of current task
+        [\t ]*ztplAppBuildImageCommand      : Command to build container image
+        [\t ]*ztplAppCheckCommand           : Command to check app's readiness
+        [\t ]*ztplAppMigrateCommand         : Command to migrate
+        [\t ]*ztplAppPrepareCommand         : Command to prepare app
+        [\t ]*ztplAppPushImageCommand       : Command to push app's container image
+        [\t ]*ztplAppStartCommand           : Command to start app
+        [\t ]*ztplAppStartContainerCommand  : Command to start app as container
+        [\t ]*ztplAppTestCommand            : Command to test app
+        [\t ]*ztplAppYamlContainerVolumes   : Task config value, representing Container volume
+        [\t ]*ztplAppYamlEnvs               : Task config value, representing app's environment
+        [\t ]*ztplAppYamlPorts              : Task config value, representing app's ports
+        ztplAppContainerName                : App's container name
+        ztplAppContainerVolumes             : App's container volumes (JSON list)
+        ztpl_app_crud_entity                : App's crud entity (snake case)
+        ztplAppCrudEntity                   : App's crud entity (camel case)
+        ztpl-app-crud-entity                : App's crud entity (kebab case)
+        ZtplAppCrudEntity                   : App's curd entity (pascal case)
+        ztplAppCrudFields                   : App's crud fields (JSON list)
+        ztplAppDependencies                 : App's depencies (JSON list)
+        ztpl_app_directory                  : App's directory (snake case)
+        ztplAppDirectory                    : App's directory (camel case)
+        ztpl-app-directory                  : App's directory (kebab case)
+        ZtplAppDirectory                    : App's directory (pascal case)
+        ZTPL_APP_ENV_PREFIX                 : App's environment prefix
+        ztplAppEnvs                         : App's Environments (JSON map)
+        ztpl_app_event_name                 : App's event name (snake case)
+        ztplAppEventName                    : App's event name (camel case)  
+        ztpl-app-event-name                 : App's event name (kebab case)
+        ZtplAppEventName                    : App's event name (pascal case)
+        ztplAppHttpMethod                   : App's HTTP method (i.e: get, post, put, delete)
+        ztplAppIcon                         : App's icon
+        ztpl-app-image-name                 : App's image name
+        ztpl_app_module_name                : App's module name (snake case)
+        ztplAppModuleName                   : App's module name (camel case)
+        ztpl-app-module-name                : App's module name (kebab case)
+        ZtplAppModuleName                   : App's module name (pascal case)
+        ztpl_app_name                       : App's name (snake case)
+        ztplAppName                         : App's name (camel case)
+        ztpl-app-name                       : App's name (kebab case)
+        ZtplAppName                         : App's name (pascal case)
+        ztplAppPorts                        : App's ports (JSON list)
+        ztpl_app_rpc_name                   : App's RPC name (snake case)
+        ztplAppRpcName                      : App's RPC name (camel case)
+        ztpl-app-rpc-name                   : App's RPC name (kebab case)
+        ZtplAppRpcName                      : App's RPC name (pascal case)
+        ztplAppRunnerVersion                : App's runner version (e.g: node, lts, 14.0, etc)
+        ztplAppTaskLocation                 : App's task location
+        ztpl_app_url                        : App's url (snake case)
+        ztplAppUrl                          : App's url (camel case)
+        ztpl-app-url                        : App's url (kebab case)
+        ZtplAppUrl                          : App's url (pascal case)
+        ztpl_deployment_directory           : App's deployment directory (snake case)
+        ztplDeploymentDirectory             : App's deployment directory (camel case)
+        ztpl-deployment-directory           : App's deployment directory (kebab case)
+        ZtplDeploymentDirectory             : App's deployment directory (pascal case)
+        ztpl_deployment_name                : App's deployment name (snake case)
+        ztplDeploymentName                  : App's deployment name (camel case)
+        ztpl-deployment-name                : App's deployment name (kebab case)
+        ZtplDeploymentName                  : App's deployment name (pascal case)
+        ztplDeploymentTaskLocation          : App's deployment directory relative to task's location
+      You can see the detail at ~/.zaruba/zaruba-tasks/make/_base/bash/prepareReplacementMap.sh
     configs:
       shouldInitConfigVariables: true
       shouldInitConfigMapVariable: true
@@ -67,36 +139,14 @@ tasks:
         . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
         _ZRB_REPLACEMENT_MAP='{}'
         _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
-        _ZRB_TEMPLATE_LOCATIONS='{{ .GetConfig "templateLocations" }}'
-        _ZRB_APP_BASE_IMAGE_NAME='{{ .GetConfig "appBaseImageName" }}'
         _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appBuildImageCommand") "\n " }}'
         _ZRB_APP_CHECK_COMMAND='{{ .Util.Str.Trim (.GetConfig "appCheckCommand") "\n " }}'
-        _ZRB_APP_CONTAINER_NAME='{{ .GetConfig "appContainerName" }}'
-        _ZRB_APP_CONTAINER_VOLUMES='{{ .GetConfig "appContainerVolumes" }}'
-        _ZRB_APP_DEPENDENCIES='{{ .GetConfig "appDependencies" }}'
-        _ZRB_APP_DIRECTORY='{{ .GetConfig "appDirectory" }}'
-        _ZRB_APP_ENV_PREFIX='{{ .GetConfig "appEnvPrefix" }}'
-        _ZRB_APP_ENVS='{{ .GetConfig "appEnvs" }}'
-        _ZRB_DEPLOYMENT_DIRECTORY='{{ .GetConfig "deploymentDirectory" }}'
-        _ZRB_DEPLOYMENT_NAME='{{ .GetConfig "deploymentName" }}'
-        _ZRB_APP_ICON='{{ .GetConfig "appIcon" }}'
-        _ZRB_APP_IMAGE_NAME='{{ .GetConfig "appImageName" }}'
-        _ZRB_APP_NAME='{{ .GetConfig "appName" }}'
-        _ZRB_APP_PORTS='{{ .GetConfig "appPorts" }}'
         _ZRB_APP_PREPARE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPrepareCommand") "\n " }}'
         _ZRB_APP_PUSH_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPushImageCommand") "\n " }}'
-        _ZRB_APP_RUNNER_VERSION='{{ .GetConfig "appRunnerVersion" }}'
         _ZRB_APP_START_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartCommand") "\n " }}'
         _ZRB_APP_START_CONTAINER_COMMAND='{{ .Util.Str.Trim (.GetConfig "appStartContainerCommand") "\n " }}'
         _ZRB_APP_TEST_COMMAND='{{ .Util.Str.Trim (.GetConfig "appTestCommand") "\n " }}'
         _ZRB_APP_MIGRATE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appMigrateCommand") "\n " }}'
-        _ZRB_APP_CRUD_ENTITY='{{ .GetConfig "appCrudEntity" }}'
-        _ZRB_APP_CRUD_FIELDS='{{ .GetConfig "appCrudFields" }}'
-        _ZRB_APP_EVENT_NAME='{{ .GetConfig "appEventName" }}'
-        _ZRB_APP_HTTP_METHOD='{{ .GetConfig "appHttpMethod" }}'
-        _ZRB_APP_MODULE_NAME='{{ .GetConfig "appModuleName" }}'
-        _ZRB_APP_RPC_NAME='{{ .GetConfig "appRpcName" }}'
-        _ZRB_APP_URL='{{ .GetConfig "appUrl" }}'
         __ZRB_PWD=$(pwd)
         echo "${_YELLOW}🧰 Prepare${_NORMAL}"
         {{ .GetConfig "_prepareBaseVariables" }}

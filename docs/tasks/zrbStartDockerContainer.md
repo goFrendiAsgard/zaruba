@@ -15,7 +15,7 @@ Type:
 
 Description:
 
-    Start docker container and check it's readiness.
+    Start docker container and wait until it is ready.
     If container is already started, it's stdout/stderr will be shown.
     If container is exist but not started, it will be started.
     If container is not exist, it will be created and started.

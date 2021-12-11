@@ -1,1 +1,1 @@
-ztplSql
+ztplCfgSql

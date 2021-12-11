@@ -1,1 +1,1 @@
-ztplScript
+ztplCfgScript

@@ -1,1 +1,1 @@
-FROM ztplAppBaseImageName
+FROM ztplCfgAppBaseImageName

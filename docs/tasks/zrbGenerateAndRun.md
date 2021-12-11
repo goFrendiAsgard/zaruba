@@ -15,7 +15,20 @@ Type:
 
 Description:
 
-    Generate script and run it
+    Generate script and run it.
+    Common configs:
+      templateLocation        : Location of the template.
+      generatedScriptLocation : Location of the generated script.
+      runGeneratedScript      : Script to run generated script.
+      _prepareVariables       : Script to initiate additional environment variables.
+      _prepareReplacementMap  : Script to modify _ZRB_REPLACEMENT_MAP.
+      _validate               : Script to validate configurations.
+    Replacements:
+      ZTPL_ENV_[.+]           : Environment of current task
+      ${[.+]}                 : Environment of current task
+      $[.+]                   : Environment of current task
+      ztplCfg[.+]             : Configuration of current task
+
 
 
 ## Extends
@@ -95,12 +108,7 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
     _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
     _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
-    _ZRB_TASK_NAME="{{ .Name }}"
     _ZRB_REPLACEMENT_MAP='{}'
-    _ZRB_SCRIPT='{{ .GetConfig "script" }}'
-    _ZRB_SQL='{{ .GetConfig "sql" }}'
-    _ZRB_IMAGE_NAME="{{ .GetDockerImageName }}"
-    _ZRB_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
     __ZRB_PWD=$(pwd)
     echo "${_YELLOW}🧰 Prepare${_NORMAL}"
     {{ .GetConfig "_prepareBaseVariables" }}
