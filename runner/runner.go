@@ -212,6 +212,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				}
 				r.unregisterCmd(currentLabel)
 				r.logger.DPrintfError("%s exited without any error message\n", currentLabel)
+				ch <- fmt.Errorf("%s exited without any error message", currentLabel)
 			}()
 		}
 		r.cmdInfoMutex.Unlock()

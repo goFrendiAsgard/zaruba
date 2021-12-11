@@ -78,7 +78,7 @@ func TestRunnerServeSalineWater(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	runner, logger, _, err := getRunner(project, []string{"serveSalineWater"}, "10s", false, "10s")
+	runner, logger, _, err := getRunner(project, []string{"serveSalineWater"}, "10s", true, "2s")
 	if err != nil {
 		t.Error(err)
 		return
