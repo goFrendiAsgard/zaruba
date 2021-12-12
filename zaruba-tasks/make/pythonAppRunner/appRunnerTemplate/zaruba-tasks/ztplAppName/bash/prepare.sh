@@ -7,9 +7,10 @@ then
 else
     if [ ! -d "./venv" ]
     then
-        echo "${_BOLD}${_YELLOW}Activate venv${_NORMAL}"
+        echo "${_BOLD}${_YELLOW}Create venv${_NORMAL}"
         python -m venv ./venv
     fi
+    echo "${_BOLD}${_YELLOW}Activate venv${_NORMAL}"
     source ./venv/bin/activate
     if [ -f "requirements.txt" ]
     then
