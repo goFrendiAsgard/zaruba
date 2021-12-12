@@ -23,8 +23,13 @@ func StrSingleQuote(s string) (result string) {
 	return StrQuote(s, '\'')
 }
 
+func StrEscapeShellValue(value string) (result string) {
+	escapedValue := strings.ReplaceAll(value, "'", "'\"'\"'")
+	return fmt.Sprintf("'%s'", escapedValue)
+}
+
 func StrShellVariable(key, value string) (result string) {
-	return fmt.Sprintf("%s=%s", key, StrSingleQuote(value))
+	return fmt.Sprintf("%s=%s", key, StrEscapeShellValue(value))
 }
 
 func strIndent(multiLineStr string, indentation string, skipFirstLine bool) (indentedStr string) {

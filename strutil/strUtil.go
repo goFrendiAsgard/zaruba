@@ -97,6 +97,10 @@ func (strUtil *StrUtil) SingleQuote(s string) (result string) {
 	return StrSingleQuote(s)
 }
 
+func (strUtil *StrUtil) EscapeShellValue(s string) (result string) {
+	return StrEscapeShellValue(s)
+}
+
 // indent second-last lines
 func (strUtil *StrUtil) Indent(multiLineStr string, indentation string) (indentedStr string) {
 	return StrIndent(multiLineStr, indentation)
