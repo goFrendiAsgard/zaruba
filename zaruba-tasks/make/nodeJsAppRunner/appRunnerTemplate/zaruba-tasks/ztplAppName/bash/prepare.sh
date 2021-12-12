@@ -39,3 +39,4 @@ then
         tsc
     fi
 fi
+echo "${_BOLD}${_YELLOW}Prepared${_NORMAL}"
