@@ -12,7 +12,7 @@ tasks:
         git checkout master
         git pull origin master
         echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
-        go build
+        . ./buildZaruba.sh
         echo 🎉🎉🎉
         echo "${_BOLD}${_YELLOW}Zaruba ready!!!${_NORMAL}"
-        echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"
+        echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"

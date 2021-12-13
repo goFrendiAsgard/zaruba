@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -24,13 +25,18 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "zaruba",
 	Short: "Task runner and CLI utilities",
-	Long: `
- _____                _       _
-|__  /__ _ _ __ _   _| |__   / \
-  / // _  |  __| | | |  _ \ / _ \
- / /| (_| | |  | |_| | |_) / ___ \
-/____\__,_|_|   \__,_|_.__/_/   \_\
-      Task runner and CLI utilities`,
+	Long: fmt.Sprintf(`
+                                         ,,                      
+MMM"""AMV                               *MM              db      
+M'   AMV                                 MM             ;MM:     
+'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
+   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
+  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
+ AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
+AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
+--.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
+                                    Task runner and CLI utilities
+%s`, ZarubaVersion),
 }
 
 func init() {
@@ -48,6 +54,7 @@ func init() {
 	rootCmd.AddCommand(generateCmd)
 	rootCmd.AddCommand(pleaseCmd)
 	rootCmd.AddCommand(serveCmd)
+	rootCmd.AddCommand(versionCmd)
 
 	rootCmd.AddCommand(advertisementcmd.Cmd)
 	advertisementcmd.Init()

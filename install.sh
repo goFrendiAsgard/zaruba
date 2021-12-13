@@ -50,7 +50,8 @@ fi
 # Build
 echo "💀 Building zaruba."
 cd "${INSTALLATION_DIR}"
-go build
+chmod 755 buildZaruba.sh
+. ./buildZaruba.sh
 chmod 755 -R "${INSTALLATION_DIR}/setup"
 
 # Restore init script or create a new one

@@ -1,7 +1,7 @@
 build:
-	go build
+	. ./buildZaruba.sh
 test:
-	go build
+	. ./buildZaruba.sh
 	sudo rm -Rf playground
 	./zaruba please clearLog
 	./zaruba please test makeDocs

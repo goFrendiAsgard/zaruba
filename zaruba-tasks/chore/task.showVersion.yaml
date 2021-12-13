@@ -6,6 +6,4 @@ tasks:
       Show zaruba's current version.
     extend: zrbRunShellScript
     configs:
-      start: |
-        cd "{{ .ZarubaHome }}"
-        echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"
+      start: 'echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"'

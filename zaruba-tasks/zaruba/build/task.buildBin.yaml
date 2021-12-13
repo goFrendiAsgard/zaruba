@@ -9,5 +9,5 @@ tasks:
     configs:
       start: |
         rm -f zaruba
-        go build
+        . ./buildZaruba.sh
 
