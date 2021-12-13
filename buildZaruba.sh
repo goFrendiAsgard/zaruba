@@ -1,5 +1,1 @@
-echo "package cmd" > "cmd/version.go"
-echo "var ZarubaVersion = \"$(git describe --tags --always)\"" >> "cmd/version.go"
-git add . -A
-git commit -m 'build'
-go build -o zaruba
+go build -ldflags="-X 'github.com/state-alchemists/zaruba/cmd.ZarubaVersion=$(git describe --tags --always)'" -o zaruba
