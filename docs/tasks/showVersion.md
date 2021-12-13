@@ -130,8 +130,7 @@ Value:
 
 Value:
 
-    cd "{{ .ZarubaHome }}"
-    echo "${_BOLD}${_YELLOW}$(getVersion)${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"
 
 
 ### Configs.strictMode

@@ -35,6 +35,7 @@ app = Chart(
                 'ports': config.get('service.ports')
             }
         },
+        skip_await=True
     )
 )
 
