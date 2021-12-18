@@ -127,11 +127,13 @@ Value:
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     sleep 3
-    docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
+    {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
+    echo "🔎 ${_BOLD}${_YELLOW}Run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
+    docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
     until [ "$?" = "0" ]
     do
       sleep 3
-      docker exec "${CONTAINER_NAME}" {{ .GetConfig "checkCommand" }}
+      docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
     done
     set "${_OLD_STATE}"
     {{ end -}}
@@ -159,15 +161,17 @@ Value:
 
 Value:
 
+    echo "🔎 ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' running status${_NORMAL}"
     until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
     do
       sleep 1
     done
+    echo "🔎 ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' healthcheck${_NORMAL}"
     while [ "$(inspectDocker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
     do
       sleep 1
     done
-    echo "🔎 ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is running${_NORMAL}"
+    echo "🔎 ${_BOLD}${_YELLOW}Docker container '${CONTAINER_NAME}' is running${_NORMAL}"
 
 
 
@@ -263,8 +267,11 @@ Value:
 
 Value:
 
-    stopContainer "${CONTAINER_NAME}"
-    removeContainer "${CONTAINER_NAME}"
+    if [ "$(isContainerExist "${CONTAINER}")" = 1 ]
+    then
+      stopContainer "${CONTAINER_NAME}"
+      removeContainer "${CONTAINER_NAME}"
+    fi
 
 
 

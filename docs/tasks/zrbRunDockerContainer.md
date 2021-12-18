@@ -167,8 +167,11 @@ Value:
 
 Value:
 
-    stopContainer "${CONTAINER_NAME}"
-    removeContainer "${CONTAINER_NAME}"
+    if [ "$(isContainerExist "${CONTAINER}")" = 1 ]
+    then
+      stopContainer "${CONTAINER_NAME}"
+      removeContainer "${CONTAINER_NAME}"
+    fi
 
 
 

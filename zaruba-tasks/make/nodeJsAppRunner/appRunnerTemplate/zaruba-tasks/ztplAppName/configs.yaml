@@ -5,6 +5,8 @@ configs:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
       ztplAppYamlPorts
+
+  ztplAppNameNvm:
     beforeStart: |
       NODE_VERSION='{{ .GetConfig "nodeVersion" }}'
       . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/useNvm.sh" }}"
