@@ -135,11 +135,38 @@ pullImage() {
 } 
 
 
+# USAGE: isContainerExist <container>
+isContainerExist() {
+    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+    set +e
+    __CONTAINER_NAME="$(docker container inspect -f "{{ .Name }}" "${1}")"
+    if [ -z "${__CONTAINER_NAME}" ]
+    then
+        echo 0
+    else
+        echo 1
+    fi
+    set "${_OLD_STATE}"
+} 
+
+
+# USAGE: getContainerStatus <container>
+getContainerStatus() {
+    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+    set +e
+    if [ "$(isContainerExist "${1}")" = 1 ]
+    then
+        docker container inspect -f "{{ .State.Status }}" "${1}"
+    fi
+    set "${_OLD_STATE}"
+}
+
+
 # USAGE: removeContainer <container>
 removeContainer() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
-    if [ ! -z $(docker container inspect -f "{{ .Name }}" "${1}") ]
+    if [ "$(isContainerExist "${1}")" = 1 ]
     then
         docker rm "${1}"
     fi
@@ -151,7 +178,7 @@ removeContainer() {
 stopContainer() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
-    if [ ! -z $(docker container inspect -f "{{ .Name }}" "${1}") ]
+    if [ "$(isContainerExist "${1}")" = 1 ] && [ "$(getContainerStatus "${1}" )" != "exited" ]
     then
         docker stop "${1}"
     fi

@@ -14,8 +14,13 @@ tasks:
       containerName: ""
       start: |
         CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
-        echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
-        stopContainer "${CONTAINER}" 
-        echo 🎉🎉🎉
-        echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
+        if [ "$(isContainerExist "${CONTAINER}")" = 1 ]  && [ "$(getContainerStatus "${CONTAINER}" )" != "exited" ]
+        then
+          echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
+          stopContainer "${CONTAINER}" 
+          echo 🎉🎉🎉
+          echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
+        else
+          echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} is not running${_NORMAL}"
+        fi
  

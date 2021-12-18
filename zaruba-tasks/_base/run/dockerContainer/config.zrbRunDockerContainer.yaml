@@ -31,8 +31,11 @@ configs:
         {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
         {{ .Util.Str.Trim (.GetConfig "_setupImageName") "\n" }} 
       _startRebuildContainer: |
-        stopContainer "${CONTAINER_NAME}"
-        removeContainer "${CONTAINER_NAME}"
+        if [ "$(isContainerExist "${CONTAINER}")" = 1 ]
+        then
+          stopContainer "${CONTAINER_NAME}"
+          removeContainer "${CONTAINER_NAME}"
+        fi
       _startLogContainer: |
         echo "🐳 ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
         docker logs --since 0m --follow "${CONTAINER_NAME}"
