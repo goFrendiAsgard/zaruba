@@ -94,6 +94,20 @@ Options:
 ## Configs
 
 
+### Configs._check
+
+Value:
+
+    {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
+      {{ if ne $port "" -}}
+        echo "📜 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
+        waitPort "localhost" {{ $port }}
+        echo "📜 ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
+      {{ end -}}
+    {{ end -}}
+
+
+
 ### Configs._finish
 
 
@@ -134,17 +148,6 @@ Value:
 
 
 ### Configs.check
-
-Value:
-
-    {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
-      {{ if ne $port "" -}}
-        echo "📜 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
-        waitPort "localhost" {{ $port }}
-        echo "📜 ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
-      {{ end -}}
-    {{ end -}}
-
 
 
 ### Configs.cmd

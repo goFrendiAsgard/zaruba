@@ -3,9 +3,9 @@ then
     if [ -f "${ZARUBA_HOME}/init.sh" ]
     then
         . "${ZARUBA_HOME}/init.sh"
-    elif [ -f "${ZARUBA_HOME}/templates/bash/init.sh" ]
+    elif [ -f "${ZARUBA_HOME}/setup/templates/bash/init.sh" ]
     then
-        . "${ZARUBA_HOME}/templates/bash/init.sh"
+        . "${ZARUBA_HOME}/setup/templates/bash/init.sh"
     fi
 fi
 
