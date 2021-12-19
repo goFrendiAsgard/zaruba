@@ -79,6 +79,22 @@ inspectDocker() {
     set "${_OLD_STATE}"
 }
 
+
+# USAGE: isContainerExist <container>
+isContainerExist() {
+    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+    set +e
+    __CONTAINER_NAME="$(docker container inspect -f "{{ .Name }}" "${1}")"
+    if [ -z "${__CONTAINER_NAME}" ]
+    then
+        echo 0
+    else
+        echo 1
+    fi
+    set "${_OLD_STATE}"
+} 
+
+
 # USAGE: isCommandError <command>
 isCommandError() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
@@ -126,26 +142,17 @@ linkResource() {
 }
 
 
+# USAGE: playBell
+playBell() {
+   echo $'\a' 
+}
+
+
 # USAGE: pullImage <image>
 pullImage() {
     (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
     set +e
     docker image inspect "${1}" > /dev/null || docker  pull "${1}"
-    set "${_OLD_STATE}"
-} 
-
-
-# USAGE: isContainerExist <container>
-isContainerExist() {
-    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
-    set +e
-    __CONTAINER_NAME="$(docker container inspect -f "{{ .Name }}" "${1}")"
-    if [ -z "${__CONTAINER_NAME}" ]
-    then
-        echo 0
-    else
-        echo 1
-    fi
     set "${_OLD_STATE}"
 } 
 

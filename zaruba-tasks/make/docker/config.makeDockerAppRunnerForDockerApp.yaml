@@ -1,0 +1,7 @@
+configs:
+
+  makeDockerAppRunnerForDockerApp:
+    defaultAppPorts: |
+      [
+        "8080"
+      ]

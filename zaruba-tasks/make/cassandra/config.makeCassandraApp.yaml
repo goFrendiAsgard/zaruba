@@ -1,0 +1,8 @@
+configs:
+ 
+  makeCassandraApp:
+    defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appTemplate"
+      ]

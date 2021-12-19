@@ -1,0 +1,20 @@
+configs:
+
+  zrbRemoveDockerContainer:
+    start: |
+      CONTAINER="{{ if .GetConfig "containerName" }}{{ .GetConfig "containerName" }}{{ else }}$("{{ .ZarubaBin }}" path getAppName "$(pwd)"){{ end }}"
+      if [ "$(isContainerExist "${CONTAINER}")" = 1 ]
+      then
+        if [ "$(getContainerStatus "${1}" )" != "exited" ]
+        then
+          echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
+          stopContainer "${CONTAINER}" 
+          echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
+        fi
+        echo "${_BOLD}${_YELLOW}Remove docker container ${CONTAINER}${_NORMAL}"
+        removeContainer "${CONTAINER}" 
+        echo 🎉🎉🎉
+        echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} removed${_NORMAL}"
+      else
+        echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} is not exist${_NORMAL}"
+      fi

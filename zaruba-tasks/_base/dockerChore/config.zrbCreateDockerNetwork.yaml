@@ -1,0 +1,12 @@
+configs:
+
+  zrbCreateDockerNetwork:
+    start: |
+      if [ "$(inspectDocker network ".Name" "{{ .GetConfig "network" }}")" = "{{ .GetConfig "network" }}" ]
+      then
+        echo "🐳 ${_BOLD}${_YELLOW}Network '{{ .GetConfig "network" }}' is already exist${_NORMAL}"
+      else
+        echo "🐳 ${_BOLD}${_YELLOW}Creating network '{{ .GetConfig "network" }}'${_NORMAL}"
+        docker network create "{{ .GetConfig "network" }}"
+      fi
+

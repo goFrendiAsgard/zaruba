@@ -1,0 +1,8 @@
+configs:
+
+  makeDockerAppRunner:
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template"
+      ]

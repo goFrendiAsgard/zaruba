@@ -4,10 +4,17 @@ includes:
   - ./zaruba-tasks/_base/config.zrbKube.yaml
   - ./zaruba-tasks/_base/input.zrbKube.yaml
 
+  - ./zaruba-tasks/_base/advertisement/config.zrbShowAdv.yaml
   - ./zaruba-tasks/_base/advertisement/input.showAdvertisement.yaml
   - ./zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
   - ./zaruba-tasks/_base/dockerChore/config.zrbDockerNetwork.yaml
+  - ./zaruba-tasks/_base/dockerChore/config.zrbBuildDockerImage.yaml
+  - ./zaruba-tasks/_base/dockerChore/config.zrbCreateDockerNetwork.yaml
+  - ./zaruba-tasks/_base/dockerChore/config.zrbPullDockerImage.yaml
+  - ./zaruba-tasks/_base/dockerChore/config.zrbPushDockerImage.yaml
+  - ./zaruba-tasks/_base/dockerChore/config.zrbRemoveDockerContainer.yaml
+  - ./zaruba-tasks/_base/dockerChore/config.zrbStopDockerContainer.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbBuildDockerImage.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
@@ -15,11 +22,17 @@ includes:
   - ./zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
   - ./zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/generateAndRun/config.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/input.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
+  - ./zaruba-tasks/_base/kubeChore/config.zrbSetKubeContext.yaml
   - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
 
+  - ./zaruba-tasks/_base/run/config.zrbRunNodeJsScript.yaml
+  - ./zaruba-tasks/_base/run/config.zrbRunScript.yaml
+  - ./zaruba-tasks/_base/run/config.zrbRunPythonScript.yaml
+  - ./zaruba-tasks/_base/run/config.zrbRunShellScript.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunScript.yaml
   - ./zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
@@ -28,37 +41,53 @@ includes:
   - ./zaruba-tasks/_base/run/dockerContainer/config.zrbRunDockerContainer.yaml
   - ./zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/run/inDockerContainer/config.zrbRunInDockerContainer.yaml
   - ./zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/start/config.zrbStartApp.yaml
+  - ./zaruba-tasks/_base/start/config.zrbStartDockerContainer.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartApp.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
 
+  - ./zaruba-tasks/_base/validation/config.zrbIsProject.yaml
+  - ./zaruba-tasks/_base/validation/config.zrbIsValidSubrepos.yaml
   - ./zaruba-tasks/_base/validation/task.zrbIsProject.yaml
   - ./zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
 
-  - ./zaruba-tasks/_base/wrapper/config.zrbPlayBell.yaml
+  - ./zaruba-tasks/_base/wrapper/config.zrbWrapper.yaml
   - ./zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
 
+  - ./zaruba-tasks/chore/config.showVersion.yaml
+  - ./zaruba-tasks/chore/config.syncEnv.yaml
+  - ./zaruba-tasks/chore/config.update.yaml
   - ./zaruba-tasks/chore/task.showVersion.yaml
   - ./zaruba-tasks/chore/task.syncEnv.yaml
   - ./zaruba-tasks/chore/task.update.yaml
 
+  - ./zaruba-tasks/chore/initProject/config.initProject.yaml
   - ./zaruba-tasks/chore/initProject/task.initProject.yaml
 
+  - ./zaruba-tasks/chore/link/config.addProjectLink.yaml
+  - ./zaruba-tasks/chore/link/config.updateProjectLinks.yaml
   - ./zaruba-tasks/chore/link/input.linkFrom.yaml
   - ./zaruba-tasks/chore/link/input.linkTo.yaml
   - ./zaruba-tasks/chore/link/task.addProjectLink.yaml
   - ./zaruba-tasks/chore/link/task.updateProjectLinks.yaml
 
+  - ./zaruba-tasks/chore/log/config.clearLog.yaml
+  - ./zaruba-tasks/chore/log/config.showLog.yaml
   - ./zaruba-tasks/chore/log/input.keyword.yaml
   - ./zaruba-tasks/chore/log/task.clearLog.yaml
   - ./zaruba-tasks/chore/log/task.showLog.yaml
 
-  - ./zaruba-tasks/chore/value/input.variableName.yaml
-  - ./zaruba-tasks/chore/value/input.variableValue.yaml
-  - ./zaruba-tasks/chore/value/task.setProjectValue.yaml
-  - ./zaruba-tasks/chore/value/task.clearPreviousValues.yaml
+  - ./zaruba-tasks/chore/serveHttp/config.serveHttp.yaml
+  - ./zaruba-tasks/chore/serveHttp/input.serverHttpPort.yaml
+  - ./zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
 
+  - ./zaruba-tasks/chore/subrepo/config.addSubrepo.yaml
+  - ./zaruba-tasks/chore/subrepo/config.initSubrepos.yaml
+  - ./zaruba-tasks/chore/subrepo/config.pullSubrepos.yaml
+  - ./zaruba-tasks/chore/subrepo/config.pushSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/input.subrepoName.yaml
   - ./zaruba-tasks/chore/subrepo/input.subrepoPrefix.yaml
   - ./zaruba-tasks/chore/subrepo/input.subrepoUrl.yaml
@@ -67,71 +96,109 @@ includes:
   - ./zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
 
-  - ./zaruba-tasks/chore/serveHttp/input.serverHttpPort.yaml
-  - ./zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
+  - ./zaruba-tasks/chore/value/config.setProjectValue.yaml
+  - ./zaruba-tasks/chore/value/config.clearPreviousValues.yaml
+  - ./zaruba-tasks/chore/value/input.variableName.yaml
+  - ./zaruba-tasks/chore/value/input.variableValue.yaml
+  - ./zaruba-tasks/chore/value/task.setProjectValue.yaml
+  - ./zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
+  - ./zaruba-tasks/make/_base/config.zrbMake.yaml
   - ./zaruba-tasks/make/_base/input.zrbMake.yaml
   - ./zaruba-tasks/make/_base/task.zrbMake.yaml
 
+  - ./zaruba-tasks/make/app/config.makeApp.yaml
   - ./zaruba-tasks/make/app/task.makeApp.yaml
 
+  - ./zaruba-tasks/make/appDeployment/config.makeAppDeployment.yaml
+  - ./zaruba-tasks/make/appDeployment/config.makeAppDeploymentTask.yaml
   - ./zaruba-tasks/make/appDeployment/task.addAppDeployment.yaml
   - ./zaruba-tasks/make/appDeployment/task.makeAppDeployment.yaml
   - ./zaruba-tasks/make/appDeployment/task.makeAppDeploymentTask.yaml
 
+  - ./zaruba-tasks/make/appDeploymentInPython/task.addAppDeploymentInPython.yaml
+  - ./zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentInPython.yaml
+  - ./zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentTaskInPython.yaml
+
+  - ./zaruba-tasks/make/task/config.zrbMakeTask.yaml
   - ./zaruba-tasks/make/task/task.zrbMakeTask.yaml
 
+  - ./zaruba-tasks/make/appRunner/_base/config.zrbMakeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
+
+  - ./zaruba-tasks/make/appRunner/docker/config.makeDockerAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/docker/task.makeDockerAppRunner.yaml
+
+  - ./zaruba-tasks/make/appRunner/native/config.makeNativeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
 
   - ./zaruba-tasks/make/appRunner/config.addAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.addAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.makeAppRunner.yaml
 
+  - ./zaruba-tasks/make/airflow/config.makeAirflowApp.yaml
+  - ./zaruba-tasks/make/airflow/config.makeAirflowAppRunner.yaml
   - ./zaruba-tasks/make/airflow/input.makeAirflowAppRunner.yaml
   - ./zaruba-tasks/make/airflow/task.addAirflow.yaml
   - ./zaruba-tasks/make/airflow/task.makeAirflowApp.yaml
   - ./zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
 
+  - ./zaruba-tasks/make/cassandra/config.makeCassandraApp.yaml
+  - ./zaruba-tasks/make/cassandra/config.makeCassandraAppRunner.yaml
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
 
   - ./zaruba-tasks/make/docker/config.addDocker.yaml
+  - ./zaruba-tasks/make/docker/config.makeDockerApp.yaml
+  - ./zaruba-tasks/make/docker/config.makeDockerAppRunnerForDockerApp.yaml
   - ./zaruba-tasks/make/docker/task.addDocker.yaml
   - ./zaruba-tasks/make/docker/task.makeDockerApp.yaml
   - ./zaruba-tasks/make/docker/task.makeDockerAppRunnerForDockerApp.yaml
 
   - ./zaruba-tasks/make/eks/config.makeEks.yaml
+  - ./zaruba-tasks/make/eks/config.makeEksDeployment.yaml
+  - ./zaruba-tasks/make/eks/config.makeEksDeploymentTask.yaml
   - ./zaruba-tasks/make/eks/input.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eks/task.addEks.yaml
   - ./zaruba-tasks/make/eks/task.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eks/task.makeEksDeploymentTask.yaml
 
+  - ./zaruba-tasks/make/elasticsearch/config.makeElasticsearchApp.yaml
+  - ./zaruba-tasks/make/elasticsearch/config.makeElasticsearchAppRunner.yaml
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchAppRunner.yaml
 
   - ./zaruba-tasks/make/fastApi/config.addFastApi.yaml
+  - ./zaruba-tasks/make/fastApi/config.makeFastApiApp.yaml
+  - ./zaruba-tasks/make/fastApi/config.makeFastApiAppRunner.yaml
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiApp.yaml
   - ./zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
 
+  - ./zaruba-tasks/make/fastApiCrud/config.addFastApiCrud.yaml
   - ./zaruba-tasks/make/fastApiCrud/task.addFastApiCrud.yaml
 
+  - ./zaruba-tasks/make/fastApiEventHandler/config.addFastApiEventHandler.yaml
   - ./zaruba-tasks/make/fastApiEventHandler/task.addFastApiEventHandler.yaml
 
+  - ./zaruba-tasks/make/fastApiModule/config.addFastApiModule.yaml
   - ./zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
 
+  - ./zaruba-tasks/make/fastApiRouteHandler/config.addFastApiRouteHandler.yaml
   - ./zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
 
+  - ./zaruba-tasks/make/fastApiRpcHandler/config.addFastApiRpcHandler.yaml
   - ./zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
 
   - ./zaruba-tasks/make/goAppRunner/config.addGoAppRunner.yaml
+  - ./zaruba-tasks/make/goAppRunner/config.makeGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
 
+  - ./zaruba-tasks/make/kafka/config.makeKafkaApp.yaml
+  - ./zaruba-tasks/make/kafka/config.makeKafkaAppRunner.yaml
   - ./zaruba-tasks/make/kafka/input.makeKafkaAppRunner.yaml
   - ./zaruba-tasks/make/kafka/task.addKafka.yaml
   - ./zaruba-tasks/make/kafka/task.makeKafkaApp.yaml

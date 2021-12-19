@@ -1,0 +1,6 @@
+configs:
+
+  zrbRunPythonScript:
+    cmd: python
+    start: "print('hello world')"
+

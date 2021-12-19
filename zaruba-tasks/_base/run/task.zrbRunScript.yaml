@@ -15,17 +15,7 @@ tasks:
     private: true
     syncEnv: true
     autoTerminate: true
-    configs:
-      cmd: '{{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}'
-      cmdArg: "-c"
-      setup: ''
-      beforeStart: ''
-      start: ''
-      afterStart: ''
-      finish: ''
-      _setup: ''
-      _start: ''
-      _finish: ''
+    configRef: zrbRunScript
     envs:
       PYTHONUNBUFFERED:
         from: PYTHONUNBUFFERED

@@ -1,0 +1,18 @@
+configs:
+
+  makeCassandraAppRunner:
+    appIcon: 👀
+    appCheckCommand: cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
+    defaultAppDirectory: '{{ .ProjectName }}Cassandra'
+    defaultAppPorts: |
+      [
+        "7000",
+        "7199",
+        "9042"
+      ]
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appRunnerTemplate"
+      ] 

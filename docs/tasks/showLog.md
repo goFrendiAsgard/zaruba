@@ -163,7 +163,6 @@ Value:
     "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
 
 
-
 ### Configs.strictMode
 
 Value:

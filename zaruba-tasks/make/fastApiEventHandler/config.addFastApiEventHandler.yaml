@@ -1,0 +1,9 @@
+configs:
+ 
+  addFastApiEventHandler:
+    _skipCreationPath: ''
+    _prepareVariables: ''
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiEventHandler/bash/addEventHandler.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApi'
+    templateLocations: '[]'

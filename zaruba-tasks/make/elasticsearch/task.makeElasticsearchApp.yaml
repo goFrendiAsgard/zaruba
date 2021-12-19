@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/elasticsearch/appTemplate"
-        ]
+    configRef: makeElasticsearchApp

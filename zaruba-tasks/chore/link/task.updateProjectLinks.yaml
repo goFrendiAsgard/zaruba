@@ -14,16 +14,4 @@ tasks:
         It is recommended to put `link` arguments in `default.values.yaml`.
         In order to do that, you can invoke `zaruba please addProjectLink <linkFrom=source-location> <linkTo=destination-location>`
     extend: zrbRunShellScript
-    configs:
-      start: |
-        {{ $this := . -}}
-        {{ $destinations := .GetSubValueKeys "link" -}}
-        {{ range $index, $destination := $destinations -}}
-          {{ $source := $this.GetValue "link" $destination -}}
-          {{ $absSource := $this.GetWorkPath $source -}}
-          {{ $absDestination := $this.GetWorkPath $destination -}}
-          linkResource "{{ $absSource }}" "{{ $absDestination }}"
-        {{ end -}}
-        echo 🎉🎉🎉
-        echo "${_BOLD}${_YELLOW}Links updated${_NORMAL}"
-
+    configRef: updateProjectLinks

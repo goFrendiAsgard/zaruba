@@ -5,8 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appTemplate"
-        ]
+    configRef: makeKafkaApp

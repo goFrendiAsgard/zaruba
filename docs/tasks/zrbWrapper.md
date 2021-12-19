@@ -90,13 +90,6 @@ Value:
 ### Configs.finish
 
 
-### Configs.playBell
-
-Value:
-
-    echo $'\a'
-
-
 ### Configs.setup
 
 
@@ -132,7 +125,7 @@ Value:
 
 Value:
 
-    {{ .GetConfig "playBell" }}
+    playBell
 
 
 ### Configs.strictMode

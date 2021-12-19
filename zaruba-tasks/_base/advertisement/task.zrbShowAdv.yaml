@@ -5,10 +5,4 @@ tasks:
     private: true
     extend: zrbRunShellScript
     saveLog: false
-    configs:
-      start: |
-        {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
-        {{ if .Util.Bool.IsTrue $showAdvertisement -}}
-          "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
-        {{ end -}}
-  
+    configRef: zrbShowAdv

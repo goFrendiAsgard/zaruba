@@ -4,7 +4,4 @@ tasks:
     private: true
     extend: zrbRunShellScript
     autoTerminate: false
-    configRef: zrbPlayBell
-    configs:
-      start: '{{ .GetConfig "playBell" }}'
- 
+    configRef: zrbWrapper

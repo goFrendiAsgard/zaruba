@@ -13,9 +13,4 @@ tasks:
       - appPorts
       - appStartCommand
       - appCheckCommand
-    configs:
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-          "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template"
-        ]
+    configRef: makeDockerAppRunner

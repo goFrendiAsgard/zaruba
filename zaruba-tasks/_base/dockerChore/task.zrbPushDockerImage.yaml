@@ -10,17 +10,6 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
-    configRef: zrbDocker
-    configs:
-      start: |
-        DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
-        DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-        echo "${DOCKER_IMAGE_NAME}"
-        if [ ! -z "${DOCKER_IMAGE_TAG}" ]
-        then
-          docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-        fi
-        docker push "${DOCKER_IMAGE_NAME}:latest"
-        echo 🎉🎉🎉
-        echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} pushed${_NORMAL}"
- 
+    configRefs:
+      - zrbDocker
+      - zrbPushDockerImage

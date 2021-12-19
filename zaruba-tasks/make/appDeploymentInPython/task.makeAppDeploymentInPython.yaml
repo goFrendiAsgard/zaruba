@@ -1,0 +1,8 @@
+tasks:
+
+  makeAppDeploymentInPython:
+    icon: 🚢
+    extend: makeApp
+    configRef: makeAppDeployment
+    inputs:
+      - deploymentDirectory

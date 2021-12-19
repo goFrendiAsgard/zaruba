@@ -2,18 +2,4 @@ configs:
 
   addGoAppRunner:
     appIcon: 🐹
-  
-  makeGoAppRunner:
-    defaultGoAppPorts: |
-      [
-        "3000"
-      ]
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/appRunnerTemplate"
-      ]
-    _prepareVariables: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/goAppRunner/bash/prepareVariables.sh"
-  
+ 

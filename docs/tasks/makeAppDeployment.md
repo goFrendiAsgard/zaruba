@@ -42,6 +42,24 @@ Type:
     ```
 
 
+## Inputs
+
+
+### Inputs.deploymentDirectory
+
+Description:
+
+    Location of deployment directory
+
+Prompt:
+
+    Location of deployment directory
+
+Secret:
+
+    false
+
+
 ## Configs
 
 
@@ -547,7 +565,6 @@ Value:
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appDeployment/deploymentTemplate"
     ]
-
 
 
 ## Envs

@@ -15,8 +15,4 @@ tasks:
       - appPorts
     configRefs:
       - addDocker
-    configs:
-      defaultAppPorts: |
-        [
-          "8080"
-        ]
+      - makeDockerAppRunnerForDockerApp
