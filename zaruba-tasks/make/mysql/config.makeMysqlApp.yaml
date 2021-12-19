@@ -1,0 +1,8 @@
+configs:
+ 
+  makeMysqlApp:
+    defaultAppDirectory: '{{ .ProjectName }}Mysql'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/appTemplate"
+      ]

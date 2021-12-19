@@ -1,0 +1,7 @@
+configs:
+ 
+  makeSimpleNodeJsApp:
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/simpleNodeJsApp/appTemplate"
+      ]

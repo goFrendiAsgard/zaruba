@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Trino'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/trino/appTemplate"
-        ]
+    configRef: makeTrinoApp

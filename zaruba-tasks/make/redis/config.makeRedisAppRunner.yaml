@@ -1,0 +1,15 @@
+configs:
+
+  makeRedisAppRunner:
+    appIcon: 🧰
+    defaultAppDirectory: '{{ .ProjectName }}Redis'
+    defaultAppPorts: |
+      [
+        "6379"
+      ]
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/redis/appRunnerTemplate"
+      ]

@@ -1,0 +1,17 @@
+configs:
+
+  makeNodeJsAppRunner:
+    appIcon: 🐸
+    _prepareVariables: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
+    defaultNodeJsAppPorts: |
+      [
+        "3000"
+      ]
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate"
+      ]
+  

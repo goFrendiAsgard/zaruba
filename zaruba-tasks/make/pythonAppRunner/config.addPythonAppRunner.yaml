@@ -2,18 +2,3 @@ configs:
 
   addPythonAppRunner:
     appIcon: 🐍
-
-  makePythonAppRunner:
-    _prepareVariables: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/bash/prepareVariables.sh"
-    defaultPythonAppPorts: |
-      [
-        "3000"
-      ]
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate"
-      ]
-  

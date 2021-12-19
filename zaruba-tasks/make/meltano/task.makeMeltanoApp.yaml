@@ -5,17 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appTemplate"
-        ]
-      _generate: |
-        pip install meltano
-        meltano init "${_ZRB_APP_DIRECTORY}"
-        if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
-        then
-          _ZRB_APP_LOWER_DIRECTORY="$("{{ .ZarubaBin }}" str toLower "${_ZRB_APP_DIRECTORY}")"
-          mv "${_ZRB_APP_LOWER_DIRECTORY}" "${_ZRB_APP_DIRECTORY}"
-        fi
-        _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+    configRef: makeMeltanoApp

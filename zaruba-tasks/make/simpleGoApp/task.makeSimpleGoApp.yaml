@@ -8,8 +8,5 @@ tasks:
     configRefs:
       - addSimpleGoAppRunner
       - addGoAppRunner
-    configs:
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/simpleGoApp/appTemplate"
-        ]
+      - makeSimpleGoApp
+    

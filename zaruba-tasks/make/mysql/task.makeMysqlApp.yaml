@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Mysql'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/appTemplate"
-        ]
+    configRef: makeMysqlApp
