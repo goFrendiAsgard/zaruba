@@ -5,7 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configRefs:
-      - addSimplePythonAppRunner
-      - addPythonAppRunner
-      - makeSimplePythonApp
+    configRef: makeSimplePythonApp

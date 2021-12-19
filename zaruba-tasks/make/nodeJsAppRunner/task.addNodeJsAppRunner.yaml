@@ -4,15 +4,3 @@ tasks:
     icon: 🐸
     dependencies:
       - makeNodeJsAppRunner
-    inputs:
-      - appDirectory
-      - appDependencies
-      - appName
-      - appEnvs
-      - appPorts
-      - appStartCommand
-      - appTestCommand
-      - appMigrateCommand
-      - appCheckCommand
-      - appImageName
-      - appContainerName

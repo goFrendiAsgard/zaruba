@@ -6,6 +6,4 @@ tasks:
     inputs:
       - appDirectory
       - appBaseImageName
-    configRefs:
-      - addDocker
-      - makeDockerApp
+    configRef: makeDockerApp

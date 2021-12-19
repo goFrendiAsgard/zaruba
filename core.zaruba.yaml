@@ -132,7 +132,7 @@ includes:
   - ./zaruba-tasks/make/appRunner/native/config.makeNativeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
 
-  - ./zaruba-tasks/make/appRunner/config.addAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/config.makeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.addAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/task.makeAppRunner.yaml
 
@@ -149,7 +149,6 @@ includes:
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
 
-  - ./zaruba-tasks/make/docker/config.addDocker.yaml
   - ./zaruba-tasks/make/docker/config.makeDockerApp.yaml
   - ./zaruba-tasks/make/docker/config.makeDockerAppRunnerForDockerApp.yaml
   - ./zaruba-tasks/make/docker/task.addDocker.yaml
@@ -170,7 +169,6 @@ includes:
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchAppRunner.yaml
 
-  - ./zaruba-tasks/make/fastApi/config.addFastApi.yaml
   - ./zaruba-tasks/make/fastApi/config.makeFastApiApp.yaml
   - ./zaruba-tasks/make/fastApi/config.makeFastApiAppRunner.yaml
   - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
@@ -192,7 +190,6 @@ includes:
   - ./zaruba-tasks/make/fastApiRpcHandler/config.addFastApiRpcHandler.yaml
   - ./zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
 
-  - ./zaruba-tasks/make/goAppRunner/config.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/config.makeGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
@@ -228,9 +225,7 @@ includes:
   - ./zaruba-tasks/make/nginx/task.makeNginxApp.yaml
   - ./zaruba-tasks/make/nginx/task.makeNginxAppRunner.yaml
 
-  - ./zaruba-tasks/make/nodeJsAppRunner/config.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/config.makeNodeJsAppRunner.yaml
-  - ./zaruba-tasks/make/nodeJsAppRunner/config.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/nodeJsAppRunner/task.makeNodeJsAppRunner.yaml
 
@@ -240,7 +235,6 @@ includes:
   - ./zaruba-tasks/make/postgresql/task.makePostgresqlApp.yaml
   - ./zaruba-tasks/make/postgresql/task.makePostgresqlAppRunner.yaml
 
-  - ./zaruba-tasks/make/pythonAppRunner/config.addPythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/config.makePythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppRunner.yaml
@@ -257,20 +251,20 @@ includes:
   - ./zaruba-tasks/make/redis/task.makeRedisApp.yaml
   - ./zaruba-tasks/make/redis/task.makeRedisAppRunner.yaml
 
-  - ./zaruba-tasks/make/simpleGoApp/config.addSimpleGoAppRunner.yaml
   - ./zaruba-tasks/make/simpleGoApp/config.makeSimpleGoApp.yaml
+  - ./zaruba-tasks/make/simpleGoApp/config.makeSimpleGoAppRunner.yaml
   - ./zaruba-tasks/make/simpleGoApp/task.addSimpleGoApp.yaml
   - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoApp.yaml
   - ./zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppRunner.yaml
 
-  - ./zaruba-tasks/make/simpleNodeJsApp/config.addSimpleNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/config.makeSimpleNodeJsApp.yaml
+  - ./zaruba-tasks/make/simpleNodeJsApp/config.makeSimpleNodeJsAppRunner.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/task.addSimpleNodeJsApp.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsApp.yaml
   - ./zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppRunner.yaml
 
-  - ./zaruba-tasks/make/simplePythonApp/config.addSimplePythonAppRunner.yaml
   - ./zaruba-tasks/make/simplePythonApp/config.makeSimplePythonApp.yaml
+  - ./zaruba-tasks/make/simplePythonApp/config.makeSimplePythonAppRunner.yaml
   - ./zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
   - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonApp.yaml
   - ./zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppRunner.yaml

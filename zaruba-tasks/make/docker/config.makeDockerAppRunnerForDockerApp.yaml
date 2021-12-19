@@ -1,6 +1,8 @@
 configs:
 
   makeDockerAppRunnerForDockerApp:
+    appIcon: 🐳
+    defaultAppDirectory: '{{ .ProjectName }}Docker'
     defaultAppPorts: |
       [
         "8080"

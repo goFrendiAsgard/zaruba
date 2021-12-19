@@ -13,6 +13,4 @@ tasks:
       - appName
       - appEnvs
       - appPorts
-    configRefs:
-      - addDocker
-      - makeDockerAppRunnerForDockerApp
+    configRef: makeDockerAppRunnerForDockerApp

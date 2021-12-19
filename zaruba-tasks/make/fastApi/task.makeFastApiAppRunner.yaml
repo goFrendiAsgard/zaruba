@@ -13,6 +13,4 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configRefs:
-      - addFastApi
-      - makeFastApiAppRunner
+    configRef: makeFastApiAppRunner

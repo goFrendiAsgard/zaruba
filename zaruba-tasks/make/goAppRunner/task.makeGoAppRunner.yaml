@@ -17,4 +17,3 @@ tasks:
       - appContainerName
     configRefs:
       - makeGoAppRunner
-      - addGoAppRunner

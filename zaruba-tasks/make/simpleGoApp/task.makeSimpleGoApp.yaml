@@ -5,8 +5,5 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configRefs:
-      - addSimpleGoAppRunner
-      - addGoAppRunner
-      - makeSimpleGoApp
+    configRef: makeSimpleGoApp
     

@@ -5,7 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configRefs:
-      - addSimpleNodeJsAppRunner
-      - addNodeJsAppRunner
-      - makeSimpleNodeJsApp
+    configRef: makeSimpleNodeJsApp
