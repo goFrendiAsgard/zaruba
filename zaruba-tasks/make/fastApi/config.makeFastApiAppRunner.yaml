@@ -1,0 +1,6 @@
+configs:
+
+  makeFastApiAppRunner:
+    appIcon: ⚡
+    pythonStartCommand: ./start.sh
+    

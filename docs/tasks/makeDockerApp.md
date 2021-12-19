@@ -371,10 +371,6 @@ Value:
 
 ### Configs.appIcon
 
-Value:
-
-    🐳
-
 
 ### Configs.appImageName
 

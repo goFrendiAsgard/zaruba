@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Posgresql'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/postgresql/appTemplate"
-        ]
+    configRef: makePostgresqlApp

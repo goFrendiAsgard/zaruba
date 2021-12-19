@@ -1,0 +1,8 @@
+configs:
+
+  makeAppDeployment: 
+    _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appDeployment/deploymentTemplate"
+      ]

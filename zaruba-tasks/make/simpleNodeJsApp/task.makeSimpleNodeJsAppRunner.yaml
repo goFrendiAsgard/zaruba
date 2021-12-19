@@ -13,5 +13,4 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configRefs:
-      - addSimpleNodeJsAppRunner
+    configRef: makeSimpleNodeJsAppRunner

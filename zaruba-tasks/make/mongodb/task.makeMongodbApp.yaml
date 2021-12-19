@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Mongodb'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/mongodb/appTemplate"
-        ]
+    configRef: makeMongodbApp

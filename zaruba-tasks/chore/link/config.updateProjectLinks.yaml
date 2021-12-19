@@ -1,0 +1,15 @@
+configs:
+
+  updateProjectLinks:
+    start: |
+      {{ $this := . -}}
+      {{ $destinations := .GetSubValueKeys "link" -}}
+      {{ range $index, $destination := $destinations -}}
+        {{ $source := $this.GetValue "link" $destination -}}
+        {{ $absSource := $this.GetWorkPath $source -}}
+        {{ $absDestination := $this.GetWorkPath $destination -}}
+        linkResource "{{ $absSource }}" "{{ $absDestination }}"
+      {{ end -}}
+      echo 🎉🎉🎉
+      echo "${_BOLD}${_YELLOW}Links updated${_NORMAL}"
+

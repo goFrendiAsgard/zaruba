@@ -1,0 +1,8 @@
+configs:
+
+  makeTrinoApp:
+    defaultAppDirectory: '{{ .ProjectName }}Trino'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/trino/appTemplate"
+      ]

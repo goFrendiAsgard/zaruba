@@ -549,7 +549,7 @@ Value:
 
 Value:
 
-    {{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}
+    {{ .GetValue "eksClusterName" }}
 
 
 ### Configs.eksRegion

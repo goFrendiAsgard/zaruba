@@ -1,0 +1,9 @@
+configs:
+
+  zrbShowAdv:
+    start: |
+      {{ $showAdvertisement := .GetValue "showAdvertisement" -}}
+      {{ if .Util.Bool.IsTrue $showAdvertisement -}}
+        "{{ .ZarubaBin }}" advertisement show "{{ printf "%s/advertisement.yaml" .ZarubaHome }}"
+      {{ end -}}
+  

@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Cassandra'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appTemplate"
-        ]
+    configRef: makeCassandraApp

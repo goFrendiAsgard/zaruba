@@ -1,0 +1,8 @@
+configs:
+ 
+  makeSimplePythonApp:
+    defaultAppDirectory: '{{ .ProjectName }}App'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/simplePythonApp/appTemplate"
+      ]

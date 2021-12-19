@@ -5,5 +5,4 @@ tasks:
     description: |
       Show zaruba's current version.
     extend: zrbRunShellScript
-    configs:
-      start: 'echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"'
+    configRef: showVersion

@@ -1,0 +1,6 @@
+tasks:
+
+  addAppDeploymentInPython:
+    icon: 🚢
+    dependencies:
+      - makeAppDeploymentTaskInPython

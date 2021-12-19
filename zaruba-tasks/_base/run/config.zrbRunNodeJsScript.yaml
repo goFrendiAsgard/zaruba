@@ -1,0 +1,7 @@
+configs:
+
+  zrbRunNodeJsScript:
+    cmd: node
+    cmdArg: "-p"
+    start: "console.log('hello world')"
+

@@ -4,23 +4,4 @@ tasks:
     icon: 🔍
     private: true
     extend: zrbRunShellScript
-    configs:
-      start: |
-        {{ $names := .GetSubValueKeys "subrepo" -}}
-        {{ $this := . -}}
-        {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetValue "subrepo" $name "url" }}"
-          NAME="{{ $name }}"
-          if [ -z "${URL}" ]
-          then
-            echo "${_BOLD}${_RED}Subrepo ${NAME} doesn't have url${_NORMAL}"
-            exit 1
-          fi
-          if [ -z "${PREFIX}" ]
-          then
-            echo "${_BOLD}${_RED}Subrepo ${NAME} doesn't have prefix${_NORMAL}"
-            exit 1
-          fi
-        {{ end }}
-        echo "${_BOLD}${_YELLOW}All Subrepos are valid${_NORMAL}"
+    configRef: zrbIsValidSubrepos

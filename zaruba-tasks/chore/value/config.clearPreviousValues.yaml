@@ -1,0 +1,6 @@
+configs:
+
+  clearPreviousValues:
+    start: |
+      rm -Rf .previous.values.yaml
+      echo "${_BOLD}${_YELLOW}Previous values removed${_NORMAL}"

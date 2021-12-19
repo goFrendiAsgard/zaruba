@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Rabbitmq'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmq/appTemplate"
-        ]
+    configRef: makeRabbitmqApp

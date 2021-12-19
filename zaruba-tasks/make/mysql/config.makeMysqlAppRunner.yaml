@@ -1,0 +1,20 @@
+configs:
+
+  makeMysqlAppRunner:
+    appIcon: 🐬
+    appCheckCommand: mysql -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }} -e "SHOW SCHEMAS"
+    defaultAppDirectory: '{{ .ProjectName }}Mysql'
+    defaultAppPorts: |
+      [
+        "3306"
+      ]
+    defaultAppContainerVolumes: |
+      [
+        "init.sql:/docker-entrypoint-initdb.d/init.sql"
+      ]
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/mysql/appRunnerTemplate"
+      ]

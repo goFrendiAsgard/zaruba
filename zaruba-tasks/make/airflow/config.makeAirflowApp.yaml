@@ -1,0 +1,8 @@
+configs:
+
+  makeAirflowApp:
+    defaultAppDirectory: '{{ .ProjectName }}Airflow'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appTemplate"
+      ]

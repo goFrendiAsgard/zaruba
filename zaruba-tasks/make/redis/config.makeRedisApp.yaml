@@ -1,0 +1,8 @@
+configs:
+ 
+  makeRedisApp:
+    defaultAppDirectory: '{{ .ProjectName }}Redis'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/redis/appTemplate"
+      ]

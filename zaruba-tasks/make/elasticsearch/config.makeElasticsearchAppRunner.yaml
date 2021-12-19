@@ -1,0 +1,10 @@
+configs:
+
+  makeElasticsearchAppRunner:
+    appIcon: 🍜
+    defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
+    defaultAppPorts: |
+      [
+        "9200",
+        "9300"
+      ]

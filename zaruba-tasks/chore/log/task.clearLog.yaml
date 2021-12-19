@@ -5,7 +5,4 @@ tasks:
     description: |
       Clear log
     extend: zrbRunShellScript
-    configs:
-      start: |
-        rm -Rf log.zaruba.csv
-        echo "${_BOLD}${_YELLOW}Log removed${_NORMAL}"
+    configRef: clearLog

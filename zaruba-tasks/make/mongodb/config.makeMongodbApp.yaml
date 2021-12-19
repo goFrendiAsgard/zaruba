@@ -1,0 +1,8 @@
+configs:
+ 
+  makeMongodbApp:
+    defaultAppDirectory: '{{ .ProjectName }}Mongodb'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/mongodb/appTemplate"
+      ]

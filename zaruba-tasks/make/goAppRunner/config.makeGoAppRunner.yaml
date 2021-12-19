@@ -1,9 +1,7 @@
 configs:
 
-  addGoAppRunner:
-    appIcon: 🐹
-  
   makeGoAppRunner:
+    appIcon: 🐹
     defaultGoAppPorts: |
       [
         "3000"

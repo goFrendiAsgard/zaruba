@@ -1,0 +1,9 @@
+configs:
+
+  makeMongodbAppRunner:
+    appIcon: 🍃
+    defaultAppDirectory: '{{ .ProjectName }}Mongodb'
+    defaultAppPorts: |
+      [
+        "27017"
+      ]

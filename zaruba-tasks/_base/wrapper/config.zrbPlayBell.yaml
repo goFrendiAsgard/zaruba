@@ -1,4 +1,0 @@
-configs:
-
-  zrbPlayBell:
-    playBell: echo $'\a'

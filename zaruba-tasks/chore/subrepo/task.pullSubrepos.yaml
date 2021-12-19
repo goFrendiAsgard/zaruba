@@ -10,23 +10,4 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - initSubrepos
-    configs:
-      start: |
-        {{ $names := .GetSubValueKeys "subrepo" -}}
-        {{ $this := . -}}
-        ORIGINS=$("{{ .ZarubaBin }}" str split "$(git remote)")
-        BRANCH="{{ if .GetValue "defaultBranch" }}{{ .GetValue "defaultBranch" }}{{ else }}main{{ end }}"
-        {{ range $index, $name := $names -}}
-          PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
-          URL="{{ $this.GetValue "subrepo" $name "url" }}"
-          NAME="{{ $name }}"
-          ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
-          if [ $ORIGIN_EXISTS = 1 ]
-          then
-            gitSave "Save works before pull"
-            git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
-          fi
-        {{ end -}}
-        echo 🎉🎉🎉
-        echo "${_BOLD}${_YELLOW}Subrepos pulled${_NORMAL}"
-
+    configRef: pullSubrepos

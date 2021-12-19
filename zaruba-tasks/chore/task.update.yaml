@@ -5,14 +5,4 @@ tasks:
     description: |
       Update zaruba to the latest version.
     extend: zrbRunShellScript
-    configs:
-      start: |
-        cd "{{ .ZarubaHome }}"
-        echo "🔽 ${_BOLD}${_YELLOW}Pull zaruba${_NORMAL}"
-        git checkout master
-        git pull origin master
-        echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
-        . ./buildZaruba.sh
-        echo 🎉🎉🎉
-        echo "${_BOLD}${_YELLOW}Zaruba ready!!!${_NORMAL}"
-        echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"
+    configRef: update

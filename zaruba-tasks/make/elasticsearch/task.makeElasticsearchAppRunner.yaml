@@ -13,11 +13,4 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configs:
-      appIcon: 🍜
-      defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
-      defaultAppPorts: |
-        [
-          "9200",
-          "9300"
-        ]
+    configRef: makeElasticsearchAppRunner

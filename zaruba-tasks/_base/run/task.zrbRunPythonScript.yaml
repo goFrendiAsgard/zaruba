@@ -8,7 +8,5 @@ tasks:
         start : Start script
     private: true
     extend: zrbRunScript
-    configs:
-      cmd: python
-      start: "print('hello world')"
+    configRef: zrbRunPythonScript
 

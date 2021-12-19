@@ -1,0 +1,13 @@
+configs:
+
+  makeTrinoAppRunner:
+    appIcon: 🐰
+    defaultAppDirectory: '{{ .ProjectName }}Trino'
+    defaultAppPorts: |
+      [
+        "8010:8080"
+      ]
+    defaultAppContainerVolumes: |
+      [
+        "trino:/etc/trino"
+      ]

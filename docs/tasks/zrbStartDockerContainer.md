@@ -454,7 +454,7 @@ Value:
 
 Value:
 
-    on-failure
+    no
 
 
 ### Configs.runInLocal

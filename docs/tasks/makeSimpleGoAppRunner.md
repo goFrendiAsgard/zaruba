@@ -16,7 +16,7 @@ Type:
 
 ## Extends
 
-* `makeNativeAppRunner`
+* `makeGoAppRunner`
 
 
 ## Dependencies

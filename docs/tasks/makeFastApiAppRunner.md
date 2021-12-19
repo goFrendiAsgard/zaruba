@@ -621,7 +621,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}FastApi
+    {{ .GeneratedRandomName }}
 
 
 ### Configs.defaultAppPorts

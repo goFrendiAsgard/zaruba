@@ -1,4 +1,5 @@
 configs:
 
-  addSimpleGoAppRunner:
+  makeSimpleNodeJsAppRunner:
+    appIcon: 🐸
     defaultAppDirectory: '{{ .ProjectName }}App'

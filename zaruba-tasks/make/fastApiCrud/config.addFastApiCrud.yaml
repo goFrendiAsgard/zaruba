@@ -1,0 +1,25 @@
+configs:
+
+  addFastApiCrud:
+    _skipCreationPath: ''
+    _prepareVariables: |
+      {{ .GetConfig "_prepareBaseStartCommand" }}
+      {{ .GetConfig "_prepareBasePrepareCommand" }}
+      {{ .GetConfig "_prepareBaseTestCommand" }}
+      {{ .GetConfig "_prepareBaseCheckCommand" }}
+      {{ .GetConfig "_prepareBaseReplacementMap" }}
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setAppCrudFirstField.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldDeclaration.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldInsert.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setRepoFieldUpdate.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/setSchemaFieldDeclaration.sh"
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRouteHandler.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRpcHandler.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRepo.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApi'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/template"
+      ]
+

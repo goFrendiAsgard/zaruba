@@ -11,11 +11,4 @@ tasks:
       - linkTo
     dependencies:
       - zrbIsProject
-    configs:
-      linkFrom: '{{ .GetValue "linkFrom" }}'
-      linkTo: '{{ .GetValue "linkTo" }}'
-      start: |
-        "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
-        echo 🎉🎉🎉
-        echo "${_BOLD}${_YELLOW}Link ${SOURCE} -> ${DESTINATION} has been added${_NORMAL}"
-
+    configRef: addProjectLink

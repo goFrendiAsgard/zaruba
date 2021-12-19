@@ -6,11 +6,4 @@ tasks:
     inputs:
       - appDirectory
       - appBaseImageName
-    configRefs:
-      - addDocker
-    configs:
-      defaultAppBaseImageName: docker.io/bitnami/nginx
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/docker/appTemplate"
-        ]
+    configRef: makeDockerApp

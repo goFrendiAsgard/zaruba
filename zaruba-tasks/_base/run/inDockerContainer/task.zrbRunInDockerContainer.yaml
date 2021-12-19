@@ -10,15 +10,4 @@ tasks:
         command       : Command to be executed, can be multi line
     private: true
     extend: zrbGenerateAndRun
-    configs:
-      containerName: ''
-      remoteScriptLocation: '_{{ .Name }}.script.{{ .UUID }}'
-      remoteCommand: 'sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"'
-      runGeneratedScript: |
-        _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-        _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-        chmod 755 -R "${_ZRB_GENERATED_SCRIPT_LOCATION}"
-        docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
-        docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
-        docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
-        rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    configRef: zrbRunInDockerContainer

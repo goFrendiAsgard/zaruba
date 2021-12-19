@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}Airflow'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appTemplate"
-        ]
+    configRef: makeAirflowApp

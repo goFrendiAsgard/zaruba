@@ -5,9 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - appDirectory
-    configs:
-      defaultAppDirectory: '{{ .ProjectName }}FastApi'
-      templateLocations: |
-        [
-          "{{ .ZarubaHome }}/zaruba-tasks/make/fastApi/appTemplate"
-        ]
+    configRef: makeFastApiApp

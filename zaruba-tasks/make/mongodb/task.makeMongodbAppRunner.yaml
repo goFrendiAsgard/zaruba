@@ -13,10 +13,4 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configs:
-      appIcon: 🍃
-      defaultAppDirectory: '{{ .ProjectName }}Mongodb'
-      defaultAppPorts: |
-        [
-          "27017"
-        ]
+    configRef: makeMongodbAppRunner

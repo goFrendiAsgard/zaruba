@@ -1,0 +1,8 @@
+configs:
+ 
+  makeElasticsearchApp:
+    defaultAppDirectory: '{{ .ProjectName }}Elasticsearch'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/elasticsearch/appTemplate"
+      ]

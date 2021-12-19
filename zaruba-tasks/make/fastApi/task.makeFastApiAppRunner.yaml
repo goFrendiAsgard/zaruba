@@ -13,7 +13,4 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
-    configs:
-      pythonStartCommand: ./start.sh
-    configRefs:
-      - addFastApi
+    configRef: makeFastApiAppRunner

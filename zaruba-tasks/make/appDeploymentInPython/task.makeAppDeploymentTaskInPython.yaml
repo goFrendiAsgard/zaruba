@@ -1,0 +1,13 @@
+tasks:
+
+  makeAppDeploymentTaskInPython:
+    icon: 🚢
+    extend: zrbMakeTask
+    dependencies:
+      - makeAppDeploymentInPython
+    inputs:
+      - appDirectory
+      - deploymentDirectory
+      - deploymentName
+    configRef: makeAppDeploymentTask
+

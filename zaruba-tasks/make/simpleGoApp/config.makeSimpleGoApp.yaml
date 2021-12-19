@@ -1,0 +1,8 @@
+configs:
+ 
+  makeSimpleGoApp:
+    defaultAppDirectory: '{{ .ProjectName }}App'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/simpleGoApp/appTemplate"
+      ]
