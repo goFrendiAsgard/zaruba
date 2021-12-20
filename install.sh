@@ -52,7 +52,7 @@ echo "💀 Building zaruba."
 cd "${INSTALLATION_DIR}"
 chmod 755 buildZaruba.sh
 . ./buildZaruba.sh
-chmod 755 -R "${INSTALLATION_DIR}/setup"
+chmod -R 755 "${INSTALLATION_DIR}/setup"
 
 # Restore init script or create a new one
 if [ -f "${BACKUP_INIT_FILE}" ]
