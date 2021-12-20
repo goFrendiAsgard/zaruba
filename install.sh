@@ -95,4 +95,4 @@ echo "💀 Installation success."
 
 # Run third party installer
 echo "💀 You can now setup/install third party tools by invoking zaruba install <command>"
-"${HOME}/.zaruba/zaruba install --help"
+"${HOME}/.zaruba/zaruba" install --help
