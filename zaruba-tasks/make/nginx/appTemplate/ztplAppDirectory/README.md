@@ -23,7 +23,7 @@ docker exec -u 0 -it <container-name> bash
 # in container's shell as root
 certbot certonly --dry-run
 certbot certonly 
-chown 1001 -R /etc/letsencrypt
+chmod -R 1001 /etc/letsencrypt
 ```
 
 By default your webroot directory is `/opt/bitnami/nginx/html`

@@ -196,7 +196,7 @@ Value:
 
     _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
     _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-    chmod 755 -R "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    chmod -R 755 "${_ZRB_GENERATED_SCRIPT_LOCATION}"
     docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
     docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
     docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"

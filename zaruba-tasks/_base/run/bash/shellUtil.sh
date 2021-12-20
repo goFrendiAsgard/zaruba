@@ -135,9 +135,9 @@ linkResource() {
     set -e
     if [ -e "${_DST}" ]
     then
-        chmod 777 -R "${_DST}" && rm -Rf "${_DST}" && cp -rnT "${_SRC}" "${_DST}" && chmod 555 -R "${_DST}"
+        chmod -R 777 "${_DST}" && rm -Rf "${_DST}" && cp -rnT "${_SRC}" "${_DST}" && chmod -R 555 "${_DST}"
     fi
-    cp -rnT "${_SRC}" "${_DST}" && chmod 555 -R "${_DST}"
+    cp -rnT "${_SRC}" "${_DST}" && chmod -R 555 "${_DST}"
     set "${_OLD_STATE}"
 }
 
