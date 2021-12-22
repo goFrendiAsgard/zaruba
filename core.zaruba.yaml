@@ -8,6 +8,9 @@ includes:
   - ./zaruba-tasks/_base/advertisement/input.showAdvertisement.yaml
   - ./zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
+  - ./zaruba-tasks/_base/copyToKubePod/config.zrbCopyToKubePod.yaml
+  - ./zaruba-tasks/_base/copyToKubePod/task.zrbCopyToKubePod.yaml
+
   - ./zaruba-tasks/_base/docker/config.zrbDockerNetwork.yaml
   - ./zaruba-tasks/_base/docker/config.zrbBuildDockerImage.yaml
   - ./zaruba-tasks/_base/docker/config.zrbCreateDockerNetwork.yaml
@@ -26,8 +29,8 @@ includes:
   - ./zaruba-tasks/_base/generateAndRun/input.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
-  - ./zaruba-tasks/_base/kube/config.zrbSetKubeContext.yaml
-  - ./zaruba-tasks/_base/kube/task.zrbSetKubeContext.yaml
+  - ./zaruba-tasks/_base/setKubeContext/config.zrbSetKubeContext.yaml
+  - ./zaruba-tasks/_base/setKubeContext/task.zrbSetKubeContext.yaml
 
   - ./zaruba-tasks/_base/run/config.zrbRunNodeJsScript.yaml
   - ./zaruba-tasks/_base/run/config.zrbRunScript.yaml

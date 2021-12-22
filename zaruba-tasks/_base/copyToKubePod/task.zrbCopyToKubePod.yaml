@@ -1,0 +1,17 @@
+tasks:
+
+  zrbCopyToKubePod:
+    icon: 🚢
+    description: |
+      Generate scripts and copy them to kubernetes pod.
+      Common configs:
+        podLabel         : Label of the pod.
+        podName          : Name of the pod.
+        podShell         : Shell to run script, default to sh.
+        templateLocation : Template script location (source).
+        remoteScript     : Remote script location (destination).
+    private: true
+    extend: zrbGenerateAndRun
+    configRefs:
+      - zrbCopyToKubePod
+      - zrbKube

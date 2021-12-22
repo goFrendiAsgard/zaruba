@@ -1,13 +1,13 @@
 tasks:
 
   zrbRunInKubePod:
-    icon: 🐳
+    icon: 🚢
     description: |
-      Run command from inside the container.
+      Run command in a kubernetes pod.
       Common configs:
-        containerName  : Name of the container.
-        containerShell : Shell to run script, default to sh.
-        containerUser  : Container's user to run the command.
+        podLabel       : Label of the pod.
+        podName        : Name of the pod.
+        podShell       : Shell to run script, default to sh.
         remoteCommand  : Command to be executed.
         script         : Script to be executed (Can be multi line).
     private: true

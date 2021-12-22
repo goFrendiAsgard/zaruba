@@ -1,5 +1,6 @@
 tasks:
   zrbSetKubeContext:
+    icon: 🚢
     extend: zrbRunShellScript
     private: true
     configRefs:
