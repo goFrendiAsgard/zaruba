@@ -3,7 +3,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
+    /zaruba-tasks/_base/docker/task.zrbRemoveDockerContainer.yaml
 
 Should Sync Env:
 

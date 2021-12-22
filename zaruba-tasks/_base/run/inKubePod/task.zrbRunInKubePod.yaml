@@ -1,6 +1,6 @@
 tasks:
 
-  zrbRunInDockerContainer:
+  zrbRunInKubePod:
     icon: 🐳
     description: |
       Run command from inside the container.
@@ -12,4 +12,6 @@ tasks:
         script         : Script to be executed (Can be multi line).
     private: true
     extend: zrbGenerateAndRun
-    configRef: zrbRunInDockerContainer
+    configRefs:
+      - zrbRunInKubePod
+      - zrbKube

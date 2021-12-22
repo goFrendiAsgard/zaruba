@@ -8,26 +8,26 @@ includes:
   - ./zaruba-tasks/_base/advertisement/input.showAdvertisement.yaml
   - ./zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
-  - ./zaruba-tasks/_base/dockerChore/config.zrbDockerNetwork.yaml
-  - ./zaruba-tasks/_base/dockerChore/config.zrbBuildDockerImage.yaml
-  - ./zaruba-tasks/_base/dockerChore/config.zrbCreateDockerNetwork.yaml
-  - ./zaruba-tasks/_base/dockerChore/config.zrbPullDockerImage.yaml
-  - ./zaruba-tasks/_base/dockerChore/config.zrbPushDockerImage.yaml
-  - ./zaruba-tasks/_base/dockerChore/config.zrbRemoveDockerContainer.yaml
-  - ./zaruba-tasks/_base/dockerChore/config.zrbStopDockerContainer.yaml
-  - ./zaruba-tasks/_base/dockerChore/task.zrbBuildDockerImage.yaml
-  - ./zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
-  - ./zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
-  - ./zaruba-tasks/_base/dockerChore/task.zrbPushDockerImage.yaml
-  - ./zaruba-tasks/_base/dockerChore/task.zrbRemoveDockerContainer.yaml
-  - ./zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbDockerNetwork.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbBuildDockerImage.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbCreateDockerNetwork.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbPullDockerImage.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbPushDockerImage.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbRemoveDockerContainer.yaml
+  - ./zaruba-tasks/_base/docker/config.zrbStopDockerContainer.yaml
+  - ./zaruba-tasks/_base/docker/task.zrbBuildDockerImage.yaml
+  - ./zaruba-tasks/_base/docker/task.zrbCreateDockerNetwork.yaml
+  - ./zaruba-tasks/_base/docker/task.zrbPullDockerImage.yaml
+  - ./zaruba-tasks/_base/docker/task.zrbPushDockerImage.yaml
+  - ./zaruba-tasks/_base/docker/task.zrbRemoveDockerContainer.yaml
+  - ./zaruba-tasks/_base/docker/task.zrbStopDockerContainer.yaml
 
   - ./zaruba-tasks/_base/generateAndRun/config.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/input.zrbGenerateAndRun.yaml
   - ./zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
-  - ./zaruba-tasks/_base/kubeChore/config.zrbSetKubeContext.yaml
-  - ./zaruba-tasks/_base/kubeChore/task.zrbSetKubeContext.yaml
+  - ./zaruba-tasks/_base/kube/config.zrbSetKubeContext.yaml
+  - ./zaruba-tasks/_base/kube/task.zrbSetKubeContext.yaml
 
   - ./zaruba-tasks/_base/run/config.zrbRunNodeJsScript.yaml
   - ./zaruba-tasks/_base/run/config.zrbRunScript.yaml
@@ -43,6 +43,9 @@ includes:
 
   - ./zaruba-tasks/_base/run/inDockerContainer/config.zrbRunInDockerContainer.yaml
   - ./zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
+
+  - ./zaruba-tasks/_base/run/inKubePod/config.zrbRunInKubePod.yaml
+  - ./zaruba-tasks/_base/run/inKubePod/task.zrbRunInKubePod.yaml
 
   - ./zaruba-tasks/_base/start/config.zrbStartApp.yaml
   - ./zaruba-tasks/_base/start/config.zrbStartDockerContainer.yaml

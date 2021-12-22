@@ -3,7 +3,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/dockerChore/task.zrbCreateDockerNetwork.yaml
+    /zaruba-tasks/_base/docker/task.zrbCreateDockerNetwork.yaml
 
 Should Sync Env:
 

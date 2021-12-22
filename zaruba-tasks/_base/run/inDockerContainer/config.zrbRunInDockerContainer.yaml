@@ -2,13 +2,15 @@ configs:
 
   zrbRunInDockerContainer:
     containerName: ''
+    containerShell: sh
+    containerUser: ''
     remoteScriptLocation: '_{{ .Name }}.script.{{ .UUID }}'
-    remoteCommand: 'sh "{{ .GetConfig "remoteScriptLocation" }}/run.sh"'
+    remoteCommand: '{{ .GetConfig "containerShell" }} "{{ .GetConfig "remoteScriptLocation" }}/run.sh"'
     runGeneratedScript: |
       _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
       _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
       chmod -R 755 "${_ZRB_GENERATED_SCRIPT_LOCATION}"
       docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
-      docker exec "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
+      docker exec {{ if .GetConfig "containerUser" }}-u {{ .GetConfig "containerUser" }}{{ end }} "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
       docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
       rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"

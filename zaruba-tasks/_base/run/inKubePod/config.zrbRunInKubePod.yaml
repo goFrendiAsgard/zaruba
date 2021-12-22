@@ -1,0 +1,17 @@
+configs:
+
+  zrbRunInKubePod:
+    podLabel: ''
+    podShell: bash
+    remoteScriptLocation: '_{{ .Name }}.script.{{ .UUID }}'
+    remoteCommand: '{{ .GetConfig "podShell" }} "{{ .GetConfig "remoteScriptLocation" }}/run.sh"'
+    runGeneratedScript: |
+      _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
+      _ZRB_POD_LABEL="{{ .GetConfig "podLabel" }}
+      _ZRB_KUBE_NAMESPACE="{{ .GetConfig "kubeNamespace" }}"
+      _ZRB_KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
+      _ZRB_POD_NAME="$(kubectl get pods -o name --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" -l "${_ZRB_POD_LABEL}" | head -n 1 | cut -d'/' -f 2)"
+      kubectl cp --context "${_ZRB_KUBE_CONTEXT}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_KUBE_NAMESPACE}/${_ZRB_POD_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+      kubectl exec --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" "${_ZRB_POD_NAME}" -- "bash" "${_ZRB_REMOTE_SCRIPT_LOCATION}"
+      kubectl exec --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" "${_ZRB_POD_NAME}" -- "{{ .GetConfig "podShell" }}" "-c" "rm -Rf ${_ZRB_REMOTE_SCRIPT_LOCATION}"
+      rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
