@@ -3,7 +3,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/dockerChore/task.zrbPullDockerImage.yaml
+    /zaruba-tasks/_base/docker/task.zrbPullDockerImage.yaml
 
 Should Sync Env:
 

@@ -3,11 +3,13 @@ tasks:
   zrbRunInDockerContainer:
     icon: 🐳
     description: |
-      Run command from inside the container
+      Run command in a docker container.
       Common configs:
-        containerName  : Name of the container
-        containerShell : Shell to run script, default to sh
-        command       : Command to be executed, can be multi line
+        containerName  : Name of the container.
+        containerShell : Shell to run script, default to sh.
+        containerUser  : Container's user to run the command.
+        remoteCommand  : Command to be executed.
+        script         : Script to be executed (Can be multi line).
     private: true
     extend: zrbGenerateAndRun
     configRef: zrbRunInDockerContainer

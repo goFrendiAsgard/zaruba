@@ -3,7 +3,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/dockerChore/task.zrbStopDockerContainer.yaml
+    /zaruba-tasks/_base/docker/task.zrbStopDockerContainer.yaml
 
 Should Sync Env:
 

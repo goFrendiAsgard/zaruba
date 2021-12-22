@@ -1,0 +1,17 @@
+tasks:
+
+  zrbRunInKubePod:
+    icon: 🚢
+    description: |
+      Run command in a kubernetes pod.
+      Common configs:
+        podLabel       : Label of the pod.
+        podName        : Name of the pod.
+        podShell       : Shell to run script, default to sh.
+        remoteCommand  : Command to be executed.
+        script         : Script to be executed (Can be multi line).
+    private: true
+    extend: zrbGenerateAndRun
+    configRefs:
+      - zrbRunInKubePod
+      - zrbKube

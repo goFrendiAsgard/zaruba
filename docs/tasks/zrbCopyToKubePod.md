@@ -1,9 +1,9 @@
 
-# ZrbRunInDockerContainer
+# ZrbCopyToKubePod
 
 File Location:
 
-    /zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
+    /zaruba-tasks/_base/copyToKubePod/task.zrbCopyToKubePod.yaml
 
 Should Sync Env:
 
@@ -15,13 +15,13 @@ Type:
 
 Description:
 
-    Run command in a docker container.
+    Generate scripts and copy them to kubernetes pod.
     Common configs:
-      containerName  : Name of the container.
-      containerShell : Shell to run script, default to sh.
-      containerUser  : Container's user to run the command.
-      remoteCommand  : Command to be executed.
-      script         : Script to be executed (Can be multi line).
+      podLabel         : Label of the pod.
+      podName          : Name of the pod.
+      podShell         : Shell to run script, default to sh.
+      templateLocation : Template script location (source).
+      remoteScript     : Remote script location (destination).
 
 
 
@@ -165,19 +165,6 @@ Value:
     -c
 
 
-### Configs.containerName
-
-
-### Configs.containerShell
-
-Value:
-
-    sh
-
-
-### Configs.containerUser
-
-
 ### Configs.finish
 
 
@@ -188,31 +175,50 @@ Value:
     {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
-### Configs.remoteCommand
+### Configs.kubeContext
 
 Value:
 
-    {{ .GetConfig "containerShell" }} "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
+    {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
+
+
+### Configs.kubeNamespace
+
+Value:
+
+    {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
+
+
+### Configs.podLabel
+
+
+### Configs.podName
+
+
+### Configs.podShell
+
+Value:
+
+    bash
 
 
 ### Configs.remoteScriptLocation
 
 Value:
 
-    _{{ .Name }}.script.{{ .UUID }}
+    _{{ .Name }}.script
 
 
 ### Configs.runGeneratedScript
 
 Value:
 
-    _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
-    _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-    chmod -R 755 "${_ZRB_GENERATED_SCRIPT_LOCATION}"
-    docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    docker exec {{ if .GetConfig "containerUser" }}-u {{ .GetConfig "containerUser" }}{{ end }} "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
-    docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    _ZRB_KUBE_NAMESPACE="{{ .GetConfig "kubeNamespace" }}"
+    _ZRB_KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
+    _ZRB_POD_NAME="{{ if .GetConfig "podName" }}{{ .GetConfig "podName" }}{{ else }}$(kubectl get pods -o name --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" -l "{{ .GetConfig "podLabel" }}" | head -n 1 | cut -d'/' -f 2){{ end }}"
+    kubectl exec -n "${_ZRB_KUBE_NAMESPACE}" "${POD_NAME}" -- "{{ .GetConfig "podShell" }}" "-c" "rm -Rf ${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    kubectl cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_KUBE_NAMESPACE}/${_ZRB_POD_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+
 
 
 ### Configs.script

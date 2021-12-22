@@ -12,4 +12,4 @@ tasks:
     configRef: ztplAppNameContainer
     envRef: ztplAppName
     configs:
-      templateLocation: '{{ .GetProjectPath "ztplAppDirectory/utilities/flush" }}'
+      templateLocation: '{{ .GetProjectPath "zaruba-tasks/ztplAppName/utilities/flush" }}'
