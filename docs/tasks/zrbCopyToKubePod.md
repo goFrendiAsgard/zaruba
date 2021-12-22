@@ -1,9 +1,9 @@
 
-# ZrbRunInKubePod
+# ZrbCopyToKubePod
 
 File Location:
 
-    /zaruba-tasks/_base/run/inKubePod/task.zrbRunInKubePod.yaml
+    /zaruba-tasks/_base/copyToKubePod/task.zrbCopyToKubePod.yaml
 
 Should Sync Env:
 
@@ -15,13 +15,13 @@ Type:
 
 Description:
 
-    Run command in a kubernetes pod.
+    Generate scripts and copy them to kubernetes pod.
     Common configs:
-      podLabel       : Label of the pod.
-      podName        : Name of the pod.
-      podShell       : Shell to run script, default to sh.
-      remoteCommand  : Command to be executed.
-      script         : Script to be executed (Can be multi line).
+      podLabel         : Label of the pod.
+      podName          : Name of the pod.
+      podShell         : Shell to run script, default to sh.
+      templateLocation : Template script location (source).
+      remoteScript     : Remote script location (destination).
 
 
 
@@ -202,32 +202,23 @@ Value:
     bash
 
 
-### Configs.remoteCommand
-
-Value:
-
-    {{ .GetConfig "podShell" }} "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
-
-
 ### Configs.remoteScriptLocation
 
 Value:
 
-    _{{ .Name }}.script.{{ .UUID }}
+    _{{ .Name }}.script
 
 
 ### Configs.runGeneratedScript
 
 Value:
 
-    _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
     _ZRB_KUBE_NAMESPACE="{{ .GetConfig "kubeNamespace" }}"
     _ZRB_KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
     _ZRB_POD_NAME="{{ if .GetConfig "podName" }}{{ .GetConfig "podName" }}{{ else }}$(kubectl get pods -o name --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" -l "{{ .GetConfig "podLabel" }}" | head -n 1 | cut -d'/' -f 2){{ end }}"
-    kubectl cp --context "${_ZRB_KUBE_CONTEXT}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_KUBE_NAMESPACE}/${_ZRB_POD_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    kubectl exec --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" "${_ZRB_POD_NAME}" -- "bash" "${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    kubectl exec --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" "${_ZRB_POD_NAME}" -- "{{ .GetConfig "podShell" }}" "-c" "rm -Rf ${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    kubectl exec -n "${_ZRB_KUBE_NAMESPACE}" "${POD_NAME}" -- "{{ .GetConfig "podShell" }}" "-c" "rm -Rf ${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    kubectl cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_KUBE_NAMESPACE}/${_ZRB_POD_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+
 
 
 ### Configs.script

@@ -15,7 +15,7 @@ Type:
 
 Description:
 
-    Run command from inside the container.
+    Run command in a docker container.
     Common configs:
       containerName  : Name of the container.
       containerShell : Shell to run script, default to sh.

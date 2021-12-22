@@ -3,7 +3,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/kube/task.zrbSetKubeContext.yaml
+    /zaruba-tasks/_base/setKubeContext/task.zrbSetKubeContext.yaml
 
 Should Sync Env:
 
