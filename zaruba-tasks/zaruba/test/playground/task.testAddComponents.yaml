@@ -48,3 +48,4 @@ tasks:
         ../zaruba please addRabbitmq appDirectory=provoRabbitmq
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addTrino appDirectory=provoTrino
+        ../zaruba please addContainerRegistry appDirectory=provoContainerRegistry

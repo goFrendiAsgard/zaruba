@@ -1,0 +1,16 @@
+tasks:
+
+  makeContainerRegistryAppRunner:
+    icon: 🗃️
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeContainerRegistryApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeContainerRegistryAppRunner

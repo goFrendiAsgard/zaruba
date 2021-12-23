@@ -1,0 +1,8 @@
+configs:
+ 
+  makeContainerRegistryApp:
+    defaultAppDirectory: '{{ .ProjectName }}ContainerRegistry'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/containerRegistry/appTemplate"
+      ]

@@ -1,0 +1,6 @@
+tasks:
+
+  addContainerRegistry:
+    icon: 🧰
+    dependencies:
+      - makeContainerRegistryAppRunner

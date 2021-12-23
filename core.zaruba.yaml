@@ -155,6 +155,12 @@ includes:
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
 
+  - ./zaruba-tasks/make/containerRegistry/config.makeContainerRegistryApp.yaml
+  - ./zaruba-tasks/make/containerRegistry/config.makeContainerRegistryAppRunner.yaml
+  - ./zaruba-tasks/make/containerRegistry/task.addContainerRegistry.yaml
+  - ./zaruba-tasks/make/containerRegistry/task.makeContainerRegistryApp.yaml
+  - ./zaruba-tasks/make/containerRegistry/task.makeContainerRegistryAppRunner.yaml
+
   - ./zaruba-tasks/make/docker/config.makeDockerApp.yaml
   - ./zaruba-tasks/make/docker/config.makeDockerAppRunnerForDockerApp.yaml
   - ./zaruba-tasks/make/docker/task.addDocker.yaml
