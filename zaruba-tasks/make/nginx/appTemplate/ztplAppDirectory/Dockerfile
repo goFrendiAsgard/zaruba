@@ -12,4 +12,4 @@ RUN apt update && \
 USER 1001
 
 COPY html /opt/bitnami/nginx/html
-COPY my_server_block.cnf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf 
+COPY /server_blocks/my_server_block.cnf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf 
