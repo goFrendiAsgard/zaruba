@@ -10,7 +10,7 @@ configs:
       ]
     defaultAppContainerVolumes: |
       [
-        "init.sql:/docker-entrypoint-initdb.d/init.sql"
+        "initdb.d:/docker-entrypoint-initdb.d"
       ]
     templateLocations: |
       [
