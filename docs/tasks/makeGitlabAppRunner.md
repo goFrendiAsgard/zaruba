@@ -618,7 +618,12 @@ Value:
 
 Value:
 
-    []
+    [
+      "../config/gitlab:/etc/gitlab",
+      "../data/gitlab:/var/opt/gitlab",
+      "../logs:/var/log/gitlab"
+    ]
+
 
 
 ### Configs.defaultAppDirectory
