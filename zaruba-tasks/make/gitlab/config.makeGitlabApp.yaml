@@ -1,0 +1,8 @@
+configs:
+ 
+  makeGitlabApp:
+    defaultAppDirectory: '{{ .ProjectName }}Gitlab'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/appTemplate"
+      ]

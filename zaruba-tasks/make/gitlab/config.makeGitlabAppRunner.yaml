@@ -1,0 +1,11 @@
+configs:
+
+  makeGitlabAppRunner:
+    appIcon: 🦊
+    defaultAppDirectory: '{{ .ProjectName }}Gitlab'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/appRunnerTemplate"
+      ]

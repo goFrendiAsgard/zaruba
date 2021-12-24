@@ -1,0 +1,6 @@
+tasks:
+
+  addGitlab:
+    icon: 🍃
+    dependencies:
+      - makeGitlabAppRunner

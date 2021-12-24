@@ -1,0 +1,58 @@
+tasks:
+
+  startZtplAppNameGitlabWebContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/gitlabWeb
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameGitlabWebImage
+      - startZtplAppNameGitlabRunnerContainer
+    configRefs:
+      - ztplAppNameGitlabWebContainer
+      - ztplAppNameGitlabWeb
+    envRefs: 
+      - ztplAppNameGitlabWeb
+
+  buildZtplAppNameGitlabWebImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/gitlabWeb
+    timeout: 1h
+    configRefs:
+      - ztplAppNameGitlabWebContainer
+      - ztplAppNameGitlabWeb
+    envRefs: 
+      - ztplAppNameGitlabWeb
+
+  pushZtplAppNameGitlabWebImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    timeout: 1h
+    dependencies:
+      - buildZtplAppNameGitlabWebImage
+    configRefs:
+      - ztplAppNameGitlabWebContainer
+      - ztplAppNameGitlabWeb
+    envRefs: 
+      - ztplAppNameGitlabWeb
+
+  stopZtplAppNameGitlabWebContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameGitlabWebContainer
+      - ztplAppNameGitlabWeb
+    envRefs: 
+      - ztplAppNameGitlabWeb
+
+  removeZtplAppNameGitlabWebContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameGitlabWebContainer
+      - ztplAppNameGitlabWeb
+    envRefs: 
+      - ztplAppNameGitlabWeb

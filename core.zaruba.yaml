@@ -202,6 +202,12 @@ includes:
   - ./zaruba-tasks/make/fastApiRpcHandler/config.addFastApiRpcHandler.yaml
   - ./zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
 
+  - ./zaruba-tasks/make/gitlab/config.makeGitlabApp.yaml
+  - ./zaruba-tasks/make/gitlab/config.makeGitlabAppRunner.yaml
+  - ./zaruba-tasks/make/gitlab/task.addGitlab.yaml
+  - ./zaruba-tasks/make/gitlab/task.makeGitlabApp.yaml
+  - ./zaruba-tasks/make/gitlab/task.makeGitlabAppRunner.yaml
+
   - ./zaruba-tasks/make/goAppRunner/config.makeGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml

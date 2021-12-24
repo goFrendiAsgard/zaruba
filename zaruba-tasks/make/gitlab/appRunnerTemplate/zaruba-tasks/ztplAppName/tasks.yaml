@@ -1,0 +1,6 @@
+tasks:
+
+  startZtplAppName:
+    icon: ztplAppIcon
+    dependencies:
+      - startZtplAppNameContainer

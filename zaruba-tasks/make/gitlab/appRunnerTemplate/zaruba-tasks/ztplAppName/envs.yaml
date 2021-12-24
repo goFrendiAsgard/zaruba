@@ -1,0 +1,7 @@
+envs:
+
+  ztplAppNameGitlabWeb:
+    ztplAppYamlGitlabWebEnvs
+
+  ztplAppNameGitlabRunner:
+    ztplAppYamlGitlabRunnerEnvs
