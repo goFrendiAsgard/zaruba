@@ -3,9 +3,18 @@ configs:
   makeGitlabAppRunner:
     appIcon: 🦊
     defaultAppDirectory: '{{ .ProjectName }}Gitlab'
+    defaultAppPorts: |
+      [
+        "8000:80",
+        "8822:22"
+      ]
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
         "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/appRunnerTemplate"
       ]
+    _prepareVariables: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/bash/prepareVariables.sh"
+    _prepareReplacementMap: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/bash/prepareReplacementMap.sh"

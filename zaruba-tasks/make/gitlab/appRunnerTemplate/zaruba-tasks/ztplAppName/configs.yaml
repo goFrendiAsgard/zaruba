@@ -5,15 +5,22 @@ configs:
 
   ztplAppNameGitlabWebContainer:
     useImagePrefix: true
-    imageName: ztpl-app-image-name-gitlabWeb
+    imageName: ztpl-app-image-name-gitlab-web
     containerName: ztplAppContainerNameGitlabWeb
     localhost: host.docker.internal
+    volumes: |
+      config/gitlab:/etc/gitlab
+      data/gitlab:/var/opt/gitlab
+      logs:/var/log/gitlab
 
   ztplAppNameGitlabRunner:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
 
   ztplAppNameGitlabRunnerContainer:
     useImagePrefix: true
-    imageName: ztpl-app-image-name-gitlabRunner
+    imageName: ztpl-app-image-name-gitlab-runner
     containerName: ztplAppContainerNameGitlabRunner
     localhost: host.docker.internal
+    volumes: |
+      config/gitlab-runner:/etc/gitlab-runner
+      var/run/docker.sock:/var/run/docker.sock
