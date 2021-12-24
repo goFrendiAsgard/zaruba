@@ -8,6 +8,12 @@ configs:
         "8000:80",
         "8822:22"
       ]
+    defaultAppContainerVolumes: |
+      [
+        "../config/gitlab:/etc/gitlab",
+        "../data/gitlab:/var/opt/gitlab",
+        "../logs:/var/log/gitlab"
+      ]
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
