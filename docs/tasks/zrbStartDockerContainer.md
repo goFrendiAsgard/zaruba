@@ -311,14 +311,14 @@ Value:
     {{ $this := . -}}
     {{ if eq (.GetConfig "localhost") "localhost" -}}
       {{ range $key, $val := $this.GetEnvs -}}
-        -e "{{ $key }}={{ $val }}" {{ "" -}}
+        -e {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }} {{ "" -}}
       {{ end -}}
     {{ else -}}
       {{ range $key, $val := $this.GetEnvs -}}
         {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
         {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
         {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
-        -e "{{ $key }}={{ $val }}" {{ "" -}}
+        -e {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }} {{ "" -}}
       {{ end -}}
     {{ end -}}
 

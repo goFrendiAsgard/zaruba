@@ -33,6 +33,7 @@ tasks:
     configRefs:
       - deployZtplDeploymentName
       - ztplDeploymentName
+    envRef: ztplDeploymentName
 
   destroyZtplDeploymentName:
     icon: ztplAppIcon
@@ -45,3 +46,4 @@ tasks:
     configRefs:
       - destroyZtplDeploymentName
       - ztplDeploymentName
+    envRef: ztplDeploymentName
