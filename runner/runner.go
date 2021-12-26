@@ -97,7 +97,7 @@ func (r *Runner) Run() (err error) {
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
 	err = <-ch
-	r.sleep(100 * time.Millisecond)
+	r.sleep(300 * time.Millisecond)
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
 		return fmt.Errorf("terminated")
@@ -172,7 +172,7 @@ func (r *Runner) showStatusByInterval() {
 func (r *Runner) waitAnyProcessError(ch chan error) {
 	seen := map[string]bool{}
 	for {
-		r.sleep(10 * time.Millisecond)
+		r.sleep(50 * time.Millisecond)
 		if r.getKilledSignal() {
 			ch <- fmt.Errorf("terminated")
 			return
@@ -287,14 +287,14 @@ func (r *Runner) run(ch chan error) {
 	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.Success, 11))
 	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.Success, 3), d.Normal)
 	if r.autoTerminate {
-		r.sleep(100 * time.Millisecond)
+		r.sleep(300 * time.Millisecond)
 		r.sleep(r.autoTerminateDelay)
 		ch <- nil
 		return
 	}
 	// wait until no cmd left
 	for {
-		r.sleep(10 * time.Millisecond)
+		r.sleep(50 * time.Millisecond)
 		if r.getKilledSignal() {
 			ch <- fmt.Errorf("terminated")
 			return
@@ -452,7 +452,7 @@ func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (e
 			return
 		}
 		executed = true
-		r.sleep(100 * time.Millisecond)
+		r.sleep(300 * time.Millisecond)
 		r.logger.DPrintfSuccess("Successfully running %s\n", cmdLabel)
 		ch <- nil
 	}()
@@ -529,7 +529,7 @@ func (r *Runner) isTaskError(taskName string) (err error) {
 
 func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	for {
-		r.sleep(10 * time.Millisecond)
+		r.sleep(50 * time.Millisecond)
 		if r.isTaskFinished(taskName) {
 			return r.isTaskError(taskName)
 		}
@@ -620,11 +620,11 @@ func (r *Runner) getStatusCaption() (statusCaption string) {
 }
 
 func (r *Runner) killByPid(pid int, ch chan error) {
-	r.sleep(100 * time.Millisecond)
+	r.sleep(300 * time.Millisecond)
 	err := syscall.Kill(pid, syscall.SIGINT)
-	r.sleep(100 * time.Millisecond)
+	r.sleep(300 * time.Millisecond)
 	syscall.Kill(pid, syscall.SIGTERM)
-	r.sleep(100 * time.Millisecond)
+	r.sleep(300 * time.Millisecond)
 	syscall.Kill(pid, syscall.SIGKILL)
 	ch <- err
 }

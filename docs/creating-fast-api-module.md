@@ -22,7 +22,7 @@ def create_message_bus(mb_type: str) -> MessageBus:
     if mb_type == 'rmq':
         rmq_host = os.getenv('MY_SERVICE_RABBITMQ_HOST', 'localhost')
         rmq_user = os.getenv('MY_SERVICE_RABBITMQ_USER', 'root')
-        rmq_pass = os.getenv('MY_SERVICE_RABBITMQ_PASS', 'toor')
+        rmq_pass = os.getenv('MY_SERVICE_RABBITMQ_PASS', 'Alch3mist')
         rmq_vhost = os.getenv('MY_SERVICE_RABBITMQ_VHOST', '/')
         rmq_event_map = RMQEventMap({})
         return RMQMessageBus(rmq_host, rmq_user, rmq_pass, rmq_vhost, rmq_event_map)

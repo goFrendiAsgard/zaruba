@@ -8,6 +8,7 @@ tasks:
       - runZtplAppNameInLocal
     dependencies:
       - buildZtplAppNameGitlabRunnerImage
+      - startZtplAppNameGitlabWebContainer
     configRefs:
       - ztplAppNameGitlabRunnerContainer
       - ztplAppNameGitlabRunner

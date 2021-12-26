@@ -619,9 +619,8 @@ Value:
 Value:
 
     [
-      "../config/gitlab:/etc/gitlab",
-      "../data/gitlab:/var/opt/gitlab",
-      "../logs:/var/log/gitlab"
+      "../gitlab/config:/etc/gitlab",
+      "../gitlab/data:/var/opt/gitlab"
     ]
 
 
@@ -638,8 +637,8 @@ Value:
 Value:
 
     [
-      "8000:80",
-      "8822:22"
+      "8929:8929",
+      "2229:22"
     ]
 
 

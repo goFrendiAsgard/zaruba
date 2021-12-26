@@ -1,0 +1,14 @@
+tasks:
+
+  testGitlab:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - testDestroy
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please addGitlab appDirectory=provoGitlab
+        ../zaruba please startGitlab -t
+   
