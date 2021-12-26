@@ -610,7 +610,7 @@ Value:
 Value:
 
     [
-      "init.sql:/docker-entrypoint-initdb.d/init.sql"
+      "initdb.d:/docker-entrypoint-initdb.d"
     ]
 
 

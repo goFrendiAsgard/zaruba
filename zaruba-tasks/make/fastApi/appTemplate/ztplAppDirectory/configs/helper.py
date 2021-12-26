@@ -9,7 +9,7 @@ def get_rmq_connection_parameters() -> pika.ConnectionParameters:
     return create_rmq_connection_parameters(
         host = os.getenv('APP_RABBITMQ_HOST', 'localhost'),
         user = os.getenv('APP_RABBITMQ_USER', 'root'),
-        password = os.getenv('APP_RABBITMQ_PASS', 'toor'),
+        password = os.getenv('APP_RABBITMQ_PASS', 'Alch3mist'),
         virtual_host = os.getenv('APP_RABBITMQ_VHOST', '/'),
         heartbeat=30
     )

@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeContainerRegistryApp:
+    icon: 🧰
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeContainerRegistryApp

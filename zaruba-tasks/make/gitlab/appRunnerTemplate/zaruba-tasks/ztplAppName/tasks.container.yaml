@@ -1,0 +1,31 @@
+tasks:
+
+  startZtplAppNameContainer:
+    icon: ztplAppIcon
+    dependencies:
+      - startZtplAppNameGitlabWebContainer
+      - startZtplAppNameGitlabRunnerContainer
+
+  buildZtplAppNameImage:
+    icon: 🏭
+    dependencies:
+      - buildZtplAppNameGitlabWebImage
+      - buildZtplAppNameGitlabRunnerImage
+
+  pushZtplAppNameImage:
+    icon: 📤
+    dependencies:
+      - pushZtplAppNameGitlabWebImage
+      - pushZtplAppNameGitlabRunnerImage
+
+  stopZtplAppNameContainer:
+    icon: ✋
+    dependencies:
+      - stopZtplAppNameGitlabWebContainer
+      - stopZtplAppNameGitlabRunnerContainer
+
+  removeZtplAppNameContainer:
+    icon: ❌
+    dependencies:
+      - removeZtplAppNameGitlabWebContainer
+      - removeZtplAppNameGitlabRunnerContainer

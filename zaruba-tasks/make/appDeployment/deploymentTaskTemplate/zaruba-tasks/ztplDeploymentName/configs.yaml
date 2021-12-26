@@ -2,8 +2,13 @@ configs:
 
   ztplDeploymentName:
     pulumiStack: '{{ if .GetValue "pulumiStack" }}{{ .GetValue "pulumiStack" }}{{ else }}dev{{ end }}'
+    pulumiUseLocalBackend: '{{ .GetValue "pulumiUseLocalBackend" }}'
     pulumiSelectStack: |
       PULUMI_STACK='{{ .GetConfig "pulumiStack" }}'
+      {{ if .Util.Bool.IsTrue (.GetConfig "pulumiUseLocalBackend") -}}
+      mkdir -p ./pulumiLock
+      PULUMI_BACKEND_URL="file://./pulumiLock"
+      {{ end -}}
       pulumi stack select "${PULUMI_STACK}" || pulumi stack init "${PULUMI_STACK}"
 
   previewZtplDeploymentName:

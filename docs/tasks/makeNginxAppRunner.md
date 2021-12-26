@@ -612,7 +612,7 @@ Value:
     [
       "letsencrypt:/etc/letsencrypt",
       "html:/opt/bitnami/nginx/html",
-      "my_server_block.cnf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf "
+      "server_blocks:/opt/bitnami/nginx/conf/server_blocks"
     ]
 
 

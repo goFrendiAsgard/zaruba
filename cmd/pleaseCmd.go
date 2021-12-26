@@ -75,7 +75,7 @@ var pleaseCmd = &cobra.Command{
 		}
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(cmd, logger, decoration, project)
-		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "5m", *pleaseTerminate, pleaseWait)
+		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "10m", *pleaseTerminate, pleaseWait)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

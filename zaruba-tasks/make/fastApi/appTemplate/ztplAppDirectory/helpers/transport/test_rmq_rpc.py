@@ -8,7 +8,7 @@ import os
 def test_mb():
     host = os.getenv('TEST_RABBITMQ_HOST', 'localhost')
     user = os.getenv('TEST_RABBITMQ_USER', 'root')
-    password = os.getenv('TEST_RABBITMQ_PASS', 'toor')
+    password = os.getenv('TEST_RABBITMQ_PASS', 'Alch3mist')
     vhost = os.getenv('TEST_RABBITMQ_VHOST', '/')
     rmq_connection_parameters = create_rmq_connection_parameters(host, user, password, vhost)
     rmq_event_map = RMQEventMap({})

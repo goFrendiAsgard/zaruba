@@ -1,0 +1,16 @@
+tasks:
+
+  makeGitlabAppRunner:
+    icon: 🦊
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeGitlabApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeGitlabAppRunner

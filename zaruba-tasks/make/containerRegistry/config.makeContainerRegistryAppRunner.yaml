@@ -1,0 +1,9 @@
+configs:
+
+  makeContainerRegistryAppRunner:
+    appIcon: 🗃️
+    defaultAppDirectory: '{{ .ProjectName }}ContainerRegistry'
+    defaultAppPorts: |
+      [
+        "5000"
+      ]

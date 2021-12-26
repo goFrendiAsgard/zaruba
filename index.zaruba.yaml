@@ -41,3 +41,4 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushImages.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushMeltanoImage.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testGitlab.yaml

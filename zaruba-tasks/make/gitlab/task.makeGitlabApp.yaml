@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeGitlabApp:
+    icon: 🦊
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeGitlabApp
