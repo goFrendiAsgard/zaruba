@@ -11,4 +11,5 @@ tasks:
       start: |
         ../zaruba please addGitlab appDirectory=provoGitlab
         ../zaruba please startGitlab -t
+        ../zaruba please removeContainers
    
