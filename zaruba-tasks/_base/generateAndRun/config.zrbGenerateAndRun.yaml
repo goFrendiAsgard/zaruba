@@ -4,7 +4,7 @@ configs:
     shouldInitConfigVariables: true
     shouldInitConfigMapVariable: true
     shouldInitEnvMapVariable: true
-    templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template'
+    templateLocation: '{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/template'
     script: '{{ .GetValue "script" }}'
     sql: '{{ .GetValue "sql" }}'
     generatedScriptLocation: '{{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}'
