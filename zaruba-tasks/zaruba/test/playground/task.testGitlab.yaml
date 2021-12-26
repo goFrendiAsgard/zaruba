@@ -10,6 +10,6 @@ tasks:
     configs:
       start: |
         ../zaruba please addGitlab appDirectory=provoGitlab
-        ../zaruba please startGitlab -t
+        ../zaruba please startProvoGitlab -t
         ../zaruba please removeContainers
    
