@@ -1,0 +1,11 @@
+tasks:
+
+  removeContainerRegistry:
+    icon: 🐳
+    extend: zrbRemoveDockerContainer
+    dependencies:
+      - testPushImages
+      - testPushMeltanoImage
+      - testDeploy
+    configRef: containerRegistry
+

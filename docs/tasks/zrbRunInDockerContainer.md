@@ -208,10 +208,15 @@ Value:
 
     _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
     _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
+    echo "${_BOLD}${_YELLOW}👷 Make ${_ZRB_GENERATED_SCRIPT_LOCATION} executable${_NORMAL}"
     chmod -R 755 "${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    echo "${_BOLD}${_YELLOW}👷 Copy from ${_ZRB_GENERATED_SCRIPT_LOCATION} at host to ${_ZRB_REMOTE_SCRIPT_LOCATION} at container ${_ZRB_CONTAINER_NAME}${_NORMAL}"
     docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    echo "${_BOLD}${_YELLOW}👷 Execute remote command${_NORMAL}"
     docker exec {{ if .GetConfig "containerUser" }}-u {{ .GetConfig "containerUser" }}{{ end }} "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
+    echo "${_BOLD}${_YELLOW}👷 Remove ${_ZRB_REMOTE_SCRIPT_LOCATION} at container ${_ZRB_CONTAINER_NAME}${_NORMAL}"
     docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    echo "${_BOLD}${_YELLOW}👷 Remove ${_ZRB_GENERATED_SCRIPT_LOCATION}${_NORMAL}"
     rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
 
 
@@ -274,7 +279,7 @@ Value:
 
 Value:
 
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+    {{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/template
 
 
 ## Envs
