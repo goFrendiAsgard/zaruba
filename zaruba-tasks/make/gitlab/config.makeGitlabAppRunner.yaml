@@ -5,7 +5,7 @@ configs:
     defaultAppDirectory: '{{ .ProjectName }}Gitlab'
     defaultAppPorts: |
       [
-        "8929:80",
+        "8929:8929",
         "2229:22"
       ]
     defaultAppContainerVolumes: |
