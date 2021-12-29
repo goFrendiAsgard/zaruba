@@ -18,7 +18,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation
-    timeout: 1h
     configRefs:
       - ztplAppNameContainer
       - ztplAppName
@@ -28,7 +27,6 @@ tasks:
   pushZtplAppNameImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNameImage
     configRefs:

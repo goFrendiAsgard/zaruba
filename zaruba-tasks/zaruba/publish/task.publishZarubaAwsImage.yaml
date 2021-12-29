@@ -8,4 +8,3 @@ tasks:
     configRefs:
       - commonDocker
       - zarubaAwsDocker
-    timeout: 1h

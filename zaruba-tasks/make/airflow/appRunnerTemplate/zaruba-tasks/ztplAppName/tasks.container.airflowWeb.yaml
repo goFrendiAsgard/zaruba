@@ -20,7 +20,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation/airflowWeb
-    timeout: 1h
     configRefs:
       - ztplAppNameWebContainer
       - ztplAppNameWeb
@@ -30,7 +29,6 @@ tasks:
   pushZtplAppNameWebImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNameWebImage
     configRefs:

@@ -6,7 +6,7 @@ tasks:
       - startZtplAppNameContainer
  
   registerZtplAppNameRunner:
-    icon: ztpAppIcon
+    icon: ztplAppIcon
     extend: zrbRunInDockerContainer
     dependencies:
       - startZtplAppNameGitlabRunnerContainer

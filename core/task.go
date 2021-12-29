@@ -54,11 +54,6 @@ type Task struct {
 func (task *Task) init() {
 	task.maxRecursiveLevel = 100
 	task.currentRecursiveLevel = 0
-	var timeErr error
-	task.timeoutDuration, timeErr = time.ParseDuration(task.Timeout)
-	if timeErr != nil || task.timeoutDuration <= 0 {
-		task.timeoutDuration = 5 * time.Minute
-	}
 	task.generateIcon()
 	task.generateLogPrefix()
 	task.generateUUID()
@@ -80,9 +75,34 @@ func (task *Task) GetName() (name string) {
 	return task.name
 }
 
+func (task *Task) getTimeoutDuration() time.Duration {
+	timeoutDuration, err := time.ParseDuration(task.Timeout)
+	if err == nil {
+		return timeoutDuration
+	}
+	parentTaskNames := task.GetParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentTimeoutDuration := parentTask.getTimeoutDuration()
+		if parentTimeoutDuration > 0 {
+			return parentTimeoutDuration
+		}
+	}
+	return 0
+}
+
 // GetTimeoutDuration get timeout duration of a task
 func (task *Task) GetTimeoutDuration() time.Duration {
-	return task.timeoutDuration
+	if task.timeoutDuration > 0 {
+		return task.timeoutDuration
+	}
+	timeoutDuration := task.getTimeoutDuration()
+	if timeoutDuration <= 0 {
+		timeoutDuration = 5 * time.Minute
+	}
+	task.timeoutDuration = timeoutDuration
+	return timeoutDuration
 }
 
 // GetFileLocation get file location of a task

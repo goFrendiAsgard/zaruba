@@ -3,6 +3,7 @@ tasks:
   startZtplAppNameGitlabRunnerContainer:
     icon: 👷
     extend: zrbStartDockerContainer
+    timeout: 30m
     location: ztplAppTaskLocation/gitlabRunner
     inputs:
       - runZtplAppNameInLocal
@@ -19,7 +20,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation/gitlabRunner
-    timeout: 1h
     configRefs:
       - ztplAppNameGitlabRunnerContainer
       - ztplAppNameGitlabRunner
@@ -29,7 +29,6 @@ tasks:
   pushZtplAppNameGitlabRunnerImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNameGitlabRunnerImage
     configRefs:

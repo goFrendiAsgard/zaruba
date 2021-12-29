@@ -3,6 +3,7 @@ tasks:
   zrbPullDockerImage:
     icon: 🐳
     private: true
+    timeout: 1h
     description: |
       Pull docker image.
       Common configs:
