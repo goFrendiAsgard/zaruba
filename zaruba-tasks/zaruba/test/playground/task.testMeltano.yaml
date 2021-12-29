@@ -1,6 +1,6 @@
 tasks:
 
-  testGitlab:
+  testMeltano:
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h
@@ -9,6 +9,5 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please startProvoGitlab -t
-        ../zaruba please registerProvoGitlabRunner
-        ../zaruba please stopProvoGitlabContainer
+        ../zaruba please runProvoMeltano runProvoMeltanoContainer
+        ../zaruba please removeProvoMeltanoContainer

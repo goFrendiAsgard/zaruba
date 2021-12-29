@@ -99,7 +99,7 @@ func (task *Task) GetTimeoutDuration() time.Duration {
 	}
 	timeoutDuration := task.getTimeoutDuration()
 	if timeoutDuration <= 0 {
-		timeoutDuration = 5 * time.Minute
+		timeoutDuration = 10 * time.Minute
 	}
 	task.timeoutDuration = timeoutDuration
 	return timeoutDuration

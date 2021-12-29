@@ -9,6 +9,7 @@ configs:
     ports: ''
     volumes: ''
     user: ''
+    shmSize: '100m'
     localhost: localhost
     hostDockerInternal: '{{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}'
     restartPolicy: no
@@ -90,6 +91,7 @@ configs:
       --hostname "${CONTAINER_NAME}" {{ "" -}}
       --network "{{ .GetConfig "network" }}" {{ "" -}}
       {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
+      {{ if .GetConfig "shmSize" }}--shm-size "{{ .GetConfig "shmSize" }}" {{ end }}{{ "" -}}
       {{ .GetConfig "_startRunContainerEntryPoint" -}}
       {{ .GetConfig "_startRunContainerEnv" -}}
       {{ .GetConfig "_startRunContainerPorts" -}}

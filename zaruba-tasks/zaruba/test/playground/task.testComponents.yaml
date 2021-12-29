@@ -1,0 +1,14 @@
+tasks:
+
+  testComponents:
+    dependencies:
+      - testApps
+      - testCassandra
+      - testFastApi
+      - testGitlab
+      - testKafka
+      - testMeltano
+      - testMysql
+      - testPostgresql
+      - testRedis
+      - testRabbitmq

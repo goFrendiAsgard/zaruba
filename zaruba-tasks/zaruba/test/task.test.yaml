@@ -4,7 +4,6 @@ tasks:
     dependencies:
       - testPushMeltanoImage
       - testPushImages
-      - testApps
-      - testGitlab
+      - testComponents
       - testCore
       - removeContainerRegistry
