@@ -4,11 +4,15 @@ tasks:
     dependencies:
       - testApps
       - testCassandra
+      - testDocker
       - testFastApi
       - testGitlab
       - testKafka
       - testMeltano
+      - testMongodb
       - testMysql
+      - testNginx
       - testPostgresql
       - testRedis
       - testRabbitmq
+      - testTrino

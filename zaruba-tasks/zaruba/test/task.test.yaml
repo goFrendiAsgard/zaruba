@@ -7,3 +7,4 @@ tasks:
       - testComponents
       - testCore
       - removeContainerRegistry
+      - testDestroy

@@ -1,6 +1,6 @@
 tasks:
 
-  testGitlab:
+  testTrino:
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h
@@ -9,7 +9,5 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please startProvoGitlab -t
-        sleep 5
-        ../zaruba please registerProvoGitlabRunner
-        ../zaruba please stopProvoGitlabContainer
+        ../zaruba please startProvoTrino -t
+        ../zaruba please stopProvoTrinoContainer

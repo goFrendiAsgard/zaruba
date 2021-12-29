@@ -11,3 +11,4 @@ tasks:
       start: |
         ../zaruba please startProvoNodeJs startProvoGo startProvoPython startProvoFibo -t
         ../zaruba please startProvoNodeJsContainer startProvoGoContainer startProvoPythonContainer startProvoFiboContainer -t
+        ../zaruba please stopProvoNodeJsContainer stopProvoGoContainer stopProvoPythonContainer stopProvoFiboContainer -t
