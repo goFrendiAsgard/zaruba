@@ -9,5 +9,4 @@ tasks:
     configRefs:
       - commonDocker
       - zarubaDocker
-    timeout: 1h
 

@@ -8,4 +8,3 @@ tasks:
     configRefs:
       - commonDocker
       - devboxDocker
-    timeout: 1h

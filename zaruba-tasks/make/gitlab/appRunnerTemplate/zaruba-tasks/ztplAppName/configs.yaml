@@ -10,6 +10,7 @@ configs:
     imageName: ztpl-app-image-name-gitlab-web
     containerName: ztplAppContainerNameGitlabWeb
     localhost: host.docker.internal
+    checkCommand: curl {{ .GetEnv "GITLAB_WEB_LIVENESS_URL" }}
     volumes: |
       ../gitlab/config:/etc/gitlab,
       ../gitlab/data:/var/opt/gitlab,
@@ -25,3 +26,14 @@ configs:
     volumes: |
       ../gitlab-runner:/etc/gitlab-runner
       /var/run/docker.sock:/var/run/docker.sock
+
+  registerZtplAppNameRunner:
+    script: |
+      gitlab-runner register \
+        --non-interactive \
+        --url {{ .GetEnv "GITLAB_WEB_URL" }} \
+        --registration-token {{ .GetEnv "GITLAB_RUNNER_REGISTRATION_TOKEN" }} \
+        --executor docker \
+        --description "Sample Runner 1" \
+        --docker-image "docker:stable" \
+        --docker-volumes /var/run/docker.sock:/var/run/docker.sock

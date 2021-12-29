@@ -18,7 +18,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation/gitlabWeb
-    timeout: 1h
     configRefs:
       - ztplAppNameGitlabWebContainer
       - ztplAppNameGitlabWeb
@@ -28,7 +27,6 @@ tasks:
   pushZtplAppNameGitlabWebImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNameGitlabWebImage
     configRefs:

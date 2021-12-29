@@ -213,10 +213,14 @@ Value:
 
 Value:
 
+    _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
     _ZRB_KUBE_NAMESPACE="{{ .GetConfig "kubeNamespace" }}"
     _ZRB_KUBE_CONTEXT="{{ .GetConfig "kubeContext" }}"
+    echo "${_BOLD}${_YELLOW}Get pod name${_NORMAL}"
     _ZRB_POD_NAME="{{ if .GetConfig "podName" }}{{ .GetConfig "podName" }}{{ else }}$(kubectl get pods -o name --context "${_ZRB_KUBE_CONTEXT}" --namespace "${_ZRB_KUBE_NAMESPACE}" -l "{{ .GetConfig "podLabel" }}" | head -n 1 | cut -d'/' -f 2){{ end }}"
-    kubectl exec -n "${_ZRB_KUBE_NAMESPACE}" "${POD_NAME}" -- "{{ .GetConfig "podShell" }}" "-c" "rm -Rf ${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    echo "${_BOLD}${_YELLOW}👷 Remove ${_ZRB_REMOTE_SCRIPT_LOCATION} at pod ${_ZRB_POD_NAME}${_NORMAL}"
+    kubectl exec -n "${_ZRB_KUBE_NAMESPACE}" "${_ZRB_POD_NAME}" -- "{{ .GetConfig "podShell" }}" "-c" "rm -Rf ${_ZRB_REMOTE_SCRIPT_LOCATION}"
+    echo "${_BOLD}${_YELLOW}👷 Copy from ${_ZRB_GENERATED_SCRIPT_LOCATION} at host to ${_ZRB_REMOTE_SCRIPT_LOCATION} at pod ${_ZRB_POD_NAME}${_NORMAL}"
     kubectl cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_KUBE_NAMESPACE}/${_ZRB_POD_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
 
 
@@ -280,7 +284,7 @@ Value:
 
 Value:
 
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+    {{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/template
 
 
 ## Envs

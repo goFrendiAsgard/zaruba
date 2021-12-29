@@ -8,4 +8,3 @@ tasks:
     configRefs:
       - commonDocker
       - zarubaGcloudDocker
-    timeout: 1h

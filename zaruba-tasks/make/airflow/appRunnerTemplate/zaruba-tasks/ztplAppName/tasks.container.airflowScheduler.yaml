@@ -21,7 +21,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation/airflowScheduler
-    timeout: 1h
     configRefs:
       - ztplAppNameSchedulerContainer
       - ztplAppNameScheduler
@@ -31,7 +30,6 @@ tasks:
   pushZtplAppNameSchedulerImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNameSchedulerImage
     configRefs:

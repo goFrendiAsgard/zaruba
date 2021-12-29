@@ -3,5 +3,4 @@ tasks:
   pullContainerRegistry:
     icon: 🐳
     extend: zrbPullDockerImage
-    timeout: 1h
     configRef: containerRegistry

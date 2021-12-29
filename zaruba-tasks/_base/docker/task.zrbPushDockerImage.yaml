@@ -3,6 +3,7 @@ tasks:
   zrbPushDockerImage:
     icon: 🐳
     private: true
+    timeout: 1h
     description: |
       Push docker image.
       Common configs:

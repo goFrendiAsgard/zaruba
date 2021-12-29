@@ -3,6 +3,7 @@ tasks:
   zrbBuildDockerImage:
     icon: 🐳
     private: true
+    timeout: 1h
     description: |
       Build docker image.
       Common configs:

@@ -18,7 +18,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation/postgresql
-    timeout: 1h
     configRefs:
       - ztplAppNamePostgresqlContainer
       - ztplAppNamePostgresql
@@ -28,7 +27,6 @@ tasks:
   pushZtplAppNamePostgresqlImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNamePostgresqlImage
     configRefs:

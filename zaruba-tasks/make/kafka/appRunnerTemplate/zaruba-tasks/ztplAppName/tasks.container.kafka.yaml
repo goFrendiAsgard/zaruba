@@ -19,7 +19,6 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerImage
     location: ztplAppTaskLocation/kafka
-    timeout: 1h
     configRefs:
       - ztplAppNameKafkaContainer
       - ztplAppNameKafka
@@ -29,7 +28,6 @@ tasks:
   pushZtplAppNameKafkaImage:
     icon: 📤
     extend: zrbPushDockerImage
-    timeout: 1h
     dependencies:
       - buildZtplAppNameKafkaImage
     configRefs:

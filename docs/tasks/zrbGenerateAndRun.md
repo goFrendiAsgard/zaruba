@@ -247,7 +247,7 @@ Value:
 
 Value:
 
-    {{ .ZarubaHome }}/zaruba-tasks/generateAndRun/template
+    {{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/template
 
 
 ## Envs
