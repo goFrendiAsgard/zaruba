@@ -49,3 +49,4 @@ tasks:
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addTrino appDirectory=provoTrino
         ../zaruba please addContainerRegistry appDirectory=provoContainerRegistry
+        ../zaruba please addGitlab appDirectory=provoGitlab

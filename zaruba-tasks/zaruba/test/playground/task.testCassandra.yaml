@@ -1,6 +1,6 @@
 tasks:
 
-  testGitlab:
+  testCassandra:
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h
@@ -9,7 +9,7 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please startProvoGitlab -t
+        ../zaruba please startProvoCassandra -t
         sleep 5
-        ../zaruba please registerProvoGitlabRunner
-        ../zaruba please stopProvoGitlabContainer
+        ../zaruba please queryProvoCassandra sql='DESCRIBE KEYSPACES;'
+        ../zaruba please stopProvoCassandraContainer

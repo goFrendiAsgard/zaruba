@@ -1,14 +1,13 @@
 tasks:
 
-  testPushMeltanoImage:
+  testDocker:
     location: ../../../../playground
-    timeout: 1h
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
-      - testMeltano
-      - prepareContainerRegistry
+      - pretest
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please pushProvoMeltanoImage
-
+        ../zaruba please startProvoDocker -t
+        ../zaruba please stopProvoDockerContainer

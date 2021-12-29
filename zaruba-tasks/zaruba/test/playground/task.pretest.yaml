@@ -1,14 +1,11 @@
 tasks:
 
-  testPushMeltanoImage:
+  pretest:
     location: ../../../../playground
-    timeout: 1h
     extend: zrbRunShellScript 
     dependencies:
-      - testMeltano
-      - prepareContainerRegistry
+      - testAddComponents
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please pushProvoMeltanoImage
-
+        ../zaruba please syncEnv removeContainers

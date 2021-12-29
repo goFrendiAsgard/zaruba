@@ -6,7 +6,7 @@ configs:
     defaultAppPorts: |
       [
         "8929:8929",
-        "2229:22"
+        "2224:22"
       ]
     defaultAppContainerVolumes: |
       [

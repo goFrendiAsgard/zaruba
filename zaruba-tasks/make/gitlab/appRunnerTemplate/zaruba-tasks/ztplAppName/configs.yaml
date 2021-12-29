@@ -9,11 +9,12 @@ configs:
     useImagePrefix: true
     imageName: ztpl-app-image-name-gitlab-web
     containerName: ztplAppContainerNameGitlabWeb
+    shmSize: 256m
     localhost: host.docker.internal
     checkCommand: curl {{ .GetEnv "GITLAB_WEB_LIVENESS_URL" }}
     volumes: |
-      ../gitlab/config:/etc/gitlab,
-      ../gitlab/data:/var/opt/gitlab,
+      ../gitlab/config:/etc/gitlab
+      ../gitlab/data:/var/opt/gitlab
 
   ztplAppNameGitlabRunner:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'

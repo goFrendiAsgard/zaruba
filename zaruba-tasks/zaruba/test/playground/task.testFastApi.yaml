@@ -1,0 +1,16 @@
+tasks:
+
+  testFastApi:
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - pretest
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please startProvoFastApi -t
+        ../zaruba please startProvoFastApiContainer -t
+        sleep 5
+        python "{{ .GetTaskPath "test_fastapi.py" }}"
+        ../zaruba please stopProvoFastApiContainer

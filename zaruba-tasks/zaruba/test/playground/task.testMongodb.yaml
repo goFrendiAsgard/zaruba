@@ -1,14 +1,13 @@
 tasks:
 
-  testPushMeltanoImage:
+  testMongodb:
     location: ../../../../playground
-    timeout: 1h
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
-      - testMeltano
-      - prepareContainerRegistry
+      - pretest
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please pushProvoMeltanoImage
-
+        ../zaruba please startProvoMongodb -t
+        ../zaruba please stopProvoMongodbContainer

@@ -4,6 +4,7 @@ tasks:
     icon: ztplAppIcon
     extend: zrbStartDockerContainer
     location: ztplAppTaskLocation/gitlabWeb
+    timeout: 1h
     inputs:
       - runZtplAppNameInLocal
     dependencies:

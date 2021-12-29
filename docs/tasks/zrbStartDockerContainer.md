@@ -285,6 +285,7 @@ Value:
     --hostname "${CONTAINER_NAME}" {{ "" -}}
     --network "{{ .GetConfig "network" }}" {{ "" -}}
     {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
+    {{ if .GetConfig "shmSize" }}--shm-size "{{ .GetConfig "shmSize" }}" {{ end }}{{ "" -}}
     {{ .GetConfig "_startRunContainerEntryPoint" -}}
     {{ .GetConfig "_startRunContainerEnv" -}}
     {{ .GetConfig "_startRunContainerPorts" -}}
@@ -465,6 +466,13 @@ Value:
 
 
 ### Configs.setup
+
+
+### Configs.shmSize
+
+Value:
+
+    100m
 
 
 ### Configs.shouldInitConfigMapVariable
