@@ -1,11 +1,13 @@
 from typing import Any, List, Mapping
 from helpers.transport import MessageBus, RPC
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import OAuth2
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 
 import traceback
 
-def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC):
+def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, oauth2_scheme: OAuth2):
+    # NOTE: follow [this](https://fastapi.tiangolo.com/tutorial/security/first-steps/#how-it-looks) guide for authorization
 
     @app.get('/ztpl_app_crud_entities/', response_model=List[ZtplAppCrudEntity])
     def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0) -> List[ZtplAppCrudEntity]:

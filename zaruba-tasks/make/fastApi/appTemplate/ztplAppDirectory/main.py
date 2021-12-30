@@ -1,6 +1,7 @@
 # -- common
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap
 from configs.helper import get_abs_static_dir, get_rmq_connection_parameters, get_kafka_connection_parameters, create_message_bus, create_rpc
@@ -21,9 +22,11 @@ enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
 enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
 static_url = os.getenv('APP_STATIC_URL', '/static')
 static_dir = get_abs_static_dir(os.getenv('APP_STATIC_DIR', ''))
+token_url = os.getenv('APP_TOKEN_URL', 'token')
 
 engine = create_engine(db_url, echo=True)
 app = FastAPI(title='ztplAppName')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=token_url)
 mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map, kafka_connection_parameters, kafka_event_map)
 rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 

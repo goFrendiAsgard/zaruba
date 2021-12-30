@@ -1,10 +1,10 @@
 
-@app.ztplAppHttpMethod('ztplAppUrl')
-def ztplAppHttpMethod_ztpl_app_url() -> str:
+@app.ztplAppHttpMethod('ztplAppUrl', response_model=str)
+def ztplAppHttpMethod_ztpl_app_url(token: str = Depends(oauth2_scheme)) -> str:
     try:
-        # To send event: 
+        # NOTE: To send event, do this
         #   mb.call('event_name', {})
-        # To call rpc:
+        # NOTE: To call rpc, do this
         #   rpc.call('rpc_name', [parameter])
         return 'OK'
     except Exception as error:
