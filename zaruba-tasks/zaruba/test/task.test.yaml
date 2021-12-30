@@ -6,5 +6,5 @@ tasks:
       - testPushImages
       - testComponents
       - testCore
-      - removeContainerRegistry
+      - stopContainerRegistry
       - testDestroy
