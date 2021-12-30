@@ -8,7 +8,11 @@ def send_request(conn, method, url, payload_object, headers=None):
     conn.request(method, url, payload, headers)
     res = conn.getresponse()
     data = res.read()
-    return json.loads(data.decode("utf-8"))
+    raw_response = data.decode('utf-8')
+    print('raw response', raw_response)
+    decoded_response = json.loads(raw_response)
+    print('decoded response', decoded_response)
+    return decoded_response
 
 conn = http.client.HTTPConnection("localhost", 3000)
 
@@ -18,7 +22,6 @@ response = send_request(conn, 'POST', '/books/', {
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
 })
-print(response)
 assert 'id' in response
 assert response['title'] == 'Homo Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
@@ -27,7 +30,6 @@ book_id = response['id']
 
 print('get book')
 response = send_request(conn, 'GET', '/books/{}'.format(book_id), {})
-print(response)
 assert response['id'] == book_id
 assert response['title'] == 'Homo Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
@@ -39,7 +41,6 @@ response = send_request(conn, 'PUT', '/books/{}'.format(book_id), {
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
 })
-print(response)
 assert response['id'] == book_id
 assert response['title'] == 'Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
@@ -47,12 +48,10 @@ assert response['synopsis'] == 'A brief history of mankind'
 
 print('get books')
 response = send_request(conn, 'GET', '/books/', {})
-print(response)
 assert len(response) == 1
 
 print('delete book')
 response = send_request(conn, 'DELETE', '/books/{}'.format(book_id), {})
-print(response)
 assert response['id'] == book_id
 assert response['title'] == 'Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
@@ -60,5 +59,4 @@ assert response['synopsis'] == 'A brief history of mankind'
 
 print('get books after delete')
 response = send_request(conn, 'GET', '/books/', {})
-print(response)
 assert len(response) == 0

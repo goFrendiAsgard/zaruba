@@ -40,7 +40,7 @@ configs:
     defaultAppPorts: '[]'
     templateLocations: '{{ .GetValue "templateLocations" }}'
     _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareReplacementMap.sh"'
-    _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareVariables.sh"'
+    _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseVariables.sh"'
     _prepareBaseStartCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"'
     _prepareBasePrepareCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"'
     _prepareBaseTestCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"'

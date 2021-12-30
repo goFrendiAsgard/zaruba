@@ -3,6 +3,7 @@ module github.com/state-alchemists/zaruba
 go 1.13
 
 require (
+	github.com/gertd/go-pluralize v0.1.7 // indirect
 	github.com/google/uuid v1.3.0
 	github.com/joho/godotenv v1.3.0
 	github.com/manifoldco/promptui v0.8.0

@@ -1,3 +1,5 @@
+echo "Preparing replacement map"
+
 _setReplacementMap "[\t ]*ztplAppBuildImageCommand" "${_ZRB_APP_BUILD_IMAGE_COMMAND}"
 _setReplacementMap "[\t ]*ztplAppCheckCommand" "${_ZRB_APP_CHECK_COMMAND}"
 _setReplacementMap "[\t ]*ztplAppMigrateCommand" "${_ZRB_APP_MIGRATE_COMMAND}"
@@ -15,6 +17,10 @@ _setReplacementMap "ztpl_app_crud_entity" "${_ZRB_SNAKE_APP_CRUD_ENTITY}"
 _setReplacementMap "ztplAppCrudEntity" "${_ZRB_APP_CRUD_ENTITY}"
 _setReplacementMap "ztpl-app-crud-entity" "${_ZRB_KEBAB_APP_CRUD_ENTITY}"
 _setReplacementMap "ZtplAppCrudEntity" "${_ZRB_PASCAL_APP_CRUD_ENTITY}"
+_setReplacementMap "ztpl_app_crud_entities" "${_ZRB_SNAKE_APP_CRUD_ENTITIES}"
+_setReplacementMap "ztplAppCrudEntities" "${_ZRB_APP_CRUD_ENTITIES}"
+_setReplacementMap "ztpl-app-crud-entities" "${_ZRB_KEBAB_APP_CRUD_ENTITIES}"
+_setReplacementMap "ZtplAppCrudEntities" "${_ZRB_PASCAL_APP_CRUD_ENTITIES}"
 _setReplacementMap "ztplAppCrudFields" "${_ZRB_APP_CRUD_FIELDS}"
 _setReplacementMap "ztplAppDependencies" "${_ZRB_APP_DEPENDENCIES}"
 _setReplacementMap "ztpl_app_directory" "${_ZRB_SNAKE_APP_DIRECTORY}"
@@ -60,5 +66,9 @@ _setReplacementMap "ZtplDeploymentName" "${_ZRB_PASCAL_DEPLOYMENT_NAME}"
 _setReplacementMap "ztplDeploymentTaskLocation" "${_ZRB_DEPLOYMENT_TASK_LOCATION}"
 
 # add from config and env
+echo "Add config to replacement map"
 _addConfigToReplacementMap
+echo "Add env to replacement map"
 _addEnvToReplacementMap
+
+echo "Replacement map prepared"

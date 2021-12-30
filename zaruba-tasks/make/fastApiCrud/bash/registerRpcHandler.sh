@@ -1,3 +1,5 @@
+echo "Registering rpc handler"
+
 _IMPORT_RPC_HANDLER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_rpc_handler.py")"
 _IMPORT_RPC_HANDLER_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_RPC_HANDLER_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
@@ -34,3 +36,5 @@ _LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_FUNCTION_INDEX}" "${
 
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
+
+echo "Done registering rpc handler"

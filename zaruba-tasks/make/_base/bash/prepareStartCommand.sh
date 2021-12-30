@@ -1,3 +1,5 @@
+echo "Preparing start command"
+
 # start command
 if [ -z "${_ZRB_APP_START_COMMAND}" ]
 then
@@ -25,3 +27,5 @@ then
         _ZRB_APP_START_COMMAND="echo \"Replace this with command to start ${_ZRB_APP_NAME}\" && exit 1"
     fi
 fi
+
+echo "Start command prepared"

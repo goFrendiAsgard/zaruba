@@ -1,3 +1,5 @@
+echo "Set repo field update"
+
 _PATTERN="[\t ]*(db_entity.updated_at[\t ]*=[\t ]datetime.datetime.utcnow\(.*)"
 
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/repo_field_update.py")"
@@ -18,3 +20,5 @@ _FIELD_SCRIPT_LINES="$("${ZARUBA_BIN}" list append "${_FIELD_SCRIPT_LINES}" '$1'
 _ZRB_REPO_FIELD_UPDATE="$("${ZARUBA_BIN}" list join "${_FIELD_SCRIPT_LINES}")"
 
 _setReplacementMap "${_PATTERN}" "${_ZRB_REPO_FIELD_UPDATE}"
+
+echo "Done setting repo field update"

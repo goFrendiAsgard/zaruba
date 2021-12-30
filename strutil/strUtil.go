@@ -5,17 +5,28 @@ import (
 	"regexp"
 	"strings"
 
+	pluralize "github.com/gertd/go-pluralize"
 	"github.com/google/uuid"
 )
 
 type StrUtil struct {
 	nameGenerator *NameGenerator
+	pluralize     *pluralize.Client
 }
 
 func NewStrUtil() *StrUtil {
 	return &StrUtil{
 		nameGenerator: NewNameGenerator(),
+		pluralize:     pluralize.NewClient(),
 	}
+}
+
+func (strUtil *StrUtil) IsSingular(s string) (result bool) {
+	return strUtil.pluralize.IsSingular(s)
+}
+
+func (strUtil *StrUtil) IPlural(s string) (result bool) {
+	return strUtil.pluralize.IsPlural(s)
 }
 
 func (strUtil *StrUtil) IsUpper(s string) (result bool) {
@@ -24,6 +35,14 @@ func (strUtil *StrUtil) IsUpper(s string) (result bool) {
 
 func (strUtil *StrUtil) IsLower(s string) (result bool) {
 	return strings.ToLower(s) == s
+}
+
+func (strUtil *StrUtil) ToPlural(s string) (result string) {
+	return strUtil.pluralize.Plural(s)
+}
+
+func (strUtil *StrUtil) ToSingular(s string) (result string) {
+	return strUtil.pluralize.Singular(s)
 }
 
 func (strUtil *StrUtil) ToUpper(s string) (result string) {

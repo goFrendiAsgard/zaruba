@@ -1,3 +1,5 @@
+echo "Registering app runner tasks"
+
 _PROJECT_FILE_NAME="${1}"
 _APP_NAME="${2}"
 
@@ -15,3 +17,5 @@ _registerTask "${_PROJECT_FILE_NAME}" "removeContainers" "remove${_PASCAL_APP_NA
 _registerTask "${_PROJECT_FILE_NAME}" "buildImages" "build${_PASCAL_APP_NAME}Image"
 _registerTask "${_PROJECT_FILE_NAME}" "pushImages" "push${_PASCAL_APP_NAME}Image"
 _registerTask "${_PROJECT_FILE_NAME}" "pullImages" "pull${_PASCAL_APP_NAME}Image"
+
+echo "Done registering app runner tasks"

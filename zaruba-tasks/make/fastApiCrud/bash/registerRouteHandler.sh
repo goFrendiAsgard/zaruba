@@ -1,3 +1,5 @@
+echo "Registering route handler"
+
 _IMPORT_ROUTE_HANDLER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_route_handler.py")"
 _IMPORT_ROUTE_HANDLER_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_ROUTE_HANDLER_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
@@ -25,3 +27,5 @@ _LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_FUNCTION_INDEX}" "${
 
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
+
+echo "Done registering route handler"
