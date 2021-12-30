@@ -16,7 +16,7 @@ def get_rmq_connection_parameters() -> pika.ConnectionParameters:
 
 def get_kafka_connection_parameters() -> Mapping[str, Any]:
     return create_kafka_connection_parameters(
-        bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9093'),
+        bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092'),
         sasl_mechanism=os.getenv('APP_KAFKA_SASL_MECHANISM', 'PLAIN'),
         sasl_plain_username=os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', ''),
         sasl_plain_password=os.getenv('APP_KAFKA_SASL_PLAIN_PASSWORD', '')

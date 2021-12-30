@@ -4,7 +4,7 @@ from helpers.transport.interface import MessageBus
 from helpers.transport.kafka_config import KafkaEventMap
 import threading
 
-def create_kafka_connection_parameters(bootstrap_servers: str, sasl_mechanism: str, sasl_plain_username: str = '', sasl_plain_password: str = '') -> Mapping[str, Any]:
+def create_kafka_connection_parameters(bootstrap_servers: str, sasl_mechanism: str = '', sasl_plain_username: str = '', sasl_plain_password: str = '') -> Mapping[str, Any]:
     if sasl_mechanism == '':
         sasl_mechanism = 'PLAIN'
     return {

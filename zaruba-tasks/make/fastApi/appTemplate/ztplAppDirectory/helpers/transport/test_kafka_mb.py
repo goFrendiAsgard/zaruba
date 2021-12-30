@@ -5,7 +5,7 @@ from helpers.transport.kafka_config import KafkaEventMap
 import os
 
 def test_mb():
-    bootstrap_servers = os.getenv('TEST_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9093')
+    bootstrap_servers = os.getenv('TEST_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
     kafka_connection_parameters = create_kafka_connection_parameters(bootstrap_servers)
     kafka_event_map = KafkaEventMap({})
 
