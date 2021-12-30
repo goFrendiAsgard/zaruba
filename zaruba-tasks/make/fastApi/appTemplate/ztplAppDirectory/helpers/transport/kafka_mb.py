@@ -33,7 +33,7 @@ class KafkaMessageBus(MessageBus):
             group_id = self.event_map.get_group_id(event_name)
             consumer = KafkaConsumer(topic, group_id=group_id, **self.kafka_connection_parameters)
             self.consumers[event_name] = consumer
-            thread = threading.Thread(target=self._handle, args=[consumer, event_name, topic, group_id, event_handler])
+            thread = threading.Thread(target=self._handle, args=[consumer, event_name, topic, group_id, event_handler], daemon = True)
             thread.start()
         return register_event_handler
     

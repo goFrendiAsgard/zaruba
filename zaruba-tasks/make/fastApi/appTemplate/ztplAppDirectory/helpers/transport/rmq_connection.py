@@ -33,7 +33,7 @@ class RMQConnection():
                 self._connect()
 
     def _callback(self):
-        self.thread = threading.Thread(target=self._process_data_events)
+        self.thread = threading.Thread(target=self._process_data_events, daemon=True)
         self.thread.start()
 
     def shutdown(self):
