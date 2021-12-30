@@ -1,3 +1,5 @@
+echo "Set schema field declaration"
+
 _PATTERN="[\t ]*(class[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data.*)"
 
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/schema_field_declaration.py")"
@@ -16,3 +18,5 @@ done
 _ZRB_SCHEMA_FIELD_DECLARATION="$("${ZARUBA_BIN}" list join "${_FIELD_SCRIPT_LINES}")"
 
 _setReplacementMap "${_PATTERN}" "${_ZRB_SCHEMA_FIELD_DECLARATION}"
+
+echo "Done setting schema field declaration"

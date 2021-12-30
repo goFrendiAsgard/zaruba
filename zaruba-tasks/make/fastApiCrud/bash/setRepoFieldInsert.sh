@@ -1,3 +1,5 @@
+echo "Set repo field insert"
+
 _PATTERN="[\t ]*(id[\t ]*=[\t ]*str\(uuid.uuid4\(.*)"
 
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/repo_field_insert.py")"
@@ -16,3 +18,5 @@ done
 _ZRB_REPO_FIELD_INSERT="$("${ZARUBA_BIN}" list join "${_FIELD_SCRIPT_LINES}")"
 
 _setReplacementMap "${_PATTERN}" "${_ZRB_REPO_FIELD_INSERT}"
+
+echo "Done setting repo field insert"

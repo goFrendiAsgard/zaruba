@@ -7,7 +7,7 @@ import traceback
 
 def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC):
 
-    @app.get('/ztpl_app_crud_entity/', response_model=List[ZtplAppCrudEntity])
+    @app.get('/ztpl_app_crud_entities/', response_model=List[ZtplAppCrudEntity])
     def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0) -> List[ZtplAppCrudEntity]:
         results = []
         try:
@@ -18,7 +18,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC):
         return [ZtplAppCrudEntity.parse_obj(result) for result in results]
 
 
-    @app.get('/ztpl_app_crud_entity/{id}', response_model=ZtplAppCrudEntity)
+    @app.get('/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
     def find_ztpl_app_crud_entity_by_id(id: str) -> ZtplAppCrudEntity:
         result = None
         try:
@@ -31,7 +31,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC):
         return ZtplAppCrudEntity.parse_obj(result)
 
 
-    @app.post('/ztpl_app_crud_entity/', response_model=ZtplAppCrudEntity)
+    @app.post('/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntity)
     def insert_ztpl_app_crud_entity(data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
         result = None
         try:
@@ -44,7 +44,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC):
         return ZtplAppCrudEntity.parse_obj(result)
 
 
-    @app.put('/ztpl_app_crud_entity/{id}', response_model=ZtplAppCrudEntity)
+    @app.put('/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
     def update_ztpl_app_crud_entity(id: str, data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
         result = None
         try:
@@ -57,7 +57,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC):
         return ZtplAppCrudEntity.parse_obj(result)
 
 
-    @app.delete('/ztpl_app_crud_entity/{id}')
+    @app.delete('/ztpl_app_crud_entities/{id}')
     def delete_ztpl_app_crud_entity(id: str) -> ZtplAppCrudEntity:
         result = None
         try:

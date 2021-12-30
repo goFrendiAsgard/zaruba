@@ -1,3 +1,5 @@
+echo "Registering repo"
+
 _IMPORT_REPO_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_repo.py")"
 _IMPORT_REPO_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_REPO_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
@@ -32,3 +34,5 @@ _LINES="$("${ZARUBA_BIN}" list set "${_LINES}" "${_CALL_INDEX}" "${_NEW_CALL_LIN
 
 chmod 755 "${_MAIN_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_MAIN_FILE_LOCATION}" "${_LINES}"
+
+echo "Done registering repo"

@@ -26,6 +26,8 @@ func Init() {
 	Cmd.AddCommand(toKebabCmd)
 	Cmd.AddCommand(toLowerCmd)
 	Cmd.AddCommand(toPascalCmd)
+	Cmd.AddCommand(toPluralCmd)
+	Cmd.AddCommand(toSingularCmd)
 	Cmd.AddCommand(toSnakeCmd)
 	Cmd.AddCommand(toUpperCmd)
 	Cmd.AddCommand(toUpperSnakeCmd)
