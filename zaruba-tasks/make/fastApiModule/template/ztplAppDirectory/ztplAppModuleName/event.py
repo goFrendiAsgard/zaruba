@@ -3,6 +3,6 @@ from helpers.transport import MessageBus
 
 import traceback
 
-def register_event_handler(mb: MessageBus):
+def register_ztpl_app_module_name_event_handler(mb: MessageBus):
 
-    print('register ztplAppModuleName event handler')
+    print('Register ztplAppModuleName event handler')
