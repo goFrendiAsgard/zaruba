@@ -7,10 +7,10 @@ from schemas.user import User
 
 class AuthModel():
 
-    def __init__(self, user_model: UserModel, oauth2_scheme: OAuth2, root_role: str):
+    def __init__(self, user_model: UserModel, oauth2_scheme: OAuth2, root_permission: str):
         self.user_model = user_model
         self.oauth2_scheme = oauth2_scheme
-        self.root_role = root_role
+        self.root_permission = root_permission
 
     def raise_unauthorized_exception(self, detail: str):
         raise HTTPException(
@@ -19,24 +19,39 @@ class AuthModel():
             headers={'WWW-Authenticate': 'Bearer'},
         )
 
-    async def everyone(self, request: Request) -> User:
-        token = await self.oauth2_scheme(request)
-        current_user = self.user_model.find_by_token(token)
-        if not current_user:
-            return self.user_model.get_guest_user()
-        return current_user
-
-    def current_user_has_any_role(self, roles: List[str]) -> Callable[[Request], User]:
-        async def has_role(token = Depends(self.oauth2_scheme)) -> User:
+    def everyone(self) -> Callable[[Request], User]:
+        async def verify_everyone(token = Depends(self.oauth2_scheme)) -> User:
+            if token is None:
+                return self.user_model.get_guest_user()
             current_user = self.user_model.find_by_token(token)
             if not current_user:
-                self.raise_unauthorized_exception('Invalid token')
-            if len(roles) == 0:
+                return self.user_model.get_guest_user()
+            return current_user
+        return verify_everyone 
+
+    def is_authenticated(self) -> Callable[[Request], User]:
+        async def verify_is_authenticated(token = Depends(self.oauth2_scheme)) -> User:
+            if token is None:
+                self.raise_unauthorized_exception('Not authenticated')
+            current_user = self.user_model.find_by_token(token)
+            if not current_user:
+                self.raise_unauthorized_exception('Not authenticated')
+            return current_user
+        return verify_is_authenticated
+
+    def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
+        async def verify_has_any_permission(token = Depends(self.oauth2_scheme)) -> User:
+            if token is None:
+                self.raise_unauthorized_exception('Not authenticated')
+            current_user = self.user_model.find_by_token(token)
+            if not current_user:
+                self.raise_unauthorized_exception('Not authenticated')
+            if len(permissions) == 0:
                 return current_user
-            if current_user.has_role(self.root_role):
+            if current_user.has_permission(self.root_permission):
                 return current_user
-            for role in roles:
-                if current_user.has_role(role):
+            for permission in permissions:
+                if current_user.has_permission(permission):
                     return current_user
-            self.raise_unauthorized_exception('Insufficient privilege')
-        return has_role
+            self.raise_unauthorized_exception('Unauthorized')
+        return verify_has_any_permission

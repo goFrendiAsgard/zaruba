@@ -18,7 +18,7 @@ class UserModel():
             id = 'guest',
             username = self.guest_username, 
             email = '',
-            roles = '',
+            permissions = [],
             active = True,
             password = '',
             full_name = '',

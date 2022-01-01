@@ -42,7 +42,7 @@ user_repo = DBUserRepo(engine=engine, create_all=True)
 
 # -- 👤 User initialization
 guest_username = os.getenv('APP_GUEST_USERNAME', 'guest')
-root_role = os.getenv('APP_ROOT_ROLE', 'root')
+root_permission = os.getenv('APP_ROOT_PERMISSION', 'root')
 token_model = TokenModel(
     access_token_secret_key = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123'),
     access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
@@ -55,11 +55,11 @@ user_seeder_model.seed(UserData(
     email = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@root.com'),
     password = os.getenv('APP_ROOT_INITIAL_PASSWORD', 'toor'),
     active = True,
-    roles = root_role,
+    permissions = [root_permission],
     full_name = os.getenv('APP_ROOT_INITIAL_FULL_NAME', 'root')
 ))
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-auth_model = AuthModel(user_model, oauth2_scheme, root_role)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
+auth_model = AuthModel(user_model, oauth2_scheme, root_permission)
 
 # -- ⚡FastAPI initialization
 app = FastAPI(title='ztplAppName')

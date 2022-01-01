@@ -1,5 +1,6 @@
 from typing import List
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, Boolean, Column, DateTime, ForeignKey, Integer, String
@@ -9,6 +10,7 @@ from repos.user import UserRepo
 import bcrypt
 import uuid
 import datetime
+import json
 
 Base = declarative_base()
 
@@ -17,12 +19,16 @@ class DBUserEntity(Base):
     id = Column(String(36), primary_key=True, index=True)
     username = Column(String(50), index=True, unique=True, nullable=False)
     email = Column(String(50), index=True, unique=True, nullable=False)
-    roles = Column(String(20), index=True, nullable=False)
+    json_permissions = Column(String(20), index=True, nullable=False, default='[]')
     active = Column(Boolean(), index=True, nullable=False, default=False)
     hashed_password = Column(String(20), index=False)
     full_name = Column(String(20), index=True, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+    @hybrid_property
+    def permissions(self) -> List[str]:
+        return json.loads(self.json_permissions)
 
 
 class DBUserRepo(UserRepo):
@@ -120,7 +126,7 @@ class DBUserRepo(UserRepo):
                 id=str(uuid.uuid4()),
                 username=user_data.username,
                 email=user_data.email,
-                roles=user_data.roles,
+                json_permissions=json.dumps(user_data.permissions),
                 active=user_data.active,
                 hashed_password=self._hash_password(user_data.password),
                 full_name=user_data.full_name,
@@ -143,7 +149,7 @@ class DBUserRepo(UserRepo):
                 return None
             db_user.username = user_data.username
             db_user.email = user_data.email
-            db_user.roles = user_data.roles
+            db_user.json_permissions = json.dumps(user_data.permissions)
             db_user.active = user_data.active
             db_user.full_name = user_data.full_name
             db_user.updated_at = datetime.datetime.utcnow()

@@ -1,36 +1,30 @@
 from typing import Optional, List
 from pydantic import BaseModel
-import datetime
+import datetime, re
 
 class UserData(BaseModel):
     username: str
     email: str
-    roles: str
+    permissions: List[str]
     active: bool
     password: Optional[str]
     full_name: str
 
-    def _get_roles(self) -> List[str]:
-        return self.roles.split(' ')
-
-    def has_role(self, role: str) -> bool:
-        for existing_role in self._get_roles():
-            if role == existing_role:
+    def has_permission(self, permission: str) -> bool:
+        for existing_permission in self.permissions:
+            if re.search('^{}$'.format(existing_permission), permission):
                 return True
         return False
 
-    def add_role(self, role: str):
-        roles = self._get_roles()
-        for existing_role in roles:
-            if role == existing_role:
+    def add_permission(self, permission: str):
+        for existing_permission in self.permissions:
+            if permission == existing_permission:
                 return
-        roles.append(role)
-        self.roles = ' '.join(roles)
+        self.permissions.append(permission)
 
-    def remove_role(self, role: str):
-        roles = self._get_roles()
-        new_roles = [existing_role for existing_role in roles if existing_role != role]
-        self.roles = ' '.join(new_roles)
+    def remove_permission(self, permission: str):
+        new_permissions = [existing_permission for existing_permission in self.permissions if existing_permission != permission]
+        self.permissions = ' '.join(new_permissions)
 
 
 class User(UserData):

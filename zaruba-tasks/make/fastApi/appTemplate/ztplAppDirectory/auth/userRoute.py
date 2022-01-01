@@ -19,20 +19,20 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model: Auth
         return {"access_token": access_token, "token_type": "bearer"}
 
     @app.get('/users/', response_model=List[User])
-    def find_user(current_user = Depends(auth_model.current_user_has_any_role(['user:*', 'user:read'])), keyword: str='', limit: int=100, offset: int=0) -> List[User]:
+    def find_user(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_model.has_any_permissions( 'user:read'))) -> List[User]:
         results = []
         try:
-            results = rpc.call('find_user', keyword, limit, offset)
+            results = rpc.call('find_user', keyword, limit, offset, current_user.dict())
         except:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
         return [User.parse_obj(result) for result in results]
 
     @app.get('/users/{id}', response_model=User)
-    def find_user_by_id(id: str) -> User:
+    def find_user_by_id(id: str, current_user = Depends(auth_model.has_any_permissions( 'user:read'))) -> User:
         result = None
         try:
-            result = rpc.call('find_user_by_id', id)
+            result = rpc.call('find_user_by_id', id, current_user.dict())
         except:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -41,10 +41,10 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model: Auth
         return User.parse_obj(result)
 
     @app.post('/users/', response_model=User)
-    def insert_user(data: UserData) -> User:
+    def insert_user(data: UserData, current_user = Depends(auth_model.has_any_permissions( 'user:create'))) -> User:
         result = None
         try:
-            result = rpc.call('insert_user', data.dict())
+            result = rpc.call('insert_user', data.dict(), current_user.dict())
         except:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -53,10 +53,10 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model: Auth
         return User.parse_obj(result)
 
     @app.put('/users/{id}', response_model=User)
-    def update_user(id: str, data: UserData) -> User:
+    def update_user(id: str, data: UserData, current_user = Depends(auth_model.has_any_permissions( 'user:update'))) -> User:
         result = None
         try:
-            result = rpc.call('update_user', id, data.dict())
+            result = rpc.call('update_user', id, data.dict(), current_user.dict())
         except:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -65,7 +65,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model: Auth
         return User.parse_obj(result)
 
     @app.delete('/users/{id}')
-    def delete_user(id: str) -> User:
+    def delete_user(id: str, current_user = Depends(auth_model.has_any_permissions( 'user:delete'))) -> User:
         result = None
         try:
             result = rpc.call('delete_user', id)
