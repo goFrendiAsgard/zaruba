@@ -25,7 +25,9 @@ class AuthModel():
                 return self.user_model.get_guest_user()
             current_user = self.user_model.find_by_token(token)
             if not current_user:
-                return self.user_model.get_guest_user()
+                current_user = self.user_model.get_guest_user()
+            if not current_user.active:
+                self.raise_unauthorized_exception('User deactivated')
             return current_user
         return verify_everyone 
 
@@ -36,6 +38,8 @@ class AuthModel():
             current_user = self.user_model.find_by_token(token)
             if not current_user:
                 self.raise_unauthorized_exception('Not authenticated')
+            if not current_user.active:
+                self.raise_unauthorized_exception('User deactivated')
             return current_user
         return verify_is_authenticated
 
@@ -46,6 +50,8 @@ class AuthModel():
             current_user = self.user_model.find_by_token(token)
             if not current_user:
                 self.raise_unauthorized_exception('Not authenticated')
+            if not current_user.active:
+                self.raise_unauthorized_exception('User deactivated')
             if len(permissions) == 0:
                 return current_user
             if current_user.has_permission(self.root_permission):
