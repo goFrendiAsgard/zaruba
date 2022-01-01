@@ -2,7 +2,7 @@
 
 # Add components
 
-## Table of content
+## Subtopics
 
 * Generate applications
     * FastAPI app

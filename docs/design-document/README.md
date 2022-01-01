@@ -2,7 +2,7 @@
 
 # Design document
 
-## Table of content
+## Subtopics
 
 * Core functionality
 * Generator

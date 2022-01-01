@@ -4,7 +4,7 @@
 
 Here you will see several use cases to use Zaruba.
 
-## Table of content
+## Subtopics
 
 * [Creating a project](./creating-a-project.md)
 * [Add app runner for existing applications](./add-app-runner-for-existing-applications/README.md)
