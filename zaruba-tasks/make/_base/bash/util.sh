@@ -20,8 +20,10 @@ _registerTask() {
     __ZRB_PROJECT_FILE_NAME="${1}"
     __ZRB_MAIN_TASK_NAME="${2}"
     __ZRB_MODULE_TASK_NAME="${3}"
+    echo "Checking ${__ZRB_MODULE_TASK_NAME}"
     if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MODULE_TASK_NAME}")" = 1 ]
     then
+        echo "Registering ${__ZRB_MODULE_TASK_NAME} as dependency of ${__ZRB_MAIN_TASK_NAME} at ${__ZRB_PROJECT_FILE_NAME}"
         "${ZARUBA_BIN}" project addTaskIfNotExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}"
         "${ZARUBA_BIN}" task addDependency "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}" "[\"${__ZRB_MODULE_TASK_NAME}\"]"
     fi

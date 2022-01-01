@@ -5,8 +5,11 @@ from helpers.transport.kafka_config import KafkaEventMap
 import os
 
 def test_mb():
-    bootstrap_servers = os.getenv('TEST_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9093')
-    kafka_connection_parameters = create_kafka_connection_parameters(bootstrap_servers)
+    bootstrap_servers = os.getenv('TEST_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
+    sasl_mechanism=os.getenv('TEST_KAFKA_SASL_MECHANISM', 'PLAIN'),
+    sasl_plain_username=os.getenv('TEST_KAFKA_SASL_PLAIN_USERNAME', ''),
+    sasl_plain_password=os.getenv('TEST_KAFKA_SASL_PLAIN_PASSWORD', '')
+    kafka_connection_parameters = create_kafka_connection_parameters(bootstrap_servers, sasl_mechanism, sasl_plain_username, sasl_plain_password)
     kafka_event_map = KafkaEventMap({})
 
     mb = KafkaMessageBus(kafka_connection_parameters, kafka_event_map)

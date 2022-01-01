@@ -14,7 +14,7 @@ _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_RPC_HANDLER_SCRIPT}")"
 
 # look for handler function
-_FUNCTION_PATTERN='^(\s*)def register_rpc_handler\((.*)\)(.*)$'
+_FUNCTION_PATTERN='^(\s*)def register_'${_ZRB_SNAKE_APP_MODULE_NAME}'_rpc_handler\((.*)\)(.*)$'
 _PATTERN="$("${ZARUBA_BIN}" list append '[]' "${_FUNCTION_PATTERN}")"
 _FUNCTION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 _FUNCTION_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FUNCTION_INDEX}")"
@@ -22,7 +22,7 @@ _FUNCTION_SUBMATCH="$("${ZARUBA_BIN}" lines submatch "${_LINES}" "${_PATTERN}")"
 _FUNCTION_INDENTATION="$("${ZARUBA_BIN}" list get "${_FUNCTION_SUBMATCH}" 1)"
 _FUNCTION_PARAM="$("${ZARUBA_BIN}" list get "${_FUNCTION_SUBMATCH}" 2)"
 _FUNCTION_SUFFIX="$("${ZARUBA_BIN}" list get "${_FUNCTION_SUBMATCH}" 3)"
-_NEW_FUNCTION_LINE="${_FUNCTION_INDENTATION}def register_rpc_handler(${_FUNCTION_PARAM}, ${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo: ${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo)${_FUNCTION_SUFFIX}"
+_NEW_FUNCTION_LINE="${_FUNCTION_INDENTATION}def register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler(${_FUNCTION_PARAM}, ${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo: ${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo)${_FUNCTION_SUFFIX}"
 
 # replace function signature
 _LINES="$("${ZARUBA_BIN}" list set "${_LINES}" "${_FUNCTION_INDEX}" "${_NEW_FUNCTION_LINE}")"

@@ -31,7 +31,7 @@ includes:
   - ./zaruba-tasks/zaruba/test/containerRegistry/config.containerRegistry.yaml
   - ./zaruba-tasks/zaruba/test/containerRegistry/task.pullContainerRegistry.yaml
   - ./zaruba-tasks/zaruba/test/containerRegistry/task.startContainerRegistry.yaml
-  - ./zaruba-tasks/zaruba/test/containerRegistry/task.removeContainerRegistry.yaml
+  - ./zaruba-tasks/zaruba/test/containerRegistry/task.stopContainerRegistry.yaml
 
   - ./zaruba-tasks/zaruba/test/playground/config.playgroundTest.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.preparePlayground.yaml

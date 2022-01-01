@@ -1,8 +1,8 @@
 tasks:
 
-  removeContainerRegistry:
+  stopContainerRegistry:
     icon: 🐳
-    extend: zrbRemoveDockerContainer
+    extend: zrbStopDockerContainer
     dependencies:
       - testPushImages
       - testPushMeltanoImage

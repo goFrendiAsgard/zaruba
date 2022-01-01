@@ -1,4 +1,1 @@
-# -- ztplAppModuleName
-from ztplAppModuleName.route import register_route_handler as register_ztpl_app_module_name_route_handler
-from ztplAppModuleName.event import register_event_handler as register_ztpl_app_module_name_event_handler
-from ztplAppModuleName.rpc import register_rpc_handler as register_ztpl_app_module_name_rpc_handler
+from ztplAppModuleName import register_ztpl_app_module_name_route_handler, register_ztpl_app_module_name_event_handler, register_ztpl_app_module_name_rpc_handler

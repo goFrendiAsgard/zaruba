@@ -2,6 +2,8 @@ configs:
 
   ztplAppNameKafka:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlKafkaPorts
 
   ztplAppNameKafkaContainer:
     useImagePrefix: true
@@ -17,3 +19,5 @@ configs:
     imageName: ztpl-app-image-name-zookeeper
     containerName: ztplAppContainerNameZookeeper
     localhost: host.docker.internal
+    ports: |
+      ztplAppYamlZookeeperPorts

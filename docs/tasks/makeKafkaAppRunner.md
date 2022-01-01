@@ -153,7 +153,7 @@ Description:
 
 Default Value:
 
-    ["9092:9092"]
+    ["9092:9092", "29092:29092"]
 
 Secret:
 

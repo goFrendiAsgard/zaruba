@@ -9,4 +9,4 @@ _registerTask "${_PROJECT_FILE_NAME}" "prepareDeployments" "prepare${_PASCAL_DEP
 _registerTask "${_PROJECT_FILE_NAME}" "deploy" "deploy${_PASCAL_DEPLOYMENT_NAME}"
 _registerTask "${_PROJECT_FILE_NAME}" "destroy" "destroy${_PASCAL_DEPLOYMENT_NAME}"
 
-echo "Done registering deploymentr tasks"
+echo "Done registering deployment tasks"

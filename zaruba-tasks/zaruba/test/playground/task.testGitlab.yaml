@@ -10,6 +10,13 @@ tasks:
     configs:
       start: |
         ../zaruba please startProvoGitlab -t
-        sleep 10
+        set +e
+        sleep 5
         ../zaruba please registerProvoGitlabRunner
+        until [ "$?" = "0" ]
+        do
+          sleep 5
+          ../zaruba please registerProvoGitlabRunner
+        done
+        set -e
         ../zaruba please stopProvoGitlabContainer
