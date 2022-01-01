@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddFastApiRpcHandler
+# ⚡ AddFastApiRpcHandler
 
 File Location:
 

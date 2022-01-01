@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddFastApi
+# ⚡ AddFastApi
 
 File Location:
 

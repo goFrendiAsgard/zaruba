@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddMysql
+# 🐬 AddMysql
 
 File Location:
 

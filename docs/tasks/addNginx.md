@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddNginx
+# 📗 AddNginx
 
 File Location:
 

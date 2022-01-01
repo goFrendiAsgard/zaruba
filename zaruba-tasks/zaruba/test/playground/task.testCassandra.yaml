@@ -1,6 +1,7 @@
 tasks:
 
   testCassandra:
+    icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h

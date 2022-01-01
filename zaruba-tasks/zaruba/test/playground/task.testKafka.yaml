@@ -1,6 +1,7 @@
 tasks:
 
   testKafka:
+    icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h

@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddTrino
+# 🐰 AddTrino
 
 File Location:
 

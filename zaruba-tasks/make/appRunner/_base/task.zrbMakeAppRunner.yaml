@@ -1,6 +1,7 @@
 tasks:
 
   zrbMakeAppRunner:
+    icon: 🪄
     extend: zrbMakeTask
     private: true
     configRef: zrbMakeAppRunner

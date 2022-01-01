@@ -2,6 +2,7 @@ tasks:
 
 
   makeDocs:
+    icon: 🪄
     location: ../../..
     extend: zrbRunShellScript
     dependencies:

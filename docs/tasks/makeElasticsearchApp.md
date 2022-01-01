@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeElasticsearchApp
+# 🍜 MakeElasticsearchApp
 
 File Location:
 

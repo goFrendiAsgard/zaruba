@@ -8,7 +8,17 @@ Zaruba scripts are written in [YAML](https://yaml.org/) and [go template](https:
 
 ## Invoking task
 
-When you invoke `zaruba please`, Zaruba will load the scripts from `index.zaruba.yaml` file in your current directory.
+To run any zaruba task, you can invoke:
+
+```sh
+zaruba please <taskName> [input=value...]
+# or
+zaruba please <taskName> -i
+# or
+zaruba please
+```
+
+When you invoke `zaruba please` with any parameter, Zaruba will load the scripts from `index.zaruba.yaml` file in your current directory.
 Please take note that any directory containing `index.zaruba.yaml` is called a `zaruba project`.
 
 In order to run any tasks defined in your zaruba project, you should execute Zaruba from inside the project directory.

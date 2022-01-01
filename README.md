@@ -6,11 +6,11 @@
 
 Zaruba is a task runner and CLI utilities. It helps you to `write`, `generate`, and `orchestrate` tasks quickly.
 
-While developing your applications, you might find yourself opening several `tmux` panels and running some commands in parallel. Occasionally, you might also find that some tasks could only be executed once their dependencies are executed. For example, a web application can only be started after the database server is running. Not only tedious, this also lead to human errors.
+While developing your applications, you might find yourself opening several `tmux` panels and running some commands in parallel. You might also find that some tasks could only be executed once their dependencies are executed. For example, a web application can only be started after the database server is running. Not only complicated, this also lead to human errors.
 
 Zaruba exists to solve those problems by allowing you to define configurable tasks that can extend/depend on each other. Furthermore, dependency tasks might run in parallel. This will greatly reduce human error and save your time.
 
-Some built-in tasks are also available. Ready to be used/extended to match your use case. Please visit [task documentation](docs/tasks) or run `zaruba please` to see the list of available tasks.
+Some built-in tasks are also available. Ready to be used/extended to match your use case. Please visit [task documentation](docs/tasks/README.md) or run `zaruba please` to see the list of available tasks.
 
 > 💡 __TIPS:__  To see list of available tasks, you can run `zaruba please` and press `<enter>`
 
@@ -90,7 +90,11 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # 📜 Getting started
 
-Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those prerequisites, please visit their websites:
+## Additional prerequisites
+
+Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those prerequisites, you can visit their websites or simply invoke `zaruba install`.
+
+To see whether you need to install those pre-requisites or not, you can use this guide:
 
 * [docker](https://www.docker.com/get-started) is needed to build, pull or push images. You also need docker if you want to run your application as a container.
 * [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) is needed to access your kubernetes cluster.
@@ -104,6 +108,8 @@ zaruba install kubectl
 zaruba install helm
 zaruba install pulumi
 ```
+
+## Let's get started
 
 Now let's get started by:
 * [🪄 creating a project](docs/use-cases/creating-a-project.md)

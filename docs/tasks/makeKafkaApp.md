@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeKafkaApp
+# 🪠 MakeKafkaApp
 
 File Location:
 

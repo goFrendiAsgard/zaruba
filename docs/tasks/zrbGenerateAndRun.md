@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# ZrbGenerateAndRun
+# 🪄 ZrbGenerateAndRun
 
 File Location:
 

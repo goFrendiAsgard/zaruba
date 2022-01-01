@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeTrinoAppRunner
+# 🐰 MakeTrinoAppRunner
 
 File Location:
 

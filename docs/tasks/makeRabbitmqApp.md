@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeRabbitmqApp
+# 🐇 MakeRabbitmqApp
 
 File Location:
 

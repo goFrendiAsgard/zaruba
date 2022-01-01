@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# ClearLog
+# 🔥 ClearLog
 
 File Location:
 

@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeContainerRegistryApp
+# 🧰 MakeContainerRegistryApp
 
 File Location:
 

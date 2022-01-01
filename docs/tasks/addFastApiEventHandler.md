@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddFastApiEventHandler
+# ⚡ AddFastApiEventHandler
 
 File Location:
 

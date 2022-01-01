@@ -1,6 +1,7 @@
 tasks:
 
   testApps:
+    icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h

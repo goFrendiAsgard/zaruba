@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddRedis
+# 🧰 AddRedis
 
 File Location:
 

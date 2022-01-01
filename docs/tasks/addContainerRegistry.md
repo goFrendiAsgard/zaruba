@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddContainerRegistry
+# 🧰 AddContainerRegistry
 
 File Location:
 

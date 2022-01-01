@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeSimpleGoApp
+# 🐹 MakeSimpleGoApp
 
 File Location:
 

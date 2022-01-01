@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeSimplePythonApp
+# 🐍 MakeSimplePythonApp
 
 File Location:
 

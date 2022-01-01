@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeMeltanoApp
+# 🐉 MakeMeltanoApp
 
 File Location:
 

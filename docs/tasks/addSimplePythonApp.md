@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddSimplePythonApp
+# 🐍 AddSimplePythonApp
 
 File Location:
 

@@ -1,6 +1,7 @@
 tasks:
 
   test:
+    icon: 🧪
     dependencies:
       - testPushMeltanoImage
       - testPushImages

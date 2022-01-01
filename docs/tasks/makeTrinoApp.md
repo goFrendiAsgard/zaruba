@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeTrinoApp
+# 🐰 MakeTrinoApp
 
 File Location:
 

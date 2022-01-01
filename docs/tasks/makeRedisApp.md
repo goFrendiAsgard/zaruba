@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeRedisApp
+# 🧰 MakeRedisApp
 
 File Location:
 

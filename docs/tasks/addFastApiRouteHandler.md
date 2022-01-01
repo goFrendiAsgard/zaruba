@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddFastApiRouteHandler
+# ⚡ AddFastApiRouteHandler
 
 File Location:
 

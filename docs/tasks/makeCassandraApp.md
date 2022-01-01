@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeCassandraApp
+# 👀 MakeCassandraApp
 
 File Location:
 

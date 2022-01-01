@@ -1,6 +1,7 @@
 tasks:
 
   testInitProject:
+    icon: 🧪
     location: ../../../../playground
     dependencies:
       - buildBin

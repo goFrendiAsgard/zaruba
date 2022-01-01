@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeMysqlApp
+# 🐬 MakeMysqlApp
 
 File Location:
 

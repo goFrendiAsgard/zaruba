@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# AddFastApiCrud
+# ⚡ AddFastApiCrud
 
 File Location:
 

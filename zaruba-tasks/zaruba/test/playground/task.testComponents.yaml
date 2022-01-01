@@ -1,6 +1,7 @@
 tasks:
 
   testComponents:
+    icon: 🧪
     dependencies:
       - testApps
       - testCassandra

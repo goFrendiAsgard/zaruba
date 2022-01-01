@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeFastApiApp
+# ⚡ MakeFastApiApp
 
 File Location:
 

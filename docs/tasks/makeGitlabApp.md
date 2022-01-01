@@ -1,6 +1,6 @@
 [⬆️](./README.md)
 
-# MakeGitlabApp
+# 🦊 MakeGitlabApp
 
 File Location:
 
