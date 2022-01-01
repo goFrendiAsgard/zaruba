@@ -1,6 +1,8 @@
+[⬆️](../README.md)
+
 # 🏠 Zaruba Documentation
 
-## Table of Content
+## Table of content
 
 * [Core concept](core-concept/README.md)
 * [Use cases](use-cases/README.md)

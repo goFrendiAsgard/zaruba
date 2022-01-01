@@ -2,6 +2,8 @@
 
 # Core concept
 
+## Table of content
+
 * Tasks
 * Configs
 * ConfigRef

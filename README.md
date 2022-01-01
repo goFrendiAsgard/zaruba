@@ -88,7 +88,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/ma
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
-# 📜 Getting Started
+# 📜 Getting started
 
 Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those prerequisites, please visit their websites:
 
@@ -107,11 +107,11 @@ zaruba install pulumi
 
 Now let's get started by:
 * [🪄 creating a project](docs/use-cases/creating-a-project.md)
-* [🧙‍♂️ learning the concept](), or 
+* [🧙‍♂️ learning the concept](docs/core-concept/README.md), or 
 * [📖 reading the documentation](docs/README.md)
 
 
-# 🐞 Bug, Feature Request and Contribution
+# 🐞 Bug, feature request and contribution
 
 Open [issue](https://github.com/state-alchemists/zaruba/issues) or [pull request](https://github.com/state-alchemists/zaruba/pulls).
 
@@ -134,10 +134,10 @@ To perform the test, you need to have:
 
 Once the prerequisites are met, you can perform:
 
-```
+```sh
 make test
 ```
 
-# 🎉 Fun Fact
+# 🎉 Fun fact
 
 > Madou Ring Zaruba (魔導輪ザルバ, Madōrin Zaruba?) is the Madou Ring for Golden Knight Garo's duties as a Makai Knight. He is a recurring character in the series, acting as a guide for the wearers of the Garo armor and being the narrator of the series in some episodes. [(Garo Wiki | Fandom)](https://garoseries.fandom.com/wiki/Zaruba)
