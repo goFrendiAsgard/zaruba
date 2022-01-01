@@ -8,7 +8,14 @@ Zaruba scripts are written in [YAML](https://yaml.org/) and [go template](https:
 
 ## Invoking task
 
-The simplest way to run your a Zaruba task is by invoking `zaruba please <task-name>`. For example, you can update Zaruba by invoking `zaruba please update`.
+When you invoke `zaruba please`, Zaruba will load the scripts from `index.zaruba.yaml` file in your current directory.
+Please take note that any directory containing `index.zaruba.yaml` is called a `zaruba project`.
+
+In order to run any tasks defined in your zaruba project, you should execute Zaruba from inside the project directory.
+
+Several tasks are defined in `preloaded script`. That means the tasks can be executed from anywhere.
+
+The simplest way to run your a Zaruba task is by invoking `zaruba please <task-name>`. Since we didn't create any zaruba project yet, let's try to execute `update` task by invoking `zaruba please update`.
 
 ```
 gofrendi@sanctuary [16:17:15] [~]
@@ -39,18 +46,15 @@ gofrendi@sanctuary [16:17:15] [~]
          Current Time: 16:17:23
 ```
 
-
-When you invoke `zaruba please`, Zaruba will load the scripts from `index.zaruba.yaml` file in your current directory.
-
-Please take note that any directory containing `index.zaruba.yaml` is called a `zaruba project`.
+`update` is defined in a preloaded script, thus you can invoke it from anywhere.
 
 ## Preloaded scripts
 
-Additionally, Zaruba also load core scripts from `~/.zaruba/core.zaruba.yaml`. The tasks defined in that special files can be invoked from anywhere.
+By default, Zaruba always load preloaded scripts from `~/.zaruba/core.zaruba.yaml`. The tasks defined in that special files can be invoked from anywhere.
 
 You can add more pre-loaded scripts by overriding `ZARUBA_SCRIPTS` variable.
 
-You can try this trick by creating a YAML file containing a task definition:
+Let's try this trick by creating a YAML file containing a task definition:
 
 ```
 gofrendi@sanctuary [16:22:49] [~]
@@ -74,8 +78,6 @@ After the task has been defined, you can add it's path to `ZARUBA_SCRIPTS`. Take
 gofrendi@sanctuary [16:28:33] [~]
 -> % export ZARUBA_SCRIPTS="${ZARUBA_SCRIPTS}:${HOME}/playground/figlet/example.yaml"
 ```
-
-You can make this changes permanent by adding the environment variables to your `~/.bashrc` or `~/.zshrc` (depends on your shell).
 
 This changes allow you to invoke `sayHello` from anywhere, even if you are not in a `zaruba project`.
 
@@ -103,6 +105,8 @@ gofrendi@sanctuary [16:29:07] [~]
          Elapsed Time: 215.3865ms
          Current Time: 16:29:13
 ```
+
+You can make this changes permanent by adding the environment variables to your `~/.bashrc` or `~/.zshrc` (depends on your shell).
 
 ## Configuration using environment variables
 
