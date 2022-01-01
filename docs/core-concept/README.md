@@ -2,9 +2,11 @@
 
 # Core concept
 
-## Invoking task
+## Zaruba scripts
 
 Zaruba scripts are written in [YAML](https://yaml.org/) and [go template](https://pkg.go.dev/text/template). The scripts define how your tasks should be executed and how they depend to/extend other tasks/resources.
+
+## Invoking task
 
 The simplest way to run your a Zaruba task is by invoking `zaruba please <task-name>`. For example, you can update Zaruba by invoking `zaruba please update`.
 
@@ -102,7 +104,7 @@ gofrendi@sanctuary [16:29:07] [~]
          Current Time: 16:29:13
 ```
 
-## Environment variables
+## Configuration using environment variables
 
 There are several environment variables you can use to control Zaruba's behavior:
 
