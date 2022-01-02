@@ -248,6 +248,8 @@ gofrendi@sanctuary [12:11:35] [~/playground/example]
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```
+
+As you can see, this is what `check` property actually is for. It tells Zaruba how to check your service readiness. Any task with `check` property set will be considered as long running service.
     
 > 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i.e: by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
 
@@ -265,6 +267,8 @@ tasks:
       start: sleep 10 && python -m http.server 8080
       ports: 8080
 ```
+
+Let's try to modify your `index.zaruba.yaml` and invoke `zaruba please startServer`.
 
 ```
 gofrendi@sanctuary [12:21:19] [~/playground/example]
@@ -292,3 +296,9 @@ gofrendi@sanctuary [12:21:19] [~/playground/example]
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```
+
+This code is easier to write since you no longer need to write the checker's loop.
+
+You might also notice that in this example, we don't have any `start` and `check` property. Instead, we have `extend` and `configs` property. We will learn about those properties later.
+
+## Extending a task
