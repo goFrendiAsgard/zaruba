@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/chore/value/task.clearPreviousValues.yaml
+    ~/.zaruba/zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
 Should Sync Env:
 
@@ -22,7 +22,7 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

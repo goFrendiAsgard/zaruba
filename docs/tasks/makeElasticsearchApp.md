@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
+    ~/.zaruba/zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
 
 Should Sync Env:
 
@@ -17,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

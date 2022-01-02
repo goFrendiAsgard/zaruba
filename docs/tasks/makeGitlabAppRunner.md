@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/gitlab/task.makeGitlabAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/gitlab/task.makeGitlabAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeGitlabApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeGitlabApp](makeGitlabApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

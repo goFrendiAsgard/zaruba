@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/nginx/task.addNginx.yaml
+    ~/.zaruba/zaruba-tasks/make/nginx/task.addNginx.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeNginxApp`
-* `makeNginxAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeNginxApp](makeNginxApp.md)
+* [makeNginxAppRunner](makeNginxAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/app/task.makeApp.yaml
+    ~/.zaruba/zaruba-tasks/make/app/task.makeApp.yaml
 
 Should Sync Env:
 
@@ -17,12 +17,12 @@ Type:
 
 ## Extends
 
-* `zrbMake`
+* [zrbMake](zrbMake.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

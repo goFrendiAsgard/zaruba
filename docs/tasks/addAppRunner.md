@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/appRunner/task.addAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/appRunner/task.addAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,6 +17,6 @@ Type:
 
 ## Dependencies
 
-* `makeAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeAppRunner](makeAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

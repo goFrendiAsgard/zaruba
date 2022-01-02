@@ -8,10 +8,25 @@ echo '' >> ./docs/tasks/README.md
 echo '## Subtopics' >> ./docs/tasks/README.md
 echo '' >> ./docs/tasks/README.md
 
-REPLACEMENT_MAP="$(./zaruba map set "{}" "${ZARUBA_HOME}" '${ZARUBA_HOME}')"
+REPLACEMENT_MAP="$(./zaruba map set "{}" "${ZARUBA_HOME}" '~/.zaruba')"
 LINES="$(./zaruba lines read "./core.zaruba.yaml")"
 LINE_INDEX=0
 MAX_LINE_INDEX=$(($(./zaruba list length "$LINES")-1))
+
+# Create replacement for extends and dependencies
+for LINE_INDEX in $(seq 0 "${MAX_LINE_INDEX}")
+do
+    LINE="$(./zaruba list get "${LINES}" "${LINE_INDEX}")"
+    SUBMATCH="$(./zaruba str submatch "'""${LINE}""'" ".*\/task\.(.*)\.yaml.*")"
+    if [ "$(./zaruba list length "${SUBMATCH}")" = 2 ]
+    then
+        echo "Prepare replacement for ${TASK_NAME}"
+        TASK_NAME="$(./zaruba list get "${SUBMATCH}" 1)"
+        REPLACEMENT_MAP="$(./zaruba map set "${REPLACEMENT_MAP}" '\* `'${TASK_NAME}'`' '* ['${TASK_NAME}']('${TASK_NAME}'.md)')"
+    fi
+done
+
+# Get explanations and write to files
 for LINE_INDEX in $(seq 0 "${MAX_LINE_INDEX}")
 do
     LINE="$(./zaruba list get "${LINES}" "${LINE_INDEX}")"

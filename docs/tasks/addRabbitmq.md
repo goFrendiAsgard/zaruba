@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
+    ~/.zaruba/zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeRabbitmqApp`
-* `makeRabbitmqAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeRabbitmqApp](makeRabbitmqApp.md)
+* [makeRabbitmqAppRunner](makeRabbitmqAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

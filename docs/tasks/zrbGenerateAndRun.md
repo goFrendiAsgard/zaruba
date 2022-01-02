@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
+    ~/.zaruba/zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
 Should Sync Env:
 
@@ -34,7 +34,7 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

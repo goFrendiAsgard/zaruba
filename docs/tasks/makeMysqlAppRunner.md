@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/mysql/task.makeMysqlAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/mysql/task.makeMysqlAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeMysqlApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeMysqlApp](makeMysqlApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

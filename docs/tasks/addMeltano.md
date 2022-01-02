@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/meltano/task.addMeltano.yaml
+    ~/.zaruba/zaruba-tasks/make/meltano/task.addMeltano.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeMeltanoApp`
-* `makeMeltanoAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeMeltanoApp](makeMeltanoApp.md)
+* [makeMeltanoAppRunner](makeMeltanoAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

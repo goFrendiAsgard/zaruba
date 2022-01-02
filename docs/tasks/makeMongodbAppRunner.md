@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/mongodb/task.makeMongodbAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/mongodb/task.makeMongodbAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeMongodbApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeMongodbApp](makeMongodbApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

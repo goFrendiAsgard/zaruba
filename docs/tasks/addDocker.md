@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/docker/task.addDocker.yaml
+    ~/.zaruba/zaruba-tasks/make/docker/task.addDocker.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeDockerApp`
-* `makeDockerAppRunnerForDockerApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeDockerApp](makeDockerApp.md)
+* [makeDockerAppRunnerForDockerApp](makeDockerAppRunnerForDockerApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

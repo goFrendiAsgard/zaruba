@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/chore/subrepo/task.initSubrepos.yaml
+    ~/.zaruba/zaruba-tasks/chore/subrepo/task.initSubrepos.yaml
 
 Should Sync Env:
 
@@ -29,13 +29,13 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
-* `zrbIsValidSubrepos`
+* [zrbIsProject](zrbIsProject.md)
+* [zrbIsValidSubrepos](zrbIsValidSubrepos.md)
 
 
 ## Start

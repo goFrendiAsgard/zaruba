@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
+    ~/.zaruba/zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
 
 Should Sync Env:
 
@@ -22,12 +22,12 @@ Description:
 
 ## Extends
 
-* `zrbStartApp`
+* [zrbStartApp](zrbStartApp.md)
 
 
 ## Dependencies
 
-* `updateProjectLinks`
+* [updateProjectLinks](updateProjectLinks.md)
 
 
 ## Start

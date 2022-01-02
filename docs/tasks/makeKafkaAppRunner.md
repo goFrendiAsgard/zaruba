@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeKafkaApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeKafkaApp](makeKafkaApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

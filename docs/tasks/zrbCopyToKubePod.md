@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/copyToKubePod/task.zrbCopyToKubePod.yaml
+    ~/.zaruba/zaruba-tasks/_base/copyToKubePod/task.zrbCopyToKubePod.yaml
 
 Should Sync Env:
 
@@ -28,7 +28,7 @@ Description:
 
 ## Extends
 
-* `zrbGenerateAndRun`
+* [zrbGenerateAndRun](zrbGenerateAndRun.md)
 
 
 ## Start

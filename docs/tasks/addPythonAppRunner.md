@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,9 +17,9 @@ Type:
 
 ## Dependencies
 
-* `makePythonAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makePythonAppRunner](makePythonAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Inputs

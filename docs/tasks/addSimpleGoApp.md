@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/simpleGoApp/task.addSimpleGoApp.yaml
+    ~/.zaruba/zaruba-tasks/make/simpleGoApp/task.addSimpleGoApp.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeSimpleGoApp`
-* `makeSimpleGoAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeSimpleGoApp](makeSimpleGoApp.md)
+* [makeSimpleGoAppRunner](makeSimpleGoAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

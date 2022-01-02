@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/fastApi/task.addFastApi.yaml
+    ~/.zaruba/zaruba-tasks/make/fastApi/task.addFastApi.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeFastApiApp`
-* `makeFastApiAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeFastApiApp](makeFastApiApp.md)
+* [makeFastApiAppRunner](makeFastApiAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

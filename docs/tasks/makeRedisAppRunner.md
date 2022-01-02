@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/redis/task.makeRedisAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/redis/task.makeRedisAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeRedisApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeRedisApp](makeRedisApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

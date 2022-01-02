@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
+    ~/.zaruba/zaruba-tasks/_base/validation/task.zrbIsValidSubrepos.yaml
 
 Should Sync Env:
 
@@ -17,7 +17,7 @@ Type:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/make/simpleGoApp/task.makeSimpleGoApp.yaml
+    ~/.zaruba/zaruba-tasks/make/simpleGoApp/task.makeSimpleGoApp.yaml
 
 Should Sync Env:
 
@@ -17,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

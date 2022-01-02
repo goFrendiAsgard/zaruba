@@ -4,7 +4,7 @@
 
 File Location:
 
-    /zaruba-tasks/chore/value/task.setProjectValue.yaml
+    ~/.zaruba/zaruba-tasks/chore/value/task.setProjectValue.yaml
 
 Should Sync Env:
 
@@ -21,12 +21,12 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
+* [zrbIsProject](zrbIsProject.md)
 
 
 ## Start
