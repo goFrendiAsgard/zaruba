@@ -2,7 +2,7 @@
 
 # 🏠 Zaruba Documentation
 
-## Subtopics
+# Subtopics
 
 * [Core concept](core-concept/README.md)
 * [Use cases](use-cases/README.md)

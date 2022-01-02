@@ -2,7 +2,7 @@
 
 # Design document
 
-## Subtopics
+# Subtopics
 
 * Core functionality
 * Generator

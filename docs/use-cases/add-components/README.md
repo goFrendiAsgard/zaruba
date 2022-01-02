@@ -2,7 +2,7 @@
 
 # Add components
 
-## Subtopics
+# Subtopics
 
 * Generate applications
     * FastAPI app

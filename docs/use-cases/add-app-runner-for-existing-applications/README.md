@@ -2,7 +2,7 @@
 
 # Add app runner for existing applications
 
-## Subtopics
+# Subtopics
 
 * Go app runner
 * Nodejs app runner

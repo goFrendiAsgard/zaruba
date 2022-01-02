@@ -5,7 +5,7 @@ echo '[⬆️](../README.md)' > ./docs/tasks/README.md
 echo '' >> ./docs/tasks/README.md
 echo '# Tasks' >> ./docs/tasks/README.md
 echo '' >> ./docs/tasks/README.md
-echo '## Subtopics' >> ./docs/tasks/README.md
+echo '# Subtopics' >> ./docs/tasks/README.md
 echo '' >> ./docs/tasks/README.md
 
 REPLACEMENT_MAP="$(./zaruba map set "{}" "${ZARUBA_HOME}" '~/.zaruba')"

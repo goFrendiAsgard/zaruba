@@ -18,14 +18,13 @@ zaruba please <taskName> -i
 zaruba please
 ```
 
-When you invoke `zaruba please` with any parameter, Zaruba will load the scripts from `index.zaruba.yaml` file in your current directory.
-Please take note that any directory containing `index.zaruba.yaml` is called a `zaruba project`.
+When you invoke `zaruba please` with any parameter, Zaruba will load the scripts from `index.zaruba.yaml` in your current directory.
 
-In order to run any tasks defined in your zaruba project, you should execute Zaruba from inside the project directory.
+Any directory with `index.zaruba.yaml` inside is considered a `zaruba project`. To run any task defined in your `zaruba project` you should be in that directory.
 
-Several tasks are defined in `preloaded script`. That means the tasks can be executed from anywhere.
+If you are not currently in a `zaruba project` directory, you can still execute every tasks defined in `preloaded script`.
 
-The simplest way to run your a Zaruba task is by invoking `zaruba please <task-name>`. Since we didn't create any zaruba project yet, let's try to execute `update` task by invoking `zaruba please update`.
+Since we didn't create any zaruba project yet, let's try to execute `update` task by invoking `zaruba please update`. This task is defined at `preloaded script`, thus you can invoke it from anywhere.
 
 ```
 gofrendi@sanctuary [16:17:15] [~]
@@ -56,7 +55,7 @@ gofrendi@sanctuary [16:17:15] [~]
          Current Time: 16:17:23
 ```
 
-`update` is defined in a preloaded script, thus you can invoke it from anywhere.
+To see list of available tasks in `preloaded script`, you can visit [this list](../tasks/README.md)
 
 ## Preloaded scripts
 
@@ -82,12 +81,14 @@ heredoc> EOF
 
 > 💡 __PRO TIPS:__ Install `figlet`, `cowsay`, and `lolcat` to add fun to your terminal.
 
-After the task has been defined, you can add it's path to `ZARUBA_SCRIPTS`. Take note that somehow `~` is not working because the symbol is parsed by shell (see [this issue](https://github.com/golang/go/issues/15827)). Thus, you need to use `${HOME}` instead.
+After the task has been defined, you can add it's path to `ZARUBA_SCRIPTS`. 
 
 ```
 gofrendi@sanctuary [16:28:33] [~]
 -> % export ZARUBA_SCRIPTS="${ZARUBA_SCRIPTS}:${HOME}/playground/figlet/example.yaml"
 ```
+
+> ⚠️  Take note that somehow `~` is not working because the symbol is parsed by shell (see [this issue](https://github.com/golang/go/issues/15827)). Thus, you need to use `${HOME}` instead.
 
 This changes allow you to invoke `sayHello` from anywhere, even if you are not in a `zaruba project`.
 
@@ -118,7 +119,7 @@ gofrendi@sanctuary [16:29:07] [~]
 
 You can make this changes permanent by adding the environment variables to your `~/.bashrc` or `~/.zshrc` (depends on your shell).
 
-## Configuration using environment variables
+## Configuring zaruba by using environment variables
 
 There are several environment variables you can use to control Zaruba's behavior:
 
@@ -475,11 +476,11 @@ Nice, our fastAPI application is running. BTW, did I told you that the zaruba sc
 
 ![](./images/provoFastApi.png)
 
-## Subtopics
+# Subtopics
 
-* [Tasks](./tasks.md)
-* [Configs](./configs.md)
-* [Envs](./envs.md)
+* [Tasks](tasks.md)
+* [Configs](configs.md)
+* [Envs](envs.md)
 * [Inputs](inputs.md)
 * [Includes](includes.md)
-* Go templates
+* [Using go template](using-go-template.md)
