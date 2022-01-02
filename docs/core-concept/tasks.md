@@ -62,6 +62,9 @@ Now let's dive into the anatomy of a task:
 
 A task might contains several properties. We will learn the purpose of each properties later, but for now here is a list of those properties:
 
+
+> 💡 __PRO TIPS:__ Skip this list, scroll to [task example section](#task-example) first. Jump back to this list if you find something doesn't make sense.  
+
 * `icon`: Emoji representing a task. You can put any character as task's icon, but there is no better way than copy-pasting your favorit emoji from [emojipedia](https://emojipedia.org/).
 * `location`: The location path you want your tasks to be run from. If you don't specify task's location, then Zaruba will use your current location.
 * `description`: The description of your task. Can be multiline.
@@ -70,6 +73,9 @@ A task might contains several properties. We will learn the purpose of each prop
     * `extends`: List of your tasks's parent names.
 * `timeout`: The duration Zaruba should wait before a task is considered as failing. Timeout contains a possitive number or zero and followed by any of this suffix: "ns", "us" (or "µs"), "ms", "s", "m", "h".
 * `private`: Boolean value to represent whether your task is private or not. Private tasks are interactively inaccessible. Usually private tasks act as template to be extended by other tasks.
+* `autoTerminate`: Boolean value to represent whether your task intended to be auto-terminated.
+* `saveLog`: Whether output/error of this task should be logged or not
+* `syncEnv`: Whether this task environment should be updated when there is new environment variable in any `*.env` file in task location. To trigger the changes, you need to perform `zaruba please syncEnv`.
 * `inputs`: List of input names you want to associate with your task.
 * `dependencies`: Task dependencies. Zaruba will make sure that all dependencies of a task are completed before starting one.
 * `envRef` or `envRefs`: Your task's environment reference(s). These properties cannot be used simultaneously.
@@ -82,7 +88,8 @@ A task might contains several properties. We will learn the purpose of each prop
 * `config`: Task configuration. Any configuration you declare in this property will override `configRef` or `configRefs`.
 * `start`: Task's start command.
 * `check`: Command to check whether start command can be considered "running" or not. This property is used to run a long running service.
-* `autoTerminate`: Boolean value to represent whether your task intended to be auto-terminated.
+
+## Task example
 
 Let's see an example:
 
@@ -94,15 +101,18 @@ tasks:
     location: ./task-location
     description: task's description
     extend: parentTaskName # use "extends" for multiple values
-    timeout: 1h
-    private: false
+    timeout: 1h # If the task takes more than 1 hour, it is considered failed
+    private: false # This task means to be executed by end user
+    autoTerminate: false # This task will keep on running after ready
+    saveLog: true # Every output/error of this task should be logged
+    syncEnv: true # Adjust environment with any `*.env` file in tash's location
     inputs: [] # list of input's name
     dependencies: [] # tasks's dependencies
     envRef: envRefName # use "envRefs" for multiple values
     envs:
       SOME_ENV:
-        default: defaultValue
-        from: GLOBAL_ENV
+        default: defaultValue # By default, SOME_ENV=defaultValue
+        from: GLOBAL_ENV # If you set GLOBAL_ENV, then SOME_ENV=$GLOBAL_ENV
     configRef: configRefName # use "configRefs" for multiple values
     configs:
       configName: configValue
