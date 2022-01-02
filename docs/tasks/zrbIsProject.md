@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbIsProject
+# 🔎 ZrbIsProject
 
 File Location:
 
-    /zaruba-tasks/_base/validation/task.zrbIsProject.yaml
+    ~/.zaruba/zaruba-tasks/_base/validation/task.zrbIsProject.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

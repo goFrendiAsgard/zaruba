@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeNginxApp
+# 📗 MakeNginxApp
 
 File Location:
 
-    /zaruba-tasks/make/nginx/task.makeNginxApp.yaml
+    ~/.zaruba/zaruba-tasks/make/nginx/task.makeNginxApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

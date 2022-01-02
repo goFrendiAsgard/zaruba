@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeAirflowAppRunner
+# 🎐 MakeAirflowAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeAirflowApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeAirflowApp](makeAirflowApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,6 +1,7 @@
 tasks:
 
   zrbWrapper:
+    icon: 🌯
     private: true
     extend: zrbRunShellScript
     autoTerminate: false

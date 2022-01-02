@@ -1,6 +1,7 @@
 tasks:
 
   preparePlayground:
+    icon: 🍲
     extend: zrbRunShellScript
     location: ../../../..
     configs:

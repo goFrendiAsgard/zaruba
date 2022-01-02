@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeFastApiAppRunner
+# ⚡ MakeFastApiAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makePythonAppRunner`
+* [makePythonAppRunner](makePythonAppRunner.md)
 
 
 ## Dependencies
 
-* `makeFastApiApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeFastApiApp](makeFastApiApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

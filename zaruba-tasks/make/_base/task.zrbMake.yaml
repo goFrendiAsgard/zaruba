@@ -1,6 +1,7 @@
 tasks:
 
   zrbMake:
+    icon: 🪄
     extend: zrbRunShellScript
     dependencies:
       - zrbShowAdv

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ClearLog
+# 🔥 ClearLog
 
 File Location:
 
-    /zaruba-tasks/chore/log/task.clearLog.yaml
+    ~/.zaruba/zaruba-tasks/chore/log/task.clearLog.yaml
 
 Should Sync Env:
 
@@ -21,7 +22,7 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

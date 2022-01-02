@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbStartDockerContainer
+# 🐳 ZrbStartDockerContainer
 
 File Location:
 
-    /zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
+    ~/.zaruba/zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
 
 Should Sync Env:
 
@@ -47,13 +48,13 @@ Description:
 
 ## Extends
 
-* `zrbStartApp`
+* [zrbStartApp](zrbStartApp.md)
 
 
 ## Dependencies
 
-* `updateProjectLinks`
-* `zrbCreateDockerNetwork`
+* [updateProjectLinks](updateProjectLinks.md)
+* [zrbCreateDockerNetwork](zrbCreateDockerNetwork.md)
 
 
 ## Start

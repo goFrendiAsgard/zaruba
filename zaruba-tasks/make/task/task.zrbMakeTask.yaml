@@ -1,6 +1,7 @@
 tasks:
 
   zrbMakeTask:
+    icon: 🪄
     extend: zrbMake
     dependencies:
       - zrbIsProject

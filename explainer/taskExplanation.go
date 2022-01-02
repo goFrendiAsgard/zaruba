@@ -27,6 +27,7 @@ type TaskExplanationEnv struct {
 
 type TaskExplanation struct {
 	d               *output.Decoration
+	Icon            string                             `yaml:"Icon"`
 	Name            string                             `yaml:"Name"`
 	FileLocation    string                             `yaml:"File Location"`
 	Location        string                             `yaml:"Location"`
@@ -89,6 +90,7 @@ func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExp
 	// task explanation
 	return &TaskExplanation{
 		d:               decoration,
+		Icon:            task.Icon,
 		Name:            task.GetName(),
 		FileLocation:    task.GetFileLocation(),
 		Location:        task.GetLocation(),
@@ -109,7 +111,7 @@ func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExp
 func (t *TaskExplanation) ToString() string {
 	strUtil := strutil.NewStrUtil()
 	lines := []string{}
-	lines = append(lines, t.h1(strUtil.ToPascal(t.Name)))
+	lines = append(lines, t.h1(fmt.Sprintf("%s %s", t.Icon, strUtil.ToPascal(t.Name))))
 	lines = append(lines, t.prop("File Location", t.FileLocation))
 	if t.Location != "" {
 		lines = append(lines, t.prop("Location", t.Location))

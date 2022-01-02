@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# PushSubrepos
+# 🔼 PushSubrepos
 
 File Location:
 
-    /zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
+    ~/.zaruba/zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
 
 Should Sync Env:
 
@@ -24,15 +25,15 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `initSubrepos`
-* `updateProjectLinks`
-* `zrbIsProject`
-* `zrbIsValidSubrepos`
+* [initSubrepos](initSubrepos.md)
+* [updateProjectLinks](updateProjectLinks.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbIsValidSubrepos](zrbIsValidSubrepos.md)
 
 
 ## Start

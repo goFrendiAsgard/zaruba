@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddRedis
+# 🧰 AddRedis
 
 File Location:
 
-    /zaruba-tasks/make/redis/task.addRedis.yaml
+    ~/.zaruba/zaruba-tasks/make/redis/task.addRedis.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeRedisApp`
-* `makeRedisAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeRedisApp](makeRedisApp.md)
+* [makeRedisAppRunner](makeRedisAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

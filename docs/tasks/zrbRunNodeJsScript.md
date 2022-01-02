@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbRunNodeJsScript
+# 🐸 ZrbRunNodeJsScript
 
 File Location:
 
-    /zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
+    ~/.zaruba/zaruba-tasks/_base/run/task.zrbRunNodeJsScript.yaml
 
 Should Sync Env:
 
@@ -23,7 +24,7 @@ Description:
 
 ## Extends
 
-* `zrbRunScript`
+* [zrbRunScript](zrbRunScript.md)
 
 
 ## Start

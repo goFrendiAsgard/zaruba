@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# InitProject
+# 🚧 InitProject
 
 File Location:
 
-    /zaruba-tasks/chore/initProject/task.initProject.yaml
+    ~/.zaruba/zaruba-tasks/chore/initProject/task.initProject.yaml
 
 Should Sync Env:
 
@@ -21,7 +22,7 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbSetKubeContext
+# 🚢 ZrbSetKubeContext
 
 File Location:
 
-    /zaruba-tasks/_base/setKubeContext/task.zrbSetKubeContext.yaml
+    ~/.zaruba/zaruba-tasks/_base/setKubeContext/task.zrbSetKubeContext.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

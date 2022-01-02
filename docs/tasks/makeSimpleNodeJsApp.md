@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeSimpleNodeJsApp
+# 🐸 MakeSimpleNodeJsApp
 
 File Location:
 
-    /zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsApp.yaml
+    ~/.zaruba/zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

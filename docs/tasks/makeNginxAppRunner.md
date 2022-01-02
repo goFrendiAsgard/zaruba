@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeNginxAppRunner
+# 📗 MakeNginxAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/nginx/task.makeNginxAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/nginx/task.makeNginxAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeNginxApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeNginxApp](makeNginxApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

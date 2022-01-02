@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddKafka
+# 🪠 AddKafka
 
 File Location:
 
-    /zaruba-tasks/make/kafka/task.addKafka.yaml
+    ~/.zaruba/zaruba-tasks/make/kafka/task.addKafka.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeKafkaApp`
-* `makeKafkaAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeKafkaApp](makeKafkaApp.md)
+* [makeKafkaAppRunner](makeKafkaAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

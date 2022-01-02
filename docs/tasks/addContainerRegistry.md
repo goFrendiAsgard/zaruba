@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddContainerRegistry
+# 🧰 AddContainerRegistry
 
 File Location:
 
-    /zaruba-tasks/make/containerRegistry/task.addContainerRegistry.yaml
+    ~/.zaruba/zaruba-tasks/make/containerRegistry/task.addContainerRegistry.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeContainerRegistryApp`
-* `makeContainerRegistryAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeContainerRegistryApp](makeContainerRegistryApp.md)
+* [makeContainerRegistryAppRunner](makeContainerRegistryAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddAirflow
+# 🎐 AddAirflow
 
 File Location:
 
-    /zaruba-tasks/make/airflow/task.addAirflow.yaml
+    ~/.zaruba/zaruba-tasks/make/airflow/task.addAirflow.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeAirflowApp`
-* `makeAirflowAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeAirflowApp](makeAirflowApp.md)
+* [makeAirflowAppRunner](makeAirflowAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

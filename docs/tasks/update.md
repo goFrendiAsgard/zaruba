@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# Update
+# 🔄 Update
 
 File Location:
 
-    /zaruba-tasks/chore/task.update.yaml
+    ~/.zaruba/zaruba-tasks/chore/task.update.yaml
 
 Should Sync Env:
 
@@ -21,7 +22,7 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

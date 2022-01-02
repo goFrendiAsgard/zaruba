@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddFastApiRouteHandler
+# ⚡ AddFastApiRouteHandler
 
 File Location:
 
-    /zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
+    ~/.zaruba/zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
 
 Should Sync Env:
 
@@ -16,17 +17,17 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `addFastApi`
-* `addFastApiModule`
-* `makeFastApiApp`
-* `makeFastApiAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [addFastApi](addFastApi.md)
+* [addFastApiModule](addFastApiModule.md)
+* [makeFastApiApp](makeFastApiApp.md)
+* [makeFastApiAppRunner](makeFastApiAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

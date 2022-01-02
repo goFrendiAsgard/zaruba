@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddSubrepo
+# 🥂 AddSubrepo
 
 File Location:
 
-    /zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
+    ~/.zaruba/zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
 
 Should Sync Env:
 
@@ -22,12 +23,12 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
+* [zrbIsProject](zrbIsProject.md)
 
 
 ## Start

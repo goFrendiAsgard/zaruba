@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbShowAdv
+# ☕ ZrbShowAdv
 
 File Location:
 
-    /zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
+    ~/.zaruba/zaruba-tasks/_base/advertisement/task.zrbShowAdv.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

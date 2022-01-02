@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddFastApiRpcHandler
+# ⚡ AddFastApiRpcHandler
 
 File Location:
 
-    /zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
+    ~/.zaruba/zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
 
 Should Sync Env:
 
@@ -16,17 +17,17 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `addFastApi`
-* `addFastApiModule`
-* `makeFastApiApp`
-* `makeFastApiAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [addFastApi](addFastApi.md)
+* [addFastApiModule](addFastApiModule.md)
+* [makeFastApiApp](makeFastApiApp.md)
+* [makeFastApiAppRunner](makeFastApiAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

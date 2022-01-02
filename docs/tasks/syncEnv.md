@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# SyncEnv
+# 🔄 SyncEnv
 
 File Location:
 
-    /zaruba-tasks/chore/task.syncEnv.yaml
+    ~/.zaruba/zaruba-tasks/chore/task.syncEnv.yaml
 
 Should Sync Env:
 
@@ -21,12 +22,12 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
+* [zrbIsProject](zrbIsProject.md)
 
 
 ## Start

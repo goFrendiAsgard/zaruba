@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbRemoveDockerContainer
+# 🐳 ZrbRemoveDockerContainer
 
 File Location:
 
-    /zaruba-tasks/_base/docker/task.zrbRemoveDockerContainer.yaml
+    ~/.zaruba/zaruba-tasks/_base/docker/task.zrbRemoveDockerContainer.yaml
 
 Should Sync Env:
 
@@ -23,12 +24,12 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `updateProjectLinks`
+* [updateProjectLinks](updateProjectLinks.md)
 
 
 ## Start

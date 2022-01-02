@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbRunShellScript
+# 🐚 ZrbRunShellScript
 
 File Location:
 
-    /zaruba-tasks/_base/run/task.zrbRunShellScript.yaml
+    ~/.zaruba/zaruba-tasks/_base/run/task.zrbRunShellScript.yaml
 
 Should Sync Env:
 
@@ -23,7 +24,7 @@ Description:
 
 ## Extends
 
-* `zrbRunScript`
+* [zrbRunScript](zrbRunScript.md)
 
 
 ## Start

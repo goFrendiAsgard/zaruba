@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeKafkaApp
+# 🪠 MakeKafkaApp
 
 File Location:
 
-    /zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
+    ~/.zaruba/zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

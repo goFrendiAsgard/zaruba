@@ -1,6 +1,7 @@
 tasks:
 
   testGitlab:
+    icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
     timeout: 1h

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddTrino
+# 🐰 AddTrino
 
 File Location:
 
-    /zaruba-tasks/make/trino/task.addTrino.yaml
+    ~/.zaruba/zaruba-tasks/make/trino/task.addTrino.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeTrinoApp`
-* `makeTrinoAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeTrinoApp](makeTrinoApp.md)
+* [makeTrinoAppRunner](makeTrinoAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeAppDeploymentInPython
+# 🚢 MakeAppDeploymentInPython
 
 File Location:
 
-    /zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentInPython.yaml
+    ~/.zaruba/zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentInPython.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeMysqlApp
+# 🐬 MakeMysqlApp
 
 File Location:
 
-    /zaruba-tasks/make/mysql/task.makeMysqlApp.yaml
+    ~/.zaruba/zaruba-tasks/make/mysql/task.makeMysqlApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeRedisApp
+# 🧰 MakeRedisApp
 
 File Location:
 
-    /zaruba-tasks/make/redis/task.makeRedisApp.yaml
+    ~/.zaruba/zaruba-tasks/make/redis/task.makeRedisApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

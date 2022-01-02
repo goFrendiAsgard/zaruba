@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbPushDockerImage
+# 🐳 ZrbPushDockerImage
 
 File Location:
 
-    /zaruba-tasks/_base/docker/task.zrbPushDockerImage.yaml
+    ~/.zaruba/zaruba-tasks/_base/docker/task.zrbPushDockerImage.yaml
 
 Should Sync Env:
 
@@ -23,12 +24,12 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `updateProjectLinks`
+* [updateProjectLinks](updateProjectLinks.md)
 
 
 ## Start

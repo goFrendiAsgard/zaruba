@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbStopDockerContainer
+# 🐳 ZrbStopDockerContainer
 
 File Location:
 
-    /zaruba-tasks/_base/docker/task.zrbStopDockerContainer.yaml
+    ~/.zaruba/zaruba-tasks/_base/docker/task.zrbStopDockerContainer.yaml
 
 Should Sync Env:
 
@@ -23,12 +24,12 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Dependencies
 
-* `updateProjectLinks`
+* [updateProjectLinks](updateProjectLinks.md)
 
 
 ## Start

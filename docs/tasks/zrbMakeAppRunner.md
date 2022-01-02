@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbMakeAppRunner
+# 🪄 ZrbMakeAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,13 +17,13 @@ Type:
 
 ## Extends
 
-* `zrbMakeTask`
+* [zrbMakeTask](zrbMakeTask.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
-* `zrbShowAdv`
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

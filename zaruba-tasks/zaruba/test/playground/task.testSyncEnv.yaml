@@ -1,6 +1,7 @@
 tasks:
 
   testSyncEnv:
+    icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
     dependencies:

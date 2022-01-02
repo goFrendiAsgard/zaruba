@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddMongodb
+# 🍃 AddMongodb
 
 File Location:
 
-    /zaruba-tasks/make/mongodb/task.addMongodb.yaml
+    ~/.zaruba/zaruba-tasks/make/mongodb/task.addMongodb.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeMongodbApp`
-* `makeMongodbAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeMongodbApp](makeMongodbApp.md)
+* [makeMongodbAppRunner](makeMongodbAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeNativeAppRunner
+# 📜 MakeNativeAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,13 +17,13 @@ Type:
 
 ## Extends
 
-* `zrbMakeAppRunner`
+* [zrbMakeAppRunner](zrbMakeAppRunner.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
-* `zrbShowAdv`
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

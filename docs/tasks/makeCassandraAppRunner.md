@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeCassandraAppRunner
+# 👀 MakeCassandraAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeCassandraApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeCassandraApp](makeCassandraApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

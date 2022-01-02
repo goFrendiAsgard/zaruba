@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbMakeTask
+# 🪄 ZrbMakeTask
 
 File Location:
 
-    /zaruba-tasks/make/task/task.zrbMakeTask.yaml
+    ~/.zaruba/zaruba-tasks/make/task/task.zrbMakeTask.yaml
 
 Should Sync Env:
 
@@ -16,13 +17,13 @@ Type:
 
 ## Extends
 
-* `zrbMake`
+* [zrbMake](zrbMake.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
-* `zrbShowAdv`
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

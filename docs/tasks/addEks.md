@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddEks
+# 📙 AddEks
 
 File Location:
 
-    /zaruba-tasks/make/eks/task.addEks.yaml
+    ~/.zaruba/zaruba-tasks/make/eks/task.addEks.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeEksDeployment`
-* `makeEksDeploymentTask`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeEksDeployment](makeEksDeployment.md)
+* [makeEksDeploymentTask](makeEksDeploymentTask.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

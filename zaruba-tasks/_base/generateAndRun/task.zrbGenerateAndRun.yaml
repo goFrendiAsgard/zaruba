@@ -1,6 +1,7 @@
 tasks:
 
   zrbGenerateAndRun:
+    icon: 🪄
     extend: zrbRunShellScript
     private: true
     description: |

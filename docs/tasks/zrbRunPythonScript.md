@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbRunPythonScript
+# 🐍 ZrbRunPythonScript
 
 File Location:
 
-    /zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
+    ~/.zaruba/zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
 
 Should Sync Env:
 
@@ -23,7 +24,7 @@ Description:
 
 ## Extends
 
-* `zrbRunScript`
+* [zrbRunScript](zrbRunScript.md)
 
 
 ## Start

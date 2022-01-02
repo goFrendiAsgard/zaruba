@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeSimplePythonApp
+# 🐍 MakeSimplePythonApp
 
 File Location:
 
-    /zaruba-tasks/make/simplePythonApp/task.makeSimplePythonApp.yaml
+    ~/.zaruba/zaruba-tasks/make/simplePythonApp/task.makeSimplePythonApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

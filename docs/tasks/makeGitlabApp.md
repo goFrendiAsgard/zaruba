@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeGitlabApp
+# 🦊 MakeGitlabApp
 
 File Location:
 
-    /zaruba-tasks/make/gitlab/task.makeGitlabApp.yaml
+    ~/.zaruba/zaruba-tasks/make/gitlab/task.makeGitlabApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

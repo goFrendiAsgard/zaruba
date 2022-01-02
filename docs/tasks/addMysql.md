@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddMysql
+# 🐬 AddMysql
 
 File Location:
 
-    /zaruba-tasks/make/mysql/task.addMysql.yaml
+    ~/.zaruba/zaruba-tasks/make/mysql/task.addMysql.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeMysqlApp`
-* `makeMysqlAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeMysqlApp](makeMysqlApp.md)
+* [makeMysqlAppRunner](makeMysqlAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

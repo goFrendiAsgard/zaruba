@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeAppDeploymentTask
+# 🚢 MakeAppDeploymentTask
 
 File Location:
 
-    /zaruba-tasks/make/appDeployment/task.makeAppDeploymentTask.yaml
+    ~/.zaruba/zaruba-tasks/make/appDeployment/task.makeAppDeploymentTask.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `zrbMakeTask`
+* [zrbMakeTask](zrbMakeTask.md)
 
 
 ## Dependencies
 
-* `makeAppDeployment`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeAppDeployment](makeAppDeployment.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ShowVersion
+# 🔎 ShowVersion
 
 File Location:
 
-    /zaruba-tasks/chore/task.showVersion.yaml
+    ~/.zaruba/zaruba-tasks/chore/task.showVersion.yaml
 
 Should Sync Env:
 
@@ -21,7 +22,7 @@ Description:
 
 ## Extends
 
-* `zrbRunShellScript`
+* [zrbRunShellScript](zrbRunShellScript.md)
 
 
 ## Start

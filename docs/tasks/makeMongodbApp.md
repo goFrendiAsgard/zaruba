@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeMongodbApp
+# 🍃 MakeMongodbApp
 
 File Location:
 
-    /zaruba-tasks/make/mongodb/task.makeMongodbApp.yaml
+    ~/.zaruba/zaruba-tasks/make/mongodb/task.makeMongodbApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeRabbitmqApp
+# 🐇 MakeRabbitmqApp
 
 File Location:
 
-    /zaruba-tasks/make/rabbitmq/task.makeRabbitmqApp.yaml
+    ~/.zaruba/zaruba-tasks/make/rabbitmq/task.makeRabbitmqApp.yaml
 
 Should Sync Env:
 
@@ -16,12 +17,12 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `zrbShowAdv`
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

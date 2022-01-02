@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeTrinoAppRunner
+# 🐰 MakeTrinoAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeTrinoApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeTrinoApp](makeTrinoApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

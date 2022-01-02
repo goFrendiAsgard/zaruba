@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeGoAppRunner
+# 🐹 MakeGoAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,13 +17,13 @@ Type:
 
 ## Extends
 
-* `makeNativeAppRunner`
+* [makeNativeAppRunner](makeNativeAppRunner.md)
 
 
 ## Dependencies
 
-* `zrbIsProject`
-* `zrbShowAdv`
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

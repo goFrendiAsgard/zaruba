@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddGitlab
+# 🍃 AddGitlab
 
 File Location:
 
-    /zaruba-tasks/make/gitlab/task.addGitlab.yaml
+    ~/.zaruba/zaruba-tasks/make/gitlab/task.addGitlab.yaml
 
 Should Sync Env:
 
@@ -16,7 +17,7 @@ Type:
 
 ## Dependencies
 
-* `makeGitlabApp`
-* `makeGitlabAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeGitlabApp](makeGitlabApp.md)
+* [makeGitlabAppRunner](makeGitlabAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)

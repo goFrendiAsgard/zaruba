@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeSimpleGoAppRunner
+# 🐹 MakeSimpleGoAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/simpleGoApp/task.makeSimpleGoAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeGoAppRunner`
+* [makeGoAppRunner](makeGoAppRunner.md)
 
 
 ## Dependencies
 
-* `makeSimpleGoApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeSimpleGoApp](makeSimpleGoApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,6 +1,7 @@
 tasks:
 
   testPushMeltanoImage:
+    icon: 🧪
     location: ../../../../playground
     timeout: 1h
     extend: zrbRunShellScript 

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# ZrbRunInDockerContainer
+# 🐳 ZrbRunInDockerContainer
 
 File Location:
 
-    /zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
+    ~/.zaruba/zaruba-tasks/_base/run/inDockerContainer/task.zrbRunInDockerContainer.yaml
 
 Should Sync Env:
 
@@ -27,7 +28,7 @@ Description:
 
 ## Extends
 
-* `zrbGenerateAndRun`
+* [zrbGenerateAndRun](zrbGenerateAndRun.md)
 
 
 ## Start

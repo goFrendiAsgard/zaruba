@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# AddFastApiModule
+# ⚡ AddFastApiModule
 
 File Location:
 
-    /zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
+    ~/.zaruba/zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
 
 Should Sync Env:
 
@@ -16,16 +17,16 @@ Type:
 
 ## Extends
 
-* `makeApp`
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* `addFastApi`
-* `makeFastApiApp`
-* `makeFastApiAppRunner`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [addFastApi](addFastApi.md)
+* [makeFastApiApp](makeFastApiApp.md)
+* [makeFastApiAppRunner](makeFastApiAppRunner.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start

@@ -1,9 +1,10 @@
+[⬆️](./README.md)
 
-# MakeRabbitmqAppRunner
+# 🐇 MakeRabbitmqAppRunner
 
 File Location:
 
-    /zaruba-tasks/make/rabbitmq/task.makeRabbitmqAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/rabbitmq/task.makeRabbitmqAppRunner.yaml
 
 Should Sync Env:
 
@@ -16,14 +17,14 @@ Type:
 
 ## Extends
 
-* `makeDockerAppRunner`
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 
 
 ## Dependencies
 
-* `makeRabbitmqApp`
-* `zrbIsProject`
-* `zrbShowAdv`
+* [makeRabbitmqApp](makeRabbitmqApp.md)
+* [zrbIsProject](zrbIsProject.md)
+* [zrbShowAdv](zrbShowAdv.md)
 
 
 ## Start
