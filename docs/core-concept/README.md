@@ -148,7 +148,44 @@ You will learn about each of those keywords in each [subtopic](README.md#subtopi
 
 In case of you want to see how those keywords work in action and how a project typically structured, you can continue to read this section. Otherwise, you can skip this section entirely and jumps into the [subtopics](README.md#subtopics).
 
-Let's say you have a zaruba project containing `index.zaruba.yaml` and `zaruba-tasks` directory.
+Let's say you have a zaruba project containing `index.zaruba.yaml`, `provoFastApi`, and `zaruba-tasks` directory.
+
+```
+.
+├── index.zaruba.yaml
+├── provoFastApi
+│   ├── Dockerfile
+│   ├── __pycache__
+│   ├── auth
+│   ├── blog
+│   ├── database.db
+│   ├── helpers
+│   ├── library
+│   ├── main.py
+│   ├── repos
+│   ├── requirements.txt
+│   ├── schemas
+│   ├── start.sh
+│   ├── template.env
+│   └── venv
+└── zaruba-tasks
+    └── provoFastApi
+        ├── bash
+        │   ├── migrate.sh
+        │   ├── prepare.sh
+        │   ├── start.sh
+        │   └── test.sh
+        ├── configs.yaml
+        ├── envs.yaml
+        ├── index.yaml
+        ├── inputs.yaml
+        ├── tasks.container.yaml
+        └── tasks.yaml    
+```
+
+Let's dive into some of those files and directories
+
+### index.zaruba.yaml
 
 The `index.zaruba.yaml` contains a simple script:
 
@@ -157,13 +194,21 @@ includes:
   - ./zaruba-tasks/provoFastApi/index.yaml
 ```
 
-while `zaruba-tasks` containing any domain-specific scripts to be used in `index.zaruba.yaml`.
+Typically, you will find `index.zaruba.yaml` includes other scripts or define some simple tasks. This allows you to make your project to be structured modularly.
 
-Typically, a zaruba project has a modular structure like this. Dividing your scripts into several directories and files will make everything more managable.
+### provoFastApi
 
-Now let's say, inside `zaruba-tasks` directory, you have another directory named `provoFastApi` and you put every script to deal with `provoFastAPi` service in that particular directory.
+This directory contains the code for your fastAPI service. In some cases, you can also put your service outside of your project directory. For example if you handle multiple repositories.
 
-Your `zaruba-tasks/provoFastApi` directory is most likely contains several files:
+### zaruba-tasks
+
+In most zaruba project, there is a directory named `zaruba-tasks`. This directory contains any domain-specific scripts thats going to be loaded in `index.zaruba.yaml`.
+
+Inside `zaruba-tasks` directory, you might find several drectories containing scripts related to a very specific domain. In this case you can see `zaruba-tasks/provoFastApi` directory.
+
+Now let's jumps into some files in this `zaruba-tasks/provoFatApi`.
+
+> 💡 __NOTE:__ You might wonder why don't we put those scripts inside our outer `provoFastApi` folder along with the source code. There are 2 reasons for this. __1)__ First, the source code should be independent from any irelevant resources. People might want to use the source code without Zaruba's runner. __2)__ The second reason is because a single source code can be deployed into different services using feature flag. Zaruba tasks is about how to run those services. You might want different names for your services eventhough they share the same codebase.
 
 ### zaruba-tasks/provoFastApi/index.yaml
 
@@ -397,44 +442,7 @@ gofrendi@sanctuary [18:26:07] [~/zaruba/playground] [master *]
 💀    🚀 prepareProvoFastApi  🔧 18:26:25.102 Requirement already satisfied: aiofiles==0.7.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (0.7.0)
 💀    🚀 prepareProvoFastApi  🔧 18:26:25.104 Requirement already satisfied: asgiref==3.4.1 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.4.1)
 💀    🚀 prepareProvoFastApi  🔧 18:26:25.108 Requirement already satisfied: bcrypt==3.2.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 3)) (3.2.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.112 Requirement already satisfied: certifi==2021.5.30 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 4)) (2021.5.30)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.113 Requirement already satisfied: charset-normalizer==2.0.6 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 5)) (2.0.6)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.115 Requirement already satisfied: click==8.0.1 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 6)) (8.0.1)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.118 Requirement already satisfied: cryptography==36.0.1 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 7)) (36.0.1)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.132 Requirement already satisfied: fastapi==0.68.1 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 8)) (0.68.1)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.173 Requirement already satisfied: greenlet==1.1.1 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 9)) (1.1.1)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.175 Requirement already satisfied: h11==0.12.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 10)) (0.12.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.177 Requirement already satisfied: idna==3.2 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 11)) (3.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.179 Requirement already satisfied: jsons==1.5.1 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 12)) (1.5.1)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.181 Requirement already satisfied: kafka-python==2.0.2 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 13)) (2.0.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.184 Requirement already satisfied: passlib==1.7.4 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 14)) (1.7.4)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.189 Requirement already satisfied: pika==1.2.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 15)) (1.2.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.193 Requirement already satisfied: pydantic==1.8.2 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 16)) (1.8.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.199 Requirement already satisfied: pytest==6.2.5 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 17)) (6.2.5)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.209 Requirement already satisfied: pytest-cov==3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 18)) (3.0.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.216 Requirement already satisfied: python-jose==3.3.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 19)) (3.3.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.221 Requirement already satisfied: python-multipart==0.0.5 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 20)) (0.0.5)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.223 Requirement already satisfied: requests==2.26.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 21)) (2.26.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.234 Requirement already satisfied: sqlalchemy==1.4.23 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 22)) (1.4.23)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.273 Requirement already satisfied: starlette==0.14.2 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 23)) (0.14.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.279 Requirement already satisfied: typing-extensions==3.10.0.2 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 24)) (3.10.0.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.281 Requirement already satisfied: typish==1.9.3 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 25)) (1.9.3)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.288 Requirement already satisfied: urllib3==1.26.6 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 26)) (1.26.6)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.296 Requirement already satisfied: uuid==1.30 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 27)) (1.30)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.297 Requirement already satisfied: uvicorn==0.15.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 28)) (0.15.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.308 Requirement already satisfied: six>=1.4.1 in ./venv/lib/python3.8/site-packages (from bcrypt==3.2.0->-r requirements.txt (line 3)) (1.16.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.309 Requirement already satisfied: cffi>=1.1 in ./venv/lib/python3.8/site-packages (from bcrypt==3.2.0->-r requirements.txt (line 3)) (1.15.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.311 Requirement already satisfied: iniconfig in ./venv/lib/python3.8/site-packages (from pytest==6.2.5->-r requirements.txt (line 17)) (1.1.1)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.312 Requirement already satisfied: attrs>=19.2.0 in ./venv/lib/python3.8/site-packages (from pytest==6.2.5->-r requirements.txt (line 17)) (21.4.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.335 Requirement already satisfied: py>=1.8.2 in ./venv/lib/python3.8/site-packages (from pytest==6.2.5->-r requirements.txt (line 17)) (1.11.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.337 Requirement already satisfied: pluggy<2.0,>=0.12 in ./venv/lib/python3.8/site-packages (from pytest==6.2.5->-r requirements.txt (line 17)) (1.0.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.341 Requirement already satisfied: toml in ./venv/lib/python3.8/site-packages (from pytest==6.2.5->-r requirements.txt (line 17)) (0.10.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.343 Requirement already satisfied: packaging in ./venv/lib/python3.8/site-packages (from pytest==6.2.5->-r requirements.txt (line 17)) (21.3)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.346 Requirement already satisfied: coverage[toml]>=5.2.1 in ./venv/lib/python3.8/site-packages (from pytest-cov==3.0.0->-r requirements.txt (line 18)) (6.2)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.349 Requirement already satisfied: pyasn1 in ./venv/lib/python3.8/site-packages (from python-jose==3.3.0->-r requirements.txt (line 19)) (0.4.8)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.35  Requirement already satisfied: rsa in ./venv/lib/python3.8/site-packages (from python-jose==3.3.0->-r requirements.txt (line 19)) (4.8)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.352 Requirement already satisfied: ecdsa!=0.15 in ./venv/lib/python3.8/site-packages (from python-jose==3.3.0->-r requirements.txt (line 19)) (0.17.0)
-💀    🚀 prepareProvoFastApi  🔧 18:26:25.356 Requirement already satisfied: pycparser in ./venv/lib/python3.8/site-packages (from cffi>=1.1->bcrypt==3.2.0->-r requirements.txt (line 3)) (2.21)
+...
 💀    🚀 prepareProvoFastApi  🔧 18:26:25.358 Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in ./venv/lib/python3.8/site-packages (from packaging->pytest==6.2.5->-r requirements.txt (line 17)) (3.0.6)
 💀    🚀 prepareProvoFastApi  🔧 18:26:25.361 Requirement already satisfied: tomli; extra == "toml" in ./venv/lib/python3.8/site-packages (from coverage[toml]>=5.2.1->pytest-cov==3.0.0->-r requirements.txt (line 18)) (2.0.0)
 💀 🔥 🚀 prepareProvoFastApi  🔧 18:26:25.384 WARNING: You are using pip version 19.2.3, however version 21.3.1 is available.
@@ -450,26 +458,7 @@ gofrendi@sanctuary [18:26:07] [~/zaruba/playground] [master *]
 💀    🚀 startProvoFastApi    ⚡ 18:26:25.727 Start
 💀    🚀 startProvoFastApi    ⚡ 18:26:26.268 2022-01-01 18:26:26,268 INFO sqlalchemy.engine.Engine BEGIN (implicit)
 💀    🚀 startProvoFastApi    ⚡ 18:26:26.268 2022-01-01 18:26:26,268 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("book")
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.268 2022-01-01 18:26:26,268 INFO sqlalchemy.engine.Engine [raw sql] ()
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.269 2022-01-01 18:26:26,269 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.269 2022-01-01 18:26:26,269 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.27  2022-01-01 18:26:26,269 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user")
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.27  2022-01-01 18:26:26,270 INFO sqlalchemy.engine.Engine [raw sql] ()
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.27  2022-01-01 18:26:26,270 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.272 2022-01-01 18:26:26,272 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.274 2022-01-01 18:26:26,274 INFO sqlalchemy.engine.Engine SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.json_permissions AS user_json_permissions, user.active AS user_active, user.hashed_password AS user_hashed_password, user.full_name AS user_full_name, user.created_at AS user_created_at, user.updated_at AS user_updated_at
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.274 FROM user
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.274 WHERE user.username = ?
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.274  LIMIT ? OFFSET ?
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.274 2022-01-01 18:26:26,274 INFO sqlalchemy.engine.Engine [generated in 0.00013s] ('root', 1, 0)
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.275 2022-01-01 18:26:26,275 INFO sqlalchemy.engine.Engine ROLLBACK
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.276 Register app shutdown handler
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.287 Handle HTTP routes for auth.User
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.287 Register auth route handler
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.287 Register auth event handler
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.287 Handle RPC for auth.User
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.287 Register auth RPC handler
-💀    🚀 startProvoFastApi    ⚡ 18:26:26.293 Handle HTTP routes for library.Book
+...
 💀    🚀 startProvoFastApi    ⚡ 18:26:26.293 Register library route handler
 💀    🚀 startProvoFastApi    ⚡ 18:26:26.293 Register library event handler
 💀    🚀 startProvoFastApi    ⚡ 18:26:26.293 Handle RPC for library.Book
