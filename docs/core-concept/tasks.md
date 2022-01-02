@@ -82,6 +82,7 @@ A task might contains several properties. We will learn the purpose of each prop
 * `config`: Task configuration. Any configuration you declare in this property will override `configRef` or `configRefs`.
 * `start`: Task's start command.
 * `check`: Command to check whether start command can be considered "running" or not. This property is used to run a long running service.
+* `autoTerminate`: Boolean value to represent whether your task intended to be auto-terminated.
 
 Let's see an example:
 
@@ -301,4 +302,391 @@ This code is easier to write since you no longer need to write the checker's loo
 
 You might also notice that in this example, we don't have any `start` and `check` property. Instead, we have `extend` and `configs` property. We will learn about those properties later.
 
+## Configuring your task
+
+Let's take some steps back. In our first attempt to run a long running process using Zaruba, we use this script:
+
+```yaml
+tasks:
+
+  startServer:
+    start: [bash, -c, 'sleep 10 && python -m http.server 8080']
+    check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"']
+```
+
+Let's first break this down into something more readable:
+
+```yaml
+tasks:
+
+  startServer:
+    start:
+      - bash
+      - '-c'
+      - sleep 10 && python -m http.server 8080
+    check:
+      - bash
+      - '-c'
+      - |
+        until nc -z localhost 8080
+        do 
+            sleep 2 && echo "not ready"
+        done
+        echo "ready"
+```
+
+By looking at the script over and over, you might already realize that the port where the service running should always be equal to the one you should check.
+
+There is a great chance that someone edit the the script without aware of this fact. Thus, it is a good chance to demonstrate how we can improve the task by making it more configurable.
+
+First we should make a configuration using `configs` property, and use a builtin go template function `{{ .GetConfig "someProperty" }}`. You can learn more about Zaruba's go template [here](using-go-template.md).
+
+Let's edit your script a little bit:
+
+```yaml
+tasks:
+
+  startServer:
+    config:
+      port: 8080
+    start:
+      - bash
+      - '-c'
+      - 'sleep 10 && python -m http.server {{ .GetConfig "port" }}'
+    check:
+      - bash
+      - '-c'
+      - |
+          until nc -z localhost {{ .GetConfig "port" }}
+          do 
+            sleep 2 && echo "not ready"
+          done
+          echo "ready"
+```
+
+Perfect, now anyone can edit the port without screwing everything.
+
+Let's take this a bit further:
+
+```yaml
+tasks:
+
+  startServer:
+    config:
+      port: 8080
+      start: 'sleep 10 && python -m http.server {{ .GetConfig "port" }}'
+      check: | 
+        until nc -z localhost {{ .GetConfig "port" }}
+        do 
+          sleep 2 && echo "not ready"
+        done
+        echo "ready"
+    start: [bash, -c, '{{ .GetConfig "start" }}']
+    check: [bash, -c, '{{ .GetConfig "check" }}']
+```
+
+Nice. so now you even make `start` and `check` command configurable. Furthermore, you can take out this configuration and put it [elsewhere](./configs.md) so that you can share the configurations with other tasks.
+
+But let's stop here for now.
+
 ## Extending a task
+
+Let's say you and your friend went to buy ice creams. Your friend say something like this:
+
+```
+I want an ice cream with 3 different topping: vanilla, chocolate, and strawberry. Please also put a cherry on top of it.
+```
+
+You notice that you want something similar, but you don't want the cherry. So you say something like this:
+
+```
+I want something similar, but without the cherry.
+```
+
+That was smart. You don't need to describe your requirement from scratch. Instead, you `reuse` what your frien has said.
+
+In object oriented programming, this kind of approach is formally known as `inherritance`.
+
+Let's revisit our previous example:
+
+```yaml
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      start: sleep 10 && python -m http.server 8080
+      ports: 8080
+```
+
+That's exactly what it looks like. `startServer` inherit properties from `zrbStartApp` and override some of them.
+
+
+Now let's see a simplified definition of [zrbStartApp](../tasks/zrbStartApp.md):
+
+```yaml
+tasks:
+
+  zrbStartApp:
+    icon: 📜
+    description: |
+      ...
+    private: true
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    autoTerminate: false
+    configRef: zrbStartApp
+    start:
+      - '{{ .GetConfig "cmd" }}'
+      - '{{ .GetConfig "cmdArg" }}'
+      - |
+        {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
+          echo 🎉🎉🎉
+          echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+          sleep infinity
+        {{ end -}}
+        {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "_start") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "start") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+        echo 🎉🎉🎉
+        echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+    check:
+      - '{{ .GetConfig "cmd" }}'
+      - '{{ .GetConfig "cmdArg" }}'
+      - |
+        {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
+          echo 🎉🎉🎉
+          echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+          exit 0
+        {{ end -}}
+        {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "beforeCheck") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "_check") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "check") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "afterCheck") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
+        {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
+        echo 🎉🎉🎉
+        echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+```
+
+That's pretty long, and you might find this a bit overwhelming. There are a lot of properties and go template that we didn't discuss yet. But for now, let's focus on these key points:
+
+* `zrbStartApp` has `start` and `check` properties.
+* Since `startServer` is extended from `zrbStartApp`, it also has the same properties as well (i.e: `start`, and `check`).
+* Furthermore, `startServer` define it's own `start` and `check` config. When Zaruba execute `startServer`, it will use this configuration instead of `zrbStartApp`'s.
+* Finally, please take note that you don't need to write `zrbStartApp` since it is already declared as `preloaded script`. You just need to know how to extend it and preferably know how it works.
+
+
+> 💡 __NOTE:__  Inheritance doesn't make things simpler, it just hide all the complexity you can focus on the most important things rather than dealing with all the details.
+
+## Dealing with environment
+
+At some degree, you might need to configure your application by using environment variables. Zaruba allows you to do this by utilizing `envs` property.
+
+Let's have a look at this example:
+
+```yaml
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      httpPort: 8080
+      start: 'sleep 10 && python -m http.server {{ .GetConfig "httpPort" }}'
+      ports: '{{ .GetConfig "httpPort" }}'
+```
+
+You might wonder how to override the port without editing the task over and over again.
+
+There are two approach to solve this. The first one is by using `envs`, while the other one is by using `inputs`.
+
+Let's try the first approach by adding `envs` property:
+
+
+```yaml
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      httpPort: '{{ .GetEnv "HTTP_PORT" }}'
+      start: 'sleep 10 && python -m http.server {{ .GetConfig "httpPort" }}'
+      ports: '{{ .GetConfig "httpPort" }}'
+    envs:
+      HTTP_PORT:
+        from: SERVER_HTTP_PORT
+        default: 8080
+```
+
+Now you have an environment variable named `HTTP_PORT`. By default it's value is `8080`, but you can override it by using global environment variable `SERVER_HTTP_PORT`
+
+Let's set `SERVER_HTTP_PORT` to `3000` and start the server:
+
+```
+gofrendi@sanctuary [15:35:50] [~/playground/example]
+-> % export SERVER_HTTP_PORT=3000
+gofrendi@sanctuary [15:36:04] [~/playground/example]
+-> % zaruba please startServer
+💀 🔎 Job Starting...
+         Elapsed Time: 59.3µs
+         Current Time: 15:37:15
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
+💀    🚀 updateProjectLinks   🔗 15:37:16.144 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 15:37:16.144 Links updated
+💀 🎉 Successfully running 🔗 'updateProjectLinks' command
+💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
+💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
+💀    🔎 startServer          🍏 15:37:16.44  📜 Waiting for port '3000'
+```
+
+The server is now running on port `3000`.
+
+Furthermore you can also take out the environments and put it [elsewhere](envs.md) so that you can share it with other tasks.
+
+
+> 💡 __TIPS:__  Configuring application/services using environment variables is a very common practice. If you are building an application/service, please make sure it is configurable.
+
+## Using inputs
+
+There are two ways to configure how a task should be executed. The first one is using `envs` property. The other one is by using `inputs`.
+
+If your application/service can be configured by using environment variable, it is always better to use `envs` property. Otherwise, you might find `inputs` is probably better.
+
+Let's revisit our previous example:
+
+```yaml
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      httpPort: '{{ .GetEnv "HTTP_PORT" }}'
+      start: 'sleep 10 && python -m http.server {{ .GetConfig "httpPort" }}'
+      ports: '{{ .GetConfig "httpPort" }}'
+    envs:
+      HTTP_PORT:
+        from: SERVER_HTTP_PORT
+        default: 8080
+```
+
+Now if you want to make the delay configurable, you can surely use `inputs` property. But firstly, you have to declare the `inputs` first. For more information about `inputs`, you can visit [this document](inputs.md) later.
+
+```yaml
+inputs:
+  
+  serverDelay:
+    prompt: Server delay
+    options: [5, 10, 20]
+
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    inputs:
+      - serverDelay
+    configs:
+      delay: '{{ .GetValue "serverDelay" }}'
+      httpPort: '{{ .GetEnv "HTTP_PORT" }}'
+      start: |
+        sleep {{ .GetConfig "delay" }}
+        python -m http.server {{ .GetConfig "httpPort" }}
+      ports: '{{ .GetConfig "httpPort" }}'
+    envs:
+      HTTP_PORT:
+        from: SERVER_HTTP_PORT
+        default: 8080
+```
+
+Now you can run the task by invoking `zaruba please startServer serverDelay=5`:
+
+```
+-> % zaruba please startServer serverDelay=5
+💀 🔎 Job Starting...
+         Elapsed Time: 1.3µs
+         Current Time: 16:00:10
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
+💀    🚀 updateProjectLinks   🔗 16:00:11.078 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 16:00:11.078 Links updated
+💀 🎉 Successfully running 🔗 'updateProjectLinks' command
+💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
+💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
+💀    🔎 startServer          🍏 16:00:11.37  📜 Waiting for port '3000'
+💀    🚀 startServer          🍏 16:00:16.534 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀    🔎 startServer          🍏 16:00:17.403 📜 Port '3000' is ready
+💀    🔎 startServer          🍏 16:00:17.403 🎉🎉🎉
+💀    🔎 startServer          🍏 16:00:17.403 📜 Task 'startServer' is ready
+💀 🎉 Successfully running 🍏 'startServer' readiness check
+💀 🔎 Job Running...
+         Elapsed Time: 6.6476493s
+         Current Time: 16:00:17
+         Active Process:
+           * (PID=25704) 🍏 'startServer' service
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+```
+
+Notice that the task is started at `16:00:11`, but the server is started at `16:00:16`. Exactly 5 seconds.
+
+Moreover, you can also set `serverDelay` interactively by invoking `zaruba please startServer -i`:
+
+```
+gofrendi@sanctuary [16:06:07] [~/playground/example]
+-> % zaruba please startServer -i
+💀 Load additional value file
+✔ 🏁 No
+💀 Load additional env
+✔ 🏁 No
+💀 1 of 1) serverDelay
+Search: █
+? Server delay:
+    Blank
+  ▸ 5
+    10
+    20
+    Let me type it!
+```
+
+Once you fill up the value, the server will run as expected.
+
+```
+gofrendi@sanctuary [16:06:07] [~/playground/example]
+-> % zaruba please startServer -i
+💀 Load additional value file
+✔ 🏁 No
+💀 Load additional env
+✔ 🏁 No
+💀 1 of 1) serverDelay
+✔ 5
+💀 🔎 Job Starting...
+         Elapsed Time: 2µs
+         Current Time: 16:07:25
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
+💀    🚀 updateProjectLinks   🔗 16:07:26.065 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 16:07:26.065 Links updated
+💀 🎉 Successfully running 🔗 'updateProjectLinks' command
+💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
+💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
+💀    🔎 startServer          🍏 16:07:26.368 📜 Waiting for port '3000'
+💀    🚀 startServer          🍏 16:07:31.517 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀    🔎 startServer          🍏 16:07:32.384 📜 Port '3000' is ready
+💀    🔎 startServer          🍏 16:07:32.385 🎉🎉🎉
+💀    🔎 startServer          🍏 16:07:32.385 📜 Task 'startServer' is ready
+💀 🎉 Successfully running 🍏 'startServer' readiness check
+💀 🔎 Job Running...
+         Elapsed Time: 6.6353934s
+         Current Time: 16:07:32
+         Active Process:
+           * (PID=27150) 🍏 'startServer' service
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+```
+
+That's (almost) all the basic you need to know about tasks. Be sure to check other [subtopics](README.md#subtopics).
