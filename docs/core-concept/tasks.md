@@ -210,6 +210,8 @@ You might also want to run the server in the background or make a docker contain
 
 We will use Zaruba instead.
 
+### Low level approach
+
 First you declare this script in your `index.zaruba.yaml`
 
 ```yaml
@@ -249,7 +251,10 @@ gofrendi@sanctuary [12:11:35] [~/playground/example]
     
 > 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i.e: by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
 
-Looks pretty good for now, but in most cases, you will most likely see this instead:
+
+### Higher level approach
+
+The previous approach looks good. But in most cases, you will most likely see this instead:
 
 ```yaml
 tasks:

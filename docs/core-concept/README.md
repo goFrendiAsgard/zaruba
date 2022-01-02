@@ -144,9 +144,28 @@ You will learn about each of those keywords in each [subtopic](README.md#subtopi
 
 > 💡 __NOTE:__ Zaruba scripts are meant to be edited, not created from scratch. In most cases, you will find generator for most of your use cases.
 
-For now, I will show you how a zaruba scripts looks like, so that you can get some idea about it before jumping into the [subtopics](README.md#subtopics):
+## Example of zaruba scripts
 
-### index.yaml
+In case of you want to see how those keywords work in action and how a project typically structured, you can continue to read this section. Otherwise, you can skip this section entirely and jumps into the [subtopics](README.md#subtopics).
+
+Let's say you have a zaruba project containing `index.zaruba.yaml` and `zaruba-tasks` directory.
+
+The `index.zaruba.yaml` contains a simple script:
+
+```yaml
+includes:
+  - ./zaruba-tasks/provoFastApi/index.yaml
+```
+
+while `zaruba-tasks` containing any domain-specific scripts to be used in `index.zaruba.yaml`.
+
+Typically, a zaruba project has a modular structure like this. Dividing your scripts into several directories and files will make everything more managable.
+
+Now let's say, inside `zaruba-tasks` directory, you have another directory named `provoFastApi` and you put every script to deal with `provoFastAPi` service in that particular directory.
+
+Your `zaruba-tasks/provoFastApi` directory is most likely contains several files:
+
+### zaruba-tasks/provoFastApi/index.yaml
 
 ```yaml
 includes:
@@ -163,7 +182,7 @@ Once loaded, any resources in those files can interact to each other. This is a 
 
 Includes make your scripts more manageable by allowing you to separate your scripts into several parts based on your preference.
 
-### configs.yaml
+### zaruba-tasks/provoFastApi/configs.yaml
 
 ```yaml
 configs:
@@ -210,9 +229,9 @@ To use those configurations in your task, you should y$use `configRef` or `confi
 
 Each configuration contains simple map. The value has to be string but can be multi-line.
 
-You might also notice several strings inside double curly-braces. Those are go-template. We will discuss about it in the subtocpic.
+You might also notice several strings inside double curly-braces. Those are go-template. We will discuss about it in the [go template subtocpic](using-go-template.md).
 
-### envs.yaml
+### zaruba-tasks/provoFastApi/envs.yaml
 
 ```yaml
 envs:
@@ -275,7 +294,7 @@ Now, `alpha` and `beta` can run on different ports. If the global environments d
 
 Just like `configurations`, you can  use `envRef` and `envRefs` property to share environment among tasks.
 
-### inputs.yaml
+### zaruba-tasks/provoFastApi/inputs.yaml
 
 ```yaml
 inputs:
@@ -294,7 +313,7 @@ Beside configurations and environments, you can also share inputs. among your ta
 
 To use inputs in your tasks, you should use `inputs` property.
 
-### tasks.yaml
+### zaruba-tasks/provoFastApi/tasks.yaml
 
 ```yaml
 tasks:
