@@ -2,7 +2,7 @@
 
 # Tasks
 
-Tasks are the core of your zaruba tasks. A task define what Zaruba can do and how to do it.
+Tasks are the core of your zaruba script. A task define what Zaruba can do and how to do it.
 
 Let's start by creating a very simple script.
 
@@ -87,7 +87,7 @@ A task might contains several properties. We will learn the purpose of each prop
     * `configRefs`: List of configuration you want to use for your task.
 * `config`: Task configuration. Any configuration you declare in this property will override `configRef` or `configRefs`.
 * `start`: Task's start command.
-* `check`: Command to check whether start command can be considered "running" or not. This property is used to run a long running service.
+* `check`: Command to check whether start command can be considered "ready" or not. This property is used to check the readiness of a long running service. See [this section](#lower-level-approach) to see how it works.
 
 ## Task example
 
@@ -120,13 +120,15 @@ tasks:
     check: [] # check command
 ```
 
+> 💡 __PRO TIPS:__ You can go back to [task anatomy section](#task-anatomy) to see more detail description about each properties.
+
 ## Running a simple command vs starting a long running service
 
 To make things easier, let's first agree on two terminology: `simple command`, and `long running service`.
 
 ### Simple command
 
-Simple command is something you run and considered `done` once the process has been ended.
+Simple command is something you run and considered `completed` once the process has been ended.
 
 For example, `python -c "print('hello')"` is a command:
 
@@ -138,17 +140,17 @@ gofrendi@sanctuary [10:27:21] [~/playground/example]
 -> %
 ```
 
-We can see that once the process has been ended, the command are done. When you compile your Go/Typescript/Java application you are definitely running a command (even if you don't really open a terminal).
+We can see that once the process has been ended, the command is completed. When you compile your Go/Typescript/Java application you are definitely running a command (even if you don't really open a terminal).
 
 ### Long running service
 
-Simple command is pretty simple and straightforward. But long running service on the other hand, has a very different nature.
+Simple command is pretty intuitive and straightforward. But long running service on the other hand, has a very different nature.
 
-A long running service might keep running forever until it is killed. It considered `ready` when it serve what it intended to.
+A long running service might keep `running` forever until it is killed. A service is considered as `ready` when it serve what it intended to. You can have a service that already `running`, but doesn't `ready` to receive any request yet.
 
-Web server and database server are definitely long running services. Those services might run in the background automatically, thus less obviously visible by end user. But invisible is not equal to inexistance. In fact, you can find long running service everywhere. Arguably, your OS is big long running service. It is always there, waiting for your inputs or external events, and act accordingly.
+Web servers and database servers are definitely considered as long running services. Those services might run in the background automatically, thus less obviously visible by end user. But invisible doesn't mean inexistance. In fact, you can find long running service everywhere. Even your OS can be considered as a long running service. An OS always there, waiting for your inputs or external events, and act accordingly.
 
-Let's try running a static web service by invoking `python -m http.server 8080`.
+Now let's try running a static web service by invoking `python -m http.server 8080`.
 
 ```
 gofrendi@sanctuary [10:31:47] [~/playground/example]
@@ -156,23 +158,23 @@ gofrendi@sanctuary [10:31:47] [~/playground/example]
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```
 
-Now you can see that the process doesn't immediately quit once it is started. It will wait any incoming http request to port 8080, giving a response, and wait again until the end of time (or until you press ctrl + C).
+You can see that the process doesn't immediately quit once it is started. It will wait any incoming http request to port 8080, giving a response, and wait again until the end of time (or until you press ctrl + C).
 
-Okay coool, now how do you make sure that a service is ready?
+Okay coool, but how do you make sure that a service is ready?
 
 You can make sure a service is ready by giving it a request and observe it's response. In our case, you can verify that the service is ready by openning a browser and visit `http://localhost:8080`.
 
 Making sure that a service is ready can be tricky since `running` doesn't mean `ready`. To make it more complicated, even if a service is considered as `ready`, it doesn't always be in that state forever. Runtime error might occurred, and your service might stop serving eventhough it is still `running`. 
 
-Orchestration system like kubernetes overcome this problem by periodically sending request to your services using `liveness` and `readiness` probe. But that's going to be another topic of discussion.
+Orchestration system like kubernetes overcome this problem by periodically sending request to your services using `liveness` and `readiness` [probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). But that's going to be another topic of discussion.
 
 ## Checking readiness of long running service
 
-In the previous section you have see that handle a service and make sure it is already running can be a bit challenging.
+In the previous section you have see that handling a service and making sure it is already running can be a bit challenging.
 
 Under the hood, Zaruba make sure that your service is ready by running two commands simultaneously. The first command is responsible to run the service, while the other one is responsible to check it's readiness. 
 
-Let's see how this work in the low level.
+Let's see how this work on the low level.
 
 First of all, you will need two terminals in the same computer. You can also use tmux/screen if you are familiar with those tools.
 
@@ -221,7 +223,7 @@ You might also want to run the server in the background or make a docker contain
 
 We will use Zaruba instead.
 
-### Low level approach
+### Lower level approach
 
 First you declare this script in your `index.zaruba.yaml`
 
@@ -260,7 +262,11 @@ gofrendi@sanctuary [12:11:35] [~/playground/example]
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```
 
-As you can see, this is what `check` property actually is for. It tells Zaruba how to check your service readiness. Any task with `check` property set will be considered as long running service.
+Good. This is what `check` property actually is for. It tells Zaruba how to check your service readiness. 
+
+Any task with `start` and `check` property will be considered as `long running service`, while every tasks without `check` property are considered as `simple command`.
+
+Please also take note that sometime a task might have `check` property eventhough it is not explicitly written. This is especially true if you [extend/inherit](#extending-a-task) your task from another task.
     
 > 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i.e: by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
 
@@ -432,7 +438,7 @@ tasks:
 That's exactly what it looks like. `startServer` inherit properties from `zrbStartApp` and override some of them.
 
 
-Now let's see a simplified definition of [zrbStartApp](../tasks/zrbStartApp.md):
+Now let's see the definition of [zrbStartApp](../tasks/zrbStartApp.md):
 
 ```yaml
 tasks:
@@ -487,7 +493,11 @@ tasks:
         echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
 ```
 
-That's pretty long, and you might find this a bit overwhelming. There are a lot of properties and go template that we didn't discuss yet. But for now, let's focus on these key points:
+That's pretty long, and you might find this a bit overwhelming. There are some [go template](using-go-template.md) that we didn't discuss yet. But here is how things work in a nutshell:
+
+![](images/extending-task.png)
+
+Let's focus on several key points:
 
 * `zrbStartApp` has `start` and `check` properties.
 * Since `startServer` is extended from `zrbStartApp`, it also has the same properties as well (i.e: `start`, and `check`).
@@ -496,6 +506,95 @@ That's pretty long, and you might find this a bit overwhelming. There are a lot 
 
 
 > 💡 __NOTE:__  Inheritance doesn't make things simpler, it just hide all the complexity you can focus on the most important things rather than dealing with all the details.
+
+## Declaring task's dependencies
+
+In some cases, you will see that some tasks might require several pre-requisites.
+
+For example, a typescript developer needs to install npm packages and compile their typescript before running/testing their application.
+
+So, to start the application, you need to do:
+
+```sh
+npm install
+tsc
+npm start
+```
+
+while to test the application, you need to do:
+
+```sh
+npm install
+tsc
+npm test
+```
+
+You can make a zaruba script to execute those actions:
+
+```yaml
+tasks:
+
+  prepareApp:
+    extend: zrbRunShellScript
+    configs:
+      start: npm install && tsc
+
+  startApp:
+    extend: zrbStartApp
+    dependencies:
+      - prepareApp
+    configs:
+      ports: 3000
+      start: npm start
+
+  testApp:
+    extend: zrbRunShellScript
+    dependencies:
+      - prepareApp
+    configs:
+      start: npm test
+```
+
+The scripts has some advantages:
+
+* You can update `prepareApp` without touching `startApp` and `testApp`.
+* In case of you have many dependencies, Zaruba will run the dependencies in parallel.
+
+Let's modify the script a little bit to run `startApp` and `testApp` in parallel:
+
+
+```yaml
+tasks:
+
+  prepareApp:
+    extend: zrbRunShellScript
+    configs:
+      start: npm install && tsc
+
+  startApp:
+    extend: zrbStartApp
+    dependencies:
+      - prepareApp
+    configs:
+      ports: 3000
+      start: npm start
+
+  testApp:
+    extend: zrbRunShellScript
+    dependencies:
+      - prepareApp
+    configs:
+      start: npm test
+
+  startAndTestApp:
+    dependencies:
+      - startApp
+      - testApp
+```
+
+Cool. Now, whenever you run `zaruba please startAndTestApp`, things will be executed in this order:
+
+![](images/task-dependencies.png)
 
 ## Dealing with environment
 

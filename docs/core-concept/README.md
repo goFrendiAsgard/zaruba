@@ -4,7 +4,7 @@
 
 ## Zaruba scripts
 
-Zaruba scripts are written in [YAML](https://yaml.org/) and [go template](https://pkg.go.dev/text/template). The scripts define how your tasks should be executed and how they depend to/extend other tasks/resources.
+Zaruba scripts are written in [YAML](https://yaml.org/) and [go template](https://pkg.go.dev/text/template). The scripts define how your tasks should be executed and how they use other tasks/resources.
 
 We will learn more about the anatomy of Zaruba script [here](README.md#anatomy-of-zaruba-scripts).
 
