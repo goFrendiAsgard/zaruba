@@ -34,13 +34,13 @@ configs:
       ztplAppMigrateCommand
 
   prepareZtplAppName:
-    shouldNpmInstall: true
-    shouldInstallTs: false
-    shouldCompileTs: false
+    shouldNpmInstall: '{{ .GetValue "shouldNpmInstallOnZtplAppName" }}'
+    shouldInstallTs: '{{ .GetValue "shouldInstallTypeScriptOnZtplAppName" }}'
+    shouldCompileTs: '{{ .GetValue "shouldCompileTypeScriptOnZtplAppName" }}'
     tsVersion: ''
-    shouldRemoveNodeModules: '{{ .GetValue "shouldRemoveZtplAppNameNodeModules" }}'
-    shouldCleanNpmCache: '{{ .GetValue "shouldCleanZtplAppNameNpmCache" }}'
-    shouldRebuildNpm: '{{ .GetValue "shouldRebuildZtplAppNameNpm" }}'
+    shouldRemoveNodeModules: '{{ .GetValue "shouldRemoveNodeModulesOnZtplAppName" }}'
+    shouldCleanNpmCache: '{{ .GetValue "shouldCleanNpmCacheOnZtplAppName" }}'
+    shouldRebuildNpm: '{{ .GetValue "shouldRebuildNpmOnZtplAppName" }}'
     start: |
       SHOULD_NPM_INSTALL={{ if .Util.Bool.IsTrue (.GetConfig "shouldNpmInstall") }}1{{ else }}0{{ end }}
       SHOULD_INSTALL_TS={{ if .Util.Bool.IsTrue (.GetConfig "shouldInstallTs") }}1{{ else }}0{{ end }}

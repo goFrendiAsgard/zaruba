@@ -10,6 +10,6 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please startProvoNodeJs startProvoGo startProvoPython startProvoFibo -t
-        ../zaruba please startProvoNodeJsContainer startProvoGoContainer startProvoPythonContainer startProvoFiboContainer -t
-        ../zaruba please stopProvoNodeJsContainer stopProvoGoContainer stopProvoPythonContainer stopProvoFiboContainer -t
+        ../zaruba please startProvoNodeJs startProvoGo startProvoPython startProvoTypeScript startProvoFibo -t
+        ../zaruba please startProvoNodeJsContainer startProvoGoContainer startProvoPythonContainer startProvoTypeScript startProvoFiboContainer -t
+        ../zaruba please stopProvoNodeJsContainer stopProvoGoContainer stopProvoPythonContainer startProvoTypeScript stopProvoFiboContainer -t

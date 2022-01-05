@@ -1,0 +1,6 @@
+tasks:
+
+  addSimpleTypeScriptApp:
+    icon: 🐸
+    dependencies:
+      - makeSimpleTypeScriptAppRunner

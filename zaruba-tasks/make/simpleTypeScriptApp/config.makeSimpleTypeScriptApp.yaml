@@ -1,0 +1,8 @@
+configs:
+ 
+  makeSimpleTypeScriptApp:
+    defaultAppDirectory: '{{ .ProjectName }}App'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/simpleTypeScriptApp/appTemplate"
+      ]

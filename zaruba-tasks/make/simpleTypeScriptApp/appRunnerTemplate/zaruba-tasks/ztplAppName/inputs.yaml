@@ -16,13 +16,13 @@ inputs:
     description: Npm install on ztplAppName
 
   shouldInstallTypeScriptOnZtplAppName:
-    default: no
+    default: yes
     options: [yes, no]
     prompt: Do you want to install typeScript?
     description: Install typeScript on ztplAppName
 
   shouldCompileTypeScriptOnZtplAppName:
-    default: no
+    default: yes
     options: [yes, no]
     prompt: Do you want to compile typeScript?
     description: Compile TypeScript typeScript on ztplAppName

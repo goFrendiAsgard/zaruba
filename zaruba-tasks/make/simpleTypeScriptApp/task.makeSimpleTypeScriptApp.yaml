@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeSimpleTypeScriptApp:
+    icon: 🐸
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeSimpleTypeScriptApp
