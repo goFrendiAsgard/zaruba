@@ -3,11 +3,5 @@ configs:
   makeSimpleTypeScriptAppRunner:
     appIcon: 🐸
     defaultAppDirectory: '{{ .ProjectName }}App'
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/simpleTypeScriptApp/appRunnerTemplate"
-      ]
-  
+    shoulInstallTypeScript: yes
+    shouldCompileTypeScript: yes

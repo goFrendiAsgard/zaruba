@@ -669,6 +669,27 @@ Value:
 ### Configs.setup
 
 
+### Configs.shoulInstallTypeScript
+
+Value:
+
+    yes
+
+
+### Configs.shouldCleanNpmCache
+
+Value:
+
+    no
+
+
+### Configs.shouldCompileTypeScript
+
+Value:
+
+    yes
+
+
 ### Configs.shouldInitConfigMapVariable
 
 Value:
@@ -697,6 +718,27 @@ Value:
     true
 
 
+### Configs.shouldNpmInstall
+
+Value:
+
+    yes
+
+
+### Configs.shouldRebuildNpm
+
+Value:
+
+    no
+
+
+### Configs.shouldRemoveNodeModules
+
+Value:
+
+    no
+
+
 ### Configs.start
 
 
@@ -714,8 +756,7 @@ Value:
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/simpleTypeScriptApp/appRunnerTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/appRunnerTemplate"
     ]
 
 

@@ -712,6 +712,27 @@ Value:
 ### Configs.setup
 
 
+### Configs.shoulInstallTypeScript
+
+Value:
+
+    no
+
+
+### Configs.shouldCleanNpmCache
+
+Value:
+
+    no
+
+
+### Configs.shouldCompileTypeScript
+
+Value:
+
+    no
+
+
 ### Configs.shouldInitConfigMapVariable
 
 Value:
@@ -738,6 +759,27 @@ Value:
 Value:
 
     true
+
+
+### Configs.shouldNpmInstall
+
+Value:
+
+    yes
+
+
+### Configs.shouldRebuildNpm
+
+Value:
+
+    no
+
+
+### Configs.shouldRemoveNodeModules
+
+Value:
+
+    no
 
 
 ### Configs.start
