@@ -13,8 +13,11 @@ configs:
     localhost: host.docker.internal
     checkCommand: curl {{ .GetEnv "GITLAB_WEB_LIVENESS_URL" }}
     volumes: |
-      ../gitlab/config:/etc/gitlab
       ../gitlab/data:/var/opt/gitlab
+
+  startZtplAppNameGitlabWebContainer:
+    afterStart: |
+      docker exec -it "{{ .GetConfig "containerName" }}" chmod -R 777 /var/opt/gitlab
 
   ztplAppNameGitlabRunner:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
@@ -25,7 +28,6 @@ configs:
     containerName: ztplAppContainerNameGitlabRunner
     localhost: host.docker.internal
     volumes: |
-      ../gitlab-runner:/etc/gitlab-runner
       /var/run/docker.sock:/var/run/docker.sock
 
   registerZtplAppNameRunner:

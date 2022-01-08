@@ -11,6 +11,7 @@ tasks:
       - buildZtplAppNameGitlabWebImage
     configRefs:
       - ztplAppNameGitlabWebContainer
+      - startZtplAppNameGitlabWebContainer
       - ztplAppNameGitlabWeb
     envRefs: 
       - ztplAppNameGitlabWeb
