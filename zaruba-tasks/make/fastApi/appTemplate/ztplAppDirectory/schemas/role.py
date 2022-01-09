@@ -1,14 +1,15 @@
 from typing import List
 from pydantic import BaseModel
-import datetime
+import datetime, re
 
 class RoleData(BaseModel):
     name: str
-    permissions: List[str]
+    permissions: List[str] = []
 
     def has_permission(self, permission: str) -> bool:
         for existing_permission in self.permissions:
-            if re.search('^{}$'.format(existing_permission), permission):
+            existing_permission_pattern = re.sub('\*', '[0-9a-zA-Z]+', existing_permission)
+            if re.search('^{}$'.format(existing_permission_pattern), permission):
                 return True
         return False
 

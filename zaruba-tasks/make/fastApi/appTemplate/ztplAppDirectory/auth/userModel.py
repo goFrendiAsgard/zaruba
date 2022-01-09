@@ -50,12 +50,7 @@ class DefaultUserModel(UserModel):
         return User(
             id = 'guest',
             username = self.guest_username, 
-            email = '',
-            phone_number = '',
-            permissions = [],
             active = True,
-            password = '',
-            full_name = '',
             updated_at = self.earliest_date,
             created_at = self.earliest_date,
         )

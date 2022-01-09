@@ -6,7 +6,7 @@ from helpers.transport import RMQEventMap, KafkaEventMap, create_kafka_connectio
 from helpers.app import get_abs_static_dir, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler
 from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
-from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthModel, JWTTokenModel, DefaultUserModel, UserSeederModel
+from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthModel, JWTTokenModel, DefaultUserModel, UserSeederModel, RoleModel
 from schemas.user import UserData
 
 import os
@@ -43,6 +43,7 @@ role_repo = DBRoleRepo(engine=engine, create_all=True)
 user_repo = DBUserRepo(engine=engine, create_all=True)
 
 # -- 👤 User initialization
+role_model = RoleModel(role_repo)
 guest_username = os.getenv('APP_GUEST_USERNAME', 'guest')
 root_permission = os.getenv('APP_ROOT_PERMISSION', 'root')
 user_model = DefaultUserModel(user_repo, guest_username)
@@ -64,7 +65,7 @@ token_model = JWTTokenModel(
 )
 access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)
-auth_model = TokenOAuth2AuthModel(user_model, token_model, oauth2_scheme, root_permission)
+auth_model = TokenOAuth2AuthModel(user_model, role_model, token_model, oauth2_scheme, root_permission)
 
 # -- ⚡FastAPI initialization
 app = FastAPI(title='ztplAppName')
@@ -82,4 +83,4 @@ if enable_route_handler:
 if enable_event_handler:
     register_auth_event_handler(mb)
 if enable_rpc_handler:
-    register_auth_rpc_handler(rpc, role_repo, user_model, token_model)
+    register_auth_rpc_handler(rpc, role_model, user_model, token_model)

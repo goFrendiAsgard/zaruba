@@ -1,13 +1,9 @@
 from typing import Any, List, Mapping
 from helpers.transport import RPC
 from schemas.role import RoleData
-from schemas.user import User
-from repos.role import RoleRepo
 from auth.roleModel import RoleModel
 
-def register_role_rpc(rpc: RPC, role_repo: RoleRepo):
-
-    role_model = RoleModel(role_repo)
+def register_role_rpc(rpc: RPC, role_model: RoleModel):
 
     @rpc.handle('find_role')
     def find_role(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> List[Mapping[str, Any]]:
