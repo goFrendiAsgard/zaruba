@@ -15,27 +15,27 @@ def register_user_rpc(rpc: RPC, user_model: UserModel, token_model: TokenModel):
 
     @rpc.handle('find_user')
     def find_user(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> List[Mapping[str, Any]]:
-        results = user_model.find(keyword, limit, offset)
-        return [result.dict() for result in results]
+        users = user_model.find(keyword, limit, offset)
+        return [user.dict() for user in users]
 
     @rpc.handle('find_user_by_id')
     def find_user_by_id(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        result = user_model.find_by_id(id)
-        return None if result is None else result.dict()
+        user = user_model.find_by_id(id)
+        return None if user is None else user.dict()
 
     @rpc.handle('insert_user')
     def insert_user(data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        result = user_model.insert(UserData.parse_obj(data))
-        return None if result is None else result.dict()
+        user = user_model.insert(UserData.parse_obj(data))
+        return None if user is None else user.dict()
 
     @rpc.handle('update_user')
     def update_user(id: str, data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        result = user_model.update(id, UserData.parse_obj(data))
-        return None if result is None else result.dict()
+        user = user_model.update(id, UserData.parse_obj(data))
+        return None if user is None else user.dict()
 
     @rpc.handle('delete_user')
     def delete_user(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        result = user_model.delete(id)
-        return None if result is None else result.dict()
+        user = user_model.delete(id)
+        return None if user is None else user.dict()
 
     print('Handle RPC for auth.User')

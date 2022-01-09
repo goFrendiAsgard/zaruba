@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap, create_kafka_connection_parameters, create_rmq_connection_parameters
 from helpers.app import get_abs_static_dir, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler
 from repos.dbUser import DBUserRepo
+from repos.dbRole import DBRoleRepo
 from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthModel, JWTTokenModel, DefaultUserModel, UserSeederModel
 from schemas.user import UserData
 
@@ -38,6 +39,7 @@ rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 # -- 🛢️ Database engine initialization
 db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite://')
 engine = create_engine(db_url, echo=True)
+role_repo = DBRoleRepo(engine=engine, create_all=True)
 user_repo = DBUserRepo(engine=engine, create_all=True)
 
 # -- 👤 User initialization
@@ -80,4 +82,4 @@ if enable_route_handler:
 if enable_event_handler:
     register_auth_event_handler(mb)
 if enable_rpc_handler:
-    register_auth_rpc_handler(rpc, user_model, token_model)
+    register_auth_rpc_handler(rpc, role_repo, user_model, token_model)

@@ -15,7 +15,7 @@ import json
 Base = declarative_base()
 
 class DBUserEntity(Base):
-    __tablename__ = "user"
+    __tablename__ = "users"
     id = Column(String(36), primary_key=True, index=True)
     username = Column(String(50), index=True, unique=True, nullable=False)
     email = Column(String(50), index=True, unique=True, nullable=True)

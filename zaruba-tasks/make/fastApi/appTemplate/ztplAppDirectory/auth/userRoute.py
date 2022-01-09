@@ -2,27 +2,13 @@ from os import access
 from typing import Any, List, Mapping
 from auth.authModel import AuthModel
 from helpers.transport import MessageBus, RPC
-from pydantic import BaseModel
 from fastapi import Depends, FastAPI, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
 from schemas.user import User, UserData
 
 import traceback
 
-class TokenResponse(BaseModel):
-    access_token: str
-    token_type: str
 
-def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, access_token_url: str, auth_model: AuthModel):
-
-    @app.post(access_token_url, response_model=TokenResponse)
-    async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-        try:
-            access_token = rpc.call('get_user_token', form_data.username, form_data.password)
-            return TokenResponse(access_token = access_token, token_type = 'bearer')
-        except:
-            print(traceback.format_exc()) 
-            raise HTTPException(status_code=400, detail='Incorrect identity or password')
+def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model: AuthModel):
 
     @app.get('/users/', response_model=List[User])
     def find_user(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_model.has_any_permissions( 'user:read'))) -> List[User]:
