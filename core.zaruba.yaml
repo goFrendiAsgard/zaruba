@@ -116,15 +116,15 @@ includes:
   - ./zaruba-tasks/make/app/config.makeApp.yaml
   - ./zaruba-tasks/make/app/task.makeApp.yaml
 
-  - ./zaruba-tasks/make/appDeployment/config.makeAppDeployment.yaml
-  - ./zaruba-tasks/make/appDeployment/config.makeAppDeploymentTask.yaml
-  - ./zaruba-tasks/make/appDeployment/task.addAppDeployment.yaml
-  - ./zaruba-tasks/make/appDeployment/task.makeAppDeployment.yaml
-  - ./zaruba-tasks/make/appDeployment/task.makeAppDeploymentTask.yaml
+  - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeployment.yaml
+  - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeploymentTask.yaml
+  - ./zaruba-tasks/make/appKubeDeployment/task.addAppKubeDeployment.yaml
+  - ./zaruba-tasks/make/appKubeDeployment/task.makeAppKubeDeployment.yaml
+  - ./zaruba-tasks/make/appKubeDeployment/task.makeAppKubeDeploymentTask.yaml
 
-  - ./zaruba-tasks/make/appDeploymentInPython/task.addAppDeploymentInPython.yaml
-  - ./zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentInPython.yaml
-  - ./zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentTaskInPython.yaml
+  - ./zaruba-tasks/make/appKubeDeploymentInPython/task.addAppKubeDeploymentInPython.yaml
+  - ./zaruba-tasks/make/appKubeDeploymentInPython/task.makeAppKubeDeploymentInPython.yaml
+  - ./zaruba-tasks/make/appKubeDeploymentInPython/task.makeAppKubeDeploymentTaskInPython.yaml
 
   - ./zaruba-tasks/make/task/config.zrbMakeTask.yaml
   - ./zaruba-tasks/make/task/task.zrbMakeTask.yaml

@@ -1,10 +1,10 @@
 [⬆️](./README.md)
 
-# 🚢 MakeAppDeployment
+# 🚢 MakeAppKubeDeployment
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/appDeployment/task.makeAppDeployment.yaml
+    ~/.zaruba/zaruba-tasks/make/appKubeDeployment/task.makeAppKubeDeployment.yaml
 
 Should Sync Env:
 
@@ -564,7 +564,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appDeployment/deploymentTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appKubeDeployment/deploymentTemplate"
     ]
 
 

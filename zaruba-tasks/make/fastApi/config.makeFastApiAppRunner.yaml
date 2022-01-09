@@ -3,4 +3,5 @@ configs:
   makeFastApiAppRunner:
     appIcon: ⚡
     pythonStartCommand: ./start.sh
+    defaultAppPorts: '["{{ .Template ".GetEnv \\\"APP_HTTP_PORT\\\"" }}"]'
     

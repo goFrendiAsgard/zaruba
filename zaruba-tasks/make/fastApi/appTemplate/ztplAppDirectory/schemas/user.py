@@ -5,6 +5,7 @@ import datetime, re
 class UserData(BaseModel):
     username: str
     email: str
+    phone_number: str
     permissions: List[str]
     active: bool
     password: Optional[str]

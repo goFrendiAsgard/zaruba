@@ -1,13 +1,13 @@
 tasks:
 
-  makeAppDeploymentTaskInPython:
+  makeAppKubeDeploymentTask:
     icon: 🚢
     extend: zrbMakeTask
     dependencies:
-      - makeAppDeploymentInPython
+      - makeAppKubeDeployment
     inputs:
       - appDirectory
       - deploymentDirectory
       - deploymentName
-    configRef: makeAppDeploymentTask
+    configRef: makeAppKubeDeploymentTask
 

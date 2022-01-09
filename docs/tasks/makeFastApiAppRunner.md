@@ -629,7 +629,7 @@ Value:
 
 Value:
 
-    []
+    ["{{ .Template ".GetEnv \\\"APP_HTTP_PORT\\\"" }}"]
 
 
 ### Configs.defaultDeploymentDirectory

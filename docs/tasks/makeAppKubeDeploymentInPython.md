@@ -1,10 +1,10 @@
 [⬆️](./README.md)
 
-# 🚢 MakeAppDeploymentTaskInPython
+# 🚢 MakeAppKubeDeploymentInPython
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/appDeploymentInPython/task.makeAppDeploymentTaskInPython.yaml
+    ~/.zaruba/zaruba-tasks/make/appKubeDeploymentInPython/task.makeAppKubeDeploymentInPython.yaml
 
 Should Sync Env:
 
@@ -17,13 +17,11 @@ Type:
 
 ## Extends
 
-* [zrbMakeTask](zrbMakeTask.md)
+* [makeApp](makeApp.md)
 
 
 ## Dependencies
 
-* [makeAppDeploymentInPython](makeAppDeploymentInPython.md)
-* [zrbIsProject](zrbIsProject.md)
 * [zrbShowAdv](zrbShowAdv.md)
 
 
@@ -48,21 +46,6 @@ Type:
 ## Inputs
 
 
-### Inputs.appDirectory
-
-Description:
-
-    Location of app
-
-Prompt:
-
-    Location of app
-
-Secret:
-
-    false
-
-
 ### Inputs.deploymentDirectory
 
 Description:
@@ -72,21 +55,6 @@ Description:
 Prompt:
 
     Location of deployment directory
-
-Secret:
-
-    false
-
-
-### Inputs.deploymentName
-
-Description:
-
-    Helm release name
-
-Prompt:
-
-    Helm release name
 
 Secret:
 
@@ -124,8 +92,10 @@ Value:
 
 Value:
 
-    {{ .GetConfig "_registerIndex" }}
-    {{ .GetConfig "_registerDeploymentTasks" }}
+    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    then
+      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+    fi
 
 
 
@@ -184,30 +154,6 @@ Value:
 ### Configs._prepareVariables
 
 
-### Configs._registerAppRunnerTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
-
-
-### Configs._registerDeploymentTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
-
-
-### Configs._registerIndex
-
-Value:
-
-    {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
-    {{ end -}}
-
-
-
 ### Configs._setup
 
 Value:
@@ -226,7 +172,7 @@ Value:
 
 Value:
 
-    zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}
+    ${_ZRB_DEPLOYMENT_DIRECTORY}
 
 
 ### Configs._start
@@ -274,13 +220,6 @@ Value:
     {{ .GetConfig "_integrate" }}
     cd "${__ZRB_PWD}"
 
-
-
-### Configs._taskIndexPath
-
-Value:
-
-    ./zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml
 
 
 ### Configs._validate
@@ -625,7 +564,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appDeployment/deploymentTaskTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appKubeDeployment/deploymentTemplate"
     ]
 
 

@@ -1,0 +1,6 @@
+tasks:
+
+  addAppKubeDeploymentInPython:
+    icon: 🚢
+    dependencies:
+      - makeAppKubeDeploymentTaskInPython

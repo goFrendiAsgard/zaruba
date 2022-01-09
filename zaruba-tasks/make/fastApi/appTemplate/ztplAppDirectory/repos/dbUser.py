@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import and_, or_, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from schemas.user import User, UserData
 from repos.user import UserRepo
 
@@ -18,11 +18,12 @@ class DBUserEntity(Base):
     __tablename__ = "user"
     id = Column(String(36), primary_key=True, index=True)
     username = Column(String(50), index=True, unique=True, nullable=False)
-    email = Column(String(50), index=True, unique=True, nullable=False)
-    json_permissions = Column(String(20), index=True, nullable=False, default='[]')
+    email = Column(String(50), index=True, unique=True, nullable=True)
+    phone_number = Column(String(20), index=True, unique=True, nullable=True)
+    json_permissions = Column(Text(), nullable=False, default='[]')
     active = Column(Boolean(), index=True, nullable=False, default=False)
-    hashed_password = Column(String(20), index=False)
-    full_name = Column(String(20), index=True, nullable=True)
+    hashed_password = Column(String(20), index=False, nullable=False)
+    full_name = Column(String(50), index=True, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
@@ -55,23 +56,6 @@ class DBUserRepo(UserRepo):
         finally:
             db.close()
         return user
-    
-    def find_by_password(self, identity: str, password: str) -> User:
-        db = Session(self.engine)
-        user: User
-        try:
-            db_user = db.query(DBUserEntity).filter(
-                    or_(
-                        DBUserEntity.username == identity,
-                        DBUserEntity.email == identity,
-                    )
-                ).first()
-            if not self._is_valid_password(password, db_user.hashed_password):
-                return None
-            user = User.from_orm(db_user)
-        finally:
-            db.close()
-        return user
 
     def find_by_id(self, id: str) -> User:
         db = Session(self.engine)
@@ -91,8 +75,9 @@ class DBUserRepo(UserRepo):
         try:
             db_user = db.query(DBUserEntity).filter(
                     or_(
-                        DBUserEntity.username == identity,
-                        DBUserEntity.email == identity,
+                        and_(DBUserEntity.username == identity, DBUserEntity.username != '', DBUserEntity.username is not None),
+                        and_(DBUserEntity.email == identity, DBUserEntity.email != '', DBUserEntity.email is not None),
+                        and_(DBUserEntity.phone_number == identity, DBUserEntity.phone_number != '', DBUserEntity.phone_number is not None)
                     )
                 ).first()
             if not self._is_valid_password(password, db_user.hashed_password):
@@ -111,6 +96,8 @@ class DBUserRepo(UserRepo):
                     or_(
                         DBUserEntity.username.like(keyword),
                         DBUserEntity.email.like(keyword),
+                        DBUserEntity.phone_number.like(keyword),
+                        DBUserEntity.full_name.like(keyword),
                     )
                 ).offset(offset).limit(limit).all()
             users = [User.from_orm(db_user) for db_user in db_users]
@@ -126,6 +113,7 @@ class DBUserRepo(UserRepo):
                 id=str(uuid.uuid4()),
                 username=user_data.username,
                 email=user_data.email,
+                phone_number=user_data.phone_number,
                 json_permissions=json.dumps(user_data.permissions),
                 active=user_data.active,
                 hashed_password=self._hash_password(user_data.password),
@@ -149,6 +137,7 @@ class DBUserRepo(UserRepo):
                 return None
             db_user.username = user_data.username
             db_user.email = user_data.email
+            db_user.phone_number = user_data.phone_number
             db_user.json_permissions = json.dumps(user_data.permissions)
             db_user.active = user_data.active
             db_user.full_name = user_data.full_name

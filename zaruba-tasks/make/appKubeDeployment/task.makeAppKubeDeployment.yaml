@@ -1,8 +1,8 @@
 tasks:
 
-  makeAppDeployment:
+  makeAppKubeDeployment:
     icon: 🚢
     extend: makeApp
     inputs:
       - deploymentDirectory
-    configRef: makeAppDeployment
+    configRef: makeAppKubeDeployment

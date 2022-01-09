@@ -16,7 +16,7 @@ def login(conn: http.client.HTTPConnection, username: str, password: str):
         'accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
     }
-    raw_response = send_request(conn, 'POST', '/token', payload, headers)
+    raw_response = send_request(conn, 'POST', '/token/', payload, headers)
     decoded_response = json.loads(raw_response)
     print('decoded response', decoded_response)
     return decoded_response

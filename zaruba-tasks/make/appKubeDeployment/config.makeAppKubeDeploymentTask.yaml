@@ -1,6 +1,6 @@
 configs:
 
-  makeAppDeploymentTask:
+  makeAppKubeDeploymentTask:
     _skipCreationPath: 'zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}'
     _taskIndexPath: './zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml'
     _integrate: |
@@ -8,5 +8,5 @@ configs:
       {{ .GetConfig "_registerDeploymentTasks" }}
     templateLocations: |
       [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appDeployment/deploymentTaskTemplate"
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appKubeDeployment/deploymentTaskTemplate"
       ]
