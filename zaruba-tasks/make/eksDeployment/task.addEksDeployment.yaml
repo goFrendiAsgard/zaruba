@@ -1,6 +1,6 @@
 tasks:
 
-  addEks:
+  addEksDeployment:
     icon: 📙
     dependencies:
       - makeEksDeploymentTask

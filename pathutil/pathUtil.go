@@ -71,7 +71,9 @@ func (pathUtil *PathUtil) GetPortConfigByLocation(location string) (jsonList str
 		if err != nil {
 			continue
 		}
-		if intVal > 1000 {
+		// NOTES: well known ports are excluded
+		// more about IANA's valid ports: https://datatracker.ietf.org/doc/html/rfc6335#section-6
+		if intVal >= 1024 && intVal <= 65535 {
 			ports = append(ports, fmt.Sprintf("{{ .GetEnv \"%s\" }}", key))
 		}
 	}

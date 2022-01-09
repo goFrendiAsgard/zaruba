@@ -1,10 +1,10 @@
 [⬆️](./README.md)
 
-# 📙 MakeEksDeployment
+# 📙 MakeEksDeploymentTaskInPython
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/eksDeployment/task.makeEksDeployment.yaml
+    ~/.zaruba/zaruba-tasks/make/eksDeploymentInPython/task.makeEksDeploymentTaskInPython.yaml
 
 Should Sync Env:
 
@@ -17,11 +17,13 @@ Type:
 
 ## Extends
 
-* [makeApp](makeApp.md)
+* [zrbMakeTask](zrbMakeTask.md)
 
 
 ## Dependencies
 
+* [makeEksDeploymentInPython](makeEksDeploymentInPython.md)
+* [zrbIsProject](zrbIsProject.md)
 * [zrbShowAdv](zrbShowAdv.md)
 
 
@@ -61,21 +63,6 @@ Secret:
     false
 
 
-### Inputs.eksClusterName
-
-Description:
-
-    EKS cluster name
-
-Prompt:
-
-    EKS cluster name
-
-Secret:
-
-    false
-
-
 ## Configs
 
 
@@ -107,10 +94,7 @@ Value:
 
 Value:
 
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
-    then
-      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
-    fi
+    {{ .GetConfig "_registerIndex" }}
 
 
 
@@ -165,19 +149,31 @@ Value:
 
 ### Configs._prepareReplacementMap
 
-Value:
-
-    _setReplacementMap "ztpl-region" "${_ZRB_EKS_REGION}"
-    _setReplacementMap "ztpl-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"eksRegion: '{{ if .GetValue "eksRegion" }}{{ .GetValue "eksRegion" }}{{ else }}us-east-1{{ end }}'
-
-
 
 ### Configs._prepareVariables
 
+
+### Configs._registerAppRunnerTasks
+
 Value:
 
-    _ZRB_EKS_REGION='{{ .GetConfig "eksRegion" }}'
-    _ZRB_EKS_CLUSTER_NAME={{ .Util.Str.ToKebab (.GetConfig "eksClusterName") }}
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+
+
+### Configs._registerDeploymentTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+
+
+### Configs._registerIndex
+
+Value:
+
+    {{ if .GetConfig "_taskIndexPath" -}}
+    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+    {{ end -}}
 
 
 
@@ -199,7 +195,7 @@ Value:
 
 Value:
 
-    ${_ZRB_DEPLOYMENT_DIRECTORY}
+    zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}
 
 
 ### Configs._start
@@ -247,6 +243,13 @@ Value:
     {{ .GetConfig "_integrate" }}
     cd "${__ZRB_PWD}"
 
+
+
+### Configs._taskIndexPath
+
+Value:
+
+    ./zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml
 
 
 ### Configs._validate
@@ -542,20 +545,6 @@ Value:
     {{ .GetValue "deploymentName" }}
 
 
-### Configs.eksClusterName
-
-Value:
-
-    {{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}
-
-
-### Configs.eksRegion
-
-Value:
-
-    {{ .GetValue "eksRegion" }}
-
-
 ### Configs.finish
 
 
@@ -605,7 +594,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/eksDeployment/deploymentTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/eksDeployment/deploymentTaskTemplate"
     ]
 
 

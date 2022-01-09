@@ -1,0 +1,6 @@
+tasks:
+
+  addEksDeploymentInPython:
+    icon: 📙
+    dependencies:
+      - makeEksDeploymentTaskInPython

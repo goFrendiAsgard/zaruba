@@ -1,10 +1,10 @@
 [⬆️](./README.md)
 
-# 📙 AddEks
+# 📙 AddEksDeployment
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/eks/task.addEks.yaml
+    ~/.zaruba/zaruba-tasks/make/eksDeployment/task.addEksDeployment.yaml
 
 Should Sync Env:
 

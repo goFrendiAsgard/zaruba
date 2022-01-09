@@ -1,0 +1,9 @@
+tasks:
+ 
+  makeEksDeployment:
+    icon: 📙
+    extend: makeApp
+    inputs:
+      - deploymentDirectory
+      - eksClusterName
+    configRef: makeEksDeployment

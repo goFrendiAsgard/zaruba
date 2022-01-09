@@ -1,0 +1,10 @@
+tasks:
+
+  makeEksDeploymentTaskInPython:
+    icon: 📙
+    extend: zrbMakeTask
+    inputs:
+      - deploymentDirectory
+    dependencies:
+      - makeEksDeploymentInPython
+    configRef: makeEksDeploymentTask

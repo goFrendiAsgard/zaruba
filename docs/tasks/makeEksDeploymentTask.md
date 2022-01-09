@@ -4,7 +4,7 @@
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/eks/task.makeEksDeploymentTask.yaml
+    ~/.zaruba/zaruba-tasks/make/eksDeployment/task.makeEksDeploymentTask.yaml
 
 Should Sync Env:
 
@@ -271,10 +271,6 @@ Value:
 
 ### Configs._validateAppDirectory
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"
-
 
 ### Configs._validateAppPorts
 
@@ -518,7 +514,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Eks
+    {{ .GeneratedRandomName }}
 
 
 ### Configs.defaultAppPorts
@@ -547,20 +543,6 @@ Value:
 Value:
 
     {{ .GetValue "deploymentName" }}
-
-
-### Configs.eksClusterName
-
-Value:
-
-    {{ .GetValue "eksClusterName" }}
-
-
-### Configs.eksRegion
-
-Value:
-
-    {{ .GetValue "eksRegion" }}
 
 
 ### Configs.finish
@@ -612,7 +594,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/eks/deploymentTaskTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/eksDeployment/deploymentTaskTemplate"
     ]
 
 

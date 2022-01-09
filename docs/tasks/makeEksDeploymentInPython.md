@@ -1,10 +1,10 @@
 [⬆️](./README.md)
 
-# 📙 MakeEksDeployment
+# 📙 MakeEksDeploymentInPython
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/eksDeployment/task.makeEksDeployment.yaml
+    ~/.zaruba/zaruba-tasks/make/eksDeploymentInPython/task.makeEksDeploymentInPython.yaml
 
 Should Sync Env:
 

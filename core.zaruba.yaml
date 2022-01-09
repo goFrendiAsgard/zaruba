@@ -167,13 +167,16 @@ includes:
   - ./zaruba-tasks/make/docker/task.makeDockerApp.yaml
   - ./zaruba-tasks/make/docker/task.makeDockerAppRunnerForDockerApp.yaml
 
-  - ./zaruba-tasks/make/eks/config.makeEks.yaml
-  - ./zaruba-tasks/make/eks/config.makeEksDeployment.yaml
-  - ./zaruba-tasks/make/eks/config.makeEksDeploymentTask.yaml
-  - ./zaruba-tasks/make/eks/input.makeEksDeployment.yaml
-  - ./zaruba-tasks/make/eks/task.addEks.yaml
-  - ./zaruba-tasks/make/eks/task.makeEksDeployment.yaml
-  - ./zaruba-tasks/make/eks/task.makeEksDeploymentTask.yaml
+  - ./zaruba-tasks/make/eksDeployment/config.makeEksDeployment.yaml
+  - ./zaruba-tasks/make/eksDeployment/config.makeEksDeploymentTask.yaml
+  - ./zaruba-tasks/make/eksDeployment/input.makeEksDeployment.yaml
+  - ./zaruba-tasks/make/eksDeployment/task.addEksDeployment.yaml
+  - ./zaruba-tasks/make/eksDeployment/task.makeEksDeployment.yaml
+  - ./zaruba-tasks/make/eksDeployment/task.makeEksDeploymentTask.yaml
+
+  - ./zaruba-tasks/make/eksDeploymentInPython/task.addEksDeploymentInPython.yaml
+  - ./zaruba-tasks/make/eksDeploymentInPython/task.makeEksDeploymentInPython.yaml
+  - ./zaruba-tasks/make/eksDeploymentInPython/task.makeEksDeploymentTaskInPython.yaml
 
   - ./zaruba-tasks/make/elasticsearch/config.makeElasticsearchApp.yaml
   - ./zaruba-tasks/make/elasticsearch/config.makeElasticsearchAppRunner.yaml

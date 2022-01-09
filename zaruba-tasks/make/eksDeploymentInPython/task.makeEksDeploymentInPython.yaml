@@ -1,11 +1,9 @@
 tasks:
- 
-  makeEksDeployment:
+
+  makeEksDeploymentInPython:
     icon: 📙
     extend: makeApp
     inputs:
       - deploymentDirectory
       - eksClusterName
-    configRefs:
-      - makeEks
-      - makeEksDeployment
+    configRef: makeEksDeployment

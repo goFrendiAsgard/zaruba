@@ -1,6 +1,10 @@
 configs:
  
   makeEksDeployment:
+    appIcon: 📙
+    defaultDeploymentDirectory: '{{ .ProjectName }}Eks'
+    eksRegion: '{{ .GetValue "eksRegion" }}'
+    eksClusterName: '{{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}'
     _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
     _prepareVariables: |
       _ZRB_EKS_REGION='{{ .GetConfig "eksRegion" }}'
@@ -8,8 +12,8 @@ configs:
     _prepareReplacementMap: |
       _setReplacementMap "ztpl-region" "${_ZRB_EKS_REGION}"
       _setReplacementMap "ztpl-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"eksRegion: '{{ if .GetValue "eksRegion" }}{{ .GetValue "eksRegion" }}{{ else }}us-east-1{{ end }}'
-    eksClusterName: '{{ if .GetValue "eksClusterName" }}{{ .GetValue "eksClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}'
+    _validateAppDirectory: ''
     templateLocations: |
       [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/eks/deploymentTemplate"
+        "{{ .ZarubaHome }}/zaruba-tasks/make/eksDeployment/deploymentTemplate"
       ]

@@ -7,6 +7,4 @@ tasks:
       - deploymentDirectory
     dependencies:
       - makeEksDeployment
-    configRefs:
-      - makeEks
-      - makeEksDeploymentTask
+    configRef: makeEksDeploymentTask
