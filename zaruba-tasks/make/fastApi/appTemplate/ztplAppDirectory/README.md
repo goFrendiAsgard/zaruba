@@ -542,7 +542,7 @@ class DBBookRepo(BookRepo):
 
 To handle an event, you need a message bus object.
 
-The message bus has this interface:
+The message bus should have this interface:
 
 ```python
 class MessageBus(abc.ABC):
@@ -612,8 +612,57 @@ As long as a class comply the interface, you can make your own implementation. P
 
 # RPC
 
+To handle RPC you need a RPC object.
+
+The RPC object should have the following inteface:
+
+```python
+class RPC(abc.ABC):
+
+    @abc.abstractmethod
+    def handle(self, rpc_name: str) -> Callable[..., Any]:
+        pass
+
+    @abc.abstractmethod
+    def call(self, rpc_name: str, *args: Any) -> Any:
+        pass
+
+    @abc.abstractmethod
+    def shutdown(self) -> Any:
+        pass
+```
+
+You can implement your own RPC implementation using this interface. Currently, there are several implementation of RPC implementation.
+
 ## Local
+
+Best for testing or stand alone app without external dependencies. Cannot be shared among application instance.
+
+```python
+from helpers.transport import LocalRPC
+
+rpc = LocalRPC()
+```
 
 ## Rabbitmq
 
+Rabbitmq implementation of the messagebus. Fit for most cases.
+
+```python
+from helpers.transport import RMQRPC, RMQEventMap, create_rmq_connection_parameters
+
+rmq_connection_parameters = create_rmq_connection_parameters(
+    host = os.getenv('APP_RABBITMQ_HOST', 'localhost'),
+    user = os.getenv('APP_RABBITMQ_USER', 'root'),
+    password = os.getenv('APP_RABBITMQ_PASS', ''),
+    virtual_host = os.getenv('APP_RABBITMQ_VHOST', '/'),
+    heartbeat=30
+)
+rmq_event_map = RMQEventMap({})
+
+rpc = RMQRPC(rmq_connection_parameters, rmq_event_map)
+```
+
 ## Your custom RPC
+
+As long as a class comply the interface, you can make your own implementation. Please let [us](https://twitter.com/zarubastalchmst) know if you do so and you want to contribute back.

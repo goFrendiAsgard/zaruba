@@ -1,4 +1,4 @@
-from helpers.transport import RPC,RMQRPC, RMQEventMap, LocalMessageBus, LocalRPC
+from helpers.transport import RPC, RMQRPC, RMQEventMap, LocalRPC
 import pika
 
 def create_rpc(mb_type: str, rmq_connection_parameters: pika.ConnectionParameters, rmq_event_map: RMQEventMap) -> RPC:
