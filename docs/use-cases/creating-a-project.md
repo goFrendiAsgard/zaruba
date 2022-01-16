@@ -1,4 +1,4 @@
-[⬆️](../README.md)
+[⬅️](../README.md)
 
 # Creating a project
 
