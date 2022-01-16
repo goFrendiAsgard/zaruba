@@ -3,8 +3,8 @@ import os, sys, json
 toc_file_path = os.path.join(os.getcwd(), './docs/README.md')
 task_list = json.loads(sys.argv[1])
 
-toc_file = open(toc_file_path, 'rw')
-toc_lines = toc_file.read().split('\n')
+old_toc_file = open(toc_file_path, 'r')
+toc_lines = old_toc_file.read().split('\n')
 new_toc_lines = []
 skip = False
 for toc_line in toc_lines:
@@ -20,4 +20,6 @@ for toc_line in toc_lines:
         else:
             skip = False
     new_toc_lines.append(toc_line)
-toc_file.write('\n'.join(new_toc_lines))
+
+new_toc_file = open(toc_file_path, 'w')
+new_toc_file.write('\n'.join(new_toc_lines))
