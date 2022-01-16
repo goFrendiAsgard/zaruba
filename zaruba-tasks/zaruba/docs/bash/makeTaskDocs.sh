@@ -45,4 +45,4 @@ do
         TASK_LIST="$(./zaruba list append "${TASK_LIST}" "${TASK_NAME}")"
     fi
 done
-python ./zaruba-tasks/zaruba/docs/python/update-task-toc.py
+python ./zaruba-tasks/zaruba/docs/python/update-task-toc.py "${TASK_LIST}"
