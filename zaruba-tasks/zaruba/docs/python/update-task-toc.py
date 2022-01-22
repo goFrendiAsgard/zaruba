@@ -8,7 +8,7 @@ toc_lines = old_toc_file.read().split('\n')
 new_toc_lines = []
 skip = False
 for toc_line in toc_lines:
-    if toc_line == '* [Core Tasks](core-tasks/README.md)':
+    if toc_line == '* [🥝 Core Tasks](core-tasks/README.md)':
         skip = True
         new_toc_lines.append(toc_line)
         task_lines = ['  * [{task_name}](core-tasks/{task_name}.md)'.format(task_name=task_name) for task_name in task_list]
