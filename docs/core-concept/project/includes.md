@@ -2,13 +2,17 @@
 
 # Includes
 
-Zaruba scripts, like any other scripts/source code can grow into humongous spaghetti code in no time. Before it happens, you need to act as quickly as possible by dividing your scripts based on the domains and functionalities.
+Over time your scripts and source code tend to grow bigger. At some point, you won't be able to keep everything in a single file.
 
-To do that, you need `includes`.
+Usually, people will divide scripts based on their domains and functionalities.
+
+By using `includes` keyword, you can also do this with your Zaruba Scripts.
 
 # Behavior of Includes
 
-Take note that `includes` in Zaruba works differently from python/C. Every scripts included in your `index.zaruba.yaml` (directly or indirectly) will be able to access each other's resources.
+Unlike in Python or C, `includes` in Zaruba works differently.
+
+Every script you include in `index.zaruba.yaml` (directly or indirectly) will be able to access each other's resources.
 
 For example, suppose you have the following structure:
 
@@ -51,7 +55,7 @@ tasks:
 
 # Project Directory Structure
 
-Although you can structure your project as you like, typically a sane zaruba project looks like this:
+Although you can arrange your project as you like, usually a sane zaruba project looks like this:
 
 ```
 .
@@ -101,5 +105,4 @@ includes:
   - inputs.yaml
   - tasks.yaml
 ```
-
-By using this directory structure, your project will be more maintainable. Also, you will be able to manage your application tasks/resources independent to each other.
+With this directory structure, you will be able to manage your resources independently.

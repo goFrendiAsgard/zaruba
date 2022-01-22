@@ -61,7 +61,7 @@ token_model = JWTTokenModel(
     user_model = user_model,
     access_token_secret_key = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123'),
     access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
-    access_token_expire_minutes = int(os.getenv('APP_ACCESS_TOKEN_EXPIRE_MINUTES', '30'))
+    access_token_expire_minutes = os.getenv('APP_ACCESS_TOKEN_EXPIRE_MINUTES', '30')
 )
 access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)

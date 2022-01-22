@@ -2,13 +2,15 @@
 
 # Project Anatomy
 
-Beside `index.zaruba.yaml`, a project might also contains other resources/zaruba scripts.
+A project usually contains some [zaruba scripts](#zaruba-scripts) and [other resources](#other-resources).
 
-Typically, you will have several [long running processes](task/long-running-process.md) and [simple commands](task/simple-command.md) to help you develop/debug your applications.
+Inside zaruba scripts, you will find some [long running processes](task/long-running-process.md) and [simple command](task/simple-command.md) task definitions.
 
-# Zaruba Script
+Those tasks will help you to develop/debug your applications.
 
-Typically your `index.zaruba.yaml` is an entry points for other zaruba scripts. A zaruba script is written in [YAML](https://yaml.org) and [go template](https://pkg.go.dev/text/template). 
+# Zaruba Scripts
+
+Your `index.zaruba.yaml` is an entry points for other zaruba scripts. A zaruba script is written in [YAML](https://yaml.org) and [go template](https://pkg.go.dev/text/template). 
 
 A zaruba script contains several keys and values. Here are some possible keys/values:
 
@@ -76,17 +78,19 @@ tasks:
     saveLog: true                   # wether to save log or not
 ```
 
-For more information/detail behaviors of each properties, please visit their respective documentations:
+For more information/detail behaviors of each property, please visit their respective documentations:
 
 * [includes](./includes.md)
 * [configs (project-configs)](./project-configs.md)
 * [envs (project-configs)](./project-envs.md)
 * [tasks](./task/README.md)
 
-Zaruba is capable to generate tasks and other resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or you can generate [new application along with it's task runner](../../use-cases/generate-new-application/README.md).
+Zaruba is capable to generate tasks and other resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with it's task runner](../../use-cases/generate-new-application/README.md).
 
 # Other Resources
 
 Any non zaruba scripts resources are considered as `other resources`. They can ba your application source code, Dockerfile, static files, etc.
 
-Just like zaruba scripts, Zaruba can also help you generate some of those resources. Currently Zaruba can help you [generate new applications](../../use-cases/generate-new-application/README.md), [deployments](../../use-cases/generate-new-application/add-application-deployment.md), or other [third party services](../../use-cases/add-third-party-service/README.md).
+Zaruba can also help you generate some of those resources.
+
+You can generate [new applications](../../use-cases/generate-new-application/README.md), [deployments](../../use-cases/generate-new-application/add-application-deployment.md), or other [third party services](../../use-cases/add-third-party-service/README.md).

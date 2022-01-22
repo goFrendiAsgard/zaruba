@@ -4,9 +4,9 @@
 
 Your tasks might have several key-value [configurations](./task/task-configs/README.md).
 
-Furthermore, tasks might [share some of their configurations](./tasks/task-configs/shared-configs.md) with other tasks. In order to do that, you will need a project config.
+Furthermore, tasks might [share some of their configurations](./tasks/task-configs/shared-configs.md) with other tasks. To do that, you will need a project config.
 
-Defining a project config is pretty straightforward. Here is the anatomy of project config:
+Defining a project config is pretty straightforward. Here is the anatomy of a project config:
 
 ```yaml
 configs:
@@ -16,4 +16,4 @@ configs:
     otherKey: otherValue
 ```
 
-To use project configuration in your tasks, you can either use `configRef` or `configRefs` property. Please see [task's shared configs](./task/task-configs/shared-configs.md) for more information.
+You can reuse a project config by including it in your task. To do that you need to use `configRef` or `configRefs` property. Please see [task's shared configs](./task/task-configs/shared-configs.md) for more information.

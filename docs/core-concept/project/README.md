@@ -2,15 +2,15 @@
 
 # 🏗️ Project
 
-A project is a directory containing `index.zaruba.yaml`. Typically, a project is also a git repository.
+A project is a directory containing `index.zaruba.yaml`. Usually, a project is also a git repository.
 
-You can create a project by creating an empty directory and invoking `zaruba please initProject`:
+To create a project you need to make an empty directory and invoke `zaruba please initProject`:
 
 ```bash
 cd myproject
 zaruba please initProject
 ```
 
-Suppose someone already make a zaruba project and put it on git server, you can also clone it to your local computer.
+You can also clone/fork existing projects from GitHub or other git servers.
 
-Please look on [project anatomy](./project-anatomy.md) to see how a project is structured.
+Please look on [project anatomy](./project-anatomy.md) for more information. 
