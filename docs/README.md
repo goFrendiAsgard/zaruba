@@ -2,279 +2,279 @@
 
 # 🏠 Zaruba Documentation
 
-* [🧠 Core Concept](core-concepts/README.md)
-    * [🏗️ Project](core-concepts/project/README.md)
-        * [Project Anatomy](core-concepts/project/project-anatomy.md)
-        * [Task](core-concepts/project/task/README.md)
-            * [Task Anatomy](core-concepts/project/task/task-anatomy.md)
-            * [Simple Command](core-concepts/project/task/simple-command.md)
-            * [Long Running Process](core-concepts/project/task/long-running-process.md)
-            * [Task Inputs](core-concepts/task/task-inputs.md)
-            * [Task Configs](core-concepts/task/task-configs/README.md)
-                * [Shared Configs](core-concepts/task/task-configs/shared-configs.md)
-            * [Task Envs](core-concepts/task/task-envs/README.md)
-                * [Shared Envs](core-concepts/task/task-envs/shared-envs.md)
-            * [Extend task](core-concepts/task/extend-task.md)
-            * [Define task dependencies](core-concepts/task/define-task-dependencies.md)
-        * [Project Configs](core-concepts/project-configs.md)
-        * [Project Envs](core-concepts/project-envs.md)
-        * [Project Inputs](core-concepts/project-inputs.md)
-        * [Includes](core-concepts/includes.md)
-        * [Using Go Template](core-concepts/using-go-template.md)
-* [👷🏽 Use Cases](use-cases/README.md)
-    * [Creating a Project](use-cases/creating-a-project.md)
-    * [Add Subrepo](use-cases/add-subrepo.md)
-    * [Add Runner for Existing Application](use-cases/add-runner-for-existing-application/README.md)
-        * [Go Application Runner](use-cases/add-runner-for-existing-application/go-application-runner.md)
-        * [NodeJs Application Runner](use-cases/add-runner-for-existing-application/nodeJs-application-runner.md)
-        * [Python Application Runner](use-cases/add-runner-for-existing-application/python-application-runner.md)
-    * [Generate New Application](use-cases/generate-new-application/README.md)
-        * [Simple Go Application](use-cases/generate-new-application/simple-go-application.md)
-        * [Simple NodeJs Application](use-cases/generate-new-application/simple-nodeJs-application.md)
-        * [Simple Python Application](use-cases/generate-new-application/simple-python-application.md)
-        * [Simple Typescript Application](use-cases/generate-new-application/simple-typescript-application.md)
-        * [FastAPI Application](use-cases/generate-new-application/fastApi-application/README.md)
-            * [Route](use-cases/generate-new-application/fastApi-application/route.md)
-            * [Event Handler](use-cases/generate-new-application/fastApi-application/event-handler.md)
-            * [RPC Handler](use-cases/generate-new-application/fastApi-application/rpc-handler.md)
-            * [CRUD](use-cases/generate-new-application/fastApi-application/crud.md)
-    * [Add Application Deployment](use-cases/add-application-deployment.md)
-    * [Add Third Party Service](use-cases/add-third-party-service/README.md)
-        * [Message Bus](use-cases/add-third-party-service/message-bus/README.md)
-            * [Rabbitmq](use-cases/add-third-party-service/message-bus/rabbitmq.md)
-            * [Kafka](use-cases/add-third-party-service/message-bus/kafka.md)
-        * [Storage](use-cases/add-third-party-service/storage/README.md)
-            * [Cassandra](use-cases/add-third-party-service/storage/cassandra.md)
-            * [Elasticsearch](use-cases/add-third-party-service/storage/elasticsearch.md)
-            * [MongoDB](use-cases/add-third-party-service/storage/mongo-db.md)
-            * [MySQL](use-cases/add-third-party-service/storage/my-sql.md)
-            * [PostgreSQL](use-cases/add-third-party-service/storage/postgre-sql.md)
-            * [Redis](use-cases/add-third-party-service/storage/redis.md)
-        * [Data Engineering](use-cases/add-third-party-service/data-engineering/README.md)
-            * [Airflow](use-cases/add-third-party-service/data-engineering/airflow.md)
-            * [Meltano](use-cases/add-third-party-service/data-engineering/meltano.md)
-            * [Trino](use-cases/add-third-party-service/data-engineering/trino.md)
-        * [Gitlab](use-cases/add-third-party-service/gitlab.md)
-        * [Container Registry](use-cases/add-third-party-service/container-registry.md)
-        * [Nginx](use-cases/add-third-party-service/nginx.md)
-    * [Add EKS Deployment](use-cases/add-eks-deployment.md)
-    * [Synchronize environments](use-cases/synchronize-environments.md)
-    * [Run Applications Locally](use-cases/run-applications-locally.md)
-    * [Run Some Applications Locally](use-cases/run-some-applications-locally.md)
-    * [Deploy Applications](use-cases/deploy-applications.md)
-* [🔧 Utilities](utilities/README.md)
-    * [Env](utilities/env/README.md)
-        * [Get](utilities/env/get.md)
-        * [Print](utilities/env/print.md)
-        * [Read](utilities/env/read.md)
-        * [Write](utilities/env/write.md)
-    * [Lines](utilities/lines/README.md)
-        * [Fill](utilities/lines/fill.md)
-        * [GetIndex](utilities/lines/getIndex.md)
-        * [InsertAfter](utilities/lines/InsertAfter.md)
-        * [InsertBefore](utilities/lines/insertBefore.md)
-        * [Read](utilities/lines/read.md)
-        * [Replace](utilities/lines/replace.md)
-        * [Submatch](utilities/lines/submatch.md)
-        * [Write](utilities/lines/write.md)
-    * [List](utilities/list/README.md)
-        * [Append](utilities/list/append.md)
-        * [Contain](utilities/list/contain.md)
-        * [Get](utilities/list/get.md)
-        * [Join](utilities/list/join.md)
-        * [Length](utilities/list/length.md)
-        * [Merge](utilities/list/merge.md)
-        * [RangeIndex](utilities/list/rangeIndex.md)
-        * [Set](utilities/listSet.md)
-        * [Validate](utilities/list/validate.md)
-    * [Map](utilities/map/README.md)
-        * [Get](utilities/map/get.md)
-        * [GetKeys](utilities/map/getKeys.md)
-        * [Merge](utilities/map/merge.md)
-        * [RangeKey](utilities/map/rangeKey.md)
-        * [Set](utilities/map/set.md)
-        * [ToStringMap](utilities/map/toStringMap.md)
-        * [ToVariedStringMap](utilities/map/toVariedStringMap.md)
-        * [TransformKey](utilities/map/transformKey.md)
-        * [Validate](utilities/map/validate.md)
-    * [Num](utilities/num/README.md)
-        * [Range](utilities/num/range.md)
-        * [ValidateFloat](utilities/num/validateFloat.md)
-        * [ValidateInt](utilities/num/validateInt.md)
-    * [Path](utilities/path/README.md)
-        * [GetAppName](utilities/path/getAppName.md)
-        * [GetEnv](utilities/path/getEnv.md)
-        * [GetPortConfig](utilities/path/getPortConfig.md)
-        * [GetRelativePath](utilities/path/getRelativePath.md)
-    * [Project](utilities/project/README.md)
-        * [AddTaskIfNotExist](utilities/project/AddTaskIfNotExist.md)
-        * [Include](utilities/project/include.md)
-        * [SetValue](utilities/project/setValue.md)
-        * [ShowLog](utilities/project/showLog.md)
-        * [SyncEnv](utilities/project/syncEnv.md)
-        * [SyncEnvFiles](utilities/project/syncEnvFiles.md)
-    * [Str](utilities/str/README.md)
-        * [AddPrefix](utilities/str/addPrefix.md)
-        * [DoubleQuote](utilities/str/doubleQuote.md)
-        * [FullIndent](utilities/str/fullIndent.md)
-        * [GetIndentation](utilities/str/getIndentation.md)
-        * [Indent](utilities/str/indent.md)
-        * [NewName](utilities/str/newName.md)
-        * [NewUUID](utilities/str/newUUID.md)
-        * [PadLeft](utilities/str/padLeft.md)
-        * [PadRight](utilities/str/padRight.md)
-        * [Repeat](utilities/str/repeat.md)
-        * [Replace](utilities/str/replace.md)
-        * [SingleQuote](utilities/str/singleQuote.md)
-        * [Split](utilities/str/split.md)
-        * [Submatch](utilities/str/submatch.md)
-        * [ToCamel](utilities/str/toCamel.md)
-        * [ToKebab](utilities/str/toKebab.md)
-        * [ToLower](utilities/str/toLower.md)
-        * [ToPascal](utilities/str/toPascal.md)
-        * [ToPlural](utilities/str/toPlural.md)
-        * [ToSingular](utilities/str/toSingular.md)
-        * [ToSnake](utilities/str/toSnake.md)
-        * [ToUpper](utilities/str/toUpper.md)
-        * [ToUpperSnake](utilities/str/toUpperSnake.md)
-    * [Task](utilities/task/README.md)
-        * [AddDependency](utilities/task/addDependency.md)
-        * [AddParent](utilities/task/addParent.md)
-        * [IsExist](utilities/task/isExist.md)
-        * [SetConfig](utilities/task/setConfig.md)
-        * [SetEnv](utilities/task/setEnv.md)
-        * [SyncEnv](utilities/task/syncEnv.md)
-    * [YAML](utilities/yaml/README.md)
-        * [Print](utilities/yaml/print.md)
-        * [Read](utilities/yaml/read.md)
-        * [Write](utilities/yaml/write.md)
-* [🥝 Core Tasks](core-tasks/README.md)
-  * [zrbShowAdv](core-tasks/zrbShowAdv.md)
-  * [zrbCopyToKubePod](core-tasks/zrbCopyToKubePod.md)
-  * [zrbBuildDockerImage](core-tasks/zrbBuildDockerImage.md)
-  * [zrbCreateDockerNetwork](core-tasks/zrbCreateDockerNetwork.md)
-  * [zrbPullDockerImage](core-tasks/zrbPullDockerImage.md)
-  * [zrbPushDockerImage](core-tasks/zrbPushDockerImage.md)
-  * [zrbRemoveDockerContainer](core-tasks/zrbRemoveDockerContainer.md)
-  * [zrbStopDockerContainer](core-tasks/zrbStopDockerContainer.md)
-  * [zrbGenerateAndRun](core-tasks/zrbGenerateAndRun.md)
-  * [zrbSetKubeContext](core-tasks/zrbSetKubeContext.md)
-  * [zrbRunNodeJsScript](core-tasks/zrbRunNodeJsScript.md)
-  * [zrbRunScript](core-tasks/zrbRunScript.md)
-  * [zrbRunPythonScript](core-tasks/zrbRunPythonScript.md)
-  * [zrbRunShellScript](core-tasks/zrbRunShellScript.md)
-  * [zrbRunDockerContainer](core-tasks/zrbRunDockerContainer.md)
-  * [zrbRunInDockerContainer](core-tasks/zrbRunInDockerContainer.md)
-  * [zrbRunInKubePod](core-tasks/zrbRunInKubePod.md)
-  * [zrbStartApp](core-tasks/zrbStartApp.md)
-  * [zrbStartDockerContainer](core-tasks/zrbStartDockerContainer.md)
-  * [zrbIsProject](core-tasks/zrbIsProject.md)
-  * [zrbIsValidSubrepos](core-tasks/zrbIsValidSubrepos.md)
-  * [zrbWrapper](core-tasks/zrbWrapper.md)
-  * [showVersion](core-tasks/showVersion.md)
-  * [syncEnv](core-tasks/syncEnv.md)
-  * [update](core-tasks/update.md)
-  * [initProject](core-tasks/initProject.md)
-  * [addProjectLink](core-tasks/addProjectLink.md)
-  * [updateProjectLinks](core-tasks/updateProjectLinks.md)
-  * [clearLog](core-tasks/clearLog.md)
-  * [showLog](core-tasks/showLog.md)
-  * [serveHttp](core-tasks/serveHttp.md)
-  * [addSubrepo](core-tasks/addSubrepo.md)
-  * [initSubrepos](core-tasks/initSubrepos.md)
-  * [pullSubrepos](core-tasks/pullSubrepos.md)
-  * [pushSubrepos](core-tasks/pushSubrepos.md)
-  * [setProjectValue](core-tasks/setProjectValue.md)
-  * [clearPreviousValues](core-tasks/clearPreviousValues.md)
-  * [zrbMake](core-tasks/zrbMake.md)
-  * [makeApp](core-tasks/makeApp.md)
-  * [addAppKubeDeployment](core-tasks/addAppKubeDeployment.md)
-  * [makeAppKubeDeployment](core-tasks/makeAppKubeDeployment.md)
-  * [makeAppKubeDeploymentTask](core-tasks/makeAppKubeDeploymentTask.md)
-  * [addAppKubeDeploymentInPython](core-tasks/addAppKubeDeploymentInPython.md)
-  * [makeAppKubeDeploymentInPython](core-tasks/makeAppKubeDeploymentInPython.md)
-  * [makeAppKubeDeploymentTaskInPython](core-tasks/makeAppKubeDeploymentTaskInPython.md)
-  * [zrbMakeTask](core-tasks/zrbMakeTask.md)
-  * [zrbMakeAppRunner](core-tasks/zrbMakeAppRunner.md)
-  * [makeDockerAppRunner](core-tasks/makeDockerAppRunner.md)
-  * [makeNativeAppRunner](core-tasks/makeNativeAppRunner.md)
-  * [addAppRunner](core-tasks/addAppRunner.md)
-  * [makeAppRunner](core-tasks/makeAppRunner.md)
-  * [addAirflow](core-tasks/addAirflow.md)
-  * [makeAirflowApp](core-tasks/makeAirflowApp.md)
-  * [makeAirflowAppRunner](core-tasks/makeAirflowAppRunner.md)
-  * [addCassandra](core-tasks/addCassandra.md)
-  * [makeCassandraApp](core-tasks/makeCassandraApp.md)
-  * [makeCassandraAppRunner](core-tasks/makeCassandraAppRunner.md)
-  * [addContainerRegistry](core-tasks/addContainerRegistry.md)
-  * [makeContainerRegistryApp](core-tasks/makeContainerRegistryApp.md)
-  * [makeContainerRegistryAppRunner](core-tasks/makeContainerRegistryAppRunner.md)
-  * [addDocker](core-tasks/addDocker.md)
-  * [makeDockerApp](core-tasks/makeDockerApp.md)
-  * [makeDockerAppRunnerForDockerApp](core-tasks/makeDockerAppRunnerForDockerApp.md)
-  * [addEksDeployment](core-tasks/addEksDeployment.md)
-  * [makeEksDeployment](core-tasks/makeEksDeployment.md)
-  * [makeEksDeploymentTask](core-tasks/makeEksDeploymentTask.md)
-  * [addEksDeploymentInPython](core-tasks/addEksDeploymentInPython.md)
-  * [makeEksDeploymentInPython](core-tasks/makeEksDeploymentInPython.md)
-  * [makeEksDeploymentTaskInPython](core-tasks/makeEksDeploymentTaskInPython.md)
-  * [addElasticsearch](core-tasks/addElasticsearch.md)
-  * [makeElasticsearchApp](core-tasks/makeElasticsearchApp.md)
-  * [makeElasticsearchAppRunner](core-tasks/makeElasticsearchAppRunner.md)
-  * [addFastApi](core-tasks/addFastApi.md)
-  * [makeFastApiApp](core-tasks/makeFastApiApp.md)
-  * [makeFastApiAppRunner](core-tasks/makeFastApiAppRunner.md)
-  * [addFastApiCrud](core-tasks/addFastApiCrud.md)
-  * [addFastApiEventHandler](core-tasks/addFastApiEventHandler.md)
-  * [addFastApiModule](core-tasks/addFastApiModule.md)
-  * [addFastApiRouteHandler](core-tasks/addFastApiRouteHandler.md)
-  * [addFastApiRpcHandler](core-tasks/addFastApiRpcHandler.md)
-  * [addGitlab](core-tasks/addGitlab.md)
-  * [makeGitlabApp](core-tasks/makeGitlabApp.md)
-  * [makeGitlabAppRunner](core-tasks/makeGitlabAppRunner.md)
-  * [addGoAppRunner](core-tasks/addGoAppRunner.md)
-  * [makeGoAppRunner](core-tasks/makeGoAppRunner.md)
-  * [addKafka](core-tasks/addKafka.md)
-  * [makeKafkaApp](core-tasks/makeKafkaApp.md)
-  * [makeKafkaAppRunner](core-tasks/makeKafkaAppRunner.md)
-  * [addMeltano](core-tasks/addMeltano.md)
-  * [makeMeltanoApp](core-tasks/makeMeltanoApp.md)
-  * [makeMeltanoAppRunner](core-tasks/makeMeltanoAppRunner.md)
-  * [addMongodb](core-tasks/addMongodb.md)
-  * [makeMongodbApp](core-tasks/makeMongodbApp.md)
-  * [makeMongodbAppRunner](core-tasks/makeMongodbAppRunner.md)
-  * [addMysql](core-tasks/addMysql.md)
-  * [makeMysqlApp](core-tasks/makeMysqlApp.md)
-  * [makeMysqlAppRunner](core-tasks/makeMysqlAppRunner.md)
-  * [addNginx](core-tasks/addNginx.md)
-  * [makeNginxApp](core-tasks/makeNginxApp.md)
-  * [makeNginxAppRunner](core-tasks/makeNginxAppRunner.md)
-  * [addNodeJsAppRunner](core-tasks/addNodeJsAppRunner.md)
-  * [makeNodeJsAppRunner](core-tasks/makeNodeJsAppRunner.md)
-  * [addPostgresql](core-tasks/addPostgresql.md)
-  * [makePostgresqlApp](core-tasks/makePostgresqlApp.md)
-  * [makePostgresqlAppRunner](core-tasks/makePostgresqlAppRunner.md)
-  * [addPythonAppRunner](core-tasks/addPythonAppRunner.md)
-  * [makePythonAppRunner](core-tasks/makePythonAppRunner.md)
-  * [addRabbitmq](core-tasks/addRabbitmq.md)
-  * [makeRabbitmqApp](core-tasks/makeRabbitmqApp.md)
-  * [makeRabbitmqAppRunner](core-tasks/makeRabbitmqAppRunner.md)
-  * [addRedis](core-tasks/addRedis.md)
-  * [makeRedisApp](core-tasks/makeRedisApp.md)
-  * [makeRedisAppRunner](core-tasks/makeRedisAppRunner.md)
-  * [addSimpleGoApp](core-tasks/addSimpleGoApp.md)
-  * [makeSimpleGoApp](core-tasks/makeSimpleGoApp.md)
-  * [makeSimpleGoAppRunner](core-tasks/makeSimpleGoAppRunner.md)
-  * [addSimpleNodeJsApp](core-tasks/addSimpleNodeJsApp.md)
-  * [makeSimpleNodeJsApp](core-tasks/makeSimpleNodeJsApp.md)
-  * [makeSimpleNodeJsAppRunner](core-tasks/makeSimpleNodeJsAppRunner.md)
-  * [addSimplePythonApp](core-tasks/addSimplePythonApp.md)
-  * [makeSimplePythonApp](core-tasks/makeSimplePythonApp.md)
-  * [makeSimplePythonAppRunner](core-tasks/makeSimplePythonAppRunner.md)
-  * [addSimpleTypeScriptApp](core-tasks/addSimpleTypeScriptApp.md)
-  * [makeSimpleTypeScriptApp](core-tasks/makeSimpleTypeScriptApp.md)
-  * [makeSimpleTypeScriptAppRunner](core-tasks/makeSimpleTypeScriptAppRunner.md)
-  * [addTrino](core-tasks/addTrino.md)
-  * [makeTrinoApp](core-tasks/makeTrinoApp.md)
-  * [makeTrinoAppRunner](core-tasks/makeTrinoAppRunner.md)
-* [📝 Design Document](design-document/README.md)
+* 🧠 Core Concept
+    * 🏗️ Project
+        * Project Anatomy
+        * Task
+            * Task Anatomy
+            * Simple Command
+            * Long Running Process
+            * Task Inputs
+            * Task Configs
+                * Shared Configs
+            * Task Envs
+                * Shared Envs
+            * Extend task
+            * Define task dependencies
+        * Project Configs
+        * Project Envs
+        * Project Inputs
+        * Includes
+        * Using Go Template
+* 👷🏽 Use Cases
+    * Creating a Project
+    * Add Subrepo
+    * Add Runner for Existing Application
+        * Go Application Runner
+        * NodeJs Application Runner
+        * Python Application Runner
+    * Generate New Application
+        * Simple Go Application
+        * Simple NodeJs Application
+        * Simple Python Application
+        * Simple Typescript Application
+        * FastAPI Application
+            * Route
+            * Event Handler
+            * RPC Handler
+            * CRUD
+    * Add Application Deployment
+    * Add Third Party Service
+        * Message Bus
+            * Rabbitmq
+            * Kafka
+        * Storage
+            * Cassandra
+            * Elasticsearch
+            * MongoDB
+            * MySQL
+            * PostgreSQL
+            * Redis
+        * Data Engineering
+            * Airflow
+            * Meltano
+            * Trino
+        * Gitlab
+        * Container Registry
+        * Nginx
+    * Add EKS Deployment
+    * Synchronize environments
+    * Run Applications Locally
+    * Run Some Applications Locally
+    * Deploy Applications
+* 🔧 Utilities
+    * Env
+        * Get
+        * Print
+        * Read
+        * Write
+    * Lines
+        * Fill
+        * GetIndex
+        * InsertAfter
+        * InsertBefore
+        * Read
+        * Replace
+        * Submatch
+        * Write
+    * List
+        * Append
+        * Contain
+        * Get
+        * Join
+        * Length
+        * Merge
+        * RangeIndex
+        * Set
+        * Validate
+    * Map
+        * Get
+        * GetKeys
+        * Merge
+        * RangeKey
+        * Set
+        * ToStringMap
+        * ToVariedStringMap
+        * TransformKey
+        * Validate
+    * Num
+        * Range
+        * ValidateFloat
+        * ValidateInt
+    * Path
+        * GetAppName
+        * GetEnv
+        * GetPortConfig
+        * GetRelativePath
+    * Project
+        * AddTaskIfNotExist
+        * Include
+        * SetValue
+        * ShowLog
+        * SyncEnv
+        * SyncEnvFiles
+    * Str
+        * AddPrefix
+        * DoubleQuote
+        * FullIndent
+        * GetIndentation
+        * Indent
+        * NewName
+        * NewUUID
+        * PadLeft
+        * PadRight
+        * Repeat
+        * Replace
+        * SingleQuote
+        * Split
+        * Submatch
+        * ToCamel
+        * ToKebab
+        * ToLower
+        * ToPascal
+        * ToPlural
+        * ToSingular
+        * ToSnake
+        * ToUpper
+        * ToUpperSnake
+    * Task
+        * AddDependency
+        * AddParent
+        * IsExist
+        * SetConfig
+        * SetEnv
+        * SyncEnv
+    * YAML
+        * Print
+        * Read
+        * Write
+* 🥝 Core Tasks
+  * zrbShowAdv
+  * zrbCopyToKubePod
+  * zrbBuildDockerImage
+  * zrbCreateDockerNetwork
+  * zrbPullDockerImage
+  * zrbPushDockerImage
+  * zrbRemoveDockerContainer
+  * zrbStopDockerContainer
+  * zrbGenerateAndRun
+  * zrbSetKubeContext
+  * zrbRunNodeJsScript
+  * zrbRunScript
+  * zrbRunPythonScript
+  * zrbRunShellScript
+  * zrbRunDockerContainer
+  * zrbRunInDockerContainer
+  * zrbRunInKubePod
+  * zrbStartApp
+  * zrbStartDockerContainer
+  * zrbIsProject
+  * zrbIsValidSubrepos
+  * zrbWrapper
+  * showVersion
+  * syncEnv
+  * update
+  * initProject
+  * addProjectLink
+  * updateProjectLinks
+  * clearLog
+  * showLog
+  * serveHttp
+  * addSubrepo
+  * initSubrepos
+  * pullSubrepos
+  * pushSubrepos
+  * setProjectValue
+  * clearPreviousValues
+  * zrbMake
+  * makeApp
+  * addAppKubeDeployment
+  * makeAppKubeDeployment
+  * makeAppKubeDeploymentTask
+  * addAppKubeDeploymentInPython
+  * makeAppKubeDeploymentInPython
+  * makeAppKubeDeploymentTaskInPython
+  * zrbMakeTask
+  * zrbMakeAppRunner
+  * makeDockerAppRunner
+  * makeNativeAppRunner
+  * addAppRunner
+  * makeAppRunner
+  * addAirflow
+  * makeAirflowApp
+  * makeAirflowAppRunner
+  * addCassandra
+  * makeCassandraApp
+  * makeCassandraAppRunner
+  * addContainerRegistry
+  * makeContainerRegistryApp
+  * makeContainerRegistryAppRunner
+  * addDocker
+  * makeDockerApp
+  * makeDockerAppRunnerForDockerApp
+  * addEksDeployment
+  * makeEksDeployment
+  * makeEksDeploymentTask
+  * addEksDeploymentInPython
+  * makeEksDeploymentInPython
+  * makeEksDeploymentTaskInPython
+  * addElasticsearch
+  * makeElasticsearchApp
+  * makeElasticsearchAppRunner
+  * addFastApi
+  * makeFastApiApp
+  * makeFastApiAppRunner
+  * addFastApiCrud
+  * addFastApiEventHandler
+  * addFastApiModule
+  * addFastApiRouteHandler
+  * addFastApiRpcHandler
+  * addGitlab
+  * makeGitlabApp
+  * makeGitlabAppRunner
+  * addGoAppRunner
+  * makeGoAppRunner
+  * addKafka
+  * makeKafkaApp
+  * makeKafkaAppRunner
+  * addMeltano
+  * makeMeltanoApp
+  * makeMeltanoAppRunner
+  * addMongodb
+  * makeMongodbApp
+  * makeMongodbAppRunner
+  * addMysql
+  * makeMysqlApp
+  * makeMysqlAppRunner
+  * addNginx
+  * makeNginxApp
+  * makeNginxAppRunner
+  * addNodeJsAppRunner
+  * makeNodeJsAppRunner
+  * addPostgresql
+  * makePostgresqlApp
+  * makePostgresqlAppRunner
+  * addPythonAppRunner
+  * makePythonAppRunner
+  * addRabbitmq
+  * makeRabbitmqApp
+  * makeRabbitmqAppRunner
+  * addRedis
+  * makeRedisApp
+  * makeRedisAppRunner
+  * addSimpleGoApp
+  * makeSimpleGoApp
+  * makeSimpleGoAppRunner
+  * addSimpleNodeJsApp
+  * makeSimpleNodeJsApp
+  * makeSimpleNodeJsAppRunner
+  * addSimplePythonApp
+  * makeSimplePythonApp
+  * makeSimplePythonAppRunner
+  * addSimpleTypeScriptApp
+  * makeSimpleTypeScriptApp
+  * makeSimpleTypeScriptAppRunner
+  * addTrino
+  * makeTrinoApp
+  * makeTrinoAppRunner
+* 📝 Design Document
