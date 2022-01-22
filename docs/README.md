@@ -1,153 +1,153 @@
-[⬅️](../README.md)
+[⬅️ README](../README.md)
 
 # 🏠 Zaruba Documentation
 
-* 🧠 Core Concept
-    * 🏗️ Project
-        * Project Anatomy
-        * Task
-            * Task Anatomy
-            * Simple Command
-            * Long Running Process
-            * Task Inputs
-            * Task Configs
-                * Shared Configs
-            * Task Envs
-                * Shared Envs
-            * Extend task
-            * Define task dependencies
-        * Project Configs
-        * Project Envs
-        * Project Inputs
-        * Includes
-        * Using Go Template
-* 👷🏽 Use Cases
-    * Creating a Project
-    * Add Subrepo
-    * Add Runner for Existing Application
-        * Go Application Runner
-        * NodeJs Application Runner
-        * Python Application Runner
-    * Generate New Application
-        * Simple Go Application
-        * Simple NodeJs Application
-        * Simple Python Application
-        * Simple Typescript Application
-        * FastAPI Application
-            * Route
-            * Event Handler
-            * RPC Handler
-            * CRUD
-    * Add Application Deployment
-    * Add Third Party Service
-        * Message Bus
-            * Rabbitmq
-            * Kafka
-        * Storage
-            * Cassandra
-            * Elasticsearch
-            * MongoDB
-            * MySQL
-            * PostgreSQL
-            * Redis
-        * Data Engineering
-            * Airflow
-            * Meltano
-            * Trino
-        * Gitlab
-        * Container Registry
-        * Nginx
-    * Add EKS Deployment
-    * Synchronize environments
-    * Run Applications Locally
-    * Run Some Applications Locally
-    * Deploy Applications
-* 🔧 Utilities
-    * Env
-        * Get
-        * Print
-        * Read
-        * Write
-    * Lines
-        * Fill
-        * GetIndex
-        * InsertAfter
-        * InsertBefore
-        * Read
-        * Replace
-        * Submatch
-        * Write
-    * List
-        * Append
-        * Contain
-        * Get
-        * Join
-        * Length
-        * Merge
-        * RangeIndex
-        * Set
-        * Validate
-    * Map
-        * Get
-        * GetKeys
-        * Merge
-        * RangeKey
-        * Set
-        * ToStringMap
-        * ToVariedStringMap
-        * TransformKey
-        * Validate
-    * Num
-        * Range
-        * ValidateFloat
-        * ValidateInt
-    * Path
-        * GetAppName
-        * GetEnv
-        * GetPortConfig
-        * GetRelativePath
-    * Project
-        * AddTaskIfNotExist
-        * Include
-        * SetValue
-        * ShowLog
-        * SyncEnv
-        * SyncEnvFiles
-    * Str
-        * AddPrefix
-        * DoubleQuote
-        * FullIndent
-        * GetIndentation
-        * Indent
-        * NewName
-        * NewUUID
-        * PadLeft
-        * PadRight
-        * Repeat
-        * Replace
-        * SingleQuote
-        * Split
-        * Submatch
-        * ToCamel
-        * ToKebab
-        * ToLower
-        * ToPascal
-        * ToPlural
-        * ToSingular
-        * ToSnake
-        * ToUpper
-        * ToUpperSnake
-    * Task
-        * AddDependency
-        * AddParent
-        * IsExist
-        * SetConfig
-        * SetEnv
-        * SyncEnv
-    * YAML
-        * Print
-        * Read
-        * Write
+* [🧠 Core Concept](core-concept/README.md)
+    * [🏗️ Project](core-concept/project/README.md)
+        * [Project Anatomy](core-concept/project/project-anatomy.md)
+        * [Task](core-concept/project/task/README.md)
+            * [Task Anatomy](core-concept/project/task/task-anatomy.md)
+            * [Simple Command](core-concept/project/task/simple-command.md)
+            * [Long Running Process](core-concept/project/task/long-running-process.md)
+            * [Task Inputs](core-concept/project/task/task-inputs.md)
+            * [Task Configs](core-concept/project/task/task-configs/README.md)
+                * [Shared Configs](core-concept/project/task/task-configs/shared-configs.md)
+            * [Task Envs](core-concept/project/task/task-envs/README.md)
+                * [Shared Envs](core-concept/project/task/task-envs/shared-envs.md)
+            * [Extend task](core-concept/project/task/task-envs/extend-task.md)
+            * [Define task dependencies](core-concept/project/task/task-envs/define-task-dependencies.md)
+        * [Project Configs](core-concept/project/task/project-configs.md)
+        * [Project Envs](core-concept/project/task/project-envs.md)
+        * [Project Inputs](core-concept/project/task/project-inputs.md)
+        * [Includes](core-concept/project/task/includes.md)
+        * [Using Go Template](core-concept/project/task/using-go-template.md)
+* [👷🏽 Use Cases](use-cases/README.md)
+    * [Creating a Project](use-cases/creating-a-project.md)
+    * [Add Subrepo](use-cases/add-subrepo.md)
+    * [Add Runner for Existing Application](use-cases/add-runner-for-existing-application/README.md)
+        * [Go Application Runner](use-cases/add-runner-for-existing-application/go-application-runner.md)
+        * [NodeJs Application Runner](use-cases/add-runner-for-existing-application/node-js-application-runner.md)
+        * [Python Application Runner](use-cases/add-runner-for-existing-application/python-application-runner.md)
+    * [Generate New Application](use-cases/generate-new-application/README.md)
+        * [Simple Go Application](use-cases/generate-new-application/simple-go-application.md)
+        * [Simple NodeJs Application](use-cases/generate-new-application/simple-node-js-application.md)
+        * [Simple Python Application](use-cases/generate-new-application/simple-python-application.md)
+        * [Simple Typescript Application](use-cases/generate-new-application/simple-typescript-application.md)
+        * [FastAPI Application](use-cases/generate-new-application/fast-a-p-i-application/README.md)
+            * [Route](use-cases/generate-new-application/fast-a-p-i-application/route.md)
+            * [Event Handler](use-cases/generate-new-application/fast-a-p-i-application/event-handler.md)
+            * [RPC Handler](use-cases/generate-new-application/fast-a-p-i-application/r-p-c-handler.md)
+            * [CRUD](use-cases/generate-new-application/fast-a-p-i-application/c-r-u-d.md)
+    * [Add Application Deployment](use-cases/generate-new-application/add-application-deployment.md)
+    * [Add Third Party Service](use-cases/add-third-party-service/README.md)
+        * [Message Bus](use-cases/add-third-party-service/message-bus/README.md)
+            * [Rabbitmq](use-cases/add-third-party-service/message-bus/rabbitmq.md)
+            * [Kafka](use-cases/add-third-party-service/message-bus/kafka.md)
+        * [Storage](use-cases/add-third-party-service/storage/README.md)
+            * [Cassandra](use-cases/add-third-party-service/storage/cassandra.md)
+            * [Elasticsearch](use-cases/add-third-party-service/storage/elasticsearch.md)
+            * [MongoDB](use-cases/add-third-party-service/storage/mongo-d-b.md)
+            * [MySQL](use-cases/add-third-party-service/storage/my-s-q-l.md)
+            * [PostgreSQL](use-cases/add-third-party-service/storage/postgre-s-q-l.md)
+            * [Redis](use-cases/add-third-party-service/storage/redis.md)
+        * [Data Engineering](use-cases/add-third-party-service/data-engineering/README.md)
+            * [Airflow](use-cases/add-third-party-service/data-engineering/airflow.md)
+            * [Meltano](use-cases/add-third-party-service/data-engineering/meltano.md)
+            * [Trino](use-cases/add-third-party-service/data-engineering/trino.md)
+        * [Gitlab](use-cases/add-third-party-service/data-engineering/gitlab.md)
+        * [Container Registry](use-cases/add-third-party-service/data-engineering/container-registry.md)
+        * [Nginx](use-cases/add-third-party-service/data-engineering/nginx.md)
+    * [Add EKS Deployment](use-cases/add-third-party-service/add-e-k-s-deployment.md)
+    * [Synchronize environments](use-cases/add-third-party-service/synchronize-environments.md)
+    * [Run Applications Locally](use-cases/add-third-party-service/run-applications-locally.md)
+    * [Run Some Applications Locally](use-cases/add-third-party-service/run-some-applications-locally.md)
+    * [Deploy Applications](use-cases/add-third-party-service/deploy-applications.md)
+* [🔧 Utilities](utilities/README.md)
+    * [Env](utilities/env/README.md)
+        * [Get](utilities/env/get.md)
+        * [Print](utilities/env/print.md)
+        * [Read](utilities/env/read.md)
+        * [Write](utilities/env/write.md)
+    * [Lines](utilities/lines/README.md)
+        * [Fill](utilities/lines/fill.md)
+        * [GetIndex](utilities/lines/get-index.md)
+        * [InsertAfter](utilities/lines/insert-after.md)
+        * [InsertBefore](utilities/lines/insert-before.md)
+        * [Read](utilities/lines/read.md)
+        * [Replace](utilities/lines/replace.md)
+        * [Submatch](utilities/lines/submatch.md)
+        * [Write](utilities/lines/write.md)
+    * [List](utilities/list/README.md)
+        * [Append](utilities/list/append.md)
+        * [Contain](utilities/list/contain.md)
+        * [Get](utilities/list/get.md)
+        * [Join](utilities/list/join.md)
+        * [Length](utilities/list/length.md)
+        * [Merge](utilities/list/merge.md)
+        * [RangeIndex](utilities/list/range-index.md)
+        * [Set](utilities/list/set.md)
+        * [Validate](utilities/list/validate.md)
+    * [Map](utilities/map/README.md)
+        * [Get](utilities/map/get.md)
+        * [GetKeys](utilities/map/get-keys.md)
+        * [Merge](utilities/map/merge.md)
+        * [RangeKey](utilities/map/range-key.md)
+        * [Set](utilities/map/set.md)
+        * [ToStringMap](utilities/map/to-string-map.md)
+        * [ToVariedStringMap](utilities/map/to-varied-string-map.md)
+        * [TransformKey](utilities/map/transform-key.md)
+        * [Validate](utilities/map/validate.md)
+    * [Num](utilities/num/README.md)
+        * [Range](utilities/num/range.md)
+        * [ValidateFloat](utilities/num/validate-float.md)
+        * [ValidateInt](utilities/num/validate-int.md)
+    * [Path](utilities/path/README.md)
+        * [GetAppName](utilities/path/get-app-name.md)
+        * [GetEnv](utilities/path/get-env.md)
+        * [GetPortConfig](utilities/path/get-port-config.md)
+        * [GetRelativePath](utilities/path/get-relative-path.md)
+    * [Project](utilities/project/README.md)
+        * [AddTaskIfNotExist](utilities/project/add-task-if-not-exist.md)
+        * [Include](utilities/project/include.md)
+        * [SetValue](utilities/project/set-value.md)
+        * [ShowLog](utilities/project/show-log.md)
+        * [SyncEnv](utilities/project/sync-env.md)
+        * [SyncEnvFiles](utilities/project/sync-env-files.md)
+    * [Str](utilities/str/README.md)
+        * [AddPrefix](utilities/str/add-prefix.md)
+        * [DoubleQuote](utilities/str/double-quote.md)
+        * [FullIndent](utilities/str/full-indent.md)
+        * [GetIndentation](utilities/str/get-indentation.md)
+        * [Indent](utilities/str/indent.md)
+        * [NewName](utilities/str/new-name.md)
+        * [NewUUID](utilities/str/new-u-u-i-d.md)
+        * [PadLeft](utilities/str/pad-left.md)
+        * [PadRight](utilities/str/pad-right.md)
+        * [Repeat](utilities/str/repeat.md)
+        * [Replace](utilities/str/replace.md)
+        * [SingleQuote](utilities/str/single-quote.md)
+        * [Split](utilities/str/split.md)
+        * [Submatch](utilities/str/submatch.md)
+        * [ToCamel](utilities/str/to-camel.md)
+        * [ToKebab](utilities/str/to-kebab.md)
+        * [ToLower](utilities/str/to-lower.md)
+        * [ToPascal](utilities/str/to-pascal.md)
+        * [ToPlural](utilities/str/to-plural.md)
+        * [ToSingular](utilities/str/to-singular.md)
+        * [ToSnake](utilities/str/to-snake.md)
+        * [ToUpper](utilities/str/to-upper.md)
+        * [ToUpperSnake](utilities/str/to-upper-snake.md)
+    * [Task](utilities/task/README.md)
+        * [AddDependency](utilities/task/add-dependency.md)
+        * [AddParent](utilities/task/add-parent.md)
+        * [IsExist](utilities/task/is-exist.md)
+        * [SetConfig](utilities/task/set-config.md)
+        * [SetEnv](utilities/task/set-env.md)
+        * [SyncEnv](utilities/task/sync-env.md)
+    * [YAML](utilities/y-a-m-l/README.md)
+        * [Print](utilities/y-a-m-l/print.md)
+        * [Read](utilities/y-a-m-l/read.md)
+        * [Write](utilities/y-a-m-l/write.md)
 * [🥝 Core Tasks](core-tasks/README.md)
   * [zrbShowAdv](core-tasks/zrbShowAdv.md)
   * [zrbCopyToKubePod](core-tasks/zrbCopyToKubePod.md)
@@ -277,4 +277,4 @@
   * [addTrino](core-tasks/addTrino.md)
   * [makeTrinoApp](core-tasks/makeTrinoApp.md)
   * [makeTrinoAppRunner](core-tasks/makeTrinoAppRunner.md)
-* 📝 Design Document
+* [📝 Design Document](core-tasks/design-document.md)
