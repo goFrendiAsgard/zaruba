@@ -52,13 +52,20 @@ Please note that the order is matter, the first one will always be overridden by
 Some tasks might dependes on [task inputs](./project/task/task-inputs.md). To set input values for your tasks, you can invoke:
 
 ```bash
-zaruba please <task-name> -v <first-key=first-value> -e <second-key=second-value>
+zaruba please <task-name> -v <first-key=first-value> -v <second-key=second-value>
 ```
 
-or
+or shorter:
+
 
 ```bash
-zaruba please <task-name> -e <first-file.value.yaml> -e <second-file.value.yaml>
+zaruba please <task-name> <first-key=first-value> <second-key=second-value>
+```
+
+or even use a `value files`.
+
+```bash
+zaruba please <task-name> -v <first-file.value.yaml> -v <second-file.value.yaml>
 ```
 
 By default, zaruba will always load `default.values.yaml` first before loading any user-defined values.
