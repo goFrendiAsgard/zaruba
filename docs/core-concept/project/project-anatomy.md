@@ -2,7 +2,7 @@
 
 # Project Anatomy
 
-A project usually contains some [zaruba scripts](#zaruba-scripts) and [other resources](#other-resources).
+A project usually contains some [zaruba scripts](#zaruba-scripts) and [application resources](#other-resources).
 
 Inside zaruba scripts, you will find some [long running processes](task/long-running-process.md) and [simple command](task/simple-command.md) task definitions.
 
@@ -55,7 +55,7 @@ tasks:
   taskName:
     icon: ✨                        # icon of your task
     description: task description
-    extend: ''                      # other task name extended by this task. for multiple extension, use `extends` instead
+    extend: ''                      # other task name extended by this task. for multiple extend, use `extends` instead (but no, don't use it)
     location: './some-directory'    # directory location where your task should run on
     private: false                  # if true, the task is inteded to be extended instead of run directly
     timeout: 5m
@@ -81,15 +81,15 @@ tasks:
 For more information/detail behaviors of each property, please visit their respective documentations:
 
 * [includes](./includes.md)
-* [configs (project-configs)](./project-configs.md)
-* [envs (project-configs)](./project-envs.md)
+* [configs](./project-configs.md)
+* [envs](./project-envs.md)
 * [tasks](./task/README.md)
 
-Zaruba is capable to generate tasks and other resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with it's task runner](../../use-cases/generate-new-application/README.md).
+Zaruba is capable to generate tasks and application resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with it's task runner](../../use-cases/generate-new-application/README.md).
 
-# Other Resources
+# Application Resources
 
-Any non zaruba scripts resources are considered as `other resources`. They can ba your application source code, Dockerfile, static files, etc.
+Any non zaruba scripts resources are considered as `application resources`. They can ba your application source code, Dockerfile, static files, etc.
 
 Zaruba can also help you generate some of those resources.
 

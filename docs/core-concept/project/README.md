@@ -13,4 +13,6 @@ zaruba please initProject
 
 You can also clone/fork existing projects from GitHub or other git servers.
 
+# Project Anatomy
+
 Please look on [project anatomy](./project-anatomy.md) for more information. 
