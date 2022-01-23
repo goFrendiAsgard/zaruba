@@ -15,6 +15,6 @@ Generally there are two types of tasks:
 * [simple command](simple-command.md)
 * [long running process](long-running-process.md)
 
-A task might also [depends](define-task-dependies.md) on other tasks.
+A task might also has several [dependencies](define-task-dependies.md).
 
 Futhermore, you can [extend task](extend-task.md), define task's [environment](task-envs/README.md) and [configs](task-configs/README.md), and use [input](task-inputs.md).
