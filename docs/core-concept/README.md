@@ -109,3 +109,7 @@ There are several environment variables you can use to control Zaruba's behavior
 * `ZARUBA_BIN` Location of your Zaruba executable binary. Default to `${HOME}/.zaruba/zaruba`.
 * `ZARUBA_SHELL` The shell zaruba used to execute shell scripts. Default to `bash`.
 * `ZARUBA_SCRIPTS` List of zaruba scripts that are going to be available from everywhere. Use colon (`:`) to separate the scripts.
+
+# Understanding Project
+
+Please visit [project documentation](./project/README.md) to learn more about zaruba's project.
