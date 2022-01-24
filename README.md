@@ -78,13 +78,15 @@ In order to install Zaruba from the source, you need to have some prerequisites 
 
 > **💡HINT** Ubuntu user (including ubuntu-wsl) can simply invoke `sudo apt-get install golang wget curl git` to install all prerequisites.
 
-After having the prerequisites installed you can then install Zaruba by using `curl` or `wget`:
+After having the prerequisites installed you can then install Zaruba by using `curl`:
 
 ```sh
-# Install zaruba by using curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
+```
 
-# Install zaruba by using wget
+ or `wget`:
+
+ ```sh
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 

@@ -43,9 +43,9 @@ You can also load those `environments` from files:
 zaruba please <task-name> -e <first-file.env> -e <second-file.env>
 ```
 
-Before loading user-defined environment, Zaruba loads `.env` first.
+If you don't define any environment, Zaruba will load `.env` as default value.
 
-Please note that ordering does matter, the first one will always be overridden by the later.
+> ⚠️ __WARNING:__ Parameter order matters, if you set an environment twice, Zaruba will only use the __last__ one.
 
 # Set Task Inputs
 
@@ -68,9 +68,10 @@ or even use a `value files`.
 zaruba please <task-name> -v <first-file.value.yaml> -v <second-file.value.yaml>
 ```
 
-Before loading user-defined values, Zaruba loads `default.values.yaml` first.
+If you don't define any value, Zaruba will load `default.values.yaml` as default value.
 
-Please note that ordering does matter, the first one will always be overridden by the later.
+> ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ one.
+
 
 # Run Tasks in Interactive Mode
 
@@ -80,16 +81,19 @@ To run a task in interactive mode you can invoke:
 
 ```bash
 zaruba please <task-name> -i
+```
+
+or
+
+```bash
 zaruba please <first-task-name> <second-task-name> -i
 ```
 
-or even
+or
 
 ```
 zaruba plaese -i
 ```
-
-so that you can choose the task name later.
 
 When you run a task in interactive mode, Zaruba will also ask you to set environments and input values.
 
@@ -112,4 +116,4 @@ There are several environment variables you can use to control Zaruba's behavior
 
 # Understanding Project
 
-Please visit [project documentation](./project/README.md) to learn more about zaruba's project.
+Please visit [project documentation](./project/README.md) to learn more about project, or visit [here](../use-cases/creating-a-project.md) if you want to see how to create a project.

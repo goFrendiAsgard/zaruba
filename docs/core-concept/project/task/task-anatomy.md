@@ -102,7 +102,7 @@ tasks:
     start: [bash, -c 'echo {{ .GetConfig "foo" }} {{ .GetConfig "spam" }}']
 ```
 
->  ⚠️ __WARNING__ Seriusly, don't use this unless you a very good reason. This mechanism was created before `configRef` and `envRef` created. This property is merely here for historical purpose, quick workaround (that need to be fixe later), and lure the 👿 demon.
+>  ⚠️ __WARNING:__ Seriusly, don't use this unless you a very good reason. This mechanism was created before `configRef` and `envRef` created. This property is merely here for historical purpose, quick workaround (that need to be fixe later), and lure the 👿 demon.
 
 # Location
 
