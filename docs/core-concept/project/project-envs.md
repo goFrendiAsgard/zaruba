@@ -25,4 +25,4 @@ A single env consists of two keys:
 
 You can reuse a project env by including it in your task. To do that you need to use `envRef` or `envRefs` property.
 
-To use project env in your task, please see [task's shared envs](./task/task-configs/shared-envs.md).
+To use project env in your task, please see [task's shared envs](./task/task-envs/shared-envs.md).
