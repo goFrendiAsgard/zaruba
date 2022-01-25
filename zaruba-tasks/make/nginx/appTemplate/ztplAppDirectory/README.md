@@ -13,13 +13,13 @@ We install certbot using root account.
 
 To run certbot you first need to access container's shell as root:
 
-```sh
+```bash
 docker exec -u 0 -it <container-name> bash
 ```
 
 # Generating certificate
 
-```sh
+```bash
 # in container's shell as root
 certbot certonly --dry-run
 certbot certonly 
@@ -75,7 +75,7 @@ server {
 # Renew certificate
 
 
-```sh
+```bash
 # in container's shell as root
 certbot renew --dry-run 
 certbot renew 

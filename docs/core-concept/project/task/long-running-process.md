@@ -12,8 +12,8 @@ Web servers and database servers are definitely considered as long running servi
 Now let's try running a static web service by invoking `python -m http.server 8080`.
 
 ```
-gofrendi@sanctuary [10:31:47] [~/playground/example]
--> % python -m http.server 8080
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ python -m http.server 8080
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```
 
@@ -42,8 +42,8 @@ First of all, you will need two terminals in the same computer. You can also use
 In your first terminal, you can spawn this command `sleep 10 && python -m http.server 8080`: 
 
 ```
-gofrendi@sanctuary [11:07:54] [~/playground/example]
--> % sleep 10 && python -m http.server 8080
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai took 29s
+❯ sleep 10 && python -m http.server 8080
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```
 
@@ -54,15 +54,13 @@ This command ask the computer to wait for 10 seconds before starting the web ser
 Our service checker contains a single loop to check whether `localhost:8080` is up and serving. In order to start the checker, you can invoke this in your second terminal `until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"`:
 
 ```
-gofrendi@sanctuary [11:07:56] [~/playground/example]
--> % until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"
 not ready
 not ready
 not ready
 not ready
 ready
-gofrendi@sanctuary [11:32:44] [~/playground/example]
--> %
 ```
 
 Great, now you can make sure that your service is really `ready` before deal with it any further.
@@ -97,26 +95,26 @@ tasks:
 then, you can invoke `zaruba please startServer`.
 
 ```
-gofrendi@sanctuary [12:11:35] [~/playground/example]
--> % zaruba please startServer
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ zaruba please startServer
 💀 🔎 Job Starting...
-         Elapsed Time: 1.3µs
-         Current Time: 12:11:54
+         Elapsed Time: 1.7µs
+         Current Time: 07:05:55
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 12:11:56.908 not ready
-💀    🔎 startServer          🍏 12:11:58.91  not ready
-💀    🔎 startServer          🍏 12:12:00.912 not ready
-💀    🔎 startServer          🍏 12:12:02.92  not ready
-💀    🔎 startServer          🍏 12:12:04.927 not ready
-💀    🔎 startServer          🍏 12:12:06.932 not ready
-💀    🔎 startServer          🍏 12:12:06.936 ready
+💀    🔎 startServer          🍏 07:05:57.766 not ready
+💀    🔎 startServer          🍏 07:05:59.768 not ready
+💀    🔎 startServer          🍏 07:06:01.771 not ready
+💀    🔎 startServer          🍏 07:06:03.772 not ready
+💀    🔎 startServer          🍏 07:06:05.774 not ready
+💀    🔎 startServer          🍏 07:06:07.777 not ready
+💀    🔎 startServer          🍏 07:06:07.781 ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 12.1374875s
-         Current Time: 12:12:07
+         Elapsed Time: 12.1236394s
+         Current Time: 07:06:07
          Active Process:
-           * (PID=16029) 🍏 'startServer' service
+           * (PID=15023) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```
@@ -147,30 +145,32 @@ tasks:
 Let's try to modify your `index.zaruba.yaml` and invoke `zaruba please startServer`.
 
 ```
-gofrendi@sanctuary [12:21:19] [~/playground/example]
--> % zaruba please startServer
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ zaruba please startServer
 💀 🔎 Job Starting...
-         Elapsed Time: 1.8µs
-         Current Time: 12:21:28
+         Elapsed Time: 1.6µs
+         Current Time: 07:08:25
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
-💀    🚀 updateProjectLinks   🔗 12:21:28.719 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 12:21:28.719 Links updated
+💀    🚀 updateProjectLinks   🔗 07:08:25.696 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 07:08:25.696 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 12:21:29.015 📜 Waiting for port '8080'
-💀    🚀 startServer          🍏 12:21:39.186 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-💀    🔎 startServer          🍏 12:21:40.089 📜 Port '8080' is ready
-💀    🔎 startServer          🍏 12:21:40.089 🎉🎉🎉
-💀    🔎 startServer          🍏 12:21:40.089 📜 Task 'startServer' is ready
+💀    🔎 startServer          🍏 07:08:25.973 📜 Waiting for port '8080'
+💀    🚀 startServer          🍏 07:08:36.132 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+💀    🔎 startServer          🍏 07:08:37.017 📜 Port '8080' is ready
+💀    🔎 startServer          🍏 07:08:37.017 🎉🎉🎉
+💀    🔎 startServer          🍏 07:08:37.017 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 11.7249222s
-         Current Time: 12:21:40
+         Elapsed Time: 11.6043594s
+         Current Time: 07:08:37
          Active Process:
-           * (PID=16854) 🍏 'startServer' service
+           * (PID=15407) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
+
+
 ```
 
 This code is easier to write since you no longer need to write the checker's loop.

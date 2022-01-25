@@ -54,38 +54,39 @@ tasks:
 Now you can run the task by invoking `zaruba please startServer serverDelay=5`:
 
 ```
--> % zaruba please startServer serverDelay=5
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai took 3m1s
+❯ zaruba please startServer serverDelay=5
 💀 🔎 Job Starting...
          Elapsed Time: 1.3µs
-         Current Time: 16:00:10
+         Current Time: 06:56:40
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
-💀    🚀 updateProjectLinks   🔗 16:00:11.078 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 16:00:11.078 Links updated
+💀    🚀 updateProjectLinks   🔗 06:56:40.696 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 06:56:40.696 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 16:00:11.37  📜 Waiting for port '3000'
-💀    🚀 startServer          🍏 16:00:16.534 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
-💀    🔎 startServer          🍏 16:00:17.403 📜 Port '3000' is ready
-💀    🔎 startServer          🍏 16:00:17.403 🎉🎉🎉
-💀    🔎 startServer          🍏 16:00:17.403 📜 Task 'startServer' is ready
+💀    🔎 startServer          🍏 06:56:41.003 📜 Waiting for port '3000'
+💀    🚀 startServer          🍏 06:56:46.156 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀    🔎 startServer          🍏 06:56:47.02  📜 Port '3000' is ready
+💀    🔎 startServer          🍏 06:56:47.02  🎉🎉🎉
+💀    🔎 startServer          🍏 06:56:47.021 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 6.6476493s
-         Current Time: 16:00:17
+         Elapsed Time: 6.6353767s
+         Current Time: 06:56:47
          Active Process:
-           * (PID=25704) 🍏 'startServer' service
+           * (PID=12643) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```
 
-Notice that the task is started at `16:00:11`, but the server is started at `16:00:16`. Exactly 5 seconds.
+Notice that the task is started at `06.56.41`, but the server is started at `06.56.46`. Because there is a 5 seconds delay.
 
 Moreover, you can also set `serverDelay` interactively by invoking `zaruba please startServer -i`:
 
 ```
-gofrendi@sanctuary [16:06:07] [~/playground/example]
--> % zaruba please startServer -i
+~/playground/example on ☁️  (ap-southeast-1) on   gofrendi@kata.ai took 2m35s
+❯ zaruba please startServer -i
 💀 Load additional value file
 ✔ 🏁 No
 💀 Load additional env
@@ -94,8 +95,8 @@ gofrendi@sanctuary [16:06:07] [~/playground/example]
 Search: █
 ? Server delay:
     Blank
-  ▸ 5
-    10
+    5
+  ▸ 10
     20
     Let me type it!
 ```
@@ -103,34 +104,34 @@ Search: █
 Once you fill up the value, the server will run as expected.
 
 ```
-gofrendi@sanctuary [16:06:07] [~/playground/example]
--> % zaruba please startServer -i
+~/playground/example on ☁️  (ap-southeast-1) on   gofrendi@kata.ai took 2m35s
+❯ zaruba please startServer -i
 💀 Load additional value file
 ✔ 🏁 No
 💀 Load additional env
 ✔ 🏁 No
 💀 1 of 1) serverDelay
-✔ 5
+✔ 10
 💀 🔎 Job Starting...
-         Elapsed Time: 2µs
-         Current Time: 16:07:25
+         Elapsed Time: 1.6µs
+         Current Time: 07:00:22
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
-💀    🚀 updateProjectLinks   🔗 16:07:26.065 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 16:07:26.065 Links updated
+💀    🚀 updateProjectLinks   🔗 07:00:22.274 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 07:00:22.274 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 16:07:26.368 📜 Waiting for port '3000'
-💀    🚀 startServer          🍏 16:07:31.517 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
-💀    🔎 startServer          🍏 16:07:32.384 📜 Port '3000' is ready
-💀    🔎 startServer          🍏 16:07:32.385 🎉🎉🎉
-💀    🔎 startServer          🍏 16:07:32.385 📜 Task 'startServer' is ready
+💀    🔎 startServer          🍏 07:00:22.551 📜 Waiting for port '3000'
+💀    🚀 startServer          🍏 07:00:32.696 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀    🔎 startServer          🍏 07:00:33.583 📜 Port '3000' is ready
+💀    🔎 startServer          🍏 07:00:33.583 🎉🎉🎉
+💀    🔎 startServer          🍏 07:00:33.583 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 6.6353934s
-         Current Time: 16:07:32
+         Elapsed Time: 11.6126199s
+         Current Time: 07:00:33
          Active Process:
-           * (PID=27150) 🍏 'startServer' service
+           * (PID=13409) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```

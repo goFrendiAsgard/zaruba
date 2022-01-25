@@ -44,19 +44,21 @@ Now you have an environment variable named `HTTP_PORT`. By default it's value is
 Let's set `SERVER_HTTP_PORT` to `3000` and start the server:
 
 ```
-gofrendi@sanctuary [15:35:50] [~/playground/example]
--> % export SERVER_HTTP_PORT=3000
-gofrendi@sanctuary [15:36:04] [~/playground/example]
--> % zaruba please startServer
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ export SERVER_HTTP_PORT=3000
+
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ zaruba please startServer
 💀 🔎 Job Starting...
-         Elapsed Time: 59.3µs
-         Current Time: 15:37:15
+         Elapsed Time: 1.2µs
+         Current Time: 06:49:54
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
-💀    🚀 updateProjectLinks   🔗 15:37:16.144 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 15:37:16.144 Links updated
+💀    🚀 updateProjectLinks   🔗 06:49:54.839 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 06:49:54.839 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
+💀    🔎 startServer          🍏 06:49:55.136 📜 Waiting for port '3000'
 💀    🔎 startServer          🍏 15:37:16.44  📜 Waiting for port '3000'
 ```
 

@@ -7,11 +7,9 @@ Simple command is something you run and considered `completed` once the process 
 For example, `python -c "print('hello')"` is a command:
 
 ```
-gofrendi@sanctuary [09:45:16] [~/playground/example]
--> % python -c "print('hello')"
+~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
+❯ python -c "print('hello')"
 hello
-gofrendi@sanctuary [10:27:21] [~/playground/example]
--> %
 ```
 
 We can see that once the process has been ended, the command is completed. When you compile your Go/Typescript/Java application you are definitely running a command (even if you don't really open a terminal).

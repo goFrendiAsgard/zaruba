@@ -16,7 +16,7 @@ Some built-in tasks are also available. Ready to be used/extended to match your 
 
 You can even build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing these commands (no coding required 😉):
 
-```sh
+```bash
 # Init project
 mkdir myProject
 cd myProject
@@ -80,13 +80,13 @@ In order to install Zaruba from the source, you need to have some prerequisites 
 
 After having the prerequisites installed you can then install Zaruba by using `curl`:
 
-```sh
+```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
  or `wget`:
 
- ```sh
+ ```bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
@@ -104,7 +104,7 @@ To see whether you need to install those pre-requisites or not, you can use this
 
 You should also be able to install those third party packages by running zaruba's third party installer:
 
-```sh
+```bash
 zaruba install docker
 zaruba install kubectl
 zaruba install helm
@@ -142,7 +142,7 @@ To perform the test, you need to have:
 
 Once the prerequisites are met, you can perform:
 
-```sh
+```bash
 make test
 ```
 
