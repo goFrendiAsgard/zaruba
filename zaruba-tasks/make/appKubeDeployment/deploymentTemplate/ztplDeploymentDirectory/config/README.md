@@ -4,6 +4,6 @@ The pulumi config supposed to be auto-generated, and not intended to be edited m
 
 To generate the config, manually, you can invoke:
 
-```sh
+```bash
 zaruba please prepareZtplDeploymentName
 ```
