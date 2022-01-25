@@ -2,6 +2,10 @@
 
 # 🏠 Zaruba Documentation
 
+Welcome to Zaruba Documentation. You can start by learning [core concept](core-concept/README.md) or looking for [use cases](use-cases/README.md) that match your needs.
+
+# Table of Content
+
 * [🧠 Core Concept](core-concept/README.md)
     * [🏗️ Project](core-concept/project/README.md)
         * [Project Anatomy](core-concept/project/project-anatomy.md)

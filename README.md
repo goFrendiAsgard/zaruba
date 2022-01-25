@@ -4,17 +4,21 @@
 
 # 💀 Zaruba 
 
-Zaruba is a task runner and CLI utilities. It helps you to `write`, `generate`, and `orchestrate` tasks quickly.
+Zaruba is a [task](docs/core-concept/project/task/README.md) runner and [CLI utilities](docs/utilities/README.md). It helps you to `write`, `generate`, and `orchestrate` tasks quickly.
+
+## Problem
 
 While developing your applications, you might find yourself opening several `tmux` panels and running some commands in parallel. You might also find that some tasks could only be executed once their dependencies are executed. For example, a web application can only be started after the database server is running. Not only complicated, this also lead to human errors.
 
+## Solution
+
 Zaruba exists to solve those problems by allowing you to define configurable tasks that can extend/depend on each other. Furthermore, dependency tasks might run in parallel. This will greatly reduce human error and save your time.
 
-Some built-in tasks are also available. Ready to be used/extended to match your use case. Please visit [task documentation](docs/tasks/README.md) or run `zaruba please` to see the list of available tasks.
+Some [built-in tasks](docs/core-tasks/README.md) are also available. Ready to be used/extended to match your use case. You can run `zaruba please` to see the list of available tasks.
 
-> 💡 __TIPS:__  To see list of available tasks, you can run `zaruba please` and press `<enter>`
+## Example
 
-You can even build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing these commands (no coding required 😉):
+You can build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing these commands (no coding required 😉):
 
 ```bash
 # Init project
@@ -113,11 +117,11 @@ zaruba install pulumi
 
 ## Let's get started
 
-Now let's get started by:
-* [🪄 creating a project](docs/use-cases/creating-a-project.md)
-* [🧙‍♂️ learning the concept](docs/core-concept/README.md), or 
-* [📖 reading the documentation](docs/README.md)
+Finally, let's get started by:
 
+* [📖 Skimming documentation's TOC](docs/README.md)
+* [🧙‍♂️ Learning the core concept](docs/core-concept/README.md), or 
+* [🪄 Creating a project](docs/use-cases/creating-a-project.md)
 
 # 🐞 Bug, feature request and contribution
 
