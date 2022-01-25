@@ -22,7 +22,7 @@ class DBUserEntity(Base):
     phone_number = Column(String(20), index=True, unique=True, nullable=True)
     json_permissions = Column(Text(), nullable=False, default='[]')
     active = Column(Boolean(), index=True, nullable=False, default=False)
-    hashed_password = Column(String(20), index=False, nullable=False)
+    hashed_password = Column(String(30), index=False, nullable=False)
     full_name = Column(String(50), index=True, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)

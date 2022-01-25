@@ -21,31 +21,38 @@ Some [built-in tasks](docs/core-tasks/README.md) are also available. Ready to be
 You can build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing these commands (no coding required 😉):
 
 ```bash
-# Init project
+# ✨ Init project
 mkdir myProject
 cd myProject
 zaruba please initProject
 
-# Create FastAPI app with book CRUD API.
+# Add 🐬 MySQL container
+zaruba please addMysql appDirectory=myDb
+
+# Add ⚡ FastAPI app with book CRUD API.
 zaruba please addFastApiCrud \
     appDirectory=myApp \
     appModuleName=library \
     appCrudEntity=books \
-    appCrudFields='["title","author","synopsis"]'
+    appCrudFields='["title","author","synopsis"]' \
+    appEnvs='{"APP_SQLALCHEMY_DATABASE_URL": "mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}' \
+    appDependencies='startMyDbContainer'
 
-# Run app locally 
+# Run ⚡ FastAPI app + 🐬 MySQL container
 # To run this command, you need:
 # - python 3.8
+# - docker
 zaruba please start
 # Ctrl+c to stop
 
-# Run app as docker container
+# Run ⚡ FastAPI app + 🐬 MySQL (both as containers)
+# Run FastAPI app as docker container
 # To run this command, you need:
 # - docker
 zaruba please startContainers
 zaruba please stopContainers
 
-# Deploy app to the kubernetes cluster
+# (Optional) Deploy ⚡ FastAPI app to the kubernetes cluster
 # To run this command, you need:
 # - kubectl
 # - helm
