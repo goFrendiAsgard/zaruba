@@ -31,12 +31,12 @@ zaruba please addMysql appDirectory=myDb
 
 # Add ⚡ FastAPI app with book CRUD API.
 zaruba please addFastApiCrud \
-    appDirectory=myApp \
-    appModuleName=library \
-    appCrudEntity=books \
-    appCrudFields='["title","author","synopsis"]' \
-    appEnvs='{"APP_SQLALCHEMY_DATABASE_URL": "mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}' \
-    appDependencies='startMyDbContainer'
+  appDirectory=myApp \
+  appModuleName=library \
+  appCrudEntity=books \
+  appCrudFields='["title","author","synopsis"]' \
+  appEnvs='{"APP_SQLALCHEMY_DATABASE_URL": "mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}' \
+  appDependencies='startMyDbContainer'
 
 # Run ⚡ FastAPI app + 🐬 MySQL container
 # To run this command, you need:
