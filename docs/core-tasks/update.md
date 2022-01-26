@@ -135,6 +135,7 @@ Value:
     echo "🔽 ${_BOLD}${_YELLOW}Pull zaruba${_NORMAL}"
     git checkout master
     git pull origin master
+    git fetch --all
     echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
     . ./buildZaruba.sh
     echo 🎉🎉🎉

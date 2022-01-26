@@ -179,6 +179,15 @@ Secret:
 ## Configs
 
 
+### Configs._addAppDependencies
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/addAppDependencies.sh" "zaruba-tasks/${_ZRB_APP_NAME}/tasks.container.yaml" "start${_ZRB_PASCAL_APP_NAME}Container" "${ZRB_CFG_APP_DEPENDENCIES}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/addAppDependencies.sh" "zaruba-tasks/${_ZRB_APP_NAME}/tasks.yaml" "start${_ZRB_PASCAL_APP_NAME}" "${ZRB_CFG_APP_DEPENDENCIES}"
+
+
+
 ### Configs._finish
 
 
@@ -209,6 +218,7 @@ Value:
 
     {{ .GetConfig "_registerIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
+    {{ .GetConfig "_addAppDependencies" }}
 
 
 
