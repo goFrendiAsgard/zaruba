@@ -45,14 +45,14 @@ zaruba please addFastApiCrud \
 zaruba please start
 # Ctrl+c to stop
 
-# Run ⚡ FastAPI app + 🐬 MySQL (both as containers)
+# Run ⚡ FastAPI app + 🐬 MySQL (both as 🐋 containers)
 # Run FastAPI app as docker container
 # To run this command, you need:
 # - docker
 zaruba please startContainers
 zaruba please stopContainers
 
-# (Optional) Deploy ⚡ FastAPI app to the kubernetes cluster
+# Deploy ⚡ FastAPI app to the ☁️ kubernetes cluster
 # To run this command, you need:
 # - kubectl
 # - helm
