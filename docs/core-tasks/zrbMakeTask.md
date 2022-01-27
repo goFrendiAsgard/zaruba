@@ -86,6 +86,7 @@ Value:
 Value:
 
     {{ .GetConfig "_includeModuleIndex" }}
+    {{ .GetConfig "_registerAppDependencies" }}
 
 
 ### Configs._prepareBaseCheckCommand
@@ -141,6 +142,9 @@ Value:
 
 
 ### Configs._prepareVariables
+
+
+### Configs._registerAppDependencies
 
 
 ### Configs._registerAppRunnerTasks

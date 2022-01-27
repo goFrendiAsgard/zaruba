@@ -26,5 +26,5 @@ for _APP_DEPENDENCY_INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_APP_DEPENDENC
 do
     _APP_DEPENDENCY_NAME="$("${ZARUBA_BIN}" list get "${_APP_DEPENDENCIES}" "${_APP_DEPENDENCY_INDEX}")"
     _PASCAL_APP_DEPENDENCY_NAME="$("${ZARUBA_BIN}" str toPascal "${_APP_DEPENDENCY_NAME}")" 
-    _addTaskDependency "${_PROJECT_FILE_NAME}" "start${_PASCAL_APP_NAME}Container" "start${_PASCAL_APP_DEPENDENCY_NAME}Container" 0
+    _addTaskDependency "${_PROJECT_FILE_NAME}" "start${_PASCAL_APP_NAME}" "start${_PASCAL_APP_DEPENDENCY_NAME}Container" 0
 done
