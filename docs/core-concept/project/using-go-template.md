@@ -73,7 +73,7 @@ echo "Hello {{ .GetConfig "name" }}"
 * `{{ .GetProjectPath path }}`: Getting absolute path relative to project's location.
 * `{{ .GetConfig key }}`: Get single config
 * `{{ .GetConfigs keyPattern }}`: Get configs as map
-* `{{ .GetConfigsAsShellVariables keyPattern variablePrefix}}`: Get configs as shell-friendly JSON value.
+* `{{ .GetConfigsAsShellVariables keyPattern variablePrefix}}`: Get configs as shell variables
 * `{{ .GetPorts }}`: Get ports/container ports as list of int.
 * `{{ .GetSubValueKeys parentKeys... }}`: Get sub keys of sub value (separated by `::`).
 * `{{ .GetValue keys... }}`: Get single value.
