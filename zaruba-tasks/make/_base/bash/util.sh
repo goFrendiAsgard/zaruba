@@ -16,16 +16,38 @@ _addEnvToReplacementMap() {
     _ZRB_REPLACEMENT_MAP="$("${ZARUBA_BIN}" map merge "${_ZRB_REPLACEMENT_MAP}" "${__ZRB_ENV_REPLACEMENT_MAP}")"
 }
 
-_registerTask() {
-    __ZRB_PROJECT_FILE_NAME="${1}"
-    __ZRB_MAIN_TASK_NAME="${2}"
-    __ZRB_MODULE_TASK_NAME="${3}"
-    echo "Checking ${__ZRB_MODULE_TASK_NAME}"
-    if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MODULE_TASK_NAME}")" = 1 ]
+_addTaskDependency() {
+    __ZRB_SCRIPT_FILE_NAME="${1}"
+    __ZRB_TASK_NAME="${2}"
+    __ZRB_DEPENDENCY_TASK_NAME="${3}"
+    __ZRB_CREATE_TASK="${4}"
+    __ZRB_PROJECT_FILE_NAME="${5}"
+    # add default arguments
+    if [ -z "${__ZRB_CREATE_TASK}" ]
     then
-        echo "Registering ${__ZRB_MODULE_TASK_NAME} as dependency of ${__ZRB_MAIN_TASK_NAME} at ${__ZRB_PROJECT_FILE_NAME}"
-        "${ZARUBA_BIN}" project addTaskIfNotExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}"
-        "${ZARUBA_BIN}" task addDependency "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_MAIN_TASK_NAME}" "[\"${__ZRB_MODULE_TASK_NAME}\"]"
+        __ZRB_CREATE_TASK="0"
+    fi
+    if [ -z "${__ZRB_PROJECT_FILE_NAME}" ]
+    then
+        __ZRB_PROJECT_FILE_NAME="index.zaruba.yaml"
+    fi
+    # check dependency task existance
+    echo "Checking ${__ZRB_DEPENDENCY_TASK_NAME}"
+    if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_DEPENDENCY_TASK_NAME}")" = 1 ]
+    then
+        # check dependee task existance
+        echo "Checking ${__ZRB_DEPENDENCY_TASK_NAME}"
+        if [ "${__ZRB_CREATE_TASK}" = 1 ]
+        then
+            "${ZARUBA_BIN}" project addTaskIfNotExist "${__ZRB_SCRIPT_FILE_NAME}" "${__ZRB_TASK_NAME}"
+        elif [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_DEPENDENCY_TASK_NAME}")" = 0 ]
+        then
+            echo "Task ${__ZRB_TASK_NAME} doesn't exist"
+            return
+        fi
+        # link dependency task to task
+        echo "Adding ${__ZRB_DEPENDENCY_TASK_NAME} as dependency of ${__ZRB_TASK_NAME} at ${__ZRB_SCRIPT_FILE_NAME}"
+        "${ZARUBA_BIN}" task addDependency "${__ZRB_SCRIPT_FILE_NAME}" "${__ZRB_TASK_NAME}" "[\"${__ZRB_DEPENDENCY_TASK_NAME}\"]"
     fi
 }
 

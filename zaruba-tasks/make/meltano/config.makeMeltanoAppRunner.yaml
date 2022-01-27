@@ -10,4 +10,4 @@ configs:
         "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appRunnerTemplate"
       ]
     _integrate: |
-      {{ .GetConfig "_registerIndex" }}
+      {{ .GetConfig "_includeModuleIndex" }}

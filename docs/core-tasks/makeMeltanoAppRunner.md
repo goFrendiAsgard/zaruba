@@ -149,15 +149,6 @@ Secret:
 ## Configs
 
 
-### Configs._addAppDependencies
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/addAppDependencies.sh" "zaruba-tasks/${_ZRB_APP_NAME}/tasks.container.yaml" "start${_ZRB_PASCAL_APP_NAME}Container" "${ZRB_CFG_APP_DEPENDENCIES}"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/addAppDependencies.sh" "zaruba-tasks/${_ZRB_APP_NAME}/tasks.yaml" "start${_ZRB_PASCAL_APP_NAME}" "${ZRB_CFG_APP_DEPENDENCIES}"
-
-
-
 ### Configs._finish
 
 
@@ -166,6 +157,16 @@ Value:
 Value:
 
     _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+
+
+### Configs._includeModuleIndex
+
+Value:
+
+    {{ if .GetConfig "_taskIndexPath" -}}
+    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+    {{ end -}}
+
 
 
 ### Configs._initShell
@@ -186,7 +187,7 @@ Value:
 
 Value:
 
-    {{ .GetConfig "_registerIndex" }}
+    {{ .GetConfig "_includeModuleIndex" }}
 
 
 ### Configs._prepareBaseCheckCommand
@@ -244,6 +245,14 @@ Value:
 ### Configs._prepareVariables
 
 
+### Configs._registerAppDependencies
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}"
+
+
+
 ### Configs._registerAppRunnerTasks
 
 Value:
@@ -256,16 +265,6 @@ Value:
 Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
-
-
-### Configs._registerIndex
-
-Value:
-
-    {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
-    {{ end -}}
-
 
 
 ### Configs._setup

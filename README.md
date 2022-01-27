@@ -39,7 +39,7 @@ zaruba please addFastApiCrud \
   appModuleName=library \
   appCrudEntity=books \
   appCrudFields='["title","author","synopsis"]' \
-  appDependencies='startMyDbContainer' \
+  appDependencies='myDb' \
   appEnvs='{"APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
 ```
 
