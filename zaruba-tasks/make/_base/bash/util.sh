@@ -21,7 +21,6 @@ _addTaskDependency() {
     __ZRB_TASK_NAME="${2}"
     __ZRB_DEPENDENCY_TASK_NAME="${3}"
     __ZRB_CREATE_TASK="${4}"
-    __ZRB_PROJECT_FILE_NAME="${5}"
     # add default arguments
     if [ -z "${__ZRB_CREATE_TASK}" ]
     then
