@@ -5,7 +5,7 @@ _APP_DEPENDENCIES="${3}"
 
 _PASCAL_APP_NAME="$("${ZARUBA_BIN}" str toPascal "${_APP_NAME}")" 
 
-echo "Registering start${PASCAL_APP_NAME}Container dependencies"
+echo "Registering start${_PASCAL_APP_NAME}Container dependencies"
 _CONTAINER_TASK_FILE_NAME="zaruba=tasks/${_APP_NAME}/tasks.container.yaml"
 for _APP_DEPENDENCY_INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_APP_DEPENDENCIES}")
 do
@@ -15,7 +15,7 @@ do
 done
 
 
-echo "Registering start${PASCAL_APP_NAME} dependencies"
+echo "Registering start${_PASCAL_APP_NAME} dependencies"
 _TASK_FILE_NAME="zaruba=tasks/${_APP_NAME}/tasks.yaml"
 for _APP_DEPENDENCY_INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_APP_DEPENDENCIES}")
 do
