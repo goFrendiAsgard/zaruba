@@ -6,23 +6,31 @@
 
 Zaruba is a [task](docs/core-concepts/project/task/README.md) runner and [CLI utilities](docs/utilities/README.md). It helps you to `write`, `generate`, and `orchestrate` tasks quickly.
 
-## Problem
+## ❓ Problem
 
 While developing your applications, you might find yourself opening several `tmux` panels and running some commands in parallel. You might also find that some tasks could only be executed once their dependencies are executed. For example, a web application can only be started after the database server is running. Not only complicated, this also lead to human errors.
 
-## Solution
+## 💡 Solution
 
-Zaruba exists to solve those problems by allowing you to define configurable tasks that can extend/depend on each other. Furthermore, dependency tasks might run in parallel. This will greatly reduce human error and save your time.
+Zaruba solve those problems by allowing you to define configurable tasks.
 
-Some [built-in tasks](docs/core-tasks/README.md) are also available. Ready to be used/extended to match your use case. You can run `zaruba please` to see the list of available tasks.
+Furthermore, the tasks should have following behaviors:
 
-## Example
+* Configurable (either by using internal configuration, inputs, or environment variables).
+* Able to extends from each other.
+* Able to depends on each other.
+* Can Run in parallel.
+* Automatically generated.
+
+There are several [built-in tasks](docs/core-tasks/README.md) specially crafted to fulfill those behavior. To see list of available tasks, you can run `zaruba please`.
+
+## 🔍 Example
 
 You can build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing these commands (no coding required 😉):
 
 > 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i.e: `zaruba please addFastApiCrud -i`).
 
-### Creating Project and Applications
+### ✨ Creating Project and Applications
 
 ```bash
 # ✨ Init project
@@ -43,7 +51,7 @@ zaruba please addFastApiCrud \
   appEnvs='{"APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
 ```
 
-### Run Applications
+### 🏃 Run Applications
 
 ```bash
 # Run ⚡ FastAPI app + 🐬 MySQL container
@@ -54,7 +62,7 @@ zaruba please start
 # Ctrl+c to stop
 ```
 
-### Run Applications as Containers
+### 🐳 Run Applications as Containers
 
 ```bash
 # Run ⚡ FastAPI app + 🐬 MySQL (both as 🐋 containers)
@@ -65,7 +73,7 @@ zaruba please startContainers
 zaruba please stopContainers
 ```
 
-### Deploy Applications
+### ☁️ Deploy Applications
 
 
 ```bash
@@ -83,7 +91,7 @@ zaruba please deploy kubeContext=docker-desktop
 
 # 👨‍💻 Installation
 
-## Using docker
+## 🐳 Using docker
 
 Using docker is the quickest way to set up Zaruba, especially if you need to use Zaruba in your CI/CD.
 
@@ -91,7 +99,7 @@ For more information about Zaruba's docker image, please visit [dockerhub](https
 
 > **⚠️ NOTE** There will be some limitations if you run Zaruba container using `docker-desktop` for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
-## From source
+## 📖 From source
 
 Installing from source is the best way to set up Zaruba for day-to-day use. Currently, we don't have any plan to create `apt` or platform-specific packages for Zaruba. If you are using windows, you need to install `wsl` in order to get started.
 
@@ -117,7 +125,15 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 # 📜 Getting started
 
-## Additional prerequisites
+You can get started by
+
+* [📖 Browsing the documention](docs/README.md)
+* [🧙‍♂️ Understanding the core concept](docs/core-concepts/README.md), or 
+* [🪄 Creating a project](docs/use-cases/create-a-project.md)
+
+But before doing that, you probably need to install additional prerequisites.
+
+## ➕ Additional prerequisites
 
 Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those prerequisites, you can visit their websites or simply invoke `zaruba install`.
 
@@ -135,14 +151,6 @@ zaruba install kubectl
 zaruba install helm
 zaruba install pulumi
 ```
-
-## Let's get started
-
-Finally, let's get started by:
-
-* [📖 Browsing the documention](docs/README.md)
-* [🧙‍♂️ Understanding the core concept](docs/core-concepts/README.md), or 
-* [🪄 Creating a project](docs/use-cases/create-a-project.md)
 
 # 🐞 Bug, feature request and contribution
 
@@ -174,3 +182,5 @@ make test
 # 🎉 Fun fact
 
 > Madou Ring Zaruba (魔導輪ザルバ, Madōrin Zaruba?) is the Madou Ring for Golden Knight Garo's duties as a Makai Knight. He is a recurring character in the series, acting as a guide for the wearers of the Garo armor and being the narrator of the series in some episodes. [(Garo Wiki | Fandom)](https://garoseries.fandom.com/wiki/Zaruba)
+
+![Madou Ring Zaruba on Kouga's Hand](arts/madou-ring-zaruba.jpg)
