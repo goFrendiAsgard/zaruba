@@ -1,0 +1,34 @@
+tasks:
+
+  waitZtplAppNamePrerequisites:
+    icon: ⏳
+
+  startZtplAppNameContainer:
+    icon: ztplAppIcon
+    dependencies:
+      - startZtplAppNameSparkMasterContainer
+      - startZtplAppNameSparkWorkerContainer
+
+  buildZtplAppNameImage:
+    icon: 🏭
+    dependencies:
+      - buildZtplAppNameSparkMasterImage
+      - buildZtplAppNameSparkWorkerImage
+
+  pushZtplAppNameImage:
+    icon: 📤
+    dependencies:
+      - pushZtplAppNameSparkMasterImage
+      - pushZtplAppNameSparkWorkerImage
+
+  stopZtplAppNameContainer:
+    icon: ✋
+    dependencies:
+      - stopZtplAppNameSparkMasterContainer
+      - stopZtplAppNameSparkWorkerContainer
+
+  removeZtplAppNameContainer:
+    icon: ❌
+    dependencies:
+      - removeZtplAppNameSparkMasterContainer
+      - removeZtplAppNameSparkWorkerContainer

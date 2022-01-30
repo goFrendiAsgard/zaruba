@@ -116,4 +116,4 @@ There are several environment variables you can use to control Zaruba's behavior
 
 # Understanding Project
 
-Please visit [project documentation](./project/README.md) to learn more about project, or visit [here](../use-cases/creating-a-project.md) if you want to see how to create a project.
+Please visit [project documentation](./project/README.md) to learn more about project, or visit [here](../use-cases/create-a-project.md) if you want to see how to create a project.

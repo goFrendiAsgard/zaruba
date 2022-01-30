@@ -296,6 +296,12 @@ includes:
   - ./zaruba-tasks/make/simpleTypeScriptApp/task.makeSimpleTypeScriptApp.yaml
   - ./zaruba-tasks/make/simpleTypeScriptApp/task.makeSimpleTypeScriptAppRunner.yaml
 
+  - ./zaruba-tasks/make/spark/config.makeSparkApp.yaml
+  - ./zaruba-tasks/make/spark/config.makeSparkAppRunner.yaml
+  - ./zaruba-tasks/make/spark/task.addSpark.yaml
+  - ./zaruba-tasks/make/spark/task.makeSparkApp.yaml
+  - ./zaruba-tasks/make/spark/task.makeSparkAppRunner.yaml
+
   - ./zaruba-tasks/make/trino/config.makeTrinoApp.yaml
   - ./zaruba-tasks/make/trino/config.makeTrinoAppRunner.yaml
   - ./zaruba-tasks/make/trino/task.addTrino.yaml

@@ -4,7 +4,7 @@
 
 # 💀 Zaruba 
 
-Zaruba is a [task](docs/core-concept/project/task/README.md) runner and [CLI utilities](docs/utilities/README.md). It helps you to `write`, `generate`, and `orchestrate` tasks quickly.
+Zaruba is a [task](docs/core-concepts/project/task/README.md) runner and [CLI utilities](docs/utilities/README.md). It helps you to `write`, `generate`, and `orchestrate` tasks quickly.
 
 ## Problem
 
@@ -141,8 +141,8 @@ zaruba install pulumi
 Finally, let's get started by:
 
 * [📖 Skimming documentation's TOC](docs/README.md)
-* [🧙‍♂️ Learning the core concept](docs/core-concept/README.md), or 
-* [🪄 Creating a project](docs/use-cases/creating-a-project.md)
+* [🧙‍♂️ Learning the core concept](docs/core-concepts/README.md), or 
+* [🪄 Creating a project](docs/use-cases/create-a-project.md)
 
 # 🐞 Bug, feature request and contribution
 

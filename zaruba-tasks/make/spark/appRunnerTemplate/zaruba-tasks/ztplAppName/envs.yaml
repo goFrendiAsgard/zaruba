@@ -1,0 +1,7 @@
+envs:
+
+  ztplAppNameSparkMaster:
+    ztplAppYamlSparkMasterEnvs
+
+  ztplAppNameSparkWorker:
+    ztplAppYamlSparkWorkerEnvs

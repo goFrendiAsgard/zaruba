@@ -1,0 +1,6 @@
+tasks:
+
+  addSpark:
+    icon: 💥
+    dependencies:
+      - makeSparkAppRunner

@@ -56,4 +56,5 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testPushMeltanoImage.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testRedis.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testRabbitmq.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testSpark.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testTrino.yaml

@@ -1,0 +1,26 @@
+configs:
+
+  makeSparkAppRunner:
+    appIcon: 💥
+    defaultAppDirectory: '{{ .ProjectName }}Spark'
+    defaultAppPorts: |
+      [
+        "8020:8080",
+        "7077:7077"
+      ]
+    defaultAppContainerVolumes: |
+      [
+        "../spark/config:/etc/spark",
+        "../spark/data:/var/opt/spark"
+      ]
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/spark/appRunnerTemplate"
+      ]
+    _prepareVariables: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
+    _prepareReplacementMap: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
+    _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'

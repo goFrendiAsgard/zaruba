@@ -1,6 +1,6 @@
 [⬅️ Table of Content](../README.md)
 
-# 🪠 MakeKafkaAppRunner
+# 🚌 MakeKafkaAppRunner
 
 File Location:
 
@@ -179,6 +179,13 @@ Secret:
 ## Configs
 
 
+### Configs._containerPrepareAppRunnerTaskName
+
+Value:
+
+    wait${_ZRB_PASCAL_APP_NAME}Prerequisites
+
+
 ### Configs._finish
 
 
@@ -221,6 +228,13 @@ Value:
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDependencies" }}
 
+
+
+### Configs._nativePrepareAppRunnerTaskName
+
+Value:
+
+    start${_ZRB_PASCAL_APP_NAME}
 
 
 ### Configs._prepareBaseCheckCommand
@@ -279,6 +293,7 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareReplacementMap.sh"
 
 
+
 ### Configs._prepareVariables
 
 Value:
@@ -293,7 +308,7 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
 
 
 

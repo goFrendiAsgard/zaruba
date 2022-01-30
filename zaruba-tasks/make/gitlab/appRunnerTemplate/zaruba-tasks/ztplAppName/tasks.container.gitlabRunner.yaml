@@ -8,6 +8,7 @@ tasks:
     inputs:
       - runZtplAppNameInLocal
     dependencies:
+      - waitZtplAppNamePrerequisites
       - buildZtplAppNameGitlabRunnerImage
       - startZtplAppNameGitlabWebContainer
     configRefs:

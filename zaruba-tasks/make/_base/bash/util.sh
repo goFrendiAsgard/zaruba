@@ -41,7 +41,7 @@ _addTaskDependency() {
             return
         fi
         # link dependency task to task
-        echo "Adding ${__ZRB_DEPENDENCY_TASK_NAME} as dependency of ${__ZRB_TASK_NAME} at ${__ZRB_PROJECT_FILE_NAME}"
+        echo "Adding ${__ZRB_DEPENDENCY_TASK_NAME} as dependency of ${__ZRB_TASK_NAME}"
         "${ZARUBA_BIN}" task addDependency "${__ZRB_PROJECT_FILE_NAME}" "${__ZRB_TASK_NAME}" "[\"${__ZRB_DEPENDENCY_TASK_NAME}\"]"
     fi
 }

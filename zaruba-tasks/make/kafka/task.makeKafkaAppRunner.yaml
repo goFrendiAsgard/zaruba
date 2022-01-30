@@ -1,7 +1,7 @@
 tasks:
 
   makeKafkaAppRunner:
-    icon: 🪠
+    icon: 🚌
     extend: makeDockerAppRunner
     dependencies:
       - makeKafkaApp

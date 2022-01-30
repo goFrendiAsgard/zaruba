@@ -1,6 +1,6 @@
 tasks:
 
   addKafka:
-    icon: 🪠
+    icon: 🚌
     dependencies:
       - makeKafkaAppRunner

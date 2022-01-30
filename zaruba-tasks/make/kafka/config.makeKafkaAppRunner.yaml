@@ -17,3 +17,4 @@ configs:
       . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
     _prepareReplacementMap: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareReplacementMap.sh"
+    _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'

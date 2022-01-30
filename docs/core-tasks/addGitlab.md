@@ -1,6 +1,6 @@
 [⬅️ Table of Content](../README.md)
 
-# 🍃 AddGitlab
+# 🦊 AddGitlab
 
 File Location:
 

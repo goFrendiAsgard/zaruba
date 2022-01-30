@@ -1,0 +1,14 @@
+tasks:
+
+  testSpark:
+    icon: 🧪
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - pretest
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please startProvoSpark -t
+        ../zaruba please stopProvoSparkContainer

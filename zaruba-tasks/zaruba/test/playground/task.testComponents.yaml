@@ -16,4 +16,5 @@ tasks:
       - testPostgresql
       - testRedis
       - testRabbitmq
+      - testSpark
       - testTrino

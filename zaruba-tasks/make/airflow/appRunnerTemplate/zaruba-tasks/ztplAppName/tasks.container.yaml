@@ -1,5 +1,8 @@
 tasks:
 
+  waitZtplAppNamePrerequisites:
+    icon: ⏳
+
   startZtplAppNameContainer:
     icon: ztplAppIcon
     dependencies:

@@ -1,5 +1,5 @@
 [⬅️ Table of Content](../README.md)
-# Creating a Project
+# Create a Project
 
 The recommended way to create a project is by invoking `zaruba please initProject`:
 

@@ -1,0 +1,16 @@
+tasks:
+
+  makeSparkAppRunner:
+    icon: 💥
+    extend: makeDockerAppRunner
+    dependencies:
+      - makeSparkApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeSparkAppRunner

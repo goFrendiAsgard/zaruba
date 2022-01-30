@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeSparkApp:
+    icon: 💥
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeSparkApp

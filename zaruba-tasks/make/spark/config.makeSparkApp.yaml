@@ -1,0 +1,8 @@
+configs:
+ 
+  makeSparkApp:
+    defaultAppDirectory: '{{ .ProjectName }}Spark'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/spark/appTemplate"
+      ]
