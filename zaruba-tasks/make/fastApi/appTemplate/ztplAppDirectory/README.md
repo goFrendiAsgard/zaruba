@@ -75,12 +75,17 @@ source template.env
 
 # Dependency injection
 
+In software engineering, it is common to use [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection). Dependency injection helps you to reduce coupling between classes/functions and their dependencies.
+
 There are two types of dependency injection in this app:
 
 ## Simple mechanism
 
-You do simple injection by initializing a component and pass it as function argument or class constructor.
-For example:
+You have probably used simple injections all the time.
+
+This mechanism is verbose, simple, and very readable. Thus you should use it whenever possible.
+
+Let's see how this mechanism work:
 
 ```python
 db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite://')
@@ -95,17 +100,21 @@ book_repo = DBBookRepo(engine=engine, create_all=True)
 register_library_rpc_handler(rpc, book_repo)
 ```
 
-You can see this pattern in `main.py`
+Very simple and straightforward:
+
+* First, you need `db_url` to create `engine`.
+* You also need `engine` to create `book_repo`.
+* Finally, you need `rpc` and `book_repo` to call `register_library_rpc_handler`.
+
+You can see this pattern in [`main.py`](./main.py)
 
 ## FastAPI's mechanism
 
-FastAPI has it's own [dependency injection](https://fastapi.tiangolo.com/tutorial/dependencies/) mechanism.
+FastAPI has its own [dependency injection](https://fastapi.tiangolo.com/tutorial/dependencies/) mechanism.
 
-You can see how `login` is depends on `OAuth2PasswordRequestForm`.
+For example, you need `OAuth2PasswordRequestForm` in your `login` handler.
 
-Since `OAuth2PasswordRequestForm` is a `Callable`, you can expect it to return something.
-
-The `login` function takes `OAuth2PasswordRequestForm` return value as it's `form_data` argument. Thus, whenever `login` is called, `OAuth2PasswordRequestForm` will also be called before it.
+Since `OAuth2PasswordRequestForm` is `Callable`, you can expect it to return something. The `login` function takes `OAuth2PasswordRequestForm` return value as its `form_data` argument:
 
 ```python
 @app.post(access_token_url, response_model=TokenResponse)
@@ -120,19 +129,19 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 # Components interaction
 
-There are several components available in ztplAppDirectory application. We will dive into each components in this section.
+There are several components available in the ztplAppDirectory application. We will dive into each component in this section.
 
 ![](images/components-interaction.png)
 
 ## Route handlers
 
-Route handlers handle HTTP routes from users/other apps. It needs to talk to `Auth system` to authenticate/authorize the request.
+Route handlers handle HTTP requests from users/other apps. It needs to talk to `Auth system` to authenticate/authorize the request.
 
 Once the request has been authenticated/authorized, the route handler can do some pre-processing before firing an `event` or calling a `RPC`.
 
-If you expect an immediate response, you should use `rpc`, but if you just want to fire an event and forget, you should use `mb` instead.
+If you expect an immediate response, you should use `rpc`, but if you just want to fire an event and forget it, you should use `mb` instead.
 
-See these example:
+See these examples:
 
 ```python
 
@@ -156,9 +165,9 @@ def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model
 
 Everyone can access these two routes (i.e: `/train-model` and `/predict-data`) since we specifically `auth_model.everyone()` as our dependency. This is how routes interact with `Auth system`.
 
-The `/train-model` route handler send event through `mb.call` and immediately send HTTP response. This is make sense since ML model training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
+The `/train-model` route handler sends an event through `mb.call` and immediately send HTTP response. This is make sense since ML model training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
 
-The `/predict-data` route handler send RPC (remote procedure call) through `rpc.call`. Unlike event, RPC is expected to return the result. It is make sense, because whenever you predict data using a machine learning model, you expect the result as the response. We assume that the prediction process usually doesn't take long. Not as long as training, and it is make sense for user to wait the response.
+The `/predict-data` route handler sends RPC (remote procedure call) through `rpc.call`. Unlike event, RPC is expected to return the result. It is make sense, because whenever you predict data using a machine learning model, you expect the result as the response. We assume that the prediction process usually doesn't take long. Not as long as training, and it is make sense for user to wait the response.
 
 >💡 __Note:__ We have local RPC/messagebus as well, so you don't really need to install third party message bus unless necessary.
 
@@ -169,7 +178,7 @@ FastAPI provide a very good [tutorial](https://fastapi.tiangolo.com/tutorial/sec
 Auth system responsible for two things:
 
 * Authenticate who you are
-* Authorize your access to application's features.
+* Authorize you to access application's features.
 
 As for this writing, our auth system doesn't handle security from message bus (i.e: RPC/Event).
 
@@ -191,7 +200,7 @@ class AuthModel(abc.ABC):
         pass
 ```
 
-The auth model has an interface (or abstract base class) containing several methods you can use on your route. The methods are returning `current user` if the user is authorized. The detail of each method are depending on it's implementation, but the general consensus is:
+The auth model has an interface (or abstract base class) containing several methods you can use on your route. The methods are returning `current user` if the user is authorized. The detail of each method are depending on its implementation, but the general consensus is:
 
 * `everyone`: Everyone should be able to access the resource. If the user has been logged in, this method should return the logged-in user. Otherwise, it should return guest user. This method should never throw an error.
 * `is_authenticated`: Only authenticated user (i.e: has been logged in) can access the resource. This method should return the logged in user or throwing an error.
@@ -665,4 +674,4 @@ rpc = RMQRPC(rmq_connection_parameters, rmq_event_map)
 
 ## Your custom RPC
 
-As long as a class comply the interface, you can make your own implementation. Please let [us](https://twitter.com/zarubastalchmst) know if you do so and you want to contribute back.
+As long as a class complies with the interface, you can make your own implementation. Please let [us](https://twitter.com/zarubastalchmst) know if you do so and you want to contribute back.

@@ -85,7 +85,7 @@ For more information/detail behaviors of each property, please visit their respe
 * [envs](./project-envs.md)
 * [tasks](./task/README.md)
 
-Zaruba is capable to generate tasks and application resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with it's task runner](../../use-cases/generate-new-application/README.md).
+Zaruba is capable to generate tasks and application resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with its task runner](../../use-cases/generate-new-application/README.md).
 
 # Application Resources
 

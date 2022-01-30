@@ -16,7 +16,7 @@ Type:
 
 Description:
 
-    Start service and check it's readiness.
+    Start service and check its readiness.
     Common configs:
       setup       : Script to be executed before start service or check service readiness.
       start       : Script to start the service (e.g: python -m http.server 9000).

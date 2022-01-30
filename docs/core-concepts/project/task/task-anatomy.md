@@ -167,7 +167,7 @@ tasks:
 
 # Dependencies
 
-Some tasks should not be executed unless it's dependencies are completed. For example, you cannot start a Typescript application without invoking `tsc`.
+Some tasks should not be executed unless its dependencies are completed. For example, you cannot start a Typescript application without invoking `tsc`.
 
 Let's see on this example:
 
@@ -393,7 +393,7 @@ zaruba please <task-name> -t -w 10s
 
 # SyncEnv
 
-Whether task environment should be synced by `syncEnvLocation`/`location` or not.
+You can ask Zaruba to parse environment files in task's `syncEnvLocation`/`location` and update task/project envs.
 
 If `syncEnv` is set to true, the task's environment will be synchronized whenever you invoke:
 
@@ -409,7 +409,9 @@ If `syncEnvLocation` is not set, then `location` property will be used instead.
 
 # SaveLog
 
-Whether task log should be saved or not. You can see the saved logs by invoking: 
+Whether task log should be saved or not.
+
+To see the task logs you can invoke: 
 
 ```
 zaruba please showLog [taskName]

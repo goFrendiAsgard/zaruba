@@ -25,7 +25,7 @@ Generally there are two types of tasks:
 
 # Task Behavior
 
-A task might also has several [dependencies](define-task-dependies.md). A task with dependencies will never started unless all it's dependencies completed. For example, before running a database migration, the database server should already been started.
+A task might also has several [dependencies](define-task-dependies.md). A task with dependencies will never started unless all its dependencies completed. For example, before running a database migration, the database server should already been started.
 
 Futhermore, you can [extend task](extend-task.md) and define custom [environments](task-envs/README.md), [configs](task-configs/README.md), and [inputs](task-inputs.md).
 

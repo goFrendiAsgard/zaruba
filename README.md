@@ -140,8 +140,8 @@ zaruba install pulumi
 
 Finally, let's get started by:
 
-* [📖 Skimming documentation's TOC](docs/README.md)
-* [🧙‍♂️ Learning the core concept](docs/core-concepts/README.md), or 
+* [📖 Browsing the documention](docs/README.md)
+* [🧙‍♂️ Understanding the core concept](docs/core-concepts/README.md), or 
 * [🪄 Creating a project](docs/use-cases/create-a-project.md)
 
 # 🐞 Bug, feature request and contribution

@@ -4,7 +4,7 @@
 
 If you don't have any Zaruba project, you can either clone an existing one or [create a new one](./create-a-project.md).
 
-Once you have a project, you can either add components or run tasks.
+Once you have a project in your computer, you can either add components or run tasks.
 
 # Add Components to Your Project
 

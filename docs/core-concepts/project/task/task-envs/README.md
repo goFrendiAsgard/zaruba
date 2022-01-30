@@ -39,15 +39,13 @@ tasks:
         default: 8080
 ```
 
-Now you have an environment variable named `HTTP_PORT`. By default it's value is `8080`, but you can override it by using global environment variable `SERVER_HTTP_PORT`
+Now you have an environment variable named `HTTP_PORT`. By default its value is `8080`, but you can override it by using global environment variable `SERVER_HTTP_PORT`
 
 Let's set `SERVER_HTTP_PORT` to `3000` and start the server:
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ export SERVER_HTTP_PORT=3000
 
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ zaruba please startServer
 💀 🔎 Job Starting...
          Elapsed Time: 1.2µs
@@ -83,6 +81,16 @@ Here are some resources that you might find useful:
 * [Read environment in go](https://pkg.go.dev/os#Getenv)
 * [Read environment in nodejs](https://nodejs.org/api/process.html#processenv)
 * [Read environment in python](https://docs.python.org/3/library/os.html#os.getenv)
+
+# Synchronize Task's Environment
+
+You can ask Zaruba to parse environment files in task's `syncEnvLocation`/`location` and update task/project envs.
+
+If `syncEnv` is set to true, the task's environment will be synchronized whenever you invoke:
+
+ ```bash
+ zaruba please syncEnv
+ ```
 
 # Shared Envs
 

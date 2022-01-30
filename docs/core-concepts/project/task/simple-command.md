@@ -7,7 +7,6 @@ Simple command is something you run and considered `completed` once the process 
 For example, `python -c "print('hello')"` is a command:
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ python -c "print('hello')"
 hello
 ```

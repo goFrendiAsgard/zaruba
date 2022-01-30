@@ -4,13 +4,10 @@
 The recommended way to create a project is by invoking `zaruba please initProject`:
 
 ```bash
-~/playground on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ mkdir myproject
 
-~/playground on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ cd myproject
 
-~/playground/myproject on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ zaruba please initProject
 💀 🔎 Job Starting...
          Elapsed Time: 1.2µs
@@ -36,7 +33,6 @@ The recommended way to create a project is by invoking `zaruba please initProjec
 Once created, you will have two files:
 
 ```
-myproject on  master [?] on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ tree
 .
 ├── default.values.yaml
@@ -47,6 +43,41 @@ myproject on  master [?] on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata
 
 * `default.values.yaml` is your default project value
 * `index.zaruba.yaml` is the entry point of your zaruba script.
+
+# Managing Your Project
+
+## Run Tasks
+
+```bash
+zaruba please <task-name> [other-task-names...]
+```
+
+When you run many tasks at once, Zaruba will run your tasks in parallel. Please visit [core concept documentation](../core-concepts/README.md#run-many-tasks-in-parallel) for more information.
+
+## Run Task with Custom Environments
+
+```bash
+zaruba please <task-name> [other-task-names...] [-e custom-environment.env] [-e KEY=value]
+```
+
+Please visit [core concept documentation](../core-concepts/README.md#set-task-environments) for more information.
+
+## Run Task with Custom Input Values
+
+```bash
+zaruba please <task-name> [other-task-names...] [-v custom-values.yaml] [-v key=value]
+```
+
+Please visit [core concept documentation](../core-concepts/README.md#set-task-inputs) for more information.
+
+
+## Synchronize Environments
+
+```bash
+zaruba please syncEnv
+```
+
+Please visit [core concept documentation](../core-concepts/task/task-envs/README.md#synchronize-tasks-environments) for more information.
 
 # Next Step
 

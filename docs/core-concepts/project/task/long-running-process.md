@@ -12,7 +12,6 @@ Web servers and database servers are definitely considered as long running servi
 Now let's try running a static web service by invoking `python -m http.server 8080`.
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ python -m http.server 8080
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```
@@ -21,7 +20,7 @@ You can see that the process doesn't immediately quit once it is started. It wil
 
 Okay coool, but how do you make sure that a service is ready?
 
-You can make sure a service is ready by giving it a request and observe it's response. In our case, you can verify that the service is ready by openning a browser and visit `http://localhost:8080`.
+You can make sure a service is ready by giving it a request and observe its response. In our case, you can verify that the service is ready by openning a browser and visit `http://localhost:8080`.
 
 Making sure that a service is ready can be tricky since `running` doesn't mean `ready`. To make it more complicated, even if a service is considered as `ready`, it doesn't always be in that state forever. Runtime error might occurred, and your service might stop serving eventhough it is still `running`. 
 
@@ -31,7 +30,7 @@ Orchestration system like kubernetes overcome this problem by periodically sendi
 
 In the previous section you have see that handling a service and making sure it is already running can be a bit challenging.
 
-Under the hood, Zaruba make sure that your service is ready by running two commands simultaneously. The first command is responsible to run the service, while the other one is responsible to check it's readiness. 
+Under the hood, Zaruba make sure that your service is ready by running two commands simultaneously. The first command is responsible to run the service, while the other one is responsible to check its readiness. 
 
 Let's see how this work on the low level.
 
@@ -42,7 +41,6 @@ First of all, you will need two terminals in the same computer. You can also use
 In your first terminal, you can spawn this command `sleep 10 && python -m http.server 8080`: 
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai took 29s
 ❯ sleep 10 && python -m http.server 8080
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```
@@ -54,7 +52,6 @@ This command ask the computer to wait for 10 seconds before starting the web ser
 Our service checker contains a single loop to check whether `localhost:8080` is up and serving. In order to start the checker, you can invoke this in your second terminal `until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"`:
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"
 not ready
 not ready
@@ -95,7 +92,6 @@ tasks:
 then, you can invoke `zaruba please startServer`.
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ zaruba please startServer
 💀 🔎 Job Starting...
          Elapsed Time: 1.7µs
@@ -145,7 +141,6 @@ tasks:
 Let's try to modify your `index.zaruba.yaml` and invoke `zaruba please startServer`.
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai
 ❯ zaruba please startServer
 💀 🔎 Job Starting...
          Elapsed Time: 1.6µs

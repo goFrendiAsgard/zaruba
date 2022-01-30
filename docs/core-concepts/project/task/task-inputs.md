@@ -54,7 +54,6 @@ tasks:
 Now you can run the task by invoking `zaruba please startServer serverDelay=5`:
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on ☁️  gofrendi@kata.ai took 3m1s
 ❯ zaruba please startServer serverDelay=5
 💀 🔎 Job Starting...
          Elapsed Time: 1.3µs
@@ -85,7 +84,6 @@ Notice that the task is started at `06.56.41`, but the server is started at `06.
 Moreover, you can also set `serverDelay` interactively by invoking `zaruba please startServer -i`:
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on   gofrendi@kata.ai took 2m35s
 ❯ zaruba please startServer -i
 💀 Load additional value file
 ✔ 🏁 No
@@ -104,7 +102,6 @@ Search: █
 Once you fill up the value, the server will run as expected.
 
 ```
-~/playground/example on ☁️  (ap-southeast-1) on   gofrendi@kata.ai took 2m35s
 ❯ zaruba please startServer -i
 💀 Load additional value file
 ✔ 🏁 No

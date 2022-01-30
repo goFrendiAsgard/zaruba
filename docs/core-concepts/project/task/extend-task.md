@@ -97,6 +97,6 @@ Let's focus on several key points:
 
 * `zrbStartApp` has `start` and `check` properties.
 * Since `startServer` is extended from `zrbStartApp`, it also has the same properties as well (i.e: `start`, and `check`).
-* Furthermore, `startServer` define it's own `start` and `check` config. When Zaruba execute `startServer`, it will use this configuration instead of `zrbStartApp`'s.
+* Furthermore, `startServer` define its own `start` and `check` config. When Zaruba execute `startServer`, it will use this configuration instead of `zrbStartApp`'s.
 * Finally, please take note that you don't need to write `zrbStartApp` since it is already declared as `preloaded script`. You just need to know how to extend it and preferably know how it works.
 
