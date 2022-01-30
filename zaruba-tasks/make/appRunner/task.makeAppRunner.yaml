@@ -11,4 +11,5 @@ tasks:
       - appPorts
       - appImageName
       - appContainerName
+      - appStartCommand
     configRef: makeAppRunner

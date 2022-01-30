@@ -77,13 +77,12 @@ Please visit [core concept documentation](../core-concepts/README.md#set-task-in
 zaruba please syncEnv
 ```
 
-Please visit [core concept documentation](../core-concepts/task/task-envs/README.md#synchronize-tasks-environments) for more information.
+Please visit [core concept documentation](../core-concepts/project/task/task-envs/README.md#synchronize-tasks-environments) for more information.
 
 # Next Step
 
-Depending on your use case, you can:
+Your next step is depending on your uses case:
 
-* [generate new application](./generate-new-application.md)
-* [add third party services](./add-third-party-service.md)
-* [add subrepo to your project](./add-subrepo.md)
-* [add runner for existing application](./add-runner-for-existing-application/README.md)
+* If you need to add third party services like MySQL, Redis, Kafka, etc, then you need to [add third party services](./add-third-party-service/README.md) to your project.
+* If you need to create an application from scratch, then you can [generate new application](./generate-new-application/README.md).
+* You can also add existing external application as [subrepo of your project](./add-subrepo.md). In this case you also need to [add runner for the existing application](./add-runner-for-existing-application/README.md).
