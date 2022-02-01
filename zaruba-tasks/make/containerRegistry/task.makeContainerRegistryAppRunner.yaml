@@ -2,7 +2,7 @@ tasks:
 
   makeContainerRegistryAppRunner:
     icon: 🗃️
-    extend: makeDockerAppRunner
+    extend: makeDockerContainerAppRunner
     dependencies:
       - makeContainerRegistryApp
     inputs:

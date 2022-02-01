@@ -5,5 +5,5 @@ configs:
     defaultAppBaseImageName: docker.io/bitnami/nginx
     templateLocations: |
       [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/docker/appTemplate"
+        "{{ .ZarubaHome }}/zaruba-tasks/make/dockerApp/appTemplate"
       ]

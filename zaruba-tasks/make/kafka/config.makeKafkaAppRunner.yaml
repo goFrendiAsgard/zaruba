@@ -8,7 +8,7 @@ configs:
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
         "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appRunnerTemplate"
       ]
     _prepareVariables: |

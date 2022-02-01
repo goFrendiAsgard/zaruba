@@ -4,7 +4,7 @@
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/docker/task.makeDockerApp.yaml
+    ~/.zaruba/zaruba-tasks/make/dockerApp/task.makeDockerApp.yaml
 
 Should Sync Env:
 
@@ -579,7 +579,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/docker/appTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/dockerApp/appTemplate"
     ]
 
 

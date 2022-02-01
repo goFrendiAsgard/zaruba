@@ -2,15 +2,15 @@ tasks:
 
   makeDockerAppRunner:
     icon: 🐳
-    extend: zrbMakeAppRunner
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeDockerApp
     inputs:
       - appDirectory
       - appDependencies
-      - appName
       - appImageName
       - appContainerName
+      - appName
       - appEnvs
       - appPorts
-      - appStartCommand
-      - appCheckCommand
     configRef: makeDockerAppRunner

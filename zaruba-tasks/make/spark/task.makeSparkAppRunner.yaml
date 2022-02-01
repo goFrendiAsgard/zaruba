@@ -2,7 +2,7 @@ tasks:
 
   makeSparkAppRunner:
     icon: 💥
-    extend: makeDockerAppRunner
+    extend: makeDockerContainerAppRunner
     dependencies:
       - makeSparkApp
     inputs:

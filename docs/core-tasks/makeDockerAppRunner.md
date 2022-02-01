@@ -4,7 +4,7 @@
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/appRunner/docker/task.makeDockerAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/dockerApp/task.makeDockerAppRunner.yaml
 
 Should Sync Env:
 
@@ -17,11 +17,12 @@ Type:
 
 ## Extends
 
-* [zrbMakeAppRunner](zrbMakeAppRunner.md)
+* [makeDockerContainerAppRunner](makeDockerContainerAppRunner.md)
 
 
 ## Dependencies
 
+* [makeDockerApp](makeDockerApp.md)
 * [zrbIsProject](zrbIsProject.md)
 * [zrbShowAdv](zrbShowAdv.md)
 
@@ -45,17 +46,6 @@ Type:
 
 
 ## Inputs
-
-
-### Inputs.appCheckCommand
-
-Description:
-
-    Command to check app
-
-Secret:
-
-    false
 
 
 ### Inputs.appContainerName
@@ -165,17 +155,6 @@ Description:
 Default Value:
 
     []
-
-Secret:
-
-    false
-
-
-### Inputs.appStartCommand
-
-Description:
-
-    Command to start app
 
 Secret:
 
@@ -534,6 +513,10 @@ Value:
 
 ### Configs.appIcon
 
+Value:
+
+    🐳
+
 
 ### Configs.appImageName
 
@@ -657,14 +640,17 @@ Value:
 
 Value:
 
-    {{ .GeneratedRandomName }}
+    {{ .ProjectName }}Docker
 
 
 ### Configs.defaultAppPorts
 
 Value:
 
-    []
+    [
+      "8080"
+    ]
+
 
 
 ### Configs.defaultDeploymentDirectory
@@ -738,7 +724,7 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/docker/template"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
     ]
 
 

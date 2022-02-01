@@ -1,10 +1,10 @@
 [⬅️ Table of Content](../README.md)
 
-# 🐳 AddDocker
+# 🐳 AddDockerApp
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/docker/task.addDocker.yaml
+    ~/.zaruba/zaruba-tasks/make/dockerApp/task.addDockerApp.yaml
 
 Should Sync Env:
 
@@ -18,6 +18,6 @@ Type:
 ## Dependencies
 
 * [makeDockerApp](makeDockerApp.md)
-* [makeDockerAppRunnerForDockerApp](makeDockerAppRunnerForDockerApp.md)
+* [makeDockerAppRunner](makeDockerAppRunner.md)
 * [zrbIsProject](zrbIsProject.md)
 * [zrbShowAdv](zrbShowAdv.md)

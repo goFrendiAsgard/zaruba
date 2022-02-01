@@ -2,7 +2,7 @@ tasks:
 
   makeRabbitmqAppRunner:
     icon: 🐇
-    extend: makeDockerAppRunner
+    extend: makeDockerContainerAppRunner
     dependencies:
       - makeRabbitmqApp
     inputs:

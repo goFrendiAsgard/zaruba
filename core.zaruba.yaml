@@ -134,8 +134,8 @@ includes:
   - ./zaruba-tasks/make/appRunner/_base/config.zrbMakeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
 
-  - ./zaruba-tasks/make/appRunner/docker/config.makeDockerAppRunner.yaml
-  - ./zaruba-tasks/make/appRunner/docker/task.makeDockerAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/dockerContainer/config.makeDockerContainerAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/dockerContainer/task.makeDockerContainerAppRunner.yaml
 
   - ./zaruba-tasks/make/appRunner/native/config.makeNativeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
@@ -163,11 +163,11 @@ includes:
   - ./zaruba-tasks/make/containerRegistry/task.makeContainerRegistryApp.yaml
   - ./zaruba-tasks/make/containerRegistry/task.makeContainerRegistryAppRunner.yaml
 
-  - ./zaruba-tasks/make/docker/config.makeDockerApp.yaml
-  - ./zaruba-tasks/make/docker/config.makeDockerAppRunnerForDockerApp.yaml
-  - ./zaruba-tasks/make/docker/task.addDocker.yaml
-  - ./zaruba-tasks/make/docker/task.makeDockerApp.yaml
-  - ./zaruba-tasks/make/docker/task.makeDockerAppRunnerForDockerApp.yaml
+  - ./zaruba-tasks/make/dockerApp/config.makeDockerApp.yaml
+  - ./zaruba-tasks/make/dockerApp/config.makeDockerAppRunner.yaml
+  - ./zaruba-tasks/make/dockerApp/task.addDockerApp.yaml
+  - ./zaruba-tasks/make/dockerApp/task.makeDockerApp.yaml
+  - ./zaruba-tasks/make/dockerApp/task.makeDockerAppRunner.yaml
 
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeploymentTask.yaml

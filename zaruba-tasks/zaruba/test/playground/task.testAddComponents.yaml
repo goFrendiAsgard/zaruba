@@ -21,7 +21,7 @@ tasks:
 
         ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 
-        ../zaruba please addDocker appDirectory=provoDocker appPorts='["3002:8080"]'
+        ../zaruba please addDockerApp appDirectory=provoDocker appPorts='["3002:8080"]'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoDocker
         ../zaruba please addSimpleGoApp appDirectory=provoGo appEnvs='{"APP_HTTP_PORT":"3003"}'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoGo
