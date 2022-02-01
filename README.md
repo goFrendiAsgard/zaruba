@@ -8,25 +8,29 @@ Zaruba is a [task](docs/core-concepts/project/task/README.md) runner and [CLI ut
 
 ## ❓ Problem
 
-While developing your applications, you might find yourself opening several `tmux` panels and running some commands in parallel. You might also find that some tasks could only be executed once their dependencies are executed. For example, a web application can only be started after the database server is running. Not only complicated, this also lead to human errors.
+While developing your applications, you might find yourself opening several `tmux` panels and running some commands in parallel.
+
+You might also find that some tasks could only be executed once their dependencies are executed. For example, a web application can only be started after the database server is running.
+
+Not only complicated, this also lead to human errors.
 
 ## 💡 Solution
 
-Zaruba solve those problems by allowing you to define configurable tasks.
+Zaruba solve those problems by allowing you to define collection of tasks.
 
-Furthermore, the tasks should have following behaviors:
+The tasks should have the following behaviors:
 
-* Configurable (either by using internal configuration, inputs, or environment variables).
-* Able to extends from each other.
-* Able to depends on each other.
-* Can Run in parallel.
+* Configurable (either by using `internal configuration`, `inputs`, or `environment variables`).
+* Able to `extends` from each other.
+* Able to `depends` on each other.
+* Can run in parallel.
 * Automatically generated.
 
 There are several [built-in tasks](docs/core-tasks/README.md) specially crafted to fulfill those behavior. To see list of available tasks, you can run `zaruba please`.
 
 ## 🔍 Example
 
-You can build a full-fledge FastAPI application and have it deployed to your Kubernetes cluster by performing these commands (no coding required 😉):
+You can build a full-fledge FastAPI application connected to MySQL and have it deployed to your Kubernetes cluster without any coding required 😉:
 
 > 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i.e: `zaruba please addFastApiCrud -i`).
 
@@ -83,10 +87,12 @@ zaruba please stopContainers
 # - helm
 # - pulumi
 # - cloud provider or a computer that can run kubernetes locally (we use docker-desktop in this example)
-zaruba please pushContainers
-zaruba please addAppDeployment appDirectory=myApp
+zaruba please buildImages # or `zaruba please pushImages`
+zaruba please addAppKubeDeployment appDirectory=myApp
+zaruba please addAppKubeDeployment appDirectory=myDb
 zaruba please syncEnv
 zaruba please deploy kubeContext=docker-desktop
+# zaruba please destroy kubeContext=docker-desktop
 ```
 
 # 👨‍💻 Installation
