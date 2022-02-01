@@ -2,7 +2,7 @@ tasks:
 
   makeDockerComposeRunner:
     icon: 🐳
-    extend: makeDockerContainerAppRunner
+    extend: makeDockerComposeAppRunner
     dependencies:
       - makeDockerCompose
     inputs:

@@ -17,7 +17,7 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](makeDockerContainerAppRunner.md)
+* [makeDockerComposeAppRunner](makeDockerComposeAppRunner.md)
 
 
 ## Dependencies
@@ -690,7 +690,7 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template"
     ]
 
 

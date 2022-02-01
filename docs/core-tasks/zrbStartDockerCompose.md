@@ -240,7 +240,10 @@ Value:
 
     {{ .GetConfig "_startEnv" }}
     docker-compose down
-    docker-compose up
+    echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+    docker-compose up -d
+    echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
+    docker-compose logs --follow
 
 
 

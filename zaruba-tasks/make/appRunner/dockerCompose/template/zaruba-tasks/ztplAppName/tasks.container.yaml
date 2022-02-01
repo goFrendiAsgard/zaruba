@@ -13,7 +13,7 @@ tasks:
 
   stopZtplAppNameContainer:
     icon: ✋
-    extend: zrbRunShelllScript
+    extend: zrbRunShellScript
     location: ztplAppTaskLocation
     configRefs:
       - stopZtplAppNameContainer
