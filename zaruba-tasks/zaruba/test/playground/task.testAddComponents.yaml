@@ -21,15 +21,16 @@ tasks:
 
         ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 
-        ../zaruba please addDockerApp appDirectory=provoDocker appPorts='["3002:8080"]'
-        ../zaruba please addAppKubeDeploymentInPython appDirectory=provoDocker
-        ../zaruba please addSimpleGoApp appDirectory=provoGo appEnvs='{"APP_HTTP_PORT":"3003"}'
+        ../zaruba please addDockerApp appDirectory=provoDockerApp appPorts='["3002:8080"]'
+        ../zaruba please addAppKubeDeploymentInPython appDirectory=provoDockerApp
+        ../zaruba please addDockerCompose appDirectory=provoDockerCompose appEnvs='{"APP_HTTP_PORT":"3003"}'
+        ../zaruba please addSimpleGoApp appDirectory=provoGo appEnvs='{"APP_HTTP_PORT":"3004"}'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoGo
-        ../zaruba please addSimpleNodeJsApp appDirectory=provoNodeJs appEnvs='{"APP_HTTP_PORT":"3004"}'
+        ../zaruba please addSimpleNodeJsApp appDirectory=provoNodeJs appEnvs='{"APP_HTTP_PORT":"3005"}'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoNodeJs
-        ../zaruba please addSimpleTypeScriptApp appDirectory=provoTypeScript appEnvs='{"APP_HTTP_PORT":"3005"}'
+        ../zaruba please addSimpleTypeScriptApp appDirectory=provoTypeScript appEnvs='{"APP_HTTP_PORT":"3006"}'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoTypeScript
-        ../zaruba please addSimplePythonApp appDirectory=provoPython appEnvs='{"APP_HTTP_PORT":"3006"}'
+        ../zaruba please addSimplePythonApp appDirectory=provoPython appEnvs='{"APP_HTTP_PORT":"3007"}'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoPython
 
         ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library

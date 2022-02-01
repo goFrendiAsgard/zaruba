@@ -1,0 +1,30 @@
+tasks:
+
+  startZtplAppNameContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerCompose
+    location: ztplAppTaskLocation
+    inputs:
+      - runZtplAppNameInLocal
+    configRefs:
+      - ztplAppName
+    envRefs: 
+      - ztplAppName
+
+  stopZtplAppNameContainer:
+    icon: ✋
+    extend: zrbRunShelllScript
+    location: ztplAppTaskLocation
+    configRefs:
+      - stopZtplAppNameContainer
+    envRefs: 
+      - ztplAppName
+
+  removeZtplAppNameContainer:
+    icon: ❌
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    configRefs:
+      - removeZtplAppNameContainer
+    envRefs: 
+      - ztplAppName

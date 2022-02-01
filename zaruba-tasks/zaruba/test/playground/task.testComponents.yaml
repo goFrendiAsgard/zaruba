@@ -5,7 +5,8 @@ tasks:
     dependencies:
       - testApps
       - testCassandra
-      - testDocker
+      - testDockerApp
+      - testDockerCompose
       - testFastApi
       - testGitlab
       - testKafka

@@ -42,7 +42,8 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testComponents.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testDeploy.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testDestroy.yaml
-  - ./zaruba-tasks/zaruba/test/playground/task.testDocker.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testDockerApp.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testDockerCompose.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testFastApi.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testGitlab.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml

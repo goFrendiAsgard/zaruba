@@ -1,6 +1,6 @@
 tasks:
 
-  testDocker:
+  testDockerApp:
     icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
@@ -10,5 +10,5 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please startProvoDocker -t
-        ../zaruba please stopProvoDockerContainer
+        ../zaruba please startProvoDockerApp -t
+        ../zaruba please stopProvoDockerAppContainer

@@ -1,10 +1,10 @@
 [⬅️ Table of Content](../README.md)
 
-# 🎐 MakeAirflowAppRunner
+# 🐳 MakeDockerComposeRunner
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/dockerCompose/task.makeDockerComposeRunner.yaml
 
 Should Sync Env:
 
@@ -22,7 +22,7 @@ Type:
 
 ## Dependencies
 
-* [makeAirflowApp](makeAirflowApp.md)
+* [makeDockerCompose](makeDockerCompose.md)
 * [zrbIsProject](zrbIsProject.md)
 * [zrbShowAdv](zrbShowAdv.md)
 
@@ -46,70 +46,6 @@ Type:
 
 
 ## Inputs
-
-
-### Inputs.airflowPostgreSqlPorts
-
-Description:
-
-    Airflow's postgresql port
-
-Default Value:
-
-    ["5433:5432"]
-
-Secret:
-
-    false
-
-
-### Inputs.airflowRedisPorts
-
-Description:
-
-    Airflow's redis port
-
-Default Value:
-
-    ["6380:6379"]
-
-Secret:
-
-    false
-
-
-### Inputs.airflowWebPorts
-
-Description:
-
-    Airflow's web port
-
-Default Value:
-
-    ["8080:8080"]
-
-Secret:
-
-    false
-
-
-### Inputs.appContainerName
-
-Description:
-
-    Application container name
-
-Prompt:
-
-    Application container name
-
-Secret:
-
-    false
-
-Validation:
-
-    ^[a-zA-Z0-9_]*$
 
 
 ### Inputs.appDependencies
@@ -165,17 +101,6 @@ Secret:
     false
 
 
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
 ### Inputs.appName
 
 Description:
@@ -191,6 +116,21 @@ Secret:
     false
 
 
+### Inputs.appPorts
+
+Description:
+
+    Application ports
+
+Default Value:
+
+    []
+
+Secret:
+
+    false
+
+
 ## Configs
 
 
@@ -198,7 +138,7 @@ Secret:
 
 Value:
 
-    wait${_ZRB_PASCAL_APP_NAME}Prerequisites
+    start${_ZRB_PASCAL_APP_NAME}Container
 
 
 ### Configs._finish
@@ -299,21 +239,8 @@ Value:
 
 ### Configs._prepareReplacementMap
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareReplacementMap.sh"
-
-
 
 ### Configs._prepareVariables
-
-Value:
-
-    _ZRB_APP_POSTGRESQL_PORTS='{{ .GetConfig "appPostgreSqlPorts" }}'
-    _ZRB_APP_REDIS_PORTS='{{ .GetConfig "appRedisPorts" }}'
-    _ZRB_APP_WEB_PORTS='{{ .GetConfig "appWebPorts" }}'
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareVariables.sh"
-
 
 
 ### Configs._registerAppDependencies
@@ -554,7 +481,7 @@ Value:
 
 Value:
 
-    🎐
+    🐳
 
 
 ### Configs.appImageName
@@ -592,13 +519,6 @@ Value:
     {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
 
 
-### Configs.appPostgreSqlPorts
-
-Value:
-
-    {{ .GetValue "airflowPostgreSqlPorts" }}
-
-
 ### Configs.appPrepareCommand
 
 Value:
@@ -611,13 +531,6 @@ Value:
 Value:
 
     {{ .GetValue "appPushImageCommand" }}
-
-
-### Configs.appRedisPorts
-
-Value:
-
-    {{ .GetValue "airflowRedisPorts" }}
 
 
 ### Configs.appRpcName
@@ -662,13 +575,6 @@ Value:
     {{ .GetValue "appUrl" }}
 
 
-### Configs.appWebPorts
-
-Value:
-
-    {{ .GetValue "airflowWebPorts" }}
-
-
 ### Configs.beforeStart
 
 
@@ -693,24 +599,24 @@ Value:
 
 Value:
 
-    [
-      "../dags:/opt/bitnami/airflow/dags"
-    ]
-
+    []
 
 
 ### Configs.defaultAppDirectory
 
 Value:
 
-    {{ .ProjectName }}Airflow
+    {{ .ProjectName }}DockerCompose
 
 
 ### Configs.defaultAppPorts
 
 Value:
 
-    []
+    [
+      "8080"
+    ]
+
 
 
 ### Configs.defaultDeploymentDirectory
@@ -784,10 +690,8 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appRunnerTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
     ]
-
 
 
 ## Envs

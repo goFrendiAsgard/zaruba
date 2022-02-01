@@ -1,0 +1,9 @@
+tasks:
+
+  makeDockerComposeAppRunner:
+    icon: 🐳
+    extend: zrbMakeAppRunner
+    inputs:
+      - appDirectory
+      - appDependencies
+    configRef: makeDockerComposeAppRunner

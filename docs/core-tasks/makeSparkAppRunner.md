@@ -217,10 +217,6 @@ Value:
 
 ### Configs._nativePrepareAppRunnerTaskName
 
-Value:
-
-    start${_ZRB_PASCAL_APP_NAME}
-
 
 ### Configs._prepareBaseCheckCommand
 

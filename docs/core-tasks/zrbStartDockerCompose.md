@@ -24,6 +24,7 @@ Description:
       beforeCheck    : Script to be executed before check app readiness.
       afterCheck     : Script to be executed before check app readiness.
       finish         : Script to be executed after start app or check app readiness.
+      runInLocal     : Run app locally or not.
       ports          : Port to be checked to confirm app readiness, 
                        separated by new line.
       localhost      : Localhost mapping (e.g: host.docker.container)

@@ -1,9 +1,9 @@
 configs:
 
-  makeDockerContainerAppRunner:
+  makeDockerComposeAppRunner:
     _nativePrepareAppRunnerTaskName: ''
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template"
       ]

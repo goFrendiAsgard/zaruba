@@ -14,6 +14,7 @@ tasks:
         beforeCheck    : Script to be executed before check app readiness.
         afterCheck     : Script to be executed before check app readiness.
         finish         : Script to be executed after start app or check app readiness.
+        runInLocal     : Run app locally or not.
         useImagePrefix : Whether image prefix should be used or not
         imagePrefix    : Image prefix
         imageName      : Image name

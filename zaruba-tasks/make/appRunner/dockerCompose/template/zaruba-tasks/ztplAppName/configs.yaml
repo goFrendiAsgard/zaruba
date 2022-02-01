@@ -1,0 +1,12 @@
+configs:
+
+  ztplAppName:
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+
+  stopZtplAppNameContainer:
+    start: docker-compose stop
+
+  removeZtplAppNameContainer:
+    start: docker-compose down

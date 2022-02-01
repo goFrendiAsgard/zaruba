@@ -137,6 +137,9 @@ includes:
   - ./zaruba-tasks/make/appRunner/dockerContainer/config.makeDockerContainerAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/dockerContainer/task.makeDockerContainerAppRunner.yaml
 
+  - ./zaruba-tasks/make/appRunner/dockerCompose/config.makeDockerComposeAppRunner.yaml
+  - ./zaruba-tasks/make/appRunner/dockerCompose/task.makeDockerComposeAppRunner.yaml
+
   - ./zaruba-tasks/make/appRunner/native/config.makeNativeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/native/task.makeNativeAppRunner.yaml
 
@@ -168,6 +171,12 @@ includes:
   - ./zaruba-tasks/make/dockerApp/task.addDockerApp.yaml
   - ./zaruba-tasks/make/dockerApp/task.makeDockerApp.yaml
   - ./zaruba-tasks/make/dockerApp/task.makeDockerAppRunner.yaml
+
+  - ./zaruba-tasks/make/dockerCompose/config.makeDockerCompose.yaml
+  - ./zaruba-tasks/make/dockerCompose/config.makeDockerComposeRunner.yaml
+  - ./zaruba-tasks/make/dockerCompose/task.addDockerCompose.yaml
+  - ./zaruba-tasks/make/dockerCompose/task.makeDockerCompose.yaml
+  - ./zaruba-tasks/make/dockerCompose/task.makeDockerComposeRunner.yaml
 
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeploymentTask.yaml
