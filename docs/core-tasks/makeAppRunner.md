@@ -160,6 +160,17 @@ Secret:
     false
 
 
+### Inputs.appStartCommand
+
+Description:
+
+    Command to start app
+
+Secret:
+
+    false
+
+
 ## Configs
 
 

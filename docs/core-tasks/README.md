@@ -20,6 +20,7 @@
 * [zrbRunInDockerContainer](./zrbRunInDockerContainer.md)
 * [zrbRunInKubePod](./zrbRunInKubePod.md)
 * [zrbStartApp](./zrbStartApp.md)
+* [zrbStartDockerCompose](./zrbStartDockerCompose.md)
 * [zrbStartDockerContainer](./zrbStartDockerContainer.md)
 * [zrbIsProject](./zrbIsProject.md)
 * [zrbIsValidSubrepos](./zrbIsValidSubrepos.md)

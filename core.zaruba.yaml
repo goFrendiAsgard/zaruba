@@ -51,8 +51,10 @@ includes:
   - ./zaruba-tasks/_base/run/inKubePod/task.zrbRunInKubePod.yaml
 
   - ./zaruba-tasks/_base/start/config.zrbStartApp.yaml
+  - ./zaruba-tasks/_base/start/config.zrbStartDockerCompose.yaml
   - ./zaruba-tasks/_base/start/config.zrbStartDockerContainer.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartApp.yaml
+  - ./zaruba-tasks/_base/start/task.zrbStartDockerCompose.yaml
   - ./zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
 
   - ./zaruba-tasks/_base/validation/config.zrbIsProject.yaml

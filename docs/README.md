@@ -172,6 +172,7 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
   * [zrbRunInDockerContainer](core-tasks/zrbRunInDockerContainer.md)
   * [zrbRunInKubePod](core-tasks/zrbRunInKubePod.md)
   * [zrbStartApp](core-tasks/zrbStartApp.md)
+  * [zrbStartDockerCompose](core-tasks/zrbStartDockerCompose.md)
   * [zrbStartDockerContainer](core-tasks/zrbStartDockerContainer.md)
   * [zrbIsProject](core-tasks/zrbIsProject.md)
   * [zrbIsValidSubrepos](core-tasks/zrbIsValidSubrepos.md)

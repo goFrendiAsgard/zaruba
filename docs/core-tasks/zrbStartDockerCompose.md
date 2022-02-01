@@ -1,10 +1,10 @@
 [⬅️ Table of Content](../README.md)
 
-# 📜 ZrbStartApp
+# 🐳 ZrbStartDockerCompose
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/_base/start/task.zrbStartApp.yaml
+    ~/.zaruba/zaruba-tasks/_base/start/task.zrbStartDockerCompose.yaml
 
 Should Sync Env:
 
@@ -16,28 +16,29 @@ Type:
 
 Description:
 
-    Start app and check its readiness.
+    Start docker compose and wait until it is ready.
     Common configs:
-      setup       : Script to be executed before start app or check app readiness.
-      start       : Script to start the app (e.g: python -m http.server 9000).
-      beforeStart : Script to be executed before start app.
-      afterStart  : Script to be executed after start app.
-      beforeCheck : Script to be executed before check app readiness.
-      afterCheck  : Script to be executed before check app readiness.
-      finish      : Script to be executed after start app or check app readiness.
-      runInLocal  : Run app locally or not.
-      ports       : Port to be checked to confirm app readiness, separated by new line.
+      setup          : Script to be executed before start app or check app readiness.
+      beforeStart    : Script to be executed before start app.
+      afterStart     : Script to be executed after start app.
+      beforeCheck    : Script to be executed before check app readiness.
+      afterCheck     : Script to be executed before check app readiness.
+      finish         : Script to be executed after start app or check app readiness.
+      ports          : Port to be checked to confirm app readiness, 
+                       separated by new line.
+      localhost      : Localhost mapping (e.g: host.docker.container)
 
 
 
 ## Extends
 
-* [zrbRunShellScript](zrbRunShellScript.md)
+* [zrbStartApp](zrbStartApp.md)
 
 
 ## Dependencies
 
 * [updateProjectLinks](updateProjectLinks.md)
+* [zrbCreateDockerNetwork](zrbCreateDockerNetwork.md)
 
 
 ## Start
@@ -133,6 +134,25 @@ Value:
 ### Configs._start
 
 
+### Configs._startEnv
+
+Value:
+
+    {{ $this := . -}}
+    {{ if eq (.GetConfig "localhost") "localhost" -}}
+      {{ range $key, $val := $this.GetEnvs -}}
+        export {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }}
+      {{ end -}}
+    {{ else -}}
+      {{ range $key, $val := $this.GetEnvs -}}
+        {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
+        {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
+        {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
+        export {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }}
+      {{ end -}}
+    {{ end -}}
+
+
 ### Configs.afterCheck
 
 
@@ -163,6 +183,13 @@ Value:
 
 
 ### Configs.finish
+
+
+### Configs.localhost
+
+Value:
+
+    localhost
 
 
 ### Configs.ports
@@ -207,6 +234,13 @@ Value:
 
 
 ### Configs.start
+
+Value:
+
+    {{ .GetConfig "_startEnv" }}
+    docker-compose down
+    docker-compose up
+
 
 
 ### Configs.strictMode

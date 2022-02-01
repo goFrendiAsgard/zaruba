@@ -1,0 +1,23 @@
+tasks:
+
+  zrbStartDockerCompose:
+    icon: 🐳
+    description: |
+      Start docker compose and wait until it is ready.
+      Common configs:
+        setup          : Script to be executed before start app or check app readiness.
+        beforeStart    : Script to be executed before start app.
+        afterStart     : Script to be executed after start app.
+        beforeCheck    : Script to be executed before check app readiness.
+        afterCheck     : Script to be executed before check app readiness.
+        finish         : Script to be executed after start app or check app readiness.
+        ports          : Port to be checked to confirm app readiness, 
+                         separated by new line.
+        localhost      : Localhost mapping (e.g: host.docker.container)
+    private: true
+    extend: zrbStartApp
+    dependencies:
+      - updateProjectLinks
+      - zrbCreateDockerNetwork
+    configRefs: 
+      - zrbStartDockerCompose

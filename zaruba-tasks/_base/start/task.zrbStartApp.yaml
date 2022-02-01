@@ -3,17 +3,17 @@ tasks:
   zrbStartApp:
     icon: 📜
     description: |
-      Start service and check its readiness.
+      Start app and check its readiness.
       Common configs:
-        setup       : Script to be executed before start service or check service readiness.
-        start       : Script to start the service (e.g: python -m http.server 9000).
-        beforeStart : Script to be executed before start service.
-        afterStart  : Script to be executed after start service.
-        beforeCheck : Script to be executed before check service readiness.
-        afterCheck  : Script to be executed before check service readiness.
-        finish      : Script to be executed after start service or check service readiness.
-        runInLocal  : Run service locally or not.
-        ports       : Port to be checked to confirm service readiness, separated by new line.
+        setup       : Script to be executed before start app or check app readiness.
+        start       : Script to start the app (e.g: python -m http.server 9000).
+        beforeStart : Script to be executed before start app.
+        afterStart  : Script to be executed after start app.
+        beforeCheck : Script to be executed before check app readiness.
+        afterCheck  : Script to be executed before check app readiness.
+        finish      : Script to be executed after start app or check app readiness.
+        runInLocal  : Run app locally or not.
+        ports       : Port to be checked to confirm app readiness, separated by new line.
     private: true
     extend: zrbRunShellScript
     dependencies:

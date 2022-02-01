@@ -21,18 +21,18 @@ Description:
     If container is exist but not started, it will be started.
     If container is not exist, it will be created and started.
     Common configs:
-      setup          : Script to be executed before start service or check service readiness.
-      beforeStart    : Script to be executed before start service.
-      afterStart     : Script to be executed after start service.
-      beforeCheck    : Script to be executed before check service readiness.
-      afterCheck     : Script to be executed before check service readiness.
-      finish         : Script to be executed after start service or check service readiness.
+      setup          : Script to be executed before start app or check app readiness.
+      beforeStart    : Script to be executed before start app.
+      afterStart     : Script to be executed after start app.
+      beforeCheck    : Script to be executed before check app readiness.
+      afterCheck     : Script to be executed before check app readiness.
+      finish         : Script to be executed after start app or check app readiness.
       useImagePrefix : Whether image prefix should be used or not
       imagePrefix    : Image prefix
       imageName      : Image name
       imageTag       : Image tag
       containerName  : Name of the container
-      ports          : Port to be checked to confirm service readiness, 
+      ports          : Port to be checked to confirm app readiness, 
                        separated by new line.
       volumes        : Host-container volume mappings,
                        separated by new line.
