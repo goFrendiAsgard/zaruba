@@ -1,13 +1,14 @@
 [⬅️ Table of Content](../../README.md)
-# Simple NodeJs Application
 
-To add simple node.js application, you can invoke [addSimpleNodeJsApp](../../core-tasks/addSimpleNodeJsApp)
+# Simple Typescript Application
+
+To add simple typeScript application, you can invoke [addSimpleTypeScriptApp](../../core-tasks/addSimpleTypeScriptApp)
 
 
 # How to
 
 ```bash
-zaruba please addSimpleNodeJsApp \
+zaruba please addSimpleTypeScriptApp \
   appDirectory=<directory-name> \             # Location of your application. Must be provided
   [appName=<app-name>] \                      # application name
   [appContainerName=<app-container-name>] \   # application's container name
@@ -22,7 +23,7 @@ zaruba please addSimpleNodeJsApp \
 # Use Case
 
 ```bash
-zaruba please addSimpleNodeJsApp \
+zaruba please addSimpleTypeScriptApp \
   appDirectory=myApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```

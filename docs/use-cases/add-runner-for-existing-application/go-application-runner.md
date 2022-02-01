@@ -1,11 +1,10 @@
 [⬅️ Table of Content](../../README.md)
 # Go Application Runner
 
-To create application runner for your existing applications, you can use [`addGoAppRunner`](../../core-tasks/addGoAppRunner.md)
+To create application runner for your existing go applications, you can use [`addGoAppRunner`](../../core-tasks/addGoAppRunner.md)
 
 # How to Add Go Application Runner
 
-Using the task names mentioned above, you can do:
 
 ```bash
 zaruba please addGoAppRunner \

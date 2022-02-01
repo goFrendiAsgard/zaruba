@@ -2,11 +2,10 @@
 
 # Python Application Runner
 
-To create application runner for your existing applications, you can use [`addPythonAppRunner`](../../core-tasks/addPythonAppRunner.md)
+To create application runner for your existing python applications, you can use [`addPythonAppRunner`](../../core-tasks/addPythonAppRunner.md)
 
 # How to Add Python Application Runner
 
-Using the task names mentioned above, you can do:
 
 ```bash
 zaruba please addPythonAppRunner \

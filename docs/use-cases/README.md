@@ -16,6 +16,7 @@ Here are several things you can:
 * [generate new application](./generate-new-application/README.md)
 * [add subrepo to your project](./add-subrepo.md)
 * [add runner for existing application](./add-runner-for-existing-application/README.md)
+* [add application deployment](./add-application-deployment.md)
 
 # Run Tasks
 

@@ -2,11 +2,10 @@
 # NodeJs Application Runner
 
 
-To create application runner for your existing applications, you can use [`addNodeJsAppRunner`](../../core-tasks/addNodeJsAppRunner.md)
+To create application runner for your existing node.js applications, you can use [`addNodeJsAppRunner`](../../core-tasks/addNodeJsAppRunner.md)
 
 # How to Add NodeJs Application Runner
 
-Using the task names mentioned above, you can do:
 
 ```bash
 zaruba please addNodeJsAppRunner \
