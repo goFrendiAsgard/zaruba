@@ -44,6 +44,8 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
             * [CRUD](use-cases/generate-new-application/fast-api-application/crud.md)
     * [Add Application Deployment](use-cases/generate-new-application/add-application-deployment.md)
     * [Add Third Party Service](use-cases/add-third-party-service/README.md)
+        * [Docker App](use-cases/add-third-party-service/docker-app.md)
+        * [Docker Compose](use-cases/add-third-party-service/docker-compose.md)
         * [Message Bus](use-cases/add-third-party-service/message-bus/README.md)
             * [Rabbitmq](use-cases/add-third-party-service/message-bus/rabbitmq.md)
             * [Kafka](use-cases/add-third-party-service/message-bus/kafka.md)
