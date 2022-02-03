@@ -19,12 +19,11 @@ When you manually run tasks in parallel or sequentially, you might do some mista
 
 ## 💡 Solution
 
-There are two solutions to solve the problems:
+Creating clear instructions/checklist might help. If your tasks are simple and sequential, you can turn your checklist into a nice [shell script](https://www.shellscript.sh/first.html). That's all you need.
 
-* Create a clear instructions/checklist and carefully follow the instructions.
-* Simplify/Automate the steps.
+However, when your workflow become more complicated, you need a better automation tool like Zaruba.
 
-Zaruba allows you to simplify your workflow by let you:
+Zaruba allows you to __simplify your workflow__ by let you:
 
 * Create configurable tasks (i.e: using `configs`, `inputs`, or `envs`).
 * Define tasks dependencies (i.e: using `extend`).
@@ -32,7 +31,7 @@ Zaruba allows you to simplify your workflow by let you:
 * Run tasks in parallels.
 * Generate new tasks.
 
-There are several [built-in tasks](docs/core-tasks/README.md) specially crafted to fulfill those behavior. To see list of available tasks, you can run `zaruba please`.
+There are several [built-in tasks](docs/core-tasks/README.md) specially crafted to achieve those goals. To see list of available tasks, you can run `zaruba please`.
 
 ## 🔍 Example
 
@@ -60,7 +59,7 @@ zaruba please initProject
 # Add 🐬 MySQL container
 zaruba please addMysql appDirectory=myDb
 
-# Add 🐍 FastAPI app with book CRUD API.
+# Add 🐍 Python app with book CRUD API.
 zaruba please addFastApiCrud \
   appDirectory=myPythonApp \
   appModuleName=library \
@@ -76,7 +75,7 @@ zaruba please addSimpleGoApp appDirectory=myGoApp appEnvs='{"APP_HTTP_PORT":"300
 ### 🏃 Run Applications
 
 ```bash
-# Run 🐹 Go app, 🐍 FastAPI app, and 🐬 MySQL container
+# Start 🐹 Go app, 🐍 Python app, and 🐬 MySQL container
 # To run this command, you need:
 # - go 1.13 or newer
 # - python 3.8
@@ -85,13 +84,41 @@ zaruba please start
 # Ctrl+c to stop
 ```
 
+You can also run applications individually:
+
+```bash
+# Only start 🐹 Go app
+zaruba please startMyGoApp
+# Ctrl+c to stop
+
+# Only start 🐹 Go app and 🐍 Python app.
+# Please note that 🐬 MySQL container is automatically started
+# since 🐍 Python app depends on it.
+zaruba please startMyGoApp startMyPythonApp
+# Ctrl+c to stop
+```
+
 ### 🐳 Run Applications as Containers
 
 ```bash
-# Run 🐹 Go app, 🐍 FastAPI app, and 🐬 MySQL container (both as 🐋 containers)
+# Start 🐹 Go app, 🐍 Python app, and 🐬 MySQL container (both as 🐋 containers)
 # To run this command, you need:
 # - docker
 zaruba please startContainers
+zaruba please stopContainers
+```
+
+You can also run applications individually:
+
+```bash
+# Only start 🐹 Go app
+zaruba please startMyGoAppContainer
+zaruba please stopContainers
+
+# Only start 🐹 Go app and 🐍 Python app.
+# Please note that 🐬 MySQL container is automatically started
+# since 🐍 Python app depends on it.
+zaruba please startMyGoAppContainer startMyPythonAppContainer
 zaruba please stopContainers
 ```
 
@@ -99,7 +126,7 @@ zaruba please stopContainers
 
 
 ```bash
-# Deploy 🐹 Go app, 🐍 FastAPI app to the ☁️ kubernetes cluster
+# Deploy 🐹 Go app, 🐍 Python app, and 🐬 MySQL container to the ☁️ kubernetes cluster
 # To run this command, you need:
 # - kubectl
 # - helm
