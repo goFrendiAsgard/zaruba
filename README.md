@@ -19,9 +19,9 @@ When you manually run tasks in parallel or sequentially, you might do some mista
 
 ## 💡 Solution
 
-Creating clear instructions/checklist might help. If your tasks are simple and sequential, you can turn your checklist into a nice [shell script](https://www.shellscript.sh/first.html). That's all you need.
+Creating __clear instructions/checklist__ might help. If your tasks are simple and sequential, you can turn your checklist into a nice [shell script](https://www.shellscript.sh/first.html), and that's all you need.
 
-However, when your workflow become more complicated, you need a better automation tool like Zaruba.
+However, when your workflow become more complicated, you need a __better automation tool__ like Zaruba.
 
 Zaruba allows you to __simplify your workflow__ by let you:
 
@@ -150,13 +150,20 @@ Using docker is the quickest way to set up Zaruba, especially if you need to use
 To create and run zaruba container on __🐧linux__ host, you can do:
 
 ```bash
-docker run -d --name zaruba --network host -v "$(pwd):/project" -e "ZARUBA_HOST_DOCKER_INTERNAL=172.17.0.1" -e "DOCKER_HOST=tcp://172.17.0.1:2375"  stalchmst/zaruba:latest
+docker run -d --name zaruba --network host \
+  -v "$(pwd):/project" \
+  -e "ZARUBA_HOST_DOCKER_INTERNAL=172.17.0.1" \
+  -e "DOCKER_HOST=tcp://172.17.0.1:2375" \
+  stalchmst/zaruba:latest
 ```
 
 To create and run zaruba container on __🪟 windows__/__🍎 mac__ host, you can do:
 
 ```bash
-docker run -d --name zaruba -p 8500-8700:8500-8700 -v "$(pwd):/project" stalchmst/zaruba:latest
+docker run -d --name zaruba \
+  -p 8500-8700:8500-8700 \
+  -v "$(pwd):/project" \
+  stalchmst/zaruba:latest
 ```
 
 For more information about Zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
