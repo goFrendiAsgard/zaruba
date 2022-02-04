@@ -1,6 +1,7 @@
 configs:
 
   zrbMakeTask:
+    _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'
     _includeModuleIndex: |
       {{ if .GetConfig "_taskIndexPath" -}}
       "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"

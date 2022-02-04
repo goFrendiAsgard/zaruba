@@ -286,10 +286,6 @@ Value:
 
 ### Configs._validateAppDirectory
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"
-
 
 ### Configs._validateAppPorts
 

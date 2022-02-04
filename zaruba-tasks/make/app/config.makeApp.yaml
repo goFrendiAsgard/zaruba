@@ -1,6 +1,7 @@
 configs:
 
   makeApp:
+    _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'
     _skipCreationPath: '${_ZRB_APP_DIRECTORY}'
     _integrate: |
       if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]

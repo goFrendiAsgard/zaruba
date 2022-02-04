@@ -40,9 +40,9 @@ Suppose you want to build two applications:
 * A 🐍 CRUD API application that __depends__ on 🐬 MySQL.
 * A simple 🐹 Go web server that has no dependencies.
 
-Since 🐹 Go web server has no dependencies, you should be able to run it __in parallel__ with 🐍 CRUD API application and 🐬 MySQL server.
+Since `Go web server` has no dependencies, you should be able to run it __in parallel__ with `CRUD API application` and `MySQL server`.
 
-On the other hand, 🐍 CRUD API application __depends__ on 🐬 MySQL server. Thus, you cannot run 🐍 CRUD API application without running 🐬 MySQL server.
+On the other hand, `CRUD API application` __depends__ on `MySQL server`. Thus, you cannot run `CRUD API application` without running `MySQL server`.
 
 Zaruba allows you to build, run, and deploy everything using simple commands (no coding required 😉).
 
@@ -92,8 +92,8 @@ zaruba please startMyGoApp
 # Ctrl+c to stop
 
 # Only start 🐹 Go app and 🐍 Python app.
-# Please note that 🐬 MySQL container is automatically started
-# since 🐍 Python app depends on it.
+# Please note that MySQL container is automatically started
+# since Python app depends on it.
 zaruba please startMyGoApp startMyPythonApp
 # Ctrl+c to stop
 ```
@@ -101,7 +101,7 @@ zaruba please startMyGoApp startMyPythonApp
 ### 🐳 Run Applications as Containers
 
 ```bash
-# Start 🐹 Go app, 🐍 Python app, and 🐬 MySQL container (both as 🐋 containers)
+# Start 🐹 Go app, 🐍 Python app, and 🐬 MySQL as containers
 # To run this command, you need:
 # - docker
 zaruba please startContainers
@@ -116,8 +116,8 @@ zaruba please startMyGoAppContainer
 zaruba please stopContainers
 
 # Only start 🐹 Go app and 🐍 Python app.
-# Please note that 🐬 MySQL container is automatically started
-# since 🐍 Python app depends on it.
+# Please note that MySQL container is automatically started
+# since Python app depends on it.
 zaruba please startMyGoAppContainer startMyPythonAppContainer
 zaruba please stopContainers
 ```
@@ -126,7 +126,7 @@ zaruba please stopContainers
 
 
 ```bash
-# Deploy 🐹 Go app, 🐍 Python app, and 🐬 MySQL container to the ☁️ kubernetes cluster
+# Deploy 🐹 Go app, 🐍 Python app, and 🐬 MySQL container to the kubernetes cluster
 # To run this command, you need:
 # - kubectl
 # - helm

@@ -40,10 +40,10 @@ class DBUserRepo(UserRepo):
             Base.metadata.create_all(bind=engine)
 
     def _hash_password(self, password: str) -> str:
-        return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     def _is_valid_password(self, password: str, hashed_password: str) -> bool:
-        return bcrypt.checkpw(password.encode(), hashed_password)
+        return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
     def find_by_username(self, username: str) -> User:
         db = Session(self.engine)

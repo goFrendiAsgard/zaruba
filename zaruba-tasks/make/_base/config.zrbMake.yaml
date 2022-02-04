@@ -53,7 +53,7 @@ configs:
     _validate: ''
     _integrate: ''
     _validateTemplateLocation: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateTemplateLocation.sh"'
-    _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'
+    _validateAppDirectory: ''
     _validateAppContainerVolumes: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppContainerVolumes.sh"'
     _validateAppPorts: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppPorts.sh"'
     _validateAppCrudFields: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppCrudFields.sh"'
