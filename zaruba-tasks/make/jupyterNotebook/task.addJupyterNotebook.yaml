@@ -1,0 +1,6 @@
+tasks:
+
+  addJupyterNotebook:
+    icon: 🧪
+    dependencies:
+      - makeJupyterNotebookAppRunner

@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeJupyterNotebookApp:
+    icon: 🧪
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeJupyterNotebookApp

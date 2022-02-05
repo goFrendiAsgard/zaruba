@@ -226,6 +226,12 @@ includes:
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
 
+  - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookApp.yaml
+  - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookAppRunner.yaml
+  - ./zaruba-tasks/make/jupyterNotebook/task.addJupyterNotebook.yaml
+  - ./zaruba-tasks/make/jupyterNotebook/task.makeJupyterNotebookApp.yaml
+  - ./zaruba-tasks/make/jupyterNotebook/task.makeJupyterNotebookAppRunner.yaml
+
   - ./zaruba-tasks/make/kafka/config.makeKafkaApp.yaml
   - ./zaruba-tasks/make/kafka/config.makeKafkaAppRunner.yaml
   - ./zaruba-tasks/make/kafka/input.makeKafkaAppRunner.yaml

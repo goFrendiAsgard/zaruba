@@ -1,0 +1,16 @@
+tasks:
+
+  testJupyterNotebook:
+    icon: 🧪
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - pretest
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please startProvoJupyterNotebook -t
+        sleep 5
+        ../zaruba please flushProvoJupyterNotebook
+        ../zaruba please stopProvoJupyterNotebookContainer

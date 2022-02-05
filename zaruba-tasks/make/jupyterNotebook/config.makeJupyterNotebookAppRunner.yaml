@@ -1,0 +1,10 @@
+configs:
+
+  makeJupyterNotebookAppRunner:
+    appIcon: 🧪
+    defaultAppDirectory: '{{ .ProjectName }}JupyterNotebook'
+    defaultAppPorts: |
+      [
+        "8888"
+      ]
+    defaultAppContainerVolumes: '[]'

@@ -37,8 +37,8 @@ There are several [built-in tasks](docs/core-tasks/README.md) specially crafted 
 
 Suppose you want to build two applications:
 
-* A 🐍 CRUD API application that __depends__ on 🐬 MySQL.
-* A simple 🐹 Go web server that has no dependencies.
+* A 🐍 `CRUD API application` that __depends__ on 🐬 `MySQL`.
+* A simple 🐹 `Go web server` that has no dependencies.
 
 Since `Go web server` has no dependencies, you should be able to run it __in parallel__ with `CRUD API application` and `MySQL server`.
 
@@ -59,7 +59,7 @@ zaruba please initProject
 # Add 🐬 MySQL container
 zaruba please addMysql appDirectory=myDb
 
-# Add 🐍 Python app with book CRUD API.
+# Add 🐍 CRUD API Application.
 zaruba please addFastApiCrud \
   appDirectory=myPythonApp \
   appModuleName=library \
@@ -75,7 +75,7 @@ zaruba please addSimpleGoApp appDirectory=myGoApp appEnvs='{"APP_HTTP_PORT":"300
 ### 🏃 Run Applications
 
 ```bash
-# Start 🐹 Go app, 🐍 Python app, and 🐬 MySQL container
+# Start 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL container.
 # To run this command, you need:
 # - go 1.13 or newer
 # - python 3.8
@@ -84,49 +84,52 @@ zaruba please start
 # Ctrl+c to stop
 ```
 
-You can also run applications individually:
+<details>
+<summary>You can also run applications individually</summary>
 
 ```bash
-# Only start 🐹 Go app
+# Only start 🐹 Go web server.
 zaruba please startMyGoApp
 # Ctrl+c to stop
 
-# Only start 🐹 Go app and 🐍 Python app.
+# Only start 🐹 Go web server and 🐍 CRUD API application.
 # Please note that MySQL container is automatically started
-# since Python app depends on it.
+# since CRUD API application depends on it.
 zaruba please startMyGoApp startMyPythonApp
 # Ctrl+c to stop
 ```
+</details>
 
 ### 🐳 Run Applications as Containers
 
 ```bash
-# Start 🐹 Go app, 🐍 Python app, and 🐬 MySQL as containers
+# Start 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL as containers.
 # To run this command, you need:
 # - docker
 zaruba please startContainers
 zaruba please stopContainers
 ```
 
-You can also run applications individually:
+<details>
+<summary>You can also run applications individually</summary>
 
 ```bash
-# Only start 🐹 Go app
+# Only start 🐹 Go web server.
 zaruba please startMyGoAppContainer
 zaruba please stopContainers
 
-# Only start 🐹 Go app and 🐍 Python app.
+# Only start 🐹 Go web server and 🐍 CRUD API application.
 # Please note that MySQL container is automatically started
-# since Python app depends on it.
+# since CRUD API application depends on it.
 zaruba please startMyGoAppContainer startMyPythonAppContainer
 zaruba please stopContainers
 ```
+</details>
 
 ### ☁️ Deploy Applications
 
-
 ```bash
-# Deploy 🐹 Go app, 🐍 Python app, and 🐬 MySQL container to the kubernetes cluster
+# Deploy 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL to kubernetes cluster
 # To run this command, you need:
 # - kubectl
 # - helm
@@ -138,37 +141,10 @@ zaruba please addAppKubeDeployment appDirectory=myGoApp
 zaruba please addAppKubeDeployment appDirectory=myDb
 zaruba please syncEnv
 zaruba please deploy kubeContext=docker-desktop
-# zaruba please destroy kubeContext=docker-desktop
+zaruba please destroy kubeContext=docker-desktop
 ```
 
 # 👨‍💻 Installation
-
-## 🐳 Using Docker
-
-Using docker is the quickest way to set up Zaruba, especially if you need to use Zaruba in your CI/CD.
-
-To create and run zaruba container on __🐧linux__ host, you can do:
-
-```bash
-docker run -d --name zaruba --network host \
-  -v "$(pwd):/project" \
-  -e "ZARUBA_HOST_DOCKER_INTERNAL=172.17.0.1" \
-  -e "DOCKER_HOST=tcp://172.17.0.1:2375" \
-  stalchmst/zaruba:latest
-```
-
-To create and run zaruba container on __🪟 windows__/__🍎 mac__ host, you can do:
-
-```bash
-docker run -d --name zaruba \
-  -p 8500-8700:8500-8700 \
-  -v "$(pwd):/project" \
-  stalchmst/zaruba:latest
-```
-
-For more information about Zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
-
-> **⚠️ NOTE** There will be some limitations if you run Zaruba container using `docker-desktop` for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
 ## 📖 From Source
 
@@ -199,6 +175,33 @@ To install Zaruba using __wget__, you can do:
  ```bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
+
+## 🐳 Using Docker
+
+Using docker is the quickest way to set up Zaruba, especially if you need to use Zaruba in your CI/CD.
+
+To create and run zaruba container on __🐧linux__ host, you can do:
+
+```bash
+docker run -d --name zaruba --network host \
+  -v "$(pwd):/project" \
+  -e "ZARUBA_HOST_DOCKER_INTERNAL=172.17.0.1" \
+  -e "DOCKER_HOST=tcp://172.17.0.1:2375" \
+  stalchmst/zaruba:latest
+```
+
+To create and run zaruba container on __🪟 windows__/__🍎 mac__ host, you can do:
+
+```bash
+docker run -d --name zaruba \
+  -p 8500-8700:8500-8700 \
+  -v "$(pwd):/project" \
+  stalchmst/zaruba:latest
+```
+
+For more information about Zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
+
+> **⚠️ NOTE** There will be some limitations if you run Zaruba container using `docker-desktop` for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
 # 📜 Getting started
 

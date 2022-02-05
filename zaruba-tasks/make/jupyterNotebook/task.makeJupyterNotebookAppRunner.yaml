@@ -1,0 +1,16 @@
+tasks:
+
+  makeJupyterNotebookAppRunner:
+    icon: 🧪
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeJupyterNotebookApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeJupyterNotebookAppRunner

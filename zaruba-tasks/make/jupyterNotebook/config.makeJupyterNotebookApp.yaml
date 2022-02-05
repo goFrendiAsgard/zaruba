@@ -1,0 +1,8 @@
+configs:
+ 
+  makeJupyterNotebookApp:
+    defaultAppDirectory: '{{ .ProjectName }}JupyterNotebook'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/jupyterNotebook/appTemplate"
+      ]

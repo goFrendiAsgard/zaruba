@@ -47,6 +47,7 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testFastApi.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testGitlab.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testInitProject.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testJupyterNotebook.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testKafka.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testMeltano.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testMongodb.yaml
