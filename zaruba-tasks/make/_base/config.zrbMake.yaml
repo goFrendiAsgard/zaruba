@@ -40,6 +40,11 @@ configs:
     defaultAppPorts: '[]'
     taskName: '{{ .GetValue "taskName" }}'
     templateLocations: '{{ .GetValue "templateLocations" }}'
+    _includeModuleIndex: |
+      {{ if .GetConfig "_taskIndexPath" -}}
+      "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+      {{ end -}}
+    _taskIndexPath: ''
     _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseReplacementMap.sh"'
     _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseVariables.sh"'
     _prepareBaseStartCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"'

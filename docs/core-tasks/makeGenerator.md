@@ -134,7 +134,6 @@ Value:
     {{ .GetConfig "_includeModuleIndex" }}
 
 
-
 ### Configs._nativePrepareAppRunnerTaskName
 
 Value:
@@ -198,13 +197,11 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareReplacementMap.sh"
 
 
-
 ### Configs._prepareVariables
 
 Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareVariables.sh"
-
 
 
 ### Configs._setup
@@ -273,6 +270,13 @@ Value:
     {{ .GetConfig "_integrate" }}
     cd "${__ZRB_PWD}"
 
+
+
+### Configs._taskIndexPath
+
+Value:
+
+    ./zaruba-tasks/${_ZRB_TASK_NAME}/index.yaml
 
 
 ### Configs._validate
