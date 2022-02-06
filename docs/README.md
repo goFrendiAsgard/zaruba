@@ -65,6 +65,7 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
         * [Container Registry](use-cases/add-third-party-service/data-engineering/container-registry.md)
         * [Nginx](use-cases/add-third-party-service/data-engineering/nginx.md)
     * [Add EKS Deployment](use-cases/add-eks-deployment.md)
+    * [Add Generator](use-cases/aadd-generator.md)
     * [Synchronize environments](use-cases/synchronize-environments.md)
     * [Run Applications Locally](use-cases/run-applications-locally.md)
     * [Run Some Applications Locally](use-cases/run-some-applications-locally.md)

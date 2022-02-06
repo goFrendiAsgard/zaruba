@@ -51,7 +51,7 @@ Zaruba allows you to build, run, and deploy everything using simple commands (no
 [![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
 
 <details>
-<summary>Show step by stem instructions (including deployment to kubernetes)</summary>
+<summary>Show step by step instructions (including <b>deployment to kubernetes</b>)</summary>
 
 ### ✨ Creating Project and Applications
 
@@ -96,18 +96,18 @@ zaruba please start
 # Checking 🐹 Go web app.
 curl http://localhost:3001
 
-# Login to 🐍 CRUD API application
+# 🔑 Login to 🐍 CRUD API application
 LOGIN_RESPONSE="$(curl --location --request POST 'localhost:3000/token/' \
 --form 'username="root"' \
 --form 'password="Alch3mist"')"
 
 echo "${LOGIN_RESPONSE}"
 
-# Extract token
+# 🔑 Extract token
 ACCESS_TOKEN=$(zaruba map get "${LOGIN_RESPONSE}" "access_token")
 echo "Token: ${ACCESS_TOKEN}"
 
-# Insert new book
+# ✨ Insert new book
 curl --location --request POST 'localhost:3000/books/' \
 --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 --header 'Content-Type: application/json' \
@@ -117,7 +117,7 @@ curl --location --request POST 'localhost:3000/books/' \
     "synopsis": "Magical story of Santiago, an Andalusian shepherd boy who yearns to travel in search of a worldly treasure as extravagant as any ever found."
 }'
 
-# Get books
+# 📖 Get books
 curl --location --request GET 'localhost:3000/books/' \
 --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 --header 'Content-Type: application/json'
@@ -163,6 +163,7 @@ zaruba please stopContainers
 # Please note that MySQL container is automatically started
 # since CRUD API application depends on it.
 zaruba please startMyGoAppContainer startMyPythonAppContainer
+# To stop containers (Note: Ctrl+C won't kill the containers):
 zaruba please stopContainers
 ```
 </details>
