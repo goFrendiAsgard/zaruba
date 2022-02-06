@@ -87,6 +87,8 @@
 * [addFastApiModule](./addFastApiModule.md)
 * [addFastApiRouteHandler](./addFastApiRouteHandler.md)
 * [addFastApiRpcHandler](./addFastApiRpcHandler.md)
+* [addGenerator](./addGenerator.md)
+* [makeGenerator](./makeGenerator.md)
 * [addGitlab](./addGitlab.md)
 * [makeGitlabApp](./makeGitlabApp.md)
 * [makeGitlabAppRunner](./makeGitlabAppRunner.md)

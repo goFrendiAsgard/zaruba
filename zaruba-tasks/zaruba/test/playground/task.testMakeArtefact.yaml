@@ -1,0 +1,13 @@
+tasks:
+
+  testMakeArtefact:
+    icon: 🧪
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - pretest
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please makeArtefact appDirectory=provoArtefact

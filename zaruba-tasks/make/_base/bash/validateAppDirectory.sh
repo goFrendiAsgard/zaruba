@@ -1,3 +1,4 @@
+set -e
 echo "Validate app directory"
 
 if [ -z "${_ZRB_APP_DIRECTORY}" ]

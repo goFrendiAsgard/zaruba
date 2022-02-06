@@ -1,3 +1,4 @@
+set -e
 echo "Preparing migrate command"
 
 # test command

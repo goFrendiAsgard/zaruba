@@ -241,6 +241,8 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
   * [addFastApiModule](core-tasks/addFastApiModule.md)
   * [addFastApiRouteHandler](core-tasks/addFastApiRouteHandler.md)
   * [addFastApiRpcHandler](core-tasks/addFastApiRpcHandler.md)
+  * [addGenerator](core-tasks/addGenerator.md)
+  * [makeGenerator](core-tasks/makeGenerator.md)
   * [addGitlab](core-tasks/addGitlab.md)
   * [makeGitlabApp](core-tasks/makeGitlabApp.md)
   * [makeGitlabAppRunner](core-tasks/makeGitlabAppRunner.md)

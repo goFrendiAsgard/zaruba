@@ -1,0 +1,11 @@
+tasks:
+
+  makeGenerator:
+    icon: 🪄
+    extend: zrbMake
+    inputs:
+      - taskName
+      - appDependencies
+      - appEnvs
+    configRefs:
+      - makeGenerator

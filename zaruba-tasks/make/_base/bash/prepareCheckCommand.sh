@@ -1,3 +1,4 @@
+set -e
 echo "Preparing check command"
 
 # check command

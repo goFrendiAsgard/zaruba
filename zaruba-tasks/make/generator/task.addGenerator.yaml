@@ -1,0 +1,6 @@
+tasks:
+
+  addGenerator:
+    icon: 🪄
+    dependencies:
+      - makeGenerator

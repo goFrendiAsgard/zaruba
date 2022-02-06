@@ -39,7 +39,8 @@ tasks:
       NAME:
         from: USERNAME
     configs:
-      name: '{{ if .GetValue "name" }}{{ .GetValue "name" }}{{ else if .GetEnv "NAME" }}{{ .GetEnv "NAME" }}{{ else }}world{{ end }}'
+      name: |
+        {{ if .GetValue "name" }}{{ .GetValue "name" }}{{ else if .GetEnv "NAME" }}{{ .GetEnv "NAME" }}{{ else }}world{{ end }}
       start: |
         echo "Hello {{ .GetConfig "name" }}"
 

@@ -1,3 +1,4 @@
+set -e
 echo "Validate app container volumes"
 
 if [ "$("${ZARUBA_BIN}" list validate "${_ZRB_APP_CONTAINER_VOLUMES}")" = 0 ]

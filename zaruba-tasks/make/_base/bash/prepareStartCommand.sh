@@ -1,3 +1,4 @@
+set -e
 echo "Preparing start command"
 
 # start command

@@ -1,0 +1,9 @@
+tasks:
+
+  ztplTaskName:
+    icon: ztplAppIcon
+    extend: zrbMake
+    inputs:
+      - appDirectory
+    configRef: ztplTaskName
+    envRef: ztplTaskName

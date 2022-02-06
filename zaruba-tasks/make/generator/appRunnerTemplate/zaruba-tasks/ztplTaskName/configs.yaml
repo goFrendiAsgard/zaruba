@@ -1,0 +1,7 @@
+configs:
+
+  ztplTaskName:
+    templateLocations: |
+      [
+        "{{ .GetProjectPath "zaruba-tasks/ztplTaskName/templates" }}"
+      ]

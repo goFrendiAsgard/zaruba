@@ -56,3 +56,4 @@ tasks:
         ../zaruba please addTrino appDirectory=provoTrino
         ../zaruba please addContainerRegistry appDirectory=provoContainerRegistry
         ../zaruba please addGitlab appDirectory=provoGitlab
+        ../zaruba please addGenerator taskName=makeArtefact

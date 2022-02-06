@@ -1,3 +1,4 @@
+set -e
 echo "Preparing base variables"
 
 _ZRB_TEMPLATE_LOCATIONS="${_ZRB_CFG_TEMPLATE_LOCATIONS}"
@@ -21,6 +22,7 @@ _ZRB_APP_HTTP_METHOD="${_ZRB_CFG_APP_HTTP_METHOD}"
 _ZRB_APP_MODULE_NAME="${_ZRB_CFG_APP_MODULE_NAME}"
 _ZRB_APP_RPC_NAME="${_ZRB_CFG_APP_RPC_NAME}"
 _ZRB_APP_URL="${_ZRB_CFG_APP_URL}"
+_ZRB_TASK_NAME="${_ZRB_CFG_TASK_NAME}"
 
 # app directory
 if [ ! -z "${_ZRB_APP_DIRECTORY}" ]
@@ -40,6 +42,18 @@ then
     _ZRB_SNAKE_APP_NAME="$("${ZARUBA_BIN}" str toSnake "${_ZRB_APP_NAME}")"
     _ZRB_PASCAL_APP_NAME="$("${ZARUBA_BIN}" str toPascal "${_ZRB_APP_NAME}")"
     _ZRB_KEBAB_APP_NAME="$("${ZARUBA_BIN}" str toKebab "${_ZRB_APP_NAME}")"
+fi
+
+# task name
+if [ -z "${_ZRB_TASK_NAME}" ]
+then
+    _ZRB_TASK_NAME="${_ZRB_APP_NAME}"
+fi
+if [ ! -z "${_ZRB_TASK_NAME}" ]
+then
+    _ZRB_SNAKE_TASK_NAME="$("${ZARUBA_BIN}" str toSnake "${_ZRB_TASK_NAME}")"
+    _ZRB_PASCAL_TASK_NAME="$("${ZARUBA_BIN}" str toPascal "${_ZRB_TASK_NAME}")"
+    _ZRB_KEBAB_TASK_NAME="$("${ZARUBA_BIN}" str toKebab "${_ZRB_TASK_NAME}")"
 fi
 
 # deployment directory

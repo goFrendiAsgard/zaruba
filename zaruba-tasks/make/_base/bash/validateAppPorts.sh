@@ -1,3 +1,4 @@
+set -e
 echo "Validate app ports"
 
 if [ "$("${ZARUBA_BIN}" list validate "${_ZRB_APP_PORTS}")" = 0 ]

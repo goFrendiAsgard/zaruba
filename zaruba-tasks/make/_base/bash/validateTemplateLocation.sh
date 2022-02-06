@@ -1,3 +1,4 @@
+set -e
 echo "Validate template locations"
 
 if [ "$("${ZARUBA_BIN}" list validate "${_ZRB_TEMPLATE_LOCATIONS}")" = 0 ]

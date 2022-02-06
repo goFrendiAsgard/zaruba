@@ -133,3 +133,8 @@ inputs:
       URL to be handled (Required)
     prompt: URL to be handled
     validation: ^[a-zA-Z0-9_\-/\{\}]+$
+
+  taskName:
+    description: |
+      Task's name
+    prompt: Task name

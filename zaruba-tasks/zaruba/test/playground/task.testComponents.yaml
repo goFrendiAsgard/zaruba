@@ -10,6 +10,7 @@ tasks:
       - testFastApi
       - testGitlab
       - testKafka
+      - testMakeArtefact
       - testMeltano
       - testMongodb
       - testMysql

@@ -84,15 +84,18 @@ func StrReplace(s string, replacementMap map[string]string) (result string) {
 	for key := range replacementMap {
 		keys = append(keys, key)
 	}
-	sort.Sort(ByLenDescending(keys))
+	sort.Sort(ReplacementMapKey(keys))
 	for _, key := range keys {
-		re := regexp.MustCompile(key)
 		val := replacementMap[key]
-		result = re.ReplaceAllStringFunc(result, func(text string) string {
-			indentation, _ := StrGetIndentation(text, 1)
-			indentedVal := StrFullIndent(val, indentation)
-			return re.ReplaceAllString(text, indentedVal)
-		})
+		if re, err := regexp.Compile(key); err == nil {
+			result = re.ReplaceAllStringFunc(result, func(text string) string {
+				indentation, _ := StrGetIndentation(text, 1)
+				indentedVal := StrFullIndent(val, indentation)
+				return re.ReplaceAllString(text, indentedVal)
+			})
+		} else {
+			result = strings.ReplaceAll(result, key, val)
+		}
 	}
 	return result
 }

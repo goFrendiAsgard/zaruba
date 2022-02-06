@@ -1,3 +1,4 @@
+set -e
 echo "Validate app crud fields"
 
 if [ "$("${ZARUBA_BIN}" list validate "${_ZRB_APP_CRUD_FIELDS}")" = 0 ]

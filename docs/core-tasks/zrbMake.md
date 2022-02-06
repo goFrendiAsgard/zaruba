@@ -86,7 +86,7 @@ Description:
       ztpl-deployment-name                : App's deployment name (kebab case)
       ZtplDeploymentName                  : App's deployment name (pascal case)
       ztplDeploymentTaskLocation          : App's deployment directory relative to task's location
-    You can see the detail at ~/.zaruba/zaruba-tasks/make/_base/bash/prepareReplacementMap.sh
+    You can see the detail at ~/.zaruba/zaruba-tasks/make/_base/bash/prepareBaseReplacementMap.sh
 
 
 
@@ -173,7 +173,7 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareReplacementMap.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseReplacementMap.sh"
 
 
 ### Configs._prepareBaseStartCommand
@@ -598,6 +598,13 @@ Value:
 Value:
 
     true
+
+
+### Configs.taskName
+
+Value:
+
+    {{ .GetValue "taskName" }}
 
 
 ### Configs.templateLocations

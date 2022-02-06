@@ -1,3 +1,4 @@
+set -e
 echo "Preparing replacement map"
 
 _setReplacementMap "[\t ]*ztplAppBuildImageCommand" "${_ZRB_APP_BUILD_IMAGE_COMMAND}"
@@ -44,6 +45,10 @@ _setReplacementMap "ztpl_app_name" "${_ZRB_SNAKE_APP_NAME}"
 _setReplacementMap "ztplAppName" "${_ZRB_APP_NAME}"
 _setReplacementMap "ztpl-app-name" "${_ZRB_KEBAB_APP_NAME}"
 _setReplacementMap "ZtplAppName" "${_ZRB_PASCAL_APP_NAME}"
+_setReplacementMap "ztpl_task_name" "${_ZRB_SNAKE_TASK_NAME}"
+_setReplacementMap "ztplTaskName" "${_ZRB_TASK_NAME}"
+_setReplacementMap "ztpl-task-name" "${_ZRB_KEBAB_TASK_NAME}"
+_setReplacementMap "ZtplTaskName" "${_ZRB_PASCAL_TASK_NAME}"
 _setReplacementMap "ztplAppPorts" "${_ZRB_APP_PORTS}"
 _setReplacementMap "ztpl_app_rpc_name" "${_ZRB_SNAKE_APP_RPC_NAME}"
 _setReplacementMap "ztplAppRpcName" "${_ZRB_APP_RPC_NAME}"

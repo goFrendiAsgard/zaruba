@@ -1,3 +1,4 @@
+set -e
 echo "Preparing prepare command"
 
 # prepare command

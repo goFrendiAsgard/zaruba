@@ -165,7 +165,7 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareReplacementMap.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseReplacementMap.sh"
 
 
 ### Configs._prepareBaseStartCommand
@@ -594,6 +594,13 @@ Value:
 Value:
 
     true
+
+
+### Configs.taskName
+
+Value:
+
+    {{ .GetValue "taskName" }}
 
 
 ### Configs.templateLocations
