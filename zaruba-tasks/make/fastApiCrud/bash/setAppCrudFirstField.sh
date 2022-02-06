@@ -1,3 +1,4 @@
+set -e
 echo "Set app's crud first field"
 
 if [ "$("${ZARUBA_BIN}" list length "${_ZRB_APP_CRUD_FIELDS}")" = 0 ]

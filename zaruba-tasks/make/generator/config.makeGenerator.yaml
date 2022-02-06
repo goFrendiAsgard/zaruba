@@ -6,12 +6,9 @@ configs:
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/generator/appRunnerTemplate"
       ]
+    _taskIndexPath: './zaruba-tasks/${_ZRB_TASK_NAME}/index.yaml'
     _skipCreationPath: 'zaruba-tasks/${_ZRB_TASK_NAME}'
-    _integrate: |
-      {{ .GetConfig "_includeModuleIndex" }}
+    _integrate: '{{ .GetConfig "_includeModuleIndex" }}'
     _nativePrepareAppRunnerTaskName: 'make${_ZRB_PASCAL_APP_NAME}'
-    _prepareVariables: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareVariables.sh"
-    _prepareReplacementMap: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareReplacementMap.sh"
-  
+    _prepareVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareVariables.sh"'
+    _prepareReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareReplacementMap.sh"'

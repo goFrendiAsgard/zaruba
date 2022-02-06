@@ -1,3 +1,4 @@
+set -e
 echo "Registering repo"
 
 _IMPORT_REPO_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_repo.py")"

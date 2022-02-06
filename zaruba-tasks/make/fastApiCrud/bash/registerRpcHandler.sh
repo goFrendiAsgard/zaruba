@@ -1,3 +1,4 @@
+set -e
 echo "Registering rpc handler"
 
 _IMPORT_RPC_HANDLER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_rpc_handler.py")"

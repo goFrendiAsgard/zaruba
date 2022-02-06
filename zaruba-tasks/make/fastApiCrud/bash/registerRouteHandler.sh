@@ -1,3 +1,4 @@
+set -e
 echo "Registering route handler"
 
 _IMPORT_ROUTE_HANDLER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/import_route_handler.py")"

@@ -223,6 +223,10 @@ Value:
 
 ### Configs._skipCreationPath
 
+Value:
+
+    zaruba-tasks/${_ZRB_TASK_NAME}
+
 
 ### Configs._start
 

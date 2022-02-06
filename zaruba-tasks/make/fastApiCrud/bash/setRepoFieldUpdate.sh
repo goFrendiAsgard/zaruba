@@ -1,3 +1,4 @@
+set -e
 echo "Set repo field update"
 
 _PATTERN="[\t ]*(db_entity.updated_at[\t ]*=[\t ]datetime.datetime.utcnow\(.*)"

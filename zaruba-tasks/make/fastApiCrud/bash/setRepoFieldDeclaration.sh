@@ -1,3 +1,4 @@
+set -e
 echo "Set repo field declaration"
 
 _PATTERN="[\t ]*(id[\t ]*=[\t ]Column\(.*)"

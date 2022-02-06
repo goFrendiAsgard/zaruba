@@ -1,3 +1,4 @@
+set -e
 echo "Set repo field insert"
 
 _PATTERN="[\t ]*(id[\t ]*=[\t ]*str\(uuid.uuid4\(.*)"

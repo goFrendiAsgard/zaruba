@@ -1,3 +1,4 @@
+set -e
 echo "Set schema field declaration"
 
 _PATTERN="[\t ]*(class[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data.*)"
