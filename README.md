@@ -48,7 +48,7 @@ Zaruba allows you to build, run, and deploy everything using simple commands (no
 
 > 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i.e: `zaruba please addFastApiCrud -i`).
 
-[![asciicast](https://asciinema.org/a/IxRNUAF5WxwQQssAPJBCYUxZQ.svg)](https://asciinema.org/a/IxRNUAF5WxwQQssAPJBCYUxZQ)
+[![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
 
 <details>
 <summary>Show complete example</summary>
