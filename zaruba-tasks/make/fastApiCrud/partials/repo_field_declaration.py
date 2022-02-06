@@ -1,1 +1,1 @@
-ztpl_app_crud_field = Column(String(20), index=True)
+ztpl_app_crud_field = Column(String(255), index=True)
