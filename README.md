@@ -51,7 +51,7 @@ Zaruba allows you to build, run, and deploy everything using simple commands (no
 [![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
 
 <details>
-<summary>Show complete example</summary>
+<summary>Show step by stem instructions (including deployment to kubernetes)</summary>
 
 ### ✨ Creating Project and Applications
 
