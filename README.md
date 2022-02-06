@@ -48,6 +48,11 @@ Zaruba allows you to build, run, and deploy everything using simple commands (no
 
 > 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i.e: `zaruba please addFastApiCrud -i`).
 
+[![asciicast](https://asciinema.org/a/IxRNUAF5WxwQQssAPJBCYUxZQ.svg)](https://asciinema.org/a/IxRNUAF5WxwQQssAPJBCYUxZQ)
+
+<details>
+<summary>Show complete example</summary>
+
 ### ✨ Creating Project and Applications
 
 ```bash
@@ -179,6 +184,7 @@ zaruba please syncEnv
 zaruba please deploy kubeContext=docker-desktop
 zaruba please destroy kubeContext=docker-desktop
 ```
+</details>
 
 # 👨‍💻 Installation
 
