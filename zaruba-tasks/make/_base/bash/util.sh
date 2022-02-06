@@ -60,6 +60,8 @@ _getYamlEnvs() {
     __ZRB_ENVS="${1}"
     __ZRB_ENV_PREFIX="${2}"
     __ZRB_MAP_ENVS='{}'
+    __OLD_IFS="${IFS}"
+    IFS=$'\n'
     for __ZRB_KEY in $("${ZARUBA_BIN}" map rangeKey "${__ZRB_ENVS}")
     do
         __ZRB_FROM="${__ZRB_ENV_PREFIX}_${__ZRB_KEY}"
@@ -70,6 +72,7 @@ _getYamlEnvs() {
         __ZRB_SINGLE_MAP_ENV="$("${ZARUBA_BIN}" map set "${__ZRB_SINGLE_MAP_ENV}" "default" "${__ZRB_DEFAULT}")"
         __ZRB_MAP_ENVS="$("${ZARUBA_BIN}" map set "${__ZRB_MAP_ENVS}" "${__ZRB_KEY}" "${__ZRB_SINGLE_MAP_ENV}")"
     done
+    IFS="${__OLD_IFS}"
     __ZRB_YAML_ENVS="$("${ZARUBA_BIN}" yaml print "${__ZRB_MAP_ENVS}")"
     echo "${__ZRB_YAML_ENVS}"
 }

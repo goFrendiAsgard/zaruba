@@ -1,7 +1,7 @@
 set -e
 echo "Set schema field declaration"
 
-_PATTERN="[\t ]*(class[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data.*)"
+_PATTERN="[\t ]*(class[\t ]*ZtplAppCrudEntityData.*)"
 
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/schema_field_declaration.py")"
 _FIELD_SCRIPT_LINES='["$1"]'

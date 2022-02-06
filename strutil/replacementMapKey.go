@@ -8,7 +8,8 @@ func (arr ReplacementMapKey) Len() int {
 
 func (arr ReplacementMapKey) Less(i, j int) bool {
 	// longest key win
-	return len(arr[i]) < len(arr[j])
+	first, second := arr[i], arr[j]
+	return len(second) < len(first)
 }
 
 func (arr ReplacementMapKey) Swap(i, j int) {

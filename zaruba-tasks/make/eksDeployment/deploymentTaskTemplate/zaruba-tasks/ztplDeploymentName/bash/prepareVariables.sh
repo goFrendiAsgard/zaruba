@@ -1,4 +1,6 @@
 CONTAINER_ENVS='[]'
+__OLD_IFS="${IFS}"
+IFS=$'\n'
 for KEY in $("${ZARUBA_BIN}" map rangeKey "${RAW_ENVS}")
 do
     VAL="$("${ZARUBA_BIN}" map get "${RAW_ENVS}" "${KEY}")"
@@ -8,6 +10,7 @@ do
     ENV_MAP="$("${ZARUBA_BIN}" map set "${ENV_MAP}" "value" "${DOUBLE_QUOTED_VAL}")"
     CONTAINER_ENVS="$("${ZARUBA_BIN}" list append "${CONTAINER_ENVS}" "${ENV_MAP}")"
 done
+IFS="${__OLD_IFS}"
 
 CONTAINER_PORTS='[]'
 SERVICE_PORTS='[]'
