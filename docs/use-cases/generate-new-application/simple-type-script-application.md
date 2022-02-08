@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [👷🏽 Use Cases](../README.md) > [Generate New Application](README.md)
+# Simple TypeScript Application
+<!--endTocHeader-->
 
-# Simple Typescript Application
 
 To add simple typeScript application, you can invoke [addSimpleTypeScriptApp](../../core-tasks/addSimpleTypeScriptApp)
 
@@ -27,3 +29,8 @@ zaruba please addSimpleTypeScriptApp \
   appDirectory=myApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

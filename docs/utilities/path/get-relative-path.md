@@ -1,2 +1,8 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [Path](README.md)
 # GetRelativePath
+<!--endTocHeader-->
+TODO: Write about `GetRelativePath`
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

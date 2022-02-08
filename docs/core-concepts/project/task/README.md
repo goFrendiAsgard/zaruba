@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md)
 # Task
+<!--endTocHeader-->
+
 
 Tasks are the most important component of your zaruba scripts. It defines what you can do with your project resources.
 
@@ -32,3 +34,17 @@ Futhermore, you can [extend task](extend-task.md) and define custom [environment
 # Task Anatomy
 
 Please see [task anatomy documentation](task-anatomy.md) to learn more about task anatomy.
+
+<!--startTocSubtopic-->
+# Sub-topics
+* [Task Anatomy](task-anatomy.md)
+* [Simple Command](simple-command.md)
+* [Long Running Process](long-running-process.md)
+* [Task Inputs](task-inputs.md)
+* [Task Configs](task-configs/README.md)
+  * [Shared Configs](task-configs/shared-configs.md)
+* [Task Envs](task-envs/README.md)
+  * [Shared Envs](task-envs/shared-envs.md)
+* [Extend task](extend-task.md)
+* [Define task dependencies](define-task-dependencies.md)
+<!--endTocSubtopic-->

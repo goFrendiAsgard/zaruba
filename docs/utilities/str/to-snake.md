@@ -1,2 +1,8 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [Str](README.md)
 # ToSnake
+<!--endTocHeader-->
+TODO: Write about `ToSnake`
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

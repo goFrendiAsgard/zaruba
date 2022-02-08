@@ -1,5 +1,7 @@
-[⬅️ Table of Content](../../../../README.md)
+<!--startTocHeader-->
+[🏠](../../../../README.md) > [🧠 Core Concept](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md) > [Task Configs](README.md)
 # Shared Configs
+<!--endTocHeader-->
 
 Your tasks might refer to several [project config](../../project-configs.md). To do this, you can use `configRef` or `configRefs` property:
 
@@ -59,3 +61,8 @@ tasks:
 * `configRefs` order matters, if your `configRefs` contains the same configuration, Zaruba will use the first one.
 
 * `configs` will always override `configRef` and `configRefs`.
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

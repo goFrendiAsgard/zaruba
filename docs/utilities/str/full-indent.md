@@ -1,2 +1,8 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [Str](README.md)
 # FullIndent
+<!--endTocHeader-->
+TODO: Write about `FullIndent`
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

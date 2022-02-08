@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../../README.md) > [🧠 Core Concept](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md)
 # Task Configs
+<!--endTocHeader-->
+
 
 Suppose you have a task to run a server:
 
@@ -92,3 +94,9 @@ Nice. so now you even make `start` and `check` command configurable.
 Furthermore, you can take out this configuration and put it as [project config](../../project-configs.md) so that you can share the configurations with other tasks.
 
 To see how to do this, please have a look at [shared config documentation](./shared-configs.md).
+
+
+<!--startTocSubtopic-->
+# Sub-topics
+* [Shared Configs](shared-configs.md)
+<!--endTocSubtopic-->

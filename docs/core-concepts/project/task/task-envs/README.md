@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../../README.md) > [🧠 Core Concept](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md)
 # Task Envs
+<!--endTocHeader-->
+
 
 At some degree, you might need to configure your application by using environment variables. Zaruba allows you to do this by utilizing `envs` property.
 
@@ -97,3 +99,9 @@ If `syncEnv` is set to true, the task's environment will be synchronized wheneve
 Furthermore you can also take out the environments and put it as [project env](../../project-envs.md) so that you can share it with other tasks.
 
 To see how to do this, please have a look at [shared env documentation](./shared-envs.md).
+
+
+<!--startTocSubtopic-->
+# Sub-topics
+* [Shared Envs](shared-envs.md)
+<!--endTocSubtopic-->

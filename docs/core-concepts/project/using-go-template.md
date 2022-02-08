@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
 # Using Go Template
+<!--endTocHeader-->
+
 
 You can use Zaruba's go template in:
 
@@ -89,3 +91,8 @@ echo "Hello {{ .GetConfig "name" }}"
 # List of All Functions
 
 Please visit [zaruba's source code](../../../core/tpl.go) to see available functions/values.
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

@@ -1,6 +1,7 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
 # Project Envs
+<!--endTocHeader-->
 
 
 Your tasks might need [environment variables](./task/task-envs/README.md).
@@ -26,3 +27,8 @@ A single env consists of two keys:
 You can reuse a project env by including it in your task. To do that you need to use `envRef` or `envRefs` property.
 
 To use project env in your task, please see [task's shared envs](./task/task-envs/shared-envs.md).
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

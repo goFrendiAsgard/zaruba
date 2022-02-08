@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [👷🏽 Use Cases](../README.md) > [Generate New Application](README.md)
 # Simple Python Application
+<!--endTocHeader-->
+
 
 To add simple python application, you can invoke [addSimplePythonApp](../../core-tasks/addSimplePythonApp)
 
@@ -27,3 +29,8 @@ zaruba please addSimplePythonApp \
   appDirectory=myApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

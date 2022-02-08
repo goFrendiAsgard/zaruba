@@ -1,6 +1,9 @@
-[⬅️ Table of Content](../README.md)
+<!--startTocHeader-->
+[🏠](../README.md) > [🥝 Core Tasks](README.md)
+# addFastApiRouteHandler
+<!--endTocHeader-->
 
-# ⚡ AddFastApiRouteHandler
+## Information
 
 File Location:
 

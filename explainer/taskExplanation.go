@@ -109,9 +109,8 @@ func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExp
 }
 
 func (t *TaskExplanation) ToString() string {
-	strUtil := strutil.NewStrUtil()
 	lines := []string{}
-	lines = append(lines, t.h1(fmt.Sprintf("%s %s", t.Icon, strUtil.ToPascal(t.Name))))
+	lines = append(lines, t.h2("Information"))
 	lines = append(lines, t.prop("File Location", t.FileLocation))
 	if t.Location != "" {
 		lines = append(lines, t.prop("Location", t.Location))

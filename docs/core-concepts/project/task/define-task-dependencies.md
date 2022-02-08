@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Define task dependencies
+<!--endTocHeader-->
+
 
 Some tasks might require several pre-requisites.
 
@@ -93,3 +95,7 @@ tasks:
 Cool. Now, whenever you run `zaruba please startAndTestApp`, things will be executed in this order:
 
 ![](images/task-dependencies.png)
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

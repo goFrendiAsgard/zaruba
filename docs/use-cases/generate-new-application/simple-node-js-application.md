@@ -1,5 +1,7 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [👷🏽 Use Cases](../README.md) > [Generate New Application](README.md)
 # Simple NodeJs Application
+<!--endTocHeader-->
 
 To add simple node.js application, you can invoke [addSimpleNodeJsApp](../../core-tasks/addSimpleNodeJsApp)
 
@@ -26,3 +28,7 @@ zaruba please addSimpleNodeJsApp \
   appDirectory=myApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

@@ -1,5 +1,7 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [👷🏽 Use Cases](../README.md)
 # Generate New Application
+<!--endTocHeader-->
 
 There are several tasks you can use to create new application and application component:
 
@@ -21,3 +23,17 @@ For more detail information please visit any of the following documentations:
 * [Add Simple TypeScript Application](./simple-type-script-application.md)
 * [Add Simple Python Application](./simple-python-application.md)
 * [Add Fast API Application](./fast-api-application/README.md)
+
+
+<!--startTocSubtopic-->
+# Sub-topics
+* [Simple Go Application](simple-go-application.md)
+* [Simple NodeJs Application](simple-node-js-application.md)
+* [Simple Python Application](simple-python-application.md)
+* [Simple TypeScript Application](simple-type-script-application.md)
+* [FastAPI Application](fast-api-application/README.md)
+  * [Route](fast-api-application/route.md)
+  * [Event Handler](fast-api-application/event-handler.md)
+  * [RPC Handler](fast-api-application/rpc-handler.md)
+  * [CRUD](fast-api-application/crud.md)
+<!--endTocSubtopic-->

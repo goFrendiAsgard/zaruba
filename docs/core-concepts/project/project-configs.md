@@ -1,6 +1,7 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
 # Project Configs
+<!--endTocHeader-->
 
 Your tasks might have several key-value [configurations](./task/task-configs/README.md).
 
@@ -19,3 +20,8 @@ configs:
 You can reuse a project config by including it in your task. To do that you need to use `configRef` or `configRefs` property.
 
 To use project config in your task, please see [task's shared configs](./task/task-configs/shared-configs.md).
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

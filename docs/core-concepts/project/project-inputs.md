@@ -1,6 +1,7 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
 # Project Inputs
+<!--endTocHeader-->
 
 By adding project input you can make your tasks more configurable.
 
@@ -21,3 +22,7 @@ inputs:
 ```
 
 To use the input in your task, please see [task's input](./tasks/task-inputs.md).
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

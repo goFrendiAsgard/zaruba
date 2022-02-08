@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Task Inputs
+<!--endTocHeader-->
+
 
 There are two ways to configure how a task should be executed. The first one is using `envs` property. The other one is by using `inputs`.
 
@@ -132,3 +134,8 @@ Once you fill up the value, the server will run as expected.
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 ```
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

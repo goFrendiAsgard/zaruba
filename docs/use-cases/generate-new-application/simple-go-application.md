@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [👷🏽 Use Cases](../README.md) > [Generate New Application](README.md)
 # Simple Go Application
+<!--endTocHeader-->
+
 
 To add simple go application, you can invoke [addSimpleGoApp](../../core-tasks/addSimpleGoApp)
 
@@ -27,3 +29,8 @@ zaruba please addSimpleGoApp \
   appDirectory=myApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

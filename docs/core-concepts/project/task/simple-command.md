@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Simple Command
+<!--endTocHeader-->
+
 
 Simple command is something you run and considered `completed` once the process has been ended.
 
@@ -67,3 +69,7 @@ Here are some of the tasks you can extend when you want to run simple commands:
 * [zrbRunShellScript](../../../core-tasks/zrbRunShellScript.md): Preferable for common use cases
 * [zrbRunPythonScript](../../../core-tasks/zrbRunPythonScript.md): Run Python script instead of shell script
 * [zrbRunNodeJsScript](../../../core-tasks/zrbRunNodeJsScript.md): Run Node.Js script instead of shell script
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

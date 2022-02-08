@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Task Anatomy
+<!--endTocHeader-->
+
 
 A task contains several keys and values. Hare are some possible keys/values for a task:
 
@@ -416,3 +418,7 @@ To see the task logs you can invoke:
 ```
 zaruba please showLog [taskName]
 ```
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

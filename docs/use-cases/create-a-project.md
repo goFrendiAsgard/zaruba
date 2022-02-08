@@ -1,5 +1,7 @@
-[⬅️ Table of Content](../README.md)
+<!--startTocHeader-->
+[🏠](../README.md) > [👷🏽 Use Cases](README.md)
 # Create a Project
+<!--endTocHeader-->
 
 The recommended way to create a project is by invoking `zaruba please initProject`:
 
@@ -86,3 +88,7 @@ Your next step is depending on your uses case:
 * If you need to add third party services like MySQL, Redis, Kafka, etc, then you need to [add third party services](./add-third-party-service/README.md) to your project.
 * If you need to create an application from scratch, then you can [generate new application](./generate-new-application/README.md).
 * You can also add existing external application as [subrepo of your project](./add-subrepo.md). In this case you also need to [add runner for the existing application](./add-runner-for-existing-application/README.md).
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

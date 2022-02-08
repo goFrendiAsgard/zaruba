@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../README.md)
+<!--startTocHeader-->
+[🏠](../README.md) > [👷🏽 Use Cases](README.md)
+# Add Subrepo
+<!--endTocHeader-->
 
-# Handling Subrepo
 
 You might want to put everything in a single git repository, and allow some part of your code to have it's own public repository.
 
@@ -57,3 +59,8 @@ To push to your subrepos, you can invoke:
 ```
 zaruba please pushSubrepos
 ```
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

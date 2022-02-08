@@ -1,6 +1,7 @@
-[⬅️ Table of Content](../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
 # Includes
+<!--endTocHeader-->
 
 Over time your scripts and source code tend to grow bigger. At some point, you won't be able to keep everything in a single file.
 
@@ -106,3 +107,8 @@ includes:
   - tasks.yaml
 ```
 With this directory structure, you will be able to manage your resources independently.
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

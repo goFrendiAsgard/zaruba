@@ -1,2 +1,8 @@
-[⬅️ Table of Content](../../README.md)
+<!--startTocHeader-->
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [List](README.md)
 # RangeIndex
+<!--endTocHeader-->
+TODO: Write about `RangeIndex`
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->

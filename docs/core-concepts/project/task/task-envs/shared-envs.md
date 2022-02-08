@@ -1,6 +1,8 @@
-[⬅️ Table of Content](../../../../README.md)
-
+<!--startTocHeader-->
+[🏠](../../../../README.md) > [🧠 Core Concept](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md) > [Task Envs](README.md)
 # Shared Envs
+<!--endTocHeader-->
+
 
 Your tasks might refer to several [project env](../../project-envs.md). To do this, you can use `envRef` or `envRefs` property:
 
@@ -79,3 +81,8 @@ tasks:
 * `envRefs` order matters, if your `envRefs` contains the same environment, Zaruba will use the first one.
 
 * `envs` will always override `envRef` and `envRefs`.
+
+
+<!--startTocSubtopic-->
+
+<!--endTocSubtopic-->
