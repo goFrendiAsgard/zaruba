@@ -7,8 +7,8 @@ import (
 	"github.com/state-alchemists/zaruba/core"
 )
 
-var newUUIDCmd = &cobra.Command{
-	Use:   "newUUID",
+var newUuidCmd = &cobra.Command{
+	Use:   "newUuid",
 	Short: "Generate new UUID string",
 	Run: func(cmd *cobra.Command, args []string) {
 		util := core.NewCoreUtil()

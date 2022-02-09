@@ -140,7 +140,7 @@ Value:
       exit 1
     fi
     git init
-    cp -rT "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
+    "{{ .ZarubaBin }}" file copy "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
     touch .env
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"
