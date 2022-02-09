@@ -16,8 +16,7 @@ var setCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
-		mapString := args[0]
-		setArgs := args[1:]
+		mapString, setArgs := args[0], args[1:]
 		util := core.NewCoreUtil()
 		newMapString, err := util.Json.Map.Set(mapString, setArgs...)
 		if err != nil {

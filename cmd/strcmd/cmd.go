@@ -14,7 +14,7 @@ func Init() {
 	Cmd.AddCommand(getIndentationCmd)
 	Cmd.AddCommand(indentCmd)
 	Cmd.AddCommand(newNameCmd)
-	Cmd.AddCommand(newUUIDCmd)
+	Cmd.AddCommand(newUuidCmd)
 	Cmd.AddCommand(padLeftCmd)
 	Cmd.AddCommand(padRightCmd)
 	Cmd.AddCommand(repeatCmd)
