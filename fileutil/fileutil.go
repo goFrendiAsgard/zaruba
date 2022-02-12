@@ -157,13 +157,8 @@ func (fileUtil *FileUtil) List(dirPath string) (fileNames []string, err error) {
 	return fileNames, nil
 }
 
-<<<<<<< HEAD
-func (fileUtil *FileUtil) CopyR(sourceTemplatePath, destinationPath string) (err error) {
-	absSourceTemplatePath, err := filepath.Abs(sourceTemplatePath)
-=======
 func (fileUtil *FileUtil) Copy(sourcePath, destinationPath string) (err error) {
 	absSourcePath, err := filepath.Abs(sourcePath)
->>>>>>> master
 	if err != nil {
 		return err
 	}
@@ -171,38 +166,24 @@ func (fileUtil *FileUtil) Copy(sourcePath, destinationPath string) (err error) {
 	if err != nil {
 		return err
 	}
-<<<<<<< HEAD
-	return filepath.Walk(absSourceTemplatePath,
-=======
 	return filepath.Walk(absSourcePath,
->>>>>>> master
 		func(absSourceLocation string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
-<<<<<<< HEAD
-			relativeLocation := absSourceLocation[len(absSourceTemplatePath):]
-=======
 			relativeLocation := absSourceLocation[len(absSourcePath):]
->>>>>>> master
 			absDestinationLocation := filepath.Join(absDestinationPath, relativeLocation)
 			if info.IsDir() {
 				fileMode := info.Mode()
 				os.Mkdir(absDestinationLocation, fileMode)
 				return nil
 			}
-<<<<<<< HEAD
-			_, err = fileUtil.Copy(absSourceLocation, absDestinationLocation)
-=======
 			_, err = fileUtil.CopyFile(absSourceLocation, absDestinationLocation)
->>>>>>> master
 			return err
 		},
 	)
 }
 
-<<<<<<< HEAD
-=======
 func (fileUtil *FileUtil) Walk(dirPath string) (relativeChildPaths []string, err error) {
 	absDirPath, err := filepath.Abs(dirPath)
 	if err != nil {
@@ -222,7 +203,6 @@ func (fileUtil *FileUtil) Walk(dirPath string) (relativeChildPaths []string, err
 	return relativeChildPaths, err
 }
 
->>>>>>> master
 func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
 	replacementMap, err := fileUtil.json.ToStringDict(replacementMapString)
 	if err != nil {
