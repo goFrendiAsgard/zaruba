@@ -34,7 +34,7 @@ func (fileUtil *FileUtil) IsExist(filePath string) (exist bool, err error) {
 	}
 }
 
-func (fileUtil *FileUtil) Copy(src, dst string) (byteCount int64, err error) {
+func (fileUtil *FileUtil) CopyFile(src, dst string) (byteCount int64, err error) {
 	source, err := os.Open(src)
 	if err != nil {
 		return 0, err
@@ -145,20 +145,20 @@ func (fileUtil *FileUtil) WriteYamlNode(fileName string, node *yaml.Node, fileMo
 	return fileUtil.WriteLines(fileName, jsonString, fileMode)
 }
 
-func (fileUtil *FileUtil) ListDir(dirPath string) (fileNames []string, err error) {
+func (fileUtil *FileUtil) List(dirPath string) (fileNames []string, err error) {
 	fileNames = []string{}
 	files, err := ioutil.ReadDir(dirPath)
 	if err != nil {
 		return fileNames, err
 	}
-	for _, f := range files {
-		fileNames = append(fileNames, f.Name())
+	for _, fileInfo := range files {
+		fileNames = append(fileNames, fileInfo.Name())
 	}
 	return fileNames, nil
 }
 
-func (fileUtil *FileUtil) CopyR(sourceTemplatePath, destinationPath string) (err error) {
-	absSourceTemplatePath, err := filepath.Abs(sourceTemplatePath)
+func (fileUtil *FileUtil) Copy(sourcePath, destinationPath string) (err error) {
+	absSourcePath, err := filepath.Abs(sourcePath)
 	if err != nil {
 		return err
 	}
@@ -166,22 +166,41 @@ func (fileUtil *FileUtil) CopyR(sourceTemplatePath, destinationPath string) (err
 	if err != nil {
 		return err
 	}
-	return filepath.Walk(absSourceTemplatePath,
+	return filepath.Walk(absSourcePath,
 		func(absSourceLocation string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
-			relativeLocation := absSourceLocation[len(absSourceTemplatePath):]
+			relativeLocation := absSourceLocation[len(absSourcePath):]
 			absDestinationLocation := filepath.Join(absDestinationPath, relativeLocation)
 			if info.IsDir() {
 				fileMode := info.Mode()
 				os.Mkdir(absDestinationLocation, fileMode)
 				return nil
 			}
-			_, err = fileUtil.Copy(absSourceLocation, absDestinationLocation)
+			_, err = fileUtil.CopyFile(absSourceLocation, absDestinationLocation)
 			return err
 		},
 	)
+}
+
+func (fileUtil *FileUtil) Walk(dirPath string) (relativeChildPaths []string, err error) {
+	absDirPath, err := filepath.Abs(dirPath)
+	if err != nil {
+		return relativeChildPaths, err
+	}
+	relativeChildPaths = []string{}
+	err = filepath.Walk(absDirPath,
+		func(absLocation string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			relativeLocation := absLocation[len(absDirPath):]
+			relativeChildPaths = append(relativeChildPaths, relativeLocation)
+			return nil
+		},
+	)
+	return relativeChildPaths, err
 }
 
 func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
@@ -215,7 +234,7 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 			}
 			newContent := strutil.StrReplace(content, replacementMap)
 			if newContent == content {
-				_, err = fileUtil.Copy(absSourceLocation, absDestinationLocation)
+				_, err = fileUtil.CopyFile(absSourceLocation, absDestinationLocation)
 				return err
 			}
 			return fileUtil.WriteText(absDestinationLocation, newContent, fileMode)

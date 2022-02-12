@@ -9,4 +9,6 @@ var Cmd = &cobra.Command{
 
 func Init() {
 	Cmd.AddCommand(copyCmd)
+	Cmd.AddCommand(listCmd)
+	Cmd.AddCommand(walkCmd)
 }
