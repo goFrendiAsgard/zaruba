@@ -10,3 +10,8 @@ tasks:
     configs:
       start: |
         . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"
+        if [ -f "${HOME}/tocer/tocer.py" ]
+        then
+          cd docs
+          python "${HOME}/tocer/tocer.py"
+        fi

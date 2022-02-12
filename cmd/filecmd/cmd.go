@@ -9,9 +9,6 @@ var Cmd = &cobra.Command{
 
 func Init() {
 	Cmd.AddCommand(copyCmd)
-<<<<<<< HEAD
-=======
 	Cmd.AddCommand(listCmd)
 	Cmd.AddCommand(walkCmd)
->>>>>>> master
 }
