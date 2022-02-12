@@ -21,7 +21,7 @@ var Cmd = &cobra.Command{
 func Init() {
 	setupFilePath := filepath.Join(os.Getenv("ZARUBA_HOME"), "setup")
 	util := core.NewCoreUtil()
-	fileList, err := util.File.ListDir(setupFilePath)
+	fileList, err := util.File.List(setupFilePath)
 	if err != nil {
 		fmt.Printf("warning: %s is not found", setupFilePath)
 	}
