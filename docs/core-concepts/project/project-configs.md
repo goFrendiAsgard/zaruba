@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
-# Project Configs
+# ⚙️ Project Configs
 <!--endTocHeader-->
 
 Your tasks might have several key-value [configurations](./task/task-configs/README.md).

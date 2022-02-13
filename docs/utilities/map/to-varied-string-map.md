@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🔧 Utilities](../README.md) > [Map](README.md)
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [🗺️ Map](README.md)
 # ToVariedStringMap
 <!--endTocHeader-->
 

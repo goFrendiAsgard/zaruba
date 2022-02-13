@@ -32,7 +32,7 @@ Once you have zaruba project with some zaruba scripts on it, you can start:
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [Create a Project](create-a-project.md)
+* [🏗️ Create a Project](create-a-project.md)
 * [Add Subrepo](add-subrepo.md)
 * [Add Runner for Existing Application](add-runner-for-existing-application/README.md)
   * [Go Application Runner](add-runner-for-existing-application/go-application-runner.md)

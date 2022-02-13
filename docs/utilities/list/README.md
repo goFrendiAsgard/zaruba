@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# List
+# 🧺 List
 <!--endTocHeader-->
 
 A `list` is a valid JSON array.

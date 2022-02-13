@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [👷🏽 Use Cases](README.md)
-# Create a Project
+# 🏗️ Create a Project
 <!--endTocHeader-->
 
 The recommended way to create a project is by invoking `zaruba please initProject`:

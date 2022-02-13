@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Num
+# 🔢 Num
 <!--endTocHeader-->
 
 To see list of `num` utilities you can invoke:

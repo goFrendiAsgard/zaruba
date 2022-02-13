@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🔧 Utilities](../README.md) > [Path](README.md)
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [🛣️ Path](README.md)
 # GetRelativePath
 <!--endTocHeader-->
 

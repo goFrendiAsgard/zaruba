@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
-# Project Anatomy
+# 🧬 Project Anatomy
 <!--endTocHeader-->
 
 A project usually contains some [zaruba scripts](#zaruba-scripts) and [application resources](#other-resources).

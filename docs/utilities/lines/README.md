@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Lines
+# 🚈 Lines
 <!--endTocHeader-->
 
 A `lines` is a valid JSON array containing only string elements.

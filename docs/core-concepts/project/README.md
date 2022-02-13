@@ -40,12 +40,12 @@ Please look on [project anatomy](./project-anatomy.md) for more information.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [Project Anatomy](project-anatomy.md)
-* [Includes](includes.md)
-* [Project Inputs](project-inputs.md)
-* [Project Configs](project-configs.md)
-* [Project Envs](project-envs.md)
-* [Task](task/README.md)
+* [🧬 Project Anatomy](project-anatomy.md)
+* [🧳 Includes](includes.md)
+* [🔤 Project Inputs](project-inputs.md)
+* [⚙️ Project Configs](project-configs.md)
+* [🏝️ Project Envs](project-envs.md)
+* [🔨 Task](task/README.md)
   * [Task Anatomy](task/task-anatomy.md)
   * [Simple Command](task/simple-command.md)
   * [Long Running Process](task/long-running-process.md)

@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Env
+# 🏝️ Env
 <!--endTocHeader-->
 
 To see list of `env` utilities you can invoke:

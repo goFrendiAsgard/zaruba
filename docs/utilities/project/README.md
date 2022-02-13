@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Project
+# 🏗️ Project
 <!--endTocHeader-->
 
 To see list of `project` utilities you can invoke:

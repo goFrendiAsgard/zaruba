@@ -122,12 +122,12 @@ Please visit [project documentation](./project/README.md) to learn more about pr
 <!--startTocSubTopic-->
 # Sub-topics
 * [🏗️ Project](project/README.md)
-  * [Project Anatomy](project/project-anatomy.md)
-  * [Includes](project/includes.md)
-  * [Project Inputs](project/project-inputs.md)
-  * [Project Configs](project/project-configs.md)
-  * [Project Envs](project/project-envs.md)
-  * [Task](project/task/README.md)
+  * [🧬 Project Anatomy](project/project-anatomy.md)
+  * [🧳 Includes](project/includes.md)
+  * [🔤 Project Inputs](project/project-inputs.md)
+  * [⚙️ Project Configs](project/project-configs.md)
+  * [🏝️ Project Envs](project/project-envs.md)
+  * [🔨 Task](project/task/README.md)
     * [Task Anatomy](project/task/task-anatomy.md)
     * [Simple Command](project/task/simple-command.md)
     * [Long Running Process](project/task/long-running-process.md)

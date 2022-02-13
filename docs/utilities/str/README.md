@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Str
+# 🔠 Str
 <!--endTocHeader-->
 
 To see list of `str` utilities you can invoke:

@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Map
+# 🗺️ Map
 <!--endTocHeader-->
 
 A `map` is a valid JSON object.

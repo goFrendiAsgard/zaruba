@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
-# Project Inputs
+# 🔤 Project Inputs
 <!--endTocHeader-->
 
 By adding project input you can make your tasks more configurable.

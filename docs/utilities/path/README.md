@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# Path
+# 🛣️ Path
 <!--endTocHeader-->
 
 To see list of `path` utilities you can invoke:
