@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Map](README.md)
 # ToVariedStringMap
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `ToVariedStringMap`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

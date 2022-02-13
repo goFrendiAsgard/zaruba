@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Lines](README.md)
 # InsertBefore
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `InsertBefore`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

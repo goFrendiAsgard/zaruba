@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# makeJupyterNotebookApp
+# 🧪 makeJupyterNotebookApp
 <!--endTocHeader-->
 
 ## Information

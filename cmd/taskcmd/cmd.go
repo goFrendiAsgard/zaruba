@@ -10,6 +10,7 @@ var Cmd = &cobra.Command{
 func Init() {
 	Cmd.AddCommand(addDependencyCmd)
 	Cmd.AddCommand(addParentCmd)
+	Cmd.AddCommand(getIconCmd)
 	Cmd.AddCommand(isExistCmd)
 	Cmd.AddCommand(setConfigCmd)
 	Cmd.AddCommand(setEnvCmd)

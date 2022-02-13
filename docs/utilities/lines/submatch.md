@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Lines](README.md)
 # Submatch
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Submatch`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

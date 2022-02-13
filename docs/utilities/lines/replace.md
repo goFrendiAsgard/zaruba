@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Lines](README.md)
 # Replace
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Replace`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

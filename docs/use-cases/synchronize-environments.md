@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [👷🏽 Use Cases](README.md)
 # Synchronize environments
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Synchronize environments`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -1,9 +1,9 @@
 <!--startTocheader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [File](README.md)
 # Walk
-<!--endTocheader--
+<!--endTocHeader-->
 
 TODO: Write about `Walk`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [List](README.md)
 # Get
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Get`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

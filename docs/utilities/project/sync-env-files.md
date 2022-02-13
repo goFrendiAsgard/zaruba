@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Project](README.md)
 # SyncEnvFiles
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `SyncEnvFiles`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

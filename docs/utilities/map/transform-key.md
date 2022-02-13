@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Map](README.md)
 # TransformKey
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `TransformKey`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

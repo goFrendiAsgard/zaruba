@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Project](README.md)
 # AddTaskIfNotExist
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `AddTaskIfNotExist`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

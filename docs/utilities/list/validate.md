@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [List](README.md)
 # Validate
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Validate`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

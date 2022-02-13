@@ -22,7 +22,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utilities
-v0.9.0-alpha-2-85-g25a26428
+v0.9.0-alpha-2-88-gcf5f855d
 
 Usage:
   zaruba [command]
@@ -233,6 +233,7 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
 * [Task](task/README.md)
   * [AddDependency](task/add-dependency.md)
   * [AddParent](task/add-parent.md)
+  * [GetIcon](task/get-icon.md)
   * [IsExist](task/is-exist.md)
   * [SetConfig](task/set-config.md)
   * [SetEnv](task/set-env.md)

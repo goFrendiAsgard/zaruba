@@ -1,9 +1,17 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Env](README.md)
 # Get
-<!--endTocHeader--
+<!--endTocHeader-->
 
-TODO: Write about `Get`
+# Usage
 
-!--startTocSubTopic-->
+<!--startCode-->
+```bash
+zaruba env get --help
+```
+<!--endCode-->
+
+
+
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

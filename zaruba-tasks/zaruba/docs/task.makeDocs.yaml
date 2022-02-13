@@ -10,4 +10,4 @@ tasks:
     configs:
       start: |
         . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"
-        cd docs && ./.adjustDocs.sh
+        cd docs && . .adjustDocs.sh

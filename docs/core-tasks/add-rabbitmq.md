@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# addRabbitmq
+# 🐇 addRabbitmq
 <!--endTocHeader-->
 
 ## Information

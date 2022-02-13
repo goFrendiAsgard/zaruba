@@ -41,6 +41,18 @@ func (taskUtil *TaskUtil) getTask(projectFile, taskName string) (task *Task, err
 	return task, nil
 }
 
+func (taskUtil *TaskUtil) GetIcon(projectFile, taskName string) (icon string, err error) {
+	project, err := taskUtil.project.getProject(projectFile)
+	if err != nil {
+		return "", err
+	}
+	task, taskExist := project.Tasks[taskName]
+	if !taskExist {
+		return "", fmt.Errorf("task %s is not exist", taskName)
+	}
+	return task.Icon, nil
+}
+
 func (taskUtil *TaskUtil) IsExist(projectFile, taskName string) (exist bool, err error) {
 	project, err := taskUtil.project.getProject(projectFile)
 	if err != nil {

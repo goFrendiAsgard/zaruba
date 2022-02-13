@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Num](README.md)
 # ValidateInt
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `ValidateInt`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

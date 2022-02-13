@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# makeDockerCompose
+# 🐳 makeDockerCompose
 <!--endTocHeader-->
 
 ## Information

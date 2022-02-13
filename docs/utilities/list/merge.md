@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [List](README.md)
 # Merge
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Merge`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

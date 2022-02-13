@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [👷🏽 Use Cases](README.md)
 # Deploy Applications
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Deploy Applications`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

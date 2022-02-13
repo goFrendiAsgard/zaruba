@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Path](README.md)
 # GetPortConfig
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `GetPortConfig`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

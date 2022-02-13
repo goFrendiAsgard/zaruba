@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Lines](README.md)
 # Write
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `Write`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

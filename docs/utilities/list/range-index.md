@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [List](README.md)
 # RangeIndex
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `RangeIndex`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Lines](README.md)
 # GetIndex
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `GetIndex`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->

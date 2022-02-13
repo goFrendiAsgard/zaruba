@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Path](README.md)
 # GetEnv
-<!--endTocHeader--
+<!--endTocHeader-->
 
 TODO: Write about `GetEnv`
 
-!--startTocSubTopic-->
+<!--startTocSubTopic-->
 <!--endTocSubTopic-->
