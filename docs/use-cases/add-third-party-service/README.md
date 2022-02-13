@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [👷🏽 Use Cases](../README.md)
-# Add Third Party Service
+# 🥉 Add Third Party Service
 <!--endTocHeader-->
 TODO: Write about `Add Third Party Service`
 <!--startTocSubTopic-->

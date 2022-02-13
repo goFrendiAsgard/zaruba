@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [👷🏽 Use Cases](README.md)
-# Run Applications Locally
+# 🚌 Run Applications Locally
 <!--endTocHeader-->
 
 TODO: Write about `Run Applications Locally`

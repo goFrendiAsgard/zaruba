@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [👷🏽 Use Cases](../README.md)
-# Generate New Application
+# ✨ Generate New Application
 <!--endTocHeader-->
 
 There are several tasks you can use to create new application and application component:

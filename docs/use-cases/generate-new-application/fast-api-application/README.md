@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [Generate New Application](../README.md)
+[🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [✨ Generate New Application](../README.md)
 # FastApi Application
 <!--endTocHeader-->
 TODO: Write about `FastAPI Application`
