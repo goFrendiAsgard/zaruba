@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeSimplePythonApp](makeSimplePythonApp.md)
-* [makeSimplePythonAppRunner](makeSimplePythonAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSimplePythonApp](make-simple-python-app.md)
+* [makeSimplePythonAppRunner](make-simple-python-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

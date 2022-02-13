@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeDockerCompose](makeDockerCompose.md)
-* [makeDockerComposeRunner](makeDockerComposeRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeDockerCompose](make-docker-compose.md)
+* [makeDockerComposeRunner](make-docker-compose-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

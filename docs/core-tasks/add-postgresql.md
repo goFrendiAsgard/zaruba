@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makePostgresqlApp](makePostgresqlApp.md)
-* [makePostgresqlAppRunner](makePostgresqlAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makePostgresqlApp](make-postgresql-app.md)
+* [makePostgresqlAppRunner](make-postgresql-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

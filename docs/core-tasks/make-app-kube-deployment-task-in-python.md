@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [zrbMakeTask](zrbMakeTask.md)
+* [zrbMakeTask](zrb-make-task.md)
 
 
 ## Dependencies
 
-* [makeAppKubeDeploymentInPython](makeAppKubeDeploymentInPython.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeAppKubeDeploymentInPython](make-app-kube-deployment-in-python.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

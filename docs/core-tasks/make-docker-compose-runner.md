@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [makeDockerComposeAppRunner](makeDockerComposeAppRunner.md)
+* [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
 
-* [makeDockerCompose](makeDockerCompose.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeDockerCompose](make-docker-compose.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

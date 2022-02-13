@@ -20,5 +20,5 @@ Type:
 
 ## Dependencies
 
-* [makeGenerator](makeGenerator.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeGenerator](make-generator.md)
+* [zrbShowAdv](zrb-show-adv.md)

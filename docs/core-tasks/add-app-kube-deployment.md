@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeAppKubeDeployment](makeAppKubeDeployment.md)
-* [makeAppKubeDeploymentTask](makeAppKubeDeploymentTask.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeAppKubeDeployment](make-app-kube-deployment.md)
+* [makeAppKubeDeploymentTask](make-app-kube-deployment-task.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

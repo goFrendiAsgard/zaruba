@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeMysqlApp](makeMysqlApp.md)
-* [makeMysqlAppRunner](makeMysqlAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeMysqlApp](make-mysql-app.md)
+* [makeMysqlAppRunner](make-mysql-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

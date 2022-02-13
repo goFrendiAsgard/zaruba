@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeMongodbApp](makeMongodbApp.md)
-* [makeMongodbAppRunner](makeMongodbAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeMongodbApp](make-mongodb-app.md)
+* [makeMongodbAppRunner](make-mongodb-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

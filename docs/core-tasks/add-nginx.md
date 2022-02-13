@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeNginxApp](makeNginxApp.md)
-* [makeNginxAppRunner](makeNginxAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeNginxApp](make-nginx-app.md)
+* [makeNginxAppRunner](make-nginx-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

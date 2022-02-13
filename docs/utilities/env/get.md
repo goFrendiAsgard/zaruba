@@ -85,13 +85,13 @@ zaruba map get "${ENV_DICT}" APP_VERSION
 
 ````
 🐶 Environment:
-{"APP_CONTEXT":"gcp","APP_VERSION":"1.0.0","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
+{"APP_CONTEXT":"gcp","APP_VERSION":"1.1.0","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
 
 🐶 APP_CONTEXT:
 gcp
 
 🐶 APP_VERSION:
-1.0.0
+1.1.0
 ````
 <!--endCode-->
 

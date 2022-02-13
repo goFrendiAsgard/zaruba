@@ -27,7 +27,7 @@ Description:
 
 ## Extends
 
-* [zrbRunScript](zrbRunScript.md)
+* [zrbRunScript](zrb-run-script.md)
 
 
 ## Start

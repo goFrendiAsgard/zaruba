@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeDockerApp](makeDockerApp.md)
-* [makeDockerAppRunner](makeDockerAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeDockerApp](make-docker-app.md)
+* [makeDockerAppRunner](make-docker-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

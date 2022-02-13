@@ -24,12 +24,12 @@ Description:
 
 ## Extends
 
-* [zrbRunShellScript](zrbRunShellScript.md)
+* [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-* [zrbIsProject](zrbIsProject.md)
+* [zrbIsProject](zrb-is-project.md)
 
 
 ## Start

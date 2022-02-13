@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeJupyterNotebookApp](makeJupyterNotebookApp.md)
-* [makeJupyterNotebookAppRunner](makeJupyterNotebookAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeJupyterNotebookApp](make-jupyter-notebook-app.md)
+* [makeJupyterNotebookAppRunner](make-jupyter-notebook-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

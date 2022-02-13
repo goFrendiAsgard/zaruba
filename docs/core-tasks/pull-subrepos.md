@@ -28,14 +28,14 @@ Description:
 
 ## Extends
 
-* [zrbRunShellScript](zrbRunShellScript.md)
+* [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-* [initSubrepos](initSubrepos.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbIsValidSubrepos](zrbIsValidSubrepos.md)
+* [initSubrepos](init-subrepos.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbIsValidSubrepos](zrb-is-valid-subrepos.md)
 
 
 ## Start

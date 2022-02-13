@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeRedisApp](makeRedisApp.md)
-* [makeRedisAppRunner](makeRedisAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeRedisApp](make-redis-app.md)
+* [makeRedisAppRunner](make-redis-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

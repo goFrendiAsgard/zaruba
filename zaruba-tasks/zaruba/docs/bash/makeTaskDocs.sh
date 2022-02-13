@@ -20,7 +20,8 @@ do
     then
         echo "Prepare replacement for * ${TASK_NAME} occurrence"
         TASK_NAME="$(./zaruba list get "${SUBMATCH}" 1)"
-        REPLACEMENT_MAP="$(./zaruba map set "${REPLACEMENT_MAP}" '\* `'${TASK_NAME}'`' '* ['${TASK_NAME}']('${TASK_NAME}'.md)')"
+        KEBAB_TASK_NAME="$(./zaruba str toKebab "${TASK_NAME}")"
+        REPLACEMENT_MAP="$(./zaruba map set "${REPLACEMENT_MAP}" '\* `'${TASK_NAME}'`' '* ['${TASK_NAME}']('${KEBAB_TASK_NAME}'.md)')"
     fi
 done
 

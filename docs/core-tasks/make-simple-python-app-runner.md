@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [makePythonAppRunner](makePythonAppRunner.md)
+* [makePythonAppRunner](make-python-app-runner.md)
 
 
 ## Dependencies
 
-* [makeSimplePythonApp](makeSimplePythonApp.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSimplePythonApp](make-simple-python-app.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

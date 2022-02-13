@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeEksDeploymentInPython](makeEksDeploymentInPython.md)
-* [makeEksDeploymentTaskInPython](makeEksDeploymentTaskInPython.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeEksDeploymentInPython](make-eks-deployment-in-python.md)
+* [makeEksDeploymentTaskInPython](make-eks-deployment-task-in-python.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

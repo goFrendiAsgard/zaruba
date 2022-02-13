@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeFastApiApp](makeFastApiApp.md)
-* [makeFastApiAppRunner](makeFastApiAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeFastApiApp](make-fast-api-app.md)
+* [makeFastApiAppRunner](make-fast-api-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

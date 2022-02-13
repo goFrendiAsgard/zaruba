@@ -20,9 +20,9 @@ Type:
 
 ## Dependencies
 
-* [makePythonAppRunner](makePythonAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makePythonAppRunner](make-python-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Inputs

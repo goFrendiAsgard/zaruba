@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeSimpleNodeJsApp](makeSimpleNodeJsApp.md)
-* [makeSimpleNodeJsAppRunner](makeSimpleNodeJsAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSimpleNodeJsApp](make-simple-node-js-app.md)
+* [makeSimpleNodeJsAppRunner](make-simple-node-js-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

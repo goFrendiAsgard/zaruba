@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](makeDockerContainerAppRunner.md)
+* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-* [makeGitlabApp](makeGitlabApp.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeGitlabApp](make-gitlab-app.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

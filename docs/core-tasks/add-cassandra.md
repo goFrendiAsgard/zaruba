@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeCassandraApp](makeCassandraApp.md)
-* [makeCassandraAppRunner](makeCassandraAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeCassandraApp](make-cassandra-app.md)
+* [makeCassandraAppRunner](make-cassandra-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

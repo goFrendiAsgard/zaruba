@@ -95,12 +95,12 @@ Description:
 
 ## Extends
 
-* [zrbRunShellScript](zrbRunShellScript.md)
+* [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-* [zrbShowAdv](zrbShowAdv.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

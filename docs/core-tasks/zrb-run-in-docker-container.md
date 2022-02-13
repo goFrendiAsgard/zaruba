@@ -31,7 +31,7 @@ Description:
 
 ## Extends
 
-* [zrbGenerateAndRun](zrbGenerateAndRun.md)
+* [zrbGenerateAndRun](zrb-generate-and-run.md)
 
 
 ## Start

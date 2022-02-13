@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [makeGoAppRunner](makeGoAppRunner.md)
+* [makeGoAppRunner](make-go-app-runner.md)
 
 
 ## Dependencies
 
-* [makeSimpleGoApp](makeSimpleGoApp.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSimpleGoApp](make-simple-go-app.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

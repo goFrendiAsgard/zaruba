@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeContainerRegistryApp](makeContainerRegistryApp.md)
-* [makeContainerRegistryAppRunner](makeContainerRegistryAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeContainerRegistryApp](make-container-registry-app.md)
+* [makeContainerRegistryAppRunner](make-container-registry-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

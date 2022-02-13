@@ -20,6 +20,6 @@ Type:
 
 ## Dependencies
 
-* [makeGoAppRunner](makeGoAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeGoAppRunner](make-go-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

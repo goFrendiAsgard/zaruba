@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeAirflowApp](makeAirflowApp.md)
-* [makeAirflowAppRunner](makeAirflowAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeAirflowApp](make-airflow-app.md)
+* [makeAirflowAppRunner](make-airflow-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

@@ -25,12 +25,12 @@ Description:
 
 ## Extends
 
-* [zrbStartApp](zrbStartApp.md)
+* [zrbStartApp](zrb-start-app.md)
 
 
 ## Dependencies
 
-* [updateProjectLinks](updateProjectLinks.md)
+* [updateProjectLinks](update-project-links.md)
 
 
 ## Start

@@ -49,13 +49,13 @@ Description:
 
 ## Extends
 
-* [zrbRunShellScript](zrbRunShellScript.md)
+* [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-* [updateProjectLinks](updateProjectLinks.md)
-* [zrbCreateDockerNetwork](zrbCreateDockerNetwork.md)
+* [updateProjectLinks](update-project-links.md)
+* [zrbCreateDockerNetwork](zrb-create-docker-network.md)
 
 
 ## Start

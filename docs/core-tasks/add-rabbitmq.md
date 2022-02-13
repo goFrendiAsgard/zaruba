@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeRabbitmqApp](makeRabbitmqApp.md)
-* [makeRabbitmqAppRunner](makeRabbitmqAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeRabbitmqApp](make-rabbitmq-app.md)
+* [makeRabbitmqAppRunner](make-rabbitmq-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

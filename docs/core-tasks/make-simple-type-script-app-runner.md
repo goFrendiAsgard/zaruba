@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [makeNodeJsAppRunner](makeNodeJsAppRunner.md)
+* [makeNodeJsAppRunner](make-node-js-app-runner.md)
 
 
 ## Dependencies
 
-* [makeSimpleTypeScriptApp](makeSimpleTypeScriptApp.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSimpleTypeScriptApp](make-simple-type-script-app.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

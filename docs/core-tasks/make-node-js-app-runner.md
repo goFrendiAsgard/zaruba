@@ -20,13 +20,13 @@ Type:
 
 ## Extends
 
-* [makeNativeAppRunner](makeNativeAppRunner.md)
+* [makeNativeAppRunner](make-native-app-runner.md)
 
 
 ## Dependencies
 
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

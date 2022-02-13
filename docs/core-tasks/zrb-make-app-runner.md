@@ -20,13 +20,13 @@ Type:
 
 ## Extends
 
-* [zrbMakeTask](zrbMakeTask.md)
+* [zrbMakeTask](zrb-make-task.md)
 
 
 ## Dependencies
 
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

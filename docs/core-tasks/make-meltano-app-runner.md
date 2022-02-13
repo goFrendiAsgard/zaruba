@@ -20,14 +20,14 @@ Type:
 
 ## Extends
 
-* [makeNativeAppRunner](makeNativeAppRunner.md)
+* [makeNativeAppRunner](make-native-app-runner.md)
 
 
 ## Dependencies
 
-* [makeMeltanoApp](makeMeltanoApp.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeMeltanoApp](make-meltano-app.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

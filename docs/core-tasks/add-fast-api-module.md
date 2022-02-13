@@ -20,16 +20,16 @@ Type:
 
 ## Extends
 
-* [makeApp](makeApp.md)
+* [makeApp](make-app.md)
 
 
 ## Dependencies
 
-* [addFastApi](addFastApi.md)
-* [makeFastApiApp](makeFastApiApp.md)
-* [makeFastApiAppRunner](makeFastApiAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [addFastApi](add-fast-api.md)
+* [makeFastApiApp](make-fast-api-app.md)
+* [makeFastApiAppRunner](make-fast-api-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

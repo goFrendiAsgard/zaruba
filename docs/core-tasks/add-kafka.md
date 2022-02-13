@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeKafkaApp](makeKafkaApp.md)
-* [makeKafkaAppRunner](makeKafkaAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeKafkaApp](make-kafka-app.md)
+* [makeKafkaAppRunner](make-kafka-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

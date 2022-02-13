@@ -20,12 +20,12 @@ Type:
 
 ## Extends
 
-* [makeApp](makeApp.md)
+* [makeApp](make-app.md)
 
 
 ## Dependencies
 
-* [zrbShowAdv](zrbShowAdv.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeSimpleTypeScriptApp](makeSimpleTypeScriptApp.md)
-* [makeSimpleTypeScriptAppRunner](makeSimpleTypeScriptAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSimpleTypeScriptApp](make-simple-type-script-app.md)
+* [makeSimpleTypeScriptAppRunner](make-simple-type-script-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeGitlabApp](makeGitlabApp.md)
-* [makeGitlabAppRunner](makeGitlabAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeGitlabApp](make-gitlab-app.md)
+* [makeGitlabAppRunner](make-gitlab-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

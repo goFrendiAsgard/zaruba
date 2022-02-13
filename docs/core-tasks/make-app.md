@@ -20,12 +20,12 @@ Type:
 
 ## Extends
 
-* [zrbMake](zrbMake.md)
+* [zrbMake](zrb-make.md)
 
 
 ## Dependencies
 
-* [zrbShowAdv](zrbShowAdv.md)
+* [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

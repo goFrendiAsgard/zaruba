@@ -36,13 +36,13 @@ Description:
 
 ## Extends
 
-* [zrbStartApp](zrbStartApp.md)
+* [zrbStartApp](zrb-start-app.md)
 
 
 ## Dependencies
 
-* [updateProjectLinks](updateProjectLinks.md)
-* [zrbCreateDockerNetwork](zrbCreateDockerNetwork.md)
+* [updateProjectLinks](update-project-links.md)
+* [zrbCreateDockerNetwork](zrb-create-docker-network.md)
 
 
 ## Start

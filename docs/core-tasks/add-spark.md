@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeSparkApp](makeSparkApp.md)
-* [makeSparkAppRunner](makeSparkAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeSparkApp](make-spark-app.md)
+* [makeSparkAppRunner](make-spark-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)

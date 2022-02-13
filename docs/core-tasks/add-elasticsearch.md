@@ -20,7 +20,7 @@ Type:
 
 ## Dependencies
 
-* [makeElasticsearchApp](makeElasticsearchApp.md)
-* [makeElasticsearchAppRunner](makeElasticsearchAppRunner.md)
-* [zrbIsProject](zrbIsProject.md)
-* [zrbShowAdv](zrbShowAdv.md)
+* [makeElasticsearchApp](make-elasticsearch-app.md)
+* [makeElasticsearchAppRunner](make-elasticsearch-app-runner.md)
+* [zrbIsProject](zrb-is-project.md)
+* [zrbShowAdv](zrb-show-adv.md)
