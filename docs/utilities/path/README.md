@@ -26,7 +26,6 @@ Flags:
   -h, --help   help for path
 
 Use "zaruba path [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

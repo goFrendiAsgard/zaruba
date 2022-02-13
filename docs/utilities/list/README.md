@@ -33,7 +33,6 @@ Flags:
   -h, --help   help for list
 
 Use "zaruba list [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

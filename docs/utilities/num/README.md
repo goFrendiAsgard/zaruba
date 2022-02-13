@@ -25,7 +25,6 @@ Flags:
   -h, --help   help for num
 
 Use "zaruba num [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

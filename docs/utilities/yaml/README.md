@@ -25,7 +25,6 @@ Flags:
   -h, --help   help for yaml
 
 Use "zaruba yaml [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

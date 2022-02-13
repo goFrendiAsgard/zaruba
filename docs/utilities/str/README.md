@@ -45,7 +45,6 @@ Flags:
   -h, --help   help for str
 
 Use "zaruba str [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

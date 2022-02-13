@@ -11,8 +11,7 @@ zaruba
 ```
 
 ````
-
-                                         ,,                      
+,,                      
 MMM"""AMV                               *MM              db      
 M'   AMV                                 MM             ;MM:     
 '   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
@@ -52,7 +51,6 @@ Flags:
   -h, --help   help for zaruba
 
 Use "zaruba [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

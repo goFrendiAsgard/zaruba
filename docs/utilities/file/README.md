@@ -25,7 +25,6 @@ Flags:
   -h, --help   help for file
 
 Use "zaruba file [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

@@ -26,7 +26,6 @@ Flags:
   -h, --help   help for env
 
 Use "zaruba env [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

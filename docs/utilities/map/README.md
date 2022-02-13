@@ -33,7 +33,6 @@ Flags:
   -h, --help   help for map
 
 Use "zaruba map [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 

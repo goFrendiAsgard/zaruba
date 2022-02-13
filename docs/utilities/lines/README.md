@@ -32,7 +32,6 @@ Flags:
   -h, --help   help for lines
 
 Use "zaruba lines [command] --help" for more information about a command.
-
 ````
 <!--endCode-->
 
