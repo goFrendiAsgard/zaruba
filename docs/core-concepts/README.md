@@ -138,5 +138,5 @@ Please visit [project documentation](./project/README.md) to learn more about pr
       * [Shared Envs](project/task/task-envs/shared-envs.md)
     * [Extend task](project/task/extend-task.md)
     * [Define task dependencies](project/task/define-task-dependencies.md)
-  * [Using Go Template](project/using-go-template.md)
+  * [🐹 Using Go Template](project/using-go-template.md)
 <!--endTocSubTopic-->

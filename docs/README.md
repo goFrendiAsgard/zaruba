@@ -25,7 +25,7 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
                 * [Shared Envs](core-concepts/project/task/task-envs/shared-envs.md)
             * [Extend task](core-concepts/project/task/extend-task.md)
             * [Define task dependencies](core-concepts/project/task/define-task-dependencies.md)
-        * [Using Go Template](core-concepts/project/using-go-template.md)
+        * [🐹 Using Go Template](core-concepts/project/using-go-template.md)
 * [👷🏽 Use Cases](use-cases/README.md)
     * [🏗️ Create a Project](use-cases/create-a-project.md)
     * [📦 Add Subrepo](use-cases/add-subrepo.md)

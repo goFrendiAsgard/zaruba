@@ -56,5 +56,5 @@ Please look on [project anatomy](./project-anatomy.md) for more information.
     * [Shared Envs](task/task-envs/shared-envs.md)
   * [Extend task](task/extend-task.md)
   * [Define task dependencies](task/define-task-dependencies.md)
-* [Using Go Template](using-go-template.md)
+* [🐹 Using Go Template](using-go-template.md)
 <!--endTocSubTopic-->
