@@ -265,6 +265,7 @@ To see whether you need to install those pre-requisites or not, you can use this
 * [docker](https://www.docker.com/get-started) is needed to build, pull or push images. You also need docker if you want to run your application as a container.
 * [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) is needed to access your kubernetes cluster.
 * [helm](https://helm.sh/) and [pulumi](https://www.pulumi.com/) is needed to deploy your application in kubernetes cluster.
+* [Tocer](https://github.com/state-alchemists/tocer) to scaffold Zaruba's documentation.
 
 You should also be able to install those third party packages by running zaruba's third party installer:
 

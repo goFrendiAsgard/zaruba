@@ -2,7 +2,31 @@
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
 # Env
 <!--endTocHeader-->
-TODO: Write about `Env`
+
+To see list of `env` utilities you can invoke:
+
+```bash
+zaruba env
+```
+
+```
+Env utilities
+
+Usage:
+  zaruba env [command]
+
+Available Commands:
+  get         Get envmap from currently loaded environment variables
+  print       Print environment
+  read        Read envmap from file
+  write       Write envMap to file
+
+Flags:
+  -h, --help   help for env
+
+Use "zaruba env [command] --help" for more information about a command.
+```
+
 <!--startTocSubtopic-->
 # Sub-topics
 * [Get](get.md)

@@ -2,7 +2,32 @@
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
 # Task
 <!--endTocHeader-->
-TODO: Write about `Task`
+
+To see list of `task` utilities you can invoke:
+
+```bash
+zaruba task
+```
+
+```
+Task manipulation utilities
+
+Usage:
+  zaruba task [command]
+
+Available Commands:
+  addDependency Add task dependency
+  addParent     Add task parent
+  isExist       Is task exist
+  setConfig     Set task config
+  setEnv        Set task env
+  syncEnv       Update task's environment
+
+Flags:
+  -h, --help   help for task
+
+```
+
 <!--startTocSubtopic-->
 # Sub-topics
 * [AddDependency](add-dependency.md)

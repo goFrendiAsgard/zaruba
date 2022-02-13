@@ -2,7 +2,30 @@
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
 # Num
 <!--endTocHeader-->
-TODO: Write about `Num`
+
+To see list of `num` utilities you can invoke:
+
+```bash
+zaruba num
+```
+
+```
+Number manipulation utilities
+
+Usage:
+  zaruba num [command]
+
+Available Commands:
+  range         Print numbers sequentially
+  validateFloat Check whether value is valid float or not
+  validateInt   Check whether value is valid int or not
+
+Flags:
+  -h, --help   help for num
+
+Use "zaruba num [command] --help" for more information about a command.
+```
+
 <!--startTocSubtopic-->
 # Sub-topics
 * [Range](range.md)

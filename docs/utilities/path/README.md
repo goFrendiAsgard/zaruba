@@ -2,7 +2,31 @@
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
 # Path
 <!--endTocHeader-->
-TODO: Write about `Path`
+
+To see list of `path` utilities you can invoke:
+
+```bash
+zaruba path
+```
+
+```
+Path manipulation utilities
+
+Usage:
+  zaruba path [command]
+
+Available Commands:
+  getAppName      Get default app name based on location or image name
+  getEnv          Return JSON string map containing environment variables defined on location
+  getPortConfig   Return jsonList representing default configs.ports
+  getRelativePath Get relative path
+
+Flags:
+  -h, --help   help for path
+
+Use "zaruba path [command] --help" for more information about a command.
+```
+
 <!--startTocSubtopic-->
 # Sub-topics
 * [GetAppName](get-app-name.md)

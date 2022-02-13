@@ -4,7 +4,7 @@ import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
 	Use:   "path",
-	Short: "path manipulation utilities",
+	Short: "Path manipulation utilities",
 }
 
 func Init() {
