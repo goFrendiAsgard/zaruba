@@ -3,6 +3,5 @@
 # Split
 <!--endTocHeader-->
 TODO: Write about `Split`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

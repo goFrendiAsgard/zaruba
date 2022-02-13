@@ -3,6 +3,5 @@
 # PadRight
 <!--endTocHeader-->
 TODO: Write about `PadRight`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

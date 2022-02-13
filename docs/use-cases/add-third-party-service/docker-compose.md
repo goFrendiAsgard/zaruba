@@ -3,6 +3,5 @@
 # Docker Compose
 <!--endTocHeader-->
 TODO: Write about `Docker Compose`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

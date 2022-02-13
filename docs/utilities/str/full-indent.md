@@ -3,6 +3,5 @@
 # FullIndent
 <!--endTocHeader-->
 TODO: Write about `FullIndent`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

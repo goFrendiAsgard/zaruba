@@ -3,6 +3,5 @@
 # SyncEnv
 <!--endTocHeader-->
 TODO: Write about `SyncEnv`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -3,8 +3,8 @@
 # Message Bus
 <!--endTocHeader-->
 TODO: Write about `Message Bus`
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Rabbitmq](rabbitmq.md)
 * [Kafka](kafka.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

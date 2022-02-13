@@ -3,6 +3,5 @@
 # Meltano
 <!--endTocHeader-->
 TODO: Write about `Meltano`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

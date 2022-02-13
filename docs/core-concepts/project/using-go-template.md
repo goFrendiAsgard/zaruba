@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
 # Using Go Template
 <!--endTocHeader-->
 
@@ -93,6 +93,5 @@ echo "Hello {{ .GetConfig "name" }}"
 Please visit [zaruba's source code](../../../core/tpl.go) to see available functions/values.
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

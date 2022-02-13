@@ -3,6 +3,5 @@
 # Gitlab
 <!--endTocHeader-->
 TODO: Write about `Gitlab`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

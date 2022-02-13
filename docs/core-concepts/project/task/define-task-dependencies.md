@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
+[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Define task dependencies
 <!--endTocHeader-->
 
@@ -96,6 +96,5 @@ Cool. Now, whenever you run `zaruba please startAndTestApp`, things will be exec
 
 ![](images/task-dependencies.png)
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

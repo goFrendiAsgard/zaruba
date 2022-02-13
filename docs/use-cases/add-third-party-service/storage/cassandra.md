@@ -3,6 +3,5 @@
 # Cassandra
 <!--endTocHeader-->
 TODO: Write about `Cassandra`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -3,6 +3,5 @@
 # ToUpperSnake
 <!--endTocHeader-->
 TODO: Write about `ToUpperSnake`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

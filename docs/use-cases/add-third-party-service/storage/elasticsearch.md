@@ -3,6 +3,5 @@
 # Elasticsearch
 <!--endTocHeader-->
 TODO: Write about `Elasticsearch`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

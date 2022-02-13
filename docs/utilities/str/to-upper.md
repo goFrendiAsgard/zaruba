@@ -3,6 +3,5 @@
 # ToUpper
 <!--endTocHeader-->
 TODO: Write about `ToUpper`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -25,7 +25,7 @@ do
 done
 
 # Get explanations and write to files
-echo '<!--startTocSubtopic-->' >> ./docs/core-tasks/README.md
+echo '<!--startTocSubTopic-->' >> ./docs/core-tasks/README.md
 echo '# Sub-topics' >> ./docs/core-tasks/README.md
 TASK_LIST=[]
 for LINE_INDEX in $(seq 0 "${MAX_LINE_INDEX}")
@@ -47,6 +47,6 @@ do
         TASK_LIST="$(./zaruba list append "${TASK_LIST}" "${TASK_NAME}")"
     fi
 done
-echo '<!--endTocSubtopic-->' >> ./docs/core-tasks/README.md
+echo '<!--endTocSubTopic-->' >> ./docs/core-tasks/README.md
 
 python ./zaruba-tasks/zaruba/docs/python/update-task-toc.py "${TASK_LIST}"

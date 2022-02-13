@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
+[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Long Running Process
 <!--endTocHeader-->
 
@@ -179,6 +179,5 @@ Here are some of the tasks you can extend when you want to start long running pr
 * [zrbStartApp](../../../core-tasks/zrbStartApp.md): Lowest level, general use case
 * [zrbStartDockerContainer](../../../core-tasks/zrbStartDockerContainer.md): Start a docker container
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

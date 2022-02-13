@@ -3,6 +3,5 @@
 # Replace
 <!--endTocHeader-->
 TODO: Write about `Replace`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

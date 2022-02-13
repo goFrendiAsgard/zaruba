@@ -3,6 +3,5 @@
 # Repeat
 <!--endTocHeader-->
 TODO: Write about `Repeat`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

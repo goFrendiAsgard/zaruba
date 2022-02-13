@@ -10,90 +10,7 @@ Zaruba provide several utilities to deal with environment, files, tasks, and JSO
 zaruba
 ```
 
-```
-
-                                         ,,                      
-MMM"""AMV                               *MM              db      
-M'   AMV                                 MM             ;MM:     
-'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
-   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
-  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
- AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
-AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
---.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
-v0.9.0-alpha-2-83-g02637343
-
-Usage:
-  zaruba [command]
-
-Available Commands:
-  advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
-  help          Help about any command
-  install       Install external tools
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
-  num           Number manipulation utilities
-  path          path manipulation utilities
-  please        Run Task(s)
-  project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
-  str           String manipulation utilities
-  task          Task manipulation utilities
-  version       Show current version
-  yaml          YAML utilities
-
-Flags:
-  -h, --help   help for zaruba
-
-Use "zaruba [command] --help" for more information about a command.
-
-                                         ,,                      
-MMM"""AMV                               *MM              db      
-M'   AMV                                 MM             ;MM:     
-'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
-   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
-  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
- AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
-AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
---.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
-v0.9.0-alpha-2-83-g02637343
-
-Usage:
-  zaruba [command]
-
-Available Commands:
-  advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
-  help          Help about any command
-  install       Install external tools
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
-  num           Number manipulation utilities
-  path          path manipulation utilities
-  please        Run Task(s)
-  project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
-  str           String manipulation utilities
-  task          Task manipulation utilities
-  version       Show current version
-  yaml          YAML utilities
-
-Flags:
-  -h, --help   help for zaruba
-
-Use "zaruba [command] --help" for more information about a command.
-/home/gofrendi/.zaruba/zaruba
+````
 
                                          ,,                      
 MMM"""AMV                               *MM              db      
@@ -136,177 +53,7 @@ Flags:
 
 Use "zaruba [command] --help" for more information about a command.
 
-                                         ,,                      
-MMM"""AMV                               *MM              db      
-M'   AMV                                 MM             ;MM:     
-'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
-   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
-  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
- AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
-AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
---.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
-v0.9.0-alpha-2-85-g25a26428
-
-Usage:
-  zaruba [command]
-
-Available Commands:
-  advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
-  help          Help about any command
-  install       Install external tools
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
-  num           Number manipulation utilities
-  path          Path manipulation utilities
-  please        Run Task(s)
-  project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
-  str           String manipulation utilities
-  task          Task manipulation utilities
-  version       Show current version
-  yaml          YAML utilities
-
-Flags:
-  -h, --help   help for zaruba
-
-Use "zaruba [command] --help" for more information about a command.
-
-                                         ,,                      
-MMM"""AMV                               *MM              db      
-M'   AMV                                 MM             ;MM:     
-'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
-   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
-  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
- AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
-AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
---.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
-v0.9.0-alpha-2-85-g25a26428
-
-Usage:
-  zaruba [command]
-
-Available Commands:
-  advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
-  help          Help about any command
-  install       Install external tools
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
-  num           Number manipulation utilities
-  path          Path manipulation utilities
-  please        Run Task(s)
-  project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
-  str           String manipulation utilities
-  task          Task manipulation utilities
-  version       Show current version
-  yaml          YAML utilities
-
-Flags:
-  -h, --help   help for zaruba
-
-Use "zaruba [command] --help" for more information about a command.
-README.md
-core-concepts
-core-tasks
-design-documents.md
-use-cases
-utilities
-
-                                         ,,                      
-MMM"""AMV                               *MM              db      
-M'   AMV                                 MM             ;MM:     
-'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
-   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
-  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
- AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
-AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
---.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
-v0.9.0-alpha-2-85-g25a26428
-
-Usage:
-  zaruba [command]
-
-Available Commands:
-  advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
-  help          Help about any command
-  install       Install external tools
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
-  num           Number manipulation utilities
-  path          Path manipulation utilities
-  please        Run Task(s)
-  project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
-  str           String manipulation utilities
-  task          Task manipulation utilities
-  version       Show current version
-  yaml          YAML utilities
-
-Flags:
-  -h, --help   help for zaruba
-
-Use "zaruba [command] --help" for more information about a command.
-
-                                         ,,                      
-MMM"""AMV                               *MM              db      
-M'   AMV                                 MM             ;MM:     
-'   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
-   AMV    8)   MM    MM' "'   MM    MM   MM    'Mb    ,M  'MM    
-  AMV   ,  ,pm9MM    MM       MM    MM   MM     M8    AbmmmqMA   
- AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
-AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
---.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
-v0.9.0-alpha-2-85-g25a26428
-
-Usage:
-  zaruba [command]
-
-Available Commands:
-  advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
-  help          Help about any command
-  install       Install external tools
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
-  num           Number manipulation utilities
-  path          Path manipulation utilities
-  please        Run Task(s)
-  project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
-  str           String manipulation utilities
-  task          Task manipulation utilities
-  version       Show current version
-  yaml          YAML utilities
-
-Flags:
-  -h, --help   help for zaruba
-
-Use "zaruba [command] --help" for more information about a command.
-
-```
+````
 <!--endCode-->
 
 
@@ -402,13 +149,18 @@ The following is a valid `lines`:
 
 To see how `lines` utitilites works, please visit [lines utilities documentation](lines/README.md). 
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Env](env/README.md)
   * [Get](env/get.md)
   * [Print](env/print.md)
   * [Read](env/read.md)
   * [Write](env/write.md)
+* [Install](install.md)
+* [File](file/README.md)
+  * [Copy](file/copy.md)
+  * [List](file/list.md)
+  * [Walk](file/walk.md)
 * [Lines](lines/README.md)
   * [Fill](lines/fill.md)
   * [GetIndex](lines/get-index.md)
@@ -461,7 +213,7 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [GetIndentation](str/get-indentation.md)
   * [Indent](str/indent.md)
   * [NewName](str/new-name.md)
-  * [NewUUID](str/new-uuid.md)
+  * [NewUuid](str/new-uuid.md)
   * [PadLeft](str/pad-left.md)
   * [PadRight](str/pad-right.md)
   * [Repeat](str/repeat.md)
@@ -485,8 +237,8 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [SetConfig](task/set-config.md)
   * [SetEnv](task/set-env.md)
   * [SyncEnv](task/sync-env.md)
-* [YAML](yaml/README.md)
+* [Yaml](yaml/README.md)
   * [Print](yaml/print.md)
   * [Read](yaml/read.md)
   * [Write](yaml/write.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

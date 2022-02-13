@@ -3,6 +3,5 @@
 # NewName
 <!--endTocHeader-->
 TODO: Write about `NewName`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

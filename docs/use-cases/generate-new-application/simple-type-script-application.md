@@ -31,6 +31,5 @@ zaruba please addSimpleTypeScriptApp \
 ```
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

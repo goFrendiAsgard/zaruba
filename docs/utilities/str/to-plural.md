@@ -3,6 +3,5 @@
 # ToPlural
 <!--endTocHeader-->
 TODO: Write about `ToPlural`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

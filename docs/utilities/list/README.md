@@ -12,13 +12,33 @@ To see list of `list` utilities you can invoke:
 zaruba list
 ```
 
-```
+````
+List manipulation utilities
 
-```
+Usage:
+  zaruba list [command]
+
+Available Commands:
+  append      Append new values to jsonList
+  contain     Find out whether jsonList contains string or not
+  get         Get jsonList[index]
+  join        Transform JSON list into single string
+  length      Get list's length
+  merge       Merge JSON lists
+  rangeIndex  Print list indexes
+  set         Set list[index] to value and return new JSON list
+  validate    Check whether jsonList is valid JSON list or not
+
+Flags:
+  -h, --help   help for list
+
+Use "zaruba list [command] --help" for more information about a command.
+
+````
 <!--endCode-->
 
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Append](append.md)
 * [Contain](contain.md)
@@ -29,4 +49,4 @@ zaruba list
 * [RangeIndex](range-index.md)
 * [Set](set.md)
 * [Validate](validate.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

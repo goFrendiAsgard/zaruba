@@ -162,6 +162,7 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
         * [Print](utilities/yaml/print.md)
         * [Read](utilities/yaml/read.md)
         * [Write](utilities/yaml/write.md)
+* [📝 Design Documents](design-documents.md)
 * [🥝 Core Tasks](core-tasks/README.md)
   * [zrbShowAdv](core-tasks/zrb-show-adv.md)
   * [zrbCopyToKubePod](core-tasks/zrb-copy-to-kube-pod.md)

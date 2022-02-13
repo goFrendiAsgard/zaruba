@@ -10,7 +10,7 @@ To see list of `str` utilities you can invoke:
 zaruba str
 ```
 
-```
+````
 String manipulation utilities
 
 Usage:
@@ -46,10 +46,10 @@ Flags:
 
 Use "zaruba str [command] --help" for more information about a command.
 
-```
+````
 <!--endCode-->
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [AddPrefix](add-prefix.md)
 * [DoubleQuote](double-quote.md)
@@ -57,7 +57,7 @@ Use "zaruba str [command] --help" for more information about a command.
 * [GetIndentation](get-indentation.md)
 * [Indent](indent.md)
 * [NewName](new-name.md)
-* [NewUUID](new-uuid.md)
+* [NewUuid](new-uuid.md)
 * [PadLeft](pad-left.md)
 * [PadRight](pad-right.md)
 * [Repeat](repeat.md)
@@ -74,4 +74,4 @@ Use "zaruba str [command] --help" for more information about a command.
 * [ToSnake](to-snake.md)
 * [ToUpper](to-upper.md)
 * [ToUpperSnake](to-upper-snake.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

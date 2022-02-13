@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
 # Project Envs
 <!--endTocHeader-->
 
@@ -29,6 +29,5 @@ You can reuse a project env by including it in your task. To do that you need to
 To use project env in your task, please see [task's shared envs](./task/task-envs/shared-envs.md).
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

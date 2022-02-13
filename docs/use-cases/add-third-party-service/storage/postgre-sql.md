@@ -1,8 +1,7 @@
 <!--startTocHeader-->
 [🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [Add Third Party Service](../README.md) > [Storage](README.md)
-# PostgreSQL
+# PostgreSql
 <!--endTocHeader-->
 TODO: Write about `PostgreSQL`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

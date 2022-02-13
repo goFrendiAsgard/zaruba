@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
 # Project Inputs
 <!--endTocHeader-->
 
@@ -23,6 +23,5 @@ inputs:
 
 To use the input in your task, please see [task's input](./tasks/task-inputs.md).
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -3,12 +3,12 @@
 # Storage
 <!--endTocHeader-->
 TODO: Write about `Storage`
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Cassandra](cassandra.md)
 * [Elasticsearch](elasticsearch.md)
-* [MongoDB](mongo-db.md)
-* [MySQL](my-sql.md)
-* [PostgreSQL](postgre-sql.md)
+* [MongoDb](mongo-db.md)
+* [MySql](my-sql.md)
+* [PostgreSql](postgre-sql.md)
 * [Redis](redis.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

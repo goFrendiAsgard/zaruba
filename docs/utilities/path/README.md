@@ -10,8 +10,8 @@ To see list of `path` utilities you can invoke:
 zaruba path
 ```
 
-```
-path manipulation utilities
+````
+Path manipulation utilities
 
 Usage:
   zaruba path [command]
@@ -27,13 +27,13 @@ Flags:
 
 Use "zaruba path [command] --help" for more information about a command.
 
-```
+````
 <!--endCode-->
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [GetAppName](get-app-name.md)
 * [GetEnv](get-env.md)
 * [GetPortConfig](get-port-config.md)
 * [GetRelativePath](get-relative-path.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

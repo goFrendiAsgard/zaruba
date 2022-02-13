@@ -3,6 +3,5 @@
 # PadLeft
 <!--endTocHeader-->
 TODO: Write about `PadLeft`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

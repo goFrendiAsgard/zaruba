@@ -10,7 +10,7 @@ To see list of `task` utilities you can invoke:
 zaruba task
 ```
 
-```
+````
 Task manipulation utilities
 
 Usage:
@@ -29,10 +29,10 @@ Flags:
 
 Use "zaruba task [command] --help" for more information about a command.
 
-```
+````
 <!--endCode-->
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [AddDependency](add-dependency.md)
 * [AddParent](add-parent.md)
@@ -40,4 +40,4 @@ Use "zaruba task [command] --help" for more information about a command.
 * [SetConfig](set-config.md)
 * [SetEnv](set-env.md)
 * [SyncEnv](sync-env.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

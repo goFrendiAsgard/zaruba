@@ -91,6 +91,5 @@ zaruba please startMyNodeJsAppContainer
 Zaruba will always start `myDb` first before starting `myNodeJsApp`. This is expected since you define `myDb` as `myNodeJsApp`'s application dependency.
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

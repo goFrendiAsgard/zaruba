@@ -3,6 +3,5 @@
 # Docker App
 <!--endTocHeader-->
 TODO: Write about `Docker App`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

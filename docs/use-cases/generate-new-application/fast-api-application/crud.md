@@ -1,8 +1,7 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [Generate New Application](../README.md) > [FastAPI Application](README.md)
-# CRUD
+[🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [Generate New Application](../README.md) > [FastApi Application](README.md)
+# Crud
 <!--endTocHeader-->
 TODO: Write about `CRUD`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -1,8 +1,9 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Path](README.md)
 # GetAppName
-<!--endTocHeader-->
-TODO: Write about `GetAppName`
-<!--startTocSubtopic-->
+<!--endTocHeader--
 
-<!--endTocSubtopic-->
+TODO: Write about `GetAppName`
+
+!--startTocSubTopic-->
+<!--endTocSubTopic-->

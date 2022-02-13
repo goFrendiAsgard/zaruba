@@ -3,6 +3,5 @@
 # GetIndentation
 <!--endTocHeader-->
 TODO: Write about `GetIndentation`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

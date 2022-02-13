@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
 # Includes
 <!--endTocHeader-->
 
@@ -109,6 +109,5 @@ includes:
 With this directory structure, you will be able to manage your resources independently.
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

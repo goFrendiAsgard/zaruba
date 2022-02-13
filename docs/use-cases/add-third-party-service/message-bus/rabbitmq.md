@@ -3,6 +3,5 @@
 # Rabbitmq
 <!--endTocHeader-->
 TODO: Write about `Rabbitmq`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

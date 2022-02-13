@@ -3,6 +3,5 @@
 # SetConfig
 <!--endTocHeader-->
 TODO: Write about `SetConfig`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

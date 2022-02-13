@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
 # Project Anatomy
 <!--endTocHeader-->
 
@@ -97,6 +97,5 @@ Zaruba can also help you generate some of those resources.
 You can generate [new applications](../../use-cases/generate-new-application/README.md), [deployments](../../use-cases/generate-new-application/add-application-deployment.md), or other [third party services](../../use-cases/add-third-party-service/README.md).
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -25,15 +25,15 @@ For more detail information please visit any of the following documentations:
 * [Add Fast API Application](./fast-api-application/README.md)
 
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Simple Go Application](simple-go-application.md)
 * [Simple NodeJs Application](simple-node-js-application.md)
 * [Simple Python Application](simple-python-application.md)
 * [Simple TypeScript Application](simple-type-script-application.md)
-* [FastAPI Application](fast-api-application/README.md)
+* [FastApi Application](fast-api-application/README.md)
   * [Route](fast-api-application/route.md)
   * [Event Handler](fast-api-application/event-handler.md)
-  * [RPC Handler](fast-api-application/rpc-handler.md)
-  * [CRUD](fast-api-application/crud.md)
-<!--endTocSubtopic-->
+  * [Rpc Handler](fast-api-application/rpc-handler.md)
+  * [Crud](fast-api-application/crud.md)
+<!--endTocSubTopic-->

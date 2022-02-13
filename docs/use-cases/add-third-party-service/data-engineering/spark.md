@@ -3,6 +3,5 @@
 # Spark
 <!--endTocHeader-->
 TODO: Write about `Spark`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

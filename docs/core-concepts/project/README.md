@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md)
 # 🏗️ Project
 <!--endTocHeader-->
 
@@ -38,7 +38,7 @@ git clone git@github.com:<user>/<repo>.git
 
 Please look on [project anatomy](./project-anatomy.md) for more information. 
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Project Anatomy](project-anatomy.md)
 * [Includes](includes.md)
@@ -57,4 +57,4 @@ Please look on [project anatomy](./project-anatomy.md) for more information.
   * [Extend task](task/extend-task.md)
   * [Define task dependencies](task/define-task-dependencies.md)
 * [Using Go Template](using-go-template.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

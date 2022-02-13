@@ -12,10 +12,38 @@ To see list of command you can use to install third party tools, you can invoke:
 zaruba install
 ```
 
-```
+````
+Install external tools
 
-```
+Usage:
+  zaruba install [command]
+
+Available Commands:
+  awsCli           
+  gcloud           
+  gvm              
+  helm             
+  kubectl          
+  lunarvim         
+  nvm              
+  pulumi           
+  pyenv            
+  scalaOnSdkman    
+  sdkman           
+  spark            
+  starship         
+  terraform        
+  tmuxConfig       
+  ubuntuEssentials 
+  win32yank        
+
+Flags:
+  -h, --help   help for install
+
+Use "zaruba install [command] --help" for more information about a command.
+
+````
 <!--endCode-->
 
-<!--startTocsubtopic-->
-<!--endTocsubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md)
-# 🧠 Core Concept
+# 🧠 Core Concepts
 <!--endTocHeader-->
 
 Zaruba is a task runner and CLI Utilities.
@@ -93,7 +93,7 @@ zaruba please <first-task-name> <second-task-name> -i
 or
 
 ```
-zaruba plaese -i
+zaruba please -i
 ```
 
 When you run a task in interactive mode, Zaruba will also ask you to set environments and input values.
@@ -119,7 +119,7 @@ There are several environment variables you can use to control Zaruba's behavior
 
 Please visit [project documentation](./project/README.md) to learn more about project, or visit [here](../use-cases/create-a-project.md) if you want to see how to create a project.
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [🏗️ Project](project/README.md)
   * [Project Anatomy](project/project-anatomy.md)
@@ -139,4 +139,4 @@ Please visit [project documentation](./project/README.md) to learn more about pr
     * [Extend task](project/task/extend-task.md)
     * [Define task dependencies](project/task/define-task-dependencies.md)
   * [Using Go Template](project/using-go-template.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

@@ -3,6 +3,5 @@
 # Redis
 <!--endTocHeader-->
 TODO: Write about `Redis`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -1,8 +1,7 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [Str](README.md)
-# NewUUID
+# NewUuid
 <!--endTocHeader-->
 TODO: Write about `NewUUID`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

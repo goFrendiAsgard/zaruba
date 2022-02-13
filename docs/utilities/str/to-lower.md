@@ -3,6 +3,5 @@
 # ToLower
 <!--endTocHeader-->
 TODO: Write about `ToLower`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

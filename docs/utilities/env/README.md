@@ -10,15 +10,30 @@ To see list of `env` utilities you can invoke:
 zaruba env
 ```
 
-```
+````
+Env utilities
 
-```
+Usage:
+  zaruba env [command]
+
+Available Commands:
+  get         Get envmap from currently loaded environment variables
+  print       Print environment
+  read        Read envmap from file
+  write       Write envMap to file
+
+Flags:
+  -h, --help   help for env
+
+Use "zaruba env [command] --help" for more information about a command.
+
+````
 <!--endCode-->
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Get](get.md)
 * [Print](print.md)
 * [Read](read.md)
 * [Write](write.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

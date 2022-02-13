@@ -10,7 +10,7 @@ To see list of `num` utilities you can invoke:
 zaruba num
 ```
 
-```
+````
 Number manipulation utilities
 
 Usage:
@@ -26,12 +26,12 @@ Flags:
 
 Use "zaruba num [command] --help" for more information about a command.
 
-```
+````
 <!--endCode-->
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Range](range.md)
 * [ValidateFloat](validate-float.md)
 * [ValidateInt](validate-int.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../../README.md) > [🧠 Core Concept](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md)
+[🏠](../../../../README.md) > [🧠 Core Concepts](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md)
 # Task Configs
 <!--endTocHeader-->
 
@@ -96,7 +96,7 @@ Furthermore, you can take out this configuration and put it as [project config](
 To see how to do this, please have a look at [shared config documentation](./shared-configs.md).
 
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Shared Configs](shared-configs.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

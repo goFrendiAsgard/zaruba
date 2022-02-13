@@ -3,6 +3,5 @@
 # DoubleQuote
 <!--endTocHeader-->
 TODO: Write about `DoubleQuote`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

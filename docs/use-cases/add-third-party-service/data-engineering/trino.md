@@ -3,6 +3,5 @@
 # Trino
 <!--endTocHeader-->
 TODO: Write about `Trino`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🧠 Core Concept](../README.md) > [🏗️ Project](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🏗️ Project](README.md)
 # Project Configs
 <!--endTocHeader-->
 
@@ -22,6 +22,5 @@ You can reuse a project config by including it in your task. To do that you need
 To use project config in your task, please see [task's shared configs](./task/task-configs/shared-configs.md).
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

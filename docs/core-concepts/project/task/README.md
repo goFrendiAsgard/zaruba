@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md)
+[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🏗️ Project](../README.md)
 # Task
 <!--endTocHeader-->
 
@@ -35,7 +35,7 @@ Futhermore, you can [extend task](extend-task.md) and define custom [environment
 
 Please see [task anatomy documentation](task-anatomy.md) to learn more about task anatomy.
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [Task Anatomy](task-anatomy.md)
 * [Simple Command](simple-command.md)
@@ -47,4 +47,4 @@ Please see [task anatomy documentation](task-anatomy.md) to learn more about tas
   * [Shared Envs](task-envs/shared-envs.md)
 * [Extend task](extend-task.md)
 * [Define task dependencies](define-task-dependencies.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

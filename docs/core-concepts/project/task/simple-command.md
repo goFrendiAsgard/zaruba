@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [🧠 Core Concept](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
+[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🏗️ Project](../README.md) > [Task](README.md)
 # Simple Command
 <!--endTocHeader-->
 
@@ -70,6 +70,5 @@ Here are some of the tasks you can extend when you want to run simple commands:
 * [zrbRunPythonScript](../../../core-tasks/zrbRunPythonScript.md): Run Python script instead of shell script
 * [zrbRunNodeJsScript](../../../core-tasks/zrbRunNodeJsScript.md): Run Node.Js script instead of shell script
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

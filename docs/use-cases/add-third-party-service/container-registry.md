@@ -3,6 +3,5 @@
 # Container Registry
 <!--endTocHeader-->
 TODO: Write about `Container Registry`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

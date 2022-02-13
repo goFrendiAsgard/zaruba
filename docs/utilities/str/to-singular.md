@@ -3,6 +3,5 @@
 # ToSingular
 <!--endTocHeader-->
 TODO: Write about `ToSingular`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

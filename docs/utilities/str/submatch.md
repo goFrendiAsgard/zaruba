@@ -3,6 +3,5 @@
 # Submatch
 <!--endTocHeader-->
 TODO: Write about `Submatch`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

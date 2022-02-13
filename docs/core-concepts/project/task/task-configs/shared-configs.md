@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../../README.md) > [🧠 Core Concept](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md) > [Task Configs](README.md)
+[🏠](../../../../README.md) > [🧠 Core Concepts](../../../README.md) > [🏗️ Project](../../README.md) > [Task](../README.md) > [Task Configs](README.md)
 # Shared Configs
 <!--endTocHeader-->
 
@@ -63,6 +63,5 @@ tasks:
 * `configs` will always override `configRef` and `configRefs`.
 
 
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

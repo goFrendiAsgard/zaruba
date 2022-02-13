@@ -3,6 +3,5 @@
 # Kafka
 <!--endTocHeader-->
 TODO: Write about `Kafka`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->

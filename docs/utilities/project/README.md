@@ -10,7 +10,7 @@ To see list of `project` utilities you can invoke:
 zaruba file
 ```
 
-```
+````
 File utilities
 
 Usage:
@@ -26,11 +26,11 @@ Flags:
 
 Use "zaruba file [command] --help" for more information about a command.
 
-```
+````
 <!--endCode-->
 
 
-<!--startTocSubtopic-->
+<!--startTocSubTopic-->
 # Sub-topics
 * [AddTaskIfNotExist](add-task-if-not-exist.md)
 * [Include](include.md)
@@ -38,4 +38,4 @@ Use "zaruba file [command] --help" for more information about a command.
 * [ShowLog](show-log.md)
 * [SyncEnv](sync-env.md)
 * [SyncEnvFiles](sync-env-files.md)
-<!--endTocSubtopic-->
+<!--endTocSubTopic-->

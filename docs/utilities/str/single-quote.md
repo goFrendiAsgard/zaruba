@@ -3,6 +3,5 @@
 # SingleQuote
 <!--endTocHeader-->
 TODO: Write about `SingleQuote`
-<!--startTocSubtopic-->
-
-<!--endTocSubtopic-->
+<!--startTocSubTopic-->
+<!--endTocSubTopic-->
