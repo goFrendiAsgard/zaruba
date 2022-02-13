@@ -13,6 +13,6 @@ tasks:
         if [ -f "${HOME}/tocer/tocer.py" ]
         then
           cd docs
-          alias zaruba="{{ .ZarubaBin }}"
-          python "${HOME}/tocer/tocer.py"
+          echo "Run tocer"
+          python "${HOME}/tocer/tocer.py" README.md 'alias zaruba="{{ .ZarubaBin }}"'
         fi

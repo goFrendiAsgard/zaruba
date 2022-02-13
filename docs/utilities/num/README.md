@@ -5,6 +5,7 @@
 
 To see list of `num` utilities you can invoke:
 
+<!--startCode-->
 ```bash
 zaruba num
 ```
@@ -24,7 +25,9 @@ Flags:
   -h, --help   help for num
 
 Use "zaruba num [command] --help" for more information about a command.
+
 ```
+<!--endCode-->
 
 <!--startTocSubtopic-->
 # Sub-topics

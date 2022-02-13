@@ -18,7 +18,7 @@ do
     SUBMATCH="$(./zaruba str submatch "'""${LINE}""'" ".*\/task\.(.*)\.yaml.*")"
     if [ "$(./zaruba list length "${SUBMATCH}")" = 2 ]
     then
-        echo "Prepare replacement for ${TASK_NAME}"
+        echo "Prepare replacement for * ${TASK_NAME} occurance"
         TASK_NAME="$(./zaruba list get "${SUBMATCH}" 1)"
         REPLACEMENT_MAP="$(./zaruba map set "${REPLACEMENT_MAP}" '\* `'${TASK_NAME}'`' '* ['${TASK_NAME}']('${TASK_NAME}'.md)')"
     fi

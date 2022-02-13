@@ -5,29 +5,30 @@
 
 To see list of `project` utilities you can invoke:
 
+<!--startCode-->
 ```bash
-zaruba project
+zaruba file
 ```
 
 ```
-Project manipulation utilities
+File utilities
 
 Usage:
-  zaruba project [command]
+  zaruba file [command]
 
 Available Commands:
-  addTaskIfNotExist Add task to project
-  include           Add file to project
-  setValue          Set project value
-  showLog           Show log
-  syncEnv           Update every task's environment
-  syncEnvFiles      Update environment files (*.env) in project file's directory
+  copy        copy files/folders recursively
+  list        list files/folders in a path
+  walk        list files/folder in a path, recursively
 
 Flags:
-  -h, --help   help for project
+  -h, --help   help for file
 
-Use "zaruba project [command] --help" for more information about a command.
+Use "zaruba file [command] --help" for more information about a command.
+
 ```
+<!--endCode-->
+
 
 <!--startTocSubtopic-->
 # Sub-topics

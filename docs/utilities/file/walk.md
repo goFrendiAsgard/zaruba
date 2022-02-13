@@ -4,5 +4,4 @@
 <!--endTocheader-->
 TODO: Write about `Walk`
 <!--startTocsubtopic-->
-
 <!--endTocsubtopic-->

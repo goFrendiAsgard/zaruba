@@ -5,6 +5,7 @@
 
 To see list of `task` utilities you can invoke:
 
+<!--startCode-->
 ```bash
 zaruba task
 ```
@@ -26,7 +27,10 @@ Available Commands:
 Flags:
   -h, --help   help for task
 
+Use "zaruba task [command] --help" for more information about a command.
+
 ```
+<!--endCode-->
 
 <!--startTocSubtopic-->
 # Sub-topics

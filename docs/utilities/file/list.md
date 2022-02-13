@@ -4,5 +4,4 @@
 <!--endTocheader-->
 TODO: Write about `List`
 <!--startTocsubtopic-->
-
 <!--endTocsubtopic-->

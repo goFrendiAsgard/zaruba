@@ -7,31 +7,15 @@ A `lines` is a valid JSON array containing only string elements.
 
 To see list of `lines` utilities you can invoke:
 
+<!--startCode-->
 ```bash
 zaruba lines
 ```
 
 ```
-Lines manipulation utilities
 
-Usage:
-  zaruba lines [command]
-
-Available Commands:
-  fill         Insert suplements to lines if patterns is not found
-  getIndex     Return index of matching the pattern
-  insertAfter  Insert newLine after lines[index]
-  insertBefore Insert newLine before lines[index]
-  read         Read lines from file
-  replace      Replace lines[index] with replacements
-  submatch     Return submatch matching the pattern
-  write        Write list to file
-
-Flags:
-  -h, --help   help for lines
-
-Use "zaruba lines [command] --help" for more information about a command.
 ```
+<!--endCode-->
 
 <!--startTocSubtopic-->
 # Sub-topics

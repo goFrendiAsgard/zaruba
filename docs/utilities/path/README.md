@@ -5,12 +5,13 @@
 
 To see list of `path` utilities you can invoke:
 
+<!--startCode-->
 ```bash
 zaruba path
 ```
 
 ```
-Path manipulation utilities
+path manipulation utilities
 
 Usage:
   zaruba path [command]
@@ -25,7 +26,9 @@ Flags:
   -h, --help   help for path
 
 Use "zaruba path [command] --help" for more information about a command.
+
 ```
+<!--endCode-->
 
 <!--startTocSubtopic-->
 # Sub-topics

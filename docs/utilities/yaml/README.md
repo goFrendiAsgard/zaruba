@@ -5,6 +5,7 @@
 
 To see list of `yaml` utilities you can invoke:
 
+<!--startCode-->
 ```bash
 zaruba yaml
 ```
@@ -24,7 +25,9 @@ Flags:
   -h, --help   help for yaml
 
 Use "zaruba yaml [command] --help" for more information about a command.
+
 ```
+<!--endCode-->
 
 <!--startTocSubtopic-->
 # Sub-topics
