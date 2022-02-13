@@ -33,6 +33,7 @@ ENV_DICT=$(env -i \
     PATH="${ZARUBA_HOME}" \
     APP_CONTEXT=aws \
     APP_VERSION=1.0.0 \
+    APP_PLATFORM=kubernetes \
     zaruba env get )
 
 echo "🐶 Environment:"
@@ -45,21 +46,36 @@ zaruba map get "${ENV_DICT}" APP_CONTEXT
 echo ""
 echo "🐶 APP_VERSION:"
 zaruba map get "${ENV_DICT}" APP_VERSION
+
+echo ""
+echo "🐶 APP_PLATFORM:"
+zaruba map get "${ENV_DICT}" APP_PLATFORM
 ```
 
 ````
 🐶 Environment:
-{"APP_CONTEXT":"aws","APP_VERSION":"1.0.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
+{"APP_CONTEXT":"aws","APP_PLATFORM":"kubernetes","APP_VERSION":"1.0.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
 
 🐶 APP_CONTEXT:
 aws
 
 🐶 APP_VERSION:
 1.0.0
+
+🐶 APP_PLATFORM:
+kubernetes
 ````
 <!--endCode-->
 
 ## Get Cascaded Environment as Map
+
+Cascaded environment is very useful if you manage several platforms with similar environments.
+
+For example, you have `dev`, `stag`, and `prod`.
+
+By adding `DEV` prefix (i.e: `zaruba env get DEV`), your `DEV` environment will be assigned to the original ones.
+
+If prefixed environment is not exists, Zaruba will use original values. Thus you can treat original environment as fallback/default values.
 
 <!--startCode-->
 ```bash
@@ -67,8 +83,11 @@ ENV_DICT=$(env -i \
     PATH="${ZARUBA_HOME}" \
     APP_CONTEXT=aws \
     APP_VERSION=1.0.0 \
+    APP_PLATFORM=kubernetes \
+    STAG_APP_CONTEXT=azure \
+    STAG_APP_VERSION=1.1.0 \
     DEV_APP_CONTEXT=gcp \
-    DEV_APP_VERSION=1.1.0 \
+    DEV_APP_VERSION=1.1.1 \
     zaruba env get DEV )
 
 echo "🐶 Environment:"
@@ -81,17 +100,24 @@ zaruba map get "${ENV_DICT}" APP_CONTEXT
 echo ""
 echo "🐶 APP_VERSION:"
 zaruba map get "${ENV_DICT}" APP_VERSION
+
+echo ""
+echo "🐶 APP_PLATFORM:"
+zaruba map get "${ENV_DICT}" APP_PLATFORM
 ```
 
 ````
 🐶 Environment:
-{"APP_CONTEXT":"gcp","APP_VERSION":"1.1.0","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
+{"APP_CONTEXT":"aws","APP_PLATFORM":"kubernetes","APP_VERSION":"1.0.0","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
 
 🐶 APP_CONTEXT:
-gcp
+aws
 
 🐶 APP_VERSION:
-1.1.0
+1.0.0
+
+🐶 APP_PLATFORM:
+kubernetes
 ````
 <!--endCode-->
 
