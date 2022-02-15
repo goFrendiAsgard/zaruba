@@ -1,0 +1,9 @@
+inputs:
+
+  sparkMasterPorts:
+    description: "Spark master's port"
+    default: '["8020:8080", "7077:7077"]'
+
+  sparkWorkerPorts:
+    description: "Spark client's port"
+    default: '["4040:4040"]'

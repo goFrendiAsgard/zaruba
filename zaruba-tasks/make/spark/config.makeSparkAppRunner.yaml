@@ -3,11 +3,8 @@ configs:
   makeSparkAppRunner:
     appIcon: 💥
     defaultAppDirectory: '{{ .ProjectName }}Spark'
-    defaultAppPorts: |
-      [
-        "8020:8080",
-        "7077:7077"
-      ]
+    appSparkMasterPorts: '{{ .GetValue "sparkMasterPorts" }}'
+    appSparkWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
     defaultAppContainerVolumes: |
       [
         "../spark/config:/etc/spark",
@@ -20,6 +17,8 @@ configs:
         "{{ .ZarubaHome }}/zaruba-tasks/make/spark/appRunnerTemplate"
       ]
     _prepareVariables: |
+      _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
+      _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
     _prepareReplacementMap: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"

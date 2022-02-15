@@ -149,15 +149,30 @@ Secret:
     false
 
 
-### Inputs.appPorts
+### Inputs.sparkMasterPorts
 
 Description:
 
-    Application ports
+    Spark master's port
 
 Default Value:
 
-    []
+    ["8020:8080", "7077:7077"]
+
+Secret:
+
+    false
+
+
+### Inputs.sparkWorkerPorts
+
+Description:
+
+    Spark client's port
+
+Default Value:
+
+    ["4040:4040"]
 
 Secret:
 
@@ -282,6 +297,8 @@ Value:
 
 Value:
 
+    _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
+    _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
     . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
 
 
@@ -590,6 +607,20 @@ Value:
     {{ .GetValue "appRunnerVersion" }}
 
 
+### Configs.appSparkMasterPorts
+
+Value:
+
+    {{ .GetValue "sparkMasterPorts" }}
+
+
+### Configs.appSparkWorkerPorts
+
+Value:
+
+    {{ .GetValue "sparkWorkerPorts" }}
+
+
 ### Configs.appStartCommand
 
 Value:
@@ -660,11 +691,7 @@ Value:
 
 Value:
 
-    [
-      "8020:8080",
-      "7077:7077"
-    ]
-
+    []
 
 
 ### Configs.defaultDeploymentDirectory

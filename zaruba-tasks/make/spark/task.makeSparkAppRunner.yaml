@@ -10,7 +10,8 @@ tasks:
       - appDependencies
       - appName
       - appEnvs
-      - appPorts
+      - sparkMasterPorts
+      - sparkWorkerPorts
       - appImageName
       - appContainerName
     configRef: makeSparkAppRunner
