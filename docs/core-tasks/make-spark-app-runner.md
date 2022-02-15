@@ -157,7 +157,7 @@ Description:
 
 Default Value:
 
-    ["8020:8080", "7077:7077"]
+    ["8020:8020", "7077:7077"]
 
 Secret:
 
@@ -172,7 +172,7 @@ Description:
 
 Default Value:
 
-    ["4040:4040"]
+    ["8021:8021"]
 
 Secret:
 
