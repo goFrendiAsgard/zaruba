@@ -673,11 +673,7 @@ Value:
 
 Value:
 
-    [
-      "../spark/config:/etc/spark",
-      "../spark/data:/var/opt/spark"
-    ]
-
+    []
 
 
 ### Configs.defaultAppDirectory

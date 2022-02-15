@@ -5,11 +5,6 @@ configs:
     defaultAppDirectory: '{{ .ProjectName }}Spark'
     appSparkMasterPorts: '{{ .GetValue "sparkMasterPorts" }}'
     appSparkWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
-    defaultAppContainerVolumes: |
-      [
-        "../spark/config:/etc/spark",
-        "../spark/data:/var/opt/spark"
-      ]
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
