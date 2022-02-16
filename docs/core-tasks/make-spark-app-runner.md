@@ -157,7 +157,7 @@ Description:
 
 Default Value:
 
-    ["8020:8020", "7077:7077"]
+    ["8020:8020", "18020:18020", "7077:7077"]
 
 Secret:
 
@@ -172,7 +172,7 @@ Description:
 
 Default Value:
 
-    ["8021:8021"]
+    ["8021:8021", "18021:18021"]
 
 Secret:
 
@@ -180,6 +180,15 @@ Secret:
 
 
 ## Configs
+
+
+### Configs._adjustPermission
+
+Value:
+
+    chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+    chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
+
 
 
 ### Configs._containerPrepareAppRunnerTaskName
@@ -225,15 +234,11 @@ Value:
 
 ### Configs._integrate
 
-Value:
-
-    {{ .GetConfig "_includeModuleIndex" }}
-    {{ .GetConfig "_registerAppRunnerTasks" }}
-    {{ .GetConfig "_registerAppDependencies" }}
-
-
 
 ### Configs._nativePrepareAppRunnerTaskName
+
+
+### Configs._prepare
 
 
 ### Configs._prepareBaseCheckCommand
@@ -307,22 +312,22 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
 
+
+
+### Configs._registerAppDeploymentTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
 
 
 ### Configs._registerAppRunnerTasks
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
-
-
-### Configs._registerDeploymentTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
 
 
 ### Configs._setup
@@ -372,6 +377,7 @@ Value:
     {{ .GetConfig "_prepareBaseCheckCommand" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
+    {{ .GetConfig "_prepare" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}✅ Validate${_NORMAL}"
     {{ .GetConfig "_validateAppDirectory" }}
@@ -388,7 +394,12 @@ Value:
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    {{ .GetConfig "_includeModuleIndex" }}
+    {{ .GetConfig "_registerAppRunnerTasks" }}
+    {{ .GetConfig "_registerAppDeploymentTasks" }}
+    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
+    {{ .GetConfig "_adjustPermission" }}
     cd "${__ZRB_PWD}"
 
 
@@ -674,8 +685,7 @@ Value:
 Value:
 
     [
-      "../spark/config:/etc/spark",
-      "../spark/data:/var/opt/spark"
+      "conf:/opt/bitnami/spark/conf"
     ]
 
 

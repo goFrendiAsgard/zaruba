@@ -2,8 +2,9 @@ tasks:
 
   makeAppKubeDeploymentTask:
     icon: 🚢
-    extend: zrbMakeTask
+    extend: zrbMake
     dependencies:
+      - zrbIsProject
       - makeAppKubeDeployment
     inputs:
       - appDirectory

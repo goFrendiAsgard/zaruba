@@ -7,8 +7,7 @@ configs:
     appSparkWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
     defaultAppContainerVolumes: |
       [
-        "../spark/config:/etc/spark",
-        "../spark/data:/var/opt/spark"
+        "conf:/opt/bitnami/spark/conf"
       ]
     templateLocations: |
       [
@@ -22,4 +21,7 @@ configs:
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
     _prepareReplacementMap: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
+    _adjustPermission: |
+      chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+      chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
     _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'

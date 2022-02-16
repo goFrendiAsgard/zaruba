@@ -127,7 +127,6 @@
 * [🔍 zrbIsValidSubrepos](zrb-is-valid-subrepos.md)
 * [🪄 zrbMake](zrb-make.md)
 * [🪄 zrbMakeAppRunner](zrb-make-app-runner.md)
-* [🪄 zrbMakeTask](zrb-make-task.md)
 * [🐳 zrbPullDockerImage](zrb-pull-docker-image.md)
 * [🐳 zrbPushDockerImage](zrb-push-docker-image.md)
 * [🐳 zrbRemoveDockerContainer](zrb-remove-docker-container.md)

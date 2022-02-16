@@ -7,10 +7,12 @@ configs:
 
   ztplAppNameSparkMasterContainer:
     useImagePrefix: true
-    imageName: ztpl-app-image-name-spark-web
+    imageName: ztpl-app-image-name-spark-master
     containerName: ztplAppContainerNameSparkMaster
     shmSize: 256m
     localhost: host.docker.internal
+    volumes: |
+      ztplAppYamlContainerVolumes
 
   ztplAppNameSparkWorker:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
@@ -19,6 +21,8 @@ configs:
 
   ztplAppNameSparkWorkerContainer:
     useImagePrefix: true
-    imageName: ztpl-app-image-name-spark-runner
+    imageName: ztpl-app-image-name-spark-worker
     containerName: ztplAppContainerNameSparkWorker
     localhost: host.docker.internal
+    volumes: |
+      ztplAppYamlContainerVolumes

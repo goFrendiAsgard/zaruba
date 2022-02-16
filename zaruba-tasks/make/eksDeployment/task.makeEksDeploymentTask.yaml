@@ -2,7 +2,7 @@ tasks:
 
   makeEksDeploymentTask:
     icon: 📙
-    extend:  zrbMakeTask
+    extend:  zrbMake
     inputs:
       - deploymentDirectory
     dependencies:

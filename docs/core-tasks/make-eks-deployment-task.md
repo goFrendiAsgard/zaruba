@@ -20,13 +20,12 @@ Type:
 
 ## Extends
 
-* [zrbMakeTask](zrb-make-task.md)
+* [zrbMake](zrb-make.md)
 
 
 ## Dependencies
 
 * [makeEksDeployment](make-eks-deployment.md)
-* [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
 
@@ -69,6 +68,9 @@ Secret:
 ## Configs
 
 
+### Configs._adjustPermission
+
+
 ### Configs._finish
 
 
@@ -105,10 +107,8 @@ Value:
 
 ### Configs._integrate
 
-Value:
 
-    {{ .GetConfig "_includeModuleIndex" }}
-
+### Configs._prepare
 
 
 ### Configs._prepareBaseCheckCommand
@@ -169,18 +169,14 @@ Value:
 ### Configs._registerAppDependencies
 
 
+### Configs._registerAppDeploymentTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+
+
 ### Configs._registerAppRunnerTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
-
-
-### Configs._registerDeploymentTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
 
 
 ### Configs._setup
@@ -230,6 +226,7 @@ Value:
     {{ .GetConfig "_prepareBaseCheckCommand" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
+    {{ .GetConfig "_prepare" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}✅ Validate${_NORMAL}"
     {{ .GetConfig "_validateAppDirectory" }}
@@ -246,7 +243,12 @@ Value:
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    {{ .GetConfig "_includeModuleIndex" }}
+    {{ .GetConfig "_registerAppRunnerTasks" }}
+    {{ .GetConfig "_registerAppDeploymentTasks" }}
+    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
+    {{ .GetConfig "_adjustPermission" }}
     cd "${__ZRB_PWD}"
 
 

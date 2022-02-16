@@ -90,6 +90,17 @@ Validation:
 ## Configs
 
 
+### Configs._adjustPermission
+
+Value:
+
+    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    then
+      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+    fi
+
+
+
 ### Configs._finish
 
 
@@ -130,6 +141,9 @@ Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiModule/bash/registerModule.sh"
 
+
+
+### Configs._prepare
 
 
 ### Configs._prepareBaseCheckCommand
@@ -187,6 +201,23 @@ Value:
 ### Configs._prepareVariables
 
 
+### Configs._registerAppDependencies
+
+
+### Configs._registerAppDeploymentTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+
+
+### Configs._registerAppRunnerTasks
+
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+
+
 ### Configs._setup
 
 Value:
@@ -234,6 +265,7 @@ Value:
     {{ .GetConfig "_prepareBaseCheckCommand" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
+    {{ .GetConfig "_prepare" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}✅ Validate${_NORMAL}"
     {{ .GetConfig "_validateAppDirectory" }}
@@ -250,7 +282,12 @@ Value:
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    {{ .GetConfig "_includeModuleIndex" }}
+    {{ .GetConfig "_registerAppRunnerTasks" }}
+    {{ .GetConfig "_registerAppDeploymentTasks" }}
+    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
+    {{ .GetConfig "_adjustPermission" }}
     cd "${__ZRB_PWD}"
 
 

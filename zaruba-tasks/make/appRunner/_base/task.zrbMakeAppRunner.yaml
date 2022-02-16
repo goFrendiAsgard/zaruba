@@ -2,6 +2,8 @@ tasks:
 
   zrbMakeAppRunner:
     icon: 🪄
-    extend: zrbMakeTask
+    extend: zrbMake
+    dependencies:
+      - zrbIsProject
     private: true
     configRef: zrbMakeAppRunner
