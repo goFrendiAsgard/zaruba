@@ -186,8 +186,8 @@ Secret:
 
 Value:
 
-    chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
-    chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
 
 
 

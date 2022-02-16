@@ -22,6 +22,6 @@ configs:
     _prepareReplacementMap: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
     _adjustPermission: |
-      chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
-      chmod -R 755 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
+      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
     _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'
