@@ -328,10 +328,6 @@ Value:
 
 ### Configs._registerAppDeploymentTasks
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
-
 
 ### Configs._registerAppRunnerTasks
 
