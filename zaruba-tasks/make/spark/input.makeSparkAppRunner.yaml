@@ -2,8 +2,16 @@ inputs:
 
   sparkMasterPorts:
     description: "Spark master's port"
-    default: '["8020:8020", "18020:18020", "7077:7077"]'
+    default: '["8020:8020", "7077:7077"]'
+
+  sparkMasterHistoryPorts:
+    description: "Spark master's history port"
+    default: '["18020:18020"]'
 
   sparkWorkerPorts:
-    description: "Spark client's port"
-    default: '["8021:8021", "18021:18021"]'
+    description: "Spark worker's port"
+    default: '["8021:8021"]'
+
+  sparkWorkerHistoryPorts:
+    description: "Spark worker's history port"
+    default: '["18021:18021"]'

@@ -149,6 +149,21 @@ Secret:
     false
 
 
+### Inputs.sparkMasterHistoryPorts
+
+Description:
+
+    Spark master's history port
+
+Default Value:
+
+    ["18020:18020"]
+
+Secret:
+
+    false
+
+
 ### Inputs.sparkMasterPorts
 
 Description:
@@ -157,7 +172,22 @@ Description:
 
 Default Value:
 
-    ["8020:8020", "18020:18020", "7077:7077"]
+    ["8020:8020", "7077:7077"]
+
+Secret:
+
+    false
+
+
+### Inputs.sparkWorkerHistoryPorts
+
+Description:
+
+    Spark worker's history port
+
+Default Value:
+
+    ["18021:18021"]
 
 Secret:
 
@@ -168,11 +198,11 @@ Secret:
 
 Description:
 
-    Spark client's port
+    Spark worker's port
 
 Default Value:
 
-    ["8021:8021", "18021:18021"]
+    ["8021:8021"]
 
 Secret:
 
@@ -304,6 +334,8 @@ Value:
 
     _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
     _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
+    _ZRB_APP_SPARK_MASTER_HISTORY_PORTS='{{ .GetConfig "appSparkMasterHistoryPorts" }}'
+    _ZRB_APP_SPARK_WORKER_HISTORY_PORTS='{{ .GetConfig "appSparkWorkerHistoryPorts" }}'
     . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
 
 
@@ -614,11 +646,25 @@ Value:
     {{ .GetValue "appRunnerVersion" }}
 
 
+### Configs.appSparkMasterHistoryPorts
+
+Value:
+
+    {{ .GetValue "sparkMasterHistoryPorts" }}
+
+
 ### Configs.appSparkMasterPorts
 
 Value:
 
     {{ .GetValue "sparkMasterPorts" }}
+
+
+### Configs.appSparkWorkerHistoryPorts
+
+Value:
+
+    {{ .GetValue "sparkWorkerHistoryPorts" }}
 
 
 ### Configs.appSparkWorkerPorts

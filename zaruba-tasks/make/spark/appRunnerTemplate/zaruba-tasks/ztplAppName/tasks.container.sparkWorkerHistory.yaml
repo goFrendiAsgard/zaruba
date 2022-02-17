@@ -1,0 +1,39 @@
+tasks:
+
+  startZtplAppNameSparkWorkerHistoryContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/sparkWorker
+    timeout: 1h
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - waitZtplAppNamePrerequisites
+      - buildZtplAppNameSparkWorkerImage
+    configRefs:
+      - ztplAppNameSparkWorkerHistoryContainer
+      - ztplAppNameSparkWorkerContainer
+      - ztplAppNameSparkWorkerHistory
+    envRefs: 
+      - ztplAppNameSparkWorker
+
+  stopZtplAppNameSparkWorkerHistoryContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameSparkWorkerHistoryContainer
+      - ztplAppNameSparkWorkerContainer
+      - ztplAppNameSparkWorker
+    envRefs: 
+      - ztplAppNameSparkWorker
+
+  removeZtplAppNameSparkWorkerHistoryContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameSparkWorkerHistoryContainer
+      - ztplAppNameSparkWorkerContainer
+      - ztplAppNameSparkWorker
+    envRefs: 
+      - ztplAppNameSparkWorker

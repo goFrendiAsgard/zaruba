@@ -5,6 +5,8 @@ configs:
     defaultAppDirectory: '{{ .ProjectName }}Spark'
     appSparkMasterPorts: '{{ .GetValue "sparkMasterPorts" }}'
     appSparkWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
+    appSparkMasterHistoryPorts: '{{ .GetValue "sparkMasterHistoryPorts" }}'
+    appSparkWorkerHistoryPorts: '{{ .GetValue "sparkWorkerHistoryPorts" }}'
     defaultAppContainerVolumes: |
       [
         "conf:/opt/bitnami/spark/conf"
@@ -18,6 +20,8 @@ configs:
     _prepareVariables: |
       _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
       _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
+      _ZRB_APP_SPARK_MASTER_HISTORY_PORTS='{{ .GetConfig "appSparkMasterHistoryPorts" }}'
+      _ZRB_APP_SPARK_WORKER_HISTORY_PORTS='{{ .GetConfig "appSparkWorkerHistoryPorts" }}'
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
     _prepareReplacementMap: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
