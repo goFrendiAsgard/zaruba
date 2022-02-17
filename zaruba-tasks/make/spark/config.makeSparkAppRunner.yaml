@@ -9,7 +9,8 @@ configs:
     appSparkWorkerHistoryPorts: '{{ .GetValue "sparkWorkerHistoryPorts" }}'
     defaultAppContainerVolumes: |
       [
-        "conf:/opt/bitnami/spark/conf"
+        "conf:/opt/bitnami/spark/conf",
+        "spark-events:/tmp/spark-events"
       ]
     templateLocations: |
       [
@@ -27,5 +28,7 @@ configs:
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
     _adjustPermission: |
       chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/spark-events"
       chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
+      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/spark-events"
     _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'

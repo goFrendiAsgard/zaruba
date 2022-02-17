@@ -217,7 +217,9 @@ Secret:
 Value:
 
     chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/spark-events"
     chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/spark-events"
 
 
 
@@ -727,7 +729,8 @@ Value:
 Value:
 
     [
-      "conf:/opt/bitnami/spark/conf"
+      "conf:/opt/bitnami/spark/conf",
+      "spark-events:/tmp/spark-events"
     ]
 
 
