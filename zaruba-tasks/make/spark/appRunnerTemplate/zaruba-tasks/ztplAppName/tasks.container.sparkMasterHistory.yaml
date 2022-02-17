@@ -1,0 +1,39 @@
+tasks:
+
+  startZtplAppNameSparkMasterHistoryContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/sparkMaster
+    timeout: 1h
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - waitZtplAppNamePrerequisites
+      - buildZtplAppNameSparkMasterImage
+    configRefs:
+      - ztplAppNameSparkMasterHistoryContainer
+      - ztplAppNameSparkMasterContainer
+      - ztplAppNameSparkMasterHistory
+    envRefs: 
+      - ztplAppNameSparkMaster
+
+  stopZtplAppNameSparkMasterHistoryContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameSparkMasterHistoryContainer
+      - ztplAppNameSparkMasterContainer
+      - ztplAppNameSparkMaster
+    envRefs: 
+      - ztplAppNameSparkMaster
+
+  removeZtplAppNameSparkMasterHistoryContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameSparkMasterHistoryContainer
+      - ztplAppNameSparkMasterContainer
+      - ztplAppNameSparkMaster
+    envRefs: 
+      - ztplAppNameSparkMaster

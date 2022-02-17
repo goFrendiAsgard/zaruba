@@ -11,7 +11,9 @@ tasks:
       - appName
       - appEnvs
       - sparkMasterPorts
+      - sparkMasterHistoryPorts
       - sparkWorkerPorts
+      - sparkWorkerHistoryPorts
       - appImageName
       - appContainerName
     configRef: makeSparkAppRunner

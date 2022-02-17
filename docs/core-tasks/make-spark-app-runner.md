@@ -149,6 +149,21 @@ Secret:
     false
 
 
+### Inputs.sparkMasterHistoryPorts
+
+Description:
+
+    Spark master's history port
+
+Default Value:
+
+    ["18020:18020"]
+
+Secret:
+
+    false
+
+
 ### Inputs.sparkMasterPorts
 
 Description:
@@ -164,11 +179,26 @@ Secret:
     false
 
 
+### Inputs.sparkWorkerHistoryPorts
+
+Description:
+
+    Spark worker's history port
+
+Default Value:
+
+    ["18021:18021"]
+
+Secret:
+
+    false
+
+
 ### Inputs.sparkWorkerPorts
 
 Description:
 
-    Spark client's port
+    Spark worker's port
 
 Default Value:
 
@@ -180,6 +210,17 @@ Secret:
 
 
 ## Configs
+
+
+### Configs._adjustPermission
+
+Value:
+
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/spark-events"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
+    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/spark-events"
+
 
 
 ### Configs._containerPrepareAppRunnerTaskName
@@ -225,15 +266,11 @@ Value:
 
 ### Configs._integrate
 
-Value:
-
-    {{ .GetConfig "_includeModuleIndex" }}
-    {{ .GetConfig "_registerAppRunnerTasks" }}
-    {{ .GetConfig "_registerAppDependencies" }}
-
-
 
 ### Configs._nativePrepareAppRunnerTaskName
+
+
+### Configs._prepare
 
 
 ### Configs._prepareBaseCheckCommand
@@ -299,6 +336,8 @@ Value:
 
     _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
     _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
+    _ZRB_APP_SPARK_MASTER_HISTORY_PORTS='{{ .GetConfig "appSparkMasterHistoryPorts" }}'
+    _ZRB_APP_SPARK_WORKER_HISTORY_PORTS='{{ .GetConfig "appSparkWorkerHistoryPorts" }}'
     . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
 
 
@@ -307,22 +346,18 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
 
+
+
+### Configs._registerAppDeploymentTasks
 
 
 ### Configs._registerAppRunnerTasks
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
-
-
-### Configs._registerDeploymentTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/task/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
 
 
 ### Configs._setup
@@ -372,6 +407,7 @@ Value:
     {{ .GetConfig "_prepareBaseCheckCommand" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
+    {{ .GetConfig "_prepare" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}✅ Validate${_NORMAL}"
     {{ .GetConfig "_validateAppDirectory" }}
@@ -388,7 +424,12 @@ Value:
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    {{ .GetConfig "_includeModuleIndex" }}
+    {{ .GetConfig "_registerAppRunnerTasks" }}
+    {{ .GetConfig "_registerAppDeploymentTasks" }}
+    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
+    {{ .GetConfig "_adjustPermission" }}
     cd "${__ZRB_PWD}"
 
 
@@ -607,11 +648,25 @@ Value:
     {{ .GetValue "appRunnerVersion" }}
 
 
+### Configs.appSparkMasterHistoryPorts
+
+Value:
+
+    {{ .GetValue "sparkMasterHistoryPorts" }}
+
+
 ### Configs.appSparkMasterPorts
 
 Value:
 
     {{ .GetValue "sparkMasterPorts" }}
+
+
+### Configs.appSparkWorkerHistoryPorts
+
+Value:
+
+    {{ .GetValue "sparkWorkerHistoryPorts" }}
 
 
 ### Configs.appSparkWorkerPorts
@@ -673,7 +728,11 @@ Value:
 
 Value:
 
-    []
+    [
+      "conf:/opt/bitnami/spark/conf",
+      "spark-events:/tmp/spark-events"
+    ]
+
 
 
 ### Configs.defaultAppDirectory

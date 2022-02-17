@@ -40,10 +40,6 @@ configs:
     defaultAppPorts: '[]'
     taskName: '{{ .GetValue "taskName" }}'
     templateLocations: '{{ .GetValue "templateLocations" }}'
-    _includeModuleIndex: |
-      {{ if .GetConfig "_taskIndexPath" -}}
-      "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
-      {{ end -}}
     _taskIndexPath: ''
     _prepareBaseReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseReplacementMap.sh"'
     _prepareBaseVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseVariables.sh"'
@@ -52,18 +48,27 @@ configs:
     _prepareBaseTestCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"'
     _prepareBaseMigrateCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareMigrateCommand.sh"'
     _prepareBaseCheckCommand: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"'
+    _prepareReplacementMap: ''
+    _prepare: ''
     _skipCreationPath: ''
     _skipCreation: '_skipIfExist "{{ .GetConfig "_skipCreationPath" }}"'
     _prepareVariables: ''
-    _prepareReplacementMap: ''
     _validate: ''
-    _integrate: ''
-    _validateTemplateLocation: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateTemplateLocation.sh"'
-    _validateAppDirectory: ''
+    _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'
     _validateAppContainerVolumes: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppContainerVolumes.sh"'
+    _validateTemplateLocation: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateTemplateLocation.sh"'
     _validateAppPorts: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppPorts.sh"'
     _validateAppCrudFields: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppCrudFields.sh"'
     _generate: _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
+    _includeModuleIndex: |
+      {{ if .GetConfig "_taskIndexPath" -}}
+      "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+      {{ end -}}
+    _registerAppRunnerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"'
+    _registerAppDeploymentTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"'
+    _registerAppDependencies: ''
+    _integrate: ''
+    _adjustPermission: ''
     _start: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
       _ZRB_REPLACEMENT_MAP='{}'
@@ -87,6 +92,7 @@ configs:
       {{ .GetConfig "_prepareBaseCheckCommand" }}
       {{ .GetConfig "_prepareBaseReplacementMap" }}
       {{ .GetConfig "_prepareReplacementMap" }}
+      {{ .GetConfig "_prepare" }}
       cd "${__ZRB_PWD}"
       echo "${_YELLOW}✅ Validate${_NORMAL}"
       {{ .GetConfig "_validateAppDirectory" }}
@@ -103,7 +109,12 @@ configs:
       {{ .GetConfig "_generate" }}
       cd "${__ZRB_PWD}"
       echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+      {{ .GetConfig "_includeModuleIndex" }}
+      {{ .GetConfig "_registerAppRunnerTasks" }}
+      {{ .GetConfig "_registerAppDeploymentTasks" }}
+      {{ .GetConfig "_registerAppDependencies" }}
       {{ .GetConfig "_integrate" }}
+      {{ .GetConfig "_adjustPermission" }}
       cd "${__ZRB_PWD}"
     start: ''
     afterStart: |

@@ -106,6 +106,9 @@ Secret:
 ## Configs
 
 
+### Configs._adjustPermission
+
+
 ### Configs._finish
 
 
@@ -142,18 +145,15 @@ Value:
 
 ### Configs._integrate
 
-Value:
-
-    echo integrate
-    {{ .GetConfig "_includeModuleIndex" }}
-
-
 
 ### Configs._nativePrepareAppRunnerTaskName
 
 Value:
 
     make${_ZRB_PASCAL_APP_NAME}
+
+
+### Configs._prepare
 
 
 ### Configs._prepareBaseCheckCommand
@@ -219,6 +219,15 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareVariables.sh"
 
 
+### Configs._registerAppDependencies
+
+
+### Configs._registerAppDeploymentTasks
+
+
+### Configs._registerAppRunnerTasks
+
+
 ### Configs._setup
 
 Value:
@@ -266,6 +275,7 @@ Value:
     {{ .GetConfig "_prepareBaseCheckCommand" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
+    {{ .GetConfig "_prepare" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}✅ Validate${_NORMAL}"
     {{ .GetConfig "_validateAppDirectory" }}
@@ -282,7 +292,12 @@ Value:
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    {{ .GetConfig "_includeModuleIndex" }}
+    {{ .GetConfig "_registerAppRunnerTasks" }}
+    {{ .GetConfig "_registerAppDeploymentTasks" }}
+    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
+    {{ .GetConfig "_adjustPermission" }}
     cd "${__ZRB_PWD}"
 
 

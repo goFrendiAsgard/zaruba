@@ -7,7 +7,9 @@ tasks:
     icon: ztplAppIcon
     dependencies:
       - startZtplAppNameSparkMasterContainer
+      - startZtplAppNameSparkMasterHistoryContainer
       - startZtplAppNameSparkWorkerContainer
+      - startZtplAppNameSparkWorkerHistoryContainer
 
   buildZtplAppNameImage:
     icon: 🏭
@@ -25,10 +27,14 @@ tasks:
     icon: ✋
     dependencies:
       - stopZtplAppNameSparkMasterContainer
+      - stopZtplAppNameSparkMasterHistoryContainer
       - stopZtplAppNameSparkWorkerContainer
+      - stopZtplAppNameSparkWorkerHistoryContainer
 
   removeZtplAppNameContainer:
     icon: ❌
     dependencies:
       - removeZtplAppNameSparkMasterContainer
+      - removeZtplAppNameSparkMasterHistoryContainer
       - removeZtplAppNameSparkWorkerContainer
+      - removeZtplAppNameSparkWorkerHistoryContainer

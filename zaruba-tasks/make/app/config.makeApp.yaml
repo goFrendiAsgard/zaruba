@@ -3,7 +3,10 @@ configs:
   makeApp:
     _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'
     _skipCreationPath: '${_ZRB_APP_DIRECTORY}'
-    _integrate: |
+    _includeModuleIndex: ''
+    _registerAppRunnerTasks: ''
+    _registerAppDeploymentTasks: ''
+    _adjustPermission: |
       if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
       then
         chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"

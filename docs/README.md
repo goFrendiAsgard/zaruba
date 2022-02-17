@@ -287,7 +287,6 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
   * [🔍 zrbIsValidSubrepos](core-tasks/zrb-is-valid-subrepos.md)
   * [🪄 zrbMake](core-tasks/zrb-make.md)
   * [🪄 zrbMakeAppRunner](core-tasks/zrb-make-app-runner.md)
-  * [🪄 zrbMakeTask](core-tasks/zrb-make-task.md)
   * [🐳 zrbPullDockerImage](core-tasks/zrb-pull-docker-image.md)
   * [🐳 zrbPushDockerImage](core-tasks/zrb-push-docker-image.md)
   * [🐳 zrbRemoveDockerContainer](core-tasks/zrb-remove-docker-container.md)
