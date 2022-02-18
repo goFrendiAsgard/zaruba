@@ -8,30 +8,30 @@ configs:
   ztplAppNameKafkaContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka
-    containerName: ztplAppContainerNameKafka
+    containerName: ztplAppContainerName
     localhost: host.docker.internal
 
-  ztplAppNameKafkaSchemaRegistry:
+  ztplAppNameSchemaRegistry:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
-      ztplAppYamlKafkaSchemaRegistryPorts
+      ztplAppYamlSchemaRegistryPorts
 
-  ztplAppNameKafkaSchemaRegistryContainer:
+  ztplAppNameSchemaRegistryContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka-schema-registry
-    containerName: ztplAppContainerNameKafkaSchemaRegistry
+    containerName: ztplAppContainerNameSchemaRegistry
     localhost: host.docker.internal
 
 
-  ztplAppNameKafkaConnect:
+  ztplAppNameConnect:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
-      ztplAppYamlKafkaConnectPorts
+      ztplAppYamlConnectPorts
 
-  ztplAppNameKafkaConnectContainer:
+  ztplAppNameConnectContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka-connect
-    containerName: ztplAppContainerNameKafkaConnect
+    containerName: ztplAppContainerNameConnect
     localhost: host.docker.internal
 
   ztplAppNameZookeeper:

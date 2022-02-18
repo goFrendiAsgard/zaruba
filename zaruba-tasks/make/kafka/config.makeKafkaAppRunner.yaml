@@ -5,8 +5,8 @@ configs:
     appKafkaPorts: '{{ .GetValue "kafkaPorts" }}'
     appAkhqPorts: '{{ .GetValue "akhqPorts" }}'
     appZookeeperPorts: '{{ .GetValue "zookeeperPorts" }}'
-    appKafkaSchemaRegistryPorts: '{{ .GetValue "kafkaSchemaRegistryPorts" }}'
-    appKafkaConnectPorts: '{{ .GetValue "kafkaConnectPorts" }}'
+    appSchemaRegistryPorts: '{{ .GetValue "kafkaSchemaRegistryPorts" }}'
+    appConnectPorts: '{{ .GetValue "kafkaConnectPorts" }}'
     defaultAppDirectory: '{{ .ProjectName }}Kafka'
     templateLocations: |
       [
@@ -17,8 +17,8 @@ configs:
     _prepareVariables: |
       _ZRB_APP_AKHQ_PORTS='{{ .GetConfig "appAkhqPorts" }}'
       _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
-      _ZRB_APP_KAFKA_CONNECT_PORTS='{{ .GetConfig "appKafkaConnectPorts" }}'
-      _ZRB_APP_KAFKA_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appKafkaSchemaRegistryPorts" }}'
+      _ZRB_APP_CONNECT_PORTS='{{ .GetConfig "appConnectPorts" }}'
+      _ZRB_APP_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appSchemaRegistryPorts" }}'
       _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
       . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
     _prepareReplacementMap: |

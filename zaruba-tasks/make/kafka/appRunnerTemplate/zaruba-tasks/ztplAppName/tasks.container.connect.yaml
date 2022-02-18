@@ -1,0 +1,57 @@
+tasks:
+
+  startZtplAppNameConnectContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/kafkaConnect
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - waitZtplAppNamePrerequisites
+      - buildZtplAppNameConnectImage
+      - startZtplAppNameKafkaContainer
+    configRefs:
+      - ztplAppNameConnectContainer
+      - ztplAppNameConnect
+    envRefs: 
+      - ztplAppNameConnect
+
+  buildZtplAppNameConnectImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/kafkaConnect
+    configRefs:
+      - ztplAppNameConnectContainer
+      - ztplAppNameConnect
+    envRefs: 
+      - ztplAppNameConnect
+
+  pushZtplAppNameConnectImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    dependencies:
+      - buildZtplAppNameConnectImage
+    configRefs:
+      - ztplAppNameConnectContainer
+      - ztplAppNameConnect
+    envRefs: 
+      - ztplAppNameConnect
+
+  stopZtplAppNameConnectContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameConnectContainer
+      - ztplAppNameConnect
+    envRefs: 
+      - ztplAppNameConnect
+
+  removeZtplAppNameConnectContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameConnectContainer
+      - ztplAppNameConnect
+    envRefs: 
+      - ztplAppNameConnect

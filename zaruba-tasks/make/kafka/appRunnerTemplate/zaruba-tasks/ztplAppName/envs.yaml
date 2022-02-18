@@ -3,11 +3,11 @@ envs:
   ztplAppNameKafka:
     ztplAppYamlKafkaEnvs
 
-  ztplAppNameKafkaConnect:
-    ztplAppYamlKafkaConnectEnvs
+  ztplAppNameConnect:
+    ztplAppYamlConnectEnvs
 
-  ztplAppNameKafkaSchemaRegistry:
-    ztplAppYamlKafkaSchemaRegistryEnvs
+  ztplAppNameSchemaRegistry:
+    ztplAppYamlSchemaRegistryEnvs
 
   ztplAppNameZookeeper:
     ztplAppYamlZookeeperEnvs

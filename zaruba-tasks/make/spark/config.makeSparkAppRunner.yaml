@@ -3,10 +3,10 @@ configs:
   makeSparkAppRunner:
     appIcon: 💥
     defaultAppDirectory: '{{ .ProjectName }}Spark'
-    appSparkMasterPorts: '{{ .GetValue "sparkMasterPorts" }}'
-    appSparkWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
-    appSparkMasterHistoryPorts: '{{ .GetValue "sparkMasterHistoryPorts" }}'
-    appSparkWorkerHistoryPorts: '{{ .GetValue "sparkWorkerHistoryPorts" }}'
+    appMasterPorts: '{{ .GetValue "sparkMasterPorts" }}'
+    appWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
+    appMasterHistoryPorts: '{{ .GetValue "sparkMasterHistoryPorts" }}'
+    appWorkerHistoryPorts: '{{ .GetValue "sparkWorkerHistoryPorts" }}'
     defaultAppContainerVolumes: |
       [
         "conf:/opt/bitnami/spark/conf",
@@ -19,10 +19,10 @@ configs:
         "{{ .ZarubaHome }}/zaruba-tasks/make/spark/appRunnerTemplate"
       ]
     _prepareVariables: |
-      _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
-      _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
-      _ZRB_APP_SPARK_MASTER_HISTORY_PORTS='{{ .GetConfig "appSparkMasterHistoryPorts" }}'
-      _ZRB_APP_SPARK_WORKER_HISTORY_PORTS='{{ .GetConfig "appSparkWorkerHistoryPorts" }}'
+      _ZRB_APP_MASTER_PORTS='{{ .GetConfig "appMasterPorts" }}'
+      _ZRB_APP_WORKER_PORTS='{{ .GetConfig "appWorkerPorts" }}'
+      _ZRB_APP_MASTER_HISTORY_PORTS='{{ .GetConfig "appMasterHistoryPorts" }}'
+      _ZRB_APP_WORKER_HISTORY_PORTS='{{ .GetConfig "appWorkerHistoryPorts" }}'
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
     _prepareReplacementMap: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"

@@ -6,35 +6,35 @@ tasks:
   startZtplAppNameContainer:
     icon: ztplAppIcon
     dependencies:
-      - startZtplAppNameSparkMasterContainer
-      - startZtplAppNameSparkMasterHistoryContainer
-      - startZtplAppNameSparkWorkerContainer
-      - startZtplAppNameSparkWorkerHistoryContainer
+      - startZtplAppNameMasterContainer
+      - startZtplAppNameMasterHistoryContainer
+      - startZtplAppNameWorkerContainer
+      - startZtplAppNameWorkerHistoryContainer
 
   buildZtplAppNameImage:
     icon: 🏭
     dependencies:
-      - buildZtplAppNameSparkMasterImage
-      - buildZtplAppNameSparkWorkerImage
+      - buildZtplAppNameMasterImage
+      - buildZtplAppNameWorkerImage
 
   pushZtplAppNameImage:
     icon: 📤
     dependencies:
-      - pushZtplAppNameSparkMasterImage
-      - pushZtplAppNameSparkWorkerImage
+      - pushZtplAppNameMasterImage
+      - pushZtplAppNameWorkerImage
 
   stopZtplAppNameContainer:
     icon: ✋
     dependencies:
-      - stopZtplAppNameSparkMasterContainer
-      - stopZtplAppNameSparkMasterHistoryContainer
-      - stopZtplAppNameSparkWorkerContainer
-      - stopZtplAppNameSparkWorkerHistoryContainer
+      - stopZtplAppNameMasterContainer
+      - stopZtplAppNameMasterHistoryContainer
+      - stopZtplAppNameWorkerContainer
+      - stopZtplAppNameWorkerHistoryContainer
 
   removeZtplAppNameContainer:
     icon: ❌
     dependencies:
-      - removeZtplAppNameSparkMasterContainer
-      - removeZtplAppNameSparkMasterHistoryContainer
-      - removeZtplAppNameSparkWorkerContainer
-      - removeZtplAppNameSparkWorkerHistoryContainer
+      - removeZtplAppNameMasterContainer
+      - removeZtplAppNameMasterHistoryContainer
+      - removeZtplAppNameWorkerContainer
+      - removeZtplAppNameWorkerHistoryContainer

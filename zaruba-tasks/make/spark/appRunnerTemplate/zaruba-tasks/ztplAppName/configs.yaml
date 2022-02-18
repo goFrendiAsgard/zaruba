@@ -1,46 +1,46 @@
 configs:
 
-  ztplAppNameSparkMaster:
+  ztplAppNameMaster:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
-      ztplAppYamlSparkMasterPorts
+      ztplAppYamlMasterPorts
 
-  ztplAppNameSparkMasterHistory:
+  ztplAppNameMasterHistory:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
-      ztplAppYamlSparkMasterHistoryPorts
+      ztplAppYamlMasterHistoryPorts
 
-  ztplAppNameSparkMasterContainer:
+  ztplAppNameMasterContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-spark-master
-    containerName: ztplAppContainerNameSparkMaster
+    containerName: ztplAppContainerNameMaster
     shmSize: 256m
     localhost: host.docker.internal
     volumes: |
       ztplAppYamlContainerVolumes
 
-  ztplAppNameSparkMasterHistoryContainer:
-    containerName: ztplAppContainerNameSparkMasterHistory
+  ztplAppNameMasterHistoryContainer:
+    containerName: ztplAppContainerNameMasterHistory
     command: sbin/start-history-server.sh
 
-  ztplAppNameSparkWorker:
+  ztplAppNameWorker:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
-      ztplAppYamlSparkWorkerPorts
+      ztplAppYamlWorkerPorts
 
-  ztplAppNameSparkWorkerHistory:
+  ztplAppNameWorkerHistory:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
-      ztplAppYamlSparkWorkerHistoryPorts
+      ztplAppYamlWorkerHistoryPorts
 
-  ztplAppNameSparkWorkerContainer:
+  ztplAppNameWorkerContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-spark-worker
-    containerName: ztplAppContainerNameSparkWorker
+    containerName: ztplAppContainerNameWorker
     localhost: host.docker.internal
     volumes: |
       ztplAppYamlContainerVolumes
 
-  ztplAppNameSparkWorkerHistoryContainer:
-    containerName: ztplAppContainerNameSparkWorkerHistory
+  ztplAppNameWorkerHistoryContainer:
+    containerName: ztplAppContainerNameWorkerHistory
     command: sbin/start-history-server.sh

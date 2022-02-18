@@ -6,6 +6,6 @@ includes:
   - ./tasks.container.yaml
   - ./tasks.container.akhq.yaml
   - ./tasks.container.kafka.yaml
-  - ./tasks.container.kafkaConnect.yaml
-  - ./tasks.container.kafkaSchemaRegistry.yaml
+  - ./tasks.container.connect.yaml
+  - ./tasks.container.schemaRegistry.yaml
   - ./tasks.container.zookeeper.yaml

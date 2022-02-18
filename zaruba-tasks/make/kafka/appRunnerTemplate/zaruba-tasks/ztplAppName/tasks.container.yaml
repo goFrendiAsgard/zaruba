@@ -7,8 +7,8 @@ tasks:
     icon: ztplAppIcon
     dependencies:
       - startZtplAppNameKafkaContainer
-      - startZtplAppNameKafkaConnectContainer
-      - startZtplAppNameKafkaSchemaRegistryContainer
+      - startZtplAppNameConnectContainer
+      - startZtplAppNameSchemaRegistryContainer
       - startZtplAppNameZookeeperContainer
       - startZtplAppNameAkhqContainer
 
@@ -16,8 +16,8 @@ tasks:
     icon: 🏭
     dependencies:
       - buildZtplAppNameKafkaImage
-      - buildZtplAppNameKafkaConnectImage
-      - buildZtplAppNameKafkaSchemaRegistryImage
+      - buildZtplAppNameConnectImage
+      - buildZtplAppNameSchemaRegistryImage
       - buildZtplAppNameZookeeperImage
       - buildZtplAppNameAkhqImage
 
@@ -25,8 +25,8 @@ tasks:
     icon: 📤
     dependencies:
       - pushZtplAppNameKafkaImage
-      - pushZtplAppNameKafkaConnectImage
-      - pushZtplAppNameKafkaSchemaRegistryImage
+      - pushZtplAppNameConnectImage
+      - pushZtplAppNameSchemaRegistryImage
       - pushZtplAppNameZookeeperImage
       - pushZtplAppNameAkhqImage
 
@@ -34,8 +34,8 @@ tasks:
     icon: ✋
     dependencies:
       - stopZtplAppNameKafkaContainer
-      - stopZtplAppNameKafkaConnectContainer
-      - stopZtplAppNameKafkaSchemaRegistryContainer
+      - stopZtplAppNameConnectContainer
+      - stopZtplAppNameSchemaRegistryContainer
       - stopZtplAppNameZookeeperContainer
       - stopZtplAppNameAkhqContainer
 
@@ -43,7 +43,7 @@ tasks:
     icon: ❌
     dependencies:
       - removeZtplAppNameKafkaContainer
-      - removeZtplAppNameKafkaConnectContainer
-      - removeZtplAppNameKafkaSchemaRegistryContainer
+      - removeZtplAppNameConnectContainer
+      - removeZtplAppNameSchemaRegistryContainer
       - removeZtplAppNameZookeeperContainer
       - removeZtplAppNameAkhqContainer

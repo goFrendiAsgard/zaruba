@@ -334,10 +334,10 @@ Value:
 
 Value:
 
-    _ZRB_APP_SPARK_MASTER_PORTS='{{ .GetConfig "appSparkMasterPorts" }}'
-    _ZRB_APP_SPARK_WORKER_PORTS='{{ .GetConfig "appSparkWorkerPorts" }}'
-    _ZRB_APP_SPARK_MASTER_HISTORY_PORTS='{{ .GetConfig "appSparkMasterHistoryPorts" }}'
-    _ZRB_APP_SPARK_WORKER_HISTORY_PORTS='{{ .GetConfig "appSparkWorkerHistoryPorts" }}'
+    _ZRB_APP_MASTER_PORTS='{{ .GetConfig "appMasterPorts" }}'
+    _ZRB_APP_WORKER_PORTS='{{ .GetConfig "appWorkerPorts" }}'
+    _ZRB_APP_MASTER_HISTORY_PORTS='{{ .GetConfig "appMasterHistoryPorts" }}'
+    _ZRB_APP_WORKER_HISTORY_PORTS='{{ .GetConfig "appWorkerHistoryPorts" }}'
     . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
 
 
@@ -592,6 +592,20 @@ Value:
     {{ .GetValue "appImageName" }}
 
 
+### Configs.appMasterHistoryPorts
+
+Value:
+
+    {{ .GetValue "sparkMasterHistoryPorts" }}
+
+
+### Configs.appMasterPorts
+
+Value:
+
+    {{ .GetValue "sparkMasterPorts" }}
+
+
 ### Configs.appMigrateCommand
 
 Value:
@@ -648,34 +662,6 @@ Value:
     {{ .GetValue "appRunnerVersion" }}
 
 
-### Configs.appSparkMasterHistoryPorts
-
-Value:
-
-    {{ .GetValue "sparkMasterHistoryPorts" }}
-
-
-### Configs.appSparkMasterPorts
-
-Value:
-
-    {{ .GetValue "sparkMasterPorts" }}
-
-
-### Configs.appSparkWorkerHistoryPorts
-
-Value:
-
-    {{ .GetValue "sparkWorkerHistoryPorts" }}
-
-
-### Configs.appSparkWorkerPorts
-
-Value:
-
-    {{ .GetValue "sparkWorkerPorts" }}
-
-
 ### Configs.appStartCommand
 
 Value:
@@ -702,6 +688,20 @@ Value:
 Value:
 
     {{ .GetValue "appUrl" }}
+
+
+### Configs.appWorkerHistoryPorts
+
+Value:
+
+    {{ .GetValue "sparkWorkerHistoryPorts" }}
+
+
+### Configs.appWorkerPorts
+
+Value:
+
+    {{ .GetValue "sparkWorkerPorts" }}
 
 
 ### Configs.beforeStart

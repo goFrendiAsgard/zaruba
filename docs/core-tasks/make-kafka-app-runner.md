@@ -343,8 +343,8 @@ Value:
 
     _ZRB_APP_AKHQ_PORTS='{{ .GetConfig "appAkhqPorts" }}'
     _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
-    _ZRB_APP_KAFKA_CONNECT_PORTS='{{ .GetConfig "appKafkaConnectPorts" }}'
-    _ZRB_APP_KAFKA_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appKafkaSchemaRegistryPorts" }}'
+    _ZRB_APP_CONNECT_PORTS='{{ .GetConfig "appConnectPorts" }}'
+    _ZRB_APP_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appSchemaRegistryPorts" }}'
     _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
     . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
 
@@ -523,6 +523,13 @@ Value:
     {{ .GetValue "appCheckCommand" }}
 
 
+### Configs.appConnectPorts
+
+Value:
+
+    {{ .GetValue "kafkaConnectPorts" }}
+
+
 ### Configs.appContainerName
 
 Value:
@@ -607,25 +614,11 @@ Value:
     {{ .GetValue "appImageName" }}
 
 
-### Configs.appKafkaConnectPorts
-
-Value:
-
-    {{ .GetValue "kafkaConnectPorts" }}
-
-
 ### Configs.appKafkaPorts
 
 Value:
 
     {{ .GetValue "kafkaPorts" }}
-
-
-### Configs.appKafkaSchemaRegistryPorts
-
-Value:
-
-    {{ .GetValue "kafkaSchemaRegistryPorts" }}
 
 
 ### Configs.appMigrateCommand
@@ -682,6 +675,13 @@ Value:
 Value:
 
     {{ .GetValue "appRunnerVersion" }}
+
+
+### Configs.appSchemaRegistryPorts
+
+Value:
+
+    {{ .GetValue "kafkaSchemaRegistryPorts" }}
 
 
 ### Configs.appStartCommand

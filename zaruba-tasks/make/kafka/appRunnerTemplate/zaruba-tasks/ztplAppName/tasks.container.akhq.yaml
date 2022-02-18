@@ -9,8 +9,8 @@ tasks:
     dependencies:
       - buildZtplAppNameAkhqImage
       - startZtplAppNameKafkaContainer
-      - startZtplAppNameKafkaSchemaRegistryContainer
-      - startZtplAppNameKafkaConnectContainer
+      - startZtplAppNameSchemaRegistryContainer
+      - startZtplAppNameConnectContainer
     configRefs:
       - ztplAppNameAkhqContainer
       - ztplAppNameAkhq

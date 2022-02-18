@@ -4,7 +4,7 @@ includes:
   - ./inputs.yaml
   - ./tasks.yaml
   - ./tasks.container.yaml
-  - ./tasks.container.sparkMaster.yaml
-  - ./tasks.container.sparkMasterHistory.yaml
-  - ./tasks.container.sparkWorker.yaml
-  - ./tasks.container.sparkWorkerHistory.yaml
+  - ./tasks.container.master.yaml
+  - ./tasks.container.masterHistory.yaml
+  - ./tasks.container.worker.yaml
+  - ./tasks.container.workerHistory.yaml
