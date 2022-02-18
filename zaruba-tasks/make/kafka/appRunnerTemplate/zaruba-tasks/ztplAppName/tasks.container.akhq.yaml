@@ -1,0 +1,58 @@
+tasks:
+
+  startZtplAppNameAkhqContainer:
+    icon: 👷
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/akhq
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - buildZtplAppNameAkhqImage
+      - startZtplAppNameKafkaContainer
+      - startZtplAppNameKafkaSchemaRegistryContainer
+      - startZtplAppNameKafkaConnectContainer
+    configRefs:
+      - ztplAppNameAkhqContainer
+      - ztplAppNameAkhq
+    envRefs: 
+      - ztplAppNameAkhq
+
+  buildZtplAppNameAkhqImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/akhq
+    configRefs:
+      - ztplAppNameAkhqContainer
+      - ztplAppNameAkhq
+    envRefs: 
+      - ztplAppNameAkhq
+
+  pushZtplAppNameAkhqImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    dependencies:
+      - buildZtplAppNameAkhqImage
+    configRefs:
+      - ztplAppNameAkhqContainer
+      - ztplAppNameAkhq
+    envRefs: 
+      - ztplAppNameAkhq
+
+  stopZtplAppNameAkhqContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameAkhqContainer
+      - ztplAppNameAkhq
+    envRefs: 
+      - ztplAppNameAkhq
+
+  removeZtplAppNameAkhqContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameAkhqContainer
+      - ztplAppNameAkhq
+    envRefs: 
+      - ztplAppNameAkhq

@@ -1,0 +1,57 @@
+tasks:
+
+  startZtplAppNameKafkaSchemaRegistryContainer:
+    icon: ztplAppIcon
+    extend: zrbStartDockerContainer
+    location: ztplAppTaskLocation/kafkaSchemaRegistry
+    inputs:
+      - runZtplAppNameInLocal
+    dependencies:
+      - waitZtplAppNamePrerequisites
+      - buildZtplAppNameKafkaSchemaRegistryImage
+      - startZtplAppNameKafkaContainer
+    configRefs:
+      - ztplAppNameKafkaSchemaRegistryContainer
+      - ztplAppNameKafkaSchemaRegistry
+    envRefs: 
+      - ztplAppNameKafkaSchemaRegistry
+
+  buildZtplAppNameKafkaSchemaRegistryImage:
+    icon: 🏭
+    extend: zrbBuildDockerImage
+    location: ztplAppTaskLocation/kafkaSchemaRegistry
+    configRefs:
+      - ztplAppNameKafkaSchemaRegistryContainer
+      - ztplAppNameKafkaSchemaRegistry
+    envRefs: 
+      - ztplAppNameKafkaSchemaRegistry
+
+  pushZtplAppNameKafkaSchemaRegistryImage:
+    icon: 📤
+    extend: zrbPushDockerImage
+    dependencies:
+      - buildZtplAppNameKafkaSchemaRegistryImage
+    configRefs:
+      - ztplAppNameKafkaSchemaRegistryContainer
+      - ztplAppNameKafkaSchemaRegistry
+    envRefs: 
+      - ztplAppNameKafkaSchemaRegistry
+
+  stopZtplAppNameKafkaSchemaRegistryContainer:
+    icon: ✋
+    extend: zrbStopDockerContainer
+    configRefs:
+      - ztplAppNameKafkaSchemaRegistryContainer
+      - ztplAppNameKafkaSchemaRegistry
+    envRefs: 
+      - ztplAppNameKafkaSchemaRegistry
+
+  removeZtplAppNameKafkaSchemaRegistryContainer:
+    icon: ❌
+    extend: zrbRemoveDockerContainer
+    location: ztplAppTaskLocation
+    configRefs:
+      - ztplAppNameKafkaSchemaRegistryContainer
+      - ztplAppNameKafkaSchemaRegistry
+    envRefs: 
+      - ztplAppNameKafkaSchemaRegistry

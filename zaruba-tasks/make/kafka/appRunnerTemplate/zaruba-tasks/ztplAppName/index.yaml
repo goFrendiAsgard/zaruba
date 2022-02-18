@@ -4,5 +4,8 @@ includes:
   - ./inputs.yaml
   - ./tasks.yaml
   - ./tasks.container.yaml
+  - ./tasks.container.akhq.yaml
   - ./tasks.container.kafka.yaml
+  - ./tasks.container.kafkaConnect.yaml
+  - ./tasks.container.kafkaSchemaRegistry.yaml
   - ./tasks.container.zookeeper.yaml

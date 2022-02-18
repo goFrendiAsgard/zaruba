@@ -1,8 +1,20 @@
 inputs:
 
+  akhqPorts:
+    description: "akhq's ports"
+    default: '["8030:8080"]'
+
   kafkaPorts:
     description: "Kafka's ports"
     default: '["9092:9092", "29092:29092"]'
+
+  kafkaConnectPorts:
+    description: "Kafka connect's ports"
+    default: '["8033:8033"]'
+
+  kafkaSchemaRegistryPorts:
+    description: "Kafka schema registry's ports"
+    default: '["8035:8035"]'
 
   zookeeperPorts:
     description: "Zookeeper's ports"

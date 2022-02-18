@@ -51,6 +51,21 @@ Type:
 ## Inputs
 
 
+### Inputs.akhqPorts
+
+Description:
+
+    akhq's ports
+
+Default Value:
+
+    ["8030:8080"]
+
+Secret:
+
+    false
+
+
 ### Inputs.appContainerName
 
 Description:
@@ -149,6 +164,21 @@ Secret:
     false
 
 
+### Inputs.kafkaConnectPorts
+
+Description:
+
+    Kafka connect's ports
+
+Default Value:
+
+    ["8033:8033"]
+
+Secret:
+
+    false
+
+
 ### Inputs.kafkaPorts
 
 Description:
@@ -158,6 +188,21 @@ Description:
 Default Value:
 
     ["9092:9092", "29092:29092"]
+
+Secret:
+
+    false
+
+
+### Inputs.kafkaSchemaRegistryPorts
+
+Description:
+
+    Kafka schema registry's ports
+
+Default Value:
+
+    ["8035:8035"]
 
 Secret:
 
@@ -296,7 +341,10 @@ Value:
 
 Value:
 
+    _ZRB_APP_AKHQ_PORTS='{{ .GetConfig "appAkhqPorts" }}'
     _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
+    _ZRB_APP_KAFKA_CONNECT_PORTS='{{ .GetConfig "appKafkaConnectPorts" }}'
+    _ZRB_APP_KAFKA_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appKafkaSchemaRegistryPorts" }}'
     _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
     . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
 
@@ -447,6 +495,13 @@ Value:
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 
+### Configs.appAkhqPorts
+
+Value:
+
+    {{ .GetValue "akhqPorts" }}
+
+
 ### Configs.appBaseImageName
 
 Value:
@@ -552,11 +607,25 @@ Value:
     {{ .GetValue "appImageName" }}
 
 
+### Configs.appKafkaConnectPorts
+
+Value:
+
+    {{ .GetValue "kafkaConnectPorts" }}
+
+
 ### Configs.appKafkaPorts
 
 Value:
 
     {{ .GetValue "kafkaPorts" }}
+
+
+### Configs.appKafkaSchemaRegistryPorts
+
+Value:
+
+    {{ .GetValue "kafkaSchemaRegistryPorts" }}
 
 
 ### Configs.appMigrateCommand

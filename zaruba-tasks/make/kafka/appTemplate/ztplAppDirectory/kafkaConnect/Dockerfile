@@ -1,0 +1,1 @@
+FROM docker.io/confluentinc/cp-kafka-connect:latest

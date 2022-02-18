@@ -12,6 +12,9 @@ tasks:
       - appEnvs
       - kafkaPorts
       - zookeeperPorts
+      - kafkaSchemaRegistryPorts
+      - kafkaConnectPorts
+      - akhqPorts
       - appImageName
       - appContainerName
     configRef: makeKafkaAppRunner
