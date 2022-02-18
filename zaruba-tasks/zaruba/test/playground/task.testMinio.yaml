@@ -1,6 +1,6 @@
 tasks:
 
-  testJupyterNotebook:
+  testMinio:
     icon: 🧪
     location: ../../../../playground
     extend: zrbRunShellScript 
@@ -10,6 +10,6 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please startProvoJupyterNotebook -t
+        ../zaruba please startProvoMinio -t
         sleep 5
-        ../zaruba please stopProvoJupyterNotebookContainer
+        ../zaruba please stopProvoMinioContainer

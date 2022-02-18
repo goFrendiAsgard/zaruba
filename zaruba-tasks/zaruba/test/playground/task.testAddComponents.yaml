@@ -45,6 +45,7 @@ tasks:
         ../zaruba please addElasticsearch appDirectory=provoElasticsearch
         ../zaruba please addJupyterNotebook appDirectory=provoJupyterNotebook
         ../zaruba please addKafka appDirectory=provoKafka
+        ../zaruba please addMinio appDirectory=provoMinio
         ../zaruba please addMeltano appDirectory=provoMeltano
         ../zaruba please addMongodb appDirectory=provoMongodb
         ../zaruba please addMysql appDirectory=provoMysql

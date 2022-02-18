@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeMinioApp:
+    icon: 🧪
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeMinioApp

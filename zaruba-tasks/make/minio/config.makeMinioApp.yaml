@@ -1,0 +1,8 @@
+configs:
+ 
+  makeMinioApp:
+    defaultAppDirectory: '{{ .ProjectName }}Minio'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/minio/appTemplate"
+      ]

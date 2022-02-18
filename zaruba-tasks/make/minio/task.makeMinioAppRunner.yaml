@@ -1,0 +1,16 @@
+tasks:
+
+  makeMinioAppRunner:
+    icon: 🧪
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeMinioApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeMinioAppRunner

@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🚌 makeKafkaAppRunner
+# 🧪 makeMinioApp
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/minio/task.makeMinioApp.yaml
 
 Should Sync Env:
 
@@ -20,13 +20,11 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+* [makeApp](make-app.md)
 
 
 ## Dependencies
 
-* [makeKafkaApp](make-kafka-app.md)
-* [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
 
@@ -51,44 +49,6 @@ Type:
 ## Inputs
 
 
-### Inputs.appContainerName
-
-Description:
-
-    Application container name
-
-Prompt:
-
-    Application container name
-
-Secret:
-
-    false
-
-Validation:
-
-    ^[a-zA-Z0-9_]*$
-
-
-### Inputs.appDependencies
-
-Description:
-
-    Application dependencies
-
-Prompt:
-
-    Application dependencies
-
-Default Value:
-
-    []
-
-Secret:
-
-    false
-
-
 ### Inputs.appDirectory
 
 Description:
@@ -104,92 +64,18 @@ Secret:
     false
 
 
-### Inputs.appEnvs
-
-Description:
-
-    Application envs
-
-Prompt:
-
-    Application envs
-
-Default Value:
-
-    {}
-
-Secret:
-
-    false
-
-
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
-### Inputs.appName
-
-Description:
-
-    Name of the app
-
-Prompt:
-
-    Name of the app
-
-Secret:
-
-    false
-
-
-### Inputs.kafkaPorts
-
-Description:
-
-    Kafka's ports
-
-Default Value:
-
-    ["9092:9092", "29092:29092"]
-
-Secret:
-
-    false
-
-
-### Inputs.zookeeperPorts
-
-Description:
-
-    Zookeeper's ports
-
-Default Value:
-
-    ["2181:2181"]
-
-Secret:
-
-    false
-
-
 ## Configs
 
 
 ### Configs._adjustPermission
 
-
-### Configs._containerPrepareAppRunnerTaskName
-
 Value:
 
-    wait${_ZRB_PASCAL_APP_NAME}Prerequisites
+    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    then
+      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+    fi
+
 
 
 ### Configs._finish
@@ -203,13 +89,6 @@ Value:
 
 
 ### Configs._includeModuleIndex
-
-Value:
-
-    {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
-    {{ end -}}
-
 
 
 ### Configs._initShell
@@ -227,9 +106,6 @@ Value:
 
 
 ### Configs._integrate
-
-
-### Configs._nativePrepareAppRunnerTaskName
 
 
 ### Configs._prepare
@@ -286,38 +162,17 @@ Value:
 
 ### Configs._prepareReplacementMap
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareReplacementMap.sh"
-
-
 
 ### Configs._prepareVariables
 
-Value:
-
-    _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
-    _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
-
-
 
 ### Configs._registerAppDependencies
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${_ZRB_CFG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
-
 
 
 ### Configs._registerAppDeploymentTasks
 
 
 ### Configs._registerAppRunnerTasks
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
 
 
 ### Configs._setup
@@ -338,7 +193,7 @@ Value:
 
 Value:
 
-    ./zaruba-tasks/${_ZRB_APP_NAME}
+    ${_ZRB_APP_DIRECTORY}
 
 
 ### Configs._start
@@ -395,10 +250,6 @@ Value:
 
 
 ### Configs._taskIndexPath
-
-Value:
-
-    ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
 
 
 ### Configs._validate
@@ -540,23 +391,12 @@ Value:
 
 ### Configs.appIcon
 
-Value:
-
-    🪠
-
 
 ### Configs.appImageName
 
 Value:
 
     {{ .GetValue "appImageName" }}
-
-
-### Configs.appKafkaPorts
-
-Value:
-
-    {{ .GetValue "kafkaPorts" }}
 
 
 ### Configs.appMigrateCommand
@@ -643,13 +483,6 @@ Value:
     {{ .GetValue "appUrl" }}
 
 
-### Configs.appZookeeperPorts
-
-Value:
-
-    {{ .GetValue "zookeeperPorts" }}
-
-
 ### Configs.beforeStart
 
 
@@ -681,7 +514,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Kafka
+    {{ .ProjectName }}Minio
 
 
 ### Configs.defaultAppPorts
@@ -768,11 +601,8 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appRunnerTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/minio/appTemplate"
     ]
-
 
 
 ## Envs

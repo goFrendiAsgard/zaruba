@@ -1,0 +1,6 @@
+tasks:
+
+  addMinio:
+    icon: 🧪
+    dependencies:
+      - makeMinioAppRunner

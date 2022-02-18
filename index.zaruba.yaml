@@ -50,6 +50,7 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testJupyterNotebook.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testKafka.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testMakeArtefact.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testMinio.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testMeltano.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testMongodb.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testMysql.yaml

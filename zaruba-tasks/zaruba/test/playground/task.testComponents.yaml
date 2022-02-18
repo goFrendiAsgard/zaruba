@@ -11,6 +11,7 @@ tasks:
       - testGitlab
       - testKafka
       - testMakeArtefact
+      - testMinio
       - testMeltano
       - testMongodb
       - testMysql

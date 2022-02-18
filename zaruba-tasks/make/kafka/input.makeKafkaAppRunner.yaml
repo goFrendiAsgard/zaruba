@@ -1,9 +1,9 @@
 inputs:
 
   kafkaPorts:
-    description: "Kafka's port"
+    description: "Kafka's ports"
     default: '["9092:9092", "29092:29092"]'
 
   zookeeperPorts:
-    description: "Zookeeper's port"
+    description: "Zookeeper's ports"
     default: '["2181:2181"]'
