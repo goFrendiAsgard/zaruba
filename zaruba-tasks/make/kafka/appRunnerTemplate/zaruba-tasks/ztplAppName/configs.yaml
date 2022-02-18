@@ -9,7 +9,6 @@ configs:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka
     containerName: ztplAppContainerName
-    localhost: host.docker.internal
 
   ztplAppNameSchemaRegistry:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
@@ -20,7 +19,6 @@ configs:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka-schema-registry
     containerName: ztplAppContainerNameSchemaRegistry
-    localhost: host.docker.internal
 
 
   ztplAppNameConnect:
@@ -32,27 +30,25 @@ configs:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka-connect
     containerName: ztplAppContainerNameConnect
-    localhost: host.docker.internal
 
   ztplAppNameZookeeper:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlZookeeperPorts
 
   ztplAppNameZookeeperContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-zookeeper
     containerName: ztplAppContainerNameZookeeper
     localhost: host.docker.internal
-    ports: |
-      ztplAppYamlZookeeperPorts
 
 
   ztplAppNameAkhq:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlAkhqPorts
 
   ztplAppNameAkhqContainer:
     useImagePrefix: true
     imageName: ztpl-app-image-name-akhq
     containerName: ztplAppContainerNameAkhq
-    localhost: host.docker.internal
-    ports: |
-      ztplAppYamlAkhqPorts
