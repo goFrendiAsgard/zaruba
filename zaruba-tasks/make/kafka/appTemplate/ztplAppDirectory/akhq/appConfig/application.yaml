@@ -1,0 +1,10 @@
+akhq:
+  connections:
+    docker-kafka-server:
+      properties:
+        bootstrap.servers: "provoKafka:9092"
+        schema-registry:
+          url: "http://provoKafkaSchemaRegistry:8085"
+        connect:
+          - name: "connect"
+            url: "http://provoKafkaConnect:8083"
