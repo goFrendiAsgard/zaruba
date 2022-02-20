@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
@@ -45,7 +45,7 @@ class DBUserRepo(UserRepo):
     def _is_valid_password(self, password: str, hashed_password: str) -> bool:
         return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
-    def find_by_username(self, username: str) -> User:
+    def find_by_username(self, username: str) -> Optional[User]:
         db = Session(self.engine)
         user: User
         try:
@@ -57,7 +57,7 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
 
-    def find_by_id(self, id: str) -> User:
+    def find_by_id(self, id: str) -> Optional[User]:
         db = Session(self.engine)
         user: User
         try:
@@ -69,7 +69,7 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
     
-    def find_by_password(self, identity: str, password: str) -> User:
+    def find_by_password(self, identity: str, password: str) -> Optional[User]:
         db = Session(self.engine)
         user: User
         try:
@@ -105,7 +105,7 @@ class DBUserRepo(UserRepo):
             db.close()
         return users
 
-    def insert(self, user_data: UserData) -> User:
+    def insert(self, user_data: UserData) -> Optional[User]:
         db = Session(self.engine)
         new_user: User
         try:
@@ -129,7 +129,7 @@ class DBUserRepo(UserRepo):
             db.close()
         return new_user
 
-    def update(self, id: str, user_data: UserData) -> User:
+    def update(self, id: str, user_data: UserData) -> Optional[User]:
         db = Session(self.engine)
         updated_user: User
         try:
@@ -153,7 +153,7 @@ class DBUserRepo(UserRepo):
             db.close()
         return updated_user
 
-    def delete(self, id: str) -> User:
+    def delete(self, id: str) -> Optional[User]:
         db = Session(self.engine)
         deleted_user: User
         try:

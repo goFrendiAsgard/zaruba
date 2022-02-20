@@ -8,6 +8,7 @@ tasks:
       - testDockerApp
       - testDockerCompose
       - testFastApi
+      - testFastApiIntegration
       - testGitlab
       - testKafka
       - testMakeArtefact

@@ -14,7 +14,7 @@ class UserData(BaseModel):
 
     def has_permission(self, permission: str) -> bool:
         for existing_permission in self.permissions:
-            permission_pattern = re.sub('\*', '[0-9a-zA-Z\*]+', permission)
+            permission_pattern = re.sub(r'\*', '[0-9a-zA-Z\*]+', permission)
             if re.search('^{}$'.format(permission_pattern), existing_permission):
                 return True
         return False

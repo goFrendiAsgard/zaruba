@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
@@ -25,7 +25,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
-    def find_by_id(self, id: str) -> ZtplAppCrudEntity:
+    def find_by_id(self, id: str) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
@@ -48,7 +48,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entities
 
-    def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
+    def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
@@ -65,7 +65,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entity
 
-    def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
+    def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
@@ -81,7 +81,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entity
 
-    def delete(self, id: str) -> ZtplAppCrudEntity:
+    def delete(self, id: str) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:

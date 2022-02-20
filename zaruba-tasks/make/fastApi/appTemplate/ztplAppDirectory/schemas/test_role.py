@@ -8,14 +8,14 @@ def test_role_data_add_new_permission():
     assert role_data.permissions[0] == 'permission'
     assert role_data.permissions[1] == 'new'
 
-def test_role_data_add_existing_permission():
+def test_role_data_add_exist_permission():
     role_data = RoleData(name='test_role')
     role_data.permissions=['permission']
     role_data.add_permission('permission')
     assert len(role_data.permissions) == 1
     assert role_data.permissions[0] == 'permission'
 
-def test_role_data_remove_permission_permission():
+def test_role_data_remove_permission():
     role_data = RoleData(name='test_role')
     role_data.permissions = ['permission1', 'permission2']
     role_data.remove_permission('permission1')

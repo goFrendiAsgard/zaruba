@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
@@ -28,7 +28,7 @@ class DBRoleRepo(RoleRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
-    def find_by_id(self, id: str) -> Role:
+    def find_by_id(self, id: str) -> Optional[Role]:
         db = Session(self.engine)
         role: Role
         try:
@@ -51,7 +51,7 @@ class DBRoleRepo(RoleRepo):
             db.close()
         return roles
 
-    def insert(self, role_data: RoleData) -> Role:
+    def insert(self, role_data: RoleData) -> Optional[Role]:
         db = Session(self.engine)
         role: Role
         try:
@@ -70,7 +70,7 @@ class DBRoleRepo(RoleRepo):
             db.close()
         return role
 
-    def update(self, id: str, role_data: RoleData) -> Role:
+    def update(self, id: str, role_data: RoleData) -> Optional[Role]:
         db = Session(self.engine)
         role: Role
         try:
@@ -88,7 +88,7 @@ class DBRoleRepo(RoleRepo):
             db.close()
         return role
 
-    def delete(self, id: str) -> Role:
+    def delete(self, id: str) -> Optional[Role]:
         db = Session(self.engine)
         role: Role
         try:

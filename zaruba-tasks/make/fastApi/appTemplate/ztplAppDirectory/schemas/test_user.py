@@ -8,14 +8,14 @@ def test_user_data_add_new_role_id():
     assert user_data.role_ids[0] == 'role'
     assert user_data.role_ids[1] == 'new'
 
-def test_user_data_add_existing_role_id():
+def test_user_data_add_exist_role_id():
     user_data = UserData(username='user', email='user@mail.com', phone_number='+621345678', password='password', full_name='User Test')
     user_data.role_ids=['role']
     user_data.add_role_id('role')
     assert len(user_data.role_ids) == 1
     assert user_data.role_ids[0] == 'role'
 
-def test_user_data_remove_role_role_id():
+def test_user_data_remove_role_id():
     user_data = UserData(username='user', email='user@mail.com', phone_number='+621345678', password='password', full_name='User Test')
     user_data.role_ids = ['role1', 'role2']
     user_data.remove_role_id('role1')
@@ -38,14 +38,14 @@ def test_user_data_add_new_permission():
     assert user_data.permissions[0] == 'permission'
     assert user_data.permissions[1] == 'new'
 
-def test_user_data_add_existing_permission():
+def test_user_data_add_exist_permission():
     user_data = UserData(username='user', email='user@mail.com', phone_number='+621345678', password='password', full_name='User Test')
     user_data.permissions=['permission']
     user_data.add_permission('permission')
     assert len(user_data.permissions) == 1
     assert user_data.permissions[0] == 'permission'
 
-def test_user_data_remove_permission_permission():
+def test_user_data_remove_permission():
     user_data = UserData(username='user', email='user@mail.com', phone_number='+621345678', password='password', full_name='User Test')
     user_data.permissions = ['permission1', 'permission2']
     user_data.remove_permission('permission1')

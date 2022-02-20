@@ -1,15 +1,14 @@
-from typing import List, Mapping
+from typing import List, Mapping, Optional
 from schemas.role import Role, RoleData
 
 import abc
-import json
 import uuid
 import datetime
 
 class RoleRepo(abc.ABC):
 
     @abc.abstractmethod
-    def find_by_id(self, id: str) -> Role:
+    def find_by_id(self, id: str) -> Optional[Role]:
         pass
 
     @abc.abstractmethod
@@ -17,15 +16,15 @@ class RoleRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def insert(self, role_data: RoleData) -> Role:
+    def insert(self, role_data: RoleData) -> Optional[Role]:
         pass
 
     @abc.abstractmethod
-    def update(self, id: str, role_data: RoleData) -> Role:
+    def update(self, id: str, role_data: RoleData) -> Optional[Role]:
         pass
 
     @abc.abstractmethod
-    def delete(self, id: str) -> Role:
+    def delete(self, id: str) -> Optional[Role]:
         pass
 
 
@@ -37,34 +36,45 @@ class MemRoleRepo(RoleRepo):
     def set_storage(self, role_map: Mapping[str, Role]):
         self._role_map = role_map
 
-    def find_by_id(self, id: str) -> Role:
+    def find_by_id(self, id: str) -> Optional[Role]:
+        if id not in self._role_map:
+            return None
         return self._role_map[id]
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
-        storage_roles = self._role_map.values()
+        mem_roles = list(self._role_map.values())
         roles: List[Role] = []
-        for index in range(limit, limit+offset):
-            mem_role = storage_roles[index]
+        for index in range(offset, limit+offset):
+            if index >= len(mem_roles):
+                break
+            mem_role = mem_roles[index]
             roles.append(mem_role)
         return roles
 
-    def insert(self, role_data: RoleData) -> Role:
+    def insert(self, role_data: RoleData) -> Optional[Role]:
         new_role_id=str(uuid.uuid4())
         new_role = Role(
             id=new_role_id,
             name=role_data.name,
-            json_permissions=json.dumps(role_data.permissions),
-            created_at=datetime.datetime.utcnow()
+            permissions=role_data.permissions,
+            created_at=datetime.datetime.utcnow(),
+            updated_at=datetime.datetime.utcnow()
         )
-        self._role_map[id] = new_role
+        self._role_map[new_role_id] = new_role
+        return new_role
 
-    def update(self, id: str, role_data: RoleData) -> Role:
+    def update(self, id: str, role_data: RoleData) -> Optional[Role]:
+        if id not in self._role_map:
+            return None
         mem_role = self._role_map[id]
         mem_role.name = role_data.name
-        mem_role.json_permissions = json.dumps(role_data.permissions)
+        mem_role.permissions = role_data.permissions
         mem_role.updated_at = datetime.datetime.utcnow()
         self._role_map[id] = mem_role
+        return mem_role
 
-    def delete(self, id: str) -> Role:
+    def delete(self, id: str) -> Optional[Role]:
+        if id not in self._role_map:
+            return None
         mem_role = self._role_map.pop(id)
         return mem_role
