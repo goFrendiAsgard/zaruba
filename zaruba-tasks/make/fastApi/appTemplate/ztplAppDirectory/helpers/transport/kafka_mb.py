@@ -2,7 +2,9 @@ from typing import Any, Callable, List, Mapping, TypedDict
 from kafka import KafkaProducer, KafkaConsumer
 from helpers.transport.interface import MessageBus
 from helpers.transport.kafka_config import KafkaEventMap
+
 import threading
+import traceback
 
 def create_kafka_connection_parameters(bootstrap_servers: str, sasl_mechanism: str = '', sasl_plain_username: str = '', sasl_plain_password: str = '', **kwargs) -> Mapping[str, Any]:
     if sasl_mechanism == '':
@@ -42,9 +44,12 @@ class KafkaMessageBus(MessageBus):
 
     def _handle(self, consumer: KafkaConsumer, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
         for serialized_message in consumer:
-            message = self.event_map.get_decoder(event_name)(serialized_message.value)
-            print({'action': 'handle_kafka_event', 'event_name': event_name, 'message': message, 'topic': topic, 'group_id': group_id, 'serialized': serialized_message})
-            event_handler(message)
+            try:
+                message = self.event_map.get_decoder(event_name)(serialized_message.value)
+                print({'action': 'handle_kafka_event', 'event_name': event_name, 'message': message, 'topic': topic, 'group_id': group_id, 'serialized': serialized_message})
+                event_handler(message)
+            except:
+                print(traceback.format_exc()) 
 
     def publish(self, event_name: str, message: Any) -> Any:
         producer = KafkaProducer(**self.kafka_connection_parameters)

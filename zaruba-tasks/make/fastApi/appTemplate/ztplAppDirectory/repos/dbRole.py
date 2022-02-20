@@ -17,8 +17,8 @@ class DBRoleEntity(Base):
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(20), index=True)
     json_permissions = Column(String(20), index=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.datetime.now)
+    updated_at = Column(DateTime, default=datetime.datetime.now)
 
 
 class DBRoleRepo(RoleRepo):
@@ -60,7 +60,7 @@ class DBRoleRepo(RoleRepo):
                 id=new_role_id,
                 name=role_data.name,
                 json_permissions=json.dumps(role_data.permissions),
-                created_at=datetime.datetime.utcnow()
+                created_at=datetime.datetime.now()
             )
             db.add(db_role)
             db.commit()
@@ -79,7 +79,7 @@ class DBRoleRepo(RoleRepo):
                 return None
             db_role.name = role_data.name
             db_role.json_permissions = json.dumps(role_data.permissions)
-            db_role.updated_at = datetime.datetime.utcnow()
+            db_role.updated_at = datetime.datetime.now()
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 

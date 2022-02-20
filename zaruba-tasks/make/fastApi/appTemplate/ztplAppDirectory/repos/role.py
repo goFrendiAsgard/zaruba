@@ -57,8 +57,8 @@ class MemRoleRepo(RoleRepo):
             id=new_role_id,
             name=role_data.name,
             permissions=role_data.permissions,
-            created_at=datetime.datetime.utcnow(),
-            updated_at=datetime.datetime.utcnow()
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
         )
         self._role_map[new_role_id] = new_role
         return new_role
@@ -69,7 +69,7 @@ class MemRoleRepo(RoleRepo):
         mem_role = self._role_map[id]
         mem_role.name = role_data.name
         mem_role.permissions = role_data.permissions
-        mem_role.updated_at = datetime.datetime.utcnow()
+        mem_role.updated_at = datetime.datetime.now()
         self._role_map[id] = mem_role
         return mem_role
 

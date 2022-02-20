@@ -24,11 +24,11 @@ _ZRB_DB_REPO_FIELD_UPDATE="$("${ZARUBA_BIN}" list join "${_DB_FIELD_SCRIPT_LINES
 _ZRB_MEM_REPO_FIELD_UPDATE="$("${ZARUBA_BIN}" list join "${_MEM_FIELD_SCRIPT_LINES}")"
 
 # db repo pattern
-_DB_REPO_PATTERN="[\t ]*(db_ztpl_app_crud_entity.updated_at[\t ]*=[\t ]datetime.datetime.utcnow\(.*)"
+_DB_REPO_PATTERN="[\t ]*(db_ztpl_app_crud_entity.updated_at[\t ]*=[\t ]datetime.datetime.now\(.*)"
 _setReplacementMap "${_DB_REPO_PATTERN}" "${_ZRB_DB_REPO_FIELD_UPDATE}"
 
 # mem repo pattern
-_MEM_REPO_PATTERN="[\t ]*(mem_ztpl_app_crud_entity.updated_at[\t ]*=[\t ]datetime.datetime.utcnow\(.*)"
+_MEM_REPO_PATTERN="[\t ]*(mem_ztpl_app_crud_entity.updated_at[\t ]*=[\t ]datetime.datetime.now\(.*)"
 _setReplacementMap "${_MEM_REPO_PATTERN}" "${_ZRB_MEM_REPO_FIELD_UPDATE}"
 
 

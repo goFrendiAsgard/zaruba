@@ -10,6 +10,9 @@ tasks:
       - testFastApi
       - testKafka
       - testRabbitmq
+      # These two take so much resources, let them finish first:
+      - testCassandra
+      - testGitlab
     configRef: playgroundTest
     configs:
       start: |

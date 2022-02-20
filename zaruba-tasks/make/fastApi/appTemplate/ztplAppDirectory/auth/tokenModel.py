@@ -28,7 +28,7 @@ class JWTTokenModel(TokenModel):
     def create_user_token(self, user: User) -> str: 
         access_token_expires = timedelta(minutes=self.access_token_expire_minutes)
         to_encode = {"sub": user.id}
-        expire = datetime.utcnow() + access_token_expires
+        expire = datetime.now() + access_token_expires
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, self.access_token_secret_key, algorithm=self.access_token_algorithm)
         return encoded_jwt

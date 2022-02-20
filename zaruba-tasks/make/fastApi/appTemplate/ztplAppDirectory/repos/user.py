@@ -89,8 +89,8 @@ class MemUserRepo(UserRepo):
             active=user_data.active,
             password=user_data.password,
             full_name=user_data.full_name,
-            created_at=datetime.datetime.utcnow(),
-            updated_at=datetime.datetime.utcnow()
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
         )
         self._password_map[new_user_id] = user_data.password
         self._user_map[new_user_id] = new_user
@@ -106,7 +106,7 @@ class MemUserRepo(UserRepo):
         mem_user.permissions = user_data.permissions
         mem_user.active = user_data.active
         mem_user.full_name = user_data.full_name
-        mem_user.updated_at = datetime.datetime.utcnow()
+        mem_user.updated_at = datetime.datetime.now()
         if user_data.password:
             mem_user.password = user_data.password
             self._password_map[id] = user_data.password

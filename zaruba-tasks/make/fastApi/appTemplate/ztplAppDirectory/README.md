@@ -459,8 +459,8 @@ class DBBookEntity(Base):
     title = Column(String(20), index=True)
     author = Column(String(20), index=True)
     synopsis = Column(String(20), index=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.datetime.now)
+    updated_at = Column(DateTime, default=datetime.datetime.now)
 
 
 class DBBookRepo(BookRepo):
@@ -502,7 +502,7 @@ class DBBookRepo(BookRepo):
                 title=book_data.title,
                 author=book_data.author,
                 synopsis=book_data.synopsis,
-                created_at=datetime.datetime.utcnow()
+                created_at=datetime.datetime.now()
             )
             db.add(db_entity)
             db.commit()
@@ -522,7 +522,7 @@ class DBBookRepo(BookRepo):
             db_entity.title = book_data.title
             db_entity.author = book_data.author
             db_entity.synopsis = book_data.synopsis
-            db_entity.updated_at = datetime.datetime.utcnow()
+            db_entity.updated_at = datetime.datetime.now()
             db.add(db_entity)
             db.commit()
             db.refresh(db_entity) 

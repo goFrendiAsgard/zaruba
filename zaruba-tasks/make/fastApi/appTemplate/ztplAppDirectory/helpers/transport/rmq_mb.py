@@ -39,7 +39,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
             try:
                 message = self.event_map.get_decoder(event_name)(body)
                 print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
-                result = event_handler(message)
+                event_handler(message)
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)

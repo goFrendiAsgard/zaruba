@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
-from helpers.transport import RMQEventMap, KafkaEventMap, create_kafka_connection_parameters, create_rmq_connection_parameters
+from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, create_kafka_connection_parameters, create_kafka_avro_connection_parameters, create_rmq_connection_parameters
 from helpers.app import get_abs_static_dir, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler
 from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
@@ -30,10 +30,20 @@ kafka_connection_parameters = create_kafka_connection_parameters(
 )
 kafka_event_map = KafkaEventMap({})
 
+# -- 🪠 Kafka avro setting
+kafka_avro_connection_parameters = create_kafka_avro_connection_parameters(
+    bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:29092'),
+    schema_registry = os.getenv('APP_KAFKA_SCHEMA_REGISTRY', 'http://localhost:8035'),
+    sasl_mechanism = os.getenv('APP_KAFKA_SASL_MECHANISM', 'PLAIN'),
+    sasl_plain_username = os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', 'root'),
+    sasl_plain_password = os.getenv('APP_KAFKA_SASL_PLAIN_PASSWORD', '')
+)
+kafka_avro_event_map = KafkaAvroEventMap({})
+
 # -- 🚌 Message bus and RPC initialization
 mb_type = os.getenv('APP_MESSAGE_BUS_TYPE', 'local')
 rpc_type = os.getenv('APP_RPC_TYPE', 'local')
-mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map, kafka_connection_parameters, kafka_event_map)
+mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map, kafka_connection_parameters, kafka_event_map, kafka_avro_connection_parameters, kafka_avro_event_map)
 rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 
 # -- 🛢️ Database engine initialization
