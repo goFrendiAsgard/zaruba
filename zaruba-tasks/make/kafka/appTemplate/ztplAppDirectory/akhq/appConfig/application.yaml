@@ -2,9 +2,9 @@ akhq:
   connections:
     docker-kafka-server:
       properties:
-        bootstrap.servers: "provoKafka:9092"
+        bootstrap.servers: "ztplAppContainerName:9092"
         schema-registry:
-          url: "http://provoKafkaSchemaRegistry:8085"
+          url: "http://ztplAppContainerNameSchemaRegistry:8085"
         connect:
           - name: "connect"
-            url: "http://provoKafkaConnect:8083"
+            url: "http://ztplAppContainerNameConnect:8083"
