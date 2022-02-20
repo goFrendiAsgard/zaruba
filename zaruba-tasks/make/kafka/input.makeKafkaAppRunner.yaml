@@ -14,7 +14,7 @@ inputs:
 
   kafkaSchemaRegistryPorts:
     description: "Kafka schema registry's ports"
-    default: '["8035:8035"]'
+    default: '["8035:8085"]'
 
   zookeeperPorts:
     description: "Zookeeper's ports"
