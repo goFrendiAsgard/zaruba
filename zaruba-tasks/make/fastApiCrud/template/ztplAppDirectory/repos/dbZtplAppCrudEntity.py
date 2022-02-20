@@ -27,70 +27,71 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
     def find_by_id(self, id: str) -> ZtplAppCrudEntity:
         db = Session(self.engine)
-        result: ZtplAppCrudEntity
+        ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
-            db_result = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
-            if db_result is None:
+            db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
+            if db_ztpl_app_crud_entity is None:
                 return None
-            result = ZtplAppCrudEntity.from_orm(db_result)
+            ztpl_app_crud_entity = ZtplAppCrudEntity.from_orm(db_ztpl_app_crud_entity)
         finally:
             db.close()
-        return result
+        return ztpl_app_crud_entity
 
     def find(self, keyword: str, limit: int, offset: int) -> List[ZtplAppCrudEntity]:
         db = Session(self.engine)
-        results: List[ZtplAppCrudEntity] = []
+        ztpl_app_crud_entities: List[ZtplAppCrudEntity] = []
         try:
             keyword = '%{}%'.format(keyword) if keyword != '' else '%'
-            db_results = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.ztplAppCrudFirstField.like(keyword)).offset(offset).limit(limit).all()
-            results = [ZtplAppCrudEntity.from_orm(db_result) for db_result in db_results]
+            db_ztpl_app_crud_entities = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.ztplAppCrudFirstField.like(keyword)).offset(offset).limit(limit).all()
+            ztpl_app_crud_entities = [ZtplAppCrudEntity.from_orm(db_result) for db_result in db_ztpl_app_crud_entities]
         finally:
             db.close()
-        return results
+        return ztpl_app_crud_entities
 
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
         db = Session(self.engine)
-        result: ZtplAppCrudEntity
+        ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
-            db_entity = DBZtplAppCrudEntityEntity(
-                id=str(uuid.uuid4()),
+            new_ztpl_app_crud_entity_id = str(uuid.uuid4())
+            db_ztpl_app_crud_entity = DBZtplAppCrudEntityEntity(
+                id=new_ztpl_app_crud_entity_id,
                 created_at=datetime.datetime.utcnow()
             )
-            db.add(db_entity)
+            db.add(db_ztpl_app_crud_entity)
             db.commit()
-            db.refresh(db_entity) 
-            result = ZtplAppCrudEntity.from_orm(db_entity)
+            db.refresh(db_ztpl_app_crud_entity) 
+            ztpl_app_crud_entity = ZtplAppCrudEntity.from_orm(db_ztpl_app_crud_entity)
         finally:
             db.close()
-        return result
+        return ztpl_app_crud_entity
 
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
         db = Session(self.engine)
-        result: ZtplAppCrudEntity
+        ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
-            db_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
-            if db_entity is None:
+            db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
+            if db_ztpl_app_crud_entity is None:
                 return None
-            db_entity.updated_at = datetime.datetime.utcnow()
-            db.add(db_entity)
+            db_ztpl_app_crud_entity.updated_at = datetime.datetime.utcnow()
+            db.add(db_ztpl_app_crud_entity)
             db.commit()
-            db.refresh(db_entity) 
-            result = ZtplAppCrudEntity.from_orm(db_entity)
+            db.refresh(db_ztpl_app_crud_entity) 
+            ztpl_app_crud_entity = ZtplAppCrudEntity.from_orm(db_ztpl_app_crud_entity)
         finally:
             db.close()
-        return result
+        return ztpl_app_crud_entity
 
     def delete(self, id: str) -> ZtplAppCrudEntity:
         db = Session(self.engine)
-        result: ZtplAppCrudEntity
+        ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
-            db_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
-            if db_entity is None:
+            db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
+            if db_ztpl_app_crud_entity is None:
                 return None
-            db.delete(db_entity)
+            db.delete(db_ztpl_app_crud_entity)
             db.commit()
-            result = ZtplAppCrudEntity.from_orm(db_entity)
+            ztpl_app_crud_entity = ZtplAppCrudEntity.from_orm(db_ztpl_app_crud_entity)
         finally:
             db.close()
-        return result
+        return ztpl_app_crud_entity
 

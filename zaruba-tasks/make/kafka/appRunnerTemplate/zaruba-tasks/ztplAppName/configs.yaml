@@ -41,6 +41,7 @@ configs:
     imageName: ztpl-app-image-name-zookeeper
     containerName: ztplAppContainerNameZookeeper
     localhost: host.docker.internal
+    afterCheck: sleep 5
 
 
   ztplAppNameAkhq:
@@ -52,3 +53,5 @@ configs:
     useImagePrefix: true
     imageName: ztpl-app-image-name-akhq
     containerName: ztplAppContainerNameAkhq
+    volumes: |
+      appConfig:/appConfig

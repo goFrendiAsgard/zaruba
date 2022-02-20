@@ -30,74 +30,75 @@ class DBRoleRepo(RoleRepo):
 
     def find_by_id(self, id: str) -> Role:
         db = Session(self.engine)
-        result: Role
+        role: Role
         try:
             db_result = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
             if db_result is None:
                 return None
-            result = Role.from_orm(db_result)
+            role = Role.from_orm(db_result)
         finally:
             db.close()
-        return result
+        return role
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
         db = Session(self.engine)
-        results: List[Role] = []
+        roles: List[Role] = []
         try:
             keyword = '%{}%'.format(keyword) if keyword != '' else '%'
             db_results = db.query(DBRoleEntity).filter(DBRoleEntity.name.like(keyword)).offset(offset).limit(limit).all()
-            results = [Role.from_orm(db_result) for db_result in db_results]
+            roles = [Role.from_orm(db_result) for db_result in db_results]
         finally:
             db.close()
-        return results
+        return roles
 
     def insert(self, role_data: RoleData) -> Role:
         db = Session(self.engine)
-        result: Role
+        role: Role
         try:
-            db_entity = DBRoleEntity(
-                id=str(uuid.uuid4()),
+            new_role_id=str(uuid.uuid4())
+            db_role = DBRoleEntity(
+                id=new_role_id,
                 name=role_data.name,
                 json_permissions=json.dumps(role_data.permissions),
                 created_at=datetime.datetime.utcnow()
             )
-            db.add(db_entity)
+            db.add(db_role)
             db.commit()
-            db.refresh(db_entity) 
-            result = Role.from_orm(db_entity)
+            db.refresh(db_role) 
+            role = Role.from_orm(db_role)
         finally:
             db.close()
-        return result
+        return role
 
     def update(self, id: str, role_data: RoleData) -> Role:
         db = Session(self.engine)
-        result: Role
+        role: Role
         try:
-            db_entity = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
-            if db_entity is None:
+            db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
+            if db_role is None:
                 return None
-            db_entity.name = role_data.name
-            db_entity.json_permissions = json.dumps(role_data.permissions)
-            db_entity.updated_at = datetime.datetime.utcnow()
-            db.add(db_entity)
+            db_role.name = role_data.name
+            db_role.json_permissions = json.dumps(role_data.permissions)
+            db_role.updated_at = datetime.datetime.utcnow()
+            db.add(db_role)
             db.commit()
-            db.refresh(db_entity) 
-            result = Role.from_orm(db_entity)
+            db.refresh(db_role) 
+            role = Role.from_orm(db_role)
         finally:
             db.close()
-        return result
+        return role
 
     def delete(self, id: str) -> Role:
         db = Session(self.engine)
-        result: Role
+        role: Role
         try:
-            db_entity = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
-            if db_entity is None:
+            db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
+            if db_role is None:
                 return None
-            db.delete(db_entity)
+            db.delete(db_role)
             db.commit()
-            result = Role.from_orm(db_entity)
+            role = Role.from_orm(db_role)
         finally:
             db.close()
-        return result
+        return role
 

@@ -61,10 +61,10 @@ class DBUserRepo(UserRepo):
         db = Session(self.engine)
         user: User
         try:
-            db_result = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
-            if db_result is None:
+            db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
+            if db_user is None:
                 return None
-            user = User.from_orm(db_result)
+            user = User.from_orm(db_user)
         finally:
             db.close()
         return user
@@ -109,8 +109,9 @@ class DBUserRepo(UserRepo):
         db = Session(self.engine)
         new_user: User
         try:
+            new_user_id=str(uuid.uuid4())
             db_user = DBUserEntity(
-                id=str(uuid.uuid4()),
+                id=new_user_id,
                 username=user_data.username,
                 email=user_data.email,
                 phone_number=user_data.phone_number,

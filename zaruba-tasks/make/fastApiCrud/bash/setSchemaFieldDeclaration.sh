@@ -1,8 +1,6 @@
 set -e
 echo "Set schema field declaration"
 
-_PATTERN="[\t ]*(class[\t ]*ZtplAppCrudEntityData.*)"
-
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastApiCrud/partials/schema_field_declaration.py")"
 _FIELD_SCRIPT_LINES='["$1"]'
 for _INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_ZRB_APP_CRUD_FIELDS}")
@@ -18,6 +16,7 @@ done
 
 _ZRB_SCHEMA_FIELD_DECLARATION="$("${ZARUBA_BIN}" list join "${_FIELD_SCRIPT_LINES}")"
 
+_PATTERN="[\t ]*(class[\t ]*ZtplAppCrudEntityData.*)"
 _setReplacementMap "${_PATTERN}" "${_ZRB_SCHEMA_FIELD_DECLARATION}"
 
 echo "Done setting schema field declaration"

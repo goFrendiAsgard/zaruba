@@ -3,8 +3,13 @@ from helpers.transport.kafka_mb import KafkaMessageBus, create_kafka_connection_
 from helpers.transport.kafka_config import KafkaEventMap
 
 import os
+import warnings
 
 def test_mb():
+    if os.getenv('TEST_INTEGRATION', '0') != '1':
+        warnings.warn(UserWarning('TEST_INTEGRATION != 1, KafkaMessageBus is not tested'))
+        return None
+
     bootstrap_servers = os.getenv('TEST_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
     sasl_mechanism=os.getenv('TEST_KAFKA_SASL_MECHANISM', 'PLAIN'),
     sasl_plain_username=os.getenv('TEST_KAFKA_SASL_PLAIN_USERNAME', ''),

@@ -4,8 +4,13 @@ from helpers.transport.rmq_config import RMQEventMap
 from helpers.transport.rmq_connection import create_rmq_connection_parameters
 
 import os
+import warnings
 
 def test_mb():
+    if os.getenv('TEST_INTEGRATION', '0') != '1':
+        warnings.warn(UserWarning('TEST_INTEGRATION != 1, RMQRPC is not tested'))
+        return None
+
     host = os.getenv('TEST_RABBITMQ_HOST', 'localhost')
     user = os.getenv('TEST_RABBITMQ_USER', 'root')
     password = os.getenv('TEST_RABBITMQ_PASS', 'Alch3mist')

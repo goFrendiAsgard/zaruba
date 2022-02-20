@@ -8,8 +8,8 @@ class RoleData(BaseModel):
 
     def has_permission(self, permission: str) -> bool:
         for existing_permission in self.permissions:
-            existing_permission_pattern = re.sub('\*', '[0-9a-zA-Z]+', existing_permission)
-            if re.search('^{}$'.format(existing_permission_pattern), permission):
+            permission_pattern = re.sub('\*', '[0-9a-zA-Z\*]+', permission)
+            if re.search('^{}$'.format(permission_pattern), existing_permission):
                 return True
         return False
 
@@ -21,7 +21,7 @@ class RoleData(BaseModel):
 
     def remove_permission(self, permission: str):
         new_permissions = [existing_permission for existing_permission in self.permissions if existing_permission != permission]
-        self.permissions = ' '.join(new_permissions)
+        self.permissions = new_permissions
 
 
 class Role(RoleData):

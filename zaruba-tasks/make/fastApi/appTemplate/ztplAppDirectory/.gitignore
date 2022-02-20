@@ -1,4 +1,5 @@
 __pycache__
 venv
 database.db
+test.db
 htmlcov

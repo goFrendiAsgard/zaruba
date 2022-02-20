@@ -10,6 +10,7 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
+        ../zaruba please testProvoFastApi
         ../zaruba please startProvoFastApi -t
         ../zaruba please startProvoFastApiContainer -t
         sleep 5
