@@ -4,8 +4,9 @@ from helpers.transport.kafka_config import KafkaEventMap
 
 import os
 import warnings
+import time
 
-def test_mb():
+def test_kafka_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, KafkaMessageBus is not tested'))
         return None
@@ -26,4 +27,3 @@ def test_mb():
         mb.shutdown()
     
     mb.publish('test_event', 'test_message')
-

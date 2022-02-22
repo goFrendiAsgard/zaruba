@@ -1,7 +1,7 @@
 from typing import Any
 from helpers.transport.local_mb import LocalMessageBus
 
-def test_mb():
+def test_local_mb():
     mb = LocalMessageBus()
 
     @mb.handle('test_event')

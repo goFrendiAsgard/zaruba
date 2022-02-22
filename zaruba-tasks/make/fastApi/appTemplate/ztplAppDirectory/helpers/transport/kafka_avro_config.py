@@ -2,6 +2,7 @@ from typing import Any, Callable, Mapping, TypedDict
 from confluent_kafka import avro
 
 import datetime
+import os
 
 class KafkaAvroEventConfig(TypedDict):
     topic: str
@@ -45,5 +46,8 @@ class KafkaAvroEventMap:
             return avro.loads(self.mapping[event_name]['value_schema_str'])
         if event_name in self.mapping and 'value_schema_file' in self.mapping[event_name] and self.mapping[event_name]['value_schema_file'] != '':
             return avro.load(self.mapping[event_name]['value_schema_file'])
-        return avro.load('./avro/{}.avro'.format(event_name))
+        default_schema_file = './avro/{}.avro'.format(event_name)
+        if os.path.exists(default_schema_file):
+            return avro.load(default_schema_file)
+        return avro.loads('{"type": "str"}')
          

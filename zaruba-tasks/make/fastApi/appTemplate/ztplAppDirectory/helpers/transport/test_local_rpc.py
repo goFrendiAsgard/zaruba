@@ -1,7 +1,7 @@
 from typing import Any
 from helpers.transport.local_rpc import LocalRPC
 
-def test_mb():
+def test_local_rpc():
     rpc = LocalRPC()
 
     @rpc.handle('test_rpc')

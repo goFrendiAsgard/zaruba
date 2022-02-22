@@ -41,8 +41,7 @@ configs:
     imageName: ztpl-app-image-name-zookeeper
     containerName: ztplAppContainerNameZookeeper
     localhost: host.docker.internal
-    afterCheck: sleep 5
-
+    afterCheck: sleep 7
 
   ztplAppNameAkhq:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'

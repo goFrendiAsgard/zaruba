@@ -24,11 +24,13 @@ class KafkaMessageBus(MessageBus):
         self.kafka_event_map = kafka_event_map
         self.consumers: Mapping[str, KafkaConsumer] = {}
         self.event_map = kafka_event_map
+        self.is_shutdown = False
 
     def shutdown(self):
         for event_name, consumer in self.consumers.items():
             print('stop listening to {event_name}'.format(event_name=event_name))
             consumer.close()
+        self.is_shutdown = True
 
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):

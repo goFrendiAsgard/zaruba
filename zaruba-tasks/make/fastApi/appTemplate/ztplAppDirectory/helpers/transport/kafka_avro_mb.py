@@ -7,15 +7,18 @@ from confluent_kafka.admin import AdminClient
 import threading
 import traceback
 
-def create_kafka_avro_connection_parameters(bootstrap_servers: str, schema_registry: str = '', sasl_mechanism: str = '', sasl_plain_username: str = '', sasl_plain_password: str = '', **kwargs) -> Mapping[str, Any]:
+def create_kafka_avro_connection_parameters(bootstrap_servers: str, schema_registry: str = '', sasl_mechanism: str = '', sasl_plain_username: str = '', sasl_plain_password: str = '', security_protocol='', **kwargs) -> Mapping[str, Any]:
     if sasl_mechanism == '':
         sasl_mechanism = 'PLAIN'
+    if security_protocol == '':
+        security_protocol = 'SASL_PLAINTEXT'
     return {
         'bootstrap.servers': bootstrap_servers,
         'schema.registry.url': schema_registry,
         'sasl.mechanism': sasl_mechanism,
         'sasl.username': sasl_plain_username,
         'sasl.password': sasl_plain_password,
+        'security.protocol': security_protocol,
         **kwargs
     }
 
@@ -26,11 +29,13 @@ class KafkaAvroMessageBus(MessageBus):
         self.kafka_avro_event_map = kafka_avro_event_map
         self.consumers: Mapping[str, AvroConsumer] = {}
         self.event_map = kafka_avro_event_map
+        self.is_shutdown = False
 
     def shutdown(self):
         for event_name, consumer in self.consumers.items():
             print('stop listening to {event_name}'.format(event_name=event_name))
             consumer.close()
+        self.is_shutdown = True
 
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
@@ -64,8 +69,10 @@ class KafkaAvroMessageBus(MessageBus):
         consumer.subscribe([topic])
         while True:
             try:
-                message = consumer.poll()
-                if message:
+                message = consumer.poll(1)
+                if message is None:
+                    continue
+                if message.value():
                     print({'action': 'handle_kafka_avro_event', 'event_name': event_name, 'value': message.value(), 'key': message.key(), 'topic': message.topic(), 'partition': message.partition(), 'offset': message.offset(), 'group_id': group_id})
                     event_handler(message.value())
                     consumer.commit()
@@ -80,5 +87,12 @@ class KafkaAvroMessageBus(MessageBus):
         key_maker = self.event_map.get_key_maker(event_name)
         key = key_maker(message)
         print({'action': 'publish_kafka_avro_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic})
-        producer.produce(topic=topic, key=key, value=message)
-        producer.flush()
+        producer.produce(topic=topic, key=key, value=message, callback=_produce_callback)
+        producer.poll(1)
+
+
+def _produce_callback(err, msg):
+    if err is not None:
+        print("Failed to deliver message: %s: %s" % (str(msg), str(err)))
+    else:
+        print("Message produced: %s" % (str(msg)))

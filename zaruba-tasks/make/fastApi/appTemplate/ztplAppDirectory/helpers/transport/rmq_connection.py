@@ -15,6 +15,7 @@ class RMQConnection():
     def __init__(self, connection_parameters: pika.ConnectionParameters):
         self.connection_parameters = connection_parameters
         self.should_check_connection = True
+        self.is_shutdown = False
         self._connect()
 
     def _connect(self):
@@ -40,3 +41,4 @@ class RMQConnection():
         self.should_check_connection = False
         self.connection.close()
         self.thread.join()
+        self.is_shutdown = True

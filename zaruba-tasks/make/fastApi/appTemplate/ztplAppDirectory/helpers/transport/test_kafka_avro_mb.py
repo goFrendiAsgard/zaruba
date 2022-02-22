@@ -4,8 +4,9 @@ from helpers.transport.kafka_avro_config import KafkaAvroEventMap
 
 import os
 import warnings
+import time
 
-def test_mb():
+def test_kafka_avro_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, KafkaAvroMessageBus is not tested'))
         return None
@@ -31,4 +32,3 @@ def test_mb():
         mb.shutdown()
     
     mb.publish('test_avro_event', 'test_avro_message')
-
