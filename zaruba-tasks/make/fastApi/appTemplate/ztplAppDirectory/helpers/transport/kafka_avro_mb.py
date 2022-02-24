@@ -2,7 +2,7 @@ from typing import Any, Callable, List, Mapping, TypedDict
 from helpers.transport.interface import MessageBus
 from helpers.transport.kafka_avro_config import KafkaAvroEventMap
 from confluent_kafka.avro import AvroProducer, AvroConsumer
-from confluent_kafka.admin import AdminClient
+from confluent_kafka.admin import AdminClient, NewTopic
 
 import threading
 import traceback
@@ -18,7 +18,7 @@ def create_kafka_avro_connection_parameters(bootstrap_servers: str, schema_regis
         'sasl.mechanism': sasl_mechanism,
         'sasl.username': sasl_plain_username,
         'sasl.password': sasl_plain_password,
-        'security.protocol': security_protocol,
+        # 'security.protocol': security_protocol,
         **kwargs
     }
 
@@ -50,7 +50,7 @@ class KafkaAvroMessageBus(MessageBus):
                 })
                 topic_metadata = kafka_admin.list_topics()
                 if topic_metadata.topics.get(topic) is None:
-                    kafka_admin.create_topics([topic])
+                    kafka_admin.create_topics([NewTopic(topic, 1, 1)])
             except:
                 print(traceback.format_exc())
             # create consumer
@@ -72,10 +72,12 @@ class KafkaAvroMessageBus(MessageBus):
                 message = consumer.poll(1)
                 if message is None:
                     continue
+                if message.error():
+                    print("AvroConsumer error: {}".format(message.error()))
+                    continue
                 if message.value():
                     print({'action': 'handle_kafka_avro_event', 'event_name': event_name, 'value': message.value(), 'key': message.key(), 'topic': message.topic(), 'partition': message.partition(), 'offset': message.offset(), 'group_id': group_id})
                     event_handler(message.value())
-                    consumer.commit()
             except:
                 print(traceback.format_exc())
 
@@ -88,7 +90,7 @@ class KafkaAvroMessageBus(MessageBus):
         key = key_maker(message)
         print({'action': 'publish_kafka_avro_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic})
         producer.produce(topic=topic, key=key, value=message, callback=_produce_callback)
-        producer.poll(1)
+        producer.flush()
 
 
 def _produce_callback(err, msg):

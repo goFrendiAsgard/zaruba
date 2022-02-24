@@ -4,7 +4,7 @@ akhq:
       properties:
         bootstrap.servers: "ztplAppContainerName:9092"
         schema-registry:
-          url: "http://ztplAppContainerNameSchemaRegistry:8085"
+          url: "http://ztplAppContainerNameSchemaRegistry:8081"
         connect:
           - name: "connect"
             url: "http://ztplAppContainerNameConnect:8083"

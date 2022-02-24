@@ -10,6 +10,7 @@ tasks:
       - waitZtplAppNamePrerequisites
       - buildZtplAppNameSchemaRegistryImage
       - startZtplAppNameKafkaContainer
+      - startZtplAppNameZookeeperContainer
     configRefs:
       - ztplAppNameSchemaRegistryContainer
       - ztplAppNameSchemaRegistry

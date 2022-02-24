@@ -34,7 +34,7 @@ class KafkaAvroEventMap:
             return avro.loads(self.mapping[event_name]['key_schema_str'])
         if event_name in self.mapping and 'key_schema_file' in self.mapping[event_name] and self.mapping[event_name]['key_schema_file'] != '':
             return avro.load(self.mapping[event_name]['key_schema_file'])
-        return avro.loads('{"type": "int"}')
+        return avro.loads('{"type": "float"}')
     
     def get_key_maker(self, event_name: str) -> Callable[[Any], Any]:
         if event_name in self.mapping and 'key_maker' in self.mapping[event_name] and callable(self.mapping[event_name]['key_maker']):
