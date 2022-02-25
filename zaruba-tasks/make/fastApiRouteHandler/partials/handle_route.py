@@ -7,7 +7,7 @@ def ztplAppHttpMethod_ztpl_app_url(current_user = Depends(auth_model.everyone())
     #   current_user = Depends(auth_model.has_any_permission('your_permission'))
     try:
         # NOTE: To send event, do this
-        #   mb.call('event_name', {'some': 'object'})
+        #   mb.publish('event_name', {'some': 'object'})
         # NOTE: To call rpc, do this
         #   rpc.call('rpc_name', parameter1, parameter2,...)
         greetings = 'hello {}'.format(current_user.username)

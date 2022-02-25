@@ -150,7 +150,7 @@ def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model
     @app.get('/train-model', response_class=HTMLResponse)
     def train_model(current_user = Depends(auth_model.everyone()), config: Mapping[str, Any]) -> HTMLResponse:
         # invoking trainModel
-        mb.call('trainModel', config)
+        mb.publish('trainModel', config)
         # immediately return response without waiting for train_model event to be processed.
         return HTMLResponse(content='train process has been invoked', status_code=200)
 
@@ -165,7 +165,7 @@ def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model
 
 Everyone can access these two routes (i.e: `/train-model` and `/predict-data`) since we specifically `auth_model.everyone()` as our dependency. This is how routes interact with `Auth system`.
 
-The `/train-model` route handler sends an event through `mb.call` and immediately send HTTP response. This is make sense since ML model training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
+The `/train-model` route handler sends an event through `mb.publish` and immediately send HTTP response. This is make sense since ML model training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
 
 The `/predict-data` route handler sends RPC (remote procedure call) through `rpc.call`. Unlike event, RPC is expected to return the result. It is make sense, because whenever you predict data using a machine learning model, you expect the result as the response. We assume that the prediction process usually doesn't take long. Not as long as training, and it is make sense for user to wait the response.
 

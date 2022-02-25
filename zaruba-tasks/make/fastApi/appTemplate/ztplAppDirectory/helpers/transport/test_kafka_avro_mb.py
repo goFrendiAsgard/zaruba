@@ -18,17 +18,14 @@ def test_kafka_avro_mb():
         sasl_plain_username=os.getenv('TEST_KAFKA_SASL_PLAIN_USERNAME', ''),
         sasl_plain_password=os.getenv('TEST_KAFKA_SASL_PLAIN_PASSWORD', '')
     )
-    kafka_event_map = KafkaAvroEventMap({
-        'test_avro_event': {
-            'value_schema_str': '{"type": "string"}'
-        }
-    })
-
-    mb = KafkaAvroMessageBus(kafka_connection_parameters, kafka_event_map)
+    kafka_avro_event_map = KafkaAvroEventMap({})
+    
+    mb = KafkaAvroMessageBus(kafka_connection_parameters, kafka_avro_event_map)
 
     @mb.handle('test_avro_event')
     def handle(message: Any) -> Any:
-        assert message == 'test_avro_message'
+        assert 'data' in message
+        assert message['data'] == 'test_avro_message'
         mb.shutdown()
     
-    mb.publish('test_avro_event', 'test_avro_message')
+    mb.publish('test_avro_event', {"data": "test_avro_message"})
