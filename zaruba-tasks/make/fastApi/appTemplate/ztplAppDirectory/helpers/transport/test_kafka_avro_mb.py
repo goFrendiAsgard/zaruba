@@ -35,7 +35,7 @@ async def _test_kafka_avro_mb():
 
     mb.publish('test_avro_event', 'test_avro_message')
 
-    trial: int = 150
+    trial: int = 10
     while trial > 0 and not 'message' in result:
         await asyncio.sleep(1)
         trial -= 1

@@ -91,7 +91,7 @@ class KafkaAvroMessageBus(MessageBus):
                 print(traceback.format_exc())
                 consumer = AvroConsumer(consumer_args)
                 self.consumers[event_name] = consumer
-                print({'action': 're_subscribe_kafka_topic', 'topic': topic})
+                print({'action': 're_subscribe_kafka_avro_topic', 'topic': topic})
                 consumer.subscribe([topic])
 
     def publish(self, event_name: str, message: Any) -> Any:
