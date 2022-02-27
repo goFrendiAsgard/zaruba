@@ -1,5 +1,5 @@
 from typing import Any, Callable, Dict, Mapping, TypedDict
-from helpers.transport.serial import create_json_byte_encoder, create_json_byte_decoder
+from helpers.transport.serial import create_json_byte_encoder, create_json_decoder
 
 class RMQEventConfig(TypedDict):
     queue_name: str
@@ -19,7 +19,7 @@ class RMQEventMap:
     def __init__(self, mapping: Mapping[str, RMQEventConfig]):
         self.mapping = mapping
         self.default_encoder = create_json_byte_encoder()
-        self.default_decoder = create_json_byte_decoder()
+        self.default_decoder = create_json_decoder()
 
     def get_exchange_name(self, event_name: str) -> str:
         if event_name in self.mapping and 'exchange_name' in self.mapping[event_name] and self.mapping[event_name]['exchange_name'] != '':

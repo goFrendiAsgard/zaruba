@@ -4,9 +4,13 @@ from helpers.transport.kafka_config import KafkaEventMap
 
 import os
 import warnings
-import time
+import asyncio
 
 def test_kafka_mb():
+    asyncio.run(_test_kafka_mb())
+
+
+async def _test_kafka_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, KafkaMessageBus is not tested'))
         return None
@@ -21,9 +25,13 @@ def test_kafka_mb():
 
     mb = KafkaMessageBus(kafka_connection_parameters, kafka_event_map)
 
+    result = {}
     @mb.handle('test_event')
     def handle(message: Any) -> Any:
-        assert message == 'test_message'
+        result['message'] = message
         mb.shutdown()
     
     mb.publish('test_event', 'test_message')
+    await asyncio.sleep(5)
+    assert 'message' in result
+    assert result['message'] == 'test_message'

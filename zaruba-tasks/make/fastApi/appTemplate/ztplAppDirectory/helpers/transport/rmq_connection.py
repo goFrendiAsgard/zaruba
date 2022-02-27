@@ -38,7 +38,10 @@ class RMQConnection():
         self.thread.start()
 
     def shutdown(self):
+        if self.is_shutdown:
+            return
         self.should_check_connection = False
+        print('closing RMQ connection')
         self.connection.close()
         self.thread.join()
         self.is_shutdown = True

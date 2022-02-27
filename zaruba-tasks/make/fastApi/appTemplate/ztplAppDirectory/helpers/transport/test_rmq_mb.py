@@ -5,9 +5,13 @@ from helpers.transport.rmq_connection import create_rmq_connection_parameters
 
 import os
 import warnings
-import time
+import asyncio
 
-def test_rmq_mb():
+def test_kafka_mb():
+    asyncio.run(_test_rmq_mb())
+
+
+async def _test_rmq_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, RMQMessageBus is not tested'))
         return None
@@ -21,9 +25,13 @@ def test_rmq_mb():
 
     mb = RMQMessageBus(rmq_connection_parameters, rmq_event_map)
 
+    result = {}
     @mb.handle('test_event')
     def handle(message: Any) -> Any:
-        assert message == 'test_message'
+        result['message'] = message
         mb.shutdown()
     
     mb.publish('test_event', 'test_message')
+    await asyncio.sleep(5)
+    assert 'message' in result
+    assert result['message'] == 'test_message'

@@ -1,8 +1,8 @@
 from typing import Any, Callable, List, Mapping, TypedDict
 from helpers.transport.interface import MessageBus
+from helpers.transport.kafka_helper import create_kafka_topic
 from helpers.transport.kafka_avro_config import KafkaAvroEventMap
 from confluent_kafka.avro import AvroProducer, AvroConsumer
-from confluent_kafka.admin import AdminClient, NewTopic
 
 import threading
 import traceback
@@ -32,6 +32,8 @@ class KafkaAvroMessageBus(MessageBus):
         self.is_shutdown = False
 
     def shutdown(self):
+        if self.is_shutdown:
+            return
         for event_name, consumer in self.consumers.items():
             print('stop listening to {event_name}'.format(event_name=event_name))
             consumer.close()
@@ -41,18 +43,12 @@ class KafkaAvroMessageBus(MessageBus):
         def register_event_handler(event_handler: Callable[[Any], Any]):
             topic = self.event_map.get_topic(event_name)
             # create topic if not exists
-            try:
-                kafka_admin = AdminClient({
-                    'bootstrap.servers': self.kafka_avro_connection_parameters['bootstrap.servers'],
-                    'sasl.mechanism': self.kafka_avro_connection_parameters['sasl.mechanism'],
-                    'sasl.username': self.kafka_avro_connection_parameters['sasl.username'],
-                    'sasl.password': self.kafka_avro_connection_parameters['sasl.password']
-                })
-                topic_metadata = kafka_admin.list_topics()
-                if topic_metadata.topics.get(topic) is None:
-                    kafka_admin.create_topics([NewTopic(topic, 1, 1)])
-            except:
-                print(traceback.format_exc())
+            create_kafka_topic(topic, {
+                'bootstrap.servers': self.kafka_avro_connection_parameters['bootstrap.servers'],
+                'sasl.mechanism': self.kafka_avro_connection_parameters['sasl.mechanism'],
+                'sasl.username': self.kafka_avro_connection_parameters['sasl.username'],
+                'sasl.password': self.kafka_avro_connection_parameters['sasl.password']
+            })
             # create consumer
             group_id = self.event_map.get_group_id(event_name)
             consumer_args = {**self.kafka_avro_connection_parameters}
@@ -61,25 +57,38 @@ class KafkaAvroMessageBus(MessageBus):
             # register consumer
             self.consumers[event_name] = consumer
             # start consume
-            thread = threading.Thread(target=self._handle, args=[consumer, event_name, topic, group_id, event_handler], daemon = True)
+            thread = threading.Thread(target=self._handle, args=[consumer, consumer_args, event_name, topic, group_id, event_handler], daemon = True)
             thread.start()
         return register_event_handler
 
-    def _handle(self, consumer: AvroConsumer, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
-        consumer.subscribe([topic])
-        while True:
+    def _handle(self, consumer: AvroConsumer, consumer_args, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
+        for _ in range(3):
             try:
-                message = consumer.poll(1)
-                if message is None:
-                    continue
-                if message.error():
-                    print("AvroConsumer error: {}".format(message.error()))
-                    continue
-                if message.value():
-                    print({'action': 'handle_kafka_avro_event', 'event_name': event_name, 'value': message.value(), 'key': message.key(), 'topic': message.topic(), 'partition': message.partition(), 'offset': message.offset(), 'group_id': group_id})
-                    event_handler(message.value())
+                print({'action': 'subscribe_kafka_topic', 'topic': topic})
+                consumer.subscribe([topic])
+                break
             except:
                 print(traceback.format_exc())
+                consumer = AvroConsumer(consumer_args)
+                self.consumers[event_name] = consumer
+        while True:
+            try:
+                serialized_message = consumer.poll(1)
+                if serialized_message is None:
+                    continue
+                if serialized_message.error():
+                    print("AvroConsumer error: {}".format(serialized_message.error()))
+                    continue
+                if serialized_message.value():
+                    print({'action': 'handle_kafka_avro_event', 'event_name': event_name, 'value': serialized_message.value(), 'key': serialized_message.key(), 'topic': serialized_message.topic(), 'partition': serialized_message.partition(), 'offset': serialized_message.offset(), 'group_id': group_id})
+                    message = self.event_map.get_decoder(event_name)(serialized_message.value())
+                    event_handler(message)
+            except:
+                print(traceback.format_exc())
+                consumer = AvroConsumer(consumer_args)
+                self.consumers[event_name] = consumer
+                print({'action': 're_subscribe_kafka_topic', 'topic': topic})
+                consumer.subscribe([topic])
 
     def publish(self, event_name: str, message: Any) -> Any:
         key_schema = self.event_map.get_key_schema(event_name)
@@ -88,8 +97,9 @@ class KafkaAvroMessageBus(MessageBus):
         topic = self.event_map.get_topic(event_name)
         key_maker = self.event_map.get_key_maker(event_name)
         key = key_maker(message)
-        print({'action': 'publish_kafka_avro_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic})
-        producer.produce(topic=topic, key=key, value=message, callback=_produce_callback)
+        serialized_message = self.event_map.get_encoder(event_name)(message)
+        print({'action': 'publish_kafka_avro_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic, 'serialized': serialized_message})
+        producer.produce(topic=topic, key=key, value=serialized_message, callback=_produce_callback)
         producer.flush()
 
 

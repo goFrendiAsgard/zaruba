@@ -9,6 +9,7 @@ configs:
     useImagePrefix: true
     imageName: ztpl-app-image-name-kafka
     containerName: ztplAppContainerName
+    afterCheck: sleep 2
 
   ztplAppNameSchemaRegistry:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
@@ -41,7 +42,7 @@ configs:
     imageName: ztpl-app-image-name-zookeeper
     containerName: ztplAppContainerNameZookeeper
     localhost: host.docker.internal
-    afterCheck: sleep 7
+    afterCheck: sleep 10
 
   ztplAppNameAkhq:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'

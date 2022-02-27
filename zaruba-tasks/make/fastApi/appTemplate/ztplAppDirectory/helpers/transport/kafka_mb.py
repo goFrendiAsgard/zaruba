@@ -1,6 +1,7 @@
 from typing import Any, Callable, List, Mapping, TypedDict
 from kafka import KafkaProducer, KafkaConsumer
 from helpers.transport.interface import MessageBus
+from helpers.transport.kafka_helper import create_kafka_topic
 from helpers.transport.kafka_config import KafkaEventMap
 
 import threading
@@ -27,6 +28,8 @@ class KafkaMessageBus(MessageBus):
         self.is_shutdown = False
 
     def shutdown(self):
+        if self.is_shutdown:
+            return
         for event_name, consumer in self.consumers.items():
             print('stop listening to {event_name}'.format(event_name=event_name))
             consumer.close()
@@ -35,6 +38,14 @@ class KafkaMessageBus(MessageBus):
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
             topic = self.event_map.get_topic(event_name)
+            # create topic if not exist
+            create_kafka_topic(topic, {
+                'bootstrap.servers': self.kafka_connection_parameters['bootstrap_servers'],
+                'sasl.mechanism': self.kafka_connection_parameters['sasl_mechanism'],
+                'sasl.username': self.kafka_connection_parameters['sasl_plain_username'],
+                'sasl.password': self.kafka_connection_parameters['sasl_plain_password']
+            })
+            # create consumer
             group_id = self.event_map.get_group_id(event_name)
             consumer_args = {**self.kafka_connection_parameters}
             consumer_args['group_id'] = group_id
