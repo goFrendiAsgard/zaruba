@@ -32,6 +32,11 @@ async def _test_kafka_mb():
         mb.shutdown()
     
     mb.publish('test_event', 'test_message')
-    await asyncio.sleep(5)
+
+    trial: int = 150
+    while trial > 0 and not 'message' in result:
+        await asyncio.sleep(1)
+        trial -= 1
+
     assert 'message' in result
     assert result['message'] == 'test_message'

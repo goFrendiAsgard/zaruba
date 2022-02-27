@@ -1,8 +1,7 @@
-from typing import TypedDict
-
-
 from typing import Any, Callable, Mapping, TypedDict
 from helpers.transport.serial import create_json_byte_encoder, create_json_decoder
+
+import datetime
 
 class KafkaEventConfig(TypedDict):
     topic: str
@@ -27,6 +26,12 @@ class KafkaEventMap:
         if event_name in self.mapping and 'group_id' in self.mapping[event_name] and self.mapping[event_name]['group_id'] != '':
             return self.mapping[event_name]['group_id']
         return 'default'
+    
+    def get_key_maker(self, event_name: str) -> Callable[[Any], Any]:
+        if event_name in self.mapping and 'key_maker' in self.mapping[event_name] and callable(self.mapping[event_name]['key_maker']):
+            return self.mapping[event_name]['key_maker']
+        return lambda msg: '%f'.format(datetime.datetime.now().timestamp())
+
 
     def get_encoder(self, event_name: str) -> Callable:
         if event_name in self.mapping and 'encoder' in self.mapping[event_name]:

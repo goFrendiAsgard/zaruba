@@ -7,7 +7,7 @@ import os
 import warnings
 import asyncio
 
-def test_kafka_mb():
+def test_rmq_mb():
     asyncio.run(_test_rmq_mb())
 
 

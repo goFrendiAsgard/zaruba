@@ -3,13 +3,15 @@ from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, create_kafka_connection_parameters, create_kafka_avro_connection_parameters, create_rmq_connection_parameters
-from helpers.app import get_abs_static_dir, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler
+from helpers.app import get_abs_static_dir, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler, register_readiness_handler
 from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
 from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthModel, JWTTokenModel, DefaultUserModel, UserSeederModel, RoleModel
 from schemas.user import UserData
 
 import os
+
+error_threshold = int(os.getenv('APP_ERROR_THRESHOLD', '10'))
 
 # -- 🐇 Rabbitmq setting
 rmq_connection_parameters = create_rmq_connection_parameters(
@@ -87,6 +89,7 @@ enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
 static_url = os.getenv('APP_STATIC_URL', '/static')
 static_dir = get_abs_static_dir(os.getenv('APP_STATIC_DIR', ''))
 handle_app_shutdown(app, mb, rpc)
+register_readiness_handler(app, mb, rpc, error_threshold)
 register_static_dir_route_handler(app, static_url, static_dir, static_route_name='static')
 if enable_route_handler:
     register_auth_route_handler(app, mb, rpc, access_token_url, auth_model)

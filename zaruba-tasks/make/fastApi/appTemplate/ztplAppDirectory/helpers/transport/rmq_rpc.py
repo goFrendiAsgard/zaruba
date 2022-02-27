@@ -12,6 +12,10 @@ class RMQRPC(RMQConnection, RPC):
     def __init__(self, rmq_connection_parameters: pika.ConnectionParameters, rmq_event_map: RMQEventMap):
         RMQConnection.__init__(self, rmq_connection_parameters)
         self.event_map = rmq_event_map
+        self.error_count = 0
+
+    def get_error_count(self) -> int:
+        return self.error_count
 
     def handle(self, rpc_name: str) -> Callable[..., Any]:
         def register_rpc_handler(rpc_handler: Callable[..., Any]):
@@ -39,7 +43,7 @@ class RMQRPC(RMQConnection, RPC):
         def on_rpc_request(ch, method, props, body):
             try:
                 args: List[Any] = self.event_map.get_decoder(rpc_name)(body)
-                print({'action': 'handle_rmq_rpc', 'event_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+                print({'action': 'handle_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
                 result = rpc_handler(*args)
                 body: Any = self.event_map.get_encoder(rpc_name)(result)
                 # send reply
@@ -49,15 +53,22 @@ class RMQRPC(RMQConnection, RPC):
                     properties=pika.BasicProperties(correlation_id=props.correlation_id),
                     body=body
                 )
-                print({'action': 'send_rmq_rpc_reply', 'event_name': rpc_name, 'args': args, 'result': result, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+                print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': result, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+            except Exception as e:
+                self.error_count += 1
+                raise e
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_request
 
     def call(self, rpc_name: str, *args: Any) -> Any:
-        caller = RMQRPCCaller(self)
-        return caller.call(rpc_name, *args)
+        try:
+            caller = RMQRPCCaller(self)
+            return caller.call(rpc_name, *args)
+        except Exception as e:
+            self.error_count += 1
+            raise e
 
 
 class RMQRPCCaller():
@@ -80,7 +91,7 @@ class RMQRPCCaller():
         routing_key = self.event_map.get_queue_name(rpc_name)
         body = self.event_map.get_encoder(rpc_name)(args)
         self.ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-        print({'action': 'call_rmq_rpc', 'event_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': routing_key, 'correlation_id': self.corr_id, 'body': body})
+        print({'action': 'call_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': routing_key, 'correlation_id': self.corr_id, 'body': body})
         self.ch.basic_publish(
             exchange=exchange,
             routing_key=routing_key,

@@ -15,6 +15,9 @@ class RPC(abc.ABC):
     def shutdown(self) -> Any:
         pass
 
+    @abc.abstractclassmethod
+    def get_error_count(self) -> int:
+        pass
 
 class MessageBus(abc.ABC):
 
@@ -28,4 +31,8 @@ class MessageBus(abc.ABC):
 
     @abc.abstractmethod
     def shutdown(self) -> Any:
+        pass
+
+    @abc.abstractclassmethod
+    def get_error_count(self) -> int:
         pass
