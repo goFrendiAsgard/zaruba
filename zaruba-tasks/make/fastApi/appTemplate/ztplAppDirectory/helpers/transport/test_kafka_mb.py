@@ -31,6 +31,7 @@ async def _test_kafka_mb():
         result['message'] = message
         mb.shutdown()
     
+    await asyncio.sleep(3)
     mb.publish('test_event', 'test_message')
 
     trial: int = 10
