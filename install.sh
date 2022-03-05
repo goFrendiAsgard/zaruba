@@ -41,6 +41,8 @@ fi
 # Clone from repo
 echo "💀 Cloning zaruba source code."
 git clone --depth 1 --branch "${BRANCH}" "${GIT_URL}" "${INSTALLATION_DIR}"
+
+cd "${INSTALLATION_DIR}"
 git fetch --tag
 if [ "${BRANCH}" != "master" ]
 then
@@ -50,7 +52,6 @@ fi
 
 # Build
 echo "💀 Building zaruba."
-cd "${INSTALLATION_DIR}"
 chmod 755 buildZaruba.sh
 . ./buildZaruba.sh
 chmod -R 755 "${INSTALLATION_DIR}/setup"
