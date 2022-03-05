@@ -10,7 +10,10 @@ To see list of `yaml` utilities you can invoke:
 zaruba yaml
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 YAML utilities
 
 Usage:
@@ -25,7 +28,8 @@ Flags:
   -h, --help   help for yaml
 
 Use "zaruba yaml [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

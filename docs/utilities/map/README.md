@@ -12,7 +12,10 @@ To see list of `map` utilities you can invoke:
 zaruba map
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Map manipulation utilities
 
 Usage:
@@ -33,7 +36,8 @@ Flags:
   -h, --help   help for map
 
 Use "zaruba map [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

@@ -10,7 +10,10 @@
 zaruba env print --help
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Print environment
 
 Usage:
@@ -18,7 +21,8 @@ Usage:
 
 Flags:
   -h, --help   help for print
-````
+```````
+</details>
 <!--endCode-->
 
 # Examples
@@ -31,10 +35,14 @@ zaruba env print \
     '{"APP_CONTEXT": "aws", "APP_VERSION": "1.0.0"}'
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 APP_CONTEXT="aws"
 APP_VERSION="1.0.0"
-````
+```````
+</details>
 <!--endCode-->
 
 ## Print Cascaded Environment
@@ -55,14 +63,18 @@ zaruba env print \
     DEV
 ```
 
-````
-APP_CONTEXT="gcp"
-APP_VERSION="1.1.1"
+<details>
+<summary>Output</summary>
+
+```````
+APP_CONTEXT="aws"
+APP_VERSION="1.0.0"
 DEV_APP_CONTEXT="gcp"
 DEV_APP_VERSION="1.1.1"
 STAG_APP_VERSION="1.1.0"
 STAG_CONTEXT="azure"
-````
+```````
+</details>
 <!--endCode-->
 
 

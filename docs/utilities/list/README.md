@@ -12,7 +12,10 @@ To see list of `list` utilities you can invoke:
 zaruba list
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 List manipulation utilities
 
 Usage:
@@ -33,7 +36,8 @@ Flags:
   -h, --help   help for list
 
 Use "zaruba list [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 

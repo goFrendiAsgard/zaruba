@@ -10,7 +10,10 @@ To see list of `file` utilities you can invoke:
 zaruba file
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 File utilities
 
 Usage:
@@ -25,7 +28,8 @@ Flags:
   -h, --help   help for file
 
 Use "zaruba file [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 

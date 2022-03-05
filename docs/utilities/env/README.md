@@ -10,7 +10,10 @@ To see list of `env` utilities you can invoke:
 zaruba env
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Env utilities
 
 Usage:
@@ -26,7 +29,8 @@ Flags:
   -h, --help   help for env
 
 Use "zaruba env [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

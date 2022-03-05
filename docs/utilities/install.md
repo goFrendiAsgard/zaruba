@@ -12,7 +12,10 @@ To see list of command you can use to install third party tools, you can invoke:
 zaruba install
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Install external tools
 
 Usage:
@@ -41,7 +44,8 @@ Flags:
   -h, --help   help for install
 
 Use "zaruba install [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

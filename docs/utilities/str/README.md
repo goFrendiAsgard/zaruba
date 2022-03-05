@@ -10,7 +10,10 @@ To see list of `str` utilities you can invoke:
 zaruba str
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 String manipulation utilities
 
 Usage:
@@ -45,7 +48,8 @@ Flags:
   -h, --help   help for str
 
 Use "zaruba str [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

@@ -10,7 +10,10 @@ To see list of `path` utilities you can invoke:
 zaruba path
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Path manipulation utilities
 
 Usage:
@@ -26,7 +29,8 @@ Flags:
   -h, --help   help for path
 
 Use "zaruba path [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

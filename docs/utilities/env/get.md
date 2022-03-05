@@ -10,7 +10,10 @@
 zaruba env get --help
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Get envmap from currently loaded environment variables
 
 Usage:
@@ -18,7 +21,8 @@ Usage:
 
 Flags:
   -h, --help   help for get
-````
+```````
+</details>
 <!--endCode-->
 
 # Examples
@@ -52,7 +56,10 @@ echo "🐶 APP_PLATFORM:"
 zaruba map get "${ENV_DICT}" APP_PLATFORM
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 🐶 Environment:
 {"APP_CONTEXT":"aws","APP_PLATFORM":"kubernetes","APP_VERSION":"1.0.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
 
@@ -64,7 +71,8 @@ aws
 
 🐶 APP_PLATFORM:
 kubernetes
-````
+```````
+</details>
 <!--endCode-->
 
 ## Get Cascaded Environment as Map
@@ -106,7 +114,10 @@ echo "🐶 APP_PLATFORM:"
 zaruba map get "${ENV_DICT}" APP_PLATFORM
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 🐶 Environment:
 {"APP_CONTEXT":"gcp","APP_PLATFORM":"kubernetes","APP_VERSION":"1.1.1","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SHELL":"bash"}
 
@@ -118,7 +129,8 @@ gcp
 
 🐶 APP_PLATFORM:
 kubernetes
-````
+```````
+</details>
 <!--endCode-->
 
 

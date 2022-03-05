@@ -12,7 +12,10 @@ To see list of `lines` utilities you can invoke:
 zaruba lines
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Lines manipulation utilities
 
 Usage:
@@ -32,7 +35,8 @@ Flags:
   -h, --help   help for lines
 
 Use "zaruba lines [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

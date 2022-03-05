@@ -10,7 +10,10 @@ To see list of `task` utilities you can invoke:
 zaruba task
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 Task manipulation utilities
 
 Usage:
@@ -29,7 +32,8 @@ Flags:
   -h, --help   help for task
 
 Use "zaruba task [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 <!--startTocSubTopic-->

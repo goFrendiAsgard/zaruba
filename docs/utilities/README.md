@@ -10,7 +10,10 @@ Zaruba provide several utilities to deal with environment, files, tasks, and JSO
 zaruba
 ```
 
-````
+<details>
+<summary>Output</summary>
+
+```````
 ,,                      
 MMM"""AMV                               *MM              db      
 M'   AMV                                 MM             ;MM:     
@@ -51,7 +54,8 @@ Flags:
   -h, --help   help for zaruba
 
 Use "zaruba [command] --help" for more information about a command.
-````
+```````
+</details>
 <!--endCode-->
 
 
