@@ -14,6 +14,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/previousval"
 	"github.com/state-alchemists/zaruba/runner"
+	"github.com/state-alchemists/zaruba/strutil"
 )
 
 var pleaseEnvs []string
@@ -100,21 +101,31 @@ func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration 
 		}
 		nodeCmd = nodeCmd.Parent()
 	}
+	strUtil := strutil.NewStrUtil()
+	// task names
+	argTaskName := strings.Join(taskNames, " ")
 	// value
 	argValueList := []string{}
 	for _, pleaseValue := range pleaseValues {
-		argValueList = append(argValueList, fmt.Sprintf("-v %s", pleaseValue))
+		argValueList = append(argValueList, fmt.Sprintf("-v %s", strUtil.EscapeShellValue(pleaseValue)))
 	}
 	argValue := strings.Join(argValueList, " ")
 	// environment
 	argEnvList := []string{}
 	for _, pleaseEnv := range pleaseEnvs {
-		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", pleaseEnv))
+		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", strUtil.EscapeShellValue(pleaseEnv)))
 	}
 	argEnv := strings.Join(argEnvList, " ")
-	// task names
-	argTaskName := strings.Join(taskNames, " ")
-	logger.Fprintf(os.Stderr, "%s %s %s %s\n", commandName, argTaskName, argEnv, argValue)
+	// terminate and wait
+	argTerminate := ""
+	argWait := ""
+	if *pleaseTerminate {
+		argTerminate += " -t"
+		if pleaseWait != "0s" && pleaseWait != "" {
+			argWait += fmt.Sprintf(" -w %s", pleaseWait)
+		}
+	}
+	logger.Fprintf(os.Stderr, "%s%s %s %s %s%s%s%s\n", decoration.Yellow, commandName, argTaskName, argEnv, argValue, argTerminate, argWait, decoration.Normal)
 }
 
 func init() {
