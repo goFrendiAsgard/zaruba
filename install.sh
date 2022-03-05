@@ -41,6 +41,7 @@ fi
 # Clone from repo
 echo "💀 Cloning zaruba source code."
 git clone --depth 1 --branch "${BRANCH}" "${GIT_URL}" "${INSTALLATION_DIR}"
+git fetch --tag
 if [ "${BRANCH}" != "master" ]
 then
     git checkout -b "master"

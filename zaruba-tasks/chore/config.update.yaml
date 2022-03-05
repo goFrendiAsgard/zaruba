@@ -6,7 +6,7 @@ configs:
       echo "🔽 ${_BOLD}${_YELLOW}Pull zaruba${_NORMAL}"
       git checkout master
       git pull origin master
-      git fetch --all
+      git fetch --tag
       echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
       . ./buildZaruba.sh
       echo 🎉🎉🎉
