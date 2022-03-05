@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -15,7 +16,7 @@ import (
 	"github.com/state-alchemists/zaruba/runner"
 )
 
-var pleaseEnv []string
+var pleaseEnvs []string
 var pleaseValues []string
 var pleaseFile string
 var pleaseInteractive *bool
@@ -77,12 +78,43 @@ var pleaseCmd = &cobra.Command{
 		initProjectOrExit(cmd, logger, decoration, project)
 		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "10m", *pleaseTerminate, pleaseWait)
 		if err != nil {
+			showLastPleaseCommand(cmd, logger, decoration, taskNames)
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		if err := r.Run(); err != nil {
+			showLastPleaseCommand(cmd, logger, decoration, taskNames)
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
+		showLastPleaseCommand(cmd, logger, decoration, taskNames)
 	},
+}
+
+func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, taskNames []string) {
+	nodeCmd := cmd
+	commandName := ""
+	for nodeCmd != nil {
+		if commandName == "" {
+			commandName = nodeCmd.Name()
+		} else {
+			commandName = fmt.Sprintf("%s %s", nodeCmd.Name(), commandName)
+		}
+		nodeCmd = nodeCmd.Parent()
+	}
+	// value
+	argValueList := []string{}
+	for _, pleaseValue := range pleaseValues {
+		argValueList = append(argValueList, fmt.Sprintf("-v %s", pleaseValue))
+	}
+	argValue := strings.Join(argValueList, " ")
+	// environment
+	argEnvList := []string{}
+	for _, pleaseEnv := range pleaseEnvs {
+		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", pleaseEnv))
+	}
+	argEnv := strings.Join(argEnvList, " ")
+	// task names
+	argTaskName := strings.Join(taskNames, " ")
+	logger.Fprintf(os.Stderr, "%s %s %s %s\n", commandName, argTaskName, argEnv, argValue)
 }
 
 func init() {
@@ -110,7 +142,7 @@ func init() {
 	}
 	// register flags
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseEnv, "environment", "e", defaultEnv, "environments (e.g: '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", defaultEnv, "environments (e.g: '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g: '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
@@ -185,7 +217,7 @@ func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration 
 	if err != nil {
 		cmdHelper.Exit(cmd, args, logger, decoration, err)
 	}
-	for _, env := range pleaseEnv {
+	for _, env := range pleaseEnvs {
 		if err = project.AddGlobalEnv(env); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
