@@ -27,9 +27,9 @@ type Project struct {
 	ConfigRefMap               map[string]*ConfigRef        `yaml:"_configrefmap,omitempty"`
 	IsInitialized              bool                         `yaml:"_isInitialized,omitempty"`
 	StdoutChan                 chan string
-	StdoutRowChan              chan []string
+	StdoutRecordChan           chan []string
 	StderrChan                 chan string
-	StderrRowChan              chan []string
+	StderrRecordChan           chan []string
 	fileLocation               string
 	values                     map[string]string
 	sortedTaskNames            []string
@@ -65,9 +65,9 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, default
 		return p, err
 	}
 	p.StdoutChan = make(chan string)
-	p.StdoutRowChan = make(chan []string)
+	p.StdoutRecordChan = make(chan []string)
 	p.StderrChan = make(chan string)
-	p.StderrRowChan = make(chan []string)
+	p.StderrRecordChan = make(chan []string)
 	p.Decoration = decoration
 	p.setSortedTaskNames()
 	p.setSortedInputNames()

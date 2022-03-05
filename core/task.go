@@ -597,15 +597,15 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 	}
 	// log stdout
 	outPipe, _ := cmd.StdoutPipe()
-	go task.log(cmdType, "OUT", outPipe, task.Project.StdoutChan, task.Project.StdoutRowChan)
+	go task.log(cmdType, "OUT", outPipe, task.Project.StdoutChan, task.Project.StdoutRecordChan)
 	// log stderr
 	errPipe, _ := cmd.StderrPipe()
-	go task.log(cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRowChan)
+	go task.log(cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRecordChan)
 	// combine stdout and stderr done
 	return cmd, err
 }
 
-func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRowChan chan []string) {
+func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {
 	buf := bufio.NewScanner(pipe)
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
@@ -621,7 +621,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 		if saveLog {
 			nowStr := now.String()
 			rowContent := []string{nowStr, logType, cmdType, taskName, content}
-			logRowChan <- rowContent
+			logRecordChan <- rowContent
 		}
 	}
 }

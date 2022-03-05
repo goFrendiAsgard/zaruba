@@ -147,14 +147,14 @@ func (r *Runner) logStderr() {
 
 func (r *Runner) logStdoutRow() {
 	for {
-		content := <-r.project.StdoutRowChan
+		content := <-r.project.StdoutRecordChan
 		r.recordLogger.Log(content...)
 	}
 }
 
 func (r *Runner) logStderrRow() {
 	for {
-		content := <-r.project.StderrRowChan
+		content := <-r.project.StderrRecordChan
 		r.recordLogger.Log(content...)
 	}
 }
@@ -529,11 +529,13 @@ func (r *Runner) isTaskError(taskName string) (err error) {
 
 func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	for {
-		r.sleep(10 * time.Millisecond)
+		r.sleep(100 * time.Millisecond)
 		if r.isTaskFinished(taskName) {
+			r.sleep(50 * time.Millisecond)
 			return r.isTaskError(taskName)
 		}
 		if r.getKilledSignal() {
+			r.sleep(50 * time.Millisecond)
 			return fmt.Errorf("terminated")
 		}
 	}
@@ -620,11 +622,18 @@ func (r *Runner) getStatusCaption() (statusCaption string) {
 }
 
 func (r *Runner) killByPid(pid int, ch chan error) {
-	r.sleep(200 * time.Millisecond)
-	err := syscall.Kill(pid, syscall.SIGINT)
-	r.sleep(100 * time.Millisecond)
-	syscall.Kill(pid, syscall.SIGTERM)
-	r.sleep(100 * time.Millisecond)
-	syscall.Kill(pid, syscall.SIGKILL)
+	var err error
+	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
+		r.sleep(300 * time.Millisecond)
+		err = syscall.Kill(pid, syscall.SIGINT)
+	}
+	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
+		r.sleep(100 * time.Millisecond)
+		syscall.Kill(pid, syscall.SIGTERM)
+	}
+	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
+		r.sleep(100 * time.Millisecond)
+		syscall.Kill(pid, syscall.SIGKILL)
+	}
 	ch <- err
 }
