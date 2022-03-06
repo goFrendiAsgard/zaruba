@@ -8,14 +8,6 @@ Zaruba is a task runner and CLI Utilities.
 There are several builtin [core-tasks](../core-tasks/README.md) and [utilities](../utilities/README.md) that you can use right away. But you can also define a [project](./project/README.md) containing custom [task](./project/task/README.md) definitions.
 
 
-# Explain a Task
-
-To explain a task, you can add `-x` flag:
-
-```bash
-zaruba please <task-name> -x
-```
-
 # Configure Zaruba by using Environment Variables
 
 There are several environment variables you can use to control Zaruba's behavior:

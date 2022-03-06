@@ -25,20 +25,20 @@ zaruba please showVersion
  
 ```````
 Job Starting...
- Elapsed Time: 1.252µs
- Current Time: 16:50:56
+ Elapsed Time: 1.822µs
+ Current Time: 17:14:35
   Run  'showVersion' command on /home/gofrendi/zaruba/docs
-   showVersion           16:50:56.612 v0.9.0-alpha-2-a851fb02c9a8744f7197acef336a84f7dcc637ec
+   showVersion           17:14:35.641 v0.9.0-alpha-2-a851fb02c9a8744f7197acef336a84f7dcc637ec
   Successfully running  'showVersion' command
   Job Running...
- Elapsed Time: 105.712061ms
- Current Time: 16:50:56
+ Elapsed Time: 107.377017ms
+ Current Time: 17:14:35
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 306.892528ms
- Current Time: 16:50:56
+ Elapsed Time: 308.898853ms
+ Current Time: 17:14:35
 zaruba please showVersion
 ```````
 </details>
@@ -66,20 +66,20 @@ zaruba please printHelloWorld
  
 ```````
 Job Starting...
- Elapsed Time: 1.156µs
- Current Time: 16:50:57
+ Elapsed Time: 1.629µs
+ Current Time: 17:14:36
   Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloWorld       16:50:57.052 hello world
+   printHelloWorld       17:14:36.1   hello world
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 102.208996ms
- Current Time: 16:50:57
+ Elapsed Time: 102.513823ms
+ Current Time: 17:14:36
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.596802ms
- Current Time: 16:50:57
+ Elapsed Time: 213.938856ms
+ Current Time: 17:14:36
 zaruba please printHelloWorld
 ```````
 </details>
@@ -107,29 +107,29 @@ zaruba please printHelloWorld printHelloHuman
  
 ```````
 Job Starting...
- Elapsed Time: 1.175µs
- Current Time: 16:50:57
-  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
+ Elapsed Time: 1.897µs
+ Current Time: 17:14:36
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       16:50:57.403 hello human
-   printHelloWorld       16:50:57.403 hello world
+  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
+   printHelloHuman       17:14:36.463 hello human
+   printHelloWorld       17:14:36.463 hello world
   Successfully running  'printHelloHuman' command
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 101.804365ms
- Current Time: 16:50:57
+ Elapsed Time: 102.580506ms
+ Current Time: 17:14:36
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.946388ms
- Current Time: 16:50:57
+ Elapsed Time: 213.312821ms
+ Current Time: 17:14:36
 zaruba please printHelloWorld printHelloHuman
 ```````
 </details>
 <!--endCode-->
 
-# Set Task Environments
+# Run Task with Custom Environments
 
 You can set `environments` for your tasks by performing:
 
@@ -150,20 +150,20 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
  
 ```````
 Job Starting...
- Elapsed Time: 1.163µs
- Current Time: 16:50:57
+ Elapsed Time: 1.295µs
+ Current Time: 17:14:36
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       16:50:57.754 はじめまして human
+   printHelloHuman       17:14:36.842 はじめまして human
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 101.551876ms
- Current Time: 16:50:57
+ Elapsed Time: 101.680833ms
+ Current Time: 17:14:36
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.436521ms
- Current Time: 16:50:57
+ Elapsed Time: 213.716443ms
+ Current Time: 17:14:37
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
@@ -188,20 +188,20 @@ zaruba please printHelloHuman -e sample.env
  
 ```````
 Job Starting...
- Elapsed Time: 1.117µs
- Current Time: 16:50:58
+ Elapsed Time: 1.649µs
+ Current Time: 17:14:37
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       16:50:58.114 Hola human
+   printHelloHuman       17:14:37.202 Hola human
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.396852ms
- Current Time: 16:50:58
+ Elapsed Time: 101.788677ms
+ Current Time: 17:14:37
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.94724ms
- Current Time: 16:50:58
+ Elapsed Time: 212.680611ms
+ Current Time: 17:14:37
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>
@@ -212,7 +212,7 @@ If you don't define any environment, Zaruba will load `.env` as default value.
 
 > ⚠️ __WARNING:__ Parameter order matters, if you set an environment twice, Zaruba will only use the __last__ one.
 
-# Set Task Inputs
+# Run Task with Custom Values
 
 Some tasks might dependes on [task inputs](./project/task/task-inputs.md). To set input values for your tasks, you can invoke:
 
@@ -240,20 +240,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 Job Starting...
- Elapsed Time: 1.244µs
- Current Time: 16:50:58
+ Elapsed Time: 1.567µs
+ Current Time: 17:14:37
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       16:50:58.473 hello Go Frendi
+   printHelloHuman       17:14:37.56  hello Go Frendi
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.132822ms
- Current Time: 16:50:58
+ Elapsed Time: 102.363895ms
+ Current Time: 17:14:37
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 214.04701ms
- Current Time: 16:50:58
+ Elapsed Time: 213.638197ms
+ Current Time: 17:14:37
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -279,20 +279,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 Job Starting...
- Elapsed Time: 1.134µs
- Current Time: 16:50:58
+ Elapsed Time: 1.83µs
+ Current Time: 17:14:37
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       16:50:58.829 hello Avogadro
+   printHelloHuman       17:14:37.914 hello Avogadro
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.329325ms
- Current Time: 16:50:58
+ Elapsed Time: 101.607486ms
+ Current Time: 17:14:38
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.585934ms
- Current Time: 16:50:59
+ Elapsed Time: 213.616932ms
+ Current Time: 17:14:38
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>
@@ -306,9 +306,9 @@ If you don't define any value, Zaruba will load `default.values.yaml` as default
 > ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ one.
 
 
-# Run Tasks in Interactive Mode
+# Run Task Interactively
 
-When you run tasks in interactive mode, Zaruba will ask you to fill out [task inputs](./project/task/task-inputs.md) and `environments`. This is useful in case you cannot remember your `task inputs`/`environments`.
+When you run tasks in interactive mode, Zaruba will ask you to fill out [task inputs](./project/task/task-inputs.md) and `environments`.
 
 To run a task in interactive mode you can invoke:
 
@@ -326,7 +326,7 @@ __Example:__
 
 ```bash
 cd example/tasks
-zaruba please showVersion -i
+zaruba please printHelloHuman -i
 ```
  
 <details>
@@ -337,32 +337,76 @@ zaruba please showVersion -i
 ✔ 🏁 No
  Load additional env
 ✔ 🏁 No
+ 1 of 1) humanName
+✔ Let me type it!
+Your name: Robert Boyle
   Job Starting...
- Elapsed Time: 2.456µs
- Current Time: 15:03:13
-  Run  'showVersion' command on /home/gofrendi/zaruba/docs/examples/tasks
-   showVersion           15:03:14.018 v0.9.0-alpha-2-adcf27c3ec0097d02bc4e7fff7f9906d92acea90
-  Successfully running  'showVersion' command
+ Elapsed Time: 1.362µs
+ Current Time: 16:53:55
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
+   printHelloHuman       16:53:55.483 hello Robert Boyle
+  Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 279.448377ms
- Current Time: 15:03:14
+ Elapsed Time: 101.91258ms
+ Current Time: 16:53:55
 
   Job Complete!!!
   Terminating
   Job Ended...
- Elapsed Time: 481.614881ms
- Current Time: 15:03:14
-zaruba please showVersion
+ Elapsed Time: 212.914199ms
+ Current Time: 16:53:55
+zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
 ```````
 </details>
 
-or
+
+# Run Any Task
 
 ```
 zaruba please -i
 ```
 
-When you run a task in interactive mode, Zaruba will also ask you to set environments and input values.
+__Example:__
+
+```bash
+cd example/tasks
+zaruba please -i
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+ Task Name
+✔  printHelloWorld
+ Action
+✔ 🏁 Run
+ Load additional value file
+✔ 🏁 No
+ Load additional env
+✔ 🏁 No
+ Auto terminate
+✔ 🏁 No
+  Job Starting...
+ Elapsed Time: 2.656µs
+ Current Time: 17:01:11
+  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
+   printHelloWorld       17:01:11.15  hello world
+  Successfully running  'printHelloWorld' command
+  Job Running...
+ Elapsed Time: 102.228176ms
+ Current Time: 17:01:11
+
+  Job Complete!!!
+  Terminating
+  Job Ended...
+ Elapsed Time: 213.587264ms
+ Current Time: 17:01:11
+zaruba please printHelloWorld
+```````
+</details>
+ 
+
 
 
 <!--startTocSubTopic-->
