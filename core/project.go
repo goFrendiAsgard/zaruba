@@ -231,11 +231,11 @@ func (p *Project) AddValue(pairOrFile string) (err error) {
 	if err != nil {
 		return err
 	}
-	values := map[string]string{}
-	if err = yaml.Unmarshal(b, values); err != nil {
+	keyValues := map[string]string{}
+	if err = yaml.Unmarshal(b, keyValues); err != nil {
 		return err
 	}
-	for key, val := range values {
+	for key, val := range keyValues {
 		p.values[key] = val
 	}
 	return nil
@@ -296,7 +296,7 @@ func (p *Project) Init() (err error) {
 		}
 		// inject envvars (useful for secret inputs)
 		p.values[key] = parsedValue
-		inputEnvKey := "ZARUBA_INPUT_" + p.Util.Str.ToUpper(p.Util.Str.ToSnake(key))
+		inputEnvKey := "ZARUBA_INPUT_" + p.Util.Str.ToUpperSnake(key)
 		os.Setenv(inputEnvKey, parsedValue)
 	}
 	p.IsInitialized = true

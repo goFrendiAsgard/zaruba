@@ -81,7 +81,7 @@ func (strUtil *StrUtil) ToSnake(s string) (result string) {
 			result += strings.ToLower(string(ch))
 			continue
 		}
-		if strUtil.IsUpper(string(ch)) {
+		if strUtil.IsUpper(string(ch)) && !strUtil.IsLower(string(ch)) {
 			result += "_"
 		}
 		result += strings.ToLower(string(ch))
@@ -96,7 +96,7 @@ func (strUtil *StrUtil) ToKebab(s string) (result string) {
 			result += strings.ToLower(string(ch))
 			continue
 		}
-		if strUtil.IsUpper(string(ch)) {
+		if strUtil.IsUpper(string(ch)) && !strUtil.IsLower(string(ch)) {
 			result += "-"
 		}
 		result += strings.ToLower(string(ch))

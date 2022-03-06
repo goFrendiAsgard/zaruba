@@ -162,7 +162,7 @@ Value:
     if [ ! -f "log.zaruba.csv" ]
     then
       echo "${_BOLD}${_RED}Log is not exist${_NORMAL}"
-      exit 1
+      exit 0
     fi
     "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
 
