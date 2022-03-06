@@ -9,10 +9,10 @@ To see list of `str` utilities you can invoke:
 ```bash
 zaruba str
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 String manipulation utilities
 

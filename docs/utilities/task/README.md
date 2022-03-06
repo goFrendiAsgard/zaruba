@@ -9,10 +9,10 @@ To see list of `task` utilities you can invoke:
 ```bash
 zaruba task
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Task manipulation utilities
 

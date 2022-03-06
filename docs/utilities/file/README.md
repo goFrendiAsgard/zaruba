@@ -9,10 +9,10 @@ To see list of `file` utilities you can invoke:
 ```bash
 zaruba file
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 File utilities
 

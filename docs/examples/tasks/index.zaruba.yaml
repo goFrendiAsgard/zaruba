@@ -1,0 +1,19 @@
+inputs:
+
+  humanName:
+    default: human
+    prompt: Your name
+
+tasks:
+
+  printHelloWorld:
+    start: [bash, -c, echo hello world]
+
+  printHelloHuman:
+    inputs:
+      - humanName
+    envs:
+      GREETINGS:
+        from: GREETINGS
+        default: hello
+    start: [bash, -c, "echo ${GREETINGS} ${ZARUBA_INPUT_HUMAN_NAME}"]

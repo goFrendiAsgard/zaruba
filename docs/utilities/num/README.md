@@ -9,10 +9,10 @@ To see list of `num` utilities you can invoke:
 ```bash
 zaruba num
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Number manipulation utilities
 

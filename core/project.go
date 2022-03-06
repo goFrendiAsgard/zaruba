@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"sort"
 	"strings"
 
@@ -56,10 +55,6 @@ func NewProject(projectFile string, decoration *output.Decoration) (p *Project, 
 
 // NewCustomProject create new Config from Yaml File
 func NewCustomProject(projectFile string, decoration *output.Decoration, defaultIncludes []string) (p *Project, err error) {
-	if os.Getenv("ZARUBA_HOME") == "" {
-		executable, _ := os.Executable()
-		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
-	}
 	p, err = loadProject(decoration, projectFile, defaultIncludes)
 	if err != nil {
 		return p, err
@@ -289,7 +284,6 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 
 // Init all tasks
 func (p *Project) Init() (err error) {
-	r, _ := regexp.Compile("[^a-zA-Z0-9]+")
 	for key, value := range p.values {
 		parsedValue := os.ExpandEnv(value)
 		// validate (allow empty value, but throw error if value is set and invalid)
@@ -302,7 +296,7 @@ func (p *Project) Init() (err error) {
 		}
 		// inject envvars (useful for secret inputs)
 		p.values[key] = parsedValue
-		inputEnvKey := "ZARUBA_INPUT_" + string(r.ReplaceAll([]byte(strings.ToUpper(key)), []byte("_")))
+		inputEnvKey := "ZARUBA_INPUT_" + p.Util.Str.ToUpper(p.Util.Str.ToSnake(key))
 		os.Setenv(inputEnvKey, parsedValue)
 	}
 	p.IsInitialized = true

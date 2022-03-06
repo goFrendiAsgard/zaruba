@@ -11,10 +11,10 @@ To see list of `lines` utilities you can invoke:
 ```bash
 zaruba lines
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Lines manipulation utilities
 

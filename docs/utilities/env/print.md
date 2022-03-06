@@ -9,10 +9,10 @@
 ```bash
 zaruba env print --help
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Print environment
 
@@ -34,10 +34,10 @@ Flags:
 zaruba env print \
     '{"APP_CONTEXT": "aws", "APP_VERSION": "1.0.0"}'
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 APP_CONTEXT="aws"
 APP_VERSION="1.0.0"
@@ -62,10 +62,10 @@ zaruba env print \
     '{"APP_CONTEXT": "aws", "APP_VERSION": "1.0.0", "STAG_CONTEXT": "azure", "STAG_APP_VERSION": "1.1.0", "DEV_APP_CONTEXT": "gcp", "DEV_APP_VERSION": "1.1.1"}' \
     DEV
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 APP_CONTEXT="aws"
 APP_VERSION="1.0.0"

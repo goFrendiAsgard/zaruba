@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/state-alchemists/zaruba/booleanutil"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/explainer"
@@ -24,7 +25,7 @@ var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
 var pleaseTerminate *bool
 var pleaseExplain *bool
-var pleasePlainDecor *bool
+var pleaseNoDecor *bool
 var pleaseWait string
 
 // pleaseCmd represents the please command
@@ -33,7 +34,7 @@ var pleaseCmd = &cobra.Command{
 	Short:   "Run Task(s)",
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := cmdHelper.GetDecoration(*pleasePlainDecor)
+		decoration := cmdHelper.GetDecoration(*pleaseNoDecor)
 		logger := output.NewConsoleLogger(decoration)
 		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(pleaseFile))
 		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, args)
@@ -157,7 +158,11 @@ func init() {
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g: '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
-	pleasePlainDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "no decoration")
+	pleaseNoDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "no decoration")
+	if !*pleaseNoDecor {
+		booleanUtil := booleanutil.NewBooleanUtil()
+		*pleaseNoDecor = booleanUtil.IsFalse(os.Getenv("ZARUBA_DECORATION"))
+	}
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g: '-w 5s'). Only take effect if -t or --terminate is set")
@@ -228,6 +233,16 @@ func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration 
 	if err != nil {
 		cmdHelper.Exit(cmd, args, logger, decoration, err)
 	}
+	taskNames = []string{}
+	//  distinguish taskNames and additional values
+	for _, arg := range args {
+		if strings.Contains(arg, "=") {
+			pleaseValues = append(pleaseValues, arg)
+			continue
+		}
+		taskNames = append(taskNames, arg)
+	}
+	// process envs
 	for _, env := range pleaseEnvs {
 		if err = project.AddGlobalEnv(env); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
@@ -238,17 +253,6 @@ func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration 
 		if err = project.AddValue(value); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-	}
-	taskNames = []string{}
-	//  distinguish taskNames and additional values
-	for _, arg := range args {
-		if strings.Contains(arg, "=") {
-			if err = project.AddValue(arg); err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
-			}
-			continue
-		}
-		taskNames = append(taskNames, arg)
 	}
 	return project, taskNames
 }

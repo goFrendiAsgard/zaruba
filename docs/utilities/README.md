@@ -9,10 +9,10 @@ Zaruba provide several utilities to deal with environment, files, tasks, and JSO
 ```bash
 zaruba
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 ,,                      
 MMM"""AMV                               *MM              db      
@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utilities
-v0.9.0-alpha-2-140-gec414814
+v0.9.0-alpha-2-adcf27c3ec0097d02bc4e7fff7f9906d92acea90
 
 Usage:
   zaruba [command]

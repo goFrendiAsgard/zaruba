@@ -11,10 +11,10 @@ To see list of `list` utilities you can invoke:
 ```bash
 zaruba list
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 List manipulation utilities
 

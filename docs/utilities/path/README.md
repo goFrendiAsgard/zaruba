@@ -9,10 +9,10 @@ To see list of `path` utilities you can invoke:
 ```bash
 zaruba path
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Path manipulation utilities
 

@@ -11,10 +11,10 @@ To see list of command you can use to install third party tools, you can invoke:
 ```bash
 zaruba install
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Install external tools
 

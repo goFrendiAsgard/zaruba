@@ -9,10 +9,10 @@ To see list of `yaml` utilities you can invoke:
 ```bash
 zaruba yaml
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 YAML utilities
 

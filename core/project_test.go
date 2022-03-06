@@ -374,7 +374,7 @@ func TestProjectInit(t *testing.T) {
 		return
 	}
 	expected := "value"
-	actual := os.Getenv("ZARUBA_INPUT_INPUT1")
+	actual := os.Getenv("ZARUBA_INPUT_INPUT_1")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}

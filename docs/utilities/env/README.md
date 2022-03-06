@@ -9,10 +9,10 @@ To see list of `env` utilities you can invoke:
 ```bash
 zaruba env
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Env utilities
 

@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/cmd/advertisementcmd"
@@ -19,6 +18,7 @@ import (
 	"github.com/state-alchemists/zaruba/cmd/strcmd"
 	"github.com/state-alchemists/zaruba/cmd/taskcmd"
 	"github.com/state-alchemists/zaruba/cmd/yamlcmd"
+	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -41,16 +41,7 @@ AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 }
 
 func init() {
-	executable, _ := os.Executable()
-	if os.Getenv("ZARUBA_HOME") == "" {
-		os.Setenv("ZARUBA_HOME", filepath.Dir(executable))
-	}
-	if os.Getenv("ZARUBA_BIN") == "" {
-		os.Setenv("ZARUBA_BIN", executable)
-	}
-	if os.Getenv("ZARUBA_SHELL") == "" {
-		os.Setenv("ZARUBA_SHELL", "bash")
-	}
+	core.SetDefaultEnv()
 
 	rootCmd.AddCommand(generateCmd)
 	rootCmd.AddCommand(pleaseCmd)

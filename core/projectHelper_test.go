@@ -5,6 +5,7 @@ import (
 )
 
 func getProject(projectFile string) (project *Project, err error) {
+	SetDefaultEnv()
 	decoration := output.NewDefaultDecoration()
 	project, err = NewCustomProject(projectFile, decoration, []string{})
 	if err != nil {

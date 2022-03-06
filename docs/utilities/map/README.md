@@ -11,10 +11,10 @@ To see list of `map` utilities you can invoke:
 ```bash
 zaruba map
 ```
-
+ 
 <details>
 <summary>Output</summary>
-
+ 
 ```````
 Map manipulation utilities
 
