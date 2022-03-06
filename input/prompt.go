@@ -409,7 +409,9 @@ func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error)
 		if err != nil {
 			return err
 		}
-		prompter.project.SetValue(inputName, newValue)
+		if err = prompter.project.SetValue(inputName, newValue); err != nil {
+			return err
+		}
 	}
 	return nil
 }

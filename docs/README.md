@@ -7,8 +7,8 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
 # Table of Content
 
 <!--startToc-->
-* [Run task](run-task.md)
-* [Configuration](configuration.md)
+* [🏃 Run task](run-task.md)
+* [⚙️ Configuration](configuration.md)
 * [🧠 Core Concepts](core-concepts/README.md)
     * [🏗️ Project](core-concepts/project/README.md)
         * [🧬 Project Anatomy](core-concepts/project/project-anatomy.md)

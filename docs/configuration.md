@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](README.md)
-# Configuration
+# ⚙️ Configuration
 <!--endTocHeader-->
 
 TODO: Write about `Configuration`
