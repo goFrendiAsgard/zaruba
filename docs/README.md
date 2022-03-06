@@ -7,7 +7,12 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
 # Table of Content
 
 <!--startToc-->
-* [🏃 Run task](run-task.md)
+* [🏃 Run task](run-task/README.md)
+    * [Run a single task](run-task/run-a-single-task.md)
+    * [Run many tasks in parallel](run-task/run-many-tasks-in-parallel.md)
+    * [Run task with custom environments](run-task/run-task-with-custom-environments.md)
+    * [Run task with custom values](run-task/run-task-with-custom-values.md)
+    * [Run task interactively](run-task/run-task-interactively.md)
 * [🔎 Explain task](explain-task.md)
 * [⚙️ Configuration](configuration.md)
 * [🧠 Core Concepts](core-concepts/README.md)
