@@ -207,7 +207,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		}
 		if optionIndex < len(options)-1 {
 			value := options[optionIndex]
-			return prompter.project.AddGlobalEnv(value)
+			return prompter.project.AddEnv(value)
 		}
 	}
 	// manual input
@@ -220,7 +220,7 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 	if err != nil {
 		return err
 	}
-	return prompter.project.AddGlobalEnv(value)
+	return prompter.project.AddEnv(value)
 }
 
 func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error) {
@@ -258,7 +258,7 @@ func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error)
 		return err
 	}
 	selectedOption := options[selectedIndex]
-	return prompter.project.AddGlobalEnv(fmt.Sprintf("%s=%s", selectedOption, value))
+	return prompter.project.AddEnv(fmt.Sprintf("%s=%s", selectedOption, value))
 }
 
 func (prompter *Prompter) getEnvMap(taskNames []string) (envMap map[string]string, err error) {

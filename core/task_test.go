@@ -396,7 +396,7 @@ func TestTaskGetEnv(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = project.AddGlobalEnv("MY_KEY=MY_VALUE"); err != nil {
+	if err = project.AddEnv("MY_KEY=MY_VALUE"); err != nil {
 		t.Error(err)
 		return
 	}
@@ -453,7 +453,7 @@ func TestTaskGetEnvs(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = project.AddGlobalEnv("MY_KEY=MY_VALUE"); err != nil {
+	if err = project.AddEnv("MY_KEY=MY_VALUE"); err != nil {
 		t.Error(err)
 		return
 	}

@@ -80,18 +80,18 @@ var pleaseCmd = &cobra.Command{
 		initProjectOrExit(cmd, logger, decoration, project)
 		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "10m", *pleaseTerminate, pleaseWait)
 		if err != nil {
-			showLastPleaseCommand(cmd, logger, decoration, taskNames)
+			showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		if err := r.Run(); err != nil {
-			showLastPleaseCommand(cmd, logger, decoration, taskNames)
+			showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		showLastPleaseCommand(cmd, logger, decoration, taskNames)
+		showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
 	},
 }
 
-func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, taskNames []string) {
+func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project, taskNames []string) {
 	nodeCmd := cmd
 	commandName := ""
 	for nodeCmd != nil {
@@ -107,14 +107,14 @@ func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration 
 	argTaskName := strings.Join(taskNames, " ")
 	// value
 	argValueList := []string{}
-	for _, pleaseValue := range pleaseValues {
-		argValueList = append(argValueList, fmt.Sprintf("-v %s", strUtil.EscapeShellValue(pleaseValue)))
+	for _, addedValue := range project.GetAddedValues() {
+		argValueList = append(argValueList, fmt.Sprintf("-v %s", strUtil.EscapeShellValue(addedValue)))
 	}
 	argValue := strings.Join(argValueList, " ")
 	// environment
 	argEnvList := []string{}
-	for _, pleaseEnv := range pleaseEnvs {
-		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", strUtil.EscapeShellValue(pleaseEnv)))
+	for _, addedEnv := range project.GetAddedEnvs() {
+		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", strUtil.EscapeShellValue(addedEnv)))
 	}
 	argEnv := strings.Join(argEnvList, " ")
 	// terminate and wait
@@ -237,14 +237,16 @@ func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration 
 	//  distinguish taskNames and additional values
 	for _, arg := range args {
 		if strings.Contains(arg, "=") {
-			pleaseValues = append(pleaseValues, arg)
+			if err = project.AddValue(arg); err != nil {
+				cmdHelper.Exit(cmd, args, logger, decoration, err)
+			}
 			continue
 		}
 		taskNames = append(taskNames, arg)
 	}
 	// process envs
 	for _, env := range pleaseEnvs {
-		if err = project.AddGlobalEnv(env); err != nil {
+		if err = project.AddEnv(env); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	}

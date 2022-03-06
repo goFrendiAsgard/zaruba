@@ -36,6 +36,8 @@ type Project struct {
 	maxPublishedTaskNameLength int
 	Decoration                 *output.Decoration
 	Util                       *CoreUtil
+	addedEnvs                  []string
+	addedValues                []string
 }
 
 func NewDefaultProject(projectFile string) (p *Project, err error) {
@@ -186,14 +188,15 @@ func (p *Project) IsValueExist(key string) (exist bool) {
 	return exist
 }
 
-// AddGlobalEnv add global environment for a projectConfig
-func (p *Project) AddGlobalEnv(envValue string) (err error) {
+// AddEnv add global environment for a projectConfig
+func (p *Project) AddEnv(newEnv string) (err error) {
 	if p.IsInitialized {
-		return fmt.Errorf("cannot AddGlobalEnv, project has been initialized")
+		return fmt.Errorf("cannot AddEnv, project has been initialized")
 	}
+	p.addedEnvs = append(p.addedEnvs, newEnv)
 	// load env from json string
 	envMap := map[string]string{}
-	if err := json.Unmarshal([]byte(envValue), &envMap); err == nil {
+	if err := json.Unmarshal([]byte(newEnv), &envMap); err == nil {
 		for key := range envMap {
 			val := envMap[key]
 			os.Setenv(key, val)
@@ -201,44 +204,63 @@ func (p *Project) AddGlobalEnv(envValue string) (err error) {
 		return nil
 	}
 	// load env from file
-	if _, err := os.Stat(envValue); !os.IsNotExist(err) {
-		return godotenv.Load(envValue)
+	if _, err := os.Stat(newEnv); !os.IsNotExist(err) {
+		return godotenv.Load(newEnv)
 	}
 	// load env from string
-	pairParts := strings.SplitN(envValue, "=", 2)
+	pairParts := strings.SplitN(newEnv, "=", 2)
 	if len(pairParts) == 2 {
 		key := pairParts[0]
 		val := pairParts[1]
 		os.Setenv(key, val)
 		return nil
 	}
-	return fmt.Errorf("invalid env: %s", envValue)
+	return fmt.Errorf("invalid env: %s", newEnv)
+}
+
+func (p *Project) GetAddedEnvs() []string {
+	return p.addedEnvs
 }
 
 // AddValue add value for a project
-func (p *Project) AddValue(pairOrFile string) (err error) {
+func (p *Project) AddValue(newValue string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot AddValue, project has been initialized")
 	}
-	pairParts := strings.SplitN(pairOrFile, "=", 2)
+	p.addedValues = append(p.addedValues, newValue)
+	// load values from json string
+	valueMap := map[string]string{}
+	if err := json.Unmarshal([]byte(newValue), &valueMap); err == nil {
+		for key := range valueMap {
+			val := valueMap[key]
+			p.values[key] = val
+		}
+		return nil
+	}
+	// load values from file
+	if _, err := os.Stat(newValue); !os.IsNotExist(err) {
+		b, err := ioutil.ReadFile(newValue)
+		if err != nil {
+			return err
+		}
+		keyValues := map[string]string{}
+		if err = yaml.Unmarshal(b, keyValues); err != nil {
+			return err
+		}
+		for key, val := range keyValues {
+			p.values[key] = val
+		}
+		return nil
+	}
+	// load values from string
+	pairParts := strings.SplitN(newValue, "=", 2)
 	if len(pairParts) == 2 {
 		key := pairParts[0]
 		val := pairParts[1]
 		p.values[key] = val
 		return nil
 	}
-	b, err := ioutil.ReadFile(pairOrFile)
-	if err != nil {
-		return err
-	}
-	keyValues := map[string]string{}
-	if err = yaml.Unmarshal(b, keyValues); err != nil {
-		return err
-	}
-	for key, val := range keyValues {
-		p.values[key] = val
-	}
-	return nil
+	return fmt.Errorf("invalid value: %s", newValue)
 }
 
 // SetValue set value for a project
@@ -246,8 +268,17 @@ func (p *Project) SetValue(key, value string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot SetValue, project has been initialized")
 	}
-	p.values[key] = value
+	p.addedValues = append(p.addedValues, fmt.Sprintf("%s=%s", key, value))
+	p.setValue(key, value)
 	return nil
+}
+
+func (p *Project) GetAddedValues() []string {
+	return p.addedValues
+}
+
+func (p *Project) setValue(key, value string) {
+	p.values[key] = value
 }
 
 // GetInputs given task names
@@ -365,7 +396,7 @@ func (p *Project) setInputFileLocation() {
 
 func (p *Project) setDefaultValues() {
 	for inputName, input := range p.Inputs {
-		p.SetValue(inputName, input.DefaultValue)
+		p.setValue(inputName, input.DefaultValue)
 	}
 }
 

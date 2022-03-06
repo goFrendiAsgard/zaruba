@@ -67,8 +67,8 @@ zaruba env print \
 <summary>Output</summary>
  
 ```````
-APP_CONTEXT="gcp"
-APP_VERSION="1.1.1"
+APP_CONTEXT="aws"
+APP_VERSION="1.0.0"
 DEV_APP_CONTEXT="gcp"
 DEV_APP_VERSION="1.1.1"
 STAG_APP_VERSION="1.1.0"

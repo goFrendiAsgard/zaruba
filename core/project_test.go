@@ -300,8 +300,8 @@ func TestProjectGetValues(t *testing.T) {
 	}
 }
 
-func TestProjectAddGlobalEnvAfterInit(t *testing.T) {
-	project, err := getProject("../test-resources/project/addGlobalEnv/main.zaruba.yaml")
+func TestProjectAddEnvAfterInit(t *testing.T) {
+	project, err := getProject("../test-resources/project/addEnv/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
@@ -310,27 +310,27 @@ func TestProjectAddGlobalEnvAfterInit(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	if err = project.AddGlobalEnv("ENV2=value2"); err == nil {
+	if err = project.AddEnv("ENV2=value2"); err == nil {
 		t.Errorf("error expected")
 		return
 	}
 	errorMessage := err.Error()
-	if !strings.HasPrefix(errorMessage, "cannot AddGlobalEnv") {
+	if !strings.HasPrefix(errorMessage, "cannot AddEnv") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }
 
-func TestProjectAddGlobalEnv(t *testing.T) {
-	project, err := getProject("../test-resources/project/addGlobalEnv/main.zaruba.yaml")
+func TestProjectAddEnv(t *testing.T) {
+	project, err := getProject("../test-resources/project/addEnv/main.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if err = project.AddGlobalEnv("../test-resources/project/addGlobalEnv/template.env"); err != nil {
+	if err = project.AddEnv("../test-resources/project/addEnv/template.env"); err != nil {
 		t.Error(err)
 		return
 	}
-	if err = project.AddGlobalEnv("ENV2=value2"); err != nil {
+	if err = project.AddEnv("ENV2=value2"); err != nil {
 		t.Error(err)
 		return
 	}
