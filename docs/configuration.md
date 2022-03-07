@@ -3,7 +3,7 @@
 # ⚙️ Configuration
 <!--endTocHeader-->
 
-There are several environment variables you can use to control Zaruba's behavior:
+You can configure Zaruba's behavior by using several environment variables:
 
 * `ZARUBA_HOME` Location of your Zaruba installation directory. Default to `${HOME}/.zaruba`.
 * `ZARUBA_BIN` Location of your Zaruba executable binary. Default to `${HOME}/.zaruba/zaruba`.

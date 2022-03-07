@@ -12,11 +12,7 @@ To run a task, you can invoke:
 zaruba please <task-name>
 ```
 
-You can also:
-
-* [run many task in parallel](../../README.md#run-many-tasks-in-parallel)
-* [run task in interactive mode](../../README.md#run-tasks-in-interactive-mode) or
-* ask Zaruba to [explain a tasks](../../README.md#explain-a-task)
+Form more information about running a task, please visit [this document](../../../run-task/README.md)
 
 # Task Types
 
