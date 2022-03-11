@@ -126,7 +126,7 @@ curl --location --request GET 'localhost:3000/books/' \
 </details>
 
 <details>
-<summary>You can also run applications individually</summary>
+<summary>Run applications individually</summary>
 
 ```bash
 # Only start 🐹 Go web server.
@@ -152,7 +152,7 @@ zaruba please stopContainers
 ```
 
 <details>
-<summary>You can also run applications individually</summary>
+<summary>Run applications individually</summary>
 
 ```bash
 # Only start 🐹 Go web server.
@@ -188,6 +188,20 @@ zaruba please destroy kubeContext=docker-desktop
 </details>
 
 # 👨‍💻 Installation
+
+<sdetails>
+<summary>TLDR</summary>
+
+```bash
+sudo apt-get install golang wget curl git
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
+zaruba install ubuntuEssentials
+zaruba install docker
+zaruba install kubectl
+zaruba install helm
+zaruba install pulumi
+```
+</details>
 
 ## 📖 From Source
 
