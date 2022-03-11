@@ -189,8 +189,8 @@ zaruba please destroy kubeContext=docker-desktop
 
 # 👨‍💻 Installation
 
-<sdetails>
-<summary>TLDR</summary>
+<details>
+<summary><bold>TL;DR</bold></summary>
 
 ```bash
 sudo apt-get install golang wget curl git
@@ -201,6 +201,9 @@ zaruba install kubectl
 zaruba install helm
 zaruba install pulumi
 ```
+
+Visit [getting started section](#-getting-started)
+
 </details>
 
 ## 📖 From Source
