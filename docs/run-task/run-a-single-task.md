@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🏃 Run task](README.md)
-# Run a single task
+# 🍺 Run a single task
 <!--endTocHeader-->
 
 # Run a Builitin Task
@@ -23,20 +23,20 @@ zaruba please clearLog
  
 ```````
 Job Starting...
- Elapsed Time: 1.03µs
- Current Time: 13:00:38
+ Elapsed Time: 1.512µs
+ Current Time: 13:25:10
   Run  'clearLog' command on /home/gofrendi/zaruba/docs
-   clearLog              13:00:38.705 Log removed
+   clearLog              13:25:10.393 Log removed
   Successfully running  'clearLog' command
   Job Running...
- Elapsed Time: 104.554526ms
- Current Time: 13:00:38
+ Elapsed Time: 104.757518ms
+ Current Time: 13:25:10
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 305.936092ms
- Current Time: 13:00:39
+ Elapsed Time: 305.496053ms
+ Current Time: 13:25:10
 zaruba please clearLog
 ```````
 </details>
@@ -64,20 +64,20 @@ zaruba please printHelloWorld
  
 ```````
 Job Starting...
- Elapsed Time: 1.382µs
- Current Time: 13:00:39
+ Elapsed Time: 1.253µs
+ Current Time: 13:25:10
   Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloWorld       13:00:39.151 hello world
+   printHelloWorld       13:25:10.836 hello world
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 102.523453ms
- Current Time: 13:00:39
+ Elapsed Time: 101.614954ms
+ Current Time: 13:25:10
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 214.397111ms
- Current Time: 13:00:39
+ Elapsed Time: 212.773288ms
+ Current Time: 13:25:11
 zaruba please printHelloWorld
 ```````
 </details>

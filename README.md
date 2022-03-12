@@ -265,11 +265,11 @@ For more information about Zaruba's docker image, please visit [dockerhub](https
 
 # 📜 Getting started
 
-To get started, you can start:
+To get started, you can:
 
-* [📖 browsing the documention](docs/README.md)
-* [🧙‍♂️ learning the core concept](docs/core-concepts/README.md), or 
-* [🪄 creating a project](docs/use-cases/create-a-project.md)
+* [📖 Browse the documentation](docs/README.md)
+* [🧙‍♂️ Learn the core concept](docs/core-concepts/README.md), or 
+* [🪄 Create a project](docs/use-cases/create-a-project.md)
 
 But before doing that, you probably need to install additional prerequisites.
 

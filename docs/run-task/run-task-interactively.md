@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🏃 Run task](README.md)
-# Run task interactively
+# 🏓 Run task interactively
 <!--endTocHeader-->
 
 When you run tasks in interactive mode, Zaruba will ask you to fill out [task inputs](./project/task/task-inputs.md) and `environments`.
