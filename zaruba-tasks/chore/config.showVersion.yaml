@@ -1,4 +1,0 @@
-configs:
-
-  showVersion:
-    start: 'echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"'

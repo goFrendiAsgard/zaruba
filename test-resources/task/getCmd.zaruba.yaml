@@ -1,18 +1,21 @@
 tasks:
 
+  taskWithConfig:
+    start: [sleep, 1]
+    configs:
+      someKey: value
+
   taskWithEnv:
     start: [sleep, 1]
     envs:
       KEY:
         default: VALUE
-  
 
   taskWithBrokenEnv:
     start: [sleep, 1]
     envs:
       KEY:
         default: '{{ invalid }}'
-
   
   taskWithBrokenCmd:
     start: ['{{ invalid }}']

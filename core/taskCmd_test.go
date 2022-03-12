@@ -5,6 +5,36 @@ import (
 	"testing"
 )
 
+func TestTaskGetCmdFromTaskWithConfig(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	task := project.Tasks["taskWithConfig"]
+	cmd, exist, err := task.GetStartCmd()
+	if err != nil {
+		t.Error(err)
+	}
+	if !exist {
+		t.Errorf("cmd should be exist")
+	}
+	if cmd == nil {
+		t.Errorf("cmd is nil")
+		return
+	}
+	envFound := false
+	for _, env := range cmd.Env {
+		if env == "ZARUBA_CONFIG_SOME_KEY=value" {
+			envFound = true
+			break
+		}
+	}
+	if !envFound {
+		t.Errorf("env ZARUBA_CONFIG_SOME_KEY=value not found in %#v", cmd.Env)
+	}
+}
+
 func TestTaskGetCmdFromTaskWithEnv(t *testing.T) {
 	project, err := getProjectAndInit("../test-resources/task/getCmd.zaruba.yaml")
 	if err != nil {

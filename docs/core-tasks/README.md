@@ -118,7 +118,6 @@
 * [🌐 serveHttp](serve-http.md)
 * [🔗 setProjectValue](set-project-value.md)
 * [🔎 showLog](show-log.md)
-* [🔎 showVersion](show-version.md)
 * [🔄 syncEnv](sync-env.md)
 * [🔄 update](update.md)
 * [🔗 updateProjectLinks](update-project-links.md)

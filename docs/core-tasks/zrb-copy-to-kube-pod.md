@@ -66,7 +66,6 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
     {{ $d := .Decoration -}}
     {{ $d.ToShellVariables }}
-    {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigVariables") }}{{ .GetConfigsAsShellVariables "^[^_].*$" "_ZRB_CFG" }}{{ else }}{{ "" -}}{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitConfigMapVariable") }}_ZRB_CONFIG_MAP={{ .Util.Str.EscapeShellValue (.Util.Json.FromStringDict (.GetConfigs "^[^_].*$")) }}{{ else }}{{ "" -}}{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitEnvMapVariable") }}_ZRB_ENV_MAP={{ .Util.Str.EscapeShellValue (.Util.Json.FromStringDict (.GetEnvs)) }}{{ else }}{{ "" -}}{{ end }}
 
@@ -126,7 +125,7 @@ Value:
     "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🏁 Generated Script${_NORMAL}"
-    echo "${_ZRB_CFG_RUN_GENERATED_SCRIPT}"
+    echo "${ZARUBA_CONFIG_RUN_GENERATED_SCRIPT}"
     echo "${_YELLOW}🏁 Run Generated Script${_NORMAL}"
     {{ .GetConfig "runGeneratedScript" }}
     cd "${__ZRB_PWD}"

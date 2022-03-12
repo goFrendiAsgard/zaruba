@@ -15,7 +15,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-zaruba please showVersion
+zaruba please clearLog
 ```
  
 <details>
@@ -23,21 +23,21 @@ zaruba please showVersion
  
 ```````
 Job Starting...
- Elapsed Time: 1.853µs
- Current Time: 17:52:54
-  Run  'showVersion' command on /home/gofrendi/zaruba/docs
-   showVersion           17:52:54.292 v0.9.0-alpha-2-a851fb02c9a8744f7197acef336a84f7dcc637ec
-  Successfully running  'showVersion' command
+ Elapsed Time: 1.03µs
+ Current Time: 13:00:38
+  Run  'clearLog' command on /home/gofrendi/zaruba/docs
+   clearLog              13:00:38.705 Log removed
+  Successfully running  'clearLog' command
   Job Running...
- Elapsed Time: 108.301699ms
- Current Time: 17:52:54
+ Elapsed Time: 104.554526ms
+ Current Time: 13:00:38
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 309.832165ms
- Current Time: 17:52:54
-zaruba please showVersion
+ Elapsed Time: 305.936092ms
+ Current Time: 13:00:39
+zaruba please clearLog
 ```````
 </details>
 <!--endCode-->
@@ -64,20 +64,20 @@ zaruba please printHelloWorld
  
 ```````
 Job Starting...
- Elapsed Time: 1.522µs
- Current Time: 17:52:54
+ Elapsed Time: 1.382µs
+ Current Time: 13:00:39
   Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloWorld       17:52:54.737 hello world
+   printHelloWorld       13:00:39.151 hello world
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 102.596788ms
- Current Time: 17:52:54
+ Elapsed Time: 102.523453ms
+ Current Time: 13:00:39
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 214.111038ms
- Current Time: 17:52:54
+ Elapsed Time: 214.397111ms
+ Current Time: 13:00:39
 zaruba please printHelloWorld
 ```````
 </details>

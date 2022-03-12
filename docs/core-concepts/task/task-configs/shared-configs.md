@@ -1,9 +1,9 @@
 <!--startTocHeader-->
-[🏠](../../../../README.md) > [🧠 Core Concepts](../../../README.md) > [🏗️ Project](../../README.md) > [🔨 Task](../README.md) > [Task Configs](README.md)
+[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🔨 Task](../README.md) > [Task Configs](README.md)
 # Shared Configs
 <!--endTocHeader-->
 
-Your tasks might refer to several [project config](../../project-configs.md). To do this, you can use `configRef` or `configRefs` property:
+Your tasks might refer to several [project config](../../../project-configs.md). To do this, you can use `configRef` or `configRefs` property:
 
 ```yaml
 configs:

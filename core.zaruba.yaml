@@ -65,10 +65,8 @@ includes:
   - ./zaruba-tasks/_base/wrapper/config.zrbWrapper.yaml
   - ./zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
 
-  - ./zaruba-tasks/chore/config.showVersion.yaml
   - ./zaruba-tasks/chore/config.syncEnv.yaml
   - ./zaruba-tasks/chore/config.update.yaml
-  - ./zaruba-tasks/chore/task.showVersion.yaml
   - ./zaruba-tasks/chore/task.syncEnv.yaml
   - ./zaruba-tasks/chore/task.update.yaml
 

@@ -588,12 +588,9 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	cmd.Dir = task.GetWorkPath()
 	cmd.Env = os.Environ()
-	envs, err := task.GetEnvs()
-	if err != nil {
+	// task env
+	if err = task.setCmdEnv(cmd); err != nil {
 		return cmd, err
-	}
-	for key, val := range envs {
-		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, val))
 	}
 	// log stdout
 	outPipe, _ := cmd.StdoutPipe()
@@ -603,6 +600,34 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 	go task.log(cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRecordChan)
 	// combine stdout and stderr done
 	return cmd, err
+}
+
+func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
+	// env
+	envMap, err := task.GetEnvs()
+	if err != nil {
+		return err
+	}
+	for key, val := range envMap {
+		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, val))
+	}
+	// config
+	configKeys := task.GetConfigKeys()
+	for _, configKey := range configKeys {
+		configEnvKey := fmt.Sprintf("ZARUBA_CONFIG_%s", task.Project.Util.Str.ToUpperSnake(configKey))
+		val, err := task.GetConfig(configKey)
+		if err != nil {
+			return err
+		}
+		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", configEnvKey, val))
+
+		// strEnv, err := godotenv.Marshal(map[string]string{configEnvKey: val})
+		// if err != nil {
+		// 	return err
+		// }
+		// cmd.Env = append(cmd.Env, strEnv)
+	}
+	return nil
 }
 
 func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {

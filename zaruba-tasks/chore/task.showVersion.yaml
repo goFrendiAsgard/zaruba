@@ -1,8 +1,0 @@
-tasks:
-
-  showVersion:
-    icon: 🔎
-    description: |
-      Show zaruba's current version.
-    extend: zrbRunShellScript
-    configRef: showVersion

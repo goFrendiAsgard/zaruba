@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🏗️ Project](../README.md) > [🔨 Task](README.md)
+[🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🔨 Task](README.md)
 # Task Anatomy
 <!--endTocHeader-->
 
@@ -216,7 +216,7 @@ tasks:
     inputs:
       - name
     configs:
-      start: echo 'Hello {{ .GetValue "name" }}'
+      start: echo "Hello $ZARUBA_INPUT_NAME"
 ```
 
 # Start

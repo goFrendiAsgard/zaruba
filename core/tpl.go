@@ -10,7 +10,6 @@ import (
 	"text/template"
 
 	"github.com/state-alchemists/zaruba/output"
-	"github.com/state-alchemists/zaruba/strutil"
 )
 
 type Tpl struct {
@@ -72,24 +71,6 @@ func (tpl *Tpl) GetConfig(key string) (val string, err error) {
 
 func (tpl *Tpl) GetConfigs(keyPattern string) (parsedConfig map[string]string, err error) {
 	return tpl.task.GetConfigs(keyPattern)
-}
-
-func (tpl *Tpl) GetConfigsAsShellVariables(keyPattern, variablePrefix string) (str string, err error) {
-	configMap, err := tpl.GetConfigs(keyPattern)
-	if err != nil {
-		return "", err
-	}
-	configKeys, err := tpl.Util.Dict.GetSortedKeys(configMap)
-	if err != nil {
-		return "", err
-	}
-	shellVariableList := []string{}
-	for _, rawKey := range configKeys {
-		key := fmt.Sprintf("%s_%s", variablePrefix, tpl.Util.Str.ToUpperSnake(rawKey))
-		value := configMap[rawKey]
-		shellVariableList = append(shellVariableList, strutil.StrShellVariable(key, value))
-	}
-	return strings.Join(shellVariableList, ";"), nil
 }
 
 func (tpl *Tpl) GetPorts() []int {
