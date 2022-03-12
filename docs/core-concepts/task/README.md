@@ -33,14 +33,14 @@ Please see [task anatomy documentation](task-anatomy.md) to learn more about tas
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [Task Anatomy](task-anatomy.md)
-* [Simple Command](simple-command.md)
-* [Long Running Process](long-running-process.md)
-* [Task Inputs](task-inputs.md)
-* [Task Configs](task-configs/README.md)
+* [🧬 Task Anatomy](task-anatomy.md)
+* [🥛 Simple Command](simple-command.md)
+* [🍹 Long Running Process](long-running-process.md)
+* [🔤 Task Inputs](task-inputs.md)
+* [⚙️ Task Configs](task-configs/README.md)
   * [Shared Configs](task-configs/shared-configs.md)
-* [Task Envs](task-envs/README.md)
+* [🏝️ Task Envs](task-envs/README.md)
   * [Shared Envs](task-envs/shared-envs.md)
-* [Extend task](extend-task.md)
-* [Define task dependencies](define-task-dependencies.md)
+* [🧒 Extend task](extend-task.md)
+* [🍲 Define task dependencies](define-task-dependencies.md)
 <!--endTocSubTopic-->

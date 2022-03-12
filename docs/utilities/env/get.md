@@ -60,16 +60,16 @@ zaruba map get "${ENV_DICT}" APP_PLATFORM
 <summary>Output</summary>
  
 ```````
-� Environment:
+💀 Environment:
 {"APP_CONTEXT":"aws","APP_PLATFORM":"kubernetes","APP_VERSION":"1.0.0","PATH":"/home/gofrendi/zaruba","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"1","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
 
-� APP_CONTEXT:
+💀 APP_CONTEXT:
 aws
 
-� APP_VERSION:
+💀 APP_VERSION:
 1.0.0
 
-� APP_PLATFORM:
+💀 APP_PLATFORM:
 kubernetes
 ```````
 </details>
@@ -98,19 +98,19 @@ ENV_DICT=$(env -i \
     DEV_APP_VERSION=1.1.1 \
     zaruba env get DEV )
 
-echo "� Environment:"
+echo "💀 Environment:"
 echo "${ENV_DICT}"
 
 echo ""
-echo "� APP_CONTEXT:"
+echo "💀 APP_CONTEXT:"
 zaruba map get "${ENV_DICT}" APP_CONTEXT
 
 echo ""
-echo "� APP_VERSION:"
+echo "💀 APP_VERSION:"
 zaruba map get "${ENV_DICT}" APP_VERSION
 
 echo ""
-echo "� APP_PLATFORM:"
+echo "💀 APP_PLATFORM:"
 zaruba map get "${ENV_DICT}" APP_PLATFORM
 ```
  
@@ -118,16 +118,16 @@ zaruba map get "${ENV_DICT}" APP_PLATFORM
 <summary>Output</summary>
  
 ```````
-� Environment:
-{"APP_CONTEXT":"aws","APP_PLATFORM":"kubernetes","APP_VERSION":"1.1.1","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"1","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
+💀 Environment:
+{"APP_CONTEXT":"gcp","APP_PLATFORM":"kubernetes","APP_VERSION":"1.1.1","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"1","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
 
-� APP_CONTEXT:
-aws
+💀 APP_CONTEXT:
+gcp
 
-� APP_VERSION:
+💀 APP_VERSION:
 1.1.1
 
-� APP_PLATFORM:
+💀 APP_PLATFORM:
 kubernetes
 ```````
 </details>

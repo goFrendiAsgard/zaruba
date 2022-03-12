@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🔨 Task](README.md)
-# Simple Command
+# 🥛 Simple Command
 <!--endTocHeader-->
 
 

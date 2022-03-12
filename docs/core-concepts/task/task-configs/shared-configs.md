@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🔨 Task](../README.md) > [Task Configs](README.md)
+[🏠](../../../README.md) > [🧠 Core Concepts](../../README.md) > [🔨 Task](../README.md) > [⚙️ Task Configs](README.md)
 # Shared Configs
 <!--endTocHeader-->
 

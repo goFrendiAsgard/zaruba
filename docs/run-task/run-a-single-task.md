@@ -3,6 +3,13 @@
 # 🍺 Run a single task
 <!--endTocHeader-->
 
+You can run a specific task by knowing it's name.
+
+There are two types of task:
+
+* Builtin task: You can run these tasks from anywhere
+* Project specific task: You should be in project's top level directory in order to execute these tasks.
+
 # Run a Builitin Task
 
 To execute builtin [core-tasks](../core-tasks/README.md), you can invoke `zaruba please` from anywhere:
@@ -23,20 +30,20 @@ zaruba please clearLog
  
 ```````
 Job Starting...
- Elapsed Time: 1.512µs
- Current Time: 13:25:10
+ Elapsed Time: 1.346µs
+ Current Time: 14:42:59
   Run  'clearLog' command on /home/gofrendi/zaruba/docs
-   clearLog              13:25:10.393 Log removed
+   clearLog              14:42:59.809 Log removed
   Successfully running  'clearLog' command
   Job Running...
- Elapsed Time: 104.757518ms
- Current Time: 13:25:10
+ Elapsed Time: 103.634628ms
+ Current Time: 14:42:59
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 305.496053ms
- Current Time: 13:25:10
+ Elapsed Time: 303.998071ms
+ Current Time: 14:43:00
 zaruba please clearLog
 ```````
 </details>
@@ -64,20 +71,20 @@ zaruba please printHelloWorld
  
 ```````
 Job Starting...
- Elapsed Time: 1.253µs
- Current Time: 13:25:10
+ Elapsed Time: 1.214µs
+ Current Time: 14:43:00
   Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloWorld       13:25:10.836 hello world
+   printHelloWorld       14:43:00.251 hello world
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 101.614954ms
- Current Time: 13:25:10
+ Elapsed Time: 102.95529ms
+ Current Time: 14:43:00
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.773288ms
- Current Time: 13:25:11
+ Elapsed Time: 214.77285ms
+ Current Time: 14:43:00
 zaruba please printHelloWorld
 ```````
 </details>
