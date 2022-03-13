@@ -89,7 +89,7 @@ echo "Hello {{ .GetConfig "name" }}"
 
 # List of All Functions
 
-Please visit [zaruba's source code](../../../core/tpl.go) to see available functions/values.
+Please visit [zaruba's source code](../../core/tpl.go) to see available functions/values.
 
 
 <!--startTocSubTopic-->

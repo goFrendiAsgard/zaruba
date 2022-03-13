@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🏃 Run task](README.md)
-# 🏝️ Run task with custom environments
+# 🏝️ Run Task with Custom Environments
 <!--endTocHeader-->
 
 You can set [task's environment](../core-concepts/task/task-envs/README.md) by performing:
@@ -22,20 +22,20 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
  
 ```````
 Job Starting...
- Elapsed Time: 1.302µs
- Current Time: 14:43:00
+ Elapsed Time: 1.173µs
+ Current Time: 12:34:04
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       14:43:00.958 はじめまして human
+   printHelloHuman       12:34:04.829 はじめまして human
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 101.769453ms
- Current Time: 14:43:01
+ Elapsed Time: 101.807161ms
+ Current Time: 12:34:04
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.311511ms
- Current Time: 14:43:01
+ Elapsed Time: 213.423456ms
+ Current Time: 12:34:05
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
@@ -65,20 +65,20 @@ zaruba please printHelloHuman -e sample.env
  
 ```````
 Job Starting...
- Elapsed Time: 1.192µs
- Current Time: 14:43:01
+ Elapsed Time: 1.908µs
+ Current Time: 12:34:05
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       14:43:01.315 Hola human
+   printHelloHuman       12:34:05.187 Hola human
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.086071ms
- Current Time: 14:43:01
+ Elapsed Time: 102.797431ms
+ Current Time: 12:34:05
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.790948ms
- Current Time: 14:43:01
+ Elapsed Time: 214.796035ms
+ Current Time: 12:34:05
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>

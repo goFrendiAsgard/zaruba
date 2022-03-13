@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🏃 Run task](README.md)
-# 🍻 Run many tasks in parallel
+# 🍻 Run Many Tasks in Parallel
 <!--endTocHeader-->
 
 # Run Many Tasks in Parallel
@@ -24,23 +24,23 @@ zaruba please printHelloWorld printHelloHuman
  
 ```````
 Job Starting...
- Elapsed Time: 1.275µs
- Current Time: 14:43:00
-  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
+ Elapsed Time: 1.369µs
+ Current Time: 12:34:04
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       14:43:00.611 hello human
-   printHelloWorld       14:43:00.611 hello world
+  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
+   printHelloHuman       12:34:04.47  hello human
+   printHelloWorld       12:34:04.47  hello world
   Successfully running  'printHelloHuman' command
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 101.7302ms
- Current Time: 14:43:00
+ Elapsed Time: 102.159621ms
+ Current Time: 12:34:04
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.846803ms
- Current Time: 14:43:00
+ Elapsed Time: 213.054161ms
+ Current Time: 12:34:04
 zaruba please printHelloWorld printHelloHuman
 ```````
 </details>

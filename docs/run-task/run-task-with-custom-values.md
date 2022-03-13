@@ -3,7 +3,9 @@
 # 🔤 Run task with custom values
 <!--endTocHeader-->
 
-Some tasks might dependes on [task inputs](../core-concepts/task/task-inputs.md). To set input values for your tasks, you can invoke:
+Some tasks might dependes on [task inputs](../core-concepts/task/task-inputs.md).
+
+To set input values for your tasks, you can invoke:
 
 ```bash
 zaruba please <task-name> -v <first-key=first-value> -v <second-key=second-value>
@@ -29,20 +31,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 Job Starting...
- Elapsed Time: 1.567µs
- Current Time: 14:43:01
+ Elapsed Time: 1.294µs
+ Current Time: 12:34:05
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       14:43:01.668 hello Go Frendi
+   printHelloHuman       12:34:05.554 hello Go Frendi
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.433068ms
- Current Time: 14:43:01
+ Elapsed Time: 101.901319ms
+ Current Time: 12:34:05
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.681082ms
- Current Time: 14:43:01
+ Elapsed Time: 212.588799ms
+ Current Time: 12:34:05
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -71,20 +73,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 Job Starting...
- Elapsed Time: 1.295µs
- Current Time: 14:43:02
+ Elapsed Time: 1.246µs
+ Current Time: 12:34:05
   Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       14:43:02.02  hello Avogadro
+   printHelloHuman       12:34:05.907 hello Avogadro
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 101.540207ms
- Current Time: 14:43:02
+ Elapsed Time: 102.247124ms
+ Current Time: 12:34:06
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 211.833257ms
- Current Time: 14:43:02
+ Elapsed Time: 213.35468ms
+ Current Time: 12:34:06
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>

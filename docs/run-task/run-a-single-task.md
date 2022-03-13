@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🏃 Run task](README.md)
-# 🍺 Run a single task
+# 🍺 Run a Single Task
 <!--endTocHeader-->
 
 You can run a specific task by providing it's name.
@@ -30,20 +30,20 @@ zaruba please clearLog
  
 ```````
 Job Starting...
- Elapsed Time: 1.346µs
- Current Time: 14:42:59
+ Elapsed Time: 1.218µs
+ Current Time: 12:34:03
   Run  'clearLog' command on /home/gofrendi/zaruba/docs
-   clearLog              14:42:59.809 Log removed
+   clearLog              12:34:03.674 Log removed
   Successfully running  'clearLog' command
   Job Running...
- Elapsed Time: 103.634628ms
- Current Time: 14:42:59
+ Elapsed Time: 105.300848ms
+ Current Time: 12:34:03
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 303.998071ms
- Current Time: 14:43:00
+ Elapsed Time: 306.018202ms
+ Current Time: 12:34:03
 zaruba please clearLog
 ```````
 </details>
@@ -75,20 +75,20 @@ zaruba please printHelloWorld
  
 ```````
 Job Starting...
- Elapsed Time: 1.214µs
- Current Time: 14:43:00
+ Elapsed Time: 1.232µs
+ Current Time: 12:34:04
   Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloWorld       14:43:00.251 hello world
+   printHelloWorld       12:34:04.117 hello world
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 102.95529ms
- Current Time: 14:43:00
+ Elapsed Time: 102.010301ms
+ Current Time: 12:34:04
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 214.77285ms
- Current Time: 14:43:00
+ Elapsed Time: 212.891013ms
+ Current Time: 12:34:04
 zaruba please printHelloWorld
 ```````
 </details>

@@ -54,9 +54,9 @@ zaruba please printHelloWorld
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [🍺 Run a single task](run-a-single-task.md)
-* [🍻 Run many tasks in parallel](run-many-tasks-in-parallel.md)
-* [🏝️ Run task with custom environments](run-task-with-custom-environments.md)
+* [🍺 Run a Single Task](run-a-single-task.md)
+* [🍻 Run Many Tasks in Parallel](run-many-tasks-in-parallel.md)
+* [🏝️ Run Task with Custom Environments](run-task-with-custom-environments.md)
 * [🔤 Run task with custom values](run-task-with-custom-values.md)
 * [🏓 Run task interactively](run-task-interactively.md)
 <!--endTocSubTopic-->

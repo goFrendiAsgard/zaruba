@@ -3,7 +3,7 @@
 # 🔤 Project Inputs
 <!--endTocHeader-->
 
-By adding project input you can make your tasks more configurable.
+Project inputs make your tasks more configurable and interactive.
 
 Once defined, a project input will be available globally. That means several task might share the same input.
 
@@ -21,7 +21,7 @@ inputs:
     secret: false                    # if set to true, the value will be treated as secret and will not be stored anywhere
 ```
 
-To use the input in your task, please see [task's input](./tasks/task-inputs.md).
+To use project input in your task, please see [task's input](./tasks/task-inputs.md).
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

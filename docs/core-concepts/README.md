@@ -5,9 +5,9 @@
 
 Zaruba is a task runner and CLI Utilities.
 
-There are several builtin [core-tasks](../core-tasks/README.md) and [utilities](../utilities/README.md) that you can use right away.
+There are several [globally available tasks](../core-tasks/README.md) and [utilities](../utilities/README.md) that you can use right away.
 
-Morover you can also define a [project](./project/README.md) containing custom [task](./project/task/README.md) definitions.
+Morover you can also define a [project](./project/README.md) containing custom [specific task](./task/README.md) definitions.
 
 Please visit [here](../use-cases/create-a-project.md) if you want to see how to create a project.
 
@@ -22,7 +22,7 @@ Please visit [here](../use-cases/create-a-project.md) if you want to see how to 
 * [🔨 Task](task/README.md)
   * [🧬 Task Anatomy](task/task-anatomy.md)
   * [🥛 Simple Command](task/simple-command.md)
-  * [🍹 Long Running Process](task/long-running-process.md)
+  * [🍹 Long Running Service](task/long-running-service.md)
   * [🔤 Task Inputs](task/task-inputs.md)
   * [⚙️ Task Configs](task/task-configs/README.md)
     * [Shared Configs](task/task-configs/shared-configs.md)

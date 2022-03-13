@@ -1,34 +1,40 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🧠 Core Concepts](../README.md) > [🔨 Task](README.md)
-# 🍹 Long Running Process
+# 🍹 Long Running Service
 <!--endTocHeader-->
 
+Long running services are considered completed once they are ready. The process might take a very long time and sometime run in the background until it is killed.
 
+Web servers and database servers are example of long running services. Those services might run in the background automatically, thus less obviously visible by end user.
 
-Simple command is pretty intuitive and straightforward. But long running service on the other hand, has a very different nature.
-
-A long running service might keep `running` forever until it is killed. A service is considered as `ready` when it serve what it intended to. You can have a service that already `running`, but doesn't `ready` to receive any request yet.
-
-Web servers and database servers are definitely considered as long running services. Those services might run in the background automatically, thus less obviously visible by end user. But invisible doesn't mean inexistance. In fact, you can find long running service everywhere. Even your OS can be considered as a long running service. An OS always there, waiting for your inputs or external events, and act accordingly.
+__Example:__
 
 Now let's try running a static web service by invoking `python -m http.server 8080`.
 
+```bash
+python -m http.server 8080
 ```
-❯ python -m http.server 8080
+
+<details>
+<summary>Output</summary>
+
+```````
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-```
+```````
+</details>
 
-You can see that the process doesn't immediately quit once it is started. It will wait any incoming http request to port 8080, giving a response, and wait again until the end of time (or until you press ctrl + C).
+Once ready, the web server will wait any incoming http request at port 8080, giving response, and wait again until you press ctrl + C.
 
-Okay coool, but how do you make sure that a service is ready?
+
+# Process Readiness
 
 You can make sure a service is ready by giving it a request and observe its response. In our case, you can verify that the service is ready by openning a browser and visit `http://localhost:8080`.
 
-Making sure that a service is ready can be tricky since `running` doesn't mean `ready`. To make it more complicated, even if a service is considered as `ready`, it doesn't always be in that state forever. Runtime error might occurred, and your service might stop serving eventhough it is still `running`. 
+Making sure that a service is ready can be tricky since `running` doesn't mean `ready`.
 
-Orchestration system like kubernetes overcome this problem by periodically sending request to your services using `liveness` and `readiness` [probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). But that's going to be another topic of discussion.
+Orchestration system like kubernetes overcome this problem by periodically sending request to your services using `liveness` and `readiness` [probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
 
-# Checking Readiness
+# Start Process with Readiness Checker
 
 In the previous section you have see that handling a service and making sure it is already running can be a bit challenging.
 

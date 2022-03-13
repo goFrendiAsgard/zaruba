@@ -8,9 +8,9 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
 
 <!--startToc-->
 * [🏃 Run task](run-task/README.md)
-    * [🍺 Run a single task](run-task/run-a-single-task.md)
-    * [🍻 Run many tasks in parallel](run-task/run-many-tasks-in-parallel.md)
-    * [🏝️ Run task with custom environments](run-task/run-task-with-custom-environments.md)
+    * [🍺 Run a Single Task](run-task/run-a-single-task.md)
+    * [🍻 Run Many Tasks in Parallel](run-task/run-many-tasks-in-parallel.md)
+    * [🏝️ Run Task with Custom Environments](run-task/run-task-with-custom-environments.md)
     * [🔤 Run task with custom values](run-task/run-task-with-custom-values.md)
     * [🏓 Run task interactively](run-task/run-task-interactively.md)
 * [🔎 Explain task](explain-task.md)
@@ -25,7 +25,7 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
     * [🔨 Task](core-concepts/task/README.md)
         * [🧬 Task Anatomy](core-concepts/task/task-anatomy.md)
         * [🥛 Simple Command](core-concepts/task/simple-command.md)
-        * [🍹 Long Running Process](core-concepts/task/long-running-process.md)
+        * [🍹 Long Running Service](core-concepts/task/long-running-service.md)
         * [🔤 Task Inputs](core-concepts/task/task-inputs.md)
         * [⚙️ Task Configs](core-concepts/task/task-configs/README.md)
             * [Shared Configs](core-concepts/task/task-configs/shared-configs.md)

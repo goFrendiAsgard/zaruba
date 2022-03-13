@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-A task contains several keys and values. Hare are some possible keys/values for a task:
+A task contains properties. Here are some possible properties:
 
 ```yaml
 tasks:
@@ -35,7 +35,7 @@ tasks:
     saveLog: true                   # wether to save log or not
 ```
 
-Please note that some keys cannot be used simultaneously in a single task:
+Please note that some properties are __exclusive to each other__. That's mean you cannot use the following tasks simultaneously:
 
 * `extend` and `extends`
 * `configRef` and `configRefs`
@@ -104,7 +104,7 @@ tasks:
     start: [bash, -c 'echo {{ .GetConfig "foo" }} {{ .GetConfig "spam" }}']
 ```
 
->  ⚠️ __WARNING:__ Seriusly, don't use this unless you a very good reason. This mechanism was created before `configRef` and `envRef` created. This property is merely here for historical purpose, quick workaround (that need to be fixe later), and lure the 👿 demon.
+>  ⚠️ __WARNING:__ Don't use this unless you a very good reason. This mechanism was created before `configRef` and `envRef` exists. This property is merely here for historical purpose or quick workaround (that need to be fixed later).
 
 # Location
 
@@ -137,7 +137,7 @@ tasks:
 
 # Private
 
-If a task's `private` property is true, you won't be able to run it in interactive mode.
+If a task's `private` property is set to `true`, you won't be able to run it in interactive mode.
 
 A private task is intended to be extended by other tasks.
 
@@ -200,7 +200,7 @@ For more information about task dependencies, please visit [this documentation](
 
 # Inputs
 
-Inputs keyword allows a task to use [project inputs](../project-inputs.md).
+Inputs keyword allows a task to use [project inputs](../project/project-inputs.md).
 
 ```yaml
 inputs:
@@ -225,8 +225,8 @@ tasks:
 
 In most cases, you don't need to define `start` property:
 
-* If your task run [simple command](./simple-command.md), you can create a task extending [zrbRunShellScript](../../../core-tasks/zrbRunShellScript.md)
-* If your task run [long running process](./long-running-process.md), you can create a task extending [zrbStartApp](../../../core-tasks/zrbStartApp.md) or [zrbStartDockerContainer](../../../core-tasks/zrbStartDockerContainer.md)
+* If your task run [simple command](./simple-command.md), you can create a task extending [zrbRunShellScript](../../core-tasks/zrbRunShellScript.md)
+* If your task run [long running process](./long-running-service.md), you can create a task extending [zrbStartApp](../../core-tasks/zrbStartApp.md) or [zrbStartDockerContainer](../../core-tasks/zrbStartDockerContainer.md)
 
 
 ```yaml
@@ -240,7 +240,7 @@ tasks:
 # Check
 
 
-`Check` is a low level property allows you to define [long running process](./long-running-process.md) readiness.
+`Check` is a low level property allows you to define [long running process](./long-running-service.md) readiness.
 
 
 In mose cases, you don't need to define `check` property. Instead, you can create a task extending [zrbStartApp](../../../core-tasks/zrbStartApp.md) or [zrbStartDockerContainer](../../../core-tasks/zrbStartDockerContainer.md)
@@ -384,14 +384,60 @@ Whether a task should be autoterminated or not.
 
 If `autoTerminate` is set to true then:
 
-* If your task is a [simple command](./simple-command.md), it will quit immediately after completed.
-* If your task is a [long running service](./long-running-process.md). It will quite immediately after ready.
+* For [simple command](./simple-command.md): It will quit immediately after completed.
+* For [long running service](./long-running-service.md): It will quit immediately after ready.
 
 You can also force autotermination and define waiting time by ivoking:
 
 ```bash
 zaruba please <task-name> -t -w 10s
 ```
+
+__Example:__
+
+<!--startCode-->
+```bash
+# Start a webserver. After ready, wait for 2 seconds, and terminate.
+zaruba please serveHttp -t -w 2s
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Job Starting...
+ Elapsed Time: 1.166µs
+ Current Time: 12:34:10
+  Run  'updateProjectLinks' command on /home/gofrendi/zaruba/docs
+   updateProjectLinks    12:34:10.859 🎉🎉🎉
+   updateProjectLinks    12:34:10.859 Links updated
+  Successfully running  'updateProjectLinks' command
+  Run  'serveHttp' service on /home/gofrendi/zaruba/docs
+  Check  'serveHttp' readiness on /home/gofrendi/zaruba/docs
+   serveHttp             12:34:10.963 📜 Waiting for port '8080'
+   serveHttp             12:34:10.964 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+   serveHttp             12:34:10.964 You can open http://localhost:8080
+   serveHttp             12:34:11.967 📜 Port '8080' is ready
+   serveHttp             12:34:11.967 🎉🎉🎉
+   serveHttp             12:34:11.967 📜 Task 'serveHttp' is ready
+  Successfully running  'serveHttp' readiness check
+  Job Running...
+ Elapsed Time: 1.211561629s
+ Current Time: 12:34:12
+ Active Process:
+   * (PID=11215)  'serveHttp' service
+  
+  Job Complete!!! 
+  Terminating
+  Kill  'serveHttp' service (PID=11215)
+   'serveHttp' service exited: signal: interrupt
+  Job Ended...
+ Elapsed Time: 3.915767527s
+ Current Time: 12:34:14
+zaruba please serveHttp   -t -w 2s
+```````
+</details>
+<!--endCode-->
 
 # SyncEnv
 

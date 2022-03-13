@@ -3,17 +3,27 @@
 # 🥛 Simple Command
 <!--endTocHeader-->
 
-
-Simple command is something you run and considered `completed` once the process has been ended.
+Simple commands are considered `completed` once the process has been ended.
 
 For example, `python -c "print('hello')"` is a command:
 
+<!--startCode-->
+```bash
+python -c "print('hello')"
 ```
-❯ python -c "print('hello')"
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
 hello
-```
+```````
+</details>
+<!--endCode-->
 
-We can see that once the process has been ended, the command is completed. When you compile your Go/Typescript/Java application you are definitely running a command (even if you don't really open a terminal).
+We can see that once the process has been ended, the command is completed.
+
+When you compile your Go/Typescript/Java application you are definitely running a command (even if you don't really open a terminal).
 
 # Running Simple Command with Zaruba
 
@@ -41,7 +51,7 @@ Once defined, you can run the task by invoking `zaruba please printHello`.
 
 ## Higher Level Approach
 
-For the sake of readability and avoid typos, you might want to [extend](./extend-task.md) [zrbRunShellScript](../../../core-tasks/zrbRunShellScript.md) instead:
+For the sake of readability and avoid typos, you might want to [extend](./extend-task.md) [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md) instead:
 
 ```yaml
 tasks:
@@ -52,7 +62,7 @@ tasks:
       start: python -c "print('hello')"
 ```
 
-Another way to do this is by extend [zrbRunPythonScript](../../../core-tasks/zrbRunPythonScript.md)
+Another way to do this is by extend [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md)
 
 ```yaml
 tasks:
@@ -65,10 +75,10 @@ tasks:
 
 Here are some of the tasks you can extend when you want to run simple commands:
 
-* [zrbRunScript](../../../core-tasks/zrbRunShellScript.md): Lowest level
-* [zrbRunShellScript](../../../core-tasks/zrbRunShellScript.md): Preferable for common use cases
-* [zrbRunPythonScript](../../../core-tasks/zrbRunPythonScript.md): Run Python script instead of shell script
-* [zrbRunNodeJsScript](../../../core-tasks/zrbRunNodeJsScript.md): Run Node.Js script instead of shell script
+* [zrbRunScript](../../core-tasks/zrb-run-script.md): Lowest level
+* [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md): Preferable for common use cases
+* [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md): Run Python script instead of shell script
+* [zrbRunNodeJsScript](../../core-tasks/zrb-run-node-js-script.md): Run Node.Js script instead of shell script
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

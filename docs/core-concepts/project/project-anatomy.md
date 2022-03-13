@@ -3,17 +3,17 @@
 # 🧬 Project Anatomy
 <!--endTocHeader-->
 
-A project usually contains some [zaruba scripts](#zaruba-scripts) and [application resources](#other-resources).
-
-Inside zaruba scripts, you will find some [long running processes](task/long-running-process.md) and [simple command](task/simple-command.md) task definitions.
-
-Those tasks will help you to develop/debug your applications.
+A project usually contains:
+* __zaruba scripts__ containing task definitions.
+* __application resources__ to run your tasks (e.g: Source code, Dockerfile, etc).
 
 # Zaruba Scripts
 
-Your `index.zaruba.yaml` is an entry points for other zaruba scripts. A zaruba script is written in [YAML](https://yaml.org) and [go template](https://pkg.go.dev/text/template). 
+A project should at least contains a single zaruba script named `index.zaruba.yaml` in it's top level directory.
 
-A zaruba script contains several keys and values. Here are some possible keys/values:
+Zaruba scripts are written in [YAML](https://yaml.org) and [go template](https://pkg.go.dev/text/template). 
+
+Here is an example of a complete zaruba script:
 
 
 ```yaml
@@ -84,17 +84,20 @@ For more information/detail behaviors of each property, please visit their respe
 * [includes](./includes.md)
 * [configs](./project-configs.md)
 * [envs](./project-envs.md)
-* [tasks](./task/README.md)
+* [tasks](../task/README.md)
 
 Zaruba is capable to generate tasks and application resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with its task runner](../../use-cases/generate-new-application/README.md).
 
 # Application Resources
 
-Any non zaruba scripts resources are considered as `application resources`. They can ba your application source code, Dockerfile, static files, etc.
+Aside from zaruba script, you also need other resources like source code, Dockerfile, static files, etc. We name those resources as `application resources`.
 
-Zaruba can also help you generate some of those resources.
+Zaruba can help you generate some of those resources. For example, you can generate:
 
-You can generate [new applications](../../use-cases/generate-new-application/README.md), [deployments](../../use-cases/generate-new-application/add-application-deployment.md), or other [third party services](../../use-cases/add-third-party-service/README.md).
+* [new applications](../../use-cases/generate-new-application/README.md) 
+* [deployments](../../use-cases/generate-new-application/add-application-deployment.md), or 
+* [third party services](../../use-cases/add-third-party-service/README.md)
+
 
 
 <!--startTocSubTopic-->
