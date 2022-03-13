@@ -3,7 +3,7 @@
 # 🔤 Run task with custom values
 <!--endTocHeader-->
 
-Some tasks might dependes on [task inputs](./project/task/task-inputs.md). To set input values for your tasks, you can invoke:
+Some tasks might dependes on [task inputs](../core-concepts/task/task-inputs.md). To set input values for your tasks, you can invoke:
 
 ```bash
 zaruba please <task-name> -v <first-key=first-value> -v <second-key=second-value>
@@ -48,8 +48,11 @@ zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 </details>
 <!--endCode-->
 
+> ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ one.
 
-You can also load `value files`.
+# Load Value File
+
+You can load `value files` by performing.
 
 ```bash
 zaruba please <task-name> -v <first-file.value.yaml> -v <second-file.value.yaml>
@@ -87,14 +90,7 @@ zaruba please printHelloHuman  -v 'sample.values.yaml'
 </details>
 <!--endCode-->
 
-
-
 If you don't define any value, Zaruba will load `default.values.yaml` as default value.
-
-
-> ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ one.
-
-
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
