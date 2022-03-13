@@ -63,7 +63,7 @@ tasks:
     dependencies: []                # task's upstreams
     inputs:                         # task's inputs
       -inputName
-    start: [bash, -c, 'python -m http.server 8080'] # command to start simple-command/long running process
+    start: [bash, -c, 'python -m http.server 8080'] # command to start simple-command/long running service
     check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"'] # command to check readiness of long-running process
     configs:                        # task's configurations
       someConfig: someValue

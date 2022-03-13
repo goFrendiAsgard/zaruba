@@ -1,0 +1,7 @@
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      start: sleep 10 && python -m http.server 8080
+      ports: 8080

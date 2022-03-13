@@ -1,0 +1,4 @@
+tasks:
+
+  printHello:
+    start: [python, -c, "print('hello')"]

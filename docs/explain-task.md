@@ -13,7 +13,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba please printHelloHuman -x
 ```
  
@@ -25,7 +25,7 @@ zaruba please printHelloHuman -x
 
 File Location:
 
-    /home/gofrendi/zaruba/docs/examples/tasks/index.zaruba.yaml
+    /home/gofrendi/zaruba/docs/examples/run-tasks/index.zaruba.yaml
 
 Should Sync Env:
 

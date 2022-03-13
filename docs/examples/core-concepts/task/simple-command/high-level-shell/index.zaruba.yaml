@@ -1,0 +1,6 @@
+tasks:
+
+  printHello:
+    extend: zrbRunShellScript
+    configs:
+      start: python -c "print('hello')"

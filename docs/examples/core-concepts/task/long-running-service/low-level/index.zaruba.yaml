@@ -1,0 +1,5 @@
+tasks:
+
+  startServer:
+    start: [bash, -c, 'sleep 10 && python -m http.server 8080']
+    check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"']

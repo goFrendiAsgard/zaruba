@@ -33,7 +33,7 @@ zaruba please -i
   Job Starting...
  Elapsed Time: 2.656µs
  Current Time: 17:01:11
-  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
+  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
    printHelloWorld       17:01:11.15  hello world
   Successfully running  'printHelloWorld' command
   Job Running...

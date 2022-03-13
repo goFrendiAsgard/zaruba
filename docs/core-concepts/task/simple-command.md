@@ -49,6 +49,38 @@ tasks:
 
 Once defined, you can run the task by invoking `zaruba please printHello`.
 
+__Example:__
+
+<!--startCode-->
+```bash
+cd examples/core-concepts/task/simple-command/low-level
+zaruba please printHello
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Job Starting...
+ Elapsed Time: 2.274µs
+ Current Time: 16:36:09
+  Run  'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/low-level
+   printHello            16:36:09.682 hello
+  Successfully running  'printHello' command
+  Job Running...
+ Elapsed Time: 112.757398ms
+ Current Time: 16:36:09
+  
+  Job Complete!!! 
+  Terminating
+  Job Ended...
+ Elapsed Time: 223.875005ms
+ Current Time: 16:36:09
+zaruba please printHello
+```````
+</details>
+<!--endCode-->
+
 ## Higher Level Approach
 
 For the sake of readability and avoid typos, you might want to [extend](./extend-task.md) [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md) instead:
@@ -62,6 +94,39 @@ tasks:
       start: python -c "print('hello')"
 ```
 
+__Example:__
+
+<!--startCode-->
+```bash
+cd examples/core-concepts/task/simple-command/high-level-shell
+zaruba please printHello
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Job Starting...
+ Elapsed Time: 1.461µs
+ Current Time: 16:36:10
+  Run  'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-shell
+   printHello            16:36:10.053 hello
+  Successfully running  'printHello' command
+  Job Running...
+ Elapsed Time: 116.020599ms
+ Current Time: 16:36:10
+  
+  Job Complete!!! 
+  Terminating
+  Job Ended...
+ Elapsed Time: 317.375102ms
+ Current Time: 16:36:10
+zaruba please printHello
+```````
+</details>
+<!--endCode-->
+
+
 Another way to do this is by extend [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md)
 
 ```yaml
@@ -72,6 +137,39 @@ tasks:
     configs:
       start: print('hello')
 ```
+
+__Example:__
+
+<!--startCode-->
+```bash
+cd examples/core-concepts/task/simple-command/high-level-python
+zaruba please printHello
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Job Starting...
+ Elapsed Time: 1.423µs
+ Current Time: 16:36:10
+  Run  'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-python
+   printHello            16:36:10.527 hello
+  Successfully running  'printHello' command
+  Job Running...
+ Elapsed Time: 113.329833ms
+ Current Time: 16:36:10
+  
+  Job Complete!!! 
+  Terminating
+  Job Ended...
+ Elapsed Time: 315.116217ms
+ Current Time: 16:36:10
+zaruba please printHello
+```````
+</details>
+<!--endCode-->
+
 
 Here are some of the tasks you can extend when you want to run simple commands:
 

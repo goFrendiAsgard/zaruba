@@ -1,0 +1,6 @@
+tasks:
+
+  printHello:
+    extend: zrbRunPythonScript
+    configs:
+      start: print('hello')

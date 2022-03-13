@@ -22,7 +22,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba please printHelloHuman humanName="Go Frendi"
 ```
  
@@ -31,20 +31,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 Job Starting...
- Elapsed Time: 1.294µs
- Current Time: 12:34:05
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       12:34:05.554 hello Go Frendi
+ Elapsed Time: 1.435µs
+ Current Time: 16:36:01
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+   printHelloHuman       16:36:01.483 hello Go Frendi
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 101.901319ms
- Current Time: 12:34:05
+ Elapsed Time: 102.575308ms
+ Current Time: 16:36:01
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.588799ms
- Current Time: 12:34:05
+ Elapsed Time: 214.814423ms
+ Current Time: 16:36:01
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -64,7 +64,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba please printHelloHuman -v sample.values.yaml
 ```
  
@@ -73,20 +73,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 Job Starting...
- Elapsed Time: 1.246µs
- Current Time: 12:34:05
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       12:34:05.907 hello Avogadro
+ Elapsed Time: 2.677µs
+ Current Time: 16:36:01
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+   printHelloHuman       16:36:01.842 hello Avogadro
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.247124ms
- Current Time: 12:34:06
+ Elapsed Time: 102.517791ms
+ Current Time: 16:36:01
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.35468ms
- Current Time: 12:34:06
+ Elapsed Time: 213.64551ms
+ Current Time: 16:36:02
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>

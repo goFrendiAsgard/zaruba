@@ -31,7 +31,7 @@ Flags:
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba env read sample.env
 ```
  

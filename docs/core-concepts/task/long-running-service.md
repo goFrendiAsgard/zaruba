@@ -3,9 +3,9 @@
 # 🍹 Long Running Service
 <!--endTocHeader-->
 
-Long running services are considered completed once they are ready. The process might take a very long time and sometime run in the background until it is killed.
+Long running services are considered completed once they are ready. Once completed, a long running service might run in indefinitely until it is killed.
 
-Web servers and database servers are example of long running services. Those services might run in the background automatically, thus less obviously visible by end user.
+Web servers and database servers are example of long running services.
 
 __Example:__
 
@@ -23,7 +23,7 @@ Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```````
 </details>
 
-Once ready, the web server will wait any incoming http request at port 8080, giving response, and wait again until you press ctrl + C.
+Once ready, the http server will wait for any incoming request at port, giving response, and wait again until you press ctrl + C.
 
 
 # Process Readiness
@@ -99,29 +99,41 @@ tasks:
 
 then, you can invoke `zaruba please startServer`.
 
+
+__Example:__
+
+```bash
+cd examples/core-concepts/task/long-running-service/low-level
+zaruba please startServer
 ```
-❯ zaruba please startServer
-💀 🔎 Job Starting...
-         Elapsed Time: 1.7µs
-         Current Time: 07:05:55
-💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
-💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 07:05:57.766 not ready
-💀    🔎 startServer          🍏 07:05:59.768 not ready
-💀    🔎 startServer          🍏 07:06:01.771 not ready
-💀    🔎 startServer          🍏 07:06:03.772 not ready
-💀    🔎 startServer          🍏 07:06:05.774 not ready
-💀    🔎 startServer          🍏 07:06:07.777 not ready
-💀    🔎 startServer          🍏 07:06:07.781 ready
-💀 🎉 Successfully running 🍏 'startServer' readiness check
-💀 🔎 Job Running...
-         Elapsed Time: 12.1236394s
-         Current Time: 07:06:07
-         Active Process:
-           * (PID=15023) 🍏 'startServer' service
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Job Starting...
+ Elapsed Time: 1.272µs
+ Current Time: 16:34:11
+  Run  'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+  Check  'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+   startServer           16:34:13.538 not ready
+   startServer           16:34:15.542 not ready
+   startServer           16:34:17.544 not ready
+   startServer           16:34:19.549 not ready
+   startServer           16:34:21.554 not ready
+   startServer           16:34:23.556 not ready
+   startServer           16:34:23.557 ready
+  Successfully running  'startServer' readiness check
+  Job Running...
+ Elapsed Time: 12.124489707s
+ Current Time: 16:34:23
+ Active Process:
+   * (PID=16351)  'startServer' service
+  
+  Job Complete!!! 
+```````
+</details>
+
 
 Good. This is what `check` property actually is for. It tells Zaruba how to check your service readiness. 
 
@@ -148,39 +160,48 @@ tasks:
 
 Let's try to modify your `index.zaruba.yaml` and invoke `zaruba please startServer`.
 
-```
-❯ zaruba please startServer
-💀 🔎 Job Starting...
-         Elapsed Time: 1.6µs
-         Current Time: 07:08:25
-💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
-💀    🚀 updateProjectLinks   🔗 07:08:25.696 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 07:08:25.696 Links updated
-💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
-💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 07:08:25.973 📜 Waiting for port '8080'
-💀    🚀 startServer          🍏 07:08:36.132 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-💀    🔎 startServer          🍏 07:08:37.017 📜 Port '8080' is ready
-💀    🔎 startServer          🍏 07:08:37.017 🎉🎉🎉
-💀    🔎 startServer          🍏 07:08:37.017 📜 Task 'startServer' is ready
-💀 🎉 Successfully running 🍏 'startServer' readiness check
-💀 🔎 Job Running...
-         Elapsed Time: 11.6043594s
-         Current Time: 07:08:37
-         Active Process:
-           * (PID=15407) 🍏 'startServer' service
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
+__Example:__
 
-
+```bash
+cd examples/core-concepts/task/long-running-service/high-level
+zaruba please startServer
 ```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Job Starting...
+ Elapsed Time: 1.819µs
+ Current Time: 16:34:24
+  Run  'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+   updateProjectLinks    16:34:24.5   🎉🎉🎉
+   updateProjectLinks    16:34:24.5   Links updated
+  Successfully running  'updateProjectLinks' command
+  Run  'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+  Check  'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+   startServer           16:34:24.606 📜 Waiting for port '8080'
+   startServer           16:34:34.652 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+   startServer           16:34:35.638 📜 Port '8080' is ready
+   startServer           16:34:35.638 🎉🎉🎉
+   startServer           16:34:35.638 📜 Task 'startServer' is ready
+  Successfully running  'startServer' readiness check
+  Job Running...
+ Elapsed Time: 11.241479653s
+ Current Time: 16:34:35
+ Active Process:
+   * (PID=16399)  'startServer' service
+  
+  Job Complete!!! 
+```````
+</details>
+
 
 This code is easier to write since you no longer need to write the checker's loop.
 
 You might also notice that in this example, we don't have any `start` and `check` property. Instead, we have [extend](./extend-task.md) and [configs](./task-configs/README.md) property.
 
-Here are some of the tasks you can extend when you want to start long running process:
+Here are some of the tasks you can extend when you want to start long running service:
 
 * [zrbStartApp](../../../core-tasks/zrbStartApp.md): Lowest level, general use case
 * [zrbStartDockerContainer](../../../core-tasks/zrbStartDockerContainer.md): Start a docker container

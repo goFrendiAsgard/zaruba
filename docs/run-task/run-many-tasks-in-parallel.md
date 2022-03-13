@@ -15,7 +15,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba please printHelloWorld printHelloHuman
 ```
  
@@ -24,23 +24,23 @@ zaruba please printHelloWorld printHelloHuman
  
 ```````
 Job Starting...
- Elapsed Time: 1.369µs
- Current Time: 12:34:04
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       12:34:04.47  hello human
-   printHelloWorld       12:34:04.47  hello world
+ Elapsed Time: 1.766µs
+ Current Time: 16:36:00
+  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+   printHelloWorld       16:36:00.392 hello world
+   printHelloHuman       16:36:00.392 hello human
   Successfully running  'printHelloHuman' command
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 102.159621ms
- Current Time: 12:34:04
+ Elapsed Time: 101.915707ms
+ Current Time: 16:36:00
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.054161ms
- Current Time: 12:34:04
+ Elapsed Time: 212.752433ms
+ Current Time: 16:36:00
 zaruba please printHelloWorld printHelloHuman
 ```````
 </details>

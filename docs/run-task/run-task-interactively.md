@@ -38,7 +38,7 @@ Your name: Robert Boyle
   Job Starting...
  Elapsed Time: 1.362µs
  Current Time: 16:53:55
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
    printHelloHuman       16:53:55.483 hello Robert Boyle
   Successfully running  'printHelloHuman' command
   Job Running...

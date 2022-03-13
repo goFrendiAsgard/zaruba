@@ -13,7 +13,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba please printHelloHuman -e GREETINGS=はじめまして
 ```
  
@@ -22,20 +22,20 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
  
 ```````
 Job Starting...
- Elapsed Time: 1.173µs
- Current Time: 12:34:04
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       12:34:04.829 はじめまして human
+ Elapsed Time: 1.378µs
+ Current Time: 16:36:00
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+   printHelloHuman       16:36:00.761 はじめまして human
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 101.807161ms
- Current Time: 12:34:04
+ Elapsed Time: 102.442544ms
+ Current Time: 16:36:00
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 213.423456ms
- Current Time: 12:34:05
+ Elapsed Time: 213.613143ms
+ Current Time: 16:36:00
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
@@ -56,7 +56,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-cd examples/tasks
+cd examples/run-tasks
 zaruba please printHelloHuman -e sample.env
 ```
  
@@ -65,20 +65,20 @@ zaruba please printHelloHuman -e sample.env
  
 ```````
 Job Starting...
- Elapsed Time: 1.908µs
- Current Time: 12:34:05
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/tasks
-   printHelloHuman       12:34:05.187 Hola human
+ Elapsed Time: 5.487µs
+ Current Time: 16:36:01
+  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+   printHelloHuman       16:36:01.137 Hola human
   Successfully running  'printHelloHuman' command
   Job Running...
- Elapsed Time: 102.797431ms
- Current Time: 12:34:05
+ Elapsed Time: 101.77497ms
+ Current Time: 16:36:01
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 214.796035ms
- Current Time: 12:34:05
+ Elapsed Time: 213.080197ms
+ Current Time: 16:36:01
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>

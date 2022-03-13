@@ -19,7 +19,7 @@ tasks:
     dependencies: []                # task's upstreams
     inputs:                         # task's inputs
       -inputName
-    start: [bash, -c, 'python -m http.server 8080'] # command to start simple-command/long running process
+    start: [bash, -c, 'python -m http.server 8080'] # command to start simple-command/long running service
     check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"'] # command to check readiness of long-running process
     configs:                        # task's configurations
       someConfig: someValue
@@ -406,34 +406,34 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 Job Starting...
- Elapsed Time: 1.166µs
- Current Time: 12:34:10
+ Elapsed Time: 2.586µs
+ Current Time: 16:36:05
   Run  'updateProjectLinks' command on /home/gofrendi/zaruba/docs
-   updateProjectLinks    12:34:10.859 🎉🎉🎉
-   updateProjectLinks    12:34:10.859 Links updated
+   updateProjectLinks    16:36:05.582 🎉🎉🎉
+   updateProjectLinks    16:36:05.582 Links updated
   Successfully running  'updateProjectLinks' command
   Run  'serveHttp' service on /home/gofrendi/zaruba/docs
   Check  'serveHttp' readiness on /home/gofrendi/zaruba/docs
-   serveHttp             12:34:10.963 📜 Waiting for port '8080'
-   serveHttp             12:34:10.964 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-   serveHttp             12:34:10.964 You can open http://localhost:8080
-   serveHttp             12:34:11.967 📜 Port '8080' is ready
-   serveHttp             12:34:11.967 🎉🎉🎉
-   serveHttp             12:34:11.967 📜 Task 'serveHttp' is ready
+   serveHttp             16:36:05.688 📜 Waiting for port '8080'
+   serveHttp             16:36:05.689 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+   serveHttp             16:36:05.689 You can open http://localhost:8080
+   serveHttp             16:36:06.692 📜 Port '8080' is ready
+   serveHttp             16:36:06.692 🎉🎉🎉
+   serveHttp             16:36:06.692 📜 Task 'serveHttp' is ready
   Successfully running  'serveHttp' readiness check
   Job Running...
- Elapsed Time: 1.211561629s
- Current Time: 12:34:12
+ Elapsed Time: 1.21520402s
+ Current Time: 16:36:06
  Active Process:
-   * (PID=11215)  'serveHttp' service
+   * (PID=16954)  'serveHttp' service
   
   Job Complete!!! 
   Terminating
-  Kill  'serveHttp' service (PID=11215)
+  Kill  'serveHttp' service (PID=16954)
    'serveHttp' service exited: signal: interrupt
   Job Ended...
- Elapsed Time: 3.915767527s
- Current Time: 12:34:14
+ Elapsed Time: 3.921163065s
+ Current Time: 16:36:09
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>
