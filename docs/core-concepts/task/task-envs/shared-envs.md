@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-Your tasks might refer to several [project env](../../project-envs.md). To do this, you can use `envRef` or `envRefs` property:
+Your tasks might refer to several [project env](../../project/project-envs.md). To do this, you can use `envRef` or `envRefs` property:
 
 ```yaml
 envs:

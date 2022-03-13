@@ -225,8 +225,8 @@ tasks:
 
 In most cases, you don't need to define `start` property:
 
-* If your task run [simple command](./simple-command.md), you can create a task extending [zrbRunShellScript](../../core-tasks/zrbRunShellScript.md)
-* If your task run [long running process](./long-running-service.md), you can create a task extending [zrbStartApp](../../core-tasks/zrbStartApp.md) or [zrbStartDockerContainer](../../core-tasks/zrbStartDockerContainer.md)
+* If your task run [simple command](./simple-command.md), you can create a task extending [zrbRunShellScript](../../core-tasks/zrb-runShell-script.md)
+* If your task run [long running process](./long-running-service.md), you can create a task extending [zrbStartApp](../../core-tasks/zrb-start-app.md) or [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
 
 
 ```yaml
@@ -243,7 +243,7 @@ tasks:
 `Check` is a low level property allows you to define [long running process](./long-running-service.md) readiness.
 
 
-In mose cases, you don't need to define `check` property. Instead, you can create a task extending [zrbStartApp](../../../core-tasks/zrbStartApp.md) or [zrbStartDockerContainer](../../../core-tasks/zrbStartDockerContainer.md)
+In mose cases, you don't need to define `check` property. Instead, you can create a task extending [zrbStartApp](../../core-tasks/zrb-start-app.md) or [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
 
 ```yaml
 tasks:
@@ -286,7 +286,7 @@ tasks:
 
 # ConfigRef
 
-You can use `configRef` property to utilize [project config](../project-configs.md) in your task.
+You can use `configRef` property to utilize [project config](../project/project-configs.md) in your task.
 
 ```yaml
 configs:
@@ -305,7 +305,7 @@ tasks:
 
 # ConfigRefs
 
-You can use `configRefs` property to utilize multiple [project configs](../project-configs.md) in your task.
+You can use `configRefs` property to utilize multiple [project configs](../project/project-configs.md) in your task.
 
 
 ```yaml
@@ -330,7 +330,7 @@ tasks:
 
 # EnvRef
 
-You can use `envRef` property to utilize [project env](../project-envs.md) in your task.
+You can use `envRef` property to utilize [project env](../project/project-envs.md) in your task.
 
 ```yaml
 envs:
@@ -352,7 +352,7 @@ tasks:
 
 # EnvRefs
 
-You can use `envRefs` property to utilize multiple [project envs](../project-envs.md) in your task.
+You can use `envRefs` property to utilize multiple [project envs](../project/project-envs.md) in your task.
 
 ```yaml
 envs:

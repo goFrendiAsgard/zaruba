@@ -3,7 +3,7 @@
 # Shared Configs
 <!--endTocHeader-->
 
-Your tasks might refer to several [project config](../../../project-configs.md). To do this, you can use `configRef` or `configRefs` property:
+Your tasks might refer to several [project config](../../project/project-configs.md). To do this, you can use `configRef` or `configRefs` property:
 
 ```yaml
 configs:

@@ -25,7 +25,7 @@ tasks:
         default: 8080
 ```
 
-Now if you want to make the delay configurable, you can surely use `inputs` property. But firstly, you have to declare the `inputs` first. For more information about `inputs`, you can visit [project inputs document](../project-inputs.md) later.
+Now if you want to make the delay configurable, you can surely use `inputs` property. But firstly, you have to declare the `inputs` first. For more information about `inputs`, you can visit [project inputs document](../project/project-inputs.md) later.
 
 ```yaml
 inputs:

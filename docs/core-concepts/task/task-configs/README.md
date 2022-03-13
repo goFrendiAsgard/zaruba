@@ -91,7 +91,7 @@ Nice. so now you even make `start` and `check` command configurable.
 
 # Shared Config
 
-Furthermore, you can take out this configuration and put it as [project config](../../project-configs.md) so that you can share the configurations with other tasks.
+Furthermore, you can take out this configuration and put it as [project config](../../project/project-configs.md) so that you can share the configurations with other tasks.
 
 To see how to do this, please have a look at [shared config documentation](./shared-configs.md).
 

@@ -96,7 +96,7 @@ If `syncEnv` is set to true, the task's environment will be synchronized wheneve
 
 # Shared Envs
 
-Furthermore you can also take out the environments and put it as [project env](../../project-envs.md) so that you can share it with other tasks.
+Furthermore you can also take out the environments and put it as [project env](../../project/project-envs.md) so that you can share it with other tasks.
 
 To see how to do this, please have a look at [shared env documentation](./shared-envs.md).
 

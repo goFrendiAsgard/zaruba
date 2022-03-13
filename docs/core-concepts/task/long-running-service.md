@@ -139,7 +139,7 @@ Good. This is what `check` property actually is for. It tells Zaruba how to chec
 
 Any task with `start` and `check` property will be considered as `long running service`, while every tasks without `check` property are considered as `simple command`.
 
-Please also take note that sometime a task might have `check` property eventhough it is not explicitly written. This is especially true if you [extend/inherit](../extend-task.md) your task from another task.
+Please also take note that sometime a task might have `check` property eventhough it is not explicitly written. This is especially true if you [extend/inherit](extend-task.md) your task from another task.
     
 > 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i.e: by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
 
@@ -203,8 +203,8 @@ You might also notice that in this example, we don't have any `start` and `check
 
 Here are some of the tasks you can extend when you want to start long running service:
 
-* [zrbStartApp](../../../core-tasks/zrbStartApp.md): Lowest level, general use case
-* [zrbStartDockerContainer](../../../core-tasks/zrbStartDockerContainer.md): Start a docker container
+* [zrbStartApp](../../core-tasks/zrb-start-app.md): Lowest level, general use case
+* [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md): Start a docker container
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
