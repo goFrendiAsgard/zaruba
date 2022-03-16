@@ -65,7 +65,7 @@ tasks:
   print:
     configs:
       str: anything
-    start: [bash, -c, 'echo {{ .GetConfig "str" }}']
+    start: [bash, -c, 'echo "${ZARUBA_CONFIG_STR}"']
   
 
   printHello:
@@ -101,7 +101,7 @@ tasks:
     extends:
       - firstParentTask
       - secondParentTask
-    start: [bash, -c 'echo {{ .GetConfig "foo" }} {{ .GetConfig "spam" }}']
+    start: [bash, -c 'echo "${ZARUBA_CONFIG_FOO} ${ZARUBA_CONFIG_SPAM}"']
 ```
 
 >  ⚠️ __WARNING:__ Don't use this unless you a very good reason. This mechanism was created before `configRef` and `envRef` exists. This property is merely here for historical purpose or quick workaround (that need to be fixed later).
@@ -264,7 +264,7 @@ tasks:
     extend: zrbRunShellScript
     configs:
       name: 'world'
-      start: echo 'Hello {{ .GetConfig "name" }}'
+      start: echo "Hello ${ZARUBA_CONFIG_NAME}"
 ```
 
 # Envs
@@ -277,7 +277,7 @@ tasks:
   sayHello:
     extend: zrbRunShellScript
     configs:
-      start: echo 'Hello {{ .GetEnv "NAME" }}'
+      start: echo "Hello ${NAME}"
     envs:
      NAME:
        from: HELLO_NAME 
@@ -300,7 +300,7 @@ tasks:
     extend: zrbRunShellScript
     configRef: helloConfig
     configs:
-      start: echo 'Hello {{ .GetConfig "name" }}'
+      start: echo "Hello ${ZARUBA_CONFIG_NAME}"
 ```
 
 # ConfigRefs
@@ -325,7 +325,7 @@ tasks:
       - helloConfig
       - otherConfig
     configs:
-      start: echo 'Hello {{ .GetConfig "name" }}'
+      start: echo "Hello ${ZARUBA_CONFIG_NAME}"
 ```
 
 # EnvRef

@@ -25,7 +25,7 @@ func (strUtil *StrUtil) IsSingular(s string) (result bool) {
 	return strUtil.pluralize.IsSingular(s)
 }
 
-func (strUtil *StrUtil) IPlural(s string) (result bool) {
+func (strUtil *StrUtil) IsPlural(s string) (result bool) {
 	return strUtil.pluralize.IsPlural(s)
 }
 

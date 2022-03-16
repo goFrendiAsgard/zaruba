@@ -16,9 +16,8 @@ tasks:
   startServer:
     extend: zrbStartApp
     configs:
-      httpPort: '{{ .GetEnv "HTTP_PORT" }}'
-      start: 'sleep 10 && python -m http.server {{ .GetConfig "httpPort" }}'
-      ports: '{{ .GetConfig "httpPort" }}'
+      start: 'sleep 10 && python -m http.server ${HTTP_PORT}'
+      ports: '{{ .GetEnv "HTTP_PORT" }}'
     envs:
       HTTP_PORT:
         from: SERVER_HTTP_PORT
@@ -41,12 +40,10 @@ tasks:
     inputs:
       - serverDelay
     configs:
-      delay: '{{ .GetValue "serverDelay" }}'
-      httpPort: '{{ .GetEnv "HTTP_PORT" }}'
       start: |
-        sleep {{ .GetConfig "delay" }}
-        python -m http.server {{ .GetConfig "httpPort" }}
-      ports: '{{ .GetConfig "httpPort" }}'
+        sleep ${ZARUBA_INPUT_SERVER_DELAY}
+        python -m http.server ${HTTP_PORT}
+      ports: '{{ .GetEnv "HTTP_PORT" }}'
     envs:
       HTTP_PORT:
         from: SERVER_HTTP_PORT
