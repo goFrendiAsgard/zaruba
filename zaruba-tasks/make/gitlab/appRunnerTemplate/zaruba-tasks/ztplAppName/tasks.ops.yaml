@@ -3,6 +3,8 @@ tasks:
   registerZtplAppNameRunner:
     icon: ztplAppIcon
     extend: zrbRunInDockerContainer
+    dependencies:
+      - startZtplAppNameContainer
     configRefs:
       - registerZtplAppNameRunner
       - ztplAppName

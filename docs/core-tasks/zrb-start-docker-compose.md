@@ -136,6 +136,20 @@ Value:
 
 ### Configs._start
 
+Value:
+
+    if [ -z "$(docker-compose top)" ]
+    then
+      {{ .GetConfig "_startEnv" }}
+      echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+      docker-compose up -d
+      echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
+      docker-compose logs --follow
+    else
+      echo "🐳 ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
+    fi
+
+
 
 ### Configs._startEnv
 
@@ -230,15 +244,6 @@ Value:
 
 
 ### Configs.start
-
-Value:
-
-    {{ .GetConfig "_startEnv" }}
-    echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
-    docker-compose up -d
-    echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
-    docker-compose logs --follow
-
 
 
 ### Configs.strictMode

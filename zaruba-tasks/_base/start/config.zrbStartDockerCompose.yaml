@@ -2,12 +2,17 @@ configs:
 
   zrbStartDockerCompose:
     localhost: 'localhost'
-    start: |
-      {{ .GetConfig "_startEnv" }}
-      echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
-      docker-compose up -d
-      echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
-      docker-compose logs --follow
+    _start: |
+      if [ -z "$(docker-compose top)" ]
+      then
+        {{ .GetConfig "_startEnv" }}
+        echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+        docker-compose up -d
+        echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
+        docker-compose logs --follow
+      else
+        echo "🐳 ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
+      fi
     _startEnv: |
       {{ $this := . -}}
       {{ if eq (.GetConfig "localhost") "localhost" -}}
