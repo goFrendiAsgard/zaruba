@@ -13,5 +13,5 @@ configs:
       fi
     templateLocations: |
       [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/app/template"
+        "{{ .ZarubaHome }}/zaruba-tasks/make/app/_base/template"
       ]

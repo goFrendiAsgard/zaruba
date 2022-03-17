@@ -118,8 +118,8 @@ includes:
   - ./zaruba-tasks/make/_base/input.zrbMake.yaml
   - ./zaruba-tasks/make/_base/task.zrbMake.yaml
 
-  - ./zaruba-tasks/make/app/config.makeApp.yaml
-  - ./zaruba-tasks/make/app/task.makeApp.yaml
+  - ./zaruba-tasks/make/app/_base/config.makeApp.yaml
+  - ./zaruba-tasks/make/app/_base/task.makeApp.yaml
 
   - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeployment.yaml
   - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeploymentTask.yaml

@@ -7,7 +7,7 @@
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/app/task.makeApp.yaml
+    ~/.zaruba/zaruba-tasks/make/app/_base/task.makeApp.yaml
 
 Should Sync Env:
 
@@ -600,7 +600,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/app/template"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/app/_base/template"
     ]
 
 
