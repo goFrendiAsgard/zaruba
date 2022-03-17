@@ -20,7 +20,7 @@ Type:
 
 ## Extends
 
-* [makeApp](make-app.md)
+* [makeDockerContainerApp](make-docker-container-app.md)
 
 
 ## Dependencies
@@ -615,7 +615,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/dockerApp/appTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/app/dockerContainer/template"
     ]
 
 

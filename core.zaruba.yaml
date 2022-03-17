@@ -121,6 +121,12 @@ includes:
   - ./zaruba-tasks/make/app/_base/config.makeApp.yaml
   - ./zaruba-tasks/make/app/_base/task.makeApp.yaml
 
+  - ./zaruba-tasks/make/app/dockerCompose/config.makeDockerComposeApp.yaml
+  - ./zaruba-tasks/make/app/dockerCompose/task.makeDockerComposeApp.yaml
+
+  - ./zaruba-tasks/make/app/dockerContainer/config.makeDockerContainerApp.yaml
+  - ./zaruba-tasks/make/app/dockerContainer/task.makeDockerContainerApp.yaml
+
   - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeployment.yaml
   - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeploymentTask.yaml
   - ./zaruba-tasks/make/appKubeDeployment/task.addAppKubeDeployment.yaml

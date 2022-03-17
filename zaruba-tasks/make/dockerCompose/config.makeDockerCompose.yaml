@@ -3,7 +3,3 @@ configs:
   makeDockerCompose:
     defaultAppDirectory: '{{ .ProjectName }}DockerCompose'
     defaultAppBaseImageName: docker.io/bitnami/nginx
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/dockerCompose/appTemplate"
-      ]

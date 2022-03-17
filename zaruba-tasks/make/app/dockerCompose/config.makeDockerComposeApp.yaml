@@ -1,0 +1,7 @@
+configs:
+
+  makeDockerComposeApp:
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/app/dockerCompose/template"
+      ]

@@ -533,6 +533,10 @@ Value:
 
 ### Configs.appIcon
 
+Value:
+
+    🐳
+
 
 ### Configs.appImageName
 
@@ -656,14 +660,17 @@ Value:
 
 Value:
 
-    {{ .GeneratedRandomName }}
+    {{ .ProjectName }}Docker
 
 
 ### Configs.defaultAppPorts
 
 Value:
 
-    []
+    [
+      "8080"
+    ]
+
 
 
 ### Configs.defaultDeploymentDirectory
@@ -746,6 +753,7 @@ Value:
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
     ]
+
 
 
 ## Envs
