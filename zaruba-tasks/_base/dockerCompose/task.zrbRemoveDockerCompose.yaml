@@ -1,0 +1,11 @@
+tasks:
+
+  zrbRemoveDockerCompose:
+    icon: 🐳
+    private: true
+    description: |
+      Remove docker compose.
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    configRef: zrbRemoveDockerCompose

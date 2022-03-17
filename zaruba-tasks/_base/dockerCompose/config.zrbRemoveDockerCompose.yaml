@@ -1,0 +1,5 @@
+configs:
+
+  zrbRemoveDockerCompose:
+    start:
+      docker-compose down

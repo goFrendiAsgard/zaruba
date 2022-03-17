@@ -1,0 +1,9 @@
+tasks:
+
+  registerZtplAppNameRunner:
+    icon: ztplAppIcon
+    extend: zrbRunInDockerContainer
+    configRefs:
+      - registerZtplAppNameRunner
+      - ztplAppName
+    envRef: ztplAppName 

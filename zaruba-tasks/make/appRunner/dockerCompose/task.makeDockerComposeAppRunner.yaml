@@ -5,5 +5,8 @@ tasks:
     extend: zrbMakeAppRunner
     inputs:
       - appDirectory
+      - appName
+      - appEnvs
       - appDependencies
+      - appContainerName
     configRef: makeDockerComposeAppRunner

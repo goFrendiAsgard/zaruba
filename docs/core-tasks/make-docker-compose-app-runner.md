@@ -50,6 +50,25 @@ Type:
 ## Inputs
 
 
+### Inputs.appContainerName
+
+Description:
+
+    Application container name
+
+Prompt:
+
+    Application container name
+
+Secret:
+
+    false
+
+Validation:
+
+    ^[a-zA-Z0-9_]*$
+
+
 ### Inputs.appDependencies
 
 Description:
@@ -78,6 +97,40 @@ Description:
 Prompt:
 
     Location of app
+
+Secret:
+
+    false
+
+
+### Inputs.appEnvs
+
+Description:
+
+    Application envs
+
+Prompt:
+
+    Application envs
+
+Default Value:
+
+    {}
+
+Secret:
+
+    false
+
+
+### Inputs.appName
+
+Description:
+
+    Name of the app
+
+Prompt:
+
+    Name of the app
 
 Secret:
 

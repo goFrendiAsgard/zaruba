@@ -27,6 +27,7 @@ Available Commands:
   gvm              
   helm             
   kubectl          
+  kubectx          
   lunarvim         
   nvm              
   pulumi           

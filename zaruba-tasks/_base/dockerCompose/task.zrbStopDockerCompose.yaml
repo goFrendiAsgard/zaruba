@@ -1,0 +1,11 @@
+tasks:
+
+  zrbStopDockerCompose:
+    icon: 🐳
+    private: true
+    description: |
+      Stop docker compose.
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    configRef: zrbStopDockerCompose

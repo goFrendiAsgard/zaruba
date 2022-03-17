@@ -1,10 +1,5 @@
 tasks:
 
-  startZtplAppName:
-    icon: ztplAppIcon
-    dependencies:
-      - startZtplAppNameContainer
-
   flushZtplAppName:
     icon: 👶
     extend: zrbRunInDockerContainer

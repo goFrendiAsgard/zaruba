@@ -20,7 +20,7 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+* [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
@@ -123,17 +123,6 @@ Secret:
     false
 
 
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
 ### Inputs.appName
 
 Description:
@@ -143,21 +132,6 @@ Description:
 Prompt:
 
     Name of the app
-
-Secret:
-
-    false
-
-
-### Inputs.appPorts
-
-Description:
-
-    Application ports
-
-Default Value:
-
-    []
 
 Secret:
 
@@ -174,7 +148,7 @@ Secret:
 
 Value:
 
-    wait${_ZRB_PASCAL_APP_NAME}Prerequisites
+    start${_ZRB_PASCAL_APP_NAME}Container
 
 
 ### Configs._finish
@@ -270,18 +244,8 @@ Value:
 
 ### Configs._prepareReplacementMap
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/bash/prepareReplacementMap.sh"
-
-
 
 ### Configs._prepareVariables
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/bash/prepareVariables.sh"
-
 
 
 ### Configs._registerAppDependencies
@@ -642,11 +606,7 @@ Value:
 
 Value:
 
-    [
-      "../gitlab/config:/etc/gitlab",
-      "../gitlab/data:/var/opt/gitlab"
-    ]
-
+    []
 
 
 ### Configs.defaultAppDirectory
@@ -661,8 +621,7 @@ Value:
 Value:
 
     [
-      "8929:8929",
-      "2224:22"
+      "{{ .Template ".GetEnv \\\"GITLAB_HTTP_PORT\\\"" }}"
     ]
 
 
@@ -745,10 +704,9 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template",
       "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/appRunnerTemplate"
     ]
-
 
 
 ## Envs

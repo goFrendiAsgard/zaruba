@@ -5,22 +5,11 @@ configs:
     defaultAppDirectory: '{{ .ProjectName }}Gitlab'
     defaultAppPorts: |
       [
-        "8929:8929",
-        "2224:22"
-      ]
-    defaultAppContainerVolumes: |
-      [
-        "../gitlab/config:/etc/gitlab",
-        "../gitlab/data:/var/opt/gitlab"
+        "{{ .Template ".GetEnv \\\"GITLAB_HTTP_PORT\\\"" }}"
       ]
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template",
         "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/appRunnerTemplate"
       ]
-    _prepareVariables: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/bash/prepareVariables.sh"
-    _prepareReplacementMap: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/gitlab/bash/prepareReplacementMap.sh"
-    _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'

@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  web:
+    build: ./gitlabWeb
+    restart: always
+    hostname: 'localhost'
+    container_name: ztplAppContainerNameWeb
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://ztplAppContainerNameWeb:${GITLAB_HTTP_PORT}';
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224;
+        gitlab_rails['initial_root_password'] = 'Alch3mist';
+        gitlab_rails['initial_shared_runners_registration_token'] = 'Alch3mist';
+        gitlab_rails['gitlab_default_theme'] = 8;
+      GITLAB_WEB_LIVENESS_URL: "http://ztplAppContainerNameWeb:${GITLAB_HTTP_PORT}/-/liveness"
+    ports:
+      - '${GITLAB_HTTP_PORT}:${GITLAB_HTTP_PORT}'
+      - '8443:443'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    networks:
+      - gitlab
+  gitlab-runner:
+    build: ./gitlabRunner
+    container_name: ztplAppContainerNameRunner
+    restart: always
+    depends_on:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - '$GITLAB_HOME/gitlab-runner:/etc/gitlab-runner'
+    networks:
+      - gitlab
+
+networks:
+  gitlab:
+    name: gitlab-network

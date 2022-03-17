@@ -1,0 +1,5 @@
+configs:
+
+  zrbStopDockerCompose:
+    start:
+      docker-compose stop

@@ -1,0 +1,13 @@
+configs:
+
+  registerZtplAppNameRunner:
+    containerName: ztplAppContainerNameRunner
+    script: |
+      gitlab-runner register \
+        --non-interactive \
+        --url {{ .GetEnv "GITLAB_WEB_URL" }} \
+        --registration-token {{ .GetEnv "GITLAB_RUNNER_REGISTRATION_TOKEN" }} \
+        --executor docker \
+        --description "Sample Runner 1" \
+        --docker-image "docker:stable" \
+        --docker-volumes /var/run/docker.sock:/var/run/docker.sock

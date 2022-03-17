@@ -13,18 +13,14 @@ tasks:
 
   stopZtplAppNameContainer:
     icon: ✋
-    extend: zrbRunShellScript
+    extend: zrbStopDockerCompose
     location: ztplAppTaskLocation
-    configRefs:
-      - stopZtplAppNameContainer
     envRefs: 
       - ztplAppName
 
   removeZtplAppNameContainer:
     icon: ❌
-    extend: zrbRunShellScript
+    extend: zrbRemoveDockerCompose
     location: ztplAppTaskLocation
-    configRefs:
-      - removeZtplAppNameContainer
     envRefs: 
       - ztplAppName
