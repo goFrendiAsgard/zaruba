@@ -20,7 +20,7 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+* [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
@@ -49,21 +49,6 @@ Type:
 
 
 ## Inputs
-
-
-### Inputs.akhqPorts
-
-Description:
-
-    akhq's ports
-
-Default Value:
-
-    ["8030:8080"]
-
-Secret:
-
-    false
 
 
 ### Inputs.appContainerName
@@ -138,17 +123,6 @@ Secret:
     false
 
 
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
 ### Inputs.appName
 
 Description:
@@ -158,66 +132,6 @@ Description:
 Prompt:
 
     Name of the app
-
-Secret:
-
-    false
-
-
-### Inputs.kafkaConnectPorts
-
-Description:
-
-    Kafka connect's ports
-
-Default Value:
-
-    ["8033:8033"]
-
-Secret:
-
-    false
-
-
-### Inputs.kafkaPorts
-
-Description:
-
-    Kafka's ports
-
-Default Value:
-
-    ["9092:9092", "29092:29092"]
-
-Secret:
-
-    false
-
-
-### Inputs.kafkaSchemaRegistryPorts
-
-Description:
-
-    Kafka schema registry's ports
-
-Default Value:
-
-    ["8035:8081"]
-
-Secret:
-
-    false
-
-
-### Inputs.zookeeperPorts
-
-Description:
-
-    Zookeeper's ports
-
-Default Value:
-
-    ["2181:2181"]
 
 Secret:
 
@@ -234,7 +148,7 @@ Secret:
 
 Value:
 
-    wait${_ZRB_PASCAL_APP_NAME}Prerequisites
+    start${_ZRB_PASCAL_APP_NAME}Container
 
 
 ### Configs._finish
@@ -330,23 +244,8 @@ Value:
 
 ### Configs._prepareReplacementMap
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareReplacementMap.sh"
-
-
 
 ### Configs._prepareVariables
-
-Value:
-
-    _ZRB_APP_AKHQ_PORTS='{{ .GetConfig "appAkhqPorts" }}'
-    _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
-    _ZRB_APP_CONNECT_PORTS='{{ .GetConfig "appConnectPorts" }}'
-    _ZRB_APP_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appSchemaRegistryPorts" }}'
-    _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
-
 
 
 ### Configs._registerAppDependencies
@@ -494,13 +393,6 @@ Value:
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 
-### Configs.appAkhqPorts
-
-Value:
-
-    {{ .GetValue "akhqPorts" }}
-
-
 ### Configs.appBaseImageName
 
 Value:
@@ -520,13 +412,6 @@ Value:
 Value:
 
     {{ if ne (.GetValue "appCheckCommand") "" }}{{ .GetValue "appCheckCommand" }}{{ else }}{{ .GetConfig "defaultAppCheckCommand" }}{{ end }}
-
-
-### Configs.appConnectPorts
-
-Value:
-
-    {{ .GetValue "kafkaConnectPorts" }}
 
 
 ### Configs.appContainerName
@@ -613,13 +498,6 @@ Value:
     {{ .GetValue "appImageName" }}
 
 
-### Configs.appKafkaPorts
-
-Value:
-
-    {{ .GetValue "kafkaPorts" }}
-
-
 ### Configs.appMigrateCommand
 
 Value:
@@ -676,13 +554,6 @@ Value:
     {{ .GetValue "appRunnerVersion" }}
 
 
-### Configs.appSchemaRegistryPorts
-
-Value:
-
-    {{ .GetValue "kafkaSchemaRegistryPorts" }}
-
-
 ### Configs.appStartCommand
 
 Value:
@@ -709,13 +580,6 @@ Value:
 Value:
 
     {{ .GetValue "appUrl" }}
-
-
-### Configs.appZookeeperPorts
-
-Value:
-
-    {{ .GetValue "zookeeperPorts" }}
 
 
 ### Configs.beforeStart
@@ -759,7 +623,16 @@ Value:
 
 Value:
 
-    []
+    [
+      "{{ .Template ".GetEnv \\\"ZOOKEEPER_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"KAFKA_JMX_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"KAFKA_LISTENER_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"SCHEMA_REGISTRY_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"CONNECT_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"CONTROL_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"KSQL_DB_PORT\\\"" }}",
+      "{{ .Template ".GetEnv \\\"REST_PROXY\\\"" }}"
+    ]
 
 
 ### Configs.defaultAppStartCommand
@@ -846,10 +719,8 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appRunnerTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template"
     ]
-
 
 
 ## Envs

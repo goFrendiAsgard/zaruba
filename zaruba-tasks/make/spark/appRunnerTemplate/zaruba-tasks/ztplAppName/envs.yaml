@@ -1,7 +1,0 @@
-envs:
-
-  ztplAppNameMaster:
-    ztplAppYamlMasterEnvs
-
-  ztplAppNameWorker:
-    ztplAppYamlWorkerEnvs

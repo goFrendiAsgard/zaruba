@@ -2,25 +2,15 @@ configs:
 
   makeKafkaAppRunner:
     appIcon: 🪠
-    appKafkaPorts: '{{ .GetValue "kafkaPorts" }}'
-    appAkhqPorts: '{{ .GetValue "akhqPorts" }}'
-    appZookeeperPorts: '{{ .GetValue "zookeeperPorts" }}'
-    appSchemaRegistryPorts: '{{ .GetValue "kafkaSchemaRegistryPorts" }}'
-    appConnectPorts: '{{ .GetValue "kafkaConnectPorts" }}'
     defaultAppDirectory: '{{ .ProjectName }}Kafka'
-    templateLocations: |
+    defaultAppPorts: |
       [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appRunnerTemplate"
+        "{{ .Template ".GetEnv \\\"ZOOKEEPER_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"KAFKA_JMX_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"KAFKA_LISTENER_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"SCHEMA_REGISTRY_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"CONNECT_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"CONTROL_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"KSQL_DB_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"REST_PROXY\\\"" }}"
       ]
-    _prepareVariables: |
-      _ZRB_APP_AKHQ_PORTS='{{ .GetConfig "appAkhqPorts" }}'
-      _ZRB_APP_KAFKA_PORTS='{{ .GetConfig "appKafkaPorts" }}'
-      _ZRB_APP_CONNECT_PORTS='{{ .GetConfig "appConnectPorts" }}'
-      _ZRB_APP_SCHEMA_REGISTRY_PORTS='{{ .GetConfig "appSchemaRegistryPorts" }}'
-      _ZRB_APP_ZOOKEEPER_PORTS='{{ .GetConfig "appZookeeperPorts" }}'
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareVariables.sh"
-    _prepareReplacementMap: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/bash/prepareReplacementMap.sh"
-    _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'

@@ -2,7 +2,7 @@
 version: '3.7'
 services:
   web:
-    build: ./gitlabWeb
+    image: docker.io/gitlab/gitlab-ce:latest
     restart: always
     hostname: 'localhost'
     container_name: ztplAppContainerNameWeb
@@ -24,7 +24,7 @@ services:
     networks:
       - gitlab
   gitlab-runner:
-    build: ./gitlabRunner
+    image: docker.io/gitlab/gitlab-runner:latest
     container_name: ztplAppContainerNameRunner
     restart: always
     depends_on:

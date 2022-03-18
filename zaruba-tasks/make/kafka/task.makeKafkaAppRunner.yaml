@@ -2,19 +2,13 @@ tasks:
 
   makeKafkaAppRunner:
     icon: 🚌
-    extend: makeDockerContainerAppRunner
+    extend: makeDockerComposeAppRunner
     dependencies:
       - makeKafkaApp
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
-      - kafkaPorts
-      - zookeeperPorts
-      - kafkaSchemaRegistryPorts
-      - kafkaConnectPorts
-      - akhqPorts
-      - appImageName
+      - appDependencies
       - appContainerName
     configRef: makeKafkaAppRunner

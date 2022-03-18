@@ -1,1 +1,0 @@
-FROM docker.io/bitnami/airflow:2

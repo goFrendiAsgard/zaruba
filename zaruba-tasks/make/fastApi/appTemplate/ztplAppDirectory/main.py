@@ -27,7 +27,7 @@ rmq_event_map = RMQEventMap({})
 kafka_connection_parameters = create_kafka_connection_parameters(
     bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:29092'),
     sasl_mechanism = os.getenv('APP_KAFKA_SASL_MECHANISM', 'PLAIN'),
-    sasl_plain_username = os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', 'root'),
+    sasl_plain_username = os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', ''),
     sasl_plain_password = os.getenv('APP_KAFKA_SASL_PLAIN_PASSWORD', '')
 )
 kafka_event_map = KafkaEventMap({})

@@ -2,7 +2,7 @@ tasks:
 
   makeSparkAppRunner:
     icon: 💥
-    extend: makeDockerContainerAppRunner
+    extend: makeDockerComposeAppRunner
     dependencies:
       - makeSparkApp
     inputs:
@@ -10,10 +10,5 @@ tasks:
       - appDependencies
       - appName
       - appEnvs
-      - sparkMasterPorts
-      - sparkMasterHistoryPorts
-      - sparkWorkerPorts
-      - sparkWorkerHistoryPorts
-      - appImageName
       - appContainerName
     configRef: makeSparkAppRunner

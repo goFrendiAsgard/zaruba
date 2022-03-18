@@ -2,25 +2,8 @@ configs:
 
   makeAirflowAppRunner:
     appIcon: 🎐
-    appPostgreSqlPorts: '{{ .GetValue "airflowPostgreSqlPorts" }}'
-    appRedisPorts: '{{ .GetValue "airflowRedisPorts" }}'
-    appWebPorts: '{{ .GetValue "airflowWebPorts" }}'
     defaultAppDirectory: '{{ .ProjectName }}Airflow'
-    defaultAppContainerVolumes: |
+    defaultAppPorts: |
       [
-        "../dags:/opt/bitnami/airflow/dags"
-      ]
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appRunnerTemplate"
-      ]
-    _prepareVariables: |
-      _ZRB_APP_POSTGRESQL_PORTS='{{ .GetConfig "appPostgreSqlPorts" }}'
-      _ZRB_APP_REDIS_PORTS='{{ .GetConfig "appRedisPorts" }}'
-      _ZRB_APP_WEB_PORTS='{{ .GetConfig "appWebPorts" }}'
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareVariables.sh"
-    _prepareReplacementMap: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/bash/prepareReplacementMap.sh"
-    _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'
+        "{{ .Template ".GetEnv \\\"AIRFLOW_WEB_SERVER_PORT\\\"" }}"
+      ] 

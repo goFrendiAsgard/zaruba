@@ -3,32 +3,7 @@ configs:
   makeSparkAppRunner:
     appIcon: 💥
     defaultAppDirectory: '{{ .ProjectName }}Spark'
-    appMasterPorts: '{{ .GetValue "sparkMasterPorts" }}'
-    appWorkerPorts: '{{ .GetValue "sparkWorkerPorts" }}'
-    appMasterHistoryPorts: '{{ .GetValue "sparkMasterHistoryPorts" }}'
-    appWorkerHistoryPorts: '{{ .GetValue "sparkWorkerHistoryPorts" }}'
-    defaultAppContainerVolumes: |
+    defaultAppPorts: |
       [
-        "conf:/opt/bitnami/spark/conf",
-        "spark-events:/tmp/spark-events"
-      ]
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-        "{{ .ZarubaHome }}/zaruba-tasks/make/spark/appRunnerTemplate"
-      ]
-    _prepareVariables: |
-      _ZRB_APP_MASTER_PORTS='{{ .GetConfig "appMasterPorts" }}'
-      _ZRB_APP_WORKER_PORTS='{{ .GetConfig "appWorkerPorts" }}'
-      _ZRB_APP_MASTER_HISTORY_PORTS='{{ .GetConfig "appMasterHistoryPorts" }}'
-      _ZRB_APP_WORKER_HISTORY_PORTS='{{ .GetConfig "appWorkerHistoryPorts" }}'
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
-    _prepareReplacementMap: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
-    _adjustPermission: |
-      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
-      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/spark-events"
-      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
-      chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/spark-events"
-    _containerPrepareAppRunnerTaskName: 'wait${_ZRB_PASCAL_APP_NAME}Prerequisites'
+        "{{ .Template ".GetEnv \\\"SPARK_MASTER_UI_PORT\\\"" }}"
+      ] 

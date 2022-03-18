@@ -20,7 +20,7 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+* [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
@@ -123,17 +123,6 @@ Secret:
     false
 
 
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
 ### Inputs.appName
 
 Description:
@@ -149,85 +138,17 @@ Secret:
     false
 
 
-### Inputs.sparkMasterHistoryPorts
-
-Description:
-
-    Spark master's history port
-
-Default Value:
-
-    ["18020:18020"]
-
-Secret:
-
-    false
-
-
-### Inputs.sparkMasterPorts
-
-Description:
-
-    Spark master's port
-
-Default Value:
-
-    ["8020:8020", "7077:7077"]
-
-Secret:
-
-    false
-
-
-### Inputs.sparkWorkerHistoryPorts
-
-Description:
-
-    Spark worker's history port
-
-Default Value:
-
-    ["18021:18021"]
-
-Secret:
-
-    false
-
-
-### Inputs.sparkWorkerPorts
-
-Description:
-
-    Spark worker's port
-
-Default Value:
-
-    ["8021:8021"]
-
-Secret:
-
-    false
-
-
 ## Configs
 
 
 ### Configs._adjustPermission
-
-Value:
-
-    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/conf"
-    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkMaster/spark-events"
-    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/conf"
-    chmod -R 777 "${_ZRB_APP_DIRECTORY}/sparkWorker/spark-events"
-
 
 
 ### Configs._containerPrepareAppRunnerTaskName
 
 Value:
 
-    wait${_ZRB_PASCAL_APP_NAME}Prerequisites
+    start${_ZRB_PASCAL_APP_NAME}Container
 
 
 ### Configs._finish
@@ -323,22 +244,8 @@ Value:
 
 ### Configs._prepareReplacementMap
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareReplacementMap.sh"
-
-
 
 ### Configs._prepareVariables
-
-Value:
-
-    _ZRB_APP_MASTER_PORTS='{{ .GetConfig "appMasterPorts" }}'
-    _ZRB_APP_WORKER_PORTS='{{ .GetConfig "appWorkerPorts" }}'
-    _ZRB_APP_MASTER_HISTORY_PORTS='{{ .GetConfig "appMasterHistoryPorts" }}'
-    _ZRB_APP_WORKER_HISTORY_PORTS='{{ .GetConfig "appWorkerHistoryPorts" }}'
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/spark/bash/prepareVariables.sh"
-
 
 
 ### Configs._registerAppDependencies
@@ -591,20 +498,6 @@ Value:
     {{ .GetValue "appImageName" }}
 
 
-### Configs.appMasterHistoryPorts
-
-Value:
-
-    {{ .GetValue "sparkMasterHistoryPorts" }}
-
-
-### Configs.appMasterPorts
-
-Value:
-
-    {{ .GetValue "sparkMasterPorts" }}
-
-
 ### Configs.appMigrateCommand
 
 Value:
@@ -689,20 +582,6 @@ Value:
     {{ .GetValue "appUrl" }}
 
 
-### Configs.appWorkerHistoryPorts
-
-Value:
-
-    {{ .GetValue "sparkWorkerHistoryPorts" }}
-
-
-### Configs.appWorkerPorts
-
-Value:
-
-    {{ .GetValue "sparkWorkerPorts" }}
-
-
 ### Configs.beforeStart
 
 
@@ -730,11 +609,7 @@ Value:
 
 Value:
 
-    [
-      "conf:/opt/bitnami/spark/conf",
-      "spark-events:/tmp/spark-events"
-    ]
-
+    []
 
 
 ### Configs.defaultAppDirectory
@@ -748,7 +623,9 @@ Value:
 
 Value:
 
-    []
+    [
+      "{{ .Template ".GetEnv \\\"SPARK_MASTER_UI_PORT\\\"" }}"
+    ] 
 
 
 ### Configs.defaultAppStartCommand
@@ -835,10 +712,8 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/spark/appRunnerTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template"
     ]
-
 
 
 ## Envs

@@ -155,7 +155,6 @@ includes:
 
   - ./zaruba-tasks/make/airflow/config.makeAirflowApp.yaml
   - ./zaruba-tasks/make/airflow/config.makeAirflowAppRunner.yaml
-  - ./zaruba-tasks/make/airflow/input.makeAirflowAppRunner.yaml
   - ./zaruba-tasks/make/airflow/task.addAirflow.yaml
   - ./zaruba-tasks/make/airflow/task.makeAirflowApp.yaml
   - ./zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
@@ -244,7 +243,6 @@ includes:
 
   - ./zaruba-tasks/make/kafka/config.makeKafkaApp.yaml
   - ./zaruba-tasks/make/kafka/config.makeKafkaAppRunner.yaml
-  - ./zaruba-tasks/make/kafka/input.makeKafkaAppRunner.yaml
   - ./zaruba-tasks/make/kafka/task.addKafka.yaml
   - ./zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
   - ./zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
@@ -331,7 +329,6 @@ includes:
 
   - ./zaruba-tasks/make/spark/config.makeSparkApp.yaml
   - ./zaruba-tasks/make/spark/config.makeSparkAppRunner.yaml
-  - ./zaruba-tasks/make/spark/input.makeSparkAppRunner.yaml
   - ./zaruba-tasks/make/spark/task.addSpark.yaml
   - ./zaruba-tasks/make/spark/task.makeSparkApp.yaml
   - ./zaruba-tasks/make/spark/task.makeSparkAppRunner.yaml

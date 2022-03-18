@@ -1,1 +1,0 @@
-FROM docker.io/confluentinc/cp-schema-registry:latest

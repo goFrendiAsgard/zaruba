@@ -2,7 +2,7 @@ tasks:
 
   makeAirflowAppRunner:
     icon: 🎐
-    extend: makeDockerContainerAppRunner
+    extend: makeDockerComposeAppRunner
     dependencies:
       - makeAirflowApp
     inputs:
@@ -10,9 +10,6 @@ tasks:
       - appDependencies
       - appName
       - appEnvs
-      - airflowWebPorts
-      - airflowPostgreSqlPorts
-      - airflowRedisPorts
       - appImageName
       - appContainerName
     configRef: makeAirflowAppRunner
