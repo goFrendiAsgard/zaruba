@@ -13,5 +13,7 @@ configs:
     afterCheck: sleep 3
     checkCommand: |
       ztplAppCheckCommand
+    command : |
+      ztplAppStartContainerCommand
     volumes: |
       ztplAppYamlContainerVolumes

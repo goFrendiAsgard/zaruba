@@ -7,6 +7,7 @@ configs:
       [
         "{{ .Template ".GetEnv \\\"GITLAB_HTTP_PORT\\\"" }}"
       ]
+    defaultAppCheckCommand: curl http://localhost:{{ .Template ".GetEnv \"GITLAB_HTTP_PORT\"" }}/-/readiness
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",

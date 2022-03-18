@@ -354,7 +354,7 @@ Value:
 
 Value:
 
-    {{ .GetValue "appCheckCommand" }}
+    {{ if ne (.GetValue "appCheckCommand") "" }}{{ .GetValue "appCheckCommand" }}{{ else }}{{ .GetConfig "defaultAppCheckCommand" }}{{ end }}
 
 
 ### Configs.appContainerName
@@ -497,14 +497,14 @@ Value:
 
 Value:
 
-    {{ .GetValue "appStartCommand" }}
+    {{ if ne (.GetValue "appStartCommand") "" }}{{ .GetValue "appStartCommand" }}{{ else }}{{ .GetConfig "defaultAppStartCommand" }}{{ end }}
 
 
 ### Configs.appStartContainerCommand
 
 Value:
 
-    {{ .GetValue "appStartContainerCommand" }}
+    {{ if ne (.GetValue "appStartContainerCommand") "" }}{{ .GetValue "appStartContainerCommand" }}{{ else }}{{ .GetConfig "defaultAppStartContainerCommand" }}{{ end }}
 
 
 ### Configs.appTestCommand
@@ -541,6 +541,9 @@ Value:
 ### Configs.defaultAppBaseImageName
 
 
+### Configs.defaultAppCheckCommand
+
+
 ### Configs.defaultAppContainerVolumes
 
 Value:
@@ -560,6 +563,12 @@ Value:
 Value:
 
     []
+
+
+### Configs.defaultAppStartCommand
+
+
+### Configs.defaultAppStartContainerCommand
 
 
 ### Configs.defaultDeploymentDirectory

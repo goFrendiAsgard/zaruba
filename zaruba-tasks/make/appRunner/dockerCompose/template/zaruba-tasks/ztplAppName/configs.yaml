@@ -4,3 +4,6 @@ configs:
     runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
     ports: |
       ztplAppYamlPorts
+    afterCheck: sleep 3
+    checkCommand: |
+      ztplAppCheckCommand

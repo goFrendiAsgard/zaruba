@@ -1,3 +1,4 @@
+# https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose
 version: '3.7'
 services:
   web:

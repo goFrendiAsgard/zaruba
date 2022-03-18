@@ -12,6 +12,8 @@ configs:
     localhost: host.docker.internal
     checkCommand: |
       ztplAppCheckCommand
+    command : |
+      ztplAppStartContainerCommand
     volumes: |
       ztplAppYamlContainerVolumes
 

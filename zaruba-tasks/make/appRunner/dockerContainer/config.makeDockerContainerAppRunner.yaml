@@ -8,8 +8,3 @@ configs:
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
       ]
-    defaultAppDirectory: '{{ .ProjectName }}Docker'
-    defaultAppPorts: |
-      [
-        "8080"
-      ]

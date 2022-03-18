@@ -140,6 +140,7 @@ Value:
       sleep 3
       docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
     done
+    echo "🔎 ${_BOLD}${_YELLOW}Sucessfully run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     set "${_OLD_STATE}"
     {{ end -}}
 
