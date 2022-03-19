@@ -17,6 +17,6 @@ tasks:
     configs:
       start: |
         ../zaruba please startProvoRabbitmqContainer startProvoKafkaContainer -t
-        sleep 10
+        sleep 20
         ../zaruba please testProvoFastApi -e 'PROVO_FAST_API_TEST_INTEGRATION=1' 
         ../zaruba please stopProvoRabbitmqContainer stopProvoKafkaContainer

@@ -5,8 +5,9 @@ services:
 
   postgresql:
     image: docker.io/bitnami/postgresql:10
+    restart: on-failure
     volumes:
-      - 'postgresql_data:/bitnami/postgresql'
+      - '$LOCAL_VOLUME/postgresql:/bitnami/postgresql'
     environment:
       - POSTGRESQL_DATABASE=bitnami_airflow
       - POSTGRESQL_USERNAME=bn_airflow
@@ -16,14 +17,16 @@ services:
 
   redis:
     image: docker.io/bitnami/redis:6.0
+    restart: on-failure
     volumes:
-      - 'redis_data:/bitnami'
+      - '$LOCAL_VOLUME/redis:/bitnami'
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
 
   airflow-scheduler:
     image: docker.io/bitnami/airflow-scheduler:2
+    restart: on-failure
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -33,6 +36,9 @@ services:
 
   airflow-worker:
     image: docker.io/bitnami/airflow-worker:2
+    restart: on-failure
+    volumes:
+      - '$LOCAL_VOLUME/airflow/dags:/opt/bitnami/airflow/dags'
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -42,6 +48,9 @@ services:
 
   airflow:
     image: docker.io/bitnami/airflow:2
+    restart: on-failure
+    volumes:
+      - '$LOCAL_VOLUME/airflow/dags:/opt/bitnami/airflow/dags'
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -49,9 +58,3 @@ services:
       - AIRFLOW_EXECUTOR=CeleryExecutor
     ports:
       - '${AIRFLOW_WEB_SERVER_PORT}:8080'
-
-volumes:
-  postgresql_data:
-    driver: local
-  redis_data:
-    driver: local

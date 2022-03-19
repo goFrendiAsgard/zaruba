@@ -5,6 +5,7 @@ services:
 
   spark:
     image: docker.io/bitnami/spark:3
+    restart: on-failure
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -16,6 +17,7 @@ services:
 
   spark-worker:
     image: docker.io/bitnami/spark:3
+    restart: on-failure
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark:7077

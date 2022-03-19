@@ -16,7 +16,7 @@ error_threshold = int(os.getenv('APP_ERROR_THRESHOLD', '10'))
 # -- 🐇 Rabbitmq setting
 rmq_connection_parameters = create_rmq_connection_parameters(
     host = os.getenv('APP_RABBITMQ_HOST', 'localhost'),
-    user = os.getenv('APP_RABBITMQ_USER', 'root'),
+    user = os.getenv('APP_RABBITMQ_USER', ''),
     password = os.getenv('APP_RABBITMQ_PASS', ''),
     virtual_host = os.getenv('APP_RABBITMQ_VHOST', '/'),
     heartbeat=30
@@ -37,7 +37,7 @@ kafka_avro_connection_parameters = create_kafka_avro_connection_parameters(
     bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:29092'),
     schema_registry = os.getenv('APP_KAFKA_SCHEMA_REGISTRY', 'http://localhost:8035'),
     sasl_mechanism = os.getenv('APP_KAFKA_SASL_MECHANISM', 'PLAIN'),
-    sasl_plain_username = os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', 'root'),
+    sasl_plain_username = os.getenv('APP_KAFKA_SASL_PLAIN_USERNAME', ''),
     sasl_plain_password = os.getenv('APP_KAFKA_SASL_PLAIN_PASSWORD', '')
 )
 kafka_avro_event_map = KafkaAvroEventMap({})

@@ -1,10 +1,10 @@
 # https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose
 version: '3.7'
 services:
+
   web:
     image: docker.io/gitlab/gitlab-ce:latest
-    restart: always
-    hostname: 'localhost'
+    restart: on-failure
     container_name: ztplAppContainerNameWeb
     environment:
       GITLAB_OMNIBUS_CONFIG: |
@@ -18,23 +18,15 @@ services:
       - '${GITLAB_HTTP_PORT}:${GITLAB_HTTP_PORT}'
       - '8443:443'
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
-    networks:
-      - gitlab
+      - '$LOCAL_VOLUME/config:/etc/gitlab'
+      - '$LOCAL_VOLUME/logs:/var/log/gitlab'
+      - '$LOCAL_VOLUME/data:/var/opt/gitlab'
+
   gitlab-runner:
     image: docker.io/gitlab/gitlab-runner:latest
     container_name: ztplAppContainerNameRunner
-    restart: always
+    restart: on-failure
     depends_on:
       - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      # - '$GITLAB_HOME/gitlab-runner:/etc/gitlab-runner'
-    networks:
-      - gitlab
-
-networks:
-  gitlab:
-    name: gitlab-network
