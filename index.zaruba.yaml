@@ -37,6 +37,7 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.preparePlayground.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.pretest.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testAddComponents.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testAirflow.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testApps.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testCassandra.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testComponents.yaml

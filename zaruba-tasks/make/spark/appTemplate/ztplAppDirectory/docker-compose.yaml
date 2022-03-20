@@ -5,6 +5,8 @@ services:
 
   spark:
     image: docker.io/bitnami/spark:3
+    hostname: spark
+    container_name: ztplAppContainerName
     restart: on-failure
     environment:
       - SPARK_MODE=master
@@ -17,6 +19,8 @@ services:
 
   spark-worker:
     image: docker.io/bitnami/spark:3
+    hostname: spark-worker
+    container_name: ztplAppContainerNameWorker
     restart: on-failure
     environment:
       - SPARK_MODE=worker

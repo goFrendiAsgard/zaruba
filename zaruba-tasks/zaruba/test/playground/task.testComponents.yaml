@@ -3,6 +3,7 @@ tasks:
   testComponents:
     icon: 🧪
     dependencies:
+      - testAirflow
       - testApps
       - testCassandra
       - testDockerApp
