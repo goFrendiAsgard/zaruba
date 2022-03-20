@@ -1,0 +1,17 @@
+tasks:
+ 
+  startZtplAppNameAgent:
+    icon: 🐶
+    extend: zrbStartApp
+    location: ../../ztplAppDirectory/agent
+    dependencies:
+      - startZtplAppNameContainer
+    configRef: startZtplAppNameAgent
+    envRef: startZtplAppNameAgent
+
+  registerZtplAppNameFlows:
+    icon: 🐶
+    extend: zrbRunShellScript
+    location: ../../ztplAppDirectory/agent
+    configRef: registerZtplAppNameFlows
+    envRef: registerZtplAppNameFlows

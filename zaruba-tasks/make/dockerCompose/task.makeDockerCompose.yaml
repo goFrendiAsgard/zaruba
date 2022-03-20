@@ -1,9 +1,0 @@
-tasks:
- 
-  makeDockerCompose:
-    icon: 🐳
-    extend: makeDockerComposeApp
-    inputs:
-      - appDirectory
-      - appBaseImageName
-    configRef: makeDockerCompose

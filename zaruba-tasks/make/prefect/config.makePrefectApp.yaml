@@ -1,0 +1,8 @@
+configs:
+ 
+  makePrefectApp:
+    defaultAppDirectory: '{{ .ProjectName }}Prefect'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/prefect/appTemplate"
+      ]

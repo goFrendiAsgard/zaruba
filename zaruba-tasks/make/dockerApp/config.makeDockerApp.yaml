@@ -1,5 +1,0 @@
-configs:
-
-  makeDockerApp:
-    defaultAppDirectory: '{{ .ProjectName }}Docker'
-    defaultAppBaseImageName: docker.io/bitnami/nginx

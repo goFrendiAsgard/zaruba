@@ -1,0 +1,6 @@
+tasks:
+
+  addDockerAppRunner:
+    icon: 🐳
+    dependencies:
+      - makeDockerContainerAppRunner

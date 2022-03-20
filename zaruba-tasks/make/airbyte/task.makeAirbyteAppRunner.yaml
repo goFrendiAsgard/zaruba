@@ -1,0 +1,14 @@
+tasks:
+
+  makeAirbyteAppRunner:
+    icon: 🪂
+    extend: makeDockerComposeAppRunner
+    dependencies:
+      - makeAirbyteApp
+    inputs:
+      - appDirectory
+      - appName
+      - appEnvs
+      - appDependencies
+      - appContainerName
+    configRef: makeAirbyteAppRunner

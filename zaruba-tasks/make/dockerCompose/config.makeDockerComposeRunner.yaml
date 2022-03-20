@@ -1,9 +1,0 @@
-configs:
-
-  makeDockerComposeRunner:
-    appIcon: 🐳
-    defaultAppDirectory: '{{ .ProjectName }}DockerCompose'
-    defaultAppPorts: |
-      [
-        "8080"
-      ]

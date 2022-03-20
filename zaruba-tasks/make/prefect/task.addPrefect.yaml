@@ -1,0 +1,6 @@
+tasks:
+
+  addPrefect:
+    icon: 💯
+    dependencies:
+      - makePrefectAppRunner

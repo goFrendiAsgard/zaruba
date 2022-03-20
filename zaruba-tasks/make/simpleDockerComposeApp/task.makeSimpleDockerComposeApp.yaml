@@ -1,0 +1,9 @@
+tasks:
+ 
+  makeSimpleDockerComposeApp:
+    icon: 🐳
+    extend: makeDockerComposeApp
+    inputs:
+      - appDirectory
+      - appBaseImageName
+    configRef: makeSimpleDockerComposeApp

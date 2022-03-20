@@ -1,0 +1,6 @@
+tasks:
+
+  addDockerComposeAppRunner:
+    icon: 🐳
+    dependencies:
+      - makeDockerComposeAppRunner

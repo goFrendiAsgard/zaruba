@@ -1,0 +1,7 @@
+configs:
+ 
+  makeAirbyteApp:
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/airbyte/appTemplate"
+      ]

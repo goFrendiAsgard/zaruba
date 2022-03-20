@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeAirbyteApp:
+    icon: 🪂
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeAirbyteApp

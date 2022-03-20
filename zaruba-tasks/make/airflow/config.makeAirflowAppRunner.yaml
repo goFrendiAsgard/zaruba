@@ -7,3 +7,9 @@ configs:
       [
         "{{ .Template ".GetEnv \\\"AIRFLOW_WEB_SERVER_PORT\\\"" }}"
       ] 
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appRunner"
+      ] 

@@ -1,0 +1,14 @@
+tasks:
+
+  makePrefectAppRunner:
+    icon: 💯
+    extend: makeDockerComposeAppRunner
+    dependencies:
+      - makePrefectApp
+    inputs:
+      - appDirectory
+      - appName
+      - appEnvs
+      - appDependencies
+      - appContainerName
+    configRef: makePrefectAppRunner

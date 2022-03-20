@@ -1,6 +1,0 @@
-tasks:
-
-  addDockerCompose:
-    icon: 🐳
-    dependencies:
-      - makeDockerComposeRunner

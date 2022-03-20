@@ -1,0 +1,16 @@
+configs:
+
+  ztplAppName:
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+    beforeStart: |
+      mkdir -p "${LOCAL_VOLUME}/postgresql"
+      mkdir -p "${LOCAL_VOLUME}/redis"
+      mkdir -p "${LOCAL_VOLUME}/dag"
+      set +e
+      chmod -R 777 "${LOCAL_VOLUME}"
+      set -e
+    afterCheck: sleep 3
+    checkCommand: |
+      ztplAppCheckCommand

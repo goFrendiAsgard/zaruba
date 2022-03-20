@@ -1,0 +1,17 @@
+configs:
+
+  makePrefectAppRunner:
+    appIcon: 💯
+    defaultAppDirectory: '{{ .ProjectName }}Prefect'
+    defaultAppPorts: |
+      [
+        "{{ .Template ".GetEnv \\\"PREFECT_HASURA_HOST_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"PREFECT_APOLLO_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"PREFECT_UI_PORT\\\"" }}"
+      ]
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/prefect/appRunnerTemplate"
+      ]

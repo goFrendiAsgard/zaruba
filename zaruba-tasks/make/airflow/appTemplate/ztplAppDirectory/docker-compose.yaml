@@ -9,7 +9,7 @@ services:
     container_name: ztplAppContainerNamePostgresql
     restart: on-failure
     volumes:
-      - '$LOCAL_VOLUME/postgresql:/bitnami/postgresql'
+      - '${LOCAL_VOLUME:-./volumes}/postgresql:/bitnami/postgresql'
     environment:
       - POSTGRESQL_DATABASE=bitnami_airflow
       - POSTGRESQL_USERNAME=bn_airflow
@@ -23,7 +23,7 @@ services:
     container_name: ztplAppContainerNameRedis
     restart: on-failure
     volumes:
-      - '$LOCAL_VOLUME/redis:/bitnami'
+      - '${LOCAL_VOLUME:-./volumes}/redis:/bitnami'
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
@@ -46,7 +46,7 @@ services:
     container_name: ztplAppContainerNameWorker
     restart: on-failure
     volumes:
-      - '$LOCAL_VOLUME/airflow/dags:/opt/bitnami/airflow/dags'
+      - '${LOCAL_VOLUME:-./volumes}/airflow/dags:/opt/bitnami/airflow/dags'
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -60,11 +60,14 @@ services:
     container_name: ztplAppContainerName
     restart: on-failure
     volumes:
-      - '$LOCAL_VOLUME/airflow/dags:/opt/bitnami/airflow/dags'
+      - '${LOCAL_VOLUME:-./volumes}/airflow/dags:/opt/bitnami/airflow/dags'
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
       - AIRFLOW_DATABASE_PASSWORD=bitnami1
       - AIRFLOW_EXECUTOR=CeleryExecutor
+      - AIRFLOW_PASSWORD=${AIRFLOW_PASSWORD:-Alch3mist}
+      - AIRFLOW_USERNAME=${AIRFLOW_USER:-root}
+      - AIRFLOW_EMAIL=${AIRFLOW_EMAIL:-root@stalchmst.com}
     ports:
-      - '${AIRFLOW_WEB_SERVER_PORT}:8080'
+      - '${AIRFLOW_WEB_SERVER_PORT:-8080}:8080'

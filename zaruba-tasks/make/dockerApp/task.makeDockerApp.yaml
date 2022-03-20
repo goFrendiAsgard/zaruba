@@ -1,9 +1,0 @@
-tasks:
- 
-  makeDockerApp:
-    icon: 🐳
-    extend: makeDockerContainerApp
-    inputs:
-      - appDirectory
-      - appBaseImageName
-    configRef: makeDockerApp

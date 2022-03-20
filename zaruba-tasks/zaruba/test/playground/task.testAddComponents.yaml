@@ -21,9 +21,9 @@ tasks:
 
         ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 
-        ../zaruba please addDockerApp appDirectory=provoDockerApp appPorts='["3002:8080"]'
+        ../zaruba please addSimpleDockerApp appDirectory=provoDockerApp appPorts='["3002:8080"]'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoDockerApp
-        ../zaruba please addDockerCompose appDirectory=provoDockerCompose appEnvs='{"APP_HTTP_PORT":"3003"}' appPorts='["3003"]'
+        ../zaruba please addSimpleDockerComposeApp appDirectory=provoDockerCompose appEnvs='{"APP_HTTP_PORT":"3003"}' appPorts='["3003"]'
         ../zaruba please addSimpleGoApp appDirectory=provoGo appEnvs='{"APP_HTTP_PORT":"3004"}'
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoGo
         ../zaruba please addSimpleNodeJsApp appDirectory=provoNodeJs appEnvs='{"APP_HTTP_PORT":"3005"}'
@@ -41,6 +41,7 @@ tasks:
         ../zaruba please addAppKubeDeploymentInPython appDirectory=provoFastApi
 
         ../zaruba please addAirflow appDirectory=provoAirflow
+        ../zaruba please addAirbyte appDirectory=provoAirbyte
         ../zaruba please addCassandra appDirectory=provoCassandra
         ../zaruba please addElasticsearch appDirectory=provoElasticsearch
         ../zaruba please addJupyterNotebook appDirectory=provoJupyterNotebook
@@ -51,6 +52,7 @@ tasks:
         ../zaruba please addMysql appDirectory=provoMysql
         ../zaruba please addNginx appDirectory=provoNginx appPorts='["8980:80", "8943:443"]'
         ../zaruba please addPostgresql appDirectory=provoPostgresql
+        ../zaruba please addPrefect appDirectory=provoPrefect
         ../zaruba please addRabbitmq appDirectory=provoRabbitmq
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addSpark appDirectory=provoSpark

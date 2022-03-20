@@ -1,0 +1,16 @@
+tasks:
+
+  makeSimpleDockerAppRunner:
+    icon: 🐳
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeSimpleDockerApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appImageName
+      - appContainerName
+      - appName
+      - appEnvs
+      - appPorts
+    configRef: makeSimpleDockerAppRunner

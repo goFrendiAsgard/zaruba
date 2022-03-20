@@ -639,6 +639,7 @@ Value:
     ] 
 
 
+
 ### Configs.defaultAppStartCommand
 
 
@@ -723,8 +724,9 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template"
-    ]
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template",
+      "{{ .ZarubaHome }}/zaruba-tasks/make/airflow/appRunner"
+    ] 
 
 
 ## Envs

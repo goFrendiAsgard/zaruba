@@ -1,0 +1,9 @@
+tasks:
+ 
+  makeSimpleDockerApp:
+    icon: 🐳
+    extend: makeDockerContainerApp
+    inputs:
+      - appDirectory
+      - appBaseImageName
+    configRef: makeSimpleDockerApp

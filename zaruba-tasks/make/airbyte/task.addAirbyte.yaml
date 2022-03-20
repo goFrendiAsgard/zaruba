@@ -1,0 +1,6 @@
+tasks:
+
+  addAirbyte:
+    icon: 🪂
+    dependencies:
+      - makeAirbyteAppRunner

@@ -1,0 +1,9 @@
+includes:
+  - ./configs.yaml
+  - ./configs.ops.yaml
+  - ./envs.yaml
+  - ./envs.ops.yaml
+  - ./inputs.yaml
+  - ./tasks.yaml
+  - ./tasks.container.yaml
+  - ./tasks.ops.yaml

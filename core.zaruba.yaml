@@ -159,6 +159,12 @@ includes:
   - ./zaruba-tasks/make/airflow/task.makeAirflowApp.yaml
   - ./zaruba-tasks/make/airflow/task.makeAirflowAppRunner.yaml
 
+  - ./zaruba-tasks/make/airbyte/config.makeAirbyteApp.yaml
+  - ./zaruba-tasks/make/airbyte/config.makeAirbyteAppRunner.yaml
+  - ./zaruba-tasks/make/airbyte/task.addAirbyte.yaml
+  - ./zaruba-tasks/make/airbyte/task.makeAirbyteApp.yaml
+  - ./zaruba-tasks/make/airbyte/task.makeAirbyteAppRunner.yaml
+
   - ./zaruba-tasks/make/cassandra/config.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/config.makeCassandraAppRunner.yaml
   - ./zaruba-tasks/make/cassandra/task.addCassandra.yaml
@@ -171,17 +177,8 @@ includes:
   - ./zaruba-tasks/make/containerRegistry/task.makeContainerRegistryApp.yaml
   - ./zaruba-tasks/make/containerRegistry/task.makeContainerRegistryAppRunner.yaml
 
-  - ./zaruba-tasks/make/dockerApp/config.makeDockerApp.yaml
-  - ./zaruba-tasks/make/dockerApp/config.makeDockerAppRunner.yaml
-  - ./zaruba-tasks/make/dockerApp/task.addDockerApp.yaml
-  - ./zaruba-tasks/make/dockerApp/task.makeDockerApp.yaml
-  - ./zaruba-tasks/make/dockerApp/task.makeDockerAppRunner.yaml
-
-  - ./zaruba-tasks/make/dockerCompose/config.makeDockerCompose.yaml
-  - ./zaruba-tasks/make/dockerCompose/config.makeDockerComposeRunner.yaml
-  - ./zaruba-tasks/make/dockerCompose/task.addDockerCompose.yaml
-  - ./zaruba-tasks/make/dockerCompose/task.makeDockerCompose.yaml
-  - ./zaruba-tasks/make/dockerCompose/task.makeDockerComposeRunner.yaml
+  - ./zaruba-tasks/make/dockerAppRunner/task.addDockerAppRunner.yaml
+  - ./zaruba-tasks/make/dockerComposeAppRunner/task.addDockerComposeAppRunner.yaml
 
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeploymentTask.yaml
@@ -287,6 +284,12 @@ includes:
   - ./zaruba-tasks/make/postgresql/task.makePostgresqlApp.yaml
   - ./zaruba-tasks/make/postgresql/task.makePostgresqlAppRunner.yaml
 
+  - ./zaruba-tasks/make/prefect/config.makePrefectApp.yaml
+  - ./zaruba-tasks/make/prefect/config.makePrefectAppRunner.yaml
+  - ./zaruba-tasks/make/prefect/task.addPrefect.yaml
+  - ./zaruba-tasks/make/prefect/task.makePrefectApp.yaml
+  - ./zaruba-tasks/make/prefect/task.makePrefectAppRunner.yaml
+
   - ./zaruba-tasks/make/pythonAppRunner/config.makePythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.addPythonAppRunner.yaml
   - ./zaruba-tasks/make/pythonAppRunner/task.makePythonAppRunner.yaml
@@ -302,6 +305,18 @@ includes:
   - ./zaruba-tasks/make/redis/task.addRedis.yaml
   - ./zaruba-tasks/make/redis/task.makeRedisApp.yaml
   - ./zaruba-tasks/make/redis/task.makeRedisAppRunner.yaml
+
+  - ./zaruba-tasks/make/simpleDockerApp/config.makeSimpleDockerApp.yaml
+  - ./zaruba-tasks/make/simpleDockerApp/config.makeSimpleDockerAppRunner.yaml
+  - ./zaruba-tasks/make/simpleDockerApp/task.addSimpleDockerApp.yaml
+  - ./zaruba-tasks/make/simpleDockerApp/task.makeSimpleDockerApp.yaml
+  - ./zaruba-tasks/make/simpleDockerApp/task.makeSimpleDockerAppRunner.yaml
+
+  - ./zaruba-tasks/make/simpleDockerComposeApp/config.makeSimpleDockerComposeApp.yaml
+  - ./zaruba-tasks/make/simpleDockerComposeApp/config.makeSimpleDockerComposeAppRunner.yaml
+  - ./zaruba-tasks/make/simpleDockerComposeApp/task.addSimpleDockerComposeApp.yaml
+  - ./zaruba-tasks/make/simpleDockerComposeApp/task.makeSimpleDockerComposeApp.yaml
+  - ./zaruba-tasks/make/simpleDockerComposeApp/task.makeSimpleDockerComposeAppRunner.yaml
 
   - ./zaruba-tasks/make/simpleGoApp/config.makeSimpleGoApp.yaml
   - ./zaruba-tasks/make/simpleGoApp/config.makeSimpleGoAppRunner.yaml

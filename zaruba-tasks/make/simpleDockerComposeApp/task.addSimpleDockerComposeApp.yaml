@@ -1,0 +1,6 @@
+tasks:
+
+  addSimpleDockerComposeApp:
+    icon: 🐳
+    dependencies:
+      - makeSimpleDockerComposeAppRunner

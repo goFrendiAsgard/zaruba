@@ -1,0 +1,100 @@
+# This file is inspired from https://github.com/PrefectHQ/prefect/blob/master/src/prefect/cli/docker-compose.yml to remain compatible with the official repository's file
+version: "3.7"
+
+services:
+
+  postgres:
+    image: "postgres:11"
+    hostname: postgres
+    container_name: ztplAppContainerNamePostgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ${LOCAL_VOLUME:-./volumes}/postgres:/var/lib/postgresql/data
+    restart: "on-failure"
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=150"
+    
+  hasura:
+    image: "hasura/graphql-engine:v2.1.1"
+    hostname: hasura
+    container_name: ztplAppContainerNameHasura
+    init: true
+    ports:
+      - "127.0.0.1:${HASURA_HOST_PORT:-3000}:3000"
+    command: "graphql-engine serve"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: ${DB_CONNECTION_URL}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_SERVER_PORT: "3000"
+      HASURA_GRAPHQL_QUERY_PLAN_CACHE_SIZE: 100
+      HASURA_GRAPHQL_LOG_LEVEL: "warn"
+      HASURA_GRAPHQL_V1_BOOLEAN_NULL_COLLAPSE: "true"
+    healthcheck:
+      test: wget -O - http://hasura:$${HASURA_GRAPHQL_SERVER_PORT}/healthz &>/dev/null || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 60
+      start_period: 1s 
+    restart: "on-failure"
+    depends_on:
+      - postgres
+  
+  graphql:
+    image: "prefecthq/server:core-1.1.0"
+    hostname: graphql
+    container_name: ztplAppContainerNameGraphql
+    command: bash -c "${PREFECT_SERVER_DB_CMD} && python src/prefect_server/services/graphql/server.py"
+    environment:
+      PREFECT_SERVER_DB_CMD: ${PREFECT_SERVER_DB_CMD:-"echo 'DATABASE MIGRATIONS SKIPPED'"}
+      PREFECT_SERVER__DATABASE__CONNECTION_URL: ${DB_CONNECTION_URL}
+      PREFECT_SERVER__HASURA__ADMIN_SECRET: ${PREFECT_SERVER__HASURA__ADMIN_SECRET:-hasura-secret-admin-secret}
+      PREFECT_SERVER__HASURA__HOST: hasura
+    restart: "on-failure"
+    depends_on:
+      - hasura
+  
+  towel:
+    image: "prefecthq/server:core-1.1.0"
+    command: "python src/prefect_server/services/towel/__main__.py"
+    environment:
+      PREFECT_SERVER__HASURA__ADMIN_SECRET: ${PREFECT_SERVER__HASURA__ADMIN_SECRET:-hasura-secret-admin-secret}
+      PREFECT_SERVER__HASURA__HOST: hasura
+    restart: "on-failure"
+    depends_on:
+      - graphql
+  
+  apollo:
+    image: "prefecthq/apollo:core-1.1.0"
+    hostname: apollo
+    container_name: ztplAppContainerNameApollo
+    ports:
+      - "${APOLLO_PORT:-4200}:4200"
+    command: bash -c "./post-start.sh && npm run serve"
+    environment:
+      HASURA_API_URL: http://hasura:3000/v1alpha1/graphql
+      PREFECT_API_URL: http://graphql:4201/graphql/
+      PREFECT_API_HEALTH_URL: http://graphql:4201/health
+      PREFECT_SERVER__TELEMETRY__ENABLED: "false"
+      GRAPHQL_SERVICE_HOST: http://graphql
+      GRAPHQL_SERVICE_PORT: 4201
+    restart: "on-failure"
+    depends_on:
+      - graphql
+  
+  ui:
+    image: "prefecthq/ui:core-1.1.0"
+    hostname: ui
+    container_name: ztplAppContainerName
+    ports:
+      - "${UI_PORT:-8080}:8080"
+    command: "/intercept.sh"
+    environment:
+      PREFECT_SERVER__APOLLO_URL: http://localhost:4200/graphql
+    restart: "on-failure"
+    depends_on:
+      - apollo
