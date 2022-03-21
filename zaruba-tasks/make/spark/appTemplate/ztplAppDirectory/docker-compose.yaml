@@ -7,7 +7,7 @@ services:
     image: docker.io/bitnami/spark:3
     hostname: spark
     container_name: ztplAppContainerName
-    restart: on-failure
+    restart: unless-stopped
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -21,7 +21,7 @@ services:
     image: docker.io/bitnami/spark:3
     hostname: spark-worker
     container_name: ztplAppContainerNameWorker
-    restart: on-failure
+    restart: unless-stopped
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark:7077

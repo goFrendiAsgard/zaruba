@@ -6,7 +6,7 @@ services:
     image: docker.io/gitlab/gitlab-ce:latest
     hostname: web
     container_name: ztplAppContainerNameWeb
-    restart: on-failure
+    restart: unless-stopped
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://ztplAppContainerNameWeb:${GITLAB_HTTP_PORT:-8929}';
@@ -27,7 +27,7 @@ services:
     image: docker.io/gitlab/gitlab-runner:latest
     hostname: gitlab-runner
     container_name: ztplAppContainerNameRunner
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - web
     volumes:

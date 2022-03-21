@@ -625,15 +625,21 @@ func (r *Runner) killByPid(pid int, ch chan error) {
 	var err error
 	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
 		r.sleep(300 * time.Millisecond)
-		err = syscall.Kill(pid, syscall.SIGINT)
+		if _, findErr := os.FindProcess(int(pid)); findErr == nil {
+			err = syscall.Kill(pid, syscall.SIGINT)
+		}
 	}
 	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
-		r.sleep(100 * time.Millisecond)
-		syscall.Kill(pid, syscall.SIGTERM)
+		r.sleep(10 * time.Second)
+		if _, findErr := os.FindProcess(int(pid)); findErr == nil {
+			syscall.Kill(pid, syscall.SIGTERM)
+		}
 	}
 	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
-		r.sleep(100 * time.Millisecond)
-		syscall.Kill(pid, syscall.SIGKILL)
+		r.sleep(10 * time.Second)
+		if _, findErr := os.FindProcess(int(pid)); findErr == nil {
+			syscall.Kill(pid, syscall.SIGKILL)
+		}
 	}
 	ch <- err
 }

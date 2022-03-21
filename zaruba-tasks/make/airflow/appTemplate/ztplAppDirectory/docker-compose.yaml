@@ -7,7 +7,7 @@ services:
     image: docker.io/bitnami/postgresql:10
     hostname: postgresql
     container_name: ztplAppContainerNamePostgresql
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - '${LOCAL_VOLUME:-./volumes}/postgresql:/bitnami/postgresql'
     environment:
@@ -21,7 +21,7 @@ services:
     image: docker.io/bitnami/redis:6.0
     hostname: redis
     container_name: ztplAppContainerNameRedis
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - '${LOCAL_VOLUME:-./volumes}/redis:/bitnami'
     environment:
@@ -32,7 +32,7 @@ services:
     image: docker.io/bitnami/airflow-scheduler:2
     hostname: airflow-scheduler
     container_name: ztplAppContainerNameScheduler
-    restart: on-failure
+    restart: unless-stopped
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -44,7 +44,7 @@ services:
     image: docker.io/bitnami/airflow-worker:2
     hostname: airflow-worker
     container_name: ztplAppContainerNameWorker
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - '${LOCAL_VOLUME:-./volumes}/airflow/dags:/opt/bitnami/airflow/dags'
     environment:
@@ -58,7 +58,7 @@ services:
     image: docker.io/bitnami/airflow:2
     hostname: airflow
     container_name: ztplAppContainerName
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - '${LOCAL_VOLUME:-./volumes}/airflow/dags:/opt/bitnami/airflow/dags'
     environment:

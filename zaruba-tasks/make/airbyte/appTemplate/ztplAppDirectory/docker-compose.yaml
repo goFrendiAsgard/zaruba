@@ -11,22 +11,22 @@ services:
   # hook in case we need to add init behavior
   # every root service (no depends_on) should depend on init
   init:
-    image: airbyte/init:${VERSION}
+    image: airbyte/init:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: init
-    command: /bin/sh -c "./scripts/create_mount_directories.sh /local_parent ${HACK_LOCAL_ROOT_PARENT} ${LOCAL_ROOT}"
+    command: /bin/sh -c "./scripts/create_mount_directories.sh /local_parent ${HACK_LOCAL_ROOT_PARENT:-/tmp} ${LOCAL_ROOT:-/tmp/airbyte_local}"
     environment:
-      - LOCAL_ROOT=${LOCAL_ROOT}
-      - HACK_LOCAL_ROOT_PARENT=${HACK_LOCAL_ROOT_PARENT}
+      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
+      - HACK_LOCAL_ROOT_PARENT=${HACK_LOCAL_ROOT_PARENT:-/tmp}
     volumes:
-      - ${HACK_LOCAL_ROOT_PARENT}:/local_parent
+      - ${LOCAL_VOLUME:-./volumes}/local_parent:/local_parent
 
   bootloader:
-    image: airbyte/bootloader:${VERSION}
+    image: airbyte/bootloader:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-bootloader
     environment:
-      - AIRBYTE_VERSION=${VERSION}
+      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
@@ -37,7 +37,7 @@ services:
       - RUN_DATABASE_MIGRATION_ON_STARTUP=${RUN_DATABASE_MIGRATION_ON_STARTUP}
 
   db:
-    image: airbyte/db:${VERSION}
+    image: airbyte/db:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-db
     restart: unless-stopped
@@ -51,20 +51,20 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_USER=${DATABASE_USER}
     volumes:
-      - db:/var/lib/postgresql/data
+      - ${LOCAL_VOLUME:-./volumes}/db:/var/lib/postgresql/data
 
   scheduler:
-    image: airbyte/scheduler:${VERSION}
+    image: airbyte/scheduler:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-scheduler
     restart: unless-stopped
     environment:
       - AIRBYTE_ROLE=${AIRBYTE_ROLE:-}
-      - AIRBYTE_VERSION=${VERSION}
+      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
-      - CONFIG_ROOT=${CONFIG_ROOT}
+      - CONFIG_ROOT=${CONFIG_ROOT:-/data}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_USER=${DATABASE_USER}
@@ -73,8 +73,8 @@ services:
       - JOB_MAIN_CONTAINER_CPU_REQUEST=${JOB_MAIN_CONTAINER_CPU_REQUEST}
       - JOB_MAIN_CONTAINER_MEMORY_LIMIT=${JOB_MAIN_CONTAINER_MEMORY_LIMIT}
       - JOB_MAIN_CONTAINER_MEMORY_REQUEST=${JOB_MAIN_CONTAINER_MEMORY_REQUEST}
-      - LOCAL_ROOT=${LOCAL_ROOT}
-      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT}
+      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
+      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT:-/tmp/airbyte_local}
       - LOG_LEVEL=${LOG_LEVEL}
       - NEW_SCHEDULER=${NEW_SCHEDULER}
       - SECRET_PERSISTENCE=${SECRET_PERSISTENCE}
@@ -85,24 +85,24 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
       - WEBAPP_URL=${WEBAPP_URL}
       - WORKER_ENVIRONMENT=${WORKER_ENVIRONMENT}
-      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT}
-      - WORKSPACE_ROOT=${WORKSPACE_ROOT}
+      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT:-airbyte_workspace}
+      - WORKSPACE_ROOT=${WORKSPACE_ROOT:-/tmp/workspace}
     volumes:
-      - data:${CONFIG_ROOT}
-      - workspace:${WORKSPACE_ROOT}
-      - ${LOCAL_ROOT}:${LOCAL_ROOT}
+      - ${LOCAL_VOLUME:-./volumes}/data:${CONFIG_ROOT:-/data}
+      - ${LOCAL_VOLUME:-./volumes}/workspace:${WORKSPACE_ROOT:-/tmp/workspace}
+      - ${LOCAL_VOLUME:-./volumes}/airbyte_local:${LOCAL_ROOT:-/tmp/airbyte_local}
 
   worker:
-    image: airbyte/worker:${VERSION}
+    image: airbyte/worker:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-worker
     restart: unless-stopped
     environment:
-      - AIRBYTE_VERSION=${VERSION}
+      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
-      - CONFIG_ROOT=${CONFIG_ROOT}
+      - CONFIG_ROOT=${CONFIG_ROOT:-/data}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_USER=${DATABASE_USER}
@@ -110,8 +110,8 @@ services:
       - JOB_MAIN_CONTAINER_CPU_REQUEST=${JOB_MAIN_CONTAINER_CPU_REQUEST}
       - JOB_MAIN_CONTAINER_MEMORY_LIMIT=${JOB_MAIN_CONTAINER_MEMORY_LIMIT}
       - JOB_MAIN_CONTAINER_MEMORY_REQUEST=${JOB_MAIN_CONTAINER_MEMORY_REQUEST}
-      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT}
-      - LOCAL_ROOT=${LOCAL_ROOT}
+      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT:-/tmp/airbyte_local}
+      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
       - LOG_LEVEL=${LOG_LEVEL}
       - MAX_CHECK_WORKERS=${MAX_CHECK_WORKERS}
       - MAX_DISCOVER_WORKERS=${MAX_DISCOVER_WORKERS}
@@ -124,26 +124,26 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
       - WEBAPP_URL=${WEBAPP_URL}
       - WORKER_ENVIRONMENT=${WORKER_ENVIRONMENT}
-      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT}
-      - WORKSPACE_ROOT=${WORKSPACE_ROOT}
+      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT:-airbyte_workspace}
+      - WORKSPACE_ROOT=${WORKSPACE_ROOT:-/tmp/workspace}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - workspace:${WORKSPACE_ROOT}
-      - ${LOCAL_ROOT}:${LOCAL_ROOT}
+      - ${LOCAL_VOLUME:-./volumes}/workspace:${WORKSPACE_ROOT:-/tmp/workspace}
+      - ${LOCAL_VOLUME:-./volumes}/airbyte_local:${LOCAL_ROOT:-/tmp/airbyte_local}
 
   server:
-    image: airbyte/server:${VERSION}
+    image: airbyte/server:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-server
     restart: unless-stopped
     environment:
       - AIRBYTE_ROLE=${AIRBYTE_ROLE:-}
-      - AIRBYTE_VERSION=${VERSION}
+      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
       - CONFIGS_DATABASE_MINIMUM_FLYWAY_MIGRATION_VERSION=${CONFIGS_DATABASE_MINIMUM_FLYWAY_MIGRATION_VERSION:-}
-      - CONFIG_ROOT=${CONFIG_ROOT}
+      - CONFIG_ROOT=${CONFIG_ROOT:-/data}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_USER=${DATABASE_USER}
@@ -159,16 +159,16 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
       - WEBAPP_URL=${WEBAPP_URL}
       - WORKER_ENVIRONMENT=${WORKER_ENVIRONMENT}
-      - WORKSPACE_ROOT=${WORKSPACE_ROOT}
+      - WORKSPACE_ROOT=${WORKSPACE_ROOT:-/tmp/workspace}
     ports:
       - 8001:8001
     volumes:
-      - workspace:${WORKSPACE_ROOT}
-      - data:${CONFIG_ROOT}
-      - ${LOCAL_ROOT}:${LOCAL_ROOT}
+      - ${LOCAL_VOLUME:-./volumes}/workspace:${WORKSPACE_ROOT:-/tmp/workspace}
+      - ${LOCAL_VOLUME:-./volumes}/data:${CONFIG_ROOT:-/data}
+      - ${LOCAL_VOLUME:-./volumes}/airbyte_local:${LOCAL_ROOT:-/tmp/airbyte_local}
 
   webapp:
-    image: airbyte/webapp:${VERSION}
+    image: airbyte/webapp:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-webapp
     restart: unless-stopped
@@ -176,7 +176,7 @@ services:
       - 8000:80
     environment:
       - AIRBYTE_ROLE=${AIRBYTE_ROLE:-}
-      - AIRBYTE_VERSION=${VERSION}
+      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
       - API_URL=${API_URL:-}
       - FULLSTORY=${FULLSTORY:-}
       - INTERNAL_API_HOST=${INTERNAL_API_HOST}
@@ -186,7 +186,7 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
 
   airbyte-temporal:
-    image: airbyte/temporal:${VERSION}
+    image: airbyte/temporal:${VERSION:-0.35.53-alpha}
     logging: *default-logging
     container_name: airbyte-temporal
     restart: unless-stopped
@@ -201,15 +201,15 @@ services:
       - POSTGRES_SEEDS=${DATABASE_HOST}
       - POSTGRES_USER=${DATABASE_USER}
     volumes:
-      - ./temporal/dynamicconfig:/etc/temporal/config/dynamicconfig
+      - ${LOCAL_VOLUME:-./volumes}/temporal/dynamicconfig:/etc/temporal/config/dynamicconfig
 
 volumes:
   workspace:
-    name: ${WORKSPACE_DOCKER_MOUNT}
+    name: ${WORKSPACE_DOCKER_MOUNT:-airbyte_workspace}
   # the data volume is only needed for backward compatibility; when users upgrade
   # from an old Airbyte version that relies on file-based configs, the server needs
   # to read this volume to copy their configs to the database
   data:
-    name: ${DATA_DOCKER_MOUNT}
+    name: ${DATA_DOCKER_MOUNT:-airbyte_data}
   db:
-    name: ${DB_DOCKER_MOUNT}
+    name: ${DB_DOCKER_MOUNT:-airbyte_db}
