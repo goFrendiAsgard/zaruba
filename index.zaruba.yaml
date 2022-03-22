@@ -37,6 +37,7 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.preparePlayground.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.pretest.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testAddComponents.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testAirbyte.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testAirflow.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testApps.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testCassandra.yaml
@@ -58,6 +59,7 @@ includes:
   - ./zaruba-tasks/zaruba/test/playground/task.testMysql.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testNginx.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPostgresql.yaml
+  - ./zaruba-tasks/zaruba/test/playground/task.testPrefect.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushImages.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testPushMeltanoImage.yaml
   - ./zaruba-tasks/zaruba/test/playground/task.testRedis.yaml

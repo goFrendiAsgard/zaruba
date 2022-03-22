@@ -1,0 +1,15 @@
+tasks:
+
+  testAirbyte:
+    icon: 🧪
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
+    dependencies:
+      - pretest
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please startProvoAirbyte -t
+        sleep 5
+        ../zaruba please stopProvoAirbyteContainer

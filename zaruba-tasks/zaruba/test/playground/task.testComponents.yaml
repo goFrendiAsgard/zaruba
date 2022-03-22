@@ -4,6 +4,7 @@ tasks:
     icon: 🧪
     dependencies:
       - testAirflow
+      - testAirbyte
       - testApps
       - testCassandra
       - testDockerApp
@@ -19,6 +20,7 @@ tasks:
       - testMysql
       - testNginx
       - testPostgresql
+      - testPrefect
       - testRedis
       - testRabbitmq
       - testSpark

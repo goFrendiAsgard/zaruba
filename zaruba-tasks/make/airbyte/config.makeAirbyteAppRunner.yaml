@@ -5,12 +5,8 @@ configs:
     defaultAppDirectory: '{{ .ProjectName }}Airbyte'
     defaultAppPorts: |
       [
-        "{{ .Template ".GetEnv \\\"ZOOKEEPER_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"Airbyte_JMX_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"Airbyte_LISTENER_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"SCHEMA_REGISTRY_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"CONNECT_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"CONTROL_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"KSQL_DB_PORT\\\"" }}",
-        "{{ .Template ".GetEnv \\\"REST_PROXY\\\"" }}"
+        "{{ .Template ".GetEnv \\\"SERVER_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"WEB_PORT\\\"" }}",
+        "{{ .Template ".GetEnv \\\"TEMPORAL_PORT\\\"" }}"
       ]
+   
