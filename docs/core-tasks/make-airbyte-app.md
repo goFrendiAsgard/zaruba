@@ -516,7 +516,7 @@ Value:
 
 Value:
 
-    {{ .GeneratedRandomName }}
+    {{ .ProjectName }}Airbyte
 
 
 ### Configs.defaultAppPorts

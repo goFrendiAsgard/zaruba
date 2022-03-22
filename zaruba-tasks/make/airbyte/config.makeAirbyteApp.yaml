@@ -1,6 +1,7 @@
 configs:
  
   makeAirbyteApp:
+    defaultAppDirectory: '{{ .ProjectName }}Airbyte'
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/airbyte/appTemplate"
