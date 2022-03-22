@@ -1,3 +1,4 @@
+# https://github.com/airbytehq/airbyte/blob/master/docker-compose.yaml
 version: "3.7"
 #https://github.com/compose-spec/compose-spec/blob/master/spec.md#using-extensions-as-fragments
 x-logging: &default-logging
@@ -5,28 +6,29 @@ x-logging: &default-logging
     max-size: "100m"
     max-file: "5"
   driver: json-file
-
 services:
 
   # hook in case we need to add init behavior
   # every root service (no depends_on) should depend on init
   init:
-    image: airbyte/init:${VERSION:-0.35.53-alpha}
+    image: airbyte/init:${VERSION}
     logging: *default-logging
-    container_name: init
-    command: /bin/sh -c "./scripts/create_mount_directories.sh /local_parent ${HACK_LOCAL_ROOT_PARENT:-/tmp} ${LOCAL_ROOT:-/tmp/airbyte_local}"
+    hostname: init
+    container_name: ztplAppContainerNameInit
+    command: /bin/sh -c "./scripts/create_mount_directories.sh /local_parent ${HACK_LOCAL_ROOT_PARENT} ${LOCAL_ROOT}"
     environment:
-      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
-      - HACK_LOCAL_ROOT_PARENT=${HACK_LOCAL_ROOT_PARENT:-/tmp}
+      - LOCAL_ROOT=${LOCAL_ROOT}
+      - HACK_LOCAL_ROOT_PARENT=${HACK_LOCAL_ROOT_PARENT}
     volumes:
-      - ${LOCAL_VOLUME:-./volumes}/local_parent:/local_parent
+      - ${HACK_LOCAL_ROOT_PARENT}:/local_parent
 
   bootloader:
-    image: airbyte/bootloader:${VERSION:-0.35.53-alpha}
+    image: airbyte/bootloader:${VERSION}
     logging: *default-logging
-    container_name: airbyte-bootloader
+    hostname: bootloader
+    container_name: ztplAppContainerNameBootloader
     environment:
-      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
+      - AIRBYTE_VERSION=${VERSION}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
@@ -37,9 +39,10 @@ services:
       - RUN_DATABASE_MIGRATION_ON_STARTUP=${RUN_DATABASE_MIGRATION_ON_STARTUP}
 
   db:
-    image: airbyte/db:${VERSION:-0.35.53-alpha}
+    image: airbyte/db:${VERSION}
     logging: *default-logging
-    container_name: airbyte-db
+    hostname: db
+    container_name: ztplAppContainerNameDb
     restart: unless-stopped
     environment:
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
@@ -54,17 +57,18 @@ services:
       - ${LOCAL_VOLUME:-./volumes}/db:/var/lib/postgresql/data
 
   scheduler:
-    image: airbyte/scheduler:${VERSION:-0.35.53-alpha}
+    image: airbyte/scheduler:${VERSION}
     logging: *default-logging
-    container_name: airbyte-scheduler
+    hostname: scheduler
+    container_name: ztplAppContainerNameScheduler
     restart: unless-stopped
     environment:
       - AIRBYTE_ROLE=${AIRBYTE_ROLE:-}
-      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
+      - AIRBYTE_VERSION=${VERSION}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
-      - CONFIG_ROOT=${CONFIG_ROOT:-/data}
+      - CONFIG_ROOT=${CONFIG_ROOT}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_USER=${DATABASE_USER}
@@ -73,8 +77,8 @@ services:
       - JOB_MAIN_CONTAINER_CPU_REQUEST=${JOB_MAIN_CONTAINER_CPU_REQUEST}
       - JOB_MAIN_CONTAINER_MEMORY_LIMIT=${JOB_MAIN_CONTAINER_MEMORY_LIMIT}
       - JOB_MAIN_CONTAINER_MEMORY_REQUEST=${JOB_MAIN_CONTAINER_MEMORY_REQUEST}
-      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
-      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT:-/tmp/airbyte_local}
+      - LOCAL_ROOT=${LOCAL_ROOT}
+      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT}
       - LOG_LEVEL=${LOG_LEVEL}
       - NEW_SCHEDULER=${NEW_SCHEDULER}
       - SECRET_PERSISTENCE=${SECRET_PERSISTENCE}
@@ -85,24 +89,26 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
       - WEBAPP_URL=${WEBAPP_URL}
       - WORKER_ENVIRONMENT=${WORKER_ENVIRONMENT}
-      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT:-airbyte_workspace}
-      - WORKSPACE_ROOT=${WORKSPACE_ROOT:-/tmp/workspace}
+      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT}
+      - WORKSPACE_ROOT=${WORKSPACE_ROOT}
     volumes:
-      - ${LOCAL_VOLUME:-./volumes}/data:${CONFIG_ROOT:-/data}
-      - ${LOCAL_VOLUME:-./volumes}/workspace:${WORKSPACE_ROOT:-/tmp/workspace}
-      - ${LOCAL_VOLUME:-./volumes}/airbyte_local:${LOCAL_ROOT:-/tmp/airbyte_local}
+      - data:${CONFIG_ROOT}
+      - workspace:${WORKSPACE_ROOT}
+      - ${LOCAL_ROOT}:${LOCAL_ROOT}
 
   worker:
-    image: airbyte/worker:${VERSION:-0.35.53-alpha}
+    image: airbyte/worker:${VERSION}
     logging: *default-logging
-    container_name: airbyte-worker
+    hostname: worker
+    container_name: ztplAppContainerNameWorker
     restart: unless-stopped
     environment:
-      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
+      - AIRBYTE_VERSION=${VERSION}
+      - AUTO_DISABLE_FAILING_CONNECTIONS=${AUTO_DISABLE_FAILING_CONNECTIONS}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
-      - CONFIG_ROOT=${CONFIG_ROOT:-/data}
+      - CONFIG_ROOT=${CONFIG_ROOT}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_USER=${DATABASE_USER}
@@ -110,8 +116,8 @@ services:
       - JOB_MAIN_CONTAINER_CPU_REQUEST=${JOB_MAIN_CONTAINER_CPU_REQUEST}
       - JOB_MAIN_CONTAINER_MEMORY_LIMIT=${JOB_MAIN_CONTAINER_MEMORY_LIMIT}
       - JOB_MAIN_CONTAINER_MEMORY_REQUEST=${JOB_MAIN_CONTAINER_MEMORY_REQUEST}
-      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT:-/tmp/airbyte_local}
-      - LOCAL_ROOT=${LOCAL_ROOT:-/tmp/airbyte_local}
+      - LOCAL_DOCKER_MOUNT=${LOCAL_DOCKER_MOUNT}
+      - LOCAL_ROOT=${LOCAL_ROOT}
       - LOG_LEVEL=${LOG_LEVEL}
       - MAX_CHECK_WORKERS=${MAX_CHECK_WORKERS}
       - MAX_DISCOVER_WORKERS=${MAX_DISCOVER_WORKERS}
@@ -124,26 +130,27 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
       - WEBAPP_URL=${WEBAPP_URL}
       - WORKER_ENVIRONMENT=${WORKER_ENVIRONMENT}
-      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT:-airbyte_workspace}
-      - WORKSPACE_ROOT=${WORKSPACE_ROOT:-/tmp/workspace}
+      - WORKSPACE_DOCKER_MOUNT=${WORKSPACE_DOCKER_MOUNT}
+      - WORKSPACE_ROOT=${WORKSPACE_ROOT}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${LOCAL_VOLUME:-./volumes}/workspace:${WORKSPACE_ROOT:-/tmp/workspace}
-      - ${LOCAL_VOLUME:-./volumes}/airbyte_local:${LOCAL_ROOT:-/tmp/airbyte_local}
+      - workspace:${WORKSPACE_ROOT}
+      - ${LOCAL_ROOT}:${LOCAL_ROOT}
 
   server:
-    image: airbyte/server:${VERSION:-0.35.53-alpha}
+    image: airbyte/server:${VERSION}
     logging: *default-logging
-    container_name: airbyte-server
+    hostname: airbyte-server
+    container_name: ztplAppContainerNameServer
     restart: unless-stopped
     environment:
       - AIRBYTE_ROLE=${AIRBYTE_ROLE:-}
-      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
+      - AIRBYTE_VERSION=${VERSION}
       - CONFIG_DATABASE_PASSWORD=${CONFIG_DATABASE_PASSWORD:-}
       - CONFIG_DATABASE_URL=${CONFIG_DATABASE_URL:-}
       - CONFIG_DATABASE_USER=${CONFIG_DATABASE_USER:-}
       - CONFIGS_DATABASE_MINIMUM_FLYWAY_MIGRATION_VERSION=${CONFIGS_DATABASE_MINIMUM_FLYWAY_MIGRATION_VERSION:-}
-      - CONFIG_ROOT=${CONFIG_ROOT:-/data}
+      - CONFIG_ROOT=${CONFIG_ROOT}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_URL=${DATABASE_URL}
       - DATABASE_USER=${DATABASE_USER}
@@ -159,24 +166,25 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
       - WEBAPP_URL=${WEBAPP_URL}
       - WORKER_ENVIRONMENT=${WORKER_ENVIRONMENT}
-      - WORKSPACE_ROOT=${WORKSPACE_ROOT:-/tmp/workspace}
+      - WORKSPACE_ROOT=${WORKSPACE_ROOT}
     ports:
-      - ${SERVER_PORT:-8021}:8001
+      - ${SERVER_PORT:-8001}:8001
     volumes:
-      - ${LOCAL_VOLUME:-./volumes}/workspace:${WORKSPACE_ROOT:-/tmp/workspace}
-      - ${LOCAL_VOLUME:-./volumes}/data:${CONFIG_ROOT:-/data}
-      - ${LOCAL_VOLUME:-./volumes}/airbyte_local:${LOCAL_ROOT:-/tmp/airbyte_local}
+      - workspace:${WORKSPACE_ROOT}
+      - data:${CONFIG_ROOT}
+      - ${LOCAL_ROOT}:${LOCAL_ROOT}
 
   webapp:
-    image: airbyte/webapp:${VERSION:-0.35.53-alpha}
+    image: airbyte/webapp:${VERSION}
     logging: *default-logging
-    container_name: airbyte-webapp
+    hostname: webapp
+    container_name: ztplAppContainerNameWebapp
     restart: unless-stopped
     ports:
-      - ${WEB_PORT:-8020}:80
+      - ${WEB_PORT:-80}:80
     environment:
       - AIRBYTE_ROLE=${AIRBYTE_ROLE:-}
-      - AIRBYTE_VERSION=${VERSION:-0.35.53-alpha}
+      - AIRBYTE_VERSION=${VERSION}
       - API_URL=${API_URL:-}
       - FULLSTORY=${FULLSTORY:-}
       - INTERNAL_API_HOST=${INTERNAL_API_HOST}
@@ -186,9 +194,10 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
 
   airbyte-temporal:
-    image: airbyte/temporal:${VERSION:-0.35.53-alpha}
+    image: airbyte/temporal:${VERSION}
     logging: *default-logging
-    container_name: airbyte-temporal
+    hostname: airbyte-temporal
+    container_name: ztplAppContainerNameTemporal
     restart: unless-stopped
     ports:
       - ${TEMPORAL_PORT:-7233}:7233
@@ -201,15 +210,15 @@ services:
       - POSTGRES_SEEDS=${DATABASE_HOST}
       - POSTGRES_USER=${DATABASE_USER}
     volumes:
-      - ${LOCAL_VOLUME:-./volumes}/temporal/dynamicconfig:/etc/temporal/config/dynamicconfig
+      - ./temporal/dynamicconfig:/etc/temporal/config/dynamicconfig
 
 volumes:
   workspace:
-    name: ${WORKSPACE_DOCKER_MOUNT:-airbyte_workspace}
+    name: ${WORKSPACE_DOCKER_MOUNT}
   # the data volume is only needed for backward compatibility; when users upgrade
   # from an old Airbyte version that relies on file-based configs, the server needs
   # to read this volume to copy their configs to the database
   data:
-    name: ${DATA_DOCKER_MOUNT:-airbyte_data}
+    name: ${DATA_DOCKER_MOUNT}
   db:
-    name: ${DB_DOCKER_MOUNT:-airbyte_db}
+    name: ${DB_DOCKER_MOUNT}
