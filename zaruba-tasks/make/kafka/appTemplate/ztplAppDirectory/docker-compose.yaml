@@ -152,7 +152,7 @@ services:
     image: confluentinc/ksqldb-examples:7.0.1
     hostname: ksql-datagen
     container_name: ztplAppContainerNameKsqldbDatagen
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - ksqldb-server
       - broker
@@ -173,9 +173,9 @@ services:
 
   rest-proxy:
     image: confluentinc/cp-kafka-rest:7.0.1
-    hostname: unless-stopped
+    hostname: rest-proxy
     container_name: ztplAppContainerNameRestProxy
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - broker
       - schema-registry
