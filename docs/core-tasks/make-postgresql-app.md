@@ -516,7 +516,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Posgresql
+    {{ .ProjectName }}Postgresql
 
 
 ### Configs.defaultAppPorts

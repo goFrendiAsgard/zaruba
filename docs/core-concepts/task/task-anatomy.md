@@ -406,34 +406,34 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 Job Starting...
- Elapsed Time: 1.3µs
- Current Time: 20:29:16
+ Elapsed Time: 3.227µs
+ Current Time: 18:06:24
   Run  'updateProjectLinks' command on /home/gofrendi/zaruba/docs
-   updateProjectLinks    20:29:16.664 🎉🎉🎉
-   updateProjectLinks    20:29:16.664 Links updated
+   updateProjectLinks    18:06:24.172 🎉🎉🎉
+   updateProjectLinks    18:06:24.172 Links updated
   Successfully running  'updateProjectLinks' command
   Run  'serveHttp' service on /home/gofrendi/zaruba/docs
   Check  'serveHttp' readiness on /home/gofrendi/zaruba/docs
-   serveHttp             20:29:16.769 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-   serveHttp             20:29:16.769 You can open http://localhost:8080
-   serveHttp             20:29:16.769 🔎 Waiting for port '8080'
-   serveHttp             20:29:16.77  🔎 Port '8080' is ready
-   serveHttp             20:29:16.77  🎉🎉🎉
-   serveHttp             20:29:16.77  📜 Task 'serveHttp' is ready
+   serveHttp             18:06:24.276 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+   serveHttp             18:06:24.276 You can open http://localhost:8080
+   serveHttp             18:06:24.277 🔎 Waiting for port '8080'
+   serveHttp             18:06:24.278 🔎 Port '8080' is ready
+   serveHttp             18:06:24.278 🎉🎉🎉
+   serveHttp             18:06:24.278 📜 Task 'serveHttp' is ready
   Successfully running  'serveHttp' readiness check
   Job Running...
- Elapsed Time: 209.867668ms
- Current Time: 20:29:16
+ Elapsed Time: 209.92466ms
+ Current Time: 18:06:24
  Active Process:
-   * (PID=24536)  'serveHttp' service
+   * (PID=11281)  'serveHttp' service
   
   Job Complete!!! 
   Terminating
-  Kill  'serveHttp' service (PID=24536)
+  Kill  'serveHttp' service (PID=11281)
    'serveHttp' service exited: signal: interrupt
   Job Ended...
- Elapsed Time: 22.721527164s
- Current Time: 20:29:39
+ Elapsed Time: 22.722886377s
+ Current Time: 18:06:46
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>
