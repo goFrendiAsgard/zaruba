@@ -1,7 +1,7 @@
 configs:
  
   makePostgresqlApp:
-    defaultAppDirectory: '{{ .ProjectName }}Posgresql'
+    defaultAppDirectory: '{{ .ProjectName }}Postgresql'
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/postgresql/appTemplate"

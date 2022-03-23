@@ -3,7 +3,7 @@ configs:
   makePostgresqlAppRunner:
     appIcon: 🐘
     appCheckCommand: pg_isready -U "{{ .Template ".GetEnv \"POSTGRESQL_USERNAME\"" }}"
-    defaultAppDirectory: '{{ .ProjectName }}Posgresql'
+    defaultAppDirectory: '{{ .ProjectName }}Postgresql'
     defaultAppPorts: |
       [
         "5432"
