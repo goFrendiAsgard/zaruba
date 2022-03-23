@@ -6,7 +6,7 @@ then
     cp "${HOME}/.tmux.conf" "${HOME}/.tmux.conf.bak"
 fi
 
-cp "${ZARUBA_HOME}/setup/templates/tmux.conf" "${ZARUBA_HOME}/.tmux.conf"
+cp "${ZARUBA_HOME}/setup/templates/tmux.conf" "${HOME}/.tmux.conf"
 
 echo "🎉🎉🎉"
 echo "Setup complete."
