@@ -1,30 +1,5 @@
 configs:
 
-  ztplDeploymentName:
-    pulumiStack: '{{ if .GetValue "pulumiStack" }}{{ .GetValue "pulumiStack" }}{{ else }}dev{{ end }}'
-    pulumiUseLocalBackend: '{{ .GetValue "pulumiUseLocalBackend" }}'
-    pulumiSelectStack: |
-      {{ if .Util.Bool.IsTrue (.GetConfig "pulumiUseLocalBackend") -}}
-      mkdir -p ./pulumiLock
-      PULUMI_BACKEND_URL="file://./pulumiLock"
-      {{ end -}}
-      pulumi stack select "${ZARUBA_CONFIG_PULUMI_STACK}" || pulumi stack init "${ZARUBA_CONFIG_PULUMI_STACK}"
-
-  previewZtplDeploymentName:
-    start: |
-      {{ .GetConfig "pulumiSelectStack" }}
-      pulumi preview
-
-  deployZtplDeploymentName:
-    start: |
-      {{ .GetConfig "pulumiSelectStack" }}
-      pulumi up -y
-
-  destroyZtplDeploymentName: 
-    start: |
-      {{ .GetConfig "pulumiSelectStack" }}
-      pulumi destroy -y
-
   prepareZtplDeploymentName:
     useImagePrefix: true
     imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'

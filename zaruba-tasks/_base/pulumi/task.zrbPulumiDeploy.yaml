@@ -1,0 +1,9 @@
+tasks:
+
+  zrbPulumiDeploy:
+    icon: 🦆
+    extend: zrbRunShellScript
+    timeout: 1h
+    configRefs:
+      - zrbPulumi
+      - zrbPulumiDeploy

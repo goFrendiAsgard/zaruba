@@ -43,6 +43,14 @@ includes:
   - ./zaruba-tasks/_base/setKubeContext/config.zrbSetKubeContext.yaml
   - ./zaruba-tasks/_base/setKubeContext/task.zrbSetKubeContext.yaml
 
+  - ./zaruba-tasks/_base/pulumi/config.zrbPulumi.yaml
+  - ./zaruba-tasks/_base/pulumi/config.zrbPulumiDeploy.yaml
+  - ./zaruba-tasks/_base/pulumi/config.zrbPulumiDestroy.yaml
+  - ./zaruba-tasks/_base/pulumi/config.zrbPulumiPreview.yaml
+  - ./zaruba-tasks/_base/pulumi/task.zrbPulumiDeploy.yaml
+  - ./zaruba-tasks/_base/pulumi/task.zrbPulumiDestroy.yaml
+  - ./zaruba-tasks/_base/pulumi/task.zrbPulumiPreview.yaml
+
   - ./zaruba-tasks/_base/run/config.zrbRunNodeJsScript.yaml
   - ./zaruba-tasks/_base/run/config.zrbRunScript.yaml
   - ./zaruba-tasks/_base/run/config.zrbRunPythonScript.yaml

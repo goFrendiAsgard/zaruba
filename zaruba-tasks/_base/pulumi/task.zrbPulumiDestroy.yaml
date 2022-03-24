@@ -1,0 +1,9 @@
+tasks:
+
+  zrbPulumiDestroy:
+    icon: 🦆
+    extend: zrbRunShellScript
+    timeout: 1h
+    configRefs:
+      - zrbPulumi
+      - zrbPulumiDestroy

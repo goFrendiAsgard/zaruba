@@ -1,0 +1,6 @@
+configs:
+
+  zrbPulumiPreview:
+    _start: |
+      {{ .GetConfig "_preparePulumi" }}
+      pulumi preview

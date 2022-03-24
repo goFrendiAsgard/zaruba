@@ -62,20 +62,20 @@ zaruba please printHello
  
 ```````
 Job Starting...
- Elapsed Time: 1.478µs
- Current Time: 21:06:52
+ Elapsed Time: 1.398µs
+ Current Time: 22:13:34
   Run  'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/low-level
-   printHello            21:06:52.131 hello
+   printHello            22:13:34.162 hello
   Successfully running  'printHello' command
   Job Running...
- Elapsed Time: 119.477077ms
- Current Time: 21:06:52
+ Elapsed Time: 114.325055ms
+ Current Time: 22:13:34
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 230.873245ms
- Current Time: 21:06:52
+ Elapsed Time: 225.295275ms
+ Current Time: 22:13:34
 zaruba please printHello
 ```````
 </details>
@@ -107,20 +107,20 @@ zaruba please printHello
  
 ```````
 Job Starting...
- Elapsed Time: 1.287µs
- Current Time: 21:06:52
+ Elapsed Time: 1.177µs
+ Current Time: 22:13:34
   Run  'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-shell
-   printHello            21:06:52.584 hello
+   printHello            22:13:34.56  hello
   Successfully running  'printHello' command
   Job Running...
- Elapsed Time: 122.392731ms
- Current Time: 21:06:52
+ Elapsed Time: 119.055858ms
+ Current Time: 22:13:34
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 322.961427ms
- Current Time: 21:06:52
+ Elapsed Time: 320.186303ms
+ Current Time: 22:13:34
 zaruba please printHello
 ```````
 </details>
@@ -151,20 +151,20 @@ zaruba please printHello
  
 ```````
 Job Starting...
- Elapsed Time: 1.19µs
- Current Time: 21:06:53
+ Elapsed Time: 1.411µs
+ Current Time: 22:13:35
   Run  'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-python
-   printHello            21:06:53.108 hello
+   printHello            22:13:35.045 hello
   Successfully running  'printHello' command
   Job Running...
- Elapsed Time: 115.74211ms
- Current Time: 21:06:53
+ Elapsed Time: 115.911578ms
+ Current Time: 22:13:35
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 316.966894ms
- Current Time: 21:06:53
+ Elapsed Time: 317.451259ms
+ Current Time: 22:13:35
 zaruba please printHello
 ```````
 </details>

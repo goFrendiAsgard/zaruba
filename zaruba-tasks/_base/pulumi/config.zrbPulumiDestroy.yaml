@@ -1,0 +1,6 @@
+configs:
+
+  zrbPulumiDestroy:
+    _start: |
+      {{ .GetConfig "_preparePulumi" }}
+      pulumi destroy -y

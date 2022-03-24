@@ -1,0 +1,6 @@
+configs:
+
+  zrbPulumiDeploy:
+    _start: |
+      {{ .GetConfig "_preparePulumi" }}
+      pulumi up -y
