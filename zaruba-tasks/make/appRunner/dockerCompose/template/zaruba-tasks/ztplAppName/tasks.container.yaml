@@ -10,6 +10,22 @@ tasks:
       - ztplAppName
     envRefs: 
       - ztplAppName
+  
+  buildZtplAppNameImage:
+    icon: 🏭
+    extend: zrbBuildDockerCompose
+    location: ztplAppTaskLocation
+    envRefs: 
+      - ztplAppName
+
+  pushZtplAppNameImage:
+    icon: 📤
+    extend: zrbPushDockerCompose
+    location: ztplAppTaskLocation
+    dependencies:
+      - buildZtplAppNameImage
+    envRefs: 
+      - ztplAppName
 
   stopZtplAppNameContainer:
     icon: ✋

@@ -1,0 +1,4 @@
+configs:
+
+  zrbPushDockerCompose:
+    start: docker-compose push

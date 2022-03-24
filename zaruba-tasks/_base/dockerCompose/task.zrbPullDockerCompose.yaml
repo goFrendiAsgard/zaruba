@@ -1,0 +1,11 @@
+tasks:
+
+  zrbPullDockerCompose:
+    icon: 🐳
+    private: true
+    description: |
+      Pull docker compose.
+    extend: zrbRunShellScript
+    dependencies:
+      - updateProjectLinks
+    configRef: zrbPullDockerCompose

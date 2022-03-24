@@ -1,0 +1,4 @@
+configs:
+
+  zrbBuildDockerCompose:
+    start: docker-compose build

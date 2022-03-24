@@ -4,12 +4,11 @@ configs:
     pulumiStack: '{{ if .GetValue "pulumiStack" }}{{ .GetValue "pulumiStack" }}{{ else }}dev{{ end }}'
     pulumiUseLocalBackend: '{{ .GetValue "pulumiUseLocalBackend" }}'
     pulumiSelectStack: |
-      PULUMI_STACK='{{ .GetConfig "pulumiStack" }}'
       {{ if .Util.Bool.IsTrue (.GetConfig "pulumiUseLocalBackend") -}}
       mkdir -p ./pulumiLock
       PULUMI_BACKEND_URL="file://./pulumiLock"
       {{ end -}}
-      pulumi stack select "${PULUMI_STACK}" || pulumi stack init "${PULUMI_STACK}"
+      pulumi stack select "${ZARUBA_CONFIG_PULUMI_STACK}" || pulumi stack init "${ZARUBA_CONFIG_PULUMI_STACK}"
 
   previewZtplDeploymentName:
     start: |
@@ -41,12 +40,10 @@ configs:
       source ./venv/bin/activate
       pip install -r requirements.txt
       DEPLOYMENT_CONFIG={}
-      NAMESPACE='{{ .GetConfig "namespace" }}'
       IMAGE_NAME="{{ .GetDockerImageName }}"
       IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
       RAW_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
       RAW_PORTS='{{ .GetConfig "ports" }}'
-      REPLICA_COUNT='{{ .GetConfig "replicaCount" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
       echo "${_YELLOW}🚧 Deployment Config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
