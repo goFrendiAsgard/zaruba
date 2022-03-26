@@ -22,4 +22,6 @@ tasks:
       - updateProjectLinks
       - zrbCreateDockerNetwork
     configRefs: 
+      - zrbDocker
+      - zrbPrepareDockerComposeEnv
       - zrbStartDockerCompose

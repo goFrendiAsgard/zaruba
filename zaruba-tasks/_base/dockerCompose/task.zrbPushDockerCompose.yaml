@@ -8,4 +8,7 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
-    configRef: zrbPushDockerCompose
+    configRefs: 
+      - zrbDocker
+      - zrbPrepareDockerComposeEnv
+      - zrbPushDockerCompose

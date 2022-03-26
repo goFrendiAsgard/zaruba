@@ -157,6 +157,7 @@ Value:
     then
       {{ .GetConfig "_startEnv" }}
       echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+      {{ .GetConfig "prepareDockerComposeEnv" }}
       docker-compose up -d
     else
       echo "🐳 ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
@@ -220,6 +221,19 @@ Value:
 ### Configs.finish
 
 
+### Configs.imageName
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
+### Configs.imageTag
+
+
 ### Configs.localhost
 
 Value:
@@ -228,6 +242,14 @@ Value:
 
 
 ### Configs.ports
+
+
+### Configs.prepareDockerComposeEnv
+
+Value:
+
+    export DOCKER_COMPOSE_IMAGE_NAME="{{ .GetDockerImageName }}"
+    export DOCKER_COMPOSE_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
 
 
 ### Configs.runInLocal
@@ -265,6 +287,13 @@ Value:
 
 
 ### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.useImagePrefix
 
 Value:
 

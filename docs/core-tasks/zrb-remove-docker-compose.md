@@ -103,6 +103,19 @@ Value:
 ### Configs.finish
 
 
+### Configs.imageName
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
+### Configs.imageTag
+
+
 ### Configs.setup
 
 
@@ -135,6 +148,13 @@ Value:
 
 
 ### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.useImagePrefix
 
 Value:
 

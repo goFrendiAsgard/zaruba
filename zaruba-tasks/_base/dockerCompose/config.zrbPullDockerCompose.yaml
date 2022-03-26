@@ -1,4 +1,6 @@
 configs:
 
   zrbPullDockerCompose:
-    start: docker-compose pull
+    start: |
+      {{ .GetConfig "prepareDockerComposeEnv" }}
+      docker-compose pull

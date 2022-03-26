@@ -1,0 +1,1 @@
+FROM airbyte/webapp:0.35.53-alpha

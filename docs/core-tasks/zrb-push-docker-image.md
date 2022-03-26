@@ -148,7 +148,7 @@ Value:
 
     DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
     DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
-    echo "${DOCKER_IMAGE_NAME}"
+    echo "${_BOLD}${_YELLOW}Push Image ${DOCKER_IMAGE_NAME}${_NORMAL}"
     if [ ! -z "${DOCKER_IMAGE_TAG}" ]
     then
       docker push "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"

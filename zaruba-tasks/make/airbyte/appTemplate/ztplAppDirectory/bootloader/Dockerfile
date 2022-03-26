@@ -1,0 +1,1 @@
+FROM airbyte/bootloader:0.35.53-alpha

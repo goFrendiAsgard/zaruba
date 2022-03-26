@@ -7,6 +7,7 @@ configs:
       then
         {{ .GetConfig "_startEnv" }}
         echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+        {{ .GetConfig "prepareDockerComposeEnv" }}
         docker-compose up -d
       else
         echo "🐳 ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"

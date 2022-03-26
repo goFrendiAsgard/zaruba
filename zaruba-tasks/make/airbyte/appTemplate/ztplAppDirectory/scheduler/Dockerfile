@@ -1,0 +1,1 @@
+FROM airbyte/scheduler:0.35.53-alpha

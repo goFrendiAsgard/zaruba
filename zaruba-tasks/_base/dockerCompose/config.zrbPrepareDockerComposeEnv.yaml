@@ -1,0 +1,6 @@
+configs:
+
+  zrbPrepareDockerComposeEnv:
+    prepareDockerComposeEnv: |
+      export DOCKER_COMPOSE_IMAGE_NAME="{{ .GetDockerImageName }}"
+      export DOCKER_COMPOSE_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"

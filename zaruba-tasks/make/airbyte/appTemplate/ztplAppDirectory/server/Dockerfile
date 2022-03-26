@@ -1,0 +1,1 @@
+FROM airbyte/server:0.35.53-alpha

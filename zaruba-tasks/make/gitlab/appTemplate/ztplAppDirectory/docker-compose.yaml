@@ -19,9 +19,9 @@ services:
       - '${GITLAB_HTTP_PORT:-8929}:${GITLAB_HTTP_PORT:-8929}'
       - '8443:443'
     volumes:
-      - '${LOCAL_VOLUME:-./volumes}/config:/etc/gitlab'
-      - '${LOCAL_VOLUME:-./volumes}/logs:/var/log/gitlab'
-      - '${LOCAL_VOLUME:-./volumes}/data:/var/opt/gitlab'
+      - '${DOCKER_COMPOSE_VOLUME:-./volumes}/config:/etc/gitlab'
+      - '${DOCKER_COMPOSE_VOLUME:-./volumes}/logs:/var/log/gitlab'
+      - '${DOCKER_COMPOSE_VOLUME:-./volumes}/data:/var/opt/gitlab'
 
   gitlab-runner:
     image: docker.io/gitlab/gitlab-runner:latest

@@ -1,0 +1,1 @@
+FROM airbyte/db:0.35.53-alpha

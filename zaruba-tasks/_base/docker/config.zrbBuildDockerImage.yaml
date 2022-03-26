@@ -17,11 +17,12 @@ configs:
         exit 1
       fi
       DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
-      DOCKER_IMAGE_TAG="{{ .GetConfig "imageTag" }}"
+      DOCKER_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
+      echo "${_BOLD}${_YELLOW}Build image ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}${_NORMAL}"
       docker build {{ .GetConfig "start.buildDockerImage.buildArg" }} \
         -t "${DOCKER_IMAGE_NAME}:latest" \
-        -t "${DOCKER_IMAGE_NAME}:{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}" \
+        -t "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
         -f "${DOCKER_FILE}" .
       echo 🎉🎉🎉
-      echo "${_BOLD}${_YELLOW}Docker image built${_NORMAL}"
+      echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} built${_NORMAL}"
 

@@ -1,0 +1,1 @@
+FROM airbyte/init:0.35.53-alpha

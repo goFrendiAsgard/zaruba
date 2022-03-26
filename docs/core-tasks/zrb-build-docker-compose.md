@@ -103,6 +103,27 @@ Value:
 ### Configs.finish
 
 
+### Configs.imageName
+
+
+### Configs.imagePrefix
+
+Value:
+
+    {{ .GetValue "defaultImagePrefix" }}
+
+
+### Configs.imageTag
+
+
+### Configs.prepareDockerComposeEnv
+
+Value:
+
+    export DOCKER_COMPOSE_IMAGE_NAME="{{ .GetDockerImageName }}"
+    export DOCKER_COMPOSE_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
+
+
 ### Configs.setup
 
 
@@ -131,10 +152,18 @@ Value:
 
 Value:
 
+    {{ .GetConfig "prepareDockerComposeEnv" }}
     docker-compose build
 
 
 ### Configs.strictMode
+
+Value:
+
+    true
+
+
+### Configs.useImagePrefix
 
 Value:
 

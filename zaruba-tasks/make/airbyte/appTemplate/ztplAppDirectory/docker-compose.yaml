@@ -11,7 +11,9 @@ services:
   # hook in case we need to add init behavior
   # every root service (no depends_on) should depend on init
   init:
-    image: airbyte/init:${VERSION}
+    # image: airbyte/init:${VERSION}
+    build: ./init
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-init:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: init
     container_name: ztplAppContainerNameInit
@@ -23,7 +25,9 @@ services:
       - ${HACK_LOCAL_ROOT_PARENT}:/local_parent
 
   bootloader:
-    image: airbyte/bootloader:${VERSION}
+    # image: airbyte/bootloader:${VERSION}
+    build: ./bootloader
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-loader:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: bootloader
     container_name: ztplAppContainerNameBootloader
@@ -39,7 +43,9 @@ services:
       - RUN_DATABASE_MIGRATION_ON_STARTUP=${RUN_DATABASE_MIGRATION_ON_STARTUP}
 
   db:
-    image: airbyte/db:${VERSION}
+    # image: airbyte/db:${VERSION}
+    build: ./db
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-db:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: db
     container_name: ztplAppContainerNameDb
@@ -54,10 +60,12 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_USER=${DATABASE_USER}
     volumes:
-      - ${LOCAL_VOLUME:-./volumes}/db:/var/lib/postgresql/data
+      - ${DOCKER_COMPOSE_VOLUME:-./volumes}/db:/var/lib/postgresql/data
 
   scheduler:
-    image: airbyte/scheduler:${VERSION}
+    # image: airbyte/scheduler:${VERSION}
+    build: ./scheduler
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-scheduler:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: scheduler
     container_name: ztplAppContainerNameScheduler
@@ -97,7 +105,9 @@ services:
       - ${LOCAL_ROOT}:${LOCAL_ROOT}
 
   worker:
-    image: airbyte/worker:${VERSION}
+    # image: airbyte/worker:${VERSION}
+    build: ./worker
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-worker:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: worker
     container_name: ztplAppContainerNameWorker
@@ -138,7 +148,9 @@ services:
       - ${LOCAL_ROOT}:${LOCAL_ROOT}
 
   server:
-    image: airbyte/server:${VERSION}
+    # image: airbyte/server:${VERSION}
+    build: ./server
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-worker}-server:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: airbyte-server
     container_name: ztplAppContainerNameServer
@@ -175,7 +187,9 @@ services:
       - ${LOCAL_ROOT}:${LOCAL_ROOT}
 
   webapp:
-    image: airbyte/webapp:${VERSION}
+    # image: airbyte/webapp:${VERSION}
+    build: ./webapp
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-webapp:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: webapp
     container_name: ztplAppContainerNameWebapp
@@ -194,7 +208,9 @@ services:
       - TRACKING_STRATEGY=${TRACKING_STRATEGY}
 
   airbyte-temporal:
-    image: airbyte/temporal:${VERSION}
+    # image: airbyte/temporal:${VERSION}
+    build: ./temporal
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airbyte}-temporal:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     logging: *default-logging
     hostname: airbyte-temporal
     container_name: ztplAppContainerNameTemporal

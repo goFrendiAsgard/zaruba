@@ -8,4 +8,6 @@ tasks:
     extend: zrbRunShellScript
     dependencies:
       - updateProjectLinks
-    configRef: zrbRemoveDockerCompose
+    configRefs: 
+      - zrbDocker
+      - zrbRemoveDockerCompose

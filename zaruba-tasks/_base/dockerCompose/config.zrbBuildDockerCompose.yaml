@@ -1,4 +1,6 @@
 configs:
 
   zrbBuildDockerCompose:
-    start: docker-compose build
+    start: |
+      {{ .GetConfig "prepareDockerComposeEnv" }}
+      docker-compose build

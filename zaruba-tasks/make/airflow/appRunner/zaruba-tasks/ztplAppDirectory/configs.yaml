@@ -5,12 +5,16 @@ configs:
     ports: |
       ztplAppYamlPorts
     beforeStart: |
-      mkdir -p "${LOCAL_VOLUME}/postgresql"
-      mkdir -p "${LOCAL_VOLUME}/redis"
-      mkdir -p "${LOCAL_VOLUME}/dag"
+      mkdir -p "${DOCKER_COMPOSE_VOLUME}/postgresql"
+      mkdir -p "${DOCKER_COMPOSE_VOLUME}/redis"
+      mkdir -p "${DOCKER_COMPOSE_VOLUME}/dag"
       set +e
-      chmod -R 777 "${LOCAL_VOLUME}"
+      chmod -R 777 "${DOCKER_COMPOSE_VOLUME}"
       set -e
     afterCheck: sleep 3
     checkCommand: |
       ztplAppCheckCommand
+  
+  ztplAppNameImage:
+    useImagePrefix: true
+    imageName: ztpl-app-image-name

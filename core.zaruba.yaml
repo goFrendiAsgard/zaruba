@@ -12,6 +12,7 @@ includes:
   - ./zaruba-tasks/_base/copyToKubePod/task.zrbCopyToKubePod.yaml
 
   - ./zaruba-tasks/_base/dockerCompose/config.zrbBuildDockerCompose.yaml
+  - ./zaruba-tasks/_base/dockerCompose/config.zrbPrepareDockerComposeEnv.yaml
   - ./zaruba-tasks/_base/dockerCompose/config.zrbPullDockerCompose.yaml
   - ./zaruba-tasks/_base/dockerCompose/config.zrbPushDockerCompose.yaml
   - ./zaruba-tasks/_base/dockerCompose/config.zrbRemoveDockerCompose.yaml

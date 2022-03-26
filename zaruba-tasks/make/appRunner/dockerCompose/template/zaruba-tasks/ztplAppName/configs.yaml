@@ -7,3 +7,7 @@ configs:
     afterCheck: sleep 3
     checkCommand: |
       ztplAppCheckCommand
+
+  ztplAppNameImage:
+    useImagePrefix: true
+    imageName: ztpl-app-image-name

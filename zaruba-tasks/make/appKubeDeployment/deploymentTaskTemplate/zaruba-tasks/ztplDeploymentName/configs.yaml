@@ -10,9 +10,11 @@ configs:
     start: |
       if [ ! -d "./venv" ]
       then
+        echo "${_YELLOW}🚧 Create virtual environment.${_NORMAL}"
         python -m venv ./venv
       fi
       source ./venv/bin/activate
+        echo "${_YELLOW}🚧 Install pip packages.${_NORMAL}"
       pip install -r requirements.txt
       DEPLOYMENT_CONFIG={}
       IMAGE_NAME="{{ .GetDockerImageName }}"
@@ -21,7 +23,15 @@ configs:
       RAW_PORTS='{{ .GetConfig "ports" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
-      echo "${_YELLOW}🚧 Deployment Config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
+      echo "${_YELLOW}🚧 Deployment config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
       echo "${DEPLOYMENT_CONFIG}" > '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
+      if [ -d "./chart" ]
+      then
+        echo "${_YELLOW}🚧 Prepare chart dependencies.${_NORMAL}"
+        cd ./chart
+        helm dependency upgrade
+        cd ..
+      fi
+      echo "${_YELLOW}🚧 Preparation completed.${_NORMAL}"
     ports: |
       ztplAppYamlPorts

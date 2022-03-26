@@ -8,6 +8,7 @@ tasks:
       - runZtplAppNameInLocal
     configRefs:
       - ztplAppName
+      - ztplAppNameImage
     envRefs: 
       - ztplAppName
   
@@ -15,6 +16,8 @@ tasks:
     icon: 🏭
     extend: zrbBuildDockerCompose
     location: ztplAppTaskLocation
+    configRefs: 
+      - ztplAppNameImage
     envRefs: 
       - ztplAppName
 
@@ -24,6 +27,8 @@ tasks:
     location: ztplAppTaskLocation
     dependencies:
       - buildZtplAppNameImage
+    configRefs: 
+      - ztplAppNameImage
     envRefs: 
       - ztplAppName
 

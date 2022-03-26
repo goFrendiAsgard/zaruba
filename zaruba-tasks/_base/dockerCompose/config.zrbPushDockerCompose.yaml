@@ -1,4 +1,6 @@
 configs:
 
   zrbPushDockerCompose:
-    start: docker-compose push
+    start: |
+      {{ .GetConfig "prepareDockerComposeEnv" }}
+      docker-compose push

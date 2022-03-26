@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ${LOCAL_VOLUME:-./volumes}/postgres:/var/lib/postgresql/data
+      - ${DOCKER_COMPOSE_VOLUME:-./volumes}/postgres:/var/lib/postgresql/data
     restart: "on-failure"
     command:
       - "postgres"
