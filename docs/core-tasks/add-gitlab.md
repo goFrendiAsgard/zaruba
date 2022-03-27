@@ -3,22 +3,22 @@
 # 🦊 addGitlab
 <!--endTocHeader-->
 
-## Information
+[1m[33m## Information[0m
 
-File Location:
+[1m[34mFile Location[0m:
 
     ~/.zaruba/zaruba-tasks/make/gitlab/task.addGitlab.yaml
 
-Should Sync Env:
+[1m[34mShould Sync Env[0m:
 
     false
 
-Type:
+[1m[34mType[0m:
 
     wrapper
 
 
-## Dependencies
+[1m[33m## Dependencies[0m
 
 * [makeGitlabApp](make-gitlab-app.md)
 * [makeGitlabAppRunner](make-gitlab-app-runner.md)

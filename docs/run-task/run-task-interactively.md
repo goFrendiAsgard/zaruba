@@ -20,37 +20,47 @@ zaruba please <first-task-name> <second-task-name> -i
 __Example:__
 
 ```bash
-cd example/tasks
-zaruba please printHelloHuman -i
+cd examples/run-tasks
+( \
+  echo "" && \
+  sleep 1 && \
+  echo "" && \
+  sleep 1 && \
+  echo "let" && \
+  echo "" && \
+  sleep 1 && \
+  echo "Robert Boyle" \
+) | zaruba please printHelloHuman -i
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
- Load additional value file
+💀 Load additional value file
 ✔ 🏁 No
- Load additional env
+💀 Load additional env
 ✔ 🏁 No
- 1 of 1) humanName
+💀 1 of 1) humanName
 ✔ Let me type it!
 Your name: Robert Boyle
-  Job Starting...
- Elapsed Time: 1.362µs
- Current Time: 16:53:55
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-   printHelloHuman       16:53:55.483 hello Robert Boyle
-  Successfully running  'printHelloHuman' command
-  Job Running...
- Elapsed Time: 101.91258ms
- Current Time: 16:53:55
-
-  Job Complete!!!
-  Terminating
-  Job Ended...
- Elapsed Time: 212.914199ms
- Current Time: 16:53:55
+💀 🔎 Job Starting...
+         Elapsed Time: 5.979µs
+         Current Time: 17:24:53
+💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 printHelloHuman      🍏 17:24:53.763 hello Robert Boyle
+💀 🎉 Successfully running 🍏 'printHelloHuman' command
+💀 🔎 Job Running...
+         Elapsed Time: 105.662921ms
+         Current Time: 17:24:53
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔎 Job Ended...
+         Elapsed Time: 217.12983ms
+         Current Time: 17:24:53
 zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
+
 ```````
 </details>
 

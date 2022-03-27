@@ -3,21 +3,21 @@
 # 🚢 zrbRunInKubePod
 <!--endTocHeader-->
 
-## Information
+[1m[33m## Information[0m
 
-File Location:
+[1m[34mFile Location[0m:
 
     ~/.zaruba/zaruba-tasks/_base/run/inKubePod/task.zrbRunInKubePod.yaml
 
-Should Sync Env:
+[1m[34mShould Sync Env[0m:
 
     true
 
-Type:
+[1m[34mType[0m:
 
     command
 
-Description:
+[1m[34mDescription[0m:
 
     Run command in a kubernetes pod.
     Common configs:
@@ -29,12 +29,12 @@ Description:
 
 
 
-## Extends
+[1m[33m## Extends[0m
 
 * [zrbGenerateAndRun](zrb-generate-and-run.md)
 
 
-## Start
+[1m[33m## Start[0m
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -52,15 +52,15 @@ Description:
     ```
 
 
-## Configs
+[1m[33m## Configs[0m
 
 
-### Configs._finish
+[1m[33m### Configs._finish[0m
 
 
-### Configs._initShell
+[1m[33m### Configs._initShell[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -71,36 +71,36 @@ Value:
 
 
 
-### Configs._prepareBaseReplacementMap
+[1m[33m### Configs._prepareBaseReplacementMap[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
 
 
-### Configs._prepareBaseVariables
+[1m[33m### Configs._prepareBaseVariables[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
 
 
-### Configs._prepareReplacementMap
+[1m[33m### Configs._prepareReplacementMap[0m
 
 
-### Configs._prepareVariables
+[1m[33m### Configs._prepareVariables[0m
 
 
-### Configs._setup
+[1m[33m### Configs._setup[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._start
+[1m[33m### Configs._start[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
     _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
@@ -132,96 +132,96 @@ Value:
 
 
 
-### Configs._validate
+[1m[33m### Configs._validate[0m
 
 
-### Configs._validateTemplateLocation
+[1m[33m### Configs._validateTemplateLocation[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/validateTemplateLocation.sh"
 
 
-### Configs.afterStart
+[1m[33m### Configs.afterStart[0m
 
-Value:
+[1m[34mValue[0m:
 
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 
 
-### Configs.beforeStart
+[1m[33m### Configs.beforeStart[0m
 
 
-### Configs.cmd
+[1m[33m### Configs.cmd[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
+[1m[33m### Configs.cmdArg[0m
 
-Value:
+[1m[34mValue[0m:
 
     -c
 
 
-### Configs.finish
+[1m[33m### Configs.finish[0m
 
 
-### Configs.generatedScriptLocation
+[1m[33m### Configs.generatedScriptLocation[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
-### Configs.kubeContext
+[1m[33m### Configs.kubeContext[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "kubeContext" }}{{ .GetValue "kubeContext" }}{{ else if .GetValue "defaultKubeContext" }}{{ .GetValue "defaultKubeContext" }}docker-desktop{{ end }}
 
 
-### Configs.kubeNamespace
+[1m[33m### Configs.kubeNamespace[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "kubeNamespace" }}{{ .GetValue "kubeNamespace" }}{{ else if .GetValue "defaultKubeNamespace" }}{{ .GetValue "defaultKubeNamespace" }}default{{ end }}
 
 
-### Configs.podLabel
+[1m[33m### Configs.podLabel[0m
 
 
-### Configs.podName
+[1m[33m### Configs.podName[0m
 
 
-### Configs.podShell
+[1m[33m### Configs.podShell[0m
 
-Value:
+[1m[34mValue[0m:
 
     bash
 
 
-### Configs.remoteCommand
+[1m[33m### Configs.remoteCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetConfig "podShell" }} "{{ .GetConfig "remoteScriptLocation" }}/run.sh"
 
 
-### Configs.remoteScriptLocation
+[1m[33m### Configs.remoteScriptLocation[0m
 
-Value:
+[1m[34mValue[0m:
 
     _{{ .Name }}.script.{{ .UUID }}
 
 
-### Configs.runGeneratedScript
+[1m[33m### Configs.runGeneratedScript[0m
 
-Value:
+[1m[34mValue[0m:
 
     _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
     _ZRB_KUBE_NAMESPACE="{{ .GetConfig "kubeNamespace" }}"
@@ -240,77 +240,77 @@ Value:
     rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
 
 
-### Configs.script
+[1m[33m### Configs.script[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "script" }}
 
 
-### Configs.setup
+[1m[33m### Configs.setup[0m
 
 
-### Configs.shouldInitConfigMapVariable
+[1m[33m### Configs.shouldInitConfigMapVariable[0m
 
-Value:
-
-    true
-
-
-### Configs.shouldInitConfigVariables
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.shouldInitEnvMapVariable
+[1m[33m### Configs.shouldInitConfigVariables[0m
 
-Value:
-
-    true
-
-
-### Configs.shouldInitUtil
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.sql
+[1m[33m### Configs.shouldInitEnvMapVariable[0m
 
-Value:
+[1m[34mValue[0m:
+
+    true
+
+
+[1m[33m### Configs.shouldInitUtil[0m
+
+[1m[34mValue[0m:
+
+    true
+
+
+[1m[33m### Configs.sql[0m
+
+[1m[34mValue[0m:
 
     {{ .GetValue "sql" }}
 
 
-### Configs.start
+[1m[33m### Configs.start[0m
 
 
-### Configs.strictMode
+[1m[33m### Configs.strictMode[0m
 
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.templateLocation
+[1m[33m### Configs.templateLocation[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/template
 
 
-## Envs
+[1m[33m## Envs[0m
 
 
-### Envs.PYTHONUNBUFFERED
+[1m[33m### Envs.PYTHONUNBUFFERED[0m
 
-From:
+[1m[34mFrom[0m:
 
     PYTHONUNBUFFERED
 
-Default:
+[1m[34mDefault[0m:
 
     1

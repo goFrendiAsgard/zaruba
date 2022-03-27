@@ -3,34 +3,34 @@
 # 🐍 makeSimplePythonAppRunner
 <!--endTocHeader-->
 
-## Information
+[1m[33m## Information[0m
 
-File Location:
+[1m[34mFile Location[0m:
 
     ~/.zaruba/zaruba-tasks/make/simplePythonApp/task.makeSimplePythonAppRunner.yaml
 
-Should Sync Env:
+[1m[34mShould Sync Env[0m:
 
     true
 
-Type:
+[1m[34mType[0m:
 
     command
 
 
-## Extends
+[1m[33m## Extends[0m
 
 * [makePythonAppRunner](make-python-app-runner.md)
 
 
-## Dependencies
+[1m[33m## Dependencies[0m
 
 * [makeSimplePythonApp](make-simple-python-app.md)
 * [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
 
-## Start
+[1m[33m## Start[0m
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -48,148 +48,148 @@ Type:
     ```
 
 
-## Inputs
+[1m[33m## Inputs[0m
 
 
-### Inputs.appContainerName
+[1m[33m### Inputs.appContainerName[0m
 
-Description:
-
-    Application container name
-
-Prompt:
+[1m[34mDescription[0m:
 
     Application container name
 
-Secret:
+[1m[34mPrompt[0m:
+
+    Application container name
+
+[1m[34mSecret[0m:
 
     false
 
-Validation:
+[1m[34mValidation[0m:
 
     ^[a-zA-Z0-9_]*$
 
 
-### Inputs.appDependencies
+[1m[33m### Inputs.appDependencies[0m
 
-Description:
-
-    Application dependencies
-
-Prompt:
+[1m[34mDescription[0m:
 
     Application dependencies
 
-Default Value:
+[1m[34mPrompt[0m:
+
+    Application dependencies
+
+[1m[34mDefault Value[0m:
 
     []
 
-Secret:
+[1m[34mSecret[0m:
 
     false
 
 
-### Inputs.appDirectory
+[1m[33m### Inputs.appDirectory[0m
 
-Description:
-
-    Location of app
-
-Prompt:
+[1m[34mDescription[0m:
 
     Location of app
 
-Secret:
+[1m[34mPrompt[0m:
+
+    Location of app
+
+[1m[34mSecret[0m:
 
     false
 
 
-### Inputs.appEnvs
+[1m[33m### Inputs.appEnvs[0m
 
-Description:
-
-    Application envs
-
-Prompt:
+[1m[34mDescription[0m:
 
     Application envs
 
-Default Value:
+[1m[34mPrompt[0m:
+
+    Application envs
+
+[1m[34mDefault Value[0m:
 
     {}
 
-Secret:
+[1m[34mSecret[0m:
 
     false
 
 
-### Inputs.appImageName
+[1m[33m### Inputs.appImageName[0m
 
-Description:
+[1m[34mDescription[0m:
 
     App's image name
 
-Secret:
+[1m[34mSecret[0m:
 
     false
 
 
-### Inputs.appName
+[1m[33m### Inputs.appName[0m
 
-Description:
-
-    Name of the app
-
-Prompt:
+[1m[34mDescription[0m:
 
     Name of the app
 
-Secret:
+[1m[34mPrompt[0m:
+
+    Name of the app
+
+[1m[34mSecret[0m:
 
     false
 
 
-### Inputs.appPorts
+[1m[33m### Inputs.appPorts[0m
 
-Description:
+[1m[34mDescription[0m:
 
     Application ports
 
-Default Value:
+[1m[34mDefault Value[0m:
 
     []
 
-Secret:
+[1m[34mSecret[0m:
 
     false
 
 
-## Configs
+[1m[33m## Configs[0m
 
 
-### Configs._adjustPermission
+[1m[33m### Configs._adjustPermission[0m
 
 
-### Configs._containerPrepareAppRunnerTaskName
+[1m[33m### Configs._containerPrepareAppRunnerTaskName[0m
 
-Value:
+[1m[34mValue[0m:
 
     start${_ZRB_PASCAL_APP_NAME}Container
 
 
-### Configs._finish
+[1m[33m### Configs._finish[0m
 
 
-### Configs._generate
+[1m[33m### Configs._generate[0m
 
-Value:
+[1m[34mValue[0m:
 
     _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
 
 
-### Configs._includeModuleIndex
+[1m[33m### Configs._includeModuleIndex[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetConfig "_taskIndexPath" -}}
     "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
@@ -197,9 +197,9 @@ Value:
 
 
 
-### Configs._initShell
+[1m[33m### Configs._initShell[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -210,121 +210,121 @@ Value:
 
 
 
-### Configs._integrate
+[1m[33m### Configs._integrate[0m
 
 
-### Configs._nativePrepareAppRunnerTaskName
+[1m[33m### Configs._nativePrepareAppRunnerTaskName[0m
 
-Value:
+[1m[34mValue[0m:
 
     start${_ZRB_PASCAL_APP_NAME}
 
 
-### Configs._prepare
+[1m[33m### Configs._prepare[0m
 
 
-### Configs._prepareBaseCheckCommand
+[1m[33m### Configs._prepareBaseCheckCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareCheckCommand.sh"
 
 
-### Configs._prepareBaseMigrateCommand
+[1m[33m### Configs._prepareBaseMigrateCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareMigrateCommand.sh"
 
 
-### Configs._prepareBasePrepareCommand
+[1m[33m### Configs._prepareBasePrepareCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/preparePrepareCommand.sh"
 
 
-### Configs._prepareBaseReplacementMap
+[1m[33m### Configs._prepareBaseReplacementMap[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseReplacementMap.sh"
 
 
-### Configs._prepareBaseStartCommand
+[1m[33m### Configs._prepareBaseStartCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareStartCommand.sh"
 
 
-### Configs._prepareBaseTestCommand
+[1m[33m### Configs._prepareBaseTestCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareTestCommand.sh"
 
 
-### Configs._prepareBaseVariables
+[1m[33m### Configs._prepareBaseVariables[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/prepareBaseVariables.sh"
 
 
-### Configs._prepareReplacementMap
+[1m[33m### Configs._prepareReplacementMap[0m
 
 
-### Configs._prepareVariables
+[1m[33m### Configs._prepareVariables[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/bash/prepareVariables.sh"
 
 
 
-### Configs._registerAppDependencies
+[1m[33m### Configs._registerAppDependencies[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${ZARUBA_CONFIG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
 
 
 
-### Configs._registerAppDeploymentTasks
+[1m[33m### Configs._registerAppDeploymentTasks[0m
 
 
-### Configs._registerAppRunnerTasks
+[1m[33m### Configs._registerAppRunnerTasks[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
 
 
-### Configs._setup
+[1m[33m### Configs._setup[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._skipCreation
+[1m[33m### Configs._skipCreation[0m
 
-Value:
+[1m[34mValue[0m:
 
     _skipIfExist "{{ .GetConfig "_skipCreationPath" }}"
 
 
-### Configs._skipCreationPath
+[1m[33m### Configs._skipCreationPath[0m
 
-Value:
+[1m[34mValue[0m:
 
     ./zaruba-tasks/${_ZRB_APP_NAME}
 
 
-### Configs._start
+[1m[33m### Configs._start[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
     _ZRB_REPLACEMENT_MAP='{}'
@@ -375,308 +375,308 @@ Value:
 
 
 
-### Configs._taskIndexPath
+[1m[33m### Configs._taskIndexPath[0m
 
-Value:
+[1m[34mValue[0m:
 
     ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
 
 
-### Configs._validate
+[1m[33m### Configs._validate[0m
 
 
-### Configs._validateAppContainerVolumes
+[1m[33m### Configs._validateAppContainerVolumes[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppContainerVolumes.sh"
 
 
-### Configs._validateAppCrudFields
+[1m[33m### Configs._validateAppCrudFields[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppCrudFields.sh"
 
 
-### Configs._validateAppDirectory
+[1m[33m### Configs._validateAppDirectory[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"
 
 
-### Configs._validateAppPorts
+[1m[33m### Configs._validateAppPorts[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppPorts.sh"
 
 
-### Configs._validateTemplateLocation
+[1m[33m### Configs._validateTemplateLocation[0m
 
-Value:
+[1m[34mValue[0m:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateTemplateLocation.sh"
 
 
-### Configs.afterStart
+[1m[33m### Configs.afterStart[0m
 
-Value:
+[1m[34mValue[0m:
 
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 
-### Configs.appBaseImageName
+[1m[33m### Configs.appBaseImageName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "appBaseImageName" }}{{ .GetValue "appBaseImageName" }}{{ else }}{{ .GetConfig "defaultAppBaseImageName" }}{{ end }}
 
 
-### Configs.appBuildImageCommand
+[1m[33m### Configs.appBuildImageCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appBuildImageCommand" }}
 
 
-### Configs.appCheckCommand
+[1m[33m### Configs.appCheckCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if ne (.GetValue "appCheckCommand") "" }}{{ .GetValue "appCheckCommand" }}{{ else }}{{ .GetConfig "defaultAppCheckCommand" }}{{ end }}
 
 
-### Configs.appContainerName
+[1m[33m### Configs.appContainerName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appContainerName" }}
 
 
-### Configs.appContainerVolumes
+[1m[33m### Configs.appContainerVolumes[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if ne (.GetValue "appContainerVolumes") "[]" }}{{ .GetValue "appContainerVolumes" }}{{ else }}{{ .GetConfig "defaultAppContainerVolumes" }}{{ end }}
 
 
-### Configs.appCrudEntity
+[1m[33m### Configs.appCrudEntity[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appCrudEntity" }}
 
 
-### Configs.appCrudFields
+[1m[33m### Configs.appCrudFields[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appCrudFields" }}
 
 
-### Configs.appDependencies
+[1m[33m### Configs.appDependencies[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appDependencies" }}
 
 
-### Configs.appDirectory
+[1m[33m### Configs.appDirectory[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}
 
 
-### Configs.appEnvPrefix
+[1m[33m### Configs.appEnvPrefix[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appEnvPrefix" }}
 
 
-### Configs.appEnvs
+[1m[33m### Configs.appEnvs[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appEnvs" }}
 
 
-### Configs.appEventName
+[1m[33m### Configs.appEventName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appEventName" }}
 
 
-### Configs.appHttpMethod
+[1m[33m### Configs.appHttpMethod[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appHttpMethod" }}
 
 
-### Configs.appIcon
+[1m[33m### Configs.appIcon[0m
 
-Value:
+[1m[34mValue[0m:
 
     🐍
 
 
-### Configs.appImageName
+[1m[33m### Configs.appImageName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appImageName" }}
 
 
-### Configs.appMigrateCommand
+[1m[33m### Configs.appMigrateCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appMigrateCommand" }}
 
 
-### Configs.appModuleName
+[1m[33m### Configs.appModuleName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appModuleName" }}
 
 
-### Configs.appName
+[1m[33m### Configs.appName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appName" }}
 
 
-### Configs.appPorts
+[1m[33m### Configs.appPorts[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if ne (.GetValue "appPorts") "[]" }}{{ .GetValue "appPorts" }}{{ else }}{{ .GetConfig "defaultAppPorts" }}{{ end }}
 
 
-### Configs.appPrepareCommand
+[1m[33m### Configs.appPrepareCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appPrepareCommand" }}
 
 
-### Configs.appPushImageCommand
+[1m[33m### Configs.appPushImageCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appPushImageCommand" }}
 
 
-### Configs.appRpcName
+[1m[33m### Configs.appRpcName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appRpcName" }}
 
 
-### Configs.appRunnerVersion
+[1m[33m### Configs.appRunnerVersion[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appRunnerVersion" }}
 
 
-### Configs.appStartCommand
+[1m[33m### Configs.appStartCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if ne (.GetValue "appStartCommand") "" }}{{ .GetValue "appStartCommand" }}{{ else }}{{ .GetConfig "defaultAppStartCommand" }}{{ end }}
 
 
-### Configs.appStartContainerCommand
+[1m[33m### Configs.appStartContainerCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if ne (.GetValue "appStartContainerCommand") "" }}{{ .GetValue "appStartContainerCommand" }}{{ else }}{{ .GetConfig "defaultAppStartContainerCommand" }}{{ end }}
 
 
-### Configs.appTestCommand
+[1m[33m### Configs.appTestCommand[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appTestCommand" }}
 
 
-### Configs.appUrl
+[1m[33m### Configs.appUrl[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "appUrl" }}
 
 
-### Configs.beforeStart
+[1m[33m### Configs.beforeStart[0m
 
 
-### Configs.cmd
+[1m[33m### Configs.cmd[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
+[1m[33m### Configs.cmdArg[0m
 
-Value:
+[1m[34mValue[0m:
 
     -c
 
 
-### Configs.defaultAppBaseImageName
+[1m[33m### Configs.defaultAppBaseImageName[0m
 
 
-### Configs.defaultAppCheckCommand
+[1m[33m### Configs.defaultAppCheckCommand[0m
 
 
-### Configs.defaultAppContainerVolumes
+[1m[33m### Configs.defaultAppContainerVolumes[0m
 
-Value:
+[1m[34mValue[0m:
 
     []
 
 
-### Configs.defaultAppDirectory
+[1m[33m### Configs.defaultAppDirectory[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .ProjectName }}App
 
 
-### Configs.defaultAppPorts
+[1m[33m### Configs.defaultAppPorts[0m
 
-Value:
+[1m[34mValue[0m:
 
     []
 
 
-### Configs.defaultAppStartCommand
+[1m[33m### Configs.defaultAppStartCommand[0m
 
 
-### Configs.defaultAppStartContainerCommand
+[1m[33m### Configs.defaultAppStartContainerCommand[0m
 
 
-### Configs.defaultDeploymentDirectory
+[1m[33m### Configs.defaultDeploymentDirectory[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetConfig "defaultAppDirectory" }}{{ .GetConfig "defaultAppDirectory" }}Deployment{{ end }}
 
 
-### Configs.defaultPythonAppPorts
+[1m[33m### Configs.defaultPythonAppPorts[0m
 
-Value:
+[1m[34mValue[0m:
 
     [
       "3000"
@@ -684,74 +684,74 @@ Value:
 
 
 
-### Configs.deploymentDirectory
+[1m[33m### Configs.deploymentDirectory[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "deploymentDirectory" }}{{ .GetValue "deploymentDirectory" }}{{ else if .GetConfig "appDirectory" }}{{ .GetConfig "appDirectory" }}Deployment{{ else }}{{ .GetConfig "defaultDeploymentDirectory" }}{{ end }}
 
 
-### Configs.deploymentName
+[1m[33m### Configs.deploymentName[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "deploymentName" }}
 
 
-### Configs.finish
+[1m[33m### Configs.finish[0m
 
 
-### Configs.setup
+[1m[33m### Configs.setup[0m
 
 
-### Configs.shouldInitConfigMapVariable
+[1m[33m### Configs.shouldInitConfigMapVariable[0m
 
-Value:
-
-    true
-
-
-### Configs.shouldInitConfigVariables
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.shouldInitEnvMapVariable
+[1m[33m### Configs.shouldInitConfigVariables[0m
 
-Value:
-
-    true
-
-
-### Configs.shouldInitUtil
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.start
+[1m[33m### Configs.shouldInitEnvMapVariable[0m
 
-
-### Configs.strictMode
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.taskName
+[1m[33m### Configs.shouldInitUtil[0m
 
-Value:
+[1m[34mValue[0m:
+
+    true
+
+
+[1m[33m### Configs.start[0m
+
+
+[1m[33m### Configs.strictMode[0m
+
+[1m[34mValue[0m:
+
+    true
+
+
+[1m[33m### Configs.taskName[0m
+
+[1m[34mValue[0m:
 
     {{ .GetValue "taskName" }}
 
 
-### Configs.templateLocations
+[1m[33m### Configs.templateLocations[0m
 
-Value:
+[1m[34mValue[0m:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
@@ -761,15 +761,15 @@ Value:
 
 
 
-## Envs
+[1m[33m## Envs[0m
 
 
-### Envs.PYTHONUNBUFFERED
+[1m[33m### Envs.PYTHONUNBUFFERED[0m
 
-From:
+[1m[34mFrom[0m:
 
     PYTHONUNBUFFERED
 
-Default:
+[1m[34mDefault[0m:
 
     1

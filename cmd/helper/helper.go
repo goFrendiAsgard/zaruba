@@ -40,11 +40,15 @@ func CheckMinArgCount(cmd *cobra.Command, logger output.Logger, decoration *outp
 	}
 }
 
-func GetDecoration(plainDecor bool) (decoration *output.Decoration) {
-	if plainDecor {
+func GetDecoration(decorationMode string) (decoration *output.Decoration) {
+	switch decorationMode {
+	case "plain":
 		return output.NewPlainDecoration()
+	case "colorless":
+		return output.NewColorlessDecoration()
+	default:
+		return output.NewDefaultDecoration()
 	}
-	return output.NewDefaultDecoration()
 }
 
 func GetCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLogger) {

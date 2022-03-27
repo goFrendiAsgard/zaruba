@@ -1,3 +1,3 @@
 export ZARUBA_HOME=$(realpath ../)
-export ZARUBA_DECORATION=0
+export ZARUBA_DECORATION=colorless
 export PATH="${ZARUBA_HOME}:${PATH}"

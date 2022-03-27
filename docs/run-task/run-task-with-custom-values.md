@@ -30,21 +30,21 @@ zaruba please printHelloHuman humanName="Go Frendi"
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 1.669µs
- Current Time: 14:18:59
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-   printHelloHuman       14:18:59.647 hello Go Frendi
-  Successfully running  'printHelloHuman' command
-  Job Running...
- Elapsed Time: 101.984602ms
- Current Time: 14:18:59
-  
-  Job Complete!!! 
-  Terminating
-  Job Ended...
- Elapsed Time: 213.644641ms
- Current Time: 14:18:59
+💀 🔎 Job Starting...
+         Elapsed Time: 1.904µs
+         Current Time: 17:17:52
+💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 printHelloHuman      🍏 17:17:52.431 hello Go Frendi
+💀 🎉 Successfully running 🍏 'printHelloHuman' command
+💀 🔎 Job Running...
+         Elapsed Time: 101.72629ms
+         Current Time: 17:17:52
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔎 Job Ended...
+         Elapsed Time: 213.305323ms
+         Current Time: 17:17:52
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -72,21 +72,21 @@ zaruba please printHelloHuman -v sample.values.yaml
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 1.109µs
- Current Time: 14:19:00
-  Run  'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-   printHelloHuman       14:19:00.037 hello Avogadro
-  Successfully running  'printHelloHuman' command
-  Job Running...
- Elapsed Time: 102.482326ms
- Current Time: 14:19:00
-  
-  Job Complete!!! 
-  Terminating
-  Job Ended...
- Elapsed Time: 212.795222ms
- Current Time: 14:19:00
+💀 🔎 Job Starting...
+         Elapsed Time: 1.293µs
+         Current Time: 17:17:52
+💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 printHelloHuman      🍏 17:17:52.804 hello Avogadro
+💀 🎉 Successfully running 🍏 'printHelloHuman' command
+💀 🔎 Job Running...
+         Elapsed Time: 102.230053ms
+         Current Time: 17:17:52
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔎 Job Ended...
+         Elapsed Time: 212.593682ms
+         Current Time: 17:17:53
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>

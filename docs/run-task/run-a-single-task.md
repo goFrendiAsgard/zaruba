@@ -29,21 +29,21 @@ zaruba please clearLog
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 1.044µs
- Current Time: 14:18:57
-  Run  'clearLog' command on /home/gofrendi/zaruba/docs
-   clearLog              14:18:57.647 Log removed
-  Successfully running  'clearLog' command
-  Job Running...
- Elapsed Time: 104.450931ms
- Current Time: 14:18:57
-  
-  Job Complete!!! 
-  Terminating
-  Job Ended...
- Elapsed Time: 305.442002ms
- Current Time: 14:18:57
+💀 🔎 Job Starting...
+         Elapsed Time: 1.078µs
+         Current Time: 17:17:50
+💀 🏁 Run 🔥 'clearLog' command on /home/gofrendi/zaruba/docs
+💀    🚀 clearLog             🔥 17:17:50.486 Log removed
+💀 🎉 Successfully running 🔥 'clearLog' command
+💀 🔎 Job Running...
+         Elapsed Time: 105.043357ms
+         Current Time: 17:17:50
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔎 Job Ended...
+         Elapsed Time: 306.208566ms
+         Current Time: 17:17:50
 zaruba please clearLog
 ```````
 </details>
@@ -74,21 +74,21 @@ zaruba please printHelloWorld
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 958ns
- Current Time: 14:18:58
-  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-   printHelloWorld       14:18:58.125 hello world
-  Successfully running  'printHelloWorld' command
-  Job Running...
- Elapsed Time: 102.028932ms
- Current Time: 14:18:58
-  
-  Job Complete!!! 
-  Terminating
-  Job Ended...
- Elapsed Time: 212.313517ms
- Current Time: 14:18:58
+💀 🔎 Job Starting...
+         Elapsed Time: 1.29µs
+         Current Time: 17:17:50
+💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 printHelloWorld      🍎 17:17:50.946 hello world
+💀 🎉 Successfully running 🍎 'printHelloWorld' command
+💀 🔎 Job Running...
+         Elapsed Time: 102.210235ms
+         Current Time: 17:17:51
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔎 Job Ended...
+         Elapsed Time: 214.070342ms
+         Current Time: 17:17:51
 zaruba please printHelloWorld
 ```````
 </details>

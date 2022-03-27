@@ -25,6 +25,8 @@ do
     fi
 done
 
+export ZARUBA_DECORATION=plain
+
 # Get explanations and write to files
 echo '<!--startTocSubTopic-->' >> ./docs/core-tasks/README.md
 echo '# Sub-topics' >> ./docs/core-tasks/README.md
@@ -38,7 +40,7 @@ do
         TASK_NAME="$(./zaruba list get "${SUBMATCH}" 1)"
         TASK_ICON="$(./zaruba task getIcon "core.zaruba.yaml" "${TASK_NAME}")"
         echo "Generating documentation for ${TASK_ICON} ${TASK_NAME}"
-        TASK_EXPLANATION=$(./zaruba please "${TASK_NAME}" -x -n)
+        TASK_EXPLANATION=$(./zaruba please "${TASK_NAME}" -x)
         TASK_EXPLANATION=$(./zaruba str replace "${TASK_EXPLANATION}" "${REPLACEMENT_MAP}")
         TASK_EXPLANATION_LINES=$(./zaruba str split "${TASK_EXPLANATION}")
         DOC_LINES="[\"<!--startTocHeader-->\", \"[🏠](../README.md) > [🥝 Core Tasks](README.md)\", \"# ${TASK_ICON} ${TASK_NAME}\", \"<!--endTocHeader-->\"]"

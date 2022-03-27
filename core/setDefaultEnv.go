@@ -20,6 +20,6 @@ func SetDefaultEnv() {
 		os.Setenv("ZARUBA_SCRIPTS", "")
 	}
 	if os.Getenv("ZARUBA_DECORATION") == "" {
-		os.Setenv("ZARUBA_DECORATION", "1")
+		os.Setenv("ZARUBA_DECORATION", "default")
 	}
 }

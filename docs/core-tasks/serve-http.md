@@ -3,37 +3,37 @@
 # 🌐 serveHttp
 <!--endTocHeader-->
 
-## Information
+[1m[33m## Information[0m
 
-File Location:
+[1m[34mFile Location[0m:
 
     ~/.zaruba/zaruba-tasks/chore/serveHttp/task.serveHttp.yaml
 
-Should Sync Env:
+[1m[34mShould Sync Env[0m:
 
     true
 
-Type:
+[1m[34mType[0m:
 
     service
 
-Description:
+[1m[34mDescription[0m:
 
     Run static web server from your working directory.
 
 
 
-## Extends
+[1m[33m## Extends[0m
 
 * [zrbStartApp](zrb-start-app.md)
 
 
-## Dependencies
+[1m[33m## Dependencies[0m
 
 * [updateProjectLinks](update-project-links.md)
 
 
-## Start
+[1m[33m## Start[0m
 
 * `{{ .GetEnv "ZARUBA_HOME" }}/zaruba`
 * `serve`
@@ -41,7 +41,7 @@ Description:
 * `{{ index (.Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n") 0 }}`
 
 
-## Check
+[1m[33m## Check[0m
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -65,42 +65,42 @@ Description:
     ```
 
 
-## Inputs
+[1m[33m## Inputs[0m
 
 
-### Inputs.serverHttpPort
+[1m[33m### Inputs.serverHttpPort[0m
 
-Description:
+[1m[34mDescription[0m:
 
     HTTP port to serve static files
 
-Prompt:
+[1m[34mPrompt[0m:
 
     HTTP port
 
-Default Value:
+[1m[34mDefault Value[0m:
 
     8080
 
-Secret:
+[1m[34mSecret[0m:
 
     false
 
-Validation:
+[1m[34mValidation[0m:
 
     ^[0-9]+$
 
-Options:
+[1m[34mOptions[0m:
 
     8080; 8000; 3000; 5000
 
 
-## Configs
+[1m[33m## Configs[0m
 
 
-### Configs._check
+[1m[33m### Configs._check[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
       {{ if ne $port "" -}}
@@ -127,12 +127,12 @@ Value:
 
 
 
-### Configs._finish
+[1m[33m### Configs._finish[0m
 
 
-### Configs._initShell
+[1m[33m### Configs._initShell[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -143,108 +143,108 @@ Value:
 
 
 
-### Configs._setup
+[1m[33m### Configs._setup[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._start
+[1m[33m### Configs._start[0m
 
 
-### Configs.afterCheck
+[1m[33m### Configs.afterCheck[0m
 
 
-### Configs.afterStart
+[1m[33m### Configs.afterStart[0m
 
 
-### Configs.beforeCheck
+[1m[33m### Configs.beforeCheck[0m
 
 
-### Configs.beforeStart
+[1m[33m### Configs.beforeStart[0m
 
 
-### Configs.check
+[1m[33m### Configs.check[0m
 
 
-### Configs.checkCommand
+[1m[33m### Configs.checkCommand[0m
 
 
-### Configs.cmd
+[1m[33m### Configs.cmd[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
+[1m[33m### Configs.cmdArg[0m
 
-Value:
+[1m[34mValue[0m:
 
     -c
 
 
-### Configs.finish
+[1m[33m### Configs.finish[0m
 
 
-### Configs.ports
+[1m[33m### Configs.ports[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "serverHttpPort" }}
 
 
-### Configs.runInLocal
+[1m[33m### Configs.runInLocal[0m
 
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.setup
+[1m[33m### Configs.setup[0m
 
 
-### Configs.shouldInitConfigMapVariable
+[1m[33m### Configs.shouldInitConfigMapVariable[0m
 
-Value:
+[1m[34mValue[0m:
 
     false
 
 
-### Configs.shouldInitEnvMapVariable
+[1m[33m### Configs.shouldInitEnvMapVariable[0m
 
-Value:
+[1m[34mValue[0m:
 
     false
 
 
-### Configs.shouldInitUtil
+[1m[33m### Configs.shouldInitUtil[0m
 
-Value:
-
-    true
-
-
-### Configs.start
-
-
-### Configs.strictMode
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-## Envs
+[1m[33m### Configs.start[0m
 
 
-### Envs.PYTHONUNBUFFERED
+[1m[33m### Configs.strictMode[0m
 
-From:
+[1m[34mValue[0m:
+
+    true
+
+
+[1m[33m## Envs[0m
+
+
+[1m[33m### Envs.PYTHONUNBUFFERED[0m
+
+[1m[34mFrom[0m:
 
     PYTHONUNBUFFERED
 
-Default:
+[1m[34mDefault[0m:
 
     1

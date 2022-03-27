@@ -405,35 +405,35 @@ zaruba please serveHttp -t -w 2s
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 1.04µs
- Current Time: 14:19:03
-  Run  'updateProjectLinks' command on /home/gofrendi/zaruba/docs
-   updateProjectLinks    14:19:03.778 🎉🎉🎉
-   updateProjectLinks    14:19:03.778 Links updated
-  Successfully running  'updateProjectLinks' command
-  Run  'serveHttp' service on /home/gofrendi/zaruba/docs
-  Check  'serveHttp' readiness on /home/gofrendi/zaruba/docs
-   serveHttp             14:19:03.883 🔎 Waiting for port '8080'
-   serveHttp             14:19:03.883 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-   serveHttp             14:19:03.883 You can open http://localhost:8080
-   serveHttp             14:19:03.884 🔎 Port '8080' is ready
-   serveHttp             14:19:03.884 🎉🎉🎉
-   serveHttp             14:19:03.884 📜 Task 'serveHttp' is ready
-  Successfully running  'serveHttp' readiness check
-  Job Running...
- Elapsed Time: 210.687968ms
- Current Time: 14:19:03
- Active Process:
-   * (PID=1882)  'serveHttp' service
-  
-  Job Complete!!! 
-  Terminating
-  Kill  'serveHttp' service (PID=1882)
-   'serveHttp' service exited: signal: interrupt
-  Job Ended...
- Elapsed Time: 22.726775323s
- Current Time: 14:19:26
+💀 🔎 Job Starting...
+         Elapsed Time: 1.162µs
+         Current Time: 17:17:59
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs
+💀    🚀 updateProjectLinks   🔗 17:17:59.743 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 17:17:59.743 Links updated
+💀 🎉 Successfully running 🔗 'updateProjectLinks' command
+💀 🏁 Run 🌐 'serveHttp' service on /home/gofrendi/zaruba/docs
+💀 🏁 Check 🌐 'serveHttp' readiness on /home/gofrendi/zaruba/docs
+💀    🔎 serveHttp            🌐 17:17:59.852 🔎 Waiting for port '8080'
+💀    🚀 serveHttp            🌐 17:17:59.852 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+💀    🚀 serveHttp            🌐 17:17:59.853 You can open http://localhost:8080
+💀    🔎 serveHttp            🌐 17:18:00.857 🔎 Port '8080' is ready
+💀    🔎 serveHttp            🌐 17:18:00.857 🎉🎉🎉
+💀    🔎 serveHttp            🌐 17:18:00.857 📜 Task 'serveHttp' is ready
+💀 🎉 Successfully running 🌐 'serveHttp' readiness check
+💀 🔎 Job Running...
+         Elapsed Time: 1.218094031s
+         Current Time: 17:18:00
+         Active Process:
+           * (PID=18820) 🌐 'serveHttp' service
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔪 Kill 🌐 'serveHttp' service (PID=18820)
+💀 🔥 🌐 'serveHttp' service exited: signal: interrupt
+💀 🔎 Job Ended...
+         Elapsed Time: 23.732648919s
+         Current Time: 17:18:23
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>

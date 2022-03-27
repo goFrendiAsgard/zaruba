@@ -3,21 +3,21 @@
 # 📔 zrbRunScript
 <!--endTocHeader-->
 
-## Information
+[1m[33m## Information[0m
 
-File Location:
+[1m[34mFile Location[0m:
 
     ~/.zaruba/zaruba-tasks/_base/run/task.zrbRunScript.yaml
 
-Should Sync Env:
+[1m[34mShould Sync Env[0m:
 
     true
 
-Type:
+[1m[34mType[0m:
 
     command
 
-Description:
+[1m[34mDescription[0m:
 
     Run script.
     Common configs:
@@ -31,7 +31,7 @@ Description:
 
 
 
-## Start
+[1m[33m## Start[0m
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -49,56 +49,56 @@ Description:
     ```
 
 
-## Configs
+[1m[33m## Configs[0m
 
 
-### Configs._finish
+[1m[33m### Configs._finish[0m
 
 
-### Configs._setup
+[1m[33m### Configs._setup[0m
 
 
-### Configs._start
+[1m[33m### Configs._start[0m
 
 
-### Configs.afterStart
+[1m[33m### Configs.afterStart[0m
 
 
-### Configs.beforeStart
+[1m[33m### Configs.beforeStart[0m
 
 
-### Configs.cmd
+[1m[33m### Configs.cmd[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
+[1m[33m### Configs.cmdArg[0m
 
-Value:
+[1m[34mValue[0m:
 
     -c
 
 
-### Configs.finish
+[1m[33m### Configs.finish[0m
 
 
-### Configs.setup
+[1m[33m### Configs.setup[0m
 
 
-### Configs.start
+[1m[33m### Configs.start[0m
 
 
-## Envs
+[1m[33m## Envs[0m
 
 
-### Envs.PYTHONUNBUFFERED
+[1m[33m### Envs.PYTHONUNBUFFERED[0m
 
-From:
+[1m[34mFrom[0m:
 
     PYTHONUNBUFFERED
 
-Default:
+[1m[34mDefault[0m:
 
     1

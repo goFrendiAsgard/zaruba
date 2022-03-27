@@ -3,37 +3,37 @@
 # 🐳 zrbPushDockerCompose
 <!--endTocHeader-->
 
-## Information
+[1m[33m## Information[0m
 
-File Location:
+[1m[34mFile Location[0m:
 
     ~/.zaruba/zaruba-tasks/_base/dockerCompose/task.zrbPushDockerCompose.yaml
 
-Should Sync Env:
+[1m[34mShould Sync Env[0m:
 
     true
 
-Type:
+[1m[34mType[0m:
 
     command
 
-Description:
+[1m[34mDescription[0m:
 
     Push docker compose.
 
 
 
-## Extends
+[1m[33m## Extends[0m
 
 * [zrbRunShellScript](zrb-run-shell-script.md)
 
 
-## Dependencies
+[1m[33m## Dependencies[0m
 
 * [updateProjectLinks](update-project-links.md)
 
 
-## Start
+[1m[33m## Start[0m
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -51,15 +51,15 @@ Description:
     ```
 
 
-## Configs
+[1m[33m## Configs[0m
 
 
-### Configs._finish
+[1m[33m### Configs._finish[0m
 
 
-### Configs._initShell
+[1m[33m### Configs._initShell[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -70,115 +70,115 @@ Value:
 
 
 
-### Configs._setup
+[1m[33m### Configs._setup[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-### Configs._start
+[1m[33m### Configs._start[0m
 
 
-### Configs.afterStart
+[1m[33m### Configs.afterStart[0m
 
 
-### Configs.beforeStart
+[1m[33m### Configs.beforeStart[0m
 
 
-### Configs.cmd
+[1m[33m### Configs.cmd[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-### Configs.cmdArg
+[1m[33m### Configs.cmdArg[0m
 
-Value:
+[1m[34mValue[0m:
 
     -c
 
 
-### Configs.finish
+[1m[33m### Configs.finish[0m
 
 
-### Configs.imageName
+[1m[33m### Configs.imageName[0m
 
 
-### Configs.imagePrefix
+[1m[33m### Configs.imagePrefix[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetValue "defaultImagePrefix" }}
 
 
-### Configs.imageTag
+[1m[33m### Configs.imageTag[0m
 
 
-### Configs.prepareDockerComposeEnv
+[1m[33m### Configs.prepareDockerComposeEnv[0m
 
-Value:
+[1m[34mValue[0m:
 
     export DOCKER_COMPOSE_IMAGE_NAME="{{ .GetDockerImageName }}"
     export DOCKER_COMPOSE_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
 
 
-### Configs.setup
+[1m[33m### Configs.setup[0m
 
 
-### Configs.shouldInitConfigMapVariable
+[1m[33m### Configs.shouldInitConfigMapVariable[0m
 
-Value:
-
-    false
-
-
-### Configs.shouldInitEnvMapVariable
-
-Value:
+[1m[34mValue[0m:
 
     false
 
 
-### Configs.shouldInitUtil
+[1m[33m### Configs.shouldInitEnvMapVariable[0m
 
-Value:
+[1m[34mValue[0m:
+
+    false
+
+
+[1m[33m### Configs.shouldInitUtil[0m
+
+[1m[34mValue[0m:
 
     true
 
 
-### Configs.start
+[1m[33m### Configs.start[0m
 
-Value:
+[1m[34mValue[0m:
 
     {{ .GetConfig "prepareDockerComposeEnv" }}
     docker-compose push
 
 
-### Configs.strictMode
+[1m[33m### Configs.strictMode[0m
 
-Value:
-
-    true
-
-
-### Configs.useImagePrefix
-
-Value:
+[1m[34mValue[0m:
 
     true
 
 
-## Envs
+[1m[33m### Configs.useImagePrefix[0m
+
+[1m[34mValue[0m:
+
+    true
 
 
-### Envs.PYTHONUNBUFFERED
+[1m[33m## Envs[0m
 
-From:
+
+[1m[33m### Envs.PYTHONUNBUFFERED[0m
+
+[1m[34mFrom[0m:
 
     PYTHONUNBUFFERED
 
-Default:
+[1m[34mDefault[0m:
 
     1

@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/state-alchemists/zaruba/booleanutil"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/explainer"
@@ -21,11 +20,11 @@ import (
 var pleaseEnvs []string
 var pleaseValues []string
 var pleaseFile string
+var pleaseDecor string
 var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
 var pleaseTerminate *bool
 var pleaseExplain *bool
-var pleaseNoDecor *bool
 var pleaseWait string
 
 // pleaseCmd represents the please command
@@ -34,7 +33,7 @@ var pleaseCmd = &cobra.Command{
 	Short:   "Run Task(s)",
 	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
 	Run: func(cmd *cobra.Command, args []string) {
-		decoration := cmdHelper.GetDecoration(*pleaseNoDecor)
+		decoration := cmdHelper.GetDecoration(pleaseDecor)
 		logger := output.NewConsoleLogger(decoration)
 		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(pleaseFile))
 		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, args)
@@ -154,15 +153,11 @@ func init() {
 	}
 	// register flags
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
+	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", os.Getenv("ZARUBA_DECORATION"), "decoration")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", defaultEnv, "environments (e.g: '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g: '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
-	pleaseNoDecor = pleaseCmd.Flags().BoolP("nodecoration", "n", false, "no decoration")
-	if !*pleaseNoDecor {
-		booleanUtil := booleanutil.NewBooleanUtil()
-		*pleaseNoDecor = booleanUtil.IsFalse(os.Getenv("ZARUBA_DECORATION"))
-	}
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g: '-w 5s'). Only take effect if -t or --terminate is set")

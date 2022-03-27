@@ -165,6 +165,69 @@ func NewDefaultDecoration() (d *Decoration) {
 	return d
 }
 
+// NewColorlessDecoration Create New Decoration
+func NewColorlessDecoration() (d *Decoration) {
+	d = &Decoration{
+		Normal:      "",
+		Bold:        "",
+		Faint:       "",
+		Italic:      "",
+		Underline:   "",
+		BlinkSlow:   "",
+		BlinkRapid:  "",
+		Inverse:     "",
+		Conceal:     "",
+		CrossedOut:  "",
+		Black:       "",
+		Red:         "",
+		Green:       "",
+		Yellow:      "",
+		Blue:        "",
+		Magenta:     "",
+		Cyan:        "",
+		White:       "",
+		BgBlack:     "",
+		BgRed:       "",
+		BgGreen:     "",
+		BgYellow:    "",
+		BgBlue:      "",
+		BgMagenta:   "",
+		BgCyan:      "",
+		BgWhite:     "",
+		NoStyle:     "",
+		NoUnderline: "",
+		NoInverse:   "",
+		NoColor:     "",
+		Skull:       "💀",
+		Success:     "🎉",
+		Error:       "🔥",
+		Start:       "🏁",
+		Kill:        "🔪",
+		Inspect:     "🔎",
+		Run:         "🚀",
+		Empty:       "  ",
+		colorIndex:  0,
+		iconIndex:   0,
+		iconList: []string{
+			"🍏", "🍎", "🍌", "🍉", "🍇", "🍐", "🍊", "🍋", "🍓", "🍈", "🍒", "🍑", "🍍", "🥝", "🍅", "🍆", "🥑",
+		},
+		Icon: func(icon string) string { return icon },
+	}
+	d.colorList = []string{
+		d.Green,
+		d.Yellow,
+		d.Blue,
+		d.Magenta,
+		d.Cyan,
+		d.Bold + d.Green,
+		d.Bold + d.Yellow,
+		d.Bold + d.Blue,
+		d.Bold + d.Magenta,
+		d.Bold + d.Cyan,
+	}
+	return d
+}
+
 // GenerateColor new color
 func (d *Decoration) GenerateColor() string {
 	if d.colorIndex >= len(d.colorList) {
