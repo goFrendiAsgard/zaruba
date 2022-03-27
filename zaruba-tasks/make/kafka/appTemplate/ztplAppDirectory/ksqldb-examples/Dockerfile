@@ -1,0 +1,1 @@
+FROM confluentinc/ksqldb-examples:7.0.1

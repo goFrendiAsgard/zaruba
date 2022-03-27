@@ -1,0 +1,1 @@
+FROM prefecthq/server:core-1.1.0

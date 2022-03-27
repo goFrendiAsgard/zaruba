@@ -3,7 +3,8 @@ version: '3.7'
 services:
 
   web:
-    image: docker.io/gitlab/gitlab-ce:latest
+    build: ./gitlab-ce
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-gitlab}-ce:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: web
     container_name: ztplAppContainerNameWeb
     restart: unless-stopped
@@ -24,7 +25,8 @@ services:
       - '${DOCKER_COMPOSE_VOLUME:-./volumes}/data:/var/opt/gitlab'
 
   gitlab-runner:
-    image: docker.io/gitlab/gitlab-runner:latest
+    build: ./gitlab-runner
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-gitlab}-runner:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: gitlab-runner
     container_name: ztplAppContainerNameRunner
     restart: unless-stopped

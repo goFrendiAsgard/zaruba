@@ -4,7 +4,8 @@ version: '2'
 services:
 
   postgresql:
-    image: docker.io/bitnami/postgresql:10
+    build: ./postgresql
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airflow}-postgresql:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: postgresql
     container_name: ztplAppContainerNamePostgresql
     restart: unless-stopped
@@ -18,7 +19,8 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
 
   redis:
-    image: docker.io/bitnami/redis:6.0
+    build: ./redis
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airflow}-redis:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: redis
     container_name: ztplAppContainerNameRedis
     restart: unless-stopped
@@ -29,7 +31,8 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
 
   airflow-scheduler:
-    image: docker.io/bitnami/airflow-scheduler:2
+    build: ./airflow-scheduler
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airflow}-scheduler:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: airflow-scheduler
     container_name: ztplAppContainerNameScheduler
     restart: unless-stopped
@@ -41,7 +44,8 @@ services:
       - AIRFLOW_WEBSERVER_HOST=airflow
 
   airflow-worker:
-    image: docker.io/bitnami/airflow-worker:2
+    build: ./airflow-worker
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airflow}-worker:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: airflow-worker
     container_name: ztplAppContainerNameWorker
     restart: unless-stopped
@@ -55,7 +59,8 @@ services:
       - AIRFLOW_WEBSERVER_HOST=airflow
 
   airflow:
-    image: docker.io/bitnami/airflow:2
+    build: ./airflow
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-airflow}:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: airflow
     container_name: ztplAppContainerName
     restart: unless-stopped

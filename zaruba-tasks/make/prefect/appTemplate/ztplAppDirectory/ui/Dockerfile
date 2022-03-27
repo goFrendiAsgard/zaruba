@@ -1,0 +1,1 @@
+FROM prefecthq/ui:core-1.1.0

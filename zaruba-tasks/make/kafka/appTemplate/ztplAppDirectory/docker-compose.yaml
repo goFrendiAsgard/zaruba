@@ -4,7 +4,8 @@ version: '2'
 services:
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.1
+    build: ./zookeeper
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-zookeeper:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: zookeeper
     container_name: ztplAppContainerNameZookeeper
     restart: unless-stopped
@@ -15,7 +16,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker:
-    image: confluentinc/cp-server:7.0.1
+    build: ./server
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-server:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     restart: unless-stopped
     hostname: broker
     container_name: ztplAppContainerNameBroker
@@ -45,7 +47,8 @@ services:
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.0.1
+    build: ./schema-registry
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-schema-registry:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     restart: unless-stopped
     hostname: schema-registry
     container_name: ztplAppContainerNameSchemaRegistry
@@ -59,7 +62,8 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   connect:
-    image: cnfldemos/cp-server-connect-datagen:0.5.0-6.2.0
+    build: ./server-connect-datagen
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-server-connect-datagen:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     restart: unless-stopped
     hostname: connect
     container_name: ztplAppContainerNameConnect
@@ -90,7 +94,8 @@ services:
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
 
   control-center:
-    image: confluentinc/cp-enterprise-control-center:7.0.1
+    build: ./enterprise-control-center
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-enterprise-control-center:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     restart: unless-stopped
     hostname: control-center
     container_name: ztplAppContainerNameControlCenter
@@ -114,7 +119,8 @@ services:
       PORT: 9021
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:7.0.1
+    build: ./ksqldb-server
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-ksqldb-server:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     restart: unless-stopped
     hostname: ksqldb-server
     container_name: ztplAppContainerNameKsqldbServer
@@ -138,7 +144,8 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:7.0.1
+    build: ./ksqldb-cli
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-ksqldb-cli:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     container_name: ztplAppContainerNameKsqldbCli
     restart: unless-stopped
     depends_on:
@@ -149,7 +156,8 @@ services:
     tty: true
 
   ksql-datagen:
-    image: confluentinc/ksqldb-examples:7.0.1
+    build: ./ksqldb-examples
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-ksqldb-examples:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: ksql-datagen
     container_name: ztplAppContainerNameKsqldbDatagen
     restart: unless-stopped
@@ -172,7 +180,8 @@ services:
       STREAMS_SCHEMA_REGISTRY_PORT: 8081
 
   rest-proxy:
-    image: confluentinc/cp-kafka-rest:7.0.1
+    build: ./kafka-rest
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-kafka}-kafka-rest:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: rest-proxy
     container_name: ztplAppContainerNameRestProxy
     restart: unless-stopped

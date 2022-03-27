@@ -4,7 +4,8 @@ version: "3.7"
 services:
 
   postgres:
-    image: "postgres:11"
+    build: ./postgres
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-prefect}-postgres:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: postgres
     container_name: ztplAppContainerNamePostgres
     environment:
@@ -20,7 +21,8 @@ services:
       - "max_connections=150"
     
   hasura:
-    image: "hasura/graphql-engine:v2.1.1"
+    build: ./graphql-engine
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-prefect}-graphql-engine:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: hasura
     container_name: ztplAppContainerNameHasura
     init: true
@@ -45,7 +47,8 @@ services:
       - postgres
   
   graphql:
-    image: "prefecthq/server:core-1.1.0"
+    build: ./server
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-prefect}-server:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: graphql
     container_name: ztplAppContainerNameGraphql
     command: bash -c "${PREFECT_SERVER_DB_CMD} && python src/prefect_server/services/graphql/server.py"
@@ -59,7 +62,8 @@ services:
       - hasura
   
   towel:
-    image: "prefecthq/server:core-1.1.0"
+    build: ./server
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-prefect}-server:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     command: "python src/prefect_server/services/towel/__main__.py"
     environment:
       PREFECT_SERVER__HASURA__ADMIN_SECRET: ${PREFECT_SERVER__HASURA__ADMIN_SECRET:-hasura-secret-admin-secret}
@@ -69,7 +73,8 @@ services:
       - graphql
   
   apollo:
-    image: "prefecthq/apollo:core-1.1.0"
+    build: ./apollo
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-prefect}-apollo:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: apollo
     container_name: ztplAppContainerNameApollo
     ports:
@@ -87,7 +92,8 @@ services:
       - graphql
   
   ui:
-    image: "prefecthq/ui:core-1.1.0"
+    build: ./ui
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-prefect}-ui:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: ui
     container_name: ztplAppContainerName
     ports:

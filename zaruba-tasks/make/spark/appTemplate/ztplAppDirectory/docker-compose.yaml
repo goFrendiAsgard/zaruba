@@ -4,7 +4,8 @@ version: '2'
 services:
 
   spark:
-    image: docker.io/bitnami/spark:3
+    build: ./spark
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-spark}:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: spark
     container_name: ztplAppContainerName
     restart: unless-stopped
@@ -18,7 +19,8 @@ services:
       - '${SPARK_MASTER_UI_PORT:-9090}:8080'
 
   spark-worker:
-    image: docker.io/bitnami/spark:3
+    build: ./spark
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-spark}:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
     hostname: spark-worker
     container_name: ztplAppContainerNameWorker
     restart: unless-stopped
