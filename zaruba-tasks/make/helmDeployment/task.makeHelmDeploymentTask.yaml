@@ -1,0 +1,13 @@
+tasks:
+
+  makeHelmDeploymentTask:
+    icon: 🚢
+    extend: zrbMake
+    dependencies:
+      - zrbIsProject
+      - makeHelmDeployment
+    inputs:
+      - deploymentDirectory
+      - deploymentName
+    configRef: makeHelmDeploymentTask
+

@@ -1,0 +1,14 @@
+tasks:
+
+  makeAppHelmDeploymentTaskInPython:
+    icon: 🚢
+    extend: zrbMake
+    dependencies:
+      - zrbIsProject
+      - makeAppHelmDeploymentInPython
+    inputs:
+      - appDirectory
+      - deploymentDirectory
+      - deploymentName
+    configRef: makeAppHelmDeploymentTask
+

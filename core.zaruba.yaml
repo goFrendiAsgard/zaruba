@@ -142,15 +142,15 @@ includes:
   - ./zaruba-tasks/make/app/dockerContainer/config.makeDockerContainerApp.yaml
   - ./zaruba-tasks/make/app/dockerContainer/task.makeDockerContainerApp.yaml
 
-  - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeployment.yaml
-  - ./zaruba-tasks/make/appKubeDeployment/config.makeAppKubeDeploymentTask.yaml
-  - ./zaruba-tasks/make/appKubeDeployment/task.addAppKubeDeployment.yaml
-  - ./zaruba-tasks/make/appKubeDeployment/task.makeAppKubeDeployment.yaml
-  - ./zaruba-tasks/make/appKubeDeployment/task.makeAppKubeDeploymentTask.yaml
+  - ./zaruba-tasks/make/appHelmDeployment/config.makeAppHelmDeployment.yaml
+  - ./zaruba-tasks/make/appHelmDeployment/config.makeAppHelmDeploymentTask.yaml
+  - ./zaruba-tasks/make/appHelmDeployment/task.addAppHelmDeployment.yaml
+  - ./zaruba-tasks/make/appHelmDeployment/task.makeAppHelmDeployment.yaml
+  - ./zaruba-tasks/make/appHelmDeployment/task.makeAppHelmDeploymentTask.yaml
 
-  - ./zaruba-tasks/make/appKubeDeploymentInPython/task.addAppKubeDeploymentInPython.yaml
-  - ./zaruba-tasks/make/appKubeDeploymentInPython/task.makeAppKubeDeploymentInPython.yaml
-  - ./zaruba-tasks/make/appKubeDeploymentInPython/task.makeAppKubeDeploymentTaskInPython.yaml
+  - ./zaruba-tasks/make/appHelmDeploymentInPython/task.addAppHelmDeploymentInPython.yaml
+  - ./zaruba-tasks/make/appHelmDeploymentInPython/task.makeAppHelmDeploymentInPython.yaml
+  - ./zaruba-tasks/make/appHelmDeploymentInPython/task.makeAppHelmDeploymentTaskInPython.yaml
 
   - ./zaruba-tasks/make/appRunner/_base/config.zrbMakeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
@@ -246,6 +246,16 @@ includes:
   - ./zaruba-tasks/make/goAppRunner/config.makeGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
+
+  - ./zaruba-tasks/make/helmDeployment/config.makeHelmDeployment.yaml
+  - ./zaruba-tasks/make/helmDeployment/config.makeHelmDeploymentTask.yaml
+  - ./zaruba-tasks/make/helmDeployment/task.addHelmDeployment.yaml
+  - ./zaruba-tasks/make/helmDeployment/task.makeHelmDeployment.yaml
+  - ./zaruba-tasks/make/helmDeployment/task.makeHelmDeploymentTask.yaml
+
+  - ./zaruba-tasks/make/helmDeploymentInPython/task.addHelmDeploymentInPython.yaml
+  - ./zaruba-tasks/make/helmDeploymentInPython/task.makeHelmDeploymentInPython.yaml
+  - ./zaruba-tasks/make/helmDeploymentInPython/task.makeHelmDeploymentTaskInPython.yaml
 
   - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookApp.yaml
   - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookAppRunner.yaml

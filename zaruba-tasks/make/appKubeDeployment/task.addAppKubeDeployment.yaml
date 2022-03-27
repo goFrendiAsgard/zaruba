@@ -1,6 +1,0 @@
-tasks:
-
-  addAppKubeDeployment:
-    icon: 🚢
-    dependencies:
-      - makeAppKubeDeploymentTask

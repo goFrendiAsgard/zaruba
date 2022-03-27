@@ -30,20 +30,20 @@ zaruba please clearLog
  
 ```````
 Job Starting...
- Elapsed Time: 1.114µs
- Current Time: 13:29:27
+ Elapsed Time: 1.044µs
+ Current Time: 14:18:57
   Run  'clearLog' command on /home/gofrendi/zaruba/docs
-   clearLog              13:29:27.873 Log removed
+   clearLog              14:18:57.647 Log removed
   Successfully running  'clearLog' command
   Job Running...
- Elapsed Time: 104.391897ms
- Current Time: 13:29:27
+ Elapsed Time: 104.450931ms
+ Current Time: 14:18:57
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 305.867876ms
- Current Time: 13:29:28
+ Elapsed Time: 305.442002ms
+ Current Time: 14:18:57
 zaruba please clearLog
 ```````
 </details>
@@ -75,20 +75,20 @@ zaruba please printHelloWorld
  
 ```````
 Job Starting...
- Elapsed Time: 1.032µs
- Current Time: 13:29:28
+ Elapsed Time: 958ns
+ Current Time: 14:18:58
   Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-   printHelloWorld       13:29:28.339 hello world
+   printHelloWorld       14:18:58.125 hello world
   Successfully running  'printHelloWorld' command
   Job Running...
- Elapsed Time: 102.183763ms
- Current Time: 13:29:28
+ Elapsed Time: 102.028932ms
+ Current Time: 14:18:58
   
   Job Complete!!! 
   Terminating
   Job Ended...
- Elapsed Time: 212.997074ms
- Current Time: 13:29:28
+ Elapsed Time: 212.313517ms
+ Current Time: 14:18:58
 zaruba please printHelloWorld
 ```````
 </details>

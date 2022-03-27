@@ -1,0 +1,6 @@
+tasks:
+
+  addHelmDeploymentInPython:
+    icon: 🚢
+    dependencies:
+      - makeHelmDeploymentTaskInPython

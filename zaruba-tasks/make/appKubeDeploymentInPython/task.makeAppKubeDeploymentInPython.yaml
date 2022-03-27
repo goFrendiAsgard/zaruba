@@ -1,8 +1,0 @@
-tasks:
-
-  makeAppKubeDeploymentInPython:
-    icon: 🚢
-    extend: makeApp
-    configRef: makeAppKubeDeployment
-    inputs:
-      - deploymentDirectory

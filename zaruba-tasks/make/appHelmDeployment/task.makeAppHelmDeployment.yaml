@@ -1,0 +1,8 @@
+tasks:
+
+  makeAppHelmDeployment:
+    icon: 🚢
+    extend: makeApp
+    inputs:
+      - deploymentDirectory
+    configRef: makeAppHelmDeployment

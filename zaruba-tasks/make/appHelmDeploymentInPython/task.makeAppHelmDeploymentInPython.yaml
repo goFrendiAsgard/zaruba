@@ -1,0 +1,8 @@
+tasks:
+
+  makeAppHelmDeploymentInPython:
+    icon: 🚢
+    extend: makeApp
+    configRef: makeAppHelmDeployment
+    inputs:
+      - deploymentDirectory

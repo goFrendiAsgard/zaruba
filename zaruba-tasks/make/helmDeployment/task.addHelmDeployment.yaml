@@ -1,0 +1,6 @@
+tasks:
+
+  addHelmDeployment:
+    icon: 🚢
+    dependencies:
+      - makeHelmDeploymentTask

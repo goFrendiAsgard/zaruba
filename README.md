@@ -178,9 +178,9 @@ zaruba please stopContainers
 # - pulumi
 # - cloud provider or a computer that can run kubernetes locally (we use docker-desktop in this example)
 zaruba please buildImages # or `zaruba please pushImages`
-zaruba please addAppKubeDeployment appDirectory=myPythonApp
-zaruba please addAppKubeDeployment appDirectory=myGoApp
-zaruba please addAppKubeDeployment appDirectory=myDb
+zaruba please addAppHelmDeployment appDirectory=myPythonApp
+zaruba please addAppHelmDeployment appDirectory=myGoApp
+zaruba please addAppHelmDeployment appDirectory=myDb
 zaruba please syncEnv
 zaruba please deploy kubeContext=docker-desktop
 zaruba please destroy kubeContext=docker-desktop
