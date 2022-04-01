@@ -3,21 +3,21 @@
 # 🐍 zrbRunPythonScript
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/_base/run/task.zrbRunPythonScript.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     true
 
-[1m[34mType[0m:
+Type:
 
     command
 
-[1m[34mDescription[0m:
+Description:
 
     Run python script
     Common configs:
@@ -25,12 +25,12 @@
 
 
 
-[1m[33m## Extends[0m
+## Extends
 
 * [zrbRunScript](zrb-run-script.md)
 
 
-[1m[33m## Start[0m
+## Start
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -48,60 +48,60 @@
     ```
 
 
-[1m[33m## Configs[0m
+## Configs
 
 
-[1m[33m### Configs._finish[0m
+### Configs._finish
 
 
-[1m[33m### Configs._setup[0m
+### Configs._setup
 
 
-[1m[33m### Configs._start[0m
+### Configs._start
 
 
-[1m[33m### Configs.afterStart[0m
+### Configs.afterStart
 
 
-[1m[33m### Configs.beforeStart[0m
+### Configs.beforeStart
 
 
-[1m[33m### Configs.cmd[0m
+### Configs.cmd
 
-[1m[34mValue[0m:
+Value:
 
     python
 
 
-[1m[33m### Configs.cmdArg[0m
+### Configs.cmdArg
 
-[1m[34mValue[0m:
+Value:
 
     -c
 
 
-[1m[33m### Configs.finish[0m
+### Configs.finish
 
 
-[1m[33m### Configs.setup[0m
+### Configs.setup
 
 
-[1m[33m### Configs.start[0m
+### Configs.start
 
-[1m[34mValue[0m:
+Value:
 
     print('hello world')
 
 
-[1m[33m## Envs[0m
+## Envs
 
 
-[1m[33m### Envs.PYTHONUNBUFFERED[0m
+### Envs.PYTHONUNBUFFERED
 
-[1m[34mFrom[0m:
+From:
 
     PYTHONUNBUFFERED
 
-[1m[34mDefault[0m:
+Default:
 
     1

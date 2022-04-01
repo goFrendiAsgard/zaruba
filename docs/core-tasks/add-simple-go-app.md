@@ -3,22 +3,22 @@
 # 🐹 addSimpleGoApp
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/make/simpleGoApp/task.addSimpleGoApp.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     false
 
-[1m[34mType[0m:
+Type:
 
     wrapper
 
 
-[1m[33m## Dependencies[0m
+## Dependencies
 
 * [makeSimpleGoApp](make-simple-go-app.md)
 * [makeSimpleGoAppRunner](make-simple-go-app-runner.md)

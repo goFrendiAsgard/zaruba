@@ -3,22 +3,22 @@
 # 🐇 addRabbitmq
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     false
 
-[1m[34mType[0m:
+Type:
 
     wrapper
 
 
-[1m[33m## Dependencies[0m
+## Dependencies
 
 * [makeRabbitmqApp](make-rabbitmq-app.md)
 * [makeRabbitmqAppRunner](make-rabbitmq-app-runner.md)

@@ -3,38 +3,38 @@
 # 🥂 addSubrepo
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     true
 
-[1m[34mType[0m:
+Type:
 
     command
 
-[1m[34mDescription[0m:
+Description:
 
     Add subrepository.
     TIPS: To init added subrepositories, you should perform `zaruba please initSubrepos`
 
 
 
-[1m[33m## Extends[0m
+## Extends
 
 * [zrbRunShellScript](zrb-run-shell-script.md)
 
 
-[1m[33m## Dependencies[0m
+## Dependencies
 
 * [zrbIsProject](zrb-is-project.md)
 
 
-[1m[33m## Start[0m
+## Start
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -52,67 +52,67 @@
     ```
 
 
-[1m[33m## Inputs[0m
+## Inputs
 
 
-[1m[33m### Inputs.subrepoName[0m
+### Inputs.subrepoName
 
-[1m[34mDescription[0m:
+Description:
 
     Subrepo name (Can be blank)
 
-[1m[34mPrompt[0m:
+Prompt:
 
     Subrepo name
 
-[1m[34mSecret[0m:
+Secret:
 
     false
 
 
-[1m[33m### Inputs.subrepoPrefix[0m
+### Inputs.subrepoPrefix
 
-[1m[34mDescription[0m:
+Description:
 
     Subrepo directory name (Can be blank)
 
-[1m[34mPrompt[0m:
+Prompt:
 
     Subrepo directory name
 
-[1m[34mSecret[0m:
+Secret:
 
     false
 
 
-[1m[33m### Inputs.subrepoUrl[0m
+### Inputs.subrepoUrl
 
-[1m[34mDescription[0m:
+Description:
 
     Subrepo url (Required)
 
-[1m[34mPrompt[0m:
+Prompt:
 
     Subrepo url
 
-[1m[34mSecret[0m:
+Secret:
 
     false
 
-[1m[34mValidation[0m:
+Validation:
 
     ^.+$
 
 
-[1m[33m## Configs[0m
+## Configs
 
 
-[1m[33m### Configs._finish[0m
+### Configs._finish
 
 
-[1m[33m### Configs._initShell[0m
+### Configs._initShell
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -123,66 +123,66 @@
 
 
 
-[1m[33m### Configs._setup[0m
+### Configs._setup
 
-[1m[34mValue[0m:
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-[1m[33m### Configs._start[0m
+### Configs._start
 
 
-[1m[33m### Configs.afterStart[0m
+### Configs.afterStart
 
 
-[1m[33m### Configs.beforeStart[0m
+### Configs.beforeStart
 
 
-[1m[33m### Configs.cmd[0m
+### Configs.cmd
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-[1m[33m### Configs.cmdArg[0m
+### Configs.cmdArg
 
-[1m[34mValue[0m:
+Value:
 
     -c
 
 
-[1m[33m### Configs.finish[0m
+### Configs.finish
 
 
-[1m[33m### Configs.setup[0m
+### Configs.setup
 
 
-[1m[33m### Configs.shouldInitConfigMapVariable[0m
+### Configs.shouldInitConfigMapVariable
 
-[1m[34mValue[0m:
-
-    false
-
-
-[1m[33m### Configs.shouldInitEnvMapVariable[0m
-
-[1m[34mValue[0m:
+Value:
 
     false
 
 
-[1m[33m### Configs.shouldInitUtil[0m
+### Configs.shouldInitEnvMapVariable
 
-[1m[34mValue[0m:
+Value:
+
+    false
+
+
+### Configs.shouldInitUtil
+
+Value:
 
     true
 
 
-[1m[33m### Configs.start[0m
+### Configs.start
 
-[1m[34mValue[0m:
+Value:
 
     URL="{{ .GetValue "subrepoUrl" }}"
     if [ -z "${URL}" ]
@@ -207,43 +207,43 @@
 
 
 
-[1m[33m### Configs.strictMode[0m
+### Configs.strictMode
 
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.subrepoName[0m
+### Configs.subrepoName
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetValue "subrepoName" }}
 
 
-[1m[33m### Configs.subrepoPrefix[0m
+### Configs.subrepoPrefix
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetValue "subrepoPrefix" }}
 
 
-[1m[33m### Configs.subrepoUrl[0m
+### Configs.subrepoUrl
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetValue "subrepoUrl" }}
 
 
-[1m[33m## Envs[0m
+## Envs
 
 
-[1m[33m### Envs.PYTHONUNBUFFERED[0m
+### Envs.PYTHONUNBUFFERED
 
-[1m[34mFrom[0m:
+From:
 
     PYTHONUNBUFFERED
 
-[1m[34mDefault[0m:
+Default:
 
     1

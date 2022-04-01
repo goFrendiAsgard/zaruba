@@ -3,21 +3,21 @@
 # 🪄 zrbGenerateAndRun
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/_base/generateAndRun/task.zrbGenerateAndRun.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     true
 
-[1m[34mType[0m:
+Type:
 
     command
 
-[1m[34mDescription[0m:
+Description:
 
     Generate script and run it.
     Common configs:
@@ -35,12 +35,12 @@
 
 
 
-[1m[33m## Extends[0m
+## Extends
 
 * [zrbRunShellScript](zrb-run-shell-script.md)
 
 
-[1m[33m## Start[0m
+## Start
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -58,15 +58,15 @@
     ```
 
 
-[1m[33m## Configs[0m
+## Configs
 
 
-[1m[33m### Configs._finish[0m
+### Configs._finish
 
 
-[1m[33m### Configs._initShell[0m
+### Configs._initShell
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -77,36 +77,36 @@
 
 
 
-[1m[33m### Configs._prepareBaseReplacementMap[0m
+### Configs._prepareBaseReplacementMap
 
-[1m[34mValue[0m:
+Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareReplacementMap.sh"
 
 
-[1m[33m### Configs._prepareBaseVariables[0m
+### Configs._prepareBaseVariables
 
-[1m[34mValue[0m:
+Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/prepareVariables.sh"
 
 
-[1m[33m### Configs._prepareReplacementMap[0m
+### Configs._prepareReplacementMap
 
 
-[1m[33m### Configs._prepareVariables[0m
+### Configs._prepareVariables
 
 
-[1m[33m### Configs._setup[0m
+### Configs._setup
 
-[1m[34mValue[0m:
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-[1m[33m### Configs._start[0m
+### Configs._start
 
-[1m[34mValue[0m:
+Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/util.sh"
     _ZRB_TEMPLATE_LOCATION='{{ .GetConfig "templateLocation" }}'
@@ -138,130 +138,130 @@
 
 
 
-[1m[33m### Configs._validate[0m
+### Configs._validate
 
 
-[1m[33m### Configs._validateTemplateLocation[0m
+### Configs._validateTemplateLocation
 
-[1m[34mValue[0m:
+Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/bash/validateTemplateLocation.sh"
 
 
-[1m[33m### Configs.afterStart[0m
+### Configs.afterStart
 
-[1m[34mValue[0m:
+Value:
 
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 
 
-[1m[33m### Configs.beforeStart[0m
+### Configs.beforeStart
 
 
-[1m[33m### Configs.cmd[0m
+### Configs.cmd
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-[1m[33m### Configs.cmdArg[0m
+### Configs.cmdArg
 
-[1m[34mValue[0m:
+Value:
 
     -c
 
 
-[1m[33m### Configs.finish[0m
+### Configs.finish
 
 
-[1m[33m### Configs.generatedScriptLocation[0m
+### Configs.generatedScriptLocation
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetProjectPath "tmp" }}/{{ .Name }}.script.{{ .UUID }}
 
 
-[1m[33m### Configs.runGeneratedScript[0m
+### Configs.runGeneratedScript
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetProjectPath "tmp" }}/{{ .Name }}/run.sh
 
 
-[1m[33m### Configs.script[0m
+### Configs.script
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetValue "script" }}
 
 
-[1m[33m### Configs.setup[0m
+### Configs.setup
 
 
-[1m[33m### Configs.shouldInitConfigMapVariable[0m
+### Configs.shouldInitConfigMapVariable
 
-[1m[34mValue[0m:
-
-    true
-
-
-[1m[33m### Configs.shouldInitConfigVariables[0m
-
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.shouldInitEnvMapVariable[0m
+### Configs.shouldInitConfigVariables
 
-[1m[34mValue[0m:
-
-    true
-
-
-[1m[33m### Configs.shouldInitUtil[0m
-
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.sql[0m
+### Configs.shouldInitEnvMapVariable
 
-[1m[34mValue[0m:
+Value:
+
+    true
+
+
+### Configs.shouldInitUtil
+
+Value:
+
+    true
+
+
+### Configs.sql
+
+Value:
 
     {{ .GetValue "sql" }}
 
 
-[1m[33m### Configs.start[0m
+### Configs.start
 
 
-[1m[33m### Configs.strictMode[0m
+### Configs.strictMode
 
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.templateLocation[0m
+### Configs.templateLocation
 
-[1m[34mValue[0m:
+Value:
 
     {{ .ZarubaHome }}/zaruba-tasks/_base/generateAndRun/template
 
 
-[1m[33m## Envs[0m
+## Envs
 
 
-[1m[33m### Envs.PYTHONUNBUFFERED[0m
+### Envs.PYTHONUNBUFFERED
 
-[1m[34mFrom[0m:
+From:
 
     PYTHONUNBUFFERED
 
-[1m[34mDefault[0m:
+Default:
 
     1

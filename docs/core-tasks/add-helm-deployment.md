@@ -3,22 +3,22 @@
 # 🚢 addHelmDeployment
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/make/helmDeployment/task.addHelmDeployment.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     false
 
-[1m[34mType[0m:
+Type:
 
     wrapper
 
 
-[1m[33m## Dependencies[0m
+## Dependencies
 
 * [makeHelmDeployment](make-helm-deployment.md)
 * [makeHelmDeploymentTask](make-helm-deployment-task.md)

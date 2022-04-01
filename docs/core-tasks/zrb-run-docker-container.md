@@ -3,21 +3,21 @@
 # 🐳 zrbRunDockerContainer
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     true
 
-[1m[34mType[0m:
+Type:
 
     command
 
-[1m[34mDescription[0m:
+Description:
 
     Run docker container.
     If container is already started, its stdout/stderr will be shown.
@@ -47,18 +47,18 @@
 
 
 
-[1m[33m## Extends[0m
+## Extends
 
 * [zrbRunShellScript](zrb-run-shell-script.md)
 
 
-[1m[33m## Dependencies[0m
+## Dependencies
 
 * [updateProjectLinks](update-project-links.md)
 * [zrbCreateDockerNetwork](zrb-create-docker-network.md)
 
 
-[1m[33m## Start[0m
+## Start
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -76,15 +76,15 @@
     ```
 
 
-[1m[33m## Configs[0m
+## Configs
 
 
-[1m[33m### Configs._finish[0m
+### Configs._finish
 
 
-[1m[33m### Configs._initShell[0m
+### Configs._initShell
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -95,9 +95,9 @@
 
 
 
-[1m[33m### Configs._setup[0m
+### Configs._setup
 
-[1m[34mValue[0m:
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }} 
     {{ .Util.Str.Trim (.GetConfig "_setupContainerName") "\n" }} 
@@ -105,9 +105,9 @@
 
 
 
-[1m[33m### Configs._setupContainerName[0m
+### Configs._setupContainerName
 
-[1m[34mValue[0m:
+Value:
 
     CONTAINER_NAME="{{ .GetConfig "containerName" }}"
     if [ -z "${CONTAINER_NAME}" ]
@@ -118,9 +118,9 @@
 
 
 
-[1m[33m### Configs._setupImageName[0m
+### Configs._setupImageName
 
-[1m[34mValue[0m:
+Value:
 
     DOCKER_IMAGE_NAME="{{ .GetDockerImageName }}"
     if [ -z "${DOCKER_IMAGE_NAME}" ]
@@ -131,9 +131,9 @@
 
 
 
-[1m[33m### Configs._start[0m
+### Configs._start
 
-[1m[34mValue[0m:
+Value:
 
     {{ $rebuild := .GetConfig "rebuild" -}}
     {{ if .Util.Bool.IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
@@ -157,18 +157,18 @@
 
 
 
-[1m[33m### Configs._startLogContainer[0m
+### Configs._startLogContainer
 
-[1m[34mValue[0m:
+Value:
 
     echo "🐳 ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
     docker logs --since 0m --follow "${CONTAINER_NAME}"
 
 
 
-[1m[33m### Configs._startRebuildContainer[0m
+### Configs._startRebuildContainer
 
-[1m[34mValue[0m:
+Value:
 
     if [ "$(isContainerExist "${CONTAINER}")" = 1 ]
     then
@@ -178,9 +178,9 @@
 
 
 
-[1m[33m### Configs._startRunContainer[0m
+### Configs._startRunContainer
 
-[1m[34mValue[0m:
+Value:
 
     {{ $imageTag := .GetConfig "imageTag" -}}
     {{ $this := . -}}
@@ -198,9 +198,9 @@
 
 
 
-[1m[33m### Configs._startRunContainerEntryPoint[0m
+### Configs._startRunContainerEntryPoint
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetConfig "entryPoint" -}}
       --entrypoint "{{ .GetConfig "entryPoint" }}" {{ "" -}}
@@ -208,9 +208,9 @@
 
 
 
-[1m[33m### Configs._startRunContainerEnv[0m
+### Configs._startRunContainerEnv
 
-[1m[34mValue[0m:
+Value:
 
     {{ $this := . -}}
     {{ if eq (.GetConfig "localhost") "localhost" -}}
@@ -228,9 +228,9 @@
 
 
 
-[1m[33m### Configs._startRunContainerPorts[0m
+### Configs._startRunContainerPorts
 
-[1m[34mValue[0m:
+Value:
 
     {{ $this := . -}}
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
@@ -248,9 +248,9 @@
 
 
 
-[1m[33m### Configs._startRunContainerVolumes[0m
+### Configs._startRunContainerVolumes
 
-[1m[34mValue[0m:
+Value:
 
     {{ $this := . -}}
     {{ range $index, $volume := .Util.Str.Split (.Util.Str.Trim (.GetConfig "volumes") "\n ") "\n" -}}
@@ -266,155 +266,155 @@
 
 
 
-[1m[33m### Configs.afterStart[0m
+### Configs.afterStart
 
 
-[1m[33m### Configs.beforeStart[0m
+### Configs.beforeStart
 
 
-[1m[33m### Configs.checkCommand[0m
+### Configs.checkCommand
 
 
-[1m[33m### Configs.cmd[0m
+### Configs.cmd
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-[1m[33m### Configs.cmdArg[0m
+### Configs.cmdArg
 
-[1m[34mValue[0m:
+Value:
 
     -c
 
 
-[1m[33m### Configs.command[0m
+### Configs.command
 
 
-[1m[33m### Configs.containerName[0m
+### Configs.containerName
 
 
-[1m[33m### Configs.entryPoint[0m
+### Configs.entryPoint
 
 
-[1m[33m### Configs.finish[0m
+### Configs.finish
 
 
-[1m[33m### Configs.hostDockerInternal[0m
+### Configs.hostDockerInternal
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}
 
 
-[1m[33m### Configs.imageName[0m
+### Configs.imageName
 
 
-[1m[33m### Configs.imagePrefix[0m
+### Configs.imagePrefix
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetValue "defaultImagePrefix" }}
 
 
-[1m[33m### Configs.imageTag[0m
+### Configs.imageTag
 
 
-[1m[33m### Configs.localhost[0m
+### Configs.localhost
 
-[1m[34mValue[0m:
+Value:
 
     localhost
 
 
-[1m[33m### Configs.network[0m
+### Configs.network
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetValue "defaultNetwork" }}{{ .GetValue "defaultNetwork" }}{{ else }}zaruba{{ end }}
 
 
-[1m[33m### Configs.ports[0m
+### Configs.ports
 
 
-[1m[33m### Configs.rebuild[0m
+### Configs.rebuild
 
-[1m[34mValue[0m:
+Value:
 
     false
 
 
-[1m[33m### Configs.restartPolicy[0m
+### Configs.restartPolicy
 
-[1m[34mValue[0m:
+Value:
 
     no
 
 
-[1m[33m### Configs.setup[0m
+### Configs.setup
 
 
-[1m[33m### Configs.shmSize[0m
+### Configs.shmSize
 
-[1m[34mValue[0m:
+Value:
 
     100m
 
 
-[1m[33m### Configs.shouldInitConfigMapVariable[0m
+### Configs.shouldInitConfigMapVariable
 
-[1m[34mValue[0m:
-
-    false
-
-
-[1m[33m### Configs.shouldInitEnvMapVariable[0m
-
-[1m[34mValue[0m:
+Value:
 
     false
 
 
-[1m[33m### Configs.shouldInitUtil[0m
+### Configs.shouldInitEnvMapVariable
 
-[1m[34mValue[0m:
+Value:
 
-    true
-
-
-[1m[33m### Configs.start[0m
+    false
 
 
-[1m[33m### Configs.strictMode[0m
+### Configs.shouldInitUtil
 
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.useImagePrefix[0m
+### Configs.start
 
-[1m[34mValue[0m:
+
+### Configs.strictMode
+
+Value:
 
     true
 
 
-[1m[33m### Configs.user[0m
+### Configs.useImagePrefix
+
+Value:
+
+    true
 
 
-[1m[33m### Configs.volumes[0m
+### Configs.user
 
 
-[1m[33m## Envs[0m
+### Configs.volumes
 
 
-[1m[33m### Envs.PYTHONUNBUFFERED[0m
+## Envs
 
-[1m[34mFrom[0m:
+
+### Envs.PYTHONUNBUFFERED
+
+From:
 
     PYTHONUNBUFFERED
 
-[1m[34mDefault[0m:
+Default:
 
     1

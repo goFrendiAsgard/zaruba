@@ -3,21 +3,21 @@
 # 🐳 zrbStartDockerCompose
 <!--endTocHeader-->
 
-[1m[33m## Information[0m
+## Information
 
-[1m[34mFile Location[0m:
+File Location:
 
     ~/.zaruba/zaruba-tasks/_base/start/task.zrbStartDockerCompose.yaml
 
-[1m[34mShould Sync Env[0m:
+Should Sync Env:
 
     true
 
-[1m[34mType[0m:
+Type:
 
     service
 
-[1m[34mDescription[0m:
+Description:
 
     Start docker compose and wait until it is ready.
     Common configs:
@@ -34,18 +34,18 @@
 
 
 
-[1m[33m## Extends[0m
+## Extends
 
 * [zrbStartApp](zrb-start-app.md)
 
 
-[1m[33m## Dependencies[0m
+## Dependencies
 
 * [updateProjectLinks](update-project-links.md)
 * [zrbCreateDockerNetwork](zrb-create-docker-network.md)
 
 
-[1m[33m## Start[0m
+## Start
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -70,7 +70,7 @@
     ```
 
 
-[1m[33m## Check[0m
+## Check
 
 * `{{ .GetConfig "cmd" }}`
 * `{{ .GetConfig "cmdArg" }}`
@@ -94,12 +94,12 @@
     ```
 
 
-[1m[33m## Configs[0m
+## Configs
 
 
-[1m[33m### Configs._check[0m
+### Configs._check
 
-[1m[34mValue[0m:
+Value:
 
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
       {{ if ne $port "" -}}
@@ -126,12 +126,12 @@
 
 
 
-[1m[33m### Configs._finish[0m
+### Configs._finish
 
 
-[1m[33m### Configs._initShell[0m
+### Configs._initShell
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "strictMode") }}set -e{{ else }}set +e{{ end }}
     {{ if .Util.Bool.IsTrue (.GetConfig "shouldInitUtil") }}. {{ .ZarubaHome }}/zaruba-tasks/_base/run/bash/shellUtil.sh{{ else }}{{ "" -}}{{ end }}
@@ -142,16 +142,16 @@
 
 
 
-[1m[33m### Configs._setup[0m
+### Configs._setup
 
-[1m[34mValue[0m:
+Value:
 
     {{ .Util.Str.Trim (.GetConfig "_initShell") "\n" }}
 
 
-[1m[33m### Configs._start[0m
+### Configs._start
 
-[1m[34mValue[0m:
+Value:
 
     if [ -z "$(docker-compose top)" ]
     then
@@ -167,9 +167,9 @@
 
 
 
-[1m[33m### Configs._startEnv[0m
+### Configs._startEnv
 
-[1m[34mValue[0m:
+Value:
 
     {{ $this := . -}}
     {{ if eq (.GetConfig "localhost") "localhost" -}}
@@ -186,129 +186,129 @@
     {{ end -}}
 
 
-[1m[33m### Configs.afterCheck[0m
+### Configs.afterCheck
 
 
-[1m[33m### Configs.afterStart[0m
+### Configs.afterStart
 
 
-[1m[33m### Configs.beforeCheck[0m
+### Configs.beforeCheck
 
 
-[1m[33m### Configs.beforeStart[0m
+### Configs.beforeStart
 
 
-[1m[33m### Configs.check[0m
+### Configs.check
 
 
-[1m[33m### Configs.checkCommand[0m
+### Configs.checkCommand
 
 
-[1m[33m### Configs.cmd[0m
+### Configs.cmd
 
-[1m[34mValue[0m:
+Value:
 
     {{ if .GetValue "defaultShell" }}{{ .GetValue "defaultShell" }}{{ else }}bash{{ end }}
 
 
-[1m[33m### Configs.cmdArg[0m
+### Configs.cmdArg
 
-[1m[34mValue[0m:
+Value:
 
     -c
 
 
-[1m[33m### Configs.finish[0m
+### Configs.finish
 
 
-[1m[33m### Configs.imageName[0m
+### Configs.imageName
 
 
-[1m[33m### Configs.imagePrefix[0m
+### Configs.imagePrefix
 
-[1m[34mValue[0m:
+Value:
 
     {{ .GetValue "defaultImagePrefix" }}
 
 
-[1m[33m### Configs.imageTag[0m
+### Configs.imageTag
 
 
-[1m[33m### Configs.localhost[0m
+### Configs.localhost
 
-[1m[34mValue[0m:
+Value:
 
     localhost
 
 
-[1m[33m### Configs.ports[0m
+### Configs.ports
 
 
-[1m[33m### Configs.prepareDockerComposeEnv[0m
+### Configs.prepareDockerComposeEnv
 
-[1m[34mValue[0m:
+Value:
 
     export DOCKER_COMPOSE_IMAGE_NAME="{{ .GetDockerImageName }}"
     export DOCKER_COMPOSE_IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
 
 
-[1m[33m### Configs.runInLocal[0m
+### Configs.runInLocal
 
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.setup[0m
+### Configs.setup
 
 
-[1m[33m### Configs.shouldInitConfigMapVariable[0m
+### Configs.shouldInitConfigMapVariable
 
-[1m[34mValue[0m:
+Value:
 
     false
 
 
-[1m[33m### Configs.shouldInitEnvMapVariable[0m
+### Configs.shouldInitEnvMapVariable
 
-[1m[34mValue[0m:
+Value:
 
     false
 
 
-[1m[33m### Configs.shouldInitUtil[0m
+### Configs.shouldInitUtil
 
-[1m[34mValue[0m:
-
-    true
-
-
-[1m[33m### Configs.start[0m
-
-
-[1m[33m### Configs.strictMode[0m
-
-[1m[34mValue[0m:
+Value:
 
     true
 
 
-[1m[33m### Configs.useImagePrefix[0m
+### Configs.start
 
-[1m[34mValue[0m:
+
+### Configs.strictMode
+
+Value:
 
     true
 
 
-[1m[33m## Envs[0m
+### Configs.useImagePrefix
+
+Value:
+
+    true
 
 
-[1m[33m### Envs.PYTHONUNBUFFERED[0m
+## Envs
 
-[1m[34mFrom[0m:
+
+### Envs.PYTHONUNBUFFERED
+
+From:
 
     PYTHONUNBUFFERED
 
-[1m[34mDefault[0m:
+Default:
 
     1
