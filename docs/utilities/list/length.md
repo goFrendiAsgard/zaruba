@@ -3,7 +3,32 @@
 # Length
 <!--endTocHeader-->
 
-TODO: Write about `Length`
+
+# Usage
+
+<!--startCode-->
+```bash
+zaruba list length --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Get list's length
+
+Usage:
+  zaruba list length <list> [flags]
+
+Flags:
+  -h, --help   help for length
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -3,7 +3,31 @@
 # GetRelativePath
 <!--endTocHeader-->
 
-TODO: Write about `GetRelativePath`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba path getRelativePath --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Get relative path
+
+Usage:
+  zaruba path getRelativePath <basePath> <targetPath> [flags]
+
+Flags:
+  -h, --help   help for getRelativePath
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

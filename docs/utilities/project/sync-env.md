@@ -3,7 +3,31 @@
 # SyncEnv
 <!--endTocHeader-->
 
-TODO: Write about `SyncEnv`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba project syncEnv --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Update every task's environment
+
+Usage:
+  zaruba project syncEnv <projectFile> [flags]
+
+Flags:
+  -h, --help   help for syncEnv
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

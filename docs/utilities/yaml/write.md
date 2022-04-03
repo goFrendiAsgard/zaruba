@@ -3,7 +3,29 @@
 # Write
 <!--endTocHeader-->
 
-TODO: Write about `Write`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba yaml write --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Write obj to file as YAML
+
+Usage:
+  zaruba yaml write <fileName> <obj> [flags]
+
+Flags:
+  -h, --help   help for write
+```````
+</details>
+<!--endCode-->
+
+# Examples
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

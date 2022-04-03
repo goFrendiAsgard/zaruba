@@ -3,7 +3,31 @@
 # Read
 <!--endTocHeader-->
 
-TODO: Write about `Read`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba lines read --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Read lines from file
+
+Usage:
+  zaruba lines read <fileName> [flags]
+
+Flags:
+  -h, --help   help for read
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

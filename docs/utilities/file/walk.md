@@ -3,7 +3,30 @@
 # Walk
 <!--endTocHeader-->
 
-TODO: Write about `Walk`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba file walk --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+list files/folder in a path, recursively
+
+Usage:
+  zaruba file walk <path> [flags]
+
+Flags:
+  -h, --help   help for walk
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

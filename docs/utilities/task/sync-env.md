@@ -3,7 +3,42 @@
 # SyncEnv
 <!--endTocHeader-->
 
-TODO: Write about `SyncEnv`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba task synEnv --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Task manipulation utilities
+
+Usage:
+  zaruba task [command]
+
+Available Commands:
+  addDependency Add task dependency
+  addParent     Add task parent
+  getIcon       get task icon
+  isExist       Is task exist
+  setConfig     Set task config
+  setEnv        Set task env
+  syncEnv       Update task's environment
+
+Flags:
+  -h, --help   help for task
+
+Use "zaruba task [command] --help" for more information about a command.
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

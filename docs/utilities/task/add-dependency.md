@@ -3,7 +3,31 @@
 # AddDependency
 <!--endTocHeader-->
 
-TODO: Write about `AddDependency`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba task addDependency --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Add task dependency
+
+Usage:
+  zaruba task addDependency <projectFile> <taskName> <dependencyTaskNames> [flags]
+
+Flags:
+  -h, --help   help for addDependency
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -3,7 +3,29 @@
 # ToUpper
 <!--endTocHeader-->
 
-TODO: Write about `ToUpper`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba str toUpper --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Turn string into UPPER CASE
+
+Usage:
+  zaruba str toUpper <string> [flags]
+
+Flags:
+  -h, --help   help for toUpper
+```````
+</details>
+<!--endCode-->
+
+# Examples
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

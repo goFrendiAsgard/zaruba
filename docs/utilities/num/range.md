@@ -3,7 +3,30 @@
 # Range
 <!--endTocHeader-->
 
-TODO: Write about `Range`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba num range --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Print numbers sequentially
+
+Usage:
+  zaruba num range [start] <end> [step] [flags]
+
+Flags:
+  -h, --help   help for range
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

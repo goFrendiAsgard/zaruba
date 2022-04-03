@@ -3,7 +3,31 @@
 # SetEnv
 <!--endTocHeader-->
 
-TODO: Write about `SetEnv`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba task setEnv --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Set task env
+
+Usage:
+  zaruba task setEnv <projectFile> <taskName> <envMap> [flags]
+
+Flags:
+  -h, --help   help for setEnv
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

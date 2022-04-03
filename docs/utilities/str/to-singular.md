@@ -3,7 +3,30 @@
 # ToSingular
 <!--endTocHeader-->
 
-TODO: Write about `ToSingular`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba str toSingular --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Turn string into singular
+
+Usage:
+  zaruba str toSingular <string> [flags]
+
+Flags:
+  -h, --help   help for toSingular
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

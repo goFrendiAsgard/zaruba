@@ -3,7 +3,31 @@
 # Write
 <!--endTocHeader-->
 
-TODO: Write about `Write`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba lines write --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Write list to file
+
+Usage:
+  zaruba lines write <fileName> <jsonList> [flags]
+
+Flags:
+  -h, --help   help for write
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

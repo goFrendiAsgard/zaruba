@@ -3,7 +3,32 @@
 # Get
 <!--endTocHeader-->
 
-TODO: Write about `Get`
+
+# Usage
+
+<!--startCode-->
+```bash
+zaruba map get --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Get value from JSON map
+
+Usage:
+  zaruba map get <jsonMap> <key> [flags]
+
+Flags:
+  -h, --help   help for get
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

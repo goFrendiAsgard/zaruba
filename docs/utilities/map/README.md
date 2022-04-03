@@ -28,7 +28,7 @@ Available Commands:
   rangeKey          Print map keys
   set               Set map[key] to value
   toStringMap       Transform to string map
-  toVariedStringMap Transform to string map
+  toVariedStringMap Transform to string map with various combination (original, kebab-case, camelCase, PascalCase, snake_case, lower case, UPPER CASE, UPPER_SNAKE_CASE, "double quoted", 'single quoted')
   transformKey      Transform map keys
   validate          Check whether jsonMap is valid JSON map or not
 

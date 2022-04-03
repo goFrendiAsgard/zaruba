@@ -165,7 +165,7 @@ func (jsonMap *JsonMap) ToVariedStringMap(mapString string, keys ...string) (new
 			keys = append(keys, key)
 		}
 	}
-	strTransformators := []func(string) string{jsonMap.str.ToKebab, jsonMap.str.ToCamel, jsonMap.str.ToSnake, jsonMap.str.ToLower, jsonMap.str.ToUpper, jsonMap.str.ToUpperSnake, jsonMap.str.DoubleQuote, jsonMap.str.SingleQuote}
+	strTransformators := []func(string) string{jsonMap.str.ToKebab, jsonMap.str.ToCamel, jsonMap.str.ToPascal, jsonMap.str.ToSnake, jsonMap.str.ToLower, jsonMap.str.ToUpper, jsonMap.str.ToUpperSnake, jsonMap.str.DoubleQuote, jsonMap.str.SingleQuote}
 	for _, key := range keys {
 		val := variedStringDict[key]
 		for _, strTransformator := range strTransformators {

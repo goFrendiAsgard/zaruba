@@ -3,7 +3,31 @@
 # Include
 <!--endTocHeader-->
 
-TODO: Write about `Include`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba project include --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Add file to project
+
+Usage:
+  zaruba project include <projectFilePath> <fileName> [flags]
+
+Flags:
+  -h, --help   help for include
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -3,7 +3,31 @@
 # Repeat
 <!--endTocHeader-->
 
-TODO: Write about `Repeat`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba str repeat --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Repeat string for repetition times
+
+Usage:
+  zaruba str repeat <string> <repetition> [flags]
+
+Flags:
+  -h, --help   help for repeat
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

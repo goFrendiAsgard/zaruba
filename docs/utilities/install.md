@@ -30,12 +30,12 @@ Available Commands:
   kubectx          
   lunarvim         
   nvm              
+  ohMyZsh          
   pulumi           
   pyenv            
   scalaOnSdkman    
   sdkman           
   spark            
-  starship         
   terraform        
   tmuxConfig       
   ubuntuEssentials 

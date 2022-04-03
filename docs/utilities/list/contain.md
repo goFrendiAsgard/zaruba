@@ -3,7 +3,30 @@
 # Contain
 <!--endTocHeader-->
 
-TODO: Write about `Contain`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba list contain --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Find out whether jsonList contains string or not
+
+Usage:
+  zaruba list contain <jsonList> <element> [flags]
+
+Flags:
+  -h, --help   help for contain
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -3,7 +3,31 @@
 # SetValue
 <!--endTocHeader-->
 
-TODO: Write about `SetValue`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba project setValue --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Set project value
+
+Usage:
+  zaruba project setValue <valueFile> <key> <value> [flags]
+
+Flags:
+  -h, --help   help for setValue
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

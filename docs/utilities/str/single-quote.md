@@ -3,7 +3,30 @@
 # SingleQuote
 <!--endTocHeader-->
 
-TODO: Write about `SingleQuote`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba str singleQuote --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Single quote string
+
+Usage:
+  zaruba str singleQuote <string> [flags]
+
+Flags:
+  -h, --help   help for singleQuote
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

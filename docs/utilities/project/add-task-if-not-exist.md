@@ -3,7 +3,31 @@
 # AddTaskIfNotExist
 <!--endTocHeader-->
 
-TODO: Write about `AddTaskIfNotExist`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba project addTaskIfNotExist --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Add task to project
+
+Usage:
+  zaruba project addTaskIfNotExist <taskFilePath> <taskName> [flags]
+
+Flags:
+  -h, --help   help for addTaskIfNotExist
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

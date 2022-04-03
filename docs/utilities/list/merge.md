@@ -3,7 +3,31 @@
 # Merge
 <!--endTocHeader-->
 
-TODO: Write about `Merge`
+
+# Usage
+
+<!--startCode-->
+```bash
+zaruba list merge --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Merge JSON lists
+
+Usage:
+  zaruba list merge <jsonList> <otherList...> [flags]
+
+Flags:
+  -h, --help   help for merge
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

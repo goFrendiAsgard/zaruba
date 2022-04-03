@@ -3,7 +3,31 @@
 # Split
 <!--endTocHeader-->
 
-TODO: Write about `Split`
+
+# Usage
+
+<!--startCode-->
+```bash
+zaruba str split --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Split string into JSON list
+
+Usage:
+  zaruba str split <string> [separator] [flags]
+
+Flags:
+  -h, --help   help for split
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

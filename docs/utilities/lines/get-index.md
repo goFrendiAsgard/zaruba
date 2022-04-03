@@ -3,7 +3,32 @@
 # GetIndex
 <!--endTocHeader-->
 
-TODO: Write about `GetIndex`
+
+# Usage
+
+<!--startCode-->
+```bash
+zaruba lines getIndex --help
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+Return index of matching the pattern
+
+Usage:
+  zaruba lines getIndex <jsonList> <patterns> [flags]
+
+Flags:
+  -h, --help   help for getIndex
+```````
+</details>
+<!--endCode-->
+
+# Examples
+
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
