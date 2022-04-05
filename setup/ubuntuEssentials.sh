@@ -8,7 +8,7 @@ echo "🔽 Installing packages."
 sudo apt-get install -y build-essential python3-distutils libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
   libsqlite3-dev libpq-dev python3-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev \
   liblzma-dev python-openssl bison libblas-dev liblapack-dev gfortran rustc \
-  fd-find ripgrep wget curl git ncat make tree tmux zsh neovim xdotool \
+  fd-find ripgrep wget curl git ncat cmake make tree tmux zsh neovim xdotool \
   cowsay figlet lolcat
 
 # Determine whether docker is already installed or not
