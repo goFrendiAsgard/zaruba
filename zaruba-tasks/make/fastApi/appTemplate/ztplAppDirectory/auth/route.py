@@ -4,8 +4,8 @@ from typing import Mapping, List, Any
 from pydantic import BaseModel
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from auth.authModel import AuthModel
-from auth.userModel import UserModel
+from auth.authService import AuthService
+from auth.userService import UserService
 from helpers.transport import MessageBus, RPC
 
 import traceback
@@ -15,9 +15,9 @@ class TokenResponse(BaseModel):
     token_type: str
 
 
-def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, access_token_url: str, auth_model: AuthModel):
+def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, access_token_url: str, auth_service: AuthService):
 
-    @app.post(access_token_url, response_model=TokenResponse)
+    @app.post(access_token_url, response_service=TokenResponse)
     async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         try:
             access_token = rpc.call('get_user_token', form_data.username, form_data.password)
@@ -26,8 +26,8 @@ def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, access_t
             print(traceback.format_exc()) 
             raise HTTPException(status_code=400, detail='Incorrect identity or password')
 
-    register_role_route(app, mb, rpc, auth_model)
+    register_role_route(app, mb, rpc, auth_service)
 
-    register_user_route(app, mb, rpc, auth_model)
+    register_user_route(app, mb, rpc, auth_service)
 
     print('Register auth route handler')

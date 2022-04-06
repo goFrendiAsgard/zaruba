@@ -2,13 +2,13 @@ from typing import Callable, List
 from fastapi.security import OAuth2PasswordBearer, OAuth2
 from fastapi import Depends, FastAPI, HTTPException, status
 from starlette.requests import Request
-from auth.roleModel import RoleModel
-from auth.userModel import UserModel
-from auth.tokenModel import TokenModel
+from auth.roleService import RoleService
+from auth.userService import UserService
+from auth.tokenService import TokenService
 from schemas.user import User
 import abc
 
-class AuthModel(abc.ABC):
+class AuthService(abc.ABC):
 
     @abc.abstractmethod
     def everyone(self) -> Callable[[Request], User]:
@@ -22,13 +22,13 @@ class AuthModel(abc.ABC):
     def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
         pass
 
-class NoAuthModel(AuthModel):
+class NoAuthService(AuthService):
 
-    def __init__(self, user_model: UserModel):
-        self.user_model = user_model
+    def __init__(self, user_service: UserService):
+        self.user_service = user_service
 
     def always_authorized(self, Request) -> User:
-        return self.user_model.get_guest_user()
+        return self.user_service.get_guest_user()
 
     def everyone(self) -> Callable[[Request], User]:
         return self.always_authorized
@@ -39,12 +39,12 @@ class NoAuthModel(AuthModel):
     def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
         return self.always_authorized
 
-class TokenOAuth2AuthModel(AuthModel):
+class TokenOAuth2AuthService(AuthService):
 
-    def __init__(self, user_model: UserModel, role_model: RoleModel, token_model: TokenModel, oauth2_scheme: OAuth2, root_permission: str):
-        self.user_model = user_model
-        self.role_model = role_model
-        self.token_model = token_model
+    def __init__(self, user_service: UserService, role_service: RoleService, token_service: TokenService, oauth2_scheme: OAuth2, root_permission: str):
+        self.user_service = user_service
+        self.role_service = role_service
+        self.token_service = token_service
         self.oauth2_scheme = oauth2_scheme
         self.root_permission = root_permission
 
@@ -60,22 +60,22 @@ class TokenOAuth2AuthModel(AuthModel):
             try:
                 token = self.oauth2_scheme(request)
                 if token is None:
-                    return self.user_model.get_guest_user()
-                current_user = self.token_model.get_user_by_token(token)
+                    return self.user_service.get_guest_user()
+                current_user = self.token_service.get_user_by_token(token)
                 if not current_user:
-                    current_user = self.user_model.get_guest_user()
+                    current_user = self.user_service.get_guest_user()
                 if not current_user.active:
                     self.raise_unauthorized_exception('User deactivated')
                 return current_user 
             except:
-                return self.user_model.get_guest_user()
+                return self.user_service.get_guest_user()
         return verify_everyone 
 
     def is_authenticated(self) -> Callable[[Request], User]:
         async def verify_is_authenticated(token = Depends(self.oauth2_scheme)) -> User:
             if token is None:
                 self.raise_unauthorized_exception('Not authenticated')
-            current_user = self.token_model.get_user_by_token(token)
+            current_user = self.token_service.get_user_by_token(token)
             if not current_user:
                 self.raise_unauthorized_exception('Not authenticated')
             if not current_user.active:
@@ -87,7 +87,7 @@ class TokenOAuth2AuthModel(AuthModel):
         async def verify_has_any_permission(token = Depends(self.oauth2_scheme)) -> User:
             if token is None:
                 self.raise_unauthorized_exception('Not authenticated')
-            current_user = self.token_model.get_user_by_token(token)
+            current_user = self.token_service.get_user_by_token(token)
             if not current_user:
                 self.raise_unauthorized_exception('Not authenticated')
             if not current_user.active:
@@ -101,7 +101,7 @@ class TokenOAuth2AuthModel(AuthModel):
                     return current_user
             current_user_role_ids = current_user.role_ids
             for current_user_role_id in current_user_role_ids:
-                current_user_role = self.role_model.find_by_id(current_user_role_id)
+                current_user_role = self.role_service.find_by_id(current_user_role_id)
                 if current_user_role.has_permission(permission):
                     return current_user
             self.raise_unauthorized_exception('Unauthorized')

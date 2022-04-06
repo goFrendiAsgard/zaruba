@@ -2,7 +2,7 @@ from typing import Any, List, Mapping
 from schemas.role import Role, RoleData
 from repos.role import RoleRepo
 
-class RoleModel():
+class RoleService():
 
     def __init__(self, role_repo: RoleRepo):
         self.role_repo = role_repo

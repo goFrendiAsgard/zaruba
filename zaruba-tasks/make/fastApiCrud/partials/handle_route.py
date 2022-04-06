@@ -1,2 +1,2 @@
 
-register_ztpl_app_crud_entity_route(app, mb, rpc, auth_model)
+register_ztpl_app_crud_entity_route(app, mb, rpc, auth_service)

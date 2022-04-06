@@ -2,7 +2,7 @@ from typing import Any, List, Mapping
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
 
-class ZtplAppCrudEntityModel():
+class ZtplAppCrudEntityService():
 
     def __init__(self, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
         self.ztpl_app_crud_entity_repo = ztpl_app_crud_entity_repo

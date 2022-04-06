@@ -5,7 +5,7 @@ from repos.user import UserRepo
 import abc
 import datetime
 
-class UserModel(abc.ABC):
+class UserService(abc.ABC):
 
     @abc.abstractmethod
     def get_guest_user(self) -> User:
@@ -39,7 +39,7 @@ class UserModel(abc.ABC):
     def delete(self, id: str) -> User:
         pass
 
-class DefaultUserModel(UserModel):
+class DefaultUserService(UserService):
 
     def __init__(self, user_repo: UserRepo, guest_username: str):
         self.user_repo = user_repo
