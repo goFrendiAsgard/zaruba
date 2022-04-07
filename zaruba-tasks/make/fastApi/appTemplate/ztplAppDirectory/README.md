@@ -117,7 +117,7 @@ For example, you need `OAuth2PasswordRequestForm` in your `login` handler.
 Since `OAuth2PasswordRequestForm` is `Callable`, you can expect it to return something. The `login` function takes `OAuth2PasswordRequestForm` return value as its `form_data` argument:
 
 ```python
-@app.post(access_token_url, response_service=TokenResponse)
+@app.post(access_token_url, response_model=TokenResponse)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         access_token = rpc.call('get_user_token', form_data.username, form_data.password)

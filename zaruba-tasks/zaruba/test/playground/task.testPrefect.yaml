@@ -7,6 +7,8 @@ tasks:
     timeout: 1h
     dependencies:
       - pretest
+      - testCassandra
+      - testGitlab
     configRef: playgroundTest
     configs:
       start: |

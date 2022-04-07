@@ -17,7 +17,7 @@ class TokenResponse(BaseModel):
 
 def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, access_token_url: str, auth_service: AuthService):
 
-    @app.post(access_token_url, response_service=TokenResponse)
+    @app.post(access_token_url, response_model=TokenResponse)
     async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         try:
             access_token = rpc.call('get_user_token', form_data.username, form_data.password)
