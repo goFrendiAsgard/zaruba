@@ -32,15 +32,15 @@ source template.env
 │   ├── event.py                  # Auth's event handler
 │   ├── route.py
 │   ├── rpc.py
-│   ├── authModel.py              # Auth model
-│   ├── roleModel.py
+│   ├── authService.py              # Auth service
+│   ├── roleService.py
 │   ├── roleRoute.py
 │   ├── roleRpc.py
-│   ├── tokenModel.py
-│   ├── userModel.py
+│   ├── tokenService.py
+│   ├── userService.py
 │   ├── userRoute.py
 │   ├── userRpc.py
-│   └── userSeederModel.py
+│   └── userSeederService.py
 ├── database.db
 ├── 🧰 helpers
 │   ├── __init__.py
@@ -51,9 +51,9 @@ source template.env
 │   ├── event.py                  # Module's event handler
 │   ├── route.py                  # Module's route handler
 │   ├── rpc.py                    # Module's rpd handler
-│   ├── <⚙️ crud-model>.py       # CRUD model (business logic layer)
+│   ├── <⚙️ crud-service>.py       # CRUD service (business logic layer)
 │   ├── <⚙️ crud-route>.py       # CRUD route (delivery layer)
-│   └── <⚙️ crud-rpc>.py         # CRUD RPC layer (connecting route and model)
+│   └── <⚙️ crud-rpc>.py         # CRUD RPC layer (connecting route and service)
 ├── main.py                       # App bootstrap (components initialization and interaction)
 ├── 🛢️ repos
 │   ├── __init__.py
@@ -117,7 +117,7 @@ For example, you need `OAuth2PasswordRequestForm` in your `login` handler.
 Since `OAuth2PasswordRequestForm` is `Callable`, you can expect it to return something. The `login` function takes `OAuth2PasswordRequestForm` return value as its `form_data` argument:
 
 ```python
-@app.post(access_token_url, response_model=TokenResponse)
+@app.post(access_token_url, response_service=TokenResponse)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         access_token = rpc.call('get_user_token', form_data.username, form_data.password)
@@ -145,17 +145,17 @@ See these examples:
 
 ```python
 
-def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model: AuthModel):
+def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
-    @app.get('/train-model', response_class=HTMLResponse)
-    def train_model(current_user = Depends(auth_model.everyone()), config: Mapping[str, Any]) -> HTMLResponse:
-        # invoking trainModel
-        mb.publish('trainModel', config)
-        # immediately return response without waiting for train_model event to be processed.
+    @app.get('/train-service', response_class=HTMLResponse)
+    def train_service(current_user = Depends(auth_service.everyone()), config: Mapping[str, Any]) -> HTMLResponse:
+        # invoking trainService
+        mb.publish('trainService', config)
+        # immediately return response without waiting for train_service event to be processed.
         return HTMLResponse(content='train process has been invoked', status_code=200)
 
     @app.get('/predict-data', response_class=float)
-    def predict_data(current_user = Depends(auth_model.everyone()), data: List[float]) -> HTMLResponse:
+    def predict_data(current_user = Depends(auth_service.everyone()), data: List[float]) -> HTMLResponse:
         # have to get the prediction result before returning response.
         prediction = rpc.call('predictData', data)
         return prediction
@@ -163,11 +163,11 @@ def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_model
     print('Register ml route handler')
 ```
 
-Everyone can access these two routes (i.e: `/train-model` and `/predict-data`) since we specifically `auth_model.everyone()` as our dependency. This is how routes interact with `Auth system`.
+Everyone can access these two routes (i.e: `/train-service` and `/predict-data`) since we specifically `auth_service.everyone()` as our dependency. This is how routes interact with `Auth system`.
 
-The `/train-model` route handler sends an event through `mb.publish` and immediately send HTTP response. This is make sense since ML model training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
+The `/train-service` route handler sends an event through `mb.publish` and immediately send HTTP response. This is make sense since ML service training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
 
-The `/predict-data` route handler sends RPC (remote procedure call) through `rpc.call`. Unlike event, RPC is expected to return the result. It is make sense, because whenever you predict data using a machine learning model, you expect the result as the response. We assume that the prediction process usually doesn't take long. Not as long as training, and it is make sense for user to wait the response.
+The `/predict-data` route handler sends RPC (remote procedure call) through `rpc.call`. Unlike event, RPC is expected to return the result. It is make sense, because whenever you predict data using a machine learning service, you expect the result as the response. We assume that the prediction process usually doesn't take long. Not as long as training, and it is make sense for user to wait the response.
 
 >💡 __Note:__ We have local RPC/messagebus as well, so you don't really need to install third party message bus unless necessary.
 
@@ -182,10 +182,10 @@ Auth system responsible for two things:
 
 As for this writing, our auth system doesn't handle security from message bus (i.e: RPC/Event).
 
-The most important part of the auth system is the auth model.
+The most important part of the auth system is the auth service.
 
 ```python
-class AuthModel(abc.ABC):
+class AuthService(abc.ABC):
 
     @abc.abstractmethod
     def everyone(self) -> Callable[[Request], User]:
@@ -200,18 +200,18 @@ class AuthModel(abc.ABC):
         pass
 ```
 
-The auth model has an interface (or abstract base class) containing several methods you can use on your route. The methods are returning `current user` if the user is authorized. The detail of each method are depending on its implementation, but the general consensus is:
+The auth service has an interface (or abstract base class) containing several methods you can use on your route. The methods are returning `current user` if the user is authorized. The detail of each method are depending on its implementation, but the general consensus is:
 
 * `everyone`: Everyone should be able to access the resource. If the user has been logged in, this method should return the logged-in user. Otherwise, it should return guest user. This method should never throw an error.
 * `is_authenticated`: Only authenticated user (i.e: has been logged in) can access the resource. This method should return the logged in user or throwing an error.
 * `has_any_permissions`. Only user with any of the permissions defined in the parameter can access the resource. This method should return the authorized user or throwing an error.
 
-There are two implementation of the auth model:
+There are two implementation of the auth service:
 
-* `NoAuthModel`: No authentication at all, basically will allow everyone to access the resources.
-* `TokenOAuth2AuthModel`: OAuth2 authentication with JWT Token. It will check user's permission/roles.
+* `NoAuthService`: No authentication at all, basically will allow everyone to access the resources.
+* `TokenOAuth2AuthService`: OAuth2 authentication with JWT Token. It will check user's permission/roles.
 
-If you are using `TokenOAuth2AuthModel`, there is a special permission that grant user all access. You can set the permission through `APP_ROOT_PERMISSION` environment.
+If you are using `TokenOAuth2AuthService`, there is a special permission that grant user all access. You can set the permission through `APP_ROOT_PERMISSION` environment.
 
 There are several environment related to the Auth System:
 
@@ -228,7 +228,7 @@ APP_ROOT_INITIAL_PHONE_NUMBER="+621234567890"
 # initial password for your root account. Change this !!!
 APP_ROOT_INITIAL_PASSWORD="Alch3mist"
 
-# special permission to grant user all access if TokenOAuth2AuthModel is used
+# special permission to grant user all access if TokenOAuth2AuthService is used
 APP_ROOT_PERMISSION="root"
 
 # initial full name for root
@@ -259,11 +259,11 @@ An `event handler` is a function that receive an input parameter. Notice that th
 ```python
 def register_ml_event_handler(mb: MessageBus):
 
-    @mb.handle('trainModel')
-    def handle_train_model(config: Mapping[str, Any]):
+    @mb.handle('trainService')
+    def handle_train_service(config: Mapping[str, Any]):
         # doing training
-        # send email to model's owner
-        print('handle train_model event with config: {}'.format(config))
+        # send email to service's owner
+        print('handle train_service event with config: {}'.format(config))
 ```
 
 >💡 __Note:__ you can use local event handler first, then swittch to kafka/rabbitmq when it is necessary
@@ -286,11 +286,11 @@ def register_ml_rpc_handler(rpc: RPC):
 
 >💡 __Note:__ you can use local rpc handler, then swittch to rabbitmq when it is necessary.
 
-## Model
+## Service
 
-Model should contains business logics. Typically to initiate a model, you will need a `repo` or several `repos`.
+Service should contains business logics. Typically to initiate a service, you will need a `repo` or several `repos`.
 
-The reason behind this architecture is because we want to be able to swap our storages easily. For example, you are already using MySQL/postgre as storage, but you then realize some things are better to be stored in No-SQL. In this case, you don't need to touch the model since there is no business logic being changed here. You just need to create a new repo that talk to your new storage and inject it to the model.
+The reason behind this architecture is because we want to be able to swap our storages easily. For example, you are already using MySQL/postgre as storage, but you then realize some things are better to be stored in No-SQL. In this case, you don't need to touch the service since there is no business logic being changed here. You just need to create a new repo that talk to your new storage and inject it to the service.
 
 Here is an example of book CRUD:
 
@@ -299,7 +299,7 @@ from typing import Any, List, Mapping
 from schemas.book import Book, BookData
 from repos.book import BookRepo
 
-class BookModel():
+class BookService():
 
     def __init__(self, book_repo: BookRepo):
         self.book_repo = book_repo
@@ -320,9 +320,9 @@ class BookModel():
         return self.book_repo.delete(id)
 ```
 
-The model can be used and call everywhere, but typically it is called from inside an `event handler` or `RPC handler`.
+The service can be used and call everywhere, but typically it is called from inside an `event handler` or `RPC handler`.
 
-Auth model can be called from all the route since it is initialized in `main.py` and injected to every `route handler`. This is necessary because we want to validate our routes with auth model.
+Auth service can be called from all the route since it is initialized in `main.py` and injected to every `route handler`. This is necessary because we want to validate our routes with auth service.
 
 ## Schema
 
@@ -349,7 +349,7 @@ class Book(BookData):
         orm_mode = True
 ```
 
-As you notice, there are two classes here. The first one represents your DTO, while the second one represents how it is being saved in your storage. We need `orm_mode` because we want to easily translate the object into dictionary or sql alchemy model and vice versa.
+As you notice, there are two classes here. The first one represents your DTO, while the second one represents how it is being saved in your storage. We need `orm_mode` because we want to easily translate the object into dictionary or sql alchemy service and vice versa.
 
 You can also embed some methods to your schema when you think it is necessary. For example, a `user` schema has `has_permission` and several other method to help us manipulate user's roles/permissions:
 

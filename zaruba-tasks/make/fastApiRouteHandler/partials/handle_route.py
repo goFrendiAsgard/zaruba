@@ -1,10 +1,10 @@
 
 @app.ztplAppHttpMethod('ztplAppUrl', response_class=HTMLResponse)
-def ztplAppHttpMethod_ztpl_app_url(current_user = Depends(auth_model.everyone())) -> HTMLResponse:
-    # NOTE: To make this page require authentication, you can replace current_user = Depends(auth_model.everyone()) with:
-    #   current_user = Depends(auth_model.authenticated())
+def ztplAppHttpMethod_ztpl_app_url(current_user = Depends(auth_service.everyone())) -> HTMLResponse:
+    # NOTE: To make this page require authentication, you can replace current_user = Depends(auth_service.everyone()) with:
+    #   current_user = Depends(auth_service.authenticated())
     # or
-    #   current_user = Depends(auth_model.has_any_permission('your_permission'))
+    #   current_user = Depends(auth_service.has_any_permission('your_permission'))
     try:
         # NOTE: To send event, do this
         #   mb.publish('event_name', {'some': 'object'})
