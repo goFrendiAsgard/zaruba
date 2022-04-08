@@ -136,6 +136,7 @@ func (r *Runner) logStdout() {
 	for {
 		content := <-r.project.StdoutChan
 		r.logger.DPrintf(content)
+		r.project.OutputWg.Done()
 	}
 }
 
@@ -143,6 +144,7 @@ func (r *Runner) logStderr() {
 	for {
 		content := <-r.project.StderrChan
 		r.logger.DPrintfError(content)
+		r.project.OutputWg.Done()
 	}
 }
 
@@ -150,6 +152,7 @@ func (r *Runner) logStdoutRow() {
 	for {
 		content := <-r.project.StdoutRecordChan
 		r.recordLogger.Log(content...)
+		r.project.OutputWg.Done()
 	}
 }
 
@@ -157,6 +160,7 @@ func (r *Runner) logStderrRow() {
 	for {
 		content := <-r.project.StderrRecordChan
 		r.recordLogger.Log(content...)
+		r.project.OutputWg.Done()
 	}
 }
 

@@ -632,9 +632,7 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 	saveLog := task.GetSaveLog()
 	taskName := task.GetName()
 	for buf.Scan() {
-		task.Project.OutputWgLock.Lock()
-		task.Project.OutputWg.Add(1)
-		task.Project.OutputWgLock.Unlock()
+		task.Project.OutputWg.Add(2)
 		content := buf.Text()
 		now := time.Now()
 		nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
@@ -645,9 +643,6 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 			rowContent := []string{nowStr, logType, cmdType, taskName, content}
 			logRecordChan <- rowContent
 		}
-		task.Project.OutputWgLock.Lock()
-		task.Project.OutputWg.Done()
-		task.Project.OutputWgLock.Unlock()
 	}
 }
 
