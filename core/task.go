@@ -620,12 +620,6 @@ func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
 			return err
 		}
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", configEnvKey, val))
-
-		// strEnv, err := godotenv.Marshal(map[string]string{configEnvKey: val})
-		// if err != nil {
-		// 	return err
-		// }
-		// cmd.Env = append(cmd.Env, strEnv)
 	}
 	return nil
 }
@@ -638,6 +632,9 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 	saveLog := task.GetSaveLog()
 	taskName := task.GetName()
 	for buf.Scan() {
+		task.Project.OutputWgLock.Lock()
+		task.Project.OutputWg.Add(1)
+		task.Project.OutputWgLock.Unlock()
 		content := buf.Text()
 		now := time.Now()
 		nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
@@ -648,6 +645,9 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 			rowContent := []string{nowStr, logType, cmdType, taskName, content}
 			logRecordChan <- rowContent
 		}
+		task.Project.OutputWgLock.Lock()
+		task.Project.OutputWg.Done()
+		task.Project.OutputWgLock.Unlock()
 	}
 }
 

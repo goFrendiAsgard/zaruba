@@ -155,7 +155,7 @@ func TestRunnerServeSalineWaterForceTerminate(t *testing.T) {
 		return
 	}
 	errorMessage := err.Error()
-	if errorMessage != "terminated" && !strings.Contains(errorMessage, "interrupt") {
+	if errorMessage != "Terminated" && !strings.Contains(errorMessage, "interrupt") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }

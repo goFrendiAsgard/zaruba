@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"sync"
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/output"
@@ -29,6 +30,8 @@ type Project struct {
 	StdoutRecordChan           chan []string
 	StderrChan                 chan string
 	StderrRecordChan           chan []string
+	OutputWg                   *sync.WaitGroup
+	OutputWgLock               *sync.Mutex
 	fileLocation               string
 	values                     map[string]string
 	sortedTaskNames            []string
@@ -65,6 +68,8 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, default
 	p.StdoutRecordChan = make(chan []string)
 	p.StderrChan = make(chan string)
 	p.StderrRecordChan = make(chan []string)
+	p.OutputWg = new(sync.WaitGroup)
+	p.OutputWgLock = new(sync.Mutex)
 	p.Decoration = decoration
 	p.setSortedTaskNames()
 	p.setSortedInputNames()

@@ -98,9 +98,10 @@ func (r *Runner) Run() (err error) {
 	go r.showStatusByInterval()
 	err = <-ch
 	r.sleep(100 * time.Millisecond)
+	r.project.OutputWg.Wait()
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
-		return fmt.Errorf("terminated")
+		return fmt.Errorf("Terminated")
 	}
 	if !r.getKilledSignal() {
 		r.Terminate()
@@ -174,7 +175,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 	for {
 		r.sleep(10 * time.Millisecond)
 		if r.getKilledSignal() {
-			ch <- fmt.Errorf("terminated")
+			ch <- fmt.Errorf("Terminated")
 			return
 		}
 		r.cmdInfoMutex.Lock()
@@ -296,7 +297,7 @@ func (r *Runner) run(ch chan error) {
 	for {
 		r.sleep(10 * time.Millisecond)
 		if r.getKilledSignal() {
-			ch <- fmt.Errorf("terminated")
+			ch <- fmt.Errorf("Terminated")
 			return
 		}
 		processExist := false
@@ -343,8 +344,9 @@ func (r *Runner) runTask(task *core.Task, ch chan error) {
 	}
 	startCmd, startExist, startErr := task.GetStartCmd()
 	if !startExist {
+		// wrapper task
 		r.logger.DPrintfSuccess("Reach %s '%s' wrapper\n", r.decoration.Icon(task.Icon), task.GetName())
-		r.finishTask(task.GetName(), nil)
+		r.markTaskFinished(task.GetName(), nil)
 		ch <- nil
 		return
 	}
@@ -354,8 +356,9 @@ func (r *Runner) runTask(task *core.Task, ch chan error) {
 	}
 	checkCmd, checkExist, checkErr := task.GetCheckCmd()
 	if !checkExist {
+		// command task
 		err := r.runCommandTask(task, startCmd)
-		r.finishTask(task.GetName(), err)
+		r.markTaskFinished(task.GetName(), err)
 		ch <- err
 		return
 	}
@@ -363,8 +366,9 @@ func (r *Runner) runTask(task *core.Task, ch chan error) {
 		ch <- checkErr
 		return
 	}
+	// long running task
 	err := r.runServiceTask(task, startCmd, checkCmd)
-	r.finishTask(task.GetName(), err)
+	r.markTaskFinished(task.GetName(), err)
 	ch <- err
 }
 
@@ -507,7 +511,7 @@ func (r *Runner) registerTask(taskName string) (success bool) {
 	return success
 }
 
-func (r *Runner) finishTask(taskName string, err error) {
+func (r *Runner) markTaskFinished(taskName string, err error) {
 	r.taskStatusMutex.Lock()
 	r.taskStatus[taskName].Finish(err)
 	r.taskStatusMutex.Unlock()
@@ -520,7 +524,7 @@ func (r *Runner) isTaskFinished(taskName string) (isFinished bool) {
 	return isFinished
 }
 
-func (r *Runner) isTaskError(taskName string) (err error) {
+func (r *Runner) getTaskError(taskName string) (err error) {
 	r.taskStatusMutex.RLock()
 	err = r.taskStatus[taskName].Error
 	r.taskStatusMutex.RUnlock()
@@ -532,11 +536,11 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 		r.sleep(100 * time.Millisecond)
 		if r.isTaskFinished(taskName) {
 			r.sleep(50 * time.Millisecond)
-			return r.isTaskError(taskName)
+			return r.getTaskError(taskName)
 		}
 		if r.getKilledSignal() {
 			r.sleep(50 * time.Millisecond)
-			return fmt.Errorf("terminated")
+			return fmt.Errorf("Terminated")
 		}
 	}
 }
@@ -630,13 +634,13 @@ func (r *Runner) killByPid(pid int, ch chan error) {
 		}
 	}
 	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
-		r.sleep(10 * time.Second)
+		r.sleep(300 * time.Millisecond)
 		if _, findErr := os.FindProcess(int(pid)); findErr == nil {
 			syscall.Kill(pid, syscall.SIGTERM)
 		}
 	}
 	if _, findErr := os.FindProcess(int(pid)); findErr == nil {
-		r.sleep(10 * time.Second)
+		r.sleep(300 * time.Millisecond)
 		if _, findErr := os.FindProcess(int(pid)); findErr == nil {
 			syscall.Kill(pid, syscall.SIGKILL)
 		}
