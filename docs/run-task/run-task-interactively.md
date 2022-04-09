@@ -19,6 +19,7 @@ zaruba please <first-task-name> <second-task-name> -i
 
 __Example:__
 
+<!--startCode-->
 ```bash
 cd examples/run-tasks
 ( \
@@ -38,32 +39,58 @@ cd examples/run-tasks
  
 ```````
 💀 Load additional value file
-✔ 🏁 No
+Search: █
+? Do you want to load additional value file?: 
+  ▸ 🏁 No
+    📝 Yes
+Search: █? Do you want to load additional value file?:   ▸ 🏁 No    📝 Yes✔ 🏁 No
 💀 Load additional env
-✔ 🏁 No
+Search: █
+? Do you want to load additional env?: 
+  ▸ 🏁 No
+    📝 Yes, from file
+    📝 Yes, manually
+Search: █? Do you want to load additional env?:   ▸ 🏁 No    📝 Yes, from file    📝 Yes, manually✔ 🏁 No
 💀 1 of 1) humanName
-✔ Let me type it!
-Your name: Robert Boyle
+Search: █
+? Your name: 
+  ▸ human
+    Let me type it!
+Search: l█? Your name:   ▸ Let me type it!Search: le█? Your name:   ▸ Let me type it!Search: let█? Your name:   ▸ Let me type it!Search: let█? Your name:   ▸ Let me type it!✔ Let me type it!
+✔ Your name: █
+✔ Your name: R█
+✔ Your name: Ro█
+✔ Your name: Rob█
+✔ Your name: Robe█
+✔ Your name: Rober█
+✔ Your name: Robert█
+✔ Your name: Robert █
+✔ Your name: Robert B█
+✔ Your name: Robert Bo█
+✔ Your name: Robert Boy█
+✔ Your name: Robert Boyl█
+✔ Your name: Robert Boyle█
+✔ Your name: Robert Boyle█
+Your name: Robert Boyle
 💀 🔎 Job Starting...
-         Elapsed Time: 5.979µs
-         Current Time: 17:24:53
+         Elapsed Time: 1.431µs
+         Current Time: 07:34:48
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloHuman      🍏 17:24:53.763 hello Robert Boyle
+💀    🚀 printHelloHuman      🍏 07:34:48.774 hello Robert Boyle
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 105.662921ms
-         Current Time: 17:24:53
+         Elapsed Time: 102.048321ms
+         Current Time: 07:34:48
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 217.12983ms
-         Current Time: 17:24:53
+         Elapsed Time: 212.528487ms
+         Current Time: 07:34:48
 zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
-
 ```````
 </details>
-
+<!--endCode-->
 
 
 <!--startTocSubTopic-->
