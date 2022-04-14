@@ -3,7 +3,7 @@
 # 🏃 Run task
 <!--endTocHeader-->
 
-To run any task, you can perform:
+To run any available task interactively, you can perform:
 
 ```
 zaruba please -i

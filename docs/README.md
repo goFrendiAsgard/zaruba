@@ -2,11 +2,14 @@
 
 # 🏠 Zaruba Documentation
 
-Welcome to Zaruba Documentation. You can start by learning [core concept](core-concepts/README.md) or looking for [use cases](use-cases/README.md) that match your needs.
+Welcome to Zaruba Documentation. 
+
+Start by understanding [core concept](core-concepts/README.md), learn how to [run task](run-task/README.md) and dive into [use cases](use-cases/README.md).
 
 # Table of Content
 
 <!--startToc-->
+* [⚙️ Configuration](configuration.md)
 * [🏃 Run task](run-task/README.md)
     * [🍺 Run a Single Task](run-task/run-a-single-task.md)
     * [🍻 Run Many Tasks in Parallel](run-task/run-many-tasks-in-parallel.md)
@@ -14,7 +17,6 @@ Welcome to Zaruba Documentation. You can start by learning [core concept](core-c
     * [🔤 Run task with custom values](run-task/run-task-with-custom-values.md)
     * [🏓 Run task interactively](run-task/run-task-interactively.md)
 * [🔎 Explain task](explain-task.md)
-* [⚙️ Configuration](configuration.md)
 * [🧠 Core Concepts](core-concepts/README.md)
     * [🏗️ Project](core-concepts/project/README.md)
         * [🧬 Project Anatomy](core-concepts/project/project-anatomy.md)
