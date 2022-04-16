@@ -2,26 +2,107 @@ tasks:
 
   testComponents:
     icon: 🧪
+    location: ../../../../playground
+    extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
-      - testAirflow
-      - testAirbyte
-      - testApps
-      - testCassandra
-      - testDockerApp
-      - testDockerCompose
-      - testFastApi
-      - testFastApiIntegration
-      - testGitlab
-      - testKafka
-      - testMakeArtefact
-      - testMinio
-      - testMeltano
-      - testMongodb
-      - testMysql
-      - testNginx
-      - testPostgresql
-      - testPrefect
-      - testRedis
-      - testRabbitmq
-      - testSpark
-      - testTrino
+      - pretest
+    configRef: playgroundTest
+    configs:
+      start: |
+        ../zaruba please makeArtefact appDirectory=provoArtefact
+
+        ../zaruba please startProvoNodeJs startProvoGo startProvoPython startProvoTypeScript startProvoFibo -t
+        ../zaruba please startProvoNodeJsContainer startProvoGoContainer startProvoPythonContainer startProvoTypeScript startProvoFiboContainer -t
+        ../zaruba please stopProvoNodeJsContainer stopProvoGoContainer stopProvoPythonContainer startProvoTypeScript stopProvoFiboContainer -t
+
+        ../zaruba please startProvoDockerApp startProvoDockerCompose -t
+        ../zaruba please stopProvoDockerAppContainer stopProvoDockerComposeContainer
+
+        ../zaruba please startProvoAirbyte -t
+        sleep 5
+        ../zaruba please stopProvoAirbyteContainer
+
+        ../zaruba please startProvoAirflow -t
+        sleep 5
+        ../zaruba please stopProvoAirflowContainer
+
+        ../zaruba please startProvoCassandra -t
+        sleep 5
+        ../zaruba please queryProvoCassandra sql='DESCRIBE KEYSPACES;'
+        ../zaruba please stopProvoCassandraContainer
+
+        ../zaruba please testProvoFastApi
+        ../zaruba please startProvoFastApi -t
+        ../zaruba please startProvoFastApiContainer -t
+        sleep 5
+        python "{{ .GetTaskPath "test_fastapi.py" }}"
+        ../zaruba please stopProvoFastApiContainer
+
+        ../zaruba please startProvoKafka -t
+        sleep 5
+        ../zaruba please stopProvoKafkaContainer
+
+        ../zaruba please runProvoMeltano runProvoMeltanoContainer
+        ../zaruba please removeProvoMeltanoContainer
+
+        ../zaruba please startProvoMinio -t
+        sleep 5
+        ../zaruba please stopProvoMinioContainer
+
+        ../zaruba please startProvoMongodb -t
+        ../zaruba please stopProvoMongodbContainer
+
+        ../zaruba please startProvoMysql -t
+        sleep 5
+        ../zaruba please queryProvoMysql sql='SHOW SCHEMAS;'
+        ../zaruba please stopProvoMysqlContainer
+
+        ../zaruba please startProvoPostgresql -t
+        sleep 5
+        ../zaruba please queryProvoPostgresql sql='SELECT datname FROM pg_database;'
+        ../zaruba please stopProvoPostgresqlContainer
+
+        ../zaruba please startProvoPrefect -t
+        sleep 5
+        ../zaruba please stopProvoPrefectContainer
+
+        ../zaruba please startProvoRabbitmq -t
+        sleep 5
+        ../zaruba please resetProvoRabbitmq
+        ../zaruba please stopProvoRabbitmqContainer
+
+        ../zaruba please startProvoNginx -t
+        ../zaruba please stopProvoNginxContainer
+
+        ../zaruba please startProvoRedis -t
+        sleep 5
+        ../zaruba please flushProvoRedis
+        ../zaruba please stopProvoRedisContainer
+
+        ../zaruba please startProvoSpark -t
+        ../zaruba please stopProvoSparkContainer
+
+        ../zaruba please startProvoRabbitmqContainer startProvoKafkaContainer -t
+        sleep 20
+        ../zaruba please testProvoFastApi -e 'PROVO_FAST_API_TEST_INTEGRATION=1' 
+        ../zaruba please stopProvoRabbitmqContainer stopProvoKafkaContainer
+
+        ../zaruba please startProvoGitlab -t
+        set +e
+        sleep 5
+        ../zaruba please registerProvoGitlabRunner
+        until [ "$?" = "0" ]
+        do
+          sleep 5
+          ../zaruba please registerProvoGitlabRunner
+        done
+        set -e
+        ../zaruba please stopProvoGitlabContainer
+
+        ../zaruba please startProvoJupyterNotebook -t
+        sleep 5
+        ../zaruba please stopProvoJupyterNotebookContainer
+
+        ../zaruba please startProvoTrino -t
+        ../zaruba please stopProvoTrinoContainer

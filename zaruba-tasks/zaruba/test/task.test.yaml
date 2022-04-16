@@ -3,7 +3,6 @@ tasks:
   test:
     icon: 🧪
     dependencies:
-      - testPushMeltanoImage
       - testPushImages
       - testComponents
       - testCore

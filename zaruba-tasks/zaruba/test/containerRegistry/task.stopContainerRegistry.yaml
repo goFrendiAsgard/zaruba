@@ -5,7 +5,6 @@ tasks:
     extend: zrbStopDockerContainer
     dependencies:
       - testPushImages
-      - testPushMeltanoImage
       - testDeploy
     configRef: containerRegistry
 

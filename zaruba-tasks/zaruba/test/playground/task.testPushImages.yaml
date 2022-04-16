@@ -12,6 +12,8 @@ tasks:
     configs:
       start: |
         ../zaruba please pushImages
+        ../zaruba please pushProvoMeltanoImage
+
 
   prepareContainerRegistry:
     icon: 🍲
