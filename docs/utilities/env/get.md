@@ -119,13 +119,13 @@ zaruba map get "${ENV_DICT}" APP_PLATFORM
  
 ```````
 💀 Environment:
-{"APP_CONTEXT":"gcp","APP_PLATFORM":"kubernetes","APP_VERSION":"1.1.1","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"default","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
+{"APP_CONTEXT":"gcp","APP_PLATFORM":"kubernetes","APP_VERSION":"1.0.0","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"default","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
 
 💀 APP_CONTEXT:
 gcp
 
 💀 APP_VERSION:
-1.1.1
+1.0.0
 
 💀 APP_PLATFORM:
 kubernetes

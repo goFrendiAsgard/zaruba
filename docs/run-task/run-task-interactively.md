@@ -61,20 +61,20 @@ cd examples/run-tasks
 ✔ Your name: █
 Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 1.931µs
-         Current Time: 06:44:12
+         Elapsed Time: 1.304µs
+         Current Time: 08:07:26
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloHuman      🍏 06:44:12.433 hello
+💀    🚀 printHelloHuman      🍏 08:07:26.432 hello
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.502416ms
-         Current Time: 06:44:12
+         Elapsed Time: 102.241964ms
+         Current Time: 08:07:26
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 213.690017ms
-         Current Time: 06:44:12
+         Elapsed Time: 213.189372ms
+         Current Time: 08:07:26
 zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>
