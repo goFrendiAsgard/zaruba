@@ -3,6 +3,7 @@ tasks:
   zrbBuildDockerCompose:
     icon: 🐳
     private: true
+    timeout: 1h
     description: |
       Build docker compose.
     extend: zrbRunShellScript
