@@ -3,5 +3,5 @@ configs:
   makeMinioAppRunner:
     appIcon: 🧪
     defaultAppDirectory: '{{ .ProjectName }}Minio'
-    defaultAppPorts: '["9000"]'
+    defaultAppPorts: '["8040:9000"]'
     defaultAppContainerVolumes: '[]'

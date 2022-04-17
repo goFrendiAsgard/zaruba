@@ -1,0 +1,16 @@
+tasks:
+
+  makeSonarqubeAppRunner:
+    icon: 🧪
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeSonarqubeApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeSonarqubeAppRunner

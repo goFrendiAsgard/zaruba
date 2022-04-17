@@ -97,7 +97,12 @@ tasks:
         ../zaruba please stopProvoRedisContainer
 
         ../zaruba please startProvoSpark -t
+        sleep 5
         ../zaruba please stopProvoSparkContainer
+
+        ../zaruba please startProvoSonarqube -t
+        sleep 5
+        ../zaruba please stopProvoSonarqubeContainer
 
         ../zaruba please startProvoRabbitmqContainer startProvoKafkaContainer -t
         sleep 20

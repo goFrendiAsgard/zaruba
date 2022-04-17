@@ -1,0 +1,6 @@
+tasks:
+
+  addSonarqube:
+    icon: 🧪
+    dependencies:
+      - makeSonarqubeAppRunner

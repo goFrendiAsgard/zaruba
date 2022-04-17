@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeSonarqubeApp:
+    icon: 🧪
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeSonarqubeApp

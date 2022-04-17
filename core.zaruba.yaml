@@ -367,6 +367,12 @@ includes:
   - ./zaruba-tasks/make/simpleTypeScriptApp/task.makeSimpleTypeScriptApp.yaml
   - ./zaruba-tasks/make/simpleTypeScriptApp/task.makeSimpleTypeScriptAppRunner.yaml
 
+  - ./zaruba-tasks/make/sonarqube/config.makeSonarqubeApp.yaml
+  - ./zaruba-tasks/make/sonarqube/config.makeSonarqubeAppRunner.yaml
+  - ./zaruba-tasks/make/sonarqube/task.addSonarqube.yaml
+  - ./zaruba-tasks/make/sonarqube/task.makeSonarqubeApp.yaml
+  - ./zaruba-tasks/make/sonarqube/task.makeSonarqubeAppRunner.yaml
+
   - ./zaruba-tasks/make/spark/config.makeSparkApp.yaml
   - ./zaruba-tasks/make/spark/config.makeSparkAppRunner.yaml
   - ./zaruba-tasks/make/spark/task.addSpark.yaml

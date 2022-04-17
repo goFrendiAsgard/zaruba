@@ -1,0 +1,7 @@
+configs:
+
+  makeSonarqubeAppRunner:
+    appIcon: 🧪
+    defaultAppDirectory: '{{ .ProjectName }}Sonarqube'
+    defaultAppPorts: '["8050:9000"]'
+    defaultAppContainerVolumes: '[]'

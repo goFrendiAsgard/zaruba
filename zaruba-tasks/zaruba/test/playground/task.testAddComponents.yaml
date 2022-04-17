@@ -55,6 +55,7 @@ tasks:
         ../zaruba please addPrefect appDirectory=provoPrefect
         ../zaruba please addRabbitmq appDirectory=provoRabbitmq
         ../zaruba please addRedis appDirectory=provoRedis
+        ../zaruba please addSonarqube appDirectory=provoSonarqube
         ../zaruba please addSpark appDirectory=provoSpark
         ../zaruba please addTrino appDirectory=provoTrino
         ../zaruba please addContainerRegistry appDirectory=provoContainerRegistry

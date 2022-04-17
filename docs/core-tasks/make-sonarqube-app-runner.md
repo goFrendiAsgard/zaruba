@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🧪 makeMinioAppRunner
+# 🧪 makeSonarqubeAppRunner
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/minio/task.makeMinioAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/sonarqube/task.makeSonarqubeAppRunner.yaml
 
 Should Sync Env:
 
@@ -25,7 +25,7 @@ Type:
 
 ## Dependencies
 
-* [makeMinioApp](make-minio-app.md)
+* [makeSonarqubeApp](make-sonarqube-app.md)
 * [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
@@ -642,14 +642,14 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Minio
+    {{ .ProjectName }}Sonarqube
 
 
 ### Configs.defaultAppPorts
 
 Value:
 
-    ["8040:9000"]
+    ["8050:9000"]
 
 
 ### Configs.defaultAppStartCommand

@@ -1,0 +1,8 @@
+configs:
+ 
+  makeSonarqubeApp:
+    defaultAppDirectory: '{{ .ProjectName }}Sonarqube'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/sonarqube/appTemplate"
+      ]
