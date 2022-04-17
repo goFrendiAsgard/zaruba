@@ -58,36 +58,24 @@ cd examples/run-tasks
     Let me type it!
 Search: l█? Your name:   ▸ Let me type it!Search: le█? Your name:   ▸ Let me type it!Search: let█? Your name:   ▸ Let me type it!Search: let█? Your name:   ▸ Let me type it!✔ Let me type it!
 ✔ Your name: █
-✔ Your name: R█
-✔ Your name: Ro█
-✔ Your name: Rob█
-✔ Your name: Robe█
-✔ Your name: Rober█
-✔ Your name: Robert█
-✔ Your name: Robert █
-✔ Your name: Robert B█
-✔ Your name: Robert Bo█
-✔ Your name: Robert Boy█
-✔ Your name: Robert Boyl█
-✔ Your name: Robert Boyle█
-✔ Your name: Robert Boyle█
-Your name: Robert Boyle
+✔ Your name: █
+Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 1.472µs
-         Current Time: 08:21:33
+         Elapsed Time: 1.661µs
+         Current Time: 09:19:27
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloHuman      🍏 08:21:33.819 hello Robert Boyle
+💀    🚀 printHelloHuman      🍏 09:19:27.082 hello
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.418815ms
-         Current Time: 08:21:33
+         Elapsed Time: 102.150842ms
+         Current Time: 09:19:27
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 212.87159ms
-         Current Time: 08:21:34
-zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
+         Elapsed Time: 213.090901ms
+         Current Time: 09:19:27
+zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>
 <!--endCode-->

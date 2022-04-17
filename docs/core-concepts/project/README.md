@@ -57,22 +57,22 @@ tree
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.913µs
-         Current Time: 08:21:34
+         Elapsed Time: 1.704µs
+         Current Time: 09:19:28
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject
-💀    🚀 initProject          🚧 08:21:34.484 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/.git/
-💀    🚀 initProject          🚧 08:21:34.489 🎉🎉🎉
-💀    🚀 initProject          🚧 08:21:34.489 Project created
+💀    🚀 initProject          🚧 09:19:28.511 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/.git/
+💀    🚀 initProject          🚧 09:19:28.516 🎉🎉🎉
+💀    🚀 initProject          🚧 09:19:28.516 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 113.386828ms
-         Current Time: 08:21:34
+         Elapsed Time: 114.291629ms
+         Current Time: 09:19:28
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 315.581444ms
-         Current Time: 08:21:34
+         Elapsed Time: 315.080929ms
+         Current Time: 09:19:28
 zaruba please initProject  
 💀 Project structure
 .
