@@ -4,9 +4,10 @@ tasks:
     icon: 🍲
     location: ../../../../playground
     extend: zrbRunShellScript 
+    timeout: 1h
     dependencies:
       - testAddComponents
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please syncEnv removeContainers
+        ../zaruba please syncEnv removeContainers buildImages
