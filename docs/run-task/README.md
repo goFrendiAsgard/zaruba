@@ -3,13 +3,17 @@
 # 🏃 Run task
 <!--endTocHeader-->
 
-To run any available task interactively, you can perform:
+In case of you don't have any ideas what tasks are availables and how to run it, you can run `zaruba please` [interactively](run-task-interactively):
 
 ```
 zaruba please -i
 ```
 
+Once you perform the command, Zaruba will show you list of available tasks that you can select.
+
 __Example:__
+
+> __💡NOTE__ We use `|` operator to simulate interactive session.
 
 <!--startCode-->
 ```bash

@@ -19,6 +19,8 @@ zaruba please <first-task-name> <second-task-name> -i
 
 __Example:__
 
+> __💡NOTE__ We use `|` operator to simulate interactive session.
+
 <!--startCode-->
 ```bash
 cd examples/run-tasks

@@ -50,7 +50,7 @@ zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 </details>
 <!--endCode-->
 
-> ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ one.
+> ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ value.
 
 # Load Value File
 

@@ -3,14 +3,12 @@
 # ⚙️ Configuration
 <!--endTocHeader-->
 
-# Environment Variables
+You can configure Zaruba's behavior by using some environment variables:
 
-You can configure Zaruba's behavior by using several environment variables:
-
-* `ZARUBA_HOME`: Location of your Zaruba installation directory. If unset, Zaruba will use the executable's directory path instead (e.g: `${HOME}/.zaruba`).
-* `ZARUBA_BIN` Location of your Zaruba executable binary. If unset, Zaruba will use the executable's path instead (e.g: `${HOME}/.zaruba/zaruba`).
-* `ZARUBA_SHELL` The shell zaruba used to execute shell scripts (e.g: `bash`, `zsh`, or `sh`). Using `bash` is preferable because it is widely use. If the environment varible is unset, Zaruba will use `bash` by default.
-* `ZARUBA_SCRIPTS` List of zaruba scripts that are going to be available from everywhere. Use colon (`:`) to separate the scripts (e.g: `${HOME}/coffee-maker/index.zaruba.yaml:${HOME}/my-organization/index.zaruba.yaml`).
+* `ZARUBA_HOME`: Location of your Zaruba installation directory. If this environment variable is unset, Zaruba will use its executable's directory location instead (e.g: `${HOME}/.zaruba`).
+* `ZARUBA_BIN` Location of your Zaruba executable binary. If this environment variable is unset, Zaruba will use its executable's path instead (e.g: `${HOME}/.zaruba/zaruba`).
+* `ZARUBA_SHELL` The shell used to run shell scripts (e.g: `bash`, `zsh`, or `sh`). Using `bash` is preferable because it is widely use. If this environment variable is unset, Zaruba will use `bash` by default.
+* `ZARUBA_SCRIPTS` List of zaruba scripts that are going to be globally available (accessible from anywhere). Use colon (`:`) to separate the scripts (e.g: `${HOME}/coffee-maker/index.zaruba.yaml:${HOME}/my-organization/index.zaruba.yaml`).
 * `ZARUBA_DECORATION`: Zaruba output decoration
     - `default`: Default decoration. This decoration has several symbols and colors.
     - `colorless`: This decoration has several symbols, but doesn't have any color.
@@ -19,9 +17,9 @@ You can configure Zaruba's behavior by using several environment variables:
 
 # Save Configuration
 
-You can put these environment variable in your `~/.bashrc` or `~/.zshrc` depending on your day-to-day terminal.
+You can put the configuration in your `~/.bashrc` or `~/.zshrc`.
 
-For example, if you use `zsh` for daily operation, and you want `ZARUBA_DECORATION` to be colorless, you add this at the bottom of your `~/.zshrc`:
+For example, if you are using `zsh` for your daily operation, and you want to set `ZARUBA_DECORATION` into `colorless`, you add this at the bottom of your `~/.zshrc`:
 
 ```bash
 ZARUBA_DECORATION=colorless

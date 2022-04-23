@@ -3,16 +3,16 @@
 # 🍺 Run a Single Task
 <!--endTocHeader-->
 
-You can run a specific task by providing it's name.
+You can run a single task by providing it's name.
 
 There are two types of task:
 
-* __Globally available task__: Can be executed from anywhere
+* __Globally accessible task__: Can be executed from anywhere
 * __Project specific task__: Can only be executed from project's top level directory.
 
-# Run a Globally Available Task
+# Run a Globally Accessible Task
 
-To execute globally available task, you can invoke `zaruba please` from anywhere:
+To execute globally accessible task, you can invoke `zaruba please` from anywhere:
 
 ```bash
 zaruba please <task-name>
@@ -49,18 +49,20 @@ zaruba please clearLog
 </details>
 <!--endCode-->
 
- There are special [builtin core tasks](../core-tasks/README.md) that can be executed from anywhere.
+ By default, Zaruba provide some [builtin core tasks](../core-tasks/README.md) that are globally accessible.
  
- If you want to make your tasks globally available, you can add it's script definition to `ZARUBA_SCRIPTS` environment variable. Please refer to [zaruba configuration](../configuration.md).
+ If you want to make your tasks globally accessible, you can add them to `ZARUBA_SCRIPTS` environment variable. Please refer to [zaruba configuration](../configuration.md) for more information.
 
 # Run a Project Specific Task
 
-To execute any [project](./project/README.md) specific tasks, you need to be in the project's top level directory:
+To execute any [project](./project/README.md) specific tasks, you need to be in the project's directory first:
 
 ```bash
 cd <project-directory>
 zaruba please <task-name>
 ```
+
+Please note that the command will not work from the project's subdirectory.
 
 __Example:__
 
