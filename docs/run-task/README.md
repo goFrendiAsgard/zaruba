@@ -11,45 +11,79 @@ zaruba please -i
 
 __Example:__
 
+<!--startCode-->
 ```bash
-cd example/tasks
-zaruba please -i
+cd examples/run-tasks
+( \
+  echo "printHelloWorld" && \
+  sleep 1 && \
+  echo "" && \
+  sleep 1 && \
+  echo "" && \
+  sleep 1 && \
+  echo "" && \
+  sleep 1 && \
+  echo "" \
+) | zaruba please -i
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
- Task Name
-✔  printHelloWorld
- Action
+💀 Task Name
+Search: █
+? 💀 Please select task: 
+  ▸ 🪂 addAirbyte
+    🎐 addAirflow
+    🚢 addAppHelmDeployment
+    🚢 addAppHelmDeploymentInPython
+    🐶 addAppRunner
+    👀 addCassandra
+    🧰 addContainerRegistry
+    🐳 addDockerAppRunner
+    🐳 addDockerComposeAppRunner
+✔ 🍎 printHelloWorld
+💀 Action
+Search: █
+? 💀 What do you want to do with printHelloWorld?: 
+  ▸ 🏁 Run
 ✔ 🏁 Run
- Load additional value file
+💀 Load additional value file
+Search: █
+? Do you want to load additional value file?: 
+  ▸ 🏁 No
 ✔ 🏁 No
- Load additional env
+💀 Load additional env
+Search: █
+? Do you want to load additional env?: 
+  ▸ 🏁 No
+    📝 Yes, from file
 ✔ 🏁 No
- Auto terminate
+💀 Auto terminate
+Search: █
+? 💀 Do you want to terminate tasks once completed?: 
+  ▸ 🏁 No
 ✔ 🏁 No
-  Job Starting...
- Elapsed Time: 2.656µs
- Current Time: 17:01:11
-  Run  'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-   printHelloWorld       17:01:11.15  hello world
-  Successfully running  'printHelloWorld' command
-  Job Running...
- Elapsed Time: 102.228176ms
- Current Time: 17:01:11
-
-  Job Complete!!!
-  Terminating
-  Job Ended...
- Elapsed Time: 213.587264ms
- Current Time: 17:01:11
+💀 🔎 Job Starting...
+         Elapsed Time: 1.486µs
+         Current Time: 13:17:40
+💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 printHelloWorld      🍎 13:17:40.261 hello world
+💀 🎉 Successfully running 🍎 'printHelloWorld' command
+💀 🔎 Job Running...
+         Elapsed Time: 102.288797ms
+         Current Time: 13:17:40
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔎 Job Ended...
+         Elapsed Time: 213.142244ms
+         Current Time: 13:17:40
 zaruba please printHelloWorld
 ```````
 </details>
- 
-
+<!--endCode-->
 
 
 <!--startTocSubTopic-->
