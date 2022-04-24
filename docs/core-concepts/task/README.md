@@ -19,15 +19,21 @@ Form more information about running a task, please visit [run task section](../.
 Generally there are two types of tasks:
 
 * [simple command](simple-command.md): Ended once completed (e.g: `npm install`, or `docker build`).
-* [long running service](long-running-service.md): Doesn't ended once completed. (e.g: `docker start`)
+* [long running service](long-running-service.md): Keep running once completed. (e.g: `docker start`)
 
 # Task Behavior
 
+## Dependencies
+
 A task might has several [dependencies](define-task-dependies.md). A task with dependencies will never started unless all its dependencies completed. For example, you cannot run a __web server__ before a __database server__ is started. In that case, you can say that __startWebServer__ depends on __startDatabaseServer__.
 
-A task might also [extend](extend-task.md) other task. For example, running a redis container can be defined as running a container, with redis image. Thus, you can say that __startRedisContainer__ extend __startDockerContainer__.
+## Extends
 
-Lastly, a task might also share [environments](task-envs/shared-envs), [configs](task-configs/shared-configs.md), and [inputs](task-inputs.md).
+A task might [extend](extend-task.md) other task. For example, running a redis container can be defined as running a container, with redis image. Thus, you can say that __startRedisContainer__ extend __startDockerContainer__.
+
+## Share Environments, Configs, and Inputs
+
+A task might share [environments](task-envs/shared-envs), [configs](task-configs/shared-configs.md), and [inputs](task-inputs.md).
 
 <!--startTocSubTopic-->
 # Sub-topics

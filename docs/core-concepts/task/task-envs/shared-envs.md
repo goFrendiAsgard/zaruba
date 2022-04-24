@@ -72,9 +72,7 @@ tasks:
       ports: '{{ .GetEnv "HTTP_PORT" }}'
 ```
 
-# Behavior
-
-> ⚠️ __WARNING:__ `envrefs` order matters, if your `envRefs` contains the same environment, Zaruba will use the __first__ one.
+# ⚠️ Behavior
 
 * You cannot use `envRef` and `envRefs` simultaneously in a single task. Use `envRef` if you want to refer to a single project env. Otherwise, use `envRefs`.
 

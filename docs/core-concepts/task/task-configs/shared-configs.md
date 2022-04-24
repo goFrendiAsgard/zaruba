@@ -52,9 +52,7 @@ tasks:
       containerName: appContainer
 ```
 
-# Behavior
-
-> ⚠️ __WARNING:__ `configrefs` order matters, if your `configRefs` contains the same configuration, Zaruba will use the __first__ one.
+# ⚠️ Behavior
 
 * You cannot use `configRef` and `configRefs` simultaneously in a single task. Use `configRef` if you want to refer to a single project config. Otherwise, use `configRefs`.
 
