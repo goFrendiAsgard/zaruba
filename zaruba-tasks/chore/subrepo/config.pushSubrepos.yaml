@@ -10,10 +10,10 @@ configs:
         PREFIX="{{ $this.GetValue "subrepo" $name "prefix" }}"
         URL="{{ $this.GetValue "subrepo" $name "url" }}"
         NAME="{{ $name }}"
-        ORIGIN_EXISTS=$("{{ .ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
+        ORIGIN_EXISTS=$("{{ $this.ZarubaBin }}" list contain "${ORIGINS}" "${NAME}")
         if [ $ORIGIN_EXISTS = 1 ]
         then
-          gitSave.sh" "Save works before p
+          gitSave "Save works before pushing"
           git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
         fi
       {{ end -}}

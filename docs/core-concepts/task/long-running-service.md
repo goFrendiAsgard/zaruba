@@ -102,37 +102,49 @@ then, you can invoke `zaruba please startServer`.
 
 __Example:__
 
+<!--startCode-->
 ```bash
 cd examples/core-concepts/task/long-running-service/low-level
-zaruba please startServer
+zaruba please startServer -t -w 1s
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 1.272µs
- Current Time: 16:34:11
-  Run  'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
-  Check  'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
-   startServer           16:34:13.538 not ready
-   startServer           16:34:15.542 not ready
-   startServer           16:34:17.544 not ready
-   startServer           16:34:19.549 not ready
-   startServer           16:34:21.554 not ready
-   startServer           16:34:23.556 not ready
-   startServer           16:34:23.557 ready
-  Successfully running  'startServer' readiness check
-  Job Running...
- Elapsed Time: 12.124489707s
- Current Time: 16:34:23
- Active Process:
-   * (PID=16351)  'startServer' service
-  
-  Job Complete!!! 
+💀 🔎 Job Starting...
+         Elapsed Time: 1.236µs
+         Current Time: 08:25:50
+💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+💀    🔎 startServer          🍏 08:25:52.057 not ready
+💀    🔎 startServer          🍏 08:25:54.059 not ready
+💀    🔎 startServer          🍏 08:25:56.061 not ready
+💀    🔎 startServer          🍏 08:25:58.063 not ready
+💀    🔎 startServer          🍏 08:26:00.065 not ready
+💀    🔎 startServer          🍏 08:26:02.067 not ready
+💀    🔎 startServer          🍏 08:26:02.068 ready
+💀 🎉 Successfully running 🍏 'startServer' readiness check
+💀 🔎 Job Running...
+         Elapsed Time: 12.115832811s
+         Current Time: 08:26:02
+         Active Process:
+           * (PID=12017) 🍏 'startServer' service
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔪 Kill 🍏 'startServer' service (PID=12017)
+💀    🚀 startServer          🍏 08:26:03.673 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+💀    🚀 startServer          🍏 08:26:03.673 
+💀    🚀 startServer          🍏 08:26:03.673 Keyboard interrupt received, exiting.
+💀 🔎 Job Ended...
+         Elapsed Time: 14.2198797s
+         Current Time: 08:26:04
+💀 🔥 🍏 'startServer' service exited without any error message
+zaruba please startServer   -t -w 1s
 ```````
 </details>
+<!--endCode-->
 
 
 Good. This is what `check` property actually is for. It tells Zaruba how to check your service readiness. 
@@ -162,39 +174,52 @@ Let's try to modify your `index.zaruba.yaml` and invoke `zaruba please startServ
 
 __Example:__
 
+<!--startCode-->
 ```bash
 cd examples/core-concepts/task/long-running-service/high-level
-zaruba please startServer
+zaruba please startServer -t -w 1s
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Job Starting...
- Elapsed Time: 1.819µs
- Current Time: 16:34:24
-  Run  'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-   updateProjectLinks    16:34:24.5   🎉🎉🎉
-   updateProjectLinks    16:34:24.5   Links updated
-  Successfully running  'updateProjectLinks' command
-  Run  'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-  Check  'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-   startServer           16:34:24.606 📜 Waiting for port '8080'
-   startServer           16:34:34.652 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-   startServer           16:34:35.638 📜 Port '8080' is ready
-   startServer           16:34:35.638 🎉🎉🎉
-   startServer           16:34:35.638 📜 Task 'startServer' is ready
-  Successfully running  'startServer' readiness check
-  Job Running...
- Elapsed Time: 11.241479653s
- Current Time: 16:34:35
- Active Process:
-   * (PID=16399)  'startServer' service
-  
-  Job Complete!!! 
+💀 🔎 Job Starting...
+         Elapsed Time: 1.732µs
+         Current Time: 08:26:04
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+💀    🚀 updateProjectLinks   🔗 08:26:04.495 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 08:26:04.496 Links updated
+💀 🎉 Successfully running 🔗 'updateProjectLinks' command
+💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+💀    🔎 startServer          🍏 08:26:04.6   🔎 Waiting for port '8080'
+💀    🚀 startServer          🍏 08:26:14.699 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+💀    🔎 startServer          🍏 08:26:15.624 🔎 Port '8080' is ready
+💀    🔎 startServer          🍏 08:26:15.624 🎉🎉🎉
+💀    🔎 startServer          🍏 08:26:15.624 📜 Task 'startServer' is ready
+💀 🎉 Successfully running 🍏 'startServer' readiness check
+💀 🔎 Job Running...
+         Elapsed Time: 11.233390359s
+         Current Time: 08:26:15
+         Active Process:
+           * (PID=12093) 🍏 'startServer' service
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔪 Kill 🍏 'startServer' service (PID=12093)
+💀    🚀 startServer          🍏 08:26:17.227 
+💀    🚀 startServer          🍏 08:26:17.227 Keyboard interrupt received, exiting.
+💀    🚀 startServer          🍏 08:26:17.234 🎉🎉🎉
+💀    🚀 startServer          🍏 08:26:17.234 📜 Task 'startServer' is started
+💀 🔎 Job Ended...
+         Elapsed Time: 13.33740883s
+         Current Time: 08:26:17
+💀 🔥 🍏 'startServer' service exited without any error message
+zaruba please startServer   -t -w 1s
 ```````
 </details>
+<!--endCode-->
 
 
 This code is easier to write since you no longer need to write the checker's loop.

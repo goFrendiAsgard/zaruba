@@ -12,10 +12,10 @@ While developing/debugging applications, you might need to run several tasks __i
 
 Some tasks might __depends__ on several pre-requisited, while some others probably __share similar behavior__. For example:
 
-* A web application can only be started once the database server is running. In this case, web application __depends__ on database server.
-* To start TypeScript applications, you need to perform `npm install` and `tsc`. In this case, TypeScript applications __share similar behavior__.
+* A web application can only be started once the database server is running. This means web application __depends__ on database server.
+* To start TypeScript applications, you need to perform `npm install` and `tsc`. This means TypeScript applications __share similar behavior__.
 
-When you manually run tasks in parallel or sequentially, you might do some mistakes and you need to re-do everything from scratch.
+Furthermore, when you manually run tasks in parallel or sequentially, you might do some mistakes and you need to re-do everything from the begining.
 
 ## 💡 Solution
 
@@ -26,12 +26,12 @@ However, when your workflow become more complicated, you need a __better automat
 Zaruba allows you to __simplify your workflow__ by let you:
 
 * Create configurable tasks (i.e: using `configs`, `inputs`, or `envs`).
-* Define tasks dependencies (i.e: using `extend`).
+* Define tasks dependencies (i.e: using `dependencies`).
 * Re-use and share configurations/behviors (i.e: using `extend`, `configRef`, or `envRef`).
 * Run tasks in parallels.
 * Generate new tasks.
 
-There are several [built-in tasks](docs/core-tasks/README.md) specially crafted to achieve those goals. To see list of available tasks, you can run `zaruba please`.
+There are some [built-in tasks](docs/core-tasks/README.md) to achieve those goals. You can run `zaruba please` for to see list of available tasks.
 
 ## 🔍 Example
 
@@ -40,9 +40,9 @@ Suppose you want to build two applications:
 * A 🐍 `CRUD API application` that __depends__ on 🐬 `MySQL`.
 * A simple 🐹 `Go web server` that has no dependencies.
 
-Since `Go web server` has no dependencies, you should be able to run it __in parallel__ with `CRUD API application` and `MySQL server`.
+`Go web server` has no dependencies, and you should be able to run it __in parallel__ with `CRUD API application` and `MySQL server`.
 
-On the other hand, `CRUD API application` __depends__ on `MySQL server`. Thus, you cannot run `CRUD API application` without running `MySQL server`.
+On the other hand, `CRUD API application` __depends__ on `MySQL server`. Thus, you cannot run `CRUD API application` unless `MySQL server` is running.
 
 Zaruba allows you to build, run, and deploy everything using simple commands (no coding required 😉).
 

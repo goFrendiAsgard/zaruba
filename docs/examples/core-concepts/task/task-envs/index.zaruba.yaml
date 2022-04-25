@@ -1,0 +1,12 @@
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      httpPort: '{{ .GetEnv "HTTP_PORT" }}'
+      start: 'sleep 10 && python -m http.server {{ .GetConfig "httpPort" }}'
+      ports: '{{ .GetConfig "httpPort" }}'
+    envs:
+      HTTP_PORT:
+        from: SERVER_HTTP_PORT
+        default: 8080

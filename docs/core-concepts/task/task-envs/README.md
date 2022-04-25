@@ -45,22 +45,54 @@ Now you have an environment variable named `HTTP_PORT`. By default its value is 
 
 Let's set `SERVER_HTTP_PORT` to `3000` and start the server:
 
+<!--startCode-->
+```bash
+cd examples/core-concepts/task/task-envs
+export SERVER_HTTP_PORT=3000
+zaruba please startServer -t -w 1s
 ```
-❯ export SERVER_HTTP_PORT=3000
-
-❯ zaruba please startServer
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.2µs
-         Current Time: 06:49:54
-💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/playground/example
-💀    🚀 updateProjectLinks   🔗 06:49:54.839 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 06:49:54.839 Links updated
+         Elapsed Time: 1.235µs
+         Current Time: 08:26:17
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+💀    🚀 updateProjectLinks   🔗 08:26:18     🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 08:26:18     Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/playground/example
-💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/playground/example
-💀    🔎 startServer          🍏 06:49:55.136 📜 Waiting for port '3000'
-💀    🔎 startServer          🍏 15:37:16.44  📜 Waiting for port '3000'
-```
+💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+💀    🔎 startServer          🍏 08:26:18.104 🔎 Waiting for port '3000'
+💀    🚀 startServer          🍏 08:26:28.139 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀    🔎 startServer          🍏 08:26:29.127 🔎 Port '3000' is ready
+💀    🔎 startServer          🍏 08:26:29.127 🎉🎉🎉
+💀    🔎 startServer          🍏 08:26:29.127 📜 Task 'startServer' is ready
+💀 🎉 Successfully running 🍏 'startServer' readiness check
+💀 🔎 Job Running...
+         Elapsed Time: 11.23107143s
+         Current Time: 08:26:29
+         Active Process:
+           * (PID=12204) 🍏 'startServer' service
+💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+💀 🎉 Job Complete!!! 🎉🎉🎉
+💀 🔥 Terminating
+💀 🔪 Kill 🍏 'startServer' service (PID=12204)
+💀    🚀 startServer          🍏 08:26:30.731 
+💀    🚀 startServer          🍏 08:26:30.731 Keyboard interrupt received, exiting.
+💀    🚀 startServer          🍏 08:26:30.735 🎉🎉🎉
+💀    🚀 startServer          🍏 08:26:30.735 📜 Task 'startServer' is started
+💀 🔎 Job Ended...
+         Elapsed Time: 13.334750834s
+         Current Time: 08:26:31
+💀 🔥 🍏 'startServer' service exited without any error message
+zaruba please startServer   -t -w 1s
+```````
+</details>
+<!--endCode-->
+
 
 The server is now running on port `3000`.
 
