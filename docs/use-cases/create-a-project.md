@@ -5,43 +5,52 @@
 
 The recommended way to create a project is by invoking `zaruba please initProject`:
 
+__Example:__
+
+<!--startCode-->
 ```bash
-❯ mkdir myproject
+mkdir -p examples/playground/use-cases/newProject
+cd examples/playground/use-cases/newProject
+zaruba please initProject
 
-❯ cd myproject
-
-❯ zaruba please initProject
+tree
+```
+ 
+<details>
+<summary>Output</summary>
+ 
+```````
+bash: line 1: cd: examples/playground/use-cases: No such file or directory
 💀 🔎 Job Starting...
-         Elapsed Time: 1.2µs
-         Current Time: 07:10:25
-💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/playground/myproject
-💀    🚀 initProject          🚧 07:10:25.647 Initialized empty Git repository in /home/gofrendi/playground/myproject/.git/
-💀    🚀 initProject          🚧 07:10:25.654 🎉🎉🎉
-💀    🚀 initProject          🚧 07:10:25.654 Project created
+         Elapsed Time: 1.133µs
+         Current Time: 21:48:49
+💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/newproject
+💀    🚀 initProject          🚧 21:48:49.91  Initialized empty Git repository in /home/gofrendi/zaruba/docs/newproject/.git/
+💀    🚀 initProject          🚧 21:48:49.914 🎉🎉🎉
+💀    🚀 initProject          🚧 21:48:49.914 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 311.8279ms
-         Current Time: 07:10:25
+         Elapsed Time: 108.83157ms
+         Current Time: 21:48:50
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 512.9968ms
-         Current Time: 07:10:25
-```
-
-# Initial Project Structure
-
-Once created, you will have two files:
-
-```
-❯ tree
+         Elapsed Time: 310.019525ms
+         Current Time: 21:48:50
+zaruba please initProject  
 .
 ├── default.values.yaml
 └── index.zaruba.yaml
 
 0 directories, 2 files
-```
+```````
+</details>
+<!--endCode-->
+
+# Initial Project Structure
+
+Once created, you will have two files:
 
 * `default.values.yaml` is your default project value
 * `index.zaruba.yaml` is the entry point of your zaruba script.
@@ -62,7 +71,7 @@ When you run many tasks at once, Zaruba will run your tasks in parallel. Please 
 zaruba please <task-name> [other-task-names...] [-e custom-environment.env] [-e KEY=value]
 ```
 
-Please visit [core concept documentation](../core-concepts/README.md#set-task-environments) for more information.
+Please visit [run task with custom environments documentation](../run-task/run-task-with-custom-environments.md) for more information.
 
 ## Run Task with Custom Input Values
 
@@ -70,7 +79,7 @@ Please visit [core concept documentation](../core-concepts/README.md#set-task-en
 zaruba please <task-name> [other-task-names...] [-v custom-values.yaml] [-v key=value]
 ```
 
-Please visit [core concept documentation](../core-concepts/README.md#set-task-inputs) for more information.
+Please visit [run task with custom values documentation](../run-task/run-task-with-custom-values.md) for more information.
 
 
 ## Synchronize Environments
@@ -79,15 +88,7 @@ Please visit [core concept documentation](../core-concepts/README.md#set-task-in
 zaruba please syncEnv
 ```
 
-Please visit [core concept documentation](../core-concepts/project/task/task-envs/README.md#synchronize-tasks-environments) for more information.
-
-# Next Step
-
-Your next step is depending on your uses case:
-
-* If you need to add third party services like MySQL, Redis, Kafka, etc, then you need to [add third party services](./add-third-party-service/README.md) to your project.
-* If you need to create an application from scratch, then you can [generate new application](./generate-new-application/README.md).
-* You can also add existing external application as [subrepo of your project](./add-subrepo.md). In this case you also need to [add runner for the existing application](./add-runner-for-existing-application/README.md).
+Please visit [syncrhonize environments documentation](./synchronize-environments.md) for more information.
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
