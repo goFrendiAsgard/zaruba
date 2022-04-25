@@ -68,7 +68,7 @@ zaruba env print \
  
 ```````
 APP_CONTEXT="aws"
-APP_VERSION="1.0.0"
+APP_VERSION="1.1.1"
 DEV_APP_CONTEXT="gcp"
 DEV_APP_VERSION="1.1.1"
 STAG_APP_VERSION="1.1.0"

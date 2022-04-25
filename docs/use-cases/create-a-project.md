@@ -20,24 +20,23 @@ tree
 <summary>Output</summary>
  
 ```````
-bash: line 1: cd: examples/playground/use-cases: No such file or directory
 💀 🔎 Job Starting...
-         Elapsed Time: 1.133µs
-         Current Time: 21:48:49
-💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/newproject
-💀    🚀 initProject          🚧 21:48:49.91  Initialized empty Git repository in /home/gofrendi/zaruba/docs/newproject/.git/
-💀    🚀 initProject          🚧 21:48:49.914 🎉🎉🎉
-💀    🚀 initProject          🚧 21:48:49.914 Project created
+         Elapsed Time: 1.195µs
+         Current Time: 21:57:07
+💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject
+💀    🚀 initProject          🚧 21:57:07.089 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject/.git/
+💀    🚀 initProject          🚧 21:57:07.093 🎉🎉🎉
+💀    🚀 initProject          🚧 21:57:07.093 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 108.83157ms
-         Current Time: 21:48:50
+         Elapsed Time: 111.087701ms
+         Current Time: 21:57:07
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 310.019525ms
-         Current Time: 21:48:50
+         Elapsed Time: 312.40167ms
+         Current Time: 21:57:07
 zaruba please initProject  
 .
 ├── default.values.yaml
