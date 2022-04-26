@@ -21,22 +21,22 @@ tree
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.195µs
-         Current Time: 21:57:07
+         Elapsed Time: 1.553µs
+         Current Time: 08:31:37
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject
-💀    🚀 initProject          🚧 21:57:07.089 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject/.git/
-💀    🚀 initProject          🚧 21:57:07.093 🎉🎉🎉
-💀    🚀 initProject          🚧 21:57:07.093 Project created
+💀    🚀 initProject          🚧 08:31:37.094 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject/.git/
+💀    🚀 initProject          🚧 08:31:37.098 🎉🎉🎉
+💀    🚀 initProject          🚧 08:31:37.098 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 111.087701ms
-         Current Time: 21:57:07
+         Elapsed Time: 109.604531ms
+         Current Time: 08:31:37
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 312.40167ms
-         Current Time: 21:57:07
+         Elapsed Time: 311.69225ms
+         Current Time: 08:31:37
 zaruba please initProject  
 .
 ├── default.values.yaml
@@ -56,31 +56,9 @@ Typically, a new project contains of two files:
 * `default.values.yaml`: The default project value
 * `index.zaruba.yaml`: The entry point of project's zaruba script.
 
-# Managing Your Project
+# What's Next
 
-## Run Tasks
-
-To run tasks in your project can invoke:
-
-```bash
-zaruba please <task-name> [other-task-names...]
-```
-
-Please visit [run task documentation](../run-task/README.md) for more information.
-
-## Synchronize Environments
-
-Some tasks might require specific environment variables to be set.
-
-Zaruba can read those environments from your environment files and update the task definitions accordingly.
-
-To do this, you can perfrom `zaruba please syncEnv`:
-
-```bash
-zaruba please syncEnv
-```
-
-For more information, please visit [synchronize environments documentation](./synchronize-environments.md).
+Once you created an empty project, you can start [adding resources to your project](adding-resources/README.md), [run some tasks](../run-task/README.md), and [syncrhonize task environments](syncrhonize-task-environments.md)
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

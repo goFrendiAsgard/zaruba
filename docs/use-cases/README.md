@@ -35,7 +35,7 @@ Once you have a project in your computer, you can start [adding resources](addin
     * [🚢 Add Application Deployment](adding-resources/from-scratch/add-application-deployment.md)
     * [🥉 Add Third Party Service](adding-resources/from-scratch/add-third-party-service.md)
 * [🏭 Add Generator](add-generator.md)
-* [🏝️ Synchronize environments](synchronize-environments.md)
+* [🏝️ Synchronize task environments](synchronize-task-environments.md)
 * [🚌 Run Applications Locally](run-applications-locally.md)
 * [🏃‍♂️ Run Some Applications Locally](run-some-applications-locally.md)
 * [🚀 Deploy Applications](deploy-applications.md)

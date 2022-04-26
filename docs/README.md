@@ -62,7 +62,7 @@ Start by understanding [core concept](core-concepts/README.md), learn how to [ru
             * [🚢 Add Application Deployment](use-cases/adding-resources/from-scratch/add-application-deployment.md)
             * [🥉 Add Third Party Service](use-cases/adding-resources/from-scratch/add-third-party-service.md)
     * [🏭 Add Generator](use-cases/add-generator.md)
-    * [🏝️ Synchronize environments](use-cases/synchronize-environments.md)
+    * [🏝️ Synchronize task environments](use-cases/synchronize-task-environments.md)
     * [🚌 Run Applications Locally](use-cases/run-applications-locally.md)
     * [🏃‍♂️ Run Some Applications Locally](use-cases/run-some-applications-locally.md)
     * [🚀 Deploy Applications](use-cases/deploy-applications.md)
