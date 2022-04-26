@@ -271,7 +271,7 @@ To get started, you can:
 * [🧠 Learn the core concept](docs/core-concepts/README.md)
 * [⚙️ Configure your installation](docs/configuration.md)
 * [🏃 Learn to run tasks](docs/run-task/README.md)
-* [🪄 Create a project](docs/use-cases/create-a-project.md)
+* [🏗️ Create a project](docs/use-cases/create-a-project.md)
 * [👷🏽 See some use Cases](docs/use-cases/README.md)
 
 But before doing that, you probably need to install additional prerequisites.

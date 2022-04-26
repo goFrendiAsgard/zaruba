@@ -47,47 +47,40 @@ zaruba please initProject
 </details>
 <!--endCode-->
 
+Aside from generating a project using `zaruba please initProject`, you can also clone/fork existing project from Github or other Git server. Please see [../core-concepts/projects/README.md] for more information.
+
 # Initial Project Structure
 
-Once created, you will have two files:
+Typically, a new project contains of two files:
 
-* `default.values.yaml` is your default project value
-* `index.zaruba.yaml` is the entry point of your zaruba script.
+* `default.values.yaml`: The default project value
+* `index.zaruba.yaml`: The entry point of project's zaruba script.
 
 # Managing Your Project
 
 ## Run Tasks
 
+To run tasks in your project can invoke:
+
 ```bash
 zaruba please <task-name> [other-task-names...]
 ```
 
-When you run many tasks at once, Zaruba will run your tasks in parallel. Please visit [core concept documentation](../core-concepts/README.md#run-many-tasks-in-parallel) for more information.
-
-## Run Task with Custom Environments
-
-```bash
-zaruba please <task-name> [other-task-names...] [-e custom-environment.env] [-e KEY=value]
-```
-
-Please visit [run task with custom environments documentation](../run-task/run-task-with-custom-environments.md) for more information.
-
-## Run Task with Custom Input Values
-
-```bash
-zaruba please <task-name> [other-task-names...] [-v custom-values.yaml] [-v key=value]
-```
-
-Please visit [run task with custom values documentation](../run-task/run-task-with-custom-values.md) for more information.
-
+Please visit [run task documentation](../run-task/README.md) for more information.
 
 ## Synchronize Environments
+
+Some tasks might require specific environment variables to be set.
+
+Zaruba can read those environments from your environment files and update the task definitions accordingly.
+
+To do this, you can perfrom `zaruba please syncEnv`:
 
 ```bash
 zaruba please syncEnv
 ```
 
-Please visit [syncrhonize environments documentation](./synchronize-environments.md) for more information.
+For more information, please visit [synchronize environments documentation](./synchronize-environments.md).
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

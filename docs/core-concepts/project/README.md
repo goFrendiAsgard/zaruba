@@ -5,7 +5,7 @@
 
 A project is a directory containing `index.zaruba.yaml`. Usually, a project is also a git repository.
 
-# Create an Empty Project
+# Create an Empty Project from Scratch
 
 To create an empty project from scratch, you can make an empty git repository, and create a file named `index.zaruba.yaml`.
 
@@ -36,7 +36,7 @@ Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playgrou
 </details>
 <!--endCode-->
 
-# Generate a Project
+# Generate a New Project
 
 To create a project with sane boilerplate you can make a directory and invoke `zaruba please initProject`.
 
