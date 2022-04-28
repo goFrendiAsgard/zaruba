@@ -3,13 +3,15 @@
 # 🧠 Core Concepts
 <!--endTocHeader-->
 
-Zaruba is a task runner and CLI Utilities.
+At its core, Zaruba is a [task](task/README.md) runner.
 
-There are several [globally available tasks](../core-tasks/README.md) and [utilities](../utilities/README.md) that you can use right away.
+Some tasks (like a [builtin ones](../core-tasks/README.md)) are globally accessible. But most of the tasks are [project-specific](project/README.md). Project-specific tasks are only accessible from the project directory.
 
-Morover you can also define a [project](./project/README.md) containing custom [specific task](./task/README.md) definitions.
+You can think of a project as a container of your tasks and any related resources. In most cases, a project is also a git repository or a mono-repo.
 
-Please visit [here](../use-cases/create-a-project.md) if you want to see how to create a project.
+Tasks and configurations are written in [YAML](https://en.wikipedia.org/wiki/YAML) format.
+
+Please visit the subtopics to learn more tasks and anything related to it.
 
 <!--startTocSubTopic-->
 # Sub-topics

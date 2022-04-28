@@ -3,7 +3,7 @@
 # 🔎 Explain task
 <!--endTocHeader-->
 
-To see detail information of a specific task, you can invoke `zaruba please` with `-x` flag:
+To see detailed information about a specific task, you can invoke `zaruba please` with `-x` flag:
 
 ```bash
 zaruba please <task-name> -x

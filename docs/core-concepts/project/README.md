@@ -3,11 +3,18 @@
 # 🏗️ Project
 <!--endTocHeader-->
 
-A project is a directory containing `index.zaruba.yaml`. Usually, a project is also a git repository.
+Project is a container of your tasks and any other resources. A project is usually also a git repository and a monorepo.
+
+But, any directory containing `index.zaruba.yaml` is a valid project.
+
+There are several ways to create a project.
 
 # Create an Empty Project from Scratch
 
-To create an empty project from scratch, you can make an empty git repository, and create a file named `index.zaruba.yaml`.
+To create an empty project from scratch, you need to:
+
+* make an empty git repository.
+* create a file named `index.zaruba.yaml`.
 
 __Example:__
 
@@ -38,7 +45,12 @@ Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playgrou
 
 # Generate a New Project
 
-To create a project with sane boilerplate you can make a directory and invoke `zaruba please initProject`.
+The recommended way to create a new project is by generate it.
+
+To do this, you need to:
+
+* create an empty directory.
+* invoke `zaruba please initProject` from inside the directory.
 
 __Example:__
 
@@ -84,7 +96,9 @@ zaruba please initProject
 </details>
 <!--endCode-->
 
-# Clone a Project
+# Clone an Existing Project
+
+In some cases, someone has already created a project for you and make it accessible from the internet.
 
 To clone/fork existing projects from GitHub or other git servers do:
 

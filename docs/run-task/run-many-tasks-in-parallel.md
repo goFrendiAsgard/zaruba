@@ -5,7 +5,7 @@
 
 # Run Many Tasks in Parallel
 
-Zaruba allows you to run several tasks in parallel and see the output of the tasks in real time. To do this, you need to invoke:
+Zaruba allows you to run many tasks in parallel and see the output on a single screen. To do this, you need to invoke:
 
 ```bash
 zaruba please <first-task-name> <second-task-name>... <last-task-name>

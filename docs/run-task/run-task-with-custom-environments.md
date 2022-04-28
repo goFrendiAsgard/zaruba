@@ -3,7 +3,7 @@
 # 🏝️ Run Task with Custom Environments
 <!--endTocHeader-->
 
-You can set [task's environment](../core-concepts/task/task-envs/README.md) by using `-e` flag as follow:
+To set [task's environment](../core-concepts/task/task-envs/README.md) you can use `-e` flag as follow:
 
 ```bash
 zaruba please <task-name> -e <first-key=first-value> -e <second-key=second-value>
@@ -84,7 +84,7 @@ zaruba please printHelloHuman -e 'sample.env'
 </details>
 <!--endCode-->
 
->  ⚠️ __WARNING:__  If you don't define any environment, Zaruba will automatically load `.env` in current directory.
+>  ⚠️ __WARNING:__  If you don't define any environment, Zaruba will load `.env` in current directory.
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

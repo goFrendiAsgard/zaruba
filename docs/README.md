@@ -2,9 +2,13 @@
 
 # 🏠 Zaruba Documentation
 
-Welcome to Zaruba Documentation. 
+Welcome to Zaruba Documentation.
 
-Start by understanding [core concept](core-concepts/README.md), learn how to [run task](run-task/README.md) and dive into [use cases](use-cases/README.md).
+Zaruba is a task runner and CLI utilities.
+
+To get started, you need to [create a project](use-cases/create-a-project.md) and [add some resources](use-cases/adding-resources/README.md). Once your project is ready, you can [start running your tasks](run-tasks/README.md).
+
+You can also [see the core concepts](core-concepts/README.md) to get a better understanding.
 
 # Table of Content
 

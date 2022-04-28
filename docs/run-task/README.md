@@ -3,7 +3,7 @@
 # 🏃 Run task
 <!--endTocHeader-->
 
-In case of you don't have any ideas what tasks are availables and how to run it, you can run `zaruba please` [interactively](run-task-interactively):
+To see a list of available tasks, you can run `zaruba please` [interactively](run-task-interactively):
 
 ```
 zaruba please -i
