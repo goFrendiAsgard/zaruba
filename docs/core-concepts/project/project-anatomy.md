@@ -9,11 +9,19 @@ A project usually contains:
 
 # Zaruba Scripts
 
-A project should at least contains a single zaruba script named `index.zaruba.yaml` in it's top level directory.
+Any directory containing `index.zaruba.yaml` is a valid project.
 
-Zaruba scripts are written in [YAML](https://yaml.org) and [go template](https://pkg.go.dev/text/template). 
+Alongside `index.zaruba.yaml`, a project might contain other Zaruba scripts as well. Those Zaruba scripts are written in [YAML](https://yaml.org) and [go template](https://pkg.go.dev/text/template). 
 
-Here is an example of a complete zaruba script:
+You can define several `keys` in a single Zaruba script:
+
+* [includes](project-includes.md)
+* [inputs](project-inputs.md)
+* [configs](project-configs.md)
+* [envs](project-envs.md)
+* [tasks](../task/README.md)
+
+All `keys` are optional. If you want to see how each key related to each other, you can look at this example:
 
 
 ```yaml
@@ -56,7 +64,7 @@ tasks:
   taskName:
     icon: ✨                        # icon of your task
     description: task description
-    extend: ''                      # other task name extended by this task. for multiple extend, use `extends` instead (but no, don't use it)
+    extend: ''                      # parent task task.
     location: './some-directory'    # directory location where your task should run on
     private: false                  # if true, the task is inteded to be extended instead of run directly
     timeout: 5m
@@ -79,25 +87,11 @@ tasks:
     saveLog: true                   # wether to save log or not
 ```
 
-For more information/detail behaviors of each property, please visit their respective documentations:
-
-* [includes](./includes.md)
-* [configs](./project-configs.md)
-* [envs](./project-envs.md)
-* [tasks](../task/README.md)
-
-Zaruba is capable to generate tasks and application resources. You can generate [tasks for existing applications](../../use-cases/add-runner-for-existing-application/README.md) or a [new application along with its task runner](../../use-cases/generate-new-application/README.md).
-
 # Application Resources
 
-Aside from zaruba script, you also need other resources like source code, Dockerfile, static files, etc. We name those resources as `application resources`.
+To run a task, you might need other resources like source code, Dockerfile, static files, etc.
 
-Zaruba can help you generate some of those resources. For example, you can generate:
-
-* [new applications](../../use-cases/generate-new-application/README.md) 
-* [deployments](../../use-cases/generate-new-application/add-application-deployment.md), or 
-* [third party services](../../use-cases/add-third-party-service/README.md)
-
+> 💡 __TIPS:__ Instead of creating application resources and Zaruba script manually, you can use [built-in generator](../../use-cases/ading-resources/README.md).
 
 
 <!--startTocSubTopic-->
