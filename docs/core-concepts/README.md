@@ -32,5 +32,5 @@ Please visit the subtopics to learn more tasks and anything related to it.
     * [Shared Envs](task/task-envs/shared-envs.md)
   * [🧒 Extend task](task/extend-task.md)
   * [🍲 Define task dependencies](task/define-task-dependencies.md)
-* [🐹 Using Go Template](using-go-template.md)
+* [🐹 Use Go Template](use-go-template.md)
 <!--endTocSubTopic-->

@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🧠 Core Concepts](README.md)
-# 🐹 Using Go Template
+# 🐹 Use Go Template
 <!--endTocHeader-->
 
 

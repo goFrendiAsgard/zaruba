@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [Adding Resources](../README.md) > [🧩 Integration](README.md)
+[🏠](../../../README.md) > [👷🏽 Use Cases](../../README.md) > [Add Resources](../README.md) > [🧩 Integration](README.md)
 # 🐳 Docker Compose
 <!--endTocHeader-->
 

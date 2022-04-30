@@ -21,22 +21,22 @@ tree
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.553µs
-         Current Time: 08:31:37
+         Elapsed Time: 1.503µs
+         Current Time: 15:08:10
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject
-💀    🚀 initProject          🚧 08:31:37.094 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject/.git/
-💀    🚀 initProject          🚧 08:31:37.098 🎉🎉🎉
-💀    🚀 initProject          🚧 08:31:37.098 Project created
+💀    🚀 initProject          🚧 15:08:10.095 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject/.git/
+💀    🚀 initProject          🚧 15:08:10.099 🎉🎉🎉
+💀    🚀 initProject          🚧 15:08:10.099 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 109.604531ms
-         Current Time: 08:31:37
+         Elapsed Time: 111.022233ms
+         Current Time: 15:08:10
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 311.69225ms
-         Current Time: 08:31:37
+         Elapsed Time: 312.110409ms
+         Current Time: 15:08:10
 zaruba please initProject  
 .
 ├── default.values.yaml
@@ -58,7 +58,7 @@ Typically, a new project contains of two files:
 
 # What's Next
 
-Once you created an empty project, you can start [adding resources to your project](adding-resources/README.md), [run some tasks](../run-task/README.md), and [syncrhonize task environments](syncrhonize-task-environments.md)
+Once you created an empty project, you can start [adding resources to your project](add-resources/README.md), [run some tasks](../run-task/README.md), and [syncrhonize task environments](syncrhonize-task-environments.md)
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

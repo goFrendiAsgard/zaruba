@@ -1,16 +1,15 @@
 <!--startTocHeader-->
-[🏠](../../../../README.md) > [👷🏽 Use Cases](../../../README.md) > [Adding Resources](../../README.md) > [✨ From Scratch](../README.md) > [🏃 Add Runner for Existing Application](README.md)
-# Python Application Runner
+[🏠](../../../../README.md) > [👷🏽 Use Cases](../../../README.md) > [Add Resources](../../README.md) > [✨ From Scratch](../README.md) > [🏃 Add Runner for Existing Application](README.md)
+# Go Application Runner
 <!--endTocHeader-->
 
+To create application runner for your existing go applications, you can use [`addGoAppRunner`](../../core-tasks/addGoAppRunner.md)
 
-To create application runner for your existing python applications, you can use [`addPythonAppRunner`](../../core-tasks/addPythonAppRunner.md)
-
-# How to Add Python Application Runner
+# How to Add Go Application Runner
 
 
 ```bash
-zaruba please addPythonAppRunner \
+zaruba please addGoAppRunner \
   appDirectory=<directory-name> \             # Location of your application. Must be provided
   [appName=<app-name>] \                      # application name
   [appContainerName=<app-container-name>] \   # application's container name
@@ -21,7 +20,7 @@ zaruba please addPythonAppRunner \
   [appStartCommand=<start-command>]           # Command to run the app
 ```
 
-# Python Application Runner Structure
+# Go Application Runner Structure
 
 ```bash
 ❯ tree
@@ -37,32 +36,32 @@ zaruba please addPythonAppRunner \
 
 ```
 
-# Use Case: Create Python Application Runner
+# Use Case: Create Go Application Runner
 
 Suppose you already have a project containing two directories:
 
 * A third party service named `myDb`
-* A directory named `myPythonApp` containing static website resources.
+* A directory named `myGoApp` containing static website resources.
 
 Now you want to create an application runner for your static website.
 
 ## Install Prerequisites
 
-If don't have `myDb` and `myPythonApp`, then you should run these commands first:
+If don't have `myDb` and `myGoApp`, then you should run these commands first:
 
 ```bash
 zaruba please addMysql appDirectory=myDb
-zaruba please makeSimplePythonApp appDirectory=myPythonApp
+zaruba please makeSimpleGoApp appDirectory=myGoApp
 ```
 
-## Create Python App Runner
+## Create Go App Runner
 
 To create app runner, you can run the following command:
 
 ```bash
-zaruba please addPythonAppRunner \
-  appDirectory=./myPythonApp \
-  appName=myPythonApp \
+zaruba please addGoAppRunner \
+  appDirectory=./myGoApp \
+  appName=myGoApp \
   appContainerName=myAppContainer \
   appImageName=my-app \
   appDependencies='["myDb"]' \
@@ -78,17 +77,17 @@ Finally, To start your newly generated application runner you can invoke:
 
 ```bash
 # run natively
-zaruba please startMyPythonApp
+zaruba please startMyGoApp
 ```
 
 or
 
 ```bash
 # run as container
-zaruba please startMyPythonAppContainer
+zaruba please startMyGoAppContainer
 ```
 
-Zaruba will always start `myDb` first before starting `myPythonApp`. This is expected since you define `myDb` as `myPythonApp`'s application dependency.
+Zaruba will always start `myDb` first before starting `myGoApp`. This is expected since you define `myDb` as `myGoApp`'s application dependency.
 
 
 <!--startTocSubTopic-->

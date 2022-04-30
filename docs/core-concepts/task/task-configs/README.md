@@ -41,7 +41,7 @@ Unfortunately, there is a great chance that someone edit the the script without 
 
 Let's improve the task by making it more configurable.
 
-First we should make a configuration using `configs` property, and use a builtin go template function `{{ .GetConfig "someProperty" }}`. You can learn more about Zaruba's go template [here](../../using-go-template.md).
+First we should make a configuration using `configs` property, and use a builtin go template function `{{ .GetConfig "someProperty" }}`. You can learn more about Zaruba's go template [here](../../use-go-template.md).
 
 Let's edit your script a little bit:
 

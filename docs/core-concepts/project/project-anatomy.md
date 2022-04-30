@@ -91,7 +91,7 @@ tasks:
 
 To run a task, you might need other resources like source code, Dockerfile, static files, etc.
 
-> 💡 __TIPS:__ Instead of creating application resources and Zaruba script manually, you can use [built-in generator](../../use-cases/ading-resources/README.md).
+> 💡 __TIPS:__ Instead of creating application resources and Zaruba script manually, you can use [built-in generator](../../use-cases/add-resources/README.md).
 
 
 <!--startTocSubTopic-->

@@ -91,7 +91,7 @@ tasks:
         echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
 ```
 
-That's pretty long, and you might find this a bit overwhelming. There are some [go template](../using-go-template.md) that you can chek on. But here is how things work in a nutshell:
+That's pretty long, and you might find this a bit overwhelming. There are some [go template](../use-go-template.md) that you can chek on. But here is how things work in a nutshell:
 
 ![](images/extending-task.png)
 

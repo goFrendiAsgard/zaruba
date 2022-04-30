@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [👷🏽 Use Cases](../README.md)
-# Adding Resources
+# Add Resources
 <!--endTocHeader-->
 
 TODO: Write about `Adding Resources`

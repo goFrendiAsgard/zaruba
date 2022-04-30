@@ -1,16 +1,16 @@
 <!--startTocHeader-->
-[🏠](../../../../README.md) > [👷🏽 Use Cases](../../../README.md) > [Adding Resources](../../README.md) > [✨ From Scratch](../README.md) > [🏃 Add Runner for Existing Application](README.md)
-# NodeJs Application Runner
+[🏠](../../../../README.md) > [👷🏽 Use Cases](../../../README.md) > [Add Resources](../../README.md) > [✨ From Scratch](../README.md) > [🏃 Add Runner for Existing Application](README.md)
+# Python Application Runner
 <!--endTocHeader-->
 
 
-To create application runner for your existing node.js applications, you can use [`addNodeJsAppRunner`](../../core-tasks/addNodeJsAppRunner.md)
+To create application runner for your existing python applications, you can use [`addPythonAppRunner`](../../core-tasks/addPythonAppRunner.md)
 
-# How to Add NodeJs Application Runner
+# How to Add Python Application Runner
 
 
 ```bash
-zaruba please addNodeJsAppRunner \
+zaruba please addPythonAppRunner \
   appDirectory=<directory-name> \             # Location of your application. Must be provided
   [appName=<app-name>] \                      # application name
   [appContainerName=<app-container-name>] \   # application's container name
@@ -21,7 +21,7 @@ zaruba please addNodeJsAppRunner \
   [appStartCommand=<start-command>]           # Command to run the app
 ```
 
-# NodeJs Application Runner Structure
+# Python Application Runner Structure
 
 ```bash
 ❯ tree
@@ -37,32 +37,32 @@ zaruba please addNodeJsAppRunner \
 
 ```
 
-# Use Case: Create NodeJs Application Runner
+# Use Case: Create Python Application Runner
 
 Suppose you already have a project containing two directories:
 
 * A third party service named `myDb`
-* A directory named `myNodeJsApp` containing static website resources.
+* A directory named `myPythonApp` containing static website resources.
 
 Now you want to create an application runner for your static website.
 
 ## Install Prerequisites
 
-If don't have `myDb` and `myNodeJsApp`, then you should run these commands first:
+If don't have `myDb` and `myPythonApp`, then you should run these commands first:
 
 ```bash
 zaruba please addMysql appDirectory=myDb
-zaruba please makeSimpleNodeJsApp appDirectory=myNodeJsApp
+zaruba please makeSimplePythonApp appDirectory=myPythonApp
 ```
 
-## Create NodeJs App Runner
+## Create Python App Runner
 
 To create app runner, you can run the following command:
 
 ```bash
-zaruba please addNodeJsAppRunner \
-  appDirectory=./myNodeJsApp \
-  appName=myNodeJsApp \
+zaruba please addPythonAppRunner \
+  appDirectory=./myPythonApp \
+  appName=myPythonApp \
   appContainerName=myAppContainer \
   appImageName=my-app \
   appDependencies='["myDb"]' \
@@ -78,17 +78,17 @@ Finally, To start your newly generated application runner you can invoke:
 
 ```bash
 # run natively
-zaruba please startMyNodeJsApp
+zaruba please startMyPythonApp
 ```
 
 or
 
 ```bash
 # run as container
-zaruba please startMyNodeJsAppContainer
+zaruba please startMyPythonAppContainer
 ```
 
-Zaruba will always start `myDb` first before starting `myNodeJsApp`. This is expected since you define `myDb` as `myNodeJsApp`'s application dependency.
+Zaruba will always start `myDb` first before starting `myPythonApp`. This is expected since you define `myDb` as `myPythonApp`'s application dependency.
 
 
 <!--startTocSubTopic-->

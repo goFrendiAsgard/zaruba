@@ -1,15 +1,16 @@
 <!--startTocHeader-->
-[🏠](../../../../README.md) > [👷🏽 Use Cases](../../../README.md) > [Adding Resources](../../README.md) > [✨ From Scratch](../README.md) > [✨ Generate New Application](README.md)
-# Simple NodeJs Application
+[🏠](../../../../README.md) > [👷🏽 Use Cases](../../../README.md) > [Add Resources](../../README.md) > [✨ From Scratch](../README.md) > [✨ Generate New Application](README.md)
+# Simple Python Application
 <!--endTocHeader-->
 
-To add simple node.js application, you can invoke [addSimpleNodeJsApp](../../core-tasks/addSimpleNodeJsApp)
+
+To add simple python application, you can invoke [addSimplePythonApp](../../core-tasks/addSimplePythonApp)
 
 
 # How to
 
 ```bash
-zaruba please addSimpleNodeJsApp \
+zaruba please addSimplePythonApp \
   appDirectory=<directory-name> \             # Location of your application. Must be provided
   [appName=<app-name>] \                      # application name
   [appContainerName=<app-container-name>] \   # application's container name
@@ -24,10 +25,11 @@ zaruba please addSimpleNodeJsApp \
 # Use Case
 
 ```bash
-zaruba please addSimpleNodeJsApp \
+zaruba please addSimplePythonApp \
   appDirectory=myApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
