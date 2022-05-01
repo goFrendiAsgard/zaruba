@@ -12,15 +12,21 @@ tasks:
   taskName:
     icon: ✨                        # icon of your task
     description: task description
-    extend: ''                      # other task name extended by this task. for multiple extend, use `extends` instead (but no, don't use it)
-    location: './some-directory'    # directory location where your task should run on
-    private: false                  # if true, the task is inteded to be extended instead of run directly
+    extend: ''                      # parent task name, you can also use `extends` for many inheritance
+    location: './some-directory'    # task execution location
+    private: false                  # whether the task is private or not
     timeout: 5m
     dependencies: []                # task's upstreams
     inputs:                         # task's inputs
       -inputName
-    start: [bash, -c, 'python -m http.server 8080'] # command to start simple-command/long running service
-    check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"'] # command to check readiness of long-running process
+    start:                          # command to start simple-command/long running service
+      - bash
+      - '-c' 
+      - python -m http.server 8080
+    check:                          # command to check the completeness of a long-running process
+      - bash, 
+      - '-c' 
+      - until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready" 
     configs:                        # task's configurations
       someConfig: someValue
     envs:                           # task's environments
@@ -29,35 +35,35 @@ tasks:
         default: defaultValue
     configRef: configName           # shared project configs used by this task
     envRef: envName                 # shared project envs used by this task
-    autoTerminate: false            # whether this task should be autoterminated or not
-    syncEnv: true                   # whether the environments should be synchronized when running `zaruba please syncEnv` or not
-    syncEnvLocation: ''             # location of environment file's directory. If not set, `location` will be used
+    autoTerminate: false            # whether this task should be auto terminated or not
+    syncEnv: true                   # whether you can sync task env or not
+    syncEnvLocation: ''             # location of environment files. If not set, Zaruba will use `location` instead
     saveLog: true                   # wether to save log or not
 ```
 
-Please note that some properties are __exclusive to each other__. That's mean you cannot use the following tasks simultaneously:
+Please note that some properties are __exclusive to each other__. That means you cannot use the following properties together:
 
 * `extend` and `extends`
 * `configRef` and `configRefs`
 * `envRef` and `envRefs`
 
-With that in mind, let's dive into each keys.
+With that in mind, let's dive into each key.
 
 # Icon
 
-This is the icon representing a task. If task's icon is not define, Zaruba will automatically generate one on runtime.
+This is the icon representing a task. If the task's icon is not defined, Zaruba will generate one on runtime.
 
-You can put anything as task's icon. Preferably if it takes 2 character width in monospaced fonts.
+You can put anything as a task icon. It is preferable to use an icon with 2 monospaced-character widths.
 
-For some interesing icon you can use, please visit [emojipedia](https://emojipedia.org/).
+For some inspiration, please visit [emojipedia](https://emojipedia.org/).
 
 # Description
 
-Description can be either single line or multi line. It should describe what a task do and how to configure/run it.
+Description can be either single-line or multi-line. It should describe what a task does and how to configure/run it.
 
 # Extend
 
-Your task might extending other task. For example, consider the following example:
+Your task might be extending another task. For example, consider the following example:
 
 ```yaml
 tasks:
@@ -74,17 +80,17 @@ tasks:
       str: hello
 ```
 
-To see how this works, please visit [extend task documentation](./extend-task.md)
+To see how this works, please visit [this documentation](./extend-task.md)
 
 Please take note that you cannot use `extend` and `extends` in a single task.
 
 # Extends
 
-Ocassionally you might need to extend multiple tasks at once. Generally, this is not a good idea, since you will be exposed to [diamond problem](https://www.makeuseof.com/what-is-diamond-problem-in-cpp/).
+In some cases, you might need to extend many tasks at once. Generally, this is not a good idea, since it makes your tasks prone to [diamond-problem](https://www.makeuseof.com/what-is-diamond-problem-in-cpp/).
 
 A better approach in this situation is by using [shared config](./task-configs/shared-configs.md) and [shared-envs](./task-configs/shared-envs.md).
 
-Being said so, you can use `extends` for quick workaround:
+Being said so, you can use `extends` for a quick workaround:
 
 ```yaml
 tasks:
@@ -95,7 +101,7 @@ tasks:
   
   secondParentTask:
     configs:
-      smap: egg
+      spam: egg
   
   childTask:
     extends:
@@ -104,11 +110,11 @@ tasks:
     start: [bash, -c 'echo "${ZARUBA_CONFIG_FOO} ${ZARUBA_CONFIG_SPAM}"']
 ```
 
->  ⚠️ __WARNING:__ Don't use this unless you a very good reason. This mechanism was created before `configRef` and `envRef` exists. This property is merely here for historical purpose or quick workaround (that need to be fixed later).
+>  ⚠️ __WARNING:__ `extends` property is here for historical purpose and a quick workaround.
 
 # Location
 
-Location of your task relative to your zaruba script location.
+Location of your task relative to your Zaruba script location.
 
 For example, consider this directory structure:
 
@@ -121,7 +127,7 @@ For example, consider this directory structure:
 └── application                # And you want your task to run here
 ```
 
-Suppose your task is defined at `./zaruba-tasks/application/tasks.yaml` and you want to run the task inside `./application`, directory, then you need to define task's location as follow:
+Suppose you define a task at `./zaruba-tasks/application/tasks.yaml`. To run that task from the `./application` directory, you need to define its location as follows:
 
 ```yaml
 # file: ./zaruba-tasks/application/tasks.yaml
@@ -137,9 +143,11 @@ tasks:
 
 # Private
 
-If a task's `private` property is set to `true`, you won't be able to run it in interactive mode.
+When you set a task's private property to `true`, that task becomes a private task.
 
-A private task is intended to be extended by other tasks.
+A private task is not accessible from the interactive mode.
+
+To use a private task, you need to create another task that extends from it.
 
 ```yaml
 tasks:
@@ -155,7 +163,7 @@ tasks:
 
 # Timeout
 
-Some tasks might need a lot of time to get started. By default, Zaruba will kill stop running a task when it takse more than 10 minutes.
+Some tasks might need a lot of time to get started. By default, Zaruba will kill any task that takes more than 10 minutes to be ready.
 
 But you can make it shorter or longer:
 
@@ -169,9 +177,11 @@ tasks:
 
 # Dependencies
 
-Some tasks should not be executed unless its dependencies are completed. For example, you cannot start a Typescript application without invoking `tsc`.
+Some tasks might have some dependencies. For example, you cannot start a Typescript application without invoking `tsc` first.
 
-Let's see on this example:
+You can use `dependencies` property to define this behavior.
+
+Let's look at the following example:
 
 ```yaml
 tasks:
@@ -221,13 +231,7 @@ tasks:
 
 # Start
 
-`Start` is a low level property allows you to define what a task should do.
-
-In most cases, you don't need to define `start` property:
-
-* If your task run [simple command](./simple-command.md), you can create a task extending [zrbRunShellScript](../../core-tasks/zrb-runShell-script.md)
-* If your task run [long running process](./long-running-service.md), you can create a task extending [zrbStartApp](../../core-tasks/zrb-start-app.md) or [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
-
+`Start` is a low-level property that allows you to define what a task should do. Please look at the following example:
 
 ```yaml
 tasks:
@@ -236,14 +240,30 @@ tasks:
     start: [bash, -c, 'echo "hello world"']
 ```
 
+In most cases, you don't need to set `start` property at all. Instead, you can make a task extending any of the following:
+
+* [zrbRunShellScript](../../core-tasks/zrb-runShell-script.md)
+* [zrbStartApp](../../core-tasks/zrb-start-app.md)
+* [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
+* [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-compose.md)
+
+The tasks we mentioned above already have `configs.start` property, so you can use them as follow:
+
+```yaml
+tasks:
+
+  startServer:
+    extend: zrbRunShellScript
+    configs:
+      start: echo "hello world"
+```
+
 
 # Check
 
 
-`Check` is a low level property allows you to define [long running process](./long-running-service.md) readiness.
+`Check` is a low-level property that allows you to define [long-running process](./long-running-service.md) completeness. Please look at the following example:
 
-
-In mose cases, you don't need to define `check` property. Instead, you can create a task extending [zrbStartApp](../../core-tasks/zrb-start-app.md) or [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
 
 ```yaml
 tasks:
@@ -253,9 +273,30 @@ tasks:
     check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"']
 ```
 
+In most cases, you don't need to set `check` property at all. Instead, you can make a task extending any of the following:
+
+* [zrbStartApp](../../core-tasks/zrb-start-app.md)
+* [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
+* [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-container.md)
+
+
+The tasks we mentioned above already have `configs.check` property, so you can use them as follow:
+
+```yaml
+tasks:
+
+  startServer:
+    extend: zrbStartApp
+    configs:
+      start: python -m http.server 8080
+      check: until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"
+```
+
+
+
 # Configs
 
-Task configurations. Please check [task config document](./task-configs/README.md) for more information.
+Task configurations. Please check [this document](./task-configs/README.md) for more information.
 
 ```yaml
 tasks:
@@ -269,7 +310,7 @@ tasks:
 
 # Envs
 
-Task environments. Please check [task env document](./task-envs/README.md) for more information.
+Task environments. Please check [this document](./task-envs/README.md) for more information.
 
 ```yaml
 tasks:
@@ -286,7 +327,7 @@ tasks:
 
 # ConfigRef
 
-You can use `configRef` property to utilize [project config](../project/project-configs.md) in your task.
+You can use `configRef` property to use [project config](../project/project-configs.md) in your task.
 
 ```yaml
 configs:
@@ -305,7 +346,7 @@ tasks:
 
 # ConfigRefs
 
-You can use `configRefs` property to utilize multiple [project configs](../project/project-configs.md) in your task.
+You can use `configRefs` property to use many [project configs](../project/project-configs.md) in your task.
 
 
 ```yaml
@@ -330,7 +371,7 @@ tasks:
 
 # EnvRef
 
-You can use `envRef` property to utilize [project env](../project/project-envs.md) in your task.
+You can use `envRef` property to use [project env](../project/project-envs.md) in your task.
 
 ```yaml
 envs:
@@ -352,7 +393,7 @@ tasks:
 
 # EnvRefs
 
-You can use `envRefs` property to utilize multiple [project envs](../project/project-envs.md) in your task.
+You can use `envRefs` property to use many [project envs](../project/project-envs.md) in your task.
 
 ```yaml
 envs:
@@ -380,14 +421,14 @@ tasks:
 
 # AutoTerminate
 
-Whether a task should be autoterminated or not.
+Whether a task should be auto terminated or not.
 
 If `autoTerminate` is set to true then:
 
 * For [simple command](./simple-command.md): It will quit immediately after completed.
-* For [long running service](./long-running-service.md): It will quit immediately after ready.
+* For [long-running service](./long-running-service.md): It will quit immediately after ready.
 
-You can also force autotermination and define waiting time by ivoking:
+You can also force auto termination and define waiting time by invoking:
 
 ```bash
 zaruba please <task-name> -t -w 10s
@@ -397,7 +438,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-# Start a webserver. After ready, wait for 2 seconds, and terminate.
+# Start a webserver. After ready, wait for 2 seconds, and stop.
 zaruba please serveHttp -t -w 2s
 ```
  
@@ -406,34 +447,33 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.198µs
-         Current Time: 15:07:23
+         Elapsed Time: 1.129µs
+         Current Time: 17:35:09
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs
-💀    🚀 updateProjectLinks   🔗 15:07:23.693 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 15:07:23.693 Links updated
+💀    🚀 updateProjectLinks   🔗 17:35:09.05  🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 17:35:09.05  Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🌐 'serveHttp' service on /home/gofrendi/zaruba/docs
 💀 🏁 Check 🌐 'serveHttp' readiness on /home/gofrendi/zaruba/docs
-💀    🔎 serveHttp            🌐 15:07:23.799 🔎 Waiting for port '8080'
-💀    🚀 serveHttp            🌐 15:07:23.8   Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-💀    🚀 serveHttp            🌐 15:07:23.801 You can open http://localhost:8080
-💀    🔎 serveHttp            🌐 15:07:23.804 🔎 Port '8080' is ready
-💀    🔎 serveHttp            🌐 15:07:23.804 🎉🎉🎉
-💀    🔎 serveHttp            🌐 15:07:23.804 📜 Task 'serveHttp' is ready
+💀    🔎 serveHttp            🌐 17:35:09.162 🔎 Waiting for port '8080'
+💀    🚀 serveHttp            🌐 17:35:09.162 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+💀    🚀 serveHttp            🌐 17:35:09.162 You can open http://localhost:8080
+💀    🔎 serveHttp            🌐 17:35:10.165 🔎 Port '8080' is ready
+💀    🔎 serveHttp            🌐 17:35:10.165 🎉🎉🎉
 💀 🎉 Successfully running 🌐 'serveHttp' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 214.50485ms
-         Current Time: 15:07:23
+         Elapsed Time: 1.221264684s
+         Current Time: 17:35:10
          Active Process:
-           * (PID=18416) 🌐 'serveHttp' service
+           * (PID=10614) 🌐 'serveHttp' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 'serveHttp' service (PID=18416)
+💀 🔪 Kill 🌐 'serveHttp' service (PID=10614)
 💀 🔥 🌐 'serveHttp' service exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 3.318247197s
-         Current Time: 15:07:27
+         Elapsed Time: 4.32503895s
+         Current Time: 17:35:13
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>
@@ -441,9 +481,9 @@ zaruba please serveHttp   -t -w 2s
 
 # SyncEnv
 
-You can ask Zaruba to parse environment files in task's `syncEnvLocation`/`location` and update task/project envs.
+When you set `syncEnv` property to true, Zaruba will be able to update your task environments. You need to set `syncEnvLocation` or `location` to define the environment files location.
 
-If `syncEnv` is set to true, the task's environment will be synchronized whenever you invoke:
+To update your task environment, you can invoke:
 
  ```bash
  zaruba please syncEnv
@@ -453,11 +493,11 @@ If `syncEnv` is set to true, the task's environment will be synchronized wheneve
 
 Directory location of task's environment file. Used along with `syncEnv` property.
 
-If `syncEnvLocation` is not set, then `location` property will be used instead.
+If `syncEnvLocation` property is not set, Zaruba will use `location` property instead.
 
 # SaveLog
 
-Whether task log should be saved or not.
+Whether Zaruba should save the task log into the log file or not.
 
 To see the task logs you can invoke: 
 

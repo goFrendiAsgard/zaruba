@@ -64,15 +64,21 @@ tasks:
   taskName:
     icon: ✨                        # icon of your task
     description: task description
-    extend: ''                      # parent task task.
-    location: './some-directory'    # directory location where your task should run on
-    private: false                  # if true, the task is inteded to be extended instead of run directly
+    extend: ''                      # parent task name
+    location: './some-directory'    # task execution location
+    private: false                  # whether the task is private or not
     timeout: 5m
     dependencies: []                # task's upstreams
     inputs:                         # task's inputs
       -inputName
-    start: [bash, -c, 'python -m http.server 8080'] # command to start simple-command/long running service
-    check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"'] # command to check readiness of long-running process
+    start:                          # command to start simple-command/long running service
+      - bash
+      - '-c' 
+      - python -m http.server 8080
+    check:                          # command to check the completeness of a long-running process
+      - bash, 
+      - '-c' 
+      - until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready" 
     configs:                        # task's configurations
       someConfig: someValue
     envs:                           # task's environments
@@ -82,8 +88,8 @@ tasks:
     configRef: configName           # shared project configs used by this task
     envRef: envName                 # shared project envs used by this task
     autoTerminate: false            # whether this task should be autoterminated or not
-    syncEnv: true                   # whether the environments should be synchronized when running `zaruba please syncEnv` or not
-    syncEnvLocation: ''             # location of environment file's directory. If not set, `location` will be used
+    syncEnv: true                   # whether you can sync task env or not
+    syncEnvLocation: ''             # location of environment files. If not set, Zaruba will use `location` instead
     saveLog: true                   # wether to save log or not
 ```
 

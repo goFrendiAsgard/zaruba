@@ -421,6 +421,24 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 	if task.currentRecursiveLevel >= task.maxRecursiveLevel {
 		return "", fmt.Errorf("max recursive parsing on %s: %s", templateNamePrefix, pattern)
 	}
+	configKeys := task.GetConfigKeys()
+	for _, configKey := range configKeys {
+		upperSnakeConfigKey := task.Project.Util.Str.ToUpperSnake(configKey)
+		configTemplatePattern := fmt.Sprintf("{{ .GetConfig \"%s\" }}", configKey)
+		// normalize ${ZARUBA_CONFIG_<CONFIG_NAME>}
+		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("${ZARUBA_CONFIG_%s}", upperSnakeConfigKey), configTemplatePattern)
+		// normalize $ZARUBA_CONFIG_<CONFIG_NAME>
+		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$ZARUBA_CONFIG_%s", upperSnakeConfigKey), configTemplatePattern)
+	}
+	inputMap, _, _ := task.Project.GetInputs([]string{task.GetName()})
+	for inputKey, _ := range inputMap {
+		upperSnakeInputKey := task.Project.Util.Str.ToUpperSnake(inputKey)
+		inputTemplatePattern := fmt.Sprintf("{{ .GetValue \"%s\" }}", inputKey)
+		// normalize ${ZARUBA_INPUT_<INPUT_NAME>}
+		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("${ZARUBA_INPUT_%s}", upperSnakeInputKey), inputTemplatePattern)
+		// normalize $ZARUBA_INPUT_<INPUT_NAME>
+		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$ZARUBA_INPUT_%s", upperSnakeInputKey), inputTemplatePattern)
+	}
 	if task.td == nil {
 		task.td = NewTpl(task)
 	}

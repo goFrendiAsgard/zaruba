@@ -5,7 +5,7 @@
 
 Project inputs make your tasks more configurable and interactive.
 
-Once defined, a project input will be available globally. That means several task might share the same input.
+Once defined, a project input will be available globally. That means several tasks might share the same input.
 
 Defining a project input is pretty simple. Here is the anatomy of project input:
 

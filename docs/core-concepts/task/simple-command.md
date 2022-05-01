@@ -3,9 +3,11 @@
 # 🥛 Simple Command
 <!--endTocHeader-->
 
-Simple commands are considered `completed` once the process has been ended.
+Simple commands like `cat`, `ls`, `grep`, and `echo` are not meant to run forever. Once `completed` a simple-command will return an exit status.
 
-For example, `python -c "print('hello')"` is a command:
+Any tasks with similar behavior are called `simple-command`.
+
+For example, `python -c "print('hello')"` is a simple command:
 
 <!--startCode-->
 ```bash
@@ -21,24 +23,22 @@ hello
 </details>
 <!--endCode-->
 
-We can see that once the process has been ended, the command is completed.
-
-When you compile your Go/Typescript/Java application you are definitely running a command (even if you don't really open a terminal).
-
 # Running Simple Command with Zaruba
 
-Running simple command is quite trivial. You can run it directly or create a shell script to run it.
+Running simple command is trivial. You can invoke it from the CLI or you can create a shell script to run it.
 
-Zaruba offers two advantages when running simple command:
+Running simple command with Zaruba gives you several advantages:
 
-* You can run multiple tasks at once (i.e: `zaruba please task-1 task-2... task-n`)
-* You can use re-use the task by [extending](./extend-task.md) it, or make it [pre-requisites](./define-task-dependencies.md) of other tasks.
+* You can run many simple commands in parallel (i.e: `zaruba please task-1 task-2... task-n`)
+* You can use re-use the command by [extending](./extend-task.md) it
+* You can define some [pre-requisites](./define-task-dependencies.md) for your command.
+* If you run many commands in parallel, you can see their logs in real time.
 
 Let's see how you can define simple command with Zaruba.
 
 ## Lower Level Approach
 
-On lower level approach, you can make use of `start` property:
+In lower-level approach, you can make use of `start` property:
 
 ```yaml
 tasks:
@@ -62,20 +62,20 @@ zaruba please printHello
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.409µs
-         Current Time: 15:07:27
+         Elapsed Time: 1.206µs
+         Current Time: 17:35:13
 💀 🏁 Run 🍏 'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/low-level
-💀    🚀 printHello           🍏 15:07:27.281 hello
+💀    🚀 printHello           🍏 17:35:13.601 hello
 💀 🎉 Successfully running 🍏 'printHello' command
 💀 🔎 Job Running...
-         Elapsed Time: 115.562512ms
-         Current Time: 15:07:27
+         Elapsed Time: 114.7991ms
+         Current Time: 17:35:13
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 227.254613ms
-         Current Time: 15:07:27
+         Elapsed Time: 225.643341ms
+         Current Time: 17:35:13
 zaruba please printHello
 ```````
 </details>
@@ -83,7 +83,7 @@ zaruba please printHello
 
 ## Higher Level Approach
 
-For the sake of readability and avoid typos, you might want to [extend](./extend-task.md) [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md) instead:
+Instead of accessing `start` property directly, you can [extend](./extend-task.md) [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md) as follows:
 
 ```yaml
 tasks:
@@ -107,27 +107,27 @@ zaruba please printHello
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.097µs
-         Current Time: 15:07:27
+         Elapsed Time: 1.243µs
+         Current Time: 17:35:13
 💀 🏁 Run 🍏 'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-shell
-💀    🚀 printHello           🍏 15:07:27.687 hello
+💀    🚀 printHello           🍏 17:35:14.018 hello
 💀 🎉 Successfully running 🍏 'printHello' command
 💀 🔎 Job Running...
-         Elapsed Time: 115.655325ms
-         Current Time: 15:07:27
+         Elapsed Time: 123.130635ms
+         Current Time: 17:35:14
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 316.943289ms
-         Current Time: 15:07:27
+         Elapsed Time: 323.835107ms
+         Current Time: 17:35:14
 zaruba please printHello
 ```````
 </details>
 <!--endCode-->
 
 
-Another way to do this is by extend [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md)
+Another way to do this is by extending [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md)
 
 ```yaml
 tasks:
@@ -151,20 +151,20 @@ zaruba please printHello
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.199µs
-         Current Time: 15:07:28
+         Elapsed Time: 1.171µs
+         Current Time: 17:35:14
 💀 🏁 Run 🍏 'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-python
-💀    🚀 printHello           🍏 15:07:28.199 hello
+💀    🚀 printHello           🍏 17:35:14.505 hello
 💀 🎉 Successfully running 🍏 'printHello' command
 💀 🔎 Job Running...
-         Elapsed Time: 113.42534ms
-         Current Time: 15:07:28
+         Elapsed Time: 114.822244ms
+         Current Time: 17:35:14
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 314.869386ms
-         Current Time: 15:07:28
+         Elapsed Time: 315.626782ms
+         Current Time: 17:35:14
 zaruba please printHello
 ```````
 </details>

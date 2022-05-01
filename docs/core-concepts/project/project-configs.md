@@ -3,9 +3,9 @@
 # ⚙️ Project Configs
 <!--endTocHeader-->
 
-A task might have some key-value [configurations](../task/task-configs/README.md).
+You can control a task's behavior by setting its [configuration](../task/task-configs/README.md).
 
-Since a project might contains several tasks, you will find that some tasks might [share some of their configurations](../task/task-configs/shared-configs.md).
+A project might contain several tasks. And you will find that some of those tasks might [share configurations](../task/task-configs/shared-configs.md).
 
 This is where project configs come into play.
 
@@ -14,7 +14,7 @@ Defining a project config is pretty straightforward. Here is the anatomy of a pr
 ```yaml
 configs:
 
-  configName:                 # project config name
+  projectConfigName:          # project config name
     someKey: someValue        # key-value
     otherKey: otherValue
 ```

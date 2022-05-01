@@ -4,9 +4,9 @@
 <!--endTocHeader-->
 
 
-A task might need [environment variables](../task/task-envs/README.md).
+To run a task, you might need to set some [environment variables](../task/task-envs/README.md).
 
-Since a project might contains several tasks, you will find that some tasks might [share some their environment variables](../task/task-envs/shared-envs.md)
+A project might contain several tasks. And you will find that some of those tasks might [share environment variables](../task/task-envs/shared-envs.md)
 
 This is where project envs come into play.
 
@@ -15,18 +15,18 @@ Defining a project env is pretty straightforward. Here is the anatomy of a proje
 ```yaml
 envs:
 
-  envName:
-    SOME_VARIABLE:                  # Your env name
-      from: GLOBAL_VARIABLE         # Global environment linked to the env name
-      default: default value        # Default value for env name
+  projectEnvName:                   # project env name
+    SOME_VARIABLE:                  # local environment variable
+      from: GLOBAL_VARIABLE         # global environment linked to the SOME_VARIABLE
+      default: default value        # default value for SOME_VARIABLE
 ```
 
 A single env consists of two keys:
 
 * `from`: Global environment variable linked to current env.
-* `default`: Default value for current env. Default value will be used if `from` variable is either undefined or doesn't exist.
+* `default`: Default value for current env.
 
-To use project env in your task, please see [task's shared envs](../task/task-envs/shared-envs.md).
+To use project env in your task, please refer to [task's shared envs](../task/task-envs/shared-envs.md).
 
 
 <!--startTocSubTopic-->

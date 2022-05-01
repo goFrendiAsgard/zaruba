@@ -3,13 +3,11 @@
 # 🍹 Long Running Service
 <!--endTocHeader-->
 
-Long running services are considered completed once they are ready. Once completed, a long running service might run in indefinitely until it is killed.
-
-Web servers and database servers are example of long running services.
+A long running service might run indefinitely until it is killed. Web servers and database servers are example of long running services.
 
 __Example:__
 
-Now let's try running a static web service by invoking `python -m http.server 8080`.
+Let's try running a static web service by invoking `python -m http.server 8080`.
 
 ```bash
 python -m http.server 8080
@@ -23,7 +21,7 @@ Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```````
 </details>
 
-Once ready, the http server will wait for any incoming request at port, giving response, and wait again until you press ctrl + C.
+Thee http server will wait for any incoming request and giving appropriate response. This http server will keep on running until you turn it off (i.e: by pressing ctrl + C).
 
 
 # Process Readiness
@@ -32,45 +30,54 @@ You can make sure a service is ready by giving it a request and observe its resp
 
 Making sure that a service is ready can be tricky since `running` doesn't mean `ready`.
 
-Orchestration system like kubernetes overcome this problem by periodically sending request to your services using `liveness` and `readiness` [probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+Orchestration tool like [kubernetes](https://kubernetes.io/) overcomes this problem by sending `liveness` and `readiness` [probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
 
 # Start Process with Readiness Checker
 
-In the previous section you have see that handling a service and making sure it is already running can be a bit challenging.
+Let's try to run a readiness checker for our http server.
 
-Under the hood, Zaruba make sure that your service is ready by running two commands simultaneously. The first command is responsible to run the service, while the other one is responsible to check its readiness. 
-
-Let's see how this work on the low level.
-
-First of all, you will need two terminals in the same computer. You can also use tmux/screen if you are familiar with those tools.
+First of all, you need to spawn two terminals in the same computer. You can also use [tmux](https://github.com/tmux/tmux)/[screen](https://linuxhint.com/screen-linux/) if you are familiar with any of those tools.
 
 ## Starter
 
-In your first terminal, you can spawn this command `sleep 10 && python -m http.server 8080`: 
+In your first terminal, you can spawn a service starter:
 
+```bash
+sleep 10 && python -m http.server 8080
 ```
-❯ sleep 10 && python -m http.server 8080
+<details>
+<summary>Output</summary>
+
+````
 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-```
+````
+</details>
 
-This command ask the computer to wait for 10 seconds before starting the web server. We use this to emulate real world cases. Some server might even take more than a minute to be ready. Also, those 10 seconds give you enough time to open the second terminal and invoke the service checker (if you are really that quick).
+This command asks the computer to wait for 10 seconds before starting the web server. We use this to emulate real world cases. Some server might even take more than a minute to be ready. Also, those 10 seconds give you enough time to open the second terminal and invoke the the checker.
 
 ## Checker
 
-Our service checker contains a single loop to check whether `localhost:8080` is up and serving. In order to start the checker, you can invoke this in your second terminal `until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"`:
+In your second terminal, you can spawn a loop to check service readiness:
 
+```bash
+until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"
 ```
-❯ until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"
+<details>
+<summary>Output</summary>
+
+````
 not ready
 not ready
 not ready
 not ready
 ready
-```
+````
+</details>
 
 Great, now you can make sure that your service is really `ready` before deal with it any further.
 
-> 💡 __TIPS:__  if you find the service is already started before you are able to start the checker, please feel free to change the sleep duration of the server (e.g: `sleep 30 && python -m http.server 8080`, will make the computer wait for 30 seconds before starting the server)
+> 💡 __TIPS:__  Feel free to run the `checker` first before running the `starter`. 
 
 To see how our starter and checker works, let's take a look on this diagram:
 
@@ -79,11 +86,18 @@ To see how our starter and checker works, let's take a look on this diagram:
 
 # Starting Long Running Service with Zaruba
 
-Unless you are a [starcraft](https://starcraft2.com/en-us/) pro player, probably running multiple terminals and tmux panels is not a very good idea.
+Unless you are a [starcraft](https://starcraft2.com/en-us/) pro player, manage many terminals at once is not a good idea. [Multitasking is bad for your brain](https://fee.org/articles/multitasking-is-bad-for-your-brain/).
 
-You might also want to run the server in the background or make a docker container for this simple use case. But let's not do that.
+To run many tasks in parallel, you can use [PM2](https://pm2.keymetrics.io/), [docker-compose](https://docs.docker.com/compose/), or Zaruba.
 
-We will use Zaruba instead.
+Running services with Zaruba gives you some advantages. Especially during development phase:
+
+* You can run many services in parallel (i.e: `zaruba please task-1 task-2... task-n`).
+* You can use re-use your service by [extending](./extend-task.md) it.
+* You can define some [pre-requisites](./define-task-dependencies.md) for your service.
+* If you run many services in parallel, you can see their logs in real time.
+
+In the next two sections, you will learn how to run a long-running process with Zaruba.
 
 ## Lower Level Approach
 
@@ -113,33 +127,33 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.399µs
-         Current Time: 15:07:28
+         Elapsed Time: 1.151µs
+         Current Time: 17:35:14
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
-💀    🔎 startServer          🍏 15:07:30.681 not ready
-💀    🔎 startServer          🍏 15:07:32.683 not ready
-💀    🔎 startServer          🍏 15:07:34.685 not ready
-💀    🔎 startServer          🍏 15:07:36.687 not ready
-💀    🔎 startServer          🍏 15:07:38.689 not ready
-💀    🔎 startServer          🍏 15:07:40.691 not ready
-💀    🔎 startServer          🍏 15:07:40.692 ready
+💀    🔎 startServer          🍏 17:35:16.988 not ready
+💀    🔎 startServer          🍏 17:35:18.989 not ready
+💀    🔎 startServer          🍏 17:35:20.991 not ready
+💀    🔎 startServer          🍏 17:35:22.993 not ready
+💀    🔎 startServer          🍏 17:35:24.995 not ready
+💀    🚀 startServer          🍏 17:35:25.028 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+💀    🔎 startServer          🍏 17:35:26.996 not ready
+💀    🔎 startServer          🍏 17:35:26.998 ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 12.115508608s
-         Current Time: 15:07:40
+         Elapsed Time: 12.113842191s
+         Current Time: 17:35:27
          Active Process:
-           * (PID=18513) 🍏 'startServer' service
+           * (PID=17970) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=18513)
-💀    🚀 startServer          🍏 15:07:42.295 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-💀    🚀 startServer          🍏 15:07:42.295 
-💀    🚀 startServer          🍏 15:07:42.295 Keyboard interrupt received, exiting.
+💀 🔪 Kill 🍏 'startServer' service (PID=17970)
+💀    🚀 startServer          🍏 17:35:28.602 
+💀    🚀 startServer          🍏 17:35:28.602 Keyboard interrupt received, exiting.
 💀 🔎 Job Ended...
-         Elapsed Time: 14.219495636s
-         Current Time: 15:07:42
+         Elapsed Time: 14.218056781s
+         Current Time: 17:35:29
 💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 1s
 ```````
@@ -147,18 +161,18 @@ zaruba please startServer   -t -w 1s
 <!--endCode-->
 
 
-Good. This is what `check` property actually is for. It tells Zaruba how to check your service readiness. 
+Good. This is what `check` property is for. It tells Zaruba how to check your service readiness. 
 
-Any task with `start` and `check` property will be considered as `long running service`, while every tasks without `check` property are considered as `simple command`.
+In Zaruba, any task with `start` and `check` properties are treated as `long running service`.
 
-Please also take note that sometime a task might have `check` property eventhough it is not explicitly written. This is especially true if you [extend/inherit](extend-task.md) your task from another task.
+Some task might have `check` property eventhough it is not explicitly written. This is especially true if you [extend/inherit](extend-task.md) your task from another task.
     
 > 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i.e: by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
 
 
 ## Higher Level Approach
 
-The previous approach looks good. But in most cases, you will most likely see this instead:
+The previous approach works well. But in most cases, you will likely see this instead:
 
 ```yaml
 tasks:
@@ -170,7 +184,7 @@ tasks:
       ports: 8080
 ```
 
-Let's try to modify your `index.zaruba.yaml` and invoke `zaruba please startServer`.
+Let's try to change your `index.zaruba.yaml` and invoke `zaruba please startServer`.
 
 __Example:__
 
@@ -185,36 +199,36 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.054µs
-         Current Time: 15:07:43
+         Elapsed Time: 1.389µs
+         Current Time: 17:35:29
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-💀    🚀 updateProjectLinks   🔗 15:07:43.085 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 15:07:43.085 Links updated
+💀    🚀 updateProjectLinks   🔗 17:35:29.404 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 17:35:29.404 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-💀    🔎 startServer          🍏 15:07:43.189 🔎 Waiting for port '8080'
-💀    🚀 startServer          🍏 15:07:53.242 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-💀    🔎 startServer          🍏 15:07:54.219 🔎 Port '8080' is ready
-💀    🔎 startServer          🍏 15:07:54.219 🎉🎉🎉
-💀    🔎 startServer          🍏 15:07:54.219 📜 Task 'startServer' is ready
+💀    🔎 startServer          🍏 17:35:29.517 🔎 Waiting for port '8080'
+💀    🚀 startServer          🍏 17:35:39.618 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+💀    🔎 startServer          🍏 17:35:40.543 🔎 Port '8080' is ready
+💀    🔎 startServer          🍏 17:35:40.543 🎉🎉🎉
+💀    🔎 startServer          🍏 17:35:40.543 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 11.237143522s
-         Current Time: 15:07:54
+         Elapsed Time: 11.247664725s
+         Current Time: 17:35:40
          Active Process:
-           * (PID=18638) 🍏 'startServer' service
+           * (PID=738) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=18638)
-💀    🚀 startServer          🍏 15:07:55.823 
-💀    🚀 startServer          🍏 15:07:55.823 Keyboard interrupt received, exiting.
-💀    🚀 startServer          🍏 15:07:55.827 🎉🎉🎉
-💀    🚀 startServer          🍏 15:07:55.827 📜 Task 'startServer' is started
+💀 🔪 Kill 🍏 'startServer' service (PID=738)
+💀    🚀 startServer          🍏 17:35:42.146 
+💀    🚀 startServer          🍏 17:35:42.146 Keyboard interrupt received, exiting.
+💀    🚀 startServer          🍏 17:35:42.155 🎉🎉🎉
+💀    🚀 startServer          🍏 17:35:42.155 📜 Task 'startServer' is started
 💀 🔎 Job Ended...
-         Elapsed Time: 13.341570656s
-         Current Time: 15:07:56
+         Elapsed Time: 13.351628516s
+         Current Time: 17:35:42
 💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 1s
 ```````
@@ -230,6 +244,7 @@ Here are some of the tasks you can extend when you want to start long running se
 
 * [zrbStartApp](../../core-tasks/zrb-start-app.md): Lowest level, general use case
 * [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md): Start a docker container
+* [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-compose.md): Start a docker container
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -3,18 +3,9 @@
 # ⚙️ Task Configs
 <!--endTocHeader-->
 
+# Why You Need It
 
-Suppose you have a task to run a server:
-
-```yaml
-tasks:
-
-  startServer:
-    start: [bash, -c, 'python -m http.server 8080']
-    check: [bash, -c, 'until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready"']
-```
-
-Let's first break this down into something more readable:
+Suppose you have a task to run a http server:
 
 ```yaml
 tasks:
@@ -35,38 +26,43 @@ tasks:
         echo "ready"
 ```
 
-As you might realize, `startServer.start` and `startServer.check` should use the same port.
+As you can see, `startServer.start` and `startServer.check` uses the same port. This mean that you cannot edit `startServer.start` and `startServer.check` independently. You must always make sure that they use the same port.
 
-Unfortunately, there is a great chance that someone edit the the script without aware of this fact.
+# Using Config
 
-Let's improve the task by making it more configurable.
+`startServer.start` and `startServer.check` should always refer to the same port. Thus, it is better if you can take this port configuration somewhere.
 
-First we should make a configuration using `configs` property, and use a builtin go template function `{{ .GetConfig "someProperty" }}`. You can learn more about Zaruba's go template [here](../../use-go-template.md).
-
-Let's edit your script a little bit:
+To do this, you can add `startServer.configs.port`.
 
 ```yaml
 tasks:
 
   startServer:
-    config:
+    configs:
       port: 8080
     start:
       - bash
       - '-c'
-      - 'sleep 10 && python -m http.server {{ .GetConfig "port" }}'
+      - 'sleep 10 && python -m http.server ${ZARUBA_CONFIG_PORT}'
     check:
       - bash
       - '-c'
       - |
-          until nc -z localhost {{ .GetConfig "port" }}
+          until nc -z localhost ${ZARUBA_CONFIG_PORT}
           do 
             sleep 2 && echo "not ready"
           done
           echo "ready"
 ```
 
-Perfect, now anyone can edit `startServer.config.port` without screwing everything.
+Now, you can use  `${ZARUBA_CONFIG_PORT}` to refer to `configs.port`.
+
+# Accessing Task Configuration
+
+There are two ways to access task configuration:
+
+* `${ZARUBA_CONFIG_<CONFIG_NAME>}` variable.
+* `{{ .GetConfig "configName" }}` [go template](../../go-template.md).
 
 Let's take this a bit further:
 
@@ -74,26 +70,26 @@ Let's take this a bit further:
 tasks:
 
   startServer:
-    config:
+    configs:
       port: 8080
-      start: 'sleep 10 && python -m http.server {{ .GetConfig "port" }}'
+      start: 'sleep 10 && python -m http.server ${ZARUBA_CONFIG_PORT}'
       check: | 
-        until nc -z localhost {{ .GetConfig "port" }}
+        until nc -z localhost ${ZARUBA_CONFIG_PORT}
         do 
           sleep 2 && echo "not ready"
         done
         echo "ready"
-    start: [bash, -c, '{{ .GetConfig "start" }}']
-    check: [bash, -c, '{{ .GetConfig "check" }}']
+    start: [bash, -c, "${ZARUBA_CONFIG_START}"]
+    check: [bash, -c, "${ZARUBA_CONFIG_CHECK}"]
 ```
 
-Nice. so now you even make `start` and `check` command configurable.
+Nice. now you even make `start` and `check` command configurable.
 
 # Shared Config
 
-Furthermore, you can take out this configuration and put it as [project config](../../project/project-configs.md) so that you can share the configurations with other tasks.
+In some cases, you might need to share your configuration among tasks. To do this, you need [project config](../../project/project-configs.md).
 
-To see how to do this, please have a look at [shared config documentation](./shared-configs.md).
+Please have a look at [shared config documentation](./shared-configs.md) for more information.
 
 
 <!--startTocSubTopic-->

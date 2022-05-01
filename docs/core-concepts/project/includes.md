@@ -7,15 +7,17 @@ Over time your scripts and source code tend to grow bigger. At some point, you w
 
 Usually, people will divide scripts based on their domains and functionalities.
 
-By using `includes` keyword, you can also do this with your Zaruba Scripts.
+By using `includes` keyword, you can also do this with your Zaruba scripts as well.
 
 # Behavior of Includes
 
-Unlike in Python or C, `includes` in Zaruba works differently.
+> __TL;DR:__ You should include everything in `index.zaruba.yaml`
 
-Every script you include in `index.zaruba.yaml` (directly or indirectly) will be able to access each other's resources.
+Unlike in Python or C, `includes` in Zaruba works in a different way.
 
-For example, suppose you have the following structure:
+Every script you include in `index.zaruba.yaml` will be accessible from each other.
+
+For example, let's say you split your Zaruba scripts in three different files:
 
 ```
 .
@@ -24,7 +26,7 @@ For example, suppose you have the following structure:
 └── tasks.yaml
 ```
 
-Suppose `index.zaruba.yaml` includes both `configs.yaml` and `tasks.yaml` like this:
+__index.zaruba.yaml__
 
 ```yaml
 # file: index.zaruba.yaml
@@ -33,7 +35,7 @@ includes:
   - tasks.yaml
 ```
 
-If your `configs.yaml` contains a configuration named `myConfig`:
+__configs.yaml__
 
 ```yaml
 # file: configs.yaml
@@ -42,7 +44,7 @@ configs:
     sacredNumber: 73
 ```
 
-then you will be able to access `myConfig` from inside `tasks.yaml` like this:
+__tasks.yaml__
 
 ```yaml
 # file: tasks.yaml
@@ -51,12 +53,16 @@ tasks:
     extend: zrbRunShellScript
     configRef: myConfig # this refer to project config defined in configs.yaml
     config:
-      start: echo '{{ .GetConfig "sacredNumber" }}'
+      start: echo "${ZARUBA_CONFIG_SACRED_NUMBER}"
 ```
 
-# Project Directory Structure
+You can see that `tasks.yaml` doesn't explicitly includes `configs.yaml`. But, you can still access `myConfig` from inside `myTask`.
 
-Although you can arrange your project as you like, usually a sane zaruba project looks like this:
+This is possible since you already includes `configs.yaml` and `tasks.yaml` in `index.zaruba.yaml`
+
+# Convention
+
+By convention, you should arrange your scripts as follow:
 
 ```
 .
@@ -76,7 +82,7 @@ Although you can arrange your project as you like, usually a sane zaruba project
 └── otherApplication
 ```
 
-An `index.zaruba.yaml` should only contains `includes` and wrapper `tasks` like this:
+An `index.zaruba.yaml` should only contain `includes` and wrapper `tasks`. Please look at the following example:
 
 ```yaml
 # file: index.zaruba.yaml
@@ -97,7 +103,7 @@ tasks:
       - startOtherApplicationContainer
 ```
 
-Meanwhile, application's `index.yaml` should includes `configs.yaml`, `inputs.yaml`, and `tasks.yaml`:
+Application's `index.yaml` should includes `configs.yaml`, `inputs.yaml`, and `tasks.yaml`:
 
 ```yaml
 # file: application/index.yaml
@@ -106,7 +112,8 @@ includes:
   - inputs.yaml
   - tasks.yaml
 ```
-With this directory structure, you will be able to manage your resources independently.
+
+By following this convention, you will make your project more predictable and manageable.
 
 
 <!--startTocSubTopic-->
