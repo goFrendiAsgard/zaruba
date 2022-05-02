@@ -4,7 +4,7 @@
 
 # 💀 Zaruba 
 
-Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utilities](docs/utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` tasks quickly.
+Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` tasks quickly.
 
 ## ❓ Problem
 

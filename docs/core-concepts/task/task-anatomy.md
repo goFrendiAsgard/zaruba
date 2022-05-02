@@ -447,33 +447,34 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.129µs
-         Current Time: 17:35:09
+         Elapsed Time: 1.9µs
+         Current Time: 22:30:31
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs
-💀    🚀 updateProjectLinks   🔗 17:35:09.05  🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 17:35:09.05  Links updated
+💀    🚀 updateProjectLinks   🔗 22:30:31.746 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 22:30:31.746 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🌐 'serveHttp' service on /home/gofrendi/zaruba/docs
 💀 🏁 Check 🌐 'serveHttp' readiness on /home/gofrendi/zaruba/docs
-💀    🔎 serveHttp            🌐 17:35:09.162 🔎 Waiting for port '8080'
-💀    🚀 serveHttp            🌐 17:35:09.162 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-💀    🚀 serveHttp            🌐 17:35:09.162 You can open http://localhost:8080
-💀    🔎 serveHttp            🌐 17:35:10.165 🔎 Port '8080' is ready
-💀    🔎 serveHttp            🌐 17:35:10.165 🎉🎉🎉
+💀    🚀 serveHttp            🌐 22:30:31.864 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+💀    🚀 serveHttp            🌐 22:30:31.864 You can open http://localhost:8080
+💀    🔎 serveHttp            🌐 22:30:32.324 🔎 Waiting for port '8080'
+💀    🔎 serveHttp            🌐 22:30:32.328 🔎 Port '8080' is ready
+💀    🔎 serveHttp            🌐 22:30:32.328 🎉🎉🎉
+💀    🔎 serveHttp            🌐 22:30:32.328 📜 Task 'serveHttp' is ready
 💀 🎉 Successfully running 🌐 'serveHttp' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 1.221264684s
-         Current Time: 17:35:10
+         Elapsed Time: 1.1565241s
+         Current Time: 22:30:32
          Active Process:
-           * (PID=10614) 🌐 'serveHttp' service
+           * (PID=6627) 🌐 'serveHttp' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 'serveHttp' service (PID=10614)
+💀 🔪 Kill 🌐 'serveHttp' service (PID=6627)
 💀 🔥 🌐 'serveHttp' service exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 4.32503895s
-         Current Time: 17:35:13
+         Elapsed Time: 4.2604387s
+         Current Time: 22:30:35
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>

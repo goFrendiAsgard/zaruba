@@ -25,7 +25,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "zaruba",
-	Short: "Task runner and CLI utilities",
+	Short: "Task runner and CLI utility",
 	Long: fmt.Sprintf(`
                                          ,,                      
 MMM"""AMV                               *MM              db      
@@ -36,7 +36,7 @@ M'   AMV                                 MM             ;MM:
  AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utilities
+                                    Task runner and CLI utility
 %s`, ZarubaVersion),
 }
 

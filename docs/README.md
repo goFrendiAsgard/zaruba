@@ -4,11 +4,13 @@
 
 Welcome to Zaruba Documentation.
 
-Zaruba is a task runner and CLI utilities.
+Zaruba is a [task](core-concepts/task/README.md) runner and [CLI utility](utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` tasks quickly.
 
-To get started, you need to [create a project](use-cases/create-a-project.md) and [add some resources](use-cases/add-resources/README.md). Once your project is ready, you can [start running your tasks](run-tasks/README.md).
+To start working with Zaruba, you need to [create a project](use-cases/create-a-project.md) and [add some resources](use-cases/add-resources/README.md). Once your project is ready, you can start [running some tasks](run-tasks/README.md).
 
-You can also [see the core concepts](core-concepts/README.md) to get a better understanding.
+Please visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md) to see how things work in real life.
+
+You can also [learn the core concepts](core-concepts/README.md) to get a better understanding.
 
 # Table of Content
 
@@ -41,8 +43,9 @@ You can also [see the core concepts](core-concepts/README.md) to get a better un
         * [🍲 Define task dependencies](core-concepts/task/define-task-dependencies.md)
     * [🐹 Use Go Template](core-concepts/use-go-template.md)
 * [👷🏽 Use Cases](use-cases/README.md)
+    * [❇️ From Zero to Cloud](use-cases/from-zero-to-cloud.md)
     * [🏗️ Create a Project](use-cases/create-a-project.md)
-    * [Add Resources](use-cases/add-resources/README.md)
+    * [📦 Add Resources](use-cases/add-resources/README.md)
         * [🧩 Integration](use-cases/add-resources/integration/README.md)
             * [📦 External Repository](use-cases/add-resources/integration/external-repository.md)
             * [🐳 Docker Container](use-cases/add-resources/integration/docker-container.md)

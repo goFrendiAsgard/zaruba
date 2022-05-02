@@ -10,8 +10,9 @@ Once you have a project in your computer, you can start [adding resources](add-r
 
 <!--startTocSubTopic-->
 # Sub-topics
+* [❇️ From Zero to Cloud](from-zero-to-cloud.md)
 * [🏗️ Create a Project](create-a-project.md)
-* [Add Resources](add-resources/README.md)
+* [📦 Add Resources](add-resources/README.md)
   * [🧩 Integration](add-resources/integration/README.md)
     * [📦 External Repository](add-resources/integration/external-repository.md)
     * [🐳 Docker Container](add-resources/integration/docker-container.md)
