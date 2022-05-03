@@ -5,12 +5,14 @@
 
 Suppose you want to build two applications:
 
-* A 🐍 `CRUD API application` that __depends__ on 🐬 `MySQL`.
+* A 🐍 `CRUD API application` that __depends__ on 🐬 `MySQL server`.
 * A simple 🐹 `Go webserver` that has no dependencies.
 
-`Go webserver` has no dependencies. Thus, you should be able to run it __in parallel__ with `CRUD API application` and `MySQL server`.
+`Go webserver` has no dependencies. Thus, you should be able to run it __in parallel__ with the `CRUD API application` and the `MySQL server`.
 
-Meanwhile, `CRUD API application` __depends__ on `MySQL server`. Thus, you cannot run `CRUD API application` unless the `MySQL server` is ready.
+Meanwhile, the `CRUD API application` __depends__ on the `MySQL server`. Thus, you cannot run the `CRUD API application` unless the `MySQL server` is ready.
+
+![Application dependencies](images/from-zero-to-cloud-app-dependencies.png)
 
 Zaruba allows you to build, run, and deploy everything using simple commands (no coding required 😉).
 
@@ -19,7 +21,7 @@ Zaruba allows you to build, run, and deploy everything using simple commands (no
 [![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
 
 
-### ✨ Creating Project and Applications
+# ✨ Creating Project and Applications
 
 ```bash
 # ✨ Init project
@@ -43,7 +45,7 @@ zaruba please addFastApiCrud \
 zaruba please addSimpleGoApp appDirectory=myGoApp appEnvs='{"APP_HTTP_PORT":"3001"}'
 ```
 
-### 🏃 Run Applications
+# 🏃 Run Applications
 
 ```bash
 # Start 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL container.
@@ -107,7 +109,7 @@ zaruba please startMyGoApp startMyPythonApp
 ```
 </details>
 
-### 🐳 Run Applications as Containers
+# 🐳 Run Applications as Containers
 
 ```bash
 # Start 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL as containers.
@@ -134,7 +136,7 @@ zaruba please stopContainers
 ```
 </details>
 
-### ☁️ Deploy Applications
+# ☁️ Deploy Applications
 
 ```bash
 # Deploy 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL to kubernetes cluster
