@@ -4,188 +4,42 @@
 
 # 💀 Zaruba 
 
-Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` tasks quickly.
+Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` your tasks at once.
 
 ## ❓ Problem
 
-While developing/debugging applications, you might need to run several tasks __in parallel__ or __in particular order__.
+Developing/debugging applications can be challenging. You need to keep running tasks __in parallel__ or __a particular order__.
 
-Some tasks might __depends__ on several pre-requisited, while some others probably __share similar behavior__. For example:
+Some tasks might __depend__ on several prerequisites. While other tasks might __share similar behavior__. 
 
-* A web application can only be started once the database server is running. This means web application __depends__ on database server.
-* To start TypeScript applications, you need to perform `npm install` and `tsc`. This means TypeScript applications __share similar behavior__.
+For example:
 
-Furthermore, when you manually run tasks in parallel or sequentially, you might do some mistakes and you need to re-do everything from the begining.
+* You cannot start a web application unless the database server is ready. This means that the web application is __depending__ on the database server.
+
+* You might have several Typescript applications in your project. And to start those applications, you need to perform `npm install && tsc && npm start`. This means that your Typescript applications __share similar behavior__.
+
+You need a way to declare your tasks in a way that you can run everything at once, free of mistakes.
 
 ## 💡 Solution
 
-Creating __clear instructions/checklist__ might help. If your tasks are simple and sequential, you can turn your checklist into a nice [shell script](https://www.shellscript.sh/first.html), and that's all you need.
+Creating __clear instructions/checklists__ might help in most cases. Assuming your tasks are sequential, you can turn it into a nice [shell script](https://www.shellscript.sh/first.html), and that's all you need.
 
-However, when your workflow become more complicated, you need a __better automation tool__ like Zaruba.
+But, if your workflow is more complicated, then you need a __better automation tool__ like Zaruba.
 
-Zaruba allows you to __simplify your workflow__ by let you:
+Zaruba allows you to __simplify your workflow__ by letting you:
 
 * Create configurable tasks (i.e: using `configs`, `inputs`, or `envs`).
-* Define tasks dependencies (i.e: using `dependencies`).
-* Re-use and share configurations/behviors (i.e: using `extend`, `configRef`, or `envRef`).
+* Define task dependencies (i.e: using `dependencies`).
+* Re-use and share configurations/behaviors (i.e: using `extend`, `configRef`, or `envRef`).
 * Run tasks in parallels.
 * Generate new tasks.
 
-There are some [built-in tasks](docs/core-tasks/README.md) to achieve those goals. You can run `zaruba please` for to see list of available tasks.
+There are some [built-in tasks](docs/core-tasks/README.md) to achieve those goals. You can run `zaruba please` to see the list of available tasks.
 
 ## 🔍 Example
 
-Suppose you want to build two applications:
+Please see the [end-to-end tutorial](docs/use-cases/from-zero-to-cloud.md) to see how things work in real life.
 
-* A 🐍 `CRUD API application` that __depends__ on 🐬 `MySQL`.
-* A simple 🐹 `Go web server` that has no dependencies.
-
-`Go web server` has no dependencies, and you should be able to run it __in parallel__ with `CRUD API application` and `MySQL server`.
-
-On the other hand, `CRUD API application` __depends__ on `MySQL server`. Thus, you cannot run `CRUD API application` unless `MySQL server` is running.
-
-Zaruba allows you to build, run, and deploy everything using simple commands (no coding required 😉).
-
-> 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i.e: `zaruba please addFastApiCrud -i`).
-
-[![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
-
-<details>
-<summary>Show step by step instructions (including <b>deployment to kubernetes</b>)</summary>
-
-### ✨ Creating Project and Applications
-
-```bash
-# ✨ Init project
-mkdir myProject
-cd myProject
-zaruba please initProject
-
-# Add 🐬 MySQL container
-zaruba please addMysql appDirectory=myDb
-
-# Add 🐍 CRUD API Application.
-zaruba please addFastApiCrud \
-  appDirectory=myPythonApp \
-  appModuleName=library \
-  appCrudEntity=books \
-  appCrudFields='["title","author","synopsis"]' \
-  appDependencies='["myDb"]' \
-  appEnvs='{"APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
-
-# Add 🐹 Go web app.
-zaruba please addSimpleGoApp appDirectory=myGoApp appEnvs='{"APP_HTTP_PORT":"3001"}'
-```
-
-### 🏃 Run Applications
-
-```bash
-# Start 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL container.
-# To run this command, you need:
-# - go 1.13 or newer
-# - python 3.8
-# - docker
-zaruba please start
-# Ctrl+c to stop
-```
-
-<details>
-<summary>Test applications</summary>
-
-```bash
-# Checking 🐹 Go web app.
-curl http://localhost:3001
-
-# 🔑 Login to 🐍 CRUD API application
-LOGIN_RESPONSE="$(curl --location --request POST 'localhost:3000/token/' \
---form 'username="root"' \
---form 'password="Alch3mist"')"
-
-echo "${LOGIN_RESPONSE}"
-
-# 🔑 Extract token
-ACCESS_TOKEN=$(zaruba map get "${LOGIN_RESPONSE}" "access_token")
-echo "Token: ${ACCESS_TOKEN}"
-
-# ✨ Insert new book
-curl --location --request POST 'localhost:3000/books/' \
---header "Authorization: Bearer ${ACCESS_TOKEN}" \
---header 'Content-Type: application/json' \
---data-raw '{
-    "title": "The Alchemist",
-    "author": "Paulo Coelho",
-    "synopsis": "Magical story of Santiago, an Andalusian shepherd boy who yearns to travel in search of a worldly treasure as extravagant as any ever found."
-}'
-
-# 📖 Get books
-curl --location --request GET 'localhost:3000/books/' \
---header "Authorization: Bearer ${ACCESS_TOKEN}" \
---header 'Content-Type: application/json'
-```
-
-</details>
-
-<details>
-<summary>Run applications individually</summary>
-
-```bash
-# Only start 🐹 Go web server.
-zaruba please startMyGoApp
-# Ctrl+c to stop
-
-# Only start 🐹 Go web server and 🐍 CRUD API application.
-# Please note that MySQL container is automatically started
-# since CRUD API application depends on it.
-zaruba please startMyGoApp startMyPythonApp
-# Ctrl+c to stop
-```
-</details>
-
-### 🐳 Run Applications as Containers
-
-```bash
-# Start 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL as containers.
-# To run this command, you need:
-# - docker
-zaruba please startContainers
-zaruba please stopContainers
-```
-
-<details>
-<summary>Run applications individually</summary>
-
-```bash
-# Only start 🐹 Go web server.
-zaruba please startMyGoAppContainer
-zaruba please stopContainers
-
-# Only start 🐹 Go web server and 🐍 CRUD API application.
-# Please note that MySQL container is automatically started
-# since CRUD API application depends on it.
-zaruba please startMyGoAppContainer startMyPythonAppContainer
-# To stop containers (Note: Ctrl+C won't kill the containers):
-zaruba please stopContainers
-```
-</details>
-
-### ☁️ Deploy Applications
-
-```bash
-# Deploy 🐹 Go web server, 🐍 CRUD API application, and 🐬 MySQL to kubernetes cluster
-# To run this command, you need:
-# - kubectl
-# - helm
-# - pulumi
-# - cloud provider or a computer that can run kubernetes locally (we use docker-desktop in this example)
-zaruba please buildImages # or `zaruba please pushImages`
-zaruba please addAppHelmDeployment appDirectory=myPythonApp
-zaruba please addAppHelmDeployment appDirectory=myGoApp
-zaruba please addAppHelmDeployment appDirectory=myDb
-zaruba please syncEnv
-zaruba please deploy kubeContext=docker-desktop
-zaruba please destroy kubeContext=docker-desktop
-```
-</details>
 
 # 👨‍💻 Installation
 
@@ -202,7 +56,7 @@ zaruba install helm
 zaruba install pulumi
 ```
 
-Visit [getting started section](#-getting-started)
+Visit the [getting started section](#-getting-started).
 
 </details>
 
@@ -210,7 +64,7 @@ Visit [getting started section](#-getting-started)
 
 Installing from source is the best way to set up Zaruba for day-to-day use.
 
-Currently, we don't have any plan to create `apt` or platform-specific packages for Zaruba. If you are using windows, you need to install `wsl` in order to get started.
+We don't have any plan to create `apt` or platform-specific packages for Zaruba. If you are using windows, you need to install `wsl` to get started.
 
 ### 🧅 Prerequisites
 
@@ -220,7 +74,7 @@ Before installing Zaruba from the source, you need to install some prerequisites
 * `wget` or `curl`
 * `git`
 
-> **💡HINT** Ubuntu user (including ubuntu-wsl) can simply invoke `sudo apt-get install golang wget curl git` to install all prerequisites.
+> __💡HINT__ If you are using Ubuntu, you can invoke `sudo apt-get install golang wget curl git` to install all prerequisites.
 
 ### 🥗 Installing From Source
 
@@ -240,7 +94,7 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 Using docker is the quickest way to set up Zaruba, especially if you need to use Zaruba in your CI/CD.
 
-To create and run zaruba container on __🐧linux__ host, you can do:
+To create and run Zaruba container on __🐧linux__ host, you can do:
 
 ```bash
 docker run -d --name zaruba --network host \
@@ -250,7 +104,7 @@ docker run -d --name zaruba --network host \
   stalchmst/zaruba:latest
 ```
 
-To create and run zaruba container on __🪟 windows__/__🍎 mac__ host, you can do:
+To create and run Zaruba container on __🪟 windows__/__🍎 mac__ host, you can do:
 
 ```bash
 docker run -d --name zaruba \
@@ -261,46 +115,45 @@ docker run -d --name zaruba \
 
 For more information about Zaruba's docker image, please visit [dockerhub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
 
-> **⚠️ NOTE** There will be some limitations if you run Zaruba container using `docker-desktop` for mac/windows. For example, docker-desktop doesn't support host networking, so that you need to expose the ports manually (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
+> __⚠️ NOTE__ There will be some limitations if you run Zaruba container in `docker-desktop`. For example, docker-desktop doesn't support host networking. Thus you need to expose the ports by yourself. (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
-# 📜 Getting started
+# 📜 Getting Started
 
 To get started, you can:
 
-* [📖 Browse the documentation](docs/README.md)
+* [📖 Browse the documentation](docs/README.md),
+* [❇️ Follow end to end tutorial](docs/use-cases/from-zero-to-cloud.md), and
 * [🧠 Learn the core concept](docs/core-concepts/README.md)
-* [⚙️ Configure your installation](docs/configuration.md)
-* [🏃 Learn to run tasks](docs/run-task/README.md)
-* [🏗️ Create a project](docs/use-cases/create-a-project.md)
-* [👷🏽 See some use Cases](docs/use-cases/README.md)
 
-But before doing that, you probably need to install additional prerequisites.
+# ➕ Extra Prerequisites
 
-## ➕ Additional prerequisites
+Some tasks need `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those extra prerequisites, you can simply invoke `zaruba install <extra-prerequisite>`.
 
-Before getting started, it is recommended to have `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those prerequisites, you can visit their websites or simply invoke `zaruba install`.
+To see whether you need to install extra prerequisites or not, you can use this guide:
 
-To see whether you need to install those pre-requisites or not, you can use this guide:
+* You need [docker](https://www.docker.com/get-started) to build, pull or push images. You also need docker if you want to run your application as a container.
+* You need [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) to access your kubernetes cluster.
+* You need [helm](https://helm.sh/) and [pulumi](https://www.pulumi.com/) to deploy your application in kubernetes cluster.
+* You need [tocer](https://github.com/state-alchemists/tocer) to scaffold Zaruba's documentation.
+* You need [pyenv](https://github.com/pyenv/pyenv) to run many Python versions.
+* You need [nvm](https://github.com/nvm-sh/nvm) to run many Node.Js versions.
 
-* [docker](https://www.docker.com/get-started) is needed to build, pull or push images. You also need docker if you want to run your application as a container.
-* [kubectl](https://kubernetes.io/docs/home/#learn-how-to-use-kubernetes) is needed to access your kubernetes cluster.
-* [helm](https://helm.sh/) and [pulumi](https://www.pulumi.com/) is needed to deploy your application in kubernetes cluster.
-* [Tocer](https://github.com/state-alchemists/tocer) to scaffold Zaruba's documentation.
-
-You should also be able to install those third party packages by running zaruba's third party installer:
+To install all extra prerequisites, please perform:
 
 ```bash
 zaruba install docker
 zaruba install kubectl
 zaruba install helm
 zaruba install pulumi
+zaruba install pyenv
+zaruba install nvm
 ```
 
-# 🐞 Bug, feature request and contribution
+# 🐞 Bug Report, Feature Request, and Contribution
 
-Open [issue](https://github.com/state-alchemists/zaruba/issues) or [pull request](https://github.com/state-alchemists/zaruba/pulls).
+You can always open [an issue](https://github.com/state-alchemists/zaruba/issues) or [pull request](https://github.com/state-alchemists/zaruba/pulls).
 
-If you open an issue, please make sure to let us know:
+When opening a pull request, please write down:
 
 * The version of Zaruba you are using. You can run `zaruba version` to get the version.
 * Your expectation/goal.
@@ -318,7 +171,7 @@ To perform the test, you need to have:
 * go 1.13
 * make
 
-Once the prerequisites are met, you can perform:
+Once you meet all the prerequisites, you can perform:
 
 ```bash
 make test

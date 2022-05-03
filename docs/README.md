@@ -4,13 +4,11 @@
 
 Welcome to Zaruba Documentation.
 
-Zaruba is a [task](core-concepts/task/README.md) runner and [CLI utility](utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` tasks quickly.
+Zaruba is a [task](core-concepts/task/README.md) runner and [CLI utility](utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` your tasks at once.
 
-To start working with Zaruba, you need to [create a project](use-cases/create-a-project.md) and [add some resources](use-cases/add-resources/README.md). Once your project is ready, you can start [running some tasks](run-tasks/README.md).
+To start working with Zaruba, you need to [create a project](use-cases/create-a-project.md) and [add some resources](use-cases/add-resources/README.md). Once your project is ready, you can start [running some tasks](run-tasks/README.md). You can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md) to get a better glimpse.
 
-Please visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md) to see how things work in real life.
-
-You can also [learn the core concepts](core-concepts/README.md) to get a better understanding.
+Please also [learn the core concepts](core-concepts/README.md) to see how things work in detail.
 
 # Table of Content
 
