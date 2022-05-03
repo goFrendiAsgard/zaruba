@@ -74,7 +74,7 @@ Before installing Zaruba from the source, you need to install some prerequisites
 * `wget` or `curl`
 * `git`
 
-> __💡HINT__ If you are using Ubuntu, you can invoke `sudo apt-get install golang wget curl git` to install all prerequisites.
+> __💡HINT__ If you are using Ubuntu, you can install all prerequisites by invoking: `sudo apt-get install golang wget curl git`.
 
 ### 🥗 Installing From Source
 

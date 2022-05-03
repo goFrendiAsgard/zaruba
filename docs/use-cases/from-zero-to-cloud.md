@@ -18,8 +18,6 @@ Zaruba allows you to build, run, and deploy everything using simple commands (no
 
 [![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
 
-<details>
-<summary>Show step by step instructions (including <b>deployment to kubernetes</b>)</summary>
 
 ### ✨ Creating Project and Applications
 
@@ -153,7 +151,6 @@ zaruba please syncEnv
 zaruba please deploy kubeContext=docker-desktop
 zaruba please destroy kubeContext=docker-desktop
 ```
-</details>
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
