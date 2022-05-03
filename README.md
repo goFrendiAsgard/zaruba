@@ -4,11 +4,11 @@
 
 # 💀 Zaruba 
 
-Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you to `write`, `generate`, `orchestrate`, and `run` your tasks at once.
+Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you to `write`, `generate`, and `run` your tasks easily.
 
 ## ❓ Problem
 
-Developing/debugging applications can be challenging. You need to keep running tasks __in parallel__ or __a particular order__.
+Developing/debugging applications can be challenging. You need to always run tasks __in parallel__ or __a particular order__.
 
 Some tasks might __depend__ on several prerequisites. While other tasks might __share similar behavior__. 
 
@@ -18,7 +18,7 @@ For example:
 
 * You might have several Typescript applications in your project. And to start those applications, you need to perform `npm install && tsc && npm start`. This means that your Typescript applications __share similar behavior__.
 
-You need a way to declare your tasks in a way that you can run everything at once, free of mistakes.
+You need a way to declare and run your tasks easily, and free of mistakes.
 
 ## 💡 Solution
 
