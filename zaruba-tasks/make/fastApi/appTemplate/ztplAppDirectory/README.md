@@ -1,6 +1,6 @@
 # ZtplAppDirectory
 
-An opinionated Fast API application. Built with ❤️ based on past mistakes/experiences.
+An opinionated Fast API application.
 
 # How to run
 
@@ -81,11 +81,11 @@ There are two types of dependency injection in this app:
 
 ## Simple mechanism
 
-You have probably used simple injections all the time.
+You have used simple injections all the time.
 
-This mechanism is verbose, simple, and very readable. Thus you should use it whenever possible.
+This mechanism is verbose, simple, and very readable. Thus, you should use it whenever possible.
 
-Let's see how this mechanism work:
+Let's see how this mechanism works:
 
 ```python
 db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite://')
@@ -102,19 +102,19 @@ register_library_rpc_handler(rpc, book_repo)
 
 Very simple and straightforward:
 
-* First, you need `db_url` to create `engine`.
-* You also need `engine` to create `book_repo`.
+* First, you need `db_url` to create the `engine`.
+* You also need the `engine` to create the `book_repo`.
 * Finally, you need `rpc` and `book_repo` to call `register_library_rpc_handler`.
 
 You can see this pattern in [`main.py`](./main.py)
 
-## FastAPI's mechanism
+## FastAPI mechanism
 
 FastAPI has its own [dependency injection](https://fastapi.tiangolo.com/tutorial/dependencies/) mechanism.
 
 For example, you need `OAuth2PasswordRequestForm` in your `login` handler.
 
-Since `OAuth2PasswordRequestForm` is `Callable`, you can expect it to return something. The `login` function takes `OAuth2PasswordRequestForm` return value as its `form_data` argument:
+Since `OAuth2PasswordRequestForm` is `Callable`, you can expect it to return something. The `login` function takes the `OAuth2PasswordRequestForm` return value as its `form_data` argument:
 
 ```python
 @app.post(access_token_url, response_model=TokenResponse)
@@ -135,11 +135,11 @@ There are several components available in the ztplAppDirectory application. We w
 
 ## Route handlers
 
-Route handlers handle HTTP requests from users/other apps. It needs to talk to `Auth system` to authenticate/authorize the request.
+Route handlers handle HTTP requests from users/other apps. 
 
-Once the request has been authenticated/authorized, the route handler can do some pre-processing before firing an `event` or calling a `RPC`.
+First, It needs to talk to `Auth system` to authenticate/authorize the request.
 
-If you expect an immediate response, you should use `rpc`, but if you just want to fire an event and forget it, you should use `mb` instead.
+Once the auth system check the request, the route handler will do some pre-processing and fire an `event` or call a `RPC`.
 
 See these examples:
 
@@ -163,9 +163,11 @@ def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_servi
     print('Register ml route handler')
 ```
 
-Everyone can access these two routes (i.e: `/train-service` and `/predict-data`) since we specifically `auth_service.everyone()` as our dependency. This is how routes interact with `Auth system`.
+Let's take a deeper look.
 
-The `/train-service` route handler sends an event through `mb.publish` and immediately send HTTP response. This is make sense since ML service training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and probably send email to user to inform that the pocess has been completed.
+Everyone can access `/train-service` and `/predict-data`. It is expected, since we use `auth_service.everyone()` in those routes.
+
+The `/train-service` route handler sends an event through `mb.publish` and immediately send HTTP response. This is make sense since ML service training might need minutes, hours, or even days. The best information we can give to user is that the train process has been invoked. We might need to have another handler to receive to event, do the training process, and send email to user to inform that the process has been completed.
 
 The `/predict-data` route handler sends RPC (remote procedure call) through `rpc.call`. Unlike event, RPC is expected to return the result. It is make sense, because whenever you predict data using a machine learning service, you expect the result as the response. We assume that the prediction process usually doesn't take long. Not as long as training, and it is make sense for user to wait the response.
 
