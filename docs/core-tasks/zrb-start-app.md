@@ -22,7 +22,7 @@ Description:
     Start app and check its readiness.
     Common configs:
       setup       : Script to be executed before start app or check app readiness.
-      start       : Script to start the app (e.g: python -m http.server 9090).
+      start       : Script to start the app (e.g., python -m http.server 9090).
       beforeStart : Script to be executed before start app.
       afterStart  : Script to be executed after start app.
       beforeCheck : Script to be executed before check app readiness.

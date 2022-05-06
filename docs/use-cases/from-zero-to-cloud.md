@@ -16,7 +16,7 @@ Meanwhile, the `CRUD API application` __depends__ on the `MySQL server`. Thus, y
 
 Zaruba allows you to build, run, and deploy everything using simple commands (no coding required 😉).
 
-> 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i.e: `zaruba please addFastApiCrud -i`).
+> 💡 __TIPS:__ You can execute tasks with `-i` or `--interactive` flag (i,e., `zaruba please addFastApiCrud -i`).
 
 [![asciicast](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE.svg)](https://asciinema.org/a/bZ7kA443kSV40lPiVxPysuAWE)
 

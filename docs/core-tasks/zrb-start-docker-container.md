@@ -46,7 +46,7 @@ Description:
                        The command will be executed from inside the container.
       checkCommand   : Command to check container readiness (Single Line).
                        The command will be executed from inside the container.
-      localhost      : Localhost mapping (e.g: host.docker.container)
+      localhost      : Localhost mapping (e.g., host.docker.container)
 
 
 

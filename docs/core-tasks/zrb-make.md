@@ -58,7 +58,7 @@ Description:
       ztplAppEventName                    : App's event name (camel case)  
       ztpl-app-event-name                 : App's event name (kebab case)
       ZtplAppEventName                    : App's event name (pascal case)
-      ztplAppHttpMethod                   : App's HTTP method (i.e: get, post, put, delete)
+      ztplAppHttpMethod                   : App's HTTP method (i,e., get, post, put, delete)
       ztplAppIcon                         : App's icon
       ztpl-app-image-name                 : App's image name
       ztpl_app_module_name                : App's module name (snake case)
@@ -74,7 +74,7 @@ Description:
       ztplAppRpcName                      : App's RPC name (camel case)
       ztpl-app-rpc-name                   : App's RPC name (kebab case)
       ZtplAppRpcName                      : App's RPC name (pascal case)
-      ztplAppRunnerVersion                : App's runner version (e.g: node, lts, 14.0, etc)
+      ztplAppRunnerVersion                : App's runner version (e.g., node, lts, 14.0, etc)
       ztplAppTaskLocation                 : App's task location
       ztpl_app_url                        : App's url (snake case)
       ztplAppUrl                          : App's url (camel case)

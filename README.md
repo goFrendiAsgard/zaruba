@@ -4,7 +4,7 @@
 
 # 💀 Zaruba 
 
-Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you to `write`, `generate`, and `run` your tasks with ease.
+Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you `write`, `generate`, and `run` your tasks with ease.
 
 ## ❓ Problem
 
@@ -22,15 +22,15 @@ There should be a way to declare and run your tasks with ease.
 
 ## 💡 Solution
 
-Creating __clear instructions/checklists__ might help in most cases. Assuming your tasks are sequential, you can turn it into a nice [shell script](https://www.shellscript.sh/first.html), and that's all you need.
+Creating __clear instructions/checklists__ might help in most cases. For example, suppose your tasks are serial. Then, you can turn them into an excellent [shell script](https://www.shellscript.sh/first.html), which is all you need.
 
-But, if your workflow is more complicated, then you need a __better automation tool__ like Zaruba.
+But, if your workflow is more complicated, you need a __better automation tool__ like Zaruba.
 
 Zaruba allows you to __simplify your workflow__ by letting you:
 
-* Create configurable tasks (i.e: using `configs`, `inputs`, or `envs`).
-* Define task dependencies (i.e: using `dependencies`).
-* Re-use and share configurations/behaviors (i.e: using `extend`, `configRef`, or `envRef`).
+* Create configurable tasks (i,e., using `configs`, `inputs`, or `envs`).
+* Define task dependencies (i,e., using `dependencies`).
+* Re-use and share configurations/behaviors (i,e., using `extend`, `configRef`, or `envRef`).
 * Run tasks in parallels.
 * Generate new tasks.
 
@@ -64,27 +64,27 @@ Visit the [getting started section](#-getting-started).
 
 Installing from source is the best way to set up Zaruba for day-to-day use.
 
-We don't have any plan to create [APT](https://en.wikipedia.org/wiki/APT_(software)) or platform-specific packages for Zaruba. If you are using windows, you need to install [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to get started.
+We don't plan to create [APT](https://en.wikipedia.org/wiki/APT_(software)) or platform-specific packages for Zaruba. If you are using windows, you need to install [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to get started.
 
 ### 🧅 Prerequisites
 
 Before installing Zaruba from the source, you need to install some prerequisites:
 
-* `go 1.13` or newer (To install `go` you can visit its [official website](https://golang.org/doc/install))
+* `go 1.13` or newer (To install `go`, you can visit its [official website](https://golang.org/doc/install))
 * `wget` or `curl`
 * `git`
 
-> __💡HINT__ If you are using Ubuntu, you can install all prerequisites by invoking: `sudo apt-get install golang wget curl git`.
+> __💡 HINT__ If you are using Ubuntu, you can install all prerequisites by invoking: `sudo apt-get install golang wget curl git`.
 
 ### 🥗 Installing From Source
 
-To install Zaruba using __curl__, you can do:
+To install Zaruba using __curl__, you can do the following:
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
 ```
 
-To install Zaruba using __wget__, you can do:
+To install Zaruba using __wget__, you can do the following:
 
  ```bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
@@ -94,7 +94,7 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/state-alchemists/zaruba/mast
 
 Using docker is the quickest way to install Zaruba, especially if you need to use Zaruba in your CI/CD.
 
-To create and run a Zaruba container on __🐧Linux__ host, you can do:
+To create and run a Zaruba container on a __🐧Linux__ host, you can do the following:
 
 ```bash
 docker run -d --name zaruba --network host \
@@ -104,7 +104,7 @@ docker run -d --name zaruba --network host \
   stalchmst/zaruba:latest
 ```
 
-To create and run a Zaruba container on __🪟 Windows__/__🍎 Mac__ host, you can do:
+To create and run a Zaruba container on a __🪟 Windows__/__🍎 Mac__ host, you can do the following:
 
 ```bash
 docker run -d --name zaruba \
@@ -115,19 +115,23 @@ docker run -d --name zaruba \
 
 For more information about Zaruba's docker image, please visit [docker hub](https://hub.docker.com/repository/docker/stalchmst/zaruba).
 
-> __⚠️ NOTE__ There will be some limitations if you run Zaruba container in `docker-desktop`. For example, docker-desktop doesn't support host networking. Thus, you need to expose the ports by yourself. (e.g: `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
+> __⚠️ NOTE__ There will be some limitations if you run Zaruba container in `docker-desktop`. For example, docker-desktop doesn't support host networking. Thus, you need to expose the ports by yourself. (e.g., `docker run -d --name zaruba -p 8200-8300:8200-8300 -v "$(pwd):/project" stalchmst/zaruba:latest`)
 
 # 📜 Getting Started
 
 To get started, you can:
 
 * [📖 Browse the documentation](docs/README.md),
-* [❇️ Follow end to end tutorial](docs/use-cases/from-zero-to-cloud.md), and
+* [❇️ Follow end to end tutorials](docs/use-cases/from-zero-to-cloud.md), and
 * [🧠 Learn the core concept](docs/core-concepts/README.md)
 
 # ➕ Extra Prerequisites
 
-Some tasks need `docker`, `kubectl`, `helm`, and `pulumi` installed. To install those extra prerequisites, you can invoke: `zaruba install <extra-prerequisite>`.
+Some tasks need `docker`, `kubectl`, `helm`, and `pulumi` installed. You can invoke the following command to install those extra prerequisites: 
+
+```bash
+zaruba install <extra-prerequisite>
+```
 
 To see whether you need to install extra prerequisites or not, you can use this guide:
 
@@ -155,10 +159,12 @@ You can always open an [issue](https://github.com/state-alchemists/zaruba/issues
 
 When opening a pull request, please write down:
 
-* The version of Zaruba you are using. You can run `zaruba version` to get the version.
+* Zaruba version you used.
 * Your expectation/goal.
-* What you have tried.
+* Things you have tried to achieve the goal.
 * The result you get.
+
+> __💡 HINT__ You can get the zaruba version invoking: `zaruba version`.
 
 # ☑️ Testing
 
@@ -176,6 +182,10 @@ Once you meet all the prerequisites, you can perform:
 ```bash
 make test
 ```
+
+# ☕ Donation
+
+[Paypal](https://paypal.me/gofrendi?country.x=ID&locale.x=en_US)
 
 # 🎉 Fun fact
 

@@ -6,7 +6,7 @@ Validate Redis&trade; required passwords are not empty.
 Usage:
 {{ include "common.validations.values.redis.passwords" (dict "secret" "secretName" "subchart" false "context" $) }}
 Params:
-  - secret - String - Required. Name of the secret where redis values are stored, e.g: "redis-passwords-secret"
+  - secret - String - Required. Name of the secret where redis values are stored, e.g., "redis-passwords-secret"
   - subchart - Boolean - Optional. Whether redis is used as subchart or not. Default: false
 */}}
 {{- define "common.validations.values.redis.passwords" -}}

@@ -66,10 +66,10 @@ echo "Hello {{ .GetConfig "name" }}"
 
 # Other Commonly Used Functions/Values
 
-* `{{ .ZarubaHome }}`: Zaruba's home directory (e.g: `~/zaruba`)
-* `{{ .ZarubaBin }}`: Zaruba's bin (e.g: `~/zaruba/zaruba`)
-* `{{ .UUID }}`: Generated UUID (e.g: `30fd76b8-8e65-4d20-a124-d46ca1665e1f`)
-* `{{ .GeneratedRandomName }}`: Generated name containing two words camel cased (e.g: `corruptedSenate`)
+* `{{ .ZarubaHome }}`: Zaruba's home directory (e.g., `~/zaruba`)
+* `{{ .ZarubaBin }}`: Zaruba's bin (e.g., `~/zaruba/zaruba`)
+* `{{ .UUID }}`: Generated UUID (e.g., `30fd76b8-8e65-4d20-a124-d46ca1665e1f`)
+* `{{ .GeneratedRandomName }}`: Generated name containing two words camel cased (e.g., `corruptedSenate`)
 * `{{ .Decoration }}`: Decoration object.
 * `{{ .GetWorkPath path }}`: Getting absolute path relative to task location.
 * `{{ .GetTaskPath path }}`: Getting absolute path relative to task definition's location.

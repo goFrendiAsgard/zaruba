@@ -29,7 +29,7 @@ Running simple command is trivial. You can invoke it from the CLI or you can cre
 
 Running simple command with Zaruba gives you several advantages:
 
-* You can run many simple commands in parallel (i.e: `zaruba please task-1 task-2... task-n`)
+* You can run many simple commands in parallel (i,e., `zaruba please task-1 task-2... task-n`)
 * You can use re-use the command by [extending](./extend-task.md) it
 * You can define some [pre-requisites](./define-task-dependencies.md) for your command.
 * If you run many commands in parallel, you can see their logs in real time.

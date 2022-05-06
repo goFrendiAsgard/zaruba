@@ -8,9 +8,9 @@ Usage:
 {{ include "common.validations.values.empty" (dict "required" (list $validateValueConf00 $validateValueConf01) "context" $) }}
 
 Validate value params:
-  - valueKey - String - Required. The path to the validating value in the values.yaml, e.g: "mysql.password"
-  - secret - String - Optional. Name of the secret where the validating value is generated/stored, e.g: "mysql-passwords-secret"
-  - field - String - Optional. Name of the field in the secret data, e.g: "mysql-password"
+  - valueKey - String - Required. The path to the validating value in the values.yaml, e.g., "mysql.password"
+  - secret - String - Optional. Name of the secret where the validating value is generated/stored, e.g., "mysql-passwords-secret"
+  - field - String - Optional. Name of the field in the secret data, e.g., "mysql-password"
 */}}
 {{- define "common.validations.values.multiple.empty" -}}
   {{- range .required -}}
@@ -25,9 +25,9 @@ Usage:
 {{ include "common.validations.value.empty" (dict "valueKey" "mariadb.password" "secret" "secretName" "field" "my-password" "subchart" "subchart" "context" $) }}
 
 Validate value params:
-  - valueKey - String - Required. The path to the validating value in the values.yaml, e.g: "mysql.password"
-  - secret - String - Optional. Name of the secret where the validating value is generated/stored, e.g: "mysql-passwords-secret"
-  - field - String - Optional. Name of the field in the secret data, e.g: "mysql-password"
+  - valueKey - String - Required. The path to the validating value in the values.yaml, e.g., "mysql.password"
+  - secret - String - Optional. Name of the secret where the validating value is generated/stored, e.g., "mysql-passwords-secret"
+  - field - String - Optional. Name of the field in the secret data, e.g., "mysql-password"
   - subchart - String - Optional - Name of the subchart that the validated password is part of.
 */}}
 {{- define "common.validations.values.single.empty" -}}

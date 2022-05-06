@@ -67,7 +67,7 @@ Usage:
 Params:
   - secret - String - Required - Name of the 'Secret' resource where the password is stored.
   - key - String - Required - Name of the key in the secret.
-  - providedValues - List<String> - Required - The path to the validating value in the values.yaml, e.g: "mysql.password". Will pick first parameter with a defined value.
+  - providedValues - List<String> - Required - The path to the validating value in the values.yaml, e.g., "mysql.password". Will pick first parameter with a defined value.
   - length - int - Optional - Length of the generated random password.
   - strong - Boolean - Optional - Whether to add symbols to the generated random password.
   - chartName - String - Optional - Name of the chart used when said chart is deployed as a subchart.

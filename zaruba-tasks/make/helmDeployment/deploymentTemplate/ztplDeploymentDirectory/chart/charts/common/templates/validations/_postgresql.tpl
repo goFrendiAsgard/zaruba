@@ -5,7 +5,7 @@ Validate PostgreSQL required passwords are not empty.
 Usage:
 {{ include "common.validations.values.postgresql.passwords" (dict "secret" "secretName" "subchart" false "context" $) }}
 Params:
-  - secret - String - Required. Name of the secret where postgresql values are stored, e.g: "postgresql-passwords-secret"
+  - secret - String - Required. Name of the secret where postgresql values are stored, e.g., "postgresql-passwords-secret"
   - subchart - Boolean - Optional. Whether postgresql is used as subchart or not. Default: false
 */}}
 {{- define "common.validations.values.postgresql.passwords" -}}
@@ -34,7 +34,7 @@ Auxiliary function to decide whether evaluate global values.
 Usage:
 {{ include "common.postgresql.values.use.global" (dict "key" "key-of-global" "context" $) }}
 Params:
-  - key - String - Required. Field to be evaluated within global, e.g: "existingSecret"
+  - key - String - Required. Field to be evaluated within global, e.g., "existingSecret"
 */}}
 {{- define "common.postgresql.values.use.global" -}}
   {{- if .context.Values.global -}}

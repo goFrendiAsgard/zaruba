@@ -59,7 +59,7 @@ Type:
 Description:
 
     Entity name (Required)
-    Usually plural word (e.g: books, articles)
+    Usually plural word (e.g., books, articles)
 
 
 Prompt:
@@ -80,12 +80,12 @@ Validation:
 Description:
 
     Field names, JSON formated.
-    E.g: ["name", "address"]
+    e.g., ["name", "address"]
 
 
 Prompt:
 
-    Field names, JSON formated. E.g: ["name", "address"]
+    Field names, JSON formated. e.g., ["name", "address"]
 
 Default Value:
 

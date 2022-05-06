@@ -5,7 +5,7 @@
 
 A project usually contains:
 * __zaruba scripts__ containing task definitions.
-* __application resources__ to run your tasks (e.g: Source code, Dockerfile, etc).
+* __application resources__ to run your tasks (e.g., Source code, Dockerfile, etc).
 
 # Zaruba Scripts
 

@@ -81,7 +81,7 @@ Cascaded environment is very useful if you manage several platforms with similar
 
 For example, you have `dev`, `stag`, and `prod`.
 
-By adding `DEV` prefix (i.e: `zaruba env get DEV`), your `DEV` environment will be assigned to the original ones.
+By adding `DEV` prefix (i,e., `zaruba env get DEV`), your `DEV` environment will be assigned to the original ones.
 
 If prefixed environment is not exists, Zaruba will use original values. Thus you can treat original environment as fallback/default values.
 

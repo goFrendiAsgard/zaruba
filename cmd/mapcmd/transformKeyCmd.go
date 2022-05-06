@@ -54,6 +54,6 @@ var transformKeyCmd = &cobra.Command{
 func init() {
 	transformKeyCmd.Flags().StringVarP(&transformKeyPrefix, "prefix", "p", "", "key prefix")
 	transformKeyCmd.Flags().StringVarP(&transformKeySuffix, "suffix", "s", "", "key suffix")
-	transformKeyCmd.Flags().StringArrayVarP(&transformKeyTransformation, "transformation", "t", []string{}, "transfomration (e.g: '-t upper', '-t lower', '-t upperSnake', -t 'camel', '-t kebab', '-t pascal', '-t snake')")
+	transformKeyCmd.Flags().StringArrayVarP(&transformKeyTransformation, "transformation", "t", []string{}, "transformation (e.g., '-t upper', '-t lower', '-t upperSnake', -t 'camel', '-t kebab', '-t pascal', '-t snake')")
 
 }

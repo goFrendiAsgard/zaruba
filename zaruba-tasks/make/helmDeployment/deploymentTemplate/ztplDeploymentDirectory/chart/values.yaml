@@ -80,7 +80,7 @@ hostAliases: []
 command: []
 args: []
 ## @param extraEnvVars Extra environment variables to be set on NGINX containers
-## E.g:
+## e.g.,
 ## extraEnvVars:
 ##   - name: FOO
 ##     value: BAR
@@ -291,7 +291,7 @@ serviceAccount:
   ##
   autoMount: false
 ## @param sidecars Sidecar parameters
-## e.g:
+## e.g.,
 ## sidecars:
 ##   - name: your-image-name
 ##     image: your-image
@@ -353,7 +353,7 @@ cloneStaticSiteFromGit:
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ## e.g:
+    ## e.g.,
     ## pullSecrets:
     ##   - myRegistryKeySecretName
     ##
@@ -386,7 +386,7 @@ cloneStaticSiteFromGit:
     ##
     args: []
   ## @param cloneStaticSiteFromGit.extraEnvVars Additional environment variables to set for the in the containers that clone static site from git
-  ## E.g:
+  ## e.g.,
   ## extraEnvVars:
   ##   - name: FOO
   ##     value: BAR
@@ -394,7 +394,7 @@ cloneStaticSiteFromGit:
   extraEnvVars: []
   ## @param cloneStaticSiteFromGit.extraVolumeMounts Add extra volume mounts for the Git containers
   ## Useful to mount keys to connect through ssh. (normally used with extraVolumes)
-  ## E.g:
+  ## e.g.,
   ## extraVolumeMounts:
   ##   - name: ssh-dir
   ##     mountPath: /root/.ssh/
@@ -640,7 +640,7 @@ ingress:
   ## Use this parameter to set the required annotations for cert-manager, see
   ## ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
   ##
-  ## e.g:
+  ## e.g.,
   ## annotations:
   ##   kubernetes.io/ingress.class: nginx
   ##   cert-manager.io/cluster-issuer: cluster-issuer-name
@@ -684,7 +684,7 @@ ingress:
   ##
   ## It is also possible to create and manage the certificates outside of this helm chart
   ## Please see README.md for more information
-  ## e.g:
+  ## e.g.,
   ## - name: nginx.local-tls
   ##   key:
   ##   certificate:
@@ -712,7 +712,7 @@ healthIngress:
   ## Use this parameter to set the required annotations for cert-manager, see
   ## ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
   ##
-  ## e.g:
+  ## e.g.,
   ## annotations:
   ##   kubernetes.io/ingress.class: nginx
   ##   cert-manager.io/cluster-issuer: cluster-issuer-name
@@ -785,7 +785,7 @@ metrics:
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ## e.g:
+    ## e.g.,
     ## pullSecrets:
     ##   - myRegistryKeySecretName
     ##
@@ -844,13 +844,13 @@ metrics:
     namespace: ""
     ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped.
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
-    ## e.g:
+    ## e.g.,
     ## interval: 10s
     ##
     interval: ""
     ## @param metrics.serviceMonitor.scrapeTimeout Timeout after which the scrape is ended
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
-    ## e.g:
+    ## e.g.,
     ## scrapeTimeout: 10s
     ##
     scrapeTimeout: ""

@@ -30,7 +30,7 @@ Description:
       runInLocal     : Run app locally or not.
       ports          : Port to be checked to confirm app readiness, 
                        separated by new line.
-      localhost      : Localhost mapping (e.g: host.docker.container)
+      localhost      : Localhost mapping (e.g., host.docker.container)
 
 
 

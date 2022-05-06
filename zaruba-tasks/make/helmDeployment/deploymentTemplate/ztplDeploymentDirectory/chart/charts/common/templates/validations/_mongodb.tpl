@@ -5,7 +5,7 @@ Validate MongoDB&reg; required passwords are not empty.
 Usage:
 {{ include "common.validations.values.mongodb.passwords" (dict "secret" "secretName" "subchart" false "context" $) }}
 Params:
-  - secret - String - Required. Name of the secret where MongoDB&reg; values are stored, e.g: "mongodb-passwords-secret"
+  - secret - String - Required. Name of the secret where MongoDB&reg; values are stored, e.g., "mongodb-passwords-secret"
   - subchart - Boolean - Optional. Whether MongoDB&reg; is used as subchart or not. Default: false
 */}}
 {{- define "common.validations.values.mongodb.passwords" -}}

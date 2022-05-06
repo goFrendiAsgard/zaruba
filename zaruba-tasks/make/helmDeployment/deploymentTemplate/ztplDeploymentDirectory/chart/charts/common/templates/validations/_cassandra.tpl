@@ -5,7 +5,7 @@ Validate Cassandra required passwords are not empty.
 Usage:
 {{ include "common.validations.values.cassandra.passwords" (dict "secret" "secretName" "subchart" false "context" $) }}
 Params:
-  - secret - String - Required. Name of the secret where Cassandra values are stored, e.g: "cassandra-passwords-secret"
+  - secret - String - Required. Name of the secret where Cassandra values are stored, e.g., "cassandra-passwords-secret"
   - subchart - Boolean - Optional. Whether Cassandra is used as subchart or not. Default: false
 */}}
 {{- define "common.validations.values.cassandra.passwords" -}}

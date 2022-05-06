@@ -18,8 +18,8 @@ For more information about running a task, please visit [this guide](../../run-t
 
 There are two types of tasks:
 
-* [simple command](simple-command.md): Ended once completed (e.g: `npm install`, or `docker build`).
-* [long-running service](long-running-service.md): Keep running once completed. (e.g: `docker start`)
+* [simple command](simple-command.md): Ended once completed (e.g., `npm install`, or `docker build`).
+* [long-running service](long-running-service.md): Keep running once completed. (e.g., `docker start`)
 
 # Task Behavior
 

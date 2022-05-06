@@ -5,7 +5,7 @@ Validate MariaDB required passwords are not empty.
 Usage:
 {{ include "common.validations.values.mariadb.passwords" (dict "secret" "secretName" "subchart" false "context" $) }}
 Params:
-  - secret - String - Required. Name of the secret where MariaDB values are stored, e.g: "mysql-passwords-secret"
+  - secret - String - Required. Name of the secret where MariaDB values are stored, e.g., "mysql-passwords-secret"
   - subchart - Boolean - Optional. Whether MariaDB is used as subchart or not. Default: false
 */}}
 {{- define "common.validations.values.mariadb.passwords" -}}

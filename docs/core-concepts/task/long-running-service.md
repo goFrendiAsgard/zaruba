@@ -21,7 +21,7 @@ Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```````
 </details>
 
-Thee http server will wait for any incoming request and giving appropriate response. This http server will keep on running until you turn it off (i.e: by pressing ctrl + C).
+Thee http server will wait for any incoming request and giving appropriate response. This http server will keep on running until you turn it off (i,e., by pressing ctrl + C).
 
 
 # Process Readiness
@@ -92,7 +92,7 @@ To run many tasks in parallel, you can use [PM2](https://pm2.keymetrics.io/), [d
 
 Running services with Zaruba gives you some advantages. Especially during development phase:
 
-* You can run many services in parallel (i.e: `zaruba please task-1 task-2... task-n`).
+* You can run many services in parallel (i,e., `zaruba please task-1 task-2... task-n`).
 * You can use re-use your service by [extending](./extend-task.md) it.
 * You can define some [pre-requisites](./define-task-dependencies.md) for your service.
 * If you run many services in parallel, you can see their logs in real time.
@@ -167,7 +167,7 @@ In Zaruba, any task with `start` and `check` properties are treated as `long run
 
 Some task might have `check` property eventhough it is not explicitly written. This is especially true if you [extend/inherit](extend-task.md) your task from another task.
     
-> 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i.e: by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
+> 💡 __TIPS:__  You might wonder why the server log doesn't show up unless you terminate it with `ctrl + c`. This is happened because of python buffering mechanism. To turn off this feature, you can set `PYTHONUNBUFFERED` to `1`. (i,e., by using this as start command, `start: [bash, -c, 'sleep 10 && export PYTHONUNBUFFERED=1 && python -m http.server 8080']`)
 
 
 ## Higher Level Approach
