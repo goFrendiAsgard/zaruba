@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/nginx
+FROM docker.io/bitnami/nginx:1.21.6
 
 # become root to install certbot
 USER 0

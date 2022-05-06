@@ -30,20 +30,20 @@ zaruba please clearLog
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 2.9µs
-         Current Time: 22:30:13
+         Elapsed Time: 1.571µs
+         Current Time: 00:08:08
 💀 🏁 Run 🔥 'clearLog' command on /home/gofrendi/zaruba/docs
-💀    🚀 clearLog             🔥 22:30:13.727 Log removed
+💀    🚀 clearLog             🔥 00:08:08.11  Log removed
 💀 🎉 Successfully running 🔥 'clearLog' command
 💀 🔎 Job Running...
-         Elapsed Time: 620.2999ms
-         Current Time: 22:30:13
+         Elapsed Time: 111.833484ms
+         Current Time: 00:08:08
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 822.3379ms
-         Current Time: 22:30:14
+         Elapsed Time: 313.815174ms
+         Current Time: 00:08:08
 zaruba please clearLog
 ```````
 </details>
@@ -77,20 +77,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.9µs
-         Current Time: 22:30:14
+         Elapsed Time: 2.253µs
+         Current Time: 00:08:08
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloWorld      🍎 22:30:14.572 hello world
+💀    🚀 printHelloWorld      🍎 00:08:08.643 hello world
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🔎 Job Running...
-         Elapsed Time: 103.5003ms
-         Current Time: 22:30:14
+         Elapsed Time: 102.562012ms
+         Current Time: 00:08:08
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 214.9993ms
-         Current Time: 22:30:14
+         Elapsed Time: 214.033828ms
+         Current Time: 00:08:08
 zaruba please printHelloWorld
 ```````
 </details>

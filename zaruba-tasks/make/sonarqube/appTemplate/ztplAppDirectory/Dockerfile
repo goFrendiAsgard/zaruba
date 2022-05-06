@@ -1,1 +1,1 @@
-FROM docker.io/sonarqube:latest
+FROM docker.io/sonarqube:9.4-community

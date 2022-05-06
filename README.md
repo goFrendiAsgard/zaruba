@@ -8,7 +8,7 @@ Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](d
 
 ## ❓ Problem
 
-Developing/debugging/deploying applications can be challenging. First, you need to run many tasks __in parallel__. You also need to execute those tasks in a __particular order__.
+Developing/debugging/deploying applications can be challenging. First, you need to run many tasks __in parallel__. Then, you also need to execute those tasks in a __particular order__.
 
 Some tasks might __depend on each other__ or __share similar behavior__. 
 

@@ -1,1 +1,1 @@
-FROM docker.io/bitnami/postgresql
+FROM docker.io/bitnami/postgresql:14.2.0

@@ -23,7 +23,7 @@ Flags:
   -h, --help                         help for transformKey
   -p, --prefix string                key prefix
   -s, --suffix string                key suffix
-  -t, --transformation stringArray   transfomration (e.g., '-t upper', '-t lower', '-t upperSnake', -t 'camel', '-t kebab', '-t pascal', '-t snake')
+  -t, --transformation stringArray   transformation (e.g., '-t upper', '-t lower', '-t upperSnake', -t 'camel', '-t kebab', '-t pascal', '-t snake')
 ```````
 </details>
 <!--endCode-->

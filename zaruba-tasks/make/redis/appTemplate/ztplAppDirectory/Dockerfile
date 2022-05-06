@@ -1,1 +1,1 @@
-FROM docker.io/bitnami/redis
+FROM docker.io/bitnami/redis:6.2.7

@@ -1,1 +1,1 @@
-FROM docker.io/bitnami/mongodb
+FROM docker.io/bitnami/mongodb:5.0.8

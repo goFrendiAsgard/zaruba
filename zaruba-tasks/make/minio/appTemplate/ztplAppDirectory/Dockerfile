@@ -1,1 +1,1 @@
-FROM docker.io/bitnami/minio:latest
+FROM docker.io/bitnami/minio:2022.5.4

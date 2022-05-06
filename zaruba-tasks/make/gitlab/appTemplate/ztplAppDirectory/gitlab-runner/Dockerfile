@@ -1,1 +1,1 @@
-FROM docker.io/gitlab/gitlab-runner:latest
+FROM docker.io/gitlab/gitlab-runner:v14.10.1

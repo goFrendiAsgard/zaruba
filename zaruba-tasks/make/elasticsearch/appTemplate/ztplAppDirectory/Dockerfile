@@ -1,1 +1,1 @@
-FROM docker.io/bitnami/elasticsearch
+FROM docker.io/bitnami/elasticsearch:8.2.0

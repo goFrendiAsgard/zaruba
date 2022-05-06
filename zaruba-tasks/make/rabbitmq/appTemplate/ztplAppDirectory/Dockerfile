@@ -1,1 +1,1 @@
-FROM docker.io/bitnami/rabbitmq
+FROM docker.io/bitnami/rabbitmq:3.9.16
