@@ -185,7 +185,9 @@ make test
 
 # ☕ Donation
 
-[Paypal](https://paypal.me/gofrendi?country.x=ID&locale.x=en_US)
+Help Red Skull to click the donation button:
+
+[![](arts/donator.png)](https://stalchmst.com/donation.html)
 
 # 🎉 Fun fact
 
