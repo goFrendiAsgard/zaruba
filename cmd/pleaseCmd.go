@@ -31,7 +31,7 @@ var pleaseWait string
 var pleaseCmd = &cobra.Command{
 	Use:     "please [taskName...]",
 	Short:   "Run Task(s)",
-	Aliases: []string{"run", "do", "execute", "exec", "perform", "invoke"},
+	Aliases: []string{"run", "do", "p"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := cmdHelper.GetDecoration(pleaseDecor)
 		logger := output.NewConsoleLogger(decoration)
