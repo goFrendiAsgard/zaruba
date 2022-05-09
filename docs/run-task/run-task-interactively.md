@@ -50,30 +50,28 @@ Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
-? Do you want to load additional env?: 
-  ▸ 🏁 No
-    📝 Yes, from file
-B💀 1 of 1) humanName
+✔ 🏁 No
+💀 1 of 1) humanName
 Search: █
 ? Your name: 
   ▸ human
 ✔ Let me type it!
 Your name: Robert Boyle
 💀 🔎 Job Starting...
-         Elapsed Time: 1.608µs
-         Current Time: 20:01:11
+         Elapsed Time: 1.905µs
+         Current Time: 06:52:14
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloHuman      🍏 20:01:11.045 hello Robert Boyle
+💀    🚀 printHelloHuman      🍏 06:52:14.093 hello Robert Boyle
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.65747ms
-         Current Time: 20:01:11
+         Elapsed Time: 102.006033ms
+         Current Time: 06:52:14
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 213.632721ms
-         Current Time: 20:01:11
+         Elapsed Time: 213.846284ms
+         Current Time: 06:52:14
 zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
 ```````
 </details>
