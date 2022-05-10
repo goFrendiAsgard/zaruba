@@ -271,7 +271,7 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" "${ZARUBA_CONFIG_APP_DEPENDENCIES}" "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" {{ .Util.Str.EscapeShellValue (.GetConfig "appDependencies") }} "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
 
 
 
