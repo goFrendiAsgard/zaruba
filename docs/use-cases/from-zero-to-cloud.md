@@ -59,8 +59,11 @@ mkdir -p examples/playground/myEndToEndDemo
 cd examples/playground/myEndToEndDemo
 zaruba please initProject
 
-zaruba please addMysql appDirectory=demoDb
+# Add DB
+zaruba please addMysql \
+  appDirectory=demoDb
 
+# Add Backend
 zaruba please addFastApiCrud \
   appDirectory=demoBackend \
   appModuleName=library \
@@ -69,10 +72,33 @@ zaruba please addFastApiCrud \
   appDependencies='["demoDb"]' \
   appEnvs='{"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
 
+# Add Frontend
 zaruba please addNginx \
   appDirectory=demoFrontend \
-  appPorts='["80:80"]' \
-  appEnvs='{"API_HOST":"localhost:3000"}'
+  appPorts='["8080:80", "443"]'
+
+chmod -R 777 demoFrontend/html
+
+# Add .gitignore
+echo '' >> demoFrontend/.gitignore
+echo 'html/apiHost.js' >> demoFrontend/.gitignore
+
+# Add environment and sync
+echo "API_HOST=localhost:3000" > demoFrontend/template.env
+zaruba please syncEnv
+
+# Add bootstrap
+echo 'echo "var apiHost=\"$API_HOST\";" > /opt/bitnami/nginx/html/apiHost.js && /opt/bitnami/scripts/nginx/run.sh' > demoFrontend/bootstrap.sh
+
+# Modify Dockerfile
+echo '' >> demoFrontend/Dockerfile
+echo 'USER 0' >> demoFrontend/Dockerfile
+echo 'COPY bootstrap.sh /opt/bitnami/scripts/nginx/bootstrap.sh' >> demoFrontend/Dockerfile
+echo 'RUN chmod 755 /opt/bitnami/scripts/nginx/bootstrap.sh' >> demoFrontend/Dockerfile
+echo 'USER 1001' >> demoFrontend/Dockerfile
+echo 'CMD ["/opt/bitnami/scripts/nginx/bootstrap.sh"]' >> demoFrontend/Dockerfile
+
+zaruba please buildImages
 
 # zaruba please start
 # <ctrl + c>
