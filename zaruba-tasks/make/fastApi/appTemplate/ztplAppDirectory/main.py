@@ -1,5 +1,6 @@
 # -- 📖 Common import
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, create_kafka_connection_parameters, create_kafka_avro_connection_parameters, create_rmq_connection_parameters
@@ -10,6 +11,7 @@ from auth import register_auth_route_handler, register_auth_event_handler, regis
 from schemas.user import UserData
 
 import os
+import json
 
 error_threshold = int(os.getenv('APP_ERROR_THRESHOLD', '10'))
 
@@ -81,6 +83,17 @@ auth_service = TokenOAuth2AuthService(user_service, role_service, token_service,
 
 # -- ⚡FastAPI initialization
 app = FastAPI(title='ztplAppName')
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = json.loads(os.getenv('APP_CORS_ALLOW_ORIGINS', '["*"]')),
+    allow_origin_regex = os.getenv('APP_CORS_ALLOW_ORIGIN_REGEX', ''),
+    allow_methods = json.loads(os.getenv('APP_CORS_ALLOW_METHODS', '["*"]')),
+    allow_headers = json.loads(os.getenv('APP_CORS_ALLOW_HEADERS', '["*"]')),
+    allow_credentials = os.getenv('APP_CORS_ALLOW_CREDENTIALS', 'false') == 'true',
+    expose_headers = os.getenv('APP_CORS_EXPOSE_HEADERS', 'false') == 'true',
+    max_age = int(os.getenv('APP_CORS_MAX_AGE', '600')),
+)
+
 
 # -- 📖 Register core handlers
 enable_route_handler = os.getenv('APP_ENABLE_ROUTE_HANDLER', '1') != '0'

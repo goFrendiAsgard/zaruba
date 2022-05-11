@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Catalog</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome</h1>
+<p>A book catalog</p>
+<ul id="book-list">
+</ul>
+<form>
+   <label>Title</label>
+   <br />
+   <input id="new-book-title"/>
+   <br />
+   <label>Author</label>
+   <br />
+   <input id="new-book-author"/>
+   <br />
+   <label>Synopsis</label>
+   <br />
+   <textarea id="new-synopsis"></textarea>
+</form>
+<script src="/apiHost.js"></script>
+<script>
+    function createBookList() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("book-list").innerHTML = this.responseText;
+        }
+        xhttp.open("GET", apiHost + "/books", true);
+        xhttp.setRequestHeader('Content-type', 'application/json')
+        xhttp.send();
+    }
+
+    createBookList();
+</script>
+</body>
+</html>

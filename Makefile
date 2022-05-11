@@ -14,4 +14,5 @@ testFastApi:
 	cd playground && ../zaruba please startProvoKafka startProvoRabbitmq -t && ../zaruba please testProvoFastApi -e PROVO_FAST_API_TEST_INTEGRATION=1
 	cd playground && ../zaruba please stopProvoKafkaContainer stopProvoRabbitmqContainer
 adjustDocs:
+	. ./buildZaruba.sh
 	cd docs && . ./.adjustDocs.sh	
