@@ -44,8 +44,9 @@ cd examples/run-tasks
 Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
-✔ 🏁 No
-💀 Load additional env
+? Do you want to load additional value file?: 
+  ▸ 🏁 No
+B💀 Load additional env
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
@@ -56,23 +57,23 @@ Search: █
 ? Your name: 
   ▸ human
 ✔ Let me type it!
-Your name: 
+Your name: Robert Boyle
 💀 🔎 Job Starting...
-         Elapsed Time: 1.14µs
-         Current Time: 07:53:26
+         Elapsed Time: 1.85µs
+         Current Time: 07:55:50
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloHuman      🍏 07:53:26.185 hello
+💀    🚀 printHelloHuman      🍏 07:55:50.052 hello Robert Boyle
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.10193ms
-         Current Time: 07:53:26
+         Elapsed Time: 102.509266ms
+         Current Time: 07:55:50
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 212.750899ms
-         Current Time: 07:53:26
-zaruba please printHelloHuman  -v 'humanName='
+         Elapsed Time: 214.211246ms
+         Current Time: 07:55:50
+zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
 ```````
 </details>
 <!--endCode-->

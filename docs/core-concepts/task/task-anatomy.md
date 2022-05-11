@@ -447,34 +447,34 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.756µs
-         Current Time: 07:53:35
+         Elapsed Time: 1.916µs
+         Current Time: 07:55:59
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs
-💀    🚀 updateProjectLinks   🔗 07:53:35.985 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 07:53:35.985 Links updated
+💀    🚀 updateProjectLinks   🔗 07:55:59.594 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 07:55:59.594 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🌐 'serveHttp' service on /home/gofrendi/zaruba/docs
 💀 🏁 Check 🌐 'serveHttp' readiness on /home/gofrendi/zaruba/docs
-💀    🔎 serveHttp            🌐 07:53:36.104 🔎 Waiting for port '8080'
-💀    🚀 serveHttp            🌐 07:53:36.104 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-💀    🚀 serveHttp            🌐 07:53:36.104 You can open http://localhost:8080
-💀    🔎 serveHttp            🌐 07:53:36.105 🔎 Port '8080' is ready
-💀    🔎 serveHttp            🌐 07:53:36.106 🎉🎉🎉
-💀    🔎 serveHttp            🌐 07:53:36.106 📜 Task 'serveHttp' is ready
+💀    🔎 serveHttp            🌐 07:55:59.708 🔎 Waiting for port '8080'
+💀    🚀 serveHttp            🌐 07:55:59.708 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+💀    🚀 serveHttp            🌐 07:55:59.708 You can open http://localhost:8080
+💀    🔎 serveHttp            🌐 07:55:59.709 🔎 Port '8080' is ready
+💀    🔎 serveHttp            🌐 07:55:59.709 🎉🎉🎉
+💀    🔎 serveHttp            🌐 07:55:59.709 📜 Task 'serveHttp' is ready
 💀 🎉 Successfully running 🌐 'serveHttp' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 230.054104ms
-         Current Time: 07:53:36
+         Elapsed Time: 221.496831ms
+         Current Time: 07:55:59
          Active Process:
-           * (PID=26677) 🌐 'serveHttp' service
+           * (PID=5994) 🌐 'serveHttp' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 'serveHttp' service (PID=26677)
+💀 🔪 Kill 🌐 'serveHttp' service (PID=5994)
 💀 🔥 🌐 'serveHttp' service exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 3.333031472s
-         Current Time: 07:53:39
+         Elapsed Time: 3.326596344s
+         Current Time: 07:56:02
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>

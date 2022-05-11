@@ -111,16 +111,18 @@ func (jsonMap *JsonMap) CascadePrefixKeys(mapString string, prefix string) (newM
 	}
 	newDict := jsonHelper.Dict{}
 	for key, val := range dict {
-		newDict[key] = val
+		if _, exist := newDict[key]; !exist {
+			newDict[key] = val
+		}
 		prefixedKeyParts := strings.SplitN(key, "_", 2)
 		if len(prefixedKeyParts) < 2 {
 			continue
 		}
-		keyPrefix, key := prefixedKeyParts[0], prefixedKeyParts[1]
+		keyPrefix, originalKey := prefixedKeyParts[0], prefixedKeyParts[1]
 		if keyPrefix != prefix {
 			continue
 		}
-		newDict[key] = val
+		newDict[originalKey] = val
 	}
 	newMapBytes, err := json.Marshal(newDict)
 	if err != nil {

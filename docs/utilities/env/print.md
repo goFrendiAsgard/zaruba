@@ -59,7 +59,7 @@ If prefixed environment is not exists, Zaruba will use original values. Thus you
 <!--startCode-->
 ```bash
 zaruba env print \
-    '{"APP_CONTEXT": "aws", "APP_VERSION": "1.0.0", "STAG_CONTEXT": "azure", "STAG_APP_VERSION": "1.1.0", "DEV_APP_CONTEXT": "gcp", "DEV_APP_VERSION": "1.1.1"}' \
+    '{"APP_CONTEXT": "aws", "APP_VERSION": "1.0.0", "STAG_APP_CONTEXT": "azure", "STAG_APP_VERSION": "1.1.0", "DEV_APP_CONTEXT": "gcp", "DEV_APP_VERSION": "1.1.1"}' \
     DEV
 ```
  
@@ -71,8 +71,8 @@ APP_CONTEXT="aws"
 APP_VERSION="1.0.0"
 DEV_APP_CONTEXT="gcp"
 DEV_APP_VERSION="1.1.1"
+STAG_APP_CONTEXT="azure"
 STAG_APP_VERSION="1.1.0"
-STAG_CONTEXT="azure"
 ```````
 </details>
 <!--endCode-->
