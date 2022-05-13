@@ -17,7 +17,7 @@ zaruba task isExist --help
 Is task exist
 
 Usage:
-  zaruba task isExist <projectFile> <taskName> [flags]
+  zaruba task isExist <taskName> [projectFile] [flags]
 
 Flags:
   -h, --help   help for isExist

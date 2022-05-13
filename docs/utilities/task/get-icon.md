@@ -17,7 +17,7 @@ zaruba task getIcon --help
 get task icon
 
 Usage:
-  zaruba task getIcon <projectFile> <taskName> [flags]
+  zaruba task getIcon <taskName> [projectFile] [flags]
 
 Flags:
   -h, --help   help for getIcon

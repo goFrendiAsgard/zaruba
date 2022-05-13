@@ -17,7 +17,7 @@ zaruba project syncEnv --help
 Update every task's environment
 
 Usage:
-  zaruba project syncEnv <projectFile> [flags]
+  zaruba project syncEnv [projectFile] [flags]
 
 Flags:
   -h, --help   help for syncEnv

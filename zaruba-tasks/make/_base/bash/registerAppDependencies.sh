@@ -12,7 +12,7 @@ do
     # container app runner
     if [ ! -z "${_CONTAINER_PREPARE_APP_RUNNER_TASK_NAME}" ]
     then
-        if [ "$("${ZARUBA_BIN}" task isExist "${_PROJECT_FILE_NAME}" "start${_PASCAL_APP_DEPENCENCY_NAME}Container")" = 1 ]
+        if [ "$("${ZARUBA_BIN}" task isExist "start${_PASCAL_APP_DEPENCENCY_NAME}Container" "${_PROJECT_FILE_NAME}")" = 1 ]
         then
             _addTaskDependency "${_PROJECT_FILE_NAME}" "${_CONTAINER_PREPARE_APP_RUNNER_TASK_NAME}" "start${_PASCAL_APP_DEPENDENCY_NAME}Container" 0
         else

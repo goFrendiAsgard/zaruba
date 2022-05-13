@@ -17,7 +17,7 @@ zaruba project showLog --help
 Show log
 
 Usage:
-  zaruba project showLog <logFile> <taskNamePattern> [flags]
+  zaruba project showLog <taskNamePattern> [logFile] [flags]
 
 Flags:
   -h, --help   help for showLog

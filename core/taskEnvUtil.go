@@ -21,7 +21,7 @@ func NewTaskEnvUtil(taskUtil *TaskUtil) *TaskEnvUtil {
 	}
 }
 
-func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
+func (envUtil *TaskEnvUtil) Sync(taskName, projectFile string) (err error) {
 	task, err := envUtil.task.getTask(projectFile, taskName)
 	if err != nil {
 		return err
@@ -62,7 +62,7 @@ func (envUtil *TaskEnvUtil) Sync(projectFile, taskName string) (err error) {
 	return envUtil.setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
 }
 
-func (envUtil *TaskEnvUtil) Set(projectFile, taskName string, jsonEnvMap string) (err error) {
+func (envUtil *TaskEnvUtil) Set(taskName, jsonEnvMap, projectFile string) (err error) {
 	envMap, err := envUtil.task.json.ToStringDict(jsonEnvMap)
 	if err != nil {
 		return err

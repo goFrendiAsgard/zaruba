@@ -171,7 +171,7 @@ Value:
 
 Value:
 
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}"
+    "{{ .ZarubaBin }}" project setValue "{{ .GetConfig "variableName" }}" "{{ .GetConfig "variableValue" }}" "{{ .GetWorkPath "default.values.yaml" }}" 
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Kwarg ${KEY} : ${VALUE} has been set${_NORMAL}"
 

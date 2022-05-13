@@ -187,7 +187,7 @@ Value:
 
 Value:
 
-    "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}"
+    "{{ .ZarubaBin }}" project setValue "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetWorkPath "default.values.yaml" }}" 
     echo 🎉🎉🎉
     echo "${_BOLD}${_YELLOW}Link ${SOURCE} -> ${DESTINATION} has been added${_NORMAL}"
 

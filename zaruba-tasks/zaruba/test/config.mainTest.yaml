@@ -4,3 +4,4 @@ configs:
     beforeStart: |
       ZARUBA_HOME="$(realpath ".")"
       ZARUBA_SCRIPTS=""
+      alias zaruba="${ZARUBA_HOME}/zaruba"

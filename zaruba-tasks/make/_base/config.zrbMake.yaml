@@ -65,7 +65,7 @@ configs:
     _generate: _generate "${_ZRB_TEMPLATE_LOCATIONS}" "${_ZRB_REPLACEMENT_MAP}"
     _includeModuleIndex: |
       {{ if .GetConfig "_taskIndexPath" -}}
-      "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+      "{{ .ZarubaBin }}" project include "{{ .GetConfig "_taskIndexPath" }}" "${_ZRB_PROJECT_FILE_NAME}" 
       {{ end -}}
     _registerAppRunnerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"'
     _registerAppDeploymentTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"'

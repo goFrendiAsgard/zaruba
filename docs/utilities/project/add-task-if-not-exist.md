@@ -17,7 +17,7 @@ zaruba project addTaskIfNotExist --help
 Add task to project
 
 Usage:
-  zaruba project addTaskIfNotExist <taskFilePath> <taskName> [flags]
+  zaruba project addTaskIfNotExist <taskName> [taskFile] [flags]
 
 Flags:
   -h, --help   help for addTaskIfNotExist

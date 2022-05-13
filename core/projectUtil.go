@@ -47,7 +47,7 @@ func (projectUtil *ProjectUtil) getProject(projectFile string) (project *Project
 	return project, nil
 }
 
-func (projectUtil *ProjectUtil) SetValue(valueFilePath, key, value string) (err error) {
+func (projectUtil *ProjectUtil) SetValue(key, value, valueFilePath string) (err error) {
 	if key == "" {
 		return fmt.Errorf("key cannot be empty")
 	}
@@ -70,7 +70,7 @@ func (projectUtil *ProjectUtil) SetValue(valueFilePath, key, value string) (err 
 	return ioutil.WriteFile(valueFilePath, newFileContentB, 0755)
 }
 
-func (projectUtil *ProjectUtil) IncludeFile(projectFilePath string, fileName string) (err error) {
+func (projectUtil *ProjectUtil) IncludeFile(fileName string, projectFilePath string) (err error) {
 	node, err := projectUtil.file.ReadYamlNode(projectFilePath)
 	if err != nil {
 		return err
@@ -98,7 +98,7 @@ func (projectUtil *ProjectUtil) IncludeFile(projectFilePath string, fileName str
 	return projectUtil.file.WriteYamlNode(projectFilePath, node, 0555, []yamlstyler.YamlStyler{yamlstyler.TwoSpaces, yamlstyler.FixEmoji, yamlstyler.AddLineBreak})
 }
 
-func (projectUtil *ProjectUtil) AddTaskIfNotExist(taskFilePath string, taskName string) (err error) {
+func (projectUtil *ProjectUtil) AddTaskIfNotExist(taskName string, taskFilePath string) (err error) {
 	node, err := projectUtil.file.ReadYamlNode(taskFilePath)
 	if err != nil {
 		return err
@@ -190,7 +190,7 @@ func (projectUtil *ProjectUtil) SyncTasksEnv(projectFile string) (err error) {
 	}
 	for _, task := range project.Tasks {
 		taskName := task.GetName()
-		err := projectUtil.Task.Env.Sync(projectFile, taskName)
+		err := projectUtil.Task.Env.Sync(taskName, projectFile)
 		if err != nil {
 			return err
 		}

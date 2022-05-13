@@ -38,7 +38,7 @@ do
     if [ "$(./zaruba list length "${SUBMATCH}")" = 2 ]
     then
         TASK_NAME="$(./zaruba list get "${SUBMATCH}" 1)"
-        TASK_ICON="$(./zaruba task getIcon "core.zaruba.yaml" "${TASK_NAME}")"
+        TASK_ICON="$(./zaruba task getIcon "${TASK_NAME}" "core.zaruba.yaml")"
         echo "Generating documentation for ${TASK_ICON} ${TASK_NAME}"
         TASK_EXPLANATION=$(./zaruba please "${TASK_NAME}" -x)
         TASK_EXPLANATION=$(./zaruba str replace "${TASK_EXPLANATION}" "${REPLACEMENT_MAP}")

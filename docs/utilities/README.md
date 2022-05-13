@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-64d78877213359989b9ae82fe1bd0655664ca905
+v0.9.0-alpha-2-1bdaebb6bb8022eb9ac0132df58ce1181c1e961b
 
 Usage:
   zaruba [command]
@@ -233,8 +233,8 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [ToUpper](str/to-upper.md)
   * [ToUpperSnake](str/to-upper-snake.md)
 * [🔨 Task](task/README.md)
-  * [AddDependency](task/add-dependency.md)
-  * [AddParent](task/add-parent.md)
+  * [AddDependencies](task/add-dependencies.md)
+  * [AddParents](task/add-parents.md)
   * [GetIcon](task/get-icon.md)
   * [IsExist](task/is-exist.md)
   * [SetConfig](task/set-config.md)

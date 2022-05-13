@@ -17,7 +17,7 @@ zaruba project include --help
 Add file to project
 
 Usage:
-  zaruba project include <projectFilePath> <fileName> [flags]
+  zaruba project include <fileName> [projectFile] [flags]
 
 Flags:
   -h, --help   help for include

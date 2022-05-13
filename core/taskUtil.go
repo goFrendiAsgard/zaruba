@@ -41,7 +41,7 @@ func (taskUtil *TaskUtil) getTask(projectFile, taskName string) (task *Task, err
 	return task, nil
 }
 
-func (taskUtil *TaskUtil) GetIcon(projectFile, taskName string) (icon string, err error) {
+func (taskUtil *TaskUtil) GetIcon(taskName, projectFile string) (icon string, err error) {
 	project, err := taskUtil.project.getProject(projectFile)
 	if err != nil {
 		return "", err
@@ -53,7 +53,7 @@ func (taskUtil *TaskUtil) GetIcon(projectFile, taskName string) (icon string, er
 	return task.Icon, nil
 }
 
-func (taskUtil *TaskUtil) IsExist(projectFile, taskName string) (exist bool, err error) {
+func (taskUtil *TaskUtil) IsExist(taskName, projectFile string) (exist bool, err error) {
 	project, err := taskUtil.project.getProject(projectFile)
 	if err != nil {
 		return false, err
@@ -62,7 +62,7 @@ func (taskUtil *TaskUtil) IsExist(projectFile, taskName string) (exist bool, err
 	return exist, nil
 }
 
-func (taskUtil *TaskUtil) AddDependencies(projectFile, taskName string, dependencyTaskNames []string) (err error) {
+func (taskUtil *TaskUtil) AddDependencies(taskName string, dependencyTaskNames []string, projectFile string) (err error) {
 	if len(dependencyTaskNames) == 0 {
 		return nil
 	}
@@ -117,7 +117,7 @@ func (taskUtil *TaskUtil) AddDependencies(projectFile, taskName string, dependen
 	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
 }
 
-func (taskUtil *TaskUtil) AddParents(projectFile, taskName string, parentTaskNames []string) (err error) {
+func (taskUtil *TaskUtil) AddParents(taskName string, parentTaskNames []string, projectFile string) (err error) {
 	if len(parentTaskNames) == 0 {
 		return nil
 	}

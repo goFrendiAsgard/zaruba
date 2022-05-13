@@ -17,7 +17,7 @@ zaruba project syncEnvFiles --help
 Update environment files (*.env) in project file's directory
 
 Usage:
-  zaruba project syncEnvFiles <projectFile> [flags]
+  zaruba project syncEnvFiles [projectFile] [flags]
 
 Flags:
   -h, --help   help for syncEnvFiles

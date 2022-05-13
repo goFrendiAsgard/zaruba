@@ -8,8 +8,8 @@ var Cmd = &cobra.Command{
 }
 
 func Init() {
-	Cmd.AddCommand(addDependencyCmd)
-	Cmd.AddCommand(addParentCmd)
+	Cmd.AddCommand(addDependenciesCmd)
+	Cmd.AddCommand(addParentsCmd)
 	Cmd.AddCommand(getIconCmd)
 	Cmd.AddCommand(isExistCmd)
 	Cmd.AddCommand(setConfigCmd)

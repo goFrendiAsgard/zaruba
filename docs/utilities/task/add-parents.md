@@ -1,32 +1,32 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [🔨 Task](README.md)
-# AddDependency
+# AddParents
 <!--endTocHeader-->
+
 
 # Usage
 
 <!--startCode-->
 ```bash
-zaruba task addDependency --help
+zaruba task addParents --help
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Add task dependency
+Add task parent
 
 Usage:
-  zaruba task addDependency <projectFile> <taskName> <dependencyTaskNames> [flags]
+  zaruba task addParents <taskName> <newParentNames> [projectFile] [flags]
 
 Flags:
-  -h, --help   help for addDependency
+  -h, --help   help for addParents
 ```````
 </details>
 <!--endCode-->
 
 # Examples
-
 
 
 <!--startTocSubTopic-->

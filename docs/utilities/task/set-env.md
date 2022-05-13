@@ -17,7 +17,7 @@ zaruba task setEnv --help
 Set task env
 
 Usage:
-  zaruba task setEnv <projectFile> <taskName> <envMap> [flags]
+  zaruba task setEnv <taskName> <envMap> [projectFile] [flags]
 
 Flags:
   -h, --help   help for setEnv

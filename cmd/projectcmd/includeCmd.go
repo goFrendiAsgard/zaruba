@@ -10,19 +10,23 @@ import (
 )
 
 var includeCmd = &cobra.Command{
-	Use:   "include <projectFilePath> <fileName>",
+	Use:   "include <fileName> [projectFile]",
 	Short: "Add file to project",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		projectFilePath, err := filepath.Abs(args[0])
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
+		projectFilePath := "index.zaruba.yaml"
+		fileName := args[0]
+		if len(args) > 1 {
+			projectFilePath = args[1]
+		}
+		projectFilePath, err := filepath.Abs(projectFilePath)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fileName := args[1]
 		util := core.NewCoreUtil()
-		if err = util.Project.IncludeFile(projectFilePath, fileName); err != nil {
+		if err = util.Project.IncludeFile(fileName, projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	},

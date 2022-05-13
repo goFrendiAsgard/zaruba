@@ -17,7 +17,7 @@ zaruba task setConfig --help
 Set task config
 
 Usage:
-  zaruba task setConfig <projectFile> <taskName> <configMap> [flags]
+  zaruba task setConfig <taskName> <configMap> [projectFile] [flags]
 
 Flags:
   -h, --help   help for setConfig

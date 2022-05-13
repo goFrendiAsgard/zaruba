@@ -12,13 +12,18 @@ import (
 )
 
 var showLogCmd = &cobra.Command{
-	Use:   "showLog <logFile> <taskNamePattern>",
+	Use:   "showLog <taskNamePattern> [logFile]",
 	Short: "Show log",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		message, err := getLog(decoration, args[0], args[1])
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
+		taskNamePattern := args[0]
+		logFile := "log.zaruba.csv"
+		if len(args) > 1 {
+			logFile = args[1]
+		}
+		message, err := getLog(decoration, taskNamePattern, logFile)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
@@ -26,7 +31,7 @@ var showLogCmd = &cobra.Command{
 	},
 }
 
-func getLog(decoration *output.Decoration, logFile, pattern string) (logMessage string, err error) {
+func getLog(decoration *output.Decoration, pattern, logFile string) (logMessage string, err error) {
 	f, err := os.OpenFile(logFile, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
 	if err != nil {
 		return "", err

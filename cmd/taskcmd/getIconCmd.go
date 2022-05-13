@@ -11,19 +11,26 @@ import (
 )
 
 var getIconCmd = &cobra.Command{
-	Use:   "getIcon <projectFile> <taskName>",
+	Use:   "getIcon <taskName> [projectFile]",
 	Short: "get task icon",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		projectFile, err := filepath.Abs(args[0])
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
+		taskName := args[0]
+		projectFile := "index.zaruba.yaml"
+		if len(args) > 1 {
+			projectFile = args[1]
+		}
+		projectFile, err := filepath.Abs(projectFile)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		taskName := args[1]
 		util := core.NewCoreUtil()
-		icon, err := util.Project.Task.GetIcon(projectFile, taskName)
+		icon, err := util.Project.Task.GetIcon(taskName, projectFile)
+		if err != nil {
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
+		}
 		fmt.Println(icon)
 	},
 }

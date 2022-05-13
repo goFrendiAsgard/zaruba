@@ -10,19 +10,23 @@ import (
 )
 
 var setConfigCmd = &cobra.Command{
-	Use:   "setConfig <projectFile> <taskName> <configMap>",
+	Use:   "setConfig <taskName> <configMap> [projectFile]",
 	Short: "Set task config",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
-		projectFile, err := filepath.Abs(args[0])
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
+		taskName, jsonConfigMap := args[0], args[1]
+		projectFile := "index.zaruba.yaml"
+		if len(args) > 2 {
+			projectFile = args[2]
+		}
+		projectFile, err := filepath.Abs(projectFile)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		taskName, jsonConfigMap := args[1], args[2]
 		util := core.NewCoreUtil()
-		if err = util.Project.Task.Config.Set(projectFile, taskName, jsonConfigMap); err != nil {
+		if err = util.Project.Task.Config.Set(taskName, jsonConfigMap, projectFile); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	},

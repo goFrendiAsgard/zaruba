@@ -124,7 +124,7 @@ Value:
 Value:
 
     {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "${_ZRB_PROJECT_FILE_NAME}" "{{ .GetConfig "_taskIndexPath" }}"
+    "{{ .ZarubaBin }}" project include "{{ .GetConfig "_taskIndexPath" }}" "${_ZRB_PROJECT_FILE_NAME}" 
     {{ end -}}
 
 

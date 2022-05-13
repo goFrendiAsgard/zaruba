@@ -20,13 +20,13 @@ Usage:
   zaruba task [command]
 
 Available Commands:
-  addDependency Add task dependency
-  addParent     Add task parent
-  getIcon       get task icon
-  isExist       Is task exist
-  setConfig     Set task config
-  setEnv        Set task env
-  syncEnv       Update task's environment
+  addDependencies Add task dependency
+  addParents      Add task parent
+  getIcon         get task icon
+  isExist         Is task exist
+  setConfig       Set task config
+  setEnv          Set task env
+  syncEnv         Update task's environment
 
 Flags:
   -h, --help   help for task

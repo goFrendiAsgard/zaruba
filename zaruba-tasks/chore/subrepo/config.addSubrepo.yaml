@@ -21,8 +21,8 @@ configs:
         PREFIX="{{ $prefix }}"
       {{ end }}
       NAME="{{ if .GetValue "subrepoName" }}{{ .GetValue "subrepoName" }}{{ else }}${PREFIX}{{ end }}"
-      "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::prefix" "${PREFIX}"
-      "{{ .ZarubaBin }}" project setValue "{{ .GetWorkPath "default.values.yaml" }}" "subrepo::${NAME}::url" "${URL}"
+      "{{ .ZarubaBin }}" project setValue "subrepo::${NAME}::prefix" "${PREFIX}" "{{ .GetWorkPath "default.values.yaml" }}" 
+      "{{ .ZarubaBin }}" project setValue "subrepo::${NAME}::url" "${URL}" "{{ .GetWorkPath "default.values.yaml" }}" 
       echo 🎉🎉🎉
       echo "${_BOLD}${_YELLOW}Subrepo ${NAME} has been added${_NORMAL}"
 

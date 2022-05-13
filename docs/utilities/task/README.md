@@ -20,13 +20,13 @@ Usage:
   zaruba task [command]
 
 Available Commands:
-  addDependency Add task dependency
-  addParent     Add task parent
-  getIcon       get task icon
-  isExist       Is task exist
-  setConfig     Set task config
-  setEnv        Set task env
-  syncEnv       Update task's environment
+  addDependencies Add task dependency
+  addParents      Add task parent
+  getIcon         get task icon
+  isExist         Is task exist
+  setConfig       Set task config
+  setEnv          Set task env
+  syncEnv         Update task's environment
 
 Flags:
   -h, --help   help for task
@@ -38,8 +38,8 @@ Use "zaruba task [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [AddDependency](add-dependency.md)
-* [AddParent](add-parent.md)
+* [AddDependencies](add-dependencies.md)
+* [AddParents](add-parents.md)
 * [GetIcon](get-icon.md)
 * [IsExist](is-exist.md)
 * [SetConfig](set-config.md)
