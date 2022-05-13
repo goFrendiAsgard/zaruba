@@ -11,6 +11,8 @@ config = {
     'env': [],
     'ports': [],
     'service.ports': [],
+    'service.type': 'ClusterIP',
+    'service.enabled': 'true'
 }
 
 # merge config with user's config
@@ -32,7 +34,9 @@ app = Chart(
             'env': config.get('env'),
             'ports': config.get('ports'),
             'service': {
-                'ports': config.get('service.ports')
+                'ports': config.get('service.ports'),
+                'type': config.get('service.type'),
+                'enabled': config.get('service.enabled'),
             }
         },
         skip_await = True

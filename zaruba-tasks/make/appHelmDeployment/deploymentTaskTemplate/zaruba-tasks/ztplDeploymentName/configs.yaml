@@ -7,6 +7,10 @@ configs:
     imageName: ztpl-app-image-name
     imageTag: latest
     replicaCount: 1
+    serviceType: ClusterIP
+    serviceEnabled: true
+    ports: |
+      ztplAppYamlPorts
     start: |
       if [ ! -d "./venv" ]
       then
@@ -33,5 +37,3 @@ configs:
         cd ..
       fi
       echo "${_YELLOW}🚧 Preparation completed.${_NORMAL}"
-    ports: |
-      ztplAppYamlPorts
