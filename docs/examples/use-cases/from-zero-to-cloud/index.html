@@ -85,6 +85,11 @@
     function populateBookList() {
         const xhttp = new XMLHttpRequest();
         xhttp.onload = function() {
+            if (this.status != 200) {
+                console.error(this.responseText);
+                logout();
+                return;
+            }
             const bookList = JSON.parse(this.responseText);
             let html = "";
             for (let bookIndex = 0; bookIndex < bookList.length; bookIndex++) {
@@ -92,7 +97,7 @@
                 html += "<li>";
                 html += "<p>" + book.title + "(" + book.author + ")" + "</p>";
                 html += "<p>" + book.synopsis + "</p>";
-                html += '<a class="btn-delete-book" href="#" book-id="' + book.id + '">Delete</a>';
+                html += '<a class="btn-delete-book" href="#" onclick="deleteBook(\'' + book.id + '\');">Delete</a>';
                 html += "</li>";
             }
             document.getElementById("book-list").innerHTML = html;
@@ -101,6 +106,43 @@
         xhttp.setRequestHeader("Content-type", "application/json")
         xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
         xhttp.send();
+    }
+
+    function deleteBook(bookId) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            if (this.status != 200) {
+                console.error(this.responseText);
+                return;
+            }
+            populateBookList();
+        }
+        xhttp.open("DELETE", apiHost + "/books/" + bookId, true);
+        xhttp.setRequestHeader("Content-type", "application/json")
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
+        xhttp.send();
+    }
+
+    function addNewBook() {
+        const newBookTitle = document.getElementById("input-new-book-title").value;
+        const newBookAuthor = document.getElementById("input-new-book-author").value;
+        const newBookSynopsis = document.getElementById("input-new-book-synopsis").value;
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            if (this.status != 200) {
+                console.error(this.responseText);
+                return;
+            }
+            populateBookList();
+        }
+        xhttp.open("POST", apiHost + "/books/", true);
+        xhttp.setRequestHeader("Content-type", "application/json")
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
+        xhttp.send(JSON.stringify({
+            title: newBookTitle,
+            author: newBookAuthor,
+            synopsis: newBookSynopsis,
+        }));
     }
 
     function login() {
@@ -137,6 +179,11 @@
         document.getElementById("btn-logout").addEventListener("click", function(e) {
             e.preventDefault();
             logout();
+        });
+
+        document.getElementById("btn-new-book").addEventListener("click", function(e) {
+            e.preventDefault();
+            addNewBook();
         });
 
         if(localStorage.getItem("accessToken")) {
