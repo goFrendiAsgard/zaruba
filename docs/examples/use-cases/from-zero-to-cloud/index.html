@@ -3,42 +3,149 @@
 <head>
 <title>Book Catalog</title>
 <style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
+    html { color-scheme: light dark; }
+    body {
+        width: 35em; margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+
+    .toggle-content {
+        display: none;
+    }
+
+    .toggle-content.is-visible {
+        display: block;
+    }
 </style>
 </head>
 <body>
 <h1>Welcome</h1>
 <p>A book catalog</p>
-<ul id="book-list">
-</ul>
-<form>
-   <label>Title</label>
-   <br />
-   <input id="new-book-title"/>
-   <br />
-   <label>Author</label>
-   <br />
-   <input id="new-book-author"/>
-   <br />
-   <label>Synopsis</label>
-   <br />
-   <textarea id="new-synopsis"></textarea>
-</form>
+
+<div id="unauthenticated-container" class="toggle-content is-visible">
+    <form>
+        <label>User</label>
+        <br />
+        <input id="input-login-user" placeholder="user" />
+        <br />
+
+        <label>Password</label>
+        <br />
+        <input id="input-login-password" placeholder="password" type="password" />
+        <br />
+
+        <button id="btn-login">Login</button>
+    </form>
+</div>
+
+<div id="authenticated-container" class="toggle-content">
+    <a id="btn-logout" href="#">Logout</a>
+
+    <ul id="book-list">
+    </ul>
+
+    <form>
+        <label>Title</label>
+        <br />
+        <input id="input-new-book-title"/>
+        <br />
+
+        <label>Author</label>
+        <br />
+        <input id="input-new-book-author"/>
+        <br />
+
+        <label>Synopsis</label>
+        <br />
+        <textarea id="input-new-book-synopsis"></textarea>
+        <br />
+
+        <button id="btn-new-book">Add</button>
+    </form>
+</div>
+
 <script src="/apiHost.js"></script>
 <script>
-    function createBookList() {
+
+    function showAuthenticatedContainer() {
+        const authenticatedContainer = document.getElementById("authenticated-container");
+        const unauthenticatedContainer = document.getElementById("unauthenticated-container");
+        unauthenticatedContainer.classList.remove("is-visible");
+        authenticatedContainer.classList.add("is-visible");
+        populateBookList();
+    }
+
+    function showUnAuthenticatedContainer() {
+        const authenticatedContainer = document.getElementById("authenticated-container");
+        const unauthenticatedContainer = document.getElementById("unauthenticated-container");
+        authenticatedContainer.classList.remove("is-visible");
+        unauthenticatedContainer.classList.add("is-visible");
+    }
+
+    function populateBookList() {
         const xhttp = new XMLHttpRequest();
         xhttp.onload = function() {
-            document.getElementById("book-list").innerHTML = this.responseText;
+            const bookList = JSON.parse(this.responseText);
+            let html = "";
+            for (let bookIndex = 0; bookIndex < bookList.length; bookIndex++) {
+                const book = bookList[bookIndex];
+                html += "<li>";
+                html += "<p>" + book.title + "(" + book.author + ")" + "</p>";
+                html += "<p>" + book.synopsis + "</p>";
+                html += '<a class="btn-delete-book" href="#" book-id="' + book.id + '">Delete</a>';
+                html += "</li>";
+            }
+            document.getElementById("book-list").innerHTML = html;
         }
-        xhttp.open("GET", apiHost + "/books", true);
-        xhttp.setRequestHeader('Content-type', 'application/json')
+        xhttp.open("GET", apiHost + "/books/", true);
+        xhttp.setRequestHeader("Content-type", "application/json")
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
         xhttp.send();
     }
 
-    createBookList();
+    function login() {
+        const user = document.getElementById("input-login-user").value;
+        const password = document.getElementById("input-login-password").value;
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            if (this.status != 200) {
+                window.alert("invalid login");
+                return;
+            }
+            const response = JSON.parse(this.responseText);
+            const accessToken = response.access_token;
+            localStorage.setItem("accessToken", accessToken);
+            showAuthenticatedContainer();
+        }
+        xhttp.open("POST", apiHost + "/token/", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("username=" + encodeURIComponent(user) + "&password=" + encodeURIComponent(password));
+    }
+
+    function logout() {
+        localStorage.removeItem("accessToken");
+        showUnAuthenticatedContainer();
+    }
+
+    function main() {
+
+        document.getElementById("btn-login").addEventListener("click", function(e) {
+            e.preventDefault();
+            login();
+        });
+
+        document.getElementById("btn-logout").addEventListener("click", function(e) {
+            e.preventDefault();
+            logout();
+        });
+
+        if(localStorage.getItem("accessToken")) {
+            showAuthenticatedContainer();
+        }
+    }
+
+    main();
+
 </script>
 </body>
 </html>
