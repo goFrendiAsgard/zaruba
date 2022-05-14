@@ -653,8 +653,13 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 		task.Project.OutputWg.Add(1)
 		content := buf.Text()
 		now := time.Now()
-		nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
-		decoratedContent := fmt.Sprintf("%s %s%s%s %s\n", prefix, d.Faint, nowRoundStr, d.Normal, content)
+		decoratedContent := ""
+		if task.Project.showLogTime {
+			nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
+			decoratedContent = fmt.Sprintf("%s %s%s%s %s\n", prefix, d.Faint, nowRoundStr, d.Normal, content)
+		} else {
+			decoratedContent = fmt.Sprintf("%s %s\n", prefix, content)
+		}
 		logChan <- decoratedContent
 		if saveLog {
 			task.Project.OutputWg.Add(1)

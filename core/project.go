@@ -40,13 +40,14 @@ type Project struct {
 	Util                       *CoreUtil
 	addedEnvs                  []string
 	addedValues                []string
+	showLogTime                bool
 }
 
 func NewDefaultProject(projectFile string) (p *Project, err error) {
-	return NewProject(projectFile, output.NewDefaultDecoration())
+	return NewProject(projectFile, output.NewDefaultDecoration(), true)
 }
 
-func NewProject(projectFile string, decoration *output.Decoration) (p *Project, err error) {
+func NewProject(projectFile string, decoration *output.Decoration, showLogTime bool) (p *Project, err error) {
 	defaultIncludes := []string{"${ZARUBA_HOME}/core.zaruba.yaml"}
 	for _, script := range strings.Split(os.Getenv("ZARUBA_SCRIPTS"), ":") {
 		if script == "" {
@@ -54,11 +55,11 @@ func NewProject(projectFile string, decoration *output.Decoration) (p *Project, 
 		}
 		defaultIncludes = append(defaultIncludes, script)
 	}
-	return NewCustomProject(projectFile, decoration, defaultIncludes)
+	return NewCustomProject(projectFile, decoration, showLogTime, defaultIncludes)
 }
 
 // NewCustomProject create new Config from Yaml File
-func NewCustomProject(projectFile string, decoration *output.Decoration, defaultIncludes []string) (p *Project, err error) {
+func NewCustomProject(projectFile string, decoration *output.Decoration, showLogTime bool, defaultIncludes []string) (p *Project, err error) {
 	p, err = loadProject(decoration, projectFile, defaultIncludes)
 	if err != nil {
 		return p, err
@@ -69,6 +70,7 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, default
 	p.StderrRecordChan = make(chan []string)
 	p.OutputWg = new(sync.WaitGroup)
 	p.Decoration = decoration
+	p.showLogTime = showLogTime
 	p.setSortedTaskNames()
 	p.setSortedInputNames()
 	p.linkToTasks()

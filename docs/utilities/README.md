@@ -24,14 +24,14 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-aff7732e7c3c09ffdcfba4c4a04dfcc08b1a94c6
+v0.9.0-alpha-2-b41d098032804f72f626da7e5ec1d33f3bcd2de5
 
 Usage:
   zaruba [command]
 
 Available Commands:
   advertisement Advertisement utilities
-  completion    generate the autocompletion script for the specified shell
+  completion    Generate the autocompletion script for the specified shell
   env           Env utilities
   file          File utilities
   generate      Make something based on template

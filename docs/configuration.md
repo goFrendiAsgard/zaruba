@@ -51,6 +51,14 @@ How Zaruba output should look like. There are some possible values for this:
   ZARUBA_DECORATION=default
   ```
 
+  ## ZARUBA_SHOW_LOG_TIME
+
+  Whether Zaruba output should include time or not. For example:
+
+  ```bash
+  ZARUBA_SHOW_LOG_TIME=false
+  ```
+
 
 # Save Configuration
 

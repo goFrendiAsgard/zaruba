@@ -11,7 +11,7 @@ You can think of a project as a container of your tasks and any related resource
 
 Tasks and configurations are written in [YAML](https://en.wikipedia.org/wiki/YAML) format.
 
-Please visit the subtopics to learn more tasks and anything related to it.
+Please visit the subtopics to learn more about tasks and anything related to it.
 
 <!--startTocSubTopic-->
 # Sub-topics

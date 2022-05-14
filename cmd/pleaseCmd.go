@@ -24,6 +24,7 @@ var pleaseDecor string
 var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
 var pleaseTerminate *bool
+var pleaseShowLogTime *bool
 var pleaseExplain *bool
 var pleaseWait string
 
@@ -36,7 +37,7 @@ var pleaseCmd = &cobra.Command{
 		decoration := cmdHelper.GetDecoration(pleaseDecor)
 		logger := output.NewConsoleLogger(decoration)
 		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(pleaseFile))
-		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, args)
+		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, *pleaseShowLogTime, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := explainer.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
@@ -129,6 +130,7 @@ func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration 
 }
 
 func init() {
+	util := core.NewCoreUtil()
 	// get current working directory
 	dir, err := os.Getwd()
 	if err != nil {
@@ -151,15 +153,20 @@ func init() {
 	if _, err := os.Stat(defaultEnvFile); !os.IsNotExist(err) {
 		defaultEnv = append(defaultEnv, defaultEnvFile)
 	}
+	// define defaultDecoration
+	defaultDecoration := os.Getenv("ZARUBA_DECORATION")
+	// define defaultShowLogTime
+	defaultShowLogTIme := util.Bool.IsTrue(os.Getenv("ZARUBA_SHOW_LOG_TIME"))
 	// register flags
 	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
-	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", os.Getenv("ZARUBA_DECORATION"), "decoration")
+	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", defaultEnv, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g., '-v value.yaml' or '-v key=val')")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
+	pleaseShowLogTime = pleaseCmd.Flags().BoolP("showLogTime", "s", defaultShowLogTIme, "show log time (e.g., '-s false').")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g., '-w 5s'). Only take effect if -t or --terminate is set")
 }
 
@@ -223,8 +230,8 @@ func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *out
 	}
 }
 
-func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, args []string) (project *core.Project, taskNames []string) {
-	project, err := core.NewProject(pleaseFile, decoration)
+func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, showLogTime bool, args []string) (project *core.Project, taskNames []string) {
+	project, err := core.NewProject(pleaseFile, decoration, showLogTime)
 	if err != nil {
 		cmdHelper.Exit(cmd, args, logger, decoration, err)
 	}
