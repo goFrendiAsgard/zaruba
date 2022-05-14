@@ -57,36 +57,36 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.622µs
-         Current Time: 07:50:32
+         Elapsed Time: 1.258µs
+         Current Time: 08:45:43
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-💀    🚀 updateProjectLinks   🔗 07:50:32.53  🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 07:50:32.53  Links updated
+💀    🚀 updateProjectLinks   🔗 08:45:43.486 🎉🎉🎉
+💀    🚀 updateProjectLinks   🔗 08:45:43.486 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-💀    🔎 startServer          🍏 07:50:32.648 🔎 Waiting for port '3000'
-💀    🚀 startServer          🍏 07:50:42.701 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
-💀    🔎 startServer          🍏 07:50:43.67  🔎 Port '3000' is ready
-💀    🔎 startServer          🍏 07:50:43.67  🎉🎉🎉
-💀    🔎 startServer          🍏 07:50:43.67  📜 Task 'startServer' is ready
+💀    🔎 startServer          🍏 08:45:43.6   🔎 Waiting for port '3000'
+💀    🚀 startServer          🍏 08:45:53.677 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀    🔎 startServer          🍏 08:45:54.622 🔎 Port '3000' is ready
+💀    🔎 startServer          🍏 08:45:54.622 🎉🎉🎉
+💀    🔎 startServer          🍏 08:45:54.622 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 11.245994963s
-         Current Time: 07:50:43
+         Elapsed Time: 11.241650712s
+         Current Time: 08:45:54
          Active Process:
-           * (PID=32113) 🍏 'startServer' service
+           * (PID=22856) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=32113)
-💀    🚀 startServer          🍏 07:50:45.274 
-💀    🚀 startServer          🍏 07:50:45.274 Keyboard interrupt received, exiting.
-💀    🚀 startServer          🍏 07:50:45.279 🎉🎉🎉
-💀    🚀 startServer          🍏 07:50:45.279 📜 Task 'startServer' is started
+💀 🔪 Kill 🍏 'startServer' service (PID=22856)
+💀    🚀 startServer          🍏 08:45:56.226 
+💀    🚀 startServer          🍏 08:45:56.226 Keyboard interrupt received, exiting.
+💀    🚀 startServer          🍏 08:45:56.23  🎉🎉🎉
+💀    🚀 startServer          🍏 08:45:56.23  📜 Task 'startServer' is started
 💀 🔎 Job Ended...
-         Elapsed Time: 13.349676361s
-         Current Time: 07:50:45
+         Elapsed Time: 13.345615353s
+         Current Time: 08:45:56
 💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 1s
 ```````

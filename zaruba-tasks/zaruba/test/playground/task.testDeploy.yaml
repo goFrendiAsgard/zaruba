@@ -10,6 +10,6 @@ tasks:
     timeout: 1h
     configs:
       start: |
-        ../zaruba please setProjectValue variableName=pulumiUseLocalBackend variableValue='true' 
+        ../zaruba project setValue pulumiUseLocalBackend 'true' 
         ../zaruba please prepareDeployments
         ../zaruba please deploy

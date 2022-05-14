@@ -431,7 +431,7 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$ZARUBA_CONFIG_%s", upperSnakeConfigKey), configTemplatePattern)
 	}
 	inputMap, _, _ := task.Project.GetInputs([]string{task.GetName()})
-	for inputKey, _ := range inputMap {
+	for inputKey := range inputMap {
 		upperSnakeInputKey := task.Project.Util.Str.ToUpperSnake(inputKey)
 		inputTemplatePattern := fmt.Sprintf("{{ .GetValue \"%s\" }}", inputKey)
 		// normalize ${ZARUBA_INPUT_<INPUT_NAME>}

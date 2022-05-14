@@ -122,11 +122,7 @@ includes:
   - ./zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
 
-  - ./zaruba-tasks/chore/value/config.setProjectValue.yaml
   - ./zaruba-tasks/chore/value/config.clearPreviousValues.yaml
-  - ./zaruba-tasks/chore/value/input.variableName.yaml
-  - ./zaruba-tasks/chore/value/input.variableValue.yaml
-  - ./zaruba-tasks/chore/value/task.setProjectValue.yaml
   - ./zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
   - ./zaruba-tasks/make/_base/config.zrbMake.yaml

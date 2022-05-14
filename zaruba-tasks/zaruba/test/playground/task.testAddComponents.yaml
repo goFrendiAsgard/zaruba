@@ -10,14 +10,14 @@ tasks:
     configRef: playgroundTest
     configs:
       start: |
-        ../zaruba please setProjectValue variableName=defaultImagePrefix variableValue=localhost:9999 
+        ../zaruba project setValue defaultImagePrefix localhost:9999 
         ../zaruba please addSubrepo subrepoUrl="https://github.com/state-alchemists/fibonacci-clock" subrepoPrefix="provoFibo" 
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
         ../zaruba please addAppRunner appDirectory=provoFibo appEnvs='{"HTTP_PORT":"3001"}'
         ../zaruba please addAppHelmDeploymentInPython appDirectory=provoFibo
 
-        ../zaruba please setProjectValue variableName=showAdvertisement variableValue=no
+        ../zaruba project setValue showAdvertisement no
 
         ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 
