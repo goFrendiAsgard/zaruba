@@ -120,19 +120,11 @@ zaruba please addAppHelmDeployment appDirectory=demoBackend
 zaruba please addAppHelmDeployment appDirectory=demoFrontend
 zaruba please syncEnv
 
-# zaruba please setProjectValue \
-#    variableName=defaultImagePrefix \
-#    variableValue=gofrendi
-#
+# zaruba project setValue defaultImagePrefix gofrendi
 # zaruba please pushImages
 
-zaruba please setProjectValue \
-   variableName=defaultKubeContext \
-   variableValue=docker-desktop
-
-zaruba please setProjectValue \
-    variableName=pulumiUseLocalBackend \
-    variableValue=true
+zaruba project setValue defaultKubeContext docker-desktop
+zaruba project setValue pulumiUseLocalBackend true
 
 zaruba please deploy
 zaruba please destroy

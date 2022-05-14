@@ -16,7 +16,7 @@ var setValueCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		key := args[0]
 		value := args[1]
-		valueFile := "default.value.yaml"
+		valueFile := "default.values.yaml"
 		if len(args) > 2 {
 			valueFile = args[2]
 		}
