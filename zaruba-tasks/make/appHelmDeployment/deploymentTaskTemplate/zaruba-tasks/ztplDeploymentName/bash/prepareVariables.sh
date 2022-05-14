@@ -14,7 +14,7 @@ IFS="${__OLD_IFS}"
 
 CONTAINER_PORTS='[]'
 SERVICE_PORTS='[]'
-PORT_LIST=$("${ZARUBA_BIN}" str split "${RAW_PORTS}")
+PORT_LIST=$("${ZARUBA_BIN}" str split "${ZARUBA_CONFIG_PORTS}")
 for INDEX in $("${ZARUBA_BIN}" list rangeIndex "${PORT_LIST}")
 do
     PORT_STR="$("${ZARUBA_BIN}" list get "${PORT_LIST}" "${INDEX}")"
@@ -50,3 +50,5 @@ setDeploymentConfig "ports" "${CONTAINER_PORTS}"
 setDeploymentConfig "service.ports" "${SERVICE_PORTS}"
 setDeploymentConfig "service.type" "${ZARUBA_CONFIG_SERVICE_TYPE}"
 setDeploymentConfig "service.enabled" "${ZARUBA_CONFIG_SERVICE_ENABLED}"
+
+echo "${_YELLOW}🚧 Deployment config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
