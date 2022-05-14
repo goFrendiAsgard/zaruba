@@ -29,9 +29,104 @@ But, your 🐍 `Book Catalog API` is unusable once the 🐬 `MySQL server` is do
 
 # Create a Project
 
+To start working with Zaruba, you need to create a [project](../core-concepts/project/README.md).
+
+```bash
+mkdir -p myProject
+cd myProject
+zaruba please initProject
+```
+
+Inside this project, you can add some [task](../core-concepts/task/README.md) definitions and other resources.
+
+You can find several wrapper tasks under `./index.zaruba.yaml`:
+
+* `start`: Start applications.
+* `startContainers`: Start applications as containers.
+* `stopContainers`: Stop application containers.
+* `buildImages`: Build application images.
+* `pushImages`: Push application images to the image registry.
+* `prepareDeployments`: Prepare application deployments.
+* `deploy`: Deploy applications.
+* `destroy`: Destroy application deployments.
+
+For now, those tasks do nothing, and you need to add applications to make those tasks usable.
+
+Once you already have 🐬 `MySQL server`, 🐍 `Book Catalog API`, and 🐸 `Static web server` in your project. You can start them all by invoking: `zaruba please start`.
+
 # Add MySQL
 
+Let's add 🐬 `MySQL server` to your project:
+
+```bash
+zaruba please addMysql \
+  appDirectory=demoDb
+```
+
+This command does several things at once:
+
+* Create MySQL related resources under `./demoDb` directory.
+* Create scripts to manage `demoDb` under `./zaruba-tasks/demoDb` directory.
+* Register the tasks into `./index.zaruba.yaml`.
+
+You can run `demoDb` by invoking:
+
+```bash
+zaruba please startDemoDb
+# or
+# zaruba please startDemoDbContainer
+```
+
+By default, your `demoDb` will run on port `3306`. You can change this (and other configurations) by editing `./.env`:
+
+```
+DEMO_DB_MYSQL_DATABASE="sample"
+DEMO_DB_MYSQL_PASSWORD="mysql"
+DEMO_DB_MYSQL_ROOT_PASSWORD="Alch3mist"
+DEMO_DB_MYSQL_USER="mysql"
+```
+
 # Add Book Catalog API
+
+Now, let's add 🐍 `Book Catalog API` to your project.
+
+```bash
+zaruba please addFastApiCrud \
+  appDirectory=demoBackend \
+  appModuleName=library \
+  appCrudEntity=books \
+  appCrudFields='["title","author","synopsis"]' \
+  appDependencies='["demoDb"]' \
+  appEnvs='{"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
+
+# or
+# zaruba please addFastApiCrud -i
+```
+
+This command does several things at once:
+
+* Create FastAPI CRUD application under `./demoBackend` directory.
+  * Declare that the CRUD application should handle `books` entity.
+  * Declare that `books` CRUD handler should be located under `./demoBackend/library`.
+  * Declare that `books` entity has 3 fields: `title`, `author`, `synopsis`.
+* Create scripts to manage `demoBackend` under `./zaruba-tasks/demoBackend` directory.
+* Register the tasks into `./index.zaruba.yaml`.
+* Declare that Zaruba needs to start `demoDb` first before running `demoBackend`. 
+* Override several environment variables for `demoBackend`:
+  * `APP_HTTP_PORT`: `3000`
+  * `APP_SQLALCHEMY_DATABASE_URL`: `mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4`
+
+You can run `demoBackend` by invoking:
+
+```bash
+zaruba please startDemoBackend
+# or
+# zaruba please startDemoBackendContainer
+```
+
+By default, your `demoBackend` will run on port `3300`. You can change this (and other configurations) by editing `./.env`.
+
+Please note, that whenever you start `demoBackend`, Zaruba will always run `demoDb` first.
 
 # Add Static Web Server
 
