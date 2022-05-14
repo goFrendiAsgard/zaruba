@@ -127,8 +127,8 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.195µs
-         Current Time: 14:10:39
+         Elapsed Time: 971ns
+         Current Time: 15:01:34
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀    🔎 startServer          🍏 not ready
@@ -136,24 +136,24 @@ zaruba please startServer -t -w 1s
 💀    🔎 startServer          🍏 not ready
 💀    🔎 startServer          🍏 not ready
 💀    🔎 startServer          🍏 not ready
+💀    🚀 startServer          🍏 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 💀    🔎 startServer          🍏 not ready
 💀    🔎 startServer          🍏 ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 12.115067623s
-         Current Time: 14:10:51
+         Elapsed Time: 12.115347521s
+         Current Time: 15:01:46
          Active Process:
-           * (PID=22058) 🍏 'startServer' service
+           * (PID=19214) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=22058)
-💀    🚀 startServer          🍏 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+💀 🔪 Kill 🍏 'startServer' service (PID=19214)
 💀    🚀 startServer          🍏 
 💀    🚀 startServer          🍏 Keyboard interrupt received, exiting.
 💀 🔎 Job Ended...
-         Elapsed Time: 14.218734226s
-         Current Time: 14:10:53
+         Elapsed Time: 14.219838692s
+         Current Time: 15:01:48
 💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 1s
 ```````
@@ -199,8 +199,8 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.67µs
-         Current Time: 14:10:53
+         Elapsed Time: 1.325µs
+         Current Time: 15:01:48
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
@@ -211,24 +211,23 @@ zaruba please startServer -t -w 1s
 💀    🚀 startServer          🍏 Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 💀    🔎 startServer          🍏 🔎 Port '8080' is ready
 💀    🔎 startServer          🍏 🎉🎉🎉
-💀    🔎 startServer          🍏 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 11.243872367s
-         Current Time: 14:11:04
+         Elapsed Time: 11.243862651s
+         Current Time: 15:02:00
          Active Process:
-           * (PID=22140) 🍏 'startServer' service
+           * (PID=3871) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=22140)
+💀 🔪 Kill 🍏 'startServer' service (PID=3871)
 💀    🚀 startServer          🍏 
 💀    🚀 startServer          🍏 Keyboard interrupt received, exiting.
 💀    🚀 startServer          🍏 🎉🎉🎉
 💀    🚀 startServer          🍏 📜 Task 'startServer' is started
 💀 🔎 Job Ended...
-         Elapsed Time: 13.34679725s
-         Current Time: 14:11:06
+         Elapsed Time: 13.347843255s
+         Current Time: 15:02:02
 💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 1s
 ```````

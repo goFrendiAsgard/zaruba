@@ -137,26 +137,26 @@ zaruba please destroy
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 2.127µs
-         Current Time: 14:11:20
+         Elapsed Time: 1.228µs
+         Current Time: 15:02:15
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 initProject          🚧 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.git/
 💀    🚀 initProject          🚧 🎉🎉🎉
 💀    🚀 initProject          🚧 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 112.852903ms
-         Current Time: 14:11:20
+         Elapsed Time: 113.757561ms
+         Current Time: 15:02:16
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 314.204166ms
-         Current Time: 14:11:21
+         Elapsed Time: 314.022609ms
+         Current Time: 15:02:16
 zaruba please initProject  
 💀 🔎 Job Starting...
-         Elapsed Time: 1.091µs
-         Current Time: 14:11:21
+         Elapsed Time: 1.041µs
+         Current Time: 15:02:16
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -289,20 +289,20 @@ zaruba please initProject
 💀 🎉 Successfully running 🐬 'makeMysqlAppRunner' command
 💀 🎉 Reach 🐬 'addMysql' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 4.567726051s
-         Current Time: 14:11:25
+         Elapsed Time: 5.003773893s
+         Current Time: 15:02:21
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 4.679437123s
-         Current Time: 14:11:25
+         Elapsed Time: 5.114209458s
+         Current Time: 15:02:21
 zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoDb' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 2.223µs
-         Current Time: 14:11:26
-💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+         Elapsed Time: 1.13µs
+         Current Time: 15:02:21
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀    🚀 zrbShowAdv           ☕ Hello Human, 
 💀    🚀 zrbShowAdv           ☕ Did 💀 Zaruba help you saving your keystrokes?
@@ -553,20 +553,20 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 addFastApiCrud       ⚡ Done
 💀 🎉 Successfully running ⚡ 'addFastApiCrud' command
 💀 🔎 Job Running...
-         Elapsed Time: 13.472059311s
-         Current Time: 14:11:39
+         Elapsed Time: 13.165708334s
+         Current Time: 15:02:34
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 13.673439868s
-         Current Time: 14:11:39
+         Elapsed Time: 13.367576462s
+         Current Time: 15:02:35
 zaruba please addFastApiCrud -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoBackend' -v 'appModuleName=library' -v 'appCrudEntity=books' -v 'appCrudFields=["title","author","synopsis"]' -v 'appDependencies=["demoDb"]' -v 'appEnvs={"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.698µs
-         Current Time: 14:11:39
-💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+         Elapsed Time: 1.056µs
+         Current Time: 15:02:35
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀    🚀 zrbShowAdv           ☕ Hello Human, 
 💀    🚀 zrbShowAdv           ☕ Did 💀 Zaruba help you saving your keystrokes?
@@ -696,18 +696,18 @@ zaruba please addFastApiCrud -e '/home/gofrendi/zaruba/docs/examples/playground/
 💀 🎉 Successfully running 📗 'makeNginxAppRunner' command
 💀 🎉 Reach 📗 'addNginx' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 4.505598986s
-         Current Time: 14:11:44
+         Elapsed Time: 5.133389931s
+         Current Time: 15:02:40
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 4.617109615s
-         Current Time: 14:11:44
+         Elapsed Time: 5.243866316s
+         Current Time: 15:02:40
 zaruba please addNginx -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoFrontend' -v 'appPorts=["8080:80", "443"]' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 2.23µs
-         Current Time: 14:11:44
+         Elapsed Time: 1.342µs
+         Current Time: 15:02:40
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
@@ -718,88 +718,88 @@ zaruba please addNginx -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 syncEnv              🔄 Environment synchronized
 💀 🎉 Successfully running 🔄 'syncEnv' command
 💀 🔎 Job Running...
-         Elapsed Time: 598.544095ms
-         Current Time: 14:11:45
+         Elapsed Time: 532.201114ms
+         Current Time: 15:02:41
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 799.229673ms
-         Current Time: 14:11:45
+         Elapsed Time: 733.783972ms
+         Current Time: 15:02:41
 zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.064µs
-         Current Time: 14:11:45
+         Elapsed Time: 1.52µs
+         Current Time: 15:02:41
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀 🏁 Run 🏭 'buildDemoBackendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
-💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
-💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
+💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀    🚀 buildDemoBackendI... 🏭 Build image demo-backend:latest
+💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
+💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
 💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
 💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  20.48kB
 💀    🚀 buildDemoDbImage     🏭 Sending build context to Docker daemon  3.072kB
-💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
-💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
+💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.03MB
 💀    🚀 buildDemoFrontend... 🏭 Step 1/11 : FROM docker.io/bitnami/nginx:1.21.6
 💀    🚀 buildDemoFrontend... 🏭  ---> 0b9593fe1d77
-💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
 💀    🚀 buildDemoFrontend... 🏭 Step 2/11 : USER 0
-💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.03MB
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 562078b73ebf
 💀    🚀 buildDemoFrontend... 🏭 Step 3/11 : RUN apt update &&     apt install certbot -y &&     apt-get autoremove -yqq --purge &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
-💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> c0b95731b707
 💀    🚀 buildDemoFrontend... 🏭 Step 4/11 : USER 1001
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 162e06eadcfd
 💀    🚀 buildDemoFrontend... 🏭 Step 5/11 : COPY html /opt/bitnami/nginx/html
-💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
-💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
+💀    🚀 buildDemoBackendI... 🏭 Step 1/9 : FROM python:3.8-slim
+💀    🚀 buildDemoBackendI... 🏭  ---> caf584a25606
+💀    🚀 buildDemoBackendI... 🏭 Step 2/9 : ENV PYTHONUNBUFFERED 1
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 2eae8b6cd23a
 💀    🚀 buildDemoFrontend... 🏭 Step 6/11 : COPY server_blocks/my_server_block.conf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> f7779f873da5
+💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭 Step 7/11 : USER 0
+💀    🚀 buildDemoBackendI... 🏭  ---> 7296d7455c56
+💀    🚀 buildDemoBackendI... 🏭 Step 3/9 : WORKDIR /app
+💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
+💀    🚀 buildDemoBackendI... 🏭  ---> c9a3cbe90f60
+💀    🚀 buildDemoBackendI... 🏭 Step 4/9 : COPY requirements.txt ./
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 695d610f8d47
 💀    🚀 buildDemoFrontend... 🏭 Step 8/11 : COPY bootstrap.sh /opt/bitnami/scripts/nginx/bootstrap.sh
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
+💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 55dee5d4680a
 💀    🚀 buildDemoFrontend... 🏭 Step 9/11 : RUN chmod 755 /opt/bitnami/scripts/nginx/bootstrap.sh
-💀    🚀 buildDemoBackendI... 🏭 Step 1/9 : FROM python:3.8-slim
+💀    🚀 buildDemoBackendI... 🏭  ---> 90b390a57c9c
+💀    🚀 buildDemoBackendI... 🏭 Step 5/9 : RUN pip install -r requirements.txt
+💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
+💀    🚀 buildDemoBackendI... 🏭  ---> 16e3e46a7774
+💀    🚀 buildDemoBackendI... 🏭 Step 6/9 : COPY . .
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 78f649e6f9d4
 💀    🚀 buildDemoFrontend... 🏭 Step 10/11 : USER 1001
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 01b89502a453
 💀    🚀 buildDemoFrontend... 🏭 Step 11/11 : CMD ["/opt/bitnami/scripts/nginx/bootstrap.sh"]
-💀    🚀 buildDemoBackendI... 🏭  ---> caf584a25606
-💀    🚀 buildDemoBackendI... 🏭 Step 2/9 : ENV PYTHONUNBUFFERED 1
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 6ea76668c578
 💀    🚀 buildDemoFrontend... 🏭 Successfully built 6ea76668c578
-💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
-💀    🚀 buildDemoBackendI... 🏭  ---> 7296d7455c56
-💀    🚀 buildDemoBackendI... 🏭 Step 3/9 : WORKDIR /app
-💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
-💀    🚀 buildDemoBackendI... 🏭  ---> c9a3cbe90f60
-💀    🚀 buildDemoBackendI... 🏭 Step 4/9 : COPY requirements.txt ./
-💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
-💀    🚀 buildDemoBackendI... 🏭  ---> 90b390a57c9c
-💀    🚀 buildDemoBackendI... 🏭 Step 5/9 : RUN pip install -r requirements.txt
-💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
-💀    🚀 buildDemoBackendI... 🏭  ---> 16e3e46a7774
-💀    🚀 buildDemoBackendI... 🏭 Step 6/9 : COPY . .
+💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
+💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
+💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
 💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
 💀    🚀 buildDemoFrontend... 🏭 🎉🎉🎉
 💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
+💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
+💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
+💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> 97fdfef7cb48
 💀    🚀 buildDemoBackendI... 🏭 Step 7/9 : EXPOSE 3000
@@ -815,67 +815,58 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 buildDemoBackendI... 🏭 Successfully tagged demo-backend:latest
 💀    🚀 buildDemoBackendI... 🏭 🎉🎉🎉
 💀    🚀 buildDemoBackendI... 🏭 Docker image demo-backend built
-💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoFrontendImage' command
+💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoBackendImage' command
 💀 🏁 Run 🏭 'buildImages' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 buildImages          🏭 
 💀 🎉 Successfully running 🏭 'buildImages' command
 💀 🔎 Job Running...
-         Elapsed Time: 6.506392186s
-         Current Time: 14:11:52
+         Elapsed Time: 1.423897921s
+         Current Time: 15:02:43
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 6.61675378s
-         Current Time: 14:11:52
+         Elapsed Time: 1.53437361s
+         Current Time: 15:02:43
 zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.132µs
-         Current Time: 14:11:52
-💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+         Elapsed Time: 1.02µs
+         Current Time: 15:02:43
 💀 🏁 Run 🔧 'prepareDemoBackend' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀 🏁 Run 🐳 'zrbCreateDockerNetwork' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀    🚀 prepareDemoBackend   🔧 Create venv
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
-💀    🚀 prepareDemoBackend   🔧 Create venv
 💀    🚀 zrbCreateDockerNe... 🐳 🐳 Network 'zaruba' is already exist
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
-💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
-💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
 💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
-💀    🚀 prepareDemoBackend   🔧 Activate venv
-💀    🚀 prepareDemoBackend   🔧 Install dependencies
-💀    🚀 prepareDemoBackend   🔧 Collecting aiofiles==0.7.0 (from -r requirements.txt (line 1))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e7/61/007ac6f27fe1c2dc44d3a62f429a8440de1601428b4d0291eae1a3494d1f/aiofiles-0.7.0-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting asgiref==3.4.1 (from -r requirements.txt (line 2))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/fe/66/577f32b54c50dcd8dec38447258e82ed327ecb86820d67ae7b3dea784f13/asgiref-3.4.1-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting avro-python3==1.10.0 (from -r requirements.txt (line 3))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/b2/5a/819537be46d65a01f8b8c6046ed05603fb9ef88c663b8cca840263788d58/avro-python3-1.10.0.tar.gz
-💀    🚀 prepareDemoBackend   🔧 Collecting bcrypt==3.2.0 (from -r requirements.txt (line 4))
+💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
+💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
+💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
 💀    🚀 buildDemoDbImage     🏭 Sending build context to Docker daemon  3.072kB
 💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  20.48kB
 💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
 💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
 💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
+💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
+💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
+💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭 Step 1/11 : FROM docker.io/bitnami/nginx:1.21.6
 💀    🚀 buildDemoFrontend... 🏭  ---> 0b9593fe1d77
 💀    🚀 buildDemoFrontend... 🏭 Step 2/11 : USER 0
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 562078b73ebf
 💀    🚀 buildDemoFrontend... 🏭 Step 3/11 : RUN apt update &&     apt install certbot -y &&     apt-get autoremove -yqq --purge &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
-💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> c0b95731b707
 💀    🚀 buildDemoFrontend... 🏭 Step 4/11 : USER 1001
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 162e06eadcfd
 💀    🚀 buildDemoFrontend... 🏭 Step 5/11 : COPY html /opt/bitnami/nginx/html
-💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
-💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 2eae8b6cd23a
 💀    🚀 buildDemoFrontend... 🏭 Step 6/11 : COPY server_blocks/my_server_block.conf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
@@ -900,78 +891,94 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
 💀    🚀 buildDemoFrontend... 🏭 🎉🎉🎉
 💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/26/70/6d218afbe4c73538053c1016dd631e8f25fffc10cd01f5c272d7acf3c03d/bcrypt-3.2.0-cp36-abi3-manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting certifi==2021.10.8 (from -r requirements.txt (line 5))
 💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoFrontendImage' command
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting charset-normalizer==2.0.12 (from -r requirements.txt (line 6))
-💀 🏁 Run 🐬 'startDemoDbContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀 🏁 Check 🐬 'startDemoDbContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
-💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
-💀 🔥 🔎 startDemoDbContainer 🐬 Error: No such container: demoDb
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
-💀    🚀 startDemoDbContainer 🐬 🐳 Creating and starting container 'demoDb'
-💀    🚀 prepareDemoBackend   🔧 Collecting click==8.0.1 (from -r requirements.txt (line 7))
 💀 🏁 Run 📗 'startDemoFrontendContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀 🏁 Check 📗 'startDemoFrontendContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' running status
-💀    🚀 startDemoDbContainer 🐬 ff76b02587f2a25008f54cc36b6d470a4056f0346ab230e0f026c64c04db416e
+💀 🏁 Run 🐬 'startDemoDbContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀 🏁 Check 🐬 'startDemoDbContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
 💀 🔥 🚀 startDemoFrontend... 📗 Error: No such container: demoFrontend
 💀 🔥 🔎 startDemoFrontend... 📗 Error: No such container: demoFrontend
+💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
 💀 🔥 🚀 startDemoFrontend... 📗 Error: No such container: demoFrontend
 💀    🚀 startDemoFrontend... 📗 🐳 Creating and starting container 'demoFrontend'
+💀 🔥 🔎 startDemoDbContainer 🐬 Error: No such container: demoDb
+💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
+💀    🚀 startDemoDbContainer 🐬 🐳 Creating and starting container 'demoDb'
+💀    🚀 startDemoFrontend... 📗 fb43e94a4c9a777d5426b465bfd102f7b08b5e81fcafe0c5d20a050869eaffd2
+💀    🚀 startDemoDbContainer 🐬 4d5929f4948a5e1ae38204ba539d08a2c26fd0008bd1d6d23f06380b8ad7a315
+💀    🚀 prepareDemoBackend   🔧 Activate venv
+💀    🚀 prepareDemoBackend   🔧 Install dependencies
+💀    🚀 prepareDemoBackend   🔧 Collecting aiofiles==0.7.0 (from -r requirements.txt (line 1))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e7/61/007ac6f27fe1c2dc44d3a62f429a8440de1601428b4d0291eae1a3494d1f/aiofiles-0.7.0-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting asgiref==3.4.1 (from -r requirements.txt (line 2))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/fe/66/577f32b54c50dcd8dec38447258e82ed327ecb86820d67ae7b3dea784f13/asgiref-3.4.1-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting avro-python3==1.10.0 (from -r requirements.txt (line 3))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/b2/5a/819537be46d65a01f8b8c6046ed05603fb9ef88c663b8cca840263788d58/avro-python3-1.10.0.tar.gz
+💀    🚀 startDemoFrontend... 📗 🐳 Logging 'demoFrontend'
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m08:02:47.74 
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m08:02:47.74 Welcome to the Bitnami nginx container
+💀    🔎 startDemoFrontend... 📗 🔎 Docker container 'demoFrontend' is running
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '8080'
+💀    🔎 startDemoFrontend... 📗 🔎 Host port '8080' is ready
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '443'
+💀    🔎 startDemoFrontend... 📗 🔎 Host port '443' is ready
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m08:02:47.75 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-nginx
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m08:02:47.75 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-nginx/issues
+💀    🚀 startDemoFrontend... 📗 
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m08:02:47.76 
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m08:02:47.77 [38;5;2mINFO  ==> ** Starting NGINX **
+💀 🔥 🚀 startDemoFrontend... 📗 2022/05/14 08:02:47 [warn] 13#13: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
+💀 🔥 🚀 startDemoFrontend... 📗 nginx: [warn] the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
+💀    🚀 startDemoDbContainer 🐬 🐳 Logging 'demoDb'
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.84 
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.85 Welcome to the Bitnami mysql container
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.87 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-mysql
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.88 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-mysql/issues
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.89 
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.89 [38;5;2mINFO  ==> ** Starting MySQL setup **
+💀    🔎 startDemoDbContainer 🐬 🔎 Docker container 'demoDb' is running
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting for host port: '3306'
+💀    🔎 startDemoDbContainer 🐬 🔎 Host port '3306' is ready
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.94 [38;5;2mINFO  ==> Validating settings in MYSQL_*/MARIADB_* env vars
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.95 [38;5;2mINFO  ==> Initializing mysql database
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.96 [38;5;2mINFO  ==> Updating 'my.cnf' with custom configuration
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.97 [38;5;2mINFO  ==> Setting user option
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:47.99 [38;5;2mINFO  ==> Setting slow_query_log option
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:48.00 [38;5;2mINFO  ==> Setting long_query_time option
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:48.00 [38;5;2mINFO  ==> Installing database
+💀    🔎 startDemoFrontend... 📗 🔎 Run check in 'demoFrontend': 'echo check demoFrontend'
+💀    🔎 startDemoDbContainer 🐬 🔎 Run check in 'demoDb': 'mysql -u root -pAlch3mist -e SHOW SCHEMAS'
+💀    🔎 startDemoFrontend... 📗 check demoFrontend
+💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
+💀    🚀 prepareDemoBackend   🔧 Collecting bcrypt==3.2.0 (from -r requirements.txt (line 4))
+💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/26/70/6d218afbe4c73538053c1016dd631e8f25fffc10cd01f5c272d7acf3c03d/bcrypt-3.2.0-cp36-abi3-manylinux2010_x86_64.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting certifi==2021.10.8 (from -r requirements.txt (line 5))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting charset-normalizer==2.0.12 (from -r requirements.txt (line 6))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting click==8.0.1 (from -r requirements.txt (line 7))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/76/0a/b6c5f311e32aeb3b406e03c079ade51e905ea630fc19d1262a46249c1c86/click-8.0.1-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting confluent-kafka[avro]==1.8.2 (from -r requirements.txt (line 8))
-💀    🚀 startDemoFrontend... 📗 0134ea7a1455244da88be2fb94d3643f7579f1ca461710c97c7304038cdfadab
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/da/9b/f09a614e6b6b5e892c7aa50240ffe4e132664abb7f7b9fcdc89a4dddf35b/confluent_kafka-1.8.2-cp38-cp38-manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting cryptography==36.0.1 (from -r requirements.txt (line 10))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/0c/12/a55cf1ed39c2fa9a22448b82c984152fdeb7b30a66e3544eee3bd52b08fc/cryptography-36.0.1-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting fastapi==0.68.1 (from -r requirements.txt (line 11))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/df/44/ee1976b03404318590bbe4b0ef27007ce2c42b15757aa0c72bc99a4ebae7/fastapi-0.68.1-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting fastavro==1.4.9 (from -r requirements.txt (line 12))
-💀    🚀 startDemoDbContainer 🐬 🐳 Logging 'demoDb'
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.48 
-💀    🔎 startDemoDbContainer 🐬 🔎 Docker container 'demoDb' is running
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting for host port: '3306'
-💀    🔎 startDemoDbContainer 🐬 🔎 Host port '3306' is ready
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.49 Welcome to the Bitnami mysql container
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.49 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-mysql
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.50 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-mysql/issues
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.51 
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.51 [38;5;2mINFO  ==> ** Starting MySQL setup **
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.53 [38;5;2mINFO  ==> Validating settings in MYSQL_*/MARIADB_* env vars
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.54 [38;5;2mINFO  ==> Initializing mysql database
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.56 [38;5;2mINFO  ==> Updating 'my.cnf' with custom configuration
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.56 [38;5;2mINFO  ==> Setting user option
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.59 [38;5;2mINFO  ==> Setting slow_query_log option
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.60 [38;5;2mINFO  ==> Setting long_query_time option
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:00.61 [38;5;2mINFO  ==> Installing database
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9f/d4/0a04211257324a27ef39e0309989f10d05227be63b601c7789a156b23623/fastavro-1.4.9.tar.gz
-💀    🚀 startDemoFrontend... 📗 🐳 Logging 'demoFrontend'
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m07:12:01.03 
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m07:12:01.04 Welcome to the Bitnami nginx container
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m07:12:01.05 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-nginx
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m07:12:01.05 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-nginx/issues
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m07:12:01.05 
-💀    🚀 startDemoFrontend... 📗 
-💀    🔎 startDemoFrontend... 📗 🔎 Docker container 'demoFrontend' is running
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '8080'
-💀    🔎 startDemoFrontend... 📗 🔎 Host port '8080' is ready
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '443'
-💀    🔎 startDemoFrontend... 📗 🔎 Host port '443' is ready
 💀    🚀 prepareDemoBackend   🔧 Collecting greenlet==1.1.1 (from -r requirements.txt (line 13))
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m07:12:01.06 [38;5;2mINFO  ==> ** Starting NGINX **
-💀 🔥 🚀 startDemoFrontend... 📗 2022/05/14 07:12:01 [warn] 13#13: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
-💀 🔥 🚀 startDemoFrontend... 📗 nginx: [warn] the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/32/7a/85cbb3374bef5cac1a2eebec9f6ff324a6758970c38a2825a7b89a2e9aec/greenlet-1.1.1-cp38-cp38-manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting h11==0.12.0 (from -r requirements.txt (line 14))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/60/0f/7a0eeea938eaf61074f29fed9717f2010e8d0e0905d36b38d3275a1e4622/h11-0.12.0-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting idna==3.3 (from -r requirements.txt (line 15))
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:53.70 [38;5;2mINFO  ==> Starting mysql in background
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting jsons==1.5.1 (from -r requirements.txt (line 16))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/04/b9/7e174aeb2994076929ba28fb0a5191d4d6f21f02db9af00cd3a963e7f0a6/jsons-1.5.1-py3-none-any.whl
@@ -980,24 +987,29 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 prepareDemoBackend   🔧 Collecting pika==1.2.0 (from -r requirements.txt (line 18))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/f5/56/2590c41852df1212426bec3e5e312cba50170e12d083a0fb1e544a52d215/pika-1.2.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pydantic==1.8.2 (from -r requirements.txt (line 19))
+💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/ff/74/54e030641601112309f6d2af620774e9080f99c7a15742fc6a0b170c4076/pydantic-1.8.2-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting PyMySQL==1.0.2 (from -r requirements.txt (line 20))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/4f/52/a115fe175028b058df353c5a3d5290b71514a83f67078a6482cff24d6137/PyMySQL-1.0.2-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pytest==6.2.5 (from -r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/40/76/86f886e750b81a4357b6ed606b2bcf0ce6d6c27ad3c09ebf63ed674fc86e/pytest-6.2.5-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pytest-cov==3.0.0 (from -r requirements.txt (line 22))
+💀    🔎 startDemoFrontend... 📗 🎉🎉🎉
+💀    🔎 startDemoFrontend... 📗 📜 Task 'startDemoFrontendContainer' is ready
+💀 🎉 Successfully running 📗 'startDemoFrontendContainer' readiness check
+💀 🎉 Reach 📗 'startDemoFrontend' wrapper
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/20/49/b3e0edec68d81846f519c602ac38af9db86e1e71275528b3e814ae236063/pytest_cov-3.0.0-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting python-jose==3.3.0 (from -r requirements.txt (line 23))
-💀    🔎 startDemoDbContainer 🐬 🔎 Run check in 'demoDb': 'mysql -u root -pAlch3mist -e SHOW SCHEMAS'
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/bd/2d/e94b2f7bab6773c70efc70a61d66e312e1febccd9e0db6b9e0adf58cbad1/python_jose-3.3.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting python-multipart==0.0.5 (from -r requirements.txt (line 24))
-💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/46/40/a933ac570bf7aad12a298fc53458115cc74053474a72fbb8201d7dc06d3d/python-multipart-0.0.5.tar.gz
-💀    🔎 startDemoFrontend... 📗 🔎 Run check in 'demoFrontend': 'echo check demoFrontend'
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:55.74 [38;5;2mINFO  ==> Configuring authentication
+💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:55.88 [38;5;2mINFO  ==> Running mysql_upgrade
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:55.88 [38;5;2mINFO  ==> Stopping mysql
 💀    🚀 prepareDemoBackend   🔧 Collecting requests==2.27.1 (from -r requirements.txt (line 25))
-💀    🔎 startDemoFrontend... 📗 check demoFrontend
-💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting sqlalchemy==1.4.23 (from -r requirements.txt (line 26))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/d0/6b/32b93b001ca2274ca0097a1f81be27fc69a805761049719531ac182427fe/SQLAlchemy-1.4.23-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
@@ -1009,81 +1021,69 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9d/d6/3f56c9c0c12adf61dfcf4ed5c8ffd2c431db8dd85592067a57e8e1968565/typish-1.9.3-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting urllib3==1.26.8 (from -r requirements.txt (line 30))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/4e/b8/f5a25b22e803f0578e668daa33ba3701bb37858ec80e08a150bd7d2cf1b1/urllib3-1.26.8-py2.py3-none-any.whl
+💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
 💀    🚀 prepareDemoBackend   🔧 Collecting uuid==1.30 (from -r requirements.txt (line 31))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/ce/63/f42f5aa951ebf2c8dac81f77a8edcc1c218640a2a35a03b9ff2d4aa64c3d/uuid-1.30.tar.gz
 💀    🚀 prepareDemoBackend   🔧 Collecting uvicorn==0.15.0 (from -r requirements.txt (line 32))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/6f/d0/2c2f4e88d63a8f8891419ca02e029e3a7200ab8f64a3628517cf35ff0379/uvicorn-0.15.0-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting cffi>=1.1 (from bcrypt==3.2.0->-r requirements.txt (line 4))
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:02:57.90 [38;5;2mINFO  ==> Starting mysql in background
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e5/fe/1dac7533ddb73767df8ba26183a9375dde2ee136aec7c92c9fb3038108e3/cffi-1.15.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting six>=1.4.1 (from bcrypt==3.2.0->-r requirements.txt (line 4))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting cffi>=1.1 (from bcrypt==3.2.0->-r requirements.txt (line 4))
-💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e5/fe/1dac7533ddb73767df8ba26183a9375dde2ee136aec7c92c9fb3038108e3/cffi-1.15.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting packaging (from pytest==6.2.5->-r requirements.txt (line 21))
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:07.01 [38;5;2mINFO  ==> Starting mysql in background
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/05/8e/8de486cbd03baba4deef4142bd643a3e7bbe954a784dc1bb17142572d127/packaging-21.3-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting attrs>=19.2.0 (from pytest==6.2.5->-r requirements.txt (line 21))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting iniconfig (from pytest==6.2.5->-r requirements.txt (line 21))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9b/dd/b3c12c6d707058fa947864b67f0c4e0c39ef8610988d7baea9578f3c48f3/iniconfig-1.1.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting toml (from pytest==6.2.5->-r requirements.txt (line 21))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting py>=1.8.2 (from pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/f6/f0/10642828a8dfb741e5f3fbaac830550a518a775c7fff6f04a007259b0548/py-1.11.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting attrs>=19.2.0 (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting toml (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting iniconfig (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9b/dd/b3c12c6d707058fa947864b67f0c4e0c39ef8610988d7baea9578f3c48f3/iniconfig-1.1.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pluggy<2.0,>=0.12 (from pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9e/01/f38e2ff29715251cf25532b9082a1589ab7e4f571ced434f98d0139336dc/pluggy-1.0.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting packaging (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/05/8e/8de486cbd03baba4deef4142bd643a3e7bbe954a784dc1bb17142572d127/packaging-21.3-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting coverage[toml]>=5.2.1 (from pytest-cov==3.0.0->-r requirements.txt (line 22))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/c1/38/a9fd8c7bb151325d8b3d9108ce791348c84171b5d9f346b0bf0639de603f/coverage-6.3.3-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting pyasn1 (from python-jose==3.3.0->-r requirements.txt (line 23))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/62/1e/a94a8d635fa3ce4cfc7f506003548d0a2447ae76fd5ca53932970fe3053f/pyasn1-0.4.8-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting ecdsa!=0.15 (from python-jose==3.3.0->-r requirements.txt (line 23))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/4a/b6/b678b080967b2696e9a201c096dc076ad756fb35c87dca4e1d1a13496ff7/ecdsa-0.17.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting rsa (from python-jose==3.3.0->-r requirements.txt (line 23))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/30/ab/8fd9e88e6fa5ec41afca995938bbefb72195278e0cfc5bd76a4f29b23fb2/rsa-4.8-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting ecdsa!=0.15 (from python-jose==3.3.0->-r requirements.txt (line 23))
-💀    🔎 startDemoFrontend... 📗 🎉🎉🎉
-💀    🔎 startDemoFrontend... 📗 📜 Task 'startDemoFrontendContainer' is ready
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/4a/b6/b678b080967b2696e9a201c096dc076ad756fb35c87dca4e1d1a13496ff7/ecdsa-0.17.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting pyasn1 (from python-jose==3.3.0->-r requirements.txt (line 23))
-💀 🎉 Successfully running 📗 'startDemoFrontendContainer' readiness check
-💀 🎉 Reach 📗 'startDemoFrontend' wrapper
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/62/1e/a94a8d635fa3ce4cfc7f506003548d0a2447ae76fd5ca53932970fe3053f/pyasn1-0.4.8-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pycparser (from cffi>=1.1->bcrypt==3.2.0->-r requirements.txt (line 4))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pyparsing!=3.0.5,>=2.0.2 (from packaging->pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/6c/10/a7d0fa5baea8fe7b50f448ab742f26f52b80bfca85ac2be9d35cdd9a3246/pyparsing-3.0.9-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting tomli; extra == "toml" (from coverage[toml]>=5.2.1->pytest-cov==3.0.0->-r requirements.txt (line 22))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Installing collected packages: aiofiles, asgiref, avro-python3, six, pycparser, cffi, bcrypt, certifi, charset-normalizer, click, fastavro, idna, urllib3, requests, confluent-kafka, cryptography, typing-extensions, pydantic, starlette, fastapi, greenlet, h11, typish, jsons, passlib, pika, PyMySQL, pyparsing, packaging, attrs, iniconfig, toml, py, pluggy, pytest, tomli, coverage, pytest-cov, pyasn1, rsa, ecdsa, python-jose, python-multipart, sqlalchemy, uuid, uvicorn
+💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
+💀    🚀 prepareDemoBackend   🔧 Installing collected packages: aiofiles, asgiref, avro-python3, pycparser, cffi, six, bcrypt, certifi, charset-normalizer, click, idna, urllib3, requests, fastavro, confluent-kafka, cryptography, typing-extensions, pydantic, starlette, fastapi, greenlet, h11, typish, jsons, passlib, pika, PyMySQL, py, attrs, toml, iniconfig, pluggy, pyparsing, packaging, pytest, tomli, coverage, pytest-cov, pyasn1, ecdsa, rsa, python-jose, python-multipart, sqlalchemy, uuid, uvicorn
 💀    🚀 prepareDemoBackend   🔧   Running setup.py install for avro-python3: started
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:09.03 [38;5;2mINFO  ==> Configuring authentication
-💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:09.12 [38;5;2mINFO  ==> Running mysql_upgrade
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:09.13 [38;5;2mINFO  ==> Stopping mysql
 💀    🚀 prepareDemoBackend   🔧     Running setup.py install for avro-python3: finished with status 'done'
 💀    🚀 prepareDemoBackend   🔧   Running setup.py install for fastavro: started
 💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
 💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:11.14 [38;5;2mINFO  ==> Starting mysql in background
-💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
-💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:17.15 [38;5;2mINFO  ==> Loading user's custom files from /docker-entrypoint-initdb.d
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:03:05.92 [38;5;2mINFO  ==> Loading user's custom files from /docker-entrypoint-initdb.d
 💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
 💀 🔥 🚀 startDemoDbContainer 🐬 find: '/docker-entrypoint-startdb.d/': No such file or directory
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:17.18 [38;5;2mINFO  ==> Stopping mysql
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:03:05.97 [38;5;2mINFO  ==> Stopping mysql
 💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
 💀 🔥 🔎 startDemoDbContainer 🐬 ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:03:08.01 [38;5;2mINFO  ==> ** MySQL setup finished! **
 💀    🚀 startDemoDbContainer 🐬 
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:20.19 [38;5;2mINFO  ==> ** MySQL setup finished! **
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m07:12:20.25 [38;5;2mINFO  ==> ** Starting MySQL **
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.449354Z 0 [System] [MY-010116] [Server] /opt/bitnami/mysql/bin/mysqld (mysqld 8.0.29) starting as process 1
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.450487Z 0 [Warning] [MY-013242] [Server] --character-set-server: 'utf8' is currently an alias for the character set UTF8MB3, but will be an alias for UTF8MB4 in a future release. Please consider using UTF8MB4 in order to be unambiguous.
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.450496Z 0 [Warning] [MY-013244] [Server] --collation-server: 'utf8_general_ci' is a collation of the deprecated character set UTF8MB3. Please consider using UTF8MB4 with an appropriate collation instead.
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.455793Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.566444Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.717270Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.717315Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.729827Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /tmp/mysqlx.sock
-💀    🚀 startDemoDbContainer 🐬 2022-05-14T07:12:20.730048Z 0 [System] [MY-010931] [Server] /opt/bitnami/mysql/bin/mysqld: ready for connections. Version: '8.0.29'  socket: '/opt/bitnami/mysql/tmp/mysql.sock'  port: 3306  Source distribution.
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m08:03:08.07 [38;5;2mINFO  ==> ** Starting MySQL **
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.342876Z 0 [System] [MY-010116] [Server] /opt/bitnami/mysql/bin/mysqld (mysqld 8.0.29) starting as process 1
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.344757Z 0 [Warning] [MY-013242] [Server] --character-set-server: 'utf8' is currently an alias for the character set UTF8MB3, but will be an alias for UTF8MB4 in a future release. Please consider using UTF8MB4 in order to be unambiguous.
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.344765Z 0 [Warning] [MY-013244] [Server] --collation-server: 'utf8_general_ci' is a collation of the deprecated character set UTF8MB3. Please consider using UTF8MB4 with an appropriate collation instead.
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.349684Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.546664Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.793746Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.793819Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.819905Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /tmp/mysqlx.sock
+💀    🚀 startDemoDbContainer 🐬 2022-05-14T08:03:08.820023Z 0 [System] [MY-010931] [Server] /opt/bitnami/mysql/bin/mysqld: ready for connections. Version: '8.0.29'  socket: '/opt/bitnami/mysql/tmp/mysql.sock'  port: 3306  Source distribution.
 💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
 💀    🔎 startDemoDbContainer 🐬 Database
 💀    🔎 startDemoDbContainer 🐬 information_schema
@@ -1113,16 +1113,16 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🔎 startDemoBackend     ⚡ 🔎 Waiting for port '3000'
 💀    🚀 startDemoBackend     ⚡ Activate venv
 💀    🚀 startDemoBackend     ⚡ Start
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,944 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,944 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,951 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,951 INFO sqlalchemy.engine.Engine [generated in 0.00017s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,955 INFO sqlalchemy.engine.Engine SELECT DATABASE()
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,955 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,956 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,957 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,957 INFO sqlalchemy.engine.Engine [generated in 0.00012s] {'table_schema': 'sample', 'table_name': 'books'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,962 INFO sqlalchemy.engine.Engine 
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,207 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,207 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,215 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,215 INFO sqlalchemy.engine.Engine [generated in 0.00021s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,218 INFO sqlalchemy.engine.Engine SELECT DATABASE()
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,218 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,220 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,221 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,221 INFO sqlalchemy.engine.Engine [generated in 0.00013s] {'table_schema': 'sample', 'table_name': 'books'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,226 INFO sqlalchemy.engine.Engine 
 💀    🚀 startDemoBackend     ⚡ CREATE TABLE books (
 💀    🚀 startDemoBackend     ⚡ 	id VARCHAR(36) NOT NULL, 
 💀    🚀 startDemoBackend     ⚡ 	title VARCHAR(255), 
@@ -1134,20 +1134,20 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ )
 💀    🚀 startDemoBackend     ⚡ 
 💀    🚀 startDemoBackend     ⚡ 
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,962 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,987 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_title ON books (title)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:37,987 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,015 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_id ON books (id)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,015 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,035 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_synopsis ON books (synopsis)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,035 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,064 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_author ON books (author)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,064 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,084 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,085 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,085 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,086 INFO sqlalchemy.engine.Engine [cached since 0.1286s ago] {'table_schema': 'sample', 'table_name': 'roles'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,088 INFO sqlalchemy.engine.Engine 
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,226 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,253 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_title ON books (title)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,253 INFO sqlalchemy.engine.Engine [no key 0.00019s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,278 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_id ON books (id)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,278 INFO sqlalchemy.engine.Engine [no key 0.00020s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,298 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_synopsis ON books (synopsis)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,298 INFO sqlalchemy.engine.Engine [no key 0.00018s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,315 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_author ON books (author)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,316 INFO sqlalchemy.engine.Engine [no key 0.00017s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,336 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,338 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,338 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,338 INFO sqlalchemy.engine.Engine [cached since 0.1176s ago] {'table_schema': 'sample', 'table_name': 'roles'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,340 INFO sqlalchemy.engine.Engine 
 💀    🚀 startDemoBackend     ⚡ CREATE TABLE roles (
 💀    🚀 startDemoBackend     ⚡ 	id VARCHAR(36) NOT NULL, 
 💀    🚀 startDemoBackend     ⚡ 	name VARCHAR(20), 
@@ -1158,18 +1158,18 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ )
 💀    🚀 startDemoBackend     ⚡ 
 💀    🚀 startDemoBackend     ⚡ 
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,089 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,112 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_name ON roles (name)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,112 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,137 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_json_permissions ON roles (json_permissions)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,137 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,156 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_id ON roles (id)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,157 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,175 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,176 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,177 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,177 INFO sqlalchemy.engine.Engine [cached since 0.2201s ago] {'table_schema': 'sample', 'table_name': 'users'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,179 INFO sqlalchemy.engine.Engine 
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,340 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,364 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_name ON roles (name)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,365 INFO sqlalchemy.engine.Engine [no key 0.00020s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,398 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_json_permissions ON roles (json_permissions)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,398 INFO sqlalchemy.engine.Engine [no key 0.00032s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,428 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_id ON roles (id)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,428 INFO sqlalchemy.engine.Engine [no key 0.00017s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,464 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,465 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,466 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,466 INFO sqlalchemy.engine.Engine [cached since 0.2453s ago] {'table_schema': 'sample', 'table_name': 'users'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,468 INFO sqlalchemy.engine.Engine 
 💀    🚀 startDemoBackend     ⚡ CREATE TABLE users (
 💀    🚀 startDemoBackend     ⚡ 	id VARCHAR(36) NOT NULL, 
 💀    🚀 startDemoBackend     ⚡ 	username VARCHAR(50) NOT NULL, 
@@ -1185,37 +1185,37 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ )
 💀    🚀 startDemoBackend     ⚡ 
 💀    🚀 startDemoBackend     ⚡ 
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,179 INFO sqlalchemy.engine.Engine [no key 0.00012s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,208 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_email ON users (email)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,208 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,227 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_phone_number ON users (phone_number)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,228 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,246 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_active ON users (active)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,246 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,265 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_id ON users (id)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,265 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,290 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_full_name ON users (full_name)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,291 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,318 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_username ON users (username)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,318 INFO sqlalchemy.engine.Engine [no key 0.00031s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,344 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,348 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,351 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,468 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,494 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_email ON users (email)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,494 INFO sqlalchemy.engine.Engine [no key 0.00017s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,516 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_phone_number ON users (phone_number)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,516 INFO sqlalchemy.engine.Engine [no key 0.00017s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,535 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_active ON users (active)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,535 INFO sqlalchemy.engine.Engine [no key 0.00017s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,553 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_id ON users (id)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,553 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,575 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_full_name ON users (full_name)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,576 INFO sqlalchemy.engine.Engine [no key 0.00019s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,605 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_username ON users (username)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,605 INFO sqlalchemy.engine.Engine [no key 0.00025s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,625 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,628 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,630 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
 💀    🚀 startDemoBackend     ⚡ FROM users 
 💀    🚀 startDemoBackend     ⚡ WHERE users.username = %(username_1)s 
 💀    🚀 startDemoBackend     ⚡  LIMIT %(param_1)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,351 INFO sqlalchemy.engine.Engine [generated in 0.00018s] {'username_1': 'root', 'param_1': 1}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,353 INFO sqlalchemy.engine.Engine ROLLBACK
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,553 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,554 INFO sqlalchemy.engine.Engine INSERT INTO users (id, username, email, phone_number, json_permissions, active, hashed_password, full_name, created_at, updated_at) VALUES (%(id)s, %(username)s, %(email)s, %(phone_number)s, %(json_permissions)s, %(active)s, %(hashed_password)s, %(full_name)s, %(created_at)s, %(updated_at)s)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,554 INFO sqlalchemy.engine.Engine [generated in 0.00019s] {'id': '51ffc62c-6a6e-4598-aaf2-0b65752b3632', 'username': 'root', 'email': 'root@innistrad.com', 'phone_number': '621234567890', 'json_permissions': '["root"]', 'active': 1, 'hashed_password': '$2b$12$tQjKA1KvvzLKMquDJ0jGw.BS7giFQqMZ1CVeJ6mS2wSRr0T6r3b7u', 'full_name': 'root', 'created_at': datetime.datetime(2022, 5, 14, 14, 12, 38, 552938), 'updated_at': datetime.datetime(2022, 5, 14, 14, 12, 38, 554584)}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,560 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,568 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,569 INFO sqlalchemy.engine.Engine SELECT users.id, users.username, users.email, users.phone_number, users.json_permissions, users.active, users.hashed_password, users.full_name, users.created_at, users.updated_at 
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,630 INFO sqlalchemy.engine.Engine [generated in 0.00019s] {'username_1': 'root', 'param_1': 1}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,632 INFO sqlalchemy.engine.Engine ROLLBACK
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,846 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,847 INFO sqlalchemy.engine.Engine INSERT INTO users (id, username, email, phone_number, json_permissions, active, hashed_password, full_name, created_at, updated_at) VALUES (%(id)s, %(username)s, %(email)s, %(phone_number)s, %(json_permissions)s, %(active)s, %(hashed_password)s, %(full_name)s, %(created_at)s, %(updated_at)s)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,848 INFO sqlalchemy.engine.Engine [generated in 0.00025s] {'id': '88717311-b308-41e1-9961-4346108e0330', 'username': 'root', 'email': 'root@innistrad.com', 'phone_number': '621234567890', 'json_permissions': '["root"]', 'active': 1, 'hashed_password': '$2b$12$HPpZC1nCoTWkkAU8F/dU/eEjYUDXGiauL/CPcAGmU9W89gxW5391G', 'full_name': 'root', 'created_at': datetime.datetime(2022, 5, 14, 15, 3, 37, 846214), 'updated_at': datetime.datetime(2022, 5, 14, 15, 3, 37, 847879)}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,849 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,857 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,858 INFO sqlalchemy.engine.Engine SELECT users.id, users.username, users.email, users.phone_number, users.json_permissions, users.active, users.hashed_password, users.full_name, users.created_at, users.updated_at 
 💀    🚀 startDemoBackend     ⚡ FROM users 
 💀    🚀 startDemoBackend     ⚡ WHERE users.id = %(pk_1)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,569 INFO sqlalchemy.engine.Engine [generated in 0.00013s] {'pk_1': '51ffc62c-6a6e-4598-aaf2-0b65752b3632'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-14 14:12:38,570 INFO sqlalchemy.engine.Engine ROLLBACK
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,858 INFO sqlalchemy.engine.Engine [generated in 0.00018s] {'pk_1': '88717311-b308-41e1-9961-4346108e0330'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-14 15:03:37,860 INFO sqlalchemy.engine.Engine ROLLBACK
 💀    🚀 startDemoBackend     ⚡ Register app shutdown handler
 💀    🚀 startDemoBackend     ⚡ Handle HTTP routes for auth.Role
 💀    🚀 startDemoBackend     ⚡ Handle HTTP routes for auth.User
@@ -1229,7 +1229,7 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ Register library event handler
 💀    🚀 startDemoBackend     ⚡ Handle RPC for library.Book
 💀    🚀 startDemoBackend     ⚡ Register library RPC handler
-💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Started server process [6780]
+💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Started server process [15299]
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Waiting for application startup.
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Application startup complete.
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Uvicorn running on http://0.0.0.0:3000 (Press CTRL+C to quit)
@@ -1242,61 +1242,58 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 start                🏁 
 💀 🎉 Successfully running 🏁 'start' command
 💀 🔎 Job Running...
-         Elapsed Time: 46.967377528s
-         Current Time: 14:12:39
+         Elapsed Time: 55.263564286s
+         Current Time: 15:03:38
          Active Process:
-           * (PID=6469) 📗 'startDemoFrontendContainer' service
-           * (PID=6420) 🐬 'startDemoDbContainer' service
-           * (PID=6775) ⚡ 'startDemoBackend' service
+           * (PID=15290) ⚡ 'startDemoBackend' service
+           * (PID=3519) 📗 'startDemoFrontendContainer' service
+           * (PID=3561) 🐬 'startDemoDbContainer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill ⚡ 'startDemoBackend' service (PID=6775)
-💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=6469)
-💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=6420)
+💀 🔪 Kill ⚡ 'startDemoBackend' service (PID=15290)
+💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=3519)
+💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=3561)
 💀 🔥 🐬 'startDemoDbContainer' service exited: signal: interrupt
 💀 🔥 📗 'startDemoFrontendContainer' service exited: signal: interrupt
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Shutting down
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Waiting for application shutdown.
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Application shutdown complete.
-💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Finished server process [6780]
+💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Finished server process [15299]
 💀    🚀 startDemoBackend     ⚡ 🎉🎉🎉
 💀    🚀 startDemoBackend     ⚡ 📜 Task 'startDemoBackend' is started
 💀 🔎 Job Ended...
-         Elapsed Time: 49.071508253s
-         Current Time: 14:12:41
+         Elapsed Time: 57.366733309s
+         Current Time: 15:03:40
 💀 🔥 ⚡ 'startDemoBackend' service exited without any error message
 zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml' -t -w 1s
 💀 🔎 Job Starting...
-         Elapsed Time: 1.243µs
-         Current Time: 14:12:41
+         Elapsed Time: 1.037µs
+         Current Time: 15:03:41
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run 🐳 'zrbCreateDockerNetwork' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀    🚀 zrbCreateDockerNe... 🐳 🐳 Network 'zaruba' is already exist
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
-💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀 🏁 Run 🏭 'buildDemoBackendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
-💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
-💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
 💀    🚀 buildDemoBackendI... 🏭 Build image demo-backend:latest
+💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
+💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
+💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
-💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  22.02kB
+💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
 💀    🚀 buildDemoDbImage     🏭 Sending build context to Docker daemon  3.072kB
+💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  22.02kB
 💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
 💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
 💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
 💀    🚀 buildDemoFrontend... 🏭 Step 1/11 : FROM docker.io/bitnami/nginx:1.21.6
-💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
-💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.18MB
 💀    🚀 buildDemoFrontend... 🏭  ---> 0b9593fe1d77
 💀    🚀 buildDemoFrontend... 🏭 Step 2/11 : USER 0
-💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
-💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 562078b73ebf
+💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
 💀    🚀 buildDemoFrontend... 🏭 Step 3/11 : RUN apt update &&     apt install certbot -y &&     apt-get autoremove -yqq --purge &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> c0b95731b707
@@ -1304,6 +1301,9 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 162e06eadcfd
 💀    🚀 buildDemoFrontend... 🏭 Step 5/11 : COPY html /opt/bitnami/nginx/html
+💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.18MB
+💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
+💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 11c677f847bc
 💀    🚀 buildDemoFrontend... 🏭 Step 6/11 : COPY server_blocks/my_server_block.conf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
@@ -1326,10 +1326,10 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 buildDemoFrontend... 🏭  ---> 02304e445f6f
 💀    🚀 buildDemoFrontend... 🏭 Successfully built 02304e445f6f
 💀    🚀 buildDemoBackendI... 🏭 Step 1/9 : FROM python:3.8-slim
-💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
 💀    🚀 buildDemoBackendI... 🏭  ---> caf584a25606
 💀    🚀 buildDemoBackendI... 🏭 Step 2/9 : ENV PYTHONUNBUFFERED 1
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
+💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
 💀    🚀 buildDemoBackendI... 🏭  ---> 7296d7455c56
 💀    🚀 buildDemoBackendI... 🏭 Step 3/9 : WORKDIR /app
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
@@ -1345,22 +1345,22 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
 💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoFrontendImage' command
-💀    🚀 buildDemoBackendI... 🏭  ---> e58f1a582b99
+💀    🚀 buildDemoBackendI... 🏭  ---> b0401cd9a34b
 💀    🚀 buildDemoBackendI... 🏭 Step 7/9 : EXPOSE 3000
-💀    🚀 buildDemoBackendI... 🏭  ---> Running in a0dc2482450c
-💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container a0dc2482450c
-💀    🚀 buildDemoBackendI... 🏭  ---> ef9d22726362
-💀    🚀 buildDemoBackendI... 🏭 Step 8/9 : RUN chmod 755 ./start.sh
-💀    🚀 buildDemoBackendI... 🏭  ---> Running in 6489bb062446
+💀    🚀 buildDemoBackendI... 🏭  ---> Running in 219e928b2c47
 💀 🏁 Run 📗 'startDemoFrontendContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀 🏁 Check 📗 'startDemoFrontendContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' running status
 💀 🏁 Run 🐬 'startDemoDbContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container 219e928b2c47
+💀    🚀 buildDemoBackendI... 🏭  ---> ad0a6bf78252
+💀    🚀 buildDemoBackendI... 🏭 Step 8/9 : RUN chmod 755 ./start.sh
 💀 🏁 Check 🐬 'startDemoDbContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
 💀    🚀 startDemoFrontend... 📗 🐳 Container 'demoFrontend' is already started
 💀    🚀 startDemoFrontend... 📗 🐳 Logging 'demoFrontend'
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
+💀    🚀 buildDemoBackendI... 🏭  ---> Running in af755cbeb87b
 💀    🚀 startDemoDbContainer 🐬 🐳 Container 'demoDb' is already started
 💀    🚀 startDemoDbContainer 🐬 🐳 Logging 'demoDb'
 💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
@@ -1372,28 +1372,28 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🔎 startDemoDbContainer 🐬 🔎 Docker container 'demoDb' is running
 💀    🔎 startDemoDbContainer 🐬 🔎 Waiting for host port: '3306'
 💀    🔎 startDemoDbContainer 🐬 🔎 Host port '3306' is ready
-💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container 6489bb062446
-💀    🚀 buildDemoBackendI... 🏭  ---> 5f5bf56d0265
+💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container af755cbeb87b
+💀    🚀 buildDemoBackendI... 🏭  ---> b3f08a826115
 💀    🚀 buildDemoBackendI... 🏭 Step 9/9 : CMD ./start.sh
-💀    🚀 buildDemoBackendI... 🏭  ---> Running in 5deab1645cca
-💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container 5deab1645cca
-💀    🚀 buildDemoBackendI... 🏭  ---> 96a9ae3cd280
-💀    🚀 buildDemoBackendI... 🏭 Successfully built 96a9ae3cd280
+💀    🚀 buildDemoBackendI... 🏭  ---> Running in ebeda935b579
+💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container ebeda935b579
+💀    🚀 buildDemoBackendI... 🏭  ---> f4946be8866a
+💀    🚀 buildDemoBackendI... 🏭 Successfully built f4946be8866a
 💀    🚀 buildDemoBackendI... 🏭 Successfully tagged demo-backend:latest
 💀    🚀 buildDemoBackendI... 🏭 🎉🎉🎉
 💀    🚀 buildDemoBackendI... 🏭 Docker image demo-backend built
 💀 🎉 Successfully running 🏭 'buildDemoBackendImage' command
 💀    🔎 startDemoFrontend... 📗 🔎 Run check in 'demoFrontend': 'echo check demoFrontend'
 💀    🔎 startDemoDbContainer 🐬 🔎 Run check in 'demoDb': 'mysql -u root -pAlch3mist -e SHOW SCHEMAS'
-💀    🔎 startDemoFrontend... 📗 check demoFrontend
-💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
 💀 🔥 🔎 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀    🔎 startDemoFrontend... 📗 check demoFrontend
 💀    🔎 startDemoDbContainer 🐬 Database
 💀    🔎 startDemoDbContainer 🐬 information_schema
 💀    🔎 startDemoDbContainer 🐬 mysql
 💀    🔎 startDemoDbContainer 🐬 performance_schema
 💀    🔎 startDemoDbContainer 🐬 sample
 💀    🔎 startDemoDbContainer 🐬 sys
+💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
 💀    🔎 startDemoDbContainer 🐬 🔎 Sucessfully run check in 'demoDb': 'mysql -u root -pAlch3mist -e SHOW SCHEMAS'
 💀    🔎 startDemoFrontend... 📗 🎉🎉🎉
 💀    🔎 startDemoFrontend... 📗 📜 Task 'startDemoFrontendContainer' is ready
@@ -1405,41 +1405,41 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀 🏁 Run ⚡ 'startDemoBackendContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀 🏁 Check ⚡ 'startDemoBackendContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀    🔎 startDemoBackendC... ⚡ 🔎 Waiting docker container 'demoBackend' running status
+💀 🔥 🚀 startDemoBackendC... ⚡ Error: No such container: demoBackend
 💀 🔥 🔎 startDemoBackendC... ⚡ Error: No such container: demoBackend
 💀 🔥 🚀 startDemoBackendC... ⚡ Error: No such container: demoBackend
-💀 🔥 🚀 startDemoBackendC... ⚡ Error: No such container: demoBackend
 💀    🚀 startDemoBackendC... ⚡ 🐳 Creating and starting container 'demoBackend'
-💀    🚀 startDemoBackendC... ⚡ b32aa911c954a4728500d63d26b6cce503a34f50423e0ab1aa07fe41e9d584b5
+💀    🚀 startDemoBackendC... ⚡ 5e5297a41afb4d1399e777734e78a87fefa2cf214364232a6075cf72408beef6
 💀    🚀 startDemoBackendC... ⚡ 🐳 Logging 'demoBackend'
 💀    🔎 startDemoBackendC... ⚡ 🔎 Waiting docker container 'demoBackend' healthcheck
 💀    🔎 startDemoBackendC... ⚡ 🔎 Docker container 'demoBackend' is running
 💀    🔎 startDemoBackendC... ⚡ 🔎 Waiting for host port: '3000'
 💀    🔎 startDemoBackendC... ⚡ 🔎 Host port '3000' is ready
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,297 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,297 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,301 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,301 INFO sqlalchemy.engine.Engine [generated in 0.00017s] {}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,306 INFO sqlalchemy.engine.Engine SELECT DATABASE()
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,306 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,311 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,312 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,312 INFO sqlalchemy.engine.Engine [generated in 0.00016s] {'table_schema': 'sample', 'table_name': 'books'}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,314 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,317 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,318 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,318 INFO sqlalchemy.engine.Engine [cached since 0.006759s ago] {'table_schema': 'sample', 'table_name': 'roles'}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,322 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,325 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,325 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,325 INFO sqlalchemy.engine.Engine [cached since 0.01363s ago] {'table_schema': 'sample', 'table_name': 'users'}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,327 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,333 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,336 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,950 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,950 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,954 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,954 INFO sqlalchemy.engine.Engine [generated in 0.00027s] {}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,961 INFO sqlalchemy.engine.Engine SELECT DATABASE()
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,961 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,966 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,967 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,967 INFO sqlalchemy.engine.Engine [generated in 0.00018s] {'table_schema': 'sample', 'table_name': 'books'}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,971 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,974 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,975 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,975 INFO sqlalchemy.engine.Engine [cached since 0.008079s ago] {'table_schema': 'sample', 'table_name': 'roles'}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,978 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,980 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,981 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,981 INFO sqlalchemy.engine.Engine [cached since 0.01377s ago] {'table_schema': 'sample', 'table_name': 'users'}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,983 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,992 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,995 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
 💀    🚀 startDemoBackendC... ⚡ FROM users 
 💀    🚀 startDemoBackendC... ⚡ WHERE users.username = %(username_1)s 
 💀    🚀 startDemoBackendC... ⚡  LIMIT %(param_1)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,336 INFO sqlalchemy.engine.Engine [generated in 0.00031s] {'username_1': 'root', 'param_1': 1}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-14 07:12:53,339 INFO sqlalchemy.engine.Engine ROLLBACK
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,995 INFO sqlalchemy.engine.Engine [generated in 0.00025s] {'username_1': 'root', 'param_1': 1}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-14 08:03:53,998 INFO sqlalchemy.engine.Engine ROLLBACK
 💀    🚀 startDemoBackendC... ⚡ Register app shutdown handler
 💀    🚀 startDemoBackendC... ⚡ Handle HTTP routes for auth.Role
 💀    🚀 startDemoBackendC... ⚡ Handle HTTP routes for auth.User
@@ -1453,7 +1453,7 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 startDemoBackendC... ⚡ Register library event handler
 💀    🚀 startDemoBackendC... ⚡ Handle RPC for library.Book
 💀    🚀 startDemoBackendC... ⚡ Register library RPC handler
-💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Started server process [8]
+💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Started server process [9]
 💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Waiting for application startup.
 💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Application startup complete.
 💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Uvicorn running on http://0.0.0.0:3000 (Press CTRL+C to quit)
@@ -1467,38 +1467,38 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 startContainers      🐳 
 💀 🎉 Successfully running 🐳 'startContainers' command
 💀 🔎 Job Running...
-         Elapsed Time: 15.036791782s
-         Current Time: 14:12:56
+         Elapsed Time: 16.165931123s
+         Current Time: 15:03:57
          Active Process:
-           * (PID=7817) 📗 'startDemoFrontendContainer' service
-           * (PID=7969) ⚡ 'startDemoBackendContainer' service
-           * (PID=7848) 🐬 'startDemoDbContainer' service
+           * (PID=19851) ⚡ 'startDemoBackendContainer' service
+           * (PID=17988) 📗 'startDemoFrontendContainer' service
+           * (PID=18017) 🐬 'startDemoDbContainer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=7817)
-💀 🔪 Kill ⚡ 'startDemoBackendContainer' service (PID=7969)
-💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=7848)
-💀 🔥 📗 'startDemoFrontendContainer' service exited: signal: interrupt
+💀 🔪 Kill ⚡ 'startDemoBackendContainer' service (PID=19851)
+💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=17988)
+💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=18017)
 💀 🔥 ⚡ 'startDemoBackendContainer' service exited: signal: interrupt
 💀 🔥 🐬 'startDemoDbContainer' service exited: signal: interrupt
+💀 🔥 📗 'startDemoFrontendContainer' service exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 17.140099951s
-         Current Time: 14:12:58
+         Elapsed Time: 18.270079989s
+         Current Time: 15:03:59
 zaruba please startContainers -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml' -t -w 1s
 💀 🔎 Job Starting...
-         Elapsed Time: 1.641µs
-         Current Time: 14:12:59
+         Elapsed Time: 2.444µs
+         Current Time: 15:03:59
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run ✋ 'stopDemoDbContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
-💀 🏁 Run ✋ 'stopDemoFrontendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ✋ 'stopDemoBackendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run ✋ 'stopDemoFrontendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run ✋ 'stopDemoDbContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀    🚀 stopDemoBackendCo... ✋ Stop docker container demoBackend
 💀    🚀 stopDemoFrontendC... ✋ Stop docker container demoFrontend
 💀    🚀 stopDemoDbContainer  ✋ Stop docker container demoDb
-💀    🚀 stopDemoBackendCo... ✋ Stop docker container demoBackend
 💀    🚀 stopDemoDbContainer  ✋ demoDb
 💀    🚀 stopDemoDbContainer  ✋ 🎉🎉🎉
 💀    🚀 stopDemoDbContainer  ✋ Docker container demoDb stopped
@@ -1515,65 +1515,65 @@ zaruba please startContainers -e '/home/gofrendi/zaruba/docs/examples/playground
 💀    🚀 stopContainers       ✋ 
 💀 🎉 Successfully running ✋ 'stopContainers' command
 💀 🔎 Job Running...
-         Elapsed Time: 11.685066453s
-         Current Time: 14:13:10
+         Elapsed Time: 11.857894605s
+         Current Time: 15:04:11
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 11.79564044s
-         Current Time: 14:13:10
+         Elapsed Time: 11.969294957s
+         Current Time: 15:04:11
 zaruba please stopContainers -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.201µs
-         Current Time: 14:13:11
+         Elapsed Time: 1.075µs
+         Current Time: 15:04:11
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run ❌ 'removeDemoDbContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀 🏁 Run ❌ 'removeDemoFrontendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
+💀 🏁 Run ❌ 'removeDemoDbContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀 🏁 Run ❌ 'removeDemoBackendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
-💀 🔥 🚀 removeDemoBackend... ❌ Error: No such container: 
-💀    🚀 removeDemoBackend... ❌ Stop docker container demoBackend
 💀 🔥 🚀 removeDemoDbConta... ❌ Error: No such container: 
-💀    🚀 removeDemoDbConta... ❌ Stop docker container demoDb
+💀 🔥 🚀 removeDemoBackend... ❌ Error: No such container: 
 💀 🔥 🚀 removeDemoFronten... ❌ Error: No such container: 
+💀    🚀 removeDemoDbConta... ❌ Stop docker container demoDb
+💀    🚀 removeDemoBackend... ❌ Stop docker container demoBackend
 💀    🚀 removeDemoFronten... ❌ Stop docker container demoFrontend
-💀    🚀 removeDemoBackend... ❌ Docker container demoBackend stopped
-💀    🚀 removeDemoBackend... ❌ Remove docker container demoBackend
-💀    🚀 removeDemoFronten... ❌ Docker container demoFrontend stopped
-💀    🚀 removeDemoFronten... ❌ Remove docker container demoFrontend
 💀    🚀 removeDemoDbConta... ❌ Docker container demoDb stopped
 💀    🚀 removeDemoDbConta... ❌ Remove docker container demoDb
-💀    🚀 removeDemoFronten... ❌ demoFrontend
+💀    🚀 removeDemoFronten... ❌ Docker container demoFrontend stopped
+💀    🚀 removeDemoFronten... ❌ Remove docker container demoFrontend
+💀    🚀 removeDemoBackend... ❌ Docker container demoBackend stopped
+💀    🚀 removeDemoBackend... ❌ Remove docker container demoBackend
 💀    🚀 removeDemoBackend... ❌ demoBackend
-💀    🚀 removeDemoBackend... ❌ 🎉🎉🎉
-💀    🚀 removeDemoBackend... ❌ Docker container demoBackend removed
+💀    🚀 removeDemoFronten... ❌ demoFrontend
 💀    🚀 removeDemoFronten... ❌ 🎉🎉🎉
 💀    🚀 removeDemoFronten... ❌ Docker container demoFrontend removed
+💀    🚀 removeDemoBackend... ❌ 🎉🎉🎉
+💀    🚀 removeDemoBackend... ❌ Docker container demoBackend removed
 💀    🚀 removeDemoDbConta... ❌ demoDb
 💀    🚀 removeDemoDbConta... ❌ 🎉🎉🎉
 💀    🚀 removeDemoDbConta... ❌ Docker container demoDb removed
-💀 🎉 Successfully running ❌ 'removeDemoBackendContainer' command
 💀 🎉 Successfully running ❌ 'removeDemoFrontendContainer' command
+💀 🎉 Successfully running ❌ 'removeDemoBackendContainer' command
 💀 🎉 Successfully running ❌ 'removeDemoDbContainer' command
 💀 🏁 Run ❌ 'removeContainers' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 removeContainers     ❌ 
 💀 🎉 Successfully running ❌ 'removeContainers' command
 💀 🔎 Job Running...
-         Elapsed Time: 737.324198ms
-         Current Time: 14:13:11
+         Elapsed Time: 1.206791396s
+         Current Time: 15:04:12
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 848.529405ms
-         Current Time: 14:13:11
+         Elapsed Time: 1.317709764s
+         Current Time: 15:04:13
 zaruba please removeContainers -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.93µs
-         Current Time: 14:13:12
+         Elapsed Time: 1.372µs
+         Current Time: 15:04:13
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -1687,18 +1687,18 @@ zaruba please removeContainers -e '/home/gofrendi/zaruba/docs/examples/playgroun
 💀 🎉 Successfully running 🚢 'makeAppHelmDeploymentTask' command
 💀 🎉 Reach 🚢 'addAppHelmDeployment' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 2.951652046s
-         Current Time: 14:13:15
+         Elapsed Time: 3.564643678s
+         Current Time: 15:04:16
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 3.061971738s
-         Current Time: 14:13:15
+         Elapsed Time: 3.675862961s
+         Current Time: 15:04:16
 zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoDb' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.363µs
-         Current Time: 14:13:15
+         Elapsed Time: 1.179µs
+         Current Time: 15:04:17
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -1812,18 +1812,18 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀 🎉 Successfully running 🚢 'makeAppHelmDeploymentTask' command
 💀 🎉 Reach 🚢 'addAppHelmDeployment' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 4.315350432s
-         Current Time: 14:13:19
+         Elapsed Time: 4.980426931s
+         Current Time: 15:04:22
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 4.427093665s
-         Current Time: 14:13:19
+         Elapsed Time: 5.091244376s
+         Current Time: 15:04:22
 zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoBackend' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.12µs
-         Current Time: 14:13:20
+         Elapsed Time: 1.267µs
+         Current Time: 15:04:22
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -1937,18 +1937,18 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀 🎉 Successfully running 🚢 'makeAppHelmDeploymentTask' command
 💀 🎉 Reach 🚢 'addAppHelmDeployment' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 2.532616704s
-         Current Time: 14:13:22
+         Elapsed Time: 3.133428351s
+         Current Time: 15:04:25
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 2.6440578s
-         Current Time: 14:13:22
+         Elapsed Time: 3.243777363s
+         Current Time: 15:04:25
 zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoFrontend' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.124µs
-         Current Time: 14:13:22
+         Elapsed Time: 1.513µs
+         Current Time: 15:04:25
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
@@ -1959,224 +1959,147 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀    🚀 syncEnv              🔄 Environment synchronized
 💀 🎉 Successfully running 🔄 'syncEnv' command
 💀 🔎 Job Running...
-         Elapsed Time: 543.038378ms
-         Current Time: 14:13:23
+         Elapsed Time: 630.791293ms
+         Current Time: 15:04:26
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 744.14995ms
-         Current Time: 14:13:23
+         Elapsed Time: 832.124583ms
+         Current Time: 15:04:26
 zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.558µs
-         Current Time: 14:13:24
+         Elapsed Time: 1.852µs
+         Current Time: 15:04:27
 💀 🏁 Run 🚢 'zrbSetKubeContext' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
-💀 🏁 Run 🏁 'prepareDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
 💀 🏁 Run 🏁 'prepareDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
+💀 🏁 Run 🏁 'prepareDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
+💀    🚀 prepareDemoDbDepl... 🏁 🚧 Create virtual environment.
 💀    🚀 prepareDemoFronte... 🏁 🚧 Create virtual environment.
 💀 🏁 Run 🏁 'prepareDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
-💀    🚀 prepareDemoDbDepl... 🏁 🚧 Create virtual environment.
 💀    🚀 prepareDemoBacken... 🏁 🚧 Create virtual environment.
 💀 🎉 Successfully running 🚢 'zrbSetKubeContext' command
 💀    🚀 prepareDemoBacken... 🏁 🚧 Install pip packages.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Install pip packages.
 💀    🚀 prepareDemoFronte... 🏁 🚧 Install pip packages.
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
 💀    🚀 prepareDemoFronte... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/bf/1f/0b67ccc0308c37b2823287716f0fca00d6fa3d92cce3f85c100ccdeda4c9/pulumi-3.32.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/bf/1f/0b67ccc0308c37b2823287716f0fca00d6fa3d92cce3f85c100ccdeda4c9/pulumi-3.32.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
 💀    🚀 prepareDemoBacken... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/bf/1f/0b67ccc0308c37b2823287716f0fca00d6fa3d92cce3f85c100ccdeda4c9/pulumi-3.32.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/bf/1f/0b67ccc0308c37b2823287716f0fca00d6fa3d92cce3f85c100ccdeda4c9/pulumi-3.32.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/fd/be/a837fd533218b087360f1f492d15c391a7e68b193abeaedefe07470d9cc4/pulumi_kubernetes-3.19.1.tar.gz
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/fd/be/a837fd533218b087360f1f492d15c391a7e68b193abeaedefe07470d9cc4/pulumi_kubernetes-3.19.1.tar.gz
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/fd/be/a837fd533218b087360f1f492d15c391a7e68b193abeaedefe07470d9cc4/pulumi_kubernetes-3.19.1.tar.gz
-💀    🚀 prepareDemoBacken... 🏁 Collecting grpcio>=1.33.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁 Collecting dill>=0.3.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting pyyaml>=5.3.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/b6/c3/973676ceb86b60835bb3978c6db67a5dc06be6cfdbd14ef0f5a13e3fc9fd/dill-0.3.4-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting pyyaml>=5.3.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/d7/42/7ad4b6d67a16229496d4f6e74201bdbebcf4bc1e87d5a70c9297d4961bd2/PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/fd/be/a837fd533218b087360f1f492d15c391a7e68b193abeaedefe07470d9cc4/pulumi_kubernetes-3.19.1.tar.gz
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/fd/be/a837fd533218b087360f1f492d15c391a7e68b193abeaedefe07470d9cc4/pulumi_kubernetes-3.19.1.tar.gz
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting six>=1.12.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/d7/42/7ad4b6d67a16229496d4f6e74201bdbebcf4bc1e87d5a70c9297d4961bd2/PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting six>=1.12.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting protobuf>=3.6.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting semver>=2.8.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting grpcio>=1.33.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁 Collecting dill>=0.3.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoBacken... 🏁 Collecting protobuf>=3.6.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/b6/c3/973676ceb86b60835bb3978c6db67a5dc06be6cfdbd14ef0f5a13e3fc9fd/dill-0.3.4-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting grpcio>=1.33.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting grpcio>=1.33.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/88/e4/dd895e84b3baaa8826963ad1e8e9a8c83c8c435b602a8c47bca33d5972d6/grpcio-1.46.1-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting pyyaml>=5.3.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/88/e4/dd895e84b3baaa8826963ad1e8e9a8c83c8c435b602a8c47bca33d5972d6/grpcio-1.46.1-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting protobuf>=3.6.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting semver>=2.8.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/d7/42/7ad4b6d67a16229496d4f6e74201bdbebcf4bc1e87d5a70c9297d4961bd2/PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting protobuf>=3.6.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/88/e4/dd895e84b3baaa8826963ad1e8e9a8c83c8c435b602a8c47bca33d5972d6/grpcio-1.46.1-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting semver>=2.8.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting dill>=0.3.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting six>=1.12.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting grpcio>=1.33.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/b6/c3/973676ceb86b60835bb3978c6db67a5dc06be6cfdbd14ef0f5a13e3fc9fd/dill-0.3.4-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting grpcio>=1.33.2 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting semver>=2.8.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁 Collecting semver>=2.8.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting dill>=0.3.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting dill>=0.3.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting pyyaml>=5.3.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/b6/c3/973676ceb86b60835bb3978c6db67a5dc06be6cfdbd14ef0f5a13e3fc9fd/dill-0.3.4-py2.py3-none-any.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting pyyaml>=5.3.1 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/d7/42/7ad4b6d67a16229496d4f6e74201bdbebcf4bc1e87d5a70c9297d4961bd2/PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting protobuf>=3.6.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/88/e4/dd895e84b3baaa8826963ad1e8e9a8c83c8c435b602a8c47bca33d5972d6/grpcio-1.46.1-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/88/e4/dd895e84b3baaa8826963ad1e8e9a8c83c8c435b602a8c47bca33d5972d6/grpcio-1.46.1-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/b6/c3/973676ceb86b60835bb3978c6db67a5dc06be6cfdbd14ef0f5a13e3fc9fd/dill-0.3.4-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/d7/42/7ad4b6d67a16229496d4f6e74201bdbebcf4bc1e87d5a70c9297d4961bd2/PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting six>=1.12.0 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/d7/42/7ad4b6d67a16229496d4f6e74201bdbebcf4bc1e87d5a70c9297d4961bd2/PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoBacken... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁 Installing collected packages: six, grpcio, semver, dill, pyyaml, protobuf, pulumi, attrs, arpeggio, parver, idna, certifi, charset-normalizer, urllib3, requests, pulumi-kubernetes
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁 Installing collected packages: dill, pyyaml, six, semver, protobuf, grpcio, pulumi, attrs, arpeggio, parver, urllib3, idna, certifi, charset-normalizer, requests, pulumi-kubernetes
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Installing collected packages: pyyaml, six, protobuf, semver, dill, grpcio, pulumi, attrs, arpeggio, parver, urllib3, charset-normalizer, certifi, idna, requests, pulumi-kubernetes
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Installing collected packages: six, grpcio, pyyaml, protobuf, semver, dill, pulumi, arpeggio, attrs, parver, urllib3, certifi, charset-normalizer, idna, requests, pulumi-kubernetes
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Installing collected packages: protobuf, six, grpcio, semver, dill, pyyaml, pulumi, arpeggio, attrs, parver, idna, charset-normalizer, certifi, urllib3, requests, pulumi-kubernetes
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Installing collected packages: dill, six, grpcio, protobuf, semver, pyyaml, pulumi, arpeggio, attrs, parver, certifi, charset-normalizer, idna, urllib3, requests, pulumi-kubernetes
+💀    🚀 prepareDemoDbDepl... 🏁   Running setup.py install for pulumi-kubernetes: started
 💀    🚀 prepareDemoBacken... 🏁   Running setup.py install for pulumi-kubernetes: started
 💀    🚀 prepareDemoFronte... 🏁   Running setup.py install for pulumi-kubernetes: started
-💀    🚀 prepareDemoDbDepl... 🏁   Running setup.py install for pulumi-kubernetes: started
-💀    🚀 prepareDemoBacken... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
-💀    🚀 prepareDemoBacken... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2021.10.8 charset-normalizer-2.0.12 dill-0.3.4 grpcio-1.46.1 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.32.1 pulumi-kubernetes-3.19.1 pyyaml-6.0 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
-💀    🚀 prepareDemoFronte... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
-💀 🔥 🚀 prepareDemoBacken... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1 is available.
-💀 🔥 🚀 prepareDemoBacken... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
-💀    🚀 prepareDemoFronte... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2021.10.8 charset-normalizer-2.0.12 dill-0.3.4 grpcio-1.46.1 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.32.1 pulumi-kubernetes-3.19.1 pyyaml-6.0 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
 💀    🚀 prepareDemoDbDepl... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
-💀 🔥 🚀 prepareDemoFronte... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1 is available.
-💀 🔥 🚀 prepareDemoFronte... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
+💀    🚀 prepareDemoBacken... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
 💀    🚀 prepareDemoDbDepl... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2021.10.8 charset-normalizer-2.0.12 dill-0.3.4 grpcio-1.46.1 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.32.1 pulumi-kubernetes-3.19.1 pyyaml-6.0 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
+💀    🚀 prepareDemoBacken... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2021.10.8 charset-normalizer-2.0.12 dill-0.3.4 grpcio-1.46.1 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.32.1 pulumi-kubernetes-3.19.1 pyyaml-6.0 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
 💀 🔥 🚀 prepareDemoDbDepl... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1 is available.
 💀 🔥 🚀 prepareDemoDbDepl... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
-💀    🚀 prepareDemoFronte... 🏁 🚧 Deployment config: {"env":[{"name":"API_HOST","value":"http://localhost:3000"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-frontend","image.tag":"latest","namespace":"default","ports":[],"replicaCount":1,"service.enabled":true,"service.ports":[],"service.type":"LoadBalancer"}
-💀    🚀 prepareDemoFronte... 🏁 🚧 Prepare chart dependencies.
+💀 🔥 🚀 prepareDemoBacken... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1 is available.
+💀 🔥 🚀 prepareDemoBacken... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
+💀    🚀 prepareDemoFronte... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
+💀    🚀 prepareDemoFronte... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2021.10.8 charset-normalizer-2.0.12 dill-0.3.4 grpcio-1.46.1 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.32.1 pulumi-kubernetes-3.19.1 pyyaml-6.0 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
+💀 🔥 🚀 prepareDemoFronte... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1 is available.
+💀 🔥 🚀 prepareDemoFronte... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Deployment config: {"env":[{"name":"MYSQL_DATABASE","value":"sample"},{"name":"MYSQL_PASSWORD","value":"mysql"},{"name":"MYSQL_ROOT_PASSWORD","value":"Alch3mist"},{"name":"MYSQL_USER","value":"mysql"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-db","image.tag":"latest","namespace":"default","ports":[],"replicaCount":1,"service.enabled":true,"service.ports":[],"service.type":"ClusterIP"}
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Prepare chart dependencies.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Manage the dependencies of a chart.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Helm charts store their dependencies in 'charts/'. For chart developers, it is
-💀    🚀 prepareDemoFronte... 🏁 often easier to manage dependencies in 'Chart.yaml' which declares all
-💀    🚀 prepareDemoFronte... 🏁 dependencies.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 The dependency commands operate on that file, making it easy to synchronize
-💀    🚀 prepareDemoFronte... 🏁 between the desired dependencies and the actual dependencies stored in the
-💀    🚀 prepareDemoFronte... 🏁 'charts/' directory.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 For example, this Chart.yaml declares two dependencies:
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁     # Chart.yaml
-💀    🚀 prepareDemoFronte... 🏁     dependencies:
-💀    🚀 prepareDemoFronte... 🏁     - name: nginx
-💀    🚀 prepareDemoFronte... 🏁       version: "1.2.3"
-💀    🚀 prepareDemoFronte... 🏁       repository: "https://example.com/charts"
-💀    🚀 prepareDemoFronte... 🏁     - name: memcached
-💀    🚀 prepareDemoFronte... 🏁       version: "3.2.1"
-💀    🚀 prepareDemoFronte... 🏁       repository: "https://another.example.com/charts"
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 The 'name' should be the name of a chart, where that name must match the name
-💀    🚀 prepareDemoFronte... 🏁 in that chart's 'Chart.yaml' file.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 The 'version' field should contain a semantic version or version range.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 The 'repository' URL should point to a Chart Repository. Helm expects that by
-💀    🚀 prepareDemoFronte... 🏁 appending '/index.yaml' to the URL, it should be able to retrieve the chart
-💀    🚀 prepareDemoFronte... 🏁 repository's index. Note: 'repository' can be an alias. The alias must start
-💀    🚀 prepareDemoFronte... 🏁 with 'alias:' or '@'.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Starting from 2.2.0, repository can be defined as the path to the directory of
-💀    🚀 prepareDemoFronte... 🏁 the dependency charts stored locally. The path should start with a prefix of
-💀    🚀 prepareDemoFronte... 🏁 "file://". For example,
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁     # Chart.yaml
-💀    🚀 prepareDemoFronte... 🏁     dependencies:
-💀    🚀 prepareDemoFronte... 🏁     - name: nginx
-💀    🚀 prepareDemoFronte... 🏁       version: "1.2.3"
-💀    🚀 prepareDemoFronte... 🏁       repository: "file://../dependency_chart/nginx"
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 If the dependency chart is retrieved locally, it is not required to have the
-💀    🚀 prepareDemoFronte... 🏁 repository added to helm by "helm add repo". Version matching is also supported
-💀    🚀 prepareDemoFronte... 🏁 for this case.
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Usage:
-💀    🚀 prepareDemoFronte... 🏁   helm dependency [command]
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Aliases:
-💀    🚀 prepareDemoFronte... 🏁   dependency, dep, dependencies
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Available Commands:
-💀    🚀 prepareDemoFronte... 🏁   build       rebuild the charts/ directory based on the Chart.lock file
-💀    🚀 prepareDemoFronte... 🏁   list        list the dependencies for the given chart
-💀    🚀 prepareDemoFronte... 🏁   update      update charts/ based on the contents of Chart.yaml
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Flags:
-💀    🚀 prepareDemoFronte... 🏁   -h, --help   help for dependency
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Global Flags:
-💀    🚀 prepareDemoFronte... 🏁       --debug                       enable verbose output
-💀    🚀 prepareDemoFronte... 🏁       --kube-apiserver string       the address and the port for the Kubernetes API server
-💀    🚀 prepareDemoFronte... 🏁       --kube-as-group stringArray   group to impersonate for the operation, this flag can be repeated to specify multiple groups.
-💀    🚀 prepareDemoFronte... 🏁       --kube-as-user string         username to impersonate for the operation
-💀    🚀 prepareDemoFronte... 🏁       --kube-ca-file string         the certificate authority file for the Kubernetes API server connection
-💀    🚀 prepareDemoFronte... 🏁       --kube-context string         name of the kubeconfig context to use
-💀    🚀 prepareDemoFronte... 🏁       --kube-token string           bearer token used for authentication
-💀    🚀 prepareDemoFronte... 🏁       --kubeconfig string           path to the kubeconfig file
-💀    🚀 prepareDemoFronte... 🏁   -n, --namespace string            namespace scope for this request
-💀    🚀 prepareDemoFronte... 🏁       --registry-config string      path to the registry config file (default "/home/gofrendi/.config/helm/registry/config.json")
-💀    🚀 prepareDemoFronte... 🏁       --repository-cache string     path to the file containing cached repository indexes (default "/home/gofrendi/.cache/helm/repository")
-💀    🚀 prepareDemoFronte... 🏁       --repository-config string    path to the file containing repository names and URLs (default "/home/gofrendi/.config/helm/repositories.yaml")
-💀    🚀 prepareDemoFronte... 🏁 
-💀    🚀 prepareDemoFronte... 🏁 Use "helm dependency [command] --help" for more information about a command.
-💀    🚀 prepareDemoFronte... 🏁 🚧 Chart prepared.
+💀    🚀 prepareDemoFronte... 🏁 🚧 Deployment config: {"env":[{"name":"API_HOST","value":"http://localhost:3000"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-frontend","image.tag":"latest","namespace":"default","ports":[],"replicaCount":1,"service.enabled":true,"service.ports":[],"service.type":"LoadBalancer"}
+💀    🚀 prepareDemoFronte... 🏁 🚧 Prepare chart dependencies.
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Manage the dependencies of a chart.
 💀    🚀 prepareDemoDbDepl... 🏁 
@@ -2254,13 +2177,90 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Chart prepared.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Manage the dependencies of a chart.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Helm charts store their dependencies in 'charts/'. For chart developers, it is
+💀    🚀 prepareDemoFronte... 🏁 often easier to manage dependencies in 'Chart.yaml' which declares all
+💀    🚀 prepareDemoFronte... 🏁 dependencies.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 The dependency commands operate on that file, making it easy to synchronize
+💀    🚀 prepareDemoFronte... 🏁 between the desired dependencies and the actual dependencies stored in the
+💀    🚀 prepareDemoFronte... 🏁 'charts/' directory.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 For example, this Chart.yaml declares two dependencies:
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁     # Chart.yaml
+💀    🚀 prepareDemoFronte... 🏁     dependencies:
+💀    🚀 prepareDemoFronte... 🏁     - name: nginx
+💀    🚀 prepareDemoFronte... 🏁       version: "1.2.3"
+💀    🚀 prepareDemoFronte... 🏁       repository: "https://example.com/charts"
+💀    🚀 prepareDemoFronte... 🏁     - name: memcached
+💀    🚀 prepareDemoFronte... 🏁       version: "3.2.1"
+💀    🚀 prepareDemoFronte... 🏁       repository: "https://another.example.com/charts"
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 The 'name' should be the name of a chart, where that name must match the name
+💀    🚀 prepareDemoFronte... 🏁 in that chart's 'Chart.yaml' file.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 The 'version' field should contain a semantic version or version range.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 The 'repository' URL should point to a Chart Repository. Helm expects that by
+💀    🚀 prepareDemoFronte... 🏁 appending '/index.yaml' to the URL, it should be able to retrieve the chart
+💀    🚀 prepareDemoFronte... 🏁 repository's index. Note: 'repository' can be an alias. The alias must start
+💀    🚀 prepareDemoFronte... 🏁 with 'alias:' or '@'.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Starting from 2.2.0, repository can be defined as the path to the directory of
+💀    🚀 prepareDemoFronte... 🏁 the dependency charts stored locally. The path should start with a prefix of
+💀    🚀 prepareDemoFronte... 🏁 "file://". For example,
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁     # Chart.yaml
+💀    🚀 prepareDemoFronte... 🏁     dependencies:
+💀    🚀 prepareDemoFronte... 🏁     - name: nginx
+💀    🚀 prepareDemoFronte... 🏁       version: "1.2.3"
+💀    🚀 prepareDemoFronte... 🏁       repository: "file://../dependency_chart/nginx"
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 If the dependency chart is retrieved locally, it is not required to have the
+💀    🚀 prepareDemoFronte... 🏁 repository added to helm by "helm add repo". Version matching is also supported
+💀    🚀 prepareDemoFronte... 🏁 for this case.
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Usage:
+💀    🚀 prepareDemoFronte... 🏁   helm dependency [command]
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Aliases:
+💀    🚀 prepareDemoFronte... 🏁   dependency, dep, dependencies
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Available Commands:
+💀    🚀 prepareDemoFronte... 🏁   build       rebuild the charts/ directory based on the Chart.lock file
+💀    🚀 prepareDemoFronte... 🏁   list        list the dependencies for the given chart
+💀    🚀 prepareDemoFronte... 🏁   update      update charts/ based on the contents of Chart.yaml
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Flags:
+💀    🚀 prepareDemoFronte... 🏁   -h, --help   help for dependency
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Global Flags:
+💀    🚀 prepareDemoFronte... 🏁       --debug                       enable verbose output
+💀    🚀 prepareDemoFronte... 🏁       --kube-apiserver string       the address and the port for the Kubernetes API server
+💀    🚀 prepareDemoFronte... 🏁       --kube-as-group stringArray   group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+💀    🚀 prepareDemoFronte... 🏁       --kube-as-user string         username to impersonate for the operation
+💀    🚀 prepareDemoFronte... 🏁       --kube-ca-file string         the certificate authority file for the Kubernetes API server connection
+💀    🚀 prepareDemoFronte... 🏁       --kube-context string         name of the kubeconfig context to use
+💀    🚀 prepareDemoFronte... 🏁       --kube-token string           bearer token used for authentication
+💀    🚀 prepareDemoFronte... 🏁       --kubeconfig string           path to the kubeconfig file
+💀    🚀 prepareDemoFronte... 🏁   -n, --namespace string            namespace scope for this request
+💀    🚀 prepareDemoFronte... 🏁       --registry-config string      path to the registry config file (default "/home/gofrendi/.config/helm/registry/config.json")
+💀    🚀 prepareDemoFronte... 🏁       --repository-cache string     path to the file containing cached repository indexes (default "/home/gofrendi/.cache/helm/repository")
+💀    🚀 prepareDemoFronte... 🏁       --repository-config string    path to the file containing repository names and URLs (default "/home/gofrendi/.config/helm/repositories.yaml")
+💀    🚀 prepareDemoFronte... 🏁 
+💀    🚀 prepareDemoFronte... 🏁 Use "helm dependency [command] --help" for more information about a command.
+💀    🚀 prepareDemoFronte... 🏁 🚧 Chart prepared.
+💀 🎉 Successfully running 🏁 'prepareDemoDbDeployment' command
 💀 🎉 Successfully running 🏁 'prepareDemoFrontendDeployment' command
 💀 🏁 Run 🏁 'deployDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
-💀 🎉 Successfully running 🏁 'prepareDemoDbDeployment' command
-💀 🔥 🚀 deployDemoFronten... 🏁 error: no stack named 'dev' found
 💀 🏁 Run 🏁 'deployDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
-💀    🚀 deployDemoFronten... 🏁 Created stack 'dev'
+💀 🔥 🚀 deployDemoFronten... 🏁 error: no stack named 'dev' found
 💀 🔥 🚀 deployDemoDbDeplo... 🏁 error: no stack named 'dev' found
+💀    🚀 deployDemoFronten... 🏁 Created stack 'dev'
 💀    🚀 deployDemoDbDeplo... 🏁 Created stack 'dev'
 💀    🚀 prepareDemoBacken... 🏁 PARTS: ["3000"]
 💀    🚀 prepareDemoBacken... 🏁 🚧 Deployment config: {"env":[{"name":"APP_ACCESS_TOKEN_ALGORITHM","value":"HS256"},{"name":"APP_ACCESS_TOKEN_EXPIRE_MINUTES","value":"30"},{"name":"APP_ACCESS_TOKEN_SECRET_KEY","value":"09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"},{"name":"APP_ACCESS_TOKEN_URL","value":"/token/"},{"name":"APP_CORS_ALLOW_CREDENTIALS","value":"false"},{"name":"APP_CORS_ALLOW_HEADERS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_METHODS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGINS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGIN_REGEX","value":""},{"name":"APP_CORS_EXPOSE_HEADERS","value":"[]"},{"name":"APP_CORS_MAX_AGE","value":"600"},{"name":"APP_ENABLE_EVENT_HANDLER","value":"1"},{"name":"APP_ENABLE_ROUTE_HANDLER","value":"1"},{"name":"APP_ENABLE_RPC_HANDLER","value":"1"},{"name":"APP_ERROR_THRESHOLD","value":"10"},{"name":"APP_GUEST_USERNAME","value":"guest"},{"name":"APP_HTTP_PORT","value":"3000"},{"name":"APP_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"APP_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"APP_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"APP_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"APP_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"APP_MESSAGE_BUS_TYPE","value":"local"},{"name":"APP_RABBITMQ_HOST","value":"localhost"},{"name":"APP_RABBITMQ_PASS","value":"Alch3mist"},{"name":"APP_RABBITMQ_USER","value":"root"},{"name":"APP_RABBITMQ_VHOST","value":"/"},{"name":"APP_ROOT_INITIAL_EMAIL","value":"root@innistrad.com"},{"name":"APP_ROOT_INITIAL_FULL_NAME","value":"root"},{"name":"APP_ROOT_INITIAL_PASSWORD","value":"Alch3mist"},{"name":"APP_ROOT_INITIAL_PHONE_NUMBER","value":"621234567890"},{"name":"APP_ROOT_PERMISSION","value":"root"},{"name":"APP_ROOT_USERNAME","value":"root"},{"name":"APP_RPC_TYPE","value":"local"},{"name":"APP_SQLALCHEMY_DATABASE_URL","value":"sqlite:///database.db"},{"name":"APP_STATIC_DIRECTORY","value":""},{"name":"APP_STATIC_URL","value":"/static"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"},{"name":"TEST_INTEGRATION","value":"0"},{"name":"TEST_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"TEST_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"TEST_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"TEST_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"TEST_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"TEST_RABBITMQ_HOST","value":"localhost"},{"name":"TEST_RABBITMQ_PASS","value":"Alch3mist"},{"name":"TEST_RABBITMQ_USER","value":"root"},{"name":"TEST_RABBITMQ_VHOST","value":"/"},{"name":"TEST_SQLALCHEMY_DATABASE_URL","value":"sqlite:///test.db"}],"image.repository":"demo-backend","image.tag":"latest","namespace":"default","ports":[{"containerPort":3000,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":3000,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
@@ -2351,13 +2351,12 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev create 
-💀    🚀 deployDemoBackend... 🏁 Previewing update (dev):
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend create 
 💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev create 
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend create 
 💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart demo-db create 
+💀    🚀 deployDemoBackend... 🏁 Previewing update (dev):
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend create 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend create 
-💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db create 
 💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db create 
 💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev create 
@@ -2372,169 +2371,385 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁     + 4 to create
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁 Updating (dev):
-💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:helm.sh/v3:Chart demo-backend create 
+💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁 
+💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:helm.sh/v3:Chart demo-backend create 
+💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend create 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:Service default/demo-backend create 
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend create 
-💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart demo-db creating 
 💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
 💀    🚀 deployDemoBackend... 🏁  
 💀    🚀 deployDemoBackend... 🏁 Resources:
 💀    🚀 deployDemoBackend... 🏁     + 5 to create
 💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁 Updating (dev):
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart demo-db creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend created 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db created 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend created 
-💀    🚀 deployDemoBackend... 🏁 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db created 
+💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev created 
+💀    🚀 deployDemoDbDeplo... 🏁  
+💀    🚀 deployDemoDbDeplo... 🏁 Outputs:
+💀    🚀 deployDemoDbDeplo... 🏁     app: {
+💀    🚀 deployDemoDbDeplo... 🏁         ready    : [
+💀    🚀 deployDemoDbDeplo... 🏁             [0]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁             [1]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁         ]
+💀    🚀 deployDemoDbDeplo... 🏁         resources: {
+💀    🚀 deployDemoDbDeplo... 🏁             apps/v1/Deployment:default/demo-db: {
+💀    🚀 deployDemoDbDeplo... 🏁                 api_version: "apps/v1"
+💀    🚀 deployDemoDbDeplo... 🏁                 id         : "default/demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                 kind       : "Deployment"
+💀    🚀 deployDemoDbDeplo... 🏁                 metadata   : {
+💀    🚀 deployDemoDbDeplo... 🏁                     annotations       : {
+💀    🚀 deployDemoDbDeplo... 🏁                         kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 deployDemoDbDeplo... 🏁                             apiVersion: "apps/v1"
 💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev created 
+💀    🚀 deployDemoDbDeplo... 🏁                             kind      : "Deployment"
 💀    🚀 deployDemoFronten... 🏁  
+💀    🚀 deployDemoDbDeplo... 🏁                             metadata  : {
+💀    🚀 deployDemoDbDeplo... 🏁                                 annotations: {
+💀    🚀 deployDemoDbDeplo... 🏁                                     pulumi.com/skipAwait: "true"
+💀    🚀 deployDemoDbDeplo... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                 labels     : {
+💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/instance  : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/name      : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/version   : "1.16.0"
+💀    🚀 deployDemoDbDeplo... 🏁                                     helm.sh/chart               : "demo-db-0.1.0"
+💀    🚀 deployDemoDbDeplo... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                 name       : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                 namespace  : "default"
+💀    🚀 deployDemoDbDeplo... 🏁                             }
+💀    🚀 deployDemoDbDeplo... 🏁                             spec      : {
+💀    🚀 deployDemoDbDeplo... 🏁                                 replicas: 1
+💀    🚀 deployDemoDbDeplo... 🏁                                 selector: {
+💀    🚀 deployDemoDbDeplo... 🏁                                     matchLabels: {
+💀    🚀 deployDemoDbDeplo... 🏁                                         app.kubernetes.io/instance: "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                         app.kubernetes.io/name    : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                 template: {
+💀    🚀 deployDemoDbDeplo... 🏁                                     metadata: {
+💀    🚀 deployDemoDbDeplo... 🏁                                         labels: {
+💀    🚀 deployDemoDbDeplo... 🏁                                             app.kubernetes.io/instance: "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                             app.kubernetes.io/name    : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                     spec    : {
+💀    🚀 deployDemoDbDeplo... 🏁                                         containers        : [
+💀    🚀 deployDemoDbDeplo... 🏁                                             [0]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                 env            : [
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [0]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_DATABASE"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "sample"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [1]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_PASSWORD"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "mysql"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [2]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_ROOT_PASSWORD"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "Alch3mist"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [3]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_USER"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "mysql"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [4]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "PULUMI_BACKEND_URL"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [5]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "defaultLocalPulumiPassphrase"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
 💀    🚀 deployDemoFronten... 🏁 Outputs:
+💀    🚀 deployDemoDbDeplo... 🏁                                                     [6]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "PYTHONUNBUFFERED"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "1"
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
 💀    🚀 deployDemoFronten... 🏁     app: {
 💀    🚀 deployDemoFronten... 🏁         ready    : [
+💀    🚀 deployDemoDbDeplo... 🏁                                                 ]
+💀    🚀 deployDemoDbDeplo... 🏁                                                 image          : "demo-db:latest"
 💀    🚀 deployDemoFronten... 🏁             [0]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
 💀    🚀 deployDemoFronten... 🏁             [1]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-frontend"
 💀    🚀 deployDemoFronten... 🏁         ]
 💀    🚀 deployDemoFronten... 🏁         resources: {
 💀    🚀 deployDemoFronten... 🏁             apps/v1/Deployment:default/demo-frontend: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                 imagePullPolicy: "IfNotPresent"
+💀    🚀 deployDemoDbDeplo... 🏁                                                 name           : "demo-db"
 💀    🚀 deployDemoFronten... 🏁                 api_version: "apps/v1"
 💀    🚀 deployDemoFronten... 🏁                 id         : "default/demo-frontend"
+💀    🚀 deployDemoDbDeplo... 🏁                                             }
+💀    🚀 deployDemoDbDeplo... 🏁                                         ]
 💀    🚀 deployDemoFronten... 🏁                 kind       : "Deployment"
 💀    🚀 deployDemoFronten... 🏁                 metadata   : {
+💀    🚀 deployDemoDbDeplo... 🏁                                         serviceAccountName: "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                     annotations       : {
 💀    🚀 deployDemoFronten... 🏁                         kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 deployDemoDbDeplo... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                             apiVersion: "apps/v1"
 💀    🚀 deployDemoFronten... 🏁                             kind      : "Deployment"
 💀    🚀 deployDemoFronten... 🏁                             metadata  : {
+💀    🚀 deployDemoDbDeplo... 🏁                         }
+💀    🚀 deployDemoDbDeplo... 🏁 
+💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoFronten... 🏁                                 annotations: {
 💀    🚀 deployDemoFronten... 🏁                                     pulumi.com/skipAwait: "true"
+💀    🚀 deployDemoDbDeplo... 🏁                     }
+💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 deployDemoFronten... 🏁                                 }
 💀    🚀 deployDemoFronten... 🏁                                 labels     : {
+💀    🚀 deployDemoDbDeplo... 🏁                     generation        : 1
+💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
+💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance  : "demo-db"
 💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/managed-by: "pulumi"
 💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/name      : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/version   : "1.16.0"
 💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/name      : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/version   : "1.16.0"
+💀    🚀 deployDemoDbDeplo... 🏁                         helm.sh/chart               : "demo-db-0.1.0"
+💀    🚀 deployDemoDbDeplo... 🏁                     }
 💀    🚀 deployDemoFronten... 🏁                                     helm.sh/chart               : "demo-frontend-0.1.0"
 💀    🚀 deployDemoFronten... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                     managed_fields    : [
+💀    🚀 deployDemoDbDeplo... 🏁                         [0]: {
+💀    🚀 deployDemoDbDeplo... 🏁                             api_version: "apps/v1"
 💀    🚀 deployDemoFronten... 🏁                                 name       : "demo-frontend"
+💀    🚀 deployDemoDbDeplo... 🏁                             fields_type: "FieldsV1"
+💀    🚀 deployDemoDbDeplo... 🏁                             fields_v1  : {
 💀    🚀 deployDemoFronten... 🏁                                 namespace  : "default"
+💀    🚀 deployDemoDbDeplo... 🏁                                 f:metadata: {
 💀    🚀 deployDemoFronten... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                             spec      : {
+💀    🚀 deployDemoDbDeplo... 🏁                                     f:annotations: {
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                 replicas: 1
 💀    🚀 deployDemoFronten... 🏁                                 selector: {
 💀    🚀 deployDemoFronten... 🏁                                     matchLabels: {
 💀    🚀 deployDemoFronten... 🏁                                         app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 deployDemoDbDeplo... 🏁                                     f:labels     : {
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                         app.kubernetes.io/name    : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                 f:spec    : {
+💀    🚀 deployDemoDbDeplo... 🏁                                     f:strategy               : {
+💀    🚀 deployDemoDbDeplo... 🏁                                         f:rollingUpdate: {
 💀    🚀 deployDemoFronten... 🏁                                 }
 💀    🚀 deployDemoFronten... 🏁                                 template: {
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                     metadata: {
 💀    🚀 deployDemoFronten... 🏁                                         labels: {
+💀    🚀 deployDemoDbDeplo... 🏁                                     f:template               : {
+💀    🚀 deployDemoDbDeplo... 🏁                                         f:metadata: {
 💀    🚀 deployDemoFronten... 🏁                                             app.kubernetes.io/instance: "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                             app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 deployDemoDbDeplo... 🏁                                             f:labels: {
+💀    🚀 deployDemoDbDeplo... 🏁                                             }
 💀    🚀 deployDemoFronten... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                         f:spec    : {
 💀    🚀 deployDemoFronten... 🏁                                     spec    : {
 💀    🚀 deployDemoFronten... 🏁                                         containers        : [
+💀    🚀 deployDemoDbDeplo... 🏁                                             f:containers                   : {
+💀    🚀 deployDemoDbDeplo... 🏁                                                 k:{"name":"demo-db"}: {
 💀    🚀 deployDemoFronten... 🏁                                             [0]: {
 💀    🚀 deployDemoFronten... 🏁                                                 env            : [
+💀    🚀 deployDemoDbDeplo... 🏁                                                     f:env                     : {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_DATABASE"}          : {
 💀    🚀 deployDemoFronten... 🏁                                                     [0]: {
 💀    🚀 deployDemoFronten... 🏁                                                         name : "API_HOST"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_PASSWORD"}          : {
 💀    🚀 deployDemoFronten... 🏁                                                         value: "http://localhost:3000"
 💀    🚀 deployDemoFronten... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_ROOT_PASSWORD"}     : {
 💀    🚀 deployDemoFronten... 🏁                                                     [1]: {
 💀    🚀 deployDemoFronten... 🏁                                                         name : "PULUMI_BACKEND_URL"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_USER"}              : {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
 💀    🚀 deployDemoFronten... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"PULUMI_BACKEND_URL"}      : {
 💀    🚀 deployDemoFronten... 🏁                                                     [2]: {
 💀    🚀 deployDemoFronten... 🏁                                                         name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"PULUMI_CONFIG_PASSPHRASE"}: {
 💀    🚀 deployDemoFronten... 🏁                                                         value: "defaultLocalPulumiPassphrase"
 💀    🚀 deployDemoFronten... 🏁                                                     }
 💀    🚀 deployDemoFronten... 🏁                                                     [3]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
 💀    🚀 deployDemoFronten... 🏁                                                         name : "PYTHONUNBUFFERED"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"PYTHONUNBUFFERED"}        : {
 💀    🚀 deployDemoFronten... 🏁                                                         value: "1"
+💀    🚀 deployDemoDbDeplo... 🏁                                                         }
 💀    🚀 deployDemoFronten... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                             }
 💀    🚀 deployDemoFronten... 🏁                                                 ]
 💀    🚀 deployDemoFronten... 🏁                                                 image          : "demo-frontend:latest"
 💀    🚀 deployDemoFronten... 🏁                                                 imagePullPolicy: "IfNotPresent"
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                                                 name           : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                             }
+💀    🚀 deployDemoDbDeplo... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                 }
 💀    🚀 deployDemoFronten... 🏁                                         ]
 💀    🚀 deployDemoFronten... 🏁                                         serviceAccountName: "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                                 }
 💀    🚀 deployDemoFronten... 🏁                             }
+💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
+💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
 💀    🚀 deployDemoFronten... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoFronten... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoFronten... 🏁                     }
-💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-14T08:04:50Z"
+💀    🚀 deployDemoDbDeplo... 🏁                         }
+💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 deployDemoFronten... 🏁                     generation        : 1
+💀    🚀 deployDemoDbDeplo... 🏁                     ]
+💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db"
 💀    🚀 deployDemoFronten... 🏁                     labels            : {
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
+💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "1940"
+💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "ce198cfe-0c62-461d-ad69-f825b0ede8e8"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/name      : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/version   : "1.16.0"
+💀    🚀 deployDemoDbDeplo... 🏁                 }
 💀    🚀 deployDemoFronten... 🏁                         helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 deployDemoDbDeplo... 🏁                 spec       : {
+💀    🚀 deployDemoDbDeplo... 🏁                     progress_deadline_seconds: 600
 💀    🚀 deployDemoFronten... 🏁                     }
 💀    🚀 deployDemoFronten... 🏁                     managed_fields    : [
+💀    🚀 deployDemoDbDeplo... 🏁                     replicas                 : 1
+💀    🚀 deployDemoDbDeplo... 🏁                     revision_history_limit   : 10
+💀    🚀 deployDemoDbDeplo... 🏁                     selector                 : {
 💀    🚀 deployDemoFronten... 🏁                         [0]: {
 💀    🚀 deployDemoFronten... 🏁                             api_version: "apps/v1"
 💀    🚀 deployDemoFronten... 🏁                             fields_type: "FieldsV1"
+💀    🚀 deployDemoDbDeplo... 🏁                         match_labels: {
+💀    🚀 deployDemoDbDeplo... 🏁                             app.kubernetes.io/instance: "demo-db"
 💀    🚀 deployDemoFronten... 🏁                             fields_v1  : {
 💀    🚀 deployDemoFronten... 🏁                                 f:metadata: {
+💀    🚀 deployDemoDbDeplo... 🏁                             app.kubernetes.io/name    : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁                                     f:annotations: {
 💀    🚀 deployDemoFronten... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                     }
+💀    🚀 deployDemoDbDeplo... 🏁                     strategy                 : {
 💀    🚀 deployDemoFronten... 🏁                                     f:labels     : {
+💀    🚀 deployDemoDbDeplo... 🏁                         rolling_update: {
 💀    🚀 deployDemoFronten... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                             max_surge      : "25%"
+💀    🚀 deployDemoDbDeplo... 🏁                             max_unavailable: "25%"
 💀    🚀 deployDemoFronten... 🏁                                 f:spec    : {
 💀    🚀 deployDemoFronten... 🏁                                     f:strategy               : {
+💀    🚀 deployDemoDbDeplo... 🏁                         }
+💀    🚀 deployDemoDbDeplo... 🏁                         type          : "RollingUpdate"
 💀    🚀 deployDemoFronten... 🏁                                         f:rollingUpdate: {
 💀    🚀 deployDemoFronten... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                     f:template               : {
+💀    🚀 deployDemoDbDeplo... 🏁                     }
+💀    🚀 deployDemoDbDeplo... 🏁                     template                 : {
 💀    🚀 deployDemoFronten... 🏁                                         f:metadata: {
 💀    🚀 deployDemoFronten... 🏁                                             f:labels: {
+💀    🚀 deployDemoDbDeplo... 🏁                         metadata: {
+💀    🚀 deployDemoDbDeplo... 🏁                             labels: {
 💀    🚀 deployDemoFronten... 🏁                                             }
 💀    🚀 deployDemoFronten... 🏁                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                 app.kubernetes.io/instance: "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                                 app.kubernetes.io/name    : "demo-db"
+💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                                         f:spec    : {
+💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁                                             f:containers                   : {
 💀    🚀 deployDemoFronten... 🏁                                                 k:{"name":"demo-frontend"}: {
+💀    🚀 deployDemoDbDeplo... 🏁                         spec    : {
+💀    🚀 deployDemoDbDeplo... 🏁                             containers                      : [
 💀    🚀 deployDemoFronten... 🏁                                                     f:env                     : {
 💀    🚀 deployDemoFronten... 🏁                                                         k:{"name":"API_HOST"}                : {
+💀    🚀 deployDemoDbDeplo... 🏁                                 [0]: {
 💀    🚀 deployDemoFronten... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                     env                       : [
+💀    🚀 deployDemoDbDeplo... 🏁                                         [0]: {
 💀    🚀 deployDemoFronten... 🏁                                                         k:{"name":"PULUMI_BACKEND_URL"}      : {
 💀    🚀 deployDemoFronten... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_DATABASE"
+💀    🚀 deployDemoDbDeplo... 🏁                                             value: "sample"
 💀    🚀 deployDemoFronten... 🏁                                                         k:{"name":"PULUMI_CONFIG_PASSPHRASE"}: {
 💀    🚀 deployDemoFronten... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                         [1]: {
 💀    🚀 deployDemoFronten... 🏁                                                         k:{"name":"PYTHONUNBUFFERED"}        : {
 💀    🚀 deployDemoFronten... 🏁                                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_PASSWORD"
+💀    🚀 deployDemoDbDeplo... 🏁                                             value: "mysql"
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                                                     }
 💀    🚀 deployDemoFronten... 🏁                                                 }
 💀    🚀 deployDemoFronten... 🏁                                             }
+💀    🚀 deployDemoDbDeplo... 🏁                                         [2]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_ROOT_PASSWORD"
 💀    🚀 deployDemoFronten... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                                     }
+💀    🚀 deployDemoDbDeplo... 🏁                                             value: "Alch3mist"
 💀    🚀 deployDemoFronten... 🏁                                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                             }
+💀    🚀 deployDemoDbDeplo... 🏁                                         [3]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_USER"
 💀    🚀 deployDemoFronten... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoFronten... 🏁                             operation  : "Update"
-💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-14T07:13:38Z"
+💀    🚀 deployDemoDbDeplo... 🏁                                             value: "mysql"
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
+💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-14T08:04:50Z"
+💀    🚀 deployDemoDbDeplo... 🏁                                         [4]: {
 💀    🚀 deployDemoFronten... 🏁                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                             name: "PULUMI_BACKEND_URL"
 💀    🚀 deployDemoFronten... 🏁                     ]
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoFronten... 🏁                     name              : "demo-frontend"
+💀    🚀 deployDemoDbDeplo... 🏁                                         [5]: {
+💀    🚀 deployDemoDbDeplo... 🏁                                             name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 deployDemoDbDeplo... 🏁                                             value: "defaultLocalPulumiPassphrase"
 💀    🚀 deployDemoFronten... 🏁                     namespace         : "default"
-💀    🚀 deployDemoFronten... 🏁                     resource_version  : "8231"
-💀    🚀 deployDemoFronten... 🏁                     uid               : "64d578df-0822-4279-bb78-d57ce2406390"
+💀    🚀 deployDemoFronten... 🏁                     resource_version  : "1938"
+💀    🚀 deployDemoDbDeplo... 🏁                                         }
+💀    🚀 deployDemoDbDeplo... 🏁                                         [6]: {
+💀    🚀 deployDemoFronten... 🏁                     uid               : "b316a0ca-e88e-466d-8d10-caad4dd38532"
 💀    🚀 deployDemoFronten... 🏁                 }
+💀    🚀 deployDemoDbDeplo... 🏁                                             name : 
 💀    🚀 deployDemoFronten... 🏁                 spec       : {
 💀    🚀 deployDemoFronten... 🏁                     progress_deadline_seconds: 600
 💀    🚀 deployDemoFronten... 🏁                     replicas                 : 1
@@ -2603,295 +2818,19 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                 kind                           : "ServiceAccount"
 💀    🚀 deployDemoFronten... 🏁                 metadata                       : {
 💀    🚀 deployDemoFronten... 🏁                     annotations       : {
-💀    🚀 deployDemoFronten... 🏁                         kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 deployDemoFronten... 🏁                             apiVersion: "v1"
-💀    🚀 deployDemoFronten... 🏁                             kind      : "ServiceAccount"
-💀    🚀 deployDemoFronten... 🏁                             metadata  : {
-💀    🚀 deployDemoFronten... 🏁                                 annotations: {
-💀    🚀 deployDemoFronten... 🏁                                     pulumi.com/skipAwait: "true"
-💀    🚀 deployDemoFronten... 🏁                                 }
-💀    🚀 deployDemoFronten... 🏁                                 labels     : {
-💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/instance  : "demo-frontend"
-💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/version   : "1.16.0"
-💀    🚀 deployDemoFronten... 🏁                                     helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 deployDemoFronten... 🏁                                 }
-💀    🚀 deployDemoFronten... 🏁                                 name       : "demo-frontend"
-💀    🚀 deployDemoFronten... 🏁                                 namespace  : "default"
-💀    🚀 deployDemoFronten... 🏁                             }
-💀    🚀 deployDemoFronten... 🏁                         }
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoFronten... 🏁                         pulumi.com/skipAwait                            : "true"
-💀    🚀 deployDemoFronten... 🏁                     }
-💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-14T07:13:38Z"
-💀    🚀 deployDemoFronten... 🏁                     labels            : {
-💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/instance  : "demo-frontend"
-💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/version   : "1.16.0"
-💀    🚀 deployDemoFronten... 🏁                         helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 deployDemoFronten... 🏁                     }
-💀    🚀 deployDemoFronten... 🏁                     managed_fields    : [
-💀    🚀 deployDemoFronten... 🏁                         [0]: {
-💀    🚀 deployDemoFronten... 🏁                             api_version: "v1"
-💀    🚀 deployDemoFronten... 🏁                             fields_type: "FieldsV1"
-💀    🚀 deployDemoFronten... 🏁                             fields_v1  : {
-💀    🚀 deployDemoFronten... 🏁                                 f:metadata: {
-💀    🚀 deployDemoFronten... 🏁                                     f:annotations: {
-💀    🚀 deployDemoFronten... 🏁                                     }
-💀    🚀 deployDemoFronten... 🏁                                     f:labels     : {
-💀    🚀 deployDemoFronten... 🏁                                     }
-💀    🚀 deployDemoFronten... 🏁                                 }
-💀    🚀 deployDemoFronten... 🏁                             }
-💀    🚀 deployDemoFronten... 🏁                             manager    : "pulumi-resource-kubernetes"
-💀    🚀 deployDemoFronten... 🏁                             operation  : "Update"
-💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-14T07:13:38Z"
-💀    🚀 deployDemoFronten... 🏁                         }
-💀    🚀 deployDemoFronten... 🏁                     ]
-💀    🚀 deployDemoFronten... 🏁                     name              : "demo-frontend"
-💀    🚀 deployDemoFronten... 🏁                     namespace         : "default"
-💀    🚀 deployDemoFronten... 🏁                     resource_version  : "8230"
-💀    🚀 deployDemoFronten... 🏁                     uid               : "2d37cbbd-16c5-483a-a9c0-3d28d603f076"
-💀    🚀 deployDemoFronten... 🏁                 }
-💀    🚀 deployDemoFronten... 🏁                 urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
-💀    🚀 deployDemoFronten... 🏁             }
-💀    🚀 deployDemoFronten... 🏁         }
-💀    🚀 deployDemoFronten... 🏁         urn      : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart::demo-frontend"
-💀    🚀 deployDemoFronten... 🏁     }
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoFronten... 🏁 Resources:
-💀    🚀 deployDemoFronten... 🏁     + 4 created
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoFronten... 🏁 Duration: 2s
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db created 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:Deployment default/demo-db created 
-💀 🎉 Successfully running 🏁 'deployDemoFrontendDeployment' command
-💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev created 
-💀    🚀 deployDemoDbDeplo... 🏁  
-💀    🚀 deployDemoDbDeplo... 🏁 Outputs:
-💀    🚀 deployDemoDbDeplo... 🏁     app: {
-💀    🚀 deployDemoDbDeplo... 🏁         ready    : [
-💀    🚀 deployDemoDbDeplo... 🏁             [0]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁             [1]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁         ]
-💀    🚀 deployDemoDbDeplo... 🏁         resources: {
-💀    🚀 deployDemoDbDeplo... 🏁             apps/v1/Deployment:default/demo-db: {
-💀    🚀 deployDemoDbDeplo... 🏁                 api_version: "apps/v1"
-💀    🚀 deployDemoDbDeplo... 🏁                 id         : "default/demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                 kind       : "Deployment"
-💀    🚀 deployDemoDbDeplo... 🏁                 metadata   : {
-💀    🚀 deployDemoDbDeplo... 🏁                     annotations       : {
-💀    🚀 deployDemoDbDeplo... 🏁                         kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 deployDemoDbDeplo... 🏁                             apiVersion: "apps/v1"
-💀    🚀 deployDemoDbDeplo... 🏁                             kind      : "Deployment"
-💀    🚀 deployDemoDbDeplo... 🏁                             metadata  : {
-💀    🚀 deployDemoDbDeplo... 🏁                                 annotations: {
-💀    🚀 deployDemoDbDeplo... 🏁                                     pulumi.com/skipAwait: "true"
-💀    🚀 deployDemoDbDeplo... 🏁                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                                 labels     : {
-💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/instance  : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/name      : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                     app.kubernetes.io/version   : "1.16.0"
-💀    🚀 deployDemoDbDeplo... 🏁                                     helm.sh/chart               : "demo-db-0.1.0"
-💀    🚀 deployDemoDbDeplo... 🏁                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                                 name       : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                 namespace  : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                             }
-💀    🚀 deployDemoDbDeplo... 🏁                             spec      : {
-💀    🚀 deployDemoDbDeplo... 🏁                                 replicas: 1
-💀    🚀 deployDemoDbDeplo... 🏁                                 selector: {
-💀    🚀 deployDemoDbDeplo... 🏁                                     matchLabels: {
-💀    🚀 deployDemoDbDeplo... 🏁                                         app.kubernetes.io/instance: "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                         app.kubernetes.io/name    : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                                 template: {
-💀    🚀 deployDemoDbDeplo... 🏁                                     metadata: {
-💀    🚀 deployDemoDbDeplo... 🏁                                         labels: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             app.kubernetes.io/instance: "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                             app.kubernetes.io/name    : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                     spec    : {
-💀    🚀 deployDemoDbDeplo... 🏁                                         containers        : [
-💀    🚀 deployDemoDbDeplo... 🏁                                             [0]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                 env            : [
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [0]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_DATABASE"
-💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "sample"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [1]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_PASSWORD"
-💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "mysql"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [2]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_ROOT_PASSWORD"
-💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "Alch3mist"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [3]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "MYSQL_USER"
-💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "mysql"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [4]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "PULUMI_BACKEND_URL"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [5]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "PULUMI_CONFIG_PASSPHRASE"
-💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "defaultLocalPulumiPassphrase"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     [6]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         name : "PYTHONUNBUFFERED"
-💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "1"
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                 ]
-💀    🚀 deployDemoDbDeplo... 🏁                                                 image          : "demo-db:latest"
-💀    🚀 deployDemoDbDeplo... 🏁                                                 imagePullPolicy: "IfNotPresent"
-💀    🚀 deployDemoDbDeplo... 🏁                                                 name           : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                             }
-💀    🚀 deployDemoDbDeplo... 🏁                                         ]
-💀    🚀 deployDemoDbDeplo... 🏁                                         serviceAccountName: "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                             }
-💀    🚀 deployDemoDbDeplo... 🏁                         }
-💀    🚀 deployDemoDbDeplo... 🏁 
-💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
-💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-14T07:13:38Z"
-💀    🚀 deployDemoDbDeplo... 🏁                     generation        : 1
-💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
-💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance  : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/name      : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/version   : "1.16.0"
-💀    🚀 deployDemoDbDeplo... 🏁                         helm.sh/chart               : "demo-db-0.1.0"
-💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     managed_fields    : [
-💀    🚀 deployDemoDbDeplo... 🏁                         [0]: {
-💀    🚀 deployDemoDbDeplo... 🏁                             api_version: "apps/v1"
-💀    🚀 deployDemoDbDeplo... 🏁                             fields_type: "FieldsV1"
-💀    🚀 deployDemoDbDeplo... 🏁                             fields_v1  : {
-💀    🚀 deployDemoDbDeplo... 🏁                                 f:metadata: {
-💀    🚀 deployDemoDbDeplo... 🏁                                     f:annotations: {
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                     f:labels     : {
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                                 f:spec    : {
-💀    🚀 deployDemoDbDeplo... 🏁                                     f:strategy               : {
-💀    🚀 deployDemoDbDeplo... 🏁                                         f:rollingUpdate: {
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                     f:template               : {
-💀    🚀 deployDemoDbDeplo... 🏁                                         f:metadata: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             f:labels: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             }
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         f:spec    : {
-💀    🚀 deployDemoDbDeplo... 🏁                                             f:containers                   : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                 k:{"name":"demo-db"}: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                     f:env                     : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_DATABASE"}          : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_PASSWORD"}          : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_ROOT_PASSWORD"}     : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_USER"}              : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"PULUMI_BACKEND_URL"}      : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"PULUMI_CONFIG_PASSPHRASE"}: {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"PYTHONUNBUFFERED"}        : {
-💀    🚀 deployDemoDbDeplo... 🏁                                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                                             }
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀    🚀 deployDemoDbDeplo... 🏁                                 }
-💀    🚀 deployDemoDbDeplo... 🏁                             }
-💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
-💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-14T07:13:38Z"
-💀    🚀 deployDemoDbDeplo... 🏁                         }
-💀    🚀 deployDemoDbDeplo... 🏁                     ]
-💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "8245"
-💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "f6dd1037-61b3-441e-9a4d-3f59246f7aaa"
-💀    🚀 deployDemoDbDeplo... 🏁                 }
-💀    🚀 deployDemoDbDeplo... 🏁                 spec       : {
-💀    🚀 deployDemoDbDeplo... 🏁                     progress_deadline_seconds: 600
-💀    🚀 deployDemoDbDeplo... 🏁                     replicas                 : 1
-💀    🚀 deployDemoDbDeplo... 🏁                     revision_history_limit   : 10
-💀    🚀 deployDemoDbDeplo... 🏁                     selector                 : {
-💀    🚀 deployDemoDbDeplo... 🏁                         match_labels: {
-💀    🚀 deployDemoDbDeplo... 🏁                             app.kubernetes.io/instance: "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                             app.kubernetes.io/name    : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                         }
-💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     strategy                 : {
-💀    🚀 deployDemoDbDeplo... 🏁                         rolling_update: {
-💀    🚀 deployDemoDbDeplo... 🏁                             max_surge      : "25%"
-💀    🚀 deployDemoDbDeplo... 🏁                             max_unavailable: "25%"
-💀    🚀 deployDemoDbDeplo... 🏁                         }
-💀    🚀 deployDemoDbDeplo... 🏁                         type          : "RollingUpdate"
-💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     template                 : {
-💀    🚀 deployDemoDbDeplo... 🏁                         metadata: {
-💀    🚀 deployDemoDbDeplo... 🏁                             labels: {
-💀    🚀 deployDemoDbDeplo... 🏁                                 app.kubernetes.io/instance: "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                                 app.kubernetes.io/name    : "demo-db"
-💀    🚀 deployDemoDbDeplo... 🏁                             }
-💀    🚀 deployDemoDbDeplo... 🏁                         }
-💀    🚀 deployDemoDbDeplo... 🏁                         spec    : {
-💀    🚀 deployDemoDbDeplo... 🏁                             containers                      : [
-💀    🚀 deployDemoDbDeplo... 🏁                                 [0]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                     env                       : [
-💀    🚀 deployDemoDbDeplo... 🏁                                         [0]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_DATABASE"
-💀    🚀 deployDemoDbDeplo... 🏁                                             value: "sample"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         [1]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_PASSWORD"
-💀    🚀 deployDemoDbDeplo... 🏁                                             value: "mysql"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         [2]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_ROOT_PASSWORD"
-💀    🚀 deployDemoDbDeplo... 🏁                                             value: "Alch3mist"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         [3]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_USER"
-💀    🚀 deployDemoDbDeplo... 🏁                                             value: "mysql"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         [4]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name: "PULUMI_BACKEND_URL"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         [5]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name : "PULUMI_CONFIG_PASSPHRASE"
-💀    🚀 deployDemoDbDeplo... 🏁                                             value: "defaultLocalPulumiPassphrase"
-💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀    🚀 deployDemoDbDeplo... 🏁                                         [6]: {
-💀    🚀 deployDemoDbDeplo... 🏁                                             name : 
+💀    🚀 deployDemoFronten... 🏁          
 💀 🎉 Successfully running 🏁 'deployDemoDbDeployment' command
+💀 🎉 Successfully running 🏁 'deployDemoFrontendDeployment' command
+💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:helm.sh/v3:Chart demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:Service default/demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend creating 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend creating 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend created 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend created 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend created 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:Service default/demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:Service default/demo-backend created 
 💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev created 
@@ -3070,79 +3009,208 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         value: "root"
 💀    🚀 deployDemoBackend... 🏁                                                     }
 💀    🚀 deployDemoBackend... 🏁                                                     [29]: {
-💀    🚀 deployDemoBackend... 🏁   
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ROOT_INITIAL_PASSWORD"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "Alch3mist"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [30]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ROOT_INITIAL_PHONE_NUMBER"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "621234567890"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [31]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ROOT_PERMISSION"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "root"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [32]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ROOT_USERNAME"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "root"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [33]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_RPC_TYPE"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "local"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [34]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_SQLALCHEMY_DATABASE_URL"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "sqlite:///database.db"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [35]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_STATIC_DIRECTORY"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [36]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_STATIC_URL"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "/static"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [37]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "PULUMI_BACKEND_URL"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [38]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "defaultLocalPulumiPassphrase"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [39]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "PYTHONUNBUFFERED"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "1"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [40]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_INTEGRATION"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "0"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [41]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_KAFKA_BOOTSTRAP_SERVERS"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "localhost:9092"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [42]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_KAFKA_SASL_MECHANISM"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "PLAIN"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [43]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_KAFKA_SASL_PLAIN_PASSWORD"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [44]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_KAFKA_SASL_PLAIN_USERNAME"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [45]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_KAFKA_SCHEMA_REGISTRY"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "http://localhost:8081"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [46]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_RABBITMQ_HOST"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "localhost"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [47]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_RABBITMQ_PASS"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "Alch3mist"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [48]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_RABBITMQ_USER"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "root"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [49]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_RABBITMQ_VHOST"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "/"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                     [50]: {
+💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_SQLALCHEMY_DATABASE_URL"
+💀    🚀 deployDemoBackend... 🏁                                                         value: "sqlite:///test.db"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                 ]
+💀    🚀 deployDemoBackend... 🏁                                                 image          : "demo-backend:latest"
+💀    🚀 deployDemoBackend... 🏁                                                 imagePullPolicy: "IfNotPresent"
+💀    🚀 deployDemoBackend... 🏁                                                 name           : "demo-backend"
+💀    🚀 deployDemoBackend... 🏁                                                 ports          : [
+💀    🚀 deployDemoBackend... 🏁                                                     [0]: {
+💀    🚀 deployDemoBackend... 🏁                                                         containerPort: 3000
+💀    🚀 deployDemoBackend... 🏁                                                         name         : "port0"
+💀    🚀 deployDemoBackend... 🏁                                                         protocol     : "TCP"
+💀    🚀 deployDemoBackend... 🏁                                                     }
+💀    🚀 deployDemoBackend... 🏁                                                 ]
+💀    🚀 deployDemoBackend... 🏁                                             }
+💀    🚀 deployDemoBackend... 🏁                                         ]
+💀    🚀 deployDemoBackend... 🏁                                         serviceAccountName: "demo-backend"
+💀    🚀 deployDemoBackend... 🏁                                     }
+💀    🚀 deployDemoBackend... 🏁                                 }
+💀    🚀 deployDemoBackend... 🏁                             }
+💀    🚀 deployDemoBackend... 🏁                         }
+💀    🚀 deployDemoBackend... 🏁 
+💀    🚀 deployDemoBackend... 🏁                         pulumi.com/skipAwait                            : "true"
+💀    🚀 deployDemoBackend... 🏁                     }
+💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-14T08:04:51Z"
+💀    🚀 deployDemoBackend... 🏁                     generation        : 1
+💀    🚀 deployDemoBackend... 🏁                     labels            : {
+💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/instance  : "demo-backend"
+💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/name      : "demo-backend"
+💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/version   : "1.16.0"
+💀    🚀 deployDemoBackend... 🏁                         helm.sh/chart               : "demo-backend-0.1.0"
+💀    🚀 deployDemoBackend... 🏁                     }
+💀    🚀 deployDemoBackend... 🏁                     managed_fields    : [
+💀    🚀 deployDemoBackend... 🏁                         [0]: {
+💀    🚀 deployDemoBackend... 🏁                             api_version: "apps/v1"
+💀    🚀 deployDemoBackend... 🏁                             fields_type: "FieldsV1"
+💀    🚀 deployDemoBackend... 🏁                             fields_v1  : {
+💀    🚀 deployDemoBackend... 🏁                                 f:metadata: {
+💀    🚀 deployDemoBackend... 🏁                                     f:annotations: {
+💀    🚀 deployDemoBackend... 🏁                                     }
+💀    🚀 deployDemoBackend... 🏁                                     f:labels     : {
+💀    🚀 deployDemoBackend... 🏁                                     }
+💀    🚀 deployDemoBackend... 🏁                                 }
+💀    🚀 deployDemoBackend... 🏁                                 f:spec    : {
+💀    🚀 deployDemoBackend... 🏁                                     f:strategy               : {
+💀    🚀 deployDemoBackend... 🏁                                         f:rollingUpdate: {
+💀    🚀 deployDemoBackend... 🏁                                         }
+💀    🚀 deployDemoBackend... 🏁                                     }
+💀    🚀 deployDemoBackend... 🏁                                     f:t
 💀 🎉 Successfully running 🏁 'deployDemoBackendDeployment' command
 💀 🏁 Run 🏭 'deploy' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 deploy               🏭 
 💀 🎉 Successfully running 🏭 'deploy' command
 💀 🔎 Job Running...
-         Elapsed Time: 16.33696079s
-         Current Time: 14:13:40
+         Elapsed Time: 24.994017802s
+         Current Time: 15:04:52
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 16.448903272s
-         Current Time: 14:13:40
+         Elapsed Time: 25.105034195s
+         Current Time: 15:04:52
 zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.796µs
-         Current Time: 14:13:40
+         Elapsed Time: 1.548µs
+         Current Time: 15:04:52
 💀 🏁 Run 🚢 'zrbSetKubeContext' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run 🏁 'prepareDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
 💀 🏁 Run 🏁 'prepareDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Install pip packages.
-💀    🚀 prepareDemoFronte... 🏁 🚧 Install pip packages.
 💀 🏁 Run 🏁 'prepareDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
+💀    🚀 prepareDemoFronte... 🏁 🚧 Install pip packages.
 💀    🚀 prepareDemoBacken... 🏁 🚧 Install pip packages.
 💀 🎉 Successfully running 🚢 'zrbSetKubeContext' command
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.32.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.32.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.32.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: six>=1.12.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: grpcio>=1.33.2 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.1)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.1)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: semver>=2.8.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: semver>=2.8.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: grpcio>=1.33.2 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: dill>=0.3.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.4)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: six>=1.12.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pyyaml>=5.3.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (6.0)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pyyaml>=5.3.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (6.0)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.32.1)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: protobuf>=3.6.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: semver>=2.8.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: protobuf>=3.6.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: dill>=0.3.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.4)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: dill>=0.3.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.4)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: protobuf>=3.6.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: six>=1.12.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pyyaml>=5.3.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (6.0)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: grpcio>=1.33.2 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.1)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: dill>=0.3.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.4)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.1)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: grpcio>=1.33.2 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.1)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: dill>=0.3.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.4)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pyyaml>=5.3.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (6.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: six>=1.12.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: protobuf>=3.6.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: semver>=2.8.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: semver>=2.8.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: grpcio>=1.33.2 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.1)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pyyaml>=5.3.1 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (6.0)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: six>=1.12.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: six>=1.12.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: dill>=0.3.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.4)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: protobuf>=3.6.0 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2021.10.8)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2021.10.8)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2021.10.8)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2021.10.8)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2021.10.8)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
 💀 🔥 🚀 prepareDemoFronte... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1 is available.
 💀 🔥 🚀 prepareDemoFronte... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
@@ -3231,6 +3299,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoFronte... 🏁 🚧 Chart prepared.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Deployment config: {"env":[{"name":"MYSQL_DATABASE","value":"sample"},{"name":"MYSQL_PASSWORD","value":"mysql"},{"name":"MYSQL_ROOT_PASSWORD","value":"Alch3mist"},{"name":"MYSQL_USER","value":"mysql"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-db","image.tag":"latest","namespace":"default","ports":[],"replicaCount":1,"service.enabled":true,"service.ports":[],"service.type":"ClusterIP"}
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Prepare chart dependencies.
+💀 🎉 Successfully running 🏁 'prepareDemoFrontendDeployment' command
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Manage the dependencies of a chart.
 💀    🚀 prepareDemoDbDepl... 🏁 
@@ -3308,9 +3377,8 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Chart prepared.
-💀 🎉 Successfully running 🏁 'prepareDemoFrontendDeployment' command
-💀 🏁 Run 🏁 'destroyDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
 💀 🎉 Successfully running 🏁 'prepareDemoDbDeployment' command
+💀 🏁 Run 🏁 'destroyDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
 💀 🏁 Run 🏁 'destroyDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
 💀    🚀 prepareDemoBacken... 🏁 PARTS: ["3000"]
 💀    🚀 prepareDemoBacken... 🏁 🚧 Deployment config: {"env":[{"name":"APP_ACCESS_TOKEN_ALGORITHM","value":"HS256"},{"name":"APP_ACCESS_TOKEN_EXPIRE_MINUTES","value":"30"},{"name":"APP_ACCESS_TOKEN_SECRET_KEY","value":"09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"},{"name":"APP_ACCESS_TOKEN_URL","value":"/token/"},{"name":"APP_CORS_ALLOW_CREDENTIALS","value":"false"},{"name":"APP_CORS_ALLOW_HEADERS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_METHODS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGINS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGIN_REGEX","value":""},{"name":"APP_CORS_EXPOSE_HEADERS","value":"[]"},{"name":"APP_CORS_MAX_AGE","value":"600"},{"name":"APP_ENABLE_EVENT_HANDLER","value":"1"},{"name":"APP_ENABLE_ROUTE_HANDLER","value":"1"},{"name":"APP_ENABLE_RPC_HANDLER","value":"1"},{"name":"APP_ERROR_THRESHOLD","value":"10"},{"name":"APP_GUEST_USERNAME","value":"guest"},{"name":"APP_HTTP_PORT","value":"3000"},{"name":"APP_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"APP_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"APP_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"APP_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"APP_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"APP_MESSAGE_BUS_TYPE","value":"local"},{"name":"APP_RABBITMQ_HOST","value":"localhost"},{"name":"APP_RABBITMQ_PASS","value":"Alch3mist"},{"name":"APP_RABBITMQ_USER","value":"root"},{"name":"APP_RABBITMQ_VHOST","value":"/"},{"name":"APP_ROOT_INITIAL_EMAIL","value":"root@innistrad.com"},{"name":"APP_ROOT_INITIAL_FULL_NAME","value":"root"},{"name":"APP_ROOT_INITIAL_PASSWORD","value":"Alch3mist"},{"name":"APP_ROOT_INITIAL_PHONE_NUMBER","value":"621234567890"},{"name":"APP_ROOT_PERMISSION","value":"root"},{"name":"APP_ROOT_USERNAME","value":"root"},{"name":"APP_RPC_TYPE","value":"local"},{"name":"APP_SQLALCHEMY_DATABASE_URL","value":"sqlite:///database.db"},{"name":"APP_STATIC_DIRECTORY","value":""},{"name":"APP_STATIC_URL","value":"/static"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"},{"name":"TEST_INTEGRATION","value":"0"},{"name":"TEST_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"TEST_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"TEST_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"TEST_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"TEST_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"TEST_RABBITMQ_HOST","value":"localhost"},{"name":"TEST_RABBITMQ_PASS","value":"Alch3mist"},{"name":"TEST_RABBITMQ_USER","value":"root"},{"name":"TEST_RABBITMQ_VHOST","value":"/"},{"name":"TEST_SQLALCHEMY_DATABASE_URL","value":"sqlite:///test.db"}],"image.repository":"demo-backend","image.tag":"latest","namespace":"default","ports":[{"containerPort":3000,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":3000,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
@@ -3393,13 +3461,14 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoBacken... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoBacken... 🏁 🚧 Chart prepared.
 💀 🎉 Successfully running 🏁 'prepareDemoBackendDeployment' command
-💀 🏁 Run 🏁 'destroyDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
 💀    🚀 destroyDemoFronte... 🏁 Previewing destroy (dev):
+💀 🏁 Run 🏁 'destroyDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend delete 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend delete 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend delete 
 💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev delete 
+💀    🚀 destroyDemoDbDepl... 🏁 Previewing destroy (dev):
 💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev delete 
 💀    🚀 destroyDemoFronte... 🏁  
 💀    🚀 destroyDemoFronte... 🏁 Outputs:
@@ -3480,7 +3549,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoFronte... 🏁                   - generation        : 1
 💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
@@ -3531,13 +3600,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                             }
 💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoFronte... 🏁                         }
 💀    🚀 destroyDemoFronte... 🏁                     ]
 💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "8231"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "64d578df-0822-4279-bb78-d57ce2406390"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "1938"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "b316a0ca-e88e-466d-8d10-caad4dd38532"
 💀    🚀 destroyDemoFronte... 🏁                 }
 💀    🚀 destroyDemoFronte... 🏁               - spec       : {
 💀    🚀 destroyDemoFronte... 🏁                   - progress_deadline_seconds: 600
@@ -3628,7 +3697,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -3650,13 +3719,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                             }
 💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoFronte... 🏁                         }
 💀    🚀 destroyDemoFronte... 🏁                     ]
 💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "8230"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "2d37cbbd-16c5-483a-a9c0-3d28d603f076"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "1937"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "3941da09-4853-4a17-adc6-202537adb65a"
 💀    🚀 destroyDemoFronte... 🏁                 }
 💀    🚀 destroyDemoFronte... 🏁               - urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁             }
@@ -3668,13 +3737,10 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁     - 4 to delete
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁 Destroying (dev):
-💀    🚀 destroyDemoDbDepl... 🏁 Previewing destroy (dev):
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleting 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
 💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db delete 
+💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:Deployment default/demo-db delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db delete 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart demo-db delete 
 💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev delete 
 💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev delete 
@@ -3769,7 +3835,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - generation        : 1
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "demo-db"
@@ -3826,13 +3892,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "8245"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "f6dd1037-61b3-441e-9a4d-3f59246f7aaa"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "1940"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "ce198cfe-0c62-461d-ad69-f825b0ede8e8"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
 💀    🚀 destroyDemoDbDepl... 🏁                   - progress_deadline_seconds: 600
@@ -3896,8 +3962,10 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_path  : "/dev/termination-log"
 💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_policy: "File"
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleting 
 💀    🚀 destroyDemoDbDepl... 🏁                             ]
 💀    🚀 destroyDemoDbDepl... 🏁                           - dns_policy                      : "ClusterFirst"
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
 💀    🚀 destroyDemoDbDepl... 🏁                           - restart_policy                  : "Always"
 💀    🚀 destroyDemoDbDepl... 🏁                           - scheduler_name                  : "default-scheduler"
 💀    🚀 destroyDemoDbDepl... 🏁                           - service_account                 : "demo-db"
@@ -3927,9 +3995,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
 💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "demo-db-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleted 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleted 
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
 💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
@@ -3938,7 +4003,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -3960,13 +4025,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "8244"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "4cc5c3bd-1bd4-48f1-a723-42edf67db814"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "1939"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "71393373-5313-4eee-a96e-0130662704a1"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - urn                            : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁             }
@@ -3978,6 +4043,12 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁     - 4 to delete
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁 Destroying (dev):
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:Deployment default/demo-db deleting 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleted 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleted 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend deleting 
 💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev deleting 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend deleted 
@@ -4061,7 +4132,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoFronte... 🏁                   - generation        : 1
 💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
@@ -4112,13 +4183,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                             }
 💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoFronte... 🏁                         }
 💀    🚀 destroyDemoFronte... 🏁                     ]
 💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "8231"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "64d578df-0822-4279-bb78-d57ce2406390"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "1938"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "b316a0ca-e88e-466d-8d10-caad4dd38532"
 💀    🚀 destroyDemoFronte... 🏁                 }
 💀    🚀 destroyDemoFronte... 🏁               - spec       : {
 💀    🚀 destroyDemoFronte... 🏁                   - progress_deadline_seconds: 600
@@ -4196,15 +4267,68 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
 💀    🚀 destroyDemoFronte... 🏁                                 }
 💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
-💀    🚀 destroyDemoFronte... 🏁  
-💀 🎉 Successfully running 🏁 'destroyDemoFrontendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:Deployment default/demo-db deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:Deployment default/demo-db deleted 
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
+💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-14T08:04:50Z"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "1937"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "3941da09-4853-4a17-adc6-202537adb65a"
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁             }
+💀    🚀 destroyDemoFronte... 🏁         }
+💀    🚀 destroyDemoFronte... 🏁       - urn      : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart::demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁     }
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁 Resources:
+💀    🚀 destroyDemoFronte... 🏁     - 4 deleted
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁 Duration: 1s
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁 The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
+💀    🚀 destroyDemoFronte... 🏁 If you want to remove the stack completely, run 'pulumi stack rm dev'.
+💀    🚀 destroyDemoFronte... 🏁 hello world
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleted 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:Deployment default/demo-db deleted 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart demo-db deleting 
+💀 🎉 Successfully running 🏁 'destroyDemoFrontendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev deleting 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart demo-db deleted 
 💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev deleted 
@@ -4299,7 +4423,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T07:13:38Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - generation        : 1
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "demo-db"
@@ -4342,13 +4466,179 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_USER"}              : {
 💀    🚀 destroyDemoDbDepl... 🏁                                                         }
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"PULUMI_BACKEND_URL"}      : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"PULUMI_CONFIG_PASSPHRASE"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"PYTHONUNBUFFERED"}        : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-14T08:04:50Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "1940"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "ce198cfe-0c62-461d-ad69-f825b0ede8e8"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - progress_deadline_seconds: 600
+💀    🚀 destroyDemoDbDepl... 🏁                   - replicas                 : 1
+💀    🚀 destroyDemoDbDepl... 🏁                   - revision_history_limit   : 10
+💀    🚀 destroyDemoDbDepl... 🏁                   - selector                 : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - match_labels: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/instance: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/name    : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - strategy                 : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - rolling_update: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - max_surge      : "25%"
+💀    🚀 destroyDemoDbDepl... 🏁                           - max_unavailable: "25%"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                       - type          : "RollingUpdate"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - template                 : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - labels: {
+💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/instance: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/name    : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                       - spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                           - containers                      : [
+💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - env                       : [
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_DATABASE"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "sample"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [1]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_PASSWORD"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [2]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_ROOT_PASSWORD"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "Alch3mist"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [3]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_USER"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [4]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name: "PULUMI_BACKEND_URL"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [5]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "defaultLocalPulumiPassphrase"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [6]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "PYTHONUNBUFFERED"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "1"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                                   - image                     : "demo-db:latest"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - image_pull_policy         : "IfNotPresent"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - name                      : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_path  : "/dev/termination-log"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_policy: "File"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                           - dns_policy                      : "ClusterFirst"
+💀    🚀 destroyDemoDbDepl... 🏁                           - restart_policy                  : "Always"
+💀    🚀 destroyDemoDbDepl... 🏁                           - scheduler_name                  : "default-scheduler"
+💀    🚀 destroyDemoDbDepl... 🏁                           - service_account                 : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                           - service_account_name            : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                           - termination_grace_period_seconds: 30
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁           - v1/ServiceAccount:default/demo-db : {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version                    : "v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - id                             : "default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind                           : "ServiceAccount"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata                       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "ServiceAccount"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "demo-db-0.1.0"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-14T08:04:50Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "demo-db-0.1.0"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-14T08:04:50Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "1939"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "71393373-5313-4eee-a96e-0130662704a1"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - urn                            : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁         }
+💀    🚀 destroyDemoDbDepl... 🏁       - urn      : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart::demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁     }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁 Resources:
+💀    🚀 destroyDemoDbDepl... 🏁     - 4 deleted
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁 Duration: 1s
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁 The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
+💀    🚀 destroyDemoDbDepl... 🏁 If you want to remove the stack completely, run 'pulumi stack rm dev'.
+💀    🚀 destroyDemoDbDepl... 🏁 hello world
 💀 🎉 Successfully running 🏁 'destroyDemoDbDeployment' command
 💀    🚀 destroyDemoBacken... 🏁 Previewing destroy (dev):
 💀    🚀 destroyDemoBacken... 🏁 
+💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend delete 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend delete 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:apps/v1:Deployment default/demo-backend delete 
-💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend delete 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:helm.sh/v3:Chart demo-backend delete 
 💀    🚀 destroyDemoBacken... 🏁  -  pulumi:pulumi:Stack demoBackendDeployment-dev delete 
 💀    🚀 destroyDemoBacken... 🏁  -  pulumi:pulumi:Stack demoBackendDeployment-dev delete 
@@ -4631,7 +4921,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                   - generation        : 1
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
@@ -4780,13 +5070,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "8262"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "4a41adb7-47c5-4865-99ce-39830060f505"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "1969"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "c40e21de-81f2-4e75-b94d-27ef11d5e53a"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - spec       : {
 💀    🚀 destroyDemoBacken... 🏁                   - progress_deadline_seconds: 600
@@ -5091,7 +5381,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -5119,19 +5409,19 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "8271"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "40b4fc7c-5d82-4a57-9a6d-396288512339"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "1973"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "d6cb1a50-051b-4b13-9458-7bc090f126e4"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - spec       : {
 💀    🚀 destroyDemoBacken... 🏁                   - allocate_load_balancer_node_ports: true
-💀    🚀 destroyDemoBacken... 🏁                   - cluster_ip                       : "10.108.250.90"
+💀    🚀 destroyDemoBacken... 🏁                   - cluster_ip                       : "10.104.71.130"
 💀    🚀 destroyDemoBacken... 🏁                   - cluster_ips                      : [
-💀    🚀 destroyDemoBacken... 🏁                   -     [0]: "10.108.250.90"
+💀    🚀 destroyDemoBacken... 🏁                   -     [0]: "10.104.71.130"
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - external_traffic_policy          : "Cluster"
 💀    🚀 destroyDemoBacken... 🏁                   - internal_traffic_policy          : "Cluster"
@@ -5142,7 +5432,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                   - ports                            : [
 💀    🚀 destroyDemoBacken... 🏁                   -     [0]: {
 💀    🚀 destroyDemoBacken... 🏁                           - name       : "port0"
-💀    🚀 destroyDemoBacken... 🏁                           - node_port  : 32428
+💀    🚀 destroyDemoBacken... 🏁                           - node_port  : 31530
 💀    🚀 destroyDemoBacken... 🏁                           - port       : 3000
 💀    🚀 destroyDemoBacken... 🏁                           - protocol   : "TCP"
 💀    🚀 destroyDemoBacken... 🏁                           - target_port: "port0"
@@ -5186,7 +5476,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -5208,13 +5498,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "8263"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "9f5a6951-e6bb-4520-9756-6d459b7d8f33"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "1968"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "50be05fe-6c69-4da3-a120-1d9674ced5d5"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - urn                            : "urn:pulumi:dev::demoBackendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁             }
@@ -5230,15 +5520,15 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:apps/v1:Deployment default/demo-backend deleting 
+💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:apps/v1:Deployment default/demo-backend deleted 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleted 
-💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:apps/v1:Deployment default/demo-backend deleted 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend deleted 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:helm.sh/v3:Chart demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  pulumi:pulumi:Stack demoBackendDeployment-dev deleting 
-💀    🚀 destroyDemoBacken... 🏁  -  pulumi:pulumi:Stack demoBackendDeployment-dev deleted 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:helm.sh/v3:Chart demo-backend deleted 
+💀    🚀 destroyDemoBacken... 🏁  -  pulumi:pulumi:Stack demoBackendDeployment-dev deleted 
 💀    🚀 destroyDemoBacken... 🏁  
 💀    🚀 destroyDemoBacken... 🏁 Outputs:
 💀    🚀 destroyDemoBacken... 🏁   - app: {
@@ -5518,7 +5808,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T07:13:39Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-14T08:04:51Z"
 💀    🚀 destroyDemoBacken... 🏁                   - generation        : 1
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
@@ -5551,120 +5841,20 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                       - f:spec    : {
 💀    🚀 destroyDemoBacken... 🏁                                           - f:containers                   : {
 💀    🚀 destroyDemoBacken... 🏁                                               - k:{"name":"demo-backend"}: {
-💀    🚀 destroyDemoBacken... 🏁                                                   - f:env                     : {
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ACCESS_TOKEN_ALGORITHM"}     : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ACCESS_TOKEN_EXPIRE_MINUTES"}: {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ACCESS_TOKEN_SECRET_KEY"}    : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ACCESS_TOKEN_URL"}           : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_ALLOW_CREDENTIALS"}     : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_ALLOW_HEADERS"}         : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_ALLOW_METHODS"}         : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_ALLOW_ORIGINS"}         : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_ALLOW_ORIGIN_REGEX"}    : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_EXPOSE_HEADERS"}        : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_MAX_AGE"}               : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ENABLE_EVENT_HANDLER"}       : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ENABLE_ROUTE_HANDLER"}       : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ENABLE_RPC_HANDLER"}         : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ERROR_THRESHOLD"}            : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_GUEST_USERNAME"}             : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_HTTP_PORT"}                  : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_KAFKA_BOOTSTRAP_SERVERS"}    : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_KAFKA_SASL_MECHANISM"}       : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_KAFKA_SASL_PLAIN_PASSWORD"}  : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_KAFKA_SASL_PLAIN_USERNAME"}  : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_KAFKA_SCHEMA_REGISTRY"}      : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_MESSAGE_BUS_TYPE"}           : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_RABBITMQ_HOST"}              : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_RABBITMQ_PASS"}              : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_RABBITMQ_USER"}              : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_RABBITMQ_VHOST"}             : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_EMAIL"}         : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_FULL_NAME"}     : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_PASSWORD"}      : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_PHONE_NUMBER"}  : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_PERMISSION"}            : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_USERNAME"}              : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_RPC_TYPE"}                   : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_SQLALCHEMY_DATABASE_URL"}    : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_STATIC_DIRECTORY"}           : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_STATIC_URL"}                 : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"PULUMI_BACKEND_URL"}             : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"PULUMI_CONFIG_PASSPHRASE"}       : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"PYTHONUNBUFFERED"}               : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_INTEGRATION"}               : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_KAFKA_BOOTSTRAP_SERVERS"}   : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_KAFKA_SASL_MECHANISM"}      : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_KAFKA_SASL_PLAIN_PASSWORD"} : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_KAFKA_SASL_PLAIN_USERNAME"} : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_KAFKA_SCHEMA_REGISTRY"}     : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_RABBITMQ_HOST"}             : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_RABBITMQ_PASS"}             : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_RABBITMQ_USER"}             : {
-💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_RABBITMQ_VHOST"}            : {
-💀    🚀 destroyDemoBacken... 🏁                                               
+💀    🚀 destroyDemoBacken... 🏁    
 💀 🎉 Successfully running 🏁 'destroyDemoBackendDeployment' command
 💀 🏁 Run ❌ 'destroy' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 destroy              ❌ 
 💀 🎉 Successfully running ❌ 'destroy' command
 💀 🔎 Job Running...
-         Elapsed Time: 6.861838155s
-         Current Time: 14:13:47
+         Elapsed Time: 5.411504192s
+         Current Time: 15:04:58
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 6.973789675s
-         Current Time: 14:13:47
+         Elapsed Time: 5.522318133s
+         Current Time: 15:04:58
 zaruba please destroy -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 ```````
 </details>

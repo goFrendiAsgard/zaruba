@@ -11,7 +11,7 @@ import (
 )
 
 var addDependenciesCmd = &cobra.Command{
-	Use:     "addDependencies <taskName> {<dependencyList> | <dependency>} [projectFile]",
+	Use:     "addDependencies <taskName> {<jsonDependencyList> | <dependencyName>} [projectFile]",
 	Short:   "Add task dependency",
 	Aliases: []string{"setDependency"},
 	Run: func(cmd *cobra.Command, args []string) {

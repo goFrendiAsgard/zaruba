@@ -91,6 +91,49 @@ var pleaseCmd = &cobra.Command{
 	},
 }
 
+func init() {
+	core.SetDefaultEnv()
+
+	util := core.NewCoreUtil()
+	// get current working directory
+	dir, err := os.Getwd()
+	if err != nil {
+		dir = "."
+	}
+	// define defaultPleaseFile
+	defaultPleaseFile := filepath.Join(dir, "index.zaruba.yaml")
+	if _, err := os.Stat(defaultPleaseFile); os.IsNotExist(err) {
+		defaultPleaseFile = "${ZARUBA_HOME}/core.zaruba.yaml"
+	}
+	// define defaultPleaseValues
+	defaultPleaseValues := []string{}
+	defaultValuesFile := filepath.Join(dir, "default.values.yaml")
+	if _, err := os.Stat(defaultValuesFile); !os.IsNotExist(err) {
+		defaultPleaseValues = append(defaultPleaseValues, defaultValuesFile)
+	}
+	// define defaultEnvFile
+	defaultEnv := []string{}
+	defaultEnvFile := filepath.Join(dir, ".env")
+	if _, err := os.Stat(defaultEnvFile); !os.IsNotExist(err) {
+		defaultEnv = append(defaultEnv, defaultEnvFile)
+	}
+	// define defaultDecoration
+	defaultDecoration := os.Getenv("ZARUBA_DECORATION")
+	// define defaultShowLogTime
+	defaultShowLogTime := util.Bool.IsTrue(os.Getenv("ZARUBA_SHOW_LOG_TIME"))
+	// register flags
+	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
+	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", defaultEnv, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g., '-v value.yaml' or '-v key=val')")
+	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
+	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
+	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
+	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
+	pleaseShowLogTime = pleaseCmd.Flags().BoolP("showLogTime", "s", defaultShowLogTime, "show log time (e.g., '-s false').")
+	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g., '-w 5s'). Only take effect if -t or --terminate is set")
+}
+
 func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project, taskNames []string) {
 	nodeCmd := cmd
 	commandName := ""
@@ -127,47 +170,6 @@ func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration 
 		}
 	}
 	logger.Fprintf(os.Stderr, "%s%s %s %s %s%s%s%s\n", decoration.Yellow, commandName, argTaskName, argEnv, argValue, argTerminate, argWait, decoration.Normal)
-}
-
-func init() {
-	util := core.NewCoreUtil()
-	// get current working directory
-	dir, err := os.Getwd()
-	if err != nil {
-		dir = "."
-	}
-	// define defaultPleaseFile
-	defaultPleaseFile := filepath.Join(dir, "index.zaruba.yaml")
-	if _, err := os.Stat(defaultPleaseFile); os.IsNotExist(err) {
-		defaultPleaseFile = "${ZARUBA_HOME}/core.zaruba.yaml"
-	}
-	// define defaultPleaseValues
-	defaultPleaseValues := []string{}
-	defaultValuesFile := filepath.Join(dir, "default.values.yaml")
-	if _, err := os.Stat(defaultValuesFile); !os.IsNotExist(err) {
-		defaultPleaseValues = append(defaultPleaseValues, defaultValuesFile)
-	}
-	// define defaultEnvFile
-	defaultEnv := []string{}
-	defaultEnvFile := filepath.Join(dir, ".env")
-	if _, err := os.Stat(defaultEnvFile); !os.IsNotExist(err) {
-		defaultEnv = append(defaultEnv, defaultEnvFile)
-	}
-	// define defaultDecoration
-	defaultDecoration := os.Getenv("ZARUBA_DECORATION")
-	// define defaultShowLogTime
-	defaultShowLogTIme := util.Bool.IsTrue(os.Getenv("ZARUBA_SHOW_LOG_TIME"))
-	// register flags
-	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
-	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", defaultEnv, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g., '-v value.yaml' or '-v key=val')")
-	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
-	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
-	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
-	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
-	pleaseShowLogTime = pleaseCmd.Flags().BoolP("showLogTime", "s", defaultShowLogTIme, "show log time (e.g., '-s false').")
-	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g., '-w 5s'). Only take effect if -t or --terminate is set")
 }
 
 func getTaskNameInteractivelyOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {

@@ -11,7 +11,7 @@ import (
 )
 
 var addParentsCmd = &cobra.Command{
-	Use:     "addParents <taskName> {<parentList> | <parent>} [projectFile]",
+	Use:     "addParents <taskName> {<jsonParentTaskList> | <parentTaskName>} [projectFile]",
 	Short:   "Add task parent",
 	Aliases: []string{"addParent"},
 	Run: func(cmd *cobra.Command, args []string) {
