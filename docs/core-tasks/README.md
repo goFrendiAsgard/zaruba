@@ -135,7 +135,6 @@
 * [🔽 pullSubrepos](pull-subrepos.md)
 * [🔼 pushSubrepos](push-subrepos.md)
 * [🌐 serveHttp](serve-http.md)
-* [🔗 setProjectValue](set-project-value.md)
 * [🔎 showLog](show-log.md)
 * [🔄 syncEnv](sync-env.md)
 * [🔄 update](update.md)

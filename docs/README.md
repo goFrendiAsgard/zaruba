@@ -295,7 +295,6 @@ Please also [learn the core concepts](core-concepts/README.md) to see how things
   * [🔽 pullSubrepos](core-tasks/pull-subrepos.md)
   * [🔼 pushSubrepos](core-tasks/push-subrepos.md)
   * [🌐 serveHttp](core-tasks/serve-http.md)
-  * [🔗 setProjectValue](core-tasks/set-project-value.md)
   * [🔎 showLog](core-tasks/show-log.md)
   * [🔄 syncEnv](core-tasks/sync-env.md)
   * [🔄 update](core-tasks/update.md)
