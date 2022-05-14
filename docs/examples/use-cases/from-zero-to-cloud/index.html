@@ -134,6 +134,9 @@
                 return;
             }
             populateBookList();
+            document.getElementById("input-new-book-title").value = '';
+            document.getElementById("input-new-book-author").value = '';
+            document.getElementById("input-new-book-synopsis").value = '';
         }
         xhttp.open("POST", apiHost + "/books/", true);
         xhttp.setRequestHeader("Content-type", "application/json")

@@ -100,6 +100,8 @@ echo '' >> demoFrontend/Dockerfile
 echo 'USER 0' >> demoFrontend/Dockerfile
 echo 'COPY bootstrap.sh /opt/bitnami/scripts/nginx/bootstrap.sh' >> demoFrontend/Dockerfile
 echo 'RUN chmod 755 /opt/bitnami/scripts/nginx/bootstrap.sh' >> demoFrontend/Dockerfile
+echo 'RUN touch /opt/bitnami/nginx/html/apiHost.js' >> demoFrontend/Dockerfile
+echo 'RUN chown -R 1001 /opt/bitnami/nginx/html/apiHost.js' >> demoFrontend/Dockerfile
 echo 'USER 1001' >> demoFrontend/Dockerfile
 echo 'CMD ["/opt/bitnami/scripts/nginx/bootstrap.sh"]' >> demoFrontend/Dockerfile
 
@@ -125,6 +127,7 @@ zaruba please syncEnv
 
 zaruba task setConfig prepareDemoBackendDeployment serviceType LoadBalancer
 zaruba task setConfig prepareDemoFrontendDeployment serviceType LoadBalancer
+zaruba task setConfig prepareDemoFrontendDeployment ports 80
 zaruba project setValue defaultKubeContext docker-desktop
 zaruba project setValue pulumiUseLocalBackend true
 
