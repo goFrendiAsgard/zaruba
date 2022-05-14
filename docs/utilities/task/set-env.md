@@ -7,20 +7,31 @@
 
 <!--startCode-->
 ```bash
-zaruba task setEnv --help
+zaruba task setEnvs --help
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Set task env
+Task manipulation utilities
 
 Usage:
-  zaruba task setEnv <taskName> <envMap> [projectFile] [flags]
+  zaruba task [command]
+
+Available Commands:
+  addDependencies Add task dependency
+  addParents      Add task parent
+  getIcon         get task icon
+  isExist         Is task exist
+  setConfigs      Set task configs
+  setConfigs      Set task env
+  syncEnv         Update task's environment
 
 Flags:
-  -h, --help   help for setEnv
+  -h, --help   help for task
+
+Use "zaruba task [command] --help" for more information about a command.
 ```````
 </details>
 <!--endCode-->

@@ -17,7 +17,10 @@ zaruba task addDependencies --help
 Add task dependency
 
 Usage:
-  zaruba task addDependencies <taskName> <dependencyTaskNames> [projectFile] [flags]
+  zaruba task addDependencies <taskName> {<dependencyList> | <dependency>} [projectFile] [flags]
+
+Aliases:
+  addDependencies, setDependency
 
 Flags:
   -h, --help   help for addDependencies

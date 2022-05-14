@@ -11,17 +11,18 @@ import (
 )
 
 var addDependenciesCmd = &cobra.Command{
-	Use:   "addDependencies <taskName> <dependencyTaskNames> [projectFile]",
-	Short: "Add task dependency",
+	Use:     "addDependencies <taskName> {<dependencyList> | <dependency>} [projectFile]",
+	Short:   "Add task dependency",
+	Aliases: []string{"setDependency"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		taskName := args[0]
 		util := core.NewCoreUtil()
-		dependencyTaskNames, err := util.Json.ToStringList(args[1])
+		dependencyList, err := util.Json.ToStringList(args[1])
 		if err != nil {
-			dependencyTaskNames = common.StringList{args[1]}
+			dependencyList = common.StringList{args[1]}
 		}
 		projectFile := "index.zaruba.yaml"
 		if len(args) > 2 {
@@ -31,7 +32,7 @@ var addDependenciesCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		if err = util.Project.Task.AddDependencies(taskName, dependencyTaskNames, projectFile); err != nil {
+		if err = util.Project.Task.AddDependencies(taskName, dependencyList, projectFile); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	},

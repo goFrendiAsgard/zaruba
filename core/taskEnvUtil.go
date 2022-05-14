@@ -59,14 +59,10 @@ func (envUtil *TaskEnvUtil) Sync(taskName, projectFile string) (err error) {
 	if len(newEnvMap) == 0 {
 		return nil
 	}
-	return envUtil.setEnvRef(task.Project.EnvRefMap[envRefName], newEnvMap)
+	return envUtil.setEnvsRef(task.Project.EnvRefMap[envRefName], newEnvMap)
 }
 
-func (envUtil *TaskEnvUtil) Set(taskName, jsonEnvMap, projectFile string) (err error) {
-	envMap, err := envUtil.task.json.ToStringDict(jsonEnvMap)
-	if err != nil {
-		return err
-	}
+func (envUtil *TaskEnvUtil) Set(taskName string, envMap map[string]string, projectFile string) (err error) {
 	if len(envMap) == 0 {
 		return nil
 	}
@@ -80,7 +76,7 @@ func (envUtil *TaskEnvUtil) Set(taskName, jsonEnvMap, projectFile string) (err e
 		return envUtil.set(task, envMap)
 	}
 	// update envRef
-	return envUtil.setEnvRef(task.Project.EnvRefMap[envRefName], envMap)
+	return envUtil.setEnvsRef(task.Project.EnvRefMap[envRefName], envMap)
 }
 
 func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error) {
@@ -123,7 +119,7 @@ func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error
 	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
 }
 
-func (envUtil *TaskEnvUtil) setEnvRef(envRef *EnvRef, envMap map[string]string) (err error) {
+func (envUtil *TaskEnvUtil) setEnvsRef(envRef *EnvRef, envMap map[string]string) (err error) {
 	util := NewCoreUtil()
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(util.Str.ToSnake(envRefName))

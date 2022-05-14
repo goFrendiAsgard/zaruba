@@ -17,11 +17,7 @@ func NewTaskConfigUtil(taskUtil *TaskUtil) *TaskConfigUtil {
 	}
 }
 
-func (configUtil *TaskConfigUtil) Set(taskName, jsonConfigMap, projectFile string) (err error) {
-	configMap, err := configUtil.task.json.ToStringDict(jsonConfigMap)
-	if err != nil {
-		return err
-	}
+func (configUtil *TaskConfigUtil) Set(taskName string, configMap map[string]string, projectFile string) (err error) {
 	if len(configMap) == 0 {
 		return nil
 	}
@@ -35,7 +31,7 @@ func (configUtil *TaskConfigUtil) Set(taskName, jsonConfigMap, projectFile strin
 		return configUtil.set(task, configMap)
 	}
 	// update configRef
-	return configUtil.setConfigRef(task.Project.ConfigRefMap[configRefName], configMap)
+	return configUtil.setConfigsRef(task.Project.ConfigRefMap[configRefName], configMap)
 }
 
 func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (err error) {
@@ -77,7 +73,7 @@ func (configUtil *TaskConfigUtil) set(task *Task, configMap map[string]string) (
 	return fmt.Errorf("cannot find task %s in %s", taskName, yamlLocation)
 }
 
-func (configUtil *TaskConfigUtil) setConfigRef(configRef *ConfigRef, configMap map[string]string) (err error) {
+func (configUtil *TaskConfigUtil) setConfigsRef(configRef *ConfigRef, configMap map[string]string) (err error) {
 	configRefName := configRef.GetName()
 	yamlLocation := configRef.GetFileLocation()
 	node, err := configUtil.task.file.ReadYamlNode(yamlLocation)

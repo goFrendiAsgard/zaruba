@@ -11,17 +11,18 @@ import (
 )
 
 var addParentsCmd = &cobra.Command{
-	Use:   "addParents <taskName> <newParentNames> [projectFile]",
-	Short: "Add task parent",
+	Use:     "addParents <taskName> {<parentList> | <parent>} [projectFile]",
+	Short:   "Add task parent",
+	Aliases: []string{"addParent"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		taskName := args[0]
 		util := core.NewCoreUtil()
-		parentNames, err := util.Json.ToStringList(args[1])
+		parentList, err := util.Json.ToStringList(args[1])
 		if err != nil {
-			parentNames = common.StringList{args[1]}
+			parentList = common.StringList{args[1]}
 		}
 		projectFile := "index.zaruba.yaml"
 		if len(args) > 2 {
@@ -31,7 +32,7 @@ var addParentsCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		if err = util.Project.Task.AddParents(taskName, parentNames, projectFile); err != nil {
+		if err = util.Project.Task.AddParents(taskName, parentList, projectFile); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	},

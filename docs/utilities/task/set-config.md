@@ -7,20 +7,23 @@
 
 <!--startCode-->
 ```bash
-zaruba task setConfig --help
+zaruba task setConfigs --help
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Set task config
+Set task configs
 
 Usage:
-  zaruba task setConfig <taskName> <configMap> [projectFile] [flags]
+  zaruba task setConfigs <taskName> {<configMap> | <configKey> <configValue>} [projectFile] [flags]
+
+Aliases:
+  setConfigs, setConfig
 
 Flags:
-  -h, --help   help for setConfig
+  -h, --help   help for setConfigs
 ```````
 </details>
 <!--endCode-->

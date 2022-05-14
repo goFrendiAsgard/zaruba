@@ -18,7 +18,10 @@ zaruba task addParents --help
 Add task parent
 
 Usage:
-  zaruba task addParents <taskName> <newParentNames> [projectFile] [flags]
+  zaruba task addParents <taskName> {<parentList> | <parent>} [projectFile] [flags]
+
+Aliases:
+  addParents, addParent
 
 Flags:
   -h, --help   help for addParents

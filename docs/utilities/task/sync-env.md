@@ -24,8 +24,8 @@ Available Commands:
   addParents      Add task parent
   getIcon         get task icon
   isExist         Is task exist
-  setConfig       Set task config
-  setEnv          Set task env
+  setConfigs      Set task configs
+  setConfigs      Set task env
   syncEnv         Update task's environment
 
 Flags:

@@ -12,7 +12,7 @@ func Init() {
 	Cmd.AddCommand(addParentsCmd)
 	Cmd.AddCommand(getIconCmd)
 	Cmd.AddCommand(isExistCmd)
-	Cmd.AddCommand(setConfigCmd)
-	Cmd.AddCommand(setEnvCmd)
+	Cmd.AddCommand(setConfigsCmd)
+	Cmd.AddCommand(setEnvsCmd)
 	Cmd.AddCommand(syncEnvCmd)
 }
