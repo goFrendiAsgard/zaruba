@@ -3,6 +3,15 @@
 # ❇️ From Zero to Cloud
 <!--endTocHeader-->
 
+This end-to-end tutorial shows you how Zaruba helps you develop/deploy your application.
+
+At the end of this tutorial, you will have:
+
+* A working  🐍 backend + 🐸 frontend application.
+* A single command to run everything on your 🖥️ local computer.
+* A single command to run everything on your local computer as 🐳 containers.
+* A single command to deploy everything on your ☸️ kubernetes cluster.
+
 # A Use Case
 
 Suppose you want to build a simple book catalog system.
@@ -216,7 +225,7 @@ To Access the book catalog API, you can open `http://localhost:8080` from your b
 
 # Override Static Web Server's Init Script
 
-Your 🐸 `Static Web Server` needs to to let your users know where 🐍 `Book Catalog API` is located.
+Your 🐸 `Static Web Server` needs to let your users know where your 🐍 `Book Catalog API` is.
 
 We can do this by:
 
@@ -513,7 +522,7 @@ zaruba please buildDemoFrontendImage
 
 # Run Project
 
-Now, you can run your system:
+Now, you can run your 🐍 `Book Catalog API`, 🐸 `Static Web Server`, and 🐬 `MySQL server` by invoking:
 
 ```bash
 zaruba please start
@@ -521,13 +530,100 @@ zaruba please start
 # zaruba please stopContainers
 ```
 
+Now, let's access your `Static Web Server` by opening `http://localhost:8080/`.
+
+First of all, users need to log in. You can use `root`/`Alch3mist` as your credentials:
+
+![Login page](images/from-zero-to-cloud-frontend-login.png)
+
+Once users log in, they can start adding books:
+
+![Catalog page](images/from-zero-to-cloud-frontend-add-book.png)
+
+Please note that `Static Web Server` and `MySQL Server` are running as containers. Thus, to stop your applications, you need to press `Ctrl+C` and invoke `zaruba please stopContainers`.
+
 # Run Project as Containers
+
+To run your applications as containers, you can invoke:
+
+```bash
+zaruba please startContainers
+# ctrl + c
+# zaruba please stopContainers
+```
+
+While to stop your applications, you can press `Ctrl+C` and invoke `zaruba please stopContainers`.
 
 # Build and Push Images
 
+> __💡 HINT__ You can skip this step if your kubernetes-cluster runs on top of `docker-desktop`.
+
+To deploy your applications in your kubernetes cluster, you need to build and push your images to image registry:
+
+```bash
+docker login -u <your-container-registry>
+zaruba project setValue defaultImagePrefix <your-container-registry>/<your-dockerhub-user-name>
+zaruba please pushImages
+```
+
+The commands do two things:
+
+* Set your default image prefix to `<your-dockerhub-user-name>`
+* Push images to `<your-container-registry>`.
+
+If you are not sure, you can sign up to [hub.docker.com](https://hub.docker.com) and use `docker.io` as `<your-container-registry>`.
+
+If you use `docker.io` as container registry, you probably have to push your images one by one:
+
+```bash
+zaruba please pushDemoDb
+zaruba please pushDemoBackend
+zaruba please pushDemoFrontend
+```
+
+![docker images](images/from-zero-to-cloud-docker-images.png)
+
 # Add Kubernetes Deployments
 
+To be able to deploy your applications, you need to create deployment tasks:
+
+```bash
+zaruba please addAppHelmDeployment appDirectory=demoDb
+zaruba please addAppHelmDeployment appDirectory=demoBackend
+zaruba please addAppHelmDeployment appDirectory=demoFrontend
+zaruba please syncEnv
+```
+
+It is important to invoke `zaruba plese syncEnv`, since this command allows you to adjust environment definitions for your deployments.
+
+Since your 🐍 `Book Catalog API` and 🐸 `Static Web Server` needs to be accessed from ouside the cluster, you need to set their service type into [LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/).
+
+```bash
+zaruba task setConfig prepareDemoBackendDeployment serviceType LoadBalancer
+zaruba task setConfig prepareDemoFrontendDeployment serviceType LoadBalancer
+zaruba task setConfig prepareDemoFrontendDeployment ports 80
+zaruba project setValue defaultKubeContext <your-kube-context>
+zaruba project setValue pulumiUseLocalBackend true
+```
+
 # Deploy
+
+Let's deploy your applications into Kubernetes
+
+```bash
+zaruba please deploy
+```
+
+![Kubernetes resources](images/from-zero-to-cloud-kubernetes-resources.png)
+
+If you are using `docker-desktop`, you should be able to access:
+
+* 🐍 `Book Catalog API` on port `3000`
+* 🐸 `Static Web Server` on port `80`
+
+![demoFrontend on Kubernetes](images/from-zero-to-cloud-kubernetes-demo-frontend.png)
+
+[Now, you are prepared](https://www.youtube.com/watch?v=YRNBtaHPkZU).
 
 # Wrap Up
 
