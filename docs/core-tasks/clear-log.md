@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# ${_ERROR_ICON} clearLog
+# 🔥 clearLog
 <!--endTocHeader-->
 
 ## Information
