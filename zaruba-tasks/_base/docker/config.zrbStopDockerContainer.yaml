@@ -8,7 +8,7 @@ configs:
       then
         echo "${_BOLD}${_YELLOW}Stop docker container ${CONTAINER}${_NORMAL}"
         stopContainer "${CONTAINER}" 
-        echo 🎉🎉🎉
+        echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
         echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} stopped${_NORMAL}"
       else
         echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} is not running${_NORMAL}"

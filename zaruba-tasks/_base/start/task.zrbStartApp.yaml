@@ -25,8 +25,8 @@ tasks:
       - '{{ .GetConfig "cmdArg" }}'
       - |
         {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-          echo 🎉🎉🎉
-          echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+          echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+          echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
           sleep infinity
         {{ end -}}
         {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -37,15 +37,15 @@ tasks:
         {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
         {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
         {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-        echo 🎉🎉🎉
-        echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+        echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+        echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
     check:
       - '{{ .GetConfig "cmd" }}'
       - '{{ .GetConfig "cmdArg" }}'
       - |
         {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-          echo 🎉🎉🎉
-          echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+          echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+          echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
           exit 0
         {{ end -}}
         {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -56,5 +56,5 @@ tasks:
         {{ .Util.Str.Trim (.GetConfig "afterCheck") "\n " }}
         {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
         {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-        echo 🎉🎉🎉
-        echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+        echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+        echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"

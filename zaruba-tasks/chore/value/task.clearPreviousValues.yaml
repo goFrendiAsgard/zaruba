@@ -1,7 +1,7 @@
 tasks:
 
   clearPreviousValues:
-    icon: 🔥
+    icon: ${_ERROR_ICON}
     description: |
       Clear log
     extend: zrbRunShellScript

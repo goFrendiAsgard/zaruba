@@ -4,17 +4,17 @@ configs:
     start: |
       if [ ! -d "./venv" ]
       then
-        echo "${_YELLOW}🚧 Create virtual environment.${_NORMAL}"
+        echo "${_YELLOW}${_CONSTRUCTION_ICON} Create virtual environment.${_NORMAL}"
         python -m venv ./venv
       fi
       source ./venv/bin/activate
-        echo "${_YELLOW}🚧 Install pip packages.${_NORMAL}"
+        echo "${_YELLOW}${_CONSTRUCTION_ICON} Install pip packages.${_NORMAL}"
       pip install -r requirements.txt
       if [ -d "./chart" ]
       then
-        echo "${_YELLOW}🚧 Prepare chart dependencies.${_NORMAL}"
+        echo "${_YELLOW}${_CONSTRUCTION_ICON} Prepare chart dependencies.${_NORMAL}"
         cd ./chart
         helm dependency upgrade
         cd ..
       fi
-      echo "${_YELLOW}🚧 Preparation completed.${_NORMAL}"
+      echo "${_YELLOW}${_CONSTRUCTION_ICON} Preparation completed.${_NORMAL}"

@@ -7,8 +7,8 @@ configs:
       git checkout master
       git pull origin master
       git fetch --tag
-      echo "🚧 ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
+      echo "${_CONSTRUCTION_ICON} ${_BOLD}${_YELLOW}Compile zaruba${_NORMAL}"
       . ./buildZaruba.sh
-      echo 🎉🎉🎉
+      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
       echo "${_BOLD}${_YELLOW}Zaruba ready!!!${_NORMAL}"
       echo "${_BOLD}${_YELLOW}$("{{ .ZarubaBin }}" version)${_NORMAL}"

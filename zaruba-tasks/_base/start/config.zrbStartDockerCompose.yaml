@@ -6,13 +6,13 @@ configs:
       if [ -z "$(docker-compose top)" ]
       then
         {{ .GetConfig "_startEnv" }}
-        echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+        echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
         {{ .GetConfig "prepareDockerComposeEnv" }}
         docker-compose up -d
       else
-        echo "🐳 ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
+        echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
       fi
-      echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
       docker-compose logs --follow
     _startEnv: |
       {{ $this := . -}}

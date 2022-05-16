@@ -50,5 +50,3 @@ setDeploymentConfig "ports" "${CONTAINER_PORTS}"
 setDeploymentConfig "service.ports" "${SERVICE_PORTS}"
 setDeploymentConfig "service.type" "${ZARUBA_CONFIG_SERVICE_TYPE}"
 setDeploymentConfig "service.enabled" "${ZARUBA_CONFIG_SERVICE_ENABLED}"
-
-echo "${_YELLOW}🚧 Deployment config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
