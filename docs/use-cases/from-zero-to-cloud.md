@@ -3,7 +3,7 @@
 # ❇️ From Zero to Cloud
 <!--endTocHeader-->
 
-This end-to-end tutorial shows you how Zaruba helps you develop/deploy your application.
+This end-to-end tutorial shows you how you can use Zaruba to develop/deploy your application.
 
 At the end of this tutorial, you will have:
 

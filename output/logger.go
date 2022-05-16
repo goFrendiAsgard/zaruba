@@ -59,7 +59,7 @@ func (l *ConsoleLogger) Fprintf(w io.Writer, template string, a ...interface{}) 
 }
 
 func (l *ConsoleLogger) dPrintf(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Skull, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.ZarubaIcon, template)
 	if len(args) == 0 {
 		return fmt.Print(pTemplate)
 	}
@@ -68,36 +68,36 @@ func (l *ConsoleLogger) dPrintf(template string, args ...interface{}) (n int, er
 
 // DPrintf is a decorated fmt.Printf
 func (l *ConsoleLogger) DPrintf(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Empty, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.EmptyIcon, template)
 	return l.dPrintf(pTemplate, args...)
 }
 
 // DPrintfSuccess is a decorated fmt.Printf, indicate success
 func (l *ConsoleLogger) DPrintfSuccess(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Success, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.SuccessIcon, template)
 	return l.dPrintf(pTemplate, args...)
 }
 
 // DPrintfError is a decorated fmt.Printf, indicate error
 func (l *ConsoleLogger) DPrintfError(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Error, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.ErrorIcon, template)
 	return l.dPrintf(pTemplate, args...)
 }
 
 // DPrintfStarted is a decorated fmt.Printf, indicate process started
 func (l *ConsoleLogger) DPrintfStarted(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Start, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.StartIcon, template)
 	return l.dPrintf(pTemplate, args...)
 }
 
 // DPrintfKill is a decorated fmt.Printf, indicate process killed
 func (l *ConsoleLogger) DPrintfKill(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Kill, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.KillIcon, template)
 	return l.dPrintf(pTemplate, args...)
 }
 
 // DPrintfInspect is a decorated fmt.Printf, indicate process inspection
 func (l *ConsoleLogger) DPrintfInspect(template string, args ...interface{}) (n int, err error) {
-	pTemplate := fmt.Sprintf("%s %s", l.d.Inspect, template)
+	pTemplate := fmt.Sprintf("%s %s", l.d.InspectIcon, template)
 	return l.dPrintf(pTemplate, args...)
 }

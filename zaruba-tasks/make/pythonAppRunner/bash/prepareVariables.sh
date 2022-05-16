@@ -9,19 +9,19 @@ then
 fi
 
 
-if [ -z "${_ZRB_APP_START_COMMAND}" ]
+if [ -z "${_ZRB_APP_START_ICON_COMMAND}" ]
 then
     if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
     then
-        _ZRB_APP_START_COMMAND="./start.sh"
+        _ZRB_APP_START_ICON_COMMAND="./start.sh"
     elif [ -f "${_ZRB_APP_DIRECTORY}/main.py" ]
     then
-        _ZRB_APP_START_COMMAND="python main.py"
+        _ZRB_APP_START_ICON_COMMAND="python main.py"
     elif [ -f "${_ZRB_APP_DIRECTORY}/manage.py" ]
     then
-        _ZRB_APP_START_COMMAND="python manage.py"
+        _ZRB_APP_START_ICON_COMMAND="python manage.py"
     elif [ -f "${_ZRB_APP_DIRECTORY}/index.py" ]
     then
-        _ZRB_APP_START_COMMAND="python index.py"
+        _ZRB_APP_START_ICON_COMMAND="python index.py"
     fi
 fi

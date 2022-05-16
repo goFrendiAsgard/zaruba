@@ -685,7 +685,7 @@ func (task *Task) getUniqueElements(arr []string) (result []string) {
 
 func (task *Task) getCmdIconType(cmdType string) string {
 	if cmdType == "CHECK" {
-		return task.Project.Decoration.Inspect
+		return task.Project.Decoration.InspectIcon
 	}
-	return task.Project.Decoration.Run
+	return task.Project.Decoration.RunIcon
 }

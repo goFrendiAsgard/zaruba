@@ -55,7 +55,7 @@ func (prompter *Prompter) GetAdditionalValue() (err error) {
 func (prompter *Prompter) getAdditionalValue(label string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes"}
 	options := []string{"no", "file"}
-	prompter.logger.Println(fmt.Sprintf("%s Load additional value file", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Load additional value file", prompter.d.ZarubaIcon))
 	selectPrompt := promptui.Select{
 		Label:             label,
 		Items:             captions,
@@ -91,9 +91,9 @@ func (prompter *Prompter) getAdditionalFileValue() (err error) {
 		// input by options
 		captions := append(valueFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 		options := append(valueFileList, "")
-		prompter.logger.Println(fmt.Sprintf("%s Value file", prompter.d.Skull))
+		prompter.logger.Println(fmt.Sprintf("%s Value file", prompter.d.ZarubaIcon))
 		selectPrompt := promptui.Select{
-			Label:             fmt.Sprintf("%s Value file", prompter.d.Skull),
+			Label:             fmt.Sprintf("%s Value file", prompter.d.ZarubaIcon),
 			Items:             captions,
 			Stdout:            &bellSkipper{},
 			StartInSearchMode: true,
@@ -112,9 +112,9 @@ func (prompter *Prompter) getAdditionalFileValue() (err error) {
 		}
 	}
 	// manual input
-	prompter.logger.Println(fmt.Sprintf("%s Value file", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Value file", prompter.d.ZarubaIcon))
 	prompt := promptui.Prompt{
-		Label:    fmt.Sprintf("%s Value file", prompter.d.Skull),
+		Label:    fmt.Sprintf("%s Value file", prompter.d.ZarubaIcon),
 		Validate: fileMustExist,
 	}
 	value, err := prompt.Run()
@@ -150,7 +150,7 @@ func (prompter *Prompter) GetAdditionalEnv(taskNames []string) (err error) {
 func (prompter *Prompter) getAdditionalEnv(label string, taskNames []string) (err error) {
 	captions := []string{"🏁 No", "📝 Yes, from file", "📝 Yes, manually"}
 	options := []string{"no", "file", "manual"}
-	prompter.logger.Println(fmt.Sprintf("%s Load additional env", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Load additional env", prompter.d.ZarubaIcon))
 	selectPrompt := promptui.Select{
 		Label:             label,
 		Items:             captions,
@@ -190,9 +190,9 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		// input by options
 		captions := append(envFileList, fmt.Sprintf("%sLet me type it!%s", prompter.d.Green, prompter.d.Normal))
 		options := append(envFileList, "")
-		prompter.logger.Println(fmt.Sprintf("%s Environment file", prompter.d.Skull))
+		prompter.logger.Println(fmt.Sprintf("%s Environment file", prompter.d.ZarubaIcon))
 		selectPrompt := promptui.Select{
-			Label:             fmt.Sprintf("%s Environment file", prompter.d.Skull),
+			Label:             fmt.Sprintf("%s Environment file", prompter.d.ZarubaIcon),
 			Items:             captions,
 			Stdout:            &bellSkipper{},
 			StartInSearchMode: true,
@@ -211,9 +211,9 @@ func (prompter *Prompter) getAdditionalFileEnv(taskNames []string) (err error) {
 		}
 	}
 	// manual input
-	prompter.logger.Println(fmt.Sprintf("%s Environment file", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Environment file", prompter.d.ZarubaIcon))
 	prompt := promptui.Prompt{
-		Label:    fmt.Sprintf("%s Environment file", prompter.d.Skull),
+		Label:    fmt.Sprintf("%s Environment file", prompter.d.ZarubaIcon),
 		Validate: fileMustExist,
 	}
 	value, err := prompt.Run()
@@ -234,9 +234,9 @@ func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error)
 		options = append(options, envName)
 		captions = append(captions, fmt.Sprintf("%s (current value: %s)", envName, envMap[envName]))
 	}
-	prompter.logger.Println(fmt.Sprintf("%s Environment variable", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Environment variable", prompter.d.ZarubaIcon))
 	selectPrompt := promptui.Select{
-		Label:             fmt.Sprintf("%s Environment variable name", prompter.d.Skull),
+		Label:             fmt.Sprintf("%s Environment variable name", prompter.d.ZarubaIcon),
 		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
@@ -249,7 +249,7 @@ func (prompter *Prompter) getAdditionalManualEnv(taskNames []string) (err error)
 	if err != nil {
 		return err
 	}
-	prompter.logger.Println(fmt.Sprintf("%s %s", prompter.d.Skull, options[selectedIndex]))
+	prompter.logger.Println(fmt.Sprintf("%s %s", prompter.d.ZarubaIcon, options[selectedIndex]))
 	prompt := promptui.Prompt{
 		Label: fmt.Sprintf("New value for %s", captions[selectedIndex]),
 	}
@@ -288,9 +288,9 @@ func (prompter *Prompter) GetAutoTerminate(taskNames []string) (autoTerminate bo
 	}
 	captions := []string{"🏁 No", "🔪 Yes"}
 	options := []string{"no", "yes"}
-	prompter.logger.Println(fmt.Sprintf("%s Auto terminate", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Auto terminate", prompter.d.ZarubaIcon))
 	selectPrompt := promptui.Select{
-		Label:             fmt.Sprintf("%s Do you want to terminate tasks once completed?", prompter.d.Skull),
+		Label:             fmt.Sprintf("%s Do you want to terminate tasks once completed?", prompter.d.ZarubaIcon),
 		Items:             captions,
 		Stdout:            &bellSkipper{},
 		StartInSearchMode: true,
@@ -325,9 +325,9 @@ func (prompter *Prompter) GetAction(taskName string) (action *Action, err error)
 	} else {
 		options = []string{caption_run, caption_explain}
 	}
-	prompter.logger.Println(fmt.Sprintf("%s Action", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Action", prompter.d.ZarubaIcon))
 	selectPrompt := promptui.Select{
-		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.Skull, taskName),
+		Label:             fmt.Sprintf("%s What do you want to do with %s?", prompter.d.ZarubaIcon, taskName),
 		Items:             options,
 		Size:              3,
 		Stdout:            &bellSkipper{},
@@ -363,9 +363,9 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	}
 	options := append(publicTaskOptions, privateTaskOptions...)
 	captions := append(publicTaskCaptions, privateTaskCaptions...)
-	prompter.logger.Println(fmt.Sprintf("%s Task Name", prompter.d.Skull))
+	prompter.logger.Println(fmt.Sprintf("%s Task Name", prompter.d.ZarubaIcon))
 	selectPrompt := promptui.Select{
-		Label:             fmt.Sprintf("%s Please select task", prompter.d.Skull),
+		Label:             fmt.Sprintf("%s Please select task", prompter.d.ZarubaIcon),
 		Items:             captions,
 		Size:              10,
 		Stdout:            &bellSkipper{},
@@ -396,9 +396,9 @@ func (prompter *Prompter) SetProjectValuesByTask(taskNames []string) (err error)
 		}
 		oldValue := prompter.project.GetValue(inputName)
 		newValue := ""
-		prompter.logger.Println(fmt.Sprintf("%s %d of %d) %s", prompter.d.Skull, index+1, inputCount, inputName))
+		prompter.logger.Println(fmt.Sprintf("%s %d of %d) %s", prompter.d.ZarubaIcon, index+1, inputCount, inputName))
 		if input.Description != "" {
-			indentation := prompter.d.Empty + " "
+			indentation := prompter.d.EmptyIcon + " "
 			prompter.logger.Println(indentation + prompter.util.Str.Indent(input.Description, indentation))
 		}
 		if input.Secret {

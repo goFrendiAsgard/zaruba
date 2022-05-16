@@ -72,7 +72,7 @@ func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *
 		doneMutex:              &sync.RWMutex{},
 		statusInterval:         statusInterval,
 		startTimeMutex:         &sync.RWMutex{},
-		spaces:                 fmt.Sprintf("%s %s", project.Decoration.Empty, project.Decoration.Empty),
+		spaces:                 fmt.Sprintf("%s %s", project.Decoration.EmptyIcon, project.Decoration.EmptyIcon),
 		surpressWaitError:      false,
 		surpressWaitErrorMutex: &sync.RWMutex{},
 		logger:                 logger,
@@ -289,8 +289,8 @@ func (r *Runner) run(ch chan error) {
 	r.setDoneSignal()
 	r.showStatus()
 	d := r.decoration
-	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.Success, 11))
-	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.Success, 3), d.Normal)
+	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.SuccessIcon, 11))
+	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.SuccessIcon, 3), d.Normal)
 	if r.autoTerminate {
 		r.sleep(100 * time.Millisecond)
 		r.sleep(r.autoTerminateDelay)
@@ -563,7 +563,7 @@ func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) {
 				prefix += fmt.Sprintf("%s%4d |%s ", d.Yellow, index+1, d.NoColor)
 			}
 			row = strings.ReplaceAll(row, "\x1b", "\\x1b")
-			row = fmt.Sprintf("%s%s %s%s%s%s", r.spaces, d.Empty, d.Faint, prefix, row, d.Normal)
+			row = fmt.Sprintf("%s%s %s%s%s%s", r.spaces, d.EmptyIcon, d.Faint, prefix, row, d.Normal)
 			rows[index] = row
 		}
 		formattedArg := strings.Join(rows, "\n")
@@ -591,7 +591,7 @@ func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
 
 func (r *Runner) showStatus() {
 	d := r.decoration
-	descriptionPrefix := r.spaces + d.Empty + d.Empty
+	descriptionPrefix := r.spaces + d.EmptyIcon + d.EmptyIcon
 	processPrefix := r.spaces + r.spaces + " "
 	processRows := []string{}
 	r.cmdInfoMutex.Lock()

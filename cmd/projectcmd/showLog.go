@@ -51,15 +51,15 @@ func getLog(decoration *output.Decoration, pattern, logFile string) (logMessage 
 		}
 		// adjust commandType
 		if command_type == "START" {
-			command_type = decoration.Run
+			command_type = decoration.RunIcon
 		} else {
-			command_type = decoration.Inspect
+			command_type = decoration.InspectIcon
 		}
 		// adjust output_type
 		if output_type == "ERR" {
-			output_type = decoration.Error
+			output_type = decoration.ErrorIcon
 		} else {
-			output_type = decoration.Empty
+			output_type = decoration.EmptyIcon
 		}
 		logMessage += fmt.Sprintf("%s %s %s\t%s%s%s %s\n", output_type, command_type, taskName, decoration.Faint, timestamp[:23], decoration.Normal, log)
 	}
