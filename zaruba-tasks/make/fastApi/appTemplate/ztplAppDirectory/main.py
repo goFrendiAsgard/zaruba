@@ -13,7 +13,7 @@ from schemas.user import UserData
 import os
 import json
 
-error_threshold = int(os.getenv('APP_ERROR_ICON_THRESHOLD', '10'))
+error_threshold = int(os.getenv('APP_ERROR_THRESHOLD', '10'))
 
 # -- 🐇 Rabbitmq setting
 rmq_connection_parameters = create_rmq_connection_parameters(
