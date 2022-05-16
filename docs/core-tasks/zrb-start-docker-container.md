@@ -68,8 +68,8 @@ Description:
 *
     ```
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-      echo 🎉🎉🎉
-      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+      echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
       sleep infinity
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -80,8 +80,8 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-    echo 🎉🎉🎉
-    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+    echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
 
     ```
 
@@ -93,8 +93,8 @@ Description:
 *
     ```
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-      echo 🎉🎉🎉
-      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+      echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
       exit 0
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -105,8 +105,8 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "afterCheck") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-    echo 🎉🎉🎉
-    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+    echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
     ```
 
 
@@ -133,14 +133,14 @@ Value:
     set +e
     sleep 3
     {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
-    echo "🔎 ${_BOLD}${_YELLOW}Run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
     until [ "$?" = "0" ]
     do
       sleep 3
       docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
     done
-    echo "🔎 ${_BOLD}${_YELLOW}Sucessfully run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Sucessfully run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     set "${_OLD_STATE}"
     {{ end -}}
 
@@ -155,9 +155,9 @@ Value:
       {{ if ne $port "" -}}
         {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
         {{ $hostPort := index $portParts 0 -}}
-        echo "🔎 ${_BOLD}${_YELLOW}Waiting for host port: '{{ $hostPort }}'${_NORMAL}"
+        echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting for host port: '{{ $hostPort }}'${_NORMAL}"
         waitPort "localhost" {{ $hostPort }}
-        echo "🔎 ${_BOLD}${_YELLOW}Host port '{{ $hostPort }}' is ready${_NORMAL}"
+        echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Host port '{{ $hostPort }}' is ready${_NORMAL}"
       {{ end -}}
     {{ end -}}
 
@@ -167,17 +167,17 @@ Value:
 
 Value:
 
-    echo "🔎 ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' running status${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' running status${_NORMAL}"
     until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
     do
       sleep 1
     done
-    echo "🔎 ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' healthcheck${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' healthcheck${_NORMAL}"
     while [ "$(inspectDocker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
     do
       sleep 1
     done
-    echo "🔎 ${_BOLD}${_YELLOW}Docker container '${CONTAINER_NAME}' is running${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Docker container '${CONTAINER_NAME}' is running${_NORMAL}"
 
 
 
@@ -241,18 +241,18 @@ Value:
     {{ if .Util.Bool.IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
     if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
     then
-      echo "🐳 ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is already started${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is already started${_NORMAL}"
       {{ .GetConfig "_startLogContainer" }}
     elif [ ! -z $(inspectDocker "container" ".Name" "${CONTAINER_NAME}") ]
     then
-      echo "🐳 ${_BOLD}${_YELLOW}Retrieve previous log of '${CONTAINER_NAME}'${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Retrieve previous log of '${CONTAINER_NAME}'${_NORMAL}"
       sleep 1
       docker logs --tail 20 "${CONTAINER_NAME}"
-      echo "🐳 ${_BOLD}${_YELLOW}Starting container '${CONTAINER_NAME}'${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Starting container '${CONTAINER_NAME}'${_NORMAL}"
       docker start "${CONTAINER_NAME}"
       {{ .GetConfig "_startLogContainer" }}
     else
-      echo "🐳 ${_BOLD}${_YELLOW}Creating and starting container '${CONTAINER_NAME}'${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Creating and starting container '${CONTAINER_NAME}'${_NORMAL}"
       {{ .GetConfig "_startRunContainer" }}
       {{ .GetConfig "_startLogContainer" }}
     fi
@@ -263,7 +263,7 @@ Value:
 
 Value:
 
-    echo "🐳 ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
+    echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
     docker logs --since 0m --follow "${CONTAINER_NAME}"
 
 

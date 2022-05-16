@@ -52,8 +52,8 @@ Description:
 *
     ```
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-      echo 🎉🎉🎉
-      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+      echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
       sleep infinity
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -64,8 +64,8 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-    echo 🎉🎉🎉
-    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+    echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
 
     ```
 
@@ -77,8 +77,8 @@ Description:
 *
     ```
     {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-      echo 🎉🎉🎉
-      echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+      echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
       exit 0
     {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
@@ -89,8 +89,8 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "afterCheck") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-    echo 🎉🎉🎉
-    echo "📜 ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+    echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
     ```
 
 
@@ -103,9 +103,9 @@ Value:
 
     {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
       {{ if ne $port "" -}}
-        echo "🔎 ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
+        echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting for port '{{ $port }}'${_NORMAL}"
         waitPort "localhost" {{ $port }}
-        echo "🔎 ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
+        echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Port '{{ $port }}' is ready${_NORMAL}"
       {{ end -}}
     {{ end -}}
     {{ if .GetConfig "checkCommand" -}}
@@ -113,14 +113,14 @@ Value:
     set +e
     sleep 3
     {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
-    echo "🔎 ${_BOLD}${_YELLOW}Run check: {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Run check: {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     {{ $checkCommand }}
     until [ "$?" = "0" ]
     do
       sleep 3
       {{ $checkCommand }}
     done
-    echo "🔎 ${_BOLD}${_YELLOW}Successfully run check: {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
+    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Successfully run check: {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     set "${_OLD_STATE}"
     {{ end -}}
 
@@ -156,13 +156,13 @@ Value:
     if [ -z "$(docker-compose top)" ]
     then
       {{ .GetConfig "_startEnv" }}
-      echo "🐳 ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Starting docker compose${_NORMAL}"
       {{ .GetConfig "prepareDockerComposeEnv" }}
       docker-compose up -d
     else
-      echo "🐳 ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Docker compose is already running${_NORMAL}"
     fi
-    echo "🐳 ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
+    echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Logging docker compose${_NORMAL}"
     docker-compose logs --follow
 
 

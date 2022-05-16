@@ -152,7 +152,7 @@ Value:
         git subtree push --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
       fi
     {{ end -}}
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Subrepos pushed${_NORMAL}"
 
 

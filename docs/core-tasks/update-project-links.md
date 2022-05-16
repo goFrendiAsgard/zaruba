@@ -143,7 +143,7 @@ Value:
       {{ $absDestination := $this.GetWorkPath $destination -}}
       linkResource "{{ $absSource }}" "{{ $absDestination }}"
     {{ end -}}
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Links updated${_NORMAL}"
 
 

@@ -188,7 +188,7 @@ Value:
 Value:
 
     "{{ .ZarubaBin }}" project setValue "link::{{ .GetConfig "linkTo" }}" "{{ .GetConfig "linkFrom" }}" "{{ .GetWorkPath "default.values.yaml" }}" 
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Link ${SOURCE} -> ${DESTINATION} has been added${_NORMAL}"
 
 

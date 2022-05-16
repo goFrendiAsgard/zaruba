@@ -107,26 +107,26 @@ Value:
     _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
     _ZRB_REPLACEMENT_MAP='{}'
     __ZRB_PWD=$(pwd)
-    echo "${_YELLOW}🧰 Prepare${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Prepare${_NORMAL}"
     {{ .GetConfig "_prepareBaseVariables" }}
     {{ .GetConfig "_prepareVariables" }}
     {{ .GetConfig "_prepareBaseReplacementMap" }}
     {{ .GetConfig "_prepareReplacementMap" }}
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}✅ Validate${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Validate${_NORMAL}"
     {{ .GetConfig "_validateTemplateLocation" }}
     {{ .GetConfig "_validate" }}
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}🚧 Generate${_NORMAL}"
-    echo "${_YELLOW}🚧 Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATION}"
-    echo "${_YELLOW}🚧 Generated Script Location:${_NORMAL} ${_ZRB_GENERATED_SCRIPT_LOCATION}"
-    echo "${_YELLOW}🚧 Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Generate${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATION}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Generated Script Location:${_NORMAL} ${_ZRB_GENERATED_SCRIPT_LOCATION}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
     mkdir -p "${_ZRB_GENERATED_SCRIPT_LOCATION}"
     "{{ .ZarubaBin }}" generate "${_ZRB_TEMPLATE_LOCATION}" "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_REPLACEMENT_MAP}"
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}🏁 Generated Script${_NORMAL}"
+    echo "${_YELLOW}${_START_ICON} Generated Script${_NORMAL}"
     echo "${ZARUBA_CONFIG_RUN_GENERATED_SCRIPT}"
-    echo "${_YELLOW}🏁 Run Generated Script${_NORMAL}"
+    echo "${_YELLOW}${_START_ICON} Run Generated Script${_NORMAL}"
     {{ .GetConfig "runGeneratedScript" }}
     cd "${__ZRB_PWD}"
 
@@ -146,7 +146,7 @@ Value:
 
 Value:
 
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 
@@ -211,15 +211,15 @@ Value:
 
     _ZRB_CONTAINER_NAME="{{ .GetConfig "containerName" }}"
     _ZRB_REMOTE_SCRIPT_LOCATION="{{ .GetConfig "remoteScriptLocation" }}"
-    echo "${_BOLD}${_YELLOW}👷 Make ${_ZRB_GENERATED_SCRIPT_LOCATION} executable${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}${_WORKER_ICON} Make ${_ZRB_GENERATED_SCRIPT_LOCATION} executable${_NORMAL}"
     chmod -R 755 "${_ZRB_GENERATED_SCRIPT_LOCATION}"
-    echo "${_BOLD}${_YELLOW}👷 Copy from ${_ZRB_GENERATED_SCRIPT_LOCATION} at host to ${_ZRB_REMOTE_SCRIPT_LOCATION} at container ${_ZRB_CONTAINER_NAME}${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}${_WORKER_ICON} Copy from ${_ZRB_GENERATED_SCRIPT_LOCATION} at host to ${_ZRB_REMOTE_SCRIPT_LOCATION} at container ${_ZRB_CONTAINER_NAME}${_NORMAL}"
     docker cp "${_ZRB_GENERATED_SCRIPT_LOCATION}" "${_ZRB_CONTAINER_NAME}:${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    echo "${_BOLD}${_YELLOW}👷 Execute remote command${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}${_WORKER_ICON} Execute remote command${_NORMAL}"
     docker exec {{ if .GetConfig "containerUser" }}-u {{ .GetConfig "containerUser" }}{{ end }} "${_ZRB_CONTAINER_NAME}" {{ .GetConfig "remoteCommand" }}
-    echo "${_BOLD}${_YELLOW}👷 Remove ${_ZRB_REMOTE_SCRIPT_LOCATION} at container ${_ZRB_CONTAINER_NAME}${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}${_WORKER_ICON} Remove ${_ZRB_REMOTE_SCRIPT_LOCATION} at container ${_ZRB_CONTAINER_NAME}${_NORMAL}"
     docker exec -u 0 "${_ZRB_CONTAINER_NAME}" rm -Rf "${_ZRB_REMOTE_SCRIPT_LOCATION}"
-    echo "${_BOLD}${_YELLOW}👷 Remove ${_ZRB_GENERATED_SCRIPT_LOCATION}${_NORMAL}"
+    echo "${_BOLD}${_YELLOW}${_WORKER_ICON} Remove ${_ZRB_GENERATED_SCRIPT_LOCATION}${_NORMAL}"
     rm -Rf "${_ZRB_GENERATED_SCRIPT_LOCATION}"
 
 

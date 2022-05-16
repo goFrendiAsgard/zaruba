@@ -299,7 +299,7 @@ Value:
     _ZRB_APP_TEST_COMMAND='{{ .Util.Str.Trim (.GetConfig "appTestCommand") "\n " }}'
     _ZRB_APP_MIGRATE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appMigrateCommand") "\n " }}'
     __ZRB_PWD=$(pwd)
-    echo "${_YELLOW}🧰 Prepare${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Prepare${_NORMAL}"
     {{ .GetConfig "_prepareBaseVariables" }}
     {{ .GetConfig "_prepareVariables" }}
     {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -311,7 +311,7 @@ Value:
     {{ .GetConfig "_prepareReplacementMap" }}
     {{ .GetConfig "_prepare" }}
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}✅ Validate${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Validate${_NORMAL}"
     {{ .GetConfig "_validateAppDirectory" }}
     {{ .GetConfig "_validateAppContainerVolumes" }}
     {{ .GetConfig "_validateTemplateLocation" }}
@@ -320,9 +320,9 @@ Value:
     {{ .GetConfig "_skipCreation" }}
     {{ .GetConfig "_validate" }}
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}🚧 Generate${_NORMAL}"
-    echo "${_YELLOW}🚧 Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATIONS}"
-    echo "${_YELLOW}🚧 Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Generate${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATIONS}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}🔩 Integrate${_NORMAL}"
@@ -385,7 +385,7 @@ Value:
 
 Value:
 
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Done${_NORMAL}"
 
 

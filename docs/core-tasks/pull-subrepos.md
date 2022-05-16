@@ -151,7 +151,7 @@ Value:
         git subtree pull --prefix="${PREFIX}" "${NAME}" "${BRANCH}"
       fi
     {{ end -}}
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Subrepos pulled${_NORMAL}"
 
 

@@ -139,18 +139,18 @@ Value:
     {{ if .Util.Bool.IsTrue $rebuild }}{{ .GetConfig "_startRebuildContainer" }}{{ end }}
     if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
     then
-      echo "🐳 ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is already started${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Container '${CONTAINER_NAME}' is already started${_NORMAL}"
       {{ .GetConfig "_startLogContainer" }}
     elif [ ! -z $(inspectDocker "container" ".Name" "${CONTAINER_NAME}") ]
     then
-      echo "🐳 ${_BOLD}${_YELLOW}Retrieve previous log of '${CONTAINER_NAME}'${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Retrieve previous log of '${CONTAINER_NAME}'${_NORMAL}"
       sleep 1
       docker logs --tail 20 "${CONTAINER_NAME}"
-      echo "🐳 ${_BOLD}${_YELLOW}Starting container '${CONTAINER_NAME}'${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Starting container '${CONTAINER_NAME}'${_NORMAL}"
       docker start "${CONTAINER_NAME}"
       {{ .GetConfig "_startLogContainer" }}
     else
-      echo "🐳 ${_BOLD}${_YELLOW}Creating and starting container '${CONTAINER_NAME}'${_NORMAL}"
+      echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Creating and starting container '${CONTAINER_NAME}'${_NORMAL}"
       {{ .GetConfig "_startRunContainer" }}
       {{ .GetConfig "_startLogContainer" }}
     fi
@@ -161,7 +161,7 @@ Value:
 
 Value:
 
-    echo "🐳 ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
+    echo "${_CONTAINER_ICON} ${_BOLD}${_YELLOW}Logging '${CONTAINER_NAME}'${_NORMAL}"
     docker logs --since 0m --follow "${CONTAINER_NAME}"
 
 

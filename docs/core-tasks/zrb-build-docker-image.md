@@ -169,7 +169,7 @@ Value:
       -t "${DOCKER_IMAGE_NAME}:latest" \
       -t "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
       -f "${DOCKER_FILE}" .
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} built${_NORMAL}"
 
 

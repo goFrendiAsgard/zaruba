@@ -154,7 +154,7 @@ Value:
     else
       pullImage "${DOCKER_IMAGE_NAME}"
     fi
-    echo 🎉🎉🎉
+    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Docker image ${DOCKER_IMAGE_NAME} pulled${_NORMAL}"
 
 

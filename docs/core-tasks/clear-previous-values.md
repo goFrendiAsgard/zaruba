@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🔥 clearPreviousValues
+# ${_ERROR_ICON} clearPreviousValues
 <!--endTocHeader-->
 
 ## Information

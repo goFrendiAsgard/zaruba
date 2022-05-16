@@ -1,7 +1,7 @@
 tasks:
 
   clearLog:
-    icon: ${_ERROR_ICON}
+    icon: 🔥
     description: |
       Clear log
     extend: zrbRunShellScript
