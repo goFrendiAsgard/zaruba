@@ -21,13 +21,13 @@ configs:
       _ZRB_GENERATED_SCRIPT_LOCATION='{{ .GetConfig "generatedScriptLocation" }}'
       _ZRB_REPLACEMENT_MAP='{}'
       __ZRB_PWD=$(pwd)
-      echo "${_YELLOW}🧰 Prepare${_NORMAL}"
+      echo "${_YELLOW}${_CONSTRUCTION_ICON} Prepare${_NORMAL}"
       {{ .GetConfig "_prepareBaseVariables" }}
       {{ .GetConfig "_prepareVariables" }}
       {{ .GetConfig "_prepareBaseReplacementMap" }}
       {{ .GetConfig "_prepareReplacementMap" }}
       cd "${__ZRB_PWD}"
-      echo "${_YELLOW}✅ Validate${_NORMAL}"
+      echo "${_YELLOW}${_CONSTRUCTION_ICON} Validate${_NORMAL}"
       {{ .GetConfig "_validateTemplateLocation" }}
       {{ .GetConfig "_validate" }}
       cd "${__ZRB_PWD}"

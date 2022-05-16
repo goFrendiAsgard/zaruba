@@ -85,7 +85,7 @@ configs:
       _ZRB_APP_TEST_COMMAND='{{ .Util.Str.Trim (.GetConfig "appTestCommand") "\n " }}'
       _ZRB_APP_MIGRATE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appMigrateCommand") "\n " }}'
       __ZRB_PWD=$(pwd)
-      echo "${_YELLOW}🧰 Prepare${_NORMAL}"
+      echo "${_YELLOW}${_CONSTRUCTION_ICON} Prepare${_NORMAL}"
       {{ .GetConfig "_prepareBaseVariables" }}
       {{ .GetConfig "_prepareVariables" }}
       {{ .GetConfig "_prepareBaseStartCommand" }}
@@ -97,7 +97,7 @@ configs:
       {{ .GetConfig "_prepareReplacementMap" }}
       {{ .GetConfig "_prepare" }}
       cd "${__ZRB_PWD}"
-      echo "${_YELLOW}✅ Validate${_NORMAL}"
+      echo "${_YELLOW}${_CONSTRUCTION_ICON} Validate${_NORMAL}"
       {{ .GetConfig "_validateAppDirectory" }}
       {{ .GetConfig "_validateAppContainerVolumes" }}
       {{ .GetConfig "_validateTemplateLocation" }}
