@@ -3,6 +3,8 @@
 # ❇️ From Zero to Cloud
 <!--endTocHeader-->
 
+> ⚠️ Currently, we use `deployments` to deploy MySQL. The proper way is using statefulset. This tutorial will be updated once I tested it.
+
 This end-to-end tutorial shows you how you can use Zaruba to develop/deploy your application.
 
 At the end of this tutorial, you will have:
