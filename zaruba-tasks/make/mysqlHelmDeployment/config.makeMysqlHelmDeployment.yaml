@@ -1,0 +1,9 @@
+configs:
+
+  makeMysqlHelmDeployment: 
+    _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
+    _validateAppDirectory: ''
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/mysqlHelmDeployment/deploymentTemplate"
+      ]

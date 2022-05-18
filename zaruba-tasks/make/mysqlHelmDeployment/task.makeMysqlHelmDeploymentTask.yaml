@@ -1,0 +1,13 @@
+tasks:
+
+  makeMysqlHelmDeploymentTask:
+    icon: 🚢
+    extend: zrbMake
+    dependencies:
+      - zrbIsProject
+      - makeMysqlHelmDeployment
+    inputs:
+      - deploymentDirectory
+      - deploymentName
+    configRef: makeMysqlHelmDeploymentTask
+

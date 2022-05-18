@@ -43,4 +43,4 @@ app = Chart(
     )
 )
 
-pulumi.export("app", app)
+pulumi.export('app', app)

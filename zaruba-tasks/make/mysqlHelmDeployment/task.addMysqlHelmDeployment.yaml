@@ -1,0 +1,6 @@
+tasks:
+
+  addMysqlHelmDeployment:
+    icon: 🚢
+    dependencies:
+      - makeMysqlHelmDeploymentTask

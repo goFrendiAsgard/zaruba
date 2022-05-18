@@ -277,6 +277,12 @@ includes:
   - ./zaruba-tasks/make/mysql/task.makeMysqlApp.yaml
   - ./zaruba-tasks/make/mysql/task.makeMysqlAppRunner.yaml
 
+  - ./zaruba-tasks/make/mysqlHelmDeployment/config.makeMysqlHelmDeployment.yaml
+  - ./zaruba-tasks/make/mysqlHelmDeployment/config.makeMysqlHelmDeploymentTask.yaml
+  - ./zaruba-tasks/make/mysqlHelmDeployment/task.addMysqlHelmDeployment.yaml
+  - ./zaruba-tasks/make/mysqlHelmDeployment/task.makeMysqlHelmDeployment.yaml
+  - ./zaruba-tasks/make/mysqlHelmDeployment/task.makeMysqlHelmDeploymentTask.yaml
+
   - ./zaruba-tasks/make/nginx/config.makeNginxApp.yaml
   - ./zaruba-tasks/make/nginx/config.makeNginxAppRunner.yaml
   - ./zaruba-tasks/make/nginx/task.addNginx.yaml

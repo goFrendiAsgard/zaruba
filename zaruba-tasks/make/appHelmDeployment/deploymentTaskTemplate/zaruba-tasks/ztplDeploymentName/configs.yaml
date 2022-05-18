@@ -29,11 +29,11 @@ configs:
       IMAGE_NAME="{{ .GetDockerImageName }}"
       IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
       RAW_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
-      . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
-      . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
       #
       # Generate deployment configuration
       #
+      . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
+      . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
       echo "${_YELLOW}${_CONSTRUCTION_ICON} Deployment config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
       #
       # Prepare Chart

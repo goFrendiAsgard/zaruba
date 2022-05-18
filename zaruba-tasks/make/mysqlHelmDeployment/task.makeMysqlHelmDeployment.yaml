@@ -1,0 +1,8 @@
+tasks:
+
+  makeMysqlHelmDeployment:
+    icon: 🚢
+    extend: makeApp
+    inputs:
+      - deploymentDirectory
+    configRef: makeMysqlHelmDeployment
