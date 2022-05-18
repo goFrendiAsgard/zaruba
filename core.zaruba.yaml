@@ -144,10 +144,6 @@ includes:
   - ./zaruba-tasks/make/appHelmDeployment/task.makeAppHelmDeployment.yaml
   - ./zaruba-tasks/make/appHelmDeployment/task.makeAppHelmDeploymentTask.yaml
 
-  - ./zaruba-tasks/make/appHelmDeploymentInPython/task.addAppHelmDeploymentInPython.yaml
-  - ./zaruba-tasks/make/appHelmDeploymentInPython/task.makeAppHelmDeploymentInPython.yaml
-  - ./zaruba-tasks/make/appHelmDeploymentInPython/task.makeAppHelmDeploymentTaskInPython.yaml
-
   - ./zaruba-tasks/make/appRunner/_base/config.zrbMakeAppRunner.yaml
   - ./zaruba-tasks/make/appRunner/_base/task.zrbMakeAppRunner.yaml
 
@@ -198,10 +194,6 @@ includes:
   - ./zaruba-tasks/make/eksDeployment/task.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eksDeployment/task.makeEksDeploymentTask.yaml
 
-  - ./zaruba-tasks/make/eksDeploymentInPython/task.addEksDeploymentInPython.yaml
-  - ./zaruba-tasks/make/eksDeploymentInPython/task.makeEksDeploymentInPython.yaml
-  - ./zaruba-tasks/make/eksDeploymentInPython/task.makeEksDeploymentTaskInPython.yaml
-
   - ./zaruba-tasks/make/elasticsearch/config.makeElasticsearchApp.yaml
   - ./zaruba-tasks/make/elasticsearch/config.makeElasticsearchAppRunner.yaml
   - ./zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
@@ -248,10 +240,6 @@ includes:
   - ./zaruba-tasks/make/helmDeployment/task.addHelmDeployment.yaml
   - ./zaruba-tasks/make/helmDeployment/task.makeHelmDeployment.yaml
   - ./zaruba-tasks/make/helmDeployment/task.makeHelmDeploymentTask.yaml
-
-  - ./zaruba-tasks/make/helmDeploymentInPython/task.addHelmDeploymentInPython.yaml
-  - ./zaruba-tasks/make/helmDeploymentInPython/task.makeHelmDeploymentInPython.yaml
-  - ./zaruba-tasks/make/helmDeploymentInPython/task.makeHelmDeploymentTaskInPython.yaml
 
   - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookApp.yaml
   - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookAppRunner.yaml

@@ -15,30 +15,30 @@ tasks:
         ../zaruba please initSubrepos 
         ../zaruba please pullSubrepos 
         ../zaruba please addAppRunner appDirectory=provoFibo appEnvs='{"HTTP_PORT":"3001"}'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoFibo
+        ../zaruba please addAppHelmDeployment appDirectory=provoFibo
 
         ../zaruba project setValue showAdvertisement no
 
         ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 
         ../zaruba please addSimpleDockerApp appDirectory=provoDockerApp appPorts='["3002:8080"]'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoDockerApp
+        ../zaruba please addAppHelmDeployment appDirectory=provoDockerApp
         ../zaruba please addSimpleDockerComposeApp appDirectory=provoDockerCompose appEnvs='{"APP_HTTP_PORT":"3003"}' appPorts='["3003"]'
         ../zaruba please addSimpleGoApp appDirectory=provoGo appEnvs='{"APP_HTTP_PORT":"3004"}'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoGo
+        ../zaruba please addAppHelmDeployment appDirectory=provoGo
         ../zaruba please addSimpleNodeJsApp appDirectory=provoNodeJs appEnvs='{"APP_HTTP_PORT":"3005"}'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoNodeJs
+        ../zaruba please addAppHelmDeployment appDirectory=provoNodeJs
         ../zaruba please addSimpleTypeScriptApp appDirectory=provoTypeScript appEnvs='{"APP_HTTP_PORT":"3006"}'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoTypeScript
+        ../zaruba please addAppHelmDeployment appDirectory=provoTypeScript
         ../zaruba please addSimplePythonApp appDirectory=provoPython appEnvs='{"APP_HTTP_PORT":"3007"}'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoPython
+        ../zaruba please addAppHelmDeployment appDirectory=provoPython
 
         ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library
         ../zaruba please addFastApiRouteHandler appDirectory=provoFastApi appModuleName=blog appHttpMethod=get appUrl=/
         ../zaruba please addFastApiEventHandler appDirectory=provoFastApi appModuleName=library appEventName=open
         ../zaruba please addFastApiRpcHandler appDirectory=provoFastApi appModuleName=library appRpcName=isBookAvailable
         ../zaruba please addFastApiCrud appDirectory=provoFastApi appModuleName=library appCrudEntity=books appCrudFields='["title", "author", "synopsis"]'
-        ../zaruba please addAppHelmDeploymentInPython appDirectory=provoFastApi
+        ../zaruba please addAppHelmDeployment appDirectory=provoFastApi
 
         ../zaruba please addAirflow appDirectory=provoAirflow
         ../zaruba please addAirbyte appDirectory=provoAirbyte

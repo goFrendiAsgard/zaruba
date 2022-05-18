@@ -41,12 +41,12 @@ Search: █
   ▸ 🪂 addAirbyte
     🎐 addAirflow
     🚢 addAppHelmDeployment
-    🚢 addAppHelmDeploymentInPython
     🐶 addAppRunner
     👀 addCassandra
     🧰 addContainerRegistry
     🐳 addDockerAppRunner
     🐳 addDockerComposeAppRunner
+    📙 addEksDeployment
 ✔ 🍎 printHelloWorld
 💀 Action
 Search: █
@@ -59,32 +59,32 @@ Search: █
   ▸ 🏁 No
 ✔ 🏁 No
     📝 Yes
+💀 Load additional env
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
-    📝 Yes, manually💀 Auto terminate
+💀 Auto terminate
 Search: █
 ? 💀 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
-    🔪 Yes
 💀 🔎 Job Starting...
-         Elapsed Time: 2.027µs
-         Current Time: 09:10:08
+         Elapsed Time: 4.632µs
+         Current Time: 20:08:30
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🔎 Job Running...
-         Elapsed Time: 101.799696ms
-         Current Time: 09:10:08
+         Elapsed Time: 104.757503ms
+         Current Time: 20:08:30
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 213.148736ms
-         Current Time: 09:10:08
+         Elapsed Time: 215.429728ms
+         Current Time: 20:08:30
 zaruba please printHelloWorld
 ```````
 </details>
