@@ -8,9 +8,7 @@ app = Chart(
         path = './chart',
         namespace = os.getenv('NAMESPACE', 'default'),
         values = {
-            'global': {
-                'fullnameOverride': os.getenv('GLOBAL_FULLNAME_OVERRIDE', '')
-            },
+            'fullnameOverride': os.getenv('FULLNAME_OVERRIDE', ''),
             'image': {
                 'repository': os.getenv('IMAGE_REGISTRY', 'docker.io'),
                 'repository': os.getenv('IMAGE_REPOSITORY', 'bitnami/mysql'),
