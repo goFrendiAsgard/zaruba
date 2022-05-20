@@ -1,6 +1,7 @@
-package yamlcmd
+package jsoncmd
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -10,8 +11,8 @@ import (
 )
 
 var printCmd = &cobra.Command{
-	Use:     "print <mapOrList> [yamlFileName]",
-	Short:   "Print JSON map or list as YAML",
+	Use:     "print <mapOrList> [jsonFileName]",
+	Short:   "Print JSON map or list",
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
@@ -19,17 +20,23 @@ var printCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		jsonString := args[0]
 		util := core.NewCoreUtil()
+		var obj interface{}
+		err := json.Unmarshal([]byte(jsonString), &obj)
+		if err != nil {
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
+		}
+		prettyJsonBytes, err := json.MarshalIndent(obj, "", "  ")
+		if err != nil {
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
+		}
+		prettyJsonString := string(prettyJsonBytes)
 		if len(args) > 1 {
-			yamlFileName := args[1]
-			if err := util.File.WriteYaml(yamlFileName, jsonString, 0755); err != nil {
+			jsonFileName := args[1]
+			if err = util.File.WriteText(jsonFileName, prettyJsonString, 0755); err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}
 			return
 		}
-		yamlString, err := util.Json.ToYaml(jsonString)
-		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
-		}
-		fmt.Println(yamlString)
+		fmt.Println(prettyJsonString)
 	},
 }

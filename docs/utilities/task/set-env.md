@@ -14,24 +14,16 @@ zaruba task setEnvs --help
 <summary>Output</summary>
  
 ```````
-Task manipulation utilities
+Set task env
 
 Usage:
-  zaruba task [command]
+  zaruba task setEnvs <taskName> {<jsonEnvMap> | <envKey> <envValue>} [projectFile] [flags]
 
-Available Commands:
-  addDependencies Add task dependency
-  addParents      Add task parent
-  getIcon         get task icon
-  isExist         Is task exist
-  setConfigs      Set task configs
-  setConfigs      Set task env
-  syncEnv         Update task's environment
+Aliases:
+  setEnvs, setEnv
 
 Flags:
-  -h, --help   help for task
-
-Use "zaruba task [command] --help" for more information about a command.
+  -h, --help   help for setEnvs
 ```````
 </details>
 <!--endCode-->

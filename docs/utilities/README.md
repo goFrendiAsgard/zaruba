@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-a966b6b12c8af6f2361805ea11e5c93318dabd73
+v0.9.0-alpha-2-f095b03630da5f3c20ed907294ca90ce34415fa9
 
 Usage:
   zaruba [command]
@@ -37,6 +37,7 @@ Available Commands:
   generate      Make something based on template
   help          Help about any command
   install       Install external tools
+  json          JSON utilities
   lines         Lines manipulation utilities
   list          List manipulation utilities
   map           Map manipulation utilities
@@ -61,7 +62,7 @@ Use "zaruba [command] --help" for more information about a command.
 
 # JSON Data Structures
 
-There are several complex data structures that are not supported by `bash` out of the box.
+Several complex data structures are not supported by `bash` out of the box.
 
 Zaruba can help you to deal with `map`, `list`, and `lines`.
 
@@ -243,5 +244,6 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
 * [🍠 Yaml](yaml/README.md)
   * [Print](yaml/print.md)
   * [Read](yaml/read.md)
-  * [Write](yaml/write.md)
+* [🍠 Json](json/README.md)
+  * [Print](json/print.md)
 <!--endTocSubTopic-->

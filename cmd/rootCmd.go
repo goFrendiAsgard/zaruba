@@ -9,6 +9,7 @@ import (
 	"github.com/state-alchemists/zaruba/cmd/envcmd"
 	"github.com/state-alchemists/zaruba/cmd/filecmd"
 	"github.com/state-alchemists/zaruba/cmd/installcmd"
+	"github.com/state-alchemists/zaruba/cmd/jsoncmd"
 	"github.com/state-alchemists/zaruba/cmd/linescmd"
 	"github.com/state-alchemists/zaruba/cmd/listcmd"
 	"github.com/state-alchemists/zaruba/cmd/mapcmd"
@@ -59,6 +60,9 @@ func init() {
 
 	rootCmd.AddCommand(installcmd.Cmd)
 	installcmd.Init()
+
+	rootCmd.AddCommand(jsoncmd.Cmd)
+	jsoncmd.Init()
 
 	rootCmd.AddCommand(linescmd.Cmd)
 	linescmd.Init()

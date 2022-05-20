@@ -1,13 +1,12 @@
-package yamlcmd
+package jsoncmd
 
 import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
-	Use:   "yaml",
-	Short: "YAML utilities",
+	Use:   "json",
+	Short: "JSON utilities",
 }
 
 func Init() {
-	Cmd.AddCommand(readCmd)
 	Cmd.AddCommand(printCmd)
 }

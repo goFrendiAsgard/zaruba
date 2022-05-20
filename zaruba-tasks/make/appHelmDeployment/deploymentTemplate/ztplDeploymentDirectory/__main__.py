@@ -1,42 +1,31 @@
-import pulumi
+from typing import Any, Mapping
 from pulumi_kubernetes.helm.v3 import Chart, ChartOpts, LocalChartOpts
+
+import pulumi
 import json
 
 # define config
-config = {
-    'namespace': 'default',
-    'image.respository': 'nginx',
-    'image.tag': 'latest',
-    'replicaCount': 1,
-    'env': [],
-    'ports': [],
-    'service.ports': [],
-    'service.type': 'ClusterIP',
-    'service.enabled': 'true'
-}
-
-# merge config with user's config
+config: Mapping[str, Any]
 with open('./config/config.json') as f:
-    user_config = json.load(f)
-    config.update(user_config)
+    config = json.load(f)
 
 app = Chart(
     'ztpl-app-name', 
     config=LocalChartOpts(
         path = './chart',
-        namespace = config.get('namespace'),
+        namespace = config.get('namespace', 'default'),
         values = {
             'image': {
                 'repository': config.get('image.repository'),
-                'tag': config.get('image.tag')
+                'tag': config.get('image.tag', 'latest')
             },
-            'replicaCount': config.get('replicaCount'),
-            'env': config.get('env'),
-            'ports': config.get('ports'),
+            'replicaCount': config.get('replicaCount', '1'),
+            'env': config.get('env', []),
+            'ports': config.get('ports', []),
             'service': {
-                'ports': config.get('service.ports'),
-                'type': config.get('service.type'),
-                'enabled': config.get('service.enabled'),
+                'ports': config.get('service.ports', []),
+                'type': config.get('service.type', 'ClusterIP'),
+                'enabled': config.get('service.enabled', 'true'),
             }
         },
         skip_await = True

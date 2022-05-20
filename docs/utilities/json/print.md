@@ -1,5 +1,5 @@
 <!--startTocHeader-->
-[🏠](../../README.md) > [🔧 Utilities](../README.md) > [🍠 Yaml](README.md)
+[🏠](../../README.md) > [🔧 Utilities](../README.md) > [🍠 Json](README.md)
 # Print
 <!--endTocHeader-->
 
@@ -7,17 +7,17 @@
 
 <!--startCode-->
 ```bash
-zaruba yaml print --help
+zaruba json print --help
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Print JSON map or list as YAML
+Print JSON map or list
 
 Usage:
-  zaruba yaml print <mapOrList> [yamlFileName] [flags]
+  zaruba json print <mapOrList> [jsonFileName] [flags]
 
 Aliases:
   print, write
@@ -29,7 +29,6 @@ Flags:
 <!--endCode-->
 
 # Examples
-
 
 
 <!--startTocSubTopic-->

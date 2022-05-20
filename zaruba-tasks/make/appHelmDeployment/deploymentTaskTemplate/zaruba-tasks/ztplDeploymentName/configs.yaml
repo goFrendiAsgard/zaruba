@@ -38,5 +38,5 @@ configs:
       #
       # Prepare Chart
       #
-      echo "${DEPLOYMENT_CONFIG}" > '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
+      ${ZARUBA_BIN} json print "${DEPLOYMENT_CONFIG}" '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareChart.sh" }}'

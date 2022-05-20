@@ -25,7 +25,7 @@ Available Commands:
   getIcon         get task icon
   isExist         Is task exist
   setConfigs      Set task configs
-  setConfigs      Set task env
+  setEnvs         Set task env
   syncEnv         Update task's environment
 
 Flags:

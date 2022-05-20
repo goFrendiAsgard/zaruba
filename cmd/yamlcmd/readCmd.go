@@ -10,8 +10,8 @@ import (
 )
 
 var readCmd = &cobra.Command{
-	Use:   "read <fileName>",
-	Short: "Read yaml from file",
+	Use:   "read <yamlFileName>",
+	Short: "Read YAML file as JSON map or list",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

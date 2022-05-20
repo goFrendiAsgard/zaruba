@@ -11,7 +11,7 @@ import (
 )
 
 var setEnvsCmd = &cobra.Command{
-	Use:     "setConfigs <taskName> {<jsonEnvMap> | <envKey> <envValue>} [projectFile]",
+	Use:     "setEnvs <taskName> {<jsonEnvMap> | <envKey> <envValue>} [projectFile]",
 	Short:   "Set task env",
 	Aliases: []string{"setEnv"},
 	Run: func(cmd *cobra.Command, args []string) {

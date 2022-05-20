@@ -14,10 +14,10 @@ zaruba yaml read --help
 <summary>Output</summary>
  
 ```````
-Read yaml from file
+Read YAML file as JSON map or list
 
 Usage:
-  zaruba yaml read <fileName> [flags]
+  zaruba yaml read <yamlFileName> [flags]
 
 Flags:
   -h, --help   help for read
