@@ -3,8 +3,6 @@ package core
 import (
 	"fmt"
 	"io/ioutil"
-	"path/filepath"
-	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/fileutil"
@@ -143,21 +141,12 @@ func (projectUtil *ProjectUtil) SyncEnvFiles(projectFile string) (err error) {
 	if err != nil {
 		return err
 	}
-	projectDir := filepath.Dir(project.GetFileLocation())
-	files, err := ioutil.ReadDir(projectDir)
+	envFiles, err := project.GetEnvFileNames()
 	if err != nil {
 		return err
 	}
-	for _, file := range files {
-		isDir := file.IsDir()
-		if isDir {
-			continue
-		}
-		fileName := file.Name()
-		if !strings.HasSuffix(fileName, ".env") && !strings.HasSuffix(fileName, ".env.template") {
-			continue
-		}
-		fileEnvMap, err := godotenv.Read(filepath.Join(projectDir, fileName))
+	for _, envFile := range envFiles {
+		fileEnvMap, err := godotenv.Read(envFile)
 		if err != nil {
 			return err
 		}
@@ -178,7 +167,7 @@ func (projectUtil *ProjectUtil) SyncEnvFiles(projectFile string) (err error) {
 				fileEnvMap[envFrom] = envDefault
 			}
 		}
-		godotenv.Write(fileEnvMap, filepath.Join(projectDir, fileName))
+		godotenv.Write(fileEnvMap, envFile)
 	}
 	return nil
 }

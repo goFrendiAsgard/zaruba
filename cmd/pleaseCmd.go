@@ -150,13 +150,13 @@ func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration 
 	argTaskName := strings.Join(taskNames, " ")
 	// value
 	argValueList := []string{}
-	for _, addedValue := range project.GetAddedValues() {
+	for _, addedValue := range project.GetAdditionalValueNames() {
 		argValueList = append(argValueList, fmt.Sprintf("-v %s", strUtil.EscapeShellValue(addedValue)))
 	}
 	argValue := strings.Join(argValueList, " ")
 	// environment
 	argEnvList := []string{}
-	for _, addedEnv := range project.GetAddedEnvs() {
+	for _, addedEnv := range project.GetAdditionalEnvNames() {
 		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", strUtil.EscapeShellValue(addedEnv)))
 	}
 	argEnv := strings.Join(argEnvList, " ")

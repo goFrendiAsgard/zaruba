@@ -38,8 +38,8 @@ type Project struct {
 	maxPublishedTaskNameLength int
 	Decoration                 *output.Decoration
 	Util                       *CoreUtil
-	addedEnvs                  []string
-	addedValues                []string
+	additionalEnvNames         []string
+	additionalValueNames       []string
 	showLogTime                bool
 }
 
@@ -198,7 +198,7 @@ func (p *Project) AddEnv(newEnv string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot AddEnv, project has been initialized")
 	}
-	p.addedEnvs = append(p.addedEnvs, newEnv)
+	p.additionalEnvNames = append(p.additionalEnvNames, newEnv)
 	// load env from json string
 	envMap := map[string]string{}
 	if err := json.Unmarshal([]byte(newEnv), &envMap); err == nil {
@@ -223,8 +223,8 @@ func (p *Project) AddEnv(newEnv string) (err error) {
 	return fmt.Errorf("invalid env: %s", newEnv)
 }
 
-func (p *Project) GetAddedEnvs() []string {
-	return p.addedEnvs
+func (p *Project) GetAdditionalEnvNames() []string {
+	return p.additionalEnvNames
 }
 
 // AddValue add value for a project
@@ -232,7 +232,7 @@ func (p *Project) AddValue(newValue string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot AddValue, project has been initialized")
 	}
-	p.addedValues = append(p.addedValues, newValue)
+	p.additionalValueNames = append(p.additionalValueNames, newValue)
 	// load values from json string
 	valueMap := map[string]string{}
 	if err := json.Unmarshal([]byte(newValue), &valueMap); err == nil {
@@ -273,13 +273,13 @@ func (p *Project) SetValue(key, value string) (err error) {
 	if p.IsInitialized {
 		return fmt.Errorf("cannot SetValue, project has been initialized")
 	}
-	p.addedValues = append(p.addedValues, fmt.Sprintf("%s=%s", key, value))
+	p.additionalValueNames = append(p.additionalValueNames, fmt.Sprintf("%s=%s", key, value))
 	p.setValue(key, value)
 	return nil
 }
 
-func (p *Project) GetAddedValues() []string {
-	return p.addedValues
+func (p *Project) GetAdditionalValueNames() []string {
+	return p.additionalValueNames
 }
 
 func (p *Project) setValue(key, value string) {
@@ -365,6 +365,27 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 		}
 	}
 	return nil
+}
+
+func (p *Project) GetEnvFileNames() (envFileNames []string, err error) {
+	projectDir := filepath.Dir(p.GetFileLocation())
+	files, err := ioutil.ReadDir(projectDir)
+	if err != nil {
+		return envFileNames, err
+	}
+	envFileNames = []string{}
+	for _, file := range files {
+		isDir := file.IsDir()
+		if isDir {
+			continue
+		}
+		fileName := file.Name()
+		if !strings.HasSuffix(fileName, ".env") && !strings.HasSuffix(fileName, ".env.template") {
+			continue
+		}
+		envFileNames = append(envFileNames, filepath.Join(projectDir, fileName))
+	}
+	return envFileNames, nil
 }
 
 func (p *Project) setProjectEnvRefMap() {

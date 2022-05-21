@@ -70,6 +70,10 @@ func (envUtil *TaskEnvUtil) Set(taskName string, envMap map[string]string, proje
 	if err != nil {
 		return err
 	}
+	// adjust envFiles
+	if err = envUtil.SyncEnvFiles(task, envMap, projectFile); err != nil {
+		return err
+	}
 	envRefName := task.GetFirstEnvRefName()
 	if envRefName == "" {
 		// update taskEnv
@@ -77,6 +81,10 @@ func (envUtil *TaskEnvUtil) Set(taskName string, envMap map[string]string, proje
 	}
 	// update envRef
 	return envUtil.setEnvsRef(task.Project.EnvRefMap[envRefName], envMap)
+}
+
+func (envUtil *TaskEnvUtil) SyncEnvFiles(task *Task, envMap map[string]string, projectFile string) (err error) {
+	return nil
 }
 
 func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error) {
