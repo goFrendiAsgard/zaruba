@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/dictutil"
 	"github.com/state-alchemists/zaruba/pathutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
@@ -84,6 +85,36 @@ func (envUtil *TaskEnvUtil) Set(taskName string, envMap map[string]string, proje
 }
 
 func (envUtil *TaskEnvUtil) SyncEnvFiles(task *Task, envMap map[string]string, projectFile string) (err error) {
+	envFileNames, err := task.Project.GetEnvFileNames()
+	if err != nil {
+		return err
+	}
+	for _, envFileName := range envFileNames {
+		fileEnvMap, err := godotenv.Read(envFileName)
+		if err != nil {
+			return err
+		}
+		for envKey := range envMap {
+			newEnvValue := envMap[envKey]
+			envObj, declared := task.GetEnvObject(envKey)
+			if !declared {
+				continue
+			}
+			envFrom := envObj.From
+			if envFrom == "" {
+				continue
+			}
+			if _, keyExist := fileEnvMap[envFrom]; keyExist {
+				continue
+			}
+			envDefault := envObj.Default
+			fileEnvValue, exist := fileEnvMap[envFrom]
+			if exist && fileEnvValue == envDefault {
+				fileEnvMap[envFrom] = newEnvValue
+			}
+		}
+		godotenv.Write(fileEnvMap, envFileName)
+	}
 	return nil
 }
 
