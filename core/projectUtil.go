@@ -141,12 +141,12 @@ func (projectUtil *ProjectUtil) SyncEnvFiles(projectFile string) (err error) {
 	if err != nil {
 		return err
 	}
-	envFiles, err := project.GetEnvFileNames()
+	envFileNames, err := project.GetEnvFileNames()
 	if err != nil {
 		return err
 	}
-	for _, envFile := range envFiles {
-		fileEnvMap, err := godotenv.Read(envFile)
+	for _, envFileName := range envFileNames {
+		fileEnvMap, err := godotenv.Read(envFileName)
 		if err != nil {
 			return err
 		}
@@ -167,7 +167,7 @@ func (projectUtil *ProjectUtil) SyncEnvFiles(projectFile string) (err error) {
 				fileEnvMap[envFrom] = envDefault
 			}
 		}
-		godotenv.Write(fileEnvMap, envFile)
+		godotenv.Write(fileEnvMap, envFileName)
 	}
 	return nil
 }
