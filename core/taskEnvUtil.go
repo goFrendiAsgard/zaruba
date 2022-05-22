@@ -104,7 +104,7 @@ func (envUtil *TaskEnvUtil) SyncEnvFiles(task *Task, envMap map[string]string, p
 			if envFrom == "" {
 				continue
 			}
-			if _, keyExist := fileEnvMap[envFrom]; keyExist {
+			if _, keyExist := fileEnvMap[envFrom]; !keyExist {
 				continue
 			}
 			envDefault := envObj.Default
