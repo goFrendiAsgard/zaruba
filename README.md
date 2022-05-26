@@ -8,39 +8,51 @@ Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](d
 
 ## ❓ Problem
 
-Developing/debugging/deploying applications can be challenging. First, you need to run many tasks __in parallel__. Then, you also need to execute those tasks in a __particular order__.
+Developing/debugging a system can be challenging. Especially if your system consists of several applications that depend on each other.
 
-Some tasks might __depend on each other__ or __share similar behavior__. 
+You also need to watch every message or error log in your applications. So, you might end up opening many tmux panels.
 
-For example:
+Suppose your system consists of:
+- A frontend application
+- A backend application
+- MySQL
+- Redis
 
-* You cannot start a web application unless the database server is ready. This means that the web application is __depending__ on the database server.
+You will need to run the following tasks every time:
 
-* You might have several Typescript applications in your project. And to start those applications, you need to perform `npm install && tsc && npm start`. This means that your Typescript applications __share similar behavior__.
+![problem](docs/images/problem.png)
 
-There should be a way to declare and run your tasks with ease.
+You can see that:
+
+- ⛓️ Several tasks are better __running in parallel__ (i.e., the four most left tasks).
+- 🔗 Several tasks have __dependencies__. For example:
+  - To run database migration, you have to `Run the MySQL container` and `Install pip packages` first.
+  - To start your backend application, you have to run database migration.
+- 📐 Several tasks might __share similar behavior__. For example:
+  - Running MySQL/Redis container is pretty much the same:
+    - First, you need to start the container.
+    - If the container is not there, you need to create and start it.
+  - To execute any Python-related tasks, you have to activate the virtual environment first.
+- ⚙️ Several tasks might __share a similar configuration__. For example:
+  - `BACKEND_PORT` in your frontend has to reflect `HTTP_PORT` in your backend.
+  - `DB_PASSWORD` in your backend has to reflect `MYSQL_ROOT_PASSWORD` in your MySQL container.
+
+Thus, you have to be careful when you want to run the system on your computer. You must ensure the configuration is correct and the tasks executed in order.
+
+Now, how to run your system with a __single command__? How do we __ensure task dependencies__? How to ensure that the __task configurations are in sync__ with each other? 
 
 ## 💡 Solution
 
-Creating __clear instructions/checklists__ might help in most cases. But, if your workflow is more complicated, you need a __better automation tool__ like Zaruba.
+Instead of openning many tmux panels, Zaruba allows you to create and run a single task to run your entire system.
 
-Zaruba allows you to __simplify your workflow__ by letting you:
+![meme](docs/images/meme.png)
 
-* Create configurable tasks (i,e., using `configs`, `inputs`, or `envs`).
-* Define task dependencies (i,e., using `dependencies`).
-* Re-use and share configurations/behaviors (i,e., using `extend`, `configRef`, or `envRef`).
-* Run tasks in parallels.
-* Generate new tasks.
-* Run multiple tasks with single command.
+In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Not only you can define [task's dependencies](docs/core-concepts/task/define-task-dependencies.md), you can also link your [task's environments](docs/core-concepts/task/task-envs/README.md) to a global value.
 
-![meme](arts/meme.png)
-
-There are some [built-in tasks](docs/core-tasks/README.md) to achieve those goals. You can run `zaruba please` to see the list of available tasks.
 
 ## 🔍 Example
 
-Please see the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see how you can use Zaruba in real life.
-
+Please see the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see how you can use Zaruba to develop/deploy your applications.
 
 # 👨‍💻 Installation
 
