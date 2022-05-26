@@ -43,11 +43,13 @@ Now, how to run your system with a __single command__? How do we __ensure task d
 
 ## 💡 Solution
 
-Instead of openning many tmux panels, Zaruba allows you to create and run a single task to run your entire system.
+Instead of opening many tmux panels, Zaruba allows you to create and run a single task to run your entire system.
 
 ![meme](docs/images/solution-meme.png)
 
-In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Not only you can define [task's dependencies](docs/core-concepts/task/define-task-dependencies.md), you can also link your [task's environments](docs/core-concepts/task/task-envs/README.md) to a global value.
+In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). A task can have many [dependencies](docs/core-concepts/task/define-task-dependencies.md). Zaruba will ensure that all dependencies are completed before attempting to run a task.
+
+You can also link your [task's environments](docs/core-concepts/task/task-envs/README.md) into global environment variables. Thus, you can ensure consistency between tasks.
 
 ![meme](docs/images/solution-example.png)
 
