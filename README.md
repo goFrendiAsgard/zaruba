@@ -22,9 +22,7 @@ There should be a way to declare and run your tasks with ease.
 
 ## 💡 Solution
 
-Creating __clear instructions/checklists__ might help in most cases. For example, suppose your tasks are serial. Then, you can turn them into an excellent [shell script](https://www.shellscript.sh/first.html), which is all you need.
-
-But, if your workflow is more complicated, you need a __better automation tool__ like Zaruba.
+Creating __clear instructions/checklists__ might help in most cases. But, if your workflow is more complicated, you need a __better automation tool__ like Zaruba.
 
 Zaruba allows you to __simplify your workflow__ by letting you:
 
@@ -33,6 +31,9 @@ Zaruba allows you to __simplify your workflow__ by letting you:
 * Re-use and share configurations/behaviors (i,e., using `extend`, `configRef`, or `envRef`).
 * Run tasks in parallels.
 * Generate new tasks.
+* Run multiple tasks with single command.
+
+![meme](arts/meme.png)
 
 There are some [built-in tasks](docs/core-tasks/README.md) to achieve those goals. You can run `zaruba please` to see the list of available tasks.
 
