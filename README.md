@@ -45,14 +45,20 @@ Now, how to run your system with a __single command__? How do we __ensure task d
 
 Instead of openning many tmux panels, Zaruba allows you to create and run a single task to run your entire system.
 
-![meme](docs/images/meme.png)
+![meme](docs/images/solution-meme.png)
 
 In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Not only you can define [task's dependencies](docs/core-concepts/task/define-task-dependencies.md), you can also link your [task's environments](docs/core-concepts/task/task-envs/README.md) to a global value.
 
+![meme](docs/images/solution-example.png)
 
 ## 🔍 Example
 
-Please see the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see how you can use Zaruba to develop/deploy your applications.
+You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see:
+- How you can add MySQL container, backend application, and frontend application to your project.
+- How you can generate CRUD for your backend.
+- How to start your applications locally.
+- How to start your applications as container.
+- How to deploy your applications to Kubernetes.
 
 # 👨‍💻 Installation
 
