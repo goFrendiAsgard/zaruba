@@ -8,7 +8,7 @@ import (
 )
 
 var setValueCmd = &cobra.Command{
-	Use:   "setValue <key> <value> [valueFile]",
+	Use:   "setValue <key> <value> [projectFile]",
 	Short: "Set project value",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
@@ -16,12 +16,12 @@ var setValueCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		key := args[0]
 		value := args[1]
-		valueFile := "default.values.yaml"
+		projectFile := "index.zaruba.yaml"
 		if len(args) > 2 {
-			valueFile = args[2]
+			projectFile = args[2]
 		}
 		util := core.NewCoreUtil()
-		if err := util.Project.SetValue(key, value, valueFile); err != nil {
+		if err := util.Project.SetValue(key, value, projectFile); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 	},

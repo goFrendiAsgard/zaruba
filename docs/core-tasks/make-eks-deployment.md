@@ -201,6 +201,9 @@ Value:
 ### Configs._registerAppRunnerTasks
 
 
+### Configs._setProjectValue
+
+
 ### Configs._setup
 
 Value:
@@ -264,13 +267,14 @@ Value:
     echo "${_YELLOW}${_CONSTRUCTION_ICON} Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Integrate${_NORMAL}"
     {{ .GetConfig "_includeModuleIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDeploymentTasks" }}
     {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
     {{ .GetConfig "_adjustPermission" }}
+    {{ .GetConfig "_setProjectValue" }}
     cd "${__ZRB_PWD}"
 
 

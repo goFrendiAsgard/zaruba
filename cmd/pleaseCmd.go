@@ -19,7 +19,7 @@ import (
 
 var pleaseEnvs []string
 var pleaseValues []string
-var pleaseFile string
+var pleaseProjectFile string
 var pleaseDecor string
 var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
@@ -36,7 +36,7 @@ var pleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := cmdHelper.GetDecoration(pleaseDecor)
 		logger := output.NewConsoleLogger(decoration)
-		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(pleaseFile))
+		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(pleaseProjectFile))
 		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, *pleaseShowLogTime, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := explainer.NewExplainer(logger, decoration, project)
@@ -93,45 +93,66 @@ var pleaseCmd = &cobra.Command{
 
 func init() {
 	core.SetDefaultEnv()
-
 	util := core.NewCoreUtil()
 	// get current working directory
 	dir, err := os.Getwd()
 	if err != nil {
 		dir = "."
 	}
-	// define defaultPleaseFile
-	defaultPleaseFile := filepath.Join(dir, "index.zaruba.yaml")
-	if _, err := os.Stat(defaultPleaseFile); os.IsNotExist(err) {
-		defaultPleaseFile = "${ZARUBA_HOME}/core.zaruba.yaml"
-	}
-	// define defaultPleaseValues
-	defaultPleaseValues := []string{}
-	defaultValuesFile := filepath.Join(dir, "default.values.yaml")
-	if _, err := os.Stat(defaultValuesFile); !os.IsNotExist(err) {
-		defaultPleaseValues = append(defaultPleaseValues, defaultValuesFile)
-	}
-	// define defaultEnvFile
-	defaultEnv := []string{}
-	defaultEnvFile := filepath.Join(dir, ".env")
-	if _, err := os.Stat(defaultEnvFile); !os.IsNotExist(err) {
-		defaultEnv = append(defaultEnv, defaultEnvFile)
-	}
-	// define defaultDecoration
+	zarubaEnv := os.Getenv("ZARUBA_ENV")
+	defaultProjectFile := getDefaultProjectFile(dir)
+	defaultValueFiles := getDefaultValueFiles(dir, zarubaEnv)
+	defaultEnvFiles := getDefaultEnvFiles(dir, zarubaEnv)
 	defaultDecoration := os.Getenv("ZARUBA_DECORATION")
-	// define defaultShowLogTime
 	defaultShowLogTime := util.Bool.IsTrue(os.Getenv("ZARUBA_SHOW_LOG_TIME"))
-	// register flags
-	pleaseCmd.Flags().StringVarP(&pleaseFile, "file", "f", defaultPleaseFile, "project file")
+	// get parameters
+	pleaseCmd.Flags().StringVarP(&pleaseProjectFile, "file", "f", defaultProjectFile, "project file")
 	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", defaultEnv, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
-	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", defaultPleaseValues, "values (e.g., '-v value.yaml' or '-v key=val')")
+	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", []string{}, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
+	pleaseEnvs = append(defaultEnvFiles, pleaseEnvs...)
+	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", []string{}, "values (e.g., '-v value.yaml' or '-v key=val')")
+	pleaseValues = append(defaultValueFiles, pleaseValues...)
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
 	pleaseTerminate = pleaseCmd.Flags().BoolP("terminate", "t", false, "terminate after complete")
 	pleaseShowLogTime = pleaseCmd.Flags().BoolP("showLogTime", "s", defaultShowLogTime, "show log time (e.g., '-s false').")
 	pleaseCmd.Flags().StringVarP(&pleaseWait, "wait", "w", "0s", "termination waiting duration (e.g., '-w 5s'). Only take effect if -t or --terminate is set")
+}
+
+func getDefaultEnvFiles(dir, zarubaEnv string) []string {
+	defaultEnvFileCandidates := []string{
+		filepath.Join(dir, fmt.Sprintf("%s.env", zarubaEnv)),
+	}
+	defaultEnvFiles := []string{}
+	for _, defaultEnvFileCandidate := range defaultEnvFileCandidates {
+		if _, err := os.Stat(defaultEnvFileCandidate); !os.IsNotExist(err) {
+			defaultEnvFiles = append(defaultEnvFiles, defaultEnvFileCandidate)
+		}
+	}
+	return defaultEnvFiles
+}
+
+func getDefaultValueFiles(dir, zarubaEnv string) []string {
+	defaultValueFileCandidates := []string{
+		filepath.Join(dir, "default.values.yaml"),
+		filepath.Join(dir, fmt.Sprintf("%s.values.yaml", zarubaEnv)),
+	}
+	defaultValueFiles := []string{}
+	for _, defaultValueFileCandidate := range defaultValueFileCandidates {
+		if _, err := os.Stat(defaultValueFileCandidate); !os.IsNotExist(err) {
+			defaultValueFiles = append(defaultValueFiles, defaultValueFileCandidate)
+		}
+	}
+	return defaultValueFiles
+}
+
+func getDefaultProjectFile(dir string) string {
+	defaultProjectFile := filepath.Join(dir, "index.zaruba.yaml")
+	if _, err := os.Stat(defaultProjectFile); os.IsNotExist(err) {
+		return "${ZARUBA_HOME}/core.zaruba.yaml"
+	}
+	return defaultProjectFile
 }
 
 func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project, taskNames []string) {
@@ -233,7 +254,7 @@ func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *out
 }
 
 func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, showLogTime bool, args []string) (project *core.Project, taskNames []string) {
-	project, err := core.NewProject(pleaseFile, decoration, showLogTime)
+	project, err := core.NewProject(pleaseProjectFile, decoration, showLogTime)
 	if err != nil {
 		cmdHelper.Exit(cmd, args, logger, decoration, err)
 	}

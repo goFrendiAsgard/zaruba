@@ -1,6 +1,5 @@
-helm/values
 tmp
 .env
-.env-*.json
+.values.yaml
 .previous.values.yaml
 log.zaruba.csv

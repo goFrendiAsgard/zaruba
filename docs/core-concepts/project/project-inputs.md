@@ -21,7 +21,7 @@ inputs:
     secret: false                    # if set to true, the value will be treated as secret and will not be stored anywhere
 ```
 
-To use project input in your task, please see [task's input](./tasks/task-inputs.md).
+To use project input in your task, please see [task's input](../tasks/task-inputs.md).
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

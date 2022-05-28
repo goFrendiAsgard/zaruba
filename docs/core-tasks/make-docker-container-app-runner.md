@@ -313,6 +313,15 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
 
 
+### Configs._setProjectValue
+
+Value:
+
+    echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to yes"
+    ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" yes
+
+
+
 ### Configs._setup
 
 Value:
@@ -376,13 +385,14 @@ Value:
     echo "${_YELLOW}${_CONSTRUCTION_ICON} Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
-    echo "${_YELLOW}🔩 Integrate${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Integrate${_NORMAL}"
     {{ .GetConfig "_includeModuleIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDeploymentTasks" }}
     {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
     {{ .GetConfig "_adjustPermission" }}
+    {{ .GetConfig "_setProjectValue" }}
     cd "${__ZRB_PWD}"
 
 

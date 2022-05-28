@@ -17,7 +17,7 @@ zaruba project setValue --help
 Set project value
 
 Usage:
-  zaruba project setValue <key> <value> [valueFile] [flags]
+  zaruba project setValue <key> <value> [projectFile] [flags]
 
 Flags:
   -h, --help   help for setValue

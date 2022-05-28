@@ -5,6 +5,7 @@ tasks:
     icon: 🪄
     location: ../../..
     extend: zrbRunShellScript
+    timeout: 1h
     dependencies:
       - buildBin
     configs:

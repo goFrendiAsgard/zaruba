@@ -367,6 +367,27 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 	return nil
 }
 
+func (p *Project) GetValueFileNames() (valueFileNames []string, err error) {
+	projectDir := filepath.Dir(p.GetFileLocation())
+	files, err := ioutil.ReadDir(projectDir)
+	if err != nil {
+		return valueFileNames, err
+	}
+	valueFileNames = []string{}
+	for _, file := range files {
+		isDir := file.IsDir()
+		if isDir {
+			continue
+		}
+		fileName := file.Name()
+		if !strings.HasSuffix(fileName, ".values.yaml") || fileName == ".previous.values.zaruba.yaml" {
+			continue
+		}
+		valueFileNames = append(valueFileNames, filepath.Join(projectDir, fileName))
+	}
+	return valueFileNames, nil
+}
+
 func (p *Project) GetEnvFileNames() (envFileNames []string, err error) {
 	projectDir := filepath.Dir(p.GetFileLocation())
 	files, err := ioutil.ReadDir(projectDir)

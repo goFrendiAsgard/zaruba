@@ -45,27 +45,43 @@ func (projectUtil *ProjectUtil) getProject(projectFile string) (project *Project
 	return project, nil
 }
 
-func (projectUtil *ProjectUtil) SetValue(key, value, valueFilePath string) (err error) {
+func (projectUtil *ProjectUtil) SetValue(key, newValue, projectFile string) (err error) {
 	if key == "" {
 		return fmt.Errorf("key cannot be empty")
 	}
-	if value == "" {
+	if newValue == "" {
 		return fmt.Errorf("value cannot be empty")
 	}
-	fileContentB, err := ioutil.ReadFile(valueFilePath)
+	project, err := projectUtil.getProject(projectFile)
 	if err != nil {
 		return err
 	}
-	configMap := map[string]string{}
-	if err := yaml.Unmarshal(fileContentB, &configMap); err != nil {
-		return err
-	}
-	configMap[key] = value
-	newFileContentB, err := yaml.Marshal(configMap)
+	oldValue := project.GetValue(key)
+	valueFileNames, err := project.GetValueFileNames()
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(valueFilePath, newFileContentB, 0755)
+	for _, valueFileName := range valueFileNames {
+		fileContentB, err := ioutil.ReadFile(valueFileName)
+		if err != nil {
+			return err
+		}
+		valueMap := map[string]string{}
+		if err := yaml.Unmarshal(fileContentB, &valueMap); err != nil {
+			return err
+		}
+		if currentValue, exist := valueMap[key]; !exist || currentValue == oldValue {
+			valueMap[key] = newValue
+		}
+		newFileContentB, err := yaml.Marshal(valueMap)
+		if err != nil {
+			return err
+		}
+		if err := ioutil.WriteFile(valueFileName, newFileContentB, 0755); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (projectUtil *ProjectUtil) IncludeFile(fileName string, projectFilePath string) (err error) {

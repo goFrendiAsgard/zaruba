@@ -25,4 +25,7 @@ func SetDefaultEnv() {
 	if os.Getenv("ZARUBA_SHOW_LOG_TIME") == "" {
 		os.Setenv("ZARUBA_SHOW_LOG_TIME", "true")
 	}
+	if os.Getenv("ZARUBA_ENV") == "" {
+		os.Setenv("ZARUBA_ENV", "")
+	}
 }
