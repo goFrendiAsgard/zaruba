@@ -18,10 +18,10 @@ node_modules
 README.md
 
 # temporary directory
-/tmp
+tmp
 
 # log
-/logs
+logs
 
 # previous values
 .previous.values.yaml

@@ -8,10 +8,10 @@ node_modules
 /init.sh
 
 # temporary directory
-/tmp
+tmp
 
 # log
-/logs
+logs
 
 # previous values
 .previous.values.yaml
