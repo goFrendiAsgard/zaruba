@@ -649,8 +649,12 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 	prefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
 	saveLog := task.GetSaveLog()
 	taskName := task.GetName()
+	outputWgAdditionPerRow := 1
+	if saveLog {
+		outputWgAdditionPerRow = 2
+	}
 	for buf.Scan() {
-		task.Project.OutputWg.Add(1)
+		task.Project.OutputWg.Add(outputWgAdditionPerRow)
 		content := buf.Text()
 		now := time.Now()
 		decoratedContent := ""
@@ -662,7 +666,6 @@ func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan 
 		}
 		logChan <- decoratedContent
 		if saveLog {
-			task.Project.OutputWg.Add(1)
 			nowStr := now.String()
 			rowContent := []string{nowStr, logType, cmdType, taskName, content}
 			logRecordChan <- rowContent

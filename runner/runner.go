@@ -299,7 +299,7 @@ func (r *Runner) run(ch chan error) {
 	}
 	// wait until no cmd left
 	for {
-		r.sleep(10 * time.Millisecond)
+		r.sleep(100 * time.Millisecond)
 		if r.getKilledSignal() {
 			ch <- fmt.Errorf("Terminated")
 			return
@@ -450,6 +450,7 @@ func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (e
 	ch := make(chan error)
 	go func() {
 		waitErr := cmd.Wait()
+		r.sleep(200 * time.Millisecond)
 		if waitErr != nil {
 			if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
 				r.logger.DPrintfError("Error running %s:\n%s\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd), waitErr)
@@ -460,7 +461,6 @@ func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (e
 			return
 		}
 		executed = true
-		r.sleep(100 * time.Millisecond)
 		r.logger.DPrintfSuccess("Successfully running %s\n", cmdLabel)
 		ch <- nil
 	}()

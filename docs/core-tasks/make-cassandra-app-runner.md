@@ -447,7 +447,7 @@ Value:
 
 Value:
 
-    cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
+    cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe cluster"
 
 
 ### Configs.appContainerName

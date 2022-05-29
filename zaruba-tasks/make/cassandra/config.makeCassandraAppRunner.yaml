@@ -2,7 +2,7 @@ configs:
 
   makeCassandraAppRunner:
     appIcon: 👀
-    appCheckCommand: cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe keyspaces"
+    appCheckCommand: cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe cluster"
     defaultAppDirectory: '{{ .ProjectName }}Cassandra'
     defaultAppPorts: |
       [

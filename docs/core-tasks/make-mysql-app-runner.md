@@ -447,7 +447,7 @@ Value:
 
 Value:
 
-    mysql -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }} -e "SHOW SCHEMAS"
+    mysqladmin ping -u "root" -p{{ .Template ".GetEnv \"MYSQL_ROOT_PASSWORD\"" }}
 
 
 ### Configs.appContainerName
