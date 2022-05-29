@@ -4,3 +4,8 @@ tasks:
     icon: ztplAppIcon
     dependencies:
       - startZtplAppNameContainer
+
+  stopZtplAppName:
+    icon: ✋
+    dependencies:
+      - stopZtplAppNameContainer

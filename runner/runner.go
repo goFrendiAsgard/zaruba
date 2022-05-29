@@ -133,10 +133,16 @@ func (r *Runner) Terminate() {
 }
 
 func (r *Runner) logStdout() {
+	counter := 0
 	for {
 		content := <-r.project.StdoutChan
 		r.logger.DPrintf(content)
 		r.project.OutputWg.Done()
+		counter++
+		if counter >= 40 {
+			counter = 0
+			r.showStatus()
+		}
 	}
 }
 

@@ -1,8 +1,0 @@
-tasks:
-
-  clearPreviousValues:
-    icon: 🔥
-    description: |
-      Clear log
-    extend: zrbRunShellScript
-    configRef: clearPreviousValues

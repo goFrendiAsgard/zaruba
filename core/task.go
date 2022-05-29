@@ -612,10 +612,10 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 	}
 	// log stdout
 	outPipe, _ := cmd.StdoutPipe()
-	go task.log(cmdType, "OUT", outPipe, task.Project.StdoutChan, task.Project.StdoutRecordChan)
+	go task.readLogFromBuffer(cmdType, "OUT", outPipe, task.Project.StdoutChan, task.Project.StdoutRecordChan)
 	// log stderr
 	errPipe, _ := cmd.StderrPipe()
-	go task.log(cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRecordChan)
+	go task.readLogFromBuffer(cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRecordChan)
 	// combine stdout and stderr done
 	return cmd, err
 }
@@ -642,35 +642,54 @@ func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
 	return nil
 }
 
-func (task *Task) log(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {
+func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {
 	buf := bufio.NewScanner(pipe)
+	saveLog := task.GetSaveLog()
+	outputWgAdditionPerRow := 1
+	if saveLog {
+		outputWgAdditionPerRow = 2
+	}
+	isFirstTime := true
+	previousChan := make(chan bool)
+	nextChan := make(chan bool)
+	for buf.Scan() {
+		task.Project.OutputWg.Add(outputWgAdditionPerRow)
+		content := buf.Text()
+		// previous and next chan is necessary to make sure that logChan and logRecordChan get message in order
+		if isFirstTime {
+			isFirstTime = false
+			go task.sendLog(cmdType, logType, content, previousChan, nextChan, logChan, logRecordChan)
+			previousChan <- true
+			continue
+		}
+		previousChan = nextChan
+		nextChan = make(chan bool)
+		go task.sendLog(cmdType, logType, content, previousChan, nextChan, logChan, logRecordChan)
+	}
+}
+
+func (task *Task) sendLog(cmdType, logType, content string, previousChan, nextChan chan bool, logChan chan string, logRecordChan chan []string) {
 	d := task.Project.Decoration
 	cmdIconType := task.getCmdIconType(cmdType)
 	prefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
 	saveLog := task.GetSaveLog()
 	taskName := task.GetName()
-	outputWgAdditionPerRow := 1
+	now := time.Now()
+	decoratedContent := ""
+	if task.Project.showLogTime {
+		nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
+		decoratedContent = fmt.Sprintf("%s %s%s%s %s\n", prefix, d.Faint, nowRoundStr, d.Normal, content)
+	} else {
+		decoratedContent = fmt.Sprintf("%s %s\n", prefix, content)
+	}
+	<-previousChan
+	logChan <- decoratedContent
 	if saveLog {
-		outputWgAdditionPerRow = 2
+		nowStr := now.String()
+		rowContent := []string{nowStr, logType, cmdType, taskName, content}
+		logRecordChan <- rowContent
 	}
-	for buf.Scan() {
-		task.Project.OutputWg.Add(outputWgAdditionPerRow)
-		content := buf.Text()
-		now := time.Now()
-		decoratedContent := ""
-		if task.Project.showLogTime {
-			nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
-			decoratedContent = fmt.Sprintf("%s %s%s%s %s\n", prefix, d.Faint, nowRoundStr, d.Normal, content)
-		} else {
-			decoratedContent = fmt.Sprintf("%s %s\n", prefix, content)
-		}
-		logChan <- decoratedContent
-		if saveLog {
-			nowStr := now.String()
-			rowContent := []string{nowStr, logType, cmdType, taskName, content}
-			logRecordChan <- rowContent
-		}
-	}
+	nextChan <- true
 }
 
 func (task *Task) getUniqueElements(arr []string) (result []string) {

@@ -1,0 +1,10 @@
+configs:
+
+  showSolidPrinciple:
+    start: |
+      echo "${_BOLD}${_YELLOW} S ${NORMAL}${_YELLOW} Single Responsibility Principle ${_NORMAL}"
+      echo "${_BOLD}${_YELLOW} O ${NORMAL}${_YELLOW} Open/Closed Principle ${_NORMAL}"
+      echo "${_BOLD}${_YELLOW} L ${NORMAL}${_YELLOW} Liskov's Substitution Principle ${_NORMAL}"
+      echo "${_BOLD}${_YELLOW} I ${NORMAL}${_YELLOW} Interface Segregation Principle ${_NORMAL}"
+      echo "${_BOLD}${_YELLOW} D ${NORMAL}${_YELLOW} Dependency Inversion Principle ${_NORMAL}"
+

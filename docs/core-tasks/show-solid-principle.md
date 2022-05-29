@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🔥 clearPreviousValues
+# 🦉 showSolidPrinciple
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/chore/value/task.clearPreviousValues.yaml
+    ~/.zaruba/zaruba-tasks/additional/solidPrinciple/task.showSolidPrinciple.yaml
 
 Should Sync Env:
 
@@ -19,7 +19,7 @@ Type:
 
 Description:
 
-    Clear log
+    Show the legendary SOLID principle
 
 
 
@@ -126,8 +126,12 @@ Value:
 
 Value:
 
-    rm -Rf .previous.values.yaml
-    echo "${_BOLD}${_YELLOW}Previous values removed${_NORMAL}"
+    echo "${_BOLD}${_YELLOW} S ${NORMAL}${_YELLOW} Single Responsibility Principle ${_NORMAL}"
+    echo "${_BOLD}${_YELLOW} O ${NORMAL}${_YELLOW} Open/Closed Principle ${_NORMAL}"
+    echo "${_BOLD}${_YELLOW} L ${NORMAL}${_YELLOW} Liskov's Substitution Principle ${_NORMAL}"
+    echo "${_BOLD}${_YELLOW} I ${NORMAL}${_YELLOW} Interface Segregation Principle ${_NORMAL}"
+    echo "${_BOLD}${_YELLOW} D ${NORMAL}${_YELLOW} Dependency Inversion Principle ${_NORMAL}"
+
 
 
 ### Configs.strictMode

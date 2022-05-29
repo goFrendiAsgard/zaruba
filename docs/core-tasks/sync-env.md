@@ -7,7 +7,7 @@
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/chore/task.syncEnv.yaml
+    ~/.zaruba/zaruba-tasks/chore/env/task.syncEnv.yaml
 
 Should Sync Env:
 

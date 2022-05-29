@@ -1,6 +1,0 @@
-configs:
-
-  clearLog:
-    start: |
-      rm -Rf logs
-      echo "${_BOLD}${_YELLOW}Log removed${_NORMAL}"

@@ -22,7 +22,7 @@ __Example:__
 
 <!--startCode-->
 ```bash
-zaruba please clearLog
+zaruba please showSolidPrinciple
 ```
  
 <details>
@@ -30,21 +30,25 @@ zaruba please clearLog
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.369µs
-         Current Time: 16:58:46
-💀 🏁 Run 🔥 'clearLog' command on /home/gofrendi/zaruba/docs
-💀    🚀 clearLog             🔥 Log removed
-💀 🎉 Successfully running 🔥 'clearLog' command
+         Elapsed Time: 1.93µs
+         Current Time: 19:28:35
+💀 🏁 Run 🦉 'showSolidPrinciple' command on /home/gofrendi/zaruba/docs
+💀    🚀 showSolidPrinciple   🦉  S  Single Responsibility Principle 
+💀    🚀 showSolidPrinciple   🦉  O  Open/Closed Principle 
+💀    🚀 showSolidPrinciple   🦉  L  Liskov's Substitution Principle 
+💀    🚀 showSolidPrinciple   🦉  I  Interface Segregation Principle 
+💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
+💀 🎉 Successfully running 🦉 'showSolidPrinciple' command
 💀 🔎 Job Running...
-         Elapsed Time: 207.290044ms
-         Current Time: 16:58:46
+         Elapsed Time: 208.848588ms
+         Current Time: 19:28:35
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 508.984196ms
-         Current Time: 16:58:46
-zaruba please clearLog
+         Elapsed Time: 510.663625ms
+         Current Time: 19:28:36
+zaruba please showSolidPrinciple
 ```````
 </details>
 <!--endCode-->
@@ -77,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.418µs
-         Current Time: 16:58:46
+         Elapsed Time: 1.285µs
+         Current Time: 19:28:36
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🔎 Job Running...
-         Elapsed Time: 201.793871ms
-         Current Time: 16:58:47
+         Elapsed Time: 202.015911ms
+         Current Time: 19:28:36
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 503.210574ms
-         Current Time: 16:58:47
+         Elapsed Time: 504.110526ms
+         Current Time: 19:28:36
 zaruba please printHelloWorld
 ```````
 </details>

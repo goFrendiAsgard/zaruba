@@ -1,0 +1,8 @@
+tasks:
+
+  showSolidPrinciple:
+    icon: 🦉
+    description: |
+      Show the legendary SOLID principle
+    extend: zrbRunShellScript
+    configRef: showSolidPrinciple

@@ -4,8 +4,6 @@ tasks:
     icon: 🚧
     location: ../../..
     extend: zrbRunShellScript
-    dependencies:
-      - clearLog
     configs:
       start: |
         rm -f zaruba

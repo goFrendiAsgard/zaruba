@@ -85,10 +85,14 @@ includes:
   - ./zaruba-tasks/_base/wrapper/config.zrbWrapper.yaml
   - ./zaruba-tasks/_base/wrapper/task.zrbWrapper.yaml
 
-  - ./zaruba-tasks/chore/config.syncEnv.yaml
-  - ./zaruba-tasks/chore/config.update.yaml
-  - ./zaruba-tasks/chore/task.syncEnv.yaml
-  - ./zaruba-tasks/chore/task.update.yaml
+  - ./zaruba-tasks/additional/solidPrinciple/config.showSolidPrinciple.yaml
+  - ./zaruba-tasks/additional/solidPrinciple/task.showSolidPrinciple.yaml
+
+  - ./zaruba-tasks/chore/env/config.syncEnv.yaml
+  - ./zaruba-tasks/chore/env/task.syncEnv.yaml
+
+  - ./zaruba-tasks/chore/update/config.update.yaml
+  - ./zaruba-tasks/chore/update/task.update.yaml
 
   - ./zaruba-tasks/chore/initProject/config.initProject.yaml
   - ./zaruba-tasks/chore/initProject/task.initProject.yaml
@@ -99,12 +103,6 @@ includes:
   - ./zaruba-tasks/chore/link/input.linkTo.yaml
   - ./zaruba-tasks/chore/link/task.addProjectLink.yaml
   - ./zaruba-tasks/chore/link/task.updateProjectLinks.yaml
-
-  - ./zaruba-tasks/chore/log/config.clearLog.yaml
-  - ./zaruba-tasks/chore/log/config.showLog.yaml
-  - ./zaruba-tasks/chore/log/input.keyword.yaml
-  - ./zaruba-tasks/chore/log/task.clearLog.yaml
-  - ./zaruba-tasks/chore/log/task.showLog.yaml
 
   - ./zaruba-tasks/chore/serveHttp/config.serveHttp.yaml
   - ./zaruba-tasks/chore/serveHttp/input.serverHttpPort.yaml
@@ -121,9 +119,6 @@ includes:
   - ./zaruba-tasks/chore/subrepo/task.initSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/task.pullSubrepos.yaml
   - ./zaruba-tasks/chore/subrepo/task.pushSubrepos.yaml
-
-  - ./zaruba-tasks/chore/value/config.clearPreviousValues.yaml
-  - ./zaruba-tasks/chore/value/task.clearPreviousValues.yaml
 
   - ./zaruba-tasks/make/_base/config.zrbMake.yaml
   - ./zaruba-tasks/make/_base/input.zrbMake.yaml

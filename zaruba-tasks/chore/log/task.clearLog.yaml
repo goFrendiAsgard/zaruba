@@ -1,8 +1,0 @@
-tasks:
-
-  clearLog:
-    icon: 🔥
-    description: |
-      Clear log
-    extend: zrbRunShellScript
-    configRef: clearLog
