@@ -1,8 +1,8 @@
 inputs:
 
   showAdvertisement:
-    default: yes
-    options: [yes, no]
+    default: true
+    options: [true, false]
     allowCustom: false
     description: Show advertisement
     prompt: Show advertisement

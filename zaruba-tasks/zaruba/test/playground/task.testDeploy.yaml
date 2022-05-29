@@ -10,6 +10,10 @@ tasks:
     timeout: 1h
     configs:
       start: |
-        ../zaruba project setValue pulumiUseLocalBackend 'true' 
+        ../zaruba project setValue pulumiUseLocalBackend true 
         ../zaruba please prepareDeployments
+        until [ "$?" = "0" ]
+        do
+          ../zaruba please prepareDeployments
+        done
         ../zaruba please deploy

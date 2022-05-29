@@ -52,6 +52,7 @@ func GetDecoration(decorationMode string) (decoration *output.Decoration) {
 }
 
 func GetCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLogger) {
-	logFile := filepath.Join(projectDir, "log.zaruba.csv")
-	return output.NewCSVRecordLogger(logFile)
+	logFileName := filepath.Join(projectDir, "logs", "log.zaruba.csv")
+	backupFileNameTemplate := "log-%s.zaruba.csv"
+	return output.NewCSVRecordLogger(logFileName, backupFileNameTemplate)
 }

@@ -4,12 +4,12 @@ configs:
     appIcon: 🐸
     _prepareVariables: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/nodeJsAppRunner/bash/prepareVariables.sh"
-    shouldNpmInstall: yes
-    shoulInstallTypeScript: no
-    shouldCompileTypeScript: no
-    shouldRemoveNodeModules: no
-    shouldCleanNpmCache: no
-    shouldRebuildNpm: no
+    shouldNpmInstall: true
+    shoulInstallTypeScript: false
+    shouldCompileTypeScript: false
+    shouldRemoveNodeModules: false
+    shouldCleanNpmCache: false
+    shouldRebuildNpm: false
     defaultNodeJsAppPorts: |
       [
         "3000"

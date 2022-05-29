@@ -3,5 +3,5 @@ configs:
   makeSimpleTypeScriptAppRunner:
     appIcon: 🐸
     defaultAppDirectory: '{{ .ProjectName }}App'
-    shoulInstallTypeScript: yes
-    shouldCompileTypeScript: yes
+    shoulInstallTypeScript: true
+    shouldCompileTypeScript: true

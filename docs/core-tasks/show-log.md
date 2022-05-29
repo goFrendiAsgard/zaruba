@@ -151,12 +151,12 @@ Value:
 
 Value:
 
-    if [ ! -f "log.zaruba.csv" ]
+    if [ ! -f "logs/log.zaruba.csv" ]
     then
       echo "${_BOLD}${_RED}Log is not exist${_NORMAL}"
       exit 0
     fi
-    "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
+    "{{ .ZarubaBin }}" project showLog "{{ .GetWorkPath "logs/log.zaruba.csv" }}" "{{ .GetConfig "keyword"}}"
 
 
 ### Configs.strictMode

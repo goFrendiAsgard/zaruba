@@ -1,47 +1,45 @@
 inputs:
 
   runZtplAppNameInLocal:
-    default: yes
-    options:
-      - yes
-      - no
+    default: true
+    options: [true, false]
     allowCustom: false
     description: Whether to run ztplAppName locally
     prompt: Run ztplAppName locally?
 
   shouldNpmInstallOnZtplAppName:
     default: ztplCfgShouldNpmInstall
-    options: [yes, no]
+    options: [true, false]
     prompt: Do you want to npm install?
     description: Npm install on ztplAppName
 
   shouldInstallTypeScriptOnZtplAppName:
     default: ztplCfgShouldIntallTypeScript
-    options: [yes, no]
+    options: [true, false]
     prompt: Do you want to install typeScript?
     description: Install typeScript on ztplAppName
 
   shouldCompileTypeScriptOnZtplAppName:
     default: ztplCfgShouldCompileTypeScript
-    options: [yes, no]
+    options: [true, false]
     prompt: Do you want to compile typeScript?
     description: Compile TypeScript typeScript on ztplAppName
 
   shouldRemoveNodeModulesOnZtplAppName:
     default: ztplCfgShouldRemoveNodeModules
-    options: [yes, no]
+    options: [true, false]
     prompt: Do you want to delete node_modules on ztplAppName?
     description: Delete node_modules on ztplAppName
 
   shouldCleanNpmCacheOnZtplAppName:
     default: ztplCfgShouldCleanNpmCache
-    options: [yes, no]
+    options: [true, false]
     prompt: Do you want to clean npm cache on ztplAppName?
     description: Clean npm cache on ztplAppName
 
   shouldRebuildNpmOnZtplAppName:
     default: ztplCfgShouldRebuildNpm
-    options: [yes, no]
+    options: [true, false]
     prompt: Do you want to perform npm rebuild on ztplAppName?
     description: npm rebuild on ztplAppName
 

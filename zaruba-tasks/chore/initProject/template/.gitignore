@@ -1,5 +1,39 @@
-tmp
-.env
-.values.yaml
+# temporary directory
+/tmp
+
+# log
+/logs
+
+# previous values
 .previous.values.yaml
-log.zaruba.csv
+
+# environment and values
+.env
+/.values.yaml
+# local environment and values
+/local.env
+/local.values.yaml
+# dev environment and values
+/dev.env
+/dev.values.yaml
+# develop environment and values
+/develop.env
+/develop.values.yaml
+# development environment and values
+/development.env
+/development.values.yaml
+# stg environment and values
+/stg.env
+/stg.values.yaml
+# stag environment and values
+/stag.env
+/stag.values.yaml
+# staging environment and values
+/staging.env
+/staging.values.yaml
+# prod environment and values
+/prod.env
+/prod.values.yaml
+# production environment and values
+/production.env
+/production.values.yaml

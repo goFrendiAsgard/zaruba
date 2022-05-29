@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"io/ioutil"
+	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/fileutil"
@@ -70,7 +71,8 @@ func (projectUtil *ProjectUtil) SetValue(key, newValue, projectFile string) (err
 		if err := yaml.Unmarshal(fileContentB, &valueMap); err != nil {
 			return err
 		}
-		if currentValue, exist := valueMap[key]; !exist || currentValue == oldValue {
+		currentValue, exist := valueMap[key]
+		if !exist || currentValue == oldValue || strings.HasSuffix(valueFileName, "default.values.yaml") {
 			valueMap[key] = newValue
 		}
 		newFileContentB, err := yaml.Marshal(valueMap)

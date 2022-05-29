@@ -19,7 +19,7 @@ var showLogCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		taskNamePattern := args[0]
-		logFile := "log.zaruba.csv"
+		logFile := "logs/log.zaruba.csv"
 		if len(args) > 1 {
 			logFile = args[1]
 		}

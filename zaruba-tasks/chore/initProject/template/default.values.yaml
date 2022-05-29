@@ -4,4 +4,4 @@ defaultImageTag: latest
 defaultKubeContext: docker-desktop
 defaultKubeNamespace: default
 hostDockerInternal: host.docker.internal
-pulumiUseLocalBackend: no
+pulumiUseLocalBackend: false

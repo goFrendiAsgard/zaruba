@@ -9,8 +9,8 @@ configs:
       . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" {{ .Util.Str.EscapeShellValue (.GetConfig "appDependencies") }} "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
     _registerAppDeploymentTasks: ''
     _setProjectValue: |
-      echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to yes"
-      ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" yes
+      echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to true"
+      ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" true
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template"

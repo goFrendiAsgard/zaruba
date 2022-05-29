@@ -9,6 +9,6 @@ tasks:
       start: |
         ZARUBA_HOME=""
         mkdir -p ./coverage
-        rm -f ./test-resources/log.zaruba.csv
+        rm -f ./test-resources/logs/log.zaruba.csv
         go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html

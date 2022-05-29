@@ -126,7 +126,7 @@ Value:
 
 Value:
 
-    rm -Rf log.zaruba.csv
+    rm -Rf logs
     echo "${_BOLD}${_YELLOW}Log removed${_NORMAL}"
 
 

@@ -348,8 +348,8 @@ Value:
 
 Value:
 
-    echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to yes"
-    ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" yes
+    echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to true"
+    ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" true
 
 
 
@@ -761,21 +761,21 @@ Value:
 
 Value:
 
-    no
+    false
 
 
 ### Configs.shouldCleanNpmCache
 
 Value:
 
-    no
+    false
 
 
 ### Configs.shouldCompileTypeScript
 
 Value:
 
-    no
+    false
 
 
 ### Configs.shouldInitConfigMapVariable
@@ -810,21 +810,21 @@ Value:
 
 Value:
 
-    yes
+    true
 
 
 ### Configs.shouldRebuildNpm
 
 Value:
 
-    no
+    false
 
 
 ### Configs.shouldRemoveNodeModules
 
 Value:
 
-    no
+    false
 
 
 ### Configs.start

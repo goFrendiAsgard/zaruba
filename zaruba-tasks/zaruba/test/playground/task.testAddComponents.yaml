@@ -17,7 +17,7 @@ tasks:
         ../zaruba please addAppRunner appDirectory=provoFibo appEnvs='{"HTTP_PORT":"3001"}'
         ../zaruba please addAppHelmDeployment appDirectory=provoFibo
 
-        ../zaruba project setValue showAdvertisement no
+        ../zaruba project setValue showAdvertisement false
 
         ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
 

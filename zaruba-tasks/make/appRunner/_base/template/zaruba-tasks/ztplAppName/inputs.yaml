@@ -1,10 +1,8 @@
 inputs:
 
   runZtplAppNameInLocal:
-    default: yes
-    options:
-      - yes
-      - no
+    default: true
+    options: [true, false]
     allowCustom: false
     description: Whether to run ztplAppName locally
     prompt: Run ztplAppName locally?

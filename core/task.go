@@ -493,20 +493,20 @@ func (task *Task) generateGeneratedRandomName() {
 }
 
 func (task *Task) generateLogPrefix() {
-	taskName := task.GetName()
-	if len(taskName) > task.Project.maxPublishedTaskNameLength {
+	logTaskName := task.GetName()
+	if len(logTaskName) > task.Project.maxPublishedTaskNameLength {
 		strLen := task.Project.maxPublishedTaskNameLength - 3
-		taskName = taskName[:strLen] + "..."
+		logTaskName = logTaskName[:strLen] + "..."
 	} else {
-		repeat := task.Project.maxPublishedTaskNameLength - len(taskName)
-		taskName = taskName + strings.Repeat(" ", repeat)
+		repeat := task.Project.maxPublishedTaskNameLength - len(logTaskName)
+		logTaskName = logTaskName + strings.Repeat(" ", repeat)
 	}
 	d := task.Project.Decoration
 	color := d.Faint
 	if !task.Private {
 		color = d.GenerateColor()
 	}
-	task.logPrefix = fmt.Sprintf("%s%s%s %s", color, taskName, d.Normal, d.Icon(task.Icon))
+	task.logPrefix = fmt.Sprintf("%s%s%s %s", color, logTaskName, d.Normal, d.Icon(task.Icon))
 }
 
 // GetDependencies get unique dependencies of a task, recursively

@@ -97,7 +97,7 @@ func (r *Runner) Run() (err error) {
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
 	err = <-ch
-	r.sleep(100 * time.Millisecond)
+	r.sleep(200 * time.Millisecond)
 	r.project.OutputWg.Wait()
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()

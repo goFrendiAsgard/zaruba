@@ -380,7 +380,7 @@ func (p *Project) GetValueFileNames() (valueFileNames []string, err error) {
 			continue
 		}
 		fileName := file.Name()
-		if !strings.HasSuffix(fileName, ".values.yaml") || fileName == ".previous.values.zaruba.yaml" {
+		if !strings.HasSuffix(fileName, ".values.yaml") || fileName == ".previous.values.yaml" {
 			continue
 		}
 		valueFileNames = append(valueFileNames, filepath.Join(projectDir, fileName))
