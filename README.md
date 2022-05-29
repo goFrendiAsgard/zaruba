@@ -69,10 +69,10 @@ Zaruba is focusing on helping you to write/generate/run your applications. Some 
 
 - [Shell script](https://www.shellscript.sh/): Shell script can help you to run multiple tasks sequentially. You can also use background processes to execute many tasks at once. Shell script supports control logic like branch and loop. You can think of Zaruba as a declarative framework to manage your shell scripts.
 - [Tmux](https://github.com/tmux/tmux): Tmux allows you to open multiple terminals at once. Thus it also supports parallelism. Unlike tmux, Zaruba runs your processes at a single panel.
-- [Screen](https://www.gnu.org/software/screen/): Screen is similar to tmux in so many way.
-- [Docker Compose](https://docs.docker.com/compose/): Docker Compose supports parallelism. If you can define your tasks as Docker containers, Docker Compose is a good alternative to Zaruba. Unlike Docker Compose, Zaruba can run your non-container process. Zaruba can also run local processes, including Docker Compose. In fact, some of Zaruba tasks are running Docker Compose.
+- [Screen](https://www.gnu.org/software/screen/): Screen is similar to tmux in so many ways.
+- [Docker Compose](https://docs.docker.com/compose/): Docker Compose supports parallelism. If you can define your tasks as Docker containers, Docker Compose is a good alternative to Zaruba. But, unlike Docker Compose, Zaruba also supports local processes.
 - [Ansible](https://www.ansible.com/): Ansible is an automation platform. Ansible focuses on managing your servers, while Zaruba focuses on helping you to run/debug your applications. With Zaruba, you can choose to use DBMS/messaging system in the cloud or locally. Some Zaruba tasks have `runInLocal` config that you can manage easily.
-- [Telemetry](https://www.telepresence.io/): If you deployed your application in the Kubernetes cluster, telemetry is a good alternative to Zaruba. Telemetry allows you to run some of your services locally. This is very useful for debugging, similar to `runInLocal` config on Zaruba. Unlike telemetry, Zaruba also able to help you generate deployment/deploy your application.
+- [Telemetry](https://www.telepresence.io/): If you deployed your application in the Kubernetes cluster, telemetry is a good alternative to Zaruba. Telemetry allows you to run some of your services locally. This is very useful for debugging, similar to `runInLocal` config on Zaruba. Unlike telemetry, Zaruba is also able to help you generate deployment/deploy your application.
 
 # 👨‍💻 Installation
 
