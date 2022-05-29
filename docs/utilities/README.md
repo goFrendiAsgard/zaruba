@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-9b6aa6696e2110a0a5749e4facc1649d2f9ef15a
+v0.9.0-alpha-2-a536ec0f66ecef7e25a9ce5470f76d677a501f72
 
 Usage:
   zaruba [command]
