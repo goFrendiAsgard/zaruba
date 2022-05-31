@@ -60,14 +60,14 @@ Example:
 ZARUBA_DECORATION=default
 ```
 
-## ZARUBA_SHOW_LOG_TIME
+## ZARUBA_LOG_TIME
 
 Whether Zaruba output should include time or not. The default value is `true`. 
 
 Example:
 
 ```bash
-ZARUBA_SHOW_LOG_TIME=false
+ZARUBA_LOG_TIME=false
 ```
 
 ## ZARUBA_ENV 

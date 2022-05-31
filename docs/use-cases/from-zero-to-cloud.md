@@ -730,28 +730,28 @@ zaruba please destroy
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.272µs
-         Current Time: 20:45:29
+         Elapsed Time: 2.194µs
+         Current Time: 23:25:58
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 initProject          🚧 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.git/
 💀    🚀 initProject          🚧 🎉🎉🎉
 💀    🚀 initProject          🚧 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 218.039764ms
-         Current Time: 20:45:29
+         Elapsed Time: 120.500558ms
+         Current Time: 23:25:58
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 520.156613ms
-         Current Time: 20:45:30
+         Elapsed Time: 320.946392ms
+         Current Time: 23:25:58
 zaruba please initProject  
 💀 🔎 Job Starting...
-         Elapsed Time: 1.541µs
-         Current Time: 20:45:30
-💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+         Elapsed Time: 1.756µs
+         Current Time: 23:25:58
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀    🚀 zrbShowAdv           ☕ Hello Human, 
 💀    🚀 zrbShowAdv           ☕ Did 💀 Zaruba help you saving your keystrokes?
@@ -795,11 +795,6 @@ zaruba please initProject
 💀    🚀 makeMysqlApp         🐬 Add env to replacement map
 💀    🚀 makeMysqlApp         🐬 Replacement map prepared
 💀    🚀 makeMysqlApp         🐬 🚧 Validate
-💀 🔎 Job Starting...
-         Elapsed Time: 959.439091ms
-         Current Time: 20:45:31
-         Active Process:
-           * (PID=24314) 🐬 'makeMysqlApp' command
 💀    🚀 makeMysqlApp         🐬 Validate app directory
 💀    🚀 makeMysqlApp         🐬 Done validating app directory
 💀    🚀 makeMysqlApp         🐬 Validate app container volumes
@@ -842,11 +837,6 @@ zaruba please initProject
 💀    🚀 makeMysqlAppRunner   🐬 Done validating app directory
 💀    🚀 makeMysqlAppRunner   🐬 Validate app container volumes
 💀    🚀 makeMysqlAppRunner   🐬 Done validating app container volumes
-💀 🔎 Job Starting...
-         Elapsed Time: 1.943516418s
-         Current Time: 20:45:32
-         Active Process:
-           * (PID=25019) 🐬 'makeMysqlAppRunner' command
 💀    🚀 makeMysqlAppRunner   🐬 Validate template locations
 💀    🚀 makeMysqlAppRunner   🐬 Done validating template locations
 💀    🚀 makeMysqlAppRunner   🐬 Validate app ports
@@ -887,29 +877,24 @@ zaruba please initProject
 💀    🚀 makeMysqlAppRunner   🐬 Adding pushDemoDbImage as dependency of pushImages
 💀    🚀 makeMysqlAppRunner   🐬 Checking pullDemoDbImage
 💀    🚀 makeMysqlAppRunner   🐬 Done registering app runner tasks
-💀 🔎 Job Starting...
-         Elapsed Time: 5.409310112s
-         Current Time: 20:45:35
-         Active Process:
-           * (PID=25019) 🐬 'makeMysqlAppRunner' command
 💀    🚀 makeMysqlAppRunner   🐬 Set project value runDemoDbInLocal to true
 💀    🚀 makeMysqlAppRunner   🐬 🎉🎉🎉
 💀    🚀 makeMysqlAppRunner   🐬 Done
 💀 🎉 Successfully running 🐬 'makeMysqlAppRunner' command
 💀 🎉 Reach 🐬 'addMysql' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 5.780246797s
-         Current Time: 20:45:36
+         Elapsed Time: 5.177962757s
+         Current Time: 23:26:03
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 6.081187365s
-         Current Time: 20:45:36
+         Elapsed Time: 5.479967992s
+         Current Time: 23:26:04
 zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoDb' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.483µs
-         Current Time: 20:45:36
+         Elapsed Time: 1.438µs
+         Current Time: 23:26:04
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -955,11 +940,6 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 makeFastApiApp       ⚡ Add env to replacement map
 💀    🚀 makeFastApiApp       ⚡ Replacement map prepared
 💀    🚀 makeFastApiApp       ⚡ 🚧 Validate
-💀 🔎 Job Starting...
-         Elapsed Time: 1.030899277s
-         Current Time: 20:45:37
-         Active Process:
-           * (PID=27861) ⚡ 'makeFastApiApp' command
 💀    🚀 makeFastApiApp       ⚡ Validate app directory
 💀    🚀 makeFastApiApp       ⚡ Done validating app directory
 💀    🚀 makeFastApiApp       ⚡ Validate app container volumes
@@ -1002,11 +982,6 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 makeFastApiAppRunner ⚡ Done validating app directory
 💀    🚀 makeFastApiAppRunner ⚡ Validate app container volumes
 💀    🚀 makeFastApiAppRunner ⚡ Done validating app container volumes
-💀 🔎 Job Starting...
-         Elapsed Time: 3.46962554s
-         Current Time: 20:45:39
-         Active Process:
-           * (PID=28759) ⚡ 'makeFastApiAppRunner' command
 💀    🚀 makeFastApiAppRunner ⚡ Validate template locations
 💀    🚀 makeFastApiAppRunner ⚡ Done validating template locations
 💀    🚀 makeFastApiAppRunner ⚡ Validate app ports
@@ -1047,11 +1022,6 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 makeFastApiAppRunner ⚡ Checking removeContainers
 💀    🚀 makeFastApiAppRunner ⚡ Adding removeDemoBackendContainer as dependency of removeContainers
 💀    🚀 makeFastApiAppRunner ⚡ Checking buildDemoBackendImage
-💀 🔎 Job Starting...
-         Elapsed Time: 6.27523094s
-         Current Time: 20:45:42
-         Active Process:
-           * (PID=28759) ⚡ 'makeFastApiAppRunner' command
 💀    🚀 makeFastApiAppRunner ⚡ Checking buildImages
 💀    🚀 makeFastApiAppRunner ⚡ Adding buildDemoBackendImage as dependency of buildImages
 💀    🚀 makeFastApiAppRunner ⚡ Checking pushDemoBackendImage
@@ -1095,11 +1065,6 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 addFastApiModule     ⚡ Done validating app container volumes
 💀    🚀 addFastApiModule     ⚡ Validate template locations
 💀    🚀 addFastApiModule     ⚡ Done validating template locations
-💀 🔎 Job Starting...
-         Elapsed Time: 10.893905127s
-         Current Time: 20:45:47
-         Active Process:
-           * (PID=1885) ⚡ 'addFastApiModule' command
 💀    🚀 addFastApiModule     ⚡ Validate app ports
 💀    🚀 addFastApiModule     ⚡ Done validating app ports
 💀    🚀 addFastApiModule     ⚡ Validate app crud fields
@@ -1142,11 +1107,6 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 addFastApiCrud       ⚡ Set schema field declaration
 💀    🚀 addFastApiCrud       ⚡ Done setting schema field declaration
 💀    🚀 addFastApiCrud       ⚡ Preparing start command
-💀 🔎 Job Starting...
-         Elapsed Time: 13.255907902s
-         Current Time: 20:45:49
-         Active Process:
-           * (PID=4185) ⚡ 'addFastApiCrud' command
 💀    🚀 addFastApiCrud       ⚡ Start command prepared
 💀    🚀 addFastApiCrud       ⚡ Preparing prepare command
 💀    🚀 addFastApiCrud       ⚡ Prepare command prepared
@@ -1188,18 +1148,18 @@ zaruba please addMysql -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 addFastApiCrud       ⚡ Done
 💀 🎉 Successfully running ⚡ 'addFastApiCrud' command
 💀 🔎 Job Running...
-         Elapsed Time: 14.066753825s
-         Current Time: 20:45:50
+         Elapsed Time: 13.623762222s
+         Current Time: 23:26:17
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 14.367959262s
-         Current Time: 20:45:50
+         Elapsed Time: 13.824596001s
+         Current Time: 23:26:18
 zaruba please addFastApiCrud -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoBackend' -v 'appModuleName=library' -v 'appCrudEntity=books' -v 'appCrudFields=["title","author","synopsis"]' -v 'appDependencies=["demoDb"]' -v 'appEnvs={"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.409µs
-         Current Time: 20:45:51
+         Elapsed Time: 1.709µs
+         Current Time: 23:26:18
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -1245,11 +1205,6 @@ zaruba please addFastApiCrud -e '/home/gofrendi/zaruba/docs/examples/playground/
 💀    🚀 makeNginxApp         📗 Add env to replacement map
 💀    🚀 makeNginxApp         📗 Replacement map prepared
 💀    🚀 makeNginxApp         📗 🚧 Validate
-💀 🔎 Job Starting...
-         Elapsed Time: 1.120709413s
-         Current Time: 20:45:52
-         Active Process:
-           * (PID=9600) 📗 'makeNginxApp' command
 💀    🚀 makeNginxApp         📗 Validate app directory
 💀    🚀 makeNginxApp         📗 Done validating app directory
 💀    🚀 makeNginxApp         📗 Validate app container volumes
@@ -1292,11 +1247,6 @@ zaruba please addFastApiCrud -e '/home/gofrendi/zaruba/docs/examples/playground/
 💀    🚀 makeNginxAppRunner   📗 Done validating app directory
 💀    🚀 makeNginxAppRunner   📗 Validate app container volumes
 💀    🚀 makeNginxAppRunner   📗 Done validating app container volumes
-💀 🔎 Job Starting...
-         Elapsed Time: 2.191027596s
-         Current Time: 20:45:53
-         Active Process:
-           * (PID=10308) 📗 'makeNginxAppRunner' command
 💀    🚀 makeNginxAppRunner   📗 Validate template locations
 💀    🚀 makeNginxAppRunner   📗 Done validating template locations
 💀    🚀 makeNginxAppRunner   📗 Validate app ports
@@ -1337,28 +1287,23 @@ zaruba please addFastApiCrud -e '/home/gofrendi/zaruba/docs/examples/playground/
 💀    🚀 makeNginxAppRunner   📗 Checking pullDemoFrontendImage
 💀    🚀 makeNginxAppRunner   📗 Done registering app runner tasks
 💀    🚀 makeNginxAppRunner   📗 Set project value runDemoFrontendInLocal to true
-💀 🔎 Job Starting...
-         Elapsed Time: 5.60527729s
-         Current Time: 20:45:56
-         Active Process:
-           * (PID=10308) 📗 'makeNginxAppRunner' command
 💀    🚀 makeNginxAppRunner   📗 🎉🎉🎉
 💀    🚀 makeNginxAppRunner   📗 Done
 💀 🎉 Successfully running 📗 'makeNginxAppRunner' command
 💀 🎉 Reach 📗 'addNginx' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 5.966044216s
-         Current Time: 20:45:57
+         Elapsed Time: 5.820213373s
+         Current Time: 23:26:24
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 6.267096545s
-         Current Time: 20:45:57
+         Elapsed Time: 6.122563255s
+         Current Time: 23:26:24
 zaruba please addNginx -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoFrontend' -v 'appPorts=["8080:80", "443"]' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.72µs
-         Current Time: 20:45:57
+         Elapsed Time: 1.763µs
+         Current Time: 23:26:24
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
@@ -1369,43 +1314,39 @@ zaruba please addNginx -e '/home/gofrendi/zaruba/docs/examples/playground/use-ca
 💀    🚀 syncEnv              🔄 Environment synchronized
 💀 🎉 Successfully running 🔄 'syncEnv' command
 💀 🔎 Job Running...
-         Elapsed Time: 768.845766ms
-         Current Time: 20:45:58
+         Elapsed Time: 613.396905ms
+         Current Time: 23:26:25
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 1.070100368s
-         Current Time: 20:45:58
+         Elapsed Time: 814.394725ms
+         Current Time: 23:26:25
 zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.771µs
-         Current Time: 20:45:58
+         Elapsed Time: 1.205µs
+         Current Time: 23:26:25
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run 🏭 'buildDemoBackendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
-💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
+💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀    🚀 buildDemoBackendI... 🏭 Build image demo-backend:latest
 💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
+💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
 💀    🚀 buildDemoDbImage     🏭 Sending build context to Docker daemon  3.072kB
 💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  20.48kB
 💀    🚀 buildDemoFrontend... 🏭 Step 1/13 : FROM docker.io/bitnami/nginx:1.21.6
-💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
-💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
 💀    🚀 buildDemoFrontend... 🏭  ---> 0b9593fe1d77
 💀    🚀 buildDemoFrontend... 🏭 Step 2/13 : USER 0
-💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 562078b73ebf
 💀    🚀 buildDemoFrontend... 🏭 Step 3/13 : RUN apt update &&     apt install certbot -y &&     apt-get autoremove -yqq --purge &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> c0b95731b707
 💀    🚀 buildDemoFrontend... 🏭 Step 4/13 : USER 1001
-💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 162e06eadcfd
 💀    🚀 buildDemoFrontend... 🏭 Step 5/13 : COPY html /opt/bitnami/nginx/html
@@ -1426,13 +1367,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 buildDemoFrontend... 🏭 Step 10/13 : RUN touch /opt/bitnami/nginx/html/apiHost.js
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 402df510c955
-💀 🔎 Job Starting...
-         Elapsed Time: 8.079096181s
-         Current Time: 20:46:07
-         Active Process:
-           * (PID=13074) 🏭 'buildDemoBackendImage' command
-           * (PID=13075) 🏭 'buildDemoFrontendImage' command
-           * (PID=13076) 🏭 'buildDemoDbImage' command
 💀    🚀 buildDemoFrontend... 🏭 Step 11/13 : RUN chown -R 1001 /opt/bitnami/nginx/html/apiHost.js
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 347b0e4b543d
@@ -1442,16 +1376,20 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 buildDemoFrontend... 🏭 Step 13/13 : CMD ["/opt/bitnami/scripts/nginx/bootstrap.sh"]
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 716b8d1bb83d
-💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
-💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭 Successfully built 716b8d1bb83d
 💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.03MB
-💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
+💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
 💀    🚀 buildDemoBackendI... 🏭 Step 1/9 : FROM python:3.8-slim
+💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
 💀    🚀 buildDemoBackendI... 🏭  ---> caf584a25606
 💀    🚀 buildDemoBackendI... 🏭 Step 2/9 : ENV PYTHONUNBUFFERED 1
+💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
+💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
+💀    🚀 buildDemoFrontend... 🏭 🎉🎉🎉
+💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> 7296d7455c56
+💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
 💀    🚀 buildDemoBackendI... 🏭 Step 3/9 : WORKDIR /app
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> c9a3cbe90f60
@@ -1462,8 +1400,8 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> 16e3e46a7774
 💀    🚀 buildDemoBackendI... 🏭 Step 6/9 : COPY . .
-💀    🚀 buildDemoFrontend... 🏭 🎉🎉🎉
-💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
+💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
+💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> 2250c1045fc3
 💀    🚀 buildDemoBackendI... 🏭 Step 7/9 : EXPOSE 3000
@@ -1473,74 +1411,52 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> fdc60b58e8a8
 💀    🚀 buildDemoBackendI... 🏭 Step 9/9 : CMD ./start.sh
-💀 🔎 Job Starting...
-         Elapsed Time: 8.101951868s
-         Current Time: 20:46:07
-         Active Process:
-           * (PID=13074) 🏭 'buildDemoBackendImage' command
-           * (PID=13075) 🏭 'buildDemoFrontendImage' command
-           * (PID=13076) 🏭 'buildDemoDbImage' command
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> 60e4b3c37a8f
 💀    🚀 buildDemoBackendI... 🏭 Successfully built 60e4b3c37a8f
 💀    🚀 buildDemoBackendI... 🏭 Successfully tagged demo-backend:latest
 💀    🚀 buildDemoBackendI... 🏭 🎉🎉🎉
 💀    🚀 buildDemoBackendI... 🏭 Docker image demo-backend built
-💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoFrontendImage' command
+💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoBackendImage' command
 💀 🏁 Run 🏭 'buildImages' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 buildImages          🏭 
 💀 🎉 Successfully running 🏭 'buildImages' command
 💀 🔎 Job Running...
-         Elapsed Time: 8.523788959s
-         Current Time: 20:46:07
+         Elapsed Time: 11.122055998s
+         Current Time: 23:26:36
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 8.82568384s
-         Current Time: 20:46:07
+         Elapsed Time: 11.423938323s
+         Current Time: 23:26:37
 zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.598µs
-         Current Time: 20:46:08
+         Elapsed Time: 1.579µs
+         Current Time: 23:26:37
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run 🔧 'prepareDemoBackend' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀 🏁 Run 🐳 'zrbCreateDockerNetwork' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
-💀 🏁 Run 🔧 'prepareDemoBackend' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀    🚀 prepareDemoBackend   🔧 Create venv
 💀    🚀 zrbCreateDockerNe... 🐳 🐳 Network 'zaruba' is already exist
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
-💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
 💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
-💀    🚀 prepareDemoBackend   🔧 Activate venv
-💀    🚀 prepareDemoBackend   🔧 Install dependencies
-💀    🚀 prepareDemoBackend   🔧 Collecting aiofiles==0.7.0 (from -r requirements.txt (line 1))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e7/61/007ac6f27fe1c2dc44d3a62f429a8440de1601428b4d0291eae1a3494d1f/aiofiles-0.7.0-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting asgiref==3.4.1 (from -r requirements.txt (line 2))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/fe/66/577f32b54c50dcd8dec38447258e82ed327ecb86820d67ae7b3dea784f13/asgiref-3.4.1-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting avro-python3==1.10.0 (from -r requirements.txt (line 3))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/b2/5a/819537be46d65a01f8b8c6046ed05603fb9ef88c663b8cca840263788d58/avro-python3-1.10.0.tar.gz
-💀    🚀 prepareDemoBackend   🔧 Collecting bcrypt==3.2.0 (from -r requirements.txt (line 4))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/26/70/6d218afbe4c73538053c1016dd631e8f25fffc10cd01f5c272d7acf3c03d/bcrypt-3.2.0-cp36-abi3-manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting certifi==2021.10.8 (from -r requirements.txt (line 5))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting charset-normalizer==2.0.12 (from -r requirements.txt (line 6))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting click==8.0.1 (from -r requirements.txt (line 7))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/76/0a/b6c5f311e32aeb3b406e03c079ade51e905ea630fc19d1262a46249c1c86/click-8.0.1-py3-none-any.whl
+💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
+💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
 💀    🚀 buildDemoDbImage     🏭 Sending build context to Docker daemon  3.072kB
 💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  20.48kB
-💀    🚀 prepareDemoBackend   🔧 Collecting confluent-kafka[avro]==1.8.2 (from -r requirements.txt (line 8))
 💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
 💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
 💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
 💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
+💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
+💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭 Step 1/13 : FROM docker.io/bitnami/nginx:1.21.6
 💀    🚀 buildDemoFrontend... 🏭  ---> 0b9593fe1d77
 💀    🚀 buildDemoFrontend... 🏭 Step 2/13 : USER 0
@@ -1552,16 +1468,7 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 buildDemoFrontend... 🏭 Step 4/13 : USER 1001
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 162e06eadcfd
-💀 🔎 Job Starting...
-         Elapsed Time: 7.829626523s
-         Current Time: 20:46:15
-         Active Process:
-           * (PID=18315) 🔧 'prepareDemoBackend' command
-           * (PID=18344) 🏭 'buildDemoDbImage' command
-           * (PID=18550) 🏭 'buildDemoFrontendImage' command
 💀    🚀 buildDemoFrontend... 🏭 Step 5/13 : COPY html /opt/bitnami/nginx/html
-💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
-💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 59834268c0d4
 💀    🚀 buildDemoFrontend... 🏭 Step 6/13 : COPY server_blocks/my_server_block.conf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
@@ -1592,81 +1499,132 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
 💀    🚀 buildDemoFrontend... 🏭 🎉🎉🎉
 💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/da/9b/f09a614e6b6b5e892c7aa50240ffe4e132664abb7f7b9fcdc89a4dddf35b/confluent_kafka-1.8.2-cp38-cp38-manylinux2010_x86_64.whl
+💀    🚀 prepareDemoBackend   🔧 Activate venv
+💀    🚀 prepareDemoBackend   🔧 Install dependencies
 💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoFrontendImage' command
-💀    🚀 prepareDemoBackend   🔧 Collecting cryptography==36.0.1 (from -r requirements.txt (line 10))
-💀 🏁 Run 🐬 'startDemoDbContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀 🏁 Check 🐬 'startDemoDbContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
 💀 🏁 Run 📗 'startDemoFrontendContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀 🏁 Check 📗 'startDemoFrontendContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' running status
-💀 🔥 🔎 startDemoDbContainer 🐬 Error: No such container: demoDb
-💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
-💀 🔥 🔎 startDemoFrontend... 📗 Error: No such container: demoFrontend
+💀 🏁 Run 🐬 'startDemoDbContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀 🏁 Check 🐬 'startDemoDbContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
 💀 🔥 🚀 startDemoFrontend... 📗 Error: No such container: demoFrontend
+💀 🔥 🔎 startDemoFrontend... 📗 Error: No such container: demoFrontend
 💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
+💀 🔥 🔎 startDemoDbContainer 🐬 Error: No such container: demoDb
 💀 🔥 🚀 startDemoFrontend... 📗 Error: No such container: demoFrontend
 💀    🚀 startDemoFrontend... 📗 🐳 Creating and starting container 'demoFrontend'
+💀 🔥 🚀 startDemoDbContainer 🐬 Error: No such container: demoDb
 💀    🚀 startDemoDbContainer 🐬 🐳 Creating and starting container 'demoDb'
-💀    🚀 startDemoDbContainer 🐬 7d59928af059e24441b331836b237419a58040659fbcd06fc9a78bf238e28ae0
-💀 🔎 Job Starting...
-         Elapsed Time: 8.645592814s
-         Current Time: 20:46:16
-         Active Process:
-           * (PID=18315) 🔧 'prepareDemoBackend' command
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
-           * (PID=23306) 📗 'startDemoFrontendContainer' readiness check
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=23290) 🐬 'startDemoDbContainer' readiness check
-💀    🚀 startDemoFrontend... 📗 806edcbc0f7a9506a5e66d33bfddb084177391b46db11eb540067b2bc8b0219f
+💀    🚀 startDemoFrontend... 📗 54de3279807efe1ebdbff159eaa4a90019755f769c82a4f9ccc4ee5e2b78eabc
+💀    🚀 prepareDemoBackend   🔧 Collecting aiofiles==0.7.0 (from -r requirements.txt (line 1))
+💀    🚀 startDemoDbContainer 🐬 70992709b3cad41a80829e6b63780c7634c577ca23699ee126b5603db706d67b
+💀    🚀 startDemoDbContainer 🐬 🐳 Logging 'demoDb'
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.62 
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.62 Welcome to the Bitnami mysql container
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.63 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-mysql
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.63 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-mysql/issues
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.63 
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.63 [38;5;2mINFO  ==> ** Starting MySQL setup **
+💀    🔎 startDemoDbContainer 🐬 🔎 Docker container 'demoDb' is running
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting for host port: '3306'
+💀    🔎 startDemoDbContainer 🐬 🔎 Host port '3306' is ready
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.66 [38;5;2mINFO  ==> Validating settings in MYSQL_*/MARIADB_* env vars
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.67 [38;5;2mINFO  ==> Initializing mysql database
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.69 [38;5;2mINFO  ==> Updating 'my.cnf' with custom configuration
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.69 [38;5;2mINFO  ==> Setting user option
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.71 [38;5;2mINFO  ==> Setting slow_query_log option
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.72 [38;5;2mINFO  ==> Setting long_query_time option
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:41.73 [38;5;2mINFO  ==> Installing database
+💀    🚀 startDemoFrontend... 📗 🐳 Logging 'demoFrontend'
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
+💀    🚀 startDemoFrontend... 📗 
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m16:26:42.06 
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m16:26:42.07 Welcome to the Bitnami nginx container
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m16:26:42.07 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-nginx
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m16:26:42.07 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-nginx/issues
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m16:26:42.07 
+💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m16:26:42.10 [38;5;2mINFO  ==> ** Starting NGINX **
+💀    🔎 startDemoFrontend... 📗 🔎 Docker container 'demoFrontend' is running
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '8080'
+💀    🔎 startDemoFrontend... 📗 🔎 Host port '8080' is ready
+💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '443'
+💀    🔎 startDemoFrontend... 📗 🔎 Host port '443' is ready
+💀 🔥 🚀 startDemoFrontend... 📗 2022/05/31 16:26:42 [warn] 12#12: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
+💀 🔥 🚀 startDemoFrontend... 📗 nginx: [warn] the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
+💀    🔎 startDemoDbContainer 🐬 🔎 Run check in 'demoDb': 'mysqladmin ping -u root -pAlch3mist'
+💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
+💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
+💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
+💀    🔎 startDemoFrontend... 📗 🔎 Run check in 'demoFrontend': 'echo check demoFrontend'
+💀    🔎 startDemoFrontend... 📗 check demoFrontend
+💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e7/61/007ac6f27fe1c2dc44d3a62f429a8440de1601428b4d0291eae1a3494d1f/aiofiles-0.7.0-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting asgiref==3.4.1 (from -r requirements.txt (line 2))
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:47.24 [38;5;2mINFO  ==> Starting mysql in background
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/fe/66/577f32b54c50dcd8dec38447258e82ed327ecb86820d67ae7b3dea784f13/asgiref-3.4.1-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting avro-python3==1.10.0 (from -r requirements.txt (line 3))
+💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
+💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Access denied for user 'root'@'localhost' (using password: YES)'
+💀    🔎 startDemoDbContainer 🐬 🔎 Sucessfully run check in 'demoDb': 'mysqladmin ping -u root -pAlch3mist'
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:49.27 [38;5;2mINFO  ==> Configuring authentication
+💀    🔎 startDemoFrontend... 📗 🎉🎉🎉
+💀    🔎 startDemoFrontend... 📗 📜 Task 'startDemoFrontendContainer' is ready
+💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🎉 Successfully running 📗 'startDemoFrontendContainer' readiness check
+💀 🎉 Reach 📗 'startDemoFrontend' wrapper
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:49.37 [38;5;2mINFO  ==> Running mysql_upgrade
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:49.37 [38;5;2mINFO  ==> Stopping mysql
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/b2/5a/819537be46d65a01f8b8c6046ed05603fb9ef88c663b8cca840263788d58/avro-python3-1.10.0.tar.gz
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:51.39 [38;5;2mINFO  ==> Starting mysql in background
+💀    🔎 startDemoDbContainer 🐬 🎉🎉🎉
+💀    🔎 startDemoDbContainer 🐬 📜 Task 'startDemoDbContainer' is ready
+💀 🎉 Successfully running 🐬 'startDemoDbContainer' readiness check
+💀 🎉 Reach 🐬 'startDemoDb' wrapper
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:57.41 [38;5;2mINFO  ==> Loading user's custom files from /docker-entrypoint-initdb.d
+💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
+💀 🔥 🚀 startDemoDbContainer 🐬 find: '/docker-entrypoint-startdb.d/': No such file or directory
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:26:57.49 [38;5;2mINFO  ==> Stopping mysql
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:27:00.53 [38;5;2mINFO  ==> ** MySQL setup finished! **
+💀    🚀 startDemoDbContainer 🐬 
+💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m16:27:00.57 [38;5;2mINFO  ==> ** Starting MySQL **
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:00.821866Z 0 [System] [MY-010116] [Server] /opt/bitnami/mysql/bin/mysqld (mysqld 8.0.29) starting as process 1
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:00.823557Z 0 [Warning] [MY-013242] [Server] --character-set-server: 'utf8' is currently an alias for the character set UTF8MB3, but will be an alias for UTF8MB4 in a future release. Please consider using UTF8MB4 in order to be unambiguous.
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:00.823564Z 0 [Warning] [MY-013244] [Server] --collation-server: 'utf8_general_ci' is a collation of the deprecated character set UTF8MB3. Please consider using UTF8MB4 with an appropriate collation instead.
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:00.831345Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:01.039967Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:01.226004Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:01.226061Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:01.251105Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /tmp/mysqlx.sock
+💀    🚀 startDemoDbContainer 🐬 2022-05-31T16:27:01.251233Z 0 [System] [MY-010931] [Server] /opt/bitnami/mysql/bin/mysqld: ready for connections. Version: '8.0.29'  socket: '/opt/bitnami/mysql/tmp/mysql.sock'  port: 3306  Source distribution.
+💀    🚀 prepareDemoBackend   🔧 Collecting bcrypt==3.2.0 (from -r requirements.txt (line 4))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/26/70/6d218afbe4c73538053c1016dd631e8f25fffc10cd01f5c272d7acf3c03d/bcrypt-3.2.0-cp36-abi3-manylinux2010_x86_64.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting certifi==2021.10.8 (from -r requirements.txt (line 5))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting charset-normalizer==2.0.12 (from -r requirements.txt (line 6))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting click==8.0.1 (from -r requirements.txt (line 7))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/76/0a/b6c5f311e32aeb3b406e03c079ade51e905ea630fc19d1262a46249c1c86/click-8.0.1-py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting confluent-kafka[avro]==1.8.2 (from -r requirements.txt (line 8))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/da/9b/f09a614e6b6b5e892c7aa50240ffe4e132664abb7f7b9fcdc89a4dddf35b/confluent_kafka-1.8.2-cp38-cp38-manylinux2010_x86_64.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting cryptography==36.0.1 (from -r requirements.txt (line 10))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/0c/12/a55cf1ed39c2fa9a22448b82c984152fdeb7b30a66e3544eee3bd52b08fc/cryptography-36.0.1-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting fastapi==0.68.1 (from -r requirements.txt (line 11))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/df/44/ee1976b03404318590bbe4b0ef27007ce2c42b15757aa0c72bc99a4ebae7/fastapi-0.68.1-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting fastavro==1.4.9 (from -r requirements.txt (line 12))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9f/d4/0a04211257324a27ef39e0309989f10d05227be63b601c7789a156b23623/fastavro-1.4.9.tar.gz
-💀    🚀 startDemoDbContainer 🐬 🐳 Logging 'demoDb'
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
 💀    🚀 prepareDemoBackend   🔧 Collecting greenlet==1.1.1 (from -r requirements.txt (line 13))
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.41 
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.42 Welcome to the Bitnami mysql container
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.43 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-mysql
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.43 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-mysql/issues
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.43 
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.43 [38;5;2mINFO  ==> ** Starting MySQL setup **
-💀    🔎 startDemoDbContainer 🐬 🔎 Docker container 'demoDb' is running
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting for host port: '3306'
-💀    🔎 startDemoDbContainer 🐬 🔎 Host port '3306' is ready
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.46 [38;5;2mINFO  ==> Validating settings in MYSQL_*/MARIADB_* env vars
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.47 [38;5;2mINFO  ==> Initializing mysql database
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.48 [38;5;2mINFO  ==> Updating 'my.cnf' with custom configuration
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.49 [38;5;2mINFO  ==> Setting user option
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.50 [38;5;2mINFO  ==> Setting slow_query_log option
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.51 [38;5;2mINFO  ==> Setting long_query_time option
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:18.52 [38;5;2mINFO  ==> Installing database
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/32/7a/85cbb3374bef5cac1a2eebec9f6ff324a6758970c38a2825a7b89a2e9aec/greenlet-1.1.1-cp38-cp38-manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting h11==0.12.0 (from -r requirements.txt (line 14))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/60/0f/7a0eeea938eaf61074f29fed9717f2010e8d0e0905d36b38d3275a1e4622/h11-0.12.0-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting idna==3.3 (from -r requirements.txt (line 15))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting jsons==1.5.1 (from -r requirements.txt (line 16))
-💀    🚀 startDemoFrontend... 📗 🐳 Logging 'demoFrontend'
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m13:46:19.10 
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m13:46:19.11 Welcome to the Bitnami nginx container
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m13:46:19.12 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-nginx
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m13:46:19.12 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-nginx/issues
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m13:46:19.13 
-💀    🚀 startDemoFrontend... 📗 
-💀 🔥 🚀 startDemoFrontend... 📗 [38;5;6mnginx [38;5;5m13:46:19.16 [38;5;2mINFO  ==> ** Starting NGINX **
-💀    🔎 startDemoFrontend... 📗 🔎 Docker container 'demoFrontend' is running
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '8080'
-💀    🔎 startDemoFrontend... 📗 🔎 Host port '8080' is ready
-💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '443'
-💀    🔎 startDemoFrontend... 📗 🔎 Host port '443' is ready
-💀 🔥 🚀 startDemoFrontend... 📗 2022/05/29 13:46:19 [warn] 13#13: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
-💀 🔥 🚀 startDemoFrontend... 📗 nginx: [warn] the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/04/b9/7e174aeb2994076929ba28fb0a5191d4d6f21f02db9af00cd3a963e7f0a6/jsons-1.5.1-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting passlib==1.7.4 (from -r requirements.txt (line 17))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/3b/a4/ab6b7589382ca3df236e03faa71deac88cae040af60c071a78d254a62172/passlib-1.7.4-py2.py3-none-any.whl
@@ -1681,35 +1639,18 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 prepareDemoBackend   🔧 Collecting pytest-cov==3.0.0 (from -r requirements.txt (line 22))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/20/49/b3e0edec68d81846f519c602ac38af9db86e1e71275528b3e814ae236063/pytest_cov-3.0.0-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting python-jose==3.3.0 (from -r requirements.txt (line 23))
-💀 🔎 Job Starting...
-         Elapsed Time: 12.345988841s
-         Current Time: 20:46:20
-         Active Process:
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=23290) 🐬 'startDemoDbContainer' readiness check
-           * (PID=18315) 🔧 'prepareDemoBackend' command
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
-           * (PID=23306) 📗 'startDemoFrontendContainer' readiness check
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/bd/2d/e94b2f7bab6773c70efc70a61d66e312e1febccd9e0db6b9e0adf58cbad1/python_jose-3.3.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting python-multipart==0.0.5 (from -r requirements.txt (line 24))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/46/40/a933ac570bf7aad12a298fc53458115cc74053474a72fbb8201d7dc06d3d/python-multipart-0.0.5.tar.gz
 💀    🚀 prepareDemoBackend   🔧 Collecting requests==2.27.1 (from -r requirements.txt (line 25))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting sqlalchemy==1.4.23 (from -r requirements.txt (line 26))
-💀    🔎 startDemoDbContainer 🐬 🔎 Run check in 'demoDb': 'mysqladmin ping -u root -pAlch3mist'
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
-💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
-💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/d0/6b/32b93b001ca2274ca0097a1f81be27fc69a805761049719531ac182427fe/SQLAlchemy-1.4.23-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting starlette==0.14.2 (from -r requirements.txt (line 27))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/15/34/db1890f442a1cd3a2c761f4109a0eb4e63503218d70a8c8e97faa09a5500/starlette-0.14.2-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting typing-extensions==3.10.0.2 (from -r requirements.txt (line 28))
-💀    🔎 startDemoFrontend... 📗 🔎 Run check in 'demoFrontend': 'echo check demoFrontend'
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/74/60/18783336cc7fcdd95dae91d73477830aa53f5d3181ae4fe20491d7fc3199/typing_extensions-3.10.0.2-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting typish==1.9.3 (from -r requirements.txt (line 29))
-💀    🔎 startDemoFrontend... 📗 check demoFrontend
-💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9d/d6/3f56c9c0c12adf61dfcf4ed5c8ffd2c431db8dd85592067a57e8e1968565/typish-1.9.3-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting urllib3==1.26.8 (from -r requirements.txt (line 30))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/4e/b8/f5a25b22e803f0578e668daa33ba3701bb37858ec80e08a150bd7d2cf1b1/urllib3-1.26.8-py2.py3-none-any.whl
@@ -1721,99 +1662,36 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/e5/fe/1dac7533ddb73767df8ba26183a9375dde2ee136aec7c92c9fb3038108e3/cffi-1.15.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting six>=1.4.1 (from bcrypt==3.2.0->-r requirements.txt (line 4))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting attrs>=19.2.0 (from pytest==6.2.5->-r requirements.txt (line 21))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting pluggy<2.0,>=0.12 (from pytest==6.2.5->-r requirements.txt (line 21))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9e/01/f38e2ff29715251cf25532b9082a1589ab7e4f571ced434f98d0139336dc/pluggy-1.0.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting py>=1.8.2 (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/f6/f0/10642828a8dfb741e5f3fbaac830550a518a775c7fff6f04a007259b0548/py-1.11.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting iniconfig (from pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9b/dd/b3c12c6d707058fa947864b67f0c4e0c39ef8610988d7baea9578f3c48f3/iniconfig-1.1.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting toml (from pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting attrs>=19.2.0 (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting packaging (from pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/05/8e/8de486cbd03baba4deef4142bd643a3e7bbe954a784dc1bb17142572d127/packaging-21.3-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting py>=1.8.2 (from pytest==6.2.5->-r requirements.txt (line 21))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/f6/f0/10642828a8dfb741e5f3fbaac830550a518a775c7fff6f04a007259b0548/py-1.11.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting pluggy<2.0,>=0.12 (from pytest==6.2.5->-r requirements.txt (line 21))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/9e/01/f38e2ff29715251cf25532b9082a1589ab7e4f571ced434f98d0139336dc/pluggy-1.0.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting coverage[toml]>=5.2.1 (from pytest-cov==3.0.0->-r requirements.txt (line 22))
-💀 🔎 Job Starting...
-         Elapsed Time: 16.199123138s
-         Current Time: 20:46:24
-         Active Process:
-           * (PID=23306) 📗 'startDemoFrontendContainer' readiness check
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=23290) 🐬 'startDemoDbContainer' readiness check
-           * (PID=18315) 🔧 'prepareDemoBackend' command
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:24.86 [38;5;2mINFO  ==> Starting mysql in background
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
-💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
-💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/78/ac/1abb4ff8e7e58b27684070a8cfecb55636b36c01e4364515814da275cee3/coverage-6.4-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting ecdsa!=0.15 (from python-jose==3.3.0->-r requirements.txt (line 23))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/4a/b6/b678b080967b2696e9a201c096dc076ad756fb35c87dca4e1d1a13496ff7/ecdsa-0.17.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Collecting rsa (from python-jose==3.3.0->-r requirements.txt (line 23))
-💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/30/ab/8fd9e88e6fa5ec41afca995938bbefb72195278e0cfc5bd76a4f29b23fb2/rsa-4.8-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pyasn1 (from python-jose==3.3.0->-r requirements.txt (line 23))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/62/1e/a94a8d635fa3ce4cfc7f506003548d0a2447ae76fd5ca53932970fe3053f/pyasn1-0.4.8-py2.py3-none-any.whl
+💀    🚀 prepareDemoBackend   🔧 Collecting rsa (from python-jose==3.3.0->-r requirements.txt (line 23))
+💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/30/ab/8fd9e88e6fa5ec41afca995938bbefb72195278e0cfc5bd76a4f29b23fb2/rsa-4.8-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pycparser (from cffi>=1.1->bcrypt==3.2.0->-r requirements.txt (line 4))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting pyparsing!=3.0.5,>=2.0.2 (from packaging->pytest==6.2.5->-r requirements.txt (line 21))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/6c/10/a7d0fa5baea8fe7b50f448ab742f26f52b80bfca85ac2be9d35cdd9a3246/pyparsing-3.0.9-py3-none-any.whl
 💀    🚀 prepareDemoBackend   🔧 Collecting tomli; python_version < "3.11" and extra == "toml" (from coverage[toml]>=5.2.1->pytest-cov==3.0.0->-r requirements.txt (line 22))
 💀    🚀 prepareDemoBackend   🔧   Using cached https://files.pythonhosted.org/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl
-💀    🚀 prepareDemoBackend   🔧 Installing collected packages: aiofiles, asgiref, avro-python3, pycparser, cffi, six, bcrypt, certifi, charset-normalizer, click, urllib3, idna, requests, fastavro, confluent-kafka, cryptography, typing-extensions, pydantic, starlette, fastapi, greenlet, h11, typish, jsons, passlib, pika, PyMySQL, attrs, pluggy, iniconfig, toml, pyparsing, packaging, py, pytest, tomli, coverage, pytest-cov, ecdsa, pyasn1, rsa, python-jose, python-multipart, sqlalchemy, uuid, uvicorn
+💀    🚀 prepareDemoBackend   🔧 Installing collected packages: aiofiles, asgiref, avro-python3, pycparser, cffi, six, bcrypt, certifi, charset-normalizer, click, idna, urllib3, requests, fastavro, confluent-kafka, cryptography, starlette, typing-extensions, pydantic, fastapi, greenlet, h11, typish, jsons, passlib, pika, PyMySQL, py, iniconfig, toml, attrs, pyparsing, packaging, pluggy, pytest, tomli, coverage, pytest-cov, ecdsa, pyasn1, rsa, python-jose, python-multipart, sqlalchemy, uuid, uvicorn
 💀    🚀 prepareDemoBackend   🔧   Running setup.py install for avro-python3: started
 💀    🚀 prepareDemoBackend   🔧     Running setup.py install for avro-python3: finished with status 'done'
-💀    🔎 startDemoFrontend... 📗 🎉🎉🎉
-💀    🔎 startDemoFrontend... 📗 📜 Task 'startDemoFrontendContainer' is ready
-💀 🎉 Successfully running 📗 'startDemoFrontendContainer' readiness check
-💀 🎉 Reach 📗 'startDemoFrontend' wrapper
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:26.88 [38;5;2mINFO  ==> Configuring authentication
-💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:27.00 [38;5;2mINFO  ==> Running mysql_upgrade
 💀    🚀 prepareDemoBackend   🔧   Running setup.py install for fastavro: started
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:27.01 [38;5;2mINFO  ==> Stopping mysql
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
-💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
-💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:29.02 [38;5;2mINFO  ==> Starting mysql in background
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
-💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
-💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
-💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
-💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:37.04 [38;5;2mINFO  ==> Loading user's custom files from /docker-entrypoint-initdb.d
-💀 🔥 🚀 startDemoDbContainer 🐬 mysql: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🚀 startDemoDbContainer 🐬 find: '/docker-entrypoint-startdb.d/': No such file or directory
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:37.07 [38;5;2mINFO  ==> Stopping mysql
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: connect to server at 'localhost' failed
-💀 🔥 🔎 startDemoDbContainer 🐬 error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'
-💀 🔥 🔎 startDemoDbContainer 🐬 Check that mysqld is running and that the socket: '/opt/bitnami/mysql/tmp/mysql.sock' exists!
-💀    🚀 startDemoDbContainer 🐬 
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:40.09 [38;5;2mINFO  ==> ** MySQL setup finished! **
-💀 🔥 🚀 startDemoDbContainer 🐬 [38;5;6mmysql [38;5;5m13:46:40.17 [38;5;2mINFO  ==> ** Starting MySQL **
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.427798Z 0 [System] [MY-010116] [Server] /opt/bitnami/mysql/bin/mysqld (mysqld 8.0.29) starting as process 1
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.429964Z 0 [Warning] [MY-013242] [Server] --character-set-server: 'utf8' is currently an alias for the character set UTF8MB3, but will be an alias for UTF8MB4 in a future release. Please consider using UTF8MB4 in order to be unambiguous.
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.429973Z 0 [Warning] [MY-013244] [Server] --collation-server: 'utf8_general_ci' is a collation of the deprecated character set UTF8MB3. Please consider using UTF8MB4 with an appropriate collation instead.
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.445993Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.625841Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.837023Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.837074Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.892723Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /tmp/mysqlx.sock
-💀    🚀 startDemoDbContainer 🐬 2022-05-29T13:46:40.892812Z 0 [System] [MY-010931] [Server] /opt/bitnami/mysql/bin/mysqld: ready for connections. Version: '8.0.29'  socket: '/opt/bitnami/mysql/tmp/mysql.sock'  port: 3306  Source distribution.
-💀 🔥 🔎 startDemoDbContainer 🐬 mysqladmin: [Warning] Using a password on the command line interface can be insecure.
-💀    🔎 startDemoDbContainer 🐬 mysqld is alive
-💀    🔎 startDemoDbContainer 🐬 🔎 Sucessfully run check in 'demoDb': 'mysqladmin ping -u root -pAlch3mist'
-💀    🔎 startDemoDbContainer 🐬 🎉🎉🎉
-💀    🔎 startDemoDbContainer 🐬 📜 Task 'startDemoDbContainer' is ready
-💀 🎉 Successfully running 🐬 'startDemoDbContainer' readiness check
-💀 🎉 Reach 🐬 'startDemoDb' wrapper
 💀    🚀 prepareDemoBackend   🔧     Running setup.py install for fastavro: finished with status 'done'
 💀    🚀 prepareDemoBackend   🔧   Running setup.py install for python-multipart: started
 💀    🚀 prepareDemoBackend   🔧     Running setup.py install for python-multipart: finished with status 'done'
@@ -1823,31 +1701,24 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀 🔥 🚀 prepareDemoBackend   🔧 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
 💀 🔥 🚀 prepareDemoBackend   🔧 You should consider upgrading via the 'pip install --upgrade pip' command.
 💀    🚀 prepareDemoBackend   🔧 Prepare
-💀 🔎 Job Starting...
-         Elapsed Time: 54.544226908s
-         Current Time: 20:47:02
-         Active Process:
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=18315) 🔧 'prepareDemoBackend' command
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
 💀    🚀 prepareDemoBackend   🔧 prepare command
 💀    🚀 prepareDemoBackend   🔧 Preparation complete
 💀 🎉 Successfully running 🔧 'prepareDemoBackend' command
 💀 🏁 Run ⚡ 'startDemoBackend' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀 🏁 Check ⚡ 'startDemoBackend' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
-💀    🚀 startDemoBackend     ⚡ Activate venv
 💀    🔎 startDemoBackend     ⚡ 🔎 Waiting for port '3000'
+💀    🚀 startDemoBackend     ⚡ Activate venv
 💀    🚀 startDemoBackend     ⚡ Start
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,483 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,483 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,490 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,490 INFO sqlalchemy.engine.Engine [generated in 0.00028s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,493 INFO sqlalchemy.engine.Engine SELECT DATABASE()
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,494 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,497 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,497 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,497 INFO sqlalchemy.engine.Engine [generated in 0.00020s] {'table_schema': 'sample', 'table_name': 'books'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,501 INFO sqlalchemy.engine.Engine 
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,676 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,677 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,683 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,683 INFO sqlalchemy.engine.Engine [generated in 0.00020s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,687 INFO sqlalchemy.engine.Engine SELECT DATABASE()
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,687 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,689 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,690 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,691 INFO sqlalchemy.engine.Engine [generated in 0.00054s] {'table_schema': 'sample', 'table_name': 'books'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,695 INFO sqlalchemy.engine.Engine 
 💀    🚀 startDemoBackend     ⚡ CREATE TABLE books (
 💀    🚀 startDemoBackend     ⚡ 	id VARCHAR(36) NOT NULL, 
 💀    🚀 startDemoBackend     ⚡ 	title VARCHAR(255), 
@@ -1859,28 +1730,20 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ )
 💀    🚀 startDemoBackend     ⚡ 
 💀    🚀 startDemoBackend     ⚡ 
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,501 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,527 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_title ON books (title)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,527 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,550 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_author ON books (author)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,550 INFO sqlalchemy.engine.Engine [no key 0.00020s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,570 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_id ON books (id)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,570 INFO sqlalchemy.engine.Engine [no key 0.00018s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,587 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_synopsis ON books (synopsis)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,587 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,605 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,606 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,606 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,607 INFO sqlalchemy.engine.Engine [cached since 0.1094s ago] {'table_schema': 'sample', 'table_name': 'roles'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,608 INFO sqlalchemy.engine.Engine 
-💀 🔎 Job Starting...
-         Elapsed Time: 55.526735767s
-         Current Time: 20:47:03
-         Active Process:
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=30938) ⚡ 'startDemoBackend' service
-           * (PID=30939) ⚡ 'startDemoBackend' readiness check
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,695 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,722 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_id ON books (id)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,722 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,746 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_synopsis ON books (synopsis)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,746 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,765 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_author ON books (author)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,765 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,790 INFO sqlalchemy.engine.Engine CREATE INDEX ix_books_title ON books (title)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,790 INFO sqlalchemy.engine.Engine [no key 0.00021s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,809 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,811 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,812 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,812 INFO sqlalchemy.engine.Engine [cached since 0.1221s ago] {'table_schema': 'sample', 'table_name': 'roles'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,814 INFO sqlalchemy.engine.Engine 
 💀    🚀 startDemoBackend     ⚡ CREATE TABLE roles (
 💀    🚀 startDemoBackend     ⚡ 	id VARCHAR(36) NOT NULL, 
 💀    🚀 startDemoBackend     ⚡ 	name VARCHAR(20), 
@@ -1891,18 +1754,18 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ )
 💀    🚀 startDemoBackend     ⚡ 
 💀    🚀 startDemoBackend     ⚡ 
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,608 INFO sqlalchemy.engine.Engine [no key 0.00012s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,630 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_name ON roles (name)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,631 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,649 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_json_permissions ON roles (json_permissions)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,649 INFO sqlalchemy.engine.Engine [no key 0.00021s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,667 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_id ON roles (id)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,667 INFO sqlalchemy.engine.Engine [no key 0.00019s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,688 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,689 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,689 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,690 INFO sqlalchemy.engine.Engine [cached since 0.1924s ago] {'table_schema': 'sample', 'table_name': 'users'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,692 INFO sqlalchemy.engine.Engine 
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,814 INFO sqlalchemy.engine.Engine [no key 0.00010s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,835 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_json_permissions ON roles (json_permissions)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,835 INFO sqlalchemy.engine.Engine [no key 0.00018s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,855 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_name ON roles (name)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,855 INFO sqlalchemy.engine.Engine [no key 0.00017s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,874 INFO sqlalchemy.engine.Engine CREATE INDEX ix_roles_id ON roles (id)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,874 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,907 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,908 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,908 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,909 INFO sqlalchemy.engine.Engine [cached since 0.2184s ago] {'table_schema': 'sample', 'table_name': 'users'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,910 INFO sqlalchemy.engine.Engine 
 💀    🚀 startDemoBackend     ⚡ CREATE TABLE users (
 💀    🚀 startDemoBackend     ⚡ 	id VARCHAR(36) NOT NULL, 
 💀    🚀 startDemoBackend     ⚡ 	username VARCHAR(50) NOT NULL, 
@@ -1918,45 +1781,37 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ )
 💀    🚀 startDemoBackend     ⚡ 
 💀    🚀 startDemoBackend     ⚡ 
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,692 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,718 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_email ON users (email)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,718 INFO sqlalchemy.engine.Engine [no key 0.00018s] {}
-💀 🔎 Job Starting...
-         Elapsed Time: 55.636203535s
-         Current Time: 20:47:03
-         Active Process:
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=30938) ⚡ 'startDemoBackend' service
-           * (PID=30939) ⚡ 'startDemoBackend' readiness check
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,736 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_phone_number ON users (phone_number)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,736 INFO sqlalchemy.engine.Engine [no key 0.00019s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,754 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_active ON users (active)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,755 INFO sqlalchemy.engine.Engine [no key 0.00021s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,774 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_id ON users (id)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,774 INFO sqlalchemy.engine.Engine [no key 0.00023s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,796 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_full_name ON users (full_name)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,796 INFO sqlalchemy.engine.Engine [no key 0.00024s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,818 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_username ON users (username)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,818 INFO sqlalchemy.engine.Engine [no key 0.00025s] {}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,840 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,842 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,844 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,910 INFO sqlalchemy.engine.Engine [no key 0.00010s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,942 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_email ON users (email)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,942 INFO sqlalchemy.engine.Engine [no key 0.00015s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,965 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_phone_number ON users (phone_number)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,965 INFO sqlalchemy.engine.Engine [no key 0.00016s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,992 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_active ON users (active)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:33,992 INFO sqlalchemy.engine.Engine [no key 0.00026s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,010 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_full_name ON users (full_name)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,010 INFO sqlalchemy.engine.Engine [no key 0.00019s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,028 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_id ON users (id)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,029 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,044 INFO sqlalchemy.engine.Engine CREATE UNIQUE INDEX ix_users_username ON users (username)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,044 INFO sqlalchemy.engine.Engine [no key 0.00014s] {}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,062 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,065 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,066 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
 💀    🚀 startDemoBackend     ⚡ FROM users 
 💀    🚀 startDemoBackend     ⚡ WHERE users.username = %(username_1)s 
 💀    🚀 startDemoBackend     ⚡  LIMIT %(param_1)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,844 INFO sqlalchemy.engine.Engine [generated in 0.00016s] {'username_1': 'root', 'param_1': 1}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:03,846 INFO sqlalchemy.engine.Engine ROLLBACK
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,066 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,068 INFO sqlalchemy.engine.Engine INSERT INTO users (id, username, email, phone_number, json_permissions, active, hashed_password, full_name, created_at, updated_at) VALUES (%(id)s, %(username)s, %(email)s, %(phone_number)s, %(json_permissions)s, %(active)s, %(hashed_password)s, %(full_name)s, %(created_at)s, %(updated_at)s)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,068 INFO sqlalchemy.engine.Engine [generated in 0.00021s] {'id': '1118123c-1acc-4408-8f96-47b1fe622bfa', 'username': 'root', 'email': 'root@innistrad.com', 'phone_number': '621234567890', 'json_permissions': '["root"]', 'active': 1, 'hashed_password': '$2b$12$RSBBjdc4cmNmLcJXLS43su1VxjFpNS2um4PfvQecOMYwF7GUntFP2', 'full_name': 'root', 'created_at': datetime.datetime(2022, 5, 29, 20, 47, 4, 66161), 'updated_at': datetime.datetime(2022, 5, 29, 20, 47, 4, 68112)}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,069 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,078 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,079 INFO sqlalchemy.engine.Engine SELECT users.id, users.username, users.email, users.phone_number, users.json_permissions, users.active, users.hashed_password, users.full_name, users.created_at, users.updated_at 
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,066 INFO sqlalchemy.engine.Engine [generated in 0.00013s] {'username_1': 'root', 'param_1': 1}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,067 INFO sqlalchemy.engine.Engine ROLLBACK
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,265 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,266 INFO sqlalchemy.engine.Engine INSERT INTO users (id, username, email, phone_number, json_permissions, active, hashed_password, full_name, created_at, updated_at) VALUES (%(id)s, %(username)s, %(email)s, %(phone_number)s, %(json_permissions)s, %(active)s, %(hashed_password)s, %(full_name)s, %(created_at)s, %(updated_at)s)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,266 INFO sqlalchemy.engine.Engine [generated in 0.00018s] {'id': '21110bbf-1bb4-49e8-9225-7cfa9714ebef', 'username': 'root', 'email': 'root@innistrad.com', 'phone_number': '621234567890', 'json_permissions': '["root"]', 'active': 1, 'hashed_password': '$2b$12$Plo0wC.aaD645H1MnM72WOHaOohro2HMtLJ8VPUzUDLe60Pv/.Lda', 'full_name': 'root', 'created_at': datetime.datetime(2022, 5, 31, 23, 28, 34, 264811), 'updated_at': datetime.datetime(2022, 5, 31, 23, 28, 34, 266348)}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,267 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,275 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,276 INFO sqlalchemy.engine.Engine SELECT users.id, users.username, users.email, users.phone_number, users.json_permissions, users.active, users.hashed_password, users.full_name, users.created_at, users.updated_at 
 💀    🚀 startDemoBackend     ⚡ FROM users 
 💀    🚀 startDemoBackend     ⚡ WHERE users.id = %(pk_1)s
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,079 INFO sqlalchemy.engine.Engine [generated in 0.00017s] {'pk_1': '1118123c-1acc-4408-8f96-47b1fe622bfa'}
-💀    🚀 startDemoBackend     ⚡ 2022-05-29 20:47:04,080 INFO sqlalchemy.engine.Engine ROLLBACK
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,276 INFO sqlalchemy.engine.Engine [generated in 0.00014s] {'pk_1': '21110bbf-1bb4-49e8-9225-7cfa9714ebef'}
+💀    🚀 startDemoBackend     ⚡ 2022-05-31 23:28:34,278 INFO sqlalchemy.engine.Engine ROLLBACK
 💀    🚀 startDemoBackend     ⚡ Register app shutdown handler
 💀    🚀 startDemoBackend     ⚡ Handle HTTP routes for auth.Role
 💀    🚀 startDemoBackend     ⚡ Handle HTTP routes for auth.User
@@ -1969,16 +1824,8 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 startDemoBackend     ⚡ Register library route handler
 💀    🚀 startDemoBackend     ⚡ Register library event handler
 💀    🚀 startDemoBackend     ⚡ Handle RPC for library.Book
-💀 🔎 Job Starting...
-         Elapsed Time: 56.035002828s
-         Current Time: 20:47:04
-         Active Process:
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=30938) ⚡ 'startDemoBackend' service
-           * (PID=30939) ⚡ 'startDemoBackend' readiness check
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
 💀    🚀 startDemoBackend     ⚡ Register library RPC handler
-💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Started server process [30943]
+💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Started server process [25333]
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Waiting for application startup.
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Application startup complete.
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Uvicorn running on http://0.0.0.0:3000 (Press CTRL+C to quit)
@@ -1991,49 +1838,52 @@ zaruba please buildImages -e '/home/gofrendi/zaruba/docs/examples/playground/use
 💀    🚀 start                🏁 
 💀 🎉 Successfully running 🏁 'start' command
 💀 🔎 Job Running...
-         Elapsed Time: 57.292695372s
-         Current Time: 20:47:05
+         Elapsed Time: 1m58.035297722s
+         Current Time: 23:28:35
          Active Process:
-           * (PID=23289) 🐬 'startDemoDbContainer' service
-           * (PID=30938) ⚡ 'startDemoBackend' service
-           * (PID=23305) 📗 'startDemoFrontendContainer' service
+           * (PID=709) 📗 'startDemoFrontendContainer' service
+           * (PID=25324) ⚡ 'startDemoBackend' service
+           * (PID=728) 🐬 'startDemoDbContainer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=23289)
-💀 🔪 Kill ⚡ 'startDemoBackend' service (PID=30938)
-💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=23305)
+💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=709)
+💀 🔪 Kill ⚡ 'startDemoBackend' service (PID=25324)
+💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=728)
 💀 🔥 🐬 'startDemoDbContainer' service exited: signal: interrupt
 💀 🔥 📗 'startDemoFrontendContainer' service exited: signal: interrupt
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Shutting down
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Waiting for application shutdown.
 💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Application shutdown complete.
-💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Finished server process [30943]
-💀    🚀 startDemoBackend     ⚡ 🎉🎉🎉
-💀    🚀 startDemoBackend     ⚡ 📜 Task 'startDemoBackend' is started
+💀 🔥 🚀 startDemoBackend     ⚡ INFO:     Finished server process [25333]
+💀 🔥 ⚡ 'startDemoBackend' service exited: signal: terminated
 💀 🔎 Job Ended...
-         Elapsed Time: 59.496020614s
-         Current Time: 20:47:07
-💀 🔥 ⚡ 'startDemoBackend' service exited without any error message
+         Elapsed Time: 2m0.146922366s
+         Current Time: 23:28:37
 zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml' -t -w 1s
 💀 🔎 Job Starting...
-         Elapsed Time: 1.211µs
-         Current Time: 20:47:07
+         Elapsed Time: 3.92µs
+         Current Time: 23:28:38
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run 🐳 'zrbCreateDockerNetwork' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
-💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 Links updated
 💀    🚀 zrbCreateDockerNe... 🐳 🐳 Network 'zaruba' is already exist
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🏭 'buildDemoBackendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
-💀    🚀 buildDemoBackendI... 🏭 Build image demo-backend:latest
+💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
+💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
 💀 🎉 Successfully running 🐳 'zrbCreateDockerNetwork' command
 💀 🏁 Run 🏭 'buildDemoFrontendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
-💀 🏁 Run 🏭 'buildDemoDbImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀    🚀 buildDemoFrontend... 🏭 Build image demo-frontend:latest
-💀    🚀 buildDemoDbImage     🏭 Build image demo-db:latest
-💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  22.02kB
+💀 🏁 Run 🏭 'buildDemoBackendImage' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
+💀    🚀 buildDemoBackendI... 🏭 Build image demo-backend:latest
 💀    🚀 buildDemoDbImage     🏭 Sending build context to Docker daemon  3.072kB
+💀    🚀 buildDemoFrontend... 🏭 Sending build context to Docker daemon  22.02kB
+💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
+💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
+💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
+💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
+💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
+💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
+💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀    🚀 buildDemoFrontend... 🏭 Step 1/13 : FROM docker.io/bitnami/nginx:1.21.6
 💀    🚀 buildDemoFrontend... 🏭  ---> 0b9593fe1d77
 💀    🚀 buildDemoFrontend... 🏭 Step 2/13 : USER 0
@@ -2066,26 +1916,15 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 buildDemoFrontend... 🏭 Step 11/13 : RUN chown -R 1001 /opt/bitnami/nginx/html/apiHost.js
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 4cc75b9fe13f
-💀 🔎 Job Starting...
-         Elapsed Time: 2.144917589s
-         Current Time: 20:47:09
-         Active Process:
-           * (PID=32477) 🏭 'buildDemoBackendImage' command
-           * (PID=32734) 🏭 'buildDemoFrontendImage' command
-           * (PID=32735) 🏭 'buildDemoDbImage' command
 💀    🚀 buildDemoFrontend... 🏭 Step 12/13 : USER 1001
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> 2cde0d664596
 💀    🚀 buildDemoFrontend... 🏭 Step 13/13 : CMD ["/opt/bitnami/scripts/nginx/bootstrap.sh"]
 💀    🚀 buildDemoFrontend... 🏭  ---> Using cache
 💀    🚀 buildDemoFrontend... 🏭  ---> e4d825173eef
-💀    🚀 buildDemoDbImage     🏭 Step 1/1 : FROM docker.io/bitnami/mysql:8.0.29
-💀    🚀 buildDemoDbImage     🏭  ---> 188ba73f5790
-💀    🚀 buildDemoDbImage     🏭 Successfully built 188ba73f5790
 💀    🚀 buildDemoFrontend... 🏭 Successfully built e4d825173eef
-💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.18MB
-💀    🚀 buildDemoDbImage     🏭 Successfully tagged demo-db:latest
 💀    🚀 buildDemoFrontend... 🏭 Successfully tagged demo-frontend:latest
+💀    🚀 buildDemoBackendI... 🏭 Sending build context to Docker daemon   1.18MB
 💀    🚀 buildDemoBackendI... 🏭 Step 1/9 : FROM python:3.8-slim
 💀    🚀 buildDemoBackendI... 🏭  ---> caf584a25606
 💀    🚀 buildDemoBackendI... 🏭 Step 2/9 : ENV PYTHONUNBUFFERED 1
@@ -2095,59 +1934,47 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
 💀    🚀 buildDemoBackendI... 🏭  ---> c9a3cbe90f60
 💀    🚀 buildDemoBackendI... 🏭 Step 4/9 : COPY requirements.txt ./
-💀    🚀 buildDemoDbImage     🏭 🎉🎉🎉
-💀    🚀 buildDemoDbImage     🏭 Docker image demo-db built
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
-💀    🚀 buildDemoFrontend... 🏭 🎉🎉🎉
 💀    🚀 buildDemoBackendI... 🏭  ---> 90b390a57c9c
 💀    🚀 buildDemoBackendI... 🏭 Step 5/9 : RUN pip install -r requirements.txt
 💀    🚀 buildDemoBackendI... 🏭  ---> Using cache
-💀    🚀 buildDemoFrontend... 🏭 Docker image demo-frontend built
 💀    🚀 buildDemoBackendI... 🏭  ---> 16e3e46a7774
 💀    🚀 buildDemoBackendI... 🏭 Step 6/9 : COPY . .
-💀 🎉 Successfully running 🏭 'buildDemoDbImage' command
 💀 🎉 Successfully running 🏭 'buildDemoFrontendImage' command
-💀    🚀 buildDemoBackendI... 🏭  ---> 2efd3043b6c1
-💀    🚀 buildDemoBackendI... 🏭 Step 7/9 : EXPOSE 3000
-💀    🚀 buildDemoBackendI... 🏭  ---> Running in 8d2a89dde95c
 💀 🏁 Run 🐬 'startDemoDbContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀 🏁 Check 🐬 'startDemoDbContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
 💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' running status
-💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container 8d2a89dde95c
-💀    🚀 buildDemoBackendI... 🏭  ---> 7a2b3392b77c
-💀    🚀 buildDemoBackendI... 🏭 Step 8/9 : RUN chmod 755 ./start.sh
-💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
-💀 🔎 Job Starting...
-         Elapsed Time: 2.620795079s
-         Current Time: 20:47:10
-         Active Process:
-           * (PID=2672) 🐬 'startDemoDbContainer' readiness check
-           * (PID=32477) 🏭 'buildDemoBackendImage' command
-           * (PID=2671) 🐬 'startDemoDbContainer' service
 💀    🚀 startDemoDbContainer 🐬 🐳 Container 'demoDb' is already started
 💀    🚀 startDemoDbContainer 🐬 🐳 Logging 'demoDb'
+💀    🔎 startDemoDbContainer 🐬 🔎 Waiting docker container 'demoDb' healthcheck
 💀 🏁 Run 📗 'startDemoFrontendContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
 💀 🏁 Check 📗 'startDemoFrontendContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
-💀    🚀 buildDemoBackendI... 🏭  ---> Running in 7845f4b0e010
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' running status
 💀    🔎 startDemoDbContainer 🐬 🔎 Docker container 'demoDb' is running
 💀    🔎 startDemoDbContainer 🐬 🔎 Waiting for host port: '3306'
 💀    🔎 startDemoDbContainer 🐬 🔎 Host port '3306' is ready
+💀    🚀 buildDemoBackendI... 🏭  ---> 9d531b9ccd2d
+💀    🚀 buildDemoBackendI... 🏭 Step 7/9 : EXPOSE 3000
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting docker container 'demoFrontend' healthcheck
 💀    🚀 startDemoFrontend... 📗 🐳 Container 'demoFrontend' is already started
 💀    🚀 startDemoFrontend... 📗 🐳 Logging 'demoFrontend'
+💀    🚀 buildDemoBackendI... 🏭  ---> Running in e0362716ea5a
 💀    🔎 startDemoFrontend... 📗 🔎 Docker container 'demoFrontend' is running
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '8080'
 💀    🔎 startDemoFrontend... 📗 🔎 Host port '8080' is ready
 💀    🔎 startDemoFrontend... 📗 🔎 Waiting for host port: '443'
 💀    🔎 startDemoFrontend... 📗 🔎 Host port '443' is ready
-💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container 7845f4b0e010
-💀    🚀 buildDemoBackendI... 🏭  ---> 160cf307e33f
+💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container e0362716ea5a
+💀    🚀 buildDemoBackendI... 🏭  ---> 752322c623e6
+💀    🚀 buildDemoBackendI... 🏭 Step 8/9 : RUN chmod 755 ./start.sh
+💀    🚀 buildDemoBackendI... 🏭  ---> Running in 540c00da673f
+💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container 540c00da673f
+💀    🚀 buildDemoBackendI... 🏭  ---> 3cafaeb3bd8d
 💀    🚀 buildDemoBackendI... 🏭 Step 9/9 : CMD ./start.sh
-💀    🚀 buildDemoBackendI... 🏭  ---> Running in a6b6b305c683
-💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container a6b6b305c683
-💀    🚀 buildDemoBackendI... 🏭  ---> 4f839cb7d41a
-💀    🚀 buildDemoBackendI... 🏭 Successfully built 4f839cb7d41a
+💀    🚀 buildDemoBackendI... 🏭  ---> Running in f54c2b638c0e
+💀    🚀 buildDemoBackendI... 🏭 Removing intermediate container f54c2b638c0e
+💀    🚀 buildDemoBackendI... 🏭  ---> 9d2921ed6316
+💀    🚀 buildDemoBackendI... 🏭 Successfully built 9d2921ed6316
 💀    🚀 buildDemoBackendI... 🏭 Successfully tagged demo-backend:latest
 💀    🚀 buildDemoBackendI... 🏭 🎉🎉🎉
 💀    🚀 buildDemoBackendI... 🏭 Docker image demo-backend built
@@ -2161,11 +1988,11 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🔎 startDemoFrontend... 📗 🔎 Sucessfully run check in 'demoFrontend': 'echo check demoFrontend'
 💀    🔎 startDemoDbContainer 🐬 🎉🎉🎉
 💀    🔎 startDemoDbContainer 🐬 📜 Task 'startDemoDbContainer' is ready
+💀 🎉 Successfully running 🐬 'startDemoDbContainer' readiness check
+💀 🎉 Reach 🐬 'startDemoDb' wrapper
 💀    🔎 startDemoFrontend... 📗 🎉🎉🎉
 💀    🔎 startDemoFrontend... 📗 📜 Task 'startDemoFrontendContainer' is ready
-💀 🎉 Successfully running 🐬 'startDemoDbContainer' readiness check
 💀 🎉 Successfully running 📗 'startDemoFrontendContainer' readiness check
-💀 🎉 Reach 🐬 'startDemoDb' wrapper
 💀 🏁 Run ⚡ 'startDemoBackendContainer' service on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀 🏁 Check ⚡ 'startDemoBackendContainer' readiness on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀    🔎 startDemoBackendC... ⚡ 🔎 Waiting docker container 'demoBackend' running status
@@ -2173,45 +2000,37 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀 🔥 🔎 startDemoBackendC... ⚡ Error: No such container: demoBackend
 💀 🔥 🚀 startDemoBackendC... ⚡ Error: No such container: demoBackend
 💀    🚀 startDemoBackendC... ⚡ 🐳 Creating and starting container 'demoBackend'
-💀    🚀 startDemoBackendC... ⚡ b79b7350a56cedde506d057d1115af8df3b55442cae7deb378caf5982b77e153
+💀    🚀 startDemoBackendC... ⚡ 69f8517d806e96039f567982f6e1809241052a38e5a436156ea52fdb4ed67b90
 💀    🚀 startDemoBackendC... ⚡ 🐳 Logging 'demoBackend'
 💀    🔎 startDemoBackendC... ⚡ 🔎 Waiting docker container 'demoBackend' healthcheck
-💀 🔎 Job Starting...
-         Elapsed Time: 12.166493878s
-         Current Time: 20:47:19
-         Active Process:
-           * (PID=4498) ⚡ 'startDemoBackendContainer' service
-           * (PID=2671) 🐬 'startDemoDbContainer' service
-           * (PID=4499) ⚡ 'startDemoBackendContainer' readiness check
-           * (PID=2727) 📗 'startDemoFrontendContainer' service
 💀    🔎 startDemoBackendC... ⚡ 🔎 Docker container 'demoBackend' is running
 💀    🔎 startDemoBackendC... ⚡ 🔎 Waiting for host port: '3000'
 💀    🔎 startDemoBackendC... ⚡ 🔎 Host port '3000' is ready
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,154 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,154 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,160 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,160 INFO sqlalchemy.engine.Engine [generated in 0.00031s] {}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,168 INFO sqlalchemy.engine.Engine SELECT DATABASE()
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,168 INFO sqlalchemy.engine.Engine [raw sql] {}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,174 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,175 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,175 INFO sqlalchemy.engine.Engine [generated in 0.00021s] {'table_schema': 'sample', 'table_name': 'books'}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,181 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,185 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,186 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,186 INFO sqlalchemy.engine.Engine [cached since 0.01125s ago] {'table_schema': 'sample', 'table_name': 'roles'}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,190 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,194 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,194 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,194 INFO sqlalchemy.engine.Engine [cached since 0.01976s ago] {'table_schema': 'sample', 'table_name': 'users'}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,199 INFO sqlalchemy.engine.Engine COMMIT
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,209 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,214 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,059 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'sql_mode'
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,060 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,063 INFO sqlalchemy.engine.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,063 INFO sqlalchemy.engine.Engine [generated in 0.00014s] {}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,067 INFO sqlalchemy.engine.Engine SELECT DATABASE()
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,067 INFO sqlalchemy.engine.Engine [raw sql] {}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,070 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,071 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,071 INFO sqlalchemy.engine.Engine [generated in 0.00022s] {'table_schema': 'sample', 'table_name': 'books'}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,074 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,076 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,076 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,076 INFO sqlalchemy.engine.Engine [cached since 0.00576s ago] {'table_schema': 'sample', 'table_name': 'roles'}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,079 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,081 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,082 INFO sqlalchemy.engine.Engine SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %(table_schema)s AND table_name = %(table_name)s
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,082 INFO sqlalchemy.engine.Engine [cached since 0.01107s ago] {'table_schema': 'sample', 'table_name': 'users'}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,084 INFO sqlalchemy.engine.Engine COMMIT
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,088 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,090 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.json_permissions AS users_json_permissions, users.active AS users_active, users.hashed_password AS users_hashed_password, users.full_name AS users_full_name, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
 💀    🚀 startDemoBackendC... ⚡ FROM users 
 💀    🚀 startDemoBackendC... ⚡ WHERE users.username = %(username_1)s 
 💀    🚀 startDemoBackendC... ⚡  LIMIT %(param_1)s
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,214 INFO sqlalchemy.engine.Engine [generated in 0.00024s] {'username_1': 'root', 'param_1': 1}
-💀    🚀 startDemoBackendC... ⚡ 2022-05-29 13:47:21,219 INFO sqlalchemy.engine.Engine ROLLBACK
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,090 INFO sqlalchemy.engine.Engine [generated in 0.00015s] {'username_1': 'root', 'param_1': 1}
+💀    🚀 startDemoBackendC... ⚡ 2022-05-31 16:28:52,093 INFO sqlalchemy.engine.Engine ROLLBACK
 💀    🚀 startDemoBackendC... ⚡ Register app shutdown handler
 💀    🚀 startDemoBackendC... ⚡ Handle HTTP routes for auth.Role
 💀    🚀 startDemoBackendC... ⚡ Handle HTTP routes for auth.User
@@ -2224,14 +2043,6 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 startDemoBackendC... ⚡ Register library route handler
 💀    🚀 startDemoBackendC... ⚡ Register library event handler
 💀    🚀 startDemoBackendC... ⚡ Handle RPC for library.Book
-💀 🔎 Job Starting...
-         Elapsed Time: 13.507341907s
-         Current Time: 20:47:21
-         Active Process:
-           * (PID=2671) 🐬 'startDemoDbContainer' service
-           * (PID=4499) ⚡ 'startDemoBackendContainer' readiness check
-           * (PID=2727) 📗 'startDemoFrontendContainer' service
-           * (PID=4498) ⚡ 'startDemoBackendContainer' service
 💀    🚀 startDemoBackendC... ⚡ Register library RPC handler
 💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Started server process [9]
 💀 🔥 🚀 startDemoBackendC... ⚡ INFO:     Waiting for application startup.
@@ -2247,28 +2058,28 @@ zaruba please start -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases
 💀    🚀 startContainers      🐳 
 💀 🎉 Successfully running 🐳 'startContainers' command
 💀 🔎 Job Running...
-         Elapsed Time: 16.834103134s
-         Current Time: 20:47:24
+         Elapsed Time: 17.1354779s
+         Current Time: 23:28:55
          Active Process:
-           * (PID=2671) 🐬 'startDemoDbContainer' service
-           * (PID=2727) 📗 'startDemoFrontendContainer' service
-           * (PID=4498) ⚡ 'startDemoBackendContainer' service
+           * (PID=31196) 🐬 'startDemoDbContainer' service
+           * (PID=1569) ⚡ 'startDemoBackendContainer' service
+           * (PID=31252) 📗 'startDemoFrontendContainer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=2727)
-💀 🔪 Kill ⚡ 'startDemoBackendContainer' service (PID=4498)
-💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=2671)
+💀 🔪 Kill 🐬 'startDemoDbContainer' service (PID=31196)
+💀 🔪 Kill ⚡ 'startDemoBackendContainer' service (PID=1569)
+💀 🔪 Kill 📗 'startDemoFrontendContainer' service (PID=31252)
+💀 🔥 🐬 'startDemoDbContainer' service exited: signal: interrupt
 💀 🔥 📗 'startDemoFrontendContainer' service exited: signal: interrupt
 💀 🔥 ⚡ 'startDemoBackendContainer' service exited: signal: interrupt
-💀 🔥 🐬 'startDemoDbContainer' service exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 19.037048874s
-         Current Time: 20:47:26
+         Elapsed Time: 19.238611155s
+         Current Time: 23:28:57
 zaruba please startContainers -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml' -t -w 1s
 💀 🔎 Job Starting...
-         Elapsed Time: 1.302µs
-         Current Time: 20:47:26
+         Elapsed Time: 1.875µs
+         Current Time: 23:28:57
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
@@ -2276,62 +2087,60 @@ zaruba please startContainers -e '/home/gofrendi/zaruba/docs/examples/playground
 💀 🏁 Run ✋ 'stopDemoBackendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ✋ 'stopDemoFrontendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ✋ 'stopDemoDbContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
-💀    🚀 stopDemoFrontendC... ✋ Stop docker container demoFrontend
-💀    🚀 stopDemoDbContainer  ✋ Stop docker container demoDb
 💀    🚀 stopDemoBackendCo... ✋ Stop docker container demoBackend
+💀    🚀 stopDemoDbContainer  ✋ Stop docker container demoDb
+💀    🚀 stopDemoFrontendC... ✋ Stop docker container demoFrontend
 💀    🚀 stopDemoDbContainer  ✋ demoDb
 💀    🚀 stopDemoDbContainer  ✋ 🎉🎉🎉
 💀    🚀 stopDemoDbContainer  ✋ Docker container demoDb stopped
 💀 🎉 Successfully running ✋ 'stopDemoDbContainer' command
-💀    🚀 stopDemoFrontendC... ✋ demoFrontend
-💀    🚀 stopDemoFrontendC... ✋ 🎉🎉🎉
-💀    🚀 stopDemoFrontendC... ✋ Docker container demoFrontend stopped
 💀    🚀 stopDemoBackendCo... ✋ demoBackend
 💀    🚀 stopDemoBackendCo... ✋ 🎉🎉🎉
 💀    🚀 stopDemoBackendCo... ✋ Docker container demoBackend stopped
-💀 🎉 Successfully running ✋ 'stopDemoFrontendContainer' command
 💀 🎉 Successfully running ✋ 'stopDemoBackendContainer' command
+💀    🚀 stopDemoFrontendC... ✋ demoFrontend
+💀    🚀 stopDemoFrontendC... ✋ 🎉🎉🎉
+💀    🚀 stopDemoFrontendC... ✋ Docker container demoFrontend stopped
+💀 🎉 Successfully running ✋ 'stopDemoFrontendContainer' command
 💀 🏁 Run ✋ 'stopContainers' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 stopContainers       ✋ 
 💀 🎉 Successfully running ✋ 'stopContainers' command
 💀 🔎 Job Running...
-         Elapsed Time: 12.049774218s
-         Current Time: 20:47:39
+         Elapsed Time: 11.648107094s
+         Current Time: 23:29:09
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 12.351824229s
-         Current Time: 20:47:39
+         Elapsed Time: 11.949587022s
+         Current Time: 23:29:09
 zaruba please stopContainers -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.474µs
-         Current Time: 20:47:39
+         Elapsed Time: 1.207µs
+         Current Time: 23:29:09
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
 💀 🏁 Run ❌ 'removeDemoDbContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDb
-💀 🏁 Run ❌ 'removeDemoBackendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
 💀 🏁 Run ❌ 'removeDemoFrontendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontend
+💀 🏁 Run ❌ 'removeDemoBackendContainer' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackend
+💀 🔥 🚀 removeDemoDbConta... ❌ Error: No such container: 
+💀    🚀 removeDemoDbConta... ❌ Stop docker container demoDb
 💀 🔥 🚀 removeDemoFronten... ❌ Error: No such container: 
 💀    🚀 removeDemoFronten... ❌ Stop docker container demoFrontend
 💀 🔥 🚀 removeDemoBackend... ❌ Error: No such container: 
 💀    🚀 removeDemoBackend... ❌ Stop docker container demoBackend
-💀 🔥 🚀 removeDemoDbConta... ❌ Error: No such container: 
-💀    🚀 removeDemoDbConta... ❌ Stop docker container demoDb
-💀    🚀 removeDemoBackend... ❌ Docker container demoBackend stopped
-💀    🚀 removeDemoBackend... ❌ Remove docker container demoBackend
-💀    🚀 removeDemoFronten... ❌ Docker container demoFrontend stopped
-💀    🚀 removeDemoFronten... ❌ Remove docker container demoFrontend
 💀    🚀 removeDemoDbConta... ❌ Docker container demoDb stopped
 💀    🚀 removeDemoDbConta... ❌ Remove docker container demoDb
+💀    🚀 removeDemoFronten... ❌ Docker container demoFrontend stopped
+💀    🚀 removeDemoFronten... ❌ Remove docker container demoFrontend
+💀    🚀 removeDemoBackend... ❌ Docker container demoBackend stopped
+💀    🚀 removeDemoBackend... ❌ Remove docker container demoBackend
 💀    🚀 removeDemoFronten... ❌ demoFrontend
 💀    🚀 removeDemoFronten... ❌ 🎉🎉🎉
 💀    🚀 removeDemoFronten... ❌ Docker container demoFrontend removed
 💀    🚀 removeDemoBackend... ❌ demoBackend
-💀    🚀 removeDemoBackend... ❌ 🎉🎉🎉
-💀    🚀 removeDemoBackend... ❌ Docker container demoBackend removed
 💀    🚀 removeDemoDbConta... ❌ demoDb
 💀    🚀 removeDemoDbConta... ❌ 🎉🎉🎉
 💀    🚀 removeDemoDbConta... ❌ Docker container demoDb removed
@@ -2342,20 +2151,21 @@ zaruba please stopContainers -e '/home/gofrendi/zaruba/docs/examples/playground/
 💀    🚀 removeContainers     ❌ 
 💀 🎉 Successfully running ❌ 'removeContainers' command
 💀 🔎 Job Running...
-         Elapsed Time: 1.092193103s
-         Current Time: 20:47:40
+         Elapsed Time: 673.743457ms
+         Current Time: 23:29:10
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 1.393446635s
-         Current Time: 20:47:40
+         Elapsed Time: 975.857337ms
+         Current Time: 23:29:10
 zaruba please removeContainers -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 3.189µs
-         Current Time: 20:47:41
-💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+         Elapsed Time: 2.309µs
+         Current Time: 23:29:11
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
+💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀    🚀 zrbShowAdv           ☕ Hello Human, 
 💀    🚀 zrbShowAdv           ☕ Did 💀 Zaruba help you saving your keystrokes?
 💀    🚀 zrbShowAdv           ☕ 
@@ -2399,11 +2209,6 @@ zaruba please removeContainers -e '/home/gofrendi/zaruba/docs/examples/playgroun
 💀    🚀 makeMysqlHelmDepl... 🚢 Replacement map prepared
 💀    🚀 makeMysqlHelmDepl... 🚢 🚧 Validate
 💀    🚀 makeMysqlHelmDepl... 🚢 Validate app container volumes
-💀 🔎 Job Starting...
-         Elapsed Time: 1.256353568s
-         Current Time: 20:47:42
-         Active Process:
-           * (PID=10194) 🚢 'makeMysqlHelmDeployment' command
 💀    🚀 makeMysqlHelmDepl... 🚢 Done validating app container volumes
 💀    🚀 makeMysqlHelmDepl... 🚢 Validate template locations
 💀    🚀 makeMysqlHelmDepl... 🚢 Done validating template locations
@@ -2446,11 +2251,6 @@ zaruba please removeContainers -e '/home/gofrendi/zaruba/docs/examples/playgroun
 💀    🚀 makeMysqlHelmDepl... 🚢 Validate app ports
 💀    🚀 makeMysqlHelmDepl... 🚢 Done validating app ports
 💀    🚀 makeMysqlHelmDepl... 🚢 Validate app crud fields
-💀 🔎 Job Starting...
-         Elapsed Time: 2.800937654s
-         Current Time: 20:47:44
-         Active Process:
-           * (PID=11686) 🚢 'makeMysqlHelmDeploymentTask' command
 💀    🚀 makeMysqlHelmDepl... 🚢 Done validating app crud fields
 💀    🚀 makeMysqlHelmDepl... 🚢 🚧 Generate
 💀    🚀 makeMysqlHelmDepl... 🚢 🚧 Template Location: [
@@ -2474,18 +2274,18 @@ zaruba please removeContainers -e '/home/gofrendi/zaruba/docs/examples/playgroun
 💀 🎉 Successfully running 🚢 'makeMysqlHelmDeploymentTask' command
 💀 🎉 Reach 🚢 'addMysqlHelmDeployment' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 4.467821974s
-         Current Time: 20:47:45
+         Elapsed Time: 2.789953819s
+         Current Time: 23:29:13
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 4.769673435s
-         Current Time: 20:47:46
+         Elapsed Time: 3.091608108s
+         Current Time: 23:29:14
 zaruba please addMysqlHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'deploymentDirectory=demoDbDeployment' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.801µs
-         Current Time: 20:47:46
+         Elapsed Time: 1.745µs
+         Current Time: 23:29:14
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -2531,11 +2331,6 @@ zaruba please addMysqlHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/pla
 💀    🚀 makeAppHelmDeploy... 🚢 Add env to replacement map
 💀    🚀 makeAppHelmDeploy... 🚢 Replacement map prepared
 💀    🚀 makeAppHelmDeploy... 🚢 🚧 Validate
-💀 🔎 Job Starting...
-         Elapsed Time: 2.227750215s
-         Current Time: 20:47:48
-         Active Process:
-           * (PID=12737) 🚢 'makeAppHelmDeployment' command
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app directory
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating app directory
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app container volumes
@@ -2578,11 +2373,6 @@ zaruba please addMysqlHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/pla
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating app directory
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app container volumes
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating app container volumes
-💀 🔎 Job Starting...
-         Elapsed Time: 4.25288349s
-         Current Time: 20:47:50
-         Active Process:
-           * (PID=14974) 🚢 'makeAppHelmDeploymentTask' command
 💀    🚀 makeAppHelmDeploy... 🚢 Validate template locations
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating template locations
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app ports
@@ -2611,18 +2401,18 @@ zaruba please addMysqlHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/pla
 💀 🎉 Successfully running 🚢 'makeAppHelmDeploymentTask' command
 💀 🎉 Reach 🚢 'addAppHelmDeployment' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 5.695494146s
-         Current Time: 20:47:52
+         Elapsed Time: 4.20957496s
+         Current Time: 23:29:18
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 5.996866208s
-         Current Time: 20:47:52
+         Elapsed Time: 4.512214885s
+         Current Time: 23:29:18
 zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoBackend' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.536µs
-         Current Time: 20:47:52
+         Elapsed Time: 1.599µs
+         Current Time: 23:29:19
 💀 🏁 Run ☕ 'zrbShowAdv' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -2668,11 +2458,6 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀    🚀 makeAppHelmDeploy... 🚢 Add env to replacement map
 💀    🚀 makeAppHelmDeploy... 🚢 Replacement map prepared
 💀    🚀 makeAppHelmDeploy... 🚢 🚧 Validate
-💀 🔎 Job Starting...
-         Elapsed Time: 1.102326004s
-         Current Time: 20:47:54
-         Active Process:
-           * (PID=18714) 🚢 'makeAppHelmDeployment' command
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app directory
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating app directory
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app container volumes
@@ -2715,11 +2500,6 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating app directory
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app container volumes
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating app container volumes
-💀 🔎 Job Starting...
-         Elapsed Time: 2.199469475s
-         Current Time: 20:47:55
-         Active Process:
-           * (PID=19487) 🚢 'makeAppHelmDeploymentTask' command
 💀    🚀 makeAppHelmDeploy... 🚢 Validate template locations
 💀    🚀 makeAppHelmDeploy... 🚢 Done validating template locations
 💀    🚀 makeAppHelmDeploy... 🚢 Validate app ports
@@ -2748,18 +2528,18 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀 🎉 Successfully running 🚢 'makeAppHelmDeploymentTask' command
 💀 🎉 Reach 🚢 'addAppHelmDeployment' wrapper
 💀 🔎 Job Running...
-         Elapsed Time: 3.672664951s
-         Current Time: 20:47:56
+         Elapsed Time: 2.538279041s
+         Current Time: 23:29:21
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 3.973925787s
-         Current Time: 20:47:56
+         Elapsed Time: 2.840625281s
+         Current Time: 23:29:22
 zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v 'appDirectory=demoFrontend' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.294µs
-         Current Time: 20:47:57
+         Elapsed Time: 1.749µs
+         Current Time: 23:29:22
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
@@ -2770,18 +2550,18 @@ zaruba please addAppHelmDeployment -e '/home/gofrendi/zaruba/docs/examples/playg
 💀    🚀 syncEnv              🔄 Environment synchronized
 💀 🎉 Successfully running 🔄 'syncEnv' command
 💀 🔎 Job Running...
-         Elapsed Time: 835.188278ms
-         Current Time: 20:47:57
+         Elapsed Time: 537.472455ms
+         Current Time: 23:29:22
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 1.136888155s
-         Current Time: 20:47:58
+         Elapsed Time: 738.107289ms
+         Current Time: 23:29:23
 zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 1.962µs
-         Current Time: 20:47:59
+         Elapsed Time: 1.311µs
+         Current Time: 23:29:24
 💀 🏁 Run 🏁 'prepareDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
 💀 🏁 Run 🚢 'zrbSetKubeContext' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Create virtual environment.
@@ -2790,150 +2570,113 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀 🏁 Run 🏁 'prepareDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
 💀    🚀 prepareDemoBacken... 🏁 🚧 Create virtual environment.
 💀 🎉 Successfully running 🚢 'zrbSetKubeContext' command
+💀    🚀 prepareDemoBacken... 🏁 🚧 Install pip packages.
 💀    🚀 prepareDemoFronte... 🏁 🚧 Install pip packages.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Install pip packages.
-💀    🚀 prepareDemoBacken... 🏁 🚧 Install pip packages.
+💀    🚀 prepareDemoBacken... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
 💀    🚀 prepareDemoFronte... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
-💀    🚀 prepareDemoBacken... 🏁 Collecting pulumi<4.0.0,>=3.0.0 (from -r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/61/ce/c0c177a887f27ed0172af9b7ca4be2f5be3aae62a0ccb3ceee27379af68f/pulumi-3.33.2-py2.py3-none-any.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/61/ce/c0c177a887f27ed0172af9b7ca4be2f5be3aae62a0ccb3ceee27379af68f/pulumi-3.33.2-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/61/ce/c0c177a887f27ed0172af9b7ca4be2f5be3aae62a0ccb3ceee27379af68f/pulumi-3.33.2-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/a1/d4/18eec37879c3a9a062ebeac4d4d7253e3fa58b4f678afe82a99fabc93b94/pulumi_kubernetes-3.19.2.tar.gz
+💀    🚀 prepareDemoFronte... 🏁 Collecting pulumi-kubernetes<4.0.0,>=3.0.0 (from -r requirements.txt (line 2))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/a1/d4/18eec37879c3a9a062ebeac4d4d7253e3fa58b4f678afe82a99fabc93b94/pulumi_kubernetes-3.19.2.tar.gz
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/a1/d4/18eec37879c3a9a062ebeac4d4d7253e3fa58b4f678afe82a99fabc93b94/pulumi_kubernetes-3.19.2.tar.gz
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/a1/d4/18eec37879c3a9a062ebeac4d4d7253e3fa58b4f678afe82a99fabc93b94/pulumi_kubernetes-3.19.2.tar.gz
-💀    🚀 prepareDemoBacken... 🏁 Collecting semver~=2.8 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting dill~=0.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁 Collecting protobuf~=3.6 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/12/ff/3b1a8f5d59600393506c64fa14d13afdfe6fe79ed65a18d64026fe9f8356/dill-0.3.5.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting pyyaml~=5.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting grpcio~=1.33 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/70/96/c7245e551b1cb496bfb95840ace55ca60f20d3d8e33d70faf8c78a976899/PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting six~=1.12 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting six~=1.12 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting grpcio~=1.33 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting pyyaml~=5.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoFronte... 🏁 Collecting grpcio~=1.33 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/48/eb/5345ad8e4b629e81bb310c79ed6f8f7d078705e44878d80653552af4108d/grpcio-1.46.3-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting protobuf~=3.6 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/48/eb/5345ad8e4b629e81bb310c79ed6f8f7d078705e44878d80653552af4108d/grpcio-1.46.3-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting dill~=0.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/48/eb/5345ad8e4b629e81bb310c79ed6f8f7d078705e44878d80653552af4108d/grpcio-1.46.3-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/12/ff/3b1a8f5d59600393506c64fa14d13afdfe6fe79ed65a18d64026fe9f8356/dill-0.3.5.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoBacken... 🏁 Collecting protobuf~=3.6 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀 🔎 Job Starting...
-         Elapsed Time: 6.840040937s
-         Current Time: 20:48:06
-         Active Process:
-           * (PID=20592) 🏁 'prepareDemoDbDeployment' command
-           * (PID=20596) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/70/96/c7245e551b1cb496bfb95840ace55ca60f20d3d8e33d70faf8c78a976899/PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting grpcio~=1.33 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/48/eb/5345ad8e4b629e81bb310c79ed6f8f7d078705e44878d80653552af4108d/grpcio-1.46.3-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting semver~=2.8 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting six~=1.12 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting dill~=0.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/48/eb/5345ad8e4b629e81bb310c79ed6f8f7d078705e44878d80653552af4108d/grpcio-1.46.3-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting semver~=2.8 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/12/ff/3b1a8f5d59600393506c64fa14d13afdfe6fe79ed65a18d64026fe9f8356/dill-0.3.5.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoFronte... 🏁 Collecting pyyaml~=5.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting pyyaml~=5.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting six~=1.12 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting protobuf~=3.6 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/70/96/c7245e551b1cb496bfb95840ace55ca60f20d3d8e33d70faf8c78a976899/PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/70/96/c7245e551b1cb496bfb95840ace55ca60f20d3d8e33d70faf8c78a976899/PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁 Collecting protobuf~=3.6 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Collecting pyyaml~=5.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting six~=1.12 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/c1/4d/1d46234fbdff4ee05cb7ec6cb6ea9282769fa9fefd72d93de4b85fd3d8c4/protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting dill~=0.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/12/ff/3b1a8f5d59600393506c64fa14d13afdfe6fe79ed65a18d64026fe9f8356/dill-0.3.5.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/70/96/c7245e551b1cb496bfb95840ace55ca60f20d3d8e33d70faf8c78a976899/PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting grpcio~=1.33 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/48/eb/5345ad8e4b629e81bb310c79ed6f8f7d078705e44878d80653552af4108d/grpcio-1.46.3-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting dill~=0.3 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/12/ff/3b1a8f5d59600393506c64fa14d13afdfe6fe79ed65a18d64026fe9f8356/dill-0.3.5.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting semver~=2.8 (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1))
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/0b/70/b84f9944a03964a88031ef6ac219b6c91e8ba2f373362329d8770ef36f02/semver-2.13.0-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
-💀 🔎 Job Starting...
-         Elapsed Time: 8.854159206s
-         Current Time: 20:48:08
-         Active Process:
-           * (PID=20592) 🏁 'prepareDemoDbDeployment' command
-           * (PID=20596) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
-💀    🚀 prepareDemoFronte... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
-💀    🚀 prepareDemoFronte... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/11/dd/e015f3780f42dd9af62cf0107b44ea1298926627ecd70c17b0e484e95bcd/certifi-2022.5.18.1-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/11/dd/e015f3780f42dd9af62cf0107b44ea1298926627ecd70c17b0e484e95bcd/certifi-2022.5.18.1-py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/11/dd/e015f3780f42dd9af62cf0107b44ea1298926627ecd70c17b0e484e95bcd/certifi-2022.5.18.1-py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting parver>=0.2.1 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
-💀    🚀 prepareDemoFronte... 🏁 Installing collected packages: protobuf, six, grpcio, semver, dill, pyyaml, pulumi, attrs, arpeggio, parver, urllib3, charset-normalizer, idna, certifi, requests, pulumi-kubernetes
+💀    🚀 prepareDemoFronte... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/79/aea13e60a54e453df1a45383e92feda3b280e87ebded788c9c818d93e413/parver-0.3.1-py2.py3-none-any.whl
 💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
-💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
-💀    🚀 prepareDemoDbDepl... 🏁 Installing collected packages: dill, six, grpcio, protobuf, semver, pyyaml, pulumi, attrs, arpeggio, parver, urllib3, certifi, charset-normalizer, idna, requests, pulumi-kubernetes
-💀    🚀 prepareDemoBacken... 🏁 Installing collected packages: semver, pyyaml, six, grpcio, dill, protobuf, pulumi, arpeggio, attrs, parver, charset-normalizer, certifi, idna, urllib3, requests, pulumi-kubernetes
-💀    🚀 prepareDemoFronte... 🏁   Running setup.py install for pulumi-kubernetes: started
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Collecting requests<3.0,>=2.21 (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/11/dd/e015f3780f42dd9af62cf0107b44ea1298926627ecd70c17b0e484e95bcd/certifi-2022.5.18.1-py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Collecting attrs>=19.2 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Collecting arpeggio~=1.7 (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/1a/ae/a2dfd99042b8952e86ea6cd6ad5ba8b81c3f9f150e24475cf55e09fbe3e4/Arpeggio-1.10.2-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/11/dd/e015f3780f42dd9af62cf0107b44ea1298926627ecd70c17b0e484e95bcd/certifi-2022.5.18.1-py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoBacken... 🏁 Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoDbDepl... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoDbDepl... 🏁 Installing collected packages: pyyaml, six, grpcio, semver, protobuf, dill, pulumi, attrs, arpeggio, parver, idna, certifi, charset-normalizer, urllib3, requests, pulumi-kubernetes
 💀    🚀 prepareDemoDbDepl... 🏁   Running setup.py install for pulumi-kubernetes: started
-💀    🚀 prepareDemoBacken... 🏁   Running setup.py install for pulumi-kubernetes: started
-💀    🚀 prepareDemoFronte... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
-💀    🚀 prepareDemoFronte... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2022.5.18.1 charset-normalizer-2.0.12 dill-0.3.5.1 grpcio-1.46.3 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.33.2 pulumi-kubernetes-3.19.2 pyyaml-5.4.1 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
-💀 🔥 🚀 prepareDemoFronte... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
-💀 🔥 🚀 prepareDemoFronte... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoFronte... 🏁 Installing collected packages: six, grpcio, semver, dill, pyyaml, protobuf, pulumi, attrs, arpeggio, parver, idna, charset-normalizer, certifi, urllib3, requests, pulumi-kubernetes
+💀    🚀 prepareDemoFronte... 🏁   Running setup.py install for pulumi-kubernetes: started
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting urllib3<1.27,>=1.21.1 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
 💀    🚀 prepareDemoDbDepl... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
 💀    🚀 prepareDemoDbDepl... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2022.5.18.1 charset-normalizer-2.0.12 dill-0.3.5.1 grpcio-1.46.3 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.33.2 pulumi-kubernetes-3.19.2 pyyaml-5.4.1 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
 💀 🔥 🚀 prepareDemoDbDepl... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
 💀 🔥 🚀 prepareDemoDbDepl... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
-💀    🚀 prepareDemoBacken... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Prepare chart dependencies.
-💀    🚀 prepareDemoBacken... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2022.5.18.1 charset-normalizer-2.0.12 dill-0.3.5.1 grpcio-1.46.3 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.33.2 pulumi-kubernetes-3.19.2 pyyaml-5.4.1 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
-💀    🚀 prepareDemoFronte... 🏁 PARTS: ["80"]
-💀 🔥 🚀 prepareDemoBacken... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
-💀 🔥 🚀 prepareDemoBacken... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
-💀    🚀 prepareDemoFronte... 🏁 🚧 Deployment config: {"env":[{"name":"API_HOST","value":"http://localhost:3000"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-frontend","image.tag":"latest","namespace":"default","ports":[{"containerPort":80,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":80,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
-💀    🚀 prepareDemoFronte... 🏁 🚧 Prepare chart dependencies.
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Manage the dependencies of a chart.
-💀 🔎 Job Starting...
-         Elapsed Time: 12.623019463s
-         Current Time: 20:48:12
-         Active Process:
-           * (PID=20596) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
-           * (PID=20592) 🏁 'prepareDemoDbDeployment' command
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Helm charts store their dependencies in 'charts/'. For chart developers, it is
 💀    🚀 prepareDemoDbDepl... 🏁 often easier to manage dependencies in 'Chart.yaml' which declares all
@@ -2974,13 +2717,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoDbDepl... 🏁     - name: nginx
 💀    🚀 prepareDemoDbDepl... 🏁       version: "1.2.3"
 💀    🚀 prepareDemoDbDepl... 🏁       repository: "file://../dependency_chart/nginx"
-💀 🔎 Job Starting...
-         Elapsed Time: 12.626036114s
-         Current Time: 20:48:12
-         Active Process:
-           * (PID=20592) 🏁 'prepareDemoDbDeployment' command
-           * (PID=20596) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 If the dependency chart is retrieved locally, it is not required to have the
 💀    🚀 prepareDemoDbDepl... 🏁 repository added to helm by "helm add repo". Version matching is also supported
@@ -3016,18 +2752,24 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Chart prepared.
+💀 🎉 Successfully running 🏁 'prepareDemoDbDeployment' command
+💀 🏁 Run 🏁 'deployDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
+💀 🔥 🚀 deployDemoDbDeplo... 🏁 error: no stack named 'dev' found
+💀    🚀 prepareDemoFronte... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
+💀    🚀 deployDemoDbDeplo... 🏁 Created stack 'dev'
+💀    🚀 prepareDemoFronte... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2022.5.18.1 charset-normalizer-2.0.12 dill-0.3.5.1 grpcio-1.46.3 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.33.2 pulumi-kubernetes-3.19.2 pyyaml-5.4.1 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
+💀 🔥 🚀 prepareDemoFronte... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
+💀 🔥 🚀 prepareDemoFronte... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/ec/03/062e6444ce4baf1eac17a6a0ebfe36bb1ad05e1df0e20b110de59c278498/urllib3-1.26.9-py2.py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Collecting certifi>=2017.4.17 (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2))
+💀    🚀 prepareDemoFronte... 🏁 PARTS: ["80"]
+💀    🚀 prepareDemoFronte... 🏁 🚧 Deployment config: {"env":[{"name":"API_HOST","value":"http://localhost:3000"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-frontend","image.tag":"latest","namespace":"default","ports":[{"containerPort":80,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":80,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
+💀    🚀 prepareDemoFronte... 🏁 🚧 Prepare chart dependencies.
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 Manage the dependencies of a chart.
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 Helm charts store their dependencies in 'charts/'. For chart developers, it is
 💀    🚀 prepareDemoFronte... 🏁 often easier to manage dependencies in 'Chart.yaml' which declares all
-💀 🔎 Job Starting...
-         Elapsed Time: 12.638684345s
-         Current Time: 20:48:12
-         Active Process:
-           * (PID=20596) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
-           * (PID=20592) 🏁 'prepareDemoDbDeployment' command
 💀    🚀 prepareDemoFronte... 🏁 dependencies.
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 The dependency commands operate on that file, making it easy to synchronize
@@ -3068,13 +2810,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 If the dependency chart is retrieved locally, it is not required to have the
 💀    🚀 prepareDemoFronte... 🏁 repository added to helm by "helm add repo". Version matching is also supported
-💀 🔎 Job Starting...
-         Elapsed Time: 12.639469828s
-         Current Time: 20:48:12
-         Active Process:
-           * (PID=20596) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
-           * (PID=20592) 🏁 'prepareDemoDbDeployment' command
 💀    🚀 prepareDemoFronte... 🏁 for this case.
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 Usage:
@@ -3107,27 +2842,74 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoFronte... 🏁 🚧 Chart prepared.
-💀 🎉 Successfully running 🏁 'prepareDemoDbDeployment' command
 💀 🎉 Successfully running 🏁 'prepareDemoFrontendDeployment' command
 💀 🏁 Run 🏁 'deployDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
-💀 🏁 Run 🏁 'deployDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
 💀 🔥 🚀 deployDemoFronten... 🏁 error: no stack named 'dev' found
-💀 🔥 🚀 deployDemoDbDeplo... 🏁 error: no stack named 'dev' found
 💀    🚀 deployDemoFronten... 🏁 Created stack 'dev'
-💀    🚀 deployDemoDbDeplo... 🏁 Created stack 'dev'
+💀    🚀 prepareDemoBacken... 🏁   Using cached https://files.pythonhosted.org/packages/11/dd/e015f3780f42dd9af62cf0107b44ea1298926627ecd70c17b0e484e95bcd/certifi-2022.5.18.1-py3-none-any.whl
+💀    🚀 prepareDemoBacken... 🏁 Installing collected packages: six, protobuf, pyyaml, grpcio, dill, semver, pulumi, attrs, arpeggio, parver, idna, charset-normalizer, urllib3, certifi, requests, pulumi-kubernetes
+💀    🚀 deployDemoDbDeplo... 🏁 Previewing update (dev):
+💀    🚀 prepareDemoBacken... 🏁   Running setup.py install for pulumi-kubernetes: started
+💀    🚀 deployDemoDbDeplo... 🏁 
+💀    🚀 deployDemoFronten... 🏁 Previewing update (dev):
+💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart from-zero-to-cloud create 
+💀    🚀 deployDemoFronten... 🏁 
+💀    🚀 prepareDemoBacken... 🏁     Running setup.py install for pulumi-kubernetes: finished with status 'done'
+💀    🚀 prepareDemoBacken... 🏁 Successfully installed arpeggio-1.10.2 attrs-21.4.0 certifi-2022.5.18.1 charset-normalizer-2.0.12 dill-0.3.5.1 grpcio-1.46.3 idna-3.3 parver-0.3.1 protobuf-3.20.1 pulumi-3.33.2 pulumi-kubernetes-3.19.2 pyyaml-5.4.1 requests-2.27.1 semver-2.13.0 six-1.16.0 urllib3-1.26.9
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db create 
+💀 🔥 🚀 prepareDemoBacken... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
+💀 🔥 🚀 prepareDemoBacken... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
+💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev create 
+💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev create 
+💀    🚀 deployDemoDbDeplo... 🏁  
+💀    🚀 deployDemoDbDeplo... 🏁 Resources:
+💀    🚀 deployDemoDbDeplo... 🏁     + 8 to create
+💀    🚀 deployDemoDbDeplo... 🏁 
+💀    🚀 deployDemoDbDeplo... 🏁 Updating (dev):
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend create 
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend create 
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:Service default/demo-frontend create 
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend create 
+💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev create 
+💀    🚀 deployDemoFronten... 🏁  
+💀    🚀 deployDemoFronten... 🏁 Resources:
+💀    🚀 deployDemoFronten... 🏁     + 5 to create
+💀    🚀 deployDemoFronten... 🏁 
+💀    🚀 deployDemoFronten... 🏁 Updating (dev):
+💀    🚀 deployDemoDbDeplo... 🏁 
+💀    🚀 deployDemoFronten... 🏁 
+💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart from-zero-to-cloud creating 
 💀    🚀 prepareDemoBacken... 🏁 PARTS: ["3000"]
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless creating 
+💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db created 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db created 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless created 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db created 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db creating 
 💀    🚀 prepareDemoBacken... 🏁 🚧 Deployment config: {"env":[{"name":"APP_ACCESS_TOKEN_ALGORITHM","value":"HS256"},{"name":"APP_ACCESS_TOKEN_EXPIRE_MINUTES","value":"30"},{"name":"APP_ACCESS_TOKEN_SECRET_KEY","value":"09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"},{"name":"APP_ACCESS_TOKEN_URL","value":"/token/"},{"name":"APP_CORS_ALLOW_CREDENTIALS","value":"false"},{"name":"APP_CORS_ALLOW_HEADERS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_METHODS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGINS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGIN_REGEX","value":""},{"name":"APP_CORS_EXPOSE_HEADERS","value":"[]"},{"name":"APP_CORS_MAX_AGE","value":"600"},{"name":"APP_ENABLE_EVENT_HANDLER","value":"1"},{"name":"APP_ENABLE_ROUTE_HANDLER","value":"1"},{"name":"APP_ENABLE_RPC_HANDLER","value":"1"},{"name":"APP_ERROR_THRESHOLD","value":"10"},{"name":"APP_GUEST_USERNAME","value":"guest"},{"name":"APP_HTTP_PORT","value":"3000"},{"name":"APP_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"APP_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"APP_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"APP_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"APP_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"APP_MESSAGE_BUS_TYPE","value":"local"},{"name":"APP_RABBITMQ_HOST","value":"localhost"},{"name":"APP_RABBITMQ_PASS","value":"Alch3mist"},{"name":"APP_RABBITMQ_USER","value":"root"},{"name":"APP_RABBITMQ_VHOST","value":"/"},{"name":"APP_ROOT_INITIAL_EMAIL","value":"root@innistrad.com"},{"name":"APP_ROOT_INITIAL_FULL_NAME","value":"root"},{"name":"APP_ROOT_INITIAL_PASSWORD","value":"Alch3mist"},{"name":"APP_ROOT_INITIAL_PHONE_NUMBER","value":"621234567890"},{"name":"APP_ROOT_PERMISSION","value":"root"},{"name":"APP_ROOT_USERNAME","value":"root"},{"name":"APP_RPC_TYPE","value":"local"},{"name":"APP_SQLALCHEMY_DATABASE_URL","value":"mysql+pymysql://root:Alch3mist@demo-db/sample?charset=utf8mb4"},{"name":"APP_STATIC_DIRECTORY","value":""},{"name":"APP_STATIC_URL","value":"/static"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"},{"name":"TEST_INTEGRATION","value":"0"},{"name":"TEST_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"TEST_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"TEST_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"TEST_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"TEST_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"TEST_RABBITMQ_HOST","value":"localhost"},{"name":"TEST_RABBITMQ_PASS","value":"Alch3mist"},{"name":"TEST_RABBITMQ_USER","value":"root"},{"name":"TEST_RABBITMQ_VHOST","value":"/"},{"name":"TEST_SQLALCHEMY_DATABASE_URL","value":"sqlite:///test.db"}],"image.repository":"demo-backend","image.tag":"latest","namespace":"default","ports":[{"containerPort":3000,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":3000,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
 💀    🚀 prepareDemoBacken... 🏁 🚧 Prepare chart dependencies.
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend creating 
 💀    🚀 prepareDemoBacken... 🏁 
 💀    🚀 prepareDemoBacken... 🏁 Manage the dependencies of a chart.
 💀    🚀 prepareDemoBacken... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 14.278354175s
-         Current Time: 20:48:13
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoBacken... 🏁 Helm charts store their dependencies in 'charts/'. For chart developers, it is
 💀    🚀 prepareDemoBacken... 🏁 often easier to manage dependencies in 'Chart.yaml' which declares all
 💀    🚀 prepareDemoBacken... 🏁 dependencies.
@@ -3168,13 +2950,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoBacken... 🏁       version: "1.2.3"
 💀    🚀 prepareDemoBacken... 🏁       repository: "file://../dependency_chart/nginx"
 💀    🚀 prepareDemoBacken... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 14.279764473s
-         Current Time: 20:48:13
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=20599) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoBacken... 🏁 If the dependency chart is retrieved locally, it is not required to have the
 💀    🚀 prepareDemoBacken... 🏁 repository added to helm by "helm add repo". Version matching is also supported
 💀    🚀 prepareDemoBacken... 🏁 for this case.
@@ -3209,95 +2984,21 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 prepareDemoBacken... 🏁 
 💀    🚀 prepareDemoBacken... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoBacken... 🏁 🚧 Chart prepared.
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db created 
 💀 🎉 Successfully running 🏁 'prepareDemoBackendDeployment' command
 💀 🏁 Run 🏁 'deployDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
-💀 🔥 🚀 deployDemoBackend... 🏁 error: no stack named 'dev' found
-💀    🚀 deployDemoBackend... 🏁 Created stack 'dev'
-💀    🚀 deployDemoFronten... 🏁 Previewing update (dev):
-💀    🚀 deployDemoDbDeplo... 🏁 Previewing update (dev):
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoDbDeplo... 🏁 
-💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev create 
-💀 🔎 Job Starting...
-         Elapsed Time: 16.522181722s
-         Current Time: 20:48:15
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart from-zero-to-cloud create 
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend create 
-💀    🚀 deployDemoBackend... 🏁 Previewing update (dev):
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend create 
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:Service default/demo-frontend create 
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db create 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db create 
-💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev create 
-💀    🚀 deployDemoFronten... 🏁  
-💀    🚀 deployDemoFronten... 🏁 Resources:
-💀    🚀 deployDemoFronten... 🏁     + 5 to create
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoFronten... 🏁 Updating (dev):
-💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev create 
-💀    🚀 deployDemoDbDeplo... 🏁  
-💀    🚀 deployDemoDbDeplo... 🏁 Resources:
-💀    🚀 deployDemoDbDeplo... 🏁     + 8 to create
-💀    🚀 deployDemoDbDeplo... 🏁 
-💀    🚀 deployDemoDbDeplo... 🏁 Updating (dev):
-💀    🚀 deployDemoBackend... 🏁 
-💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoDbDeplo... 🏁 
-💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:helm.sh/v3:Chart demo-backend create 
-💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev creating 
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:helm.sh/v3:Chart demo-frontend creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:helm.sh/v3:Chart from-zero-to-cloud creating 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend create 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:Service default/demo-backend create 
-💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend create 
-💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
-💀    🚀 deployDemoBackend... 🏁  
-💀    🚀 deployDemoBackend... 🏁 Resources:
-💀 🔎 Job Starting...
-         Elapsed Time: 18.703720138s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-💀    🚀 deployDemoBackend... 🏁     + 5 to create
-💀    🚀 deployDemoBackend... 🏁 
-💀    🚀 deployDemoBackend... 🏁 Updating (dev):
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:Service default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend creating 
-💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend creating 
+💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-frontend created 
+💀 🔥 🚀 deployDemoBackend... 🏁 error: no stack named 'dev' found
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:apps/v1:Deployment default/demo-frontend created 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:Service default/demo-frontend creating 
 💀    🚀 deployDemoFronten... 🏁  +  kubernetes:core/v1:Service default/demo-frontend created 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Secret default/demo-db created 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-db created 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:ConfigMap default/demo-db created 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db creating 
+💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db created 
+💀    🚀 deployDemoBackend... 🏁 Created stack 'dev'
 💀    🚀 deployDemoFronten... 🏁  +  pulumi:pulumi:Stack demoFrontendDeployment-dev created 
 💀    🚀 deployDemoFronten... 🏁  
 💀    🚀 deployDemoFronten... 🏁 Outputs:
@@ -3311,14 +3012,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁             apps/v1/Deployment:default/demo-frontend: {
 💀    🚀 deployDemoFronten... 🏁                 api_version: "apps/v1"
 💀    🚀 deployDemoFronten... 🏁                 id         : "default/demo-frontend"
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db-headless created 
-💀 🔎 Job Starting...
-         Elapsed Time: 18.99955944s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                 kind       : "Deployment"
 💀    🚀 deployDemoFronten... 🏁                 metadata   : {
 💀    🚀 deployDemoFronten... 🏁                     annotations       : {
@@ -3359,13 +3052,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                                             [0]: {
 💀    🚀 deployDemoFronten... 🏁                                                 env            : [
 💀    🚀 deployDemoFronten... 🏁                                                     [0]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.000317059s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                                                         name : "API_HOST"
 💀    🚀 deployDemoFronten... 🏁                                                         value: "http://localhost:3000"
 💀    🚀 deployDemoFronten... 🏁                                                     }
@@ -3401,18 +3087,11 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoFronten... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoFronten... 🏁                     }
-💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoFronten... 🏁                     generation        : 1
 💀    🚀 deployDemoFronten... 🏁                     labels            : {
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/managed-by: "pulumi"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.001751208s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/name      : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/version   : "1.16.0"
 💀    🚀 deployDemoFronten... 🏁                         helm.sh/chart               : "demo-frontend-0.1.0"
@@ -3453,13 +3132,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                                                     }
 💀    🚀 deployDemoFronten... 🏁                                                     f:ports                   : {
 💀    🚀 deployDemoFronten... 🏁                                                         k:{"containerPort":80,"protocol":"TCP"}: {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.003668118s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoFronten... 🏁                                                         }
 💀    🚀 deployDemoFronten... 🏁                                                     }
 💀    🚀 deployDemoFronten... 🏁                                                 }
@@ -3470,13 +3142,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoFronten... 🏁                             operation  : "Update"
-💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoFronten... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁                     ]
 💀    🚀 deployDemoFronten... 🏁                     name              : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                     namespace         : "default"
-💀    🚀 deployDemoFronten... 🏁                     resource_version  : "56952"
-💀    🚀 deployDemoFronten... 🏁                     uid               : "4f5714a8-c274-4a75-a529-54e3fde5e77f"
+💀    🚀 deployDemoFronten... 🏁                     resource_version  : "4635"
+💀    🚀 deployDemoFronten... 🏁                     uid               : "1a0d463e-10e2-400f-a9b2-86445c72f44f"
 💀    🚀 deployDemoFronten... 🏁                 }
 💀    🚀 deployDemoFronten... 🏁                 spec       : {
 💀    🚀 deployDemoFronten... 🏁                     progress_deadline_seconds: 600
@@ -3500,13 +3172,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                             labels: {
 💀    🚀 deployDemoFronten... 🏁                                 app.kubernetes.io/instance: "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                 app.kubernetes.io/name    : "demo-frontend"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.005518891s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁                         spec    : {
@@ -3547,13 +3212,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                             restart_policy                  : "Always"
 💀    🚀 deployDemoFronten... 🏁                             scheduler_name                  : "default-scheduler"
 💀    🚀 deployDemoFronten... 🏁                             service_account                 : "demo-frontend"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.006888065s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoFronten... 🏁                             service_account_name            : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                             termination_grace_period_seconds: 30
 💀    🚀 deployDemoFronten... 🏁                         }
@@ -3594,13 +3252,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                 ]
 💀    🚀 deployDemoFronten... 🏁                                 selector: {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.010241148s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/instance: "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                     app.kubernetes.io/name    : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                                 }
@@ -3610,7 +3261,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoFronten... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoFronten... 🏁                     }
-💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoFronten... 🏁                     labels            : {
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/managed-by: "pulumi"
@@ -3638,26 +3289,19 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoFronten... 🏁                             operation  : "Update"
-💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoFronten... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁                     ]
-💀 🔎 Job Starting...
-         Elapsed Time: 19.011309426s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                     name              : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                     namespace         : "default"
-💀    🚀 deployDemoFronten... 🏁                     resource_version  : "56954"
-💀    🚀 deployDemoFronten... 🏁                     uid               : "503a2a84-11be-412f-a771-fc293ccaf81c"
+💀    🚀 deployDemoFronten... 🏁                     resource_version  : "4639"
+💀    🚀 deployDemoFronten... 🏁                     uid               : "4d41d859-ff31-4cc2-878c-8ff66fb3d522"
 💀    🚀 deployDemoFronten... 🏁                 }
 💀    🚀 deployDemoFronten... 🏁                 spec       : {
 💀    🚀 deployDemoFronten... 🏁                     allocate_load_balancer_node_ports: true
-💀    🚀 deployDemoFronten... 🏁                     cluster_ip                       : "10.108.243.109"
+💀    🚀 deployDemoFronten... 🏁                     cluster_ip                       : "10.111.70.140"
 💀    🚀 deployDemoFronten... 🏁                     cluster_ips                      : [
-💀    🚀 deployDemoFronten... 🏁                         [0]: "10.108.243.109"
+💀    🚀 deployDemoFronten... 🏁                         [0]: "10.111.70.140"
 💀    🚀 deployDemoFronten... 🏁                     ]
 💀    🚀 deployDemoFronten... 🏁                     external_traffic_policy          : "Cluster"
 💀    🚀 deployDemoFronten... 🏁                     internal_traffic_policy          : "Cluster"
@@ -3668,7 +3312,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                     ports                            : [
 💀    🚀 deployDemoFronten... 🏁                         [0]: {
 💀    🚀 deployDemoFronten... 🏁                             name       : "port0"
-💀    🚀 deployDemoFronten... 🏁                             node_port  : 31704
+💀    🚀 deployDemoFronten... 🏁                             node_port  : 32142
 💀    🚀 deployDemoFronten... 🏁                             port       : 80
 💀    🚀 deployDemoFronten... 🏁                             protocol   : "TCP"
 💀    🚀 deployDemoFronten... 🏁                             target_port: "port0"
@@ -3688,13 +3332,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁             v1/ServiceAccount:default/demo-frontend : {
 💀    🚀 deployDemoFronten... 🏁                 api_version                    : "v1"
 💀    🚀 deployDemoFronten... 🏁                 id                             : "default/demo-frontend"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.012227056s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                 kind                           : "ServiceAccount"
 💀    🚀 deployDemoFronten... 🏁                 metadata                       : {
 💀    🚀 deployDemoFronten... 🏁                     annotations       : {
@@ -3719,7 +3356,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoFronten... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoFronten... 🏁                     }
-💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoFronten... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoFronten... 🏁                     labels            : {
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                         app.kubernetes.io/managed-by: "pulumi"
@@ -3735,26 +3372,19 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁                                 f:metadata: {
 💀    🚀 deployDemoFronten... 🏁                                     f:annotations: {
 💀    🚀 deployDemoFronten... 🏁                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 19.012927826s
-         Current Time: 20:48:18
-         Active Process:
-           * (PID=23690) 🏁 'deployDemoFrontendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoFronten... 🏁                                     f:labels     : {
 💀    🚀 deployDemoFronten... 🏁                                     }
 💀    🚀 deployDemoFronten... 🏁                                 }
 💀    🚀 deployDemoFronten... 🏁                             }
 💀    🚀 deployDemoFronten... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoFronten... 🏁                             operation  : "Update"
-💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoFronten... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoFronten... 🏁                         }
 💀    🚀 deployDemoFronten... 🏁                     ]
 💀    🚀 deployDemoFronten... 🏁                     name              : "demo-frontend"
 💀    🚀 deployDemoFronten... 🏁                     namespace         : "default"
-💀    🚀 deployDemoFronten... 🏁                     resource_version  : "56951"
-💀    🚀 deployDemoFronten... 🏁                     uid               : "58f0c070-ed42-476a-9895-68ce8bfa8838"
+💀    🚀 deployDemoFronten... 🏁                     resource_version  : "4634"
+💀    🚀 deployDemoFronten... 🏁                     uid               : "b6d812b7-3357-48fb-9297-445c4a07439b"
 💀    🚀 deployDemoFronten... 🏁                 }
 💀    🚀 deployDemoFronten... 🏁                 urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
 💀    🚀 deployDemoFronten... 🏁             }
@@ -3765,14 +3395,9 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoFronten... 🏁 Resources:
 💀    🚀 deployDemoFronten... 🏁     + 5 created
 💀    🚀 deployDemoFronten... 🏁 
-💀    🚀 deployDemoFronten... 🏁 Duration: 2s
+💀    🚀 deployDemoFronten... 🏁 Duration: 1s
 💀    🚀 deployDemoFronten... 🏁 
 💀    🚀 deployDemoFronten... 🏁 hello world
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db creating 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:apps/v1:StatefulSet default/demo-db created 
-💀 🎉 Successfully running 🏁 'deployDemoFrontendDeployment' command
-💀    🚀 deployDemoBackend... 🏁 
-💀    🚀 deployDemoDbDeplo... 🏁  +  kubernetes:core/v1:Service default/demo-db created 
 💀    🚀 deployDemoDbDeplo... 🏁  +  pulumi:pulumi:Stack demoDbDeployment-dev created 
 💀    🚀 deployDemoDbDeplo... 🏁  
 💀    🚀 deployDemoDbDeplo... 🏁 Outputs:
@@ -3783,12 +3408,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁             [2]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁             [3]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db-headless"
 💀    🚀 deployDemoDbDeplo... 🏁             [4]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.60867198s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁             [5]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:StatefulSet::default/demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁         ]
 💀    🚀 deployDemoDbDeplo... 🏁         resources: {
@@ -3829,12 +3448,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                     metadata: {
 💀    🚀 deployDemoDbDeplo... 🏁                                         annotations: {
 💀    🚀 deployDemoDbDeplo... 🏁                                             checksum/configuration: "4cbad2fa296630f91d285d201eec782dcd6acadf02180e0f1f3ea436b9742ed2"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.621047248s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoDbDeplo... 🏁                                         labels     : {
 💀    🚀 deployDemoDbDeplo... 🏁                                             app.kubernetes.io/component : "primary"
@@ -3875,12 +3488,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                                         value: "false"
 💀    🚀 deployDemoDbDeplo... 🏁                                                     }
 💀    🚀 deployDemoDbDeplo... 🏁                                                     [1]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.626710281s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                                         name     : "MYSQL_ROOT_PASSWORD"
 💀    🚀 deployDemoDbDeplo... 🏁                                                         valueFrom: {
 💀    🚀 deployDemoDbDeplo... 🏁                                                             secretKeyRef: {
@@ -3921,12 +3528,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                                     initialDelaySeconds: 5
 💀    🚀 deployDemoDbDeplo... 🏁                                                     periodSeconds      : 10
 💀    🚀 deployDemoDbDeplo... 🏁                                                     successThreshold   : 1
-💀 🔎 Job Starting...
-         Elapsed Time: 19.628450196s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                                     timeoutSeconds     : 1
 💀    🚀 deployDemoDbDeplo... 🏁                                                 }
 💀    🚀 deployDemoDbDeplo... 🏁                                                 name           : "mysql"
@@ -3967,12 +3568,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                                     initialDelaySeconds: 15
 💀    🚀 deployDemoDbDeplo... 🏁                                                     periodSeconds      : 10
 💀    🚀 deployDemoDbDeplo... 🏁                                                     successThreshold   : 1
-💀 🔎 Job Starting...
-         Elapsed Time: 19.630070646s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                                     timeoutSeconds     : 1
 💀    🚀 deployDemoDbDeplo... 🏁                                                 }
 💀    🚀 deployDemoDbDeplo... 🏁                                                 volumeMounts   : [
@@ -4013,12 +3608,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                                 app.kubernetes.io/instance : "from-zero-to-cloud"
 💀    🚀 deployDemoDbDeplo... 🏁                                                 app.kubernetes.io/name     : "mysql"
 💀    🚀 deployDemoDbDeplo... 🏁                                             }
-💀 🔎 Job Starting...
-         Elapsed Time: 19.630955717s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                             name  : "data"
 💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoDbDeplo... 🏁                                         spec    : {
@@ -4038,7 +3627,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                     generation        : 1
 💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/component : "primary"
@@ -4058,13 +3647,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "kube-controller-manager"
 💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
 💀    🚀 deployDemoDbDeplo... 🏁                             subresource: "status"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-29T13:48:18Z"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.631624898s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁                         [1]: {
 💀    🚀 deployDemoDbDeplo... 🏁                             api_version: "apps/v1"
@@ -4105,12 +3688,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                                             }
 💀    🚀 deployDemoDbDeplo... 🏁                                                         }
 💀    🚀 deployDemoDbDeplo... 🏁                                                         k:{"name":"MYSQL_USER"}         : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.632316812s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                                         }
 💀    🚀 deployDemoDbDeplo... 🏁                                                     }
 💀    🚀 deployDemoDbDeplo... 🏁                                                     f:livenessProbe           : {
@@ -4151,23 +3728,17 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoDbDeplo... 🏁                                     f:updateStrategy      : {
 💀    🚀 deployDemoDbDeplo... 🏁                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 19.633705046s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                 }
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "56987"
-💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "258c5409-6be7-4d35-bfa4-16445f8a4a62"
+💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "4624"
+💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "d5e45e64-965d-4c68-a80a-4e93a9c2fee9"
 💀    🚀 deployDemoDbDeplo... 🏁                 }
 💀    🚀 deployDemoDbDeplo... 🏁                 spec       : {
 💀    🚀 deployDemoDbDeplo... 🏁                     pod_management_policy : "OrderedReady"
@@ -4197,12 +3768,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                         spec    : {
 💀    🚀 deployDemoDbDeplo... 🏁                             affinity                        : {
 💀    🚀 deployDemoDbDeplo... 🏁                                 pod_anti_affinity: {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.63528157s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                     preferred_during_scheduling_ignored_during_execution: [
 💀    🚀 deployDemoDbDeplo... 🏁                                         [0]: {
 💀    🚀 deployDemoDbDeplo... 🏁                                             pod_affinity_term: {
@@ -4243,12 +3808,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                             name : "MYSQL_USER"
 💀    🚀 deployDemoDbDeplo... 🏁                                             value: "mysql"
 💀    🚀 deployDemoDbDeplo... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 19.636442446s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                         [3]: {
 💀    🚀 deployDemoDbDeplo... 🏁                                             name      : "MYSQL_PASSWORD"
 💀    🚀 deployDemoDbDeplo... 🏁                                             value_from: {
@@ -4289,12 +3848,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                                     readiness_probe           : {
 💀    🚀 deployDemoDbDeplo... 🏁                                         exec_                : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.63854033s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                             command: [
 💀    🚀 deployDemoDbDeplo... 🏁                                                 [0]: "/bin/bash"
 💀    🚀 deployDemoDbDeplo... 🏁                                                 [1]: "-ec"
@@ -4335,12 +3888,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                             mount_path: "/opt/bitnami/mysql/conf/my.cnf"
 💀    🚀 deployDemoDbDeplo... 🏁                                             name      : "config"
 💀    🚀 deployDemoDbDeplo... 🏁                                             sub_path  : "my.cnf"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.640472768s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                         }
 💀    🚀 deployDemoDbDeplo... 🏁                                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                                 }
@@ -4381,12 +3928,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                 name  : "data"
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             spec       : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.641978238s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                 access_modes: [
 💀    🚀 deployDemoDbDeplo... 🏁                                     [0]: "ReadWriteOnce"
 💀    🚀 deployDemoDbDeplo... 🏁                                 ]
@@ -4427,12 +3968,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                 kind       : "ConfigMap"
 💀    🚀 deployDemoDbDeplo... 🏁                 metadata   : {
 💀    🚀 deployDemoDbDeplo... 🏁                     annotations       : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.643100615s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                         kubectl.kubernetes.io/last-applied-configuration: (json) {
 💀    🚀 deployDemoDbDeplo... 🏁                             apiVersion: "v1"
 💀    🚀 deployDemoDbDeplo... 🏁                             data      : {
@@ -4460,7 +3995,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/component : "primary"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance  : "from-zero-to-cloud"
@@ -4473,12 +4008,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             api_version: "v1"
 💀    🚀 deployDemoDbDeplo... 🏁                             fields_type: "FieldsV1"
 💀    🚀 deployDemoDbDeplo... 🏁                             fields_v1  : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.643709232s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                 f:data    : {
 💀    🚀 deployDemoDbDeplo... 🏁                                 }
 💀    🚀 deployDemoDbDeplo... 🏁                                 f:metadata: {
@@ -4490,13 +4019,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "56976"
-💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "ee6dfaf1-376c-4657-9d36-c1806a89af66"
+💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "4607"
+💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "bf1f2b03-3ed0-4846-9ded-4f16e1d06b32"
 💀    🚀 deployDemoDbDeplo... 🏁                 }
 💀    🚀 deployDemoDbDeplo... 🏁                 urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁             }
@@ -4519,12 +4048,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             apiVersion: "v1"
 💀    🚀 deployDemoDbDeplo... 🏁                             kind      : "Service"
 💀    🚀 deployDemoDbDeplo... 🏁                             metadata  : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.644708174s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                 annotations: {
 💀    🚀 deployDemoDbDeplo... 🏁                                     pulumi.com/skipAwait: "true"
 💀    🚀 deployDemoDbDeplo... 🏁                                 }
@@ -4558,19 +4081,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/component : "primary"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance  : "from-zero-to-cloud"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/managed-by: "pulumi"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/name      : "mysql"
 💀    🚀 deployDemoDbDeplo... 🏁                         helm.sh/chart               : "mysql-8.8.27"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.645937805s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                     }
 💀    🚀 deployDemoDbDeplo... 🏁                     managed_fields    : [
 💀    🚀 deployDemoDbDeplo... 🏁                         [0]: {
@@ -4592,18 +4109,18 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "56981"
-💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "3aead925-e9a4-41aa-b8bc-212a55d0410a"
+💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "4611"
+💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "2df3e339-5dca-44a2-b2e6-951fdee52dd4"
 💀    🚀 deployDemoDbDeplo... 🏁                 }
 💀    🚀 deployDemoDbDeplo... 🏁                 spec       : {
-💀    🚀 deployDemoDbDeplo... 🏁                     cluster_ip             : "10.103.197.72"
+💀    🚀 deployDemoDbDeplo... 🏁                     cluster_ip             : "10.107.92.28"
 💀    🚀 deployDemoDbDeplo... 🏁                     cluster_ips            : [
-💀    🚀 deployDemoDbDeplo... 🏁                         [0]: "10.103.197.72"
+💀    🚀 deployDemoDbDeplo... 🏁                         [0]: "10.107.92.28"
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     internal_traffic_policy: "Cluster"
 💀    🚀 deployDemoDbDeplo... 🏁                     ip_families            : [
@@ -4611,12 +4128,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     ip_family_policy       : "SingleStack"
 💀    🚀 deployDemoDbDeplo... 🏁                     ports                  : [
-💀 🔎 Job Starting...
-         Elapsed Time: 19.647308706s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                         [0]: {
 💀    🚀 deployDemoDbDeplo... 🏁                             name       : "mysql"
 💀    🚀 deployDemoDbDeplo... 🏁                             port       : 3306
@@ -4657,12 +4168,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                     helm.sh/chart               : "mysql-8.8.27"
 💀    🚀 deployDemoDbDeplo... 🏁                                 }
 💀    🚀 deployDemoDbDeplo... 🏁                                 name       : "demo-db-headless"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.648778914s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                 namespace  : "default"
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             spec      : {
@@ -4686,7 +4191,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/component : "primary"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance  : "from-zero-to-cloud"
@@ -4703,12 +4208,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                                     f:annotations: {
 💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoDbDeplo... 🏁                                     f:labels     : {
-💀 🔎 Job Starting...
-         Elapsed Time: 19.649280138s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                                     }
 💀    🚀 deployDemoDbDeplo... 🏁                                 }
 💀    🚀 deployDemoDbDeplo... 🏁                                 f:spec    : {
@@ -4720,13 +4219,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db-headless"
 💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "56975"
-💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "82561992-58a2-4a3f-a845-fcf4db7ecef4"
+💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "4608"
+💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "de836f89-3f40-4c63-96da-9ba0fdce508f"
 💀    🚀 deployDemoDbDeplo... 🏁                 }
 💀    🚀 deployDemoDbDeplo... 🏁                 spec       : {
 💀    🚀 deployDemoDbDeplo... 🏁                     cluster_ip                 : "None"
@@ -4749,12 +4248,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                     publish_not_ready_addresses: true
 💀    🚀 deployDemoDbDeplo... 🏁                     selector                   : {
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/component: "primary"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.651371856s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance : "from-zero-to-cloud"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/name     : "mysql"
 💀    🚀 deployDemoDbDeplo... 🏁                     }
@@ -4795,14 +4288,8 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁                         pulumi.com/skipAwait                            : "true"
-💀 🔎 Job Starting...
-         Elapsed Time: 19.653149707s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁                     }
-💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                     creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                     labels            : {
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/instance  : "from-zero-to-cloud"
 💀    🚀 deployDemoDbDeplo... 🏁                         app.kubernetes.io/managed-by: "pulumi"
@@ -4825,13 +4312,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                             }
 💀    🚀 deployDemoDbDeplo... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoDbDeplo... 🏁                             operation  : "Update"
-💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-29T13:48:18Z"
+💀    🚀 deployDemoDbDeplo... 🏁                             time       : "2022-05-31T16:29:45Z"
 💀    🚀 deployDemoDbDeplo... 🏁                         }
 💀    🚀 deployDemoDbDeplo... 🏁                     ]
 💀    🚀 deployDemoDbDeplo... 🏁                     name              : "demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁                     namespace         : "default"
-💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "56973"
-💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "52e66d20-aaa0-4739-a293-081af5a7a3e1"
+💀    🚀 deployDemoDbDeplo... 🏁                     resource_version  : "4606"
+💀    🚀 deployDemoDbDeplo... 🏁                     uid               : "814c68d6-9dd1-4cd1-9617-85962788fedf"
 💀    🚀 deployDemoDbDeplo... 🏁                 }
 💀    🚀 deployDemoDbDeplo... 🏁                 secrets                        : [
 💀    🚀 deployDemoDbDeplo... 🏁                     [0]: {
@@ -4841,12 +4328,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁                 urn                            : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
 💀    🚀 deployDemoDbDeplo... 🏁             }
 💀    🚀 deployDemoDbDeplo... 🏁         }
-💀 🔎 Job Starting...
-         Elapsed Time: 19.654492885s
-         Current Time: 20:48:19
-         Active Process:
-           * (PID=23793) 🏁 'deployDemoDbDeployment' command
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoDbDeplo... 🏁         urn      : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart::from-zero-to-cloud"
 💀    🚀 deployDemoDbDeplo... 🏁     }
 💀    🚀 deployDemoDbDeplo... 🏁 
@@ -4856,7 +4337,22 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoDbDeplo... 🏁 Duration: 2s
 💀    🚀 deployDemoDbDeplo... 🏁 
 💀    🚀 deployDemoDbDeplo... 🏁 hello world
+💀 🎉 Successfully running 🏁 'deployDemoFrontendDeployment' command
 💀 🎉 Successfully running 🏁 'deployDemoDbDeployment' command
+💀    🚀 deployDemoBackend... 🏁 Previewing update (dev):
+💀    🚀 deployDemoBackend... 🏁 
+💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:helm.sh/v3:Chart demo-backend create 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend create 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:Service default/demo-backend create 
+💀    🚀 deployDemoBackend... 🏁  +  kubernetes:apps/v1:Deployment default/demo-backend create 
+💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev create 
+💀    🚀 deployDemoBackend... 🏁  
+💀    🚀 deployDemoBackend... 🏁 Resources:
+💀    🚀 deployDemoBackend... 🏁     + 5 to create
+💀    🚀 deployDemoBackend... 🏁 
+💀    🚀 deployDemoBackend... 🏁 Updating (dev):
+💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁  +  pulumi:pulumi:Stack demoBackendDeployment-dev creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:helm.sh/v3:Chart demo-backend creating 
 💀    🚀 deployDemoBackend... 🏁  +  kubernetes:core/v1:ServiceAccount default/demo-backend creating 
@@ -4888,11 +4384,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                             apiVersion: "apps/v1"
 💀    🚀 deployDemoBackend... 🏁                             kind      : "Deployment"
 💀    🚀 deployDemoBackend... 🏁                             metadata  : {
-💀 🔎 Job Starting...
-         Elapsed Time: 20.840027855s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                 annotations: {
 💀    🚀 deployDemoBackend... 🏁                                     pulumi.com/skipAwait: "true"
 💀    🚀 deployDemoBackend... 🏁                                 }
@@ -4933,11 +4424,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ACCESS_TOKEN_EXPIRE_MINUTES"
 💀    🚀 deployDemoBackend... 🏁                                                         value: "30"
 💀    🚀 deployDemoBackend... 🏁                                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.841405249s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                     [2]: {
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ACCESS_TOKEN_SECRET_KEY"
 💀    🚀 deployDemoBackend... 🏁                                                         value: "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -4978,11 +4464,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_CORS_EXPOSE_HEADERS"
 💀    🚀 deployDemoBackend... 🏁                                                         value: (json) []
 💀    🚀 deployDemoBackend... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 20.84264947s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                     }
 💀    🚀 deployDemoBackend... 🏁                                                     [10]: {
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_CORS_MAX_AGE"
@@ -5023,11 +4504,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                     [19]: {
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_KAFKA_SASL_PLAIN_PASSWORD"
 💀    🚀 deployDemoBackend... 🏁                                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.843766025s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                     [20]: {
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_KAFKA_SASL_PLAIN_USERNAME"
 💀    🚀 deployDemoBackend... 🏁                                                     }
@@ -5068,11 +4544,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         value: "Alch3mist"
 💀    🚀 deployDemoBackend... 🏁                                                     }
 💀    🚀 deployDemoBackend... 🏁                                                     [30]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 20.845796379s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                         name : "APP_ROOT_INITIAL_PHONE_NUMBER"
 💀    🚀 deployDemoBackend... 🏁                                                         value: "621234567890"
 💀    🚀 deployDemoBackend... 🏁                                                     }
@@ -5113,11 +4584,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                     [40]: {
 💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_INTEGRATION"
 💀    🚀 deployDemoBackend... 🏁                                                         value: "0"
-💀 🔎 Job Starting...
-         Elapsed Time: 20.847046245s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                     }
 💀    🚀 deployDemoBackend... 🏁                                                     [41]: {
 💀    🚀 deployDemoBackend... 🏁                                                         name : "TEST_KAFKA_BOOTSTRAP_SERVERS"
@@ -5158,11 +4624,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         value: "sqlite:///test.db"
 💀    🚀 deployDemoBackend... 🏁                                                     }
 💀    🚀 deployDemoBackend... 🏁                                                 ]
-💀 🔎 Job Starting...
-         Elapsed Time: 20.848214445s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                 image          : "demo-backend:latest"
 💀    🚀 deployDemoBackend... 🏁                                                 imagePullPolicy: "IfNotPresent"
 💀    🚀 deployDemoBackend... 🏁                                                 name           : "demo-backend"
@@ -5183,7 +4644,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoBackend... 🏁                     }
-💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 deployDemoBackend... 🏁                     generation        : 1
 💀    🚀 deployDemoBackend... 🏁                     labels            : {
 💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/instance  : "demo-backend"
@@ -5203,11 +4664,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                     f:labels     : {
 💀    🚀 deployDemoBackend... 🏁                                     }
 💀    🚀 deployDemoBackend... 🏁                                 }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.848926464s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                 f:spec    : {
 💀    🚀 deployDemoBackend... 🏁                                     f:strategy               : {
 💀    🚀 deployDemoBackend... 🏁                                         f:rollingUpdate: {
@@ -5248,11 +4704,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         }
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"name":"APP_ENABLE_ROUTE_HANDLER"}       : {
 💀    🚀 deployDemoBackend... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.849446659s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"name":"APP_ENABLE_RPC_HANDLER"}         : {
 💀    🚀 deployDemoBackend... 🏁                                                         }
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"name":"APP_ERROR_THRESHOLD"}            : {
@@ -5293,11 +4744,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                         }
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"name":"APP_ROOT_USERNAME"}              : {
 💀    🚀 deployDemoBackend... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.849957981s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"name":"APP_RPC_TYPE"}                   : {
 💀    🚀 deployDemoBackend... 🏁                                                         }
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"name":"APP_SQLALCHEMY_DATABASE_URL"}    : {
@@ -5338,11 +4784,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                                     f:ports                   : {
 💀    🚀 deployDemoBackend... 🏁                                                         k:{"containerPort":3000,"protocol":"TCP"}: {
 💀    🚀 deployDemoBackend... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.850508661s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                                     }
 💀    🚀 deployDemoBackend... 🏁                                                 }
 💀    🚀 deployDemoBackend... 🏁                                             }
@@ -5352,13 +4793,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                             }
 💀    🚀 deployDemoBackend... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoBackend... 🏁                             operation  : "Update"
-💀    🚀 deployDemoBackend... 🏁                             time       : "2022-05-29T13:48:19Z"
+💀    🚀 deployDemoBackend... 🏁                             time       : "2022-05-31T16:29:49Z"
 💀    🚀 deployDemoBackend... 🏁                         }
 💀    🚀 deployDemoBackend... 🏁                     ]
 💀    🚀 deployDemoBackend... 🏁                     name              : "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                     namespace         : "default"
-💀    🚀 deployDemoBackend... 🏁                     resource_version  : "56995"
-💀    🚀 deployDemoBackend... 🏁                     uid               : "90eca4ab-2174-48d5-9618-50f577c5c628"
+💀    🚀 deployDemoBackend... 🏁                     resource_version  : "4680"
+💀    🚀 deployDemoBackend... 🏁                     uid               : "1e8286fb-f6d6-4fd0-9d66-dea7901dc500"
 💀    🚀 deployDemoBackend... 🏁                 }
 💀    🚀 deployDemoBackend... 🏁                 spec       : {
 💀    🚀 deployDemoBackend... 🏁                     progress_deadline_seconds: 600
@@ -5383,11 +4824,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                 app.kubernetes.io/instance: "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                                 app.kubernetes.io/name    : "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                             }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.852069878s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                         }
 💀    🚀 deployDemoBackend... 🏁                         spec    : {
 💀    🚀 deployDemoBackend... 🏁                             containers                      : [
@@ -5428,11 +4864,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁                                         }
 💀    🚀 deployDemoBackend... 🏁                                         [7]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 20.852880386s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                             name : "APP_CORS_ALLOW_ORIGINS"
 💀    🚀 deployDemoBackend... 🏁                                             value: (json) [
 💀    🚀 deployDemoBackend... 🏁                                                 [0]: "*"
@@ -5473,11 +4904,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                         }
 💀    🚀 deployDemoBackend... 🏁                                         [16]: {
 💀    🚀 deployDemoBackend... 🏁                                             name : "APP_HTTP_PORT"
-💀 🔎 Job Starting...
-         Elapsed Time: 20.853376841s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                             value: "3000"
 💀    🚀 deployDemoBackend... 🏁                                         }
 💀    🚀 deployDemoBackend... 🏁                                         [17]: {
@@ -5518,11 +4944,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                             name : "APP_RABBITMQ_VHOST"
 💀    🚀 deployDemoBackend... 🏁                                             value: "/"
 💀    🚀 deployDemoBackend... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.853852264s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                         [27]: {
 💀    🚀 deployDemoBackend... 🏁                                             name : "APP_ROOT_INITIAL_EMAIL"
 💀    🚀 deployDemoBackend... 🏁                                             value: "root@innistrad.com"
@@ -5563,11 +4984,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                             value: "/static"
 💀    🚀 deployDemoBackend... 🏁                                         }
 💀    🚀 deployDemoBackend... 🏁                                         [37]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 20.85678741s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                             name: "PULUMI_BACKEND_URL"
 💀    🚀 deployDemoBackend... 🏁                                         }
 💀    🚀 deployDemoBackend... 🏁                                         [38]: {
@@ -5608,11 +5024,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                                             name : "TEST_RABBITMQ_PASS"
 💀    🚀 deployDemoBackend... 🏁                                             value: "Alch3mist"
 💀    🚀 deployDemoBackend... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.857434406s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                         [48]: {
 💀    🚀 deployDemoBackend... 🏁                                             name : "TEST_RABBITMQ_USER"
 💀    🚀 deployDemoBackend... 🏁                                             value: "root"
@@ -5653,11 +5064,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁             }
 💀    🚀 deployDemoBackend... 🏁             v1/Service:default/demo-backend        : {
 💀    🚀 deployDemoBackend... 🏁                 api_version: "v1"
-💀 🔎 Job Starting...
-         Elapsed Time: 20.858106351s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                 id         : "default/demo-backend"
 💀    🚀 deployDemoBackend... 🏁                 kind       : "Service"
 💀    🚀 deployDemoBackend... 🏁                 metadata   : {
@@ -5698,12 +5104,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoBackend... 🏁                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 20.858742962s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 deployDemoBackend... 🏁                     labels            : {
 💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/managed-by: "pulumi"
@@ -5731,24 +5132,19 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                             }
 💀    🚀 deployDemoBackend... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoBackend... 🏁                             operation  : "Update"
-💀    🚀 deployDemoBackend... 🏁                             time       : "2022-05-29T13:48:19Z"
+💀    🚀 deployDemoBackend... 🏁                             time       : "2022-05-31T16:29:49Z"
 💀    🚀 deployDemoBackend... 🏁                         }
 💀    🚀 deployDemoBackend... 🏁                     ]
 💀    🚀 deployDemoBackend... 🏁                     name              : "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                     namespace         : "default"
-💀    🚀 deployDemoBackend... 🏁                     resource_version  : "57006"
-💀    🚀 deployDemoBackend... 🏁                     uid               : "95f4911d-a3d3-4a09-b97f-e8b71be6ec78"
+💀    🚀 deployDemoBackend... 🏁                     resource_version  : "4686"
+💀    🚀 deployDemoBackend... 🏁                     uid               : "f526199f-e4b0-428c-98d1-b13fd1b4d021"
 💀    🚀 deployDemoBackend... 🏁                 }
 💀    🚀 deployDemoBackend... 🏁                 spec       : {
 💀    🚀 deployDemoBackend... 🏁                     allocate_load_balancer_node_ports: true
-💀    🚀 deployDemoBackend... 🏁                     cluster_ip                       : "10.108.57.31"
+💀    🚀 deployDemoBackend... 🏁                     cluster_ip                       : "10.110.60.216"
 💀    🚀 deployDemoBackend... 🏁                     cluster_ips                      : [
-💀 🔎 Job Starting...
-         Elapsed Time: 20.859359643s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
-💀    🚀 deployDemoBackend... 🏁                         [0]: "10.108.57.31"
+💀    🚀 deployDemoBackend... 🏁                         [0]: "10.110.60.216"
 💀    🚀 deployDemoBackend... 🏁                     ]
 💀    🚀 deployDemoBackend... 🏁                     external_traffic_policy          : "Cluster"
 💀    🚀 deployDemoBackend... 🏁                     internal_traffic_policy          : "Cluster"
@@ -5759,7 +5155,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                     ports                            : [
 💀    🚀 deployDemoBackend... 🏁                         [0]: {
 💀    🚀 deployDemoBackend... 🏁                             name       : "port0"
-💀    🚀 deployDemoBackend... 🏁                             node_port  : 32223
+💀    🚀 deployDemoBackend... 🏁                             node_port  : 31905
 💀    🚀 deployDemoBackend... 🏁                             port       : 3000
 💀    🚀 deployDemoBackend... 🏁                             protocol   : "TCP"
 💀    🚀 deployDemoBackend... 🏁                             target_port: "port0"
@@ -5788,11 +5184,6 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                             metadata  : {
 💀    🚀 deployDemoBackend... 🏁                                 annotations: {
 💀    🚀 deployDemoBackend... 🏁                                     pulumi.com/skipAwait: "true"
-💀 🔎 Job Starting...
-         Elapsed Time: 20.859979556s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                                 }
 💀    🚀 deployDemoBackend... 🏁                                 labels     : {
 💀    🚀 deployDemoBackend... 🏁                                     app.kubernetes.io/instance  : "demo-backend"
@@ -5808,7 +5199,7 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁 
 💀    🚀 deployDemoBackend... 🏁                         pulumi.com/skipAwait                            : "true"
 💀    🚀 deployDemoBackend... 🏁                     }
-💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 deployDemoBackend... 🏁                     creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 deployDemoBackend... 🏁                     labels            : {
 💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                         app.kubernetes.io/managed-by: "pulumi"
@@ -5830,18 +5221,13 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deployDemoBackend... 🏁                             }
 💀    🚀 deployDemoBackend... 🏁                             manager    : "pulumi-resource-kubernetes"
 💀    🚀 deployDemoBackend... 🏁                             operation  : "Update"
-💀    🚀 deployDemoBackend... 🏁                             time       : "2022-05-29T13:48:19Z"
+💀    🚀 deployDemoBackend... 🏁                             time       : "2022-05-31T16:29:49Z"
 💀    🚀 deployDemoBackend... 🏁                         }
 💀    🚀 deployDemoBackend... 🏁                     ]
-💀 🔎 Job Starting...
-         Elapsed Time: 20.861064888s
-         Current Time: 20:48:20
-         Active Process:
-           * (PID=25808) 🏁 'deployDemoBackendDeployment' command
 💀    🚀 deployDemoBackend... 🏁                     name              : "demo-backend"
 💀    🚀 deployDemoBackend... 🏁                     namespace         : "default"
-💀    🚀 deployDemoBackend... 🏁                     resource_version  : "56994"
-💀    🚀 deployDemoBackend... 🏁                     uid               : "1d0a225d-8154-4781-9a37-b8fd7ac750ef"
+💀    🚀 deployDemoBackend... 🏁                     resource_version  : "4679"
+💀    🚀 deployDemoBackend... 🏁                     uid               : "2794173e-2ca4-4956-bb3a-a99740ba2025"
 💀    🚀 deployDemoBackend... 🏁                 }
 💀    🚀 deployDemoBackend... 🏁                 urn                            : "urn:pulumi:dev::demoBackendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-backend"
 💀    🚀 deployDemoBackend... 🏁             }
@@ -5860,83 +5246,76 @@ zaruba please syncEnv -e '/home/gofrendi/zaruba/docs/examples/playground/use-cas
 💀    🚀 deploy               🏭 
 💀 🎉 Successfully running 🏭 'deploy' command
 💀 🔎 Job Running...
-         Elapsed Time: 21.258980857s
-         Current Time: 20:48:20
+         Elapsed Time: 26.380274557s
+         Current Time: 23:29:50
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 21.560669478s
-         Current Time: 20:48:20
+         Elapsed Time: 26.682185712s
+         Current Time: 23:29:50
 zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 2.005µs
-         Current Time: 20:48:21
+         Elapsed Time: 1.317µs
+         Current Time: 23:29:50
 💀 🏁 Run 🏁 'prepareDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
-💀    🚀 prepareDemoDbDepl... 🏁 🚧 Install pip packages.
 💀 🏁 Run 🚢 'zrbSetKubeContext' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
-💀 🏁 Run 🏁 'prepareDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
-💀    🚀 prepareDemoFronte... 🏁 🚧 Install pip packages.
+💀    🚀 prepareDemoDbDepl... 🏁 🚧 Install pip packages.
 💀 🏁 Run 🏁 'prepareDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
+💀 🏁 Run 🏁 'prepareDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
 💀    🚀 prepareDemoBacken... 🏁 🚧 Install pip packages.
+💀    🚀 prepareDemoFronte... 🏁 🚧 Install pip packages.
 💀 🎉 Successfully running 🚢 'zrbSetKubeContext' command
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.33.2)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.2)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.33.2)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.33.2)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: semver~=2.8 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: six~=1.12 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.2)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.2)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: dill~=0.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.5.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.2)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: protobuf~=3.6 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: grpcio~=1.33 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.3)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: grpcio~=1.33 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.3)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: grpcio~=1.33 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.3)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (3.33.2)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: pyyaml~=5.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (5.4.1)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: dill~=0.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.5.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: pyyaml~=5.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (5.4.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: six~=1.12 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: semver~=2.8 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pyyaml~=5.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (5.4.1)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: grpcio~=1.33 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.3)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: grpcio~=1.33 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.3)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pulumi-kubernetes<4.0.0,>=3.0.0 in ./venv/lib/python3.8/site-packages (from -r requirements.txt (line 2)) (3.19.2)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: six~=1.12 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: semver~=2.8 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: protobuf~=3.6 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: dill~=0.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.5.1)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: dill~=0.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.5.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: semver~=2.8 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: six~=1.12 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: protobuf~=3.6 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: dill~=0.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (0.3.5.1)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: six~=1.12 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: semver~=2.8 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: semver~=2.8 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (2.13.0)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: protobuf~=3.6 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (3.20.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: six~=1.12 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.16.0)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: pyyaml~=5.3 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (5.4.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: grpcio~=1.33 in ./venv/lib/python3.8/site-packages (from pulumi<4.0.0,>=3.0.0->-r requirements.txt (line 1)) (1.46.3)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: parver>=0.2.1 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (0.3.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: requests<3.0,>=2.21 in ./venv/lib/python3.8/site-packages (from pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.27.1)
-💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
+💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: attrs>=19.2 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (21.4.0)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2022.5.18.1)
-💀 🔎 Job Starting...
-         Elapsed Time: 669.983785ms
-         Current Time: 20:48:21
-         Active Process:
-           * (PID=26317) 🏁 'prepareDemoDbDeployment' command
-           * (PID=26329) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
 💀    🚀 prepareDemoFronte... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
-💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2022.5.18.1)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: arpeggio~=1.7 in ./venv/lib/python3.8/site-packages (from parver>=0.2.1->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.10.2)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
 💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2022.5.18.1)
-💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
 💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: urllib3<1.27,>=1.21.1 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (1.26.9)
+💀    🚀 prepareDemoBacken... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2022.5.18.1)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: idna<4,>=2.5; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (3.3)
 💀 🔥 🚀 prepareDemoFronte... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
 💀 🔥 🚀 prepareDemoFronte... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= "3" in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2.0.12)
+💀    🚀 prepareDemoDbDepl... 🏁 Requirement already satisfied: certifi>=2017.4.17 in ./venv/lib/python3.8/site-packages (from requests<3.0,>=2.21->pulumi-kubernetes<4.0.0,>=3.0.0->-r requirements.txt (line 2)) (2022.5.18.1)
 💀 🔥 🚀 prepareDemoBacken... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
 💀 🔥 🚀 prepareDemoBacken... 🏁 You should consider upgrading via the 'pip install --upgrade pip' command.
 💀 🔥 🚀 prepareDemoDbDepl... 🏁 WARNING: You are using pip version 19.2.3, however version 22.1.1 is available.
@@ -5970,13 +5349,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoDbDepl... 🏁 
 💀    🚀 prepareDemoDbDepl... 🏁 The 'version' field should contain a semantic version or version range.
 💀    🚀 prepareDemoDbDepl... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 926.588349ms
-         Current Time: 20:48:22
-         Active Process:
-           * (PID=26317) 🏁 'prepareDemoDbDeployment' command
-           * (PID=26329) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoDbDepl... 🏁 The 'repository' URL should point to a Chart Repository. Helm expects that by
 💀    🚀 prepareDemoDbDepl... 🏁 appending '/index.yaml' to the URL, it should be able to retrieve the chart
 💀    🚀 prepareDemoDbDepl... 🏁 repository's index. Note: 'repository' can be an alias. The alias must start
@@ -6017,13 +5389,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoDbDepl... 🏁       --kube-as-user string         username to impersonate for the operation
 💀    🚀 prepareDemoDbDepl... 🏁       --kube-ca-file string         the certificate authority file for the Kubernetes API server connection
 💀    🚀 prepareDemoDbDepl... 🏁       --kube-context string         name of the kubeconfig context to use
-💀 🔎 Job Starting...
-         Elapsed Time: 927.324786ms
-         Current Time: 20:48:22
-         Active Process:
-           * (PID=26317) 🏁 'prepareDemoDbDeployment' command
-           * (PID=26329) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoDbDepl... 🏁       --kube-token string           bearer token used for authentication
 💀    🚀 prepareDemoDbDepl... 🏁       --kubeconfig string           path to the kubeconfig file
 💀    🚀 prepareDemoDbDepl... 🏁   -n, --namespace string            namespace scope for this request
@@ -6035,6 +5400,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoDbDepl... 🏁 🚧 Chart prepared.
 💀    🚀 prepareDemoFronte... 🏁 PARTS: ["80"]
 💀 🎉 Successfully running 🏁 'prepareDemoDbDeployment' command
+💀 🏁 Run 🏁 'destroyDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
 💀    🚀 prepareDemoFronte... 🏁 🚧 Deployment config: {"env":[{"name":"API_HOST","value":"http://localhost:3000"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image.repository":"demo-frontend","image.tag":"latest","namespace":"default","ports":[{"containerPort":80,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":80,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
 💀    🚀 prepareDemoFronte... 🏁 🚧 Prepare chart dependencies.
 💀    🚀 prepareDemoFronte... 🏁 
@@ -6065,12 +5431,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 The 'version' field should contain a semantic version or version range.
 💀    🚀 prepareDemoFronte... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 1.220102705s
-         Current Time: 20:48:22
-         Active Process:
-           * (PID=26329) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoFronte... 🏁 The 'repository' URL should point to a Chart Repository. Helm expects that by
 💀    🚀 prepareDemoFronte... 🏁 appending '/index.yaml' to the URL, it should be able to retrieve the chart
 💀    🚀 prepareDemoFronte... 🏁 repository's index. Note: 'repository' can be an alias. The alias must start
@@ -6111,12 +5471,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoFronte... 🏁       --kube-as-user string         username to impersonate for the operation
 💀    🚀 prepareDemoFronte... 🏁       --kube-ca-file string         the certificate authority file for the Kubernetes API server connection
 💀    🚀 prepareDemoFronte... 🏁       --kube-context string         name of the kubeconfig context to use
-💀 🔎 Job Starting...
-         Elapsed Time: 1.220632485s
-         Current Time: 20:48:22
-         Active Process:
-           * (PID=26329) 🏁 'prepareDemoFrontendDeployment' command
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
 💀    🚀 prepareDemoFronte... 🏁       --kube-token string           bearer token used for authentication
 💀    🚀 prepareDemoFronte... 🏁       --kubeconfig string           path to the kubeconfig file
 💀    🚀 prepareDemoFronte... 🏁   -n, --namespace string            namespace scope for this request
@@ -6126,12 +5480,1377 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoFronte... 🏁 
 💀    🚀 prepareDemoFronte... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoFronte... 🏁 🚧 Chart prepared.
-💀 🏁 Run 🏁 'destroyDemoDbDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoDbDeployment
 💀 🎉 Successfully running 🏁 'prepareDemoFrontendDeployment' command
 💀 🏁 Run 🏁 'destroyDemoFrontendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoFrontendDeployment
+💀    🚀 destroyDemoDbDepl... 🏁 Previewing destroy (dev):
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:StatefulSet default/demo-db delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart from-zero-to-cloud delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev delete 
+💀    🚀 destroyDemoDbDepl... 🏁  
+💀    🚀 destroyDemoDbDepl... 🏁 Outputs:
+💀    🚀 destroyDemoDbDepl... 🏁   - app: {
+💀    🚀 destroyDemoDbDepl... 🏁       - ready    : [
+💀    🚀 destroyDemoDbDepl... 🏁       -     [0]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁       -     [1]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Secret::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁       -     [2]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁       -     [3]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db-headless"
+💀    🚀 destroyDemoDbDepl... 🏁       -     [4]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁       -     [5]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:StatefulSet::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁         ]
+💀    🚀 destroyDemoDbDepl... 🏁       - resources: {
+💀    🚀 destroyDemoDbDepl... 🏁           - apps/v1/StatefulSet:default/demo-db: {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "apps/v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "StatefulSet"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "apps/v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "StatefulSet"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - replicas            : 1
+💀    🚀 destroyDemoDbDepl... 🏁                               - selector            : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - matchLabels: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                       - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                       - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - serviceName         : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - template            : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - checksum/configuration: "4cbad2fa296630f91d285d201eec782dcd6acadf02180e0f1f3ea436b9742ed2"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/managed-by: "Helm"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - affinity          : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - podAntiAffinity: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - preferredDuringSchedulingIgnoredDuringExecution: [
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - podAffinityTerm: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - labelSelector: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                               - matchLabels: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                                   - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                                                   - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - namespaces   : [
+💀    🚀 destroyDemoDbDepl... 🏁                                                           -     [0]: "default"
+💀    🚀 destroyDemoDbDepl... 🏁                                                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - topologyKey  : "kubernetes.io/hostname"
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - weight         : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - containers        : [
+💀    🚀 destroyDemoDbDepl... 🏁                                       -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - env            : [
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name : "BITNAMI_DEBUG"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - value: "false"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [1]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "MYSQL_ROOT_PASSWORD"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - valueFrom: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - secretKeyRef: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                               - key : "mysql-root-password"
+💀    🚀 destroyDemoDbDepl... 🏁                                                               - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [2]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name : "MYSQL_USER"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - value: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [3]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "MYSQL_PASSWORD"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - valueFrom: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - secretKeyRef: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                               - key : "mysql-password"
+💀    🚀 destroyDemoDbDepl... 🏁                                                               - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [4]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name : "MYSQL_DATABASE"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - value: "sample"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                                               - image          : "docker.io/bitnami/mysql:8.0.29"
+💀    🚀 destroyDemoDbDepl... 🏁                                               - imagePullPolicy: "IfNotPresent"
+💀    🚀 destroyDemoDbDepl... 🏁                                               - livenessProbe  : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - exec               : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - command: [
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [0]: "/bin/bash"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [1]: "-ec"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
+💀    🚀 destroyDemoDbDepl... 🏁                                                         ]
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - failureThreshold   : 3
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - initialDelaySeconds: 5
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - periodSeconds      : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - successThreshold   : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - timeoutSeconds     : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - name           : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                               - ports          : [
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - containerPort: 3306
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name         : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                                               - readinessProbe : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - exec               : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - command: [
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [0]: "/bin/bash"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [1]: "-ec"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
+💀    🚀 destroyDemoDbDepl... 🏁                                                         ]
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - failureThreshold   : 3
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - initialDelaySeconds: 5
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - periodSeconds      : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - successThreshold   : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - timeoutSeconds     : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - resources      : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - securityContext: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - runAsUser: 1001
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - startupProbe   : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - exec               : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - command: [
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [0]: "/bin/bash"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [1]: "-ec"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
+💀    🚀 destroyDemoDbDepl... 🏁                                                         ]
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - failureThreshold   : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - initialDelaySeconds: 15
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - periodSeconds      : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - successThreshold   : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - timeoutSeconds     : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - volumeMounts   : [
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - mountPath: "/bitnami/mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "data"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [1]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - mountPath: "/opt/bitnami/mysql/conf/my.cnf"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "config"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - subPath  : "my.cnf"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         ]
+💀    🚀 destroyDemoDbDepl... 🏁                                       - securityContext   : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - fsGroup: 1001
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - serviceAccountName: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                       - volumes           : [
+💀    🚀 destroyDemoDbDepl... 🏁                                       -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - configMap: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - name     : "config"
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         ]
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - updateStrategy      : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - type: "RollingUpdate"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - volumeClaimTemplates: [
+💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - labels: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                               - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                               - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name  : "data"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - accessModes: [
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "ReadWriteOnce"
+💀    🚀 destroyDemoDbDepl... 🏁                                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                                           - resources  : {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - requests: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - storage: "8Gi"
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - generation        : 1
+💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "apps/v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:status: {
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "kube-controller-manager"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - subresource: "status"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [1]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "apps/v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:template            : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                           - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - f:spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - f:affinity                     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - f:podAntiAffinity: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                           - f:containers                   : {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - k:{"name":"mysql"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:env                     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"BITNAMI_DEBUG"}      : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_DATABASE"}     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_PASSWORD"}     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - f:valueFrom: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_ROOT_PASSWORD"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                           - f:valueFrom: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                             }
 💀    🚀 prepareDemoBacken... 🏁 PARTS: ["3000"]
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_USER"}         : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:livenessProbe           : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:ports                   : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"containerPort":3306,"protocol":"TCP"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:readinessProbe          : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:securityContext         : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:startupProbe            : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:volumeMounts            : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"mountPath":"/bitnami/mysql"}                : {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"mountPath":"/opt/bitnami/mysql/conf/my.cnf"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                           - f:securityContext              : {
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                           - f:volumes                      : {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - k:{"name":"config"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:configMap: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:updateStrategy      : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4624"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "d5e45e64-965d-4c68-a80a-4e93a9c2fee9"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - pod_management_policy : "OrderedReady"
+💀    🚀 destroyDemoDbDepl... 🏁                   - replicas              : 1
+💀    🚀 destroyDemoDbDepl... 🏁                   - revision_history_limit: 10
+💀    🚀 destroyDemoDbDepl... 🏁                   - selector              : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - match_labels: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - service_name          : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - template              : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                               - checksum/configuration: "4cbad2fa296630f91d285d201eec782dcd6acadf02180e0f1f3ea436b9742ed2"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/managed-by: "Helm"
+💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                               - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                       - spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                           - affinity                        : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - pod_anti_affinity: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - preferred_during_scheduling_ignored_during_execution: [
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - pod_affinity_term: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - label_selector: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - match_labels: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                               - namespaces    : [
+💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: "default"
+💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                                               - topology_key  : "kubernetes.io/hostname"
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                           - weight           : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - containers                      : [
+💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - env                       : [
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "BITNAMI_DEBUG"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "false"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [1]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "MYSQL_ROOT_PASSWORD"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value_from: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - secret_key_ref: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - key : "mysql-root-password"
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [2]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_USER"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [3]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "MYSQL_PASSWORD"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value_from: {
+💀    🚀 destroyDemoDbDepl... 🏁                                               - secret_key_ref: {
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - key : "mysql-password"
+💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                                             }
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [4]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_DATABASE"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "sample"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                                   - image                     : "docker.io/bitnami/mysql:8.0.29"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - image_pull_policy         : "IfNotPresent"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - liveness_probe            : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - exec_                : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - command: [
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "/bin/bash"
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
+💀    🚀 destroyDemoDbDepl... 🏁                                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 3
+💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 5
+💀    🚀 destroyDemoDbDepl... 🏁                                       - period_seconds       : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                       - success_threshold    : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                       - timeout_seconds      : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - name                      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - ports                     : [
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - container_port: 3306
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name          : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - protocol      : "TCP"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                                   - readiness_probe           : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - exec_                : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - command: [
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "/bin/bash"
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
+💀    🚀 destroyDemoDbDepl... 🏁                                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 3
+💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 5
+💀    🚀 destroyDemoDbDepl... 🏁                                       - period_seconds       : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                       - success_threshold    : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                       - timeout_seconds      : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - security_context          : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - run_as_user: 1001
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - startup_probe             : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - exec_                : {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - command: [
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "/bin/bash"
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
+💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
+💀    🚀 destroyDemoDbDepl... 🏁                                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 15
+💀    🚀 destroyDemoDbDepl... 🏁                                       - period_seconds       : 10
+💀    🚀 destroyDemoDbDepl... 🏁                                       - success_threshold    : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                       - timeout_seconds      : 1
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_path  : "/dev/termination-log"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_policy: "File"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - volume_mounts             : [
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - mount_path: "/bitnami/mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "data"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                   -     [1]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                           - mount_path: "/opt/bitnami/mysql/conf/my.cnf"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "config"
+💀    🚀 destroyDemoDbDepl... 🏁                                           - sub_path  : "my.cnf"
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                           - dns_policy                      : "ClusterFirst"
+💀    🚀 destroyDemoDbDepl... 🏁                           - restart_policy                  : "Always"
+💀    🚀 destroyDemoDbDepl... 🏁                           - scheduler_name                  : "default-scheduler"
+💀    🚀 destroyDemoDbDepl... 🏁                           - security_context                : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - fs_group: 1001
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - service_account                 : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                           - service_account_name            : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                           - termination_grace_period_seconds: 30
+💀    🚀 destroyDemoDbDepl... 🏁                           - volumes                         : [
+💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - config_map: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - default_mode: 420
+💀    🚀 destroyDemoDbDepl... 🏁                                       - name        : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - name      : "config"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - update_strategy       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - type: "RollingUpdate"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - volume_claim_templates: [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind       : "PersistentVolumeClaim"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata   : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name  : "data"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - spec       : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - access_modes: [
+💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: "ReadWriteOnce"
+💀    🚀 destroyDemoDbDepl... 🏁                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                               - resources   : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - requests: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - storage: "8Gi"
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - volume_mode : "Filesystem"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - status     : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - phase: "Pending"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - available_replicas : 0
+💀    🚀 destroyDemoDbDepl... 🏁                   - collision_count    : 0
+💀    🚀 destroyDemoDbDepl... 🏁                   - current_replicas   : 1
+💀    🚀 destroyDemoDbDepl... 🏁                   - current_revision   : "demo-db-996b9456f"
+💀    🚀 destroyDemoDbDepl... 🏁                   - observed_generation: 1
+💀    🚀 destroyDemoDbDepl... 🏁                   - replicas           : 1
+💀    🚀 destroyDemoDbDepl... 🏁                   - update_revision    : "demo-db-996b9456f"
+💀    🚀 destroyDemoDbDepl... 🏁                   - updated_replicas   : 1
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:StatefulSet::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁           - v1/ConfigMap:default/demo-db       : {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - data       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - my.cnf: (yaml) [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "mysqld"
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "ConfigMap"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - data      : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - my.cnf: (yaml) [
+💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: "mysqld"
+💀    🚀 destroyDemoDbDepl... 🏁                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "ConfigMap"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:data    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4607"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "bf1f2b03-3ed0-4846-9ded-4f16e1d06b32"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁           - v1/Secret:default/demo-db          : {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - data       : [secret]
+💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "Secret"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : [secret]
+💀    🚀 destroyDemoDbDepl... 🏁               - type       : "Opaque"
+💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Secret::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁           - v1/Service:default/demo-db         : {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "Service"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "Service"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - ports   : [
+💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                       - port      : 3306
+💀    🚀 destroyDemoDbDepl... 🏁                                       - protocol  : "TCP"
+💀    🚀 destroyDemoDbDepl... 🏁                                       - targetPort: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                               - selector: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - type    : "ClusterIP"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:ports                : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - k:{"port":3306,"protocol":"TCP"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4611"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "2df3e339-5dca-44a2-b2e6-951fdee52dd4"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip             : "10.107.92.28"
+💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ips            : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "10.107.92.28"
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - internal_traffic_policy: "Cluster"
+💀    🚀 destroyDemoDbDepl... 🏁                   - ip_families            : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "IPv4"
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - ip_family_policy       : "SingleStack"
+💀    🚀 destroyDemoDbDepl... 🏁                   - ports                  : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - name       : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                           - port       : 3306
+💀    🚀 destroyDemoDbDepl... 🏁                           - protocol   : "TCP"
+💀    🚀 destroyDemoDbDepl... 🏁                           - target_port: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - selector               : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - session_affinity       : "None"
+💀    🚀 destroyDemoDbDepl... 🏁                   - type                   : "ClusterIP"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁           - v1/Service:default/demo-db-headless: {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db-headless"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "Service"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "Service"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db-headless"
+💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - clusterIP               : "None"
+💀    🚀 destroyDemoDbDepl... 🏁                               - ports                   : [
+💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                       - port      : 3306
+💀    🚀 destroyDemoDbDepl... 🏁                                       - targetPort: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 ]
+💀    🚀 destroyDemoDbDepl... 🏁                               - publishNotReadyAddresses: true
+💀    🚀 destroyDemoDbDepl... 🏁                               - selector                : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - type                    : "ClusterIP"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:ports                   : {
+💀    🚀 destroyDemoDbDepl... 🏁                                       - k:{"port":3306,"protocol":"TCP"}: {
+💀    🚀 destroyDemoDbDepl... 🏁                                         }
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db-headless"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4608"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "de836f89-3f40-4c63-96da-9ba0fdce508f"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip                 : "None"
+💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ips                : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "None"
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - internal_traffic_policy    : "Cluster"
+💀    🚀 destroyDemoDbDepl... 🏁                   - ip_families                : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "IPv4"
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - ip_family_policy           : "SingleStack"
+💀    🚀 destroyDemoDbDepl... 🏁                   - ports                      : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - name       : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                           - port       : 3306
+💀    🚀 destroyDemoDbDepl... 🏁                           - protocol   : "TCP"
+💀    🚀 destroyDemoDbDepl... 🏁                           - target_port: "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - publish_not_ready_addresses: true
+💀    🚀 destroyDemoDbDepl... 🏁                   - selector                   : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component: "primary"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name     : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - session_affinity           : "None"
+💀    🚀 destroyDemoDbDepl... 🏁                   - type                       : "ClusterIP"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db-headless"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁           - v1/ServiceAccount:default/demo-db  : {
+💀    🚀 destroyDemoDbDepl... 🏁               - api_version                    : "v1"
+💀    🚀 destroyDemoDbDepl... 🏁               - id                             : "default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁               - kind                           : "ServiceAccount"
+💀    🚀 destroyDemoDbDepl... 🏁               - metadata                       : {
+💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "ServiceAccount"
+💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - secrets   : [
+💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             ]
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
+💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoDbDepl... 🏁                                     }
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                               - f:secrets : {
+💀    🚀 destroyDemoDbDepl... 🏁                                 }
+💀    🚀 destroyDemoDbDepl... 🏁                             }
+💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoDbDepl... 🏁                         }
+💀    🚀 destroyDemoDbDepl... 🏁                     ]
+💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4606"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "814c68d6-9dd1-4cd1-9617-85962788fedf"
+💀    🚀 destroyDemoDbDepl... 🏁                 }
+💀    🚀 destroyDemoDbDepl... 🏁               - secrets                        : [
+💀    🚀 destroyDemoDbDepl... 🏁               -     [0]: {
+💀    🚀 destroyDemoDbDepl... 🏁                       - name: "demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁                     }
+💀    🚀 destroyDemoDbDepl... 🏁                 ]
+💀    🚀 destroyDemoDbDepl... 🏁               - urn                            : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
+💀    🚀 destroyDemoDbDepl... 🏁             }
+💀    🚀 destroyDemoDbDepl... 🏁         }
+💀    🚀 destroyDemoDbDepl... 🏁       - urn      : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart::from-zero-to-cloud"
+💀    🚀 destroyDemoDbDepl... 🏁     }
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁 Resources:
+💀    🚀 destroyDemoDbDepl... 🏁     - 8 to delete
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁 Destroying (dev):
+💀    🚀 destroyDemoDbDepl... 🏁 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db deleting 
+💀    🚀 destroyDemoFronte... 🏁 Previewing destroy (dev):
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:StatefulSet default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless deleting 
 💀    🚀 prepareDemoBacken... 🏁 🚧 Deployment config: {"env":[{"name":"APP_ACCESS_TOKEN_ALGORITHM","value":"HS256"},{"name":"APP_ACCESS_TOKEN_EXPIRE_MINUTES","value":"30"},{"name":"APP_ACCESS_TOKEN_SECRET_KEY","value":"09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"},{"name":"APP_ACCESS_TOKEN_URL","value":"/token/"},{"name":"APP_CORS_ALLOW_CREDENTIALS","value":"false"},{"name":"APP_CORS_ALLOW_HEADERS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_METHODS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGINS","value":"[\"*\"]"},{"name":"APP_CORS_ALLOW_ORIGIN_REGEX","value":""},{"name":"APP_CORS_EXPOSE_HEADERS","value":"[]"},{"name":"APP_CORS_MAX_AGE","value":"600"},{"name":"APP_ENABLE_EVENT_HANDLER","value":"1"},{"name":"APP_ENABLE_ROUTE_HANDLER","value":"1"},{"name":"APP_ENABLE_RPC_HANDLER","value":"1"},{"name":"APP_ERROR_THRESHOLD","value":"10"},{"name":"APP_GUEST_USERNAME","value":"guest"},{"name":"APP_HTTP_PORT","value":"3000"},{"name":"APP_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"APP_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"APP_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"APP_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"APP_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"APP_MESSAGE_BUS_TYPE","value":"local"},{"name":"APP_RABBITMQ_HOST","value":"localhost"},{"name":"APP_RABBITMQ_PASS","value":"Alch3mist"},{"name":"APP_RABBITMQ_USER","value":"root"},{"name":"APP_RABBITMQ_VHOST","value":"/"},{"name":"APP_ROOT_INITIAL_EMAIL","value":"root@innistrad.com"},{"name":"APP_ROOT_INITIAL_FULL_NAME","value":"root"},{"name":"APP_ROOT_INITIAL_PASSWORD","value":"Alch3mist"},{"name":"APP_ROOT_INITIAL_PHONE_NUMBER","value":"621234567890"},{"name":"APP_ROOT_PERMISSION","value":"root"},{"name":"APP_ROOT_USERNAME","value":"root"},{"name":"APP_RPC_TYPE","value":"local"},{"name":"APP_SQLALCHEMY_DATABASE_URL","value":"mysql+pymysql://root:Alch3mist@demo-db/sample?charset=utf8mb4"},{"name":"APP_STATIC_DIRECTORY","value":""},{"name":"APP_STATIC_URL","value":"/static"},{"name":"PULUMI_BACKEND_URL","value":""},{"name":"PULUMI_CONFIG_PASSPHRASE","value":"defaultLocalPulumiPassphrase"},{"name":"PYTHONUNBUFFERED","value":"1"},{"name":"TEST_INTEGRATION","value":"0"},{"name":"TEST_KAFKA_BOOTSTRAP_SERVERS","value":"localhost:9092"},{"name":"TEST_KAFKA_SASL_MECHANISM","value":"PLAIN"},{"name":"TEST_KAFKA_SASL_PLAIN_PASSWORD","value":""},{"name":"TEST_KAFKA_SASL_PLAIN_USERNAME","value":""},{"name":"TEST_KAFKA_SCHEMA_REGISTRY","value":"http://localhost:8081"},{"name":"TEST_RABBITMQ_HOST","value":"localhost"},{"name":"TEST_RABBITMQ_PASS","value":"Alch3mist"},{"name":"TEST_RABBITMQ_USER","value":"root"},{"name":"TEST_RABBITMQ_VHOST","value":"/"},{"name":"TEST_SQLALCHEMY_DATABASE_URL","value":"sqlite:///test.db"}],"image.repository":"demo-backend","image.tag":"latest","namespace":"default","ports":[{"containerPort":3000,"name":"port0","protocol":"TCP"}],"replicaCount":1,"service.enabled":true,"service.ports":[{"name":"port0","port":3000,"protocol":"TCP","targetPort":"port0"}],"service.type":"LoadBalancer"}
 💀    🚀 prepareDemoBacken... 🏁 🚧 Prepare chart dependencies.
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db deleted 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db deleted 
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:Service default/demo-frontend delete 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend delete 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:StatefulSet default/demo-db deleted 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend delete 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend delete 
+💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev delete 
+💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev delete 
+💀    🚀 destroyDemoFronte... 🏁  
+💀    🚀 destroyDemoFronte... 🏁 Outputs:
+💀    🚀 destroyDemoFronte... 🏁   - app: {
+💀    🚀 destroyDemoFronte... 🏁       - ready    : [
+💀    🚀 destroyDemoFronte... 🏁       -     [0]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁       -     [1]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁       -     [2]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁         ]
+💀    🚀 destroyDemoFronte... 🏁       - resources: {
+💀    🚀 destroyDemoFronte... 🏁           - apps/v1/Deployment:default/demo-frontend: {
+💀    🚀 destroyDemoFronte... 🏁               - api_version: "apps/v1"
+💀    🚀 destroyDemoFronte... 🏁               - id         : "default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁               - kind       : "Deployment"
+💀    🚀 destroyDemoFronte... 🏁               - metadata   : {
+💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
+💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "apps/v1"
+💀    🚀 destroyDemoFronte... 🏁                           - kind      : "Deployment"
+💀    🚀 destroyDemoFronte... 🏁                           - metadata  : {
+💀    🚀 destroyDemoFronte... 🏁                               - annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                           - spec      : {
+💀    🚀 destroyDemoFronte... 🏁                               - replicas: 1
+💀    🚀 destroyDemoFronte... 🏁                               - selector: {
+💀    🚀 destroyDemoFronte... 🏁                                   - matchLabels: {
+💀    🚀 destroyDemoFronte... 🏁                                       - app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                       - app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - template: {
+💀    🚀 destroyDemoFronte... 🏁                                   - metadata: {
+💀    🚀 destroyDemoFronte... 🏁                                       - labels: {
+💀    🚀 destroyDemoFronte... 🏁                                           - app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                           - app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                   - spec    : {
+💀    🚀 destroyDemoFronte... 🏁                                       - containers        : [
+💀    🚀 destroyDemoFronte... 🏁                                       -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                               - env            : [
+💀    🚀 destroyDemoFronte... 🏁                                               -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                                       - name : "API_HOST"
+💀    🚀 destroyDemoFronte... 🏁                                                       - value: "http://localhost:3000"
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                               -     [1]: {
+💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PULUMI_BACKEND_URL"
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                               -     [2]: {
+💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 destroyDemoFronte... 🏁                                                       - value: "defaultLocalPulumiPassphrase"
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                               -     [3]: {
+💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PYTHONUNBUFFERED"
+💀    🚀 destroyDemoFronte... 🏁                                                       - value: "1"
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                                 ]
+💀    🚀 destroyDemoFronte... 🏁                                               - image          : "demo-frontend:latest"
+💀    🚀 destroyDemoFronte... 🏁                                               - imagePullPolicy: "IfNotPresent"
+💀    🚀 destroyDemoFronte... 🏁                                               - name           : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                               - ports          : [
+💀    🚀 destroyDemoFronte... 🏁                                               -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                                       - containerPort: 80
+💀    🚀 destroyDemoFronte... 🏁                                                       - name         : "port0"
+💀    🚀 destroyDemoFronte... 🏁                                                       - protocol     : "TCP"
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                                 ]
+💀    🚀 destroyDemoFronte... 🏁                                             }
+💀    🚀 destroyDemoFronte... 🏁                                         ]
+💀    🚀 destroyDemoFronte... 🏁                                       - serviceAccountName: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoFronte... 🏁                   - generation        : 1
+💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                           - api_version: "apps/v1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - f:spec    : {
+💀    🚀 destroyDemoFronte... 🏁                                   - f:strategy               : {
+💀    🚀 destroyDemoFronte... 🏁                                       - f:rollingUpdate: {
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                   - f:template               : {
+💀    🚀 destroyDemoFronte... 🏁                                       - f:metadata: {
+💀    🚀 destroyDemoFronte... 🏁                                           - f:labels: {
+💀    🚀 destroyDemoFronte... 🏁                                             }
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                       - f:spec    : {
+💀    🚀 destroyDemoFronte... 🏁                                           - f:containers                   : {
+💀    🚀 destroyDemoFronte... 🏁                                               - k:{"name":"demo-frontend"}: {
+💀    🚀 destroyDemoFronte... 🏁                                                   - f:env                     : {
+💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"API_HOST"}                : {
+💀    🚀 destroyDemoFronte... 🏁                                                         }
+💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"PULUMI_BACKEND_URL"}      : {
+💀    🚀 destroyDemoFronte... 🏁                                                         }
+💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"PULUMI_CONFIG_PASSPHRASE"}: {
+💀    🚀 destroyDemoFronte... 🏁                                                         }
+💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"PYTHONUNBUFFERED"}        : {
+💀    🚀 destroyDemoFronte... 🏁                                                         }
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                                   - f:ports                   : {
+💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"containerPort":80,"protocol":"TCP"}: {
+💀    🚀 destroyDemoFronte... 🏁                                                         }
+💀    🚀 destroyDemoFronte... 🏁                                                     }
+💀    🚀 destroyDemoFronte... 🏁                                                 }
+💀    🚀 destroyDemoFronte... 🏁                                             }
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "4635"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "1a0d463e-10e2-400f-a9b2-86445c72f44f"
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - spec       : {
+💀    🚀 destroyDemoFronte... 🏁                   - progress_deadline_seconds: 600
+💀    🚀 destroyDemoFronte... 🏁                   - replicas                 : 1
+💀    🚀 destroyDemoFronte... 🏁                   - revision_history_limit   : 10
+💀    🚀 destroyDemoFronte... 🏁                   - selector                 : {
+💀    🚀 destroyDemoFronte... 🏁                       - match_labels: {
+💀    🚀 destroyDemoFronte... 🏁                           - app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                           - app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - strategy                 : {
+💀    🚀 destroyDemoFronte... 🏁                       - rolling_update: {
+💀    🚀 destroyDemoFronte... 🏁                           - max_surge      : "25%"
+💀    🚀 destroyDemoFronte... 🏁                           - max_unavailable: "25%"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                       - type          : "RollingUpdate"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - template                 : {
+💀    🚀 destroyDemoFronte... 🏁                       - metadata: {
+💀    🚀 destroyDemoFronte... 🏁                           - labels: {
+💀    🚀 destroyDemoFronte... 🏁                               - app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                               - app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                       - spec    : {
+💀    🚀 destroyDemoFronte... 🏁                           - containers                      : [
+💀    🚀 destroyDemoFronte... 🏁                           -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                   - env                       : [
+💀    🚀 destroyDemoFronte... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                           - name : "API_HOST"
+💀    🚀 destroyDemoFronte... 🏁                                           - value: "http://localhost:3000"
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                   -     [1]: {
+💀    🚀 destroyDemoFronte... 🏁                                           - name: "PULUMI_BACKEND_URL"
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                   -     [2]: {
+💀    🚀 destroyDemoFronte... 🏁                                           - name : "PULUMI_CONFIG_PASSPHRASE"
+💀    🚀 destroyDemoFronte... 🏁                                           - value: "defaultLocalPulumiPassphrase"
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                   -     [3]: {
+💀    🚀 destroyDemoFronte... 🏁                                           - name : "PYTHONUNBUFFERED"
+💀    🚀 destroyDemoFronte... 🏁                                           - value: "1"
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                     ]
+💀    🚀 destroyDemoFronte... 🏁                                   - image                     : "demo-frontend:latest"
+💀    🚀 destroyDemoFronte... 🏁                                   - image_pull_policy         : "IfNotPresent"
+💀    🚀 destroyDemoFronte... 🏁                                   - name                      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - ports                     : [
+💀    🚀 destroyDemoFronte... 🏁                                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                           - container_port: 80
+💀    🚀 destroyDemoFronte... 🏁                                           - name          : "port0"
+💀    🚀 destroyDemoFronte... 🏁                                           - protocol      : "TCP"
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                     ]
+💀    🚀 destroyDemoFronte... 🏁                                   - termination_message_path  : "/dev/termination-log"
+💀    🚀 destroyDemoFronte... 🏁                                   - termination_message_policy: "File"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                             ]
+💀    🚀 destroyDemoFronte... 🏁                           - dns_policy                      : "ClusterFirst"
+💀    🚀 destroyDemoFronte... 🏁                           - restart_policy                  : "Always"
+💀    🚀 destroyDemoFronte... 🏁                           - scheduler_name                  : "default-scheduler"
+💀    🚀 destroyDemoFronte... 🏁                           - service_account                 : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                           - service_account_name            : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                           - termination_grace_period_seconds: 30
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - urn        : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁             }
+💀    🚀 destroyDemoFronte... 🏁           - v1/Service:default/demo-frontend        : {
+💀    🚀 destroyDemoFronte... 🏁               - api_version: "v1"
+💀    🚀 destroyDemoFronte... 🏁               - id         : "default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁               - kind       : "Service"
+💀    🚀 destroyDemoFronte... 🏁               - metadata   : {
+💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
+💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoFronte... 🏁                           - kind      : "Service"
+💀    🚀 destroyDemoFronte... 🏁                           - metadata  : {
+💀    🚀 destroyDemoFronte... 🏁                               - annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                           - spec      : {
+💀    🚀 destroyDemoFronte... 🏁                               - ports   : [
+💀    🚀 destroyDemoFronte... 🏁                               -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                                       - name      : "port0"
+💀    🚀 destroyDemoFronte... 🏁                                       - port      : 80
+💀    🚀 destroyDemoFronte... 🏁                                       - protocol  : "TCP"
+💀    🚀 destroyDemoFronte... 🏁                                       - targetPort: "port0"
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 ]
+💀    🚀 destroyDemoFronte... 🏁                               - selector: {
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - type    : "LoadBalancer"
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - f:spec    : {
+💀    🚀 destroyDemoFronte... 🏁                                   - f:ports                        : {
+💀    🚀 destroyDemoFronte... 🏁                                       - k:{"port":80,"protocol":"TCP"}: {
+💀    🚀 destroyDemoFronte... 🏁                                         }
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "4639"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "4d41d859-ff31-4cc2-878c-8ff66fb3d522"
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - spec       : {
+💀    🚀 destroyDemoFronte... 🏁                   - allocate_load_balancer_node_ports: true
+💀    🚀 destroyDemoFronte... 🏁                   - cluster_ip                       : "10.111.70.140"
+💀    🚀 destroyDemoFronte... 🏁                   - cluster_ips                      : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "10.111.70.140"
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - external_traffic_policy          : "Cluster"
+💀    🚀 destroyDemoFronte... 🏁                   - internal_traffic_policy          : "Cluster"
+💀    🚀 destroyDemoFronte... 🏁                   - ip_families                      : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "IPv4"
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - ip_family_policy                 : "SingleStack"
+💀    🚀 destroyDemoFronte... 🏁                   - ports                            : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                           - name       : "port0"
+💀    🚀 destroyDemoFronte... 🏁                           - node_port  : 32142
+💀    🚀 destroyDemoFronte... 🏁                           - port       : 80
+💀    🚀 destroyDemoFronte... 🏁                           - protocol   : "TCP"
+💀    🚀 destroyDemoFronte... 🏁                           - target_port: "port0"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - selector                         : {
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance: "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name    : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - session_affinity                 : "None"
+💀    🚀 destroyDemoFronte... 🏁                   - type                             : "LoadBalancer"
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - status     : {
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - urn        : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁             }
+💀    🚀 destroyDemoFronte... 🏁           - v1/ServiceAccount:default/demo-frontend : {
+💀    🚀 destroyDemoFronte... 🏁               - api_version                    : "v1"
+💀    🚀 destroyDemoFronte... 🏁               - id                             : "default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁               - kind                           : "ServiceAccount"
+💀    🚀 destroyDemoFronte... 🏁               - metadata                       : {
+💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
+💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
+💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "v1"
+💀    🚀 destroyDemoFronte... 🏁                           - kind      : "ServiceAccount"
+💀    🚀 destroyDemoFronte... 🏁                           - metadata  : {
+💀    🚀 destroyDemoFronte... 🏁                               - annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
+💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
+💀    🚀 destroyDemoFronte... 🏁                     }
+💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
+💀    🚀 destroyDemoFronte... 🏁                           - api_version: "v1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
+💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
+💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
+💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
+💀    🚀 destroyDemoFronte... 🏁                                     }
+💀    🚀 destroyDemoFronte... 🏁                                 }
+💀    🚀 destroyDemoFronte... 🏁                             }
+💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
+💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-31T16:29:45Z"
+💀    🚀 destroyDemoFronte... 🏁                         }
+💀    🚀 destroyDemoFronte... 🏁                     ]
+💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "4634"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "b6d812b7-3357-48fb-9297-445c4a07439b"
+💀    🚀 destroyDemoFronte... 🏁                 }
+💀    🚀 destroyDemoFronte... 🏁               - urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁             }
+💀    🚀 destroyDemoFronte... 🏁         }
+💀    🚀 destroyDemoFronte... 🏁       - urn      : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart::demo-frontend"
+💀    🚀 destroyDemoFronte... 🏁     }
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁 Resources:
+💀    🚀 destroyDemoFronte... 🏁     - 5 to delete
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁 Destroying (dev):
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless deleting 
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleted 
 💀    🚀 prepareDemoBacken... 🏁 
 💀    🚀 prepareDemoBacken... 🏁 Manage the dependencies of a chart.
 💀    🚀 prepareDemoBacken... 🏁 
@@ -6160,13 +6879,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoBacken... 🏁 
 💀    🚀 prepareDemoBacken... 🏁 The 'version' field should contain a semantic version or version range.
 💀    🚀 prepareDemoBacken... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 3.038526062s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
 💀    🚀 prepareDemoBacken... 🏁 The 'repository' URL should point to a Chart Repository. Helm expects that by
 💀    🚀 prepareDemoBacken... 🏁 appending '/index.yaml' to the URL, it should be able to retrieve the chart
 💀    🚀 prepareDemoBacken... 🏁 repository's index. Note: 'repository' can be an alias. The alias must start
@@ -6205,16 +6917,11 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoBacken... 🏁       --kube-apiserver string       the address and the port for the Kubernetes API server
 💀    🚀 prepareDemoBacken... 🏁       --kube-as-group stringArray   group to impersonate for the operation, this flag can be repeated to specify multiple groups.
 💀    🚀 prepareDemoBacken... 🏁       --kube-as-user string         username to impersonate for the operation
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless deleted 
 💀    🚀 prepareDemoBacken... 🏁       --kube-ca-file string         the certificate authority file for the Kubernetes API server connection
 💀    🚀 prepareDemoBacken... 🏁       --kube-context string         name of the kubeconfig context to use
-💀 🔎 Job Starting...
-         Elapsed Time: 3.0403052s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=26335) 🏁 'prepareDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
 💀    🚀 prepareDemoBacken... 🏁       --kube-token string           bearer token used for authentication
+💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db deleting 
 💀    🚀 prepareDemoBacken... 🏁       --kubeconfig string           path to the kubeconfig file
 💀    🚀 prepareDemoBacken... 🏁   -n, --namespace string            namespace scope for this request
 💀    🚀 prepareDemoBacken... 🏁       --registry-config string      path to the registry config file (default "/home/gofrendi/.config/helm/registry/config.json")
@@ -6223,1624 +6930,12 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 prepareDemoBacken... 🏁 
 💀    🚀 prepareDemoBacken... 🏁 Use "helm dependency [command] --help" for more information about a command.
 💀    🚀 prepareDemoBacken... 🏁 🚧 Chart prepared.
-💀    🚀 destroyDemoDbDepl... 🏁 Previewing destroy (dev):
-💀 🎉 Successfully running 🏁 'prepareDemoBackendDeployment' command
-💀 🏁 Run 🏁 'destroyDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:StatefulSet default/demo-db delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart from-zero-to-cloud delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev delete 
-💀    🚀 destroyDemoDbDepl... 🏁  
-💀    🚀 destroyDemoDbDepl... 🏁 Outputs:
-💀    🚀 destroyDemoDbDepl... 🏁   - app: {
-💀    🚀 destroyDemoDbDepl... 🏁       - ready    : [
-💀    🚀 destroyDemoDbDepl... 🏁       -     [0]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁       -     [1]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Secret::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁       -     [2]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁       -     [3]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db-headless"
-💀    🚀 destroyDemoDbDepl... 🏁       -     [4]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁       -     [5]: "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:StatefulSet::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁         ]
-💀    🚀 destroyDemoDbDepl... 🏁       - resources: {
-💀    🚀 destroyDemoDbDepl... 🏁           - apps/v1/StatefulSet:default/demo-db: {
-💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "apps/v1"
-💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "StatefulSet"
-💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "apps/v1"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.329032433s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "StatefulSet"
-💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - replicas            : 1
-💀    🚀 destroyDemoDbDepl... 🏁                               - selector            : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - matchLabels: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                       - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                       - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - serviceName         : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                               - template            : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - checksum/configuration: "4cbad2fa296630f91d285d201eec782dcd6acadf02180e0f1f3ea436b9742ed2"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/managed-by: "Helm"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - affinity          : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.329928752s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                           - podAntiAffinity: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - preferredDuringSchedulingIgnoredDuringExecution: [
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - podAffinityTerm: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - labelSelector: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                               - matchLabels: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                                   - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                                                   - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - namespaces   : [
-💀    🚀 destroyDemoDbDepl... 🏁                                                           -     [0]: "default"
-💀    🚀 destroyDemoDbDepl... 🏁                                                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - topologyKey  : "kubernetes.io/hostname"
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - weight         : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - containers        : [
-💀    🚀 destroyDemoDbDepl... 🏁                                       -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - env            : [
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name : "BITNAMI_DEBUG"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - value: "false"
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [1]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "MYSQL_ROOT_PASSWORD"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - valueFrom: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - secretKeyRef: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                               - key : "mysql-root-password"
-💀    🚀 destroyDemoDbDepl... 🏁                                                               - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [2]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name : "MYSQL_USER"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - value: "mysql"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.332274012s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [3]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "MYSQL_PASSWORD"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - valueFrom: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - secretKeyRef: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                               - key : "mysql-password"
-💀    🚀 destroyDemoDbDepl... 🏁                                                               - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [4]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name : "MYSQL_DATABASE"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - value: "sample"
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                                               - image          : "docker.io/bitnami/mysql:8.0.29"
-💀    🚀 destroyDemoDbDepl... 🏁                                               - imagePullPolicy: "IfNotPresent"
-💀    🚀 destroyDemoDbDepl... 🏁                                               - livenessProbe  : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - exec               : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - command: [
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [0]: "/bin/bash"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [1]: "-ec"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
-💀    🚀 destroyDemoDbDepl... 🏁                                                         ]
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - failureThreshold   : 3
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - initialDelaySeconds: 5
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - periodSeconds      : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - successThreshold   : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - timeoutSeconds     : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - name           : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                               - ports          : [
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - containerPort: 3306
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name         : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                                               - readinessProbe : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - exec               : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.337178887s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - command: [
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [0]: "/bin/bash"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [1]: "-ec"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
-💀    🚀 destroyDemoDbDepl... 🏁                                                         ]
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - failureThreshold   : 3
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - initialDelaySeconds: 5
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - periodSeconds      : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - successThreshold   : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - timeoutSeconds     : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - resources      : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - securityContext: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - runAsUser: 1001
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - startupProbe   : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - exec               : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - command: [
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [0]: "/bin/bash"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [1]: "-ec"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
-💀    🚀 destroyDemoDbDepl... 🏁                                                         ]
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - failureThreshold   : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - initialDelaySeconds: 15
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - periodSeconds      : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - successThreshold   : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - timeoutSeconds     : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - volumeMounts   : [
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - mountPath: "/bitnami/mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "data"
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [1]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - mountPath: "/opt/bitnami/mysql/conf/my.cnf"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "config"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - subPath  : "my.cnf"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.337893334s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         ]
-💀    🚀 destroyDemoDbDepl... 🏁                                       - securityContext   : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - fsGroup: 1001
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - serviceAccountName: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                       - volumes           : [
-💀    🚀 destroyDemoDbDepl... 🏁                                       -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - configMap: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - name     : "config"
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         ]
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - updateStrategy      : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - type: "RollingUpdate"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - volumeClaimTemplates: [
-💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - labels: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                               - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                               - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name  : "data"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - accessModes: [
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "ReadWriteOnce"
-💀    🚀 destroyDemoDbDepl... 🏁                                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                                           - resources  : {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - requests: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - storage: "8Gi"
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀 🔎 Job Starting...
-         Elapsed Time: 3.338799976s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                   - generation        : 1
-💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "apps/v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:status: {
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "kube-controller-manager"
-💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - subresource: "status"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [1]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "apps/v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀 🔎 Job Starting...
-         Elapsed Time: 3.339394919s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:template            : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - f:metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - f:annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                           - f:labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - f:spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - f:affinity                     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - f:podAntiAffinity: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                           - f:containers                   : {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - k:{"name":"mysql"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:env                     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"BITNAMI_DEBUG"}      : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_DATABASE"}     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_PASSWORD"}     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - f:valueFrom: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_ROOT_PASSWORD"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                           - f:valueFrom: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"name":"MYSQL_USER"}         : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:livenessProbe           : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:ports                   : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"containerPort":3306,"protocol":"TCP"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:readinessProbe          : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.340036527s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:securityContext         : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:startupProbe            : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:volumeMounts            : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"mountPath":"/bitnami/mysql"}                : {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"mountPath":"/opt/bitnami/mysql/conf/my.cnf"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                           - f:securityContext              : {
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                           - f:volumes                      : {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - k:{"name":"config"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:configMap: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:updateStrategy      : {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56987"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "258c5409-6be7-4d35-bfa4-16445f8a4a62"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.351107179s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - pod_management_policy : "OrderedReady"
-💀    🚀 destroyDemoDbDepl... 🏁                   - replicas              : 1
-💀    🚀 destroyDemoDbDepl... 🏁                   - revision_history_limit: 10
-💀    🚀 destroyDemoDbDepl... 🏁                   - selector              : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - match_labels: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                           - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - service_name          : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                   - template              : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                               - checksum/configuration: "4cbad2fa296630f91d285d201eec782dcd6acadf02180e0f1f3ea436b9742ed2"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/managed-by: "Helm"
-💀    🚀 destroyDemoDbDepl... 🏁                               - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                               - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                       - spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                           - affinity                        : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - pod_anti_affinity: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - preferred_during_scheduling_ignored_during_execution: [
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - pod_affinity_term: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - label_selector: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - match_labels: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                               - namespaces    : [
-💀 🔎 Job Starting...
-         Elapsed Time: 3.352659822s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: "default"
-💀    🚀 destroyDemoDbDepl... 🏁                                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                                               - topology_key  : "kubernetes.io/hostname"
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                           - weight           : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - containers                      : [
-💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - env                       : [
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "BITNAMI_DEBUG"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "false"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [1]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "MYSQL_ROOT_PASSWORD"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - value_from: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - secret_key_ref: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - key : "mysql-root-password"
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [2]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_USER"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [3]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "MYSQL_PASSWORD"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - value_from: {
-💀    🚀 destroyDemoDbDepl... 🏁                                               - secret_key_ref: {
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - key : "mysql-password"
-💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                                             }
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [4]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name : "MYSQL_DATABASE"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.353684033s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                           - value: "sample"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                                   - image                     : "docker.io/bitnami/mysql:8.0.29"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - image_pull_policy         : "IfNotPresent"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - liveness_probe            : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - exec_                : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - command: [
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "/bin/bash"
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
-💀    🚀 destroyDemoDbDepl... 🏁                                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 3
-💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 5
-💀    🚀 destroyDemoDbDepl... 🏁                                       - period_seconds       : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                       - success_threshold    : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                       - timeout_seconds      : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - name                      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - ports                     : [
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - container_port: 3306
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name          : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - protocol      : "TCP"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                                   - readiness_probe           : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - exec_                : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - command: [
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "/bin/bash"
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
-💀    🚀 destroyDemoDbDepl... 🏁                                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 3
-💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 5
-💀    🚀 destroyDemoDbDepl... 🏁                                       - period_seconds       : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                       - success_threshold    : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                       - timeout_seconds      : 1
-💀 🔎 Job Starting...
-         Elapsed Time: 3.355777757s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - security_context          : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - run_as_user: 1001
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - startup_probe             : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - exec_                : {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - command: [
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "/bin/bash"
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
-💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
-💀    🚀 destroyDemoDbDepl... 🏁                                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 15
-💀    🚀 destroyDemoDbDepl... 🏁                                       - period_seconds       : 10
-💀    🚀 destroyDemoDbDepl... 🏁                                       - success_threshold    : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                       - timeout_seconds      : 1
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_path  : "/dev/termination-log"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - termination_message_policy: "File"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - volume_mounts             : [
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - mount_path: "/bitnami/mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "data"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                   -     [1]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                           - mount_path: "/opt/bitnami/mysql/conf/my.cnf"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - name      : "config"
-💀    🚀 destroyDemoDbDepl... 🏁                                           - sub_path  : "my.cnf"
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                           - dns_policy                      : "ClusterFirst"
-💀    🚀 destroyDemoDbDepl... 🏁                           - restart_policy                  : "Always"
-💀    🚀 destroyDemoDbDepl... 🏁                           - scheduler_name                  : "default-scheduler"
-💀    🚀 destroyDemoDbDepl... 🏁                           - security_context                : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - fs_group: 1001
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - service_account                 : "demo-db"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.357322295s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                           - service_account_name            : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                           - termination_grace_period_seconds: 30
-💀    🚀 destroyDemoDbDepl... 🏁                           - volumes                         : [
-💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - config_map: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - default_mode: 420
-💀    🚀 destroyDemoDbDepl... 🏁                                       - name        : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - name      : "config"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - update_strategy       : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - type: "RollingUpdate"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - volume_claim_templates: [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - kind       : "PersistentVolumeClaim"
-💀    🚀 destroyDemoDbDepl... 🏁                           - metadata   : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - labels: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - name  : "data"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - spec       : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - access_modes: [
-💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: "ReadWriteOnce"
-💀    🚀 destroyDemoDbDepl... 🏁                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                               - resources   : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - requests: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - storage: "8Gi"
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - volume_mode : "Filesystem"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - status     : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.358741152s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                               - phase: "Pending"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - available_replicas : 0
-💀    🚀 destroyDemoDbDepl... 🏁                   - collision_count    : 0
-💀    🚀 destroyDemoDbDepl... 🏁                   - current_replicas   : 1
-💀    🚀 destroyDemoDbDepl... 🏁                   - current_revision   : "demo-db-996b9456f"
-💀    🚀 destroyDemoDbDepl... 🏁                   - observed_generation: 1
-💀    🚀 destroyDemoDbDepl... 🏁                   - replicas           : 1
-💀    🚀 destroyDemoDbDepl... 🏁                   - update_revision    : "demo-db-996b9456f"
-💀    🚀 destroyDemoDbDepl... 🏁                   - updated_replicas   : 1
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:StatefulSet::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁             }
-💀    🚀 destroyDemoDbDepl... 🏁           - v1/ConfigMap:default/demo-db       : {
-💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁               - data       : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - my.cnf: (yaml) [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "mysqld"
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "ConfigMap"
-💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - data      : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - my.cnf: (yaml) [
-💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: "mysqld"
-💀    🚀 destroyDemoDbDepl... 🏁                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "ConfigMap"
-💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.360488623s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:data    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.361164442s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56976"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "ee6dfaf1-376c-4657-9d36-c1806a89af66"
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁             }
-💀    🚀 destroyDemoDbDepl... 🏁           - v1/Secret:default/demo-db          : {
-💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁               - data       : [secret]
-💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "Secret"
-💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : [secret]
-💀    🚀 destroyDemoDbDepl... 🏁               - type       : "Opaque"
-💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Secret::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁             }
-💀    🚀 destroyDemoDbDepl... 🏁           - v1/Service:default/demo-db         : {
-💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "Service"
-💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "Service"
-💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.36214504s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - ports   : [
-💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                       - port      : 3306
-💀    🚀 destroyDemoDbDepl... 🏁                                       - protocol  : "TCP"
-💀    🚀 destroyDemoDbDepl... 🏁                                       - targetPort: "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 ]
-💀    🚀 destroyDemoDbDepl... 🏁                               - selector: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - type    : "ClusterIP"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 3.363381538s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:ports                : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - k:{"port":3306,"protocol":"TCP"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56981"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "3aead925-e9a4-41aa-b8bc-212a55d0410a"
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip             : "10.103.197.72"
-💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ips            : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "10.103.197.72"
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - internal_traffic_policy: "Cluster"
-💀    🚀 destroyDemoDbDepl... 🏁                   - ip_families            : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "IPv4"
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - ip_family_policy       : "SingleStack"
-💀    🚀 destroyDemoDbDepl... 🏁                   - ports                  : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - name       : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                           - port       : 3306
-💀    🚀 destroyDemoDbDepl... 🏁                           - protocol   : "TCP"
-💀    🚀 destroyDemoDbDepl... 🏁                           - target_port: "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - selector               : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name     : "mysql"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.364681405s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - session_affinity       : "None"
-💀    🚀 destroyDemoDbDepl... 🏁                   - type                   : "ClusterIP"
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁             }
-💀    🚀 destroyDemoDbDepl... 🏁           - v1/Service:default/demo-db-headless: {
-💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db-headless"
-💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "Service"
-💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "Service"
-💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db-headless"
-💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - clusterIP               : "None"
-💀    🚀 destroyDemoDbDepl... 🏁                               - ports                   : [
-💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                       - port      : 3306
-💀    🚀 destroyDemoDbDepl... 🏁                                       - targetPort: "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 ]
-💀 🔎 Job Starting...
-         Elapsed Time: 3.366110469s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                               - publishNotReadyAddresses: true
-💀    🚀 destroyDemoDbDepl... 🏁                               - selector                : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - type                    : "ClusterIP"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:ports                   : {
-💀    🚀 destroyDemoDbDepl... 🏁                                       - k:{"port":3306,"protocol":"TCP"}: {
-💀    🚀 destroyDemoDbDepl... 🏁                                         }
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.366853746s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db-headless"
-💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56975"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "82561992-58a2-4a3f-a845-fcf4db7ecef4"
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip                 : "None"
-💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ips                : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "None"
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - internal_traffic_policy    : "Cluster"
-💀    🚀 destroyDemoDbDepl... 🏁                   - ip_families                : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "IPv4"
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - ip_family_policy           : "SingleStack"
-💀    🚀 destroyDemoDbDepl... 🏁                   - ports                      : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - name       : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                           - port       : 3306
-💀    🚀 destroyDemoDbDepl... 🏁                           - protocol   : "TCP"
-💀    🚀 destroyDemoDbDepl... 🏁                           - target_port: "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - publish_not_ready_addresses: true
-💀    🚀 destroyDemoDbDepl... 🏁                   - selector                   : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component: "primary"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name     : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - session_affinity           : "None"
-💀    🚀 destroyDemoDbDepl... 🏁                   - type                       : "ClusterIP"
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-db-headless"
-💀    🚀 destroyDemoDbDepl... 🏁             }
-💀    🚀 destroyDemoDbDepl... 🏁           - v1/ServiceAccount:default/demo-db  : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.369698596s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁               - api_version                    : "v1"
-💀    🚀 destroyDemoDbDepl... 🏁               - id                             : "default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁               - kind                           : "ServiceAccount"
-💀    🚀 destroyDemoDbDepl... 🏁               - metadata                       : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - annotations       : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoDbDepl... 🏁                           - apiVersion: "v1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - kind      : "ServiceAccount"
-💀    🚀 destroyDemoDbDepl... 🏁                           - metadata  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                                   - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - name       : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - secrets   : [
-💀    🚀 destroyDemoDbDepl... 🏁                           -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             ]
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
-💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.371455252s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                               - f:secrets : {
-💀    🚀 destroyDemoDbDepl... 🏁                                 }
-💀    🚀 destroyDemoDbDepl... 🏁                             }
-💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoDbDepl... 🏁                         }
-💀    🚀 destroyDemoDbDepl... 🏁                     ]
-💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56973"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "52e66d20-aaa0-4739-a293-081af5a7a3e1"
-💀    🚀 destroyDemoDbDepl... 🏁                 }
-💀    🚀 destroyDemoDbDepl... 🏁               - secrets                        : [
-💀    🚀 destroyDemoDbDepl... 🏁               -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁                       - name: "demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                 ]
-💀    🚀 destroyDemoDbDepl... 🏁               - urn                            : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-db"
-💀    🚀 destroyDemoDbDepl... 🏁             }
-💀    🚀 destroyDemoDbDepl... 🏁         }
-💀    🚀 destroyDemoDbDepl... 🏁       - urn      : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart::from-zero-to-cloud"
-💀    🚀 destroyDemoDbDepl... 🏁     }
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁 Resources:
-💀    🚀 destroyDemoDbDepl... 🏁     - 8 to delete
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁 Destroying (dev):
-💀    🚀 destroyDemoFronte... 🏁 Previewing destroy (dev):
-💀    🚀 destroyDemoDbDepl... 🏁 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:StatefulSet default/demo-db deleting 
-💀 🔎 Job Starting...
-         Elapsed Time: 3.520606924s
-         Current Time: 20:48:24
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db deleting 
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:Service default/demo-frontend delete 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend delete 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend delete 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend delete 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Secret default/demo-db deleted 
-💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev delete 
-💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev delete 
-💀    🚀 destroyDemoFronte... 🏁  
-💀    🚀 destroyDemoFronte... 🏁 Outputs:
-💀    🚀 destroyDemoFronte... 🏁   - app: {
-💀    🚀 destroyDemoFronte... 🏁       - ready    : [
-💀    🚀 destroyDemoFronte... 🏁       -     [0]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁       -     [1]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁       -     [2]: "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁         ]
-💀    🚀 destroyDemoFronte... 🏁       - resources: {
-💀    🚀 destroyDemoFronte... 🏁           - apps/v1/Deployment:default/demo-frontend: {
-💀    🚀 destroyDemoFronte... 🏁               - api_version: "apps/v1"
-💀    🚀 destroyDemoFronte... 🏁               - id         : "default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁               - kind       : "Deployment"
-💀    🚀 destroyDemoFronte... 🏁               - metadata   : {
-💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
-💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "apps/v1"
-💀    🚀 destroyDemoFronte... 🏁                           - kind      : "Deployment"
-💀    🚀 destroyDemoFronte... 🏁                           - metadata  : {
-💀    🚀 destroyDemoFronte... 🏁                               - annotations: {
-💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.766195385s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                           - spec      : {
-💀    🚀 destroyDemoFronte... 🏁                               - replicas: 1
-💀    🚀 destroyDemoFronte... 🏁                               - selector: {
-💀    🚀 destroyDemoFronte... 🏁                                   - matchLabels: {
-💀    🚀 destroyDemoFronte... 🏁                                       - app.kubernetes.io/instance: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                       - app.kubernetes.io/name    : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - template: {
-💀    🚀 destroyDemoFronte... 🏁                                   - metadata: {
-💀    🚀 destroyDemoFronte... 🏁                                       - labels: {
-💀    🚀 destroyDemoFronte... 🏁                                           - app.kubernetes.io/instance: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                           - app.kubernetes.io/name    : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                   - spec    : {
-💀    🚀 destroyDemoFronte... 🏁                                       - containers        : [
-💀    🚀 destroyDemoFronte... 🏁                                       -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                               - env            : [
-💀    🚀 destroyDemoFronte... 🏁                                               -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                                       - name : "API_HOST"
-💀    🚀 destroyDemoFronte... 🏁                                                       - value: "http://localhost:3000"
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                               -     [1]: {
-💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PULUMI_BACKEND_URL"
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                               -     [2]: {
-💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PULUMI_CONFIG_PASSPHRASE"
-💀    🚀 destroyDemoFronte... 🏁                                                       - value: "defaultLocalPulumiPassphrase"
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                               -     [3]: {
-💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PYTHONUNBUFFERED"
-💀    🚀 destroyDemoFronte... 🏁                                                       - value: "1"
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                                 ]
-💀 🔎 Job Starting...
-         Elapsed Time: 3.767891964s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                                               - image          : "demo-frontend:latest"
-💀    🚀 destroyDemoFronte... 🏁                                               - imagePullPolicy: "IfNotPresent"
-💀    🚀 destroyDemoFronte... 🏁                                               - name           : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                               - ports          : [
-💀    🚀 destroyDemoFronte... 🏁                                               -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                                       - containerPort: 80
-💀    🚀 destroyDemoFronte... 🏁                                                       - name         : "port0"
-💀    🚀 destroyDemoFronte... 🏁                                                       - protocol     : "TCP"
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                                 ]
-💀    🚀 destroyDemoFronte... 🏁                                             }
-💀    🚀 destroyDemoFronte... 🏁                                         ]
-💀    🚀 destroyDemoFronte... 🏁                                       - serviceAccountName: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoFronte... 🏁                   - generation        : 1
-💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
-💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:apps/v1:StatefulSet default/demo-db deleted 
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db deleting 
-💀    🚀 destroyDemoFronte... 🏁                           - api_version: "apps/v1"
-💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.770439497s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ConfigMap default/demo-db deleted 
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - f:spec    : {
-💀    🚀 destroyDemoFronte... 🏁                                   - f:strategy               : {
-💀    🚀 destroyDemoFronte... 🏁                                       - f:rollingUpdate: {
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                   - f:template               : {
-💀    🚀 destroyDemoFronte... 🏁                                       - f:metadata: {
-💀    🚀 destroyDemoFronte... 🏁                                           - f:labels: {
-💀    🚀 destroyDemoFronte... 🏁                                             }
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                       - f:spec    : {
-💀    🚀 destroyDemoFronte... 🏁                                           - f:containers                   : {
-💀    🚀 destroyDemoFronte... 🏁                                               - k:{"name":"demo-frontend"}: {
-💀    🚀 destroyDemoFronte... 🏁                                                   - f:env                     : {
-💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"API_HOST"}                : {
-💀    🚀 destroyDemoFronte... 🏁                                                         }
-💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"PULUMI_BACKEND_URL"}      : {
-💀    🚀 destroyDemoFronte... 🏁                                                         }
-💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"PULUMI_CONFIG_PASSPHRASE"}: {
-💀    🚀 destroyDemoFronte... 🏁                                                         }
-💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"name":"PYTHONUNBUFFERED"}        : {
-💀    🚀 destroyDemoFronte... 🏁                                                         }
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                                   - f:ports                   : {
-💀    🚀 destroyDemoFronte... 🏁                                                       - k:{"containerPort":80,"protocol":"TCP"}: {
-💀    🚀 destroyDemoFronte... 🏁                                                         }
-💀    🚀 destroyDemoFronte... 🏁                                                     }
-💀    🚀 destroyDemoFronte... 🏁                                                 }
-💀    🚀 destroyDemoFronte... 🏁                                             }
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 3.771085178s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                     ]
-💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "56952"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "4f5714a8-c274-4a75-a529-54e3fde5e77f"
-💀    🚀 destroyDemoFronte... 🏁                 }
-💀    🚀 destroyDemoFronte... 🏁               - spec       : {
-💀    🚀 destroyDemoFronte... 🏁                   - progress_deadline_seconds: 600
-💀    🚀 destroyDemoFronte... 🏁                   - replicas                 : 1
-💀    🚀 destroyDemoFronte... 🏁                   - revision_history_limit   : 10
-💀    🚀 destroyDemoFronte... 🏁                   - selector                 : {
-💀    🚀 destroyDemoFronte... 🏁                       - match_labels: {
-💀    🚀 destroyDemoFronte... 🏁                           - app.kubernetes.io/instance: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                           - app.kubernetes.io/name    : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - strategy                 : {
-💀    🚀 destroyDemoFronte... 🏁                       - rolling_update: {
-💀    🚀 destroyDemoFronte... 🏁                           - max_surge      : "25%"
-💀    🚀 destroyDemoFronte... 🏁                           - max_unavailable: "25%"
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                       - type          : "RollingUpdate"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - template                 : {
-💀    🚀 destroyDemoFronte... 🏁                       - metadata: {
-💀    🚀 destroyDemoFronte... 🏁                           - labels: {
-💀    🚀 destroyDemoFronte... 🏁                               - app.kubernetes.io/instance: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                               - app.kubernetes.io/name    : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                       - spec    : {
-💀    🚀 destroyDemoFronte... 🏁                           - containers                      : [
-💀    🚀 destroyDemoFronte... 🏁                           -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                   - env                       : [
-💀    🚀 destroyDemoFronte... 🏁                                   -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                           - name : "API_HOST"
-💀    🚀 destroyDemoFronte... 🏁                                           - value: "http://localhost:3000"
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                   -     [1]: {
-💀    🚀 destroyDemoFronte... 🏁                                           - name: "PULUMI_BACKEND_URL"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.771919276s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                   -     [2]: {
-💀    🚀 destroyDemoFronte... 🏁                                           - name : "PULUMI_CONFIG_PASSPHRASE"
-💀    🚀 destroyDemoFronte... 🏁                                           - value: "defaultLocalPulumiPassphrase"
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                   -     [3]: {
-💀    🚀 destroyDemoFronte... 🏁                                           - name : "PYTHONUNBUFFERED"
-💀    🚀 destroyDemoFronte... 🏁                                           - value: "1"
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                     ]
-💀    🚀 destroyDemoFronte... 🏁                                   - image                     : "demo-frontend:latest"
-💀    🚀 destroyDemoFronte... 🏁                                   - image_pull_policy         : "IfNotPresent"
-💀    🚀 destroyDemoFronte... 🏁                                   - name                      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - ports                     : [
-💀    🚀 destroyDemoFronte... 🏁                                   -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                           - container_port: 80
-💀    🚀 destroyDemoFronte... 🏁                                           - name          : "port0"
-💀    🚀 destroyDemoFronte... 🏁                                           - protocol      : "TCP"
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                     ]
-💀    🚀 destroyDemoFronte... 🏁                                   - termination_message_path  : "/dev/termination-log"
-💀    🚀 destroyDemoFronte... 🏁                                   - termination_message_policy: "File"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                             ]
-💀    🚀 destroyDemoFronte... 🏁                           - dns_policy                      : "ClusterFirst"
-💀    🚀 destroyDemoFronte... 🏁                           - restart_policy                  : "Always"
-💀    🚀 destroyDemoFronte... 🏁                           - scheduler_name                  : "default-scheduler"
-💀    🚀 destroyDemoFronte... 🏁                           - service_account                 : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                           - service_account_name            : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                           - termination_grace_period_seconds: 30
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                 }
-💀    🚀 destroyDemoFronte... 🏁               - urn        : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁             }
-💀    🚀 destroyDemoFronte... 🏁           - v1/Service:default/demo-frontend        : {
-💀    🚀 destroyDemoFronte... 🏁               - api_version: "v1"
-💀    🚀 destroyDemoFronte... 🏁               - id         : "default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁               - kind       : "Service"
-💀    🚀 destroyDemoFronte... 🏁               - metadata   : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.772448684s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
-💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "v1"
-💀    🚀 destroyDemoFronte... 🏁                           - kind      : "Service"
-💀    🚀 destroyDemoFronte... 🏁                           - metadata  : {
-💀    🚀 destroyDemoFronte... 🏁                               - annotations: {
-💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
-💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                           - spec      : {
-💀    🚀 destroyDemoFronte... 🏁                               - ports   : [
-💀    🚀 destroyDemoFronte... 🏁                               -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                                       - name      : "port0"
-💀    🚀 destroyDemoFronte... 🏁                                       - port      : 80
-💀    🚀 destroyDemoFronte... 🏁                                       - protocol  : "TCP"
-💀    🚀 destroyDemoFronte... 🏁                                       - targetPort: "port0"
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 ]
-💀    🚀 destroyDemoFronte... 🏁                               - selector: {
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name    : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - type    : "LoadBalancer"
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.775518686s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
-💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                           - api_version: "v1"
-💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - f:spec    : {
-💀    🚀 destroyDemoFronte... 🏁                                   - f:ports                        : {
-💀    🚀 destroyDemoFronte... 🏁                                       - k:{"port":80,"protocol":"TCP"}: {
-💀    🚀 destroyDemoFronte... 🏁                                         }
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                     ]
-💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "56954"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "503a2a84-11be-412f-a771-fc293ccaf81c"
-💀    🚀 destroyDemoFronte... 🏁                 }
-💀    🚀 destroyDemoFronte... 🏁               - spec       : {
-💀    🚀 destroyDemoFronte... 🏁                   - allocate_load_balancer_node_ports: true
-💀    🚀 destroyDemoFronte... 🏁                   - cluster_ip                       : "10.108.243.109"
-💀    🚀 destroyDemoFronte... 🏁                   - cluster_ips                      : [
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "10.108.243.109"
-💀    🚀 destroyDemoFronte... 🏁                     ]
-💀    🚀 destroyDemoFronte... 🏁                   - external_traffic_policy          : "Cluster"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.77629136s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                   - internal_traffic_policy          : "Cluster"
-💀    🚀 destroyDemoFronte... 🏁                   - ip_families                      : [
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "IPv4"
-💀    🚀 destroyDemoFronte... 🏁                     ]
-💀    🚀 destroyDemoFronte... 🏁                   - ip_family_policy                 : "SingleStack"
-💀    🚀 destroyDemoFronte... 🏁                   - ports                            : [
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                           - name       : "port0"
-💀    🚀 destroyDemoFronte... 🏁                           - node_port  : 31704
-💀    🚀 destroyDemoFronte... 🏁                           - port       : 80
-💀    🚀 destroyDemoFronte... 🏁                           - protocol   : "TCP"
-💀    🚀 destroyDemoFronte... 🏁                           - target_port: "port0"
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                     ]
-💀    🚀 destroyDemoFronte... 🏁                   - selector                         : {
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance: "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name    : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - session_affinity                 : "None"
-💀    🚀 destroyDemoFronte... 🏁                   - type                             : "LoadBalancer"
-💀    🚀 destroyDemoFronte... 🏁                 }
-💀    🚀 destroyDemoFronte... 🏁               - status     : {
-💀    🚀 destroyDemoFronte... 🏁                 }
-💀    🚀 destroyDemoFronte... 🏁               - urn        : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:Service::default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁             }
-💀    🚀 destroyDemoFronte... 🏁           - v1/ServiceAccount:default/demo-frontend : {
-💀    🚀 destroyDemoFronte... 🏁               - api_version                    : "v1"
-💀    🚀 destroyDemoFronte... 🏁               - id                             : "default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁               - kind                           : "ServiceAccount"
-💀    🚀 destroyDemoFronte... 🏁               - metadata                       : {
-💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
-💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
-💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "v1"
-💀    🚀 destroyDemoFronte... 🏁                           - kind      : "ServiceAccount"
-💀    🚀 destroyDemoFronte... 🏁                           - metadata  : {
-💀    🚀 destroyDemoFronte... 🏁                               - annotations: {
-💀    🚀 destroyDemoFronte... 🏁                                   - pulumi.com/skipAwait: "true"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.777098081s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
-💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                               - name       : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                               - namespace  : "default"
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
-💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
-💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - managed_fields    : [
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
-💀    🚀 destroyDemoFronte... 🏁                           - api_version: "v1"
-💀    🚀 destroyDemoFronte... 🏁                           - fields_type: "FieldsV1"
-💀    🚀 destroyDemoFronte... 🏁                           - fields_v1  : {
-💀    🚀 destroyDemoFronte... 🏁                               - f:metadata: {
-💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
-💀    🚀 destroyDemoFronte... 🏁                                     }
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleting 
-💀    🚀 destroyDemoFronte... 🏁                                 }
-💀    🚀 destroyDemoFronte... 🏁                             }
-💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
-💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀    🚀 destroyDemoFronte... 🏁                         }
-💀    🚀 destroyDemoFronte... 🏁                     ]
-💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.777946644s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "56951"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "58f0c070-ed42-476a-9895-68ce8bfa8838"
-💀    🚀 destroyDemoFronte... 🏁                 }
-💀    🚀 destroyDemoFronte... 🏁               - urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁             }
-💀    🚀 destroyDemoFronte... 🏁         }
-💀    🚀 destroyDemoFronte... 🏁       - urn      : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart::demo-frontend"
-💀    🚀 destroyDemoFronte... 🏁     }
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁 Resources:
-💀    🚀 destroyDemoFronte... 🏁     - 5 to delete
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁 Destroying (dev):
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-db deleted 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless deleting 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db-headless deleted 
-💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db deleting 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:core/v1:Service default/demo-db deleted 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart from-zero-to-cloud deleting 
 💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev deleting 
-💀    🚀 destroyDemoFronte... 🏁 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:Service default/demo-frontend deleting 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
 💀    🚀 destroyDemoDbDepl... 🏁  -  pulumi:pulumi:Stack demoDbDeployment-dev deleted 
 💀    🚀 destroyDemoDbDepl... 🏁  -  kubernetes:helm.sh/v3:Chart from-zero-to-cloud deleted 
 💀    🚀 destroyDemoDbDepl... 🏁  
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleting 
 💀    🚀 destroyDemoDbDepl... 🏁 Outputs:
 💀    🚀 destroyDemoDbDepl... 🏁   - app: {
 💀    🚀 destroyDemoDbDepl... 🏁       - ready    : [
@@ -7854,13 +6949,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁       - resources: {
 💀    🚀 destroyDemoDbDepl... 🏁           - apps/v1/StatefulSet:default/demo-db: {
 💀    🚀 destroyDemoDbDepl... 🏁               - api_version: "apps/v1"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.917272437s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁               - id         : "default/demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁               - kind       : "StatefulSet"
 💀    🚀 destroyDemoDbDepl... 🏁               - metadata   : {
@@ -7901,13 +6989,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/component : "primary"
 💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/instance  : "from-zero-to-cloud"
 💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/managed-by: "Helm"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.918683562s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                           - app.kubernetes.io/name      : "mysql"
 💀    🚀 destroyDemoDbDepl... 🏁                                           - helm.sh/chart               : "mysql-8.8.27"
 💀    🚀 destroyDemoDbDepl... 🏁                                         }
@@ -7948,13 +7029,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                                           - secretKeyRef: {
 💀    🚀 destroyDemoDbDepl... 🏁                                                               - key : "mysql-root-password"
 💀    🚀 destroyDemoDbDepl... 🏁                                                               - name: "demo-db"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.919391246s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                                             }
 💀    🚀 destroyDemoDbDepl... 🏁                                                         }
 💀    🚀 destroyDemoDbDepl... 🏁                                                     }
@@ -7995,13 +7069,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                               - name           : "mysql"
 💀    🚀 destroyDemoDbDepl... 🏁                                               - ports          : [
 💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.923208116s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - containerPort: 3306
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - name         : "mysql"
 💀    🚀 destroyDemoDbDepl... 🏁                                                     }
@@ -8042,13 +7109,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                               - volumeMounts   : [
 💀    🚀 destroyDemoDbDepl... 🏁                                               -     [0]: {
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - mountPath: "/bitnami/mysql"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.927915187s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - name     : "data"
 💀    🚀 destroyDemoDbDepl... 🏁                                                     }
 💀    🚀 destroyDemoDbDepl... 🏁                                               -     [1]: {
@@ -8089,13 +7149,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                       - spec    : {
 💀    🚀 destroyDemoDbDepl... 🏁                                           - accessModes: [
 💀    🚀 destroyDemoDbDepl... 🏁                                           -     [0]: "ReadWriteOnce"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.928909942s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                             ]
 💀    🚀 destroyDemoDbDepl... 🏁                                           - resources  : {
 💀    🚀 destroyDemoDbDepl... 🏁                                               - requests: {
@@ -8110,7 +7163,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - generation        : 1
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
@@ -8130,19 +7183,12 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "kube-controller-manager"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
 💀    🚀 destroyDemoDbDepl... 🏁                           - subresource: "status"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                   -     [1]: {
 💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "apps/v1"
 💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
 💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.929929828s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
 💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
 💀    🚀 destroyDemoDbDepl... 🏁                                     }
@@ -8183,13 +7229,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:livenessProbe           : {
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - f:exec               : {
 💀    🚀 destroyDemoDbDepl... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 3.931055942s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                                     }
 💀    🚀 destroyDemoDbDepl... 🏁                                                   - f:ports                   : {
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - k:{"containerPort":3306,"protocol":"TCP"}: {
@@ -8229,20 +7268,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.932677958s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56987"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "258c5409-6be7-4d35-bfa4-16445f8a4a62"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4624"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "d5e45e64-965d-4c68-a80a-4e93a9c2fee9"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
 💀    🚀 destroyDemoDbDepl... 🏁                   - pod_management_policy : "OrderedReady"
@@ -8277,13 +7309,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                           - pod_affinity_term: {
 💀    🚀 destroyDemoDbDepl... 🏁                                               - label_selector: {
 💀    🚀 destroyDemoDbDepl... 🏁                                                   - match_labels: {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.934510883s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/component: "primary"
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/instance : "from-zero-to-cloud"
 💀    🚀 destroyDemoDbDepl... 🏁                                                       - app.kubernetes.io/name     : "mysql"
@@ -8324,13 +7349,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                           - value_from: {
 💀    🚀 destroyDemoDbDepl... 🏁                                               - secret_key_ref: {
 💀    🚀 destroyDemoDbDepl... 🏁                                                   - key : "mysql-password"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.936524409s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                                   - name: "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                                                 }
 💀    🚀 destroyDemoDbDepl... 🏁                                             }
@@ -8371,13 +7389,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                           -     [1]: "-ec"
 💀    🚀 destroyDemoDbDepl... 🏁                                           -     [2]: "password_aux=\"${MYSQL_ROOT_PASSWORD:-}\"\nif [[ -f \"${MYSQL_ROOT_PASSWORD_FILE:-}\" ]]; then\n    password_aux=$(cat \"$MYSQL_ROOT_PASSWORD_FILE\")\nfi\nmysqladmin status -uroot -p\"${password_aux}\"\n"
 💀    🚀 destroyDemoDbDepl... 🏁                                             ]
-💀 🔎 Job Starting...
-         Elapsed Time: 3.937837821s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                         }
 💀    🚀 destroyDemoDbDepl... 🏁                                       - failure_threshold    : 3
 💀    🚀 destroyDemoDbDepl... 🏁                                       - initial_delay_seconds: 5
@@ -8418,13 +7429,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
 💀    🚀 destroyDemoDbDepl... 🏁                             ]
 💀    🚀 destroyDemoDbDepl... 🏁                           - dns_policy                      : "ClusterFirst"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.940387671s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                           - restart_policy                  : "Always"
 💀    🚀 destroyDemoDbDepl... 🏁                           - scheduler_name                  : "default-scheduler"
 💀    🚀 destroyDemoDbDepl... 🏁                           - security_context                : {
@@ -8465,13 +7469,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                 ]
 💀    🚀 destroyDemoDbDepl... 🏁                               - resources   : {
 💀    🚀 destroyDemoDbDepl... 🏁                                   - requests: {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.942092848s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                       - storage: "8Gi"
 💀    🚀 destroyDemoDbDepl... 🏁                                     }
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
@@ -8512,13 +7509,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                           - data      : {
 💀    🚀 destroyDemoDbDepl... 🏁                               - my.cnf: (yaml) [
 💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: "mysqld"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.94373066s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                 ]
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                             }
@@ -8541,7 +7531,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
@@ -8559,26 +7549,19 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
 💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
 💀    🚀 destroyDemoDbDepl... 🏁                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 3.944754557s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                   - f:labels     : {
 💀    🚀 destroyDemoDbDepl... 🏁                                     }
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56976"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "ee6dfaf1-376c-4657-9d36-c1806a89af66"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4607"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "bf1f2b03-3ed0-4846-9ded-4f16e1d06b32"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - urn        : "urn:pulumi:dev::demoDbDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ConfigMap::default/demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁             }
@@ -8606,13 +7589,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
 💀    🚀 destroyDemoDbDepl... 🏁                               - labels     : {
 💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/component : "primary"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.946321298s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/instance  : "from-zero-to-cloud"
 💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
 💀    🚀 destroyDemoDbDepl... 🏁                                   - app.kubernetes.io/name      : "mysql"
@@ -8641,7 +7617,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
@@ -8653,13 +7629,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: {
 💀    🚀 destroyDemoDbDepl... 🏁                           - api_version: "v1"
 💀    🚀 destroyDemoDbDepl... 🏁                           - fields_type: "FieldsV1"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.94693012s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                           - fields_v1  : {
 💀    🚀 destroyDemoDbDepl... 🏁                               - f:metadata: {
 💀    🚀 destroyDemoDbDepl... 🏁                                   - f:annotations: {
@@ -8676,18 +7645,18 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56981"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "3aead925-e9a4-41aa-b8bc-212a55d0410a"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4611"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "2df3e339-5dca-44a2-b2e6-951fdee52dd4"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
-💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip             : "10.103.197.72"
+💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip             : "10.107.92.28"
 💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ips            : [
-💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "10.103.197.72"
+💀    🚀 destroyDemoDbDepl... 🏁                   -     [0]: "10.107.92.28"
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - internal_traffic_policy: "Cluster"
 💀    🚀 destroyDemoDbDepl... 🏁                   - ip_families            : [
@@ -8700,13 +7669,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                           - port       : 3306
 💀    🚀 destroyDemoDbDepl... 🏁                           - protocol   : "TCP"
 💀    🚀 destroyDemoDbDepl... 🏁                           - target_port: "mysql"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.947459215s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - selector               : {
@@ -8747,13 +7709,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                           - spec      : {
 💀    🚀 destroyDemoDbDepl... 🏁                               - clusterIP               : "None"
 💀    🚀 destroyDemoDbDepl... 🏁                               - ports                   : [
-💀 🔎 Job Starting...
-         Elapsed Time: 3.948658037s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                               -     [0]: {
 💀    🚀 destroyDemoDbDepl... 🏁                                       - name      : "mysql"
 💀    🚀 destroyDemoDbDepl... 🏁                                       - port      : 3306
@@ -8772,7 +7727,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/component : "primary"
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
@@ -8794,26 +7749,19 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                               - f:spec    : {
 💀    🚀 destroyDemoDbDepl... 🏁                                   - f:ports                   : {
 💀    🚀 destroyDemoDbDepl... 🏁                                       - k:{"port":3306,"protocol":"TCP"}: {
-💀 🔎 Job Starting...
-         Elapsed Time: 3.949947515s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                                         }
 💀    🚀 destroyDemoDbDepl... 🏁                                     }
 💀    🚀 destroyDemoDbDepl... 🏁                                 }
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db-headless"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56975"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "82561992-58a2-4a3f-a845-fcf4db7ecef4"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4608"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "de836f89-3f40-4c63-96da-9ba0fdce508f"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - spec       : {
 💀    🚀 destroyDemoDbDepl... 🏁                   - cluster_ip                 : "None"
@@ -8841,13 +7789,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                     }
 💀    🚀 destroyDemoDbDepl... 🏁                   - session_affinity           : "None"
 💀    🚀 destroyDemoDbDepl... 🏁                   - type                       : "ClusterIP"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.951021284s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - status     : {
 💀    🚀 destroyDemoDbDepl... 🏁                 }
@@ -8884,17 +7825,10 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
-💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                   - labels            : {
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/instance  : "from-zero-to-cloud"
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀 🔎 Job Starting...
-         Elapsed Time: 3.952044536s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁                       - app.kubernetes.io/name      : "mysql"
 💀    🚀 destroyDemoDbDepl... 🏁                       - helm.sh/chart               : "mysql-8.8.27"
 💀    🚀 destroyDemoDbDepl... 🏁                     }
@@ -8914,13 +7848,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁                             }
 💀    🚀 destroyDemoDbDepl... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoDbDepl... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoDbDepl... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoDbDepl... 🏁                         }
 💀    🚀 destroyDemoDbDepl... 🏁                     ]
 💀    🚀 destroyDemoDbDepl... 🏁                   - name              : "demo-db"
 💀    🚀 destroyDemoDbDepl... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "56973"
-💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "52e66d20-aaa0-4739-a293-081af5a7a3e1"
+💀    🚀 destroyDemoDbDepl... 🏁                   - resource_version  : "4606"
+💀    🚀 destroyDemoDbDepl... 🏁                   - uid               : "814c68d6-9dd1-4cd1-9617-85962788fedf"
 💀    🚀 destroyDemoDbDepl... 🏁                 }
 💀    🚀 destroyDemoDbDepl... 🏁               - secrets                        : [
 💀    🚀 destroyDemoDbDepl... 🏁               -     [0]: {
@@ -8935,27 +7869,26 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁 Resources:
 💀    🚀 destroyDemoDbDepl... 🏁     - 8 deleted
-💀 🔎 Job Starting...
-         Elapsed Time: 3.954191042s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27015) 🏁 'destroyDemoDbDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁 Duration: 1s
 💀    🚀 destroyDemoDbDepl... 🏁 
 💀    🚀 destroyDemoDbDepl... 🏁 The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
 💀    🚀 destroyDemoDbDepl... 🏁 If you want to remove the stack completely, run 'pulumi stack rm dev'.
 💀    🚀 destroyDemoDbDepl... 🏁 hello world
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleted 
+💀    🚀 destroyDemoFronte... 🏁 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:Service default/demo-frontend deleting 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
-💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleted 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleting 
+💀 🎉 Successfully running 🏁 'prepareDemoBackendDeployment' command
+💀 🎉 Successfully running 🏁 'destroyDemoDbDeployment' command
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:apps/v1:Deployment default/demo-frontend deleted 
+💀 🏁 Run 🏁 'destroyDemoBackendDeployment' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/demoBackendDeployment
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:Service default/demo-frontend deleting 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:Service default/demo-frontend deleted 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleting 
+💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-frontend deleted 
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend deleting 
 💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev deleting 
-💀 🎉 Successfully running 🏁 'destroyDemoDbDeployment' command
 💀    🚀 destroyDemoFronte... 🏁  -  kubernetes:helm.sh/v3:Chart demo-frontend deleted 
 💀    🚀 destroyDemoFronte... 🏁  -  pulumi:pulumi:Stack demoFrontendDeployment-dev deleted 
 💀    🚀 destroyDemoFronte... 🏁  
@@ -8983,12 +7916,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀 🔎 Job Starting...
-         Elapsed Time: 4.126338184s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
 💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
@@ -9029,12 +7956,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                                               -     [3]: {
 💀    🚀 destroyDemoFronte... 🏁                                                       - name : "PYTHONUNBUFFERED"
 💀    🚀 destroyDemoFronte... 🏁                                                       - value: "1"
-💀 🔎 Job Starting...
-         Elapsed Time: 4.12822291s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                                                     }
 💀    🚀 destroyDemoFronte... 🏁                                                 ]
 💀    🚀 destroyDemoFronte... 🏁                                               - image          : "demo-frontend:latest"
@@ -9057,7 +7978,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoFronte... 🏁                   - generation        : 1
 💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
@@ -9075,12 +7996,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                                   - f:annotations: {
 💀    🚀 destroyDemoFronte... 🏁                                     }
 💀    🚀 destroyDemoFronte... 🏁                                   - f:labels     : {
-💀 🔎 Job Starting...
-         Elapsed Time: 4.12955104s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                                     }
 💀    🚀 destroyDemoFronte... 🏁                                 }
 💀    🚀 destroyDemoFronte... 🏁                               - f:spec    : {
@@ -9118,19 +8033,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                             }
 💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoFronte... 🏁                         }
 💀    🚀 destroyDemoFronte... 🏁                     ]
-💀 🔎 Job Starting...
-         Elapsed Time: 4.131387541s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "56952"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "4f5714a8-c274-4a75-a529-54e3fde5e77f"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "4635"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "1a0d463e-10e2-400f-a9b2-86445c72f44f"
 💀    🚀 destroyDemoFronte... 🏁                 }
 💀    🚀 destroyDemoFronte... 🏁               - spec       : {
 💀    🚀 destroyDemoFronte... 🏁                   - progress_deadline_seconds: 600
@@ -9167,12 +8076,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                                   -     [1]: {
 💀    🚀 destroyDemoFronte... 🏁                                           - name: "PULUMI_BACKEND_URL"
 💀    🚀 destroyDemoFronte... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 4.133371501s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                                   -     [2]: {
 💀    🚀 destroyDemoFronte... 🏁                                           - name : "PULUMI_CONFIG_PASSPHRASE"
 💀    🚀 destroyDemoFronte... 🏁                                           - value: "defaultLocalPulumiPassphrase"
@@ -9213,12 +8116,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁               - kind       : "Service"
 💀    🚀 destroyDemoFronte... 🏁               - metadata   : {
 💀    🚀 destroyDemoFronte... 🏁                   - annotations       : {
-💀 🔎 Job Starting...
-         Elapsed Time: 4.135363322s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
 💀    🚀 destroyDemoFronte... 🏁                           - apiVersion: "v1"
 💀    🚀 destroyDemoFronte... 🏁                           - kind      : "Service"
@@ -9255,16 +8152,10 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
-💀 🔎 Job Starting...
-         Elapsed Time: 4.136362369s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/name      : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/version   : "1.16.0"
 💀    🚀 destroyDemoFronte... 🏁                       - helm.sh/chart               : "demo-frontend-0.1.0"
@@ -9289,28 +8180,22 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                             }
 💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoFronte... 🏁                         }
 💀    🚀 destroyDemoFronte... 🏁                     ]
 💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "56954"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "503a2a84-11be-412f-a771-fc293ccaf81c"
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "4639"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "4d41d859-ff31-4cc2-878c-8ff66fb3d522"
 💀    🚀 destroyDemoFronte... 🏁                 }
 💀    🚀 destroyDemoFronte... 🏁               - spec       : {
 💀    🚀 destroyDemoFronte... 🏁                   - allocate_load_balancer_node_ports: true
-💀    🚀 destroyDemoFronte... 🏁                   - cluster_ip                       : "10.108.243.109"
+💀    🚀 destroyDemoFronte... 🏁                   - cluster_ip                       : "10.111.70.140"
 💀    🚀 destroyDemoFronte... 🏁                   - cluster_ips                      : [
-💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "10.108.243.109"
+💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "10.111.70.140"
 💀    🚀 destroyDemoFronte... 🏁                     ]
 💀    🚀 destroyDemoFronte... 🏁                   - external_traffic_policy          : "Cluster"
 💀    🚀 destroyDemoFronte... 🏁                   - internal_traffic_policy          : "Cluster"
-💀 🔎 Job Starting...
-         Elapsed Time: 4.137917345s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                   - ip_families                      : [
 💀    🚀 destroyDemoFronte... 🏁                   -     [0]: "IPv4"
 💀    🚀 destroyDemoFronte... 🏁                     ]
@@ -9318,7 +8203,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                   - ports                            : [
 💀    🚀 destroyDemoFronte... 🏁                   -     [0]: {
 💀    🚀 destroyDemoFronte... 🏁                           - name       : "port0"
-💀    🚀 destroyDemoFronte... 🏁                           - node_port  : 31704
+💀    🚀 destroyDemoFronte... 🏁                           - node_port  : 32142
 💀    🚀 destroyDemoFronte... 🏁                           - port       : 80
 💀    🚀 destroyDemoFronte... 🏁                           - protocol   : "TCP"
 💀    🚀 destroyDemoFronte... 🏁                           - target_port: "port0"
@@ -9351,12 +8236,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                               - labels     : {
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/managed-by: "pulumi"
-💀 🔎 Job Starting...
-         Elapsed Time: 4.139031903s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/name      : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                                   - app.kubernetes.io/version   : "1.16.0"
 💀    🚀 destroyDemoFronte... 🏁                                   - helm.sh/chart               : "demo-frontend-0.1.0"
@@ -9368,7 +8247,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoFronte... 🏁                     }
-💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoFronte... 🏁                   - creation_timestamp: "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoFronte... 🏁                   - labels            : {
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/instance  : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -9390,19 +8269,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁                             }
 💀    🚀 destroyDemoFronte... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoFronte... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-29T13:48:18Z"
+💀    🚀 destroyDemoFronte... 🏁                           - time       : "2022-05-31T16:29:45Z"
 💀    🚀 destroyDemoFronte... 🏁                         }
 💀    🚀 destroyDemoFronte... 🏁                     ]
 💀    🚀 destroyDemoFronte... 🏁                   - name              : "demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "56951"
-💀    🚀 destroyDemoFronte... 🏁                   - uid               : "58f0c070-ed42-476a-9895-68ce8bfa8838"
-💀 🔎 Job Starting...
-         Elapsed Time: 4.14088147s
-         Current Time: 20:48:25
-         Active Process:
-           * (PID=27352) 🏁 'destroyDemoFrontendDeployment' command
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
+💀    🚀 destroyDemoFronte... 🏁                   - resource_version  : "4634"
+💀    🚀 destroyDemoFronte... 🏁                   - uid               : "b6d812b7-3357-48fb-9297-445c4a07439b"
 💀    🚀 destroyDemoFronte... 🏁                 }
 💀    🚀 destroyDemoFronte... 🏁               - urn                            : "urn:pulumi:dev::demoFrontendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-frontend"
 💀    🚀 destroyDemoFronte... 🏁             }
@@ -9417,6 +8290,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoFronte... 🏁 
 💀    🚀 destroyDemoFronte... 🏁 The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
 💀    🚀 destroyDemoFronte... 🏁 If you want to remove the stack completely, run 'pulumi stack rm dev'.
+💀    🚀 destroyDemoFronte... 🏁 hello world
 💀 🎉 Successfully running 🏁 'destroyDemoFrontendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁 Previewing destroy (dev):
 💀    🚀 destroyDemoBacken... 🏁 
@@ -9444,11 +8318,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
 💀    🚀 destroyDemoBacken... 🏁                           - apiVersion: "apps/v1"
 💀    🚀 destroyDemoBacken... 🏁                           - kind      : "Deployment"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.262987376s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                           - metadata  : {
 💀    🚀 destroyDemoBacken... 🏁                               - annotations: {
 💀    🚀 destroyDemoBacken... 🏁                                   - pulumi.com/skipAwait: "true"
@@ -9489,11 +8358,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                               -     [1]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_ACCESS_TOKEN_EXPIRE_MINUTES"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "30"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.263563614s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [2]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_ACCESS_TOKEN_SECRET_KEY"
@@ -9534,11 +8398,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                               -     [9]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_CORS_EXPOSE_HEADERS"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: (json) []
-💀 🔎 Job Starting...
-         Elapsed Time: 5.263898761s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [10]: {
@@ -9579,11 +8438,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [19]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_KAFKA_SASL_PLAIN_PASSWORD"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.264522932s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [20]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_KAFKA_SASL_PLAIN_USERNAME"
@@ -9624,11 +8478,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_ROOT_INITIAL_PASSWORD"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "Alch3mist"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.265902247s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                               -     [30]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_ROOT_INITIAL_PHONE_NUMBER"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "621234567890"
@@ -9669,11 +8518,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [40]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "TEST_INTEGRATION"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.267244155s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "0"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [41]: {
@@ -9714,11 +8558,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "TEST_SQLALCHEMY_DATABASE_URL"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "sqlite:///test.db"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.268321423s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                 ]
 💀    🚀 destroyDemoBacken... 🏁                                               - image          : "demo-backend:latest"
 💀    🚀 destroyDemoBacken... 🏁                                               - imagePullPolicy: "IfNotPresent"
@@ -9740,7 +8579,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                   - generation        : 1
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
@@ -9759,11 +8598,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                     }
 💀    🚀 destroyDemoBacken... 🏁                                   - f:labels     : {
 💀    🚀 destroyDemoBacken... 🏁                                     }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.269527204s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                 }
 💀    🚀 destroyDemoBacken... 🏁                               - f:spec    : {
 💀    🚀 destroyDemoBacken... 🏁                                   - f:strategy               : {
@@ -9804,11 +8638,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ENABLE_EVENT_HANDLER"}       : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ENABLE_ROUTE_HANDLER"}       : {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.270710833s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ENABLE_RPC_HANDLER"}         : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
@@ -9849,11 +8678,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_PERMISSION"}            : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_USERNAME"}              : {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.274979368s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_RPC_TYPE"}                   : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
@@ -9894,11 +8718,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                                   - f:ports                   : {
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"containerPort":3000,"protocol":"TCP"}: {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.276463149s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                                 }
@@ -9909,13 +8728,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "56995"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "90eca4ab-2174-48d5-9618-50f577c5c628"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "4680"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "1e8286fb-f6d6-4fd0-9d66-dea7901dc500"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - spec       : {
 💀    🚀 destroyDemoBacken... 🏁                   - progress_deadline_seconds: 600
@@ -9939,11 +8758,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                           - labels: {
 💀    🚀 destroyDemoBacken... 🏁                               - app.kubernetes.io/instance: "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                               - app.kubernetes.io/name    : "demo-backend"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.277287191s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                       - spec    : {
@@ -9984,11 +8798,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                             ]
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.278497571s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   -     [7]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_CORS_ALLOW_ORIGINS"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: (json) [
@@ -10029,11 +8838,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "guest"
 💀    🚀 destroyDemoBacken... 🏁                                         }
 💀    🚀 destroyDemoBacken... 🏁                                   -     [16]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.280065191s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_HTTP_PORT"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "3000"
 💀    🚀 destroyDemoBacken... 🏁                                         }
@@ -10074,11 +8878,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                   -     [26]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_RABBITMQ_VHOST"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "/"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.281477938s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                         }
 💀    🚀 destroyDemoBacken... 🏁                                   -     [27]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_ROOT_INITIAL_EMAIL"
@@ -10119,11 +8918,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_STATIC_URL"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "/static"
 💀    🚀 destroyDemoBacken... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.283022726s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   -     [37]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name: "PULUMI_BACKEND_URL"
 💀    🚀 destroyDemoBacken... 🏁                                         }
@@ -10164,11 +8958,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                   -     [47]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "TEST_RABBITMQ_PASS"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "Alch3mist"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.285280053s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                         }
 💀    🚀 destroyDemoBacken... 🏁                                   -     [48]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "TEST_RABBITMQ_USER"
@@ -10209,11 +8998,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁               - urn        : "urn:pulumi:dev::demoBackendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:apps/v1:Deployment::default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁             }
 💀    🚀 destroyDemoBacken... 🏁           - v1/Service:default/demo-backend        : {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.287519393s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁               - api_version: "v1"
 💀    🚀 destroyDemoBacken... 🏁               - id         : "default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁               - kind       : "Service"
@@ -10254,13 +9038,8 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.288733666s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -10288,24 +9067,19 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "57006"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "95f4911d-a3d3-4a09-b97f-e8b71be6ec78"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "4686"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "f526199f-e4b0-428c-98d1-b13fd1b4d021"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - spec       : {
 💀    🚀 destroyDemoBacken... 🏁                   - allocate_load_balancer_node_ports: true
-💀    🚀 destroyDemoBacken... 🏁                   - cluster_ip                       : "10.108.57.31"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.290601522s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
+💀    🚀 destroyDemoBacken... 🏁                   - cluster_ip                       : "10.110.60.216"
 💀    🚀 destroyDemoBacken... 🏁                   - cluster_ips                      : [
-💀    🚀 destroyDemoBacken... 🏁                   -     [0]: "10.108.57.31"
+💀    🚀 destroyDemoBacken... 🏁                   -     [0]: "10.110.60.216"
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - external_traffic_policy          : "Cluster"
 💀    🚀 destroyDemoBacken... 🏁                   - internal_traffic_policy          : "Cluster"
@@ -10316,7 +9090,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                   - ports                            : [
 💀    🚀 destroyDemoBacken... 🏁                   -     [0]: {
 💀    🚀 destroyDemoBacken... 🏁                           - name       : "port0"
-💀    🚀 destroyDemoBacken... 🏁                           - node_port  : 32223
+💀    🚀 destroyDemoBacken... 🏁                           - node_port  : 31905
 💀    🚀 destroyDemoBacken... 🏁                           - port       : 3000
 💀    🚀 destroyDemoBacken... 🏁                           - protocol   : "TCP"
 💀    🚀 destroyDemoBacken... 🏁                           - target_port: "port0"
@@ -10344,11 +9118,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                           - kind      : "ServiceAccount"
 💀    🚀 destroyDemoBacken... 🏁                           - metadata  : {
 💀    🚀 destroyDemoBacken... 🏁                               - annotations: {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.29319731s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   - pulumi.com/skipAwait: "true"
 💀    🚀 destroyDemoBacken... 🏁                                 }
 💀    🚀 destroyDemoBacken... 🏁                               - labels     : {
@@ -10365,7 +9134,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -10387,18 +9156,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.295001543s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "56994"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "1d0a225d-8154-4781-9a37-b8fd7ac750ef"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "4679"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "2794173e-2ca4-4956-bb3a-a99740ba2025"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - urn                            : "urn:pulumi:dev::demoBackendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁             }
@@ -10414,8 +9178,8 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:apps/v1:Deployment default/demo-backend deleting 
-💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:apps/v1:Deployment default/demo-backend deleted 
+💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:ServiceAccount default/demo-backend deleted 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend deleting 
 💀    🚀 destroyDemoBacken... 🏁  -  kubernetes:core/v1:Service default/demo-backend deleted 
@@ -10434,11 +9198,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁       - resources: {
 💀    🚀 destroyDemoBacken... 🏁           - apps/v1/Deployment:default/demo-backend: {
 💀    🚀 destroyDemoBacken... 🏁               - api_version: "apps/v1"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.685265296s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁               - id         : "default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁               - kind       : "Deployment"
 💀    🚀 destroyDemoBacken... 🏁               - metadata   : {
@@ -10479,11 +9238,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                       - containers        : [
 💀    🚀 destroyDemoBacken... 🏁                                       -     [0]: {
 💀    🚀 destroyDemoBacken... 🏁                                               - env            : [
-💀 🔎 Job Starting...
-         Elapsed Time: 5.686258231s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                               -     [0]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_ACCESS_TOKEN_ALGORITHM"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "HS256"
@@ -10524,11 +9278,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       -     [0]: "*"
 💀    🚀 destroyDemoBacken... 🏁                                                         ]
 💀    🚀 destroyDemoBacken... 🏁 
-💀 🔎 Job Starting...
-         Elapsed Time: 5.687004837s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [8]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_CORS_ALLOW_ORIGIN_REGEX"
@@ -10569,11 +9318,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                               -     [17]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_KAFKA_BOOTSTRAP_SERVERS"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "localhost:9092"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.687546644s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [18]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_KAFKA_SASL_MECHANISM"
@@ -10614,11 +9358,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "root@innistrad.com"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [28]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.688168822s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "APP_ROOT_INITIAL_FULL_NAME"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "root"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
@@ -10659,11 +9398,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                               -     [38]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "PULUMI_CONFIG_PASSPHRASE"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "defaultLocalPulumiPassphrase"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.688870452s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [39]: {
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "PYTHONUNBUFFERED"
@@ -10704,11 +9438,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "root"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
 💀    🚀 destroyDemoBacken... 🏁                                               -     [49]: {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.697707682s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                       - name : "TEST_RABBITMQ_VHOST"
 💀    🚀 destroyDemoBacken... 🏁                                                       - value: "/"
 💀    🚀 destroyDemoBacken... 🏁                                                     }
@@ -10737,7 +9466,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                   - generation        : 1
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
@@ -10749,11 +9478,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                   - managed_fields    : [
 💀    🚀 destroyDemoBacken... 🏁                   -     [0]: {
 💀    🚀 destroyDemoBacken... 🏁                           - api_version: "apps/v1"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.698462357s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                           - fields_type: "FieldsV1"
 💀    🚀 destroyDemoBacken... 🏁                           - fields_v1  : {
 💀    🚀 destroyDemoBacken... 🏁                               - f:metadata: {
@@ -10794,11 +9518,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_ALLOW_ORIGIN_REGEX"}    : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.698980508s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_EXPOSE_HEADERS"}        : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_CORS_MAX_AGE"}               : {
@@ -10839,11 +9558,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_FULL_NAME"}     : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.699679565s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_PASSWORD"}      : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"APP_ROOT_INITIAL_PHONE_NUMBER"}  : {
@@ -10884,11 +9598,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_RABBITMQ_USER"}             : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.70053174s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_RABBITMQ_VHOST"}            : {
 💀    🚀 destroyDemoBacken... 🏁                                                         }
 💀    🚀 destroyDemoBacken... 🏁                                                       - k:{"name":"TEST_SQLALCHEMY_DATABASE_URL"}   : {
@@ -10906,13 +9615,13 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "56995"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "90eca4ab-2174-48d5-9618-50f577c5c628"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "4680"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "1e8286fb-f6d6-4fd0-9d66-dea7901dc500"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - spec       : {
 💀    🚀 destroyDemoBacken... 🏁                   - progress_deadline_seconds: 600
@@ -10929,11 +9638,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                           - max_surge      : "25%"
 💀    🚀 destroyDemoBacken... 🏁                           - max_unavailable: "25%"
 💀    🚀 destroyDemoBacken... 🏁                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.701497366s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                       - type          : "RollingUpdate"
 💀    🚀 destroyDemoBacken... 🏁                     }
 💀    🚀 destroyDemoBacken... 🏁                   - template                 : {
@@ -10974,11 +9678,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                             ]
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.702527176s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   -     [6]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_CORS_ALLOW_METHODS"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: (json) [
@@ -11019,11 +9718,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                         }
 💀    🚀 destroyDemoBacken... 🏁                                   -     [14]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_ERROR_THRESHOLD"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.703354355s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "10"
 💀    🚀 destroyDemoBacken... 🏁                                         }
 💀    🚀 destroyDemoBacken... 🏁                                   -     [15]: {
@@ -11064,11 +9758,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_RABBITMQ_PASS"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "Alch3mist"
 💀    🚀 destroyDemoBacken... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.703893202s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   -     [25]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_RABBITMQ_USER"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "root"
@@ -11109,11 +9798,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "APP_SQLALCHEMY_DATABASE_URL"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "mysql+pymysql://root:Alch3mist@demo-db/sample?charset=utf8mb4"
 💀    🚀 destroyDemoBacken... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.704577072s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   -     [35]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name: "APP_STATIC_DIRECTORY"
 💀    🚀 destroyDemoBacken... 🏁                                         }
@@ -11154,11 +9838,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "TEST_KAFKA_SCHEMA_REGISTRY"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "http://localhost:8081"
 💀    🚀 destroyDemoBacken... 🏁                                         }
-💀 🔎 Job Starting...
-         Elapsed Time: 5.705116641s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   -     [46]: {
 💀    🚀 destroyDemoBacken... 🏁                                           - name : "TEST_RABBITMQ_HOST"
 💀    🚀 destroyDemoBacken... 🏁                                           - value: "localhost"
@@ -11199,11 +9878,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                           - scheduler_name                  : "default-scheduler"
 💀    🚀 destroyDemoBacken... 🏁                           - service_account                 : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                           - service_account_name            : "demo-backend"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.70811393s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                           - termination_grace_period_seconds: 30
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     }
@@ -11244,11 +9918,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                 ]
 💀    🚀 destroyDemoBacken... 🏁                               - selector: {
 💀    🚀 destroyDemoBacken... 🏁                                   - app.kubernetes.io/instance: "demo-backend"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.709565753s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                   - app.kubernetes.io/name    : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                                 }
 💀    🚀 destroyDemoBacken... 🏁                               - type    : "LoadBalancer"
@@ -11257,7 +9926,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -11285,24 +9954,19 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.710767916s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "57006"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "95f4911d-a3d3-4a09-b97f-e8b71be6ec78"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "4686"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "f526199f-e4b0-428c-98d1-b13fd1b4d021"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - spec       : {
 💀    🚀 destroyDemoBacken... 🏁                   - allocate_load_balancer_node_ports: true
-💀    🚀 destroyDemoBacken... 🏁                   - cluster_ip                       : "10.108.57.31"
+💀    🚀 destroyDemoBacken... 🏁                   - cluster_ip                       : "10.110.60.216"
 💀    🚀 destroyDemoBacken... 🏁                   - cluster_ips                      : [
-💀    🚀 destroyDemoBacken... 🏁                   -     [0]: "10.108.57.31"
+💀    🚀 destroyDemoBacken... 🏁                   -     [0]: "10.110.60.216"
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - external_traffic_policy          : "Cluster"
 💀    🚀 destroyDemoBacken... 🏁                   - internal_traffic_policy          : "Cluster"
@@ -11313,7 +9977,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                   - ports                            : [
 💀    🚀 destroyDemoBacken... 🏁                   -     [0]: {
 💀    🚀 destroyDemoBacken... 🏁                           - name       : "port0"
-💀    🚀 destroyDemoBacken... 🏁                           - node_port  : 32223
+💀    🚀 destroyDemoBacken... 🏁                           - node_port  : 31905
 💀    🚀 destroyDemoBacken... 🏁                           - port       : 3000
 💀    🚀 destroyDemoBacken... 🏁                           - protocol   : "TCP"
 💀    🚀 destroyDemoBacken... 🏁                           - target_port: "port0"
@@ -11334,11 +9998,6 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁               - api_version                    : "v1"
 💀    🚀 destroyDemoBacken... 🏁               - id                             : "default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁               - kind                           : "ServiceAccount"
-💀 🔎 Job Starting...
-         Elapsed Time: 5.711408021s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁               - metadata                       : {
 💀    🚀 destroyDemoBacken... 🏁                   - annotations       : {
 💀    🚀 destroyDemoBacken... 🏁                       - kubectl.kubernetes.io/last-applied-configuration: (json) {
@@ -11362,7 +10021,7 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁                       - pulumi.com/skipAwait                            : "true"
 💀    🚀 destroyDemoBacken... 🏁                     }
-💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                   - creation_timestamp: "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                   - labels            : {
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/instance  : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                       - app.kubernetes.io/managed-by: "pulumi"
@@ -11379,23 +10038,18 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁                                   - f:annotations: {
 💀    🚀 destroyDemoBacken... 🏁                                     }
 💀    🚀 destroyDemoBacken... 🏁                                   - f:labels     : {
-💀 🔎 Job Starting...
-         Elapsed Time: 5.711990167s
-         Current Time: 20:48:26
-         Active Process:
-           * (PID=28648) 🏁 'destroyDemoBackendDeployment' command
 💀    🚀 destroyDemoBacken... 🏁                                     }
 💀    🚀 destroyDemoBacken... 🏁                                 }
 💀    🚀 destroyDemoBacken... 🏁                             }
 💀    🚀 destroyDemoBacken... 🏁                           - manager    : "pulumi-resource-kubernetes"
 💀    🚀 destroyDemoBacken... 🏁                           - operation  : "Update"
-💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-29T13:48:19Z"
+💀    🚀 destroyDemoBacken... 🏁                           - time       : "2022-05-31T16:29:49Z"
 💀    🚀 destroyDemoBacken... 🏁                         }
 💀    🚀 destroyDemoBacken... 🏁                     ]
 💀    🚀 destroyDemoBacken... 🏁                   - name              : "demo-backend"
 💀    🚀 destroyDemoBacken... 🏁                   - namespace         : "default"
-💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "56994"
-💀    🚀 destroyDemoBacken... 🏁                   - uid               : "1d0a225d-8154-4781-9a37-b8fd7ac750ef"
+💀    🚀 destroyDemoBacken... 🏁                   - resource_version  : "4679"
+💀    🚀 destroyDemoBacken... 🏁                   - uid               : "2794173e-2ca4-4956-bb3a-a99740ba2025"
 💀    🚀 destroyDemoBacken... 🏁                 }
 💀    🚀 destroyDemoBacken... 🏁               - urn                            : "urn:pulumi:dev::demoBackendDeployment::kubernetes:helm.sh/v3:Chart$kubernetes:core/v1:ServiceAccount::default/demo-backend"
 💀    🚀 destroyDemoBacken... 🏁             }
@@ -11410,19 +10064,20 @@ zaruba please deploy -e '/home/gofrendi/zaruba/docs/examples/playground/use-case
 💀    🚀 destroyDemoBacken... 🏁 
 💀    🚀 destroyDemoBacken... 🏁 The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
 💀    🚀 destroyDemoBacken... 🏁 If you want to remove the stack completely, run 'pulumi stack rm dev'.
+💀    🚀 destroyDemoBacken... 🏁 hello world
 💀 🎉 Successfully running 🏁 'destroyDemoBackendDeployment' command
 💀 🏁 Run ❌ 'destroy' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud
 💀    🚀 destroy              ❌ 
 💀 🎉 Successfully running ❌ 'destroy' command
 💀 🔎 Job Running...
-         Elapsed Time: 6.112732281s
-         Current Time: 20:48:27
+         Elapsed Time: 4.92758618s
+         Current Time: 23:29:55
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 6.413611815s
-         Current Time: 20:48:27
+         Elapsed Time: 5.229715738s
+         Current Time: 23:29:56
 zaruba please destroy -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/fromZeroToCloud/default.values.yaml'
 ```````
 </details>

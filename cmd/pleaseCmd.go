@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -78,7 +79,12 @@ var pleaseCmd = &cobra.Command{
 		}
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(cmd, logger, decoration, project)
-		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, "10m", *pleaseTerminate, pleaseWait)
+		statusTimeIntervalStr := os.Getenv("ZARUBA_LOG_STATUS_TIME_INTERVAL")
+		statusLineInterval, err := strconv.Atoi(os.Getenv("ZARUBA_LOG_STATUS_TIME_INTERVAL"))
+		if err != nil {
+			statusLineInterval = 0
+		}
+		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, statusTimeIntervalStr, statusLineInterval, *pleaseTerminate, pleaseWait)
 		if err != nil {
 			showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
@@ -104,7 +110,7 @@ func init() {
 	defaultValueFiles := getDefaultValueFiles(dir, zarubaEnv)
 	defaultEnvFiles := getDefaultEnvFiles(dir, zarubaEnv)
 	defaultDecoration := os.Getenv("ZARUBA_DECORATION")
-	defaultShowLogTime := util.Bool.IsTrue(os.Getenv("ZARUBA_SHOW_LOG_TIME"))
+	defaultShowLogTime := util.Bool.IsTrue(os.Getenv("ZARUBA_LOG_TIME"))
 	// get parameters
 	pleaseCmd.Flags().StringVarP(&pleaseProjectFile, "file", "f", defaultProjectFile, "project file")
 	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")

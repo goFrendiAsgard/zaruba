@@ -126,7 +126,7 @@ func (task *Task) GetLocation() (path string) {
 	return ""
 }
 
-func (task *Task) GetSaveLog() bool {
+func (task *Task) GetIsSaveLog() bool {
 	if task.Project.Util.Bool.IsFalse(task.SaveLog) {
 		return false
 	}
@@ -134,7 +134,7 @@ func (task *Task) GetSaveLog() bool {
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
-		if parentTask.GetSaveLog() {
+		if parentTask.GetIsSaveLog() {
 			return true
 		}
 	}
@@ -644,11 +644,14 @@ func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
 
 func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {
 	buf := bufio.NewScanner(pipe)
-	saveLog := task.GetSaveLog()
+	isSaveLog := task.GetIsSaveLog()
 	outputWgAdditionPerRow := 1
-	if saveLog {
+	if isSaveLog {
 		outputWgAdditionPerRow = 2
 	}
+	cmdIconType := task.getCmdIconType(cmdType)
+	logPrefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
+	taskName := task.GetName()
 	isFirstTime := true
 	previousChan := make(chan bool)
 	nextChan := make(chan bool)
@@ -658,29 +661,25 @@ func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser,
 		// previous and next chan is necessary to make sure that logChan and logRecordChan get message in order
 		if isFirstTime {
 			isFirstTime = false
-			go task.sendLog(cmdType, logType, content, previousChan, nextChan, logChan, logRecordChan)
+			go task.sendLog(cmdType, logType, logPrefix, taskName, content, isSaveLog, previousChan, nextChan, logChan, logRecordChan)
 			previousChan <- true
 			continue
 		}
 		previousChan = nextChan
 		nextChan = make(chan bool)
-		go task.sendLog(cmdType, logType, content, previousChan, nextChan, logChan, logRecordChan)
+		go task.sendLog(cmdType, logType, logPrefix, taskName, content, isSaveLog, previousChan, nextChan, logChan, logRecordChan)
 	}
 }
 
-func (task *Task) sendLog(cmdType, logType, content string, previousChan, nextChan chan bool, logChan chan string, logRecordChan chan []string) {
+func (task *Task) sendLog(cmdType, logType, logPrefix, taskName, content string, saveLog bool, previousChan, nextChan chan bool, logChan chan string, logRecordChan chan []string) {
 	d := task.Project.Decoration
-	cmdIconType := task.getCmdIconType(cmdType)
-	prefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
-	saveLog := task.GetSaveLog()
-	taskName := task.GetName()
 	now := time.Now()
 	decoratedContent := ""
 	if task.Project.showLogTime {
 		nowRoundStr := fmt.Sprintf("%-12s", now.Format("15:04:05.999"))
-		decoratedContent = fmt.Sprintf("%s %s%s%s %s\n", prefix, d.Faint, nowRoundStr, d.Normal, content)
+		decoratedContent = fmt.Sprintf("%s %s%s%s %s\n", logPrefix, d.Faint, nowRoundStr, d.Normal, content)
 	} else {
-		decoratedContent = fmt.Sprintf("%s %s\n", prefix, content)
+		decoratedContent = fmt.Sprintf("%s %s\n", logPrefix, content)
 	}
 	<-previousChan
 	logChan <- decoratedContent

@@ -27,7 +27,8 @@ type Runner struct {
 	killedMutex            *sync.RWMutex
 	done                   bool
 	doneMutex              *sync.RWMutex
-	statusInterval         time.Duration
+	statusTimeInterval     time.Duration
+	statusLineInterval     int
 	startTimeMutex         *sync.RWMutex
 	startTime              time.Time
 	spaces                 string
@@ -41,7 +42,7 @@ type Runner struct {
 }
 
 // NewRunner create new runner
-func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *core.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
+func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *core.Project, taskNames []string, statusTImeIntervalStr string, statusLineInterval int, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialized")
 	}
@@ -51,9 +52,9 @@ func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *
 	if project.GetAutoTerminate(taskNames) {
 		autoTerminate = true
 	}
-	statusInterval, err := time.ParseDuration(statusIntervalStr)
+	statusTImeInterval, err := time.ParseDuration(statusTImeIntervalStr)
 	if err != nil {
-		return &Runner{}, fmt.Errorf("cannot parse statusInterval '%s': %s", statusIntervalStr, err)
+		return &Runner{}, fmt.Errorf("cannot parse statusInterval '%s': %s", statusTImeIntervalStr, err)
 	}
 	autoTerminateDelayInterval, err := time.ParseDuration(autoTerminateDelayStr)
 	if err != nil {
@@ -70,7 +71,8 @@ func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *
 		killedMutex:            &sync.RWMutex{},
 		done:                   false,
 		doneMutex:              &sync.RWMutex{},
-		statusInterval:         statusInterval,
+		statusTimeInterval:     statusTImeInterval,
+		statusLineInterval:     statusLineInterval,
 		startTimeMutex:         &sync.RWMutex{},
 		spaces:                 fmt.Sprintf("%s %s", project.Decoration.EmptyIcon, project.Decoration.EmptyIcon),
 		surpressWaitError:      false,
@@ -97,13 +99,15 @@ func (r *Runner) Run() (err error) {
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
 	err = <-ch
-	r.sleep(200 * time.Millisecond)
+	r.sleep(100 * time.Millisecond)
 	r.project.OutputWg.Wait()
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
 		return fmt.Errorf("Terminated")
 	}
 	if !r.getKilledSignal() {
+		r.sleep(100 * time.Millisecond)
+		r.project.OutputWg.Wait()
 		r.Terminate()
 	}
 	r.showStatus()
@@ -133,14 +137,17 @@ func (r *Runner) Terminate() {
 }
 
 func (r *Runner) logStdout() {
-	counter := 0
+	lineCounter := 0
 	for {
 		content := <-r.project.StdoutChan
 		r.logger.DPrintf(content)
 		r.project.OutputWg.Done()
-		counter++
-		if counter >= 40 {
-			counter = 0
+		if r.statusLineInterval < 1 {
+			continue
+		}
+		lineCounter++
+		if lineCounter >= r.statusLineInterval {
+			lineCounter = 0
 			r.showStatus()
 		}
 	}
@@ -172,7 +179,7 @@ func (r *Runner) logStderrRow() {
 
 func (r *Runner) showStatusByInterval() {
 	for {
-		r.sleep(r.statusInterval)
+		r.sleep(r.statusTimeInterval)
 		if r.getKilledSignal() {
 			return
 		}
@@ -298,7 +305,7 @@ func (r *Runner) run(ch chan error) {
 	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.SuccessIcon, 11))
 	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.SuccessIcon, 3), d.Normal)
 	if r.autoTerminate {
-		r.sleep(100 * time.Millisecond)
+		// r.sleep(100 * time.Millisecond)
 		r.sleep(r.autoTerminateDelay)
 		ch <- nil
 		return
@@ -456,7 +463,7 @@ func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (e
 	ch := make(chan error)
 	go func() {
 		waitErr := cmd.Wait()
-		r.sleep(200 * time.Millisecond)
+		r.sleep(100 * time.Millisecond)
 		if waitErr != nil {
 			if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
 				r.logger.DPrintfError("Error running %s:\n%s\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd), waitErr)
@@ -545,11 +552,11 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	for {
 		r.sleep(100 * time.Millisecond)
 		if r.isTaskFinished(taskName) {
-			r.sleep(50 * time.Millisecond)
+			// r.sleep(50 * time.Millisecond)
 			return r.getTaskError(taskName)
 		}
 		if r.getKilledSignal() {
-			r.sleep(50 * time.Millisecond)
+			// r.sleep(50 * time.Millisecond)
 			return fmt.Errorf("Terminated")
 		}
 	}

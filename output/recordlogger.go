@@ -19,10 +19,11 @@ type CSVRecordLogger struct {
 	FileName               string
 	logDir                 string
 	backupFileNameTemplate string
+	maxLogFileSize         int
 }
 
 // NewCSVRecordLogger create new CSV Log Writer
-func NewCSVRecordLogger(fileName, backupFileNameTemplate string) (c *CSVRecordLogger) {
+func NewCSVRecordLogger(fileName, backupFileNameTemplate string, maxLogFileSize int) (c *CSVRecordLogger) {
 	absFileName, _ := filepath.Abs(fileName)
 	logDir := filepath.Dir(absFileName)
 	c = &CSVRecordLogger{
@@ -30,6 +31,7 @@ func NewCSVRecordLogger(fileName, backupFileNameTemplate string) (c *CSVRecordLo
 		FileName:               absFileName,
 		logDir:                 logDir,
 		backupFileNameTemplate: backupFileNameTemplate,
+		maxLogFileSize:         maxLogFileSize,
 	}
 	return c
 }

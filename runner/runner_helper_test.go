@@ -23,6 +23,6 @@ func getProjectAndInit(projectFile string) (project *core.Project, err error) {
 func getRunner(project *core.Project, taskNames []string, statusIntervalStr string, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, logger *output.MockLogger, recordLogger *output.MockRecordLogger, err error) {
 	logger = output.NewMockLogger()
 	recordLogger = output.NewMockRecordLogger()
-	runner, err = NewRunner(logger, recordLogger, project, taskNames, statusIntervalStr, autoTerminate, autoTerminateDelayStr)
+	runner, err = NewRunner(logger, recordLogger, project, taskNames, statusIntervalStr, 0, autoTerminate, autoTerminateDelayStr)
 	return runner, logger, recordLogger, err
 }

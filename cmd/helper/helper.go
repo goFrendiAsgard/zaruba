@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/output"
@@ -54,5 +55,9 @@ func GetDecoration(decorationMode string) (decoration *output.Decoration) {
 func GetCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLogger) {
 	logFileName := filepath.Join(projectDir, "logs", "log.zaruba.csv")
 	backupFileNameTemplate := "log-%s.zaruba.csv"
-	return output.NewCSVRecordLogger(logFileName, backupFileNameTemplate)
+	maxLogFileSize, err := strconv.Atoi(os.Getenv("ZARUBA_MAX_LOG_FILE_SIZE"))
+	if err != nil {
+		maxLogFileSize = 5 * 1024 * 1024
+	}
+	return output.NewCSVRecordLogger(logFileName, backupFileNameTemplate, maxLogFileSize)
 }
