@@ -80,7 +80,7 @@ var pleaseCmd = &cobra.Command{
 		previousval.Save(project, previousValueFile)
 		initProjectOrExit(cmd, logger, decoration, project)
 		statusTimeIntervalStr := os.Getenv("ZARUBA_LOG_STATUS_TIME_INTERVAL")
-		statusLineInterval, err := strconv.Atoi(os.Getenv("ZARUBA_LOG_STATUS_TIME_INTERVAL"))
+		statusLineInterval, err := strconv.Atoi(os.Getenv("ZARUBA_LOG_STATUS_LINE_INTERVAL"))
 		if err != nil {
 			statusLineInterval = 0
 		}
