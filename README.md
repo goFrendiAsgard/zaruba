@@ -1,24 +1,24 @@
 ![zaruba-logo](arts/zaruba-250.png)
 
-> ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open issue if you find any problem using Zaruba.
+> ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
 
 # 💀 Zaruba 
 
-Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you `write`, `generate`, and `run` your tasks with ease.
+Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
 
 ## ❓ Problem
 
-Developing/debugging a system can be challenging. Especially if your system consists of several applications that depend on each other.
+Developing/debugging a system can be challenging. 
 
-You also need to watch every message or error log in your applications. So, you might end up opening many tmux panels.
+Your system might consist of several applications that depend on each other. And you need to watch every message or error log in your applications. So, you might end up opening many tmux panels.
 
 Suppose your system consists of:
-- A frontend application
-- A backend application
-- MySQL
-- Redis
+- A __frontend__ application
+- A __backend__ application
+- __MySQL__
+- __Redis__
 
-You will need to run the following tasks every time:
+You will need to run the following tasks __every time__:
 
 ![problem](docs/images/problem.png)
 
@@ -47,9 +47,11 @@ Instead of opening many tmux panels, Zaruba allows you to create and run __a sin
 
 ![meme](docs/images/solution-meme.png)
 
-In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). A task can have many [dependencies](docs/core-concepts/task/define-task-dependencies.md). Before running a task, Zaruba will ensure that all its dependencies are completed.
+In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). A task can have many [dependencies](docs/core-concepts/task/define-task-dependencies.md). And Zaruba will always run the dependencies first before running your tasks.
 
-You can also link your [task's environments](docs/core-concepts/task/task-envs/README.md) into global environment variables. Thus, you can ensure consistency between tasks.
+Zaruba also lets you link [task environments](docs/core-concepts/task/task-envs/README.md) to system environments. This allows you to configure your applications as a single system.
+
+Let's see the following example:
 
 ![meme](docs/images/solution-example.png)
 
@@ -63,7 +65,7 @@ You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) t
 - How to deploy your applications to Kubernetes.
 - How to run only a few applications locally.
 
-## 💡 Similar Solutions
+## 💡 Similar Projects
 
 Zaruba is focusing on helping you to write/generate/run your applications. Some of those goals are overlapped with other tools. Zaruba __is not a replacement__ for those tools.
 
