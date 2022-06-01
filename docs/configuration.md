@@ -156,7 +156,7 @@ Maximum log file size (in byte)
 ZARUBA_MAX_LOG_FILE_SIZE=1048576
 ```
 
-## ZARUBA_ENV 
+# ZARUBA_ENV 
 
 Zaruba environment. The default value is empty.
 Zaruba will load `<ZARUBA_ENV>.env` and `<ZARUBA_ENV>.values.yaml` whenever you run `zaruba please`.
