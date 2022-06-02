@@ -65,7 +65,7 @@ You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) t
 - How to deploy your applications to Kubernetes.
 - How to run only a few applications locally.
 
-## 💡 Similar Projects
+## 💡 Similar Projects/Solutions
 
 Zaruba is focusing on helping you to write/generate/run your applications. Some of those goals are overlapped with other tools. Zaruba __is not a replacement__ for those tools.
 

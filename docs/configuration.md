@@ -15,6 +15,8 @@ Location of your Zaruba installation directory.
 
 ## Default Value
 
+Zaruba's installation directory.
+
 ```
 ${HOME}/.zaruba
 ```
@@ -30,6 +32,8 @@ ZARUBA_HOME=/usr/bin/zaruba
 Location of your Zaruba executable binary.
 
 ## Default Value
+
+Zaruba's executable path.
 
 ```
 ${HOME}/.zaruba/zaruba
