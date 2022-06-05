@@ -660,7 +660,8 @@ Value:
 Value:
 
     [
-      "5672",
+      "{{ .Template ".GetEnv \\\"RABBITMQ_NODE_PORT_NUMBER\\\"" }}",
+      "{{ .Template ".GetEnv \\\"RABBITMQ_NODE_SSL_PORT_NUMBER\\\"" }}",
       "15672"
     ]
 

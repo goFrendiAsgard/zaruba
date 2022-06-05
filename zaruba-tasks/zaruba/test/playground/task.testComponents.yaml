@@ -63,6 +63,10 @@ tasks:
         ../zaruba please runProvoMeltano runProvoMeltanoContainer
         ../zaruba please removeProvoMeltanoContainer
 
+        ../zaruba please startProvoMetabase -t
+        sleep 5
+        ../zaruba please removeProvoMetabaseContainer
+
         ../zaruba please startProvoMinio -t
         sleep 5
         ../zaruba please stopProvoMinioContainer

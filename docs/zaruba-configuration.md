@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](README.md)
-# ⚙️ Configuration
+# ⚙️ Zaruba Configuration
 <!--endTocHeader-->
 
 You can configure Zaruba's behavior by using some environment variables.

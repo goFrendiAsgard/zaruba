@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 👀 makeCassandraAppRunner
+# Ⓜ️ makeMetabaseAppRunner
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/metabase/task.makeMetabaseAppRunner.yaml
 
 Should Sync Env:
 
@@ -20,12 +20,12 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+* [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
 
-* [makeCassandraApp](make-cassandra-app.md)
+* [makeMetabaseApp](make-metabase-app.md)
 * [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
@@ -123,17 +123,6 @@ Secret:
     false
 
 
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
 ### Inputs.appName
 
 Description:
@@ -143,21 +132,6 @@ Description:
 Prompt:
 
     Name of the app
-
-Secret:
-
-    false
-
-
-### Inputs.appPorts
-
-Description:
-
-    Application ports
-
-Default Value:
-
-    []
 
 Secret:
 
@@ -447,7 +421,7 @@ Value:
 
 Value:
 
-    cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe cluster"
+    {{ if ne (.GetValue "appCheckCommand") "" }}{{ .GetValue "appCheckCommand" }}{{ else }}{{ .GetConfig "defaultAppCheckCommand" }}{{ end }}
 
 
 ### Configs.appContainerName
@@ -524,7 +498,7 @@ Value:
 
 Value:
 
-    👀
+    Ⓜ️
 
 
 ### Configs.appImageName
@@ -652,7 +626,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Cassandra
+    {{ .ProjectName }}Metabase
 
 
 ### Configs.defaultAppPorts
@@ -660,9 +634,7 @@ Value:
 Value:
 
     [
-      "{{ .Template ".GetEnv \\\"CASSANDRA_TRANSPORT_PORT_NUMBER\\\"" }}",
-      "{{ .Template ".GetEnv \\\"CASSANDRA_JMX_PORT_NUMBER\\\"" }}",
-      "{{ .Template ".GetEnv \\\"CASSANDRA_CQL_PORT_NUMBER\\\"" }}"
+      "{{ .Template ".GetEnv \\\"MB_PORT\\\"" }}"
     ]
 
 
@@ -751,9 +723,8 @@ Value:
 
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appRunnerTemplate"
-    ] 
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerCompose/template"
+    ]
 
 
 ## Envs

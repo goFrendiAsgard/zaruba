@@ -656,7 +656,9 @@ func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser,
 	previousChan := make(chan bool)
 	nextChan := make(chan bool)
 	for buf.Scan() {
+		task.Project.OutputWgMutex.Lock()
 		task.Project.OutputWg.Add(outputWgAdditionPerRow)
+		task.Project.OutputWgMutex.Unlock()
 		content := buf.Text()
 		// previous and next chan is necessary to make sure that logChan and logRecordChan get message in order
 		if isFirstTime {

@@ -106,7 +106,7 @@ func (r *Runner) Run() (err error) {
 		return fmt.Errorf("Terminated")
 	}
 	if !r.getKilledSignal() {
-		r.sleep(100 * time.Millisecond)
+		r.sleep(200 * time.Millisecond)
 		r.project.OutputWg.Wait()
 		r.Terminate()
 	}

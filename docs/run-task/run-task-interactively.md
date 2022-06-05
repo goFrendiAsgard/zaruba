@@ -51,27 +51,28 @@ Search: █
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
-💀 1 of 1) humanName
+    📝 Yes, from file
+    📝 Yes, manually
 Search: █
 ? Your name: 
   ▸ human
 ✔ Let me type it!
 Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 1.423µs
-         Current Time: 23:24:54
+         Elapsed Time: 1.855µs
+         Current Time: 14:43:33
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.787625ms
-         Current Time: 23:24:54
+         Elapsed Time: 102.380754ms
+         Current Time: 14:43:33
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 404.747739ms
-         Current Time: 23:24:55
+         Elapsed Time: 502.880479ms
+         Current Time: 14:43:34
 zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>

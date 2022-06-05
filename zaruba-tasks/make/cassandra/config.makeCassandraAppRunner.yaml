@@ -6,9 +6,9 @@ configs:
     defaultAppDirectory: '{{ .ProjectName }}Cassandra'
     defaultAppPorts: |
       [
-        "7000",
-        "7199",
-        "9042"
+        "{{ .Template ".GetEnv \\\"CASSANDRA_TRANSPORT_PORT_NUMBER\\\"" }}",
+        "{{ .Template ".GetEnv \\\"CASSANDRA_JMX_PORT_NUMBER\\\"" }}",
+        "{{ .Template ".GetEnv \\\"CASSANDRA_CQL_PORT_NUMBER\\\"" }}"
       ]
     templateLocations: |
       [

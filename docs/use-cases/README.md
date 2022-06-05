@@ -35,6 +35,7 @@ Once you have a project in your computer, you can start [adding resources](add-r
         * [Crud](add-resources/from-scratch/generate-new-application/fast-api-application/crud.md)
     * [🚢 Add Application Deployment](add-resources/from-scratch/add-application-deployment.md)
     * [🥉 Add Third Party Service](add-resources/from-scratch/add-third-party-service.md)
+  * [⚙️ Resource Configurations](add-resources/resource-configurations.md)
 * [🏭 Add Generator](add-generator.md)
 * [🏝️ Synchronize task environments](synchronize-task-environments.md)
 * [🚌 Run Applications Locally](run-applications-locally.md)

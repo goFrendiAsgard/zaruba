@@ -660,8 +660,8 @@ Value:
 Value:
 
     [
-      "9200",
-      "9300"
+      "{{ .Template ".GetEnv \\\"ELASTICSEARCH_PORT_NUMBER\\\"" }}",
+      "{{ .Template ".GetEnv \\\"ELASTICSEARCH_NODE_PORT_NUMBER\\\"" }}"
     ]
 
 

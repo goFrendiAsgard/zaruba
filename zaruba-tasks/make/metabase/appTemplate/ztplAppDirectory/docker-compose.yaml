@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  db:
+    build:
+      context: ./db
+      dockerfile: 'Dockerfile-${DB_TYPE:-postgres}'
+      args:
+        db_name: ${DB_NAME}
+        db_user: ${DB_USER}
+        db_password: ${DB_PASSWORD}
+        db_port: ${DB_PORT}
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-metabase}-db:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
+    hostname: db
+    container_name: ztplAppContainerNameDb
+    restart: unless-stopped
+    
+
+  metabase:
+    build: ./metabase
+    image: ${DOCKER_COMPOSE_IMAGE_NAME:-metabase}:${DOCKER_COMPOSE_IMAGE_TAG:-latest}
+    hostname: metabase
+    container_name: ztplAppContainerName
+    restart: unless-stopped
+    environment:
+      MB_DB_FILE: '${MB_DB_FILE}'
+      MB_DB_TYPE: '${DB_TYPE:-postgres}'
+      MB_DB_DBNAME: '${DB_NAME}'
+      MB_DB_PORT: '${DB_PORT}'
+      MB_DB_USER: '${DB_USER}'
+      MB_DB_HOST: 'db'
+      MB_DB_PASS: '${DB_PASSWORD}'
+      JAVA_TIMEZONE: '${MB_JAVA_TIMEZONE}'
+    ports:
+      # <Port exposed>:<Port running inside container>
+      - '${MB_PORT}:3000'
+    volumes:
+      # Volumes where Metabase data will be persisted
+      - './volumes/metabase-data:/metabase-data'
+    depends_on:
+      - 'db'

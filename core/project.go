@@ -31,6 +31,7 @@ type Project struct {
 	StderrChan                 chan string
 	StderrRecordChan           chan []string
 	OutputWg                   *sync.WaitGroup
+	OutputWgMutex              *sync.Mutex
 	fileLocation               string
 	values                     map[string]string
 	sortedTaskNames            []string
@@ -69,6 +70,7 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, showLog
 	p.StderrChan = make(chan string)
 	p.StderrRecordChan = make(chan []string)
 	p.OutputWg = new(sync.WaitGroup)
+	p.OutputWgMutex = new(sync.Mutex)
 	p.Decoration = decoration
 	p.showLogTime = showLogTime
 	p.setSortedTaskNames()

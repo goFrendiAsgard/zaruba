@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeMetabaseApp:
+    icon: Ⓜ️
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeMetabaseApp

@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 👀 makeCassandraAppRunner
+# Ⓜ️ makeMetabaseApp
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
+    ~/.zaruba/zaruba-tasks/make/metabase/task.makeMetabaseApp.yaml
 
 Should Sync Env:
 
@@ -20,13 +20,11 @@ Type:
 
 ## Extends
 
-* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+* [makeApp](make-app.md)
 
 
 ## Dependencies
 
-* [makeCassandraApp](make-cassandra-app.md)
-* [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
 
@@ -51,44 +49,6 @@ Type:
 ## Inputs
 
 
-### Inputs.appContainerName
-
-Description:
-
-    Application container name
-
-Prompt:
-
-    Application container name
-
-Secret:
-
-    false
-
-Validation:
-
-    ^[a-zA-Z0-9_]*$
-
-
-### Inputs.appDependencies
-
-Description:
-
-    Application dependencies
-
-Prompt:
-
-    Application dependencies
-
-Default Value:
-
-    []
-
-Secret:
-
-    false
-
-
 ### Inputs.appDirectory
 
 Description:
@@ -104,77 +64,18 @@ Secret:
     false
 
 
-### Inputs.appEnvs
-
-Description:
-
-    Application envs
-
-Prompt:
-
-    Application envs
-
-Default Value:
-
-    {}
-
-Secret:
-
-    false
-
-
-### Inputs.appImageName
-
-Description:
-
-    App's image name
-
-Secret:
-
-    false
-
-
-### Inputs.appName
-
-Description:
-
-    Name of the app
-
-Prompt:
-
-    Name of the app
-
-Secret:
-
-    false
-
-
-### Inputs.appPorts
-
-Description:
-
-    Application ports
-
-Default Value:
-
-    []
-
-Secret:
-
-    false
-
-
 ## Configs
 
 
 ### Configs._adjustPermission
 
-
-### Configs._containerPrepareAppRunnerTaskName
-
 Value:
 
-    start${_ZRB_PASCAL_APP_NAME}Container
+    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    then
+      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+    fi
+
 
 
 ### Configs._finish
@@ -188,13 +89,6 @@ Value:
 
 
 ### Configs._includeModuleIndex
-
-Value:
-
-    {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "{{ .GetConfig "_taskIndexPath" }}" "${_ZRB_PROJECT_FILE_NAME}" 
-    {{ end -}}
-
 
 
 ### Configs._initShell
@@ -211,9 +105,6 @@ Value:
 
 
 ### Configs._integrate
-
-
-### Configs._nativePrepareAppRunnerTaskName
 
 
 ### Configs._prepare
@@ -276,29 +167,14 @@ Value:
 
 ### Configs._registerAppDependencies
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" {{ .Util.Str.EscapeShellValue (.GetConfig "appDependencies") }} "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
-
-
 
 ### Configs._registerAppDeploymentTasks
 
 
 ### Configs._registerAppRunnerTasks
 
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
-
 
 ### Configs._setProjectValue
-
-Value:
-
-    echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to true"
-    ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" true
-
 
 
 ### Configs._setup
@@ -319,7 +195,7 @@ Value:
 
 Value:
 
-    ./zaruba-tasks/${_ZRB_APP_NAME}
+    ${_ZRB_APP_DIRECTORY}
 
 
 ### Configs._start
@@ -377,10 +253,6 @@ Value:
 
 
 ### Configs._taskIndexPath
-
-Value:
-
-    ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
 
 
 ### Configs._validate
@@ -447,7 +319,7 @@ Value:
 
 Value:
 
-    cqlsh -u "{{ .Template ".GetEnv \"CASSANDRA_USER\"" }}" -p "{{ .Template ".GetEnv \"CASSANDRA_PASSWORD\"" }}" -e "describe cluster"
+    {{ if ne (.GetValue "appCheckCommand") "" }}{{ .GetValue "appCheckCommand" }}{{ else }}{{ .GetConfig "defaultAppCheckCommand" }}{{ end }}
 
 
 ### Configs.appContainerName
@@ -521,10 +393,6 @@ Value:
 
 
 ### Configs.appIcon
-
-Value:
-
-    👀
 
 
 ### Configs.appImageName
@@ -652,19 +520,14 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Cassandra
+    {{ .ProjectName }}Metabase
 
 
 ### Configs.defaultAppPorts
 
 Value:
 
-    [
-      "{{ .Template ".GetEnv \\\"CASSANDRA_TRANSPORT_PORT_NUMBER\\\"" }}",
-      "{{ .Template ".GetEnv \\\"CASSANDRA_JMX_PORT_NUMBER\\\"" }}",
-      "{{ .Template ".GetEnv \\\"CASSANDRA_CQL_PORT_NUMBER\\\"" }}"
-    ]
-
+    []
 
 
 ### Configs.defaultAppStartCommand
@@ -750,10 +613,8 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/cassandra/appRunnerTemplate"
-    ] 
+      "{{ .ZarubaHome }}/zaruba-tasks/make/metabase/appTemplate"
+    ]
 
 
 ## Envs

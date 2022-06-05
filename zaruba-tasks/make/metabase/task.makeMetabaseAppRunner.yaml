@@ -1,0 +1,14 @@
+tasks:
+
+  makeMetabaseAppRunner:
+    icon: Ⓜ️
+    extend: makeDockerComposeAppRunner
+    dependencies:
+      - makeMetabaseApp
+    inputs:
+      - appDirectory
+      - appName
+      - appEnvs
+      - appDependencies
+      - appContainerName
+    configRef: makeMetabaseAppRunner

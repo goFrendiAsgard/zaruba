@@ -1,0 +1,10 @@
+configs:
+
+  makeMetabaseAppRunner:
+    appIcon: Ⓜ️
+    defaultAppDirectory: '{{ .ProjectName }}Metabase'
+    defaultAppPorts: |
+      [
+        "{{ .Template ".GetEnv \\\"MB_PORT\\\"" }}"
+      ]
+   

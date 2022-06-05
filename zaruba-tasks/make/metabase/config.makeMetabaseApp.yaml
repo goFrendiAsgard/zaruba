@@ -1,0 +1,8 @@
+configs:
+ 
+  makeMetabaseApp:
+    defaultAppDirectory: '{{ .ProjectName }}Metabase'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/metabase/appTemplate"
+      ]

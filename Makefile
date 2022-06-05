@@ -5,7 +5,7 @@ test:
 	sudo rm -Rf playground
 	sudo rm -Rf docs/examples/playground
 	./zaruba please test
-adjustDocs:
+documentation:
 	. ./buildZaruba.sh
 	sudo rm -Rf docs/examples/playground
 	./zaruba please makeDocs

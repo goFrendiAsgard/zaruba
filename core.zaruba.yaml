@@ -248,17 +248,23 @@ includes:
   - ./zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
   - ./zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
 
-  - ./zaruba-tasks/make/minio/config.makeMinioApp.yaml
-  - ./zaruba-tasks/make/minio/config.makeMinioAppRunner.yaml
-  - ./zaruba-tasks/make/minio/task.addMinio.yaml
-  - ./zaruba-tasks/make/minio/task.makeMinioApp.yaml
-  - ./zaruba-tasks/make/minio/task.makeMinioAppRunner.yaml
-
   - ./zaruba-tasks/make/meltano/config.makeMeltanoApp.yaml
   - ./zaruba-tasks/make/meltano/config.makeMeltanoAppRunner.yaml
   - ./zaruba-tasks/make/meltano/task.addMeltano.yaml
   - ./zaruba-tasks/make/meltano/task.makeMeltanoApp.yaml
   - ./zaruba-tasks/make/meltano/task.makeMeltanoAppRunner.yaml
+
+  - ./zaruba-tasks/make/metabase/config.makeMetabaseApp.yaml
+  - ./zaruba-tasks/make/metabase/config.makeMetabaseAppRunner.yaml
+  - ./zaruba-tasks/make/metabase/task.addMetabase.yaml
+  - ./zaruba-tasks/make/metabase/task.makeMetabaseApp.yaml
+  - ./zaruba-tasks/make/metabase/task.makeMetabaseAppRunner.yaml
+
+  - ./zaruba-tasks/make/minio/config.makeMinioApp.yaml
+  - ./zaruba-tasks/make/minio/config.makeMinioAppRunner.yaml
+  - ./zaruba-tasks/make/minio/task.addMinio.yaml
+  - ./zaruba-tasks/make/minio/task.makeMinioApp.yaml
+  - ./zaruba-tasks/make/minio/task.makeMinioAppRunner.yaml
 
   - ./zaruba-tasks/make/mongodb/config.makeMongodbApp.yaml
   - ./zaruba-tasks/make/mongodb/config.makeMongodbAppRunner.yaml

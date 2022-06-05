@@ -1,0 +1,6 @@
+tasks:
+
+  addMetabase:
+    icon: Ⓜ️
+    dependencies:
+      - makeMetabaseAppRunner

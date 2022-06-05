@@ -20,7 +20,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
 # Table of Content
 
 <!--startToc-->
-* [⚙️ Configuration](configuration.md)
+* [⚙️ Zaruba Configuration](zaruba-configuration.md)
 * [🏃 Run task](run-task/README.md)
     * [🍺 Run a Single Task](run-task/run-a-single-task.md)
     * [🍻 Run Many Tasks in Parallel](run-task/run-many-tasks-in-parallel.md)
@@ -73,6 +73,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
                     * [Crud](use-cases/add-resources/from-scratch/generate-new-application/fast-api-application/crud.md)
             * [🚢 Add Application Deployment](use-cases/add-resources/from-scratch/add-application-deployment.md)
             * [🥉 Add Third Party Service](use-cases/add-resources/from-scratch/add-third-party-service.md)
+        * [⚙️ Resource Configurations](use-cases/add-resources/resource-configurations.md)
     * [🏭 Add Generator](use-cases/add-generator.md)
     * [🏝️ Synchronize task environments](use-cases/synchronize-task-environments.md)
     * [🚌 Run Applications Locally](use-cases/run-applications-locally.md)
@@ -195,6 +196,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
   * [🧪 addJupyterNotebook](core-tasks/add-jupyter-notebook.md)
   * [🚌 addKafka](core-tasks/add-kafka.md)
   * [🐉 addMeltano](core-tasks/add-meltano.md)
+  * [Ⓜ️ addMetabase](core-tasks/add-metabase.md)
   * [🧪 addMinio](core-tasks/add-minio.md)
   * [🍃 addMongodb](core-tasks/add-mongodb.md)
   * [🐬 addMysql](core-tasks/add-mysql.md)
@@ -253,6 +255,8 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
   * [🚌 makeKafkaAppRunner](core-tasks/make-kafka-app-runner.md)
   * [🐉 makeMeltanoApp](core-tasks/make-meltano-app.md)
   * [🐉 makeMeltanoAppRunner](core-tasks/make-meltano-app-runner.md)
+  * [Ⓜ️ makeMetabaseApp](core-tasks/make-metabase-app.md)
+  * [Ⓜ️ makeMetabaseAppRunner](core-tasks/make-metabase-app-runner.md)
   * [🧪 makeMinioApp](core-tasks/make-minio-app.md)
   * [🧪 makeMinioAppRunner](core-tasks/make-minio-app-runner.md)
   * [🍃 makeMongodbApp](core-tasks/make-mongodb-app.md)
