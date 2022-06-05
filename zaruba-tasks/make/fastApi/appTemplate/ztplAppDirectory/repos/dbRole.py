@@ -18,7 +18,9 @@ class DBRoleEntity(Base):
     name = Column(String(20), index=True)
     json_permissions = Column(String(20), index=True)
     created_at = Column(DateTime, default=datetime.datetime.now)
+    created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, default=datetime.datetime.now)
+    updated_by = Column(String(36), nullable=True)
 
 
 class DBRoleRepo(RoleRepo):

@@ -1,6 +1,7 @@
 from typing import Any, List, Mapping
 from helpers.transport import RPC
 from schemas.user import UserData
+from schemas.user import User
 from auth.userService import UserService
 from auth.tokenService import TokenService
 
@@ -25,13 +26,19 @@ def register_user_rpc(rpc: RPC, user_service: UserService, token_service: TokenS
 
     @rpc.handle('insert_user')
     def insert_user(data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        user = user_service.insert(UserData.parse_obj(data))
-        return None if user is None else user.dict()
+        current_user = User.parse_obj(current_user_data)
+        user = UserData.parse_obj(data)
+        user.created_by = current_user.id
+        new_user = user_service.insert(user)
+        return None if new_user is None else new_user.dict()
 
     @rpc.handle('update_user')
     def update_user(id: str, data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        user = user_service.update(id, UserData.parse_obj(data))
-        return None if user is None else user.dict()
+        current_user = User.parse_obj(current_user_data)
+        user = UserData.parse_obj(data)
+        user.updated_by = current_user.id
+        updated_user = user_service.update(id, user)
+        return None if updated_user is None else updated_user.dict()
 
     @rpc.handle('delete_user')
     def delete_user(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:

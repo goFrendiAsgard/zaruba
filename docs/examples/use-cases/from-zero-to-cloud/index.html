@@ -102,7 +102,7 @@
             }
             document.getElementById("book-list").innerHTML = html;
         }
-        xhttp.open("GET", apiHost + "/books/", true);
+        xhttp.open("GET", apiHost + "/api/v1/books/", true);
         xhttp.setRequestHeader("Content-type", "application/json")
         xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
         xhttp.send();
@@ -117,7 +117,7 @@
             }
             populateBookList();
         }
-        xhttp.open("DELETE", apiHost + "/books/" + bookId, true);
+        xhttp.open("DELETE", apiHost + "/api/v1/books/" + bookId, true);
         xhttp.setRequestHeader("Content-type", "application/json")
         xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
         xhttp.send();
@@ -138,7 +138,7 @@
             document.getElementById("input-new-book-author").value = '';
             document.getElementById("input-new-book-synopsis").value = '';
         }
-        xhttp.open("POST", apiHost + "/books/", true);
+        xhttp.open("POST", apiHost + "/api/v1/books/", true);
         xhttp.setRequestHeader("Content-type", "application/json")
         xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"))
         xhttp.send(JSON.stringify({
@@ -162,7 +162,7 @@
             localStorage.setItem("accessToken", accessToken);
             showAuthenticatedContainer();
         }
-        xhttp.open("POST", apiHost + "/token/", true);
+        xhttp.open("POST", apiHost + "/api/v1/token/", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("username=" + encodeURIComponent(user) + "&password=" + encodeURIComponent(password));
     }

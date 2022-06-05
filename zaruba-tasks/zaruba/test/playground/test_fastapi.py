@@ -16,7 +16,7 @@ def login(conn: http.client.HTTPConnection, username: str, password: str):
         'accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
     }
-    raw_response = send_request(conn, 'POST', '/token/', payload, headers)
+    raw_response = send_request(conn, 'POST', '/api/v1/token/', payload, headers)
     decoded_response = json.loads(raw_response)
     print('decoded response', decoded_response)
     return decoded_response
@@ -41,7 +41,7 @@ assert response['token_type'] == 'bearer'
 access_token = response['access_token']
 
 print('🧪 create book')
-response = send_json_request(conn, 'POST', '/books/', {
+response = send_json_request(conn, 'POST', '/api/v1/books/', {
     'title': 'Homo Sapiens',
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
@@ -53,14 +53,14 @@ assert response['synopsis'] == 'A brief history of mankind'
 book_id = response['id']
 
 print('🧪 get book')
-response = send_json_request(conn, 'GET', '/books/{}'.format(book_id), {}, access_token)
+response = send_json_request(conn, 'GET', '/api/v1/books/{}'.format(book_id), {}, access_token)
 assert response['id'] == book_id
 assert response['title'] == 'Homo Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
 assert response['synopsis'] == 'A brief history of mankind'
 
 print('🧪 update book')
-response = send_json_request(conn, 'PUT', '/books/{}'.format(book_id), {
+response = send_json_request(conn, 'PUT', '/api/v1/books/{}'.format(book_id), {
     'title': 'Sapiens',
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
@@ -71,16 +71,16 @@ assert response['author'] == 'Yuval Noah Harari'
 assert response['synopsis'] == 'A brief history of mankind'
 
 print('🧪 get books')
-response = send_json_request(conn, 'GET', '/books/', {}, access_token)
+response = send_json_request(conn, 'GET', '/api/v1/books/', {}, access_token)
 assert len(response) == 1
 
 print('🧪 delete book')
-response = send_json_request(conn, 'DELETE', '/books/{}'.format(book_id), {}, access_token)
+response = send_json_request(conn, 'DELETE', '/api/v1/books/{}'.format(book_id), {}, access_token)
 assert response['id'] == book_id
 assert response['title'] == 'Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
 assert response['synopsis'] == 'A brief history of mankind'
 
 print('🧪 get books after delete')
-response = send_json_request(conn, 'GET', '/books/', {}, access_token)
+response = send_json_request(conn, 'GET', '/api/v1/books/', {}, access_token)
 assert len(response) == 0

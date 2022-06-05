@@ -51,7 +51,7 @@ mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map, kafka
 rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 
 # -- 🛢️ Database engine initialization
-db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite://')
+db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite:///database.db')
 engine = create_engine(db_url, echo=True)
 role_repo = DBRoleRepo(engine=engine, create_all=True)
 user_repo = DBUserRepo(engine=engine, create_all=True)
@@ -77,11 +77,11 @@ token_service = JWTTokenService(
     access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
     access_token_expire_minutes = int(os.getenv('APP_ACCESS_TOKEN_EXPIRE_MINUTES', '30'))
 )
-access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/token/')
+access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/api/v1/token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)
 auth_service = TokenOAuth2AuthService(user_service, role_service, token_service, oauth2_scheme, root_permission)
 
-# -- ⚡FastAPI initialization
+# -- ⚡ FastAPI initialization
 app = FastAPI(title='ztplAppName')
 app.add_middleware(
     CORSMiddleware,

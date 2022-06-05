@@ -10,7 +10,7 @@ import traceback
 
 def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
-    @app.get('/users/', response_model=List[User])
+    @app.get('/api/v1/users/', response_model=List[User])
     def find_user(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'user:read'))) -> List[User]:
         results = []
         try:
@@ -20,7 +20,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             raise HTTPException(status_code=500, detail='Internal Server Error')
         return [User.parse_obj(result) for result in results]
 
-    @app.get('/users/{id}', response_model=User)
+    @app.get('/api/v1/users/{id}', response_model=User)
     def find_user_by_id(id: str, current_user = Depends(auth_service.has_any_permissions( 'user:read'))) -> User:
         result = None
         try:
@@ -32,7 +32,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
-    @app.post('/users/', response_model=User)
+    @app.post('/api/v1/users/', response_model=User)
     def insert_user(data: UserData, current_user = Depends(auth_service.has_any_permissions( 'user:create'))) -> User:
         result = None
         try:
@@ -44,7 +44,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
-    @app.put('/users/{id}', response_model=User)
+    @app.put('/api/v1/users/{id}', response_model=User)
     def update_user(id: str, data: UserData, current_user = Depends(auth_service.has_any_permissions( 'user:update'))) -> User:
         result = None
         try:
@@ -56,7 +56,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
-    @app.delete('/users/{id}')
+    @app.delete('/api/v1/users/{id}')
     def delete_user(id: str, current_user = Depends(auth_service.has_any_permissions( 'user:delete'))) -> User:
         result = None
         try:

@@ -30,8 +30,8 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.62µs
-         Current Time: 14:43:26
+         Elapsed Time: 1.197µs
+         Current Time: 22:01:00
 💀 🏁 Run 🦉 'showSolidPrinciple' command on /home/gofrendi/zaruba/docs
 💀    🚀 showSolidPrinciple   🦉  S  Single Responsibility Principle 
 💀    🚀 showSolidPrinciple   🦉  O  Open/Closed Principle 
@@ -40,14 +40,14 @@ zaruba please showSolidPrinciple
 💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
 💀 🎉 Successfully running 🦉 'showSolidPrinciple' command
 💀 🔎 Job Running...
-         Elapsed Time: 107.167383ms
-         Current Time: 14:43:26
+         Elapsed Time: 107.900313ms
+         Current Time: 22:01:00
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 408.069129ms
-         Current Time: 14:43:27
+         Elapsed Time: 409.44312ms
+         Current Time: 22:01:01
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.677µs
-         Current Time: 14:43:27
+         Elapsed Time: 1.223µs
+         Current Time: 22:01:01
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.584893ms
-         Current Time: 14:43:27
+         Elapsed Time: 102.057323ms
+         Current Time: 22:01:01
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 504.781532ms
-         Current Time: 14:43:27
+         Elapsed Time: 503.771628ms
+         Current Time: 22:01:01
 zaruba please printHelloWorld
 ```````
 </details>

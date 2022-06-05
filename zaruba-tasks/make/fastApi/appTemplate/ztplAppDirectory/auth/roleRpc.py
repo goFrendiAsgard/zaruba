@@ -1,6 +1,7 @@
 from typing import Any, List, Mapping
 from helpers.transport import RPC
 from schemas.role import RoleData
+from schemas.user import User
 from auth.roleService import RoleService
 
 def register_role_rpc(rpc: RPC, role_service: RoleService):
@@ -17,13 +18,19 @@ def register_role_rpc(rpc: RPC, role_service: RoleService):
 
     @rpc.handle('insert_role')
     def insert_role(role_data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        role = role_service.insert(RoleData.parse_obj(role_data))
-        return None if role is None else role.dict()
+        current_user = User.parse_obj(current_user_data)
+        role = RoleData.parse_obj(role_data)
+        role.created_by = current_user.id
+        new_role = role_service.insert(role)
+        return None if new_role is None else new_role.dict()
 
     @rpc.handle('update_role')
     def update_role(id: str, role_data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        role = role_service.update(id, RoleData.parse_obj(role_data))
-        return None if role is None else role.dict()
+        current_user = User.parse_obj(current_user_data)
+        role = RoleData.parse_obj(role_data)
+        role.updated_by = current_user.id
+        updated_role = role_service.update(id, role)
+        return None if updated_role is None else updated_role.dict()
 
     @rpc.handle('delete_role')
     def delete_role(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:

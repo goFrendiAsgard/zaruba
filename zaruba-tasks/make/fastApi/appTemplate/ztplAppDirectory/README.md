@@ -88,7 +88,7 @@ This mechanism is verbose, simple, and very readable. Thus, you should use it wh
 Let's see how this mechanism works:
 
 ```python
-db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite://')
+db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite:///database.db')
 
 # to create an engine, you need a db_url
 engine = create_engine(db_url, echo=True)
@@ -249,7 +249,7 @@ APP_ACCESS_TOKEN_ALGORITHM = "HS256"
 APP_ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # URL to generate JWT Token based on user's identity
-APP_ACCESS_TOKEN_URL=/token/
+APP_ACCESS_TOKEN_URL=/api/v1/token/
 ```
 
 ## Event handlers

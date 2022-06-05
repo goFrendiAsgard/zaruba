@@ -1,13 +1,15 @@
+from typing import Optional
 from pydantic import BaseModel
 import datetime
 
 class ZtplAppCrudEntityData(BaseModel):
-    pass
+    created_at: Optional[datetime.datetime]
+    created_by: Optional[str]
+    updated_at: Optional[datetime.datetime]
+    updated_by: Optional[str]
 
 
 class ZtplAppCrudEntity(ZtplAppCrudEntityData):
     id: str
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
     class Config:
         orm_mode = True

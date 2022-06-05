@@ -1,10 +1,14 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 import datetime, re
 
 class RoleData(BaseModel):
     name: str
     permissions: List[str] = []
+    created_at: Optional[datetime.datetime]
+    created_by: Optional[str]
+    updated_at: Optional[datetime.datetime]
+    updated_by: Optional[str]
 
     def has_permission(self, permission: str) -> bool:
         for existing_permission in self.permissions:
@@ -26,7 +30,5 @@ class RoleData(BaseModel):
 
 class Role(RoleData):
     id: str
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
     class Config:
         orm_mode = True

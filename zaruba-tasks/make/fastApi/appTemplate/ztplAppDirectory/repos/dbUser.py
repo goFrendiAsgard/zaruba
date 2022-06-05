@@ -25,7 +25,9 @@ class DBUserEntity(Base):
     hashed_password = Column(String(60), index=False, nullable=False)
     full_name = Column(String(50), index=True, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.now)
+    created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, default=datetime.datetime.now)
+    updated_by = Column(String(36), nullable=True)
 
     @hybrid_property
     def permissions(self) -> List[str]:
