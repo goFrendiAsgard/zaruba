@@ -710,3 +710,9 @@ func (p *Project) linkToInputs() {
 		input.name = inputName
 	}
 }
+
+func (p *Project) ProcessOutputWg() {
+	p.OutputWgMutex.Lock()
+	p.OutputWg.Done()
+	p.OutputWgMutex.Unlock()
+}

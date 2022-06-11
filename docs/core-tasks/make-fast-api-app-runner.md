@@ -169,6 +169,12 @@ Secret:
 
 ### Configs._adjustPermission
 
+Value:
+
+    chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+    chmod 755 "${_ZRB_APP_DIRECTORY}/migrate.sh"
+
+
 
 ### Configs._containerPrepareAppRunnerTaskName
 
@@ -665,6 +671,10 @@ Value:
 
 
 ### Configs.defaultAppMigrateCommand
+
+Value:
+
+    ./migrate.sh
 
 
 ### Configs.defaultAppPorts

@@ -48,8 +48,7 @@ Search: █
     🐳 addDockerComposeAppRunner
     📙 addEksDeployment
 ✔ 🍎 printHelloWorld
-? 💀 Please select task: 
-  ▸ 🍎 printHelloWorld
+💀 Action
 Search: █
 ? 💀 What do you want to do with printHelloWorld?: 
   ▸ 🏁 Run
@@ -59,35 +58,35 @@ Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
 ✔ 🏁 No
+? Do you want to load additional value file?: 
+  ▸ 🏁 No
+    📝 Yes
 💀 Load additional env
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
-? Do you want to load additional env?: 
-  ▸ 🏁 No
-    📝 Yes, from file
-    📝 Yes, manually
+💀 Auto terminate
 Search: █
 ? 💀 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
 💀 🔎 Job Starting...
-         Elapsed Time: 1.514µs
-         Current Time: 14:51:55
+         Elapsed Time: 1.337µs
+         Current Time: 17:07:14
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🔎 Job Running...
-         Elapsed Time: 101.603733ms
-         Current Time: 14:51:56
+         Elapsed Time: 102.158753ms
+         Current Time: 17:07:14
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 504.734134ms
-         Current Time: 14:51:56
+         Elapsed Time: 506.041619ms
+         Current Time: 17:07:15
 zaruba please printHelloWorld
 ```````
 </details>

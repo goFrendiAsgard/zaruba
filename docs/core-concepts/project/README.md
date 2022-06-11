@@ -33,7 +33,7 @@ tree
 <summary>Output</summary>
  
 ```````
-Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myProjectFromScratch/.git/
+Reinitialized existing Git repository in /home/gofrendi/zaruba/docs/examples/playground/myProjectFromScratch/.git/
 💀 Project structure
 .
 └── index.zaruba.yaml
@@ -69,23 +69,42 @@ tree
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.483µs
-         Current Time: 14:51:56
+         Elapsed Time: 2.523µs
+         Current Time: 17:07:15
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject
-💀    🚀 initProject          🚧 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/.git/
-💀    🚀 initProject          🚧 🎉🎉🎉
-💀    🚀 initProject          🚧 Project created
-💀 🎉 Successfully running 🚧 'initProject' command
-💀 🔎 Job Running...
-         Elapsed Time: 116.901486ms
-         Current Time: 14:51:56
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
+💀    🚀 initProject          🚧 /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject is a zaruba project.
+💀 🔥 Error running 🚧 'initProject' command:
+        * bash
+        * -c
+        *    1 | set -e
+             2 | . /home/gofrendi/zaruba/zaruba-tasks/_base/run/bash/shellUtil.sh
+             3 | _NORMAL='';_BOLD='';_FAINT='';_ITALIC='';_UNDERLINE='';_BLINK_SLOW='';_BLINK_RAPID='';_INVERSE='';_CONCEAL='';_CROSSED_OUT='';_BLACK='';_RED='';_GREEN='';_YELLOW='';_BLUE='';_MAGENTA='';_CYAN='';_WHITE='';_BG_BLACK='';_BG_RED='';_BG_GREEN='';_BG_YELLOW='';_BG_BLUE='';_BG_MAGENTA='';_BG_CYAN='';_BG_WHITE='';_NO_UNDERLINE='';_NO_INVERSE='';_NO_COLOR='';_ZARUBA_ICON='💀';_SUCCESS_ICON='🎉';_ERROR_ICON='🔥';_START_ICON='🏁';_KILL_ICON='🔪';_INSPECT_ICON='🔎';_RUN_ICON='🚀';_WORKER_ICON='👷';_SCRIPT_ICON='📜';_CONSTRUCTION_ICON='🚧';_CONTAINER_ICON='🐳';_EMPTY='  '
+             4 | 
+             5 | 
+             6 | 
+             7 | if [ -f "index.zaruba.yaml" ]
+             8 | then
+             9 |   echo "${_BOLD}${_RED}$(pwd) is a zaruba project.${_NORMAL}"
+            10 |   exit 1
+            11 | fi
+            12 | git init
+            13 | "/home/gofrendi/zaruba/zaruba" file copy "/home/gofrendi/zaruba/zaruba-tasks/chore/initProject/template/" .
+            14 | touch .env
+            15 | echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
+            16 | echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"
+            17 | 
+            18 | 
+            19 | 
+            20 | 
+exit status 1
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 422.515786ms
-         Current Time: 14:51:57
-zaruba please initProject  
+         Elapsed Time: 412.219676ms
+         Current Time: 17:07:16
+zaruba please initProject -e '/home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/default.values.yaml'
+🔥 Command   : zaruba please
+🔥 Arguments : ["initProject"]
+🔥 Stderr    : exit status 1
 💀 Project structure
 .
 ├── default.values.yaml
@@ -122,7 +141,7 @@ tree
 <summary>Output</summary>
  
 ```````
-Cloning into 'myClonedProject'...
+fatal: destination path 'myClonedProject' already exists and is not an empty directory.
 💀 Project structure
 .
 ├── default.values.yaml

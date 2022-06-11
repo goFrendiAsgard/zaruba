@@ -164,9 +164,7 @@ func (r *Runner) logStderr() {
 	for {
 		content := <-r.project.StderrChan
 		r.logger.DPrintfError(content)
-		r.project.OutputWgMutex.Lock()
-		r.project.OutputWg.Done()
-		r.project.OutputWgMutex.Unlock()
+		r.project.ProcessOutputWg()
 	}
 }
 
@@ -174,9 +172,7 @@ func (r *Runner) logStdoutRow() {
 	for {
 		content := <-r.project.StdoutRecordChan
 		r.recordLogger.Log(content...)
-		r.project.OutputWgMutex.Lock()
-		r.project.OutputWg.Done()
-		r.project.OutputWgMutex.Unlock()
+		r.project.ProcessOutputWg()
 	}
 }
 
@@ -184,9 +180,7 @@ func (r *Runner) logStderrRow() {
 	for {
 		content := <-r.project.StderrRecordChan
 		r.recordLogger.Log(content...)
-		r.project.OutputWgMutex.Lock()
-		r.project.OutputWg.Done()
-		r.project.OutputWgMutex.Unlock()
+		r.project.ProcessOutputWg()
 	}
 }
 
