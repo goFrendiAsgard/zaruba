@@ -23,7 +23,7 @@ func NewTaskEnvUtil(taskUtil *TaskUtil) *TaskEnvUtil {
 }
 
 func (envUtil *TaskEnvUtil) Sync(taskName, projectFile string) (err error) {
-	task, err := envUtil.task.getTask(projectFile, taskName)
+	task, err := envUtil.task.getTaskByProjectFile(projectFile, taskName)
 	if err != nil {
 		return err
 	}
@@ -67,7 +67,7 @@ func (envUtil *TaskEnvUtil) Set(taskName string, envMap map[string]string, proje
 	if len(envMap) == 0 {
 		return nil
 	}
-	task, err := envUtil.task.getTask(projectFile, taskName)
+	task, err := envUtil.task.getTaskByProjectFile(projectFile, taskName)
 	if err != nil {
 		return err
 	}

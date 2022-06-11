@@ -99,19 +99,24 @@ func (r *Runner) Run() (err error) {
 	go r.waitAnyProcessError(ch)
 	go r.showStatusByInterval()
 	err = <-ch
-	r.sleep(100 * time.Millisecond)
-	r.project.OutputWg.Wait()
+	r.waitOutputWg(50*time.Millisecond, 2)
 	if err == nil && r.getKilledSignal() {
 		r.showStatus()
 		return fmt.Errorf("Terminated")
 	}
 	if !r.getKilledSignal() {
-		r.sleep(200 * time.Millisecond)
-		r.project.OutputWg.Wait()
+		r.waitOutputWg(50*time.Millisecond, 4)
 		r.Terminate()
 	}
 	r.showStatus()
 	return err
+}
+
+func (r *Runner) waitOutputWg(sleepDuration time.Duration, maxWaitAttempt int) {
+	for waitAttempt := 0; waitAttempt < maxWaitAttempt; waitAttempt++ {
+		r.sleep(sleepDuration)
+		r.project.OutputWg.Wait()
+	}
 }
 
 // Terminate all processes
@@ -141,7 +146,9 @@ func (r *Runner) logStdout() {
 	for {
 		content := <-r.project.StdoutChan
 		r.logger.DPrintf(content)
+		r.project.OutputWgMutex.Lock()
 		r.project.OutputWg.Done()
+		r.project.OutputWgMutex.Unlock()
 		if r.statusLineInterval < 1 {
 			continue
 		}
@@ -157,7 +164,9 @@ func (r *Runner) logStderr() {
 	for {
 		content := <-r.project.StderrChan
 		r.logger.DPrintfError(content)
+		r.project.OutputWgMutex.Lock()
 		r.project.OutputWg.Done()
+		r.project.OutputWgMutex.Unlock()
 	}
 }
 
@@ -165,7 +174,9 @@ func (r *Runner) logStdoutRow() {
 	for {
 		content := <-r.project.StdoutRecordChan
 		r.recordLogger.Log(content...)
+		r.project.OutputWgMutex.Lock()
 		r.project.OutputWg.Done()
+		r.project.OutputWgMutex.Unlock()
 	}
 }
 
@@ -173,7 +184,9 @@ func (r *Runner) logStderrRow() {
 	for {
 		content := <-r.project.StderrRecordChan
 		r.recordLogger.Log(content...)
+		r.project.OutputWgMutex.Lock()
 		r.project.OutputWg.Done()
+		r.project.OutputWgMutex.Unlock()
 	}
 }
 
@@ -190,7 +203,7 @@ func (r *Runner) showStatusByInterval() {
 func (r *Runner) waitAnyProcessError(ch chan error) {
 	seen := map[string]bool{}
 	for {
-		r.sleep(10 * time.Millisecond)
+		r.sleep(50 * time.Millisecond)
 		if r.getKilledSignal() {
 			ch <- fmt.Errorf("Terminated")
 			return
@@ -305,7 +318,6 @@ func (r *Runner) run(ch chan error) {
 	r.logger.DPrintfSuccess("%s\n", strings.Repeat(d.SuccessIcon, 11))
 	r.logger.DPrintfSuccess("%s%sJob Complete!!! %s%s\n", d.Bold, d.Green, strings.Repeat(d.SuccessIcon, 3), d.Normal)
 	if r.autoTerminate {
-		// r.sleep(100 * time.Millisecond)
 		r.sleep(r.autoTerminateDelay)
 		ch <- nil
 		return
@@ -552,11 +564,9 @@ func (r *Runner) waitTaskFinished(taskName string) (err error) {
 	for {
 		r.sleep(100 * time.Millisecond)
 		if r.isTaskFinished(taskName) {
-			// r.sleep(50 * time.Millisecond)
 			return r.getTaskError(taskName)
 		}
 		if r.getKilledSignal() {
-			// r.sleep(50 * time.Millisecond)
 			return fmt.Errorf("Terminated")
 		}
 	}

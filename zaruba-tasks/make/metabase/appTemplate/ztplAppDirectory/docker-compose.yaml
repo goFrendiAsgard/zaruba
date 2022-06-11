@@ -24,14 +24,14 @@ services:
     container_name: ztplAppContainerName
     restart: unless-stopped
     environment:
-      MB_DB_FILE: '${MB_DB_FILE}'
-      MB_DB_TYPE: '${DB_TYPE:-postgres}'
-      MB_DB_DBNAME: '${DB_NAME}'
-      MB_DB_PORT: '${DB_PORT}'
-      MB_DB_USER: '${DB_USER}'
-      MB_DB_HOST: 'db'
-      MB_DB_PASS: '${DB_PASSWORD}'
-      JAVA_TIMEZONE: '${MB_JAVA_TIMEZONE}'
+      - MB_DB_FILE=${MB_DB_FILE}
+      - MB_DB_TYPE=${DB_TYPE:-postgres}
+      - MB_DB_DBNAME=${DB_NAME}
+      - MB_DB_PORT=${DB_PORT}
+      - MB_DB_USER=${DB_USER}
+      - MB_DB_HOST=db
+      - MB_DB_PASS=${DB_PASSWORD}
+      - JAVA_TIMEZONE=${MB_JAVA_TIMEZONE}
     ports:
       # <Port exposed>:<Port running inside container>
       - '${MB_PORT}:3000'

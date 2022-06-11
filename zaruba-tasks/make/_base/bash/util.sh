@@ -17,15 +17,10 @@ _addEnvToReplacementMap() {
 }
 
 _addTaskDependency() {
-    __ZRB_PROJECT_FILE_NAME="${1}"
-    __ZRB_TASK_NAME="${2}"
-    __ZRB_DEPENDENCY_TASK_NAME="${3}"
-    __ZRB_CREATE_TASK="${4}"
-    # add default arguments
-    if [ -z "${__ZRB_CREATE_TASK}" ]
-    then
-        __ZRB_CREATE_TASK="0"
-    fi
+    __ZRB_TASK_NAME="${1}"
+    __ZRB_DEPENDENCY_TASK_NAME="${2}"
+    __ZRB_CREATE_TASK="${3}"
+    __ZRB_PROJECT_FILE_NAME="${4}"
     # check dependency task existance
     echo "Checking ${__ZRB_DEPENDENCY_TASK_NAME}"
     if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_DEPENDENCY_TASK_NAME}" "${__ZRB_PROJECT_FILE_NAME}")" = 1 ]

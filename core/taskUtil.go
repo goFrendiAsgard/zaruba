@@ -29,11 +29,15 @@ func NewTaskUtil(fileUtil *fileutil.FileUtil, jsonUtil *jsonutil.JsonUtil) *Task
 	return taskUtil
 }
 
-func (taskUtil *TaskUtil) getTask(projectFile, taskName string) (task *Task, err error) {
+func (taskUtil *TaskUtil) getTaskByProjectFile(projectFile, taskName string) (task *Task, err error) {
 	project, err := taskUtil.project.getProject(projectFile)
 	if err != nil {
 		return nil, err
 	}
+	return taskUtil.getTaskByProject(project, taskName)
+}
+
+func (taskUtil *TaskUtil) getTaskByProject(project *Project, taskName string) (task *Task, err error) {
 	task, taskExist := project.Tasks[taskName]
 	if !taskExist {
 		return nil, fmt.Errorf("task %s is not exist", taskName)
@@ -66,7 +70,7 @@ func (taskUtil *TaskUtil) AddDependencies(taskName string, dependencyTaskNames [
 	if len(dependencyTaskNames) == 0 {
 		return nil
 	}
-	task, err := taskUtil.getTask(projectFile, taskName)
+	task, err := taskUtil.getTaskByProjectFile(projectFile, taskName)
 	if err != nil {
 		return err
 	}
@@ -121,7 +125,7 @@ func (taskUtil *TaskUtil) AddParents(taskName string, parentTaskNames []string, 
 	if len(parentTaskNames) == 0 {
 		return nil
 	}
-	task, err := taskUtil.getTask(projectFile, taskName)
+	task, err := taskUtil.getTaskByProjectFile(projectFile, taskName)
 	if err != nil {
 		return err
 	}

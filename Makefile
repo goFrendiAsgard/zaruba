@@ -9,4 +9,3 @@ documentation:
 	. ./buildZaruba.sh
 	sudo rm -Rf docs/examples/playground
 	./zaruba please makeDocs
-	cd docs && . ./.adjustDocs.sh	

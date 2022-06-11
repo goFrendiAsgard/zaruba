@@ -21,7 +21,7 @@ func (configUtil *TaskConfigUtil) Set(taskName string, configMap map[string]stri
 	if len(configMap) == 0 {
 		return nil
 	}
-	task, err := configUtil.task.getTask(projectFile, taskName)
+	task, err := configUtil.task.getTaskByProjectFile(projectFile, taskName)
 	if err != nil {
 		return err
 	}
