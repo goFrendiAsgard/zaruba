@@ -433,7 +433,7 @@ Value:
 
 Value:
 
-    {{ .GetValue "appMigrateCommand" }}
+    {{ if ne (.GetValue "appMigrateCommand") "" }}{{ .GetValue "appMigrateCommand" }}{{ else }}{{ .GetConfig "defaultAppMigrateCommand" }}{{ end }}
 
 
 ### Configs.appModuleName
@@ -461,7 +461,7 @@ Value:
 
 Value:
 
-    {{ .GetValue "appPrepareCommand" }}
+    {{ if ne (.GetValue "appPrepareCommand") "" }}{{ .GetValue "appPrepareCommand" }}{{ else }}{{ .GetConfig "defaultAppPrepareCommand" }}{{ end }}
 
 
 ### Configs.appPushImageCommand
@@ -503,7 +503,7 @@ Value:
 
 Value:
 
-    {{ .GetValue "appTestCommand" }}
+    {{ if ne (.GetValue "appTestCommand") "" }}{{ .GetValue "appTestCommand" }}{{ else }}{{ .GetConfig "defaultAppTestCommand" }}{{ end }}
 
 
 ### Configs.appUrl
@@ -550,6 +550,9 @@ Value:
     {{ .GeneratedRandomName }}
 
 
+### Configs.defaultAppMigrateCommand
+
+
 ### Configs.defaultAppPorts
 
 Value:
@@ -557,10 +560,16 @@ Value:
     []
 
 
+### Configs.defaultAppPrepareCommand
+
+
 ### Configs.defaultAppStartCommand
 
 
 ### Configs.defaultAppStartContainerCommand
+
+
+### Configs.defaultAppTestCommand
 
 
 ### Configs.defaultDeploymentDirectory

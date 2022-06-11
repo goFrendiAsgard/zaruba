@@ -6,6 +6,8 @@ tasks:
     location: ztplAppTaskLocation
     inputs:
       - runZtplAppNameInLocal
+    dependencies:
+      - migrateZtplAppName
     configRefs:
       - startZtplAppName
       - ztplAppName
@@ -24,6 +26,8 @@ tasks:
     icon: 🦆
     extend: zrbRunShellScript
     location: ztplAppTaskLocation
+    dependencies:
+      - updateProjectLinks
     configRefs:
       - migrateZtplAppName
       - ztplAppName

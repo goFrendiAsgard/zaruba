@@ -8,6 +8,7 @@ tasks:
       - runZtplAppNameInLocal
     dependencies:
       - prepareZtplAppName
+      - migrateZtplAppName
     configRefs:
       - startZtplAppName
       - ztplAppName
