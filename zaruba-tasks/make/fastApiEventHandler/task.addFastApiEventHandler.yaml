@@ -1,7 +1,7 @@
 tasks:
  
   addFastApiEventHandler:
-    icon: ⚡
+    icon: ⚛️
     extend: makeApp
     dependencies:
       - addFastApiModule

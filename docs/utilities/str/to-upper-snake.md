@@ -21,6 +21,7 @@ Usage:
 
 Available Commands:
   addPrefix      Add prefix to string or do nothing if string already has that prefix
+  currentTime    Print current time
   doubleQuote    Double quote string
   fullIndent     indent multi-line string, include first line
   getIndentation Get indentation of string

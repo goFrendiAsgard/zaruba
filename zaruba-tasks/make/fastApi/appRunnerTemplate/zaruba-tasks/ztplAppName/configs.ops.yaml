@@ -1,0 +1,5 @@
+configs:
+
+  createZtplAppNameMigration:
+    start: |
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/run.sh" }}" "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/createMigration.sh" }}"

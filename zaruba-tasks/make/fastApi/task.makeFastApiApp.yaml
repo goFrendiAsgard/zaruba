@@ -1,7 +1,7 @@
 tasks:
  
   makeFastApiApp:
-    icon: ⚡
+    icon: ⚛️
     extend: makeApp
     inputs:
       - appDirectory

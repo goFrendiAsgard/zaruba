@@ -9,6 +9,7 @@ var Cmd = &cobra.Command{
 
 func Init() {
 	Cmd.AddCommand(addPrefixCmd)
+	Cmd.AddCommand(currentTimeCmd)
 	Cmd.AddCommand(doubleQuote)
 	Cmd.AddCommand(fullIndentCmd)
 	Cmd.AddCommand(getIndentationCmd)

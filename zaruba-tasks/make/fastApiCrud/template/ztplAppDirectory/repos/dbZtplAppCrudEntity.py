@@ -5,18 +5,17 @@ from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
+from repos import Base
 
 import uuid
 import datetime
 
-Base = declarative_base()
-
 class DBZtplAppCrudEntityEntity(Base):
     __tablename__ = "ztpl_app_crud_entities"
     id = Column(String(36), primary_key=True, index=True)
-    created_at = Column(DateTime, default=datetime.datetime.now)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
-    updated_at = Column(DateTime, default=datetime.datetime.now)
+    updated_at = Column(DateTime, nullable=True)
     updated_by = Column(String(36), nullable=True)
 
 
@@ -57,7 +56,8 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             new_ztpl_app_crud_entity_id = str(uuid.uuid4())
             db_ztpl_app_crud_entity = DBZtplAppCrudEntityEntity(
                 id=new_ztpl_app_crud_entity_id,
-                created_at=datetime.datetime.now()
+                created_by=ztpl_app_crud_entity_data.created_by,
+                created_at=datetime.datetime.utcnow()
             )
             db.add(db_ztpl_app_crud_entity)
             db.commit()
@@ -74,7 +74,8 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
             if db_ztpl_app_crud_entity is None:
                 return None
-            db_ztpl_app_crud_entity.updated_at = datetime.datetime.now()
+            db_ztpl_app_crud_entity.updated_by = ztpl_app_crud_entity_data.updated_by
+            db_ztpl_app_crud_entity.updated_at = datetime.datetime.utcnow()
             db.add(db_ztpl_app_crud_entity)
             db.commit()
             db.refresh(db_ztpl_app_crud_entity) 

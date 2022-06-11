@@ -21,6 +21,7 @@ Usage:
 
 Available Commands:
   addPrefix      Add prefix to string or do nothing if string already has that prefix
+  currentTime    Print current time
   doubleQuote    Double quote string
   fullIndent     indent multi-line string, include first line
   getIndentation Get indentation of string
@@ -55,6 +56,7 @@ Use "zaruba str [command] --help" for more information about a command.
 <!--startTocSubTopic-->
 # Sub-topics
 * [AddPrefix](add-prefix.md)
+* [CurrentTime](current-time.md)
 * [DoubleQuote](double-quote.md)
 * [FullIndent](full-indent.md)
 * [GetIndentation](get-indentation.md)

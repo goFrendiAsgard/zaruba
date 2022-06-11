@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"time"
 
 	pluralize "github.com/gertd/go-pluralize"
 	"github.com/google/uuid"
@@ -187,4 +188,9 @@ func (strUtil *StrUtil) Trim(str, cutset string) (trimmedStr string) {
 
 func (strUtil *StrUtil) NewName() (randomName string) {
 	return strUtil.nameGenerator.Generate()
+}
+
+func (strUtil *StrUtil) CurrentTime() (currentTimeStr string) {
+	now := time.Now()
+	return now.Format("20060102150405")
 }

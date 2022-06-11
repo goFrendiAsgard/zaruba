@@ -1,0 +1,10 @@
+tasks:
+
+  createZtplAppNameMigration:
+    icon: 🔧
+    extend: zrbRunShellScript
+    location: ztplAppTaskLocation
+    configRefs:
+      - createZtplAppNameMigration
+      - ztplAppName
+    envRef: ztplAppName

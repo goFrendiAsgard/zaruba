@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# ⚡ makeFastApiAppRunner
+# ⚛️ makeFastApiAppRunner
 <!--endTocHeader-->
 
 ## Information
@@ -539,7 +539,7 @@ Value:
 
 Value:
 
-    ⚡
+    ⚛️
 
 
 ### Configs.appImageName
@@ -792,7 +792,8 @@ Value:
     [
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
       "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
-      "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate",
+      "{{ .ZarubaHome }}/zaruba-tasks/make/fastApi/appRunnerTemplate"
     ]
 
 

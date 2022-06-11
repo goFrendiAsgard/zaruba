@@ -1,7 +1,7 @@
 tasks:
 
   makeFastApiAppRunner:
-    icon: ⚡
+    icon: ⚛️
     extend: makePythonAppRunner
     dependencies:
       - makeFastApiApp

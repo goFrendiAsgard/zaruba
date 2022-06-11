@@ -1,11 +1,18 @@
 configs:
 
   makeFastApiAppRunner:
-    appIcon: ⚡
+    appIcon: ⚛️
     pythonStartCommand: ./start.sh
     defaultAppPorts: '["{{ .Template ".GetEnv \\\"APP_HTTP_PORT\\\"" }}"]'
     defaultAppMigrateCommand: './migrate.sh'
     _adjustPermission: |
       chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
       chmod 755 "${_ZRB_APP_DIRECTORY}/migrate.sh"
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/native/template",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/pythonAppRunner/appRunnerTemplate",
+        "{{ .ZarubaHome }}/zaruba-tasks/make/fastApi/appRunnerTemplate"
+      ]
     

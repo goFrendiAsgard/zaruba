@@ -5,21 +5,21 @@ from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from schemas.role import Role, RoleData
 from repos.role import RoleRepo
+from repos import Base
 
 import uuid
 import datetime
 import json
 
-Base = declarative_base()
 
 class DBRoleEntity(Base):
     __tablename__ = "roles"
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(20), index=True)
     json_permissions = Column(String(20), index=True)
-    created_at = Column(DateTime, default=datetime.datetime.now)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
-    updated_at = Column(DateTime, default=datetime.datetime.now)
+    updated_at = Column(DateTime, nullable=True)
     updated_by = Column(String(36), nullable=True)
 
 
@@ -62,7 +62,8 @@ class DBRoleRepo(RoleRepo):
                 id=new_role_id,
                 name=role_data.name,
                 json_permissions=json.dumps(role_data.permissions),
-                created_at=datetime.datetime.now()
+                created_by=role_data.created_by,
+                created_at=datetime.datetime.utcnow()
             )
             db.add(db_role)
             db.commit()
@@ -81,7 +82,8 @@ class DBRoleRepo(RoleRepo):
                 return None
             db_role.name = role_data.name
             db_role.json_permissions = json.dumps(role_data.permissions)
-            db_role.updated_at = datetime.datetime.now()
+            db_role.updated_by = role_data.updated_by
+            db_role.updated_at = datetime.datetime.utcnow()
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 

@@ -6,13 +6,12 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from schemas.user import User, UserData
 from repos.user import UserRepo
+from repos import Base
 
 import bcrypt
 import uuid
 import datetime
 import json
-
-Base = declarative_base()
 
 class DBUserEntity(Base):
     __tablename__ = "users"
@@ -24,9 +23,9 @@ class DBUserEntity(Base):
     active = Column(Boolean(), index=True, nullable=False, default=False)
     hashed_password = Column(String(60), index=False, nullable=False)
     full_name = Column(String(50), index=True, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.now)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
-    updated_at = Column(DateTime, default=datetime.datetime.now)
+    updated_at = Column(DateTime, nullable=True)
     updated_by = Column(String(36), nullable=True)
 
     @hybrid_property
@@ -121,7 +120,8 @@ class DBUserRepo(UserRepo):
                 active=user_data.active,
                 hashed_password=self._hash_password(user_data.password),
                 full_name=user_data.full_name,
-                created_at=datetime.datetime.now()
+                created_by=user_data.created_by,
+                created_at=datetime.datetime.utcnow()
             )
             db.add(db_user)
             db.commit()
@@ -144,7 +144,8 @@ class DBUserRepo(UserRepo):
             db_user.json_permissions = json.dumps(user_data.permissions)
             db_user.active = user_data.active
             db_user.full_name = user_data.full_name
-            db_user.updated_at = datetime.datetime.now()
+            db_user.updated_by = user_data.updated_by
+            db_user.updated_at = datetime.datetime.utcnow()
             if user_data.password:
                 db_user.hashed_password = self._hash_password(user_data.password)
             db.add(db_user)

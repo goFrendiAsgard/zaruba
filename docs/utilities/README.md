@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-7dbff06c31927a0785410898c74390b8f27423bb
+v0.9.0-alpha-2-389ba6bc3ffec2bcefdc22c0199156905cd1d738
 
 Usage:
   zaruba [command]
@@ -211,6 +211,7 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [SyncEnvFiles](project/sync-env-files.md)
 * [🔠 Str](str/README.md)
   * [AddPrefix](str/add-prefix.md)
+  * [CurrentTime](str/current-time.md)
   * [DoubleQuote](str/double-quote.md)
   * [FullIndent](str/full-indent.md)
   * [GetIndentation](str/get-indentation.md)
