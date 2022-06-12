@@ -12,6 +12,10 @@ class RoleRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def find_by_name(self, name: str) -> Optional[Role]:
+        pass
+
+    @abc.abstractmethod
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
         pass
 
@@ -40,6 +44,12 @@ class MemRoleRepo(RoleRepo):
         if id not in self._role_map:
             return None
         return self._role_map[id]
+
+    def find_by_name(self, name: str) -> Optional[Role]:
+        for _, role in self._role_map.items():
+            if role.name == name:
+                return role
+        return None
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
         mem_roles = list(self._role_map.values())

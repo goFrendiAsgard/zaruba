@@ -13,6 +13,17 @@ class RoleService():
     def find_by_id(self, id: str) -> Role:
         return self.role_repo.find_by_id(id)
 
+    def find_by_name(self, name: str) -> Role:
+        return self.role_repo.find_by_name(name)
+
+    def get_ids_by_names(self, names: List[str]) -> List[str]:
+        ids = []
+        for name in names:
+            role = self.service.find_by_name(name)
+            if role is not None:
+                ids.append(role.id)
+        return ids
+
     def insert(self, role_data: RoleData) -> Role:
         return self.role_repo.insert(role_data)
 

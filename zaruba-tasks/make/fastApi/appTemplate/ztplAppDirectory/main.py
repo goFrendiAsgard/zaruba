@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, create_kafka_connection_parameters, create_kafka_avro_connection_parameters, create_rmq_connection_parameters
 from helpers.app import get_abs_static_dir, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler, register_readiness_handler
@@ -9,6 +10,7 @@ from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
 from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
 from schemas.user import UserData
+from ui import MenuService, create_menu_service
 
 import os
 import json
@@ -81,7 +83,11 @@ access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/api/v1/token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)
 auth_service = TokenOAuth2AuthService(user_service, role_service, token_service, oauth2_scheme, root_permission)
 
-# -- ⚡ FastAPI initialization
+# -- 👓 UI initialization
+menu_service: MenuService = create_menu_service(role_service)
+templates = Jinja2Templates(directory='templates')
+
+# -- ⚛️ FastAPI initialization
 app = FastAPI(title='ztplAppName')
 app.add_middleware(
     CORSMiddleware,
@@ -94,9 +100,9 @@ app.add_middleware(
     max_age = int(os.getenv('APP_CORS_MAX_AGE', '600')),
 )
 
-
 # -- 📖 Register core handlers
 enable_route_handler = os.getenv('APP_ENABLE_ROUTE_HANDLER', '1') != '0'
+enable_ui = os.getenv('APP_ENABLE_UI', '1') != '0'
 enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
 enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
 static_url = os.getenv('APP_STATIC_URL', '/static')
@@ -105,7 +111,7 @@ handle_app_shutdown(app, mb, rpc)
 register_readiness_handler(app, mb, rpc, error_threshold)
 register_static_dir_route_handler(app, static_url, static_dir, static_route_name='static')
 if enable_route_handler:
-    register_auth_route_handler(app, mb, rpc, access_token_url, auth_service)
+    register_auth_route_handler(app, mb, rpc, access_token_url, auth_service, menu_service, templates, enable_ui)
 if enable_event_handler:
     register_auth_event_handler(mb)
 if enable_rpc_handler:

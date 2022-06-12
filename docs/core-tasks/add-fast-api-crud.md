@@ -181,6 +181,7 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRouteHandler.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRpcHandler.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerRepo.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastApiCrud/bash/registerUi.sh"
 
 
 

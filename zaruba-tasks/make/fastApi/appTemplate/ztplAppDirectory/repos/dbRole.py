@@ -42,6 +42,18 @@ class DBRoleRepo(RoleRepo):
             db.close()
         return role
 
+    def find_by_name(self, name: str) -> Optional[Role]:
+        db = Session(self.engine)
+        role: Role
+        try:
+            db_result = db.query(DBRoleEntity).filter(DBRoleEntity.name == name).first()
+            if db_result is None:
+                return None
+            role = Role.from_orm(db_result)
+        finally:
+            db.close()
+        return role
+
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
         db = Session(self.engine)
         roles: List[Role] = []

@@ -18,3 +18,5 @@ _LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_FUNCTION_INDEX}" "${
 
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
+
+echo "Done adding event handler"

@@ -1,13 +1,16 @@
 from typing import Any, List, Mapping
 from helpers.transport import MessageBus, RPC
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
 from auth.authService import AuthService
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from ui.menuService import MenuService
 from schemas.role import Role, RoleData
 
 import traceback
 
-def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
+def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool):
 
     @app.get('/api/v1/roles/', response_model=List[Role])
     def find_role(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'role:read'))) -> List[Role]:
@@ -18,6 +21,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             print(traceback.format_exc()) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
         return [Role.parse_obj(result) for result in results]
+
 
     @app.get('/api/v1/roles/{id}', response_model=Role)
     def find_role_by_id(id: str, current_user = Depends(auth_service.has_any_permissions( 'role:read'))) -> Role:
@@ -31,6 +35,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
 
+
     @app.post('/api/v1/roles/', response_model=Role)
     def insert_role(role_data: RoleData, current_user = Depends(auth_service.has_any_permissions( 'role:create'))) -> Role:
         result = None
@@ -42,6 +47,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         if result is None:
             raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
+
 
     @app.put('/api/v1/roles/{id}', response_model=Role)
     def update_role(id: str, role_data: RoleData, current_user = Depends(auth_service.has_any_permissions( 'role:update'))) -> Role:
@@ -55,6 +61,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
 
+
     @app.delete('/api/v1/roles/{id}')
     def delete_role(id: str, current_user = Depends(auth_service.has_any_permissions( 'role:delete'))) -> Role:
         result = None
@@ -66,5 +73,19 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         if result is None:
             raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
+
+
+    if enable_ui:
+        @app.get('/auth/roles', response_class=HTMLResponse)
+        async def user_interface(request: Request, current_user = Depends(auth_service.everyone())):
+            accessible_menu = menu_service.get_accessible_menu('auth/roles', current_user)
+            return templates.TemplateResponse(
+                'default_crud.html', 
+                context={
+                    'request': request, 
+                    'menu': accessible_menu.json()
+                }, 
+                status_code=200
+            )
 
     print('Handle HTTP routes for auth.Role')
