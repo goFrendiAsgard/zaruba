@@ -12,6 +12,10 @@ import traceback
 
 def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool):
 
+    ################################################
+    # -- ⚙️ API
+    ################################################
+
     @app.get('/api/v1/ztpl_app_crud_entities/', response_model=List[ZtplAppCrudEntity])
     def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'ztpl_app_crud_entity:read'))) -> List[ZtplAppCrudEntity]:
         ztpl_app_crud_entities = []
@@ -75,15 +79,17 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
+    ################################################
+    # -- 👓 User Interface
+    ################################################
     if enable_ui:
         @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
-        async def user_interface(request: Request, current_user = Depends(auth_service.everyone())):
-            accessible_menu = menu_service.get_accessible_menu('ztplAppModuleName/ztplAppCrudEntities', current_user)
+        async def user_interface(request: Request, context = Depends(menu_service.validate('ztplAppModuleName/ztplAppCrudEntities', auth_service.everyone))):
             return templates.TemplateResponse(
-                'default_page.html', 
+                'default_crud.html', 
                 context={
                     'request': request, 
-                    'menu': accessible_menu.json()
+                    'context': context
                 }, 
                 status_code=200
             )

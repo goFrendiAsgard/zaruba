@@ -13,6 +13,10 @@ import traceback
 
 def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool):
 
+    ################################################
+    # -- ⚙️ API
+    ################################################
+
     @app.get('/api/v1/users/', response_model=List[User])
     def find_user(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'user:read'))) -> List[User]:
         results = []
@@ -76,15 +80,17 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         return User.parse_obj(result)
 
 
+    ################################################
+    # -- 👓 User Interface
+    ################################################
     if enable_ui:
         @app.get('/auth/users', response_class=HTMLResponse)
-        async def user_interface(request: Request, current_user = Depends(auth_service.everyone())):
-            accessible_menu = menu_service.get_accessible_menu('auth/users', current_user)
+        async def user_interface(request: Request, context = Depends(menu_service.validate('auth/users', auth_service.everyone))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={
                     'request': request, 
-                    'menu': accessible_menu.json()
+                    'context': context
                 }, 
                 status_code=200
             )

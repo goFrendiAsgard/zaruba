@@ -12,6 +12,10 @@ import traceback
 
 def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool):
 
+    ################################################
+    # -- ⚙️ API
+    ################################################
+
     @app.get('/api/v1/roles/', response_model=List[Role])
     def find_role(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'role:read'))) -> List[Role]:
         results = []
@@ -75,15 +79,17 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         return Role.parse_obj(result)
 
 
+    ################################################
+    # -- 👓 User Interface
+    ################################################
     if enable_ui:
         @app.get('/auth/roles', response_class=HTMLResponse)
-        async def user_interface(request: Request, current_user = Depends(auth_service.everyone())):
-            accessible_menu = menu_service.get_accessible_menu('auth/roles', current_user)
+        async def user_interface(request: Request, context = Depends(menu_service.validate('auth/roles', auth_service.everyone))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={
                     'request': request, 
-                    'menu': accessible_menu.json()
+                    'context': context
                 }, 
                 status_code=200
             )
