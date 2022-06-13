@@ -98,7 +98,7 @@ auth_service = TokenOAuth2AuthService(user_service, role_service, token_service,
 ################################################
 # -- 👓 User Interface initialization
 ################################################
-menu_service: MenuService = create_menu_service(auth_service, role_service)
+menu_service: MenuService = create_menu_service(auth_service)
 templates = Jinja2Templates(directory='templates')
 
 ################################################

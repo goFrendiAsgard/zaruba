@@ -26,28 +26,24 @@ class MenuService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def validate(self, menu_name, user_fetcher: Callable[[Request], User]) -> Callable[[Request], MenuContext]:
+    def validate(self, menu_name) -> Callable[[Request], MenuContext]:
         pass
 
 
 class DefaultMenuService(MenuService):
     root_menu: Menu
     auth_service: AuthService
-    role_service: RoleService
     menu_map = Mapping[str, Menu]
     parent_map = Mapping[str, List[Menu]]
 
-    def __init__(self, auth_service: AuthService, role_service: RoleService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', root_menu_role_names: List[str] = []):
+    def __init__(self, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', permission_name: Optional[str] = None):
         self.auth_service = auth_service
-        self.role_service = role_service
-        root_role_ids = self.role_service.get_ids_by_names(root_menu_role_names)
-        self.root_menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, role_ids=root_role_ids)
+        self.root_menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, permission_name=permission_name)
         self.menu_map = {root_menu_name: self.root_menu}
         self.parent_map = {root_menu_name: []}
 
-    def add_menu(self, name: str, title: str, url: str, role_names: List[str]=[], parent_name:Optional[str] = None):
-        role_ids = self.role_service.get_ids_by_names(role_names)
-        menu = Menu(name=name, title=title, url=url, role_ids=role_ids)
+    def add_menu(self, name: str, title: str, url: str, permission_name: Optional[str] = None, parent_name:Optional[str] = None):
+        menu = Menu(name=name, title=title, url=url, permission_name=permission_name)
         parent_menu = self.root_menu if parent_name is None else self.menu_map[parent_name]
         if parent_menu is None:
             raise Exception('Menu {} not found'.format(parent_name))
@@ -73,9 +69,10 @@ class DefaultMenuService(MenuService):
         menu = self.menu_map[menu_name]
         return self._is_menu_accessible(menu, user)
 
-    def validate(self, current_menu_name: str, user_fetcher: Callable[[Request], Optional[User]]) -> Callable[[Request], MenuContext]:
+    def validate(self, current_menu_name: str) -> Callable[[Request], MenuContext]:
         async def verify_menu_accessibility(request: Request) -> MenuContext:
-            current_user = await user_fetcher(request)
+            fetch_user = self.auth_service.everyone()
+            current_user = await fetch_user(request)
             current_menu = copy.deepcopy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
             accessible_menu = self.get_accessible_menu(current_menu_name, current_user)
             menu_context = MenuContext()
@@ -106,11 +103,8 @@ class DefaultMenuService(MenuService):
         return menu
 
     def _is_menu_accessible(self, menu: Menu, user: Optional[User]) -> bool:
-        if len(menu.role_ids) == 0:
+        if menu.permission_name is None:
             return True
         if user is None:
             return False
-        for menu_role_id in menu.role_ids:
-            if menu_role_id in user.role_ids:
-                return True
-        return False
+        return user.has_permission(menu.permission_name)

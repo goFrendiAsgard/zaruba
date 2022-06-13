@@ -1,11 +1,11 @@
-from typing import List, Mapping
-from pydantic import BaseModel, Field
+from typing import List, Optional
+from pydantic import BaseModel
 
 class MenuNode(BaseModel):
     name: str
     title: str
     url: str
-    role_ids: List[str] = []
+    permission_name: Optional[str]
 
 
 class Menu(MenuNode):
