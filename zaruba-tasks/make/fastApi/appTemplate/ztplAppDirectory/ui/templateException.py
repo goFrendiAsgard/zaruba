@@ -3,7 +3,7 @@ from schemas.menu import Menu
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 
-class TemplateException:
+class TemplateException(Exception):
     status_code: int
     detail: str
     menu_context: MenuContext

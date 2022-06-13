@@ -73,15 +73,18 @@ class DefaultMenuService(MenuService):
         menu = self.menu_map[menu_name]
         return self._is_menu_accessible(menu, user)
 
-    def validate(self, current_menu_name: str, user_fetcher: Callable[[Request], User]) -> Callable[[Request], MenuContext]:
+    def validate(self, current_menu_name: str, user_fetcher: Callable[[Request], Optional[User]]) -> Callable[[Request], MenuContext]:
         async def verify_menu_accessibility(request: Request) -> MenuContext:
-            current_user = user_fetcher(request)
-            current_menu = copy.deep_copy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
+            current_user = await user_fetcher(request)
+            current_menu = copy.deepcopy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
             accessible_menu = self.get_accessible_menu(current_menu_name, current_user)
-            menu_context = MenuContext(current_user=current_user, current_menu=current_menu, accessible_menu=accessible_menu)
-            if not self._is_menu_accessible(current_menu_name, current_user):
-                raise TemplateException(statuss_code=403, detail='Forbidden', accessible_menu = accessible_menu)
-            return MenuContext(current_user=current_user, accessible_menu=accessible_menu)
+            menu_context = MenuContext()
+            menu_context.current_menu = current_menu
+            menu_context.current_user = current_user
+            menu_context.accessible_menu = accessible_menu
+            if not self._is_menu_accessible(current_menu, current_user):
+                raise TemplateException(statuss_code=403, detail='Forbidden', menu_context = menu_context)
+            return menu_context
         return verify_menu_accessibility
 
     def _highlight_menu_by_names(self, menu: Menu, names: List[str]) -> Menu:
