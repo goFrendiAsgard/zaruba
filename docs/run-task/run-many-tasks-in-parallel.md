@@ -24,8 +24,8 @@ zaruba please printHelloWorld printHelloHuman
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.206µs
-         Current Time: 06:56:38
+         Elapsed Time: 1.687µs
+         Current Time: 07:10:50
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
@@ -33,14 +33,14 @@ zaruba please printHelloWorld printHelloHuman
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.109629ms
-         Current Time: 06:56:38
+         Elapsed Time: 102.022879ms
+         Current Time: 07:10:51
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 503.829847ms
-         Current Time: 06:56:39
+         Elapsed Time: 504.039532ms
+         Current Time: 07:10:51
 zaruba please printHelloWorld printHelloHuman
 ```````
 </details>
