@@ -70,9 +70,7 @@ class DefaultMenuService(MenuService):
         return self._is_menu_accessible(menu, user)
 
     def validate(self, current_menu_name: str) -> Callable[[Request], MenuContext]:
-        async def verify_menu_accessibility(request: Request) -> MenuContext:
-            current_user_fetcher = self.auth_service.everyone()
-            current_user = await current_user_fetcher(request)
+        async def verify_menu_accessibility(current_user: User = Depends(self.auth_service.everyone())) -> MenuContext:
             current_menu = copy.deepcopy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
             accessible_menu = self.get_accessible_menu(current_menu_name, current_user)
             menu_context = MenuContext()
@@ -109,4 +107,6 @@ class DefaultMenuService(MenuService):
             return True
         if user is None:
             return False
+        if user.has_permission(self.auth_service.get_root_permission()):
+            return True
         return user.has_permission(menu.permission_name)

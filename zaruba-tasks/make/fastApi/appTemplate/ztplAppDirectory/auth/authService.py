@@ -11,6 +11,10 @@ import abc
 class AuthService(abc.ABC):
 
     @abc.abstractmethod
+    def get_root_permission(self) -> str:
+        pass
+
+    @abc.abstractmethod
     def everyone(self) -> Callable[[Request], User]:
         pass
 
@@ -19,13 +23,17 @@ class AuthService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
+    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
         pass
 
 class NoAuthService(AuthService):
 
-    def __init__(self, user_service: UserService):
-        self.user_service = user_service
+    def __init__(self, user_service: UserService, root_permission: str = 'root'):
+        self.user_service: str = user_service
+        self.root_permission: str = root_permission
+
+    def get_root_permission(self) -> str:
+        return self.root_permission
 
     def _always_authorized(self, Request) -> User:
         return self.user_service.get_guest_user()
@@ -36,17 +44,20 @@ class NoAuthService(AuthService):
     def is_authenticated(self) -> Callable[[Request], User]:
         return self._always_authorized
 
-    def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
+    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
         return self._always_authorized
 
 class TokenOAuth2AuthService(AuthService):
 
-    def __init__(self, user_service: UserService, role_service: RoleService, token_service: TokenService, oauth2_scheme: OAuth2, root_permission: str):
+    def __init__(self, user_service: UserService, role_service: RoleService, token_service: TokenService, oauth2_scheme: OAuth2, root_permission: str = 'root'):
         self.user_service = user_service
         self.role_service = role_service
         self.token_service = token_service
         self.oauth2_scheme = oauth2_scheme
         self.root_permission = root_permission
+
+    def get_root_permission(self) -> str:
+        return self.root_permission
 
     def _raise_unauthorized_exception(self, detail: str):
         raise HTTPException(
@@ -77,7 +88,7 @@ class TokenOAuth2AuthService(AuthService):
             return current_user
         return verify_is_authenticated
 
-    def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
+    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
         async def verify_has_any_permission(token = Depends(self.oauth2_scheme)) -> User:
             if token is None:
                 self._raise_unauthorized_exception('Not authenticated')
