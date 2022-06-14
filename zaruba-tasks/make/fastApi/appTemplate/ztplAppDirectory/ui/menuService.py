@@ -105,8 +105,4 @@ class DefaultMenuService(MenuService):
             return False
         if menu.permission_name is None:
             return True
-        if user is None:
-            return False
-        if user.has_permission(self.auth_service.get_root_permission()):
-            return True
-        return user.has_permission(menu.permission_name)
+        return self.auth_service.is_user_authorized(user, [menu.permission_name])
