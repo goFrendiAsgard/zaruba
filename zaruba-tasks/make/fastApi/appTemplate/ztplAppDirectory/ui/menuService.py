@@ -26,7 +26,7 @@ class MenuService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_menu_context(self, menu_name: str, user: Optional[User]) -> Callable[[Request], MenuContext]:
+    def validate(self, menu_name: str, user: Optional[User]) -> Callable[[Request], MenuContext]:
         pass
 
 
@@ -69,8 +69,10 @@ class DefaultMenuService(MenuService):
         menu = self.menu_map[menu_name]
         return self._is_menu_accessible(menu, user)
 
-    def get_menu_context(self, current_menu_name: str) -> Callable[[Request], MenuContext]:
-        async def verify_menu_accessibility(current_user = Depends(self.auth_service.everyone())) -> MenuContext:
+    def validate(self, current_menu_name: str) -> Callable[[Request], MenuContext]:
+        async def verify_menu_accessibility(request: Request) -> MenuContext:
+            current_user_fetcher = self.auth_service.everyone()
+            current_user = await current_user_fetcher(request)
             current_menu = copy.deepcopy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
             accessible_menu = self.get_accessible_menu(current_menu_name, current_user)
             menu_context = MenuContext()

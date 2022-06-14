@@ -7,6 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
+from schemas.menuContext import MenuContext
 
 import traceback
 
@@ -84,7 +85,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
     ################################################
     if enable_ui:
         @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
-        async def user_interface(request: Request, context = Depends(menu_service.validate('ztplAppModuleName/ztplAppCrudEntities'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.validate('ztplAppModuleName/ztplAppCrudEntities'))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={

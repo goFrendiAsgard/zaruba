@@ -2,6 +2,7 @@ from typing import Mapping, List, Any
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from schemas.menuContext import MenuContext
 from schemas.user import User
 from auth.authService import AuthService
 from ui.menuService import MenuService
@@ -17,7 +18,7 @@ def register_ztpl_app_module_name_route_handler(app: FastAPI, mb: MessageBus, rp
     ################################################
     if enable_ui:
         @app.get('/ztpl-app-module-name', response_class=HTMLResponse)
-        async def user_interface(request: Request, context = Depends(menu_service.validate('ztplAppModuleName'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.validate('ztplAppModuleName'))):
             return templates.TemplateResponse(
                 'default_page.html', 
                 context={

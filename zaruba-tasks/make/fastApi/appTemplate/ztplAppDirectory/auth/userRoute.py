@@ -6,6 +6,7 @@ from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
+from schemas.menuContext import MenuContext
 from schemas.user import User, UserData
 
 import traceback
@@ -85,7 +86,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     ################################################
     if enable_ui:
         @app.get('/auth/users', response_class=HTMLResponse)
-        async def user_interface(request: Request, context = Depends(menu_service.get_menu_context('auth/users'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.validate('auth/users'))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={

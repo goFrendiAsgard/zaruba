@@ -7,6 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
 from schemas.role import Role, RoleData
+from schemas.menuContext import MenuContext
 
 import traceback
 
@@ -84,7 +85,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     ################################################
     if enable_ui:
         @app.get('/auth/roles', response_class=HTMLResponse)
-        async def user_interface(request: Request, context = Depends(menu_service.get_menu_context('auth/roles'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.validate('auth/roles'))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={
