@@ -148,14 +148,14 @@ See these examples:
 def register_ml_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     @app.get('/train-service', response_class=HTMLResponse)
-    def train_service(current_user = Depends(auth_service.everyone()), config: Mapping[str, Any]) -> HTMLResponse:
+    def train_service(current_user: User = Depends(auth_service.everyone()), config: Mapping[str, Any]) -> HTMLResponse:
         # invoking trainService
         mb.publish('trainService', config)
         # immediately return response without waiting for train_service event to be processed.
         return HTMLResponse(content='train process has been invoked', status_code=200)
 
     @app.get('/predict-data', response_class=float)
-    def predict_data(current_user = Depends(auth_service.everyone()), data: List[float]) -> HTMLResponse:
+    def predict_data(current_user: User = Depends(auth_service.everyone()), data: List[float]) -> HTMLResponse:
         # have to get the prediction result before returning response.
         prediction = rpc.call('predictData', data)
         return prediction
@@ -198,7 +198,7 @@ class AuthService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def has_any_permissions(self, *permissions: str) -> Callable[[Request], User]:
+    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
         pass
 ```
 
@@ -206,7 +206,7 @@ The auth service has an interface (or abstract base class) containing several me
 
 * `everyone`: Everyone should be able to access the resource. If the user has been logged in, this method should return the logged-in user. Otherwise, it should return guest user. This method should never throw an error.
 * `is_authenticated`: Only authenticated user (i,e., has been logged in) can access the resource. This method should return the logged in user or throwing an error.
-* `has_any_permissions`. Only user with any of the permissions defined in the parameter can access the resource. This method should return the authorized user or throwing an error.
+* `is_authorized`. Only user with any of the permissions defined in the parameter can access the resource. This method should return the authorized user or throwing an error.
 
 There are two implementation of the auth service:
 

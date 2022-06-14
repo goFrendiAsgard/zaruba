@@ -6,14 +6,20 @@ from auth.authService import AuthService
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
+from schemas.menuContext import MenuContext
 from schemas.role import Role, RoleData
-
+from schemas.user import User
+ 
 import traceback
 
 def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool):
 
+    ################################################
+    # -- ⚙️ API
+    ################################################
+
     @app.get('/api/v1/roles/', response_model=List[Role])
-    def find_role(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'role:read'))) -> List[Role]:
+    def find_role(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> List[Role]:
         results = []
         try:
             results = rpc.call('find_role', keyword, limit, offset, current_user.dict())
@@ -24,7 +30,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.get('/api/v1/roles/{id}', response_model=Role)
-    def find_role_by_id(id: str, current_user = Depends(auth_service.has_any_permissions( 'role:read'))) -> Role:
+    def find_role_by_id(id: str, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> Role:
         result = None
         try:
             result = rpc.call('find_role_by_id', id, current_user.dict())
@@ -37,7 +43,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.post('/api/v1/roles/', response_model=Role)
-    def insert_role(role_data: RoleData, current_user = Depends(auth_service.has_any_permissions( 'role:create'))) -> Role:
+    def insert_role(role_data: RoleData, current_user: User = Depends(auth_service.is_authorized('api:role:create'))) -> Role:
         result = None
         try:
             result = rpc.call('insert_role', role_data.dict(), current_user.dict())
@@ -50,7 +56,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.put('/api/v1/roles/{id}', response_model=Role)
-    def update_role(id: str, role_data: RoleData, current_user = Depends(auth_service.has_any_permissions( 'role:update'))) -> Role:
+    def update_role(id: str, role_data: RoleData, current_user: User = Depends(auth_service.is_authorized('api:role:update'))) -> Role:
         result = None
         try:
             result = rpc.call('update_role', id, role_data.dict(), current_user.dict())
@@ -63,7 +69,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.delete('/api/v1/roles/{id}')
-    def delete_role(id: str, current_user = Depends(auth_service.has_any_permissions( 'role:delete'))) -> Role:
+    def delete_role(id: str, current_user: User = Depends(auth_service.is_authorized('api:role:delete'))) -> Role:
         result = None
         try:
             result = rpc.call('delete_role', id, current_user.dict())
@@ -75,15 +81,17 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         return Role.parse_obj(result)
 
 
+    ################################################
+    # -- 👓 User Interface
+    ################################################
     if enable_ui:
         @app.get('/auth/roles', response_class=HTMLResponse)
-        async def user_interface(request: Request, current_user = Depends(auth_service.everyone())):
-            accessible_menu = menu_service.get_accessible_menu('auth/roles', current_user)
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.validate('auth/roles'))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={
                     'request': request, 
-                    'menu': accessible_menu.json()
+                    'context': context
                 }, 
                 status_code=200
             )

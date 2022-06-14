@@ -10,14 +10,16 @@ from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
 from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
 from schemas.user import UserData
-from ui import MenuService, create_menu_service
+from ui import MenuService, create_menu_service, register_template_exception_handler
 
 import os
 import json
 
 error_threshold = int(os.getenv('APP_ERROR_THRESHOLD', '10'))
 
+################################################
 # -- 🐇 Rabbitmq setting
+################################################
 rmq_connection_parameters = create_rmq_connection_parameters(
     host = os.getenv('APP_RABBITMQ_HOST', 'localhost'),
     user = os.getenv('APP_RABBITMQ_USER', ''),
@@ -27,7 +29,9 @@ rmq_connection_parameters = create_rmq_connection_parameters(
 )
 rmq_event_map = RMQEventMap({})
 
+################################################
 # -- 🪠 Kafka setting
+################################################
 kafka_connection_parameters = create_kafka_connection_parameters(
     bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:29092'),
     sasl_mechanism = os.getenv('APP_KAFKA_SASL_MECHANISM', 'PLAIN'),
@@ -36,7 +40,9 @@ kafka_connection_parameters = create_kafka_connection_parameters(
 )
 kafka_event_map = KafkaEventMap({})
 
+################################################
 # -- 🪠 Kafka avro setting
+################################################
 kafka_avro_connection_parameters = create_kafka_avro_connection_parameters(
     bootstrap_servers = os.getenv('APP_KAFKA_BOOTSTRAP_SERVERS', 'localhost:29092'),
     schema_registry = os.getenv('APP_KAFKA_SCHEMA_REGISTRY', 'http://localhost:8035'),
@@ -46,19 +52,25 @@ kafka_avro_connection_parameters = create_kafka_avro_connection_parameters(
 )
 kafka_avro_event_map = KafkaAvroEventMap({})
 
+################################################
 # -- 🚌 Message bus and RPC initialization
+################################################
 mb_type = os.getenv('APP_MESSAGE_BUS_TYPE', 'local')
 rpc_type = os.getenv('APP_RPC_TYPE', 'local')
 mb = create_message_bus(mb_type, rmq_connection_parameters, rmq_event_map, kafka_connection_parameters, kafka_event_map, kafka_avro_connection_parameters, kafka_avro_event_map)
 rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 
+################################################
 # -- 🛢️ Database engine initialization
+################################################
 db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite:///database.db')
 engine = create_engine(db_url, echo=True)
 role_repo = DBRoleRepo(engine=engine, create_all=True)
 user_repo = DBUserRepo(engine=engine, create_all=True)
 
+################################################
 # -- 👤 User initialization
+################################################
 role_service = RoleService(role_repo)
 guest_username = os.getenv('APP_GUEST_USERNAME', 'guest')
 root_permission = os.getenv('APP_ROOT_PERMISSION', 'root')
@@ -83,11 +95,15 @@ access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/api/v1/token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)
 auth_service = TokenOAuth2AuthService(user_service, role_service, token_service, oauth2_scheme, root_permission)
 
-# -- 👓 UI initialization
-menu_service: MenuService = create_menu_service(role_service)
+################################################
+# -- 👓 User Interface initialization
+################################################
+menu_service: MenuService = create_menu_service(auth_service)
 templates = Jinja2Templates(directory='templates')
 
+################################################
 # -- ⚛️ FastAPI initialization
+################################################
 app = FastAPI(title='ztplAppName')
 app.add_middleware(
     CORSMiddleware,
@@ -100,7 +116,9 @@ app.add_middleware(
     max_age = int(os.getenv('APP_CORS_MAX_AGE', '600')),
 )
 
+################################################
 # -- 📖 Register core handlers
+################################################
 enable_route_handler = os.getenv('APP_ENABLE_ROUTE_HANDLER', '1') != '0'
 enable_ui = os.getenv('APP_ENABLE_UI', '1') != '0'
 enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
@@ -110,8 +128,9 @@ static_dir = get_abs_static_dir(os.getenv('APP_STATIC_DIR', ''))
 handle_app_shutdown(app, mb, rpc)
 register_readiness_handler(app, mb, rpc, error_threshold)
 register_static_dir_route_handler(app, static_url, static_dir, static_route_name='static')
+register_template_exception_handler(app, templates)
 if enable_route_handler:
-    register_auth_route_handler(app, mb, rpc, access_token_url, auth_service, menu_service, templates, enable_ui)
+    register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, access_token_url)
 if enable_event_handler:
     register_auth_event_handler(mb)
 if enable_rpc_handler:
