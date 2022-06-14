@@ -17,7 +17,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
     ################################################
 
     @app.get('/api/v1/ztpl_app_crud_entities/', response_model=List[ZtplAppCrudEntity])
-    def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'ztpl_app_crud_entity:read'))) -> List[ZtplAppCrudEntity]:
+    def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions('api:ztpl_app_crud_entity:read'))) -> List[ZtplAppCrudEntity]:
         ztpl_app_crud_entities = []
         try:
             ztpl_app_crud_entities = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset, current_user.dict())
@@ -28,7 +28,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
 
 
     @app.get('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
-    def find_ztpl_app_crud_entity_by_id(id: str, current_user = Depends(auth_service.has_any_permissions( 'ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntity:
+    def find_ztpl_app_crud_entity_by_id(id: str, current_user = Depends(auth_service.has_any_permissions('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntity:
         ztpl_app_crud_entity = None
         try:
             ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id, current_user.dict())
@@ -41,7 +41,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
 
 
     @app.post('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntity)
-    def insert_ztpl_app_crud_entity(ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user = Depends(auth_service.has_any_permissions( 'ztpl_app_crud_entity:create'))) -> ZtplAppCrudEntity:
+    def insert_ztpl_app_crud_entity(ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user = Depends(auth_service.has_any_permissions('api:ztpl_app_crud_entity:create'))) -> ZtplAppCrudEntity:
         ztpl_app_crud_entity = None
         try:
             ztpl_app_crud_entity = rpc.call('insert_ztpl_app_crud_entity', ztpl_app_crud_entity_data.dict(), current_user.dict())
@@ -54,7 +54,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
 
 
     @app.put('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
-    def update_ztpl_app_crud_entity(id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user = Depends(auth_service.has_any_permissions( 'ztpl_app_crud_entity:update'))) -> ZtplAppCrudEntity:
+    def update_ztpl_app_crud_entity(id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user = Depends(auth_service.has_any_permissions('api:ztpl_app_crud_entity:update'))) -> ZtplAppCrudEntity:
         ztpl_app_crud_entity = None
         try:
             ztpl_app_crud_entity = rpc.call('update_ztpl_app_crud_entity', id, ztpl_app_crud_entity_data.dict(), current_user.dict())
@@ -67,7 +67,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
 
 
     @app.delete('/api/v1/ztpl_app_crud_entities/{id}')
-    def delete_ztpl_app_crud_entity(id: str, current_user = Depends(auth_service.has_any_permissions( 'ztpl_app_crud_entity:delete'))) -> ZtplAppCrudEntity:
+    def delete_ztpl_app_crud_entity(id: str, current_user = Depends(auth_service.has_any_permissions('api:ztpl_app_crud_entity:delete'))) -> ZtplAppCrudEntity:
         ztpl_app_crud_entity = None
         try:
             ztpl_app_crud_entity = rpc.call('delete_ztpl_app_crud_entity', id, current_user.dict())

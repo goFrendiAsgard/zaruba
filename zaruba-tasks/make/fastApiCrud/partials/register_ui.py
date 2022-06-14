@@ -1,1 +1,1 @@
-menu_service.add_menu(name='ztplAppModuleName/ztplAppCrudEntities', title='ztplAppCrudEntities', url='/ztpl-app-module-name/ztpl-app-crud-entities', parent_name='ztplAppModuleName')
+menu_service.add_menu(name='ztplAppModuleName/ztplAppCrudEntities', title='ztplAppCrudEntities', url='/ztpl-app-module-name/ztpl-app-crud-entities', permission_name='ui:ztplAppModuleName:ztplAppCrudEntity', parent_name='ztplAppModuleName')

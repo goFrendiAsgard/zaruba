@@ -18,7 +18,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     ################################################
 
     @app.get('/api/v1/users/', response_model=List[User])
-    def find_user(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions( 'user:read'))) -> List[User]:
+    def find_user(keyword: str='', limit: int=100, offset: int=0, current_user = Depends(auth_service.has_any_permissions('api:user:read'))) -> List[User]:
         results = []
         try:
             results = rpc.call('find_user', keyword, limit, offset, current_user.dict())
@@ -29,7 +29,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.get('/api/v1/users/{id}', response_model=User)
-    def find_user_by_id(id: str, current_user = Depends(auth_service.has_any_permissions( 'user:read'))) -> User:
+    def find_user_by_id(id: str, current_user = Depends(auth_service.has_any_permissions('api:user:read'))) -> User:
         result = None
         try:
             result = rpc.call('find_user_by_id', id, current_user.dict())
@@ -42,7 +42,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.post('/api/v1/users/', response_model=User)
-    def insert_user(data: UserData, current_user = Depends(auth_service.has_any_permissions( 'user:create'))) -> User:
+    def insert_user(data: UserData, current_user = Depends(auth_service.has_any_permissions('api:user:create'))) -> User:
         result = None
         try:
             result = rpc.call('insert_user', data.dict(), current_user.dict())
@@ -55,7 +55,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.put('/api/v1/users/{id}', response_model=User)
-    def update_user(id: str, data: UserData, current_user = Depends(auth_service.has_any_permissions( 'user:update'))) -> User:
+    def update_user(id: str, data: UserData, current_user = Depends(auth_service.has_any_permissions('api:user:update'))) -> User:
         result = None
         try:
             result = rpc.call('update_user', id, data.dict(), current_user.dict())
@@ -68,7 +68,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
 
     @app.delete('/api/v1/users/{id}')
-    def delete_user(id: str, current_user = Depends(auth_service.has_any_permissions( 'user:delete'))) -> User:
+    def delete_user(id: str, current_user = Depends(auth_service.has_any_permissions('api:user:delete'))) -> User:
         result = None
         try:
             result = rpc.call('delete_user', id)
