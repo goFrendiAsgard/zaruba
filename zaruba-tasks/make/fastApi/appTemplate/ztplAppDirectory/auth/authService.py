@@ -56,19 +56,13 @@ class TokenOAuth2AuthService(AuthService):
         )
 
     def everyone(self) -> Callable[[Request], User]:
-        async def verify_everyone(request: Request) -> User:
-            try:
-                token = self.oauth2_scheme(request)
-                if token is None:
-                    return self.user_service.get_guest_user()
-                current_user = self.token_service.get_user_by_token(token)
-                if not current_user:
-                    current_user = self.user_service.get_guest_user()
-                if not current_user.active:
-                    self._raise_unauthorized_exception('User deactivated')
-                return current_user 
-            except:
+        async def verify_everyone(token = Depends(self.oauth2_scheme)) -> User:
+            if token is None:
                 return self.user_service.get_guest_user()
+            current_user = self.token_service.get_user_by_token(token)
+            if not current_user or not current_user.active:
+                return self.user_service.get_guest_user()
+            return current_user
         return verify_everyone 
 
     def is_authenticated(self) -> Callable[[Request], User]:

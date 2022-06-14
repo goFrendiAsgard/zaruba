@@ -24,7 +24,7 @@ def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
     ################################################
     if enable_ui:
         @app.get('/auth', response_class=HTMLResponse)
-        async def user_interface(request: Request, context = Depends(menu_service.validate('auth'))):
+        async def user_interface(request: Request, context = Depends(menu_service.get_menu_context('auth'))):
             return templates.TemplateResponse(
                 'default_page.html', 
                 context={

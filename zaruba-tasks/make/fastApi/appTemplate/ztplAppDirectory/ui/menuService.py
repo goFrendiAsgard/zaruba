@@ -2,8 +2,8 @@ from typing import Callable, List, Optional, Mapping
 from schemas.menu import Menu
 from schemas.menuContext import MenuContext
 from schemas.user import User
+from fastapi import Depends
 from starlette.requests import Request
-from auth.roleService import RoleService
 from auth.authService import AuthService
 from ui.templateException import TemplateException
 
@@ -26,7 +26,7 @@ class MenuService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def validate(self, menu_name) -> Callable[[Request], MenuContext]:
+    def get_menu_context(self, menu_name: str, user: Optional[User]) -> Callable[[Request], MenuContext]:
         pass
 
 
@@ -69,10 +69,8 @@ class DefaultMenuService(MenuService):
         menu = self.menu_map[menu_name]
         return self._is_menu_accessible(menu, user)
 
-    def validate(self, current_menu_name: str) -> Callable[[Request], MenuContext]:
-        async def verify_menu_accessibility(request: Request) -> MenuContext:
-            fetch_user = self.auth_service.everyone()
-            current_user = await fetch_user(request)
+    def get_menu_context(self, current_menu_name: str) -> Callable[[Request], MenuContext]:
+        async def verify_menu_accessibility(current_user = Depends(self.auth_service.everyone())) -> MenuContext:
             current_menu = copy.deepcopy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
             accessible_menu = self.get_accessible_menu(current_menu_name, current_user)
             menu_context = MenuContext()
@@ -80,7 +78,7 @@ class DefaultMenuService(MenuService):
             menu_context.current_user = current_user
             menu_context.accessible_menu = accessible_menu
             if not self._is_menu_accessible(current_menu, current_user):
-                raise TemplateException(statuss_code=403, detail='Forbidden', menu_context = menu_context)
+                raise TemplateException(status_code=403, detail='Forbidden', menu_context = menu_context)
             return menu_context
         return verify_menu_accessibility
 
@@ -102,7 +100,9 @@ class DefaultMenuService(MenuService):
         menu.submenus = new_submenus
         return menu
 
-    def _is_menu_accessible(self, menu: Menu, user: Optional[User]) -> bool:
+    def _is_menu_accessible(self, menu: Optional[Menu], user: Optional[User]) -> bool:
+        if menu is None:
+            return False
         if menu.permission_name is None:
             return True
         if user is None:
