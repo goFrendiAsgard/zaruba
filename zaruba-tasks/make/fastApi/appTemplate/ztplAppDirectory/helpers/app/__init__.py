@@ -1,4 +1,5 @@
 from helpers.app.getAbsDir import get_abs_static_dir
+from helpers.app.createMenuService import create_menu_service
 from helpers.app.createMessageBus import create_message_bus
 from helpers.app.createRpc import create_rpc
 from helpers.app.handleAppShutdown import handle_app_shutdown
