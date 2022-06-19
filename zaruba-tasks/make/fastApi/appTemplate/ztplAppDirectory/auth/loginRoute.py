@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
-from schemas.role import Role, RoleData
+from schemas.menuContext import MenuContext
 from ui.menuService import MenuService
 
 import traceback
@@ -27,3 +27,20 @@ def register_login_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: A
         except:
             print(traceback.format_exc()) 
             raise HTTPException(status_code=400, detail='Incorrect identity or password')
+    
+
+    ################################################
+    # -- 👓 User Interface
+    ################################################
+    if enable_ui:
+        @app.get('/login', response_class=HTMLResponse)
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.everyone('login'))):
+            return templates.TemplateResponse(
+                'default_login.html', 
+                context={
+                    'request': request, 
+                    'context': context,
+                    'access_token_url': access_token_url
+                }, 
+                status_code=200
+            )

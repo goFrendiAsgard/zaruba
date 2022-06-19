@@ -1,0 +1,29 @@
+<head>
+    {% include 'default-partials/meta.html' %}
+    {% include 'default-partials/include-css.html' %}
+    <title>{{ context.current_menu.title }}</title>
+</head>
+<body>
+    {% include 'default-partials/navigation.html' %}
+
+    <div class="container">
+        <h1>{{ context.current_menu.title }}</h1>
+        {% if context.current_user and context.current_user.id != 'guest' %}
+            <button type="submit" class="btn btn-primary mb-3">Log out</button>
+        {% else %}
+            <div class="mb-3">
+                <label for="login-username" class="form-label">Username/Email address</label>
+                <input type="email" class="form-control" id="login-username" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="login-password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="login-password" placeholder="password">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary mb-3">Log in</button>
+            </div>
+        {% endif %}
+    </div>
+
+    {% include 'default-partials/include-js.html' %}
+</body>
