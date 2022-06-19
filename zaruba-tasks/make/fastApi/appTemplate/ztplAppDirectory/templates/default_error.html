@@ -1,11 +1,11 @@
 <head>
+    {% include 'default-partials/meta.html' %}
     {% include 'default-partials/include-css.html' %}
+    <title>{{ context.current_menu.title }}</title>
 </head>
 <body>
     {% include 'default-partials/navigation.html' %}
-    <h1>{{ status_code }} {{ detail }}</h1>
-
-    <pre>
-    {{ context.json() | safe }}
-    </pre>
+    <div class="container">
+        <h1>{{ status_code }} {{ detail }}</h1>
+    </div>
 </body>
