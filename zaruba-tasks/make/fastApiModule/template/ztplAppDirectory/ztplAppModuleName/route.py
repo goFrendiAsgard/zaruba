@@ -18,7 +18,7 @@ def register_ztpl_app_module_name_route_handler(app: FastAPI, mb: MessageBus, rp
     ################################################
     if enable_ui:
         @app.get('/ztpl-app-module-name', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.validate('ztplAppModuleName'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('ztplAppModuleName'))):
             return templates.TemplateResponse(
                 'default_page.html', 
                 context={

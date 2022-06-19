@@ -1,6 +1,7 @@
 from typing import List
 from schemas.user import User, UserData
 from repos.user import UserRepo
+from auth.roleService import RoleService
 
 import abc
 import datetime
@@ -39,12 +40,18 @@ class UserService(abc.ABC):
     def delete(self, id: str) -> User:
         pass
 
+    @abc.abstractclassmethod
+    def is_authorized(self, user: User, permission: str) -> bool:
+        pass
+
 class DefaultUserService(UserService):
 
-    def __init__(self, user_repo: UserRepo, guest_username: str):
+    def __init__(self, user_repo: UserRepo, role_service: RoleService, guest_username: str, root_permission: str='root'):
         self.user_repo = user_repo
+        self.role_service = role_service
         self.guest_username = guest_username
         self.earliest_date = datetime.datetime.min
+        self.root_permission = root_permission
 
     def get_guest_user(self) -> User:
         return User(
@@ -75,3 +82,18 @@ class DefaultUserService(UserService):
 
     def delete(self, id: str) -> User:
         return self.user_repo.delete(id)
+    
+    def is_authorized(self, user: User, permission: str) -> bool:
+        # user has root permission
+        if user.has_permission(self.root_permission):
+            return True
+        # user has any required permission
+        if user.has_permission(permission):
+            return True
+        # user has any role that has any required permission
+        role_ids = user.role_ids
+        for role_id in role_ids:
+            role = self.role_service.find_by_id(role_id)
+            if role.has_permission(permission):
+                return True 
+        return False

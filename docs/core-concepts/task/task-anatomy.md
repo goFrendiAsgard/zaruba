@@ -447,8 +447,8 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.575µs
-         Current Time: 11:40:58
+         Elapsed Time: 1.249µs
+         Current Time: 16:05:00
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
@@ -463,18 +463,18 @@ zaruba please serveHttp -t -w 2s
 💀    🔎 serveHttp            🌐 📜 Task 'serveHttp' is ready
 💀 🎉 Successfully running 🌐 'serveHttp' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 223.939332ms
-         Current Time: 11:40:58
+         Elapsed Time: 1.225233186s
+         Current Time: 16:05:01
          Active Process:
-           * (PID=2174) 🌐 'serveHttp' service
+           * (PID=31397) 🌐 'serveHttp' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 'serveHttp' service (PID=2174)
+💀 🔪 Kill 🌐 'serveHttp' service (PID=31397)
 💀 🔥 🌐 'serveHttp' service exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 3.428390712s
-         Current Time: 11:41:01
+         Elapsed Time: 4.431232335s
+         Current Time: 16:05:04
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>

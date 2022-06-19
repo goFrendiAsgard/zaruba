@@ -2,10 +2,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
-from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, create_kafka_connection_parameters, create_kafka_avro_connection_parameters, create_rmq_connection_parameters
-from helpers.app import get_abs_static_dir, create_menu_service, create_message_bus, create_rpc, handle_app_shutdown, register_static_dir_route_handler, register_readiness_handler
+from helpers.app import get_abs_static_dir, create_menu_service, create_message_bus, create_rpc, create_templates, handle_app_shutdown, register_static_dir_route_handler, register_readiness_handler
 from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
 from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
@@ -74,7 +73,7 @@ user_repo = DBUserRepo(engine=engine, create_all=True)
 role_service = RoleService(role_repo)
 guest_username = os.getenv('APP_GUEST_USERNAME', 'guest')
 root_permission = os.getenv('APP_ROOT_PERMISSION', 'root')
-user_service = DefaultUserService(user_repo, guest_username)
+user_service = DefaultUserService(user_repo, role_service, guest_username, root_permission=root_permission)
 user_seeder_service = UserSeederService(user_service)
 user_seeder_service.seed(UserData(
     username = os.getenv('APP_ROOT_USERNAME', 'root'),
@@ -93,13 +92,13 @@ token_service = JWTTokenService(
 )
 access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/api/v1/token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)
-auth_service = TokenOAuth2AuthService(user_service, role_service, token_service, oauth2_scheme, root_permission)
+auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme)
 
 ################################################
 # -- 👓 User Interface initialization
 ################################################
-menu_service: MenuService = create_menu_service(auth_service)
-templates = Jinja2Templates(directory='templates')
+menu_service = create_menu_service(auth_service, user_service)
+templates = create_templates(directory='templates')
 
 ################################################
 # -- ⚛️ FastAPI initialization

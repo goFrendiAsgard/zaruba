@@ -1,6 +1,6 @@
 from typing import Callable, List, Optional
 from fastapi.security import OAuth2PasswordBearer, OAuth2
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, Cookie, HTTPException, status
 from starlette.requests import Request
 from auth.roleService import RoleService
 from auth.userService import UserService
@@ -11,110 +11,75 @@ import abc
 class AuthService(abc.ABC):
 
     @abc.abstractmethod
-    def everyone(self) -> Callable[[Request], User]:
+    def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_authenticated(self) -> Callable[[Request], User]:
+    def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
-        pass
-
-    @abc.abstractmethod
-    def is_user_authorized(self, user: Optional[User], permissions: List[str]) -> bool:
+    def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass
 
 class NoAuthService(AuthService):
 
-    def __init__(self, user_service: UserService, root_permission: str = 'root'):
+    def __init__(self, user_service: UserService):
         self.user_service: str = user_service
 
-    def _always_authorized(self, Request) -> User:
+    def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         return self.user_service.get_guest_user()
 
-    def everyone(self) -> Callable[[Request], User]:
-        return self._always_authorized
+    def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        return self.user_service.get_guest_user()
 
-    def is_authenticated(self) -> Callable[[Request], User]:
-        return self._always_authorized
-
-    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
-        return self._always_authorized
-
-    def is_user_authorized(self, user: Optional[User], permissions: List[str]) -> bool:
-        return True
+    def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        return self.user_service.get_guest_user()
 
 class TokenOAuth2AuthService(AuthService):
 
-    def __init__(self, user_service: UserService, role_service: RoleService, token_service: TokenService, oauth2_scheme: OAuth2, root_permission: str = 'root'):
+    def __init__(self, user_service: UserService, token_service: TokenService, oauth2_scheme: OAuth2):
         self.user_service = user_service
-        self.role_service = role_service
         self.token_service = token_service
         self.oauth2_scheme = oauth2_scheme
-        self.root_permission = root_permission
 
-    def _raise_unauthorized_exception(self, detail: str):
+    def _raise_error_or_return_none(self, throw_error: bool, status_code: int, detail: str) -> None:
+        if not throw_error:
+            return None
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status_code,
             detail=detail,
             headers={'WWW-Authenticate': 'Bearer'},
         )
 
-    def everyone(self) -> Callable[[Request], User]:
-        async def verify_everyone(token = Depends(self.oauth2_scheme)) -> User:
-            if token is None:
+    def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        async def verify_everyone(bearer_token = Depends(self.oauth2_scheme), app_auth_token=Cookie(default=None)) -> Optional[User]:
+            if bearer_token is None and app_auth_token is None:
                 return self.user_service.get_guest_user()
+            token = bearer_token if bearer_token is not None else app_auth_token
             current_user = self.token_service.get_user_by_token(token)
             if not current_user or not current_user.active:
                 return self.user_service.get_guest_user()
             return current_user
         return verify_everyone 
 
-    def is_authenticated(self) -> Callable[[Request], User]:
-        async def verify_is_authenticated(token = Depends(self.oauth2_scheme)) -> User:
-            if token is None:
-                self._raise_unauthorized_exception('Not authenticated')
+    def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        async def verify_is_authenticated(bearer_token = Depends(self.oauth2_scheme), app_auth_token=Cookie(default=None)) -> Optional[User]:
+            if bearer_token is None and app_auth_token is None:
+                return self._raise_error_or_return_none(throw_error, status.HTTP_401_UNAUTHORIZED, 'Not authenticated')
+            token = bearer_token if bearer_token is not None else app_auth_token
             current_user = self.token_service.get_user_by_token(token)
-            if not current_user:
-                self._raise_unauthorized_exception('Not authenticated')
-            if not current_user.active:
-                self._raise_unauthorized_exception('User deactivated')
+            if not current_user or not current_user.active:
+                return self._raise_error_or_return_none(throw_error, status.HTTP_401_UNAUTHORIZED, 'Not authenticated')
             return current_user
         return verify_is_authenticated
 
-    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
-        async def verify_has_any_permission(token = Depends(self.oauth2_scheme)) -> User:
-            if token is None:
-                self._raise_unauthorized_exception('Not authenticated')
-            current_user = self.token_service.get_user_by_token(token)
+    def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        async def verify_has_any_permission(current_user = Depends(self.is_authenticated(throw_error=throw_error))) -> Optional[User]:
             if not current_user:
-                self._raise_unauthorized_exception('Not authenticated')
-            if not current_user.active:
-                self._raise_unauthorized_exception('User deactivated')
-            if self.is_user_authorized(current_user, permissions):
+                return self._raise_error_or_return_none(throw_error, status.HTTP_403_FORBIDDEN, 'Not authenticated')
+            if self.user_service.is_authorized(current_user, permission):
                 return current_user
-            self._raise_unauthorized_exception('Unauthorized')
+            self._raise_error_or_return_none(throw_error, status.HTTP_403_FORBIDDEN, 'Unauthorized')
         return verify_has_any_permission
-    
-    def is_user_authorized(self, user: Optional[User], permissions: List[str]) -> bool:
-        # no permission
-        if len(permissions) == 0:
-            return True
-        # no user
-        if user is None:
-            return False
-        # user has root permission
-        if user.has_permission(self.root_permission):
-            return True
-        # user has any required permission
-        for permission in permissions:
-            if user.has_permission(permission):
-                return True
-        # user has any role that has any required permission
-        role_ids = user.role_ids
-        for role_id in role_ids:
-            role = self.role_service.find_by_id(role_id)
-            if role.has_permission(permission):
-                return True
+   
