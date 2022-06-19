@@ -27,6 +27,10 @@ class MenuService(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def is_unauthenticated(self, menu_name: str) -> Callable[[Request], MenuContext]:
+        pass
+
+    @abc.abstractmethod
     def is_authenticated(self, menu_name: str) -> Callable[[Request], MenuContext]:
         pass
 
@@ -66,31 +70,31 @@ class DefaultMenuService(MenuService):
     
     def everyone(self, menu_name: str) -> Callable[[Request], Optional[User]]:
         async def verify_everyone(current_user: Optional[User] = Depends(self.auth_service.everyone(throw_error=False))) -> MenuContext:
-            return self._get_menu_context(current_user, menu_name)
+            return self._get_menu_context(menu_name, current_user)
         return verify_everyone
-    
+
     def is_authenticated(self, menu_name: str) -> Callable[[Request], Optional[User]]:
         async def verify_everyone(current_user: Optional[User] = Depends(self.auth_service.is_authenticated(throw_error=False))) -> MenuContext:
-            return self._get_menu_context(current_user, menu_name)
+            return self._get_menu_context(menu_name, current_user)
         return verify_everyone
  
     def is_authorized(self, menu_name: str) -> Callable[[Request], Optional[User]]:
         menu = self.menu_map[menu_name]
         permission = None if menu is None else menu.permission_name
         async def verify_everyone(current_user: Optional[User] = Depends(self.auth_service.is_authorized(permission, throw_error=False))) -> MenuContext:
-            return self._get_menu_context(current_user, menu_name)
+            return self._get_menu_context(menu_name, current_user)
         return verify_everyone
 
-    def _get_menu_context(self, current_user: Optional[User], current_menu_name: str) -> MenuContext:
-        if current_menu_name not in self.menu_map:
-            raise TemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden', menu_context = menu_context)
-        current_menu = copy.deepcopy(self.menu_map[current_menu_name])
+    def _get_menu_context(self, current_menu_name: str, current_user: Optional[User]) -> MenuContext:
+        current_menu = copy.deepcopy(self.menu_map[current_menu_name]) if current_menu_name in self.menu_map else None
         accessible_menu = self.get_accessible_menu(current_menu_name, current_user)
         menu_context = MenuContext(
             current_menu = current_menu,
             current_user = current_user,
             accessible_menu = accessible_menu
         )
+        if not self._is_menu_accessible(current_menu, current_user):
+            raise TemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden', menu_context = menu_context)
         return menu_context
 
     def _highlight_menu_by_names(self, menu: Menu, names: List[str]) -> Menu:
