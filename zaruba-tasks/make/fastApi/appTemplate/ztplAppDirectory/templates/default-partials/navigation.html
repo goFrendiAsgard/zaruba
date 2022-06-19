@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">{{ site_name }}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -14,12 +14,12 @@
                     </li>
                 {% else %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ 'active' if menu.is_highlighted }}" id="navbarDropdown" href="{{ menu.url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle {{ 'active' if menu.is_highlighted }}" id="navbarDropdown{{ loop.index }}" href="{{ menu.url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ menu.title }}
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ loop.index }}">
                             {% for submenu in menu.submenus %}
-                                <li><a class="dropdown-item" href="{{ submneu.url }}">{{ submenu.title }}</a></li>
+                                <li><a class="dropdown-item {{ 'active' if menu.is_highlighted }}" href="{{ submneu.url }}">{{ submenu.title }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>

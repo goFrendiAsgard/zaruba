@@ -8,7 +8,7 @@
 
     <div class="container">
         <h1>{{ context.current_menu.title }}</h1>
-        {% if context.current_user and context.current_user.id != 'guest' %}
+        {% if context.current_user and context.current_user.username != guest_username %}
             <button type="submit" class="btn btn-primary mb-3">Log out</button>
         {% else %}
             <div class="mb-3">

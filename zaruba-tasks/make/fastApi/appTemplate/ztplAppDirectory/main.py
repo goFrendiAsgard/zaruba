@@ -98,7 +98,8 @@ auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme
 # -- 👓 User Interface initialization
 ################################################
 menu_service = create_menu_service(auth_service, user_service)
-templates = create_templates(directory='templates')
+site_name = os.getenv('APP_UI_SITE_NAME', 'App')
+templates = create_templates(directory='templates', guest_username=guest_username, site_name=site_name)
 
 ################################################
 # -- ⚛️ FastAPI initialization
