@@ -27,10 +27,6 @@ class MenuService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def is_unauthenticated(self, menu_name: str) -> Callable[[Request], MenuContext]:
-        pass
-
-    @abc.abstractmethod
     def is_authenticated(self, menu_name: str) -> Callable[[Request], MenuContext]:
         pass
 

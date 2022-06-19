@@ -1,5 +1,13 @@
-<h1>CRUD</h1>
+<head>
+    {% include 'default-partials/include-css.html' %}
+</head>
+<body>
+    {% include 'default-partials/navigation.html' %}
+    <h1>CRUD</h1>
 
-<pre>
-{{ context.json() | safe }}
-</pre>
+    <pre>
+    {{ context.json() | safe }}
+    </pre>
+
+    {% include 'default-partials/include-js.html' %}
+</body>

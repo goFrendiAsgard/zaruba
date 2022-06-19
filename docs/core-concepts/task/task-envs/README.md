@@ -57,8 +57,8 @@ zaruba please startServer -t -w 500ms
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.074µs
-         Current Time: 16:52:33
+         Elapsed Time: 1.394µs
+         Current Time: 17:27:12
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
@@ -72,22 +72,22 @@ zaruba please startServer -t -w 500ms
 💀    🔎 startServer          🍏 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 11.252291052s
-         Current Time: 16:52:44
+         Elapsed Time: 11.25229619s
+         Current Time: 17:27:23
          Active Process:
-           * (PID=31321) 🍏 'startServer' service
+           * (PID=2523) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=31321)
+💀 🔪 Kill 🍏 'startServer' service (PID=2523)
 💀    🚀 startServer          🍏 
 💀    🚀 startServer          🍏 Keyboard interrupt received, exiting.
 💀    🚀 startServer          🍏 🎉🎉🎉
 💀    🚀 startServer          🍏 📜 Task 'startServer' is started
-💀 🔥 🍏 'startServer' service exited without any error message
 💀 🔎 Job Ended...
-         Elapsed Time: 12.957565497s
-         Current Time: 16:52:46
+         Elapsed Time: 12.959035478s
+         Current Time: 17:27:25
+💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 500ms
 ```````
 </details>
