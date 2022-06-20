@@ -6,24 +6,45 @@
 <body>
     {% include 'default-partials/navigation.html' %}
 
-    <div class="container">
+    <div id="app" class="container">
         <h1>{{ context.current_menu.title }}</h1>
+        {{ vue('message') }}
         {% if context.current_user and context.current_user.username != guest_username %}
             <button type="submit" class="btn btn-primary mb-3">Log out</button>
         {% else %}
             <div class="mb-3">
                 <label for="login-username" class="form-label">Username/Email address</label>
-                <input type="email" class="form-control" id="login-username" placeholder="name@example.com">
+                <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
             </div>
             <div class="mb-3">
                 <label for="login-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="login-password" placeholder="password">
+                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password">
             </div>
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary mb-3">Log in</button>
+                <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
             </div>
         {% endif %}
     </div>
 
     {% include 'default-partials/include-js.html' %}
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    username: '',
+                    password: '',
+                    message: '',
+                }
+            },
+            methods: {
+                login() {
+                    this.message = 'You are login as ' + this.username;
+                }
+            }
+        }).mount('#app')
+    </script>
+
 </body>
