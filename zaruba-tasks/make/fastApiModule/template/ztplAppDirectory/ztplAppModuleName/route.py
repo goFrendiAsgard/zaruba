@@ -10,13 +10,14 @@ from helpers.transport import MessageBus, RPC
 
 import traceback
 
-def register_ztpl_app_module_name_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool):
+def register_ztpl_app_module_name_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
     # NOTE: follow [this](https://fastapi.tiangolo.com/tutorial/security/first-steps/#how-it-looks) guide for authorization
 
     ################################################
     # -- 👓 User Interface
     ################################################
     if enable_ui:
+
         @app.get('/ztpl-app-module-name', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('ztplAppModuleName'))):
             return templates.TemplateResponse(

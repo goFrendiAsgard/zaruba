@@ -99,7 +99,9 @@ auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme
 ################################################
 menu_service = create_menu_service(auth_service, user_service)
 site_name = os.getenv('APP_UI_SITE_NAME', 'App')
-templates = create_templates(directory='templates', guest_username=guest_username, site_name=site_name)
+http_port = os.getenv('APP_HTTP_PORT', '3000')
+backend_host = os.getenv('APP_UI_BACKEND_HOST', 'localhost:{}'.format(http_port))
+templates = create_templates(directory='templates', guest_username=guest_username, site_name=site_name, backend_host=backend_host)
 
 ################################################
 # -- ⚛️ FastAPI initialization
@@ -121,6 +123,7 @@ app.add_middleware(
 ################################################
 enable_route_handler = os.getenv('APP_ENABLE_ROUTE_HANDLER', '1') != '0'
 enable_ui = os.getenv('APP_ENABLE_UI', '1') != '0'
+enable_api = os.getenv('APP_ENABLE_API', '1') != '0'
 enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
 enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
 static_url = os.getenv('APP_STATIC_URL', '/static')
@@ -130,7 +133,7 @@ register_readiness_handler(app, mb, rpc, error_threshold)
 register_static_dir_route_handler(app, static_url, static_dir, static_route_name='static')
 register_template_exception_handler(app, templates)
 if enable_route_handler:
-    register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, access_token_url)
+    register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, access_token_url)
 if enable_event_handler:
     register_auth_event_handler(mb)
 if enable_rpc_handler:

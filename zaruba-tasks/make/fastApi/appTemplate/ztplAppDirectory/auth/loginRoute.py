@@ -17,22 +17,28 @@ class TokenResponse(BaseModel):
     token_type: str
 
 
-def register_login_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, access_token_url: str):
+def register_login_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, access_token_url: str):
 
-    @app.post(access_token_url, response_model=TokenResponse)
-    async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-        try:
-            access_token = rpc.call('get_user_token', form_data.username, form_data.password)
-            return TokenResponse(access_token = access_token, token_type = 'bearer')
-        except:
-            print(traceback.format_exc()) 
-            raise HTTPException(status_code=400, detail='Incorrect identity or password')
+    ################################################
+    # -- ⚙️ API
+    ################################################
+    if enable_api:
+
+        @app.post(access_token_url, response_model=TokenResponse)
+        async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+            try:
+                access_token = rpc.call('get_user_token', form_data.username, form_data.password)
+                return TokenResponse(access_token = access_token, token_type = 'bearer')
+            except:
+                print(traceback.format_exc()) 
+                raise HTTPException(status_code=400, detail='Incorrect identity or password')
     
 
     ################################################
     # -- 👓 User Interface
     ################################################
     if enable_ui:
+
         @app.get('/login', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.everyone('login'))):
             return templates.TemplateResponse(

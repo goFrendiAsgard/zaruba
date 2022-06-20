@@ -14,16 +14,17 @@ import traceback
 
 
 
-def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, access_token_url: str):
+def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, access_token_url: str):
 
-    register_role_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui)
-    register_user_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui)
-    register_login_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, access_token_url)
+    register_role_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
+    register_user_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
+    register_login_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, access_token_url)
 
     ################################################
     # -- 👓 User Interface
     ################################################
     if enable_ui:
+
         @app.get('/auth', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('auth'))):
             return templates.TemplateResponse(
