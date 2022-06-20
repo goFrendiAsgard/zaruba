@@ -10,7 +10,7 @@
         <h1>{{ context.current_menu.title }}</h1>
         {{ vue('message') }}
         {% if context.current_user and context.current_user.username != guest_username %}
-            <button type="submit" class="btn btn-primary mb-3">Log out</button>
+            <button type="submit" class="btn btn-primary mb-3" @click="logout">Log out</button>
         {% else %}
             <div class="mb-3">
                 <label for="login-username" class="form-label">Username/Email address</label>
@@ -40,8 +40,20 @@
                 }
             },
             methods: {
-                login() {
-                    this.message = 'You are login as ' + this.username;
+                async login() {
+                    const formData = new FormData();
+                    formData.append('username', this.username);
+                    formData.append('password', this.password);
+                    const response = await axios.post('{{ backend_host }}{{ access_token_url }}', formData);
+                    if (response.status == 200) {
+                        document.cookie = `app_auth_token=${response.data.access_token}; path=/`
+                        location.reload(true);
+                        return;
+                    }
+                },
+                logout() {
+                    document.cookie = 'app_auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'
+                    location.reload(true);
                 }
             }
         }).mount('#app')

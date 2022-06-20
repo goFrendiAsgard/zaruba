@@ -19,7 +19,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ loop.index }}">
                             {% for submenu in menu.submenus %}
-                                <li><a class="dropdown-item {{ 'active' if menu.is_highlighted }}" href="{{ submneu.url }}">{{ submenu.title }}</a></li>
+                                <li><a class="dropdown-item {{ 'active' if menu.is_highlighted }}" href="{{ submenu.url }}">{{ submenu.title }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>
