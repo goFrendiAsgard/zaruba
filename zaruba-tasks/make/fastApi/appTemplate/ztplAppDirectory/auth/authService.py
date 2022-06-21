@@ -78,11 +78,11 @@ class TokenOAuth2AuthService(AuthService):
     def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_is_authenticated(bearer_token = Depends(self.oauth2_scheme), app_auth_token=Cookie(default=None)) -> Optional[User]:
             if bearer_token is None and app_auth_token is None:
-                return self.user_service.get_guest_user()
+                return None
             token = bearer_token if bearer_token is not None else app_auth_token
             current_user = self.token_service.get_user_by_token(token)
             if not current_user or not current_user.active:
-                return self.user_service.get_guest_user()
+                return None
             return self._raise_error_or_return_none(throw_error, status.HTTP_401_UNAUTHORIZED, 'Not authenticated')
         return verify_is_authenticated
 

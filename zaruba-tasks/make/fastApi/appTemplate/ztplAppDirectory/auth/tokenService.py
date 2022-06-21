@@ -6,6 +6,7 @@ from schemas.user import User, UserData
 from auth.userService import UserService
 
 import abc
+import traceback
 
 class TokenService(abc.ABC):
 
@@ -14,7 +15,7 @@ class TokenService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_user_by_token(self, token: str) -> str:
+    def get_user_by_token(self, token: str) -> Optional[User]:
         pass
 
 class JWTTokenService(TokenService):
@@ -34,6 +35,10 @@ class JWTTokenService(TokenService):
         return encoded_jwt
 
     def get_user_by_token(self, token: str) -> str:
-        payload = jwt.decode(token, self.access_token_secret_key, algorithms=[self.access_token_algorithm])
-        user_id = payload.get("sub")
-        return self.user_service.find_by_id(user_id)
+        try:
+            payload = jwt.decode(token, self.access_token_secret_key, algorithms=[self.access_token_algorithm])
+            user_id = payload.get("sub")
+            return self.user_service.find_by_id(user_id)
+        except:
+            print(traceback.format_exc()) 
+            return None

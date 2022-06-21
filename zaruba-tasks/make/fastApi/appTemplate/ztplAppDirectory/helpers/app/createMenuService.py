@@ -5,7 +5,7 @@ from schemas.authType import AuthType
 
 def create_menu_service(auth_service: AuthService, user_service: UserService) -> MenuService:
     menu_service = DefaultMenuService(auth_service, user_service)
-    menu_service.add_menu(name='account', title='Account', url='/login', auth_type=AuthType.EVERYONE)
+    menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.EVERYONE)
     menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.UNAUTHENTICATED, parent_name='account')
     menu_service.add_menu(name='account/logout', title='Log out', url='/account/logout', auth_type=AuthType.AUTHENTICATED, parent_name='account')
     menu_service.add_menu(name='auth', title='Auth', url='#auth', auth_type=AuthType.AUTHORIZED,  permission_name='ui:auth')
