@@ -88,7 +88,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     if enable_ui:
 
         @app.get('/auth/users', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('auth/users'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth/users'))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={

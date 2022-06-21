@@ -8,22 +8,17 @@
 
     <div id="app" class="container">
         <h1>{{ context.current_menu.title }}</h1>
-        {{ vue('message') }}
-        {% if context.current_user and context.current_user.username != guest_username %}
-            <button type="submit" class="btn btn-primary mb-3" @click="logout">Log out</button>
-        {% else %}
-            <div class="mb-3">
-                <label for="login-username" class="form-label">Username/Email address</label>
-                <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
-            </div>
-            <div class="mb-3">
-                <label for="login-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password">
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
-            </div>
-        {% endif %}
+        <div class="mb-3">
+            <label for="login-username" class="form-label">Username/Email address</label>
+            <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
+        </div>
+        <div class="mb-3">
+            <label for="login-password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
+        </div>
     </div>
 
     {% include 'default-partials/include-js.html' %}
@@ -36,7 +31,6 @@
                 return {
                     username: '',
                     password: '',
-                    message: '',
                 }
             },
             methods: {
@@ -47,14 +41,10 @@
                     const response = await axios.post('{{ backend_host }}{{ access_token_url }}', formData);
                     if (response.status == 200) {
                         document.cookie = `app_auth_token=${response.data.access_token}; path=/`
-                        location.reload(true);
+                        window.location = '/account/logout';
                         return;
                     }
                 },
-                logout() {
-                    document.cookie = 'app_auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'
-                    location.reload(true);
-                }
             }
         }).mount('#app')
     </script>

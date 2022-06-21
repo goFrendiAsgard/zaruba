@@ -1,6 +1,6 @@
 from auth.roleRoute import register_role_route
 from auth.userRoute import register_user_route
-from auth.loginRoute import register_login_route
+from auth.accountRoute import register_account_route
 from typing import Mapping, List, Any
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
@@ -18,22 +18,6 @@ def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
 
     register_role_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
     register_user_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
-    register_login_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, access_token_url)
-
-    ################################################
-    # -- 👓 User Interface
-    ################################################
-    if enable_ui:
-
-        @app.get('/auth', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('auth'))):
-            return templates.TemplateResponse(
-                'default_page.html', 
-                context={
-                    'request': request, 
-                    'context': context
-                }, 
-                status_code=200
-            )
+    register_account_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, access_token_url)
 
     print('Register auth route handler')

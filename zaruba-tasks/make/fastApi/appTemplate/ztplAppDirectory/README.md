@@ -190,21 +190,26 @@ The most important part of the auth system is the auth service.
 class AuthService(abc.ABC):
 
     @abc.abstractmethod
-    def everyone(self) -> Callable[[Request], User]:
+    def everyone(self) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_authenticated(self) -> Callable[[Request], User]:
+    def is_unauthenticated(self) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_authorized(self, *permissions: str) -> Callable[[Request], User]:
+    def is_authenticated(self) -> Callable[[Request], Optional[User]]:
+        pass
+
+    @abc.abstractmethod
+    def is_authorized(self, *permissions: str) -> Callable[[Request], Optional[User]]:
         pass
 ```
 
 The auth service has an interface (or abstract base class) containing several methods you can use on your route. The methods are returning `current user` if the user is authorized. The detail of each method are depending on its implementation, but the general consensus is:
 
 * `everyone`: Everyone should be able to access the resource. If the user has been logged in, this method should return the logged-in user. Otherwise, it should return guest user. This method should never throw an error.
+* `is_unauthenticated`: Only unauthenticated user can access the resource
 * `is_authenticated`: Only authenticated user (i,e., has been logged in) can access the resource. This method should return the logged in user or throwing an error.
 * `is_authorized`. Only user with any of the permissions defined in the parameter can access the resource. This method should return the authorized user or throwing an error.
 

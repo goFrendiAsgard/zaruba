@@ -1,0 +1,32 @@
+<head>
+    {% include 'default-partials/meta.html' %}
+    {% include 'default-partials/include-css.html' %}
+    <title>{{ context.current_menu.title }}</title>
+</head>
+<body>
+    {% include 'default-partials/navigation.html' %}
+
+    <div id="app" class="container">
+        <h1>{{ context.current_menu.title }}</h1>
+        <button type="submit" class="btn btn-primary mb-3" @click="logout">Log out</button>
+    </div>
+
+    {% include 'default-partials/include-js.html' %}
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {}
+            },
+            methods: {
+                logout() {
+                    document.cookie = 'app_auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'
+                    window.location = '/account/login';
+                }
+            }
+        }).mount('#app')
+    </script>
+
+</body>

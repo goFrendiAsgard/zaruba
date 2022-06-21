@@ -5,6 +5,7 @@ class MenuNode(BaseModel):
     name: str
     title: str
     url: str
+    auth_type: int
     permission_name: Optional[str]
 
 

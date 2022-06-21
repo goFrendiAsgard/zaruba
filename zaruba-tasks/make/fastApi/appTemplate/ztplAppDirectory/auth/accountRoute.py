@@ -17,7 +17,7 @@ class TokenResponse(BaseModel):
     token_type: str
 
 
-def register_login_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, access_token_url: str):
+def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, access_token_url: str):
 
     ################################################
     # -- ⚙️ API
@@ -39,8 +39,8 @@ def register_login_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: A
     ################################################
     if enable_ui:
 
-        @app.get('/login', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.everyone('login'))):
+        @app.get('/account/login', response_class=HTMLResponse)
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account/login'))):
             return templates.TemplateResponse(
                 'default_login.html', 
                 context={
@@ -50,3 +50,16 @@ def register_login_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: A
                 }, 
                 status_code=200
             )
+
+        @app.get('/account/logout', response_class=HTMLResponse)
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account/logout'))):
+            return templates.TemplateResponse(
+                'default_logout.html', 
+                context={
+                    'request': request, 
+                    'context': context,
+                }, 
+                status_code=200
+            )
+
+

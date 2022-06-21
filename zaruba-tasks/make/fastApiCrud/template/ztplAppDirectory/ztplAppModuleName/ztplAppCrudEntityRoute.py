@@ -88,7 +88,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
     if enable_ui:
 
         @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('ztplAppModuleName/ztplAppCrudEntities'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('ztplAppModuleName/ztplAppCrudEntities'))):
             return templates.TemplateResponse(
                 'default_crud.html', 
                 context={
