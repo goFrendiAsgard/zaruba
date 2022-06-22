@@ -117,10 +117,10 @@ For example, you need `OAuth2PasswordRequestForm` in your `login` handler.
 Since `OAuth2PasswordRequestForm` is `Callable`, you can expect it to return something. The `login` function takes the `OAuth2PasswordRequestForm` return value as its `form_data` argument:
 
 ```python
-@app.post(access_token_url, response_model=TokenResponse)
+@app.post(create_access_token_url, response_model=TokenResponse)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
-        access_token = rpc.call('get_user_token', form_data.username, form_data.password)
+        access_token = rpc.call('create_access_token', form_data.username, form_data.password)
         return TokenResponse(access_token = access_token, token_type = 'bearer')
     except:
         print(traceback.format_exc()) 
@@ -131,7 +131,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 There are several components available in the ztplAppDirectory application. We will dive into each component in this section.
 
-![](images/components-interaction.png)
+![](docs-images/components-interaction.png)
 
 ## Route handlers
 
@@ -254,7 +254,7 @@ APP_ACCESS_TOKEN_ALGORITHM = "HS256"
 APP_ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # URL to generate JWT Token based on user's identity
-APP_ACCESS_TOKEN_URL=/api/v1/token/
+APP_CREATE_ACCESS_TOKEN_URL=/api/v1/token/
 ```
 
 ## Event handlers

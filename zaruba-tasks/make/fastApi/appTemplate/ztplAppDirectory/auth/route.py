@@ -14,10 +14,10 @@ import traceback
 
 
 
-def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, access_token_url: str):
+def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url, create_access_token_url: str, refresh_access_token_url: str):
 
     register_role_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
     register_user_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
-    register_account_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, access_token_url)
+    register_account_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, refresh_access_token_url)
 
     print('Register auth route handler')

@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
 from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, create_kafka_connection_parameters, create_kafka_avro_connection_parameters, create_rmq_connection_parameters
-from helpers.app import get_abs_static_dir, create_menu_service, create_message_bus, create_rpc, create_templates, handle_app_shutdown, register_static_dir_route_handler, register_readiness_handler
+from helpers.app import get_abs_static_dir, create_menu_service, create_message_bus, create_rpc, create_templates, handle_app_shutdown, register_public_dir_route_handler, register_readiness_handler
 from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
 from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
@@ -88,10 +88,12 @@ token_service = JWTTokenService(
     user_service = user_service,
     access_token_secret_key = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123'),
     access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
-    access_token_expire_minutes = int(os.getenv('APP_ACCESS_TOKEN_EXPIRE_MINUTES', '30'))
+    access_token_expire = float(os.getenv('APP_ACCESS_TOKEN_EXPIRE', '1800'))
 )
-access_token_url = os.getenv('APP_ACCESS_TOKEN_URL', '/api/v1/token/')
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl = access_token_url, auto_error = False)
+create_oauth_access_token_url = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL', '/api/v1/create-oauth-token/')
+create_access_token_url = os.getenv('APP_CREATE_ACCESS_TOKEN_URL', '/api/v1/create-token/')
+renew_access_token_url = os.getenv('APP_RENEW_ACCESS_TOKEN_URL', '/api/v1/refresh-token/')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_access_token_url, auto_error = False)
 auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme)
 
 ################################################
@@ -100,8 +102,17 @@ auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme
 menu_service = create_menu_service(auth_service, user_service)
 site_name = os.getenv('APP_UI_SITE_NAME', 'App')
 http_port = os.getenv('APP_HTTP_PORT', '3000')
-backend_host = os.getenv('APP_UI_BACKEND_HOST', 'localhost:{}'.format(http_port))
-templates = create_templates(directory='templates', guest_username=guest_username, site_name=site_name, backend_host=backend_host)
+backend_url = os.getenv('APP_UI_BACKEND_URL', 'localhost:{}'.format(http_port))
+public_url = os.getenv('APP_PUBLIC_URL', '/public')
+templates = create_templates(
+    directory = os.getenv('APP_UI_JINJA_DIR', '_jinja_templates'),
+    guest_username = guest_username,
+    site_name = site_name,
+    backend_url = backend_url,
+    public_url = public_url,
+    renew_access_token_url = renew_access_token_url,
+    renew_access_token_interval = int(os.getenv('APP_RENEW_ACCESS_TOKEN_INTERVAL', '300'))
+)
 
 ################################################
 # -- ⚛️ FastAPI initialization
@@ -126,14 +137,13 @@ enable_ui = os.getenv('APP_ENABLE_UI', '1') != '0'
 enable_api = os.getenv('APP_ENABLE_API', '1') != '0'
 enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
 enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
-static_url = os.getenv('APP_STATIC_URL', '/static')
-static_dir = get_abs_static_dir(os.getenv('APP_STATIC_DIR', ''))
+public_dir = get_abs_static_dir(os.getenv('APP_PUBLIC_DIR', 'public'))
 handle_app_shutdown(app, mb, rpc)
 register_readiness_handler(app, mb, rpc, error_threshold)
-register_static_dir_route_handler(app, static_url, static_dir, static_route_name='static')
+register_public_dir_route_handler(app, public_url, public_dir, public_route_name='static-resources')
 register_template_exception_handler(app, templates)
 if enable_route_handler:
-    register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, access_token_url)
+    register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, renew_access_token_url)
 if enable_event_handler:
     register_auth_event_handler(mb)
 if enable_rpc_handler:

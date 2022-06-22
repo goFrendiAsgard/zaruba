@@ -110,6 +110,8 @@ class DefaultMenuService(MenuService):
     def _is_menu_accessible(self, menu: Optional[Menu], user: Optional[User]) -> bool:
         if menu is None:
             return False
+        if menu.auth_type == AuthType.EVERYONE:
+            return True
         if menu.auth_type == AuthType.UNAUTHENTICATED and user is None:
             return True
         if menu.auth_type == AuthType.AUTHENTICATED and user is not None:

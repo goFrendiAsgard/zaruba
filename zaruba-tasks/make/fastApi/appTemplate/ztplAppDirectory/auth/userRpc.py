@@ -3,16 +3,8 @@ from helpers.transport import RPC
 from schemas.user import UserData
 from schemas.user import User
 from auth.userService import UserService
-from auth.tokenService import TokenService
 
-def register_user_rpc(rpc: RPC, user_service: UserService, token_service: TokenService):
-
-    @rpc.handle('get_user_token')
-    def get_user_token(identity: str, password: str) -> str:
-        authenticated_user = user_service.find_by_password(identity, password)
-        if not authenticated_user:
-            raise Exception('Incorrect identity or password')
-        return token_service.create_user_token(authenticated_user)
+def register_user_rpc(rpc: RPC, user_service: UserService):
 
     @rpc.handle('find_user')
     def find_user(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> List[Mapping[str, Any]]:

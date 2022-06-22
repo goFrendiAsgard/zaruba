@@ -12,23 +12,57 @@ from ui.menuService import MenuService
 
 import traceback
 
-class TokenResponse(BaseModel):
+class CreateAccessTokenRequest(BaseModel):
+    username: str
+    password: str
+
+class CreateAccessTokenResponse(BaseModel):
+    access_token: str
+    token_type: str
+
+class RefreshAccessTokenRequest(BaseModel):
+    access_token: str
+
+class RefreshAccessTokenResponse(BaseModel):
     access_token: str
     token_type: str
 
 
-def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, access_token_url: str):
+def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url: str, create_access_token_url: str, refresh_access_token_url: str):
 
     ################################################
     # -- ⚙️ API
     ################################################
     if enable_api:
 
-        @app.post(access_token_url, response_model=TokenResponse)
-        async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+        @app.post(create_oauth_access_token_url, response_model=CreateAccessTokenResponse)
+        async def create_oauth_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
             try:
-                access_token = rpc.call('get_user_token', form_data.username, form_data.password)
-                return TokenResponse(access_token = access_token, token_type = 'bearer')
+                username = form_data.username
+                password = form_data.password
+                access_token = rpc.call('create_access_token', username, password)
+                return CreateAccessTokenResponse(access_token = access_token, token_type = 'bearer')
+            except:
+                print(traceback.format_exc()) 
+                raise HTTPException(status_code=400, detail='Incorrect identity or password')
+
+        @app.post(create_access_token_url, response_model=CreateAccessTokenResponse)
+        async def create_access_token(data: CreateAccessTokenRequest):
+            try:
+                username = data.username
+                password = data.password
+                access_token = rpc.call('create_access_token', username, password)
+                return CreateAccessTokenResponse(access_token = access_token, token_type = 'bearer')
+            except:
+                print(traceback.format_exc()) 
+                raise HTTPException(status_code=400, detail='Incorrect identity or password')
+
+        @app.post(refresh_access_token_url, response_model=RefreshAccessTokenResponse)
+        async def refresh_access_token(data: RefreshAccessTokenRequest):
+            try:
+                old_access_token = data.access_token
+                new_access_token = rpc.call('refresh_access_token', old_access_token)
+                return RefreshAccessTokenResponse(access_token = new_access_token, token_type = 'bearer')
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=400, detail='Incorrect identity or password')
@@ -46,7 +80,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service:
                 context={
                     'request': request, 
                     'context': context,
-                    'access_token_url': access_token_url
+                    'create_access_token_url': create_access_token_url
                 }, 
                 status_code=200
             )

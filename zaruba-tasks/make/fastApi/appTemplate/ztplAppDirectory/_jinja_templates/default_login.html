@@ -35,15 +35,8 @@
             },
             methods: {
                 async login() {
-                    const formData = new FormData();
-                    formData.append('username', this.username);
-                    formData.append('password', this.password);
-                    const response = await axios.post('{{ backend_host }}{{ access_token_url }}', formData);
-                    if (response.status == 200) {
-                        document.cookie = `app_auth_token=${response.data.access_token}; path=/`
-                        window.location = '/account/logout';
-                        return;
-                    }
+                    await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password)
+                    window.location = '/account/logout';
                 },
             }
         }).mount('#app')
