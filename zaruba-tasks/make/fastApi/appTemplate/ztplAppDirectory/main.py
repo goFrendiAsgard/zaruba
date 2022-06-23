@@ -90,9 +90,9 @@ token_service = JWTTokenService(
     access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
     access_token_expire = float(os.getenv('APP_ACCESS_TOKEN_EXPIRE', '1800'))
 )
-create_oauth_access_token_url = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL', '/api/v1/create-oauth-token/')
-create_access_token_url = os.getenv('APP_CREATE_ACCESS_TOKEN_URL', '/api/v1/create-token/')
-renew_access_token_url = os.getenv('APP_RENEW_ACCESS_TOKEN_URL', '/api/v1/refresh-token/')
+create_oauth_access_token_url = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL', '/api/v1/create-oauth-access-token/')
+create_access_token_url = os.getenv('APP_CREATE_ACCESS_TOKEN_URL', '/api/v1/create-access-token/')
+renew_access_token_url = os.getenv('APP_RENEW_ACCESS_TOKEN_URL', '/api/v1/refresh-access-token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_access_token_url, auto_error = False)
 auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme)
 

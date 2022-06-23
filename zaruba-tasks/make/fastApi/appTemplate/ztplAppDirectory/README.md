@@ -254,7 +254,7 @@ APP_ACCESS_TOKEN_ALGORITHM = "HS256"
 APP_ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # URL to generate JWT Token based on user's identity
-APP_CREATE_ACCESS_TOKEN_URL=/api/v1/token/
+APP_CREATE_ACCESS_TOKEN_URL=/api/v1/create-oauth-access-token/
 ```
 
 ## Event handlers

@@ -481,7 +481,7 @@ To do this, you need to modify `./demoFrontend/html/index.html` as follow:
             localStorage.setItem("accessToken", accessToken);
             showAuthenticatedContainer();
         }
-        xhttp.open("POST", apiHost + "/api/v1/token/", true);
+        xhttp.open("POST", apiHost + "/api/v1/create-oauth-access-token/", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("username=" + encodeURIComponent(user) + "&password=" + encodeURIComponent(password));
     }
