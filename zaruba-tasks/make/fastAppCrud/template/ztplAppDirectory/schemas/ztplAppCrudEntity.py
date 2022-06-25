@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
 import datetime
 
@@ -13,3 +13,8 @@ class ZtplAppCrudEntity(ZtplAppCrudEntityData):
     id: str
     class Config:
         orm_mode = True
+
+
+class ZtplAppCrudEntityResult(BaseModel):
+    count: int
+    rows: List[ZtplAppCrudEntity]

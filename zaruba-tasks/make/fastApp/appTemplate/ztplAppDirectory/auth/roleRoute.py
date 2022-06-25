@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
 from schemas.menuContext import MenuContext
-from schemas.role import Role, RoleData
+from schemas.role import Role, RoleData, RoleResult
 from schemas.user import User
  
 import traceback
@@ -19,15 +19,15 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     ################################################
     if enable_api:
 
-        @app.get('/api/v1/roles/', response_model=List[Role])
-        def find_role(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> List[Role]:
-            results = []
+        @app.get('/api/v1/roles/', response_model=RoleResult)
+        def find_role(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> RoleResult:
+            result = {}
             try:
-                results = rpc.call('find_role', keyword, limit, offset, current_user.dict())
+                result = rpc.call('find_role', keyword, limit, offset, current_user.dict())
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
-            return [Role.parse_obj(result) for result in results]
+            return RoleResult.parse_obj(result)
 
 
         @app.get('/api/v1/roles/{id}', response_model=Role)

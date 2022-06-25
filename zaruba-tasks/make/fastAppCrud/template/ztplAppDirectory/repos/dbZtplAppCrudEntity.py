@@ -26,6 +26,9 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
+    def _get_keyword_filter(self, keyword: str) -> str:
+        return '%{}%'.format(keyword) if keyword != '' else '%'
+
     def find_by_id(self, id: str) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
@@ -42,12 +45,22 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         db = Session(self.engine)
         ztpl_app_crud_entities: List[ZtplAppCrudEntity] = []
         try:
-            keyword = '%{}%'.format(keyword) if keyword != '' else '%'
-            db_ztpl_app_crud_entities = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.ztplAppCrudFirstField.like(keyword)).offset(offset).limit(limit).all()
+            keyword_filter = self._get_keyword_filter(keyword)
+            db_ztpl_app_crud_entities = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.ztplAppCrudFirstField.like(keyword_filter)).offset(offset).limit(limit).all()
             ztpl_app_crud_entities = [ZtplAppCrudEntity.from_orm(db_result) for db_result in db_ztpl_app_crud_entities]
         finally:
             db.close()
         return ztpl_app_crud_entities
+
+    def count(self, keyword: str) -> int:
+        db = Session(self.engine)
+        ztpl_app_crud_entity_count = 0
+        try:
+            keyword_filter = self._get_keyword_filter(keyword)
+            ztpl_app_crud_entity_count = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.ztplAppCrudFirstField.like(keyword_filter)).count()
+        finally:
+            db.close()
+        return ztpl_app_crud_entity_count
 
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)

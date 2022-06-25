@@ -1,5 +1,5 @@
 from typing import Any, List, Mapping
-from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
+from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
 
 class ZtplAppCrudEntityService():
@@ -7,8 +7,10 @@ class ZtplAppCrudEntityService():
     def __init__(self, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
         self.ztpl_app_crud_entity_repo = ztpl_app_crud_entity_repo
 
-    def find(self, keyword: str, limit: int, offset: int) -> List[ZtplAppCrudEntity]:
-        return self.ztpl_app_crud_entity_repo.find(keyword, limit, offset)
+    def find(self, keyword: str, limit: int, offset: int) -> ZtplAppCrudEntityResult:
+        count = self.ztpl_app_crud_entity_repo.find(keyword)
+        rows = self.ztpl_app_crud_entity_repo.find(keyword, limit, offset)
+        return ZtplAppCrudEntityResult(count=count, rows=rows)
 
     def find_by_id(self, id: str) -> ZtplAppCrudEntity:
         return self.ztpl_app_crud_entity_repo.find_by_id(id)

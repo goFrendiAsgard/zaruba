@@ -1,1 +1,94 @@
-<b>Roles</b>
+<div id="app">
+
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="input-keyword" class="col-form-label">Keyword</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="input-keyword" class="form-control" v-model="keyword">
+        </div>
+        <div class="col-auto">
+            <button id="btn-filter" class="btn btn-primary" @click="applyFilter">Filter</button>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Permissions</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(row, index) in result.rows">
+                <td>{{ vue("index+1") }}</td>
+                <td>{{ vue("row.name") }}</td>
+                <td>{{ vue("row.permissions") }}</td>
+                <td>{{ vue("row.id") }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="input-page" class="col-form-label">Page</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter">
+        </div>
+        <div class="col-auto">
+            <label for="input-limit" class="col-form-label">Result/Page</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter">
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const { createApp } = Vue;
+    const app = createApp({
+        data() {
+            return {
+                keyword: '',
+                limit: 100,
+                page: 1,
+                result: {
+                    count: 0,
+                    rows: [],
+                },
+            }
+        },
+        methods: {
+
+            async fetchResult() {
+                const response = await axios.get('{{ backend_url }}/api/v1/roles/', {
+                    params: {
+                        keyword: this.keyword,
+                        limit: this.limit,
+                        offset: this.limit * (this.page-1)
+                    }
+                });
+                if (response && response.status == 200 && response.data) {
+                    this.result = response.data;
+                    return;
+                }
+            },
+
+            async applyFilter() {
+                await this.fetchResult();
+            }
+
+        },
+        async beforeMount() {
+            await this.fetchResult();
+        }
+    }).mount('#app');
+
+    // Re fetch every 3 minutes
+    setInterval(() => app.fetchResult(), 3*60*1000);
+</script>

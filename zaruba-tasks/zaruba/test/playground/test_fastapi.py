@@ -72,7 +72,7 @@ assert response['synopsis'] == 'A brief history of mankind'
 
 print('🧪 get books')
 response = send_json_request(conn, 'GET', '/api/v1/books/', {}, access_token)
-assert len(response) == 1
+assert len(response['rows']) == 1
 
 print('🧪 delete book')
 response = send_json_request(conn, 'DELETE', '/api/v1/books/{}'.format(book_id), {}, access_token)

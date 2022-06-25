@@ -11,8 +11,8 @@ def register_ztpl_app_crud_entity_rpc(rpc: RPC, ztpl_app_crud_entity_repo: ZtplA
 
     @rpc.handle('find_ztpl_app_crud_entity')
     def find_ztpl_app_crud_entity(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> List[Mapping[str, Any]]:
-        ztpl_app_crud_entities = ztpl_app_crud_entity_service.find(keyword, limit, offset)
-        return [ztpl_app_crud_entity.dict() for ztpl_app_crud_entity in ztpl_app_crud_entities]
+        ztpl_app_crud_result = ztpl_app_crud_entity_service.find(keyword, limit, offset)
+        return ztpl_app_crud_result.dict()
 
     @rpc.handle('find_ztpl_app_crud_entity_by_id')
     def find_ztpl_app_crud_entity_by_id(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:

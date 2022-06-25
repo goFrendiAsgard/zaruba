@@ -17,6 +17,10 @@ class ZtplAppCrudEntityRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def count(self, keyword: str) -> int:
+        pass
+
+    @abc.abstractmethod
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         pass
 
@@ -51,6 +55,10 @@ class MemZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             mem_ztpl_app_crud_entity = mem_ztpl_app_crud_entities[index]
             ztpl_app_crud_entities.append(mem_ztpl_app_crud_entity)
         return ztpl_app_crud_entities
+
+    def count(self, keyword: str) -> List[ZtplAppCrudEntity]:
+        mem_ztpl_app_crud_entities = list(self._ztpl_app_crud_entity_map.values())
+        return len(mem_ztpl_app_crud_entities)
 
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         if id not in self._ztpl_app_crud_entity_map:

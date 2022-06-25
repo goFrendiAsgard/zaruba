@@ -32,3 +32,8 @@ class Role(RoleData):
     id: str
     class Config:
         orm_mode = True
+
+
+class RoleResult(BaseModel):
+    count: int
+    rows: List[Role]

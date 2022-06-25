@@ -25,6 +25,10 @@ class UserRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def count(self, keyword: str) -> int:
+        pass
+
+    @abc.abstractmethod
     def insert(self, user_data: UserData) -> Optional[User]:
         pass
 
@@ -77,6 +81,10 @@ class MemUserRepo(UserRepo):
             mem_user = mem_users[index]
             users.append(mem_user)
         return users
+
+    def count(self, keyword: str) -> List[User]:
+        mem_users = list(self._user_map.values())
+        return len(mem_users)
 
     def insert(self, user_data: UserData) -> Optional[User]:
         new_user_id=str(uuid.uuid4())

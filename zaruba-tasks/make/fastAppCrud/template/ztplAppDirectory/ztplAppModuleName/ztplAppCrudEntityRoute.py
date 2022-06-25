@@ -6,7 +6,7 @@ from auth.authService import AuthService
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
-from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
+from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from schemas.menuContext import MenuContext
 from schemas.user import User
 
@@ -19,15 +19,15 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
     ################################################
     if enable_api:
 
-        @app.get('/api/v1/ztpl_app_crud_entities/', response_model=List[ZtplAppCrudEntity])
-        def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:ztpl_app_crud_entity:read'))) -> List[ZtplAppCrudEntity]:
-            ztpl_app_crud_entities = []
+        @app.get('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntityResult)
+        def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
+            result = {}
             try:
-                ztpl_app_crud_entities = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset, current_user.dict())
+                result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset, current_user.dict())
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
-            return [ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity) for ztpl_app_crud_entity in ztpl_app_crud_entities]
+            return ZtplAppCrudEntityResult.parse_obj(result)
 
 
         @app.get('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)

@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ui.menuService import MenuService
 from schemas.menuContext import MenuContext
-from schemas.user import User, UserData
+from schemas.user import User, UserData, UserResult
 
 import traceback
 
@@ -19,15 +19,15 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     ################################################
     if enable_api:
 
-        @app.get('/api/v1/users/', response_model=List[User])
-        def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:user:read'))) -> List[User]:
-            results = []
+        @app.get('/api/v1/users/', response_model=UserResult)
+        def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:user:read'))) -> UserResult:
+            result = {}
             try:
-                results = rpc.call('find_user', keyword, limit, offset, current_user.dict())
+                result = rpc.call('find_user', keyword, limit, offset, current_user.dict())
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
-            return [User.parse_obj(result) for result in results]
+            return UserResult.parse_obj(result)
 
 
         @app.get('/api/v1/users/{id}', response_model=User)

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
@@ -46,14 +46,22 @@ class DBUserRepo(UserRepo):
     def _is_valid_password(self, password: str, hashed_password: str) -> bool:
         return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
+    def _get_keyword_filter(self, keyword: str) -> str:
+        return '%{}%'.format(keyword) if keyword != '' else '%'
+
+    def _from_db_result(self, db_result: Any) -> User:
+        user = User.from_orm(db_result)
+        user.permissions = json.loads(db_result.json_permissions)
+        return user
+
     def find_by_username(self, username: str) -> Optional[User]:
         db = Session(self.engine)
         user: User
         try:
-            db_result = db.query(DBUserEntity).filter(DBUserEntity.username == username).first()
-            if db_result is None:
+            db_user = db.query(DBUserEntity).filter(DBUserEntity.username == username).first()
+            if db_user is None:
                 return None
-            user = User.from_orm(db_result)
+            user = User.from_orm(db_user)
         finally:
             db.close()
         return user
@@ -65,7 +73,7 @@ class DBUserRepo(UserRepo):
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
             if db_user is None:
                 return None
-            user = User.from_orm(db_user)
+            user = self._from_db_result(db_user)
         finally:
             db.close()
         return user
@@ -83,7 +91,7 @@ class DBUserRepo(UserRepo):
                 ).first()
             if not self._is_valid_password(password, db_user.hashed_password):
                 return None
-            user = User.from_orm(db_user)
+            user = self._from_db_result(db_user)
         finally:
             db.close()
         return user
@@ -92,19 +100,36 @@ class DBUserRepo(UserRepo):
         db = Session(self.engine)
         users: List[User] = []
         try:
-            keyword = '%{}%'.format(keyword) if keyword != '' else '%'
+            keyword_filter = self._get_keyword_filter(keyword)
             db_users = db.query(DBUserEntity).filter(
                     or_(
-                        DBUserEntity.username.like(keyword),
-                        DBUserEntity.email.like(keyword),
-                        DBUserEntity.phone_number.like(keyword),
-                        DBUserEntity.full_name.like(keyword),
+                        DBUserEntity.username.like(keyword_filter),
+                        DBUserEntity.email.like(keyword_filter),
+                        DBUserEntity.phone_number.like(keyword_filter),
+                        DBUserEntity.full_name.like(keyword_filter),
                     )
                 ).offset(offset).limit(limit).all()
-            users = [User.from_orm(db_user) for db_user in db_users]
+            users = [self._from_db_result(db_user) for db_user in db_users]
         finally:
             db.close()
         return users
+
+    def count(self, keyword: str) -> int:
+        db = Session(self.engine)
+        user_count = 0
+        try:
+            keyword_filter = self._get_keyword_filter(keyword)
+            user_count = db.query(DBUserEntity).filter(
+                    or_(
+                        DBUserEntity.username.like(keyword_filter),
+                        DBUserEntity.email.like(keyword_filter),
+                        DBUserEntity.phone_number.like(keyword_filter),
+                        DBUserEntity.full_name.like(keyword_filter),
+                    )
+                ).count()
+        finally:
+            db.close()
+        return user_count
 
     def insert(self, user_data: UserData) -> Optional[User]:
         db = Session(self.engine)
@@ -126,7 +151,7 @@ class DBUserRepo(UserRepo):
             db.add(db_user)
             db.commit()
             db.refresh(db_user) 
-            new_user = User.from_orm(db_user)
+            new_user = User._from_db_result(db_user)
         finally:
             db.close()
         return new_user
@@ -151,7 +176,7 @@ class DBUserRepo(UserRepo):
             db.add(db_user)
             db.commit()
             db.refresh(db_user) 
-            updated_user = User.from_orm(db_user)
+            updated_user = User._from_db_result(db_user)
         finally:
             db.close()
         return updated_user
@@ -165,7 +190,7 @@ class DBUserRepo(UserRepo):
                 return None
             db.delete(db_user)
             db.commit()
-            deleted_user = User.from_orm(db_user)
+            deleted_user = User._from_db_result(db_user)
         finally:
             db.close()
         return deleted_user

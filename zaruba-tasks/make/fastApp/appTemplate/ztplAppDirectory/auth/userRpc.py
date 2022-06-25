@@ -8,8 +8,8 @@ def register_user_rpc(rpc: RPC, user_service: UserService):
 
     @rpc.handle('find_user')
     def find_user(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> List[Mapping[str, Any]]:
-        users = user_service.find(keyword, limit, offset)
-        return [user.dict() for user in users]
+        user_result = user_service.find(keyword, limit, offset)
+        return user_result.dict()
 
     @rpc.handle('find_user_by_id')
     def find_user_by_id(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:

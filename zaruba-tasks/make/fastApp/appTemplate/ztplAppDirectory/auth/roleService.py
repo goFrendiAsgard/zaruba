@@ -1,5 +1,5 @@
-from typing import Any, List, Mapping
-from schemas.role import Role, RoleData
+from typing import List
+from schemas.role import Role, RoleData, RoleResult
 from repos.role import RoleRepo
 
 class RoleService():
@@ -7,8 +7,10 @@ class RoleService():
     def __init__(self, role_repo: RoleRepo):
         self.role_repo = role_repo
 
-    def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
-        return self.role_repo.find(keyword, limit, offset)
+    def find(self, keyword: str, limit: int, offset: int) -> RoleResult:
+        count = self.role_repo.count(keyword)
+        rows = self.role_repo.find(keyword, limit, offset)
+        return RoleResult(count=count, rows=rows)
 
     def find_by_id(self, id: str) -> Role:
         return self.role_repo.find_by_id(id)

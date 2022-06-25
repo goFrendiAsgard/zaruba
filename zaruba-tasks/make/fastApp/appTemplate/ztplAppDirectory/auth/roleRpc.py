@@ -8,8 +8,8 @@ def register_role_rpc(rpc: RPC, role_service: RoleService):
 
     @rpc.handle('find_role')
     def find_role(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> List[Mapping[str, Any]]:
-        roles = role_service.find(keyword, limit, offset)
-        return [role.dict() for role in roles]
+        role_result = role_service.find(keyword, limit, offset)
+        return role_result.dict()
 
     @rpc.handle('find_role_by_id')
     def find_role_by_id(id: str, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:

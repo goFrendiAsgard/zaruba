@@ -20,6 +20,10 @@ class RoleRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def count(self, keyword: str) -> int:
+        pass
+
+    @abc.abstractmethod
     def insert(self, role_data: RoleData) -> Optional[Role]:
         pass
 
@@ -60,6 +64,10 @@ class MemRoleRepo(RoleRepo):
             mem_role = mem_roles[index]
             roles.append(mem_role)
         return roles
+
+    def count(self, keyword: str) -> List[Role]:
+        mem_roles = list(self._role_map.values())
+        return len(mem_roles)
 
     def insert(self, role_data: RoleData) -> Optional[Role]:
         new_role_id=str(uuid.uuid4())

@@ -25,7 +25,7 @@
         </div>
 
         <script>
-            const { createApp } = Vue
+            const { createApp } = Vue;
             createApp({
                 data() {
                     return {
@@ -35,11 +35,15 @@
                 },
                 methods: {
                     async login() {
-                        await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password)
-                        window.location = '/account/logout';
+                        try {
+                            await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password);
+                            window.location = '/account/logout';
+                        } catch(error) {
+                            console.error(error);
+                        }
                     },
                 }
-            }).mount('#app')
+            }).mount('#app');
         </script>
 
     </body>

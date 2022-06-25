@@ -1,5 +1,5 @@
 from typing import List
-from schemas.user import User, UserData
+from schemas.user import User, UserData, UserResult
 from repos.user import UserRepo
 from auth.roleService import RoleService
 
@@ -13,7 +13,7 @@ class UserService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def find(self, keyword: str, limit: int, offset: int) -> List[User]:
+    def find(self, keyword: str, limit: int, offset: int) -> UserResult:
         pass
 
     @abc.abstractmethod
@@ -62,8 +62,10 @@ class DefaultUserService(UserService):
             created_at = self.earliest_date,
         )
 
-    def find(self, keyword: str, limit: int, offset: int) -> List[User]:
-        return self.user_repo.find(keyword, limit, offset)
+    def find(self, keyword: str, limit: int, offset: int) -> UserResult:
+        count = self.user_repo.count(keyword)
+        rows = self.user_repo.find(keyword, limit, offset)
+        return UserResult(count=count, rows=rows)
 
     def find_by_id(self, id: str) -> User:
         return self.user_repo.find_by_id(id)

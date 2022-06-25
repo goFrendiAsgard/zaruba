@@ -48,3 +48,8 @@ class User(UserData):
     id: str
     class Config:
         orm_mode = True
+
+
+class UserResult(BaseModel):
+    count: int
+    rows: List[User]
