@@ -129,7 +129,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
         * [GetPortConfig](utilities/path/get-port-config.md)
         * [GetRelativePath](utilities/path/get-relative-path.md)
     * [🏗️ Project](utilities/project/README.md)
-        * [AddTaskIfNotExist](utilities/project/add-task-if-not-exist.md)
+        * [AddTask](utilities/project/add-task.md)
         * [Include](utilities/project/include.md)
         * [SetValue](utilities/project/set-value.md)
         * [ShowLog](utilities/project/show-log.md)

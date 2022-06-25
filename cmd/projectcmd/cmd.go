@@ -8,7 +8,7 @@ var Cmd = &cobra.Command{
 }
 
 func Init() {
-	Cmd.AddCommand(addTaskIfNotExistCmd)
+	Cmd.AddCommand(addTaskCmd)
 	Cmd.AddCommand(includeCmd)
 	Cmd.AddCommand(setValueCmd)
 	Cmd.AddCommand(showLogCmd)

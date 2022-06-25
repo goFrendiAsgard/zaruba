@@ -35,7 +35,7 @@ Use "zaruba file [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [AddTaskIfNotExist](add-task-if-not-exist.md)
+* [AddTask](add-task.md)
 * [Include](include.md)
 * [SetValue](set-value.md)
 * [ShowLog](show-log.md)

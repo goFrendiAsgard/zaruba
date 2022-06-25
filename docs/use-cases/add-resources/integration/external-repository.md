@@ -63,26 +63,26 @@ tree
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.881µs
-         Current Time: 09:09:44
+         Elapsed Time: 1.865µs
+         Current Time: 10:19:40
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀    🚀 initProject          🚧 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/.git/
 💀    🚀 initProject          🚧 🎉🎉🎉
 💀    🚀 initProject          🚧 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 117.734273ms
-         Current Time: 09:09:44
+         Elapsed Time: 115.973256ms
+         Current Time: 10:19:40
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 422.455633ms
-         Current Time: 09:09:44
+         Elapsed Time: 420.971517ms
+         Current Time: 10:19:41
 zaruba please initProject  
 💀 🔎 Job Starting...
-         Elapsed Time: 1.838µs
-         Current Time: 09:09:45
+         Elapsed Time: 1.088µs
+         Current Time: 10:19:41
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
@@ -91,27 +91,27 @@ zaruba please initProject
 💀    🚀 addSubrepo           🥂 Subrepo fibo has been added
 💀 🎉 Successfully running 🥂 'addSubrepo' command
 💀 🔎 Job Running...
-         Elapsed Time: 574.244245ms
-         Current Time: 09:09:45
+         Elapsed Time: 545.522503ms
+         Current Time: 10:19:42
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 877.960376ms
-         Current Time: 09:09:45
+         Elapsed Time: 848.62081ms
+         Current Time: 10:19:42
 zaruba please addSubrepo -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/.env' -v 'subrepoUrl=git@github.com:state-alchemists/fibonacci-clock.git' -v 'subrepoPrefix=fibo' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 💀 🔎 Job Starting...
-         Elapsed Time: 2.039µs
-         Current Time: 09:09:46
-💀 🏁 Run 🔍 'zrbIsValidSubrepos' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
+         Elapsed Time: 1.762µs
+         Current Time: 10:19:42
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
-💀    🚀 zrbIsValidSubrepos   🔍 All Subrepos are valid
+💀 🏁 Run 🔍 'zrbIsValidSubrepos' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
-💀 🎉 Successfully running 🔍 'zrbIsValidSubrepos' command
+💀    🚀 zrbIsValidSubrepos   🔍 All Subrepos are valid
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
+💀 🎉 Successfully running 🔍 'zrbIsValidSubrepos' command
 💀 🏁 Run 📦 'initSubrepos' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀    🚀 initSubrepos         📦 fibo origin is not exist
-💀    🚀 initSubrepos         📦 [master (root-commit) 921d67f] 💀 Save works before pulling from git@github.com:state-alchemists/fibonacci-clock.git
+💀    🚀 initSubrepos         📦 [master (root-commit) b9793ed] 💀 Save works before pulling from git@github.com:state-alchemists/fibonacci-clock.git
 💀    🚀 initSubrepos         📦  3 files changed, 125 insertions(+)
 💀    🚀 initSubrepos         📦  create mode 100644 .gitignore
 💀    🚀 initSubrepos         📦  create mode 100644 default.values.yaml
@@ -140,14 +140,14 @@ zaruba please addSubrepo -e '/home/gofrendi/zaruba/docs/examples/playground/use-
 💀    🚀 pullSubrepos         🔽 Subrepos pulled
 💀 🎉 Successfully running 🔽 'pullSubrepos' command
 💀 🔎 Job Running...
-         Elapsed Time: 17.310534795s
-         Current Time: 09:10:03
+         Elapsed Time: 18.225489109s
+         Current Time: 10:20:00
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 17.612858456s
-         Current Time: 09:10:03
+         Elapsed Time: 18.528696046s
+         Current Time: 10:20:01
 zaruba please pullSubrepos -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 .
 ├── default.values.yaml
@@ -195,8 +195,8 @@ zaruba please pullSubrepos
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.993µs
-         Current Time: 09:10:04
+         Elapsed Time: 1.957µs
+         Current Time: 10:20:01
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀 🏁 Run 🔍 'zrbIsValidSubrepos' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
@@ -217,14 +217,14 @@ zaruba please pullSubrepos
 💀    🚀 pullSubrepos         🔽 Subrepos pulled
 💀 🎉 Successfully running 🔽 'pullSubrepos' command
 💀 🔎 Job Running...
-         Elapsed Time: 4.432433742s
-         Current Time: 09:10:08
+         Elapsed Time: 4.896554483s
+         Current Time: 10:20:06
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 4.736164612s
-         Current Time: 09:10:08
+         Elapsed Time: 5.199872834s
+         Current Time: 10:20:06
 zaruba please pullSubrepos -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 ```````
 </details>
@@ -253,18 +253,18 @@ zaruba please pushSubrepos
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 2.056µs
-         Current Time: 09:10:09
+         Elapsed Time: 2.43µs
+         Current Time: 10:20:06
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀 🏁 Run 🔎 'zrbIsProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀 🏁 Run 🔍 'zrbIsValidSubrepos' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
-💀    🚀 zrbIsValidSubrepos   🔍 All Subrepos are valid
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
 💀    🚀 zrbIsProject         🔎 Current directory is a valid zaruba project
+💀    🚀 zrbIsValidSubrepos   🔍 All Subrepos are valid
 💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🎉 Successfully running 🔍 'zrbIsValidSubrepos' command
 💀 🎉 Successfully running 🔎 'zrbIsProject' command
+💀 🎉 Successfully running 🔍 'zrbIsValidSubrepos' command
 💀 🏁 Run 📦 'initSubrepos' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories
 💀    🚀 initSubrepos         📦 🎉🎉🎉
 💀    🚀 initSubrepos         📦 Subrepos Initialized
@@ -278,14 +278,14 @@ zaruba please pushSubrepos
 💀    🚀 pushSubrepos         🔼 Subrepos pushed
 💀 🎉 Successfully running 🔼 'pushSubrepos' command
 💀 🔎 Job Running...
-         Elapsed Time: 3.945521836s
-         Current Time: 09:10:13
+         Elapsed Time: 4.570479237s
+         Current Time: 10:20:11
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 4.249263636s
-         Current Time: 09:10:13
+         Elapsed Time: 4.873995826s
+         Current Time: 10:20:11
 zaruba please pushSubrepos -e '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/.env' -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 ```````
 </details>

@@ -1,26 +1,26 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md) > [🏗️ Project](README.md)
-# AddTaskIfNotExist
+# AddTask
 <!--endTocHeader-->
 
 # Usage
 
 <!--startCode-->
 ```bash
-zaruba project addTaskIfNotExist --help
+zaruba project addTask --help
 ```
  
 <details>
 <summary>Output</summary>
  
 ```````
-Add task to project
+Add task to current project
 
 Usage:
-  zaruba project addTaskIfNotExist <taskName> [taskFile] [flags]
+  zaruba project addTask <taskName> [taskFile] [flags]
 
 Flags:
-  -h, --help   help for addTaskIfNotExist
+  -h, --help   help for addTask
 ```````
 </details>
 <!--endCode-->

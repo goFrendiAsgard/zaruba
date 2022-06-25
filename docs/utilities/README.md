@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-9b7d39f548d85e16f7668e8af48f8da2b48fc232
+v0.9.0-alpha-2-30bc6f41b91cb48459c885e513ce376875610c9f
 
 Usage:
   zaruba [command]
@@ -203,7 +203,7 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [GetPortConfig](path/get-port-config.md)
   * [GetRelativePath](path/get-relative-path.md)
 * [🏗️ Project](project/README.md)
-  * [AddTaskIfNotExist](project/add-task-if-not-exist.md)
+  * [AddTask](project/add-task.md)
   * [Include](project/include.md)
   * [SetValue](project/set-value.md)
   * [ShowLog](project/show-log.md)

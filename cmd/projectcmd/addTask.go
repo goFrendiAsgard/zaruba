@@ -9,9 +9,9 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var addTaskIfNotExistCmd = &cobra.Command{
-	Use:   "addTaskIfNotExist <taskName> [taskFile]",
-	Short: "Add task to project",
+var addTaskCmd = &cobra.Command{
+	Use:   "addTask <taskName> [taskFile]",
+	Short: "Add task to current project",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
