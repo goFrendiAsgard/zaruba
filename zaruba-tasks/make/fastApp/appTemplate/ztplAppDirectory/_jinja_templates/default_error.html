@@ -1,11 +1,16 @@
-<head>
-    {% include 'default-partials/meta.html' %}
-    {% include 'default-partials/include-css.html' %}
-    <title>{{ context.current_menu.title }}</title>
-</head>
-<body>
-    {% include 'default-partials/navigation.html' %}
-    <div class="container">
-        <h1>{{ status_code }} {{ detail }}</h1>
-    </div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'default-partials/meta.html' %}
+        {% include 'default-partials/include-css.html' %}
+        <title>{{ context.current_menu.title }}</title>
+    </head>
+    <body>
+        {% include 'default-partials/navigation.html' %}
+        {% include 'default-partials/include-js.html' %}
+
+        <div class="container">
+            <h1>{{ status_code }} {{ detail }}</h1>
+        </div>
+    </body>
+</html>

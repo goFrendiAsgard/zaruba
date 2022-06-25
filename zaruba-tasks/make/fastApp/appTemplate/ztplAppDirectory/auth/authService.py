@@ -76,12 +76,9 @@ class TokenOAuth2AuthService(AuthService):
     def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_everyone(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
             if bearer_token is None and app_access_token is None:
-                return self.user_service.get_guest_user()
+                return None
             token = bearer_token if bearer_token is not None else app_access_token
-            current_user = self._get_user_by_token(token)
-            if not current_user or not current_user.active:
-                return self.user_service.get_guest_user()
-            return current_user
+            return self._get_user_by_token(token)
         return verify_everyone 
 
     def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:

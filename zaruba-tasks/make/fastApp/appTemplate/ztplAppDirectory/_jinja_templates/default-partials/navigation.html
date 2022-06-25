@@ -8,11 +8,11 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {% if context.accessible_menu %}
             {% for menu in context.accessible_menu.submenus %}
-                {% if menu.submenus | length == 0 %}
+                {% if menu.submenus | length == 0 and not menu.url.startswith('#') %}
                     <li class="nav-item">
                         <a class="nav-link {{ 'active' if menu.is_highlighted }}" aria-current="page" href="{{ menu.url }}">{{ menu.title }}</a>
                     </li>
-                {% else %}
+                {% elif menu.submenus | length > 0 %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ 'active' if menu.is_highlighted }}" id="navbarDropdown{{ loop.index }}" href="{{ menu.url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ menu.title }}

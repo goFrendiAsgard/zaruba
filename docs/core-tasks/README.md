@@ -18,6 +18,7 @@
 * [⚛️ addFastAppCrud](add-fast-app-crud.md)
 * [⚛️ addFastAppEventHandler](add-fast-app-event-handler.md)
 * [⚛️ addFastAppModule](add-fast-app-module.md)
+* [⚛️ addFastAppPage](add-fast-app-page.md)
 * [⚛️ addFastAppRouteHandler](add-fast-app-route-handler.md)
 * [⚛️ addFastAppRpcHandler](add-fast-app-rpc-handler.md)
 * [🪄 addGenerator](add-generator.md)

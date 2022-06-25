@@ -1,1 +1,1 @@
-menu_service.add_menu(name='ztplAppModuleName', title='ztplAppModuleName', url='#ztpl-app-module-name', auth_type=AuthType.AUTHORIZED, permission_name='ui:ztplAppModuleName')
+menu_service.add_menu(name='ztplAppModuleName', title='ZtplAppModuleName', url='#', auth_type=AuthType.EVERYONE)

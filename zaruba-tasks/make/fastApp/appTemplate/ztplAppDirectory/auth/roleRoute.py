@@ -89,13 +89,11 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
         @app.get('/auth/roles', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth/roles'))):
-            return templates.TemplateResponse(
-                'default_crud.html', 
-                context={
-                    'request': request, 
-                    'context': context
-                }, 
-                status_code=200
-            )
+            return templates.TemplateResponse('default_crud.html', context={
+                'api_path': '/api/vi/roles',
+                'content_path': 'auth/crud/roles.html',
+                'request': request, 
+                'context': context
+            }, status_code=200)
 
     print('Handle HTTP routes for auth.Role')

@@ -1,45 +1,46 @@
-<head>
-    {% include 'default-partials/meta.html' %}
-    {% include 'default-partials/include-css.html' %}
-    <title>{{ context.current_menu.title }}</title>
-</head>
-<body>
-    {% include 'default-partials/navigation.html' %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'default-partials/meta.html' %}
+        {% include 'default-partials/include-css.html' %}
+        <title>{{ context.current_menu.title }}</title>
+    </head>
+    <body>
+        {% include 'default-partials/navigation.html' %}
+        {% include 'default-partials/include-js.html' %}
 
-    <div id="app" class="container">
-        <h1>{{ context.current_menu.title }}</h1>
-        <div class="mb-3">
-            <label for="login-username" class="form-label">Username/Email address</label>
-            <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
+        <div id="app" class="container">
+            <h1>{{ context.current_menu.title }}</h1>
+            <div class="mb-3">
+                <label for="login-username" class="form-label">Username/Email address</label>
+                <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
+            </div>
+            <div class="mb-3">
+                <label for="login-password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="login-password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password">
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
-        </div>
-    </div>
 
-    {% include 'default-partials/include-js.html' %}
-
-    <script>
-        const { createApp } = Vue
-
-        createApp({
-            data() {
-                return {
-                    username: '',
-                    password: '',
-                }
-            },
-            methods: {
-                async login() {
-                    await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password)
-                    window.location = '/account/logout';
+        <script>
+            const { createApp } = Vue
+            createApp({
+                data() {
+                    return {
+                        username: '',
+                        password: '',
+                    }
                 },
-            }
-        }).mount('#app')
-    </script>
+                methods: {
+                    async login() {
+                        await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password)
+                        window.location = '/account/logout';
+                    },
+                }
+            }).mount('#app')
+        </script>
 
-</body>
+    </body>
+</html>

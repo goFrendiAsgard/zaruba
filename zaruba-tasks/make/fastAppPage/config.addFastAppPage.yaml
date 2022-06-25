@@ -1,0 +1,13 @@
+configs:
+ 
+  addFastAppPage:
+    _skipCreationPath: ''
+    _prepareVariables: ''
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/bash/addRouteHandler.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/bash/registerUi.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/template"
+      ]

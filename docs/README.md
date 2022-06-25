@@ -188,6 +188,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
   * [⚛️ addFastAppCrud](core-tasks/add-fast-app-crud.md)
   * [⚛️ addFastAppEventHandler](core-tasks/add-fast-app-event-handler.md)
   * [⚛️ addFastAppModule](core-tasks/add-fast-app-module.md)
+  * [⚛️ addFastAppPage](core-tasks/add-fast-app-page.md)
   * [⚛️ addFastAppRouteHandler](core-tasks/add-fast-app-route-handler.md)
   * [⚛️ addFastAppRpcHandler](core-tasks/add-fast-app-rpc-handler.md)
   * [🪄 addGenerator](core-tasks/add-generator.md)

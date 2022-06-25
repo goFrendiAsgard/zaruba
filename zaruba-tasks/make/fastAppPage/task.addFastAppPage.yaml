@@ -1,0 +1,12 @@
+tasks:
+ 
+  addFastAppPage:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastAppModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appUrl
+    configRef: addFastAppPage

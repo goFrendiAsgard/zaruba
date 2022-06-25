@@ -210,6 +210,9 @@ includes:
   - ./zaruba-tasks/make/fastAppModule/config.addFastAppModule.yaml
   - ./zaruba-tasks/make/fastAppModule/task.addFastAppModule.yaml
 
+  - ./zaruba-tasks/make/fastAppPage/config.addFastAppPage.yaml
+  - ./zaruba-tasks/make/fastAppPage/task.addFastAppPage.yaml
+
   - ./zaruba-tasks/make/fastAppRouteHandler/config.addFastAppRouteHandler.yaml
   - ./zaruba-tasks/make/fastAppRouteHandler/task.addFastAppRouteHandler.yaml
 

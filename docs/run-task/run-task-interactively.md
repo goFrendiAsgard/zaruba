@@ -58,20 +58,20 @@ Search: █
 ✔ Let me type it!
 Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 1.543µs
-         Current Time: 10:18:40
+         Elapsed Time: 1.312µs
+         Current Time: 14:59:31
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.279196ms
-         Current Time: 10:18:41
+         Elapsed Time: 102.024858ms
+         Current Time: 14:59:31
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 505.06992ms
-         Current Time: 10:18:41
+         Elapsed Time: 504.760929ms
+         Current Time: 14:59:32
 zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>
