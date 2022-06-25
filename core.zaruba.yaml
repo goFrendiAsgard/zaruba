@@ -195,26 +195,26 @@ includes:
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchApp.yaml
   - ./zaruba-tasks/make/elasticsearch/task.makeElasticsearchAppRunner.yaml
 
-  - ./zaruba-tasks/make/fastApi/config.makeFastApiApp.yaml
-  - ./zaruba-tasks/make/fastApi/config.makeFastApiAppRunner.yaml
-  - ./zaruba-tasks/make/fastApi/task.addFastApi.yaml
-  - ./zaruba-tasks/make/fastApi/task.makeFastApiApp.yaml
-  - ./zaruba-tasks/make/fastApi/task.makeFastApiAppRunner.yaml
+  - ./zaruba-tasks/make/fastApp/config.makeFastApp.yaml
+  - ./zaruba-tasks/make/fastApp/config.makeFastAppRunner.yaml
+  - ./zaruba-tasks/make/fastApp/task.addFastApp.yaml
+  - ./zaruba-tasks/make/fastApp/task.makeFastApp.yaml
+  - ./zaruba-tasks/make/fastApp/task.makeFastAppRunner.yaml
 
-  - ./zaruba-tasks/make/fastApiCrud/config.addFastApiCrud.yaml
-  - ./zaruba-tasks/make/fastApiCrud/task.addFastApiCrud.yaml
+  - ./zaruba-tasks/make/fastAppCrud/config.addFastAppCrud.yaml
+  - ./zaruba-tasks/make/fastAppCrud/task.addFastAppCrud.yaml
 
-  - ./zaruba-tasks/make/fastApiEventHandler/config.addFastApiEventHandler.yaml
-  - ./zaruba-tasks/make/fastApiEventHandler/task.addFastApiEventHandler.yaml
+  - ./zaruba-tasks/make/fastAppEventHandler/config.addFastAppEventHandler.yaml
+  - ./zaruba-tasks/make/fastAppEventHandler/task.addFastAppEventHandler.yaml
 
-  - ./zaruba-tasks/make/fastApiModule/config.addFastApiModule.yaml
-  - ./zaruba-tasks/make/fastApiModule/task.addFastApiModule.yaml
+  - ./zaruba-tasks/make/fastAppModule/config.addFastAppModule.yaml
+  - ./zaruba-tasks/make/fastAppModule/task.addFastAppModule.yaml
 
-  - ./zaruba-tasks/make/fastApiRouteHandler/config.addFastApiRouteHandler.yaml
-  - ./zaruba-tasks/make/fastApiRouteHandler/task.addFastApiRouteHandler.yaml
+  - ./zaruba-tasks/make/fastAppRouteHandler/config.addFastAppRouteHandler.yaml
+  - ./zaruba-tasks/make/fastAppRouteHandler/task.addFastAppRouteHandler.yaml
 
-  - ./zaruba-tasks/make/fastApiRpcHandler/config.addFastApiRpcHandler.yaml
-  - ./zaruba-tasks/make/fastApiRpcHandler/task.addFastApiRpcHandler.yaml
+  - ./zaruba-tasks/make/fastAppRpcHandler/config.addFastAppRpcHandler.yaml
+  - ./zaruba-tasks/make/fastAppRpcHandler/task.addFastAppRpcHandler.yaml
 
   - ./zaruba-tasks/make/generator/config.makeGenerator.yaml
   - ./zaruba-tasks/make/generator/task.addGenerator.yaml

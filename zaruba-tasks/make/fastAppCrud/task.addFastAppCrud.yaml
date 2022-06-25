@@ -1,0 +1,13 @@
+tasks:
+ 
+  addFastAppCrud:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastAppModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appCrudEntity
+      - appCrudFields
+    configRef: addFastAppCrud

@@ -1,0 +1,11 @@
+tasks:
+ 
+  addFastAppModule:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastApp
+    inputs:
+      - appDirectory
+      - appModuleName
+    configRef: addFastAppModule

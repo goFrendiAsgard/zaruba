@@ -1,0 +1,6 @@
+tasks:
+
+  addFastApp:
+    icon: ⚛️
+    dependencies:
+      - makeFastAppRunner

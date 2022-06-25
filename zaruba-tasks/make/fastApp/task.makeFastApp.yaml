@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeFastApp:
+    icon: ⚛️
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeFastApp

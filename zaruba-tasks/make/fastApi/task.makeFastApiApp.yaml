@@ -1,8 +1,0 @@
-tasks:
- 
-  makeFastApiApp:
-    icon: ⚛️
-    extend: makeApp
-    inputs:
-      - appDirectory
-    configRef: makeFastApiApp

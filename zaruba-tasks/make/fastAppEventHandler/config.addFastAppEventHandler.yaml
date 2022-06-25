@@ -1,0 +1,9 @@
+configs:
+ 
+  addFastAppEventHandler:
+    _skipCreationPath: ''
+    _prepareVariables: ''
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppEventHandler/bash/addEventHandler.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: '[]'

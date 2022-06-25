@@ -1,0 +1,9 @@
+configs:
+ 
+  addFastAppRouteHandler:
+    _skipCreationPath: ''
+    _prepareVariables: ''
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppRouteHandler/bash/addRouteHandler.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: '[]'

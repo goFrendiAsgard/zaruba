@@ -1,0 +1,13 @@
+tasks:
+ 
+  addFastAppRouteHandler:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastAppModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appUrl
+      - appHttpMethod
+    configRef: addFastAppRouteHandler

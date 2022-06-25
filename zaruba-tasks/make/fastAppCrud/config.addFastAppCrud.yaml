@@ -1,0 +1,26 @@
+configs:
+
+  addFastAppCrud:
+    _skipCreationPath: ''
+    _prepareVariables: |
+      {{ .GetConfig "_prepareBaseStartCommand" }}
+      {{ .GetConfig "_prepareBasePrepareCommand" }}
+      {{ .GetConfig "_prepareBaseTestCommand" }}
+      {{ .GetConfig "_prepareBaseCheckCommand" }}
+      {{ .GetConfig "_prepareBaseReplacementMap" }}
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setAppCrudFirstField.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setRepoFieldDeclaration.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setRepoFieldInsert.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setRepoFieldUpdate.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setSchemaFieldDeclaration.sh"
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerRouteHandler.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerRpcHandler.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerRepo.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerUi.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/template"
+      ]
+

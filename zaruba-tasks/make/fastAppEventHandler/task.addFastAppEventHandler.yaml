@@ -1,0 +1,12 @@
+tasks:
+ 
+  addFastAppEventHandler:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastAppModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appEventName
+    configRef: addFastAppEventHandler

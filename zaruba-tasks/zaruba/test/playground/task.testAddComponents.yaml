@@ -35,12 +35,12 @@ tasks:
         ../zaruba please addSimplePythonApp appDirectory=provoPython appEnvs='{"APP_HTTP_PORT":"3007"}'
         ../zaruba please addAppHelmDeployment appDirectory=provoPython
 
-        ../zaruba please addFastApiModule appDirectory=provoFastApi appModuleName=library
-        ../zaruba please addFastApiRouteHandler appDirectory=provoFastApi appModuleName=blog appHttpMethod=get appUrl=/
-        ../zaruba please addFastApiEventHandler appDirectory=provoFastApi appModuleName=library appEventName=open
-        ../zaruba please addFastApiRpcHandler appDirectory=provoFastApi appModuleName=library appRpcName=isBookAvailable
-        ../zaruba please addFastApiCrud appDirectory=provoFastApi appModuleName=library appCrudEntity=books appCrudFields='["title", "author", "synopsis"]'
-        ../zaruba please addAppHelmDeployment appDirectory=provoFastApi
+        ../zaruba please addFastAppModule appDirectory=provoFastApp appModuleName=library
+        ../zaruba please addFastAppRouteHandler appDirectory=provoFastApp appModuleName=blog appHttpMethod=get appUrl=/
+        ../zaruba please addFastAppEventHandler appDirectory=provoFastApp appModuleName=library appEventName=open
+        ../zaruba please addFastAppRpcHandler appDirectory=provoFastApp appModuleName=library appRpcName=isBookAvailable
+        ../zaruba please addFastAppCrud appDirectory=provoFastApp appModuleName=library appCrudEntity=books appCrudFields='["title", "author", "synopsis"]'
+        ../zaruba please addAppHelmDeployment appDirectory=provoFastApp
 
         ../zaruba please addAirflow appDirectory=provoAirflow
         ../zaruba please addAirbyte appDirectory=provoAirbyte

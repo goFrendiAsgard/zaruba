@@ -1,8 +1,0 @@
-configs:
- 
-  makeFastApiApp:
-    defaultAppDirectory: '{{ .ProjectName }}FastApi'
-    templateLocations: |
-      [
-        "{{ .ZarubaHome }}/zaruba-tasks/make/fastApi/appTemplate"
-      ]

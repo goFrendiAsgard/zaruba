@@ -116,7 +116,7 @@ docker exec -it demoDb mysql -u root -pAlchemist
 Now, let's add 🐍 `Book Catalog API` to your project.
 
 ```bash
-zaruba please addFastApiCrud \
+zaruba please addFastAppCrud \
   appDirectory=demoBackend \
   appModuleName=library \
   appCrudEntity=books \
@@ -125,7 +125,7 @@ zaruba please addFastApiCrud \
   appEnvs='{"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
 
 # or
-# zaruba please addFastApiCrud -i
+# zaruba please addFastAppCrud -i
 ```
 
 This command does several things at once:
@@ -653,7 +653,7 @@ zaruba please addMysql \
   appDirectory=demoDb
 
 # 💀 Add Backend
-zaruba please addFastApiCrud \
+zaruba please addFastAppCrud \
   appDirectory=demoBackend \
   appModuleName=library \
   appCrudEntity=books \

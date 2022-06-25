@@ -1,0 +1,16 @@
+tasks:
+
+  makeFastAppRunner:
+    icon: ⚛️
+    extend: makePythonAppRunner
+    dependencies:
+      - makeFastApp
+    inputs:
+      - appDirectory
+      - appDependencies
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeFastAppRunner

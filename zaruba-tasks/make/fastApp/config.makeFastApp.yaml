@@ -1,0 +1,8 @@
+configs:
+ 
+  makeFastApp:
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/fastApp/appTemplate"
+      ]

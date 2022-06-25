@@ -33,12 +33,12 @@ tasks:
         ../zaruba please queryProvoCassandra sql='DESCRIBE KEYSPACES;'
         ../zaruba please stopProvoCassandraContainer
 
-        ../zaruba please testProvoFastApi
-        ../zaruba please startProvoFastApi -t
-        ../zaruba please startProvoFastApiContainer -t
+        ../zaruba please testProvoFastApp
+        ../zaruba please startProvoFastApp -t
+        ../zaruba please startProvoFastAppContainer -t
         sleep 5
         python "{{ .GetTaskPath "test_fastapi.py" }}"
-        ../zaruba please stopProvoFastApiContainer
+        ../zaruba please stopProvoFastAppContainer
 
         ../zaruba please startProvoGitlab -t
         set +e
@@ -111,7 +111,7 @@ tasks:
 
         ../zaruba please startProvoRabbitmqContainer startProvoKafkaContainer -t
         sleep 20
-        ../zaruba please testProvoFastApi -e 'PROVO_FAST_API_TEST_INTEGRATION=1' 
+        ../zaruba please testProvoFastApp -e 'PROVO_FAST_APP_TEST_INTEGRATION=1' 
         ../zaruba please stopProvoRabbitmqContainer stopProvoKafkaContainer
 
         ../zaruba please startProvoTrino -t

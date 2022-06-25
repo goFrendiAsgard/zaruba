@@ -1,0 +1,12 @@
+tasks:
+ 
+  addFastAppRpcHandler:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastAppModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appRpcName
+    configRef: addFastAppRpcHandler

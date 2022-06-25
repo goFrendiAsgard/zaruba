@@ -1,0 +1,8 @@
+configs:
+ 
+  addFastAppRpcHandler:
+    _skipCreationPath: ''
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppRpcHandler/bash/addRpcHandler.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: '[]'

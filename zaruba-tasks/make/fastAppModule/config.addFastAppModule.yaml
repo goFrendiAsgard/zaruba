@@ -1,0 +1,12 @@
+configs:
+ 
+  addFastAppModule:
+    _skipCreationPath: '${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}'
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerModule.sh"
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerUi.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/template"
+      ]
