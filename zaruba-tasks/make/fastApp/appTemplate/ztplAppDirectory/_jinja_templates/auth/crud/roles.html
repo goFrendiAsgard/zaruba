@@ -153,6 +153,24 @@
                 appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
             },
 
+            formDataToRow(formData) {
+                let row = {};
+                Object.assign(row, formData);
+                if (formData.permissions) {
+                    row.permissions = JSON.parse(formData.permissions);
+                }
+                return row;
+            ),
+
+            rowToFormData(row) {
+                let formData = {};
+                Object.assign(formData, row);
+                if (row.permissions) {
+                    formData.permissions = JSON.stringify(row.permissions);
+                }
+                return formData;
+            },
+
             setFilterApplied(state) {
                 this.isFilterApplied = state;
             },
@@ -178,23 +196,15 @@
                     this.formTitle = `Edit Role ${id}`;
                     this.formMode = 'update';
                     this.rowId = id;
-                    this.formData = {};
                     const row = response.data;
-                    Object.assign(this.formData, row);
-                    if (row.permissions) {
-                        this.formData.permissions = JSON.stringify(row.permissions);
-                    }
+                    this.formData = this.rowToFormData(row);
                     return;
                 }
                 appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot get role ${id}`));
             },
 
             async save() {
-                let row = {};
-                Object.assign(row, this.formData);
-                if (this.formData.permissions) {
-                    row.permissions = JSON.parse(this.formData.permissions);
-                }
+                const row = this.formDataToRow(this.formData)
                 if (this.formMode == 'insert') {
                     await this.insertRow(row);
                     return this.fetchResult();

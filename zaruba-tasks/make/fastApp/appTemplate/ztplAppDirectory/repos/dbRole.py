@@ -98,7 +98,7 @@ class DBRoleRepo(RoleRepo):
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 
-            role = Role._from_db_result(db_role)
+            role = self._from_db_result(db_role)
         finally:
             db.close()
         return role
@@ -117,7 +117,7 @@ class DBRoleRepo(RoleRepo):
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 
-            role = Role._from_db_result(db_role)
+            role = self._from_db_result(db_role)
         finally:
             db.close()
         return role
@@ -131,7 +131,7 @@ class DBRoleRepo(RoleRepo):
                 return None
             db.delete(db_role)
             db.commit()
-            role = Role._from_db_result(db_role)
+            role = self._from_db_result(db_role)
         finally:
             db.close()
         return role

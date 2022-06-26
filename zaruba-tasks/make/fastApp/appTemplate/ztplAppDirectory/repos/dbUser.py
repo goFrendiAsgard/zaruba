@@ -154,7 +154,7 @@ class DBUserRepo(UserRepo):
             db.add(db_user)
             db.commit()
             db.refresh(db_user) 
-            new_user = User._from_db_result(db_user)
+            new_user = self._from_db_result(db_user)
         finally:
             db.close()
         return new_user
@@ -180,7 +180,7 @@ class DBUserRepo(UserRepo):
             db.add(db_user)
             db.commit()
             db.refresh(db_user) 
-            updated_user = User._from_db_result(db_user)
+            updated_user = self._from_db_result(db_user)
         finally:
             db.close()
         return updated_user
@@ -194,7 +194,7 @@ class DBUserRepo(UserRepo):
                 return None
             db.delete(db_user)
             db.commit()
-            deleted_user = User._from_db_result(db_user)
+            deleted_user = self._from_db_result(db_user)
         finally:
             db.close()
         return deleted_user

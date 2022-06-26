@@ -1,1 +1,228 @@
 <b>ztplAppCrudEntities</b>
+
+<div id="app">
+
+    <!-- Filter -->
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="input-keyword" class="col-form-label">Keyword</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied">
+        </div>
+        <div class="col-auto">
+            <button id="btn-filter" class="btn btn-primary" @click="applyFilter" :disabled="isFilterApplied"><i class="bi bi-funnel"></i> Filter</button>
+        </div>
+    </div>
+
+    <!-- Add button -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showInsertForm"><i class="bi bi-file-plus"></i> Add</button>
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Id</th>
+                <!-- TODO: insert column names -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(row, index) in result.rows">
+                <td>{{ vue("index+1") }}</td>
+                <td>{{ vue("row.id") }}</td>
+                <!-- TODO: insert column values -->
+                <td>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger" type="button" @click="confirmDelete(row.id)"><i class="bi bi-file-minus"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Page selector -->
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="input-page" class="col-form-label">Page</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter">
+        </div>
+        <div class="col-auto">
+            <label for="input-limit" class="col-form-label">Result/Page</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter">
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div class="modal fade modal-dialog modal-dialog-centered modal-dialog-scrollable" id="form-data" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modall-title">{{ vue("formTitle") }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- TODO: Form -->
+                    <!--
+                    <div class="mb-3">
+                        <label for="form-input-email" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="form-input-email" v-model="formData.email">
+                    </div>
+                    -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const { createApp, nextTick } = Vue;
+
+    const app = createApp({
+        data() {
+            return {
+                keyword: '',
+                limit: 100,
+                page: 1,
+                result: {
+                    count: 0,
+                    rows: [],
+                },
+                isFilterApplied: false,
+                formTitle: '',
+                formData: {},
+                rowId: '',
+                formMode: '',
+            }
+        },
+        methods: {
+
+            async fetchResult() {
+                const response = await axios.get('{{ backend_url }}/api/v1/ztplAppCrudEntities/', {
+                    params: {
+                        keyword: this.keyword,
+                        limit: this.limit,
+                        offset: this.limit * (this.page-1)
+                    }
+                });
+                if (response && response.status == 200 && response.data) {
+                    this.result = response.data;
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, 'Cannot fetch result'));
+            },
+
+            async insertRow(row) {
+                const response = await axios.post('{{ backend_url }}/api/v1/ztplAppCrudEntities/', row);
+                if (response && response.status == 200 && response.data) {
+                    await this.fetchResult();
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete ztplAppCrudEntity ${id}`));
+            },
+
+            async updateRow(id, row) {
+                const response = await axios.put(`{{ backend_url }}/api/v1/ztplAppCrudEntities/${id}`, row);
+                if (response && response.status == 200 && response.data) {
+                    await this.fetchResult();
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete ztplAppCrudEntity ${id}`));
+            },
+
+            async deleteRow(id) {
+                const response = await axios.delete(`{{ backend_url }}/api/v1/ztplAppCrudEntities/${id}`);
+                if (response && response.status == 200 && response.data) {
+                    await this.fetchResult();
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete ztplAppCrudEntity ${id}`));
+            },
+
+            formDataToRow(formData) {
+                let row = {};
+                Object.assign(row, formData);
+                return row;
+            ),
+
+            rowToFormData(row) {
+                let formData = {};
+                Object.assign(formData, row);
+                return formData;
+            },
+
+            setFilterApplied(state) {
+                this.isFilterApplied = state;
+            },
+
+            resetFilterApplied() {
+                this.setFilterApplied(false);
+            },
+
+            async applyFilter() {
+                await this.fetchResult();
+                this.setFilterApplied(true);
+            },
+
+            async showInsertForm() {
+                this.formTitle = 'New ZtplAppCrudEntity';
+                this.formMode = 'insert';
+                this.formData = {};
+            },
+
+            async showUpdateForm(id) {
+                const response =  await axios.get(`{{ backend_url }}/api/v1/ztplAppCrudEntities/${id}`);
+                if (response && response.status == 200 && response.data) {
+                    this.formTitle = `Edit ZtplAppCrudEntity ${id}`;
+                    this.formMode = 'update';
+                    this.rowId = id;
+                    this.formData = {};
+                    const row = response.data;
+                    this.formData = this.rowToFormData(row);
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot get ztplAppCrudEntity ${id}`));
+            },
+
+            async save() {
+                const row = this.formDataToRow(this.formData)
+                if (this.formMode == 'insert') {
+                    await this.insertRow(row);
+                    return this.fetchResult();
+                }
+                if (this.formMode == 'update') {
+                    await this.updateRow(this.rowId, row);
+                    return this.fetchResult();
+                }
+                appHelper.alertError('Invalid form mode');
+            },
+
+            async confirmDelete(id) {
+                confirmation = await appHelper.confirm(`Are you sure to delete ztplAppCrudEntity ${id}?`);
+                if (!confirmation) {
+                    return;
+                }
+                await this.deleteRow(id);
+            },
+
+        },
+        async beforeMount() {
+            await this.applyFilter();
+        }
+    }).mount('#app');
+    // Re fetch every 3 minutes
+    setInterval(() => app.applyFilter(), 3*60*1000);
+</script>
