@@ -1,5 +1,3 @@
-<b>ztplAppCrudEntities</b>
-
 <div id="app">
 
     <!-- Filter -->
@@ -34,7 +32,7 @@
             <tr v-for="(row, index) in result.rows">
                 <td>{{ vue("index+1") }}</td>
                 <td>{{ vue("row.id") }}</td>
-                <!-- CRUD column row -->
+                <!-- CRUD column values -->
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i></button>
@@ -70,7 +68,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- CRUD Form input -->
+                    <!-- CRUD form inputs -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
