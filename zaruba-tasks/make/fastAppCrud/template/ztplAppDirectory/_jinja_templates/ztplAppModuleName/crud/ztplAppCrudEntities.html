@@ -26,7 +26,7 @@
             <tr>
                 <th>#</th>
                 <th>Id</th>
-                <!-- TODO: insert column names -->
+                <!-- CRUD column headers -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -34,7 +34,7 @@
             <tr v-for="(row, index) in result.rows">
                 <td>{{ vue("index+1") }}</td>
                 <td>{{ vue("row.id") }}</td>
-                <!-- TODO: insert column values -->
+                <!-- CRUD column row -->
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i></button>
@@ -70,13 +70,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- TODO: Form -->
-                    <!--
-                    <div class="mb-3">
-                        <label for="form-input-email" class="col-form-label">Email:</label>
-                        <input type="text" class="form-control" id="form-input-email" v-model="formData.email">
-                    </div>
-                    -->
+                    <!-- CRUD Form input -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
