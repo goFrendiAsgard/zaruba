@@ -73,7 +73,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         def delete_user(id: str, current_user: User = Depends(auth_service.is_authorized('api:user:delete'))) -> User:
             result = None
             try:
-                result = rpc.call('delete_user', id)
+                result = rpc.call('delete_user', id, current_user.dict())
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -91,7 +91,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth/users'))):
             return templates.TemplateResponse('default_crud.html', context={
                 'api_path': '/api/vi/users',
-                'content_path': 'auth/crud/roles.html',
+                'content_path': 'auth/crud/users.html',
                 'request': request, 
                 'context': context
             }, status_code=200)

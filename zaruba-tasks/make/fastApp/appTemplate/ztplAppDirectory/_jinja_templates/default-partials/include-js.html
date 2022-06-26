@@ -3,6 +3,7 @@
 <script src="https://unpkg.com/vue@3.2.37/dist/vue.global.prod.js" crossorigin="anonymous"></script>
 <script src="{{ backend_url }}{{ public_url }}/js/app.js"></script>
 <script>
+    axios.defaults.validateStatus = (status) => true;
     const appHelper = new AppHelper();
     appHelper.renewToken('{{ base_url }}{{ renew_access_token_url }}', '{{ renew_access_token_interval }}');
 </script>

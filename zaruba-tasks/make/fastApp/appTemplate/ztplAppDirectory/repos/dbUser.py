@@ -19,6 +19,7 @@ class DBUserEntity(Base):
     username = Column(String(50), index=True, unique=True, nullable=False)
     email = Column(String(50), index=True, unique=True, nullable=True)
     phone_number = Column(String(20), index=True, unique=True, nullable=True)
+    json_role_ids = Column(Text(), nullable=False, default='[]')
     json_permissions = Column(Text(), nullable=False, default='[]')
     active = Column(Boolean(), index=True, nullable=False, default=False)
     hashed_password = Column(String(60), index=False, nullable=False)
@@ -52,6 +53,7 @@ class DBUserRepo(UserRepo):
     def _from_db_result(self, db_result: Any) -> User:
         user = User.from_orm(db_result)
         user.permissions = json.loads(db_result.json_permissions)
+        user.role_ids = json.loads(db_result.json_role_ids)
         return user
 
     def find_by_username(self, username: str) -> Optional[User]:
@@ -142,6 +144,7 @@ class DBUserRepo(UserRepo):
                 email=user_data.email,
                 phone_number=user_data.phone_number,
                 json_permissions=json.dumps(user_data.permissions),
+                json_role_ids=json.dumps(user_data.role_ids),
                 active=user_data.active,
                 hashed_password=self._hash_password(user_data.password),
                 full_name=user_data.full_name,
@@ -167,6 +170,7 @@ class DBUserRepo(UserRepo):
             db_user.email = user_data.email
             db_user.phone_number = user_data.phone_number
             db_user.json_permissions = json.dumps(user_data.permissions)
+            db_user.json_role_ids = json.dumps(user_data.role_ids)
             db_user.active = user_data.active
             db_user.full_name = user_data.full_name
             db_user.updated_by = user_data.updated_by

@@ -17,7 +17,7 @@
             </div>
             <div class="mb-3">
                 <label for="login-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password">
+                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password" @keyup.enter="login">
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
@@ -39,6 +39,7 @@
                             await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password);
                             window.location = '/account/logout';
                         } catch(error) {
+                            appHelper.alert(error);
                             console.error(error);
                         }
                     },

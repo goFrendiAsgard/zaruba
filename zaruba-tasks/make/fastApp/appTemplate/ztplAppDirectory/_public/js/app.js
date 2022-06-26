@@ -20,16 +20,27 @@ class AppHelper {
         return '';
     }
 
+    getResponseErrorMessage(response, defaultErrorMessage='error') {
+        const errorSuffix = response.status ? ` (HTTP Status: ${response.status})` : ' (No HTTP Status)';
+        if (response && response.data && typeof response.data == 'string') {
+            return response.data + errorSuffix;
+        }
+        if (response && response.data && response.data.detail && typeof response.data.detail == 'string') {
+            return response.data.detail + errorSuffix;
+        }
+        if (response && response.data && response.data.detail && response.data.detail.msg && typeof response.data.detail.msg == 'string') {
+            return response.data.detail.msg + errorSuffix;
+        }
+        return defaultErrorMessage + errorSuffix;
+    }
+
     async login(createAccessTokenUrl, username, password) {
         const response = await axios.post(createAccessTokenUrl, {username, password});
         if (response && response.status == 200 && response.data && response.data.access_token) {
             this.setCookie('app_access_token', response.data.access_token);
             return true
         }
-        if (response && response.data && response.data.detail && response.data.detail.msg) {
-            throw new Error(response.data.detail.msg);
-        }
-        throw new Error('Login failed')
+        throw this.getResponseErrorMessage(response, 'Login failed');
     }
 
     logout() {
@@ -45,6 +56,19 @@ class AppHelper {
             }
         }
         setTimeout(() => this.renewToken(renewAccessTokenUrl, interval), interval * 1000)
+    }
+
+    alert(message) {
+        return window.alert(message);
+    }
+
+    confirm(message) {
+        return window.confirm(message);
+    }
+
+    alertError(errorMessage) {
+        console.error(errorMessage);
+        this.alert(errorMessage);
     }
 
 }

@@ -1,21 +1,29 @@
 <div id="app">
 
+    <!-- Filter -->
     <div class="row g-3 align-items-center">
         <div class="col-auto">
             <label for="input-keyword" class="col-form-label">Keyword</label>
         </div>
         <div class="col-auto">
-            <input type="text" id="input-keyword" class="form-control" v-model="keyword">
+            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied">
         </div>
         <div class="col-auto">
-            <button id="btn-filter" class="btn btn-primary" @click="applyFilter">Filter</button>
+            <button id="btn-filter" class="btn btn-primary" @click="applyFilter" :disabled="isFilterApplied"><i class="bi bi-funnel"></i> Filter</button>
         </div>
     </div>
 
+    <!-- Add button -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showInsertForm"><i class="bi bi-file-plus"></i> Add</button>
+    </div>
+
+    <!-- Table -->
     <table class="table">
         <thead>
             <tr>
                 <th>#</th>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Permissions</th>
                 <th>Actions</th>
@@ -24,14 +32,20 @@
         <tbody>
             <tr v-for="(row, index) in result.rows">
                 <td>{{ vue("index+1") }}</td>
-                <td>{{ vue("row.name") }}</td>
-                <td>{{ vue("row.permissions") }}</td>
                 <td>{{ vue("row.id") }}</td>
+                <td>{{ vue("row.name") }}</td>
+                <td>{{ vue("row.permissions.join(', ')") }}</td>
+                <td>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger" type="button" @click="confirmDelete(row.id)"><i class="bi bi-file-minus"></i></button>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
 
-
+    <!-- Page selector -->
     <div class="row g-3 align-items-center">
         <div class="col-auto">
             <label for="input-page" class="col-form-label">Page</label>
@@ -47,10 +61,37 @@
         </div>
     </div>
 
+    <!-- Form -->
+    <div class="modal fade modal-dialog modal-dialog-centered modal-dialog-scrollable" id="form-data" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modall-title">{{ vue("formTitle") }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="form-input-name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="form-input-name" v-model="formData.name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="form-input-permissions" class="col-form-label">Permission:</label>
+                        <input type="text" class="form-control" id="form-input-permissions" v-model="formData.permissions">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    const { createApp } = Vue;
+    const { createApp, nextTick } = Vue;
+
     const app = createApp({
         data() {
             return {
@@ -61,6 +102,11 @@
                     count: 0,
                     rows: [],
                 },
+                isFilterApplied: false,
+                formTitle: '',
+                formData: {},
+                rowId: '',
+                formMode: '',
             }
         },
         methods: {
@@ -77,18 +123,102 @@
                     this.result = response.data;
                     return;
                 }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, 'Cannot fetch result'));
+            },
+
+            async insertRow(row) {
+                const response = await axios.post('{{ backend_url }}/api/v1/roles/', row);
+                if (response && response.status == 200 && response.data) {
+                    await this.fetchResult();
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
+            },
+
+            async updateRow(id, row) {
+                const response = await axios.put(`{{ backend_url }}/api/v1/roles/${id}`, row);
+                if (response && response.status == 200 && response.data) {
+                    await this.fetchResult();
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
+            },
+
+            async deleteRow(id) {
+                const response = await axios.delete(`{{ backend_url }}/api/v1/roles/${id}`);
+                if (response && response.status == 200 && response.data) {
+                    await this.fetchResult();
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
+            },
+
+            setFilterApplied(state) {
+                this.isFilterApplied = state;
+            },
+
+            resetFilterApplied() {
+                this.setFilterApplied(false);
             },
 
             async applyFilter() {
                 await this.fetchResult();
-            }
+                this.setFilterApplied(true);
+            },
+
+            async showInsertForm() {
+                this.formTitle = 'New Role';
+                this.formMode = 'insert';
+                this.formData = {};
+            },
+
+            async showUpdateForm(id) {
+                const response =  await axios.get(`{{ backend_url }}/api/v1/roles/${id}`);
+                if (response && response.status == 200 && response.data) {
+                    this.formTitle = `Edit Role ${id}`;
+                    this.formMode = 'update';
+                    this.rowId = id;
+                    this.formData = {};
+                    const row = response.data;
+                    Object.assign(this.formData, row);
+                    if (row.permissions) {
+                        this.formData.permissions = JSON.stringify(row.permissions);
+                    }
+                    return;
+                }
+                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot get role ${id}`));
+            },
+
+            async save() {
+                let row = {};
+                Object.assign(row, this.formData);
+                if (this.formData.permissions) {
+                    row.permissions = JSON.parse(this.formData.permissions);
+                }
+                if (this.formMode == 'insert') {
+                    await this.insertRow(row);
+                    return this.fetchResult();
+                }
+                if (this.formMode == 'update') {
+                    await this.updateRow(this.rowId, row);
+                    return this.fetchResult();
+                }
+                appHelper.alertError('Invalid form mode');
+            },
+
+            async confirmDelete(id) {
+                confirmation = await appHelper.confirm(`Are you sure to delete role ${id}?`);
+                if (!confirmation) {
+                    return;
+                }
+                await this.deleteRow(id);
+            },
 
         },
         async beforeMount() {
-            await this.fetchResult();
+            await this.applyFilter();
         }
     }).mount('#app');
-
     // Re fetch every 3 minutes
-    setInterval(() => app.fetchResult(), 3*60*1000);
+    setInterval(() => app.applyFilter(), 3*60*1000);
 </script>

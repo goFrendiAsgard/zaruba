@@ -37,6 +37,7 @@ def upgrade() -> None:
         sa.Column('username', sa.String(length=50), nullable=False),
         sa.Column('email', sa.String(length=50), nullable=True),
         sa.Column('phone_number', sa.String(length=20), nullable=True),
+        sa.Column('json_role_ids', sa.Text(), nullable=False),
         sa.Column('json_permissions', sa.Text(), nullable=False),
         sa.Column('active', sa.Boolean(), nullable=False),
         sa.Column('hashed_password', sa.String(length=60), nullable=False),
