@@ -8,7 +8,7 @@ class ZtplAppCrudEntityService():
         self.ztpl_app_crud_entity_repo = ztpl_app_crud_entity_repo
 
     def find(self, keyword: str, limit: int, offset: int) -> ZtplAppCrudEntityResult:
-        count = self.ztpl_app_crud_entity_repo.find(keyword)
+        count = self.ztpl_app_crud_entity_repo.count(keyword)
         rows = self.ztpl_app_crud_entity_repo.find(keyword, limit, offset)
         return ZtplAppCrudEntityResult(count=count, rows=rows)
 
