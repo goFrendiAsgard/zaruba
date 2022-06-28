@@ -62,20 +62,20 @@ zaruba please printHello
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.868µs
-         Current Time: 21:24:16
+         Elapsed Time: 1.359µs
+         Current Time: 05:38:57
 💀 🏁 Run 🍏 'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/low-level
 💀    🚀 printHello           🍏 hello
 💀 🎉 Successfully running 🍏 'printHello' command
 💀 🔎 Job Running...
-         Elapsed Time: 117.571915ms
-         Current Time: 21:24:16
+         Elapsed Time: 117.923158ms
+         Current Time: 05:38:57
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 520.642498ms
-         Current Time: 21:24:16
+         Elapsed Time: 521.216288ms
+         Current Time: 05:38:57
 zaruba please printHello
 ```````
 </details>
@@ -107,20 +107,20 @@ zaruba please printHello
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.348µs
-         Current Time: 21:24:17
+         Elapsed Time: 1.398µs
+         Current Time: 05:38:57
 💀 🏁 Run 🍏 'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-shell
 💀    🚀 printHello           🍏 hello
 💀 🎉 Successfully running 🍏 'printHello' command
 💀 🔎 Job Running...
-         Elapsed Time: 124.70967ms
-         Current Time: 21:24:17
+         Elapsed Time: 121.692564ms
+         Current Time: 05:38:57
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 427.227144ms
-         Current Time: 21:24:17
+         Elapsed Time: 424.145319ms
+         Current Time: 05:38:58
 zaruba please printHello
 ```````
 </details>
@@ -151,20 +151,20 @@ zaruba please printHello
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.425µs
-         Current Time: 21:24:17
+         Elapsed Time: 1.458µs
+         Current Time: 05:38:58
 💀 🏁 Run 🍏 'printHello' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-python
 💀    🚀 printHello           🍏 hello
 💀 🎉 Successfully running 🍏 'printHello' command
 💀 🔎 Job Running...
-         Elapsed Time: 120.260494ms
-         Current Time: 21:24:17
+         Elapsed Time: 122.871832ms
+         Current Time: 05:38:58
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 423.025097ms
-         Current Time: 21:24:18
+         Elapsed Time: 427.018368ms
+         Current Time: 05:38:58
 zaruba please printHello
 ```````
 </details>
