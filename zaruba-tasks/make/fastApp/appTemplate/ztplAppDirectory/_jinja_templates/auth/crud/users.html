@@ -15,7 +15,7 @@
 
     <!-- Add button -->
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showInsertForm"><i class="bi bi-file-plus"></i> Add</button>
+        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#form-crud" @click="showInsertForm"><i class="bi bi-file-plus"></i> Add</button>
     </div>
 
     <!-- Table -->
@@ -30,7 +30,7 @@
                 <th>Roles</th>
                 <th>Permissions</th>
                 <th>Active</th>
-                <th>Actions</th>
+                <th id="th-action">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -43,9 +43,9 @@
                 <td>{{ vue("row.role_ids.join(', ')") }}</td>
                 <td>{{ vue("row.permissions.join(', ')") }}</td>
                 <td>{{ vue("row.active") }}</td>
-                <td>
+                <td id="td-action">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-data" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-crud" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i></button>
                         <button class="btn btn-danger" type="button" @click="confirmDelete(row.id)"><i class="bi bi-file-minus"></i></button>
                     </div>
                 </td>
@@ -70,11 +70,11 @@
     </div>
 
     <!-- Form -->
-    <div class="modal fade modal-dialog modal-dialog-centered modal-dialog-scrollable" id="form-data" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="form-crud" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modall-title">{{ vue("formTitle") }}</h5>
+                    <h5 class="modal-title" id="modal-title">{{ vue("formTitle") }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -262,13 +262,16 @@
 
             async save() {
                 try {
-                    const row = this._formDataToRow(this.formData)
+                    const form = bootstrap.Modal.getInstance(document.getElementById('form-crud'));
+                    const row = this._formDataToRow(this.formData);
                     if (this.formMode == 'insert') {
                         await this._insertRow(row);
+                        form.hide();
                         return this._fetchResult();
                     }
                     if (this.formMode == 'update') {
                         await this._updateRow(this.rowId, row);
+                        form.hide();
                         return this._fetchResult();
                     }
                     throw new Error(`Invalid formMode: ${this.formMode}`);
