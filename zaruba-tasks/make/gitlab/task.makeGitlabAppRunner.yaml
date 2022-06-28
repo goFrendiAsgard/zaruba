@@ -9,6 +9,5 @@ tasks:
       - appDirectory
       - appName
       - appEnvs
-      - appDependencies
       - appContainerName
     configRef: makeGitlabAppRunner

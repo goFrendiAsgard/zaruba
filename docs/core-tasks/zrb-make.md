@@ -47,7 +47,6 @@ Description:
       ztpl-app-crud-entity                : App's crud entity (kebab case)
       ZtplAppCrudEntity                   : App's curd entity (pascal case)
       ztplAppCrudFields                   : App's crud fields (JSON list)
-      ztplAppDependencies                 : App's depencies (JSON list)
       ztpl_app_directory                  : App's directory (snake case)
       ztplAppDirectory                    : App's directory (camel case)
       ztpl-app-directory                  : App's directory (kebab case)
@@ -221,9 +220,6 @@ Value:
 ### Configs._prepareVariables
 
 
-### Configs._registerAppDependencies
-
-
 ### Configs._registerAppDeploymentTasks
 
 Value:
@@ -304,7 +300,6 @@ Value:
     {{ .GetConfig "_includeModuleIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDeploymentTasks" }}
-    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
     {{ .GetConfig "_adjustPermission" }}
     {{ .GetConfig "_setProjectValue" }}
@@ -408,13 +403,6 @@ Value:
 Value:
 
     {{ .GetValue "appCrudFields" }}
-
-
-### Configs.appDependencies
-
-Value:
-
-    {{ .GetValue "appDependencies" }}
 
 
 ### Configs.appDirectory

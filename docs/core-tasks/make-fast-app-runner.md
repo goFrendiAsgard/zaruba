@@ -70,25 +70,6 @@ Validation:
     ^[a-zA-Z0-9_]*$
 
 
-### Inputs.appDependencies
-
-Description:
-
-    Application dependencies
-
-Prompt:
-
-    Application dependencies
-
-Default Value:
-
-    []
-
-Secret:
-
-    false
-
-
 ### Inputs.appDirectory
 
 Description:
@@ -289,14 +270,6 @@ Value:
 
 
 
-### Configs._registerAppDependencies
-
-Value:
-
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" {{ .Util.Str.EscapeShellValue (.GetConfig "appDependencies") }} "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
-
-
-
 ### Configs._registerAppDeploymentTasks
 
 
@@ -383,7 +356,6 @@ Value:
     {{ .GetConfig "_includeModuleIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDeploymentTasks" }}
-    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
     {{ .GetConfig "_adjustPermission" }}
     {{ .GetConfig "_setProjectValue" }}
@@ -491,13 +463,6 @@ Value:
 Value:
 
     {{ .GetValue "appCrudFields" }}
-
-
-### Configs.appDependencies
-
-Value:
-
-    {{ .GetValue "appDependencies" }}
 
 
 ### Configs.appDirectory

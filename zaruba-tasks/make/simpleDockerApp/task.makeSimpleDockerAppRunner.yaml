@@ -7,7 +7,6 @@ tasks:
       - makeSimpleDockerApp
     inputs:
       - appDirectory
-      - appDependencies
       - appImageName
       - appContainerName
       - appName

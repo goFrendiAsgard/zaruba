@@ -7,7 +7,6 @@ tasks:
       - makeNginxApp
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
       - appPorts

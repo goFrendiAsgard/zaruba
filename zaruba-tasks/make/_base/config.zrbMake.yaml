@@ -11,7 +11,6 @@ configs:
     appContainerVolumes: '{{ if ne (.GetValue "appContainerVolumes") "[]" }}{{ .GetValue "appContainerVolumes" }}{{ else }}{{ .GetConfig "defaultAppContainerVolumes" }}{{ end }}'
     appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
     appCrudFields: '{{ .GetValue "appCrudFields" }}'
-    appDependencies: '{{ .GetValue "appDependencies" }}'
     appDirectory: '{{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}'
     appEnvPrefix: '{{ .GetValue "appEnvPrefix" }}'
     appEnvs: '{{ .GetValue "appEnvs" }}'
@@ -72,7 +71,6 @@ configs:
       {{ end -}}
     _registerAppRunnerTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"'
     _registerAppDeploymentTasks: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"'
-    _registerAppDependencies: ''
     _integrate: ''
     _adjustPermission: ''
     _setProjectValue: ''
@@ -119,7 +117,6 @@ configs:
       {{ .GetConfig "_includeModuleIndex" }}
       {{ .GetConfig "_registerAppRunnerTasks" }}
       {{ .GetConfig "_registerAppDeploymentTasks" }}
-      {{ .GetConfig "_registerAppDependencies" }}
       {{ .GetConfig "_integrate" }}
       {{ .GetConfig "_adjustPermission" }}
       {{ .GetConfig "_setProjectValue" }}

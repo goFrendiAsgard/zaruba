@@ -58,25 +58,6 @@ Validation:
     ^[a-zA-Z0-9_]*$
 
 
-### Inputs.appDependencies
-
-Description:
-
-    Application dependencies
-
-Prompt:
-
-    Application dependencies
-
-Default Value:
-
-    []
-
-Secret:
-
-    false
-
-
 ### Inputs.appDirectory
 
 Description:

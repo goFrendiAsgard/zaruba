@@ -241,9 +241,6 @@ Value:
 ### Configs._prepareVariables
 
 
-### Configs._registerAppDependencies
-
-
 ### Configs._registerAppDeploymentTasks
 
 
@@ -316,7 +313,6 @@ Value:
     {{ .GetConfig "_includeModuleIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDeploymentTasks" }}
-    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
     {{ .GetConfig "_adjustPermission" }}
     {{ .GetConfig "_setProjectValue" }}
@@ -420,13 +416,6 @@ Value:
 Value:
 
     {{ .GetValue "appCrudFields" }}
-
-
-### Configs.appDependencies
-
-Value:
-
-    {{ .GetValue "appDependencies" }}
 
 
 ### Configs.appDirectory

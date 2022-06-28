@@ -11,7 +11,6 @@ configs:
     _validateAppDirectory: ''
     _registerAppRunnerTasks: ''
     _registerAppDeploymentTasks: ''
-    _registerAppDependencies: ''
     _nativePrepareAppRunnerTaskName: 'make${_ZRB_PASCAL_APP_NAME}'
     _prepareVariables: '. "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareVariables.sh"'
     _prepareReplacementMap: '. "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareReplacementMap.sh"'

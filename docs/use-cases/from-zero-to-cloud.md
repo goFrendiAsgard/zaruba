@@ -121,8 +121,10 @@ zaruba please addFastAppCrud \
   appModuleName=library \
   appCrudEntity=books \
   appCrudFields='["title","author","synopsis"]' \
-  appDependencies='["demoDb"]' \
   appEnvs='{"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
+
+zaruba task addDependencies runDemoBackend runDemoDb
+zaruba task addDependencies runDemoBackendContainer runDemoDbContainer
 
 # or
 # zaruba please addFastAppCrud -i
@@ -658,8 +660,10 @@ zaruba please addFastAppCrud \
   appModuleName=library \
   appCrudEntity=books \
   appCrudFields='["title","author","synopsis"]' \
-  appDependencies='["demoDb"]' \
   appEnvs='{"APP_HTTP_PORT": "3000", "APP_SQLALCHEMY_DATABASE_URL":"mysql+pymysql://root:Alch3mist@localhost/sample?charset=utf8mb4"}'
+
+zaruba task addDependencies runDemoBackend runDemoDb
+zaruba task addDependencies runDemoBackendContainer runDemoDbContainer
 
 # 💀 Add Frontend
 zaruba please addNginx \

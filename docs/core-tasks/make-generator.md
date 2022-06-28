@@ -49,25 +49,6 @@ Type:
 ## Inputs
 
 
-### Inputs.appDependencies
-
-Description:
-
-    Application dependencies
-
-Prompt:
-
-    Application dependencies
-
-Default Value:
-
-    []
-
-Secret:
-
-    false
-
-
 ### Inputs.appEnvs
 
 Description:
@@ -218,9 +199,6 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/generator/bash/prepareVariables.sh"
 
 
-### Configs._registerAppDependencies
-
-
 ### Configs._registerAppDeploymentTasks
 
 
@@ -297,7 +275,6 @@ Value:
     {{ .GetConfig "_includeModuleIndex" }}
     {{ .GetConfig "_registerAppRunnerTasks" }}
     {{ .GetConfig "_registerAppDeploymentTasks" }}
-    {{ .GetConfig "_registerAppDependencies" }}
     {{ .GetConfig "_integrate" }}
     {{ .GetConfig "_adjustPermission" }}
     {{ .GetConfig "_setProjectValue" }}
@@ -401,13 +378,6 @@ Value:
 Value:
 
     {{ .GetValue "appCrudFields" }}
-
-
-### Configs.appDependencies
-
-Value:
-
-    {{ .GetValue "appDependencies" }}
 
 
 ### Configs.appDirectory

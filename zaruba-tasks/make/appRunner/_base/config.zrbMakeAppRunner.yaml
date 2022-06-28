@@ -5,8 +5,6 @@ configs:
     _taskIndexPath: './zaruba-tasks/${_ZRB_APP_NAME}/index.yaml'
     _nativePrepareAppRunnerTaskName: 'start${_ZRB_PASCAL_APP_NAME}'
     _containerPrepareAppRunnerTaskName: 'start${_ZRB_PASCAL_APP_NAME}Container'
-    _registerAppDependencies: |
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppDependencies.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}" {{ .Util.Str.EscapeShellValue (.GetConfig "appDependencies") }} "{{ .GetConfig "_containerPrepareAppRunnerTaskName" }}" "{{ .GetConfig "_nativePrepareAppRunnerTaskName" }}"
     _registerAppDeploymentTasks: ''
     _setProjectValue: |
       echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to true"

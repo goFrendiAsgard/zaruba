@@ -8,7 +8,6 @@ tasks:
     private: true
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
       - appPorts

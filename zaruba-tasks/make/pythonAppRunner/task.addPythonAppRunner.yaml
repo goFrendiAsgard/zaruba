@@ -6,7 +6,6 @@ tasks:
       - makePythonAppRunner
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
       - appPorts

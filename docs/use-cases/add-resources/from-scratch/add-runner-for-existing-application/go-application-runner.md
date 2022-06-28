@@ -14,7 +14,6 @@ zaruba please addGoAppRunner \
   [appName=<app-name>] \                      # application name
   [appContainerName=<app-container-name>] \   # application's container name
   [appImageName=<app-image-name>] \           # application's image name
-  [appDependencies=<app-dependencies>] \      # JSON list containing names of other applications
   [appEnvs=<app-envs>]                        # JSON map containing custom environments
   [appPorts=<app-ports>]                      # JSON list containing application's ports
   [appStartCommand=<start-command>]           # Command to run the app
@@ -64,10 +63,12 @@ zaruba please addGoAppRunner \
   appName=myGoApp \
   appContainerName=myAppContainer \
   appImageName=my-app \
-  appDependencies='["myDb"]' \
   appEnvs='{"HTTP_PORT":"3000"}' \
   appPorts='["3000"]' \
   appStartCommand='./start.sh'
+
+zaruba task addDependencies runGoAppRunner runMyDb
+zaruba task addDependencies runGoAppContainer runMyDbContainer
 ```
 
 

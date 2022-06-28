@@ -5,7 +5,6 @@ tasks:
     extend: makeNativeAppRunner
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
       - appPorts

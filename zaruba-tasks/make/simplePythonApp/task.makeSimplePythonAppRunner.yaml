@@ -7,7 +7,6 @@ tasks:
       - makeSimplePythonApp
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
       - appPorts

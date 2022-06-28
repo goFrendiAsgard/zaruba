@@ -32,11 +32,6 @@ inputs:
     validation: ^\[.*\]$
     default: "[]"
 
-  appDependencies:
-    description: Application dependencies
-    prompt: 'Application dependencies'
-    default: '[]'
-
   appDirectory:
     description: Location of app
     prompt: 'Location of app'

@@ -7,7 +7,6 @@ tasks:
       - makeTrinoApp
     inputs:
       - appDirectory
-      - appDependencies
       - appName
       - appEnvs
       - appPorts

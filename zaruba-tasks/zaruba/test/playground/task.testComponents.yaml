@@ -37,7 +37,7 @@ tasks:
         ../zaruba please startProvoFastApp -t
         ../zaruba please startProvoFastAppContainer -t
         sleep 5
-        python "{{ .GetTaskPath "test_fastapi.py" }}"
+        python "{{ .GetTaskPath "test_fastapp.py" }}"
         ../zaruba please stopProvoFastAppContainer
 
         ../zaruba please startProvoGitlab -t

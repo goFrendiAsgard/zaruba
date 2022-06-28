@@ -15,7 +15,6 @@ zaruba please addSimpleTypeScriptApp \
   [appName=<app-name>] \                      # application name
   [appContainerName=<app-container-name>] \   # application's container name
   [appImageName=<app-image-name>] \           # application's image name
-  [appDependencies=<app-dependencies>] \      # JSON list containing names of other applications
   [appEnvs=<app-envs>]                        # JSON map containing custom environments
   [appPorts=<app-ports>]                      # JSON list containing application's ports
 ```
