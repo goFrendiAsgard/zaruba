@@ -69,8 +69,8 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             new_ztpl_app_crud_entity_id = str(uuid.uuid4())
             db_ztpl_app_crud_entity = DBZtplAppCrudEntityEntity(
                 id=new_ztpl_app_crud_entity_id,
-                created_by=ztpl_app_crud_entity_data.created_by,
-                created_at=datetime.datetime.utcnow()
+                created_at=datetime.datetime.utcnow(),
+                created_by=ztpl_app_crud_entity_data.created_by
             )
             db.add(db_ztpl_app_crud_entity)
             db.commit()
@@ -87,8 +87,8 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
             if db_ztpl_app_crud_entity is None:
                 return None
-            db_ztpl_app_crud_entity.updated_by = ztpl_app_crud_entity_data.updated_by
             db_ztpl_app_crud_entity.updated_at = datetime.datetime.utcnow()
+            db_ztpl_app_crud_entity.updated_by = ztpl_app_crud_entity_data.updated_by
             db.add(db_ztpl_app_crud_entity)
             db.commit()
             db.refresh(db_ztpl_app_crud_entity) 

@@ -67,6 +67,7 @@ class MemZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         new_ztpl_app_crud_entity = ZtplAppCrudEntity(
             id=new_ztpl_app_crud_entity_id,
             created_at=datetime.datetime.utcnow(),
+            created_by=ztpl_app_crud_entity_data.created_by
         )
         self._ztpl_app_crud_entity_map[new_ztpl_app_crud_entity_id] = new_ztpl_app_crud_entity
         return new_ztpl_app_crud_entity
@@ -76,6 +77,7 @@ class MemZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             return None
         mem_ztpl_app_crud_entity = self._ztpl_app_crud_entity_map[id]
         mem_ztpl_app_crud_entity.updated_at = datetime.datetime.utcnow()
+        mem_ztpl_app_crud_entity.updated_by = ztpl_app_crud_entity_data.updated_by
         self._ztpl_app_crud_entity_map[id] = mem_ztpl_app_crud_entity
         return mem_ztpl_app_crud_entity
 

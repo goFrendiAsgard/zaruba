@@ -148,8 +148,8 @@ class DBUserRepo(UserRepo):
                 active=user_data.active,
                 hashed_password=self._hash_password(user_data.password),
                 full_name=user_data.full_name,
-                created_by=user_data.created_by,
-                created_at=datetime.datetime.utcnow()
+                created_at=datetime.datetime.utcnow(),
+                created_by=user_data.created_by
             )
             db.add(db_user)
             db.commit()
@@ -173,8 +173,8 @@ class DBUserRepo(UserRepo):
             db_user.json_role_ids = json.dumps(user_data.role_ids)
             db_user.active = user_data.active
             db_user.full_name = user_data.full_name
-            db_user.updated_by = user_data.updated_by
             db_user.updated_at = datetime.datetime.utcnow()
+            db_user.updated_by = user_data.updated_by
             if user_data.password:
                 db_user.hashed_password = self._hash_password(user_data.password)
             db.add(db_user)

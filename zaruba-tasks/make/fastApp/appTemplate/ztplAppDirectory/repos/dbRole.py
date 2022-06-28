@@ -92,8 +92,8 @@ class DBRoleRepo(RoleRepo):
                 id=new_role_id,
                 name=role_data.name,
                 json_permissions=json.dumps(role_data.permissions),
-                created_by=role_data.created_by,
-                created_at=datetime.datetime.utcnow()
+                created_at=datetime.datetime.utcnow(),
+                created_by=role_data.created_by
             )
             db.add(db_role)
             db.commit()
@@ -112,8 +112,8 @@ class DBRoleRepo(RoleRepo):
                 return None
             db_role.name = role_data.name
             db_role.json_permissions = json.dumps(role_data.permissions)
-            db_role.updated_by = role_data.updated_by
             db_role.updated_at = datetime.datetime.utcnow()
+            db_role.updated_by = role_data.updated_by
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 
